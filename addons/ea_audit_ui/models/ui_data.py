@@ -71,8 +71,11 @@ class AuditUi(models.AbstractModel):
 
     @api.model
     def _ea_ui_titled(self, records):
-        """Task titles in French first, whatever the user's language."""
-        return records.with_context(lang="fr_FR")
+        """Task titles in French first, whatever the user's language, where the
+        database has French installed."""
+        if "fr_FR" in dict(self.env["res.lang"].get_installed()):
+            return records.with_context(lang="fr_FR")
+        return records
 
     @api.model
     def _ea_ui_mission(self, engagement):

@@ -10,7 +10,7 @@ class FileItem(models.Model):
 
     def _ea_ui_label(self):
         self.ensure_one()
-        return "%s %s" % (self.code, self.sudo().with_context(lang="fr_FR").title)
+        return "%s %s" % (self.code, self.env["ea.audit.ui"]._ea_ui_titled(self.sudo()).title)
 
     def _ea_ui_notify(self, user, title, detail):
         if user and user != self.env.user:
