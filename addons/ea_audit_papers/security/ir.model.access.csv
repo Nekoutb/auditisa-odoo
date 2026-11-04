@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_paper_def_member,paper def member,model_ea_audit_paper_def,ea_audit_core.group_member,1,0,0,0
+access_paper_member,paper member,model_ea_audit_paper,ea_audit_core.group_member,1,0,0,0
+access_paper_answer_member,paper answer member,model_ea_audit_paper_answer,ea_audit_core.group_member,1,0,0,0
+access_paper_answer_history_member,answer history member,model_ea_audit_paper_answer_history,ea_audit_core.group_member,1,0,0,0
+access_review_note_member,review note member,model_ea_audit_review_note,ea_audit_core.group_member,1,0,0,0
+access_section_conclusion_member,section conclusion member,model_ea_audit_section_conclusion,ea_audit_core.group_member,1,0,0,0
+access_task_attachment_member,task attachment member,model_ea_audit_task_attachment,ea_audit_core.group_member,1,0,0,0

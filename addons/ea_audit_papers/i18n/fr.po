@@ -1,0 +1,171 @@
+# French translation of ea_audit_papers.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Someone else saved this record while you were editing it. Reload, merge your text with theirs, and save again: your entry has not been stored."
+msgstr "Une autre personne a enregistré ce document pendant votre saisie. Rechargez, fusionnez votre texte avec le sien et enregistrez à nouveau : votre saisie n'a pas été conservée."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The tie-out shows differences: explain them in the tie-out procedure before answering \"Yes\"."
+msgstr "Le pointage présente des écarts : expliquez-les dans la procédure de pointage avant de répondre « Oui »."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "C5.8 cannot state that net equity exceeds half of the share capital: the legal monitor's figures put it below half. Check the figures on the legal page, or answer No and document the article 664 procedure."
+msgstr "C5.8 ne peut pas indiquer que les capitaux propres excèdent la moitié du capital social : les chiffres du suivi juridique les situent en dessous. Vérifiez les chiffres sur la page juridique, ou répondez Non et documentez la procédure de l'article 664."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Write a message first."
+msgstr "Écrivez d'abord un message."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "A response is required."
+msgstr "Une réponse est requise."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Only the note's author or a manager who did not prepare the paper can clear it."
+msgstr "Seuls l'auteur de la note ou un manager n'ayant pas préparé la feuille peuvent la régler."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The preparer of this paper cannot clear a note raised against it: reply to it and let the reviewer clear it."
+msgstr "Le préparateur de cette feuille ne peut pas régler une note émise sur son propre travail : répondez-y et laissez le réviseur la régler."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "A conclusion is required."
+msgstr "Une conclusion est requise."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Objectives cannot be marked as achieved while program steps are still open: complete them or mark them N/A first."
+msgstr "Les objectifs ne peuvent être déclarés atteints tant que des diligences restent ouvertes : terminez-les ou marquez-les S.O. d'abord."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "No procedure is retained on this section: give the rationale for concluding without procedures."
+msgstr "Aucune procédure n'est retenue sur cette section : indiquez le motif d'une conclusion sans procédure."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The walkthroughs are incomplete: every SCOT needs all its walkthrough answers on S1.3 before the paper is signed."
+msgstr "Les cheminements sont incomplets : chaque SCOT doit porter toutes les réponses de son cheminement en S1.3 avant la signature de la feuille."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Every SCOT needs at least one what-can-go-wrong on S1.2 before the paper is signed."
+msgstr "Chaque SCOT doit comporter au moins un WCGW (ce qui peut mal tourner) en S1.2 avant la signature de la feuille."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The control selection is incomplete: every control selected for testing must answer a WCGW, and every SCOT on a controls strategy needs a control selected, before S2.1 is signed."
+msgstr "La sélection des contrôles est incomplète : chaque contrôle retenu pour test doit répondre à un WCGW, et chaque SCOT en stratégie de contrôles doit avoir un contrôle retenu, avant la signature de S2.1."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Every control selected for testing needs its test design on S2.2 before the paper is signed."
+msgstr "Chaque contrôle retenu pour test doit avoir sa conception de test en S2.2 avant la signature de la feuille."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This file has no extension, so its type cannot be checked."
+msgstr "Ce fichier n'a pas d'extension : son type ne peut pas être vérifié."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Executables, scripts and macro-enabled files cannot enter an audit file."
+msgstr "Les exécutables, les scripts et les fichiers à macros ne peuvent pas entrer dans un dossier d'audit."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This file type is not accepted in an audit file."
+msgstr "Ce type de fichier n'est pas accepté dans un dossier d'audit."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The file is empty."
+msgstr "Le fichier est vide."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The content of this file does not match its extension."
+msgstr "Le contenu de ce fichier ne correspond pas à son extension."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This file is not a real Office document."
+msgstr "Ce fichier n'est pas un véritable document Office."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The file is larger than the 25 MB limit."
+msgstr "Le fichier dépasse la limite de 25 Mo."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Name is required."
+msgstr "Le nom est requis."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "A file with this name already exists on this task."
+msgstr "Un fichier portant ce nom existe déjà sur cette tâche."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The 30-day recovery window of this file has passed."
+msgstr "Le délai de récupération de 30 jours de ce fichier est écoulé."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Give the reason why this task is not applicable."
+msgstr "Indiquez pourquoi cette tâche n'est pas applicable."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+#, python-format
+msgid "Still to complete: %(parts)s."
+msgstr "Reste à compléter : %(parts)s."
+
+#. module: ea_audit_papers
+#: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_list_paper
+#: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_form_paper
+msgid "Open paper"
+msgstr "Ouvrir la feuille"

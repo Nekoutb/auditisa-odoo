@@ -8,7 +8,8 @@ import json
 import os
 from functools import lru_cache
 
-from .tokens import DATA_DIR, resolve_legal_form_paper, resolve_paper
+from .completeness import paper_keys
+from .tokens import DATA_DIR, legal_forms, resolve_legal_form_paper, resolve_paper
 
 _PAPERS_DIR = os.path.join(DATA_DIR, "papers")
 _SHADOWED_DIR = os.path.join(DATA_DIR, "papers_shadowed")
@@ -74,3 +75,19 @@ def paper_for(code, edition="current", legal_form=None):
     """The paper for a task, read for the engagement's edition and the client's form."""
     unresolved = load_definition(code) if has_bespoke_paper(code) else default_definition(code)
     return resolve_definition(unresolved, edition, legal_form)
+
+
+def all_paper_keys(definition):
+    """Every key an unresolved definition can hold, whatever the client's legal form: what
+    a save may write (allPaperKeys). The edition does not change the keys."""
+    keys = set()
+    for form in legal_forms():
+        keys |= paper_keys(resolve_definition(definition, "current", form))
+    return keys
+
+
+def group_siblings(code):
+    """The other members of a task's group, in catalogue order."""
+    members = _group_defaults()["members"]
+    group = members.get(code)
+    return [other for other, of_group in members.items() if of_group == group and other != code] if group else []

@@ -10,6 +10,19 @@ Decisions of the firm owner on the AuditISA rebuild on Odoo 19 Community. Number
 | I-6 Grids | **Lists plus Excel import and export first.** Custom grids come later, only where needed. | The specification recommended OWL components. Its phase 4 range (36–53 pw) assumes those grids, so it should come down once the first tool has been built and timed. Risk R2 changes from build effort to user acceptance of the console-style tools. |
 | I-12 Governing plan | **`Screen-transfer-specification.md` governs over `Migration-plan-Odoo19.md`**, with a budget of **129–190 person-weeks**. | Six addons (`ea_audit_core`, `_papers`, `_tools`, `_reports`, `_portal`, `_legal`, and optional `_uat`) and the `ea.audit.*` model prefix. The `ea_audit` module installed on staging follows the other plan: see O-3. |
 
+## Provisional: working papers, owner to confirm
+
+Applied in `ea_audit_papers` so that the build can proceed. Each is provisional, owner to confirm. Q numbers are those of `addons/ea_audit_papers/DESIGN.md`, section 8.
+
+| # | Decision | Consequence |
+| --- | --- | --- |
+| Q1 Definition pinned on a signature | Store `definition_hash` on each signature; do not void on a wording change. | A new text adds a row in `ea.audit.paper.def` and retires the old one, so a signed paper can show what it was signed on. The screen flags a signature whose wording has since moved. |
+| Q3 Migrated signatures | Verify on the platform before cutover (`paperContentHashTx` per active signature), then store a new-scheme hash. | Where the check passes the loader stores `content_scheme = 2` computed in Odoo. Where it fails the row keeps `content_scheme = 1`: never voided by comparison, reported instead. |
+| Q4 Blank answers in the hash | Leave blank answers out of the new hash. | A save that adds an empty key voids nothing, in line with the history rule. |
+| Q5 `value` type | `Text`. | Departs from spec D.12's `Json`; the tool families (`sad`, `itapps`, `psp:`, `dsp`) become real models in `ea_audit_tools`. |
+| Q6 Names | Follow D.12: `ea.audit.paper.def`, `ea.audit.paper`, `ea.audit.paper.answer`. | Spec C.6.7's `ea.audit.paper.response` is not used. |
+| Q8 Shadowed C6.2 | Use the `gam.ts` C6.2 text. | The `conclusion.ts` version stays in `data/papers_shadowed/` as source material; it is not loaded. I-9's row on C6.2 still awaits the technical desk's comparison. |
+
 ## Open decisions from the specification
 
 Each is open until the owner rules. The specification itself recommends only on I-4 and I-5; the other recommendations were added when this log was written.

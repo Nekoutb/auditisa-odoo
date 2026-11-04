@@ -275,6 +275,10 @@ class FileItem(models.Model):
             if refusal:
                 raise rule_error(env, refusal)
 
+        # The whole chain ran and nothing is written: how a chip learns why it is grey.
+        if env.context.get("ea_sign_dry_run"):
+            return role
+
         env["ea.audit.signoff"].sudo().create({
             "file_item_id": item.id,
             "role": role,
