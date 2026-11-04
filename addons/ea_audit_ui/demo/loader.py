@@ -241,7 +241,7 @@ class AuditUiDemo(models.AbstractModel):
         people.write({"lang": "fr_FR"})
         # the administrator is a firm role like any other: no team, no mission
         admin = env.ref("base.user_admin")
-        admin.write({"lang": "fr_FR", "group_ids": [(4, env.ref("ea_audit_core.group_firm_admin").id)]})
+        admin.write({"name": "Administrateur Démo", "lang": "fr_FR", "group_ids": [(4, env.ref("ea_audit_core.group_firm_admin").id)]})
 
         demo = _Demo(env)
         demo.archived_2024()

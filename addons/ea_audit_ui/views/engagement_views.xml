@@ -9,6 +9,9 @@
             <xpath expr="/list" position="attributes">
                 <attribute name="js_class">ea_missions_list</attribute>
             </xpath>
+            <xpath expr="//field[@name='fiscal_year']" position="attributes">
+                <attribute name="options">{'enable_formatting': false}</attribute>
+            </xpath>
         </field>
     </record>
     <record id="view_engagement_kanban" model="ir.ui.view">
@@ -19,7 +22,7 @@
                 <templates>
                     <t t-name="card">
                         <field name="client_id" class="fw-bold"/>
-                        <div>Exercice <field name="fiscal_year"/> · <field name="period_end"/></div>
+                        <div>Exercice <field name="fiscal_year" options="{'enable_formatting': false}"/> · <field name="period_end"/></div>
                         <field name="engagement_partner_id" class="text-muted"/>
                     </t>
                 </templates>
