@@ -1,0 +1,2952 @@
+# French translation of ea_audit_core.
+# This file contains the translation of the following modules:
+# 	* ea_audit_core
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 03:06+0000\n"
+"PO-Revision-Date: 2026-11-04 03:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"A person holds one firm role: read-only or EQR reviewer cannot be combined "
+"with another role."
+msgstr "Une personne n'a qu'un seul rôle au cabinet : lecture seule ou réviseur qualité ne peuvent pas être cumulés avec un autre rôle."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "A reason is required."
+msgstr "Un motif est requis."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "A user with this email already exists."
+msgstr "Un utilisateur avec cet email existe déjà."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_member_form
+msgid "Accept"
+msgstr "Accepter"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Accept the engagement invitation on its dashboard before signing work on it."
+msgstr "Acceptez l'invitation à la mission depuis son tableau de bord avant de signer des travaux."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__acceptance
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__acceptance
+msgid "Acceptance"
+msgstr "Acceptation"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__d
+msgid "Acceptance & planning"
+msgstr "Acceptation et planification"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__state__accepted
+msgid "Accepted"
+msgstr "Acceptée"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_7
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_7
+msgid "Accounting Estimates (ISA 540)"
+msgstr "Estimations comptables (ISA 540)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S4_4
+msgid "Accounting Estimates — Planning (ISA 540)"
+msgstr "Estimations comptables — planification (ISA 540)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_needaction
+msgid "Action Needed"
+msgstr "Action requise"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Add the delegate to the engagement team first."
+msgstr "Ajoutez d'abord le délégué à l'équipe de la mission."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E5_2
+#: model:ea.audit.task.template,title:ea_audit_core.task_E5_2
+msgid "Administrative Expenditures"
+msgstr "Charges administratives"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Advance to planning"
+msgstr "Passer à la planification"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__agreed_procedures
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__agreed_procedures
+msgid "Agreed-upon procedures"
+msgstr "Procédures convenues"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__agriculture
+msgid "Agriculture"
+msgstr "Agriculture"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_5
+msgid "Alert Procedure"
+msgstr "Procédure d'alerte"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_5
+msgid "Alert Procedure File"
+msgstr "Dossier de procédure d'alerte"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__allow_sole_practitioner
+msgid "Allow Sole Practitioner"
+msgstr "Autoriser le praticien individuel"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__allowed_email_domains
+msgid "Allowed Email Domains"
+msgstr "Domaines de messagerie autorisés"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_company__ea_allowed_email_domains
+msgid "Allowed email domains"
+msgstr "Domaines de messagerie autorisés"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P3_2
+msgid "Analytical Risk Assessment Procedures"
+msgstr "Procédures analytiques d'évaluation des risques"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P3_2
+msgid "Analytical Risk Procedures"
+msgstr "Procédures analytiques de risque"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Approve materiality in the tool first (P6.1): this paper is fed by the "
+"approved figures."
+msgstr "Approuvez d'abord le seuil de signification dans l'outil (P6.1) : ce papier en reprend les montants approuvés."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__approver_id
+msgid "Approver"
+msgstr "Approbateur"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C6_1
+msgid "Archive Checklist"
+msgstr "Liste d'archivage"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C6_1
+msgid "Archive Checklist — Gates and Open Items"
+msgstr "Liste de contrôle d'archivage — portes et points ouverts"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__archived
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_client_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_client_search
+msgid "Archived"
+msgstr "Archivé"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__archived_at
+msgid "Archived At"
+msgstr "Archivé le"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_10
+msgid "Article 525 Attestation"
+msgstr "Attestation article 525"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_10
+msgid "Article 525 Certification — Highest-Paid Persons' Remuneration"
+msgstr "Attestation article 525 — rémunérations des personnes les mieux rémunérées"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_4
+msgid "Article 715 Board Report"
+msgstr "Rapport article 715"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_4
+msgid "Article 715 Report to the Board"
+msgstr "Rapport article 715 au conseil d'administration"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P4_1
+msgid "Assess Internal Control at the Entity Level"
+msgstr "Évaluer le contrôle interne au niveau de l'entité"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P2_2
+msgid "Assess the Team and Determine Need for Specialised Skills"
+msgstr "Évaluer l'équipe et déterminer le besoin de compétences spécialisées"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__assignee_id
+msgid "Assignee"
+msgstr "Responsable"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P2_3
+msgid "Audit Scope and Components (ISA 600)"
+msgstr "Périmètre d'audit et composants (ISA 600)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S6_1
+msgid "Audit Strategies Memorandum"
+msgstr "Mémorandum de stratégie"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_client
+msgid "Audit client"
+msgstr "Client d'audit"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr "Mission d'audit"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_task_template
+#: model:ir.ui.menu,name:ea_audit_core.menu_task_templates
+msgid "Audit file index"
+msgstr "Index du dossier d'audit"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_task_template
+msgid "Audit file index entry"
+msgstr "Entrée de l'index du dossier d'audit"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_file_item
+msgid "Audit file task"
+msgstr "Tâche du dossier d'audit"
+
+#. module: ea_audit_core
+#: model:ir.ui.menu,name:ea_audit_core.menu_root
+msgid "AuditISA"
+msgstr "AuditISA"
+
+#. module: ea_audit_core
+#: model:res.groups.privilege,name:ea_audit_core.privilege_firm_role
+msgid "AuditISA firm role"
+msgstr "Rôle au cabinet AuditISA"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_8
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_8
+msgid "Borrowings (Q)"
+msgstr "Emprunts (Q)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"C4.2 is the engagement quality reviewer's own record: only the quality "
+"reviewer appointed on the team completes and signs it (ISQM 2 ¶24-27)."
+msgstr "C4.2 est le dossier propre du réviseur qualité : seul le réviseur qualité (EQR) désigné dans l'équipe le renseigne et le signe (ISQM 2 ¶24-27)."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_partner_transfer_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_decline_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_invite_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_7
+msgid "Cash & Cash Equivalents (C)"
+msgstr "Trésorerie (C)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_7
+msgid "Cash (C)"
+msgstr "Trésorerie (C)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_36
+msgid "Cash Flow (TFT) Tie-out"
+msgstr "Concordance du TFT"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_25
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_25
+msgid "Change in Inventories (VA2)"
+msgstr "Variation de stocks (VA2)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Choose a valid standards edition."
+msgstr "Choisissez une édition valide des normes."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Choose a valid team role."
+msgstr "Choisissez un rôle d'équipe valide."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Choose the engagement partner: an engagement cannot be created without one "
+"(a partner or administrator of the firm)."
+msgstr "Choisissez l'associé signataire : une mission ne peut pas être créée sans lui (un associé ou un administrateur du cabinet)."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Clear the open review notes on this working paper before reviewer sign-off."
+msgstr "Traitez les notes de revue ouvertes sur cette feuille de travail avant la signature du réviseur."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__client_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__client_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__invitation_client_name
+msgid "Client"
+msgstr "Client"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P1_1
+msgid "Client Acceptance / Continuance"
+msgstr "Acceptation / maintien du client"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_client
+#: model:ir.ui.menu,name:ea_audit_core.menu_clients
+msgid "Clients"
+msgstr "Clients"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Close planning"
+msgstr "Clôturer la planification"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__code
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__code
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__code
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__code
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S3_1
+msgid "Combined Risk Assessments"
+msgstr "Évaluation combinée des risques"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_1
+#: model:ea.audit.task.template,title:ea_audit_core.task_S4_1
+msgid "Commitments & Contingencies"
+msgstr "Engagements et passifs éventuels"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__c
+msgid "Communication"
+msgstr "Communication"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_11
+msgid "Communications (ISA 260/265)"
+msgstr "Communications (ISA 260/265)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_11
+msgid ""
+"Communications with those charged with governance and management (ISA "
+"260/265)"
+msgstr "Communications avec la gouvernance et la direction (ISA 260/265)"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C6_2
+msgid "Complete Documentation and Archive Engagement"
+msgstr "Finaliser la documentation et archiver la mission"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__b
+msgid "Completion"
+msgstr "Achèvement"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__complexity__complex
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__complexity__complex
+msgid "Complex"
+msgstr "Complexe"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__complexity
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__complexity
+msgid "Complexity"
+msgstr "Complexité"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__conclusion
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__conclusion
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__conditional
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__conditional
+msgid "Conditional"
+msgstr "Conditionnelle"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P1_1
+msgid "Consider Client Acceptance / Continuance Results"
+msgstr "Examiner l'acceptation / le maintien du client"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__construction
+msgid "Construction"
+msgstr "Construction"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_C1_3
+msgid "Consultation Record"
+msgstr "Registre des consultations"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__partner_id
+msgid "Contact"
+msgstr "Contact"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__content_hash
+msgid "Content Hash"
+msgstr "Empreinte du contenu"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__contractual_audit
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__contractual_audit
+msgid "Contractual audit"
+msgstr "Audit contractuel"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__commissariat_apports
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__commissariat_apports
+msgid "Contribution auditor (commissariat aux apports)"
+msgstr "Commissariat aux apports"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P4_2
+msgid "Control Environment"
+msgstr "Environnement de contrôle"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P4_2
+msgid "Control Environment Assessment"
+msgstr "Évaluation de l'environnement de contrôle"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__tier__core
+msgid "Core"
+msgstr "Socle"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
+msgid "Create"
+msgstr "Créer"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_6
+msgid "Criminal Offences Disclosure"
+msgstr "Révélation des faits délictueux"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__data
+msgid "Data"
+msgstr "Données"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__eqr_declared_at
+msgid "Declared at"
+msgstr "Déclarée le"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__eqr_declared_by_id
+msgid "Declared by"
+msgstr "Déclarée par"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_decline_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_member_form
+msgid "Decline"
+msgstr "Refuser"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__decline_reason
+msgid "Decline Reason"
+msgstr "Motif du refus"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_team_decline_wizard
+#: model:ir.model,name:ea_audit_core.model_ea_audit_team_decline_wizard
+msgid "Decline the engagement"
+msgstr "Refuser la mission"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__state__declined
+msgid "Declined"
+msgstr "Refusée"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_29
+msgid "Depreciation & Provisions (VD2)"
+msgstr "Dotations et provisions (VD2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_29
+msgid "Depreciation & Provisions (VD2)"
+msgstr "Dotations amortissements et provisions (VD2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_4
+msgid "Design & Execute ITGC Tests"
+msgstr "Tests des ITGC"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S2_4
+msgid "Design & Execute Tests of ITGCs"
+msgstr "Concevoir et exécuter les tests des ITGC"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_4
+msgid "Design JE & Fraud Tests"
+msgstr "Tests écritures & fraude"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_5
+msgid "Design Substantive Procedures"
+msgstr "Procédures substantives"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S5_5
+msgid "Design Substantive Procedures"
+msgstr "Concevoir les procédures substantives"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_2
+msgid "Design Tests of Controls"
+msgstr "Conception des tests de contrôles"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S2_2
+msgid "Design Tests of Controls"
+msgstr "Concevoir les tests de contrôles"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S5_4
+msgid "Design Tests of Journal Entries and Other Mandatory Fraud Procedures"
+msgstr "Concevoir les tests d'écritures et autres procédures obligatoires de fraude"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Designate the engagement partner on the team page before giving a partner "
+"sign-off."
+msgstr "Désignez l'associé responsable de la mission sur la page Équipe avant toute signature d'associé."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P6_1
+msgid ""
+"Determine Materiality — Overall, Performance and Clearly Trivial (ISA 320)"
+msgstr "Déterminer le seuil de signification — global, de travail et manifestement négligeable (ISA 320)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S6_2
+msgid "Direction from the Engagement Partner"
+msgstr "Directives de l'associé responsable de la mission"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__director
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__director
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__director
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_reviewer__director
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__director
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__director
+msgid "Director"
+msgstr "Directeur"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_6
+msgid "Disclosure of Criminal Offences to the Prosecutor"
+msgstr "Révélation des faits délictueux"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_mixin__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_company__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_users__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C6_2
+msgid "Documentation & Archive"
+msgstr "Documentation & archivage"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__due_date
+msgid "Due Date"
+msgstr "Échéance"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__duration_months
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__duration_months
+msgid "Duration (months)"
+msgstr "Durée (mois)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__role__eqr
+msgid "EQR"
+msgstr "EQR"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P1_5
+msgid "EQR Determination"
+msgstr "Détermination revue qualité"
+
+#. module: ea_audit_core
+#: model:res.groups,name:ea_audit_core.group_eqr_reviewer
+msgid "EQR reviewer"
+msgstr "Réviseur qualité (EQR)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__edition_reason
+msgid "Edition Reason"
+msgstr "Motif de l'édition"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__email
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__energy
+msgid "Energy"
+msgstr "Énergie"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_mixin__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__engagement_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_list
+msgid "Engagement"
+msgstr "Mission"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P1_4
+msgid "Engagement Letter"
+msgstr "Lettre de mission"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P1_4
+msgid "Engagement Letter (ISA 210)"
+msgstr "Lettre de mission (ISA 210)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_2
+msgid "Engagement Quality Review"
+msgstr "Revue qualité de la mission"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C4_2
+msgid "Engagement Quality Review"
+msgstr "Revue de qualité de la mission"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P1_5
+msgid "Engagement Quality Review Determination (ISQM 1/2)"
+msgstr "Détermination de la revue de qualité (ISQM 1/2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_2
+msgid "Engagement Team Discussion"
+msgstr "Discussion de l'équipe"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P5_2
+msgid "Engagement Team Discussion"
+msgstr "Discussion de l'équipe de mission"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__invitation_engagement_name
+msgid "Engagement name"
+msgstr "Nom de la mission"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__engagement_partner_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__engagement_partner_id
+msgid "Engagement partner"
+msgstr "Associé responsable"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__eqr_reviewer
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__eqr_reviewer
+msgid "Engagement quality reviewer"
+msgstr "Réviseur qualité de la mission"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_team_member
+msgid "Engagement team member"
+msgstr "Membre de l'équipe de mission"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_engagement_mixin
+msgid "Engagement-scoped record"
+msgstr "Enregistrement rattaché à une mission"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_engagement
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__engagement_ids
+#: model:ir.ui.menu,name:ea_audit_core.menu_engagements
+msgid "Engagements"
+msgstr "Missions"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Enter a valid email address."
+msgstr "Saisissez une adresse e-mail valide."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P4_1
+msgid "Entity-Level Internal Control"
+msgstr "Contrôle interne de l'entité"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_9
+msgid "Equity (T)"
+msgstr "Capital et réserves (T)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_8
+msgid "Equity vs Half-Capital"
+msgstr "Capitaux propres / demi-capital"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_8
+msgid "Equity vs Half-of-Share-Capital Monitoring"
+msgstr "Suivi capitaux propres / moitié du capital social"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_4
+msgid "Estimates — Planning (ISA 540)"
+msgstr "Estimations — planification (ISA 540)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_5
+#: model:ea.audit.task.template,title:ea_audit_core.task_S2_5
+msgid "Evaluate ITGCs"
+msgstr "Évaluer les ITGC"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Every control-risk \"rely\" on S3.1 rests on a control selected for testing,"
+" or on a written basis (ISA 330 ¶8)"
+msgstr "Chaque « appui » sur les contrôles en S3.1 repose sur un contrôle retenu pour test, ou sur un fondement écrit (ISA 330 ¶8)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Every material section has planned coverage (stand-back)"
+msgstr "Chaque section significative dispose d'une couverture planifiée (stand-back)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Every relevant IT application needs an IT strategy before S2.3 is signed off"
+" — decide the strategy of each application still at \"— decide\"."
+msgstr "Chaque application informatique pertinente doit avoir une stratégie informatique avant la signature de S2.3 — décidez la stratégie des applications encore à « — décider »."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Every required P1.1 acceptance check answered \"yes\" (predecessor contact "
+"for a new engagement)"
+msgstr "Chaque vérification d'acceptation requise de P1.1 répondue « oui » (contact du prédécesseur pour une nouvelle mission)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Every significance decision that departs from the default needs its "
+"justification before P6.2 is signed off."
+msgstr "Chaque décision de significativité qui s'écarte de la valeur par défaut doit être justifiée avant la signature de P6.2."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Every significant risk linked to at least one program step"
+msgstr "Chaque risque important lié à au moins une diligence du programme"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Exactly one engagement partner designated on the team, who has accepted the "
+"engagement"
+msgstr "Un seul associé responsable désigné dans l'équipe, et qui a accepté la mission"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_33
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_33
+msgid "Exceptional Expenses (V1)"
+msgstr "Charges HAO (V1)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_23
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_23
+msgid "Exceptional Income (U1)"
+msgstr "Produits HAO (U1)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__execution
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__execution
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__e
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Execution is not closed yet: issue the report before recording conclusion "
+"work."
+msgstr "L'exécution n'est pas clôturée : émettez le rapport avant d'enregistrer des travaux de conclusion."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__tier__extended
+msgid "Extended"
+msgstr "Étendu"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_4
+msgid "FSCP Evaluation"
+msgstr "Processus d'arrêté (FSCP)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__file_item_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "File index"
+msgstr "Index du dossier"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_1
+msgid "Final FS Review (ISA 520)"
+msgstr "Revue finale des EF (ISA 520)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C2_1
+msgid "Final Overall Financial Statement Review (ISA 520)"
+msgstr "Revue finale globale des états financiers (ISA 520)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E5_4
+#: model:ea.audit.task.template,title:ea_audit_core.task_E5_4
+msgid "Finance Cost"
+msgstr "Charges financières"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_32
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_32
+msgid "Finance Costs (VD5)"
+msgstr "Charges financières (VD5)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_22
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_22
+msgid "Finance Income (UC)"
+msgstr "Produits financiers (UC)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__financial
+msgid "Financial"
+msgstr "Finance"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_6
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_6
+msgid "Financial Assets (J)"
+msgstr "Actifs financiers (J)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_10
+msgid "Financial Statement Procedures (tie-out of accounts and notes)"
+msgstr "Procédures sur les états financiers (pointage des comptes et annexes)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_10
+msgid "Financial statement procedures"
+msgstr "Procédures états financiers"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__a
+msgid "Financial statements"
+msgstr "États financiers"
+
+#. module: ea_audit_core
+#: model:res.groups,name:ea_audit_core.group_firm_admin
+msgid "Firm administrator"
+msgstr "Administrateur du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__partner_required__default
+msgid "Firm default"
+msgstr "Règle du cabinet"
+
+#. module: ea_audit_core
+#: model:res.groups,name:ea_audit_core.group_member
+msgid "Firm member"
+msgstr "Membre du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.ui.menu,name:ea_audit_core.menu_settings
+msgid "Firm settings"
+msgstr "Paramètres du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_signoff_policy
+msgid "Firm sign-off policy"
+msgstr "Politique de signature du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_signoff_task_rule
+msgid "Firm sign-off rule for one task"
+msgstr "Règle de signature du cabinet pour une tâche"
+
+#. module: ea_audit_core
+#: model:res.groups,name:ea_audit_core.group_writer
+msgid "Firm writer"
+msgstr "Rédacteur du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__first_year
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__first_year
+msgid "First-year audit"
+msgstr "Premier exercice audité"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__fiscal_year
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__fiscal_year
+msgid "Fiscal Year"
+msgstr "Exercice"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__invitation_fiscal_year
+msgid "Fiscal year"
+msgstr "Exercice"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_2
+msgid "Flows, WCGWs & Controls"
+msgstr "Flux, WCGW & contrôles"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (partenaires)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__framework
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__framework
+msgid "Framework"
+msgstr "Référentiel"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_1
+msgid "Fraud Risks & Responses (ISA 240)"
+msgstr "Risques de fraude & réponses (ISA 240)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__gie
+msgid "GIE"
+msgstr "GIE"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__gate_summary
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Gates of this phase"
+msgstr "Contrôles de cette phase"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Generate the working paper before signing it off."
+msgstr "Générez la feuille de travail avant de la signer."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_3
+msgid "Going Concern (ISA 570)"
+msgstr "Continuité d'exploitation (ISA 570)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_2
+msgid "Going Concern — Prelim (ISA 570)"
+msgstr "Continuité — préliminaire (ISA 570)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S4_2
+msgid "Going Concern — Preliminary (ISA 570)"
+msgstr "Continuité d'exploitation — préliminaire (ISA 570)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_17
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_17
+msgid "Group & Associates (I2)"
+msgstr "Groupe et associés (I2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_16
+msgid "Group & Associates — Short Term (I1)"
+msgstr "Groupe et associés — court terme (I1)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_16
+msgid "Group — Short Term (I1)"
+msgstr "Groupe — court terme (I1)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_mixin__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_company__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_users__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__standards_edition__current
+msgid "ISA in force"
+msgstr "ISA en vigueur"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__standards_edition__revised_2026
+msgid "ISA revised (periods from 15 December 2026)"
+msgstr "ISA révisées (exercices ouverts à compter du 15 décembre 2026)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P4_3
+msgid "IT Environment & IT Involvement"
+msgstr "Environnement & implication IT"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_1
+msgid "ITGC Testing"
+msgstr "Contrôles généraux informatiques"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E1_1
+msgid "ITGC Testing"
+msgstr "Tests des contrôles généraux informatiques"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P5_1
+msgid "Identify Fraud Risks and Determine Responses (ISA 240)"
+msgstr "Identifier les risques de fraude et déterminer les réponses (ISA 240)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P6_2
+msgid "Identify Significant Accounts, Disclosures and Relevant Assertions"
+msgstr "Identifier les comptes significatifs, informations à fournir et assertions pertinentes"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S1_1
+msgid "Identify Significant Classes of Transactions and Related Applications"
+msgstr "Identifier les catégories significatives de transactions et applications associées"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur de distribution."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Import a valid trial balance for the year first: this paper is fed by it "
+"(lead schedules, P6.2, C1.1)."
+msgstr "Importez d'abord une balance générale valide de l'exercice : ce papier en est alimenté (feuilles maîtresses, P6.2, C1.1)."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_file_item__state__in_progress
+msgid "In progress"
+msgstr "En cours"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_34
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_34
+msgid "Income Tax (O4)"
+msgstr "Impôt sur le résultat (O4)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P2_1
+msgid "Independence & Ethics"
+msgstr "Indépendance & éthique"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P2_1
+msgid "Independence and Ethics Conclusion (IESBA Code)"
+msgstr "Conclusion sur l'indépendance et l'éthique (Code IESBA)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__industry
+msgid "Industry"
+msgstr "Industrie"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_task_template__conditional
+msgid "Instantiated, but only activated when a trigger answers yes."
+msgstr "Créée, mais activée seulement lorsqu'un déclencheur répond oui."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_5
+msgid "Intangible Assets (L)"
+msgstr "Immobilisations incorporelles (L)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_5
+msgid "Intangibles (L)"
+msgstr "Incorporelles (L)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_S5_3
+msgid "Internal Audit (ISA 610)"
+msgstr "Audit interne (ISA 610)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__invalidated_at
+msgid "Invalidated At"
+msgstr "Invalidée le"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_3
+msgid "Inventories (F)"
+msgstr "Stocks (F)"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_invite_wizard
+msgid "Invite"
+msgstr "Inviter"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_team_invite_wizard
+msgid "Invite to the engagement team"
+msgstr "Inviter dans l'équipe de mission"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_team_invite_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Invite to the team"
+msgstr "Inviter dans l'équipe"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__state__invited
+msgid "Invited"
+msgstr "Invitée"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__invited_at
+msgid "Invited At"
+msgstr "Invitée le"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_is_follower
+msgid "Is Follower"
+msgstr "Est abonné"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_9
+msgid "Joint Auditor Coordination"
+msgstr "Coordination co-commissariat"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_9
+msgid "Joint Auditor Coordination File"
+msgstr "Dossier de coordination co-commissariat"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__co_cac
+msgid "Joint auditor (co-CAC)"
+msgstr "Co-commissariat aux comptes"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E3_1
+msgid "Journal Entries & Fraud (ISA 240)"
+msgstr "Écritures & fraude (ISA 240)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__kind
+msgid "Kind"
+msgstr "Type"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_1
+msgid "Laws & NOCLAR (ISA 250)"
+msgstr "Textes légaux / NOCLAR (ISA 250)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_1
+msgid "Laws & Regulations / NOCLAR (ISA 250)"
+msgstr "Textes légaux et réglementaires / NOCLAR (ISA 250)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_35
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_35
+msgid "Leases"
+msgstr "Contrats de location"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__legal_form
+msgid "Legal Form"
+msgstr "Forme juridique"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__kind__letter
+msgid "Letter"
+msgstr "Lettre"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__limited_review
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__limited_review
+msgid "Limited review (ISRE 2400/2410)"
+msgstr "Examen limité (ISRE 2400/2410)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__listed
+msgid "Listed"
+msgstr "Cotée"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_9
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_9
+msgid "Litigation & Claims (ISA 501)"
+msgstr "Litiges et réclamations (ISA 501)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S3_1
+msgid "Make Combined Risk Assessments (Risk Register)"
+msgstr "Établir l'évaluation combinée des risques (registre des risques)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C3_1
+msgid "Management Rep. Letters (ISA 580)"
+msgstr "Lettres d'affirmation (ISA 580)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C3_1
+msgid "Management Representation Letter(s) (ISA 580)"
+msgstr "Lettre(s) d'affirmation de la direction (ISA 580)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_reviewer__manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__manager
+#: model:res.groups,name:ea_audit_core.group_manager
+msgid "Manager"
+msgstr "Manager"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__material
+msgid "Material"
+msgstr "Significative"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_file_item__material
+msgid "Material E-section: planning cannot close without planned coverage."
+msgstr "Section E significative : la planification ne peut pas être clôturée sans couverture planifiée."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P6_1
+msgid "Materiality (ISA 320)"
+msgstr "Seuil de signification (ISA 320)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Materiality approved by a partner"
+msgstr "Seuil de signification approuvé par un associé"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__member_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__user_id
+msgid "Member"
+msgstr "Membre"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur de distribution du message"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__min_reviewer_role
+msgid "Min Reviewer Role"
+msgstr "Rôle minimum du réviseur"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__min_preparer
+msgid "Minimum preparer"
+msgstr "Préparateur minimum"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__min_reviewer
+msgid "Minimum reviewer"
+msgstr "Réviseur minimum"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_4
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_4
+msgid "Minutes & Statutory Records"
+msgstr "Procès-verbaux et registres légaux"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__tool_outputs_missing
+msgid "Missing tool output"
+msgstr "Sortie d'outil manquante"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_my_invitations
+#: model:ir.ui.menu,name:ea_audit_core.menu_invitations
+msgid "My invitations"
+msgstr "Mes invitations"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__niu
+msgid "NIU"
+msgstr "NIU"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__display_name_typed
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__nature
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__nature
+msgid "Nature"
+msgstr "Nature"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_engagement_create_wizard
+#: model:ir.model,name:ea_audit_core.model_ea_audit_engagement_create_wizard
+#: model:ir.ui.menu,name:ea_audit_core.menu_new_engagement
+msgid "New engagement"
+msgstr "Nouvelle mission"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__new_user_id
+msgid "New engagement partner"
+msgstr "Nouvel associé responsable"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__partner_required__no
+msgid "No"
+msgstr "Non"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_28
+msgid "Non-Stored Purchases, Transport & External Services (VD1)"
+msgstr "Achats non stockés, transports & services extérieurs (VD1)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__complexity__non_complex
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__complexity__non_complex
+msgid "Non-complex"
+msgstr "Non complexe"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__not_applicable
+msgid "Not applicable"
+msgstr "Non applicable"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Not found."
+msgstr "Introuvable."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_file_item__state__not_started
+msgid "Not started"
+msgstr "Non commencée"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Nombre de messages demandant une action"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages en erreur de distribution"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__f
+msgid "OHADA statutory"
+msgstr "Obligations légales OHADA"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__eqr_declaration
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__eqr_declaration
+msgid "Objectivity declaration"
+msgstr "Déclaration d'objectivité"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "One of the entries is not a valid email domain (e.g. eca.com)."
+msgstr "Une des entrées n'est pas un domaine de messagerie valide (ex. eca.com)."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "One of the task codes is not in the audit file index."
+msgstr "Un des codes de tâche ne figure pas dans l'index du dossier d'audit."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_signoff_policy__allowed_email_domains
+msgid ""
+"One per line. Kept by the firm administrator. Empty means no restriction."
+msgstr "Un par ligne. Tenue par l'administrateur du cabinet. Vide : aucune restriction."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Only a manager, partner or firm administrator on this engagement can change "
+"its team."
+msgstr "Seul un manager, un associé ou l'administrateur du cabinet affecté à cette mission peut modifier son équipe."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Only a partner can do this."
+msgstr "Seul un associé peut effectuer cette action."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Only a partner can give or take away the engagement partner role."
+msgstr "Seul un associé peut attribuer ou retirer le rôle d'associé de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Only a partner or firm administrator can change the firm's sign-off rules."
+msgstr "Seul un associé ou un administrateur du cabinet peut modifier les règles de signature du cabinet."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Only a partner or firm administrator of the firm can hold the engagement "
+"partner role."
+msgstr "Seul un associé ou un administrateur du cabinet peut tenir le rôle d'associé de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Only a senior or above can sign as reviewer."
+msgstr "Seul un senior ou un rang supérieur peut signer en tant que réviseur."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Only accepted members of an engagement's team can open it."
+msgstr "Seuls les membres de l'équipe de la mission ayant accepté l'invitation peuvent l'ouvrir."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Only an accepted member of this engagement's team can sign its working "
+"papers."
+msgstr "Seul un membre de l'équipe ayant accepté la mission peut signer ses papiers de travail."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Only the engagement partner or a firm administrator can transfer the "
+"engagement partner role."
+msgstr "Seul l'associé responsable ou un administrateur du cabinet peut transférer le rôle d'associé de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Only the engagement partner, or the partner they delegated to, can give this"
+" partner sign-off."
+msgstr "Seul l'associé responsable de la mission, ou l'associé qu'il a désigné comme délégué, peut donner cette signature d'associé."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Open next year's file for this client?"
+msgstr "Ouvrir le dossier de l'exercice suivant pour ce client ?"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_5
+msgid "Opening Balances & Comparatives (ISA 510/710)"
+msgstr "Soldes d'ouverture et chiffres comparatifs (ISA 510/710)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_5
+msgid "Opening Balances (ISA 510/710)"
+msgstr "Soldes d'ouverture (ISA 510/710)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E5_1
+#: model:ea.audit.task.template,title:ea_audit_core.task_E5_1
+msgid "Operating Expenditures"
+msgstr "Charges opérationnelles"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_1
+msgid "Opinion & report (ISA 700–706)"
+msgstr "Opinion & rapport (ISA 700 à 706)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_1
+msgid "Opinion and auditor's report (ISA 700–706)"
+msgstr "Opinion et rapport d'audit (ISA 700 à 706)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__other
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__other
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__other
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__other
+msgid "Other"
+msgstr "Autre"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_18
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_18
+msgid "Other Current Assets (G2)"
+msgstr "Autres actifs courants (G2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E5_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_E5_3
+msgid "Other Expenses"
+msgstr "Autres charges"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_31
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_31
+msgid "Other Expenses (VD4)"
+msgstr "Autres charges (VD4)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E5_5
+#: model:ea.audit.task.template,title:ea_audit_core.task_E5_5
+msgid "Other Income"
+msgstr "Autres produits"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_21
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_21
+msgid "Other Income (UB2)"
+msgstr "Autres produits (UB2)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_partner_transfer_wizard__outgoing_role
+msgid "Outgoing partner's new role"
+msgstr "Nouveau rôle de l'associé sortant"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "P1.1 checklist complete and concluded \"accept\""
+msgstr "Liste P1.1 complète et conclusion « accepter »"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"P7.2 is approved on the Planning Review & Approval Summary: the engagement "
+"partner signs there once every confirmation and deliverable is in place. "
+"Review sign-off on the row follows that approval."
+msgstr "P7.2 s'approuve sur le récapitulatif de revue et d'approbation de la planification : l'associé responsable y signe une fois chaque confirmation et chaque livrable en place. La signature de revue sur la ligne suit cette approbation."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_4
+msgid "PP&E (K)"
+msgstr "Immobilisations corporelles (K)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__partner
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__role__partner
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__partner
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__partner
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_reviewer__partner
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__partner
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__partner
+#: model:res.groups,name:ea_audit_core.group_partner
+msgid "Partner"
+msgstr "Associé"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S6_2
+msgid "Partner Direction"
+msgstr "Directives de l'associé"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__partner_required
+msgid "Partner Required"
+msgstr "Associé requis"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Partner approval of the plan on P7.2"
+msgstr "Approbation du plan par l'associé sur P7.2"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__partner_delegate_id
+msgid "Partner delegate"
+msgstr "Délégué de l'associé"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Partner sign-off on P1.1"
+msgstr "Signature de l'associé sur P1.1"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Partner sign-off on P2.2"
+msgstr "Signature de l'associé sur P2.2"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Partner sign-off on P5.2"
+msgstr "Signature de l'associé sur P5.2"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Partner sign-off on S3.1"
+msgstr "Signature de l'associé sur S3.1"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__require_partner_on_ids
+msgid "Partner sign-off required on"
+msgstr "Signature de l'associé requise sur"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_2
+msgid "Payables (N)"
+msgstr "Dettes fournisseurs (N)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S1_3
+msgid "Perform Walkthroughs"
+msgstr "Réaliser les tests de cheminement"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__period_end
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__period_end
+msgid "Period End"
+msgstr "Date de clôture"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_26
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_26
+msgid "Personnel Costs (VB)"
+msgstr "Charges de personnel (VB)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__phase
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__task_phase
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__phase
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_search
+msgid "Phase"
+msgstr "Phase"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S5_6
+msgid "Plan General Audit Procedures"
+msgstr "Planifier les procédures générales d'audit"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_6
+msgid "Plan General Procedures"
+msgstr "Procédures générales"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__planning
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__planning
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P7_2
+msgid "Planning Review & Approval"
+msgstr "Revue & approbation planification"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P7_2
+msgid "Planning Review and Approval Summary"
+msgstr "Revue et approbation de la planification"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Planning is not closed yet: pass the planning gates before recording "
+"execution or conclusion work."
+msgstr "La planification n'est pas clôturée : passez les contrôles de planification avant d'enregistrer des travaux d'exécution ou de conclusion."
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_planning_snapshot
+msgid "Planning snapshot"
+msgstr "Instantané de planification"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_C4_3
+msgid "Points Outstanding"
+msgstr "Points en suspens"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P1_3
+msgid "Preconditions (ISA 210)"
+msgstr "Conditions préalables (ISA 210)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P1_3
+msgid "Preconditions for an Audit (ISA 210)"
+msgstr "Conditions préalables à l'audit (ISA 210)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P1_2
+msgid "Predecessor Auditor"
+msgstr "Auditeur précédent"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P1_2
+msgid "Predecessor Auditor Communication (ISA 300 / IESBA §320)"
+msgstr "Communication avec l'auditeur précédent (ISA 300 / IESBA §320)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S6_1
+msgid "Prepare Audit Strategies Memorandum"
+msgstr "Préparer le mémorandum de stratégie d'audit"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_file_item__state__prepared
+msgid "Prepared"
+msgstr "Préparée"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__preparer_id
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__role__preparer
+msgid "Preparer"
+msgstr "Préparateur"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_4
+msgid "Property, Plant & Equipment (K)"
+msgstr "Immobilisations corporelles (K)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_30
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_30
+msgid "Provision Reversals (VD3)"
+msgstr "Reprises de provisions (VD3)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_10
+msgid "Provisions (P1)"
+msgstr "Provisions (P1)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_10
+msgid "Provisions for Risks & Charges (P1)"
+msgstr "Provisions pour risques et charges (P1)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__pie
+msgid "Public interest entity"
+msgstr "Entité d'intérêt public"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__public
+msgid "Public sector"
+msgstr "Secteur public"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_24
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_24
+msgid "Purchases (VA1)"
+msgstr "Achats (VA1)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_28
+msgid "Purchases, Transport & Ext. Services (VD1)"
+msgstr "Achats, transports & serv. ext. (VD1)"
+
+#. module: ea_audit_core
+#: model:res.groups,name:ea_audit_core.group_read_only
+msgid "Read only"
+msgstr "Lecture seule"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__reason
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_8
+msgid "Reassess Combined Risk Assessments"
+msgstr "Réévaluer l'évaluation combinée des risques"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_8
+msgid "Reassess Combined Risks"
+msgstr "Réévaluation des risques"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Rebuttals carry partner approval"
+msgstr "Réfutations approuvées par un associé"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_1
+msgid "Receivables (E)"
+msgstr "Créances clients (E)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Record the team conclusion in the Summary of Audit Differences tool first "
+"(C1.1)."
+msgstr "Enregistrez d'abord la conclusion de l'équipe dans l'outil Récapitulatif des écarts d'audit (C1.1)."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_7
+msgid "Registered Securities Attestation"
+msgstr "Attestation titres nominatifs"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_7
+msgid "Registered Securities Register Attestation"
+msgstr "Attestation sur les registres de titres nominatifs"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__registration_number
+msgid "Registration Number"
+msgstr "Numéro d'immatriculation"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_3
+msgid "Regulated Agreements"
+msgstr "Conventions réglementées"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_3
+msgid "Regulated Agreements Register & Special Report"
+msgstr "Registre des conventions réglementées et rapport spécial"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_2
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_3
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_2
+#: model:ea.audit.task.template,title:ea_audit_core.task_S4_3
+msgid "Related Parties (ISA 550)"
+msgstr "Parties liées (ISA 550)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_1
+msgid "Reliance on Experts (ISA 620)"
+msgstr "Recours à un expert (ISA 620)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S5_1
+msgid "Reliance on Experts (ISA 620)"
+msgstr "Utilisation des travaux d'un expert (ISA 620)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P7_1
+msgid "Report to Those Charged with Governance - Audit Planning"
+msgstr "Rapport aux responsables de la gouvernance - planification de l'audit"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__require_distinct_preparer_approver
+msgid "Require Distinct Preparer Approver"
+msgstr "Exiger un préparateur et un approbateur distincts"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__responded_at
+msgid "Responded At"
+msgstr "Réponse le"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_client__active
+msgid "Retired clients are archived."
+msgstr "Les clients retirés sont archivés."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_20
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_20
+msgid "Revenue (UA)"
+msgstr "Chiffre d'affaires (UA)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_1
+msgid "Review & Approval Summary"
+msgstr "Récapitulatif revue & approbation"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C4_1
+msgid "Review and Approval Summary"
+msgstr "Récapitulatif de revue et d'approbation"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Review notes cleared (papers and tasks)"
+msgstr "Notes de revue levées (papiers et tâches)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Review the section conclusion (\"Reviewed (senior/manager)\") before signing"
+" the paper as reviewer."
+msgstr "Revoyez la conclusion de section (« Revue (senior/manager) ») avant de signer la feuille en tant que réviseur."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_file_item__state__reviewed
+msgid "Reviewed"
+msgstr "Revue"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__role__reviewer
+msgid "Reviewer"
+msgstr "Réviseur"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__role
+msgid "Role"
+msgstr "Rôle"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Roll forward"
+msgstr "Reconduire"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__sa_ag
+msgid "SA (administrateur général)"
+msgstr "SA (administrateur général)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__sa
+msgid "SA (board of directors)"
+msgstr "SA (conseil d'administration)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__sarl
+msgid "SARL"
+msgstr "SARL"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__sas
+msgid "SAS"
+msgstr "SAS"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_1
+msgid "SCOTs & Related Applications"
+msgstr "SCOT & applications associées"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P2_3
+msgid "Scope & Components"
+msgstr "Périmètre & composants"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__section
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__section
+msgid "Section"
+msgstr "Section"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__sector
+msgid "Sector"
+msgstr "Secteur"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_1
+msgid "Select Controls to Test"
+msgstr "Sélection des contrôles"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S2_1
+msgid "Select Controls to Test"
+msgstr "Sélectionner les contrôles à tester"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__senior
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__senior
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__senior
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_reviewer__senior
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__senior
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__senior
+#: model:res.groups,name:ea_audit_core.group_senior
+msgid "Senior"
+msgstr "Senior"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__senior_manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__senior_manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__senior_manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_reviewer__senior_manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__senior_manager
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__senior_manager
+msgid "Senior manager"
+msgstr "Senior manager"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__sequence
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_2
+#: model:ea.audit.task.template,title:ea_audit_core.task_S5_2
+msgid "Service Organisations (ISA 402)"
+msgstr "Sociétés de services (ISA 402)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__services
+msgid "Services"
+msgstr "Services"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_9
+msgid "Share Capital & Reserves (T)"
+msgstr "Capital et réserves (T)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__short_title
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__short_title
+msgid "Short Title"
+msgstr "Titre court"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_file_item_form
+msgid "Sign as EQR"
+msgstr "Signer comme EQR"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_file_item_form
+msgid "Sign as partner"
+msgstr "Signer comme associé"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_file_item_form
+msgid "Sign as preparer"
+msgstr "Signer comme préparateur"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_file_item_form
+msgid "Sign as reviewer"
+msgstr "Signer comme réviseur"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_signoff
+msgid "Sign-off"
+msgstr "Signature"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/signoff_policy.py:0
+#: model:ir.actions.server,name:ea_audit_core.action_signoff_policy_open
+#: model:ir.ui.menu,name:ea_audit_core.menu_signoff_policy
+msgid "Sign-off policy"
+msgstr "Politique de signature"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_signoff_task_rule
+#: model:ir.ui.menu,name:ea_audit_core.menu_signoff_rules
+msgid "Sign-off rules per task"
+msgstr "Règles de signature par tâche"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__signoff_ids
+msgid "Sign-offs"
+msgstr "Signatures"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_file_item__state__signed
+msgid "Signed"
+msgstr "Signée"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__signed_at
+msgid "Signed At"
+msgstr "Signée le"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__user_id
+msgid "Signed by"
+msgstr "Signée par"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P6_2
+msgid "Significant Accounts & Assertions"
+msgstr "Comptes significatifs & assertions"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__singleton
+msgid "Singleton"
+msgstr "Unique"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_11
+msgid "Social & Payroll Liabilities (P2)"
+msgstr "Dettes sociales (P2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_11
+msgid "Social Liabilities (P2)"
+msgstr "Dettes sociales (P2)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__staff
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__staff
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__staff
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_reviewer__staff
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_invite_wizard__team_role__staff
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_team_member__team_role__staff
+#: model:res.groups,name:ea_audit_core.group_staff
+msgid "Staff"
+msgstr "Assistant audit"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__tier__standard
+msgid "Standard"
+msgstr "Standard"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__standards_edition
+msgid "Standards Edition"
+msgstr "Édition des normes"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__state
+msgid "State"
+msgstr "État"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__state
+msgid "Status"
+msgstr "Statut"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_2
+#: model:ea.audit.task.template,title:ea_audit_core.task_C5_2
+msgid "Statutory Deadlines Calendar"
+msgstr "Calendrier des échéances légales"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__statutory_audit
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__statutory_audit
+msgid "Statutory audit"
+msgstr "Commissariat aux comptes"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_2
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_6
+msgid "Subsequent Events (ISA 560)"
+msgstr "Événements postérieurs (ISA 560)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_6
+msgid "Subsequent Events (ISA 560)"
+msgstr "Événements postérieurs à la clôture (ISA 560)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C2_2
+msgid "Subsequent Events Review (ISA 560)"
+msgstr "Revue des événements postérieurs (ISA 560)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_2
+msgid "Summary Review Memorandum"
+msgstr "Mémorandum récapitulatif"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C1_2
+msgid "Summary Review Memorandum"
+msgstr "Mémorandum récapitulatif de revue"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_1
+msgid "Summary of Audit Differences"
+msgstr "Écarts d'audit"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_C1_1
+msgid "Summary of Audit Differences"
+msgstr "Récapitulatif des écarts d'audit"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_12
+msgid "Suspense & Deferred (P3)"
+msgstr "Comptes d'attente (P3)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_12
+msgid "Suspense & Deferred Income (P3)"
+msgstr "Comptes d'attente et PCA (P3)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P7_1
+msgid "TCWG Planning Report"
+msgstr "Rapport TCWG planification"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_36
+msgid "TFT Tie-out"
+msgstr "Concordance du TFT"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__taken_at
+msgid "Taken At"
+msgstr "Pris le"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__taken_by_id
+msgid "Taken by"
+msgstr "Pris par"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__template_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__template_id
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_15
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_15
+msgid "Tax Payables (O2)"
+msgstr "Dettes fiscales (O2)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_14
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_14
+msgid "Tax Receivables (O1)"
+msgstr "Créances fiscales (O1)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_27
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_27
+msgid "Taxes & Duties (VO)"
+msgstr "Impôts et taxes (VO)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__team_member_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Team"
+msgstr "Équipe"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P2_2
+msgid "Team & Specialised Skills"
+msgstr "Équipe & compétences spécialisées"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__team_role
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__team_role
+msgid "Team Role"
+msgstr "Rôle dans l'équipe"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__telecom
+msgid "Telecoms"
+msgstr "Télécommunications"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_2
+msgid "Test Controls over SCOTs"
+msgstr "Tests des contrôles (SCOT)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E1_2
+msgid "Test Controls over Significant Classes of Transactions"
+msgstr "Tests des contrôles sur les flux significatifs (SCOT)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E3_1
+msgid "Tests of Journal Entries & Mandatory Fraud Procedures (ISA 240)"
+msgstr "Tests des écritures comptables et procédures obligatoires de fraude (ISA 240)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "That person is not a member of this firm."
+msgstr "Cette personne n'est pas membre du cabinet."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "The EQR reviewer must be independent of the engagement team."
+msgstr "Le réviseur qualité (EQR) doit être indépendant de l'équipe de mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "The delegate must be a partner of the firm."
+msgstr "Le délégué doit être un associé du cabinet."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_res_company__ea_allowed_email_domains
+msgid ""
+"The domains an engagement-team invitation may be sent to, one per line. "
+"Empty means no restriction."
+msgstr "Les domaines vers lesquels une invitation à une équipe de mission peut être envoyée, un par ligne. Vide : aucune restriction."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "The engagement is not in the right phase for this action."
+msgstr "La mission n'est pas dans la phase requise pour cette action."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The engagement is still in acceptance: pass the acceptance gates (P1.1 "
+"partner sign-off) before working on later phases."
+msgstr "La mission est encore en acceptation : passez les contrôles d'acceptation (signature de l'associé sur P1.1) avant de travailler sur les phases suivantes."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The engagement partner cannot be removed or re-roled: transfer the role to "
+"another partner first."
+msgstr "L'associé responsable ne peut pas être retiré ni changer de rôle : transférez d'abord le rôle à un autre associé."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The engagement partner signs in their own right: choose another partner as "
+"delegate."
+msgstr "L'associé responsable signe en son nom propre : choisissez un autre associé comme délégué."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The engagement quality reviewer cannot be assigned engagement work (ISQM 2 "
+"¶18-20)."
+msgstr "Le réviseur qualité de la mission (EQR) ne peut pas se voir confier les travaux de la mission (ISQM 2 ¶18-20)."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The engagement quality reviewer must be a partner of the firm or hold the "
+"firm role of EQR reviewer."
+msgstr "Le réviseur qualité de la mission doit être associé du cabinet ou avoir le rôle de réviseur qualité (EQR) au cabinet."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The engagement quality reviewer reviews the team's work and raises notes, "
+"but does not change it. Record the review in C4.2."
+msgstr "Le réviseur qualité (EQR) revoit les travaux de l'équipe et émet des notes, mais ne les modifie pas. Consignez la revue en C4.2."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement.py:0
+msgid ""
+"The engagement was created. Its engagement partner staffs it: you will see "
+"it once you are an accepted member of its team."
+msgstr "La mission a été créée. Son associé responsable compose l'équipe : vous la verrez lorsque vous serez membre de l'équipe et aurez accepté l'invitation."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_signoff_policy_singleton_uniq
+msgid "The firm has one sign-off policy."
+msgstr "Le cabinet a une seule politique de signature."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "The gates of this phase are not all met: %(gates)s."
+msgstr "Les contrôles de cette phase ne sont pas tous satisfaits : %(gates)s."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "The new fiscal year must be after the current one."
+msgstr "Le nouvel exercice doit être postérieur à l'exercice courant."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "The preparer must sign off and hand off before the reviewer can sign."
+msgstr "Le préparateur doit signer et transmettre avant que le réviseur puisse signer."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The same person cannot be both preparer and approver of a task (firm sign-"
+"off policy)."
+msgstr "Une même personne ne peut pas être à la fois préparateur et approbateur d'une tâche (politique de signature du cabinet)."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"The working paper is incomplete — answer every procedure, evaluation and "
+"conclusion (explaining each \"No\") before signing it off."
+msgstr "La feuille de travail est incomplète — répondez à chaque procédure, évaluation et conclusion (en expliquant chaque « Non ») avant de la signer."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_client_partner_uniq
+msgid "This contact already has a client record."
+msgstr "Ce contact a déjà une fiche client."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This email address is not on one of the firm's allowed domains "
+"(%(domains)s). Engagement-team invitations go only to those domains; a firm "
+"administrator can change the list in Settings."
+msgstr "Cette adresse n'appartient à aucun des domaines autorisés du cabinet (%(domains)s). Les invitations aux équipes de mission ne sont envoyées qu'à ces domaines ; un administrateur du cabinet peut modifier la liste dans Paramètres."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_team_member_one_partner_seat
+msgid "This engagement already has its engagement partner."
+msgstr "Cette mission a déjà son associé responsable."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This engagement already has its engagement partner. Use the transfer form to"
+" hand the role over."
+msgstr "Cette mission a déjà son associé responsable. Utilisez le formulaire de transfert pour lui passer le rôle."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This file is archived and immutable."
+msgstr "Ce dossier est archivé et immuable."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_signoff_active_tier_uniq
+msgid "This paper already carries that signature."
+msgstr "Ce papier porte déjà cette signature."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_team_member_engagement_user_uniq
+msgid "This person is already on the engagement team."
+msgstr "Cette personne fait déjà partie de l'équipe de mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This person is already on the engagement team. To change their role, use the"
+" team assignment on the planning page."
+msgstr "Cette personne fait déjà partie de l'équipe de mission. Pour changer son rôle, utilisez l'affectation de l'équipe sur la page de planification."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This person is already the engagement partner."
+msgstr "Cette personne est déjà l'associé responsable de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This person was the engagement partner of the same client within the two "
+"years before this period end: the cooling-off period applies (ISQM 2 ¶20)."
+msgstr "Cette personne a été associé responsable de la mission pour le même client dans les deux ans précédant la clôture de cet exercice : la période de viduité s'applique (ISQM 2 ¶20)."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_signoff_task_rule_template_uniq
+msgid "This task already has a rule."
+msgstr "Cette tâche a déjà une règle."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This task can only be approved by the audit partner."
+msgstr "Cette tâche ne peut être approuvée que par l’associé d’audit."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_task_template_code_uniq
+msgid "This task code already exists."
+msgstr "Ce code de tâche existe déjà."
+
+#. module: ea_audit_core
+#: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_file_item_engagement_template_uniq
+msgid "This task is already on the file."
+msgstr "Cette tâche figure déjà au dossier."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This task requires at least an audit director on the engagement team."
+msgstr "Cette tâche requiert au moins un directeur audit de l'équipe de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This task requires at least an audit manager on the engagement team."
+msgstr "Cette tâche requiert au moins un manager audit de l'équipe de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This task requires at least an audit senior manager on the engagement team."
+msgstr "Cette tâche requiert au moins un senior manager audit de l'équipe de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This task requires at least an audit senior on the engagement team."
+msgstr "Cette tâche requiert au moins un senior audit de l'équipe de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This task requires at least an audit staff member of the engagement team."
+msgstr "Cette tâche requiert au moins un assistant audit de l'équipe de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This task requires the audit partner of the engagement team."
+msgstr "Cette tâche requiert l'associé d'audit de l'équipe de la mission."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This working paper is already fully signed and locked."
+msgstr "Cette feuille de travail est déjà entièrement signée et verrouillée."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"This working paper is checked out for editing. Check it in before signing."
+msgstr "Cette feuille de travail est verrouillée pour édition. Enregistrez-la avant de signer."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"Tick the objectivity declaration to appoint the engagement quality reviewer."
+msgstr "Cochez la déclaration d'objectivité pour désigner le réviseur qualité de la mission."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__tier
+msgid "Tier"
+msgstr "Niveau"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__title
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__title
+msgid "Title"
+msgstr "Titre"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__trade
+msgid "Trade"
+msgstr "Commerce"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_2
+msgid "Trade Payables (N)"
+msgstr "Dettes fournisseurs (N)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_1
+msgid "Trade Receivables (E)"
+msgstr "Créances clients (E)"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_partner_transfer_wizard
+msgid "Transfer"
+msgstr "Transférer"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_partner_transfer_wizard
+msgid "Transfer the engagement partner role"
+msgstr "Transférer le rôle d'associé responsable"
+
+#. module: ea_audit_core
+#: model:ir.actions.act_window,name:ea_audit_core.action_partner_transfer_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Transfer the partner role"
+msgstr "Transférer le rôle d'associé"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_19
+msgid "Translation Diff — Assets (G3)"
+msgstr "Écarts conversion — actif (G3)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_13
+msgid "Translation Diff — Liab. (P4)"
+msgstr "Écarts conversion — passif (P4)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_19
+msgid "Translation Difference — Assets (G3)"
+msgstr "Écarts de conversion — actif (G3)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_13
+msgid "Translation Difference — Liabilities (P4)"
+msgstr "Écarts de conversion — passif (P4)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__transport
+msgid "Transport"
+msgstr "Transport"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Trial balance fully mapped (no unknown accounts)"
+msgstr "Balance générale entièrement rattachée (aucun compte inconnu)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_file_item__conditional
+msgid ""
+"True while the trigger is unanswered: the task is not active on the file."
+msgstr "Vrai tant que le déclencheur est sans réponse : la tâche n'est pas active au dossier."
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S1_2
+msgid "Understand Flows of Transactions, WCGWs and Controls"
+msgstr "Comprendre les flux de transactions, les WCGW et les contrôles"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_3
+msgid "Understand ITGCs"
+msgstr "Comprendre les ITGC"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S2_3
+msgid "Understand ITGCs (IT General Controls)"
+msgstr "Comprendre les contrôles généraux informatiques (ITGC)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_S1_4
+msgid "Understand and Evaluate the FSCP"
+msgstr "Comprendre et évaluer le processus d'arrêté des comptes (FSCP)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_P3_1
+msgid "Understand the Business (ISA 315)"
+msgstr "Comprendre l'activité (ISA 315)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P3_1
+msgid ""
+"Understand the Business — the Entity, its Environment and the Applicable "
+"Framework (ISA 315)"
+msgstr "Connaissance de l'entité, de son environnement et du référentiel comptable applicable (ISA 315)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_P4_3
+msgid "Understand the IT Environment and Determine IT Involvement"
+msgstr "Comprendre l'environnement informatique et déterminer l'implication IT"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E2_1
+msgid "Update Tests of Controls and ITGCs (post-interim)"
+msgstr "Mettre à jour les tests de contrôles et des ITGC (post-intérim)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E2_1
+msgid "Update ToC & ITGCs (post-interim)"
+msgstr "MAJ tests de contrôles & ITGC"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_team_member__email
+msgid "Used to log into the system"
+msgstr "Utilisé pour se connecter au système"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_res_users
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__version_no
+msgid "Version"
+msgstr "Version"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__complexity__very_simple
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__complexity__very_simple
+msgid "Very simple"
+msgstr "Très simple"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__void_reason
+msgid "Void Reason"
+msgstr "Motif d'annulation"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__voided_at
+msgid "Voided At"
+msgstr "Annulée le"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__voided_by_id
+msgid "Voided by"
+msgstr "Annulée par"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_3
+msgid "Walkthroughs"
+msgstr "Tests de cheminement"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__kind__workpaper
+msgid "Working paper"
+msgstr "Feuille de travail"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__partner_required__yes
+msgid "Yes"
+msgstr "Oui"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "You do not have permission to sign off in that role."
+msgstr "Vous n'avez pas les droits pour signer dans ce rôle."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "You have already signed this working paper in that role."
+msgstr "Vous avez déjà signé cette feuille de travail dans ce rôle."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid ""
+"You signed this paper as preparer: another member of the team must review "
+"it."
+msgstr "Vous avez signé ce papier comme préparateur : un autre membre de l'équipe doit le réviser."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Your role can view this file but not change it."
+msgstr "Votre rôle permet de consulter ce dossier mais pas de le modifier."

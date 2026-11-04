@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_root" name="AuditISA" sequence="10" groups="ea_audit_core.group_member"/>
+    <menuitem id="menu_engagements" name="Engagements" parent="menu_root" action="action_engagement" sequence="10"/>
+    <menuitem id="menu_new_engagement" name="New engagement" parent="menu_root" action="action_engagement_create_wizard"
+              sequence="15" groups="ea_audit_core.group_writer"/>
+    <menuitem id="menu_invitations" name="My invitations" parent="menu_root" action="action_my_invitations" sequence="20"/>
+    <menuitem id="menu_clients" name="Clients" parent="menu_root" action="action_client" sequence="30"/>
+    <menuitem id="menu_settings" name="Firm settings" parent="menu_root" sequence="90" groups="ea_audit_core.group_partner"/>
+    <menuitem id="menu_signoff_policy" name="Sign-off policy" parent="menu_settings" action="action_signoff_policy_open" sequence="10"/>
+    <menuitem id="menu_signoff_rules" name="Sign-off rules per task" parent="menu_settings" action="action_signoff_task_rule" sequence="20"/>
+    <menuitem id="menu_task_templates" name="Audit file index" parent="menu_settings" action="action_task_template" sequence="30"/>
+</odoo>
