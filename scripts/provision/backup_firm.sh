@@ -83,7 +83,7 @@ log "dumping $DB"
 runuser -u postgres -- pg_dump --format=custom "$DB" > "$PART/db.dump"
 toc=$(pg_restore --list "$PART/db.dump") || die "the dump is not readable; $PART is left for inspection"
 for table in res_users res_company ir_attachment ir_module_module; do
-  printf '%s\n' "$toc" | grep -q "TABLE DATA public $table " \
+  grep -q "TABLE DATA public $table " <<<"$toc" \
     || die "the dump has no data for '$table'; $PART is left for inspection"
 done
 

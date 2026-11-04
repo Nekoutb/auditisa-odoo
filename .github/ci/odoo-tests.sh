@@ -36,4 +36,12 @@ if [ "$rc" != 0 ] || grep -qE ' (ERROR|CRITICAL) ' "$LOG"; then
   grep -E -A25 ' (ERROR|CRITICAL) ' "$LOG" | tail -n 150 || tail -n 50 "$LOG"
   exit 1
 fi
+# A clean log alone is not enough: the registry must have loaded.
+loaded=$(grep -E 'Registry loaded|Modules loaded' "$LOG" | tail -n 2 | cut -c1-160) || true
+if [ -z "$loaded" ]; then
+  echo "Odoo never loaded a registry"
+  tail -n 50 "$LOG"
+  exit 1
+fi
+echo "$loaded"
 echo "Odoo finished without errors."
