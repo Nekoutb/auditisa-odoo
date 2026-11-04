@@ -224,14 +224,14 @@ paragraph number is "to verify". Proposal: keep `definition_hash` on each signat
 retired rows in `ea.audit.paper.def`, so a signed paper can show the text it was signed
 on; do not void on a definition change. Needs a firm ruling, as it is new behaviour.
 
-**Q2. Platform defect: SA-only answers do not save.** `savePaper` and `filterPaperWrite`
-take their allow-list from `paperFor(code)` with no form, which reads as OTHER, and the
-`forms` filter then drops anything not naming OTHER. Affected: C5.3 (20 keys, SA, SA_AG,
+**Q2. Platform defect: SA-only answers do not save.** `savePaper` takes its allow-list from
+`paperFor(code)` with no form, which reads as OTHER, and the `forms` filter then drops
+anything not naming OTHER. Affected: C5.3 (20 keys, SA, SA_AG,
 SARL, SAS items) and C5.5 (3 keys, SA and SA_AG). Reading the code, on an SA file the answers
 are skipped silently, `paperMissing` then demands them, and the paper cannot be signed. This
 contradicts the comment on `paperFor`, and `resolveLegalFormPaper`'s comment "nothing
 removed" also does not match the code. Found by reading and by computing the keys, not by
-running a save. Odoo uses the engagement's form (section 2); the platform needs a decision.
+running a save; no platform test covers these keys. Odoo uses the engagement's form (section 2); the platform needs a decision.
 `index.json` lists the keys under `keys_refused_by_save_allow_list`.
 
 **Q3. Migrated signatures.** Spec F rule 6 loads sign-offs as-is, but the legacy hash cannot
