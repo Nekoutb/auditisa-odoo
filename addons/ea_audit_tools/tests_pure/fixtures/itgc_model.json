@@ -1,0 +1,12 @@
+{"module":"itgc_model","baseline":"bd3af7e","node":"v24.15.0","cases":[
+{"fn":"IT_STRATEGIES","args":[],"out":["rely_itgc","test_direct","substantive_only"]},
+{"fn":"newAppKey","args":["SAP ERP"],"out":"sap-erp"},
+{"fn":"newAppKey","args":["  Sage 100 "],"out":"sage-100"},
+{"fn":"newAppKey","args":[""],"out":"app"},
+{"fn":"newAppKey","args":["---"],"out":"app"},
+{"fn":"newAppKey","args":["é"],"out":"app"},
+{"fn":"newAppKey","args":["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],"out":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+{"fn":"newAppKey","args":["a b c"],"out":"a-b-c"},
+{"fn":"newAppKey","args":["Élan vital"],"out":"lan-vital"},
+{"fn":"newAppKey","args":["xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-y"],"out":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-"}
+]}

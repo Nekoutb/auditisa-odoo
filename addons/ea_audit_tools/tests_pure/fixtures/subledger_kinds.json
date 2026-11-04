@@ -1,0 +1,8 @@
+{"module":"subledger_kinds","baseline":"bd3af7e","node":"v24.15.0","cases":[
+{"fn":"SUB_LEDGER_KINDS","args":[],"out":["ar_open_items","ap_open_items","fixed_asset_register","inventory_listing","payroll_register","bank_statement","journal_entries","supplier_statements"]},
+{"fn":"isSubLedgerKind","args":["ar_open_items"],"out":true},
+{"fn":"isSubLedgerKind","args":["journal_entries"],"out":true},
+{"fn":"isSubLedgerKind","args":["nope"],"out":false},
+{"fn":"isSubLedgerKind","args":[null],"out":false},
+{"fn":"isSubLedgerKind","args":[1],"out":false}
+]}
