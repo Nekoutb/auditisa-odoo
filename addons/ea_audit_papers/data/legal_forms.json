@@ -15,7 +15,8 @@
   "executive",
   "meeting",
   "members",
-  "officers"
+  "officers",
+  "holders"
  ],
  "vocabulary": {
   "SA": {
@@ -50,6 +51,10 @@
    "officers": [
     "directors, the managing director and the deputy managing directors",
     "administrateurs, directeur général et directeurs généraux adjoints"
+   ],
+   "holders": [
+    "shareholders holding ten per cent or more directly or indirectly",
+    "actionnaires détenant directement ou indirectement au moins dix pour cent"
    ]
   },
   "SA_AG": {
@@ -83,7 +88,11 @@
    ],
    "officers": [
     "administrateur général and the administrateur général adjoint",
-    "administrateur général et administrateur général adjoint"
+    "administrateur général et l'administrateur général adjoint"
+   ],
+   "holders": [
+    "shareholders holding ten per cent or more directly or indirectly",
+    "actionnaires détenant directement ou indirectement au moins dix pour cent"
    ]
   },
   "SARL": {
@@ -117,7 +126,11 @@
    ],
    "officers": [
     "gérant(s)",
-    "gérant(s)"
+    "gérants"
+   ],
+   "holders": [
+    "members",
+    "associés"
    ]
   },
   "SAS": {
@@ -127,7 +140,7 @@
    ],
    "board": [
     "président and the organs the statutes create",
-    "président et organes statutaires"
+    "président et les organes statutaires"
    ],
    "chair": [
     "président",
@@ -151,7 +164,11 @@
    ],
    "officers": [
     "président and the other dirigeants the statutes name",
-    "président et autres dirigeants désignés par les statuts"
+    "président et les autres dirigeants désignés par les statuts"
+   ],
+   "holders": [
+    "members holding more than ten per cent of the voting rights",
+    "associés disposant de plus de dix pour cent des droits de vote"
    ]
   },
   "GIE": {
@@ -161,7 +178,7 @@
    ],
    "board": [
     "administrator(s) of the GIE",
-    "administrateur(s) du GIE"
+    "administrateurs du GIE"
    ],
    "chair": [
     "administrator",
@@ -185,7 +202,11 @@
    ],
    "officers": [
     "administrator(s)",
-    "administrateur(s)"
+    "administrateurs"
+   ],
+   "holders": [
+    "members",
+    "membres"
    ]
   },
   "OTHER": {
@@ -220,6 +241,10 @@
    "officers": [
     "officers",
     "dirigeants"
+   ],
+   "holders": [
+    "members or shareholders",
+    "associés ou actionnaires"
    ]
   }
  },
