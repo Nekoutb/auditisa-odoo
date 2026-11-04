@@ -1,0 +1,80 @@
+import { Component, onWillStart, useState } from "@odoo/owl";
+import { registry } from "@web/core/registry";
+import { useService } from "@web/core/utils/hooks";
+import { standardActionServiceProps } from "@web/webclient/actions/action_service";
+
+export class EaDashboard extends Component {
+    static template = "ea_audit_ui.Dashboard";
+    static props = { ...standardActionServiceProps };
+    static path = "ea-mission";
+    static displayName = "Tableau de bord de la mission";
+
+    setup() {
+        this.ctx = useService("ea_audit_context");
+        this.notification = useService("notification");
+        this.ctxState = useState(this.ctx.state);
+        this.state = useState({ data: null });
+        const params = this.props.action.params || {};
+        this.engagementId = Number(params.resId);
+        onWillStart(async () => {
+            const data = await this.ctx.call("ea_ui_dashboard", this.engagementId);
+            if (data.denied) {
+                this.notification.add("Vous n'êtes pas membre de l'équipe de cette mission.", { type: "warning" });
+                this.ctx.openHome();
+                return;
+            }
+            this.ctx.enterMission(data.mission);
+            if (params.section) {
+                this.ctxState.openSection = params.section;
+            }
+            this.state.data = data;
+        });
+        this.props.updateActionState({ resId: this.engagementId });
+    }
+
+    get openSection() {
+        return this.ctxState.openSection;
+    }
+
+    /** Beside an open ring its panel takes its own column: nothing clips or overlaps. */
+    get gridStyle() {
+        const rings = this.state.data.rings;
+        if (!this.openSection) {
+            return `grid-template-columns: repeat(${rings.length}, minmax(0, 1fr));`;
+        }
+        const columns = rings.flatMap((ring) =>
+            ring.key === this.openSection ? ["1.05fr", "1.45fr"] : ["1fr"]
+        );
+        return `grid-template-columns: ${columns.map((c) => `minmax(0, ${c})`).join(" ")};`;
+    }
+
+    ringStyle(ring) {
+        return `background: conic-gradient(var(--ea-green2) ${ring.pct * 3.6}deg, var(--ea-line) 0);`;
+    }
+
+    toggleRing(ring) {
+        this.ctxState.openSection = this.openSection === ring.key ? null : ring.key;
+    }
+
+    openGroup(group) {
+        return this.ctx.openTasks(this.engagementId, group.id);
+    }
+
+    openItem(id) {
+        return this.ctx.openItem(id);
+    }
+
+    openUnassigned() {
+        return this.ctx.openItems(this.state.data.unassigned_ids, "Tâches sans préparateur");
+    }
+
+    openClient() {
+        return this.ctx.openForm("ea.audit.client", this.state.data.mission.client_id);
+    }
+
+    dash(value) {
+        return value === null || value === undefined ? "—" : value;
+    }
+}
+
+registry.category("actions").add("ea_audit_ui.dashboard", EaDashboard);

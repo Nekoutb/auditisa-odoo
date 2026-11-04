@@ -492,6 +492,7 @@ class AuditUi(models.AbstractModel):
                 "id": group["id"],
                 "code": group["code"],
                 "title": group["title"],
+                "section": group["section"],
                 "section_label": SECTION_LABELS[group["section"]],
             },
             "done": len(done_ids & set(items.ids)),
