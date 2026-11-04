@@ -1,0 +1,3 @@
+# Python packages the addons need beyond Odoo's own requirements.txt, pinned.
+# deploy-staging.sh installs them on the server; CI makes them available to the pure tests.
+# None yet: openpyxl, which the spec uses for Excel, already comes with Odoo 19 (3.1.2 on Python 3.12).

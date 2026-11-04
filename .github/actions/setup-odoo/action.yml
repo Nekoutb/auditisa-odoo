@@ -1,0 +1,53 @@
+name: Set up Odoo 19 from source
+description: >
+  Installs a pinned Odoo 19 Community commit under /opt/odoo19, the same layout as the
+  staging server, and caches it. Bump odoo-sha deliberately, not automatically.
+inputs:
+  odoo-sha:
+    description: Commit of odoo/odoo on branch 19.0
+    default: 3cc89565f528accff539a295989891ffba6144fe
+  python-version:
+    description: Same Python as the staging server
+    default: 3.12.16
+runs:
+  using: composite
+  steps:
+    - name: Prepare /opt/odoo19
+      shell: bash
+      run: |
+        sudo install -d -m 755 -o "$USER" /opt/odoo19
+        echo "UV_PYTHON_INSTALL_DIR=/opt/odoo19/python" >> "$GITHUB_ENV"
+        echo "CI_PYTHON=${{ inputs.python-version }}" >> "$GITHUB_ENV"
+
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      with:
+        version: 0.13.7
+        enable-cache: false
+
+    - name: Restore Odoo from the cache
+      id: odoo-cache
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: /opt/odoo19
+        key: odoo19-${{ inputs.odoo-sha }}-py${{ inputs.python-version }}-${{ runner.os }}-v1
+
+    - name: Install Odoo
+      if: steps.odoo-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq --no-install-recommends libldap2-dev libsasl2-dev
+        mkdir -p /opt/odoo19/src
+        cd /opt/odoo19/src
+        git init -q
+        git fetch -q --depth 1 https://github.com/odoo/odoo "${{ inputs.odoo-sha }}"
+        git checkout -q FETCH_HEAD
+        rm -rf .git
+        # Localisations and Odoo's own test addons are never installed here: keeps the cache small.
+        rm -rf addons/l10n_* addons/test_* odoo/addons/test_*
+        uv venv -q --python "${{ inputs.python-version }}" /opt/odoo19/venv
+        # Same swap as the server: no compile of psycopg2.
+        sed -E 's/^psycopg2\b/psycopg2-binary/' requirements.txt > /tmp/odoo-requirements.txt
+        uv pip install -q --python /opt/odoo19/venv/bin/python -r /tmp/odoo-requirements.txt
+        /opt/odoo19/venv/bin/python odoo-bin --version

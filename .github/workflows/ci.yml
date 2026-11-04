@@ -1,0 +1,55 @@
+name: CI
+
+# Documentation-only pushes do not run: private repositories have limited minutes.
+# If this check is ever made required on a branch, drop paths-ignore, or such a PR waits forever.
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+
+# A push to a branch with an open PR starts two runs; only the last one is kept.
+concurrency:
+  group: ci-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:18.6-bookworm # Ubuntu 26.04, the staging server, ships PostgreSQL 18
+        env:
+          POSTGRES_USER: odoo # Odoo refuses to run as "postgres"
+          POSTGRES_PASSWORD: ci-only
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U odoo"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/actions/setup-odoo
+
+      - name: Shell scripts
+        run: bash .github/ci/lint-scripts.sh
+
+      - name: Pure tests (addons/*/services, no Odoo)
+        run: bash .github/ci/pure-tests.sh
+
+      - name: Odoo tests
+        env:
+          ODOO_DB_PASSWORD: ci-only
+        run: bash .github/ci/odoo-tests.sh
