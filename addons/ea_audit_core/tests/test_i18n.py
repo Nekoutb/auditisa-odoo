@@ -33,6 +33,11 @@ class TestFrench(EaAuditCase):
         self.assertEqual(template.with_env(self.fr).title, "Revue finale globale des états financiers (ISA 520)")
         self.assertEqual(template.title, "Final Overall Financial Statement Review (ISA 520)")
 
+    def test_a_short_title_and_a_title_with_one_english_text_keep_their_french(self):
+        template = self.env.ref("ea_audit_core.task_C1_1").with_env(self.fr)
+        self.assertEqual(template.title, "Récapitulatif des écarts d'audit")
+        self.assertEqual(template.short_title, "Écarts d'audit")
+
     def test_labels_and_selections(self):
         engagement = self.fr["ea.audit.engagement"]
         self.assertEqual(engagement.fields_get(["fiscal_year"])["fiscal_year"]["string"], "Exercice")

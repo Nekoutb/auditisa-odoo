@@ -4,6 +4,7 @@
     "version": "19.0.1.0.0",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
+    "author": "AuditISA",
     "depends": ["base", "mail"],
     "data": [
         "security/ea_audit_security.xml",

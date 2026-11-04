@@ -1,7 +1,7 @@
 """Port of tests/lib/f070-email-domains.test.ts."""
-from unittest import TestCase
 
-from odoo.tests import tagged
+
+from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.ea_audit_core.services.email_domains import (
     InvalidDomainError,
@@ -14,7 +14,7 @@ from .common import EaAuditCase
 
 
 @tagged("post_install", "-at_install")
-class TestDomainRule(TestCase):
+class TestDomainRule(TransactionCase):
     def test_parses_lower_cased_and_de_duplicated(self):
         self.assertEqual(parse_domain_list("ECA.com\n@eca-cm.com, eca.com"), ["eca-cm.com", "eca.com"])
         self.assertEqual(parse_domain_list("  "), [])

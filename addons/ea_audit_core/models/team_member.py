@@ -89,8 +89,8 @@ class TeamMember(models.Model):
             return super().write(vals)
         if set(vals) - {"team_role", "eqr_declaration"}:
             raise rule_error(self.env, "forbidden")
-        for member in self:
-            engagement = member.engagement_id
+        for member in self.sudo():
+            engagement = member.engagement_id.with_env(self.env)
             engagement.assign_team_member(
                 member.user_id.id,
                 vals.get("team_role", member.team_role),
@@ -101,8 +101,8 @@ class TeamMember(models.Model):
     def unlink(self):
         if self.env.su:
             return super().unlink()
-        for member in self:
-            member.engagement_id.remove_team_member(member.user_id.id)
+        for member in self.sudo():
+            member.engagement_id.with_env(self.env).remove_team_member(member.user_id.id)
         return True
 
     def _ea_own_open_invitation(self):

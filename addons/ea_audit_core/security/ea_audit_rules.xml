@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
     <!-- F008: only an ACCEPTED member of the team reads or writes an engagement
          and its children. These rules are global (no groups), so they bind every
          firm role, the firm administrator and the partner included: only the

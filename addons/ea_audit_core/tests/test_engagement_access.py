@@ -119,6 +119,12 @@ class TestNothingBypassesTheEngine(EaAuditCase):
     def test_the_phase_is_not_written_directly(self):
         self.assertCode("forbidden", self.as_partner.write, {"phase": "planning"})
 
+    def test_set_at_creation_fields_are_not_written_directly(self):
+        other = self.env["ea.audit.client"].create({"name": "Other SA"})
+        self.assertCode("forbidden", self.as_partner.write, {"client_id": other.id})
+        self.assertCode("forbidden", self.as_partner.write, {"complexity": "very_simple"})
+        self.assertCode("forbidden", self.as_partner.write, {"period_end": "2030-12-31"})
+
     def test_the_task_state_is_not_written_directly(self):
         item = self.item(self.engagement, "P1.1").with_user(self.partner)
         self.assertCode("forbidden", item.write, {"state": "signed"})
@@ -162,8 +168,7 @@ class TestInvitation(EaAuditCase):
         self.assertEqual(self.member.state, "invited")
 
     def test_an_invited_member_cannot_change_their_own_role(self):
-        with self.assertRaises(AccessError):
-            self.own.write({"team_role": "partner"})
+        self.assertCode("team-manager-only", self.own.write, {"team_role": "partner"})
         self.assertEqual(self.member.team_role, "senior")
 
     def test_only_the_invitee_answers(self):
@@ -177,6 +182,13 @@ class TestInvitation(EaAuditCase):
         self.assertEqual(self.member.decline_reason, "conflict of interest")
         self.assertIn("conflict of interest", "".join(self.engagement.sudo().message_ids.mapped("body")))
         self.assertFalse(self.env["ea.audit.team.member"].with_user(self.outsider).search([("id", "=", self.member.id)]))
+
+    def test_the_decline_wizard_works_for_someone_who_cannot_read_the_file(self):
+        wizard = self.env["ea.audit.team.decline.wizard"].with_user(self.outsider).create({
+            "member_id": self.member.id, "reason": "conflict",
+        })
+        wizard.action_decline()
+        self.assertEqual(self.member.state, "declined")
 
     def test_someone_who_declined_may_be_invited_again(self):
         self.own.action_decline("too busy")

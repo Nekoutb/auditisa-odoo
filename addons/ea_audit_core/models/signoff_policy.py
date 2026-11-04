@@ -77,6 +77,7 @@ class SignoffPolicy(models.Model):
                 raise rule_error(self.env, "invalid-email-domain") from None
             if wanted != sorted(company._ea_allowed_domains()):
                 company.ea_set_allowed_domains(policy.allowed_email_domains or "")
+        self.invalidate_recordset(["allowed_email_domains"])
 
     @api.model_create_multi
     def create(self, vals_list):

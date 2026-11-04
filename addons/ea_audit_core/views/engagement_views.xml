@@ -37,14 +37,14 @@
                         <group>
                             <field name="name"/>
                             <field name="client_id" readonly="1"/>
-                            <field name="fiscal_year"/>
-                            <field name="period_end"/>
-                            <field name="duration_months"/>
+                            <field name="fiscal_year" readonly="1"/>
+                            <field name="period_end" readonly="1"/>
+                            <field name="duration_months" readonly="1"/>
                         </group>
                         <group>
-                            <field name="nature"/>
-                            <field name="complexity"/>
-                            <field name="framework"/>
+                            <field name="nature" readonly="1"/>
+                            <field name="complexity" readonly="1"/>
+                            <field name="framework" readonly="1"/>
                             <field name="standards_edition" readonly="1"/>
                             <field name="engagement_partner_id" readonly="1"/>
                             <field name="partner_delegate_id"/>

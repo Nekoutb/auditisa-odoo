@@ -116,7 +116,9 @@ def rule_error(env, code, **params):
     source = MESSAGES.get(code.split(":", 1)[0])
     if source is None:
         return AuditRuleError(code, code)
-    text = env._(source, **params) if params else env._(source)
+    text = env._(source)
+    if params:
+        text = text % params
     return AuditRuleError(code, "%s [%s]" % (text, code))
 
 

@@ -14,7 +14,6 @@ from ..services.signoff_rules import (
     team_rank,
 )
 from ..services.tool_fed import tool_output_missing_code, tool_outputs_for
-from .task_template import SECTION_SELECTION
 
 # file_item column -> who the task's preparer rules apply to
 _ASSIGNMENT_FIELD = {"preparer": "preparer_id", "approver": "approver_id", "assignee": "assignee_id"}
@@ -32,7 +31,7 @@ class FileItem(models.Model):
 
     template_id = fields.Many2one("ea.audit.task.template", string="Task", required=True, index=True, ondelete="restrict")
     code = fields.Char(related="template_id.code", store=True, index=True)
-    section = fields.Selection(SECTION_SELECTION, related="template_id.section", store=True)
+    section = fields.Selection(related="template_id.section", store=True)
     title = fields.Char(related="template_id.title")
     short_title = fields.Char(related="template_id.short_title")
     task_phase = fields.Selection(related="template_id.phase")
@@ -118,8 +117,8 @@ class FileItem(models.Model):
                 self.assign_tasks(vals.pop(field), role)
         if vals:
             self.env["ea.audit.engagement"]._ea_require_write()
-            for item in self:
-                engagement = item.engagement_id
+            for item in self.sudo():
+                engagement = item.engagement_id.with_env(self.env)
                 engagement._ea_require_access()
                 engagement._ea_assert_mutable()
                 # the quality reviewer writes on C4.2 only (assertNotEqrWriteOnItem)
@@ -132,6 +131,8 @@ class FileItem(models.Model):
         unassigns. Returns how many tasks were repointed."""
         if not self:
             return 0
+        if role not in _ASSIGNMENT_FIELD:
+            raise rule_error(self.env, "forbidden")
         Engagement = self.env["ea.audit.engagement"]
         Engagement._ea_require_write()
         items = self.sudo()

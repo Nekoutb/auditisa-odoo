@@ -200,7 +200,7 @@ class TestEqrEligibility(EaAuditCase):
 
     def test_an_invited_partner_on_the_prior_file_does_not_count(self):
         prior = self.env["ea.audit.team.member"].sudo().search([("user_id", "=", self.partner2.id)])
-        prior.write({"state": "declined"})
+        prior.write({"state": "invited"})
         self.assertEqual(self.appoint(self.partner2, True), "ok")
 
     def test_needs_the_declaration_then_records_who_and_when(self):

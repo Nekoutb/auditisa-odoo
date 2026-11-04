@@ -33,7 +33,11 @@ COMPLEXITY_SELECTION = [("complex", "Complex"), ("non_complex", "Non-complex"), 
 EDITION_SELECTION = [("current", "ISA in force"), ("revised_2026", "ISA revised (periods from 15 December 2026)")]
 
 # Written only by the methods that carry their rule.
-_ENGINE_FIELDS = {"phase", "standards_edition", "edition_reason", "archived_at"}
+_ENGINE_FIELDS = {
+    "phase", "standards_edition", "edition_reason", "archived_at", "complexity",
+    # set at creation; the period and set-up screen (F073) brings their own rules
+    "client_id", "fiscal_year", "period_end", "duration_months", "nature", "framework", "first_year",
+}
 _CREATOR_SEAT = {"manager": "manager", "senior": "senior", "staff": "staff"}
 
 
