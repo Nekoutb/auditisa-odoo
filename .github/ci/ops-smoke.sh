@@ -109,7 +109,7 @@ assert_eq "backup folder mode" "$(stat -c '%a %U' "$B")" "700 root"
 (cd "$B" && sha256sum -c --quiet SHA256SUMS) || fail "checksums"
 [ -s "$B/filestore.tar.gz" ] || fail "no filestore archive"
 runuser -u postgres -- createdb -O odoo -E UTF8 -T template0 --lc-collate=C --lc-ctype=C.UTF-8 firm_restored
-runuser -u postgres -- pg_restore --no-owner --role=odoo -d firm_restored "$B/db.dump"
+runuser -u postgres -- pg_restore --no-owner --role=odoo -d firm_restored < "$B/db.dump"
 assert_eq "restored firm" "$(q firm_restored "SELECT name FROM res_company WHERE id = 1")" "Cabinet d'Essai Douala"
 if bash "$BACKUP" --db no_such_db 2>/dev/null; then fail "backup of a missing database succeeded"; fi
 

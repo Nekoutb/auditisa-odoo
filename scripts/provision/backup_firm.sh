@@ -15,7 +15,7 @@
 #
 # Restore into a new database <new>:
 #   sudo -u postgres createdb -O odoo -E UTF8 -T template0 --lc-collate=C --lc-ctype=C.UTF-8 <new>
-#   sudo -u postgres pg_restore --no-owner --role=odoo -d <new> db.dump
+#   sudo -u postgres pg_restore --no-owner --role=odoo -d <new> < db.dump
 #   mkdir -p <data_dir>/filestore
 #   tar -xzf filestore.tar.gz -C <data_dir>/filestore && mv <data_dir>/filestore/<db> <data_dir>/filestore/<new>
 #   chown -R odoo:odoo <data_dir>/filestore/<new>
