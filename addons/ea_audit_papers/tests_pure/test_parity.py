@@ -26,7 +26,7 @@ from services import (
 from services import tokens
 from services.completeness import proc_key
 
-FIXTURES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fixtures", "parity")
+FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures", "parity")
 
 
 def _fixture(name):

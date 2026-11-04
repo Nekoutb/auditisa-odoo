@@ -26,7 +26,7 @@ class TestFrench(PaperCase):
         self.assertEqual(untranslated, [])
 
     def test_paper_incomplete_names_the_part_in_french(self):
-        item = self.item(self.engagement, "P3.1").with_user(self.staff).with_context(lang="fr_FR")
+        item = self.item(self.engagement, "P3.1").with_user(self.senior).with_context(lang="fr_FR")
         message = None
         try:
             item.action_sign("preparer")

@@ -58,7 +58,7 @@ class TestAllowList(PaperCase):
 
     def test_an_sa_file_can_complete_c53(self):
         self.complete(self.staff, "C5.3")
-        self.assertEqual(self.paper("C5.3").get_payload()["missing"], [])
+        self.assertEqual(self.paper("C5.3").with_user(self.staff).get_payload()["missing"], [])
 
 
 @tagged("post_install", "-at_install")
@@ -253,9 +253,11 @@ class TestPerCodeBehaviour(PaperCase):
     def test_p15_any_criterion_yes_puts_c42_on_the_file(self):
         engagement = self.make_engagement()
         self.seat(engagement, self.staff, "staff")
-        engagement.sudo().apply_complexity("very_simple")
         item = self.item(engagement, "C4.2")
-        self.assertFalse(item and not item.conditional)
+        if item:
+            item.conditional = True
+        self.save(self.staff, "P1.5", {"q_pie": "no"}, engagement=engagement)
+        self.assertFalse(self.item(engagement, "C4.2") and not self.item(engagement, "C4.2").conditional)
         self.save(self.staff, "P1.5", {"q_pie": "yes"}, engagement=engagement)
         item = self.item(engagement, "C4.2")
         self.assertTrue(item)

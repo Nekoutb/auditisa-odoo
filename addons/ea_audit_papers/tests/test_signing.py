@@ -10,11 +10,11 @@ from .common import PaperCase
 class TestPaperIncomplete(PaperCase):
     def test_refuses_to_sign_an_unanswered_paper_naming_the_part(self):
         # documents.test paper-incomplete
-        self.assertCode("paper-incomplete", self.sign, self.staff, self.engagement, "P3.1", "preparer")
+        self.assertCode("paper-incomplete", self.sign, self.senior, self.engagement, "P3.1", "preparer")
         first = required_keys(paper_for("P3.1"))[0]
-        self.save(self.staff, "P3.1", {first: "Done."})
+        self.save(self.senior, "P3.1", {first: "Done."})
         with self.assertRaises(AuditRuleError) as caught:
-            self.sign(self.staff, self.engagement, "P3.1", "preparer")
+            self.sign(self.senior, self.engagement, "P3.1", "preparer")
         self.assertEqual(caught.exception.code, "paper-incomplete")
         message = caught.exception.args[0]
         self.assertIn("Part B", message)
@@ -24,12 +24,12 @@ class TestPaperIncomplete(PaperCase):
     def test_a_no_or_an_na_nobody_explained_stops_the_signature(self):
         answers = self.full_answers("P3.1")
         factor = next(k for k in answers if k.startswith("q_"))
-        self.save(self.staff, "P3.1", {**answers, factor: "no"})
-        self.assertCode("paper-incomplete", self.sign, self.staff, self.engagement, "P3.1", "preparer")
-        self.save(self.staff, "P3.1", {factor: "na"})
-        self.assertCode("paper-incomplete", self.sign, self.staff, self.engagement, "P3.1", "preparer")
-        self.save(self.staff, "P3.1", {"%s_x" % factor: "No such transactions."})
-        self.assertEqual(self.sign(self.staff, self.engagement, "P3.1", "preparer"), "preparer")
+        self.save(self.senior, "P3.1", {**answers, factor: "no"})
+        self.assertCode("paper-incomplete", self.sign, self.senior, self.engagement, "P3.1", "preparer")
+        self.save(self.senior, "P3.1", {factor: "na"})
+        self.assertCode("paper-incomplete", self.sign, self.senior, self.engagement, "P3.1", "preparer")
+        self.save(self.senior, "P3.1", {"%s_x" % factor: "No such transactions."})
+        self.assertEqual(self.sign(self.senior, self.engagement, "P3.1", "preparer"), "preparer")
 
     def test_exempt_papers_sign_without_the_questionnaire(self):
         self.outputs_exist()
@@ -37,9 +37,9 @@ class TestPaperIncomplete(PaperCase):
 
     def test_papers_with_a_board_refuse_until_the_tools_addon_reads_it(self):
         for code, refusal in (("S1.2", "wcgw-missing"), ("S1.3", "walkthrough-incomplete")):
-            self.assertCode(refusal, self.sign, self.staff, self.engagement, code, "preparer")
+            self.assertCode(refusal, self.sign, self.senior, self.engagement, code, "preparer")
         self.patch(type(self.env["ea.audit.file.item"]), "_ea_tool_gap", lambda _self: None)
-        self.assertEqual(self.sign(self.staff, self.engagement, "S1.2", "preparer"), "preparer")
+        self.assertEqual(self.sign(self.senior, self.engagement, "S1.2", "preparer"), "preparer")
 
 
 @tagged("post_install", "-at_install")
@@ -84,7 +84,7 @@ class TestVoiding(PaperCase):
         self.assertIn("contenu de la feuille modifié", voided[0].void_reason)
         self.assertEqual(voided[0].invalidated_reason, voided[0].void_reason)
         # the row stays: history is never rewritten, and it can be signed again
-        self.assertEqual(self.sign(self.staff, self.engagement, "P3.1", "preparer"), "preparer")
+        self.assertEqual(self.sign(self.senior, self.engagement, "P3.1", "preparer"), "preparer")
 
     def test_the_trail_and_the_signers_are_told(self):
         self.signed_paper()
@@ -93,7 +93,7 @@ class TestVoiding(PaperCase):
         new = [b for b in self.engagement.sudo().message_ids.mapped("body") if b not in before]
         self.assertTrue(any("signoff_invalidated" in b for b in new))
         activities = self.paper("P3.1").activity_ids
-        self.assertEqual(activities.user_id, self.senior)  # the staff member made the change
+        self.assertEqual(activities.user_id, self.senior | self.manager)  # staff made the change
 
     def test_a_save_that_changes_nothing_voids_nothing(self):
         self.signed_paper()
@@ -149,21 +149,24 @@ class TestChips(PaperCase):
         return {chip["role"]: chip for chip in payload["signing"]["chips"]}
 
     def test_grey_with_the_reason_and_nothing_is_written(self):
-        chips = self.chips(self.staff)
+        chips = self.chips(self.senior)
         self.assertEqual(chips["preparer"]["code"], "paper-incomplete")
         self.assertIn("Part A", chips["preparer"]["reason"])
         self.assertFalse(chips["preparer"]["reason"].endswith("]"))
-        self.assertEqual(chips["reviewer"]["code"], "requires-senior")
+        self.assertEqual(chips["reviewer"]["code"], "preparer-first")
+        below = self.chips(self.staff)
+        self.assertEqual(below["preparer"]["code"], "role-below-task-minimum-senior")
+        self.assertEqual(below["reviewer"]["code"], "requires-senior")
         self.assertFalse(self.paper("P3.1").signoff_ids)
 
     def test_follows_the_chain_through_a_sign_off(self):
-        self.complete(self.staff, "P3.1")
-        self.assertEqual(self.chips(self.staff)["preparer"]["state"], "open")
+        self.complete(self.senior, "P3.1")
+        self.assertEqual(self.chips(self.senior)["preparer"]["state"], "open")
         self.assertFalse(self.paper("P3.1").signoff_ids)
-        self.sign(self.staff, self.engagement, "P3.1", "preparer")
-        chips = self.chips(self.senior)
+        self.sign(self.senior, self.engagement, "P3.1", "preparer")
+        chips = self.chips(self.manager)
         self.assertEqual(chips["preparer"]["state"], "signed")
-        self.assertEqual(chips["preparer"]["by"], self.staff.name)
+        self.assertEqual(chips["preparer"]["by"], self.senior.name)
         self.assertEqual(chips["reviewer"]["state"], "open")
 
     def test_the_preparer_is_told_why_they_cannot_review(self):

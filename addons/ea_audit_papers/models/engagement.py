@@ -2,7 +2,8 @@ from fnmatch import fnmatchcase
 
 from odoo import models
 
-from ..services import acceptance_verdict, is_blank, paper_for, yn_key
+from ..services import acceptance_verdict, is_blank, paper_for
+from ..services.completeness import yn_key
 
 # eqrDeterminationFields: q_eqr of the older paper, and the Part B criteria of P1.5
 _EQR_DETERMINATION = tuple(

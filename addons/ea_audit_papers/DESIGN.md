@@ -5,7 +5,7 @@ Status: design only. No model and no OWL component exists yet, and the addon has
 `ea.audit.engagement`, `ea.audit.file.item` and `ea.audit.signoff` this design assumes.
 
 What exists: `data/` (definitions and token tables), `services/` (pure rules),
-`tests/pure/` (parity with baseline `bd3af7e`). Regenerate with
+`tests_pure/` (parity with baseline `bd3af7e`). Regenerate with
 `scripts/papers/run_baseline.sh`; never edit `data/` by hand while the TypeScript is
 still the source.
 

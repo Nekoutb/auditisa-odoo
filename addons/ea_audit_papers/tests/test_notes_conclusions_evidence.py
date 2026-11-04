@@ -26,10 +26,10 @@ class TestReviewNotes(PaperCase):
     def test_addressed_to_the_active_preparer_else_the_owner(self):
         item = self.item(self.engagement, "P3.1")
         item.with_user(self.manager).assign_tasks(self.senior.id, "preparer")
-        self.assertEqual(self.raise_note(self.manager).assignee_id, self.senior)
-        self.complete(self.staff, "P3.1")
-        self.sign(self.staff, self.engagement, "P3.1", "preparer")
-        self.assertEqual(self.raise_note(self.manager).assignee_id, self.staff)
+        self.assertEqual(self.raise_note(self.partner).assignee_id, self.senior)
+        self.complete(self.manager, "P3.1")
+        self.sign(self.manager, self.engagement, "P3.1", "preparer")
+        self.assertEqual(self.raise_note(self.partner).assignee_id, self.manager)
 
     def test_the_eqr_raises_notes_on_the_teams_work(self):
         self.seat(self.engagement, self.eqr, "eqr_reviewer")
@@ -121,7 +121,7 @@ class TestSectionConclusion(PaperCase):
     def test_review_rules(self):
         self.e41.with_user(self.senior).save_section_conclusion("x", False)
         self.assertCode("self-review", self.e41.with_user(self.senior).review_section_conclusion)
-        self.assertCode("requires-senior", self.e41.with_user(self.staff).review_section_conclusion)
+        self.assertCode("forbidden", self.e41.with_user(self.staff).review_section_conclusion)
         self.assertCode("not-on-team-to-sign", self.e41.with_user(self.partner2).review_section_conclusion)
         self.assertCode("forbidden", self.e41.with_user(self.manager).review_section_conclusion, True)
         self.e41.with_user(self.manager).review_section_conclusion()

@@ -5,7 +5,7 @@
 #   scripts/papers/run_baseline.sh <EA AUDIT TOOL repo> <commit> <scratch dir>
 #
 # node_modules is linked beside the checkout, not inside it, so removing the worktree
-# can never walk into the real one. Then: pytest addons/ea_audit_papers/tests/pure
+# can never walk into the real one. Then: pytest addons/ea_audit_papers/tests_pure
 set -euo pipefail
 
 repo=$1; commit=$2; scratch=$3

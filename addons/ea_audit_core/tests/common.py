@@ -29,6 +29,15 @@ class EaAuditCase(TransactionCase):
         cls.reader = cls._user("reader", "group_read_only")
         cls.client = cls.env["ea.audit.client"].create({"name": "Governance SA", "legal_form": "SA"})
 
+    # core's tests are about core's chain: the paper addon's completeness, when it is
+    # installed in the same database, is tested there.
+    ea_real_paper_hooks = False
+
+    def setUp(self):
+        super().setUp()
+        if not self.ea_real_paper_hooks:
+            self.patch(type(self.env["ea.audit.file.item"]), "_ea_paper_refusal", lambda _self, _role: None)
+
     @classmethod
     def _user(cls, login, group):
         return cls.env["res.users"].with_context(no_reset_password=True).create({

@@ -3,7 +3,7 @@ import logging
 from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.errors import AuditRuleError, rule_error
-from odoo.addons.ea_audit_core.services.signoff_rules import EQR_PAPER, can_review
+from odoo.addons.ea_audit_core.services.signoff_rules import EQR_PAPER, can_review, can_write
 
 from ..services import (
     EQR_C42_KEYS,
@@ -17,7 +17,6 @@ from ..services import (
     group_siblings,
     has_bespoke_paper,
     is_blank,
-    js_trim,
     load_definition,
     missing_parts,
     norm_text,
@@ -556,6 +555,7 @@ class Paper(models.Model):
             "attachments": env["ea.audit.task.attachment"]._ea_payload(item),
             "section_conclusion": env["ea.audit.section.conclusion"]._ea_payload(item),
             "can_review": can_review(firm_role),
+            "can_write_notes": bool(can_write(firm_role)) and not engagement._ea_is_archived(),
         }
 
     def get_answer_history(self):

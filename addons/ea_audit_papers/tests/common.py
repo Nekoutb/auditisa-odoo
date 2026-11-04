@@ -6,6 +6,8 @@ from ..services import paper_for, required_keys
 class PaperCase(EaAuditCase):
     """One engagement with a seated team, in execution so that every phase is open."""
 
+    ea_real_paper_hooks = True
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -42,10 +44,10 @@ class PaperCase(EaAuditCase):
         self.save(user, code, self.full_answers(code), engagement=engagement)
 
     def signed_paper(self, code="P3.1"):
-        """Staff prepared it, the senior reviewed it: both signatures active."""
-        self.complete(self.staff, code)
-        self.sign(self.staff, self.engagement, code, "preparer")
-        self.sign(self.senior, self.engagement, code, "reviewer")
+        """The senior prepared it (P3.1's minimum), the manager reviewed it."""
+        self.complete(self.senior, code)
+        self.sign(self.senior, self.engagement, code, "preparer")
+        self.sign(self.manager, self.engagement, code, "reviewer")
         return self.paper(code)
 
     def active(self, code="P3.1"):

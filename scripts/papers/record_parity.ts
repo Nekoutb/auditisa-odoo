@@ -1,4 +1,4 @@
-// Records what the TypeScript does, for tests/pure/test_parity.py to compare with Python.
+// Records what the TypeScript does, for tests_pure/test_parity.py to compare with Python.
 //
 //   tsx --tsconfig <platform>/tsconfig.json scripts/papers/record_parity.ts --platform <platform>
 //
@@ -193,7 +193,7 @@ async function main(): Promise<void> {
     }
   }
 
-  const out = path.join(ADDON_DIR, "tests", "fixtures", "parity");
+  const out = path.join(ADDON_DIR, "tests_pure", "fixtures", "parity");
   mkdirSync(out, { recursive: true });
   const write = (name: string, value: unknown) => writeFileSync(path.join(out, name), `${JSON.stringify(value)}\n`, "utf8");
   write("resolved.json", { baseline_commit: commit, editions, forms, combinations, keysets, subjects: resolved });
