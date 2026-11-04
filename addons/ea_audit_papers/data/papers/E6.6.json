@@ -1,0 +1,120 @@
+{
+ "code": "E6.6",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 560 ¶6–9",
+  "ownsEn": "the subsequent events procedures performed during execution",
+  "ownsFr": "les procédures sur les événements postérieurs mises en œuvre en exécution",
+  "reqEn": [
+   "We perform procedures designed to obtain sufficient appropriate evidence that all events occurring between the date of the financial statements and the date of the auditor's report that require adjustment or disclosure have been identified (ISA 560 ¶6).",
+   "The procedures cover the whole period up to the date of the report. C2.2 records the final position at completion; this paper records the work performed during execution."
+  ],
+  "reqFr": [
+   "Nous mettons en œuvre des procédures visant à obtenir des éléments suffisants attestant que tous les événements survenus entre la date des états financiers et celle du rapport et appelant un ajustement ou une mention ont été identifiés (ISA 560 ¶6).",
+   "Les procédures couvrent la période jusqu'à la date du rapport. C2.2 consigne la position finale à l'achèvement."
+  ],
+  "conclEn": [
+   "The subsequent events procedures performed during execution identified every event requiring adjustment or disclosure up to the date of this work, and the position is carried to C2.2."
+  ],
+  "conclFr": [
+   "Les procédures sur les événements postérieurs mises en œuvre en exécution ont identifié tout événement à ajuster ou à mentionner jusqu'à la date de ces travaux, et la position est reportée en C2.2."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "understand",
+      "en": "Obtain an understanding of the procedures management has established to identify subsequent events.",
+      "fr": "Prendre connaissance des procédures mises en place par la direction pour identifier les événements postérieurs.",
+      "srcEn": "Inquiry of management · closing procedures",
+      "srcFr": "Entretien avec la direction · procédures de clôture"
+     },
+     {
+      "key": "inquire",
+      "en": "Inquire of management and of those charged with governance about new commitments, borrowings, guarantees, disposals, litigation and any event affecting the assumptions used in the financial statements.",
+      "fr": "S'enquérir auprès de la direction et des responsables de la gouvernance des nouveaux engagements, emprunts, garanties, cessions, litiges et de tout événement affectant les hypothèses retenues.",
+      "srcEn": "Inquiry · ISA 560 ¶7(b)",
+      "srcFr": "Entretien · ISA 560 ¶7(b)"
+     },
+     {
+      "key": "minutes",
+      "en": "Read the minutes of the meetings held after the date of the financial statements.",
+      "fr": "Examiner les procès-verbaux des réunions tenues après la date des états financiers.",
+      "srcEn": "Post year-end minutes (E6.4)",
+      "srcFr": "Procès-verbaux postérieurs (E6.4)"
+     },
+     {
+      "key": "interim",
+      "en": "Read the entity's latest interim financial information and management accounts.",
+      "fr": "Examiner la dernière situation intermédiaire et les états de gestion de l'entité.",
+      "srcEn": "Interim accounts · management reports",
+      "srcFr": "Situation intermédiaire · états de gestion"
+     },
+     {
+      "key": "transactions",
+      "en": "Review the transactions recorded after the year end for items indicating a condition that existed at the year end, including receipts, payments, credit notes and journal entries.",
+      "fr": "Examiner les opérations enregistrées après la clôture révélant une situation existant à la clôture : encaissements, paiements, avoirs et écritures.",
+      "srcEn": "Post year-end ledger · bank statements",
+      "srcFr": "Grand livre postérieur · relevés bancaires"
+     },
+     {
+      "key": "classify",
+      "en": "Classify each event identified as adjusting or non-adjusting, and confirm the treatment applied in the financial statements.",
+      "fr": "Classer chaque événement identifié en ajustant ou non ajustant et vérifier le traitement retenu dans les comptes.",
+      "srcEn": "IAS 10 / SYSCOHADA · draft financial statements",
+      "srcFr": "IAS 10 / SYSCOHADA · projet d'états financiers"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "period",
+      "en": "The procedures cover the whole period from the date of the financial statements to the date of this work (procedures 2 to 5).",
+      "fr": "Les procédures couvrent toute la période depuis la date des états financiers jusqu'à la date de ces travaux (procédures 2 à 5)."
+     },
+     {
+      "key": "classified",
+      "en": "Each event identified is classified as adjusting or non-adjusting and treated accordingly (procedure 6).",
+      "fr": "Chaque événement identifié est classé en ajustant ou non ajustant et traité en conséquence (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "carried",
+      "en": "Each event identified has been carried to C2.2 for the position at the date of the report (procedure 6).",
+      "fr": "Chaque événement identifié est reporté en C2.2 pour la position à la date du rapport (procédure 6)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

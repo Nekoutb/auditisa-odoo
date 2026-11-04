@@ -1,0 +1,119 @@
+{
+ "code": "C5.2",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "OHADA — Acte uniforme relatif au droit des sociétés commerciales et du GIE",
+  "ownsEn": "the statutory deadlines and whether each was met",
+  "ownsFr": "les échéances légales et leur respect",
+  "reqEn": [
+   "The Uniform Act fixes the dates by which the accounts must be drawn up, the general meeting held, the accounts approved and the filing made. A missed deadline is a matter to report, and may engage the liability of the directors.",
+   "The calendar is maintained through the engagement so that the reporting obligations of the statutory auditor are met on time."
+  ],
+  "reqFr": [
+   "L'Acte uniforme fixe les dates d'arrêté des comptes, de tenue de l'assemblée, d'approbation et de dépôt. Une échéance manquée est un point à signaler et peut engager la responsabilité des dirigeants.",
+   "Le calendrier est tenu tout au long de la mission afin que les obligations du commissaire aux comptes soient remplies dans les délais."
+  ],
+  "conclEn": [
+   "The statutory deadlines applicable to the entity have been identified and the position on each is recorded, and any breach has been carried into our report."
+  ],
+  "conclFr": [
+   "Les échéances légales applicables ont été identifiées et leur situation consignée, et tout manquement est repris dans notre rapport."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "calendar",
+      "en": "Establish the statutory calendar for the period: the date the accounts must be drawn up, the date of the general meeting, and the filing deadline.",
+      "fr": "Établir le calendrier légal de l'exercice : date d'arrêté des comptes, date de l'assemblée générale et échéance de dépôt.",
+      "srcEn": "Uniform Act · statutes · financial year end",
+      "srcFr": "Acte uniforme · statuts · date de clôture"
+     },
+     {
+      "key": "board",
+      "en": "Confirm the date the [[lf.board]] drew up the accounts, and compare it with the deadline.",
+      "fr": "Confirmer la date d'arrêté des comptes par l'[[lf.board]] et la comparer à l'échéance.",
+      "srcEn": "Minutes of the [[lf.board]] (E6.4) · signed accounts",
+      "srcFr": "Procès-verbal de l'[[lf.board]] (E6.4) · comptes signés"
+     },
+     {
+      "key": "notice",
+      "en": "Confirm the notice period given for the general meeting and that the documents required were made available to the shareholders.",
+      "fr": "Vérifier le délai de convocation de l'assemblée et la mise à disposition des documents requis aux associés.",
+      "srcEn": "Convening notice · shareholder correspondence",
+      "srcFr": "Avis de convocation · correspondance aux associés"
+     },
+     {
+      "key": "report_dates",
+      "en": "Record the dates by which our own reports are due, including the general report and the special report on conventions réglementées.",
+      "fr": "Consigner les dates auxquelles nos propres rapports sont dus, dont le rapport général et le rapport spécial sur les conventions réglementées.",
+      "srcEn": "Uniform Act · C5.3 · engagement timetable",
+      "srcFr": "Acte uniforme · C5.3 · calendrier de mission"
+     },
+     {
+      "key": "filing",
+      "en": "Confirm the prior period accounts were filed with the RCCM within the deadline, and obtain the filing receipt.",
+      "fr": "Vérifier le dépôt des comptes de l'exercice précédent au RCCM dans le délai et obtenir le récépissé.",
+      "srcEn": "RCCM filing receipt · prior period accounts",
+      "srcFr": "Récépissé de dépôt RCCM · comptes antérieurs"
+     },
+     {
+      "key": "breaches",
+      "en": "Record each deadline missed, the reason, and whether it is to be reported to the general meeting.",
+      "fr": "Consigner chaque échéance manquée, son motif et son éventuel signalement à l'assemblée.",
+      "srcEn": "Our observation schedule · C5.1",
+      "srcFr": "Notre relevé d'observations · C5.1"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "drawn_up",
+      "en": "The accounts were drawn up by the [[lf.board]] within the statutory deadline (procedure 2).",
+      "fr": "Les comptes ont été arrêtés par l'[[lf.board]] dans le délai légal (procédure 2)."
+     },
+     {
+      "key": "notice",
+      "en": "The general meeting was convened with the notice the statutes and the Uniform Act require (procedure 3).",
+      "fr": "L'assemblée a été convoquée dans les formes et délais requis par les statuts et l'Acte uniforme (procédure 3)."
+     },
+     {
+      "key": "filed",
+      "en": "The prior period accounts were filed with the RCCM within the deadline (procedure 5).",
+      "fr": "Les comptes de l'exercice précédent ont été déposés au RCCM dans le délai (procédure 5)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,141 @@
+{
+ "code": "E4.3",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 501 ¶4–8 · ISA 330 ¶18–23",
+  "ownsEn": "the evidence obtained on inventories",
+  "ownsFr": "les éléments probants obtenus sur les stocks",
+  "reqEn": [
+   "Where inventory is material, we attend the physical count unless it is impracticable, to evaluate management's instructions, observe the count, inspect the inventory and perform test counts (ISA 501 ¶4).",
+   "Attendance provides evidence of existence and condition. Completeness and cut-off are established by the control the entity exercises over the movement of goods around the count."
+  ],
+  "reqFr": [
+   "Lorsque les stocks sont significatifs, nous assistons à l'inventaire physique sauf impossibilité, afin d'apprécier les instructions, d'observer le comptage, d'examiner les stocks et d'effectuer des comptages de contrôle (ISA 501 ¶4).",
+   "L'assistance fournit des éléments sur l'existence et l'état. L'exhaustivité et la césure reposent sur le contrôle des mouvements autour du comptage."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the existence, completeness, condition and valuation of inventories."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur l'existence, l'exhaustivité, l'état et la valorisation des stocks."
+  ],
+  "tools": [
+   "sampling"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "instructions",
+      "en": "Obtain and evaluate management's count instructions before the count: the cut-off arrangements, the treatment of goods in transit and of third-party stock, and the recording of the counts.",
+      "fr": "Obtenir et apprécier les instructions d'inventaire avant le comptage : césure, traitement des biens en transit et des stocks de tiers, et enregistrement des comptages.",
+      "srcEn": "Count instructions · inquiry of the stock controller",
+      "srcFr": "Instructions d'inventaire · entretien avec le responsable des stocks"
+     },
+     {
+      "key": "observe",
+      "en": "Attend the count. Observe whether the instructions are followed, and record any departure and its effect.",
+      "fr": "Assister au comptage. Observer le respect des instructions et consigner tout écart et son incidence.",
+      "srcEn": "Attendance note · count sheets",
+      "srcFr": "Note d'assistance · feuilles de comptage"
+     },
+     {
+      "key": "test_counts",
+      "en": "Perform test counts in both directions: from the count sheets to the goods, and from the goods to the count sheets.",
+      "fr": "Effectuer des comptages de contrôle dans les deux sens : des feuilles vers les biens et des biens vers les feuilles.",
+      "srcEn": "Count sheets · physical inspection",
+      "srcFr": "Feuilles de comptage · examen physique"
+     },
+     {
+      "key": "cutoff",
+      "en": "Record the last receipt and the last dispatch reference before the count, and trace both into the correct period.",
+      "fr": "Relever les références de la dernière réception et de la dernière livraison avant le comptage et les rattacher à la bonne période.",
+      "srcEn": "Goods received and dispatch registers",
+      "srcFr": "Registres des réceptions et des livraisons"
+     },
+     {
+      "key": "condition",
+      "en": "Identify damaged, obsolete and slow-moving items during the count, and follow each through to the provision recorded.",
+      "fr": "Identifier lors du comptage les articles endommagés, obsolètes ou à rotation lente et suivre chacun jusqu'à la provision comptabilisée.",
+      "srcEn": "Observation · ageing report · provision calculation",
+      "srcFr": "Observation · état de rotation · calcul de la provision"
+     },
+     {
+      "key": "valuation",
+      "en": "Test the valuation: agree the cost of the items selected to the supporting invoices, and compare cost with net realisable value.",
+      "fr": "Tester la valorisation : rapprocher le coût des articles retenus des factures et comparer le coût à la valeur nette de réalisation.",
+      "srcEn": "Purchase invoices · post year-end selling prices",
+      "srcFr": "Factures d'achat · prix de vente postérieurs"
+     },
+     {
+      "key": "third_party",
+      "en": "Where inventory is held by a third party, obtain confirmation from that party of the quantities and condition held.",
+      "fr": "Lorsque des stocks sont détenus par un tiers, obtenir sa confirmation des quantités et de leur état.",
+      "srcEn": "Third-party confirmation · ISA 501 ¶8",
+      "srcFr": "Confirmation du tiers · ISA 501 ¶8"
+     },
+     {
+      "key": "rollforward",
+      "en": "Where the count was not at the year end, test the movements between the count date and the year end.",
+      "fr": "Lorsque le comptage n'a pas eu lieu à la clôture, tester les mouvements entre la date de comptage et la clôture.",
+      "srcEn": "Movement records · ISA 501 ¶5",
+      "srcFr": "État des mouvements · ISA 501 ¶5"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "attended",
+      "en": "We attended the count, or the reason attendance was impracticable and the alternative procedures performed are recorded (procedure 2).",
+      "fr": "Nous avons assisté au comptage, ou le motif d'impossibilité et les procédures alternatives sont consignés (procédure 2)."
+     },
+     {
+      "key": "counts",
+      "en": "The test counts agreed to the count records in both directions (procedure 3).",
+      "fr": "Les comptages de contrôle concordent avec les relevés dans les deux sens (procédure 3)."
+     },
+     {
+      "key": "cutoff",
+      "en": "Inventory movements are recorded in the correct period (procedures 4, 8).",
+      "fr": "Les mouvements de stocks sont enregistrés dans la bonne période (procédures 4, 8)."
+     },
+     {
+      "key": "nrv",
+      "en": "Inventory is stated at the lower of cost and net realisable value (procedures 5, 6).",
+      "fr": "Les stocks sont évalués au plus faible du coût et de la valeur nette de réalisation (procédures 5, 6)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

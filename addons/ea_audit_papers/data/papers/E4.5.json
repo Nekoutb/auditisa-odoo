@@ -1,0 +1,134 @@
+{
+ "code": "E4.5",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 540 (Revised) · ISA 330 ¶18–23 · IAS 36 / IAS 38 · SYSCOHADA class 21",
+  "ownsEn": "the evidence obtained on intangible assets and goodwill",
+  "ownsFr": "les éléments probants obtenus sur les immobilisations incorporelles et le goodwill",
+  "reqEn": [
+   "Recognition is the first question: an intangible is capitalised only where it meets the criteria in the applicable framework. Development costs and internally generated items require particular attention.",
+   "Goodwill and any intangible not yet available for use are tested for impairment at least annually. The impairment test is an accounting estimate, and the requirements of ISA 540 (Revised) apply to it."
+  ],
+  "reqFr": [
+   "La comptabilisation est la première question : une immobilisation incorporelle n'est activée que si elle satisfait aux critères du référentiel. Les frais de développement et les éléments générés en interne appellent une attention particulière.",
+   "Le goodwill et les incorporels non encore prêts à être mis en service font l'objet d'un test de dépréciation au moins annuel, qui constitue une estimation comptable (ISA 540 révisée)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over intangible assets and goodwill, including the impairment assessment."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les immobilisations incorporelles et le goodwill, y compris le test de dépréciation."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "schedule",
+      "en": "Obtain the movement schedule by class and agree the opening balances to the prior period file and the closing totals to the general ledger.",
+      "fr": "Obtenir le tableau de mouvements par catégorie et rapprocher les ouvertures du dossier antérieur et les clôtures du grand livre.",
+      "srcEn": "Intangibles register · general ledger · prior file",
+      "srcFr": "Registre des incorporels · grand livre · dossier antérieur"
+     },
+     {
+      "key": "recognition",
+      "en": "For each addition, test that the recognition criteria are met, and confirm that no expenditure has been capitalised that the framework requires to be expensed.",
+      "fr": "Pour chaque acquisition, vérifier le respect des critères de comptabilisation et l'absence d'activation de dépenses devant être comptabilisées en charges.",
+      "srcEn": "Invoices · project documentation · accounting framework",
+      "srcFr": "Factures · documentation de projet · référentiel comptable"
+     },
+     {
+      "key": "internally",
+      "en": "For internally generated intangibles, test the costs capitalised to the underlying records, and confirm that only costs incurred after the criteria were met are included.",
+      "fr": "Pour les incorporels générés en interne, tester les coûts activés au regard des justificatifs et vérifier que seuls les coûts postérieurs au respect des critères sont inclus.",
+      "srcEn": "Timesheets · project records · development plan",
+      "srcFr": "Feuilles de temps · dossiers de projet · plan de développement"
+     },
+     {
+      "key": "amortisation",
+      "en": "Recalculate the amortisation charge and evaluate whether the useful lives remain appropriate.",
+      "fr": "Recalculer la dotation aux amortissements et apprécier si les durées d'utilité restent appropriées.",
+      "srcEn": "Register · policy note",
+      "srcFr": "Registre · note de méthode"
+     },
+     {
+      "key": "cgu",
+      "en": "For goodwill, confirm the cash-generating units to which it has been allocated and that the allocation is consistent with the prior period.",
+      "fr": "Pour le goodwill, confirmer les unités génératrices de trésorerie d'affectation et la cohérence de l'affectation avec l'exercice précédent.",
+      "srcEn": "Management's impairment memorandum · prior file",
+      "srcFr": "Note de dépréciation de la direction · dossier antérieur"
+     },
+     {
+      "key": "impairment",
+      "en": "Test the impairment calculation: the cash flows projected, the growth rate, the discount rate, and the period covered. Compare the prior period projections against what actually happened.",
+      "fr": "Tester le calcul de dépréciation : flux projetés, taux de croissance, taux d'actualisation et horizon. Comparer les projections antérieures aux réalisations.",
+      "srcEn": "Impairment model · board-approved budget · E6.7",
+      "srcFr": "Modèle de dépréciation · budget approuvé · E6.7"
+     },
+     {
+      "key": "sensitivity",
+      "en": "Perform a sensitivity analysis on the significant assumptions, and evaluate whether a reasonably possible change would give rise to an impairment.",
+      "fr": "Réaliser une analyse de sensibilité sur les hypothèses importantes et apprécier si une variation raisonnablement possible entraînerait une dépréciation.",
+      "srcEn": "Impairment model · our recalculation",
+      "srcFr": "Modèle de dépréciation · notre recalcul"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "criteria",
+      "en": "Every amount capitalised meets the recognition criteria in the applicable framework (procedures 2, 3).",
+      "fr": "Chaque montant activé satisfait aux critères de comptabilisation du référentiel (procédures 2, 3)."
+     },
+     {
+      "key": "assumptions",
+      "en": "The assumptions in the impairment calculation are reasonable and consistent with the evidence obtained elsewhere in the file (procedure 6).",
+      "fr": "Les hypothèses du calcul de dépréciation sont raisonnables et cohérentes avec les autres éléments du dossier (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "retrospective",
+      "en": "The prior period projections compared with what actually happened give no indication of management bias (procedure 6).",
+      "fr": "La comparaison des projections antérieures aux réalisations ne révèle aucun biais de la direction (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "sensitivity",
+      "en": "A reasonably possible change in the significant assumptions would not give rise to an impairment (procedure 7).",
+      "fr": "Une variation raisonnablement possible des hypothèses importantes n'entraînerait pas de dépréciation (procédure 7).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

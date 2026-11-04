@@ -1,0 +1,165 @@
+{
+ "code": "E1.2",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶8–17 · ISA 530 · ISA 500 ¶9",
+  "ownsEn": "the tests of controls over the significant classes of transactions — selection, sampling, execution, exceptions and the operating-effectiveness conclusion per control",
+  "ownsFr": "les tests des contrôles sur les flux significatifs — sélection, échantillonnage, exécution, exceptions et conclusion d'efficacité par contrôle",
+  "reqEn": [
+   "A controls-reliance strategy carries the hypothesis that there are no or very few control exceptions in the population; tests of controls confirm that hypothesis by discovery sampling, and any exception found calls the reliance itself into question.",
+   "Inquiry alone never provides sufficient evidence of operating effectiveness — it is combined with inspection, observation, reperformance or data analysis.",
+   "Minimum sample sizes follow the frequency of the control: daily/many-times 25 (60 when it is the only control on its assertion), weekly 5, monthly and quarterly 2, annually 1; 50–250 occurrences → 10%, under 50 → 5, under 5 → all; an automated control supported by effective ITGCs takes a test of one.",
+   "Tests are performed on every sampling unit selected; an item that cannot be tested and has no valid replacement is a control exception, never a skip."
+  ],
+  "reqFr": [
+   "Une stratégie d'appui sur les contrôles repose sur l'hypothèse d'exceptions rares ou nulles ; les tests la confirment par sondage de découverte, et toute exception remet l'appui en cause.",
+   "L'entretien seul ne suffit jamais — il se combine avec l'inspection, l'observation, la réexécution ou l'analyse de données.",
+   "Tailles minimales selon la fréquence : quotidien 25 (60 si contrôle unique sur son assertion), hebdomadaire 5, mensuel et trimestriel 2, annuel 1 ; 50–250 occurrences → 10 %, moins de 50 → 5, moins de 5 → 100 % ; contrôle automatisé soutenu par des ITGC efficaces → test unique.",
+   "Chaque unité d'échantillonnage sélectionnée est testée ; un élément intestable sans remplacement valable est une exception, jamais une omission."
+  ],
+  "conclEn": [
+   "The controls selected for testing over the significant classes of transactions operated effectively throughout the period of reliance; every exception was evaluated and answered; and the reliance recorded in S3.1 stands — or has been revised to not-rely with the substantive response extended."
+  ],
+  "conclFr": [
+   "Les contrôles retenus sur les flux significatifs ont fonctionné efficacement sur la période d'appui ; chaque exception a été évaluée et traitée ; l'appui consigné en S3.1 est maintenu — ou révisé vers l'absence d'appui avec extension de la réponse substantive."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "selection",
+      "en": "Confirm from S2.2 that the controls selected for testing address each WCGW for each relevant assertion of the SCOT, preferring controls that answer several WCGWs; only selected relevant controls appear on the board below.",
+      "fr": "Confirmer à partir de S2.2 que les contrôles retenus couvrent chaque WCGW pour chaque assertion pertinente du SCOT, en privilégiant les contrôles couvrant plusieurs WCGW ; seuls les contrôles retenus figurent au tableau ci-dessous.",
+      "srcEn": "S2.2 design · WCGW–control links · S3.1 strategy",
+      "srcFr": "Conception S2.2 · liens WCGW–contrôles · stratégie S3.1"
+     },
+     {
+      "key": "changes",
+      "en": "Before executing, determine whether any control changed since the design was confirmed (application, policies, IT, personnel, circumstances); understand, re-document and re-walkthrough any change and adjust the planned tests.",
+      "fr": "Avant l'exécution, déterminer si un contrôle a changé depuis la conception (application, procédures, informatique, personnel, circonstances) ; comprendre, redocumenter, refaire le cheminement et ajuster les tests prévus.",
+      "srcEn": "Inquiries · updated narratives · walkthrough",
+      "srcFr": "Entretiens · descriptifs mis à jour · cheminement"
+     },
+     {
+      "key": "nature",
+      "en": "Design each test as inquiry COMBINED with inspection, observation, reperformance or data analysis; document the control attributes whose presence the test establishes.",
+      "fr": "Concevoir chaque test comme un entretien COMBINÉ avec inspection, observation, réexécution ou analyse de données ; documenter les attributs du contrôle que le test établit.",
+      "srcEn": "Test design per control · attribute list",
+      "srcFr": "Conception par contrôle · liste d'attributs"
+     },
+     {
+      "key": "population",
+      "en": "Define, per control, the complete population of occurrences for the period of reliance and record it on the board — the minimum sample size follows automatically; select without bias (random, systematic or haphazard).",
+      "fr": "Définir, par contrôle, la population complète des occurrences sur la période d'appui et la saisir au tableau — la taille minimale en découle automatiquement ; sélection sans biais (aléatoire, systématique ou empirique).",
+      "srcEn": "Population evidence · completeness check · board",
+      "srcFr": "Preuve de population · exhaustivité · tableau"
+     },
+     {
+      "key": "execute",
+      "en": "Execute on every sampling unit: record each transaction tested in the control's grid, marking every attribute passed, failed or n/a; use replacement items only where the selected item was genuinely not subject to the control.",
+      "fr": "Exécuter sur chaque unité : consigner chaque transaction testée dans la grille du contrôle, chaque attribut réussi, en échec ou n/a ; remplacer un élément uniquement s'il n'était réellement pas soumis au contrôle.",
+      "srcEn": "Transactions-tested grids · supporting documents",
+      "srcFr": "Grilles de transactions testées · pièces justificatives"
+     },
+     {
+      "key": "automated",
+      "en": "For automated and IT-dependent controls, confirm the E1.1 ITGC conclusion supports each application for the whole period (then a test of one suffices), and test the accuracy and completeness of any report the control or the test relies on.",
+      "fr": "Pour les contrôles automatisés et dépendants de l'informatique, confirmer que la conclusion E1.1 soutient chaque application sur toute la période (un test unique suffit alors), et tester l'exactitude et l'exhaustivité des états utilisés.",
+      "srcEn": "E1.1 conclusion · configuration · IPE testing",
+      "srcFr": "Conclusion E1.1 · paramétrage · tests des états"
+     },
+     {
+      "key": "exceptions",
+      "en": "For every exception: establish the cause and implication, decide extend-or-stop, evaluate the deficiency (significant deficiency where warranted), and conclude the control Effective or Not effective on the board; where not effective, revise S3.1 to not-rely and extend the substantive response.",
+      "fr": "Pour chaque exception : établir la cause et l'incidence, décider d'étendre ou d'arrêter, évaluer la déficience, et conclure Efficace ou Non efficace au tableau ; si non efficace, réviser S3.1 (pas d'appui) et étendre la réponse substantive.",
+      "srcEn": "Exception analysis · deficiency evaluation · S3.1",
+      "srcFr": "Analyse des exceptions · évaluation de déficience · S3.1"
+     },
+     {
+      "key": "rotation",
+      "en": "Where reliance rests on prior-period evidence for a routine SCOT, confirm every rotation criterion: effective when last tested, control environment sound, understanding reconfirmed, no relevant change, tested at least once in every third audit, and at least one routine SCOT tested this period; never rotate significant-risk, non-routine, estimation or bank-reconciliation controls.",
+      "fr": "Si l'appui repose sur des preuves antérieures pour un SCOT routinier, confirmer chaque critère de rotation : efficace au dernier test, environnement de contrôle solide, compréhension reconfirmée, aucun changement pertinent, test au moins tous les trois audits, et au moins un SCOT routinier testé cette période ; jamais de rotation pour risques importants, flux non routiniers, estimations ou rapprochements bancaires.",
+      "srcEn": "Prior files · rotation schedule · change inquiry",
+      "srcFr": "Dossiers antérieurs · calendrier de rotation · entretiens"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "selection",
+      "en": "The controls tested address each WCGW for each relevant assertion, per the S2.2 design (procedure 1).",
+      "fr": "Les contrôles testés couvrent chaque WCGW pour chaque assertion pertinente, selon la conception S2.2 (procédure 1)."
+     },
+     {
+      "key": "changes",
+      "en": "No control changed since design — or every change was understood, re-documented, re-walked-through and answered (procedure 2).",
+      "fr": "Aucun contrôle n'a changé depuis la conception — ou chaque changement a été compris, redocumenté, recheminé et traité (procédure 2)."
+     },
+     {
+      "key": "nature",
+      "en": "No conclusion rests on inquiry alone (procedure 3).",
+      "fr": "Aucune conclusion ne repose sur le seul entretien (procédure 3)."
+     },
+     {
+      "key": "population",
+      "en": "Every population was complete and appropriate, and every sample met the minimum size, selected without bias (procedure 4).",
+      "fr": "Chaque population était complète et appropriée, chaque échantillon a atteint la taille minimale, sélection sans biais (procédure 4)."
+     },
+     {
+      "key": "grids",
+      "en": "Every transaction tested is recorded in the control's grid with each attribute concluded (procedure 5).",
+      "fr": "Chaque transaction testée figure dans la grille du contrôle avec chaque attribut conclu (procédure 5)."
+     },
+     {
+      "key": "automated",
+      "en": "For each automated or IT-dependent control, ITGC support was confirmed and the reports used were tested (procedure 6).",
+      "fr": "Pour chaque contrôle automatisé ou dépendant de l'informatique, le soutien des ITGC a été confirmé et les états utilisés testés (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "exceptions",
+      "en": "Every exception was traced to cause and implication, evaluated as a deficiency, and reflected in the control's conclusion (procedure 7).",
+      "fr": "Chaque exception a été tracée (cause, incidence), évaluée en déficience et reflétée dans la conclusion du contrôle (procédure 7).",
+      "na": true
+     },
+     {
+      "key": "rotation",
+      "en": "For any rotated routine SCOT, every rotation criterion is met and documented (procedure 8).",
+      "fr": "Pour tout SCOT routinier en rotation, chaque critère est satisfait et documenté (procédure 8).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

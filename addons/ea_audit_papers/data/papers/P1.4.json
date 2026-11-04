@@ -1,0 +1,143 @@
+{
+ "code": "P1.4",
+ "source": "lib/papers/acceptance.ts",
+ "definition": {
+  "std": "ISA 210 ¶9–13, ¶A29",
+  "ownsEn": "the agreed terms of the engagement",
+  "ownsFr": "les termes convenus de la mission",
+  "reqEn": [
+   "We agree the terms of the audit engagement with management or those charged with governance, and record the agreed terms in an engagement letter or other suitable form of written agreement (ISA 210 ¶9–10). Agreement is reached before the audit work begins.",
+   "The letter sets out the objective and scope of the audit, our responsibilities, the responsibilities of management, the applicable financial reporting framework, and reference to the expected form and content of any reports, together with a statement that circumstances may require a report to differ from that expected form (ISA 210 ¶10).",
+   "Where law or regulation prescribes the terms in sufficient detail, we need not record them in the letter, but we do record that the law applies and that management acknowledges its responsibilities under the premise (ISA 210 ¶11–12).",
+   "On a recurring engagement we assess each period whether the terms require revision and whether the entity should be reminded of the existing terms (ISA 210 ¶13). Indicators include a change of senior management, a significant change in ownership, a significant change in the nature or size of the business, a change in legal or reporting requirements, a change in the framework, and any indication that management misunderstands the objective and scope of the audit (ISA 210 ¶A29)."
+  ],
+  "reqFr": [
+   "Les termes de la mission sont convenus avec la direction ou les responsables de la gouvernance et consignés dans une lettre de mission avant le début des travaux (ISA 210 ¶9–10).",
+   "La lettre précise l'objectif et l'étendue, nos responsabilités, celles de la direction, le référentiel applicable et la forme attendue des rapports (ISA 210 ¶10).",
+   "Lorsque la loi fixe les termes de façon suffisamment détaillée, il suffit de le consigner (ISA 210 ¶11–12).",
+   "Pour une mission récurrente, apprécier chaque exercice si les termes doivent être révisés (ISA 210 ¶13, ¶A29)."
+  ],
+  "conclEn": [
+   "A signed engagement letter recording the agreed terms is on file, and planning work has not begun before that date."
+  ],
+  "conclFr": [
+   "Une lettre de mission signée figure au dossier, et les travaux de planification n'ont pas débuté avant cette date."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result. The letter is signed and filed before fieldwork begins.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat. La lettre est signée et classée avant le début des travaux.",
+    "procs": [
+     {
+      "key": "draft",
+      "en": "Prepare the engagement letter covering the objective and scope of the audit, our responsibilities, management's responsibilities, the applicable financial reporting framework, and the expected form and content of our report.",
+      "fr": "Établir la lettre de mission couvrant l'objectif et l'étendue de l'audit, nos responsabilités, celles de la direction, le référentiel comptable applicable, ainsi que la forme et le contenu attendus de notre rapport.",
+      "srcEn": "Firm template · ISA 210 ¶10",
+      "srcFr": "Modèle du cabinet · ISA 210 ¶10"
+     },
+     {
+      "key": "statutory",
+      "en": "Include the elements required by law or by the entity's statutes for a statutory appointment, including the term of the mandate.",
+      "fr": "Inclure les éléments requis par la loi ou les statuts au titre d'un mandat légal, y compris sa durée.",
+      "srcEn": "OHADA Uniform Act · statutes · appointment resolution",
+      "srcFr": "Acte uniforme OHADA · statuts · résolution de nomination"
+     },
+     {
+      "key": "terms",
+      "en": "Agree the fee basis, the timetable, and the involvement of any auditor's expert, component auditor or internal audit function.",
+      "fr": "Convenir de la base des honoraires, du calendrier, et de l'intervention de tout expert de l'auditeur, auditeur de composant ou service d'audit interne.",
+      "srcEn": "Budget · agreed timetable · P2.2",
+      "srcFr": "Budget · calendrier convenu · P2.2"
+     },
+     {
+      "key": "sign",
+      "en": "Obtain the signature of the person with authority to bind the entity. Record the name, position and dates in Part C.",
+      "fr": "Obtenir la signature de la personne habilitée à engager l'entité. Consigner son nom, sa fonction et les dates en partie C.",
+      "srcEn": "Signed letter · appointment resolution",
+      "srcFr": "Lettre signée · résolution de nomination"
+     },
+     {
+      "key": "recurring",
+      "en": "For a recurring engagement, assess whether the circumstances require the terms to be revised, and whether the entity needs to be reminded of the existing terms. Record the assessment in Part C.",
+      "fr": "Pour une mission récurrente, apprécier si les circonstances imposent de réviser les termes et s'il y a lieu de rappeler à l'entité les termes en vigueur. Consigner l'appréciation en partie C.",
+      "srcEn": "Prior engagement letter · ISA 210 ¶13",
+      "srcFr": "Lettre de mission antérieure · ISA 210 ¶13"
+     },
+     {
+      "key": "filed",
+      "en": "File the signed letter before fieldwork begins. Where fieldwork has begun without it, record the reason and the date the letter was obtained.",
+      "fr": "Classer la lettre signée avant le début des travaux. Si les travaux ont commencé sans elle, consigner le motif et la date d'obtention.",
+      "srcEn": "Engagement file",
+      "srcFr": "Dossier de mission"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Contents of the letter",
+    "titleFr": "Partie B — Contenu de la lettre",
+    "introEn": "Read the signed letter and confirm that it contains each of the following. The bracketed references are to ISA 210. Explain each “No” in the box beneath it.",
+    "introFr": "Lire la lettre signée et confirmer qu'elle contient chacun des éléments suivants. Les références renvoient à l'ISA 210.",
+    "items": [
+     {
+      "key": "objective",
+      "en": "The objective and scope of the audit of the financial statements (¶10(a)).",
+      "fr": "L'objectif et l'étendue de l'audit des états financiers (¶10(a))."
+     },
+     {
+      "key": "auditor_resp",
+      "en": "The responsibilities of the auditor (¶10(b)).",
+      "fr": "Les responsabilités de l'auditeur (¶10(b))."
+     },
+     {
+      "key": "mgmt_resp",
+      "en": "The responsibilities of management, including the acknowledgements recorded in P1.3 Part B (¶10(c)).",
+      "fr": "Les responsabilités de la direction, y compris les reconnaissances de P1.3 partie B (¶10(c))."
+     },
+     {
+      "key": "framework",
+      "en": "Identification of the applicable financial reporting framework (¶10(d)).",
+      "fr": "L'identification du référentiel comptable applicable (¶10(d))."
+     },
+     {
+      "key": "report_form",
+      "en": "Reference to the expected form and content of our reports, and a statement that circumstances may require a report to differ from that form (¶10(e)).",
+      "fr": "La référence à la forme attendue des rapports, et la mention que les circonstances peuvent l'affecter (¶10(e))."
+     },
+     {
+      "key": "fees",
+      "en": "The basis on which fees are charged and the billing arrangements.",
+      "fr": "La base de facturation des honoraires et les modalités de règlement."
+     },
+     {
+      "key": "access",
+      "en": "The arrangements for access to, and inspection of, the audit documentation.",
+      "fr": "Les modalités d'accès et d'examen de la documentation d'audit."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Execution and recurring engagements",
+    "titleFr": "Partie C — Signature et missions récurrentes",
+    "fields": [
+     {
+      "key": "dated",
+      "kind": "input",
+      "labelEn": "Date of the letter, who signed for the entity and in what capacity, and the date it was countersigned and returned",
+      "labelFr": "Date de la lettre, signataire pour l'entité et sa qualité, date de retour contresigné"
+     },
+     {
+      "key": "recurring",
+      "kind": "input",
+      "labelEn": "Recurring engagements: the factors assessed in deciding whether the terms require revision, and the conclusion reached",
+      "labelFr": "Missions récurrentes : facteurs appréciés pour décider d'une révision des termes, et conclusion"
+     }
+    ]
+   }
+  ]
+ }
+}

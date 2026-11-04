@@ -1,0 +1,163 @@
+{
+ "code": "S5.5",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 330 ¶6–7, ¶18, ¶21–22 · ISA 520 ¶5 · ISA 240 ¶29(c)",
+  "ownsEn": "the design of the substantive procedures per significant account",
+  "ownsFr": "la conception des procédures substantives par compte significatif",
+  "tools": [
+   "sampling"
+  ],
+  "reqEn": [
+   "Irrespective of the assessed risks, we design and perform substantive procedures for each material class of transactions, account balance and disclosure (ISA 330 ¶18): a baseline of primary substantive procedures per relevant assertion exists on every audit, because risk assessment is judgmental and controls have inherent limits. The combined risk assessment never removes the baseline — it sets its nature, timing and extent (ISA 330 ¶6–7).",
+   "The higher the CRA, the more persuasive the evidence: analytics disaggregate further and rest on tested data, key-item thresholds fall so more items are examined, representative samples grow, and the work moves toward the period end. At minimal CRA the procedures corroborate an expectation of no misstatement; without controls reliance they must be able to detect and quantify one.",
+   "Substantive analytical procedures suit large, predictable volumes and require a robust expectation built before looking at the recorded amount, with the reliability of the underlying data established (ISA 520 ¶5). Tests of details carry the assertions analytics cannot, and completeness exposures — unrecorded liabilities, cut-off — need procedures aimed at understatement, not a sample of what was recorded.",
+   "Where procedures run at an interim date, rollforward procedures bridge to the period end, their extent growing with the stub; the allowable interim window shrinks as the CRA rises. For every significant risk the substantive response includes a test of details designed to be specifically responsive (ISA 330 ¶21), and an element of unpredictability enters the programme (ISA 240 ¶29(c))."
+  ],
+  "reqFr": [
+   "Quels que soient les risques évalués, nous concevons et réalisons des procédures substantives pour chaque flux, solde et information significatifs (ISA 330 ¶18) : un socle de procédures substantives primaires par assertion pertinente existe sur toute mission, parce que l'évaluation des risques relève du jugement et que les contrôles ont des limites inhérentes. L'évaluation combinée ne retire jamais le socle — elle en règle la nature, le calendrier et l'étendue (ISA 330 ¶6–7).",
+   "Plus l'ECR est élevé, plus les éléments probants doivent convaincre : les analytiques se désagrègent davantage et reposent sur des données testées, les seuils d'éléments clés baissent pour examiner plus d'éléments, les échantillons représentatifs grossissent, et les travaux se rapprochent de la clôture. À un ECR minimal, les procédures corroborent l'attente d'absence d'anomalie ; sans appui sur les contrôles, elles doivent pouvoir détecter et chiffrer une anomalie.",
+   "Les procédures analytiques substantives conviennent aux volumes importants et prévisibles et exigent une attente robuste construite avant de regarder le montant comptabilisé, la fiabilité des données sous-jacentes étant établie (ISA 520 ¶5). Les tests de détail portent les assertions que les analytiques ne peuvent porter, et les expositions d'exhaustivité — passifs non comptabilisés, séparation des exercices — appellent des procédures visant la sous-évaluation, pas un échantillon de ce qui a été enregistré.",
+   "Lorsque des travaux sont réalisés en intercalaire, des procédures de liaison couvrent jusqu'à la clôture, leur étendue croissant avec le tronçon restant ; la fenêtre intercalaire admissible rétrécit quand l'ECR monte. Pour chaque risque important, la réponse substantive comprend un test de détail conçu pour y répondre spécifiquement (ISA 330 ¶21), et une part d'imprévisibilité entre au programme (ISA 240 ¶29(c))."
+  ],
+  "conclEn": [
+   "Every significant account carries a designed nature, timing and extent consistent with its CRA, and every significant risk has a specifically responsive test of details among the designed procedures.",
+   "Where the primary procedures leave a gap — higher inherent risk, a no-reliance assertion, an unaddressed WCGW — other substantive procedures are designed to close it."
+  ],
+  "conclFr": [
+   "Chaque compte significatif porte une nature, un calendrier et une étendue conçus en cohérence avec son ECR, et chaque risque important dispose d'un test de détail spécifiquement conçu parmi les procédures prévues.",
+   "Lorsque le socle laisse un vide — risque inhérent élevé, assertion sans appui, WCGW non couvert — d'autres procédures substantives sont conçues pour le combler."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "cra",
+      "en": "Pull the CRA per relevant assertion of each significant account from the S3.1 matrix, together with the reasons behind the inherent-risk call — the label alone does not design a procedure.",
+      "fr": "Reprendre l'ECR par assertion pertinente de chaque compte significatif depuis la matrice S3.1, avec les motifs de la cotation du risque inhérent — l'étiquette seule ne conçoit pas une procédure.",
+      "srcEn": "S3.1 CRA matrix",
+      "srcFr": "Matrice ECR S3.1"
+     },
+     {
+      "key": "baseline",
+      "en": "Confirm the primary-procedure baseline per account from the library; where a primary procedure is inapplicable, record why and where the assertion's evidence will come from instead.",
+      "fr": "Confirmer le socle de procédures primaires par compte depuis la bibliothèque ; si une procédure primaire est inapplicable, consigner pourquoi et d'où viendront les éléments probants de l'assertion.",
+      "srcEn": "E4 workpapers · procedure library",
+      "srcFr": "Papiers E4 · bibliothèque de procédures",
+      "tipEn": "The design board lists the library count per account and whether the E4 workpaper has generated them. An omitted primary procedure needs a written rationale — 'no receivables confirmations' is a documented decision, never a silence.",
+      "tipFr": "Le tableau de conception affiche le nombre de procédures de la bibliothèque par compte et si le papier E4 les a générées. Une procédure primaire omise exige un motif écrit — « pas de circularisation clients » est une décision documentée, jamais un silence."
+     },
+     {
+      "key": "nature",
+      "en": "Set the nature per account: the SAP/ToD mix that fits the CRA and the account's substance — analytics disaggregated and data-tested where no controls reliance exists, details where precision is needed.",
+      "fr": "Arrêter la nature par compte : le dosage analytiques/tests de détail cohérent avec l'ECR et la substance du compte — analytiques désagrégées et données testées sans appui sur les contrôles, détails là où la précision s'impose.",
+      "srcEn": "Design board below · S3.1",
+      "srcFr": "Tableau de conception ci-dessous · S3.1"
+     },
+     {
+      "key": "timing",
+      "en": "Set the timing within the CRA's window: interim up to ~6 months at minimal, ~3 months at low, at or near the period end at moderate and high — every interim choice pairs with designed rollforward and interim cut-off procedures.",
+      "fr": "Arrêter le calendrier dans la fenêtre de l'ECR : intercalaire jusqu'à ~6 mois à minimal, ~3 mois à faible, à la clôture ou près de la clôture à modéré et élevé — tout choix intercalaire s'accompagne de procédures de liaison et de séparation à la date intercalaire.",
+      "srcEn": "Design board · client closing calendar",
+      "srcFr": "Tableau de conception · calendrier de clôture du client"
+     },
+     {
+      "key": "extent",
+      "en": "Set the extent: key-item thresholds per the CRA ranges (tighter on the liability and expense side), and representative samples sized by the sampling tool over the population net of key items.",
+      "fr": "Arrêter l'étendue : seuils d'éléments clés selon les fourchettes de l'ECR (plus serrés côté passif et charges), et échantillons représentatifs dimensionnés par l'outil sur la population nette des éléments clés.",
+      "srcEn": "Sampling tool — tests of details",
+      "srcFr": "Outil d'échantillonnage — tests de détail",
+      "tipEn": "Deliberately sweep into the key items the unusual, the near-date, the related-party and the aged — the threshold is a floor for judgment, not a substitute for it.",
+      "tipFr": "Faire entrer délibérément dans les éléments clés l'inhabituel, le proche de la clôture, les parties liées et l'ancien — le seuil est un plancher pour le jugement, pas son substitut."
+     },
+     {
+      "key": "understatement",
+      "en": "For accounts whose exposure is understatement — payables, expenses, provisions — design procedures aimed at what is missing: the unrecorded-liability search, cut-off work, subsequent payments.",
+      "fr": "Pour les comptes exposés à la sous-évaluation — fournisseurs, charges, provisions — concevoir des procédures visant ce qui manque : recherche de passifs non comptabilisés, séparation des exercices, paiements postérieurs.",
+      "srcEn": "E4 payables/provisions programmes",
+      "srcFr": "Programmes E4 fournisseurs/provisions"
+     },
+     {
+      "key": "osp",
+      "en": "Design other substantive procedures wherever the baseline leaves a gap: higher inherent risk, a significant risk (a specifically responsive test of details is mandatory), a WCGW no primary procedure covers, or a no-reliance assertion.",
+      "fr": "Concevoir d'autres procédures substantives partout où le socle laisse un vide : risque inhérent élevé, risque important (un test de détail spécifiquement conçu est obligatoire), WCGW non couvert par le socle, ou assertion sans appui.",
+      "srcEn": "S3.1 · risk register · E4 (+ Add substantive procedures)",
+      "srcFr": "S3.1 · registre des risques · E4 (+ Ajouter des procédures substantives)"
+     },
+     {
+      "key": "unpredictability",
+      "en": "Build an element of unpredictability into the design: an unannounced timing shift, selections below the usual thresholds, a location or account not visited before.",
+      "fr": "Intégrer une part d'imprévisibilité à la conception : décalage de calendrier non annoncé, sélections sous les seuils habituels, site ou compte jamais visité.",
+      "srcEn": "ISA 240 ¶29(c) · S3.1 overall responses",
+      "srcFr": "ISA 240 ¶29(c) · réponses globales S3.1"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part B — Design record",
+    "titleFr": "Partie B — Dossier de conception",
+    "fields": [
+     {
+      "key": "omitted",
+      "kind": "input",
+      "labelEn": "Primary procedures not performed, with the rationale and the alternative source of evidence for each",
+      "labelFr": "Procédures primaires non réalisées, avec le motif et la source alternative d'éléments probants pour chacune"
+     },
+     {
+      "key": "unpredictability",
+      "kind": "input",
+      "labelEn": "The unpredictability element designed into the programme",
+      "labelFr": "La part d'imprévisibilité intégrée au programme"
+     },
+     {
+      "key": "interim",
+      "kind": "input",
+      "labelEn": "Where interim timing is chosen: the rollforward and interim cut-off design",
+      "labelFr": "En cas de calendrier intercalaire : la conception des travaux de liaison et de séparation"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part C — Evaluation",
+    "titleFr": "Partie C — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "baseline",
+      "en": "Every significant account keeps its primary-procedure baseline, or carries a written rationale and alternative where one is omitted (procedure 2).",
+      "fr": "Chaque compte significatif conserve son socle de procédures primaires, ou porte un motif écrit et une alternative en cas d'omission (procédure 2)."
+     },
+     {
+      "key": "consistent",
+      "en": "The designed nature, timing and extent of each account are consistent with its CRA (procedures 3–5).",
+      "fr": "La nature, le calendrier et l'étendue conçus pour chaque compte sont cohérents avec son ECR (procédures 3–5)."
+     },
+     {
+      "key": "sig_risks",
+      "en": "Every significant risk has a specifically responsive test of details among the designed procedures (procedure 7).",
+      "fr": "Chaque risque important dispose d'un test de détail spécifiquement conçu parmi les procédures prévues (procédure 7)."
+     },
+     {
+      "key": "understatement",
+      "en": "Understatement exposures are answered by procedures aimed at what is missing, not only at what is recorded (procedure 6).",
+      "fr": "Les expositions à la sous-évaluation sont traitées par des procédures visant ce qui manque, pas seulement ce qui est enregistré (procédure 6)."
+     },
+     {
+      "key": "interim",
+      "en": "Every interim choice pairs with designed rollforward and interim cut-off procedures (procedure 4).",
+      "fr": "Tout choix intercalaire s'accompagne de travaux de liaison et de séparation conçus (procédure 4).",
+      "na": true
+     }
+    ]
+   }
+  ]
+ }
+}

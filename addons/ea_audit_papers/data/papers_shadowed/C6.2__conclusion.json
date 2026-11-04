@@ -1,0 +1,140 @@
+{
+ "code": "C6.2",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 230 ¶14–16 · ISQM 1 ¶31(f) · ISA 220 (Revised) ¶31",
+  "ownsEn": "the assembly of the final file and its archive",
+  "ownsFr": "l'assemblage du dossier définitif et son archivage",
+  "reqEn": [
+   "The documentation must let an experienced auditor with no previous connection to the audit understand the nature, timing and extent of the procedures, their results and the evidence obtained, the significant matters, the conclusions reached and the significant judgements made (ISA 230 ¶8). A bare sign-off documents nothing; oral explanation is not evidence; work not documented is work without evidence.",
+   "Two dates govern the close. The report is dated only when sufficient appropriate evidence exists, the financial statements are prepared and management has accepted responsibility for them (ISA 700 ¶49) — every paper is complete, reviewed, signed off, and every review note bearing on the work or the conclusions is cleared by then. Assembly after that date is administrative only — deleting superseded drafts, sorting, cross-referencing — and never new procedures or new conclusions (ISA 230 ¶14–16, A21–A24).",
+   "The final file is assembled within 60 days of the report date (ISA 230 A21). After assembly nothing is deleted before the retention period expires; any addition records what was added and when, by whom, the reasons, and its effect on the report, and carries the engagement partner's approval (ISA 230 ¶16, A20).",
+   "Sign-offs carry the actual date — never backdated. Work signed later than performed states when it was actually done. Retention follows the firm's policy under ISQM 1 ¶31(f) and any longer statutory period (OHADA: ten years for accounting records)."
+  ],
+  "reqFr": [
+   "La documentation doit permettre à un auditeur expérimenté, sans lien antérieur avec la mission, de comprendre la nature, le calendrier et l'étendue des procédures, leurs résultats et les éléments obtenus, les questions importantes, les conclusions et les jugements significatifs (ISA 230 ¶8). Une signature seule ne documente rien ; une explication orale n'est pas un élément probant ; un travail non documenté est un travail sans preuve.",
+   "Deux dates gouvernent la clôture. Le rapport n'est daté que lorsque des éléments suffisants et appropriés existent, que les états financiers sont établis et que la direction en a accepté la responsabilité (ISA 700 ¶49) — chaque papier est alors complet, revu, signé, et chaque note de revue portant sur les travaux ou les conclusions est levée. L'assemblage postérieur est purement administratif — suppression des brouillons périmés, classement, référencement croisé — jamais de nouvelles procédures ni de nouvelles conclusions (ISA 230 ¶14–16, A21–A24).",
+   "Le dossier définitif est assemblé dans les 60 jours de la date du rapport (ISA 230 A21). Après l'assemblage, rien n'est supprimé avant l'expiration du délai de conservation ; tout ajout consigne ce qui a été ajouté, quand, par qui, les motifs et l'effet sur le rapport, avec l'approbation de l'associé (ISA 230 ¶16, A20).",
+   "Les signatures portent la date réelle — jamais antidatées. Un travail signé après coup précise quand il a réellement été fait. La conservation suit la politique du cabinet (ISQM 1 ¶31(f)) et tout délai légal plus long (OHADA : dix ans pour les documents comptables)."
+  ],
+  "conclEn": [
+   "The final file is complete, reviewed and signed off, review notes are cleared, the assembly was administrative only, and the file is locked within the assembly window."
+  ],
+  "conclFr": [
+   "Le dossier définitif est complet, revu et signé, les notes de revue levées, l'assemblage purement administratif, et le dossier verrouillé dans le délai imparti."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "complete",
+      "en": "Verify every working paper is complete and signed off — preparer and reviewer, actual dates — and that no programme step or conclusion is left open.",
+      "fr": "Vérifier que chaque papier est complet et signé — préparateur et réviseur, dates réelles — et qu'aucune diligence ni conclusion ne reste ouverte.",
+      "srcEn": "Task list · sign-off registers · archive gates",
+      "srcFr": "Liste des tâches · registres de signature · contrôles d'archivage"
+     },
+     {
+      "key": "notes",
+      "en": "Clear every open review note; a note touching the extent of work, the documentation or a conclusion is resolved before the report is dated.",
+      "fr": "Lever chaque note de revue ouverte ; une note touchant l'étendue des travaux, la documentation ou une conclusion est résolue avant la date du rapport.",
+      "srcEn": "Review-notes tool",
+      "srcFr": "Outil notes de revue"
+     },
+     {
+      "key": "purge",
+      "en": "Purge what the file must not retain: superseded drafts, duplicates, to-do lists, correspondence without conclusions — and keep every paper that contradicts a final conclusion together with how the contradiction was resolved.",
+      "fr": "Purger ce que le dossier ne doit pas conserver : brouillons périmés, doublons, listes de tâches, correspondance sans conclusion — et conserver tout papier contredisant une conclusion finale avec la résolution de la contradiction.",
+      "srcEn": "ISA 230 A5 · file review",
+      "srcFr": "ISA 230 A5 · revue du dossier"
+     },
+     {
+      "key": "evidence",
+      "en": "Confirm the experienced-auditor test: procedures, results, evidence, conclusions and judgements are readable from the file alone, with the accounting records agreed to the financial statements.",
+      "fr": "Vérifier le critère de l'auditeur expérimenté : procédures, résultats, éléments, conclusions et jugements se lisent du dossier seul, la comptabilité étant rapprochée des états financiers.",
+      "srcEn": "ISA 230 ¶8 · C2.1 tie-out",
+      "srcFr": "ISA 230 ¶8 · rapprochement C2.1"
+     },
+     {
+      "key": "deliverables",
+      "en": "Retain a copy of every deliverable issued — the report, the management letter, the statutory communications — in the file.",
+      "fr": "Conserver au dossier copie de chaque livrable émis — rapport, lettre de recommandations, communications légales.",
+      "srcEn": "C5 papers · correspondence",
+      "srcFr": "Papiers C5 · correspondance"
+     },
+     {
+      "key": "assemble",
+      "en": "Assemble and lock the final file within 60 days of the report date; record the archive date.",
+      "fr": "Assembler et verrouiller le dossier définitif dans les 60 jours de la date du rapport ; consigner la date d'archivage.",
+      "srcEn": "ISA 230 A21 · archive function",
+      "srcFr": "ISA 230 A21 · fonction d'archivage"
+     },
+     {
+      "key": "post",
+      "en": "After the archive date, add nothing without recording what, when, by whom, why and the effect on the report, with the engagement partner's approval; delete nothing before retention expires.",
+      "fr": "Après l'archivage, n'ajouter rien sans consigner quoi, quand, par qui, pourquoi et l'effet sur le rapport, avec l'approbation de l'associé ; ne rien supprimer avant l'expiration du délai de conservation.",
+      "srcEn": "ISA 230 ¶15–16",
+      "srcFr": "ISA 230 ¶15–16"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "signoffs",
+      "en": "Every working paper carries preparer and reviewer sign-off at actual dates, none later than the report date (procedure 1).",
+      "fr": "Chaque papier porte les signatures du préparateur et du réviseur à dates réelles, aucune postérieure au rapport (procédure 1)."
+     },
+     {
+      "key": "notes",
+      "en": "Every review note bearing on the work or the conclusions is cleared (procedure 2).",
+      "fr": "Chaque note de revue portant sur les travaux ou les conclusions est levée (procédure 2)."
+     },
+     {
+      "key": "purged",
+      "en": "The file retains what it must and nothing it must not; contradictory evidence is kept with its resolution (procedure 3).",
+      "fr": "Le dossier conserve ce qu'il doit et rien de ce qu'il ne doit pas ; les éléments contradictoires sont conservés avec leur résolution (procédure 3)."
+     },
+     {
+      "key": "readable",
+      "en": "The file passes the experienced-auditor test (procedure 4).",
+      "fr": "Le dossier satisfait le critère de l'auditeur expérimenté (procédure 4)."
+     },
+     {
+      "key": "window",
+      "en": "The archive is completed within 60 days of the report date (procedure 6).",
+      "fr": "L'archivage est réalisé dans les 60 jours de la date du rapport (procédure 6)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

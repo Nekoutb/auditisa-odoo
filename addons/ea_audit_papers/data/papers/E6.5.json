@@ -1,0 +1,124 @@
+{
+ "code": "E6.5",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 510 ¶5–10 · ISA 710 ¶7–9",
+  "ownsEn": "the evidence obtained on opening balances and comparatives",
+  "ownsFr": "les éléments probants obtenus sur les soldes d'ouverture et les comparatifs",
+  "reqEn": [
+   "For an initial engagement we obtain sufficient appropriate evidence about whether the opening balances contain misstatements that materially affect the current period, and whether the accounting policies have been consistently applied (ISA 510 ¶6).",
+   "Comparative information is presented in accordance with the framework. Where we become aware that a material misstatement exists in the comparatives on which a prior report was issued, we follow ISA 560 in respect of that prior period (ISA 710 ¶8)."
+  ],
+  "reqFr": [
+   "Pour une mission initiale, nous obtenons des éléments suffisants sur l'absence, dans les soldes d'ouverture, d'anomalies affectant significativement l'exercice, et sur la permanence des méthodes (ISA 510 ¶6).",
+   "L'information comparative est présentée conformément au référentiel. Si une anomalie significative y est décelée, nous appliquons l'ISA 560 pour l'exercice antérieur (ISA 710 ¶8)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the opening balances and the comparative information, and the effect on the auditor's report has been determined."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les soldes d'ouverture et l'information comparative, et l'effet sur le rapport a été déterminé."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "agree",
+      "en": "Agree the opening balances to the prior period financial statements, and confirm they reflect any adjustment made after those statements were approved.",
+      "fr": "Rapprocher les soldes d'ouverture des états financiers antérieurs et vérifier la prise en compte de tout ajustement postérieur à leur approbation.",
+      "srcEn": "Prior financial statements · prior file · general ledger",
+      "srcFr": "États financiers antérieurs · dossier antérieur · grand livre"
+     },
+     {
+      "key": "predecessor",
+      "en": "Where a predecessor auditor acted, review their file for the opening position, or perform the alternative procedures planned in P1.2.",
+      "fr": "Lorsqu'un auditeur précédent est intervenu, examiner son dossier pour la position d'ouverture ou mettre en œuvre les procédures alternatives prévues en P1.2.",
+      "srcEn": "Predecessor's working papers · P1.2",
+      "srcFr": "Feuilles de travail du prédécesseur · P1.2"
+     },
+     {
+      "key": "current",
+      "en": "Determine whether the current period procedures already provide evidence over the opening balances, such as the collection of opening receivables or the sale of opening inventory.",
+      "fr": "Déterminer si les procédures de l'exercice fournissent déjà des éléments sur les soldes d'ouverture : encaissement des créances d'ouverture, écoulement des stocks d'ouverture.",
+      "srcEn": "E4.1 · E4.3 · current period testing",
+      "srcFr": "E4.1 · E4.3 · tests de l'exercice"
+     },
+     {
+      "key": "specific",
+      "en": "For the balances not covered, perform specific procedures on the opening position, including the physical existence of assets and the confirmation of liabilities.",
+      "fr": "Pour les soldes non couverts, mettre en œuvre des procédures spécifiques sur la position d'ouverture : existence physique des actifs et confirmation des dettes.",
+      "srcEn": "Confirmations · inspection · supporting documents",
+      "srcFr": "Confirmations · examen physique · pièces justificatives"
+     },
+     {
+      "key": "policies",
+      "en": "Test that the accounting policies applied to the opening balances are consistent with those applied in the current period, and that any change has been accounted for and disclosed.",
+      "fr": "Vérifier la permanence des méthodes appliquées aux soldes d'ouverture et le traitement et la mention de tout changement.",
+      "srcEn": "Prior policy note · current policy note",
+      "srcFr": "Note de méthodes antérieure · note de méthodes actuelle"
+     },
+     {
+      "key": "comparatives",
+      "en": "Agree the comparative figures to the prior period financial statements, and test any restatement to its supporting analysis.",
+      "fr": "Rapprocher les chiffres comparatifs des états financiers antérieurs et tester tout retraitement au regard de son analyse justificative.",
+      "srcEn": "Prior financial statements · restatement analysis",
+      "srcFr": "États financiers antérieurs · analyse du retraitement"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "agreed",
+      "en": "The opening balances agree to the prior period financial statements as approved (procedure 1).",
+      "fr": "Les soldes d'ouverture concordent avec les états financiers antérieurs approuvés (procédure 1)."
+     },
+     {
+      "key": "no_misstatement",
+      "en": "The opening balances contain no misstatement that materially affects the current period (procedures 2 to 4).",
+      "fr": "Les soldes d'ouverture ne contiennent aucune anomalie affectant significativement l'exercice (procédures 2 à 4)."
+     },
+     {
+      "key": "consistent",
+      "en": "The accounting policies have been applied consistently, or a change has been properly accounted for and disclosed (procedure 5).",
+      "fr": "Les méthodes comptables ont été appliquées de façon permanente, ou tout changement a été correctement traité et mentionné (procédure 5)."
+     },
+     {
+      "key": "comparatives",
+      "en": "The comparative figures agree to the prior period financial statements (procedure 6).",
+      "fr": "Les chiffres comparatifs concordent avec les états financiers antérieurs (procédure 6)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

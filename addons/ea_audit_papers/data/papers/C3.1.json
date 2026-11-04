@@ -1,0 +1,192 @@
+{
+ "code": "C3.1",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 580 ¶6–20 · ISA 450 ¶14 · ISA 260 ¶16(c)(ii)",
+  "ownsEn": "the written representations obtained",
+  "ownsFr": "les déclarations écrites obtenues",
+  "reqEn": [
+   "We request written representations that management has fulfilled its responsibilities: the preparation of the financial statements in accordance with the framework, the internal control it determined necessary, and the completeness of the transactions recorded and of the information and access provided (ISA 580 ¶10–11). These responsibility acknowledgements are never qualified by knowledge and belief; a qualifier of that kind is acceptable only on factual representations, and only from signatories with appropriate responsibility and knowledge (ISA 580 ¶13, A26).",
+   "The letter also carries the representations required by the other ISAs applicable to the engagement — fraud ({{ISA240.representations}}), laws and regulations (ISA 250 ¶16), related parties (ISA 550 ¶26), going concern ({{ISA570.representation}}), estimates (ISA 540 ¶37), litigation, subsequent events (ISA 560 ¶9) — and the representation that uncorrected misstatements are immaterial, with the summary of audit differences attached or included (ISA 450 ¶14, ISA 580 A10).",
+   "Written representations are necessary evidence but never sufficient on their own; where they are inconsistent with other evidence we investigate, and where doubt about management's integrity remains unresolved we reconsider the risk assessments and the reliability of every representation, written and oral (ISA 580 ¶4, ¶16–17). A refused representation is discussed with those charged with governance, management's integrity re-evaluated, and the effect on the opinion determined — a refusal on the ISA 580 ¶10–11 responsibilities compels a disclaimer (ISA 580 ¶19–20).",
+   "The letter covers every period referred to in the report, including periods before current management took office — being absent then does not reduce their responsibility now (ISA 580 ¶14, A15). It is dated as near as practicable to, but not after, the auditor's report; a delayed approval of the financial statements or a reissued report calls for an updated letter (ISA 580 ¶14, ISA 560 ¶13)."
+  ],
+  "reqFr": [
+   "Nous demandons des déclarations écrites attestant que la direction a rempli ses responsabilités : l'établissement des états financiers conformément au référentiel, le contrôle interne qu'elle a jugé nécessaire, et l'exhaustivité des opérations comptabilisées et des informations et accès fournis (ISA 580 ¶10–11). Ces reconnaissances de responsabilité ne se limitent jamais « à la connaissance » de la direction ; une telle réserve n'est admissible que sur des déclarations factuelles, et seulement de signataires ayant la responsabilité et la connaissance appropriées (ISA 580 ¶13, A26).",
+   "La lettre porte aussi les déclarations requises par les autres normes applicables — fraude ({{ISA240.representations}}), textes légaux (ISA 250 ¶16), parties liées (ISA 550 ¶26), continuité ({{ISA570.representation}}), estimations (ISA 540 ¶37), litiges, événements postérieurs (ISA 560 ¶9) — et la déclaration que les anomalies non corrigées sont non significatives, avec le récapitulatif des écarts d'audit joint ou repris (ISA 450 ¶14, ISA 580 A10).",
+   "Les déclarations écrites sont nécessaires mais jamais suffisantes à elles seules ; toute incohérence avec d'autres éléments est investiguée, et si un doute sur l'intégrité de la direction subsiste, nous réexaminons l'évaluation des risques et la fiabilité de toutes les déclarations, écrites et orales (ISA 580 ¶4, ¶16–17). Un refus est discuté avec la gouvernance, l'intégrité réévaluée et l'effet sur l'opinion déterminé — un refus sur les responsabilités de l'ISA 580 ¶10–11 impose une impossibilité d'exprimer une opinion (ISA 580 ¶19–20).",
+   "La lettre couvre chaque période visée par le rapport, y compris celles antérieures à la prise de fonction de la direction actuelle — son absence alors ne réduit pas sa responsabilité aujourd'hui (ISA 580 ¶14, A15). Elle est datée aussi près que possible du rapport, sans lui être postérieure ; une approbation tardive des comptes ou un rapport réémis appelle une lettre actualisée (ISA 580 ¶14, ISA 560 ¶13)."
+  ],
+  "conclEn": [
+   "The written representations required have been obtained, are appropriately dated and signed by the right persons, carry the summary of audit differences, and are consistent with the other audit evidence."
+  ],
+  "conclFr": [
+   "Les déclarations écrites requises ont été obtenues, correctement datées et signées par les bonnes personnes, portent le récapitulatif des écarts d'audit et concordent avec les autres éléments probants."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "schedule",
+      "en": "List the representations required: the ISA 580 responsibility acknowledgements plus those required by each other ISA applicable to this engagement.",
+      "fr": "Recenser les déclarations requises : les reconnaissances de responsabilité de l'ISA 580 et celles imposées par chaque autre norme applicable.",
+      "srcEn": "ISA 580 ¶10–11 · ISA-by-ISA checklist",
+      "srcFr": "ISA 580 ¶10–11 · liste par norme",
+      "tipEn": "[Draft] Start from the firm's template letter and tick each ISA against the file: fraud, laws and regulations, related parties, going concern, estimates, litigation, subsequent events, and the uncorrected misstatements with the SAD attached. Strike out nothing without a reason written beside it. The list is the evidence that nothing required was left out.",
+      "tipFr": "[Projet] Partir de la lettre type du cabinet et pointer chaque norme au regard du dossier : fraude, textes légaux, parties liées, continuité, estimations, litiges, événements postérieurs, et les anomalies non corrigées avec le SAD joint. Ne rien rayer sans une raison écrite en marge. La liste est la preuve qu'aucune déclaration requise n'a été omise."
+     },
+     {
+      "key": "specific",
+      "en": "Add the representations specific to this engagement — uncorrected misstatements with the SAD attached, litigation and claims, related parties, going concern, estimates and subsequent events — and any judged necessary to support other evidence.",
+      "fr": "Ajouter les déclarations propres à la mission — anomalies non corrigées avec le SAD joint, litiges, parties liées, continuité, estimations et événements postérieurs — et toute autre jugée nécessaire.",
+      "srcEn": "SAD tool · C1.1 · E6.9 · E6.2 · E6.3 · C2.2",
+      "srcFr": "Outil SAD · C1.1 · E6.9 · E6.2 · E6.3 · C2.2",
+      "tipEn": "[Draft] Walk the significant matters of C1.2 and ask for each whether a representation would strengthen the evidence: the completeness of the related parties list, the intention behind an unusual transaction, the recoverability of a specific debtor. Name amounts and counterparties in the letter rather than generic sentences. A representation never replaces evidence that could have been obtained.",
+      "tipFr": "[Projet] Parcourir les points significatifs de C1.2 et se demander pour chacun si une déclaration renforcerait les éléments obtenus : exhaustivité de la liste des parties liées, intention derrière une opération inhabituelle, recouvrabilité d'un débiteur précis. Nommer les montants et les contreparties dans la lettre plutôt que des phrases génériques. Une déclaration ne remplace jamais un élément probant qui aurait pu être obtenu."
+     },
+     {
+      "key": "materiality",
+      "en": "Where representations are limited to material matters, agree the threshold with management and state it in the letter — never on the responsibility acknowledgements.",
+      "fr": "Lorsque des déclarations sont limitées aux éléments significatifs, convenir du seuil avec la direction et l'indiquer dans la lettre — jamais sur les reconnaissances de responsabilité.",
+      "srcEn": "P6.1 materiality · ISA 580 A14",
+      "srcFr": "Seuil P6.1 · ISA 580 A14",
+      "tipEn": "[Draft] Where the letter says 'amounts above X are considered material', X is agreed in writing with management before the letter is drafted and is consistent with the P6.1 threshold used for the SAD. Check that no such limit appears on the responsibility paragraphs — preparation of the financial statements, internal control, completeness of information and access — which must be unqualified.",
+      "tipFr": "[Projet] Lorsque la lettre indique « les montants supérieurs à X sont considérés comme significatifs », X est convenu par écrit avec la direction avant la rédaction et cohérent avec le seuil P6.1 utilisé pour le SAD. Vérifier qu'aucune telle limite ne figure sur les paragraphes de responsabilité — établissement des états financiers, contrôle interne, exhaustivité des informations et accès — qui doivent rester sans réserve."
+     },
+     {
+      "key": "signatories",
+      "en": "Identify the signatories: those responsible for the financial statements with appropriate knowledge — normally the general manager and the finance director; add signers or a separate letter for matters known only to others.",
+      "fr": "Identifier les signataires : les responsables des états financiers disposant de la connaissance appropriée — en principe le dirigeant et le directeur financier ; ajouter des signataires ou une lettre séparée pour les questions connues d'autres personnes.",
+      "srcEn": "Statutes · delegation of authority · minutes",
+      "srcFr": "Statuts · délégations de pouvoirs · procès-verbaux",
+      "tipEn": "[Draft] Check the signatories' authority in the statutes and the delegations: in an OHADA société anonyme the directeur général, with the finance director for the figures. Where a matter is known only to another person — the legal counsel on litigation, a subsidiary's manager — add them as signatory or obtain a separate letter. A letter signed by the accountant alone is not management's representation.",
+      "tipFr": "[Projet] Vérifier le pouvoir des signataires dans les statuts et les délégations : dans une société anonyme OHADA le directeur général, avec le directeur financier pour les chiffres. Lorsqu'une question n'est connue que d'une autre personne — le conseil juridique pour les litiges, le responsable d'une filiale — l'ajouter comme signataire ou obtenir une lettre séparée. Une lettre signée du seul comptable n'est pas une déclaration de la direction."
+     },
+     {
+      "key": "draft",
+      "en": "Have the engagement partner review the draft letter before it goes to management — all required representations present, correct signatories, correct dating — and again if management changes the wording.",
+      "fr": "Faire revoir le projet de lettre par l'associé avant envoi à la direction — déclarations requises présentes, signataires et datation corrects — et de nouveau si la direction en modifie la rédaction.",
+      "srcEn": "Draft letter · partner review evidence",
+      "srcFr": "Projet de lettre · trace de revue de l'associé",
+      "tipEn": "[Draft] Send the draft to the partner with the checklist of procedure 1 beside it and keep the trace of the review — an initialled draft, a dated e-mail. Any wording management changes comes back to the partner before signature: a softened fraud representation or a knowledge-and-belief qualifier slipped onto a responsibility paragraph changes the evidence the letter gives.",
+      "tipFr": "[Projet] Transmettre le projet à l'associé avec la liste de la procédure 1 en regard et conserver la trace de la revue — projet paraphé, courriel daté. Toute modification de rédaction par la direction revient à l'associé avant signature : une déclaration sur la fraude adoucie ou une réserve « à notre connaissance » glissée sur un paragraphe de responsabilité change la valeur probante de la lettre."
+     },
+     {
+      "key": "date",
+      "en": "Obtain the signed letter dated as near as practicable to, and not after, the date of the auditor's report; compare the signed letter against the approved draft.",
+      "fr": "Obtenir la lettre signée à une date aussi proche que possible de celle du rapport, sans lui être postérieure ; comparer la lettre signée au projet approuvé.",
+      "srcEn": "Signed representation letter",
+      "srcFr": "Lettre d'affirmation signée",
+      "tipEn": "[Draft] Hold the report until the signed letter is in hand — a scan is acceptable, a promise is not. Compare the signed text against the approved draft word for word, and check the date: the same day as the report, or the day before. A letter dated after the report invalidates the sequence; a letter dated weeks before leaves the final period uncovered.",
+      "tipFr": "[Projet] Ne pas dater le rapport avant d'avoir la lettre signée en main — une copie numérisée convient, une promesse non. Comparer le texte signé au projet approuvé mot pour mot et vérifier la date : le jour du rapport, ou la veille. Une lettre datée après le rapport inverse la chronologie ; une lettre datée des semaines avant laisse la période finale sans couverture."
+     },
+     {
+      "key": "periods",
+      "en": "Confirm the letter covers every period referred to in the report; where management took office during the period, still obtain representations for the whole of it.",
+      "fr": "Vérifier que la lettre couvre chaque période visée par le rapport ; si la direction a pris ses fonctions en cours de période, obtenir néanmoins des déclarations sur toute la période.",
+      "srcEn": "ISA 580 ¶14 · prior-period file",
+      "srcFr": "ISA 580 ¶14 · dossier N-1",
+      "tipEn": "[Draft] Read the first paragraph of the letter against the report: both periods where comparatives are audited, the full year where a new managing director arrived in October. New management may want to limit its representations to its tenure; explain that it represents the financial statements as a whole, and record the discussion if it resists.",
+      "tipFr": "[Projet] Lire le premier paragraphe de la lettre au regard du rapport : les deux exercices lorsque les comparatifs sont audités, l'exercice entier lorsqu'un nouveau directeur général est arrivé en octobre. Une nouvelle direction voudra limiter ses déclarations à son mandat ; expliquer qu'elle répond des états financiers dans leur ensemble, et consigner la discussion si elle résiste."
+     },
+     {
+      "key": "consistency",
+      "en": "Compare the representations with the other evidence obtained; investigate and resolve any inconsistency, and reassess the affected risks where the explanation fails.",
+      "fr": "Comparer les déclarations aux autres éléments obtenus ; investiguer toute incohérence et réévaluer les risques concernés si l'explication ne tient pas.",
+      "srcEn": "Working papers · ISA 580 ¶17 · S3.1",
+      "srcFr": "Feuilles de travail · ISA 580 ¶17 · S3.1",
+      "tipEn": "[Draft] Read the letter one last time against the file: a representation that no related party transactions exist beside the S4.3 register, that all litigation is disclosed beside the lawyer's letter in E6.9, that no fraud is known beside the P5.1 inquiries. Each contradiction is investigated and written up; an unresolved one puts the reliability of every other representation in doubt.",
+      "tipFr": "[Projet] Relire la lettre une dernière fois face au dossier : une déclaration d'absence d'opérations avec des parties liées à côté du registre S4.3, une déclaration que tous les litiges sont mentionnés à côté de la lettre de l'avocat en E6.9, une déclaration d'absence de fraude connue à côté des entretiens de P5.1. Chaque contradiction est investiguée et documentée ; une contradiction non résolue met en doute la fiabilité de toutes les autres déclarations."
+     },
+     {
+      "key": "refusal",
+      "en": "Where a requested representation is refused or unreliable, discuss with those charged with governance, re-evaluate management's integrity and the reliability of all representations, and determine the effect on the opinion.",
+      "fr": "En cas de refus ou de doute sur une déclaration, en discuter avec la gouvernance, réévaluer l'intégrité de la direction et la fiabilité de toutes les déclarations, et déterminer l'effet sur l'opinion.",
+      "srcEn": "ISA 580 ¶19–20 · C5.1",
+      "srcFr": "ISA 580 ¶19–20 · C5.1",
+      "tipEn": "[Draft] Record the refusal precisely — which representation, who refused, the reason given, the date — and take it to the partner and to governance the same day. A refusal on the ISA 580 ¶10–11 responsibilities compels a disclaimer of opinion; a refusal on a specific matter is weighed as a scope limitation on that matter. Do not negotiate the wording down to obtain a signature.",
+      "tipFr": "[Projet] Consigner le refus avec précision — quelle déclaration, qui a refusé, le motif donné, la date — et le porter le jour même à l'associé et à la gouvernance. Un refus sur les responsabilités de l'ISA 580 ¶10–11 impose une impossibilité d'exprimer une opinion ; un refus sur un point précis s'apprécie comme une limitation de l'étendue des travaux sur ce point. Ne pas négocier la formulation à la baisse pour obtenir une signature."
+     },
+     {
+      "key": "update",
+      "en": "Where the financial statements' approval is delayed or the report is reissued, obtain an updated letter stating whether any representation needs modification and whether subsequent events require adjustment or disclosure.",
+      "fr": "En cas d'approbation tardive des comptes ou de réémission du rapport, obtenir une lettre actualisée précisant si une déclaration doit être modifiée et si des événements postérieurs appellent ajustement ou information.",
+      "srcEn": "ISA 580 ¶14 · ISA 560 ¶13 · C2.2",
+      "srcFr": "ISA 580 ¶14 · ISA 560 ¶13 · C2.2",
+      "tipEn": "[Draft] An updated letter can be short: the earlier representations stand, no event since the previous letter requires adjustment or disclosure (or the events listed do), dated the day of the new report. Extend the C2.2 procedures to the same date before asking for it; the letter confirms work, it does not replace it.",
+      "tipFr": "[Projet] Une lettre actualisée peut être brève : les déclarations antérieures demeurent, aucun événement depuis la précédente lettre n'appelle ajustement ou mention (ou les événements listés l'appellent), datée du jour du nouveau rapport. Prolonger d'abord les procédures de C2.2 jusqu'à cette date ; la lettre confirme des travaux, elle ne les remplace pas."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "complete",
+      "en": "Every representation required by the ISAs applicable to this engagement has been requested, including the uncorrected-misstatements representation with the SAD attached (procedures 1, 2).",
+      "fr": "Chaque déclaration requise par les normes applicables a été demandée, dont celle sur les anomalies non corrigées avec le SAD joint (procédures 1, 2)."
+     },
+     {
+      "key": "unqualified",
+      "en": "No responsibility acknowledgement is qualified by knowledge and belief (procedure 3).",
+      "fr": "Aucune reconnaissance de responsabilité n'est limitée « à la connaissance » de la direction (procédure 3)."
+     },
+     {
+      "key": "signed",
+      "en": "The letter is signed by the persons with responsibility and appropriate knowledge (procedure 4).",
+      "fr": "La lettre est signée par les personnes responsables et disposant de la connaissance appropriée (procédure 4)."
+     },
+     {
+      "key": "reviewed",
+      "en": "The engagement partner reviewed the draft before it went to management, and any change management made to it (procedure 5).",
+      "fr": "L'associé a revu le projet avant envoi à la direction, ainsi que toute modification apportée par elle (procédure 5)."
+     },
+     {
+      "key": "dated",
+      "en": "The letter is dated no later than the date of the auditor's report and covers every period the report refers to (procedures 6, 7).",
+      "fr": "La lettre n'est pas datée postérieurement au rapport et couvre chaque période visée (procédures 6, 7)."
+     },
+     {
+      "key": "consistent",
+      "en": "The representations are consistent with the other evidence obtained (procedure 8).",
+      "fr": "Les déclarations concordent avec les autres éléments obtenus (procédure 8)."
+     },
+     {
+      "key": "updated",
+      "en": "Where approval was delayed or the report reissued, an updated letter was obtained (procedure 10).",
+      "fr": "En cas d'approbation tardive ou de réémission, une lettre actualisée a été obtenue (procédure 10).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

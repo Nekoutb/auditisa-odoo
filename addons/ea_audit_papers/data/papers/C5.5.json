@@ -1,0 +1,164 @@
+{
+ "code": "C5.5",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "AUSCGIE arts. 150–152 (sociétés autres que la SA) · arts. 153–156 (SA) — à valider · ISA 570",
+  "ownsEn": "the alert procedure file and the position at each stage",
+  "ownsFr": "le dossier de la procédure d'alerte et la situation à chaque étape",
+  "reqEn": [
+   "Where the statutory auditor identifies facts of a nature to compromise the continuity of the undertaking, the alert procedure is engaged. The procedure runs in numbered stages, each with its own deadline, and the stages differ by legal form (articles to validate). In a company other than an SA (arts. 150–152): (1) the commissaire asks the gérant for explanations by hand-delivered or registered letter; (2) the gérant replies within one month of receipt — the AUSCGIE 2014 reading; the earlier text read fifteen days — with an analysis of the situation and the measures envisaged; (3) failing a reply or where it does not ensure continuity, the commissaire draws up a special report and may ask the gérant to put it to the next members' meeting, or to convene one; (4) the commissaire informs the competent court of its steps and their result. In an SA (arts. 153–156): (1) the request goes to the [[lf.executive]]; (2) the reply is due within one month; (3) failing a satisfactory reply, the commissaire invites the [[lf.chair]] within fifteen days to have the [[lf.board]] deliberate, the [[lf.board]] meets within one month and an extract of its deliberation is sent to the commissaire and to the competent court within one month; (4) failing deliberation or where continuity remains compromised, the commissaire draws up a special report presented to the next general meeting, which it may convene itself in urgency; (5) the competent court is informed of the result. A satisfactory reply discontinues the procedure, which may be resumed within six months (art. 156 — to validate).",
+   "The file records what was identified, when each stage was engaged, what response was received, and the decision taken at the end of each stage. The stages, their deadlines and the letters are driven from the legal tool (/legal, C5.5), which computes each deadline from the date of the event."
+  ],
+  "reqFr": [
+   "Lorsque le commissaire aux comptes relève des faits de nature à compromettre la continuité de l'exploitation, la procédure d'alerte est engagée. Elle se déroule par étapes numérotées, chacune assortie d'un délai, et la séquence diffère selon la forme sociale (articles à valider). Dans une société autre que la SA (arts. 150–152) : (1) le commissaire demande des explications au gérant par lettre au porteur contre récépissé ou recommandée ; (2) le gérant répond dans le mois de la réception — lecture AUSCGIE 2014 ; le texte antérieur retenait quinze jours — par une analyse de la situation et les mesures envisagées ; (3) à défaut de réponse ou si elle ne permet pas d'assurer la continuité, le commissaire établit un rapport spécial et peut demander au gérant de le soumettre à la prochaine assemblée des associés, ou la convoquer ; (4) le commissaire informe la juridiction compétente de ses démarches et de leur résultat. Dans la SA (arts. 153–156) : (1) la demande est adressée à l'[[lf.executive]] ; (2) la réponse est due dans le mois ; (3) à défaut de réponse satisfaisante, le commissaire invite dans les quinze jours l'[[lf.chair]] à faire délibérer l'[[lf.board]], qui se réunit dans le mois, un extrait de la délibération étant adressé au commissaire et à la juridiction compétente dans le mois ; (4) à défaut de délibération ou si la continuité demeure compromise, le commissaire établit un rapport spécial présenté à la prochaine assemblée générale, qu'il peut convoquer lui-même en cas d'urgence ; (5) la juridiction compétente est informée du résultat. Une réponse satisfaisante interrompt la procédure, qui peut être reprise dans les six mois (art. 156 — à valider).",
+   "Le dossier consigne les faits relevés, la date d'engagement de chaque étape, la réponse reçue et la décision prise à l'issue de chacune. Les étapes, leurs délais et les lettres sont pilotés depuis l'outil juridique (/legal, C5.5), qui calcule chaque échéance à partir de la date de l'événement."
+  ],
+  "conclEn": [
+   "The facts identified have been assessed against the requirement to engage the alert procedure, and the position at each stage engaged is recorded."
+  ],
+  "conclFr": [
+   "Les faits relevés ont été appréciés au regard de l'obligation d'engager la procédure d'alerte, et la situation à chaque étape engagée est consignée."
+  ],
+  "tools": [
+   "legal"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "facts",
+      "en": "Record the facts identified that are of a nature to compromise the continuity of the undertaking, and the evidence for each.",
+      "fr": "Consigner les faits relevés de nature à compromettre la continuité de l'exploitation et les éléments qui les établissent.",
+      "srcEn": "E6.3 · S4.2 · C5.8 · working papers",
+      "srcFr": "E6.3 · S4.2 · C5.8 · feuilles de travail",
+      "tipEn": "[Draft] Draw the facts from E6.3, S4.2 and C5.8 rather than re-investigating: recurring losses, equity below half the capital, arrears to the CNPS and the tax administration, a facility withdrawn, a principal customer lost. For each, write the figure, its source and the paper reference. The alert procedure is about facts the directors must answer, so the list must be concrete enough to be answered.",
+      "tipFr": "[Projet] Tirer les faits de E6.3, S4.2 et C5.8 plutôt que de ré-enquêter : pertes récurrentes, capitaux propres inférieurs à la moitié du capital, arriérés envers la CNPS et l'administration fiscale, concours retiré, client principal perdu. Pour chacun, écrire le chiffre, sa source et la référence de la feuille. La procédure d'alerte porte sur des faits auxquels les dirigeants doivent répondre ; la liste doit donc être assez concrète pour qu'on puisse y répondre."
+     },
+     {
+      "key": "assess",
+      "en": "Assess whether the facts require the procedure to be engaged, and record the basis for that decision.",
+      "fr": "Apprécier si ces faits imposent l'engagement de la procédure et consigner le fondement de cette décision.",
+      "srcEn": "Uniform Act · consultation record C1.3",
+      "srcFr": "Acte uniforme · registre des consultations C1.3",
+      "tipEn": "[Draft] The test of the Uniform Act is whether the facts are of a nature to compromise the continuity of the undertaking — a lower threshold than the ISA 570 material uncertainty, and a legal duty, not a judgement about the report. Take the decision with the partner and record it in C1.3 as a consultation where the case is not clear. A decision not to engage, with its reasons, is as necessary a record as a decision to engage.",
+      "tipFr": "[Projet] Le critère de l'Acte uniforme est l'existence de faits de nature à compromettre la continuité de l'exploitation — un seuil plus bas que l'incertitude significative de l'ISA 570, et une obligation légale, pas un jugement sur le rapport. Prendre la décision avec l'associé et la consigner en C1.3 comme consultation lorsque le cas n'est pas clair. Une décision de ne pas engager la procédure, motivée, est une trace aussi nécessaire qu'une décision de l'engager."
+     },
+     {
+      "key": "stage1",
+      "en": "Stage 1 — where the procedure is engaged, start it in the legal tool (/legal, C5.5), which addresses the request for explanations to the [[lf.executive]] and computes the reply deadline — one month from receipt under the AUSCGIE 2014 reading (to validate; the earlier text read fifteen days) — and record the date sent and the proof of receipt.",
+      "fr": "Étape 1 — lorsque la procédure est engagée, la déclencher dans l'outil juridique (/legal, C5.5), qui adresse la demande d'explications à l'[[lf.executive]] et calcule le délai de réponse — un mois à compter de la réception selon la lecture AUSCGIE 2014 (à valider ; le texte antérieur retenait quinze jours) — et consigner la date d'envoi et la preuve de réception.",
+      "srcEn": "Our letter (legal tool) · acknowledgement of receipt · AUSCGIE arts. 150 / 153 (à valider)",
+      "srcFr": "Notre lettre (outil juridique) · accusé de réception · AUSCGIE arts. 150 / 153 (à valider)",
+      "tipEn": "[Draft] Send the letter by a means that proves receipt — hand delivery against signature or registered mail — addressed to the chief executive (président du conseil, administrateur général or gérant according to the legal form), stating the facts and asking for explanations within the statutory period, which runs from receipt. File the letter, the proof of receipt and the computed deadline. The clock of every later stage starts here.",
+      "tipFr": "[Projet] Adresser la lettre par un moyen qui prouve la réception — remise en main propre contre décharge ou lettre recommandée — au dirigeant compétent (président du conseil, administrateur général ou gérant selon la forme sociale), en exposant les faits et en demandant des explications dans le délai légal, qui court de la réception. Classer la lettre, la preuve de réception et le calcul de l'échéance. Le délai de chaque étape suivante part d'ici."
+     },
+     {
+      "key": "response",
+      "en": "Stage 2 — record the response received within the deadline, evaluate whether it addresses the facts, and record the decision to discontinue the procedure (resumable within six months) or to move to the next stage.",
+      "fr": "Étape 2 — consigner la réponse reçue dans le délai, apprécier si elle traite les faits relevés et consigner la décision d'interrompre la procédure (reprise possible dans les six mois) ou de passer à l'étape suivante.",
+      "srcEn": "Response received · our evaluation · AUSCGIE arts. 150 / 153, 156 (à valider)",
+      "srcFr": "Réponse reçue · notre appréciation · AUSCGIE arts. 150 / 153, 156 (à valider)",
+      "tipEn": "[Draft] Set the response against the facts one by one: is each fact answered, and is the answer supported — a signed renewal, a capital increase subscribed, a payment plan accepted by the creditor? Reassurances without documents do not close a fact. Record the evaluation and the partner's decision with its date; no reply within the period is itself the trigger for the next stage.",
+      "tipFr": "[Projet] Confronter la réponse aux faits un par un : chaque fait a-t-il reçu une réponse, et celle-ci est-elle étayée — renouvellement signé, augmentation de capital souscrite, échéancier accepté par le créancier ? Des assurances sans documents ne clôturent pas un fait. Consigner l'appréciation et la décision de l'associé avec sa date ; l'absence de réponse dans le délai déclenche d'elle-même l'étape suivante."
+     },
+     {
+      "key": "stage2",
+      "en": "Stage 3 (SA) — where the response is not satisfactory or is not received, invite the [[lf.chair]] within fifteen days to have the [[lf.board]] deliberate on the facts; the [[lf.board]] meets within one month, we attend, and an extract of the deliberation is sent to us and to the competent court within one month. Record each date and the outcome.",
+      "fr": "Étape 3 (SA) — si la réponse est insatisfaisante ou absente, inviter dans les quinze jours l'[[lf.chair]] à faire délibérer l'[[lf.board]] sur les faits ; l'[[lf.board]] se réunit dans le mois, nous y assistons, et un extrait de la délibération nous est adressé ainsi qu'à la juridiction compétente dans le mois. Consigner chaque date et l'issue.",
+      "srcEn": "Our letter to the [[lf.chair]] · minutes of the [[lf.board]] · AUSCGIE art. 154 (à valider)",
+      "srcFr": "Notre lettre à l'[[lf.chair]] · procès-verbal de l'[[lf.board]] · AUSCGIE art. 154 (à valider)",
+      "tipEn": "[Draft] Ask the chairman in writing to convene the board to deliberate on the facts, within the statutory period, and attend the meeting: the auditor is heard there. Obtain the minutes and the extract of the deliberation; where the board does not meet or does not decide, record it with the dates. A copy of our letter goes to the court where the Uniform Act so provides — check the applicable text for the legal form.",
+      "tipFr": "[Projet] Demander par écrit au président de convoquer le conseil pour délibérer sur les faits, dans le délai légal, et assister à la séance : le commissaire aux comptes y est entendu. Obtenir le procès-verbal et l'extrait de la délibération ; si le conseil ne se réunit pas ou ne décide pas, le consigner avec les dates. Une copie de notre lettre est adressée à la juridiction compétente lorsque l'Acte uniforme le prévoit — vérifier le texte applicable à la forme sociale.",
+      "forms": [
+       "SA",
+       "SA_AG"
+      ]
+     },
+     {
+      "key": "court",
+      "en": "Inform the competent court — the president of the court with jurisdiction over the registered office — of the steps taken and their result, at the stage the Act provides for this [[lf.form]], and file the letter with its proof of receipt.",
+      "fr": "Informer la juridiction compétente — le président de la juridiction du siège social — des démarches accomplies et de leur résultat, à l'étape prévue par l'Acte pour cette [[lf.form]], et classer la lettre avec sa preuve de réception.",
+      "srcEn": "Our letter to the court (legal tool) · proof of receipt · AUSCGIE arts. 151–152 / 154, 156 (à valider)",
+      "srcFr": "Notre lettre à la juridiction (outil juridique) · preuve de réception · AUSCGIE arts. 151–152 / 154, 156 (à valider)",
+      "tipEn": "[Draft] The court is informed, not seized: the letter states the facts, the steps and the responses, in neutral terms, and asks for nothing. On a company other than an SA the information follows the reply or its absence; on an SA it follows the board's deliberation (extract sent) and the result of the general meeting. Date the letter from the legal tool so the deadline computed there and the letter agree.",
+      "tipFr": "[Projet] La juridiction est informée, non saisie : la lettre expose les faits, les démarches et les réponses, en termes neutres, et ne demande rien. Dans une société autre que la SA, l'information suit la réponse ou son absence ; dans la SA, elle suit la délibération du conseil (extrait adressé) et le résultat de l'assemblée. Dater la lettre depuis l'outil juridique pour que l'échéance qui y est calculée et la lettre concordent."
+     },
+     {
+      "key": "stage3",
+      "en": "Final stage — where continuity remains compromised, prepare the special alert report to the [[lf.meeting]], have it communicated to the [[lf.members]] (within eight days on a company other than an SA, or with the convening notice), record the date it is presented, and convene the meeting ourselves where the [[lf.executive]] does not.",
+      "fr": "Dernière étape — si la continuité demeure compromise, préparer le rapport spécial d'alerte à l'[[lf.meeting]], le faire communiquer aux [[lf.members]] (sous huit jours dans une société autre que la SA, ou avec la convocation), consigner la date de sa présentation, et convoquer nous-mêmes l'assemblée si l'[[lf.executive]] ne le fait pas.",
+      "srcEn": "Our special report (legal tool) · convening notice · AUSCGIE arts. 152 / 155–156 (à valider)",
+      "srcFr": "Notre rapport spécial (outil juridique) · avis de convocation · AUSCGIE arts. 152 / 155–156 (à valider)",
+      "tipEn": "[Draft] The special report sets out the facts, the steps taken and the responses received, in neutral terms and without opinion on management's conduct. Request the convening of the general meeting if the directors do not do so, and have the report sent to the shareholders with the convening notice. Record the date of the meeting and keep the final version of the report with the proof of its communication.",
+      "tipFr": "[Projet] Le rapport spécial expose les faits, les démarches accomplies et les réponses reçues, en termes neutres et sans appréciation sur la conduite des dirigeants. Demander la convocation de l'assemblée si les dirigeants n'y procèdent pas, et faire adresser le rapport aux associés avec la convocation. Consigner la date de l'assemblée et conserver la version définitive du rapport avec la preuve de sa communication."
+     },
+     {
+      "key": "interaction",
+      "en": "Record the interaction between the procedure and our audit report, including the effect on the going concern section.",
+      "fr": "Consigner l'articulation entre la procédure et notre rapport d'audit, dont l'effet sur la section relative à la continuité.",
+      "srcEn": "E6.3 · C2.2 · C5.1",
+      "srcFr": "E6.3 · C2.2 · C5.1",
+      "tipEn": "[Draft] The alert procedure and the audit report answer different questions on the same facts: the first a legal duty towards the company, the second the ISA 570 conclusion on the financial statements. Write down how they align — an alert engaged with no going concern section in the report needs an explicit reason — and state the alert in the second part of the report where the Uniform Act requires it. Ensure the dates are consistent.",
+      "tipFr": "[Projet] La procédure d'alerte et le rapport d'audit répondent à deux questions différentes sur les mêmes faits : la première une obligation légale envers la société, la seconde la conclusion ISA 570 sur les états financiers. Écrire comment elles s'articulent — une alerte engagée sans section sur la continuité dans le rapport appelle une raison explicite — et mentionner l'alerte dans la seconde partie du rapport lorsque l'Acte uniforme l'exige. Vérifier la cohérence des dates."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "not_engaged",
+      "en": "No fact of a nature to compromise the continuity of the undertaking was identified, so the procedure is not engaged (procedures 1, 2).",
+      "fr": "Aucun fait de nature à compromettre la continuité n'a été relevé ; la procédure n'est pas engagée (procédures 1, 2)."
+     },
+     {
+      "key": "deadlines",
+      "en": "Where engaged, each stage was carried out within the deadline the Uniform Act sets, as computed by the legal tool (procedures 3 to 7).",
+      "fr": "Lorsqu'elle est engagée, chaque étape a été menée dans le délai fixé par l'Acte uniforme, tel que calculé par l'outil juridique (procédures 3 à 7).",
+      "na": true
+     },
+     {
+      "key": "court_informed",
+      "en": "Where engaged, the competent court was informed at the stage the Act provides, and the letter is on the file (procedure 6).",
+      "fr": "Lorsqu'elle est engagée, la juridiction compétente a été informée à l'étape prévue par l'Acte, et la lettre figure au dossier (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "consistent",
+      "en": "The position taken in the procedure is consistent with the going concern conclusion in C2.2 (procedure 8).",
+      "fr": "La position retenue dans la procédure concorde avec la conclusion sur la continuité en C2.2 (procédure 8).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

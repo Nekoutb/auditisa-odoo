@@ -1,0 +1,179 @@
+{
+ "code": "C5.9",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "AUSCGIE art. 702 (à valider) · ISA 220 (Revised) · sector regulation (COBAC, CIMA) where it applies",
+  "ownsEn": "the coordination with the joint auditor and the division of the work",
+  "ownsFr": "la coordination avec le co-commissaire aux comptes et la répartition des travaux",
+  "reqEn": [
+   "Where two commissaires aux comptes are appointed, they carry out a joint audit and sign a single report. Each remains responsible for the opinion expressed, so each satisfies itself on the work performed by the other. The Act requires at least two commissaires on the companies that make a public offering of securities and on the others the sector rules designate (AUSCGIE art. 702 — to validate); banks and financial institutions of the CEMAC are under the Commission bancaire (COBAC) rules on the appointment and the reporting of their statutory auditors, and insurers under the CIMA code; the statutes may also provide for a joint appointment. The reason is recorded on this paper, because it determines which regulator's requirements the coordination must meet.",
+   "The division of the work is agreed at planning, and the cross-review is performed before the report is signed so that both auditors have a basis for the opinion."
+  ],
+  "reqFr": [
+   "Lorsque deux commissaires aux comptes sont nommés, ils mènent un audit conjoint et signent un rapport unique. Chacun demeure responsable de l'opinion exprimée et s'assure donc des travaux réalisés par l'autre. L'Acte impose au moins deux commissaires aux sociétés faisant appel public à l'épargne et à celles que les règles sectorielles désignent (AUSCGIE art. 702 — à valider) ; les banques et établissements financiers de la CEMAC relèvent des règles de la Commission bancaire (COBAC) sur la désignation et les rapports de leurs commissaires aux comptes, les assureurs du code CIMA ; les statuts peuvent aussi prévoir un co-commissariat. Le motif est consigné sur cette feuille, parce qu'il détermine les exigences de quel régulateur la coordination doit satisfaire.",
+   "La répartition des travaux est convenue lors de la planification, et la revue croisée est effectuée avant la signature du rapport."
+  ],
+  "conclEn": [
+   "The work has been divided and cross-reviewed as a joint appointment requires, and both auditors have a basis for the opinion expressed in the single report."
+  ],
+  "conclFr": [
+   "Les travaux ont été répartis et revus de façon croisée comme l'exige un co-commissariat, et les deux commissaires disposent d'un fondement pour l'opinion exprimée dans le rapport unique."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "appointment",
+      "en": "Confirm the appointment of both auditors, the term of each mandate, and that both are eligible and independent; record in Part B why the appointment is joint — public offering, bank, insurer, statutes.",
+      "fr": "Vérifier la nomination des deux commissaires, la durée de chaque mandat et l'éligibilité et l'indépendance de chacun ; consigner en partie B le motif du co-commissariat — appel public à l'épargne, banque, assureur, statuts.",
+      "srcEn": "AGO minutes · statutes · P2.1 · AUSCGIE art. 702 (à valider)",
+      "srcFr": "Procès-verbal d'AGO · statuts · P2.1 · AUSCGIE art. 702 (à valider)"
+     },
+     {
+      "key": "regulator",
+      "en": "Where the entity is a bank or financial institution (COBAC) or an insurer (CIMA), identify the regulator's requirements on the joint auditors — the approval of their appointment, the reports and certifications addressed to the regulator, the deadlines, the prudential statements to be certified — and agree with the joint auditor who prepares and who reviews each of them.",
+      "fr": "Lorsque l'entité est une banque ou un établissement financier (COBAC) ou un assureur (CIMA), identifier les exigences du régulateur envers les co-commissaires — agrément de leur nomination, rapports et certifications adressés au régulateur, délais, états prudentiels à certifier — et convenir avec le co-commissaire de qui prépare et qui revoit chacun.",
+      "srcEn": "COBAC regulations · CIMA code · regulator's circulars (références à valider) · engagement letter",
+      "srcFr": "Règlements COBAC · code CIMA · circulaires du régulateur (références à valider) · lettre de mission"
+     },
+     {
+      "key": "division",
+      "en": "Agree the division of the work in writing, by cycle and by location, and record what each auditor will perform.",
+      "fr": "Convenir par écrit de la répartition des travaux, par cycle et par implantation, et consigner les travaux de chacun.",
+      "srcEn": "Signed division of work · engagement timetable",
+      "srcFr": "Répartition signée · calendrier de mission"
+     },
+     {
+      "key": "common",
+      "en": "Agree the matters to be performed jointly, including materiality, the risk assessment and the conclusion on the opinion.",
+      "fr": "Convenir des travaux menés conjointement : seuil de signification, évaluation des risques et conclusion sur l'opinion.",
+      "srcEn": "Joint planning memorandum · P6.1 · S3.1",
+      "srcFr": "Note de planification conjointe · P6.1 · S3.1"
+     },
+     {
+      "key": "cross_review",
+      "en": "Perform the cross-review of the other auditor's work on the cycles they covered, and record the extent of the review and the matters raised.",
+      "fr": "Effectuer la revue croisée des travaux de l'autre commissaire sur les cycles qu'il a couverts et consigner l'étendue de la revue et les points soulevés.",
+      "srcEn": "Other auditor's working papers · our review notes",
+      "srcFr": "Feuilles de travail de l'autre commissaire · nos notes de revue"
+     },
+     {
+      "key": "differences",
+      "en": "Record any difference of view on a significant matter and how it was resolved before the report was signed.",
+      "fr": "Consigner toute divergence d'appréciation sur un point significatif et sa résolution avant la signature du rapport.",
+      "srcEn": "Joint meeting minutes · C1.3 · C1.2",
+      "srcFr": "Comptes rendus de réunion conjointe · C1.3 · C1.2"
+     },
+     {
+      "key": "report",
+      "en": "Agree the terms of the single report, including any modification, and confirm both auditors sign it.",
+      "fr": "Convenir des termes du rapport unique, y compris toute modification, et vérifier la signature des deux commissaires.",
+      "srcEn": "Draft report · C5.1",
+      "srcFr": "Projet de rapport · C5.1"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part B — The joint appointment",
+    "titleFr": "Partie B — Le co-commissariat",
+    "introEn": "Record why two commissaires are appointed and which regulator, if any, reads the joint report.",
+    "introFr": "Consigner pourquoi deux commissaires sont nommés et quel régulateur, le cas échéant, lit le rapport commun.",
+    "fields": [
+     {
+      "key": "joint_reason",
+      "kind": "select",
+      "labelEn": "Reason for the joint appointment",
+      "labelFr": "Motif du co-commissariat",
+      "options": [
+       {
+        "value": "public_offering",
+        "en": "Public offering of securities (AUSCGIE art. 702 — to validate)",
+        "fr": "Appel public à l'épargne (AUSCGIE art. 702 — à valider)"
+       },
+       {
+        "value": "bank",
+        "en": "Bank or financial institution — COBAC rules",
+        "fr": "Banque ou établissement financier — règles COBAC"
+       },
+       {
+        "value": "insurer",
+        "en": "Insurer — CIMA code",
+        "fr": "Assureur — code CIMA"
+       },
+       {
+        "value": "statutes",
+        "en": "Statutes or shareholders' decision",
+        "fr": "Statuts ou décision des actionnaires"
+       },
+       {
+        "value": "other",
+        "en": "Other (state it in the outcome)",
+        "fr": "Autre (préciser dans le résultat)"
+       }
+      ]
+     },
+     {
+      "key": "regulator",
+      "kind": "input",
+      "labelEn": "Sector regulator and the reporting it requires of the joint auditors (reference of the text)",
+      "labelFr": "Régulateur sectoriel et les rapports qu'il exige des co-commissaires (référence du texte)"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part C — Evaluation",
+    "titleFr": "Partie C — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "written",
+      "en": "The division of the work was agreed in writing before the work began (procedure 2).",
+      "fr": "La répartition des travaux a été convenue par écrit avant le début des travaux (procédure 2)."
+     },
+     {
+      "key": "joint",
+      "en": "Materiality, the risk assessment and the conclusion on the opinion were determined jointly (procedure 3).",
+      "fr": "Le seuil, l'évaluation des risques et la conclusion sur l'opinion ont été arrêtés conjointement (procédure 3)."
+     },
+     {
+      "key": "cross",
+      "en": "The cross-review of the other auditor's work has been performed (procedure 4).",
+      "fr": "La revue croisée des travaux de l'autre commissaire a été effectuée (procédure 4)."
+     },
+     {
+      "key": "agreed",
+      "en": "No difference of view remains unresolved (procedure 5).",
+      "fr": "Aucune divergence d'appréciation ne demeure non résolue (procédure 5)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part D — Outcome",
+    "titleFr": "Partie D — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

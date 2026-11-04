@@ -1,0 +1,126 @@
+{
+ "code": "S4.4",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 540 (Revised) ¶13–17, ¶19–20",
+  "ownsEn": "the inventory of accounting estimates and the planned approach to each",
+  "ownsFr": "l'inventaire des estimations comptables et l'approche retenue pour chacune",
+  "reqEn": [
+   "We obtain an understanding of the entity's accounting estimates: how management identifies the need for them, the method, assumptions and data used, and the controls over the process (ISA 540 (Revised) ¶13). We evaluate the degree of estimation uncertainty and the degree to which the estimate is subject to complexity, subjectivity or other inherent risk factors (ISA 540 ¶16).",
+   "The assessment separates inherent risk from control risk and drives the choice of approach in execution: testing management's process, developing our own point estimate or range, or obtaining evidence from events occurring up to the date of the report (ISA 540 ¶21–29). The work is performed in E6.7."
+  ],
+  "reqFr": [
+   "Nous prenons connaissance des estimations comptables : identification du besoin, méthode, hypothèses et données utilisées, et contrôles du processus (ISA 540 révisée ¶13). Nous apprécions le degré d'incertitude d'estimation et les facteurs de risque inhérent (ISA 540 ¶16).",
+   "L'évaluation sépare le risque inhérent du risque lié au contrôle et détermine l'approche en exécution (ISA 540 ¶21–29). Les travaux sont réalisés en E6.7."
+  ],
+  "conclEn": [
+   "The accounting estimates in the financial statements have been identified, the estimation uncertainty of each has been evaluated, and the approach to each is recorded below."
+  ],
+  "conclFr": [
+   "Les estimations comptables figurant dans les états financiers ont été identifiées, leur incertitude appréciée, et l'approche retenue pour chacune est consignée ci-dessous."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "inventory",
+      "en": "List the accounting estimates in the financial statements, including impairment, provisions, depreciation lives, receivable allowances, employee benefits and any fair value.",
+      "fr": "Recenser les estimations comptables : dépréciations, provisions, durées d'amortissement, dépréciation des créances, avantages du personnel et justes valeurs.",
+      "srcEn": "Prior financial statements · trial balance · accounting policies",
+      "srcFr": "États financiers antérieurs · balance · méthodes comptables",
+      "tipEn": "Walk the DSF line by line — balance sheet first, then the notes — and list every figure resting on judgement: depreciation lives, allowances on receivables and inventory, provisions for litigation and retirement benefits (indemnités de fin de carrière), any fair value. The notes catch the estimates the balance sheet hides. Tie each estimate to its trial balance accounts (29x, 39x, 49x, 19x) so the inventory does not depend on memory.",
+      "tipFr": "Parcourir la DSF ligne à ligne — le bilan d'abord, puis les notes annexes — et lister chaque chiffre reposant sur un jugement : durées d'amortissement, dépréciations des créances et des stocks, provisions pour litiges et indemnités de fin de carrière, toute juste valeur. Les notes annexes révèlent les estimations que le bilan cache. Rattacher chaque estimation à ses comptes de la balance (29x, 39x, 49x, 19x) pour que l'inventaire ne repose pas sur la mémoire."
+     },
+     {
+      "key": "method",
+      "en": "For each estimate obtain the method, the model where one is used, the significant assumptions, and the data on which it draws.",
+      "fr": "Pour chaque estimation, obtenir la méthode, le modèle éventuel, les hypothèses importantes et les données utilisées.",
+      "srcEn": "Management's calculation · policy note · inquiry",
+      "srcFr": "Calcul de la direction · note de méthode · entretien",
+      "tipEn": "For each estimate, have the finance director hand over the actual calculation — the spreadsheet, not a description of it. Record the method (formula, ageing grid, actuarial factors), the assumptions you can point at (discount rate, recovery rate, staff turnover) and the data feeding it (aged balance from Sage, payroll file). If the answer is 'the same percentage as every year', write that down — that is an assumption too, and often the weakest one.",
+      "tipFr": "Pour chaque estimation, se faire remettre le calcul lui-même par le directeur financier — le fichier Excel, pas sa description. Consigner la méthode (formule, grille d'ancienneté, facteurs actuariels), les hypothèses désignables (taux d'actualisation, taux de récupération, rotation du personnel) et les données utilisées (balance âgée tirée de Sage, fichier de paie). Si la réponse est 'le même pourcentage que chaque année', l'écrire — c'est aussi une hypothèse, et souvent la plus fragile."
+     },
+     {
+      "key": "controls",
+      "en": "Obtain the controls over the estimation process, including who reviews and approves the assumptions.",
+      "fr": "Obtenir les contrôles du processus d'estimation, notamment qui revoit et approuve les hypothèses.",
+      "srcEn": "Process narrative · approval evidence · P4.1",
+      "srcFr": "Descriptif de processus · preuves d'approbation · P4.1",
+      "tipEn": "Establish who prepares each calculation, who reviews it, and what trace the review leaves — a visa on the printout, an email, a board minute for the large provisions. In a small entity the preparer and the approver are often the same finance director; note it and set control risk accordingly. Ask whether the assumptions were re-examined this year or simply rolled forward.",
+      "tipFr": "Établir qui prépare chaque calcul, qui le revoit, et quelle trace laisse la revue — un visa sur l'état imprimé, un courriel, un procès-verbal du conseil pour les grosses provisions. Dans une petite entité, le préparateur et l'approbateur sont souvent le même directeur financier ; le noter et coter le risque lié au contrôle en conséquence. Demander si les hypothèses ont été réexaminées cette année ou simplement reconduites."
+     },
+     {
+      "key": "outcome",
+      "en": "Compare the prior period estimates with their subsequent outcome, and evaluate whether the difference indicates bias or a weakness in the method.",
+      "fr": "Comparer les estimations de l'exercice précédent à leur dénouement et apprécier si l'écart révèle un biais ou une faiblesse de méthode.",
+      "srcEn": "Prior financial statements · current period actuals · ISA 540 ¶14",
+      "srcFr": "États financiers antérieurs · réalisations de l'exercice · ISA 540 ¶14",
+      "tipEn": "Take last year's closing estimates and compare each against what actually happened: provisions against amounts finally paid, allowances against amounts recovered, useful lives against assets still running at nil book value. Compute the difference and its direction — errors always falling in the entity's favour point to bias, not imprecision. Feed a one-sided pattern back into P5.1 and into the significant-risk call in procedure 5.",
+      "tipFr": "Reprendre les estimations de clôture de l'an dernier et comparer chacune à ce qui s'est réellement produit : provisions contre sommes finalement payées, dépréciations contre montants recouvrés, durées d'utilité contre immobilisations encore en service à valeur nette nulle. Calculer l'écart et son sens — des erreurs toujours favorables à l'entité signalent un biais, pas une imprécision. Répercuter un profil à sens unique dans P5.1 et dans la décision de risque important de la procédure 5."
+     },
+     {
+      "key": "uncertainty",
+      "en": "Evaluate for each estimate the degree of estimation uncertainty, and whether complexity, subjectivity or other inherent risk factors are present.",
+      "fr": "Apprécier pour chaque estimation le degré d'incertitude et la présence de complexité, de subjectivité ou d'autres facteurs de risque inhérent.",
+      "srcEn": "ISA 540 ¶16 · management's sensitivity analysis",
+      "srcFr": "ISA 540 ¶16 · analyse de sensibilité de la direction",
+      "tipEn": "For each estimate, ask how different the figure could reasonably be: move the key assumption within a plausible range and see whether the swing crosses materiality. Use management's sensitivity analysis where one exists; where none does, a rough recalculation at a high and a low assumption on your own spreadsheet does the job. High uncertainty plus a subjective assumption puts the estimate at the top of the spectrum — carry it to S3.1 as a significant risk.",
+      "tipFr": "Pour chaque estimation, se demander à quel point le chiffre pourrait raisonnablement différer : faire varier l'hypothèse clé dans une fourchette plausible et voir si l'écart franchit le seuil de signification. Utiliser l'analyse de sensibilité de la direction quand elle existe ; à défaut, un recalcul sommaire à hypothèse haute et basse sur votre propre tableur suffit. Forte incertitude plus hypothèse subjective placent l'estimation en haut du spectre — la reporter dans S3.1 comme risque important."
+     },
+     {
+      "key": "approach",
+      "en": "Set the approach for each estimate: test management's process, develop our own point estimate or range, or use events up to the date of the report. Record which and why.",
+      "fr": "Arrêter l'approche pour chaque estimation : tester le processus de la direction, développer notre propre estimation ou fourchette, ou utiliser les événements jusqu'à la date du rapport. Consigner le choix et son motif.",
+      "srcEn": "ISA 540 ¶21–29 · E6.7",
+      "srcFr": "ISA 540 ¶21–29 · E6.7",
+      "tipEn": "Match the approach to what the retrospective review and the uncertainty assessment showed: a stable, well-controlled ageing calculation can be tested as management's process; a litigation provision resting on one assumption is often better audited through your own range built from the avocat's letter; a receivable allowance can be tested against cash received after year end. Write one line per estimate saying which route and why, and carry it into E6.7.",
+      "tipFr": "Adapter l'approche à ce qu'ont montré la revue rétrospective et l'évaluation de l'incertitude : un calcul d'ancienneté stable et bien contrôlé se teste comme processus de la direction ; une provision pour litige reposant sur une seule hypothèse s'audite souvent mieux par votre propre fourchette bâtie sur la lettre de l'avocat ; une dépréciation de créances se teste par les encaissements après la clôture. Écrire une ligne par estimation disant quelle voie et pourquoi, et la reporter dans E6.7."
+     },
+     {
+      "key": "expert",
+      "en": "Identify the estimates requiring an auditor's expert, and cross-refer to S5.1.",
+      "fr": "Identifier les estimations requérant un expert de l'auditeur et renvoyer à S5.1.",
+      "srcEn": "S5.1 · P2.2",
+      "srcFr": "S5.1 · P2.2",
+      "tipEn": "Flag the estimates beyond the team's competence — actuarial retirement benefits, property valuations, complex financial instruments — and open S5.1 for each with the expert's name and scope. Decide now: engaging an actuary in the OHADA market takes weeks, not days. Put the cost into the budget in P2.2 before execution starts.",
+      "tipFr": "Repérer les estimations dépassant la compétence de l'équipe — indemnités de fin de carrière actuarielles, évaluations immobilières, instruments financiers complexes — et ouvrir S5.1 pour chacune avec le nom et l'étendue de la mission de l'expert. Décider maintenant : engager un actuaire sur le marché OHADA prend des semaines, pas des jours. Inscrire le coût au budget de P2.2 avant le début de l'exécution."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "complete",
+      "en": "The inventory covers every estimate in the financial statements, including those in the notes (procedure 1).",
+      "fr": "L'inventaire couvre chaque estimation des états financiers, y compris celles figurant en annexe (procédure 1)."
+     },
+     {
+      "key": "retrospective",
+      "en": "The retrospective review was performed and no indication of management bias was found (procedure 4).",
+      "fr": "La revue rétrospective a été effectuée et aucun indice de biais de la direction n'a été relevé (procédure 4)."
+     },
+     {
+      "key": "significant",
+      "en": "Every estimate with high estimation uncertainty has been recorded as a significant risk (procedure 5).",
+      "fr": "Chaque estimation à forte incertitude a été consignée comme risque important (procédure 5)."
+     },
+     {
+      "key": "approach",
+      "en": "An approach has been set for every estimate identified (procedure 6).",
+      "fr": "Une approche a été arrêtée pour chaque estimation identifiée (procédure 6)."
+     }
+    ]
+   }
+  ]
+ }
+}

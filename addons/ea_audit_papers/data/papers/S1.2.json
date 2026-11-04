@@ -1,0 +1,110 @@
+{
+ "code": "S1.2",
+ "source": "lib/papers/gam.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶25–26 · ¶A144–A150",
+  "ownsEn": "the per-cycle flow documentation: transaction flows, what-could-go-wrongs and the controls that address them",
+  "ownsFr": "la documentation par cycle : flux de transactions, points de risque (WCGW) et contrôles associés",
+  "reqEn": [
+   "For each SCOT we document the flow of transactions from initiation through recording and processing to reporting, including how the flow is corrected and how it reaches the general ledger (ISA 315 ¶25(a)). The documentation names the people, the documents and the systems at each step.",
+   "At each step we ask what could go wrong: the specific points where a misstatement could arise in a relevant assertion. For each what-could-go-wrong we identify whether a control exists that addresses it, who performs the control, how often, and whether it is manual, IT-dependent manual, or automated. Automated and IT-dependent controls inherit the reliability of the applications behind them, which is why each is tagged to its application from S1.1.",
+   "We evaluate the design of each identified control and determine whether it has been implemented — walkthroughs (S1.3) provide that evidence. Whether the control will be tested for operating effectiveness is a separate decision, made in S2.1."
+  ],
+  "reqFr": [
+   "Pour chaque SCOT, nous documentons le flux de l'initiation à la restitution, y compris les corrections et le déversement en comptabilité générale (ISA 315 ¶25(a)), en nommant acteurs, documents et systèmes à chaque étape.",
+   "À chaque étape, nous identifions ce qui pourrait mal tourner (WCGW) : les points précis où une anomalie pourrait naître sur une assertion pertinente, puis le contrôle qui y répond, son exécutant, sa fréquence et sa nature (manuel, manuel dépendant de l'informatique, automatisé).",
+   "Nous évaluons la conception de chaque contrôle et sa mise en œuvre — les tests de cheminement (S1.3) en apportent la preuve. La décision de tester l'efficacité opérationnelle relève de S2.1."
+  ],
+  "conclEn": [
+   "The flows, what-could-go-wrongs and controls of each significant class of transactions are documented and their design evaluated."
+  ],
+  "conclFr": [
+   "Les flux, points de risque et contrôles de chaque catégorie significative de transactions sont documentés et leur conception évaluée."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "flow",
+      "en": "For each SCOT, document the flow initiation → recording → processing → reporting, naming people, documents and systems at each step.",
+      "fr": "Pour chaque SCOT, documenter le flux initiation → enregistrement → traitement → restitution, en nommant acteurs, documents et systèmes.",
+      "srcEn": "Process inquiry · procedure manuals · system screens",
+      "srcFr": "Entretiens · manuels de procédures · écrans systèmes",
+      "tipEn": "Build each flow as a simple four-column table: step, who, document, system. Collect a real specimen at each step — bon de commande, bon de livraison, facture, the Sage entry screen — and attach copies to the paper; a flow written from the procedure manual alone will not survive the walkthrough.",
+      "tipFr": "Construire chaque flux sous forme de tableau simple à quatre colonnes : étape, qui, document, système. Collecter un spécimen réel à chaque étape — bon de commande, bon de livraison, facture, écran de saisie Sage — et joindre les copies au papier ; un flux rédigé d'après le seul manuel de procédures ne survivra pas au test de cheminement."
+     },
+     {
+      "key": "wcgw",
+      "en": "At each step, record the what-could-go-wrongs: where a misstatement could arise and which relevant assertion it would hit.",
+      "fr": "À chaque étape, consigner les WCGW : où une anomalie pourrait naître et quelle assertion serait touchée.",
+      "srcEn": "Flow documentation · team discussion (P5.2)",
+      "srcFr": "Documentation des flux · discussion d'équipe (P5.2)",
+      "tipEn": "At each step ask two blunt questions: what if this document never arrives, and what if it arrives twice or wrong? A delivery with no invoice is completeness; an invoice with no delivery is occurrence; a price typed by hand is accuracy. Write each what-could-go-wrong in one sentence a junior could test.",
+      "tipFr": "À chaque étape, poser deux questions directes : que se passe-t-il si ce document n'arrive jamais, et que se passe-t-il s'il arrive en double ou avec une erreur ? Une livraison sans facture, c'est l'exhaustivité ; une facture sans livraison, c'est la réalité ; un prix saisi à la main, c'est l'exactitude. Rédiger chaque risque d'anomalie en une phrase qu'un assistant peut tester."
+     },
+     {
+      "key": "controls",
+      "en": "For each what-could-go-wrong, identify the control that addresses it: performer, frequency, and nature (manual / IT-dependent / automated), tagged to its application.",
+      "fr": "Pour chaque WCGW, identifier le contrôle qui y répond : exécutant, fréquence, nature (manuel / dépendant IT / automatisé), rattaché à son application.",
+      "srcEn": "Control descriptions · S1.1 application list",
+      "srcFr": "Descriptions de contrôles · liste d'applications S1.1",
+      "tipEn": "Name a person, not a department: 'accounting checks it' is not a control, 'the chef comptable signs the rapprochement bancaire each month' is. Tag automated controls — a Sage sequence check, a blocking credit limit — to their application from S1.1: their reliability depends directly on the E1.1 conclusions.",
+      "tipFr": "Nommer une personne, pas un service : « la comptabilité vérifie » n'est pas un contrôle, « le chef comptable signe le rapprochement bancaire chaque mois » en est un. Rattacher les contrôles automatisés — contrôle de séquence Sage, plafond de crédit bloquant — à leur application de S1.1 : leur fiabilité dépend directement des conclusions de E1.1."
+     },
+     {
+      "key": "design",
+      "en": "Evaluate the design of each control: performed as described, by someone with authority and competence, at a frequency that would catch a material misstatement.",
+      "fr": "Évaluer la conception de chaque contrôle : exécution conforme, autorité et compétence de l'exécutant, fréquence adaptée.",
+      "srcEn": "Inquiry · inspection of control evidence",
+      "srcFr": "Entretiens · inspection des preuves de contrôle",
+      "tipEn": "For each control, take one recent instance and look at the trace it left — the visa on the facture, the signed reconciliation, the parameter screen. Then ask the deciding question: would this control catch a misstatement above performance materiality, or only small errors? A monthly review at balance level rarely catches an item hidden inside a large account.",
+      "tipFr": "Pour chaque contrôle, prendre une occurrence récente et regarder la trace laissée — le visa sur la facture, le rapprochement signé, l'écran de paramétrage. Puis poser la question décisive : ce contrôle détecterait-il une anomalie supérieure au seuil de planification, ou seulement de petites erreurs ? Une revue mensuelle au niveau de la balance détecte rarement un écart caché dans un gros compte."
+     },
+     {
+      "key": "gaps",
+      "en": "Record every what-could-go-wrong with no control or a badly designed one, and carry each to the risk register (S3.1) and to S2.1 as substantive-only.",
+      "fr": "Consigner chaque WCGW sans contrôle ou mal conçu, et le reporter au registre des risques (S3.1) et en approche substantive (S2.1).",
+      "srcEn": "This paper · S3.1",
+      "srcFr": "Ce papier · S3.1",
+      "tipEn": "Keep a running gap column in the flow table so nothing carries over from memory. For each gap, draft the risk sentence for S3.1 and note in S2.1 that the assertion goes substantive-only — and be honest about family-run entities where the gérant does everything: that is one pervasive segregation gap, not five separate ones.",
+      "tipFr": "Tenir une colonne « écart » dans le tableau des flux pour que rien ne passe de mémoire. Pour chaque écart, rédiger la phrase de risque pour S3.1 et noter dans S2.1 que l'assertion sera couverte en substantif seul — et rester lucide sur les entités familiales où le gérant fait tout : c'est une carence de séparation des tâches généralisée, pas cinq carences distinctes."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Confirmations",
+    "titleFr": "Partie B — Confirmations",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "each_scot",
+      "en": "A flow, its what-could-go-wrongs and its controls are documented for every SCOT in S1.1.",
+      "fr": "Flux, WCGW et contrôles sont documentés pour chaque SCOT de S1.1."
+     },
+     {
+      "key": "assertions",
+      "en": "Each what-could-go-wrong names the relevant assertion it threatens.",
+      "fr": "Chaque WCGW précise l'assertion pertinente menacée."
+     },
+     {
+      "key": "design_ok",
+      "en": "The design of each identified control has been evaluated.",
+      "fr": "La conception de chaque contrôle identifié a été évaluée."
+     },
+     {
+      "key": "gaps_carried",
+      "en": "Control gaps are carried to the risk register and to the controls strategy.",
+      "fr": "Les lacunes de contrôle sont reportées au registre des risques et à la stratégie de contrôles."
+     }
+    ]
+   }
+  ]
+ }
+}

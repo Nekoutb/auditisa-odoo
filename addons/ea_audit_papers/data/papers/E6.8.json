@@ -1,0 +1,98 @@
+{
+ "code": "E6.8",
+ "source": "lib/papers/gam.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶37 · ISA 330 ¶25–26",
+  "ownsEn": "the reassessment of the combined risk assessments in the light of the evidence obtained",
+  "ownsFr": "la réévaluation de l'évaluation combinée des risques au vu des éléments obtenus",
+  "reqEn": [
+   "The risk assessment is not static. When evidence obtained during execution is inconsistent with the assessment made at planning — control deviations, misstatements, unexpected analytical results, new information about the entity — we revise the assessment and modify the planned procedures accordingly (ISA 315 ¶37, ISA 330 ¶25).",
+   "This paper is the formal checkpoint: after controls testing and before concluding the substantive work, each combined risk assessment in the risk register (S3.1) is confronted with what execution actually found. A revision is not a failure of planning; an unrevised assessment contradicted by the evidence is a failure of the audit."
+  ],
+  "reqFr": [
+   "L'évaluation des risques n'est pas figée. Lorsque les éléments obtenus en exécution contredisent l'évaluation initiale — déviations de contrôles, anomalies, résultats analytiques inattendus, informations nouvelles — nous révisons l'évaluation et modifions les procédures prévues (ISA 315 ¶37, ISA 330 ¶25).",
+   "Ce papier est le point de contrôle formel : après les tests de contrôles et avant de conclure les travaux substantifs, chaque évaluation combinée du registre (S3.1) est confrontée aux constats de l'exécution."
+  ],
+  "conclEn": [
+   "The combined risk assessments remain appropriate, or have been revised and the procedures adjusted."
+  ],
+  "conclFr": [
+   "Les évaluations combinées demeurent appropriées, ou ont été révisées avec ajustement des procédures."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "deviations",
+      "en": "List the control deviations found (E1.1/E1.2/E2.1 and cycle tests) and assess the effect of each on the related combined risk assessment.",
+      "fr": "Recenser les déviations de contrôles constatées (E1.1/E1.2/E2.1 et tests de cycles) et leur effet sur l'évaluation combinée concernée.",
+      "srcEn": "Controls testing papers",
+      "srcFr": "Papiers de tests de contrôles"
+     },
+     {
+      "key": "misstatements",
+      "en": "Review the misstatements accumulated to date (C1.1) for what they say about the assessed risks that should have caught them.",
+      "fr": "Analyser les anomalies cumulées (C1.1) au regard des risques évalués qui auraient dû les prévenir.",
+      "srcEn": "C1.1 summary of audit differences",
+      "srcFr": "Récapitulatif C1.1"
+     },
+     {
+      "key": "analytics",
+      "en": "Consider unexpected relationships from substantive analytics against the risk assessment.",
+      "fr": "Confronter les corrélations inattendues des procédures analytiques à l'évaluation des risques.",
+      "srcEn": "Cycle analytics",
+      "srcFr": "Analytiques de cycles"
+     },
+     {
+      "key": "register",
+      "en": "Update the risk register (S3.1): revise each affected assessment and record the reason.",
+      "fr": "Mettre à jour le registre (S3.1) : réviser chaque évaluation touchée en motivant.",
+      "srcEn": "S3.1 risk register",
+      "srcFr": "Registre S3.1"
+     },
+     {
+      "key": "procedures",
+      "en": "Modify the nature, timing or extent of remaining procedures where an assessment rose, and record what changed.",
+      "fr": "Modifier la nature, le calendrier ou l'étendue des procédures restantes lorsque l'évaluation augmente, en consignant les changements.",
+      "srcEn": "Execution programs",
+      "srcFr": "Programmes d'exécution"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Confirmations",
+    "titleFr": "Partie B — Confirmations",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "confronted",
+      "en": "Every combined risk assessment was confronted with the execution evidence.",
+      "fr": "Chaque évaluation combinée a été confrontée aux constats d'exécution."
+     },
+     {
+      "key": "deviations_fed",
+      "en": "Control deviations are reflected in the affected assessments.",
+      "fr": "Les déviations de contrôles sont répercutées dans les évaluations concernées."
+     },
+     {
+      "key": "procs_adjusted",
+      "en": "Procedures were adjusted wherever an assessment was revised upward.",
+      "fr": "Les procédures ont été ajustées pour chaque révision à la hausse."
+     },
+     {
+      "key": "documented",
+      "en": "Each revision (or confirmation) is documented with its reason.",
+      "fr": "Chaque révision (ou confirmation) est documentée avec son motif."
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,103 @@
+{
+ "code": "C6.2",
+ "source": "lib/papers/gam.ts",
+ "definition": {
+  "std": "ISA 230 ¶14–16 · ISQM 1 ¶31(f)",
+  "ownsEn": "the assembly and archiving of the final engagement file",
+  "ownsFr": "l'assemblage et l'archivage du dossier définitif de la mission",
+  "reqEn": [
+   "The final engagement file is assembled on a timely basis after the date of the auditor's report — the assembly period is ordinarily no more than 60 days (ISA 230 ¶14, A21). Assembly is administrative: after it, nothing is deleted or discarded before the end of the retention period, and any modification (however administrative) records what was changed, when, by whom, and why (ISA 230 ¶15–16).",
+   "The firm's retention period follows ISQM 1 ¶31(f) and local law; within OHADA practice, ten years from the report date is the working rule. Locking the file in the tool is the archive act: sign-offs freeze, papers become read-only, and later changes go through the documented-modification route only."
+  ],
+  "reqFr": [
+   "Le dossier définitif est assemblé dans un délai maximal de 60 jours après la date du rapport (ISA 230 ¶14, A21). L'assemblage est administratif : ensuite, rien n'est supprimé avant la fin de la durée de conservation, et toute modification consigne quoi, quand, qui et pourquoi (ISA 230 ¶15–16).",
+   "La durée de conservation suit ISQM 1 ¶31(f) et le droit local ; dans la pratique OHADA, dix ans à compter de la date du rapport. Le verrouillage du dossier dans l'outil vaut archivage : signatures figées, papiers en lecture seule, modifications ultérieures uniquement par la voie documentée."
+  ],
+  "conclEn": [
+   "The final file is complete, assembled within the assembly period, and archived under the firm's retention policy."
+  ],
+  "conclFr": [
+   "Le dossier définitif est complet, assemblé dans le délai imparti et archivé selon la politique de conservation du cabinet."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "complete",
+      "en": "Confirm every task in the file carries its working paper, evidence and preparer/reviewer sign-offs; clear the points outstanding (C4.3).",
+      "fr": "Vérifier que chaque tâche du dossier porte son papier de travail, ses preuves et ses signatures ; solder les points en suspens (C4.3).",
+      "srcEn": "Dashboard completion counts · C4.3",
+      "srcFr": "Compteurs du tableau de bord · C4.3"
+     },
+     {
+      "key": "deadline",
+      "en": "Record the report date and the assembly deadline (report date + 60 days); plan the assembly before it.",
+      "fr": "Consigner la date du rapport et l'échéance d'assemblage (rapport + 60 jours) ; planifier l'assemblage avant.",
+      "srcEn": "Auditor's report · engagement record",
+      "srcFr": "Rapport · fiche mission"
+     },
+     {
+      "key": "assemble",
+      "en": "Assemble: file final versions, delete superseded drafts (before lock only), complete cross-references.",
+      "fr": "Assembler : classer les versions finales, supprimer les brouillons remplacés (avant verrouillage uniquement), compléter les renvois.",
+      "srcEn": "Engagement file",
+      "srcFr": "Dossier de mission"
+     },
+     {
+      "key": "lock",
+      "en": "Lock the file and record the archive date and the retention end date under the firm's policy.",
+      "fr": "Verrouiller le dossier et consigner la date d'archivage et la fin de conservation selon la politique du cabinet.",
+      "srcEn": "This paper",
+      "srcFr": "Ce papier"
+     },
+     {
+      "key": "later",
+      "en": "Route any post-assembly modification through the documented-modification record: what, when, who, why.",
+      "fr": "Faire passer toute modification post-assemblage par la fiche de modification documentée : quoi, quand, qui, pourquoi.",
+      "srcEn": "Modification log",
+      "srcFr": "Journal des modifications"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Confirmations",
+    "titleFr": "Partie B — Confirmations",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "within_60",
+      "en": "The file was (or will be) assembled within 60 days of the report date.",
+      "fr": "Le dossier a été (ou sera) assemblé dans les 60 jours du rapport."
+     },
+     {
+      "key": "signoffs",
+      "en": "Every task carries its preparer and reviewer sign-offs.",
+      "fr": "Chaque tâche porte ses signatures préparateur et réviseur."
+     },
+     {
+      "key": "nothing_open",
+      "en": "No review note or point outstanding remains open.",
+      "fr": "Aucune note de revue ni point en suspens ne reste ouvert."
+     },
+     {
+      "key": "retention",
+      "en": "The archive date and retention end date are recorded.",
+      "fr": "La date d'archivage et la fin de conservation sont consignées."
+     },
+     {
+      "key": "mods_logged",
+      "en": "Any post-assembly modification is documented (what, when, who, why).",
+      "fr": "Toute modification post-assemblage est documentée (quoi, quand, qui, pourquoi)."
+     }
+    ]
+   }
+  ]
+ }
+}

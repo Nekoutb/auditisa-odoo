@@ -1,0 +1,122 @@
+{
+ "code": "S4.3",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 550 ¶11–17",
+  "ownsEn": "the related party register and the risks arising from those relationships",
+  "ownsFr": "le registre des parties liées et les risques qui en découlent",
+  "reqEn": [
+   "We obtain an understanding of the entity's related party relationships and transactions sufficient to identify fraud risk factors and to conclude whether the financial statements achieve fair presentation (ISA 550 ¶9). We inquire of management about the identity of related parties, the nature of the relationships, and the transactions entered into (ISA 550 ¶13).",
+   "We remain alert throughout for related parties or transactions not previously identified or disclosed by management (ISA 550 ¶15). A transaction outside the normal course of business with a related party is treated as a significant risk (ISA 550 ¶18)."
+  ],
+  "reqFr": [
+   "Nous acquérons une connaissance des relations et opérations avec les parties liées suffisante pour identifier les facteurs de risque de fraude (ISA 550 ¶9, ¶13).",
+   "Nous restons vigilants à l'égard des parties liées ou opérations non identifiées par la direction (ISA 550 ¶15). Une opération hors du cours normal des affaires avec une partie liée est traitée comme un risque important (ISA 550 ¶18)."
+  ],
+  "conclEn": [
+   "The related parties and the transactions with them have been identified for planning purposes, and the risks arising are carried into the risk register."
+  ],
+  "conclFr": [
+   "Les parties liées et les opérations correspondantes ont été identifiées aux fins de la planification, et les risques en découlant sont repris au registre des risques."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "identity",
+      "en": "Inquire of management about the identity of the entity's related parties, including changes from the prior period, and the nature of each relationship.",
+      "fr": "S'enquérir auprès de la direction de l'identité des parties liées, des changements par rapport à l'exercice précédent et de la nature de chaque relation.",
+      "srcEn": "Inquiry of management · prior year register · statutes",
+      "srcFr": "Entretien avec la direction · registre de l'exercice précédent · statuts",
+      "tipEn": "Sit with the managing director and list the parties by family: shareholders and their other companies, directors and their businesses, relatives in key posts, and the group entities above and below. Compare against last year's register and ask specifically what changed — a new shareholder, a company created by a director during the year. Names, not categories: 'the DG's transport company' must become a named entity with its RCCM number.",
+      "tipFr": "S'asseoir avec le dirigeant et lister les parties par famille : actionnaires et leurs autres sociétés, administrateurs et leurs affaires, proches occupant des postes clés, et les entités du groupe en amont et en aval. Comparer avec le registre de l'an dernier et demander précisément ce qui a changé — un nouvel actionnaire, une société créée par un administrateur en cours d'exercice. Des noms, pas des catégories : 'la société de transport du DG' doit devenir une entité nommée avec son numéro RCCM."
+     },
+     {
+      "key": "controls",
+      "en": "Inquire about the controls management has established to identify, account for and disclose related party relationships and transactions, and to authorise transactions outside the normal course of business.",
+      "fr": "S'enquérir des contrôles établis par la direction pour identifier, comptabiliser et mentionner les relations et opérations avec les parties liées et pour autoriser celles hors du cours normal des affaires.",
+      "srcEn": "Inquiry · delegation of authority · P4.1",
+      "srcFr": "Entretien · délégations de pouvoirs · P4.1",
+      "tipEn": "Ask who in the entity is supposed to spot a related party deal before it is signed — in most OHADA companies the honest answer is nobody, and that answer is itself a finding for P4.1. Check whether the conventions réglementées procedure actually operates: prior board authorisation and the statutory auditor's special report. Read the delegation of authority for any different signature rule on transactions with affiliates.",
+      "tipFr": "Demander qui, dans l'entité, est censé repérer une opération avec une partie liée avant sa signature — dans la plupart des sociétés OHADA la réponse honnête est personne, et cette réponse est en soi un constat pour P4.1. Vérifier si la procédure des conventions réglementées fonctionne réellement : autorisation préalable du conseil et rapport spécial du commissaire aux comptes. Lire la délégation de pouvoirs pour repérer une règle de signature différente sur les opérations avec les sociétés liées."
+     },
+     {
+      "key": "registers",
+      "en": "Inspect the share register, the register of directors' interests and the group structure for parties not named by management.",
+      "fr": "Examiner le registre des titres, le registre des intérêts des dirigeants et l'organigramme du groupe à la recherche de parties non citées.",
+      "srcEn": "Share register (C5.7) · RCCM extract · group chart",
+      "srcFr": "Registre des titres (C5.7) · extrait RCCM · organigramme du groupe",
+      "tipEn": "Pull the share register or the statutes for the shareholders, the RCCM extract for the directors and managers, and the group chart for sisters and sub-subsidiaries. Where a director is also gérant of another company, that company's own RCCM entry confirms it. Every name found here that management did not volunteer goes back to management as a question.",
+      "tipFr": "Consulter le registre des actions ou les statuts pour les actionnaires, l'extrait RCCM pour les administrateurs et dirigeants, et l'organigramme du groupe pour les sociétés sœurs et les sous-filiales. Quand un administrateur est aussi gérant d'une autre société, l'extrait RCCM de cette société le confirme. Chaque nom trouvé ici que la direction n'a pas cité spontanément retourne à la direction sous forme de question."
+     },
+     {
+      "key": "records",
+      "en": "Review the bank confirmations, the minutes and the significant contracts for names not on the register.",
+      "fr": "Examiner les confirmations bancaires, les procès-verbaux et les contrats significatifs à la recherche de noms absents du registre.",
+      "srcEn": "Bank confirmations · minutes (E6.4) · contract file",
+      "srcFr": "Confirmations bancaires · procès-verbaux (E6.4) · chrono des contrats",
+      "tipEn": "Re-read the bank confirmations for guarantees given to or received from group companies, the minutes for conventions réglementées authorised, and the biggest contracts for counterparties sharing an address, a signatory or a phone number with the entity. Run the register names through the customer and supplier masters in the accounting software (Sage/SAARI) to catch trading relationships. A counterparty with no visible business rationale earns a line of its own.",
+      "tipFr": "Relire les confirmations bancaires pour les garanties données à ou reçues de sociétés du groupe, les procès-verbaux pour les conventions réglementées autorisées, et les plus gros contrats pour des contreparties partageant une adresse, un signataire ou un numéro de téléphone avec l'entité. Passer les noms du registre dans les fichiers clients et fournisseurs du logiciel comptable (Sage/SAARI) pour détecter les relations commerciales. Une contrepartie sans logique économique visible mérite sa propre ligne."
+     },
+     {
+      "key": "transactions",
+      "en": "Obtain the transactions with each related party for the period, with the amounts, the balances outstanding and the terms.",
+      "fr": "Obtenir les opérations réalisées avec chaque partie liée sur l'exercice, avec les montants, les soldes et les conditions.",
+      "srcEn": "General ledger · related party schedule · contracts",
+      "srcFr": "Grand livre · état des parties liées · contrats",
+      "tipEn": "For each name on the register, extract from the general ledger the shareholder and group current accounts (46x), the sales and purchases with that party, and the closing balance with its terms — interest rate, security, repayment date. Ask for the written agreement behind each material balance; an undocumented compte courant d'associé is common and still has to be evidenced. Note terms no independent party would accept — zero interest, no due date — for the fair presentation view.",
+      "tipFr": "Pour chaque nom du registre, extraire du grand livre les comptes courants d'associés et de groupe (comptes 46), les ventes et achats avec la partie, et le solde de clôture avec ses conditions — taux d'intérêt, sûreté, date de remboursement. Demander la convention écrite derrière chaque solde significatif ; un compte courant d'associé sans écrit est courant et doit néanmoins être documenté. Relever les conditions qu'aucun tiers indépendant n'accepterait — intérêt nul, aucune échéance — pour le jugement sur l'image fidèle."
+     },
+     {
+      "key": "outside",
+      "en": "Identify the transactions outside the normal course of business, and record each as a significant risk.",
+      "fr": "Identifier les opérations hors du cours normal des affaires et consigner chacune comme risque important.",
+      "srcEn": "ISA 550 ¶18 · S3.1",
+      "srcFr": "ISA 550 ¶18 · S3.1",
+      "tipEn": "Screen the schedule against normal course: sales of assets to a director, loans to shareholders at no interest, management fees with no service behind them, prices far from the market. Enter each such transaction on S3.1 as a significant risk, with the business rationale management gives — or the absence of one. The rationale question, 'why route this through the shareholder's company?', is the fraud test; record the answer verbatim.",
+      "tipFr": "Passer le tableau au crible du cours normal des affaires : cessions d'actifs à un administrateur, prêts aux actionnaires sans intérêt, management fees sans prestation derrière, prix éloignés du marché. Inscrire chaque opération de ce type dans S3.1 comme risque important, avec la justification économique donnée par la direction — ou son absence. La question de la justification, 'pourquoi faire passer ceci par la société de l'actionnaire ?', est le test de fraude ; consigner la réponse mot pour mot."
+     },
+     {
+      "key": "team",
+      "en": "Communicate the related party names to the engagement team so that members remain alert to them during execution.",
+      "fr": "Communiquer les noms des parties liées à l'équipe afin qu'elle y reste attentive pendant l'exécution.",
+      "srcEn": "ISA 550 ¶17 · team briefing (P5.2)",
+      "srcFr": "ISA 550 ¶17 · réunion d'équipe (P5.2)",
+      "tipEn": "Put the register names on a single page and hand it out at the team briefing in P5.2, with the instruction to flag any of those names seen on an invoice, contract or payment during execution. Tell juniors what to do on a hit: note the document reference and bring it to the senior, not resolve it themselves. Recirculate the page if a new party surfaces mid-audit.",
+      "tipFr": "Tenir les noms du registre sur une seule page et la distribuer au briefing d'équipe de P5.2, avec la consigne de signaler tout nom aperçu sur une facture, un contrat ou un paiement pendant l'exécution. Dire aux assistants quoi faire en cas de détection : noter la référence du document et la remonter au chef de mission, sans trancher eux-mêmes. Rediffuser la page si une nouvelle partie apparaît en cours de mission."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "independent",
+      "en": "The register was tested against sources independent of management's list (procedures 3, 4).",
+      "fr": "Le registre a été confronté à des sources indépendantes de la liste de la direction (procédures 3, 4)."
+     },
+     {
+      "key": "outside",
+      "en": "Each transaction outside the normal course of business is recorded as a significant risk (procedure 6).",
+      "fr": "Chaque opération hors du cours normal des affaires est consignée comme risque important (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "communicated",
+      "en": "The related party names have been communicated to the engagement team (procedure 7).",
+      "fr": "Les noms des parties liées ont été communiqués à l'équipe (procédure 7)."
+     }
+    ]
+   }
+  ]
+ }
+}

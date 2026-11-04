@@ -1,0 +1,125 @@
+{
+ "code": "C4.1",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 220 (Revised) ¶29–35 · ISA 230 ¶14–16 · ISA 330 ¶26",
+  "ownsEn": "the confirmation that the file is complete and the work is done",
+  "ownsFr": "la confirmation de l'exhaustivité du dossier et de l'achèvement des travaux",
+  "reqEn": [
+   "Before the report is dated, the engagement partner determines that sufficient appropriate audit evidence has been obtained to support the conclusions reached and for the report to be issued (ISA 220 (Revised) ¶36).",
+   "The audit documentation is assembled into a final file on a timely basis after the date of the report, and no documentation is deleted or discarded before the end of its retention period (ISA 230 ¶14–16)."
+  ],
+  "reqFr": [
+   "Avant la date du rapport, l'associé responsable s'assure que des éléments probants suffisants et appropriés ont été obtenus pour étayer les conclusions et permettre l'émission du rapport (ISA 220 révisée ¶36).",
+   "La documentation est constituée en dossier définitif dans un délai raisonnable après la date du rapport et n'est pas supprimée avant la fin de la période de conservation (ISA 230 ¶14–16)."
+  ],
+  "conclEn": [
+   "The file is complete, the work planned has been performed, and sufficient appropriate audit evidence has been obtained to support the opinion to be expressed."
+  ],
+  "conclFr": [
+   "Le dossier est complet, les travaux prévus ont été réalisés, et des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion à exprimer."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "programme",
+      "en": "Confirm that every planned procedure in the audit programme has been performed, or that the reason for not performing it is recorded and approved.",
+      "fr": "Vérifier que chaque procédure prévue au programme a été mise en œuvre, ou que le motif de sa non-réalisation est consigné et approuvé.",
+      "srcEn": "Audit programme · task list · partner approval",
+      "srcFr": "Programme de travail · liste des tâches · approbation de l'associé"
+     },
+     {
+      "key": "signoffs",
+      "en": "Confirm that every working paper carries a preparer sign-off and, where required, a reviewer sign-off.",
+      "fr": "Vérifier que chaque feuille de travail porte la signature du préparateur et, le cas échéant, du réviseur.",
+      "srcEn": "Sign-off register · task list",
+      "srcFr": "Registre des signatures · liste des tâches"
+     },
+     {
+      "key": "outstanding",
+      "en": "Confirm that every point in C4.3 has been cleared, or that the reason a point remains open is recorded and does not prevent the report from being issued.",
+      "fr": "Vérifier que chaque point de C4.3 est levé, ou que le motif de son maintien est consigné et n'empêche pas l'émission du rapport.",
+      "srcEn": "C4.3 points outstanding",
+      "srcFr": "C4.3 points en suspens"
+     },
+     {
+      "key": "misstatements",
+      "en": "Confirm that the misstatements in C1.1 have been evaluated and that the effect on the opinion is determined.",
+      "fr": "Vérifier que les anomalies de C1.1 ont été évaluées et que leur incidence sur l'opinion est déterminée.",
+      "srcEn": "C1.1 · C5.1",
+      "srcFr": "C1.1 · C5.1"
+     },
+     {
+      "key": "consultation",
+      "en": "Confirm that every matter on which consultation was required has been consulted on, and that the conclusion reached has been implemented.",
+      "fr": "Vérifier que chaque point appelant une consultation en a fait l'objet et que la conclusion a été mise en œuvre.",
+      "srcEn": "C1.3 consultation record · firm policy",
+      "srcFr": "C1.3 registre des consultations · politique du cabinet"
+     },
+     {
+      "key": "eqr",
+      "en": "Where an engagement quality review is required, confirm it has been completed and that the reviewer has raised no unresolved matter.",
+      "fr": "Lorsqu'une revue de qualité est requise, vérifier son achèvement et l'absence de point non résolu soulevé par le responsable.",
+      "srcEn": "C4.2 · ISQM 2 ¶25 · P1.5",
+      "srcFr": "C4.2 · ISQM 2 ¶25 · P1.5"
+     },
+     {
+      "key": "evidence",
+      "en": "Confirm that the evidence obtained supports each conclusion in the file, and that no conclusion rests on a procedure that was not performed.",
+      "fr": "Vérifier que les éléments obtenus étayent chaque conclusion du dossier et qu'aucune conclusion ne repose sur une procédure non réalisée.",
+      "srcEn": "Working papers · partner review notes",
+      "srcFr": "Feuilles de travail · notes de revue de l'associé"
+     },
+     {
+      "key": "assembly",
+      "en": "Record the date by which the final file is to be assembled, and the retention period that applies.",
+      "fr": "Consigner la date d'achèvement de la constitution du dossier définitif et la durée de conservation applicable.",
+      "srcEn": "ISA 230 ¶14 · firm policy",
+      "srcFr": "ISA 230 ¶14 · politique du cabinet"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "performed",
+      "en": "Every planned procedure has been performed or its omission is approved (procedure 1).",
+      "fr": "Chaque procédure prévue a été réalisée ou son omission est approuvée (procédure 1)."
+     },
+     {
+      "key": "signed",
+      "en": "Every working paper is signed off by its preparer and, where required, its reviewer (procedure 2).",
+      "fr": "Chaque feuille de travail est signée par son préparateur et, le cas échéant, par son réviseur (procédure 2)."
+     },
+     {
+      "key": "cleared",
+      "en": "Every point in C4.3 has been cleared (procedure 3).",
+      "fr": "Chaque point de C4.3 a été levé (procédure 3)."
+     },
+     {
+      "key": "eqr",
+      "en": "Where required, the engagement quality review is complete and no matter remains unresolved (procedure 6).",
+      "fr": "Lorsqu'elle est requise, la revue de qualité est achevée et aucun point ne reste non résolu (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "sufficient",
+      "en": "Sufficient appropriate audit evidence has been obtained to support the opinion (procedure 7).",
+      "fr": "Des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion (procédure 7)."
+     }
+    ]
+   }
+  ]
+ }
+}

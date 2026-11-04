@@ -1,0 +1,112 @@
+{
+ "code": "E4.23",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · SYSCOHADA classes 8 / 48",
+  "ownsEn": "the evidence obtained on items outside ordinary activities (HAO)",
+  "ownsFr": "les éléments probants obtenus sur les éléments hors activités ordinaires (HAO)",
+  "reqEn": [
+   "SYSCOHADA requires income and expenses outside ordinary activities to be presented separately. Classification as HAO is a matter of substance: an item that recurs, or that arises from the entity's ordinary operations, is not HAO however it is labelled.",
+   "Misclassification moves an amount out of the operating result, so the classification is tested in both directions: what has been recorded as HAO, and what should have been."
+  ],
+  "reqFr": [
+   "Le SYSCOHADA impose une présentation distincte des produits et charges hors activités ordinaires. Le classement en HAO relève de la substance : un élément récurrent ou issu de l'exploitation courante n'est pas HAO quelle que soit son intitulé.",
+   "Un classement erroné déplace un montant hors du résultat d'exploitation : le classement est donc testé dans les deux sens."
+  ],
+  "conclEn": [
+   "The items presented outside ordinary activities are correctly classified, and the operating result contains no item that should have been presented as HAO."
+  ],
+  "conclFr": [
+   "Les éléments présentés hors activités ordinaires sont correctement classés, et le résultat d'exploitation ne contient aucun élément relevant du HAO."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "listing",
+      "en": "Obtain the listing of items recorded in classes 8 and 48, and agree the total to the general ledger.",
+      "fr": "Obtenir la liste des éléments enregistrés en classes 8 et 48 et rapprocher le total du grand livre.",
+      "srcEn": "General ledger · trial balance",
+      "srcFr": "Grand livre · balance"
+     },
+     {
+      "key": "nature",
+      "en": "For each item, establish its nature and test whether it falls outside the entity's ordinary activities.",
+      "fr": "Pour chaque élément, établir sa nature et vérifier s'il se situe hors des activités ordinaires de l'entité.",
+      "srcEn": "Supporting documents · inquiry of management · SYSCOHADA",
+      "srcFr": "Pièces justificatives · entretien avec la direction · SYSCOHADA"
+     },
+     {
+      "key": "recurring",
+      "en": "Compare the items with those recorded as HAO in the prior periods, and challenge any that recurs.",
+      "fr": "Comparer ces éléments à ceux classés en HAO les exercices précédents et remettre en cause tout élément récurrent.",
+      "srcEn": "Prior financial statements · prior file",
+      "srcFr": "États financiers antérieurs · dossier antérieur"
+     },
+     {
+      "key": "reverse",
+      "en": "Review the operating result for items that should have been classified as HAO but were not.",
+      "fr": "Examiner le résultat d'exploitation à la recherche d'éléments qui auraient dû être classés en HAO.",
+      "srcEn": "General ledger · analytical review P3.2",
+      "srcFr": "Grand livre · revue analytique P3.2"
+     },
+     {
+      "key": "support",
+      "en": "Test each significant item to its supporting documentation, and confirm the amount and the period.",
+      "fr": "Tester chaque élément significatif au regard de ses justificatifs et confirmer le montant et la période.",
+      "srcEn": "Invoices · contracts · board approvals",
+      "srcFr": "Factures · contrats · approbations du conseil"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "substance",
+      "en": "Every item classified as HAO falls outside the entity's ordinary activities in substance (procedures 2, 3).",
+      "fr": "Chaque élément classé en HAO se situe en substance hors des activités ordinaires (procédures 2, 3)."
+     },
+     {
+      "key": "recurring",
+      "en": "No item classified as HAO recurs from period to period (procedure 3).",
+      "fr": "Aucun élément classé en HAO ne se répète d'un exercice à l'autre (procédure 3)."
+     },
+     {
+      "key": "complete",
+      "en": "No item in the operating result should have been classified as HAO (procedure 4).",
+      "fr": "Aucun élément du résultat d'exploitation n'aurait dû être classé en HAO (procédure 4)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

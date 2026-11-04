@@ -1,0 +1,148 @@
+{
+ "code": "E4.8",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · ISA 505 · SYSCOHADA classes 5 / 16",
+  "ownsEn": "the evidence obtained on cash, bank balances, loans and borrowings",
+  "ownsFr": "les éléments probants obtenus sur la trésorerie, les emprunts et dettes financières",
+  "reqEn": [
+   "Bank confirmation is obtained for every account the entity held during the period, including accounts closed during it, because a closed account may still carry a balance or a guarantee.",
+   "The bank reconciliation is the control that links the confirmed balance to the ledger. Every reconciling item is tested, and outstanding items are traced into the period after the year end."
+  ],
+  "reqFr": [
+   "Une confirmation bancaire est obtenue pour chaque compte détenu au cours de l'exercice, y compris les comptes clôturés, un compte clos pouvant encore porter un solde ou une garantie.",
+   "Le rapprochement bancaire relie le solde confirmé au grand livre. Chaque élément en rapprochement est testé et suivi sur la période postérieure."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over cash, bank balances, loans and borrowings, including the security given and the covenant position."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur la trésorerie, les emprunts et dettes financières, y compris les sûretés données et le respect des covenants."
+  ],
+  "tools": [
+   "confirmations",
+   "reconciliation"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "accounts",
+      "en": "Establish the complete list of bank accounts held during the period, from the ledger, the prior period file and inquiry of management.",
+      "fr": "Établir la liste complète des comptes bancaires détenus sur l'exercice, à partir du grand livre, du dossier antérieur et d'un entretien avec la direction.",
+      "srcEn": "General ledger · prior file · inquiry of management",
+      "srcFr": "Grand livre · dossier antérieur · entretien avec la direction"
+     },
+     {
+      "key": "confirm",
+      "en": "Send a bank confirmation request for each account, covering the balance, the facilities, the security given and the guarantees.",
+      "fr": "Adresser une demande de confirmation pour chaque compte, portant sur le solde, les concours, les sûretés données et les garanties.",
+      "srcEn": "Bank confirmation replies · ISA 505",
+      "srcFr": "Réponses des banques · ISA 505"
+     },
+     {
+      "key": "reconcile",
+      "en": "Obtain the bank reconciliation for each account. Agree the bank figure to the confirmation and the book figure to the ledger.",
+      "fr": "Obtenir le rapprochement bancaire de chaque compte. Rapprocher le solde bancaire de la confirmation et le solde comptable du grand livre.",
+      "srcEn": "Bank reconciliations · confirmations · general ledger",
+      "srcFr": "Rapprochements bancaires · confirmations · grand livre"
+     },
+     {
+      "key": "items",
+      "en": "Test the reconciling items: trace the outstanding cheques and the deposits in transit into the bank statements after the year end, and investigate any item that has not cleared.",
+      "fr": "Tester les éléments en rapprochement : suivre les chèques en circulation et les remises en cours sur les relevés postérieurs et investiguer tout élément non dénoué.",
+      "srcEn": "Post year-end bank statements · cash book",
+      "srcFr": "Relevés bancaires postérieurs · journal de trésorerie"
+     },
+     {
+      "key": "cash",
+      "en": "Count the cash held on hand at the year end, or reconcile a count performed at another date to the year-end balance.",
+      "fr": "Compter les espèces en caisse à la clôture, ou rapprocher un comptage effectué à une autre date du solde de clôture.",
+      "srcEn": "Cash count sheet · cash book",
+      "srcFr": "Feuille de comptage · journal de caisse"
+     },
+     {
+      "key": "borrowings",
+      "en": "Agree each borrowing to the loan agreement and to the bank confirmation, and recalculate the interest charge and the accrual at the year end.",
+      "fr": "Rapprocher chaque emprunt du contrat et de la confirmation bancaire, et recalculer la charge d'intérêts et les intérêts courus à la clôture.",
+      "srcEn": "Loan agreements · bank confirmations · amortisation schedule",
+      "srcFr": "Contrats de prêt · confirmations bancaires · tableau d'amortissement"
+     },
+     {
+      "key": "covenants",
+      "en": "Test compliance with the loan covenants at the year end, and evaluate the effect of any breach on the classification of the borrowing.",
+      "fr": "Tester le respect des covenants à la clôture et apprécier l'effet de tout manquement sur le classement de l'emprunt.",
+      "srcEn": "Loan agreements · covenant calculation · waiver letters",
+      "srcFr": "Contrats de prêt · calcul des covenants · lettres de renonciation"
+     },
+     {
+      "key": "classification",
+      "en": "Test the split between amounts falling due within and after one year, using the repayment schedule.",
+      "fr": "Tester la ventilation entre les montants exigibles à moins et à plus d'un an, à partir de l'échéancier.",
+      "srcEn": "Repayment schedules · loan agreements",
+      "srcFr": "Échéanciers · contrats de prêt"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "all_accounts",
+      "en": "A confirmation was obtained for every account held during the period, including those closed during it (procedures 1, 2).",
+      "fr": "Une confirmation a été obtenue pour chaque compte détenu sur l'exercice, y compris ceux clôturés (procédures 1, 2)."
+     },
+     {
+      "key": "cleared",
+      "en": "Every reconciling item cleared in the period after the year end, or has been explained (procedure 4).",
+      "fr": "Chaque élément en rapprochement s'est dénoué après la clôture, ou a été expliqué (procédure 4)."
+     },
+     {
+      "key": "covenants",
+      "en": "The entity complied with its loan covenants at the year end (procedure 7).",
+      "fr": "L'entité a respecté ses covenants à la clôture (procédure 7).",
+      "na": true
+     },
+     {
+      "key": "classification",
+      "en": "Borrowings are correctly split between current and non-current (procedure 8).",
+      "fr": "Les emprunts sont correctement ventilés entre court et long terme (procédure 8)."
+     },
+     {
+      "key": "security",
+      "en": "Every security and guarantee disclosed in the bank confirmations is reflected in the financial statements (procedure 2).",
+      "fr": "Chaque sûreté et garantie mentionnée dans les confirmations bancaires figure dans les états financiers (procédure 2)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

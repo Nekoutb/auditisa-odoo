@@ -1,0 +1,153 @@
+{
+ "code": "C1.1",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 450 ¶5–15",
+  "ownsEn": "the misstatement schedule and its evaluation",
+  "ownsFr": "le récapitulatif des anomalies et son évaluation",
+  "reqEn": [
+   "We accumulate misstatements identified during the audit, other than those that are clearly trivial (ISA 450 ¶5). Before evaluating the effect of uncorrected misstatements, we reassess whether materiality remains appropriate in the context of the entity's actual results (ISA 450 ¶10).",
+   "We evaluate whether uncorrected misstatements are material individually or in aggregate, considering their size and nature and the circumstances of their occurrence, and the effect of uncorrected misstatements relating to prior periods (ISA 450 ¶11)."
+  ],
+  "reqFr": [
+   "Nous cumulons les anomalies relevées, hormis celles manifestement négligeables (ISA 450 ¶5). Avant d'évaluer l'effet des anomalies non corrigées, nous réexaminons le caractère approprié du seuil au regard des résultats effectifs (ISA 450 ¶10).",
+   "Nous apprécions si les anomalies non corrigées sont significatives, isolément ou cumulées, en tenant compte de leur montant, de leur nature et des circonstances, ainsi que de celles des exercices antérieurs (ISA 450 ¶11)."
+  ],
+  "conclEn": [
+   "The uncorrected misstatements, individually and in aggregate, do not cause the financial statements to be materially misstated."
+  ],
+  "conclFr": [
+   "Les anomalies non corrigées, isolément et cumulées, ne rendent pas les états financiers significativement erronés."
+  ],
+  "tools": [
+   "sad"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "accumulate",
+      "en": "Accumulate every misstatement identified above the clearly trivial threshold, showing the account, the amount, the assertion and the working paper it came from.",
+      "fr": "Cumuler chaque anomalie relevée au-delà du seuil négligeable, en indiquant le compte, le montant, l'assertion et la feuille de travail d'origine.",
+      "srcEn": "Working papers · P6.1 clearly trivial threshold",
+      "srcFr": "Feuilles de travail · seuil négligeable P6.1"
+     },
+     {
+      "key": "classify",
+      "en": "Classify each misstatement as factual, judgemental or projected, and show the projection basis for each projected item.",
+      "fr": "Classer chaque anomalie en avérée, résultant d'un jugement ou extrapolée, et indiquer la base d'extrapolation.",
+      "srcEn": "Sampling results · ISA 530 ¶14",
+      "srcFr": "Résultats d'échantillonnage · ISA 530 ¶14"
+     },
+     {
+      "key": "communicate",
+      "en": "Communicate the misstatements to management on a timely basis and request that each be corrected.",
+      "fr": "Communiquer les anomalies à la direction en temps utile et demander leur correction.",
+      "srcEn": "Communication to management · ISA 450 ¶8",
+      "srcFr": "Communication à la direction · ISA 450 ¶8"
+     },
+     {
+      "key": "reasons",
+      "en": "Where management declines to correct a misstatement, obtain and record its reasons, and take them into account in evaluating the financial statements.",
+      "fr": "Lorsque la direction refuse de corriger, obtenir et consigner ses motifs et en tenir compte dans l'appréciation des états financiers.",
+      "srcEn": "Management's explanation · ISA 450 ¶9",
+      "srcFr": "Explications de la direction · ISA 450 ¶9"
+     },
+     {
+      "key": "reassess",
+      "en": "Reassess whether materiality remains appropriate against the entity's actual results, and revise it where required.",
+      "fr": "Réexaminer le caractère approprié du seuil au regard des résultats effectifs et le réviser si nécessaire.",
+      "srcEn": "P6.1 · final trial balance · ISA 450 ¶10",
+      "srcFr": "P6.1 · balance définitive · ISA 450 ¶10"
+     },
+     {
+      "key": "aggregate",
+      "en": "Evaluate the uncorrected misstatements individually and in aggregate against materiality, including the effect of those relating to prior periods.",
+      "fr": "Évaluer les anomalies non corrigées isolément et cumulées au regard du seuil, y compris l'effet de celles des exercices antérieurs.",
+      "srcEn": "Prior period C1.1 · current schedule",
+      "srcFr": "C1.1 de l'exercice précédent · récapitulatif courant"
+     },
+     {
+      "key": "nature",
+      "en": "Evaluate each uncorrected misstatement by nature as well as by size: the effect on a covenant, on a loss becoming a profit, on remuneration, on a related party disclosure, or on a trend.",
+      "fr": "Apprécier chaque anomalie non corrigée par sa nature autant que par son montant : effet sur un covenant, passage d'une perte à un bénéfice, rémunération, information sur les parties liées ou tendance.",
+      "srcEn": "ISA 450 ¶A16–A23 · loan agreements · E4.8",
+      "srcFr": "ISA 450 ¶A16–A23 · contrats de prêt · E4.8"
+     },
+     {
+      "key": "tcwg",
+      "en": "Communicate the uncorrected misstatements to those charged with governance, identifying them individually and explaining their effect on the opinion.",
+      "fr": "Communiquer les anomalies non corrigées aux responsables de la gouvernance, en les identifiant individuellement et en expliquant leur effet sur l'opinion.",
+      "srcEn": "ISA 450 ¶12 · governance communication",
+      "srcFr": "ISA 450 ¶12 · communication à la gouvernance"
+     },
+     {
+      "key": "representation",
+      "en": "Request the written representation that management believes the effect of the uncorrected misstatements is immaterial, with the schedule attached.",
+      "fr": "Demander la déclaration écrite selon laquelle la direction estime l'effet des anomalies non corrigées non significatif, récapitulatif joint.",
+      "srcEn": "C3.1 · ISA 450 ¶14",
+      "srcFr": "C3.1 · ISA 450 ¶14"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "accumulated",
+      "en": "Every misstatement above the clearly trivial threshold has been accumulated (procedure 1).",
+      "fr": "Chaque anomalie dépassant le seuil négligeable a été cumulée (procédure 1)."
+     },
+     {
+      "key": "reassessed",
+      "en": "Materiality has been reassessed against the entity's actual results (procedure 5).",
+      "fr": "Le seuil a été réexaminé au regard des résultats effectifs (procédure 5)."
+     },
+     {
+      "key": "immaterial",
+      "en": "The uncorrected misstatements are immaterial individually and in aggregate (procedures 6, 7). A “No” requires the effect on the opinion to be determined in C5.1.",
+      "fr": "Les anomalies non corrigées sont non significatives isolément et cumulées (procédures 6, 7). Un « Non » impose de déterminer l'effet sur l'opinion en C5.1."
+     },
+     {
+      "key": "nature",
+      "en": "No uncorrected misstatement is material by nature notwithstanding its size (procedure 7).",
+      "fr": "Aucune anomalie non corrigée n'est significative par nature malgré son montant (procédure 7)."
+     },
+     {
+      "key": "communicated",
+      "en": "The uncorrected misstatements have been communicated to those charged with governance (procedure 8).",
+      "fr": "Les anomalies non corrigées ont été communiquées aux responsables de la gouvernance (procédure 8)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

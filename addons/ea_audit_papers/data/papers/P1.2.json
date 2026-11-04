@@ -1,0 +1,178 @@
+{
+ "code": "P1.2",
+ "source": "lib/papers/acceptance.ts",
+ "definition": {
+  "std": "ISA 300 ¶13 · IESBA Code §320 · ISA 510",
+  "ownsEn": "the predecessor auditor communication and the opening balances strategy",
+  "ownsFr": "la communication avec l'auditeur précédent et la stratégie sur les soldes d'ouverture",
+  "reqEn": [
+   "For an initial audit engagement we perform the acceptance procedures required by ISA 220 (Revised) and communicate with the predecessor auditor where there has been a change of auditor (ISA 300 ¶13).",
+   "The IESBA Code requires a proposed accountant to determine whether there are reasons for not accepting an appointment. That determination ordinarily requires direct communication with the existing accountant to establish the facts and circumstances behind the proposed change (§320). The client's permission is required before we make contact. A refusal of permission, or a permission granted but not honoured, is itself information relevant to the acceptance decision and to the integrity evaluation in P1.1.",
+   "On opening balances, the objective is to obtain sufficient appropriate audit evidence about whether they contain misstatements that materially affect the current period, and whether appropriate accounting policies have been consistently applied (ISA 510 ¶3, ¶6). We read the most recent financial statements and the predecessor's report for information relevant to opening balances (ISA 510 ¶5).",
+   "Where the prior period opinion was modified, we consider the effect on the current period (ISA 510 ¶12). Where we cannot obtain sufficient appropriate audit evidence over opening balances, we express a qualified opinion or disclaim an opinion (ISA 510 ¶10). Either outcome is foreseen here, not discovered at reporting. The detailed opening-balances work is performed in E6.5."
+  ],
+  "reqFr": [
+   "Pour une mission initiale, nous mettons en œuvre les procédures d'acceptation et communiquons avec l'auditeur précédent en cas de changement (ISA 300 ¶13).",
+   "Le Code IESBA impose de déterminer s'il existe des motifs de ne pas accepter la mission, ce qui suppose une communication directe avec le confrère en place (§320). L'autorisation du client est requise.",
+   "Sur les soldes d'ouverture, l'objectif est d'obtenir des éléments probants suffisants et appropriés (ISA 510 ¶3, ¶6). Les travaux détaillés sont réalisés en E6.5.",
+   "Une opinion modifiée sur l'exercice précédent est prise en compte pour l'exercice courant (ISA 510 ¶12)."
+  ],
+  "conclEn": [
+   "The communication with the predecessor auditor has been completed, or the client's refusal of permission has been evaluated, and the opening balances strategy recorded below is appropriate in the circumstances."
+  ],
+  "conclFr": [
+   "La communication avec l'auditeur précédent est achevée, ou le refus du client a été évalué, et la stratégie sur les soldes d'ouverture est appropriée."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result. Carry any finding bearing on integrity into P1.1 Part B.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat. Reporter tout constat touchant à l'intégrité en P1.1 partie B.",
+    "procs": [
+     {
+      "key": "identify",
+      "en": "Establish the identity of the predecessor auditor and the periods audited.",
+      "fr": "Établir l'identité de l'auditeur précédent et les exercices audités.",
+      "srcEn": "Prior financial statements · RCCM filings · inquiry of management",
+      "srcFr": "États financiers antérieurs · dépôts RCCM · entretien avec la direction"
+     },
+     {
+      "key": "authority",
+      "en": "Obtain management's written authority to communicate with the predecessor auditor. Where authority is refused, record the refusal and its effect on acceptance.",
+      "fr": "Obtenir l'autorisation écrite de la direction pour communiquer avec l'auditeur précédent. En cas de refus, consigner ce refus et son incidence sur l'acceptation.",
+      "srcEn": "Signed authority · correspondence with management",
+      "srcFr": "Autorisation signée · correspondance avec la direction"
+     },
+     {
+      "key": "inquire",
+      "en": "Send the written inquiry to the predecessor auditor. Ask about disagreements on accounting or auditing matters, about identified fraud or non-compliance with law and regulation, about the reason for the change, and about any matter bearing on the integrity of management.",
+      "fr": "Adresser la demande écrite à l'auditeur précédent. Interroger sur les désaccords en matière comptable ou d'audit, les fraudes ou non-conformités identifiées, le motif du changement, et tout élément touchant à l'intégrité de la direction.",
+      "srcEn": "Our letter of inquiry · correspondence file",
+      "srcFr": "Notre lettre de demande · chrono de correspondance"
+     },
+     {
+      "key": "followup",
+      "en": "Where no reply is received within a reasonable period, follow up in writing and record the follow-up.",
+      "fr": "En l'absence de réponse dans un délai raisonnable, relancer par écrit et consigner la relance.",
+      "srcEn": "Correspondence file",
+      "srcFr": "Chrono de correspondance"
+     },
+     {
+      "key": "evaluate",
+      "en": "Read the predecessor auditor's response and evaluate its effect on acceptance and on our assessment of risk.",
+      "fr": "Lire la réponse de l'auditeur précédent et en évaluer l'incidence sur l'acceptation et sur notre évaluation des risques.",
+      "srcEn": "Predecessor auditor's written response",
+      "srcFr": "Réponse écrite de l'auditeur précédent"
+     },
+     {
+      "key": "file",
+      "en": "Request access to the predecessor auditor's file for the opening balances. Where access is granted, inspect the working papers supporting the opening position.",
+      "fr": "Demander l'accès au dossier de l'auditeur précédent pour les soldes d'ouverture. Si l'accès est accordé, examiner les feuilles de travail justifiant la position d'ouverture.",
+      "srcEn": "Predecessor's working papers · access agreement",
+      "srcFr": "Feuilles de travail du prédécesseur · convention d'accès"
+     },
+     {
+      "key": "alternative",
+      "en": "Where access is not obtained, plan the alternative procedures on opening balances and record them in E6.5.",
+      "fr": "À défaut d'accès, planifier les procédures alternatives sur les soldes d'ouverture et les consigner en E6.5.",
+      "srcEn": "ISA 510 ¶6 · working paper E6.5",
+      "srcFr": "ISA 510 ¶6 · feuille de travail E6.5"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part B — Predecessor auditor",
+    "titleFr": "Partie B — Auditeur précédent",
+    "fields": [
+     {
+      "key": "firm",
+      "kind": "input",
+      "labelEn": "Firm and contact person",
+      "labelFr": "Cabinet et interlocuteur"
+     },
+     {
+      "key": "periods",
+      "kind": "input",
+      "labelEn": "Periods audited by the predecessor",
+      "labelFr": "Exercices audités par le prédécesseur"
+     },
+     {
+      "key": "opinion",
+      "kind": "input",
+      "labelEn": "Opinion issued on the most recent period, including any modification",
+      "labelFr": "Opinion émise sur le dernier exercice, y compris toute modification"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part C — Evaluation of the response",
+    "titleFr": "Partie C — Évaluation de la réponse",
+    "introEn": "Evaluate what the Part A procedures produced. Explain each “No” in the box beneath it, including its effect on the acceptance decision. A limited response, or no response, is a matter to weigh in deciding whether to accept the engagement.",
+    "introFr": "Évaluer les résultats des procédures de la partie A. Expliquer chaque « Non » dans la zone prévue, y compris son effet sur la décision d'acceptation. Une réponse limitée ou l'absence de réponse est à peser dans cette décision.",
+    "items": [
+     {
+      "key": "permission",
+      "en": "Permission to communicate with the predecessor auditor was obtained without restriction (procedure 2).",
+      "fr": "L'autorisation de communiquer avec l'auditeur précédent a été obtenue sans restriction (procédure 2)."
+     },
+     {
+      "key": "answered",
+      "en": "The predecessor auditor's response addressed every matter we raised (procedures 3 to 5).",
+      "fr": "La réponse de l'auditeur précédent traite chacune des questions posées (procédures 3 à 5)."
+     },
+     {
+      "key": "nodisagreement",
+      "en": "The response discloses no disagreement over an accounting or auditing matter that remained unresolved (procedure 5).",
+      "fr": "La réponse ne fait état d'aucun désaccord comptable ou d'audit resté non résolu (procédure 5)."
+     },
+     {
+      "key": "nofraud",
+      "en": "The response discloses no fraud or non-compliance with law and regulation affecting the periods audited (procedure 5).",
+      "fr": "La réponse ne fait état d'aucune fraude ni non-conformité aux textes affectant les exercices audités (procédure 5)."
+     },
+     {
+      "key": "consistent",
+      "en": "The reason given for the change of auditor is consistent with management's account (procedure 5; P1.1 procedure 10).",
+      "fr": "Le motif du changement d'auditeur concorde avec la version de la direction (procédure 5 ; P1.1 procédure 10)."
+     },
+     {
+      "key": "integrity",
+      "en": "Nothing in the response bears adversely on the integrity of management (procedure 5). Any finding is carried into P1.1 Part B.",
+      "fr": "Rien dans la réponse ne met en cause l'intégrité de la direction (procédure 5). Tout constat est reporté en P1.1 partie B."
+     },
+     {
+      "key": "papers",
+      "en": "Access to the predecessor auditor's working papers on the opening balances was obtained (procedure 6).",
+      "fr": "L'accès aux feuilles de travail du prédécesseur sur les soldes d'ouverture a été obtenu (procédure 6).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part D — Opening balances strategy",
+    "titleFr": "Partie D — Stratégie sur les soldes d'ouverture",
+    "introEn": "Select the strategy for obtaining sufficient appropriate audit evidence that the opening balances contain no misstatement materially affecting the current period. The work itself is performed in E6.5.",
+    "introFr": "Choisir la stratégie d'obtention des éléments probants sur les soldes d'ouverture. Les travaux sont réalisés en E6.5.",
+    "fields": [
+     {
+      "key": "strategy",
+      "kind": "input",
+      "labelEn": "Strategy selected: review of the predecessor's working papers, evidence arising from current period procedures, or specific procedures on opening balances",
+      "labelFr": "Stratégie retenue : revue des dossiers du prédécesseur, éléments issus des procédures de l'exercice, ou procédures spécifiques"
+     },
+     {
+      "key": "prior_mod",
+      "kind": "input",
+      "labelEn": "Any modification to the prior period opinion relevant to the current period, and its effect",
+      "labelFr": "Toute modification de l'opinion antérieure pertinente pour l'exercice, et son effet"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,112 @@
+{
+ "code": "P6.2",
+ "source": "lib/papers/gam.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶28–29 · ISA 320 ¶10–11",
+  "ownsEn": "the scoping matrix: significant accounts, disclosures and their relevant assertions",
+  "ownsFr": "la matrice de périmètre : comptes significatifs, informations à fournir et assertions pertinentes",
+  "reqEn": [
+   "For each class of transactions, account balance and disclosure, we determine whether it is significant: whether there is a reasonable possibility of a material misstatement, judged before considering controls (ISA 315 ¶28–29). The quantitative screen compares the item to performance materiality from P6.1; the qualitative screen considers susceptibility to fraud, estimation uncertainty, related-party involvement, changes in the business, and complexity of the accounting requirement.",
+   "For every significant item we then identify the relevant assertions — those for which a material misstatement is reasonably possible. Assertions for classes of transactions are occurrence, completeness, accuracy, cutoff, classification and presentation; for balances they are existence, rights and obligations, completeness, accuracy-valuation-allocation, classification and presentation (ISA 315 ¶A190).",
+   "The matrix recorded here drives everything downstream: each significant account maps to the transaction cycles that feed it (S1.1) and to the execution programs that will address its relevant assertions. An account excluded here is not worked; the exclusion rationale is therefore documented with the same care as an inclusion."
+  ],
+  "reqFr": [
+   "Pour chaque flux, solde et information à fournir, nous déterminons s'il est significatif : existe-t-il une possibilité raisonnable d'anomalie significative, appréciée avant prise en compte des contrôles (ISA 315 ¶28–29) ? Le filtre quantitatif compare l'élément au seuil de planification de P6.1 ; le filtre qualitatif considère la fraude, l'incertitude d'estimation, les parties liées, les évolutions de l'activité et la complexité comptable.",
+   "Pour chaque élément significatif, nous identifions les assertions pertinentes — celles pour lesquelles une anomalie significative est raisonnablement possible (ISA 315 ¶A190).",
+   "La matrice établie ici pilote la suite : chaque compte significatif est relié aux cycles qui l'alimentent (S1.1) et aux programmes d'exécution qui traiteront ses assertions. Une exclusion est documentée avec le même soin qu'une inclusion."
+  ],
+  "conclEn": [
+   "Significant accounts, disclosures and their relevant assertions have been identified, and the resulting scope is complete."
+  ],
+  "conclFr": [
+   "Les comptes significatifs, informations à fournir et assertions pertinentes ont été identifiés, et le périmètre qui en résulte est complet."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "tb",
+      "en": "Obtain the trial balance or latest financial statements and list every class of transactions, account balance and disclosure.",
+      "fr": "Obtenir la balance ou les derniers états financiers et recenser chaque flux, solde et information à fournir.",
+      "srcEn": "Trial balance import · prior-year financial statements",
+      "srcFr": "Import de balance · états financiers N-1"
+     },
+     {
+      "key": "quant",
+      "en": "Apply the quantitative screen: flag every item above performance materiality (P6.1), and record the threshold used.",
+      "fr": "Appliquer le filtre quantitatif : signaler tout élément supérieur au seuil de planification (P6.1) et consigner le seuil retenu.",
+      "srcEn": "P6.1 materiality paper · trial balance",
+      "srcFr": "Papier P6.1 · balance"
+     },
+     {
+      "key": "qual",
+      "en": "Apply the qualitative screen to items below the threshold: fraud susceptibility, estimation uncertainty, related parties, business changes, accounting complexity. Add any item flagged.",
+      "fr": "Appliquer le filtre qualitatif aux éléments sous le seuil : fraude, incertitude d'estimation, parties liées, évolutions, complexité comptable. Ajouter tout élément signalé.",
+      "srcEn": "P5.1 fraud risks · S4.3 related parties · P3.1 understanding",
+      "srcFr": "P5.1 · S4.3 · P3.1"
+     },
+     {
+      "key": "assertions",
+      "en": "For each significant item, identify the relevant assertions and record the reason each assertion is (or is not) relevant.",
+      "fr": "Pour chaque élément significatif, identifier les assertions pertinentes et le motif de leur pertinence (ou non).",
+      "srcEn": "Risk assessment discussions · cycle knowledge",
+      "srcFr": "Échanges d'évaluation des risques · connaissance des cycles"
+     },
+     {
+      "key": "map",
+      "en": "Map each significant account to the transaction cycles that feed it, and confirm every one is carried by a SCOT identified in S1.1.",
+      "fr": "Relier chaque compte significatif aux cycles qui l'alimentent et vérifier que chacun est porté par une SCOT identifiée en S1.1.",
+      "srcEn": "S1.1 SCOT listing",
+      "srcFr": "Liste des SCOT (S1.1)"
+     },
+     {
+      "key": "disclosures",
+      "en": "Identify significant disclosures, including those not derived from the trial balance (commitments, related parties, going concern).",
+      "fr": "Identifier les informations à fournir significatives, y compris celles hors balance (engagements, parties liées, continuité).",
+      "srcEn": "Framework disclosure checklist · prior-year notes",
+      "srcFr": "Liste des informations du référentiel · annexe N-1"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Scoping confirmations",
+    "titleFr": "Partie B — Confirmations de périmètre",
+    "introEn": "Explain each “No” in the box beneath it.",
+    "introFr": "Expliquer chaque « Non » dans l'encadré au-dessous.",
+    "items": [
+     {
+      "key": "above_pm",
+      "en": "Every account and disclosure above performance materiality has been scoped in or its exclusion justified.",
+      "fr": "Chaque compte et information au-dessus du seuil de planification est inclus, ou son exclusion est justifiée."
+     },
+     {
+      "key": "qual_done",
+      "en": "Qualitative factors were considered for items below the threshold.",
+      "fr": "Les facteurs qualitatifs ont été examinés pour les éléments sous le seuil."
+     },
+     {
+      "key": "assert_each",
+      "en": "Relevant assertions are recorded for every significant account and disclosure.",
+      "fr": "Les assertions pertinentes sont consignées pour chaque élément significatif."
+     },
+     {
+      "key": "linked",
+      "en": "Every significant account is linked to at least one execution program that addresses its relevant assertions.",
+      "fr": "Chaque compte significatif est relié à au moins un programme d'exécution traitant ses assertions."
+     },
+     {
+      "key": "partner",
+      "en": "The engagement partner has reviewed and agreed the scoping matrix.",
+      "fr": "L'associé responsable a revu et approuvé la matrice de périmètre."
+     }
+    ]
+   }
+  ]
+ }
+}

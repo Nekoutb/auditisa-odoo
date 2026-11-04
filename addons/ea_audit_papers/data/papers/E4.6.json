@@ -1,0 +1,126 @@
+{
+ "code": "E4.6",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · ISA 501 ¶10 · ISA 540 (Revised)",
+  "ownsEn": "the evidence obtained on investments and financial assets",
+  "ownsFr": "les éléments probants obtenus sur les titres et actifs financiers",
+  "reqEn": [
+   "Existence is established by confirmation from the custodian or the issuer, or by inspection of the certificates. Classification determines the measurement basis, so it is tested before valuation.",
+   "Where an investment is measured at fair value and no quoted price is available, the measurement is an accounting estimate and the requirements of ISA 540 (Revised) apply."
+  ],
+  "reqFr": [
+   "L'existence est établie par confirmation du dépositaire ou de l'émetteur, ou par examen des titres. Le classement détermine la base d'évaluation et est testé avant la valorisation.",
+   "Lorsqu'un titre est évalué à la juste valeur sans prix coté, l'évaluation constitue une estimation comptable (ISA 540 révisée)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over investments and financial assets for the assertions identified as relevant in S3.1."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les titres et actifs financiers pour les assertions retenues en S3.1."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "schedule",
+      "en": "Obtain the schedule of investments and agree the total to the general ledger and the opening balances to the prior period file.",
+      "fr": "Obtenir l'état des titres et rapprocher le total du grand livre et les ouvertures du dossier antérieur.",
+      "srcEn": "Investment schedule · general ledger · prior file",
+      "srcFr": "État des titres · grand livre · dossier antérieur"
+     },
+     {
+      "key": "confirm",
+      "en": "Confirm the holdings directly with the custodian, the registrar or the investee, and reconcile the reply to the schedule.",
+      "fr": "Confirmer les détentions directement auprès du dépositaire, du teneur de registre ou de l'émetteur et rapprocher la réponse de l'état.",
+      "srcEn": "Confirmation replies · ISA 505",
+      "srcFr": "Réponses de circularisation · ISA 505"
+     },
+     {
+      "key": "inspect",
+      "en": "Where the entity holds the certificates itself, inspect them and confirm they are in the entity's name.",
+      "fr": "Lorsque l'entité détient elle-même les titres, les examiner et vérifier qu'ils sont à son nom.",
+      "srcEn": "Share certificates · custody records",
+      "srcFr": "Certificats de titres · registre de dépôt"
+     },
+     {
+      "key": "additions",
+      "en": "Test the acquisitions and disposals of the period to the contract note and to the bank, and recalculate the gain or loss on disposal.",
+      "fr": "Tester les acquisitions et cessions de l'exercice au regard de l'avis d'opéré et de la banque, et recalculer le résultat de cession.",
+      "srcEn": "Contract notes · bank statements · board minutes",
+      "srcFr": "Avis d'opéré · relevés bancaires · procès-verbaux"
+     },
+     {
+      "key": "classification",
+      "en": "Test the classification of each holding against the framework, and confirm the measurement basis applied follows from it.",
+      "fr": "Tester le classement de chaque ligne au regard du référentiel et vérifier que la base d'évaluation en découle.",
+      "srcEn": "Accounting policy · investment terms · framework",
+      "srcFr": "Méthode comptable · caractéristiques des titres · référentiel"
+     },
+     {
+      "key": "valuation",
+      "en": "Test the valuation: agree the quoted holdings to the market price at the year end, and test the basis of any unquoted valuation.",
+      "fr": "Tester la valorisation : rapprocher les titres cotés du cours de clôture et tester la base de toute valorisation non cotée.",
+      "srcEn": "Market data at the year end · valuation model · E6.7",
+      "srcFr": "Cours de clôture · modèle de valorisation · E6.7"
+     },
+     {
+      "key": "income",
+      "en": "Test the investment income recognised in the period, and confirm the receivable at the year end.",
+      "fr": "Tester les produits financiers de l'exercice et vérifier la créance à la clôture.",
+      "srcEn": "Dividend advices · interest calculations · bank",
+      "srcFr": "Avis de dividende · calculs d'intérêts · banque"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "existence",
+      "en": "The holdings recorded were confirmed by a third party or inspected (procedures 2, 3).",
+      "fr": "Les détentions comptabilisées ont été confirmées par un tiers ou examinées (procédures 2, 3)."
+     },
+     {
+      "key": "classification",
+      "en": "Each holding is classified in accordance with the framework, and measured on the basis that follows (procedure 5).",
+      "fr": "Chaque ligne est classée conformément au référentiel et évaluée sur la base qui en découle (procédure 5)."
+     },
+     {
+      "key": "valuation",
+      "en": "The carrying amount at the year end is supported by the evidence obtained (procedure 6).",
+      "fr": "La valeur comptable à la clôture est étayée par les éléments obtenus (procédure 6)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

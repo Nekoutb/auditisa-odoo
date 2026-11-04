@@ -1,0 +1,154 @@
+{
+ "code": "E4.1",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶25–26 · ISA 330 ¶18–23 · ISA 505 · ISA 240 ¶26",
+  "ownsEn": "the revenue and receivables flow, and the evidence obtained on it",
+  "ownsFr": "le flux ventes et créances et les éléments probants obtenus",
+  "reqEn": [
+   "We obtain an understanding of the flow of transactions from initiation through to inclusion in the financial statements, and identify the points at which a misstatement could arise (ISA 315 (Revised 2019) ¶25). The walkthrough confirms that the flow operates as described.",
+   "Revenue recognition carries a presumed fraud risk unless that presumption was rebutted in P5.1 (ISA 240 ¶26). Cut-off and occurrence are the assertions most often affected."
+  ],
+  "reqFr": [
+   "Nous prenons connaissance du flux des opérations, de leur initiation jusqu'à leur inclusion dans les états financiers, et identifions les points où une anomalie pourrait survenir (ISA 315 révisée ¶25).",
+   "La comptabilisation des produits porte une présomption de risque de fraude sauf réfutation en P5.1 (ISA 240 ¶26)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the revenue and receivables flow for the assertions identified as relevant in S3.1."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur le flux ventes et créances pour les assertions retenues en S3.1."
+  ],
+  "tools": [
+   "what-can-go-wrong",
+   "sampling",
+   "confirmations"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "flow",
+      "en": "Record the critical path: how a sale is initiated, recorded, processed and reported, naming the actors, the documents, the applications and the control points.",
+      "fr": "Consigner le chemin critique : initiation, enregistrement, traitement et restitution d'une vente, en nommant les acteurs, documents, applications et points de contrôle.",
+      "srcEn": "Process narrative · inquiry of the cycle owner · P4.3",
+      "srcFr": "Descriptif de processus · entretien avec le responsable du cycle · P4.3"
+     },
+     {
+      "key": "walkthrough",
+      "en": "Walk one transaction through the whole flow. Inspect the evidence at each step and record any deviation from the description obtained.",
+      "fr": "Dérouler une opération sur l'ensemble du flux. Examiner les preuves à chaque étape et consigner tout écart avec la description obtenue.",
+      "srcEn": "Order · dispatch note · invoice · ledger entry · receipt",
+      "srcFr": "Commande · bon de livraison · facture · écriture · encaissement"
+     },
+     {
+      "key": "controls",
+      "en": "Where a controls-reliance strategy was set in S3.1, test the operating effectiveness of the identified controls over the period of reliance.",
+      "fr": "Lorsque S3.1 retient l'appui sur les contrôles, tester l'efficacité du fonctionnement des contrôles identifiés sur la période concernée.",
+      "srcEn": "S3.1 · control evidence · E1.2 for IT-dependent controls",
+      "srcFr": "S3.1 · preuves de contrôle · E1.2 pour les contrôles dépendants de l'informatique"
+     },
+     {
+      "key": "confirm",
+      "en": "Circularise the receivable balances selected. Follow up non-replies with a second request, and perform alternative procedures where no reply is obtained.",
+      "fr": "Circulariser les soldes clients sélectionnés. Relancer les non-réponses et mettre en œuvre des procédures alternatives à défaut de réponse.",
+      "srcEn": "Confirmation replies · ISA 505 ¶12 · subsequent receipts",
+      "srcFr": "Réponses de circularisation · ISA 505 ¶12 · encaissements postérieurs"
+     },
+     {
+      "key": "cutoff",
+      "en": "Test cut-off across the year end: trace dispatches either side of the year end to the invoice and to the period in which the revenue was recognised.",
+      "fr": "Tester la césure autour de la clôture : rapprocher les livraisons de part et d'autre de la clôture de la facture et de la période de comptabilisation.",
+      "srcEn": "Dispatch register · invoices · goods returned notes",
+      "srcFr": "Registre des livraisons · factures · avoirs"
+     },
+     {
+      "key": "substantive",
+      "en": "Test the recorded revenue for occurrence and accuracy on the sample selected, agreeing each item to the contract, the dispatch evidence and the cash received.",
+      "fr": "Tester la réalité et l'exactitude des produits comptabilisés sur l'échantillon retenu, en rapprochant chaque élément du contrat, de la preuve de livraison et de l'encaissement.",
+      "srcEn": "Sampling tool · contracts · dispatch evidence · bank statements",
+      "srcFr": "Outil d'échantillonnage · contrats · preuves de livraison · relevés bancaires"
+     },
+     {
+      "key": "allowance",
+      "en": "Test the allowance for doubtful receivables: age the balance, and challenge the assumptions against subsequent receipts and the customer's circumstances.",
+      "fr": "Tester la dépréciation des créances : établir la balance âgée et confronter les hypothèses aux encaissements postérieurs et à la situation du client.",
+      "srcEn": "Aged receivables · subsequent receipts · E6.7",
+      "srcFr": "Balance âgée · encaissements postérieurs · E6.7"
+     },
+     {
+      "key": "credit_notes",
+      "en": "Review the credit notes issued after the year end for revenue recognised before it.",
+      "fr": "Examiner les avoirs émis après la clôture au regard des produits comptabilisés avant celle-ci.",
+      "srcEn": "Post year-end credit notes · sales ledger",
+      "srcFr": "Avoirs postérieurs à la clôture · journal des ventes"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "walkthrough",
+      "en": "The walkthrough confirmed the flow operates as described (procedure 2).",
+      "fr": "Le test de cheminement confirme que le flux fonctionne comme décrit (procédure 2)."
+     },
+     {
+      "key": "controls",
+      "en": "Where reliance was planned, the controls tested operated effectively throughout the period of reliance (procedure 3).",
+      "fr": "Lorsque l'appui était prévu, les contrôles testés ont fonctionné efficacement sur toute la période (procédure 3).",
+      "na": true
+     },
+     {
+      "key": "confirmations",
+      "en": "The confirmation responses, together with the alternative procedures, cover the balance selected (procedure 4).",
+      "fr": "Les réponses de circularisation et les procédures alternatives couvrent le solde sélectionné (procédure 4)."
+     },
+     {
+      "key": "cutoff",
+      "en": "Revenue is recorded in the period in which the performance obligation was satisfied (procedures 5, 8).",
+      "fr": "Les produits sont comptabilisés dans la période où l'obligation de prestation a été remplie (procédures 5, 8)."
+     },
+     {
+      "key": "allowance",
+      "en": "The allowance for doubtful receivables is supported by the evidence obtained (procedure 7).",
+      "fr": "La dépréciation des créances est étayée par les éléments obtenus (procédure 7)."
+     },
+     {
+      "key": "fraud",
+      "en": "Nothing found indicates the fraud risk in revenue recognition identified in P5.1 has materialised (procedures 5, 6, 8).",
+      "fr": "Rien ne montre que le risque de fraude sur les produits identifié en P5.1 s'est matérialisé (procédures 5, 6, 8)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}
