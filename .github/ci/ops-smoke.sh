@@ -185,6 +185,7 @@ assert_eq "service healthy" "$(curl -s -o /dev/null -w '%{http_code}' http://127
 assert_eq "schema change undone" "$(q "$STAGING_DB" "SELECT count(*) FROM information_schema.columns WHERE table_name = 'smoke_probe' AND column_name = 'bad_col'")" 0
 assert_eq "data kept" "$(q "$STAGING_DB" "SELECT count(*) FROM smoke_probe WHERE name = 'sentinel'")" 1
 [ "$(q postgres "SELECT count(*) FROM pg_database WHERE datname LIKE '${STAGING_DB}_failed_%'")" = 1 ] || fail "failed database not kept"
+assert_eq "restored database owner" "$(q postgres "SELECT pg_get_userbyid(datdba) FROM pg_database WHERE datname = '$STAGING_DB'")" odoo
 assert_eq "copy consumed" "$(q postgres "SELECT count(*) FROM pg_database WHERE datname = '${STAGING_DB}_predeploy'")" 0
 assert_eq "rollback record unchanged" "$(sed -n 's/^previous=//p' "$ROOT/current.previous")" "$ROOT/releases/${SHA_A:0:12}"
 

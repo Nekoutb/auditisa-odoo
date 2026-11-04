@@ -216,7 +216,8 @@ install_requirements() {
 
 snapshot_db() {
   log "copying $DB to $SNAPSHOT"
-  psql_q "CREATE DATABASE \"$SNAPSHOT\" TEMPLATE \"$DB\"" >/dev/null || die "cannot copy $DB (still in use?)"
+  # OWNER matters: Odoo only sees databases its role owns, and after a rollback this copy is $DB.
+  psql_q "CREATE DATABASE \"$SNAPSHOT\" TEMPLATE \"$DB\" OWNER \"$ODOO_USER\"" >/dev/null || die "cannot copy $DB (still in use?)"
 }
 
 drop_snapshot() {
