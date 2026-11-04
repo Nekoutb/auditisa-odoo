@@ -23,7 +23,7 @@ from odoo.addons.ea_audit_core.services.tool_fed import is_tool_fed_paper
 from ..models.ui_data import DEMO_DIRECT_HASH
 
 _E4_SHOWN = ("E4.1", "E4.2", "E4.3", "E4.4", "E4.5", "E4.6", "E4.7", "E4.8", "E4.9", "E4.10", "E4.20")
-_NOT_DONE_STRATEGY = ("S2.5", "S4.4", "S5.3")
+_NOT_DONE_STRATEGY = ("S2.5", "S4.4", "S5.4")
 
 
 def _fails_closed(code):
