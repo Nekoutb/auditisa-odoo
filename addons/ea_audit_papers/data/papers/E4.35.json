@@ -1,0 +1,119 @@
+{
+ "code": "E4.35",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · IFRS 16 / SYSCOHADA — crédit-bail",
+  "ownsEn": "the evidence obtained on leases and lease-acquisition arrangements",
+  "ownsFr": "les éléments probants obtenus sur les contrats de location et de crédit-bail",
+  "reqEn": [
+   "Classification determines the accounting, so each contract is read rather than relying on how it has been described. A contract that transfers substantially all the risks and rewards of ownership is accounted for accordingly, whatever it is called.",
+   "Completeness is tested from sources other than the lease register, because an unrecorded lease produces both a missing asset and a missing liability."
+  ],
+  "reqFr": [
+   "Le classement détermine le traitement comptable : chaque contrat est lu plutôt que retenu sur sa dénomination. Un contrat transférant l'essentiel des risques et avantages est traité en conséquence.",
+   "L'exhaustivité est testée à partir de sources autres que le registre des contrats, un contrat non comptabilisé générant à la fois un actif et une dette manquants."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the lease arrangements, their classification, measurement and disclosure."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les contrats de location, leur classement, leur évaluation et leur présentation."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "register",
+      "en": "Obtain the register of lease contracts and agree the totals to the general ledger.",
+      "fr": "Obtenir le registre des contrats de location et rapprocher les totaux du grand livre.",
+      "srcEn": "Lease register · general ledger",
+      "srcFr": "Registre des contrats · grand livre"
+     },
+     {
+      "key": "read",
+      "en": "Read the significant contracts and test the classification applied against the terms: the lease term, the transfer of title, the purchase option and the present value of the payments.",
+      "fr": "Lire les contrats significatifs et tester le classement au regard des termes : durée, transfert de propriété, option d'achat et valeur actualisée des loyers.",
+      "srcEn": "Lease contracts · accounting framework",
+      "srcFr": "Contrats de location · référentiel comptable"
+     },
+     {
+      "key": "measure",
+      "en": "Recalculate the asset and the liability at inception for the contracts selected, and the charge for the period.",
+      "fr": "Recalculer l'actif et la dette à l'origine pour les contrats retenus, ainsi que la charge de l'exercice.",
+      "srcEn": "Contracts · amortisation schedule · discount rate",
+      "srcFr": "Contrats · tableau d'amortissement · taux d'actualisation"
+     },
+     {
+      "key": "payments",
+      "en": "Agree the payments made in the period to the bank, and reconcile the liability movement.",
+      "fr": "Rapprocher les loyers versés de la banque et justifier la variation de la dette.",
+      "srcEn": "Bank statements · lease schedule",
+      "srcFr": "Relevés bancaires · échéancier"
+     },
+     {
+      "key": "completeness",
+      "en": "Test completeness: review the rent and hire expense accounts, the minutes and the insurance schedule for arrangements not in the register.",
+      "fr": "Tester l'exhaustivité : examiner les comptes de loyers et locations, les procès-verbaux et les polices d'assurance à la recherche de contrats absents du registre.",
+      "srcEn": "General ledger · minutes (E6.4) · insurance policies",
+      "srcFr": "Grand livre · procès-verbaux (E6.4) · polices d'assurance"
+     },
+     {
+      "key": "disclosure",
+      "en": "Test the maturity analysis of the lease liabilities disclosed.",
+      "fr": "Tester l'échéancier des dettes de location présenté en annexe.",
+      "srcEn": "Lease schedules · draft financial statements",
+      "srcFr": "Échéanciers · projet d'états financiers"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "classification",
+      "en": "The classification applied to each contract follows from its terms (procedure 2).",
+      "fr": "Le classement appliqué à chaque contrat découle de ses termes (procédure 2)."
+     },
+     {
+      "key": "completeness",
+      "en": "No lease arrangement has been omitted from the register (procedure 5).",
+      "fr": "Aucun contrat de location n'a été omis du registre (procédure 5)."
+     },
+     {
+      "key": "maturity",
+      "en": "The maturity analysis disclosed agrees to the underlying schedules (procedure 6).",
+      "fr": "L'échéancier présenté concorde avec les tableaux sous-jacents (procédure 6)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

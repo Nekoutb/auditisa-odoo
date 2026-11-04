@@ -1,0 +1,112 @@
+{
+ "code": "E4.14",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · ISA 250 (Revised) · SYSCOHADA class 443/445",
+  "ownsEn": "the evidence obtained on value added tax and other sales taxes",
+  "ownsFr": "les éléments probants obtenus sur la TVA et autres taxes sur les ventes",
+  "reqEn": [
+   "The balance is tested by reconciling the tax declared across the period's returns to the revenue and purchases recorded in the ledger, and by agreeing the closing balance to the return for the final period.",
+   "Non-compliance with the tax law may give rise to penalties that are themselves a liability. The requirements of ISA 250 (Revised) apply where non-compliance is identified."
+  ],
+  "reqFr": [
+   "Le solde est testé par rapprochement de la taxe déclarée sur l'exercice avec les produits et achats comptabilisés, et par rapprochement du solde de clôture avec la dernière déclaration.",
+   "Une non-conformité à la loi fiscale peut engendrer des pénalités constituant elles-mêmes une dette (ISA 250 révisée)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over value added tax and other sales taxes, and any non-compliance identified has been carried to E6.1."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur la TVA et taxes assimilées, et toute non-conformité relevée est reportée en E6.1."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "reconcile",
+      "en": "Reconcile the output tax declared across the period's returns to the revenue recorded in the ledger, and investigate the difference.",
+      "fr": "Rapprocher la TVA collectée déclarée sur l'exercice des produits comptabilisés et investiguer l'écart.",
+      "srcEn": "VAT returns · general ledger · revenue analysis",
+      "srcFr": "Déclarations de TVA · grand livre · analyse des produits"
+     },
+     {
+      "key": "input",
+      "en": "Reconcile the input tax reclaimed to the purchases recorded, and test a sample of the reclaims to the supplier invoices.",
+      "fr": "Rapprocher la TVA déductible des achats comptabilisés et tester un échantillon de déductions au regard des factures fournisseurs.",
+      "srcEn": "VAT returns · purchase invoices",
+      "srcFr": "Déclarations de TVA · factures d'achat"
+     },
+     {
+      "key": "balance",
+      "en": "Agree the balance at the year end to the return for the final period, and confirm the payment or repayment after the year end.",
+      "fr": "Rapprocher le solde de clôture de la déclaration de la dernière période et vérifier le paiement ou le remboursement postérieur.",
+      "srcEn": "Final return · post year-end bank statements",
+      "srcFr": "Dernière déclaration · relevés bancaires postérieurs"
+     },
+     {
+      "key": "rates",
+      "en": "Test that the correct rate has been applied to each category of supply, including exempt and zero-rated supplies.",
+      "fr": "Vérifier l'application du taux correct à chaque catégorie d'opérations, y compris exonérées et à taux zéro.",
+      "srcEn": "Tax code · invoices · product listing",
+      "srcFr": "Code général des impôts · factures · liste des produits"
+     },
+     {
+      "key": "filings",
+      "en": "Confirm that every return due in the period was filed, and identify any filed late together with the penalty arising.",
+      "fr": "Vérifier le dépôt de chaque déclaration due sur l'exercice et identifier les dépôts tardifs et les pénalités correspondantes.",
+      "srcEn": "Filing receipts · tax account statement · C5.2",
+      "srcFr": "Récépissés de dépôt · état de compte fiscal · C5.2"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "reconciled",
+      "en": "The tax declared reconciles to the revenue and purchases recorded (procedures 1, 2).",
+      "fr": "La taxe déclarée se rapproche des produits et achats comptabilisés (procédures 1, 2)."
+     },
+     {
+      "key": "balance",
+      "en": "The balance at the year end agrees to the final return and cleared after it (procedure 3).",
+      "fr": "Le solde de clôture concorde avec la dernière déclaration et s'est dénoué après celle-ci (procédure 3)."
+     },
+     {
+      "key": "filed",
+      "en": "Every return due in the period was filed on time (procedure 5). A “No” requires the penalty to be recorded.",
+      "fr": "Chaque déclaration due a été déposée dans les délais (procédure 5). Un « Non » impose la comptabilisation de la pénalité."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

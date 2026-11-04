@@ -1,0 +1,132 @@
+{
+ "code": "E4.9",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · OHADA — Acte uniforme sociétés commerciales · SYSCOHADA class 1",
+  "ownsEn": "the evidence obtained on equity and reserves",
+  "ownsFr": "les éléments probants obtenus sur les capitaux propres et réserves",
+  "reqEn": [
+   "Movements in equity are authorised by the shareholders or the board, so the authorisation is the primary evidence. Each movement is agreed to the resolution that permitted it and to the filing that made it effective.",
+   "The statutory appropriation of the result, including the legal reserve, follows the Uniform Act and the entity's statutes rather than management's preference."
+  ],
+  "reqFr": [
+   "Les mouvements de capitaux propres sont autorisés par les associés ou le conseil : l'autorisation constitue l'élément probant premier. Chaque mouvement est rapproché de la résolution et du dépôt qui l'a rendu opposable.",
+   "L'affectation statutaire du résultat, dont la réserve légale, suit l'Acte uniforme et les statuts."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over equity and reserves, and the movements in the period were properly authorised and recorded."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les capitaux propres et réserves, et les mouvements de l'exercice ont été dûment autorisés et enregistrés."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "schedule",
+      "en": "Obtain the statement of changes in equity and agree the opening balances to the prior period financial statements and the closing balances to the general ledger.",
+      "fr": "Obtenir le tableau de variation des capitaux propres et rapprocher les ouvertures des états financiers antérieurs et les clôtures du grand livre.",
+      "srcEn": "Prior financial statements · general ledger",
+      "srcFr": "États financiers antérieurs · grand livre"
+     },
+     {
+      "key": "capital",
+      "en": "Agree the share capital to the statutes and to the RCCM filing, and test any change in the period to the extraordinary general meeting resolution.",
+      "fr": "Rapprocher le capital social des statuts et du dépôt RCCM, et tester toute variation de l'exercice au regard de la résolution d'assemblée générale extraordinaire.",
+      "srcEn": "Statutes · RCCM extract · AGE minutes",
+      "srcFr": "Statuts · extrait RCCM · procès-verbal d'AGE"
+     },
+     {
+      "key": "register",
+      "en": "Agree the shareholdings to the register of registered securities, and cross-refer to C5.7.",
+      "fr": "Rapprocher la répartition du capital du registre des titres nominatifs et renvoyer à C5.7.",
+      "srcEn": "Share register · C5.7 · statutes",
+      "srcFr": "Registre des titres · C5.7 · statuts"
+     },
+     {
+      "key": "appropriation",
+      "en": "Test the appropriation of the prior period result to the ordinary general meeting resolution, including the transfer to the legal reserve.",
+      "fr": "Tester l'affectation du résultat de l'exercice précédent au regard de la résolution d'assemblée générale ordinaire, y compris la dotation à la réserve légale.",
+      "srcEn": "AGO minutes · statutes · Uniform Act",
+      "srcFr": "Procès-verbal d'AGO · statuts · Acte uniforme"
+     },
+     {
+      "key": "legal_reserve",
+      "en": "Recalculate the legal reserve and confirm it has reached the level the Uniform Act and the statutes require.",
+      "fr": "Recalculer la réserve légale et vérifier qu'elle atteint le niveau requis par l'Acte uniforme et les statuts.",
+      "srcEn": "Uniform Act · statutes · general ledger",
+      "srcFr": "Acte uniforme · statuts · grand livre"
+     },
+     {
+      "key": "dividends",
+      "en": "Test the dividends declared and paid to the resolution and to the bank, and confirm the withholding tax applied.",
+      "fr": "Tester les dividendes décidés et versés au regard de la résolution et de la banque, et vérifier la retenue à la source appliquée.",
+      "srcEn": "AGO minutes · bank statements · tax returns",
+      "srcFr": "Procès-verbal d'AGO · relevés bancaires · déclarations fiscales"
+     },
+     {
+      "key": "half_capital",
+      "en": "Compare net equity with half of the share capital, and cross-refer to C5.8 where the threshold is breached.",
+      "fr": "Comparer les capitaux propres à la moitié du capital social et renvoyer à C5.8 en cas de franchissement du seuil.",
+      "srcEn": "Trial balance · statutes · C5.8",
+      "srcFr": "Balance · statuts · C5.8"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "authorised",
+      "en": "Every movement in equity is supported by the resolution that authorised it (procedures 2, 4, 6).",
+      "fr": "Chaque mouvement de capitaux propres est étayé par la résolution qui l'a autorisé (procédures 2, 4, 6)."
+     },
+     {
+      "key": "register",
+      "en": "The share capital agrees to the statutes, the RCCM filing and the share register (procedures 2, 3).",
+      "fr": "Le capital social concorde avec les statuts, le dépôt RCCM et le registre des titres (procédures 2, 3)."
+     },
+     {
+      "key": "legal_reserve",
+      "en": "The legal reserve has been appropriated as the Uniform Act and the statutes require (procedures 4, 5).",
+      "fr": "La réserve légale a été dotée conformément à l'Acte uniforme et aux statuts (procédures 4, 5)."
+     },
+     {
+      "key": "half_capital",
+      "en": "Net equity exceeds half of the share capital (procedure 7).",
+      "fr": "Les capitaux propres excèdent la moitié du capital social (procédure 7).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

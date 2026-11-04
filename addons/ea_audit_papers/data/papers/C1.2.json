@@ -1,0 +1,125 @@
+{
+ "code": "C1.2",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 230 ¶8(c), ¶10 · ISA 260 (Revised) ¶16 · ISA 701",
+  "ownsEn": "the significant matters, the conclusions reached and how each was resolved",
+  "ownsFr": "les points significatifs, les conclusions retenues et leur résolution",
+  "reqEn": [
+   "We document the significant matters arising during the audit, the conclusions reached on them, and the significant professional judgements made in reaching those conclusions (ISA 230 ¶8(c)).",
+   "Where key audit matters are to be communicated in the report, they are selected from the matters communicated to those charged with governance, being those that required the most significant attention (ISA 701 ¶9–10)."
+  ],
+  "reqFr": [
+   "Nous documentons les points significatifs relevés, les conclusions retenues et les jugements professionnels importants exercés (ISA 230 ¶8(c)).",
+   "Lorsque des questions clés de l'audit doivent figurer dans le rapport, elles sont retenues parmi les points communiqués à la gouvernance, comme ayant requis l'attention la plus importante (ISA 701 ¶9–10)."
+  ],
+  "conclEn": [
+   "Every significant matter arising has been concluded on, and the conclusions are supported by the evidence in the file."
+  ],
+  "conclFr": [
+   "Chaque point significatif a fait l'objet d'une conclusion, et ces conclusions sont étayées par les éléments du dossier."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "collect",
+      "en": "Collect the significant matters from the file: the areas of significant risk, the significant judgements, the difficulties encountered and the disagreements with management.",
+      "fr": "Recenser les points significatifs du dossier : zones de risque important, jugements importants, difficultés rencontrées et désaccords avec la direction.",
+      "srcEn": "Working papers · S3.1 · review notes",
+      "srcFr": "Feuilles de travail · S3.1 · notes de revue"
+     },
+     {
+      "key": "conclusion",
+      "en": "For each matter, record the conclusion reached and the evidence and reasoning that support it.",
+      "fr": "Pour chaque point, consigner la conclusion retenue et les éléments et raisonnements qui l'étayent.",
+      "srcEn": "Working papers · consultation record C1.3",
+      "srcFr": "Feuilles de travail · registre des consultations C1.3"
+     },
+     {
+      "key": "judgements",
+      "en": "Record the significant professional judgements made, including the alternatives considered and why the position taken was adopted.",
+      "fr": "Consigner les jugements professionnels importants, y compris les options envisagées et le motif du choix retenu.",
+      "srcEn": "Working papers · C1.3 · partner review",
+      "srcFr": "Feuilles de travail · C1.3 · revue de l'associé"
+     },
+     {
+      "key": "disagreements",
+      "en": "Record any disagreement with management and how it was resolved, including any matter escalated within the firm.",
+      "fr": "Consigner tout désaccord avec la direction et sa résolution, y compris les points remontés au sein du cabinet.",
+      "srcEn": "Correspondence · C1.3 · firm policy",
+      "srcFr": "Correspondance · C1.3 · politique du cabinet"
+     },
+     {
+      "key": "communicate",
+      "en": "Communicate the significant findings to those charged with governance, including our views on the qualitative aspects of the entity's accounting practices.",
+      "fr": "Communiquer les constats significatifs aux responsables de la gouvernance, y compris notre appréciation des aspects qualitatifs des pratiques comptables.",
+      "srcEn": "ISA 260 (Revised) ¶16 · governance communication",
+      "srcFr": "ISA 260 révisée ¶16 · communication à la gouvernance"
+     },
+     {
+      "key": "kam",
+      "en": "Where key audit matters apply, select them from the matters communicated to those charged with governance and draft the description of each.",
+      "fr": "Lorsque des questions clés s'appliquent, les sélectionner parmi les points communiqués à la gouvernance et rédiger la description de chacune.",
+      "srcEn": "ISA 701 ¶9–13 · C5.11",
+      "srcFr": "ISA 701 ¶9–13 · C5.11"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "collected",
+      "en": "Every significant matter arising during the audit is recorded here (procedure 1).",
+      "fr": "Chaque point significatif relevé au cours de l'audit est consigné ici (procédure 1)."
+     },
+     {
+      "key": "concluded",
+      "en": "Each matter carries the conclusion reached and the reasoning that supports it (procedures 2, 3).",
+      "fr": "Chaque point porte la conclusion retenue et le raisonnement qui l'étaye (procédures 2, 3)."
+     },
+     {
+      "key": "resolved",
+      "en": "Every disagreement with management has been resolved (procedure 4).",
+      "fr": "Chaque désaccord avec la direction a été résolu (procédure 4).",
+      "na": true
+     },
+     {
+      "key": "communicated",
+      "en": "The significant findings have been communicated to those charged with governance (procedure 5).",
+      "fr": "Les constats significatifs ont été communiqués aux responsables de la gouvernance (procédure 5)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

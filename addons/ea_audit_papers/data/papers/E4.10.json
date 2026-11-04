@@ -1,0 +1,132 @@
+{
+ "code": "E4.10",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 540 (Revised) · ISA 501 ¶9–12 · IAS 19 / IAS 37 · SYSCOHADA classes 15 / 19",
+  "ownsEn": "the evidence obtained on provisions and employee benefits",
+  "ownsFr": "les éléments probants obtenus sur les provisions et avantages du personnel",
+  "reqEn": [
+   "A provision is recognised only where a present obligation exists as a result of a past event, an outflow is probable, and the amount can be estimated reliably. Each of those three conditions is tested, not assumed from the prior period.",
+   "The measurement of a provision is an accounting estimate, and the requirements of ISA 540 (Revised) apply to it."
+  ],
+  "reqFr": [
+   "Une provision n'est comptabilisée que s'il existe une obligation actuelle résultant d'un événement passé, qu'une sortie de ressources est probable et que le montant peut être estimé de façon fiable. Ces trois conditions sont testées.",
+   "L'évaluation d'une provision constitue une estimation comptable (ISA 540 révisée)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over provisions and employee benefits, including their completeness."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les provisions et avantages du personnel, y compris leur exhaustivité."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "schedule",
+      "en": "Obtain the movement schedule for each provision, showing the opening balance, additions, utilisations, releases and the closing balance.",
+      "fr": "Obtenir le tableau de mouvements de chaque provision : ouverture, dotations, utilisations, reprises et clôture.",
+      "srcEn": "Provision schedule · general ledger · prior file",
+      "srcFr": "État des provisions · grand livre · dossier antérieur"
+     },
+     {
+      "key": "obligation",
+      "en": "For each provision, test that a present obligation exists at the year end as a result of a past event.",
+      "fr": "Pour chaque provision, vérifier l'existence d'une obligation actuelle à la clôture résultant d'un événement passé.",
+      "srcEn": "Contracts · correspondence · legal advice · minutes",
+      "srcFr": "Contrats · correspondance · avis juridique · procès-verbaux"
+     },
+     {
+      "key": "measurement",
+      "en": "Test the measurement: the assumptions used, the discount rate where the effect is material, and the arithmetic.",
+      "fr": "Tester l'évaluation : hypothèses retenues, taux d'actualisation lorsque l'effet est significatif, et exactitude arithmétique.",
+      "srcEn": "Management's calculation · E6.7 · actuarial report",
+      "srcFr": "Calcul de la direction · E6.7 · rapport actuariel"
+     },
+     {
+      "key": "releases",
+      "en": "Test the releases in the period, and confirm that each provision released is no longer required.",
+      "fr": "Tester les reprises de l'exercice et vérifier que chaque provision reprise n'est plus nécessaire.",
+      "srcEn": "Provision schedule · supporting correspondence",
+      "srcFr": "État des provisions · correspondance justificative"
+     },
+     {
+      "key": "benefits",
+      "en": "Test the employee benefit obligation: agree the census data given to the actuary to the payroll, and evaluate the significant actuarial assumptions.",
+      "fr": "Tester l'engagement au titre des avantages du personnel : rapprocher les données transmises à l'actuaire de la paie et apprécier les hypothèses actuarielles importantes.",
+      "srcEn": "Actuarial report · payroll data · E4.26",
+      "srcFr": "Rapport actuariel · données de paie · E4.26"
+     },
+     {
+      "key": "legal",
+      "en": "Where the provision relates to litigation, obtain the letter of inquiry response from the entity's legal advisers.",
+      "fr": "Lorsque la provision porte sur un litige, obtenir la réponse des conseils juridiques de l'entité.",
+      "srcEn": "Legal confirmation · ISA 501 ¶10 · S4.1",
+      "srcFr": "Réponse du conseil juridique · ISA 501 ¶10 · S4.1"
+     },
+     {
+      "key": "completeness",
+      "en": "Test completeness: review the minutes, the correspondence and the post year-end payments for obligations not provided for.",
+      "fr": "Tester l'exhaustivité : examiner les procès-verbaux, la correspondance et les paiements postérieurs à la recherche d'obligations non provisionnées.",
+      "srcEn": "Minutes (E6.4) · post year-end payments · E6.9",
+      "srcFr": "Procès-verbaux (E6.4) · paiements postérieurs · E6.9"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "obligation",
+      "en": "A present obligation exists at the year end for every provision recorded (procedure 2).",
+      "fr": "Une obligation actuelle existe à la clôture pour chaque provision comptabilisée (procédure 2)."
+     },
+     {
+      "key": "measurement",
+      "en": "The measurement of each provision is supported by the evidence obtained (procedures 3, 5).",
+      "fr": "L'évaluation de chaque provision est étayée par les éléments obtenus (procédures 3, 5)."
+     },
+     {
+      "key": "completeness",
+      "en": "No obligation requiring a provision has been omitted (procedures 6, 7).",
+      "fr": "Aucune obligation appelant une provision n'a été omise (procédures 6, 7)."
+     },
+     {
+      "key": "actuarial",
+      "en": "The census data given to the actuary agrees to the payroll records (procedure 5).",
+      "fr": "Les données transmises à l'actuaire concordent avec les données de paie (procédure 5).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

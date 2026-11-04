@@ -1,0 +1,112 @@
+{
+ "code": "P4.2",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶21–22, ¶A77–A87",
+  "ownsEn": "the assessment of the control environment",
+  "ownsFr": "l'appréciation de l'environnement de contrôle",
+  "reqEn": [
+   "We evaluate whether management has created and maintained a culture of honesty and ethical behaviour, whether the control environment provides an appropriate foundation for the other components, and whether control deficiencies in the control environment undermine the other components (ISA 315 (Revised 2019) ¶22).",
+   "A weak control environment affects the audit as a whole. It bears on the overall responses at financial statement level and may make a controls-reliance strategy unavailable regardless of how individual controls are designed."
+  ],
+  "reqFr": [
+   "Nous apprécions si la direction a instauré une culture d'honnêteté et de comportement éthique, si l'environnement de contrôle constitue un socle approprié et si ses déficiences compromettent les autres composantes (ISA 315 révisée ¶22).",
+   "Un environnement de contrôle faible affecte l'audit dans son ensemble et peut exclure une stratégie d'appui sur les contrôles."
+  ],
+  "conclEn": [
+   "The control environment provides an appropriate foundation for the other components of internal control.",
+   "The conclusion above has been reflected in the overall responses at financial statement level recorded in S3.1."
+  ],
+  "conclFr": [
+   "L'environnement de contrôle constitue un socle approprié pour les autres composantes du contrôle interne.",
+   "Cette conclusion est reprise dans les réponses globales au niveau des états financiers consignées en S3.1."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "tone",
+      "en": "Inquire of management and of those charged with governance about the entity's values and ethical standards, and how they are communicated and enforced.",
+      "fr": "S'enquérir auprès de la direction et des responsables de la gouvernance des valeurs et normes éthiques, de leur communication et de leur application.",
+      "srcEn": "Code of conduct · inquiry · staff handbook",
+      "srcFr": "Code de conduite · entretien · règlement intérieur"
+     },
+     {
+      "key": "corroborate",
+      "en": "Corroborate the answers by observing how the entity operates and by inspecting evidence, rather than accepting the description given.",
+      "fr": "Corroborer les réponses par l'observation du fonctionnement de l'entité et l'examen de pièces, plutôt que de retenir la description donnée.",
+      "srcEn": "Observation · disciplinary records · minutes",
+      "srcFr": "Observation · dossiers disciplinaires · procès-verbaux"
+     },
+     {
+      "key": "oversight",
+      "en": "Evaluate the oversight exercised by those charged with governance: how often they meet, what they examine and whether they are independent of management.",
+      "fr": "Apprécier la surveillance exercée par les responsables de la gouvernance : fréquence des réunions, sujets examinés et indépendance vis-à-vis de la direction.",
+      "srcEn": "Board and committee minutes (E6.4) · statutes",
+      "srcFr": "Procès-verbaux du conseil et des comités (E6.4) · statuts"
+     },
+     {
+      "key": "structure",
+      "en": "Obtain the organisational structure, the assignment of authority and responsibility, and how segregation of duties is achieved.",
+      "fr": "Obtenir l'organigramme, la répartition des pouvoirs et responsabilités et les modalités de séparation des tâches.",
+      "srcEn": "Organisation chart · delegations of authority",
+      "srcFr": "Organigramme · délégations de pouvoirs"
+     },
+     {
+      "key": "competence",
+      "en": "Evaluate the entity's commitment to competence: recruitment, training and the retention of finance staff.",
+      "fr": "Apprécier l'engagement de l'entité en matière de compétence : recrutement, formation et fidélisation du personnel financier.",
+      "srcEn": "HR records · inquiry · turnover data",
+      "srcFr": "Dossiers RH · entretien · données de rotation"
+     },
+     {
+      "key": "pressure",
+      "en": "Identify any pressure on management to meet targets, and any incentive or reward that depends on reported results.",
+      "fr": "Identifier toute pression sur la direction pour atteindre des objectifs et toute incitation liée aux résultats publiés.",
+      "srcEn": "Bonus arrangements · covenants · budget targets",
+      "srcFr": "Dispositifs de primes · covenants · objectifs budgétaires"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "culture",
+      "en": "Management has created and maintained a culture of honesty and ethical behaviour (procedures 1, 2).",
+      "fr": "La direction a instauré et maintenu une culture d'honnêteté et de comportement éthique (procédures 1, 2)."
+     },
+     {
+      "key": "oversight",
+      "en": "Those charged with governance exercise oversight that is more than formal (procedure 3).",
+      "fr": "Les responsables de la gouvernance exercent une surveillance qui n'est pas seulement formelle (procédure 3)."
+     },
+     {
+      "key": "segregation",
+      "en": "Authority and responsibility are assigned so that incompatible duties are segregated (procedure 4).",
+      "fr": "Les pouvoirs et responsabilités sont répartis de sorte que les tâches incompatibles soient séparées (procédure 4)."
+     },
+     {
+      "key": "competence",
+      "en": "The finance function has the competence for the reporting the entity is required to produce (procedure 5).",
+      "fr": "La fonction financière dispose de la compétence requise pour l'information à produire (procédure 5)."
+     },
+     {
+      "key": "no_pressure",
+      "en": "No incentive or pressure identified would motivate management to misstate the financial statements (procedure 6).",
+      "fr": "Aucune incitation ou pression identifiée ne pousserait la direction à présenter des comptes inexacts (procédure 6)."
+     }
+    ]
+   }
+  ]
+ }
+}

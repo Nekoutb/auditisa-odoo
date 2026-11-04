@@ -1,0 +1,143 @@
+{
+ "code": "E6.7",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 540 (Revised) ¶21–33",
+  "ownsEn": "the testing of the accounting estimates",
+  "ownsFr": "les tests des estimations comptables",
+  "reqEn": [
+   "For each accounting estimate we obtain evidence on whether the method, the significant assumptions and the data are appropriate, and whether management has applied them consistently (ISA 540 (Revised) ¶23–26). One or more of three approaches is used: testing how management made the estimate, testing events occurring up to the date of the report, or developing our own point estimate or range.",
+   "We review the judgements and decisions made by management for indicators of possible management bias, and evaluate whether those indicators taken together represent a risk of material misstatement due to fraud (ISA 540 ¶32)."
+  ],
+  "reqFr": [
+   "Pour chaque estimation, nous obtenons des éléments sur le caractère approprié de la méthode, des hypothèses importantes et des données, et sur leur application cohérente (ISA 540 révisée ¶23–26).",
+   "Nous examinons les jugements de la direction à la recherche d'indices de biais et apprécions si, pris ensemble, ils constituent un risque d'anomalie résultant de fraude (ISA 540 ¶32)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the accounting estimates, and each is reasonable in the context of the applicable financial reporting framework."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les estimations comptables, chacune étant raisonnable au regard du référentiel applicable."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "inventory",
+      "en": "Bring forward the inventory of estimates and the approach set for each in S4.4.",
+      "fr": "Reprendre l'inventaire des estimations et l'approche arrêtée pour chacune en S4.4.",
+      "srcEn": "S4.4 · draft financial statements",
+      "srcFr": "S4.4 · projet d'états financiers"
+     },
+     {
+      "key": "method",
+      "en": "Test the method applied: whether it is appropriate in the circumstances and applied consistently with the prior period, and that any change is justified.",
+      "fr": "Tester la méthode appliquée : caractère approprié, permanence par rapport à l'exercice précédent et justification de tout changement.",
+      "srcEn": "Management's calculation · policy note · prior file",
+      "srcFr": "Calcul de la direction · note de méthode · dossier antérieur"
+     },
+     {
+      "key": "assumptions",
+      "en": "Test each significant assumption for reasonableness, and for consistency with the assumptions used elsewhere in the financial statements and with the evidence obtained in the rest of the file.",
+      "fr": "Tester le caractère raisonnable de chaque hypothèse importante et sa cohérence avec les autres hypothèses des comptes et les éléments du dossier.",
+      "srcEn": "Management's support · market data · E6.3 · E4.5",
+      "srcFr": "Justificatifs de la direction · données de marché · E6.3 · E4.5"
+     },
+     {
+      "key": "data",
+      "en": "Test the data used: its relevance and reliability, and agree it to the underlying records.",
+      "fr": "Tester les données utilisées : pertinence et fiabilité, et rapprochement des enregistrements sous-jacents.",
+      "srcEn": "Source records · E1.2 for system reports",
+      "srcFr": "Enregistrements sources · E1.2 pour les états système"
+     },
+     {
+      "key": "approach",
+      "en": "Apply the approach set in S4.4: test how management made the estimate, test events up to the date of the report, or develop our own point estimate or range.",
+      "fr": "Appliquer l'approche arrêtée en S4.4 : tester le processus de la direction, utiliser les événements jusqu'à la date du rapport, ou développer notre propre estimation ou fourchette.",
+      "srcEn": "ISA 540 ¶23–29 · our independent estimate",
+      "srcFr": "ISA 540 ¶23–29 · notre estimation indépendante"
+     },
+     {
+      "key": "range",
+      "en": "Where the estimate falls outside our range, or the point estimate differs materially from management's, raise the difference as a misstatement in C1.1.",
+      "fr": "Lorsque l'estimation sort de notre fourchette ou diffère significativement de la nôtre, porter l'écart en anomalie en C1.1.",
+      "srcEn": "Our range · C1.1",
+      "srcFr": "Notre fourchette · C1.1"
+     },
+     {
+      "key": "bias",
+      "en": "Review the judgements and decisions made across the estimates for indicators of management bias, including a pattern of estimates falling at the favourable end of the range.",
+      "fr": "Examiner les jugements portés sur l'ensemble des estimations à la recherche d'indices de biais, dont une tendance systématique vers l'extrémité favorable de la fourchette.",
+      "srcEn": "ISA 540 ¶32 · all estimates tested · E3.1",
+      "srcFr": "ISA 540 ¶32 · ensemble des estimations testées · E3.1"
+     },
+     {
+      "key": "disclosure",
+      "en": "Test the disclosure of the estimation uncertainty, and whether it conveys the range of possible outcomes.",
+      "fr": "Tester l'information relative à l'incertitude d'estimation et sa capacité à traduire l'éventail des issues possibles.",
+      "srcEn": "Draft financial statements · ISA 540 ¶31",
+      "srcFr": "Projet d'états financiers · ISA 540 ¶31"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "method",
+      "en": "The method applied to each estimate is appropriate and has been applied consistently (procedure 2).",
+      "fr": "La méthode appliquée à chaque estimation est appropriée et appliquée de façon permanente (procédure 2)."
+     },
+     {
+      "key": "assumptions",
+      "en": "The significant assumptions are reasonable and consistent with the rest of the file (procedure 3).",
+      "fr": "Les hypothèses importantes sont raisonnables et cohérentes avec le reste du dossier (procédure 3)."
+     },
+     {
+      "key": "within",
+      "en": "Each estimate falls within the range we consider reasonable (procedures 5, 6).",
+      "fr": "Chaque estimation se situe dans la fourchette que nous jugeons raisonnable (procédures 5, 6)."
+     },
+     {
+      "key": "bias",
+      "en": "The judgements made across the estimates show no indicator of management bias (procedure 7).",
+      "fr": "Les jugements portés sur l'ensemble des estimations ne révèlent aucun indice de biais de la direction (procédure 7)."
+     },
+     {
+      "key": "disclosure",
+      "en": "The disclosure of estimation uncertainty is adequate (procedure 8).",
+      "fr": "L'information sur l'incertitude d'estimation est appropriée (procédure 8)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

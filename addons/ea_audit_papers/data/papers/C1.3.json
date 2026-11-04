@@ -1,0 +1,105 @@
+{
+ "code": "C1.3",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISQM 1 ¶31 · ISA 220 (Revised) ¶35 · ISA 230 ¶8",
+  "ownsEn": "the consultations undertaken and the conclusions implemented",
+  "ownsFr": "les consultations menées et les conclusions mises en œuvre",
+  "reqEn": [
+   "The firm establishes policies requiring consultation on difficult or contentious matters. The engagement partner takes responsibility for consultation being undertaken on such matters, and for the conclusions agreed being implemented (ISA 220 (Revised) ¶35).",
+   "The documentation records the matter, who was consulted, the information provided, and the conclusion reached — sufficient for another practitioner to understand the basis on which it was reached."
+  ],
+  "reqFr": [
+   "Le cabinet impose la consultation sur les questions difficiles ou controversées. L'associé responsable veille à ce qu'elle ait lieu et à ce que les conclusions convenues soient mises en œuvre (ISA 220 révisée ¶35).",
+   "La documentation consigne la question, la personne consultée, les informations fournies et la conclusion retenue."
+  ],
+  "conclEn": [
+   "Consultation has been undertaken on every matter that required it, and the conclusions agreed have been implemented."
+  ],
+  "conclFr": [
+   "Une consultation a été menée sur chaque question l'exigeant, et les conclusions convenues ont été mises en œuvre."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "identify",
+      "en": "Identify the matters requiring consultation under the firm's policy, including those anticipated in S6.2.",
+      "fr": "Identifier les questions appelant une consultation selon la politique du cabinet, y compris celles anticipées en S6.2.",
+      "srcEn": "Firm consultation policy · S6.2 · C1.2",
+      "srcFr": "Politique de consultation · S6.2 · C1.2"
+     },
+     {
+      "key": "consult",
+      "en": "Consult a person with the appropriate knowledge and experience, and record their name, their role and the date.",
+      "fr": "Consulter une personne disposant des connaissances et de l'expérience appropriées et consigner son nom, sa fonction et la date.",
+      "srcEn": "Consultation note · firm technical function",
+      "srcFr": "Note de consultation · service technique du cabinet"
+     },
+     {
+      "key": "information",
+      "en": "Record the information provided to the person consulted, and confirm it was complete and accurate.",
+      "fr": "Consigner les informations fournies à la personne consultée et vérifier leur exhaustivité et leur exactitude.",
+      "srcEn": "Consultation note · supporting working papers",
+      "srcFr": "Note de consultation · feuilles de travail justificatives"
+     },
+     {
+      "key": "conclusion",
+      "en": "Record the conclusion reached and agree it with the person consulted.",
+      "fr": "Consigner la conclusion retenue et la faire valider par la personne consultée.",
+      "srcEn": "Consultation note countersigned",
+      "srcFr": "Note de consultation contresignée"
+     },
+     {
+      "key": "implement",
+      "en": "Confirm that the conclusion agreed has been implemented in the file and in the financial statements.",
+      "fr": "Vérifier que la conclusion convenue a été mise en œuvre dans le dossier et dans les états financiers.",
+      "srcEn": "Working papers · draft financial statements",
+      "srcFr": "Feuilles de travail · projet d'états financiers"
+     },
+     {
+      "key": "external",
+      "en": "Where the matter was referred outside the firm, record the terms on which the external advice was obtained.",
+      "fr": "Lorsque la question a été soumise hors du cabinet, consigner les conditions d'obtention de l'avis externe.",
+      "srcEn": "External adviser's terms and opinion",
+      "srcFr": "Termes et avis du conseil externe"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "undertaken",
+      "en": "Consultation was undertaken on every matter the firm's policy requires (procedure 1).",
+      "fr": "Une consultation a été menée sur chaque question requise par la politique du cabinet (procédure 1)."
+     },
+     {
+      "key": "complete_info",
+      "en": "The person consulted was given complete and accurate information (procedure 3).",
+      "fr": "La personne consultée a reçu des informations complètes et exactes (procédure 3)."
+     },
+     {
+      "key": "agreed",
+      "en": "The conclusion is agreed with the person consulted (procedure 4).",
+      "fr": "La conclusion est validée par la personne consultée (procédure 4)."
+     },
+     {
+      "key": "implemented",
+      "en": "Every conclusion agreed has been implemented (procedure 5).",
+      "fr": "Chaque conclusion convenue a été mise en œuvre (procédure 5)."
+     }
+    ]
+   }
+  ]
+ }
+}

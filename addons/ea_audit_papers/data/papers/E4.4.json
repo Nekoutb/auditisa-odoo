@@ -1,0 +1,138 @@
+{
+ "code": "E4.4",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · ISA 540 (Revised) · SYSCOHADA class 2",
+  "ownsEn": "the evidence obtained on property, plant and equipment",
+  "ownsFr": "les éléments probants obtenus sur les immobilisations corporelles",
+  "reqEn": [
+   "The balance is tested through its movements: the opening position carried forward, the additions and disposals of the period, and the depreciation charge. A movement schedule that agrees to the ledger is the starting point.",
+   "Ownership and the absence of an unrecorded charge over the asset are tested separately from existence."
+  ],
+  "reqFr": [
+   "Le solde est testé par ses mouvements : report de l'ouverture, acquisitions et cessions de l'exercice, et dotation aux amortissements. Un tableau de mouvements rapproché du grand livre en constitue le point de départ.",
+   "La propriété et l'absence de sûreté non comptabilisée sont testées séparément de l'existence."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over property, plant and equipment for the assertions identified as relevant in S3.1."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les immobilisations corporelles pour les assertions retenues en S3.1."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "schedule",
+      "en": "Obtain the movement schedule by class, showing gross value and accumulated depreciation. Agree the opening balances to the prior period file and the closing totals to the general ledger.",
+      "fr": "Obtenir le tableau de mouvements par catégorie, en valeur brute et amortissements cumulés. Rapprocher les ouvertures du dossier antérieur et les clôtures du grand livre.",
+      "srcEn": "Fixed asset register · general ledger · prior file",
+      "srcFr": "Registre des immobilisations · grand livre · dossier antérieur"
+     },
+     {
+      "key": "additions",
+      "en": "Test the additions selected to the supplier invoice and to evidence of receipt, and confirm that the amount capitalised meets the recognition criteria.",
+      "fr": "Tester les acquisitions retenues au regard de la facture et de la preuve de réception, et vérifier que le montant immobilisé satisfait aux critères de comptabilisation.",
+      "srcEn": "Invoices · goods received notes · board approval",
+      "srcFr": "Factures · bons de réception · approbation du conseil"
+     },
+     {
+      "key": "disposals",
+      "en": "Test the disposals selected: agree the proceeds to the bank, recalculate the gain or loss, and confirm the asset was removed from the register.",
+      "fr": "Tester les cessions retenues : rapprocher le prix de la banque, recalculer la plus ou moins-value et vérifier la sortie du registre.",
+      "srcEn": "Sale invoices · bank statements · register",
+      "srcFr": "Factures de cession · relevés bancaires · registre"
+     },
+     {
+      "key": "existence",
+      "en": "Physically inspect a sample of assets from the register, and select a sample from the floor back to the register.",
+      "fr": "Examiner physiquement un échantillon d'actifs du registre et sélectionner un échantillon sur site à rapprocher du registre.",
+      "srcEn": "Physical inspection · fixed asset register",
+      "srcFr": "Examen physique · registre des immobilisations"
+     },
+     {
+      "key": "ownership",
+      "en": "Test ownership of the significant assets: inspect the title deeds for land and buildings and the registration documents for vehicles.",
+      "fr": "Tester la propriété des actifs significatifs : titres fonciers pour les terrains et constructions, cartes grises pour les véhicules.",
+      "srcEn": "Title deeds · vehicle registration · lease contracts",
+      "srcFr": "Titres fonciers · cartes grises · contrats de location"
+     },
+     {
+      "key": "charges",
+      "en": "Identify any charge, pledge or mortgage over the assets, and confirm it is disclosed.",
+      "fr": "Identifier toute sûreté, nantissement ou hypothèque grevant les actifs et vérifier sa mention en annexe.",
+      "srcEn": "Bank confirmations · loan agreements · RCCM charges register",
+      "srcFr": "Confirmations bancaires · contrats de prêt · registre des sûretés RCCM"
+     },
+     {
+      "key": "depreciation",
+      "en": "Recalculate the depreciation charge, and evaluate whether the rates and useful lives remain appropriate against the condition and expected use of the assets.",
+      "fr": "Recalculer la dotation aux amortissements et apprécier si les taux et durées d'utilité restent appropriés au regard de l'état et de l'usage attendu.",
+      "srcEn": "Register · policy note · physical inspection",
+      "srcFr": "Registre · note de méthode · examen physique"
+     },
+     {
+      "key": "impairment",
+      "en": "Identify indicators of impairment, including idle assets and assets whose output has fallen, and test any impairment recorded.",
+      "fr": "Identifier les indices de dépréciation, dont les actifs inutilisés ou en sous-régime, et tester toute dépréciation comptabilisée.",
+      "srcEn": "Inspection · management reports · E6.7",
+      "srcFr": "Examen · rapports de gestion · E6.7"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "agreed",
+      "en": "The movement schedule agrees to the general ledger and to the prior period file (procedure 1).",
+      "fr": "Le tableau de mouvements concorde avec le grand livre et le dossier antérieur (procédure 1)."
+     },
+     {
+      "key": "capitalised",
+      "en": "The amounts capitalised meet the recognition criteria and contain no item that should have been expensed (procedure 2).",
+      "fr": "Les montants immobilisés satisfont aux critères de comptabilisation et ne contiennent aucun élément relevant des charges (procédure 2)."
+     },
+     {
+      "key": "ownership",
+      "en": "The entity owns the assets recorded, and every charge over them is disclosed (procedures 5, 6).",
+      "fr": "L'entité est propriétaire des actifs comptabilisés et toute sûreté est mentionnée (procédures 5, 6)."
+     },
+     {
+      "key": "depreciation",
+      "en": "The depreciation rates and useful lives remain appropriate (procedure 7).",
+      "fr": "Les taux et durées d'amortissement restent appropriés (procédure 7)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,214 @@
+{
+ "code": "C5.1",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 700 (Revised) · ISA 701 · ISA 705 (Revised) · ISA 706 (Revised) · ISA 710 · ISA 720 (Revised) · AUSCGIE arts. 710–716 (à valider)",
+  "ownsEn": "the opinion and the auditor's report",
+  "ownsFr": "l'opinion et le rapport de l'auditeur",
+  "reqEn": [
+   "We form an opinion on whether the financial statements are prepared, in all material respects, in accordance with the applicable financial reporting framework, and evaluate whether sufficient appropriate audit evidence has been obtained (ISA 700 (Revised) ¶10–15).",
+   "Where the financial statements are materially misstated, or we are unable to obtain sufficient appropriate evidence, we modify the opinion, choosing between a qualified opinion, an adverse opinion and a disclaimer according to the pervasiveness of the matter (ISA 705 (Revised) ¶7–10).",
+   "On a statutory appointment the opinion takes the form of the certification article 710 of the AUSCGIE prescribes (to validate): the commissaire aux comptes certifies that the annual financial statements are regular and sincere and give a true and fair view of the result of the operations of the period and of the financial position and assets of the company at its end [« nous certifions que les états financiers annuels sont réguliers et sincères et donnent une image fidèle… »]. The report also carries the specific verifications of arts. 713–716 (to validate): the concordance and sincerity of the information in the management report and in the documents sent to the [[lf.members]] (art. 713), the equality of the [[lf.members]] (art. 714), the report to the [[lf.board]] (art. 715, C5.4) and the irregularities and inaccuracies signalled to the nearest [[lf.meeting]] (art. 716, C5.6), together with the certifications the Act asks for where they apply — the highest-paid persons (art. 525, C5.10) and the registers of registered securities (art. 746-2, C5.7)."
+  ],
+  "reqFr": [
+   "Nous formons une opinion sur la conformité des états financiers, dans tous leurs aspects significatifs, au référentiel applicable, et apprécions si des éléments probants suffisants et appropriés ont été obtenus (ISA 700 révisée ¶10–15).",
+   "En cas d'anomalie significative ou d'impossibilité d'obtenir des éléments suffisants, nous modifions l'opinion, entre opinion avec réserve, défavorable ou impossibilité d'exprimer une opinion, selon le caractère diffus du point (ISA 705 révisée ¶7–10).",
+   "Dans un mandat de commissariat aux comptes, l'opinion prend la forme de la certification prévue à l'article 710 de l'AUSCGIE (à valider) : le commissaire aux comptes certifie que les états financiers annuels sont réguliers et sincères et donnent une image fidèle du résultat des opérations de l'exercice écoulé ainsi que de la situation financière et du patrimoine de la société à la fin de cet exercice. Le rapport porte aussi les vérifications spécifiques des articles 713 à 716 (à valider) : la concordance et la sincérité des informations du rapport de gestion et des documents adressés aux [[lf.members]] (art. 713), l'égalité entre les [[lf.members]] (art. 714), le rapport à l'[[lf.board]] (art. 715, C5.4) et les irrégularités et inexactitudes signalées à la plus proche [[lf.meeting]] (art. 716, C5.6), ainsi que les certifications que l'Acte demande lorsqu'elles s'appliquent — personnes les mieux rémunérées (art. 525, C5.10) et registres de titres nominatifs (art. 746-2, C5.7)."
+  ],
+  "conclEn": [
+   "The opinion recorded here is supported by the evidence in the file, and the report as drafted complies with the ISAs and with the requirements applicable to a statutory appointment."
+  ],
+  "conclFr": [
+   "L'opinion consignée est étayée par les éléments du dossier, et le rapport tel que rédigé est conforme aux normes et aux obligations du mandat légal."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "evidence",
+      "en": "Confirm from C4.1 that sufficient appropriate audit evidence has been obtained and that the file supports every conclusion.",
+      "fr": "Confirmer à partir de C4.1 que des éléments probants suffisants et appropriés ont été obtenus et que le dossier étaye chaque conclusion.",
+      "srcEn": "C4.1 · partner review",
+      "srcFr": "C4.1 · revue de l'associé",
+      "tipEn": "[Draft] Read the C4.1 gates and the open review notes before anything else: an unanswered note, an unsigned paper or an incomplete program is a gap in the evidence, not an administrative detail. Then ask the question per significant risk — what evidence answers it, and where is it filed? Record the partner's own conclusion that the evidence is sufficient and appropriate, with the date.",
+      "tipFr": "[Projet] Lire les portes de C4.1 et les notes de revue ouvertes avant toute chose : une note sans réponse, une feuille non signée ou un programme inachevé est une lacune des éléments probants, pas un détail administratif. Poser ensuite la question risque important par risque important — quel élément y répond, et où est-il classé ? Consigner la conclusion propre de l'associé sur le caractère suffisant et approprié des éléments, avec sa date."
+     },
+     {
+      "key": "misstatements",
+      "en": "Determine the effect of the uncorrected misstatements in C1.1 on the opinion, individually and in aggregate.",
+      "fr": "Déterminer l'effet des anomalies non corrigées de C1.1 sur l'opinion, isolément et cumulées.",
+      "srcEn": "C1.1 · P6.1 materiality",
+      "srcFr": "C1.1 · seuil P6.1",
+      "tipEn": "[Draft] Take the SAD as it stands after management's corrections: compare the aggregate against overall materiality and each item against the qualitative factors (a misstatement that turns a loss into a profit, breaches a covenant or affects a related party is material whatever its size). Consider the effect of prior-period uncorrected misstatements on the current figures. Write the conclusion in one sentence that the opinion paragraph can rest on.",
+      "tipFr": "[Projet] Reprendre le SAD tel qu'il se présente après les corrections de la direction : comparer le cumul au seuil global et chaque élément aux facteurs qualitatifs (une anomalie qui transforme une perte en bénéfice, fait franchir un covenant ou concerne une partie liée est significative quelle que soit sa taille). Tenir compte de l'effet des anomalies non corrigées de l'exercice précédent sur les chiffres de l'exercice. Rédiger la conclusion en une phrase sur laquelle le paragraphe d'opinion puisse s'appuyer."
+     },
+     {
+      "key": "opinion",
+      "en": "Determine the opinion. Where it is modified, establish whether the matter is material but not pervasive, or material and pervasive, and select the form of modification accordingly.",
+      "fr": "Déterminer l'opinion. En cas de modification, établir si le point est significatif sans être diffus, ou significatif et diffus, et retenir la forme correspondante.",
+      "srcEn": "ISA 705 (Revised) ¶7–10 · C1.1 · C1.2",
+      "srcFr": "ISA 705 révisée ¶7–10 · C1.1 · C1.2",
+      "tipEn": "[Draft] Decide the two questions separately and write both answers: is the matter material, and is it pervasive — confined to specific elements, or affecting a substantial part of the statements or fundamental to users' understanding? Material and not pervasive gives a qualified opinion; material and pervasive gives an adverse opinion for a misstatement and a disclaimer for a lack of evidence. Draft the basis paragraph with the amounts, and have the EQR read it where one is appointed.",
+      "tipFr": "[Projet] Trancher les deux questions séparément et écrire les deux réponses : le point est-il significatif, et est-il diffus — limité à des éléments précis, ou affectant une part substantielle des états ou fondamental pour la compréhension des utilisateurs ? Significatif sans être diffus donne une opinion avec réserve ; significatif et diffus donne une opinion défavorable pour une anomalie et une impossibilité d'exprimer une opinion pour un défaut d'éléments probants. Rédiger le paragraphe de fondement avec les montants, et le faire lire au responsable de la revue de qualité lorsqu'il en existe un."
+     },
+     {
+      "key": "components",
+      "en": "Confirm each component required by ISA 700 (Revised) is present in the drafted report, in the order and with the headings the standard requires.",
+      "fr": "Vérifier la présence de chaque composante requise par l'ISA 700 révisée dans le projet de rapport, dans l'ordre et avec les intitulés prescrits.",
+      "srcEn": "ISA 700 (Revised) ¶21–49 · report component checklist",
+      "srcFr": "ISA 700 révisée ¶21–49 · liste des composantes",
+      "tipEn": "[Draft] Use the report component checklist and tick the headings in order: title, addressee, Opinion, Basis for opinion, going concern section where applicable, Key audit matters where applicable, Other information, Responsibilities of management and of those charged with governance, Auditor's responsibilities, Report on other legal and regulatory requirements, signature, address, date. Compare the figures and the entity name against the financial statements themselves; a report that cites a wrong date or an old name is a misstatement in the report.",
+      "tipFr": "[Projet] Utiliser la liste des composantes et pointer les intitulés dans l'ordre : titre, destinataire, Opinion, Fondement de l'opinion, section sur la continuité le cas échéant, Questions clés de l'audit le cas échéant, Autres informations, Responsabilités de la direction et de la gouvernance, Responsabilités de l'auditeur, Rapport sur d'autres obligations légales et réglementaires, signature, adresse, date. Comparer les chiffres et la dénomination de l'entité aux états financiers eux-mêmes ; un rapport citant une date erronée ou une ancienne dénomination est une anomalie du rapport."
+     },
+     {
+      "key": "going_concern",
+      "en": "Carry the E6.3 / C2.2 conclusion into the report. Where a material uncertainty exists and is adequately disclosed, include the separate section headed “Material uncertainty related to going concern”, drawing attention to the note and stating that the uncertainty may cast significant doubt and that the opinion is not modified in respect of it ({{ISA570.muSection}}); where the disclosure is inadequate, modify the opinion under ISA 705 and state in the basis paragraph that a material uncertainty exists (¶23). A close call — events or conditions identified but no material uncertainty — needs no separate section, only the E6.3 check that the notes disclose them (¶20).",
+      "fr": "Reporter la conclusion de E6.3 / C2.2 dans le rapport. En cas d'incertitude significative correctement décrite, inclure la section distincte intitulée « Incertitude significative liée à la continuité d'exploitation », qui renvoie à la note, indique que l'incertitude peut jeter un doute important et précise que l'opinion n'est pas modifiée à cet égard ({{ISA570.muSection}}) ; si l'information est insuffisante, modifier l'opinion selon l'ISA 705 et mentionner l'existence de l'incertitude dans le fondement (¶23). Un cas limite — événements ou conditions identifiés sans incertitude significative — n'appelle pas de section distincte, seulement la vérification en E6.3 que l'annexe les décrit (¶20).",
+      "srcEn": "C2.2 · E6.3 · {{ISA570}} ¶20, ¶22–23",
+      "srcFr": "C2.2 · E6.3 · {{ISA570}} ¶20, ¶22–23",
+      "tipEn": "[Draft] Match the report to the C2.2 conclusion exactly: material uncertainty adequately disclosed gives the separate section with its prescribed heading, a reference to the note, the two required statements and the sentence that the opinion is not modified; inadequate disclosure gives a qualified or adverse opinion whose basis paragraph names the uncertainty. Never use an emphasis-of-matter paragraph in place of the section. Under ISA 570 (Revised 2024) the report also carries a going concern section where no material uncertainty exists — check the edition of the engagement before drafting.",
+      "tipFr": "[Projet] Faire correspondre le rapport exactement à la conclusion de C2.2 : une incertitude significative correctement décrite donne la section distincte avec son intitulé prescrit, le renvoi à la note, les deux mentions requises et la phrase précisant que l'opinion n'est pas modifiée ; une information insuffisante donne une opinion avec réserve ou défavorable dont le fondement nomme l'incertitude. Ne jamais substituer un paragraphe d'observation à la section. Sous l'ISA 570 révisée 2024, le rapport comporte aussi une section sur la continuité en l'absence d'incertitude significative — vérifier l'édition des normes de la mission avant de rédiger."
+     },
+     {
+      "key": "kam",
+      "en": "Where key audit matters apply, include the description of each drafted in C1.2, explaining why the matter was of most significance and how it was addressed.",
+      "fr": "Lorsque des questions clés s'appliquent, inclure la description rédigée en C1.2, en expliquant l'importance du point et la façon dont il a été traité.",
+      "srcEn": "C1.2 · ISA 701 ¶13",
+      "srcFr": "C1.2 · ISA 701 ¶13",
+      "tipEn": "[Draft] Key audit matters are required for listed entities and wherever the firm or the engagement letter commits to them. Take the matters selected in C1.2 — those that demanded the most attention: higher risks, significant judgements, significant events — and for each write why it was significant, how it was addressed and the reference to the note. A matter giving rise to a modified opinion is described in the basis paragraph, not as a KAM.",
+      "tipFr": "[Projet] Les questions clés de l'audit sont requises pour les entités cotées et chaque fois que le cabinet ou la lettre de mission s'y engage. Reprendre les points retenus en C1.2 — ceux qui ont exigé le plus d'attention : risques élevés, jugements importants, événements significatifs — et rédiger pour chacun pourquoi il était important, comment il a été traité et le renvoi à la note. Un point donnant lieu à une opinion modifiée se décrit dans le fondement, pas comme question clé."
+     },
+     {
+      "key": "emphasis",
+      "en": "Determine whether an emphasis of matter or other matter paragraph is required, and confirm it does not substitute for a modification or a required disclosure.",
+      "fr": "Déterminer si un paragraphe d'observation ou sur d'autres points est requis et vérifier qu'il ne se substitue pas à une modification ou à une information requise.",
+      "srcEn": "ISA 706 (Revised) ¶8–10",
+      "srcFr": "ISA 706 révisée ¶8–10",
+      "tipEn": "[Draft] An emphasis of matter points to something adequately disclosed in the notes and fundamental to understanding — a major subsequent event, an early application of a new standard, a catastrophe — and says the opinion is not modified in respect of it. If the matter is not adequately disclosed, the answer is a modification, not an emphasis. Keep it rare: a report with three emphasis paragraphs is usually hiding a reserve.",
+      "tipFr": "[Projet] Un paragraphe d'observation attire l'attention sur un point correctement décrit dans l'annexe et fondamental pour la compréhension — événement postérieur majeur, application anticipée d'une nouvelle norme, sinistre — et précise que l'opinion n'est pas modifiée à son égard. Si le point n'est pas correctement décrit, la réponse est une modification, pas une observation. Le garder rare : un rapport à trois paragraphes d'observation cache le plus souvent une réserve."
+     },
+     {
+      "key": "other_info",
+      "en": "Include the other information section, stating what was read and whether a material inconsistency was identified.",
+      "fr": "Inclure la section sur les autres informations, en indiquant ce qui a été examiné et si une incohérence significative a été relevée.",
+      "srcEn": "C2.1 · ISA 720 (Revised) ¶21–24",
+      "srcFr": "C2.1 · ISA 720 révisée ¶21–24",
+      "tipEn": "[Draft] Name in the section the documents actually read from C2.1 — the directors' report (rapport de gestion), the chairman's statement — and those expected after the report date. State that nothing material to report was found, or describe the uncorrected inconsistency. Read the final version: a rapport de gestion amended after our reading is unread.",
+      "tipFr": "[Projet] Nommer dans la section les documents effectivement lus à partir de C2.1 — le rapport de gestion, le message du président — et ceux attendus après la date du rapport. Indiquer qu'il n'y a rien de significatif à signaler, ou décrire l'incohérence non corrigée. Lire la version définitive : un rapport de gestion modifié après notre lecture est un rapport non lu."
+     },
+     {
+      "key": "certification",
+      "en": "Draft the opinion paragraph in the certification form of article 710 (to validate): « Nous certifions que les états financiers annuels de [entity] pour l'exercice clos le [date] sont réguliers et sincères et donnent une image fidèle du résultat des opérations de l'exercice écoulé ainsi que de la situation financière et du patrimoine de la société à la fin de cet exercice » — with the reservation, the refusal or the impossibility to certify worded on the same formula where the opinion is modified — and confirm the report generator used it.",
+      "fr": "Rédiger le paragraphe d'opinion dans la forme de certification de l'article 710 (à valider) : « Nous certifions que les états financiers annuels de [entité] pour l'exercice clos le [date] sont réguliers et sincères et donnent une image fidèle du résultat des opérations de l'exercice écoulé ainsi que de la situation financière et du patrimoine de la société à la fin de cet exercice » — la réserve, le refus ou l'impossibilité de certifier étant formulés sur la même base lorsque l'opinion est modifiée — et vérifier que le générateur de rapport l'a employée.",
+      "srcEn": "AUSCGIE art. 710 (à valider) · ISA 700 (Revised) ¶24–27 · report generator (Conclusion screen)",
+      "srcFr": "AUSCGIE art. 710 (à valider) · ISA 700 révisée ¶24–27 · générateur de rapport (écran Conclusion)",
+      "tipEn": "[Draft] The Act asks the commissaire to certify, so the opinion says « nous certifions » rather than « à notre avis » — the two are not interchangeable before an OHADA court or a CEMAC regulator. Compare the generated paragraph word for word with the formula: the three qualities (réguliers, sincères, image fidèle) and the three objects (résultat des opérations, situation financière, patrimoine) must all be there, in that order, with the entity's exact name and the period end.",
+      "tipFr": "[Projet] L'Acte demande au commissaire de certifier : l'opinion dit donc « nous certifions » et non « à notre avis » — les deux ne sont pas interchangeables devant une juridiction OHADA ou un régulateur de la CEMAC. Comparer mot à mot le paragraphe généré avec la formule : les trois qualités (réguliers, sincères, image fidèle) et les trois objets (résultat des opérations, situation financière, patrimoine) doivent tous y figurer, dans cet ordre, avec la dénomination exacte de l'entité et la date de clôture."
+     },
+     {
+      "key": "specific_verifications",
+      "en": "Perform and record the specific verifications of the Act: the concordance with the financial statements and the sincerity of the information given in the management report and in the documents addressed to the [[lf.members]] (art. 713 — to validate); the respect of equality between the [[lf.members]] (art. 714 — to validate); and, where they apply, the certification of the highest-paid persons' remuneration (art. 525, C5.10) and the attestation on the registers of registered securities (art. 746-2, C5.7). State the result of each in the second part of the report.",
+      "fr": "Mettre en œuvre et consigner les vérifications spécifiques de l'Acte : la concordance avec les états financiers et la sincérité des informations données dans le rapport de gestion et dans les documents adressés aux [[lf.members]] (art. 713 — à valider) ; le respect de l'égalité entre les [[lf.members]] (art. 714 — à valider) ; et, lorsqu'elles s'appliquent, la certification du montant des rémunérations des personnes les mieux rémunérées (art. 525, C5.10) et l'attestation sur les registres de titres nominatifs (art. 746-2, C5.7). Mentionner le résultat de chacune dans la seconde partie du rapport.",
+      "srcEn": "Management report · convening documents · C2.1 other information · C5.7 · C5.10 · AUSCGIE arts. 713–714, 525, 746-2 (à valider)",
+      "srcFr": "Rapport de gestion · documents de convocation · C2.1 autres informations · C5.7 · C5.10 · AUSCGIE arts. 713–714, 525, 746-2 (à valider)",
+      "tipEn": "[Draft] Read the management report against the audited figures line by line — the results, the equity position (C5.8), the dividends proposed, the regulated agreements (C5.3) — and write 'nothing to report' only after the reading, never before. Equality between the owners is tested on the facts of the year: dividends paid per share, pre-emptive rights on a capital increase, information given to one owner and not the others. Each verification ends in one sentence in the report; the sentence is drafted on this paper with its evidence.",
+      "tipFr": "[Projet] Lire le rapport de gestion au regard des chiffres audités ligne par ligne — les résultats, la situation des capitaux propres (C5.8), les dividendes proposés, les conventions réglementées (C5.3) — et n'écrire « rien à signaler » qu'après la lecture, jamais avant. L'égalité entre les associés se vérifie sur les faits de l'exercice : dividende par titre, droit préférentiel lors d'une augmentation de capital, information donnée à un associé et non aux autres. Chaque vérification se termine par une phrase du rapport ; cette phrase se rédige sur cette feuille avec sa preuve."
+     },
+     {
+      "key": "statutory",
+      "en": "Include the report on other legal and regulatory requirements required of a statutory auditor, and cross-refer to the statutory papers C5.2 to C5.10.",
+      "fr": "Inclure le rapport sur les autres obligations légales et réglementaires incombant au commissaire aux comptes et renvoyer aux feuilles statutaires C5.2 à C5.10.",
+      "srcEn": "AUSCGIE arts. 710–716 (à valider) · C5.2–C5.10",
+      "srcFr": "AUSCGIE arts. 710–716 (à valider) · C5.2–C5.10",
+      "tipEn": "[Draft] For a commissaire aux comptes the second part of the report is as binding as the first: the specific verifications on the directors' report and the documents sent to shareholders, the regulated agreements (C5.3), the equity-against-capital position (C5.8), the irregularities and inaccuracies noted and, where engaged, the alert procedure (C5.5). Draw each statement from the statutory paper that supports it and keep the AUSCGIE article beside it.",
+      "tipFr": "[Projet] Pour le commissaire aux comptes, la seconde partie du rapport engage autant que la première : les vérifications spécifiques sur le rapport de gestion et les documents adressés aux associés, les conventions réglementées (C5.3), la situation des capitaux propres au regard du capital (C5.8), les irrégularités et inexactitudes relevées et, lorsqu'elle est engagée, la procédure d'alerte (C5.5). Tirer chaque mention de la feuille statutaire qui l'étaye et conserver l'article de l'AUSCGIE en regard."
+     },
+     {
+      "key": "date",
+      "en": "Date the report no earlier than the date on which sufficient appropriate evidence was obtained, including the approval of the financial statements by those with authority.",
+      "fr": "Dater le rapport au plus tôt à la date d'obtention des éléments suffisants, y compris l'approbation des états financiers par l'organe compétent.",
+      "srcEn": "ISA 700 (Revised) ¶49 · approval minutes · C3.1",
+      "srcFr": "ISA 700 révisée ¶49 · procès-verbal d'approbation · C3.1",
+      "tipEn": "[Draft] Obtain the board minutes (or the managing director's signed arrêté) approving the financial statements and check the date precedes or equals the report date; the signed representation letter and the EQR completion carry the same constraint. Record the three dates side by side on this paper. A report dated before the approval of the statements it opines on is void in substance.",
+      "tipFr": "[Projet] Obtenir le procès-verbal du conseil (ou l'arrêté signé du dirigeant) approuvant les états financiers et vérifier que sa date précède ou égale celle du rapport ; la lettre d'affirmation signée et l'achèvement de la revue de qualité obéissent à la même contrainte. Consigner les trois dates côte à côte sur cette feuille. Un rapport daté avant l'arrêté des comptes sur lesquels il se prononce est sans valeur en substance."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "sufficient",
+      "en": "Sufficient appropriate audit evidence has been obtained to support the opinion (procedure 1).",
+      "fr": "Des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion (procédure 1)."
+     },
+     {
+      "key": "unmodified",
+      "en": "The opinion is unmodified (procedures 2, 3). A “No” requires the basis for modification to be drafted and the form justified.",
+      "fr": "L'opinion n'est pas modifiée (procédures 2, 3). Un « Non » impose de rédiger le fondement de la modification et d'en justifier la forme."
+     },
+     {
+      "key": "components",
+      "en": "Every component required by ISA 700 (Revised) is present (procedure 4).",
+      "fr": "Chaque composante requise par l'ISA 700 révisée est présente (procédure 4)."
+     },
+     {
+      "key": "going_concern",
+      "en": "The going concern conclusion of E6.3 / C2.2 is reflected in the report as {{ISA570}} ¶22–23 require — the “Material uncertainty related to going concern” section where one exists and is adequately disclosed, a modified opinion where it is not (procedure 5).",
+      "fr": "La conclusion sur la continuité de E6.3 / C2.2 est traduite dans le rapport comme l'exigent les ¶22–23 de l'{{ISA570}} — section « Incertitude significative liée à la continuité d'exploitation » lorsqu'elle existe et est correctement décrite, opinion modifiée sinon (procédure 5).",
+      "na": true
+     },
+     {
+      "key": "certification_form",
+      "en": "The opinion paragraph uses the article 710 certification formula — « nous certifions que les états financiers … sont réguliers et sincères et donnent une image fidèle… » — with the entity's exact name and period end (procedure 9).",
+      "fr": "Le paragraphe d'opinion emploie la formule de certification de l'article 710 — « nous certifions que les états financiers … sont réguliers et sincères et donnent une image fidèle… » — avec la dénomination exacte de l'entité et la date de clôture (procédure 9)."
+     },
+     {
+      "key": "specific_done",
+      "en": "The specific verifications of arts. 713 and 714 are performed and their result is stated in the report, and the certifications of arts. 525 and 746-2 are issued where they apply (procedure 10).",
+      "fr": "Les vérifications spécifiques des articles 713 et 714 sont effectuées et leur résultat figure au rapport, et les certifications des articles 525 et 746-2 sont émises lorsqu'elles s'appliquent (procédure 10)."
+     },
+     {
+      "key": "dated",
+      "en": "The report is dated no earlier than the date the financial statements were approved by those with authority (procedure 12).",
+      "fr": "Le rapport n'est pas daté antérieurement à l'approbation des états financiers par l'organe compétent (procédure 12)."
+     },
+     {
+      "key": "eqr",
+      "en": "Where an engagement quality review is required, it was complete before the report was dated (C4.2).",
+      "fr": "Lorsqu'une revue de qualité est requise, elle était achevée avant la date du rapport (C4.2).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

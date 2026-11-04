@@ -1,0 +1,126 @@
+{
+ "code": "E4.34",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · ISA 540 (Revised) · SYSCOHADA classes 44 / 89",
+  "ownsEn": "the evidence obtained on current and deferred taxation",
+  "ownsFr": "les éléments probants obtenus sur l'impôt exigible et différé",
+  "reqEn": [
+   "The current tax charge is tested by reconciling the accounting result to the taxable result, so that every reconciling item is identified and supported.",
+   "An uncertain tax position is an accounting estimate. The provision recorded, or the decision not to record one, is tested against the correspondence with the administration and the advice obtained."
+  ],
+  "reqFr": [
+   "La charge d'impôt exigible est testée par le passage du résultat comptable au résultat fiscal, chaque retraitement étant identifié et justifié.",
+   "Une position fiscale incertaine constitue une estimation comptable. La provision comptabilisée, ou son absence, est testée au regard de la correspondance avec l'administration et des conseils obtenus."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the current and deferred tax balances and the charge for the period."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur les soldes d'impôt exigible et différé et sur la charge de l'exercice."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "reconcile",
+      "en": "Obtain the reconciliation from the accounting result to the taxable result, and test each reconciling item to its support.",
+      "fr": "Obtenir le passage du résultat comptable au résultat fiscal et tester chaque retraitement au regard de ses justificatifs.",
+      "srcEn": "Tax computation · general ledger · tax code",
+      "srcFr": "Liasse fiscale · grand livre · code général des impôts"
+     },
+     {
+      "key": "rate",
+      "en": "Recalculate the tax charge using the rate in force, and confirm the treatment of the minimum tax where it applies.",
+      "fr": "Recalculer la charge d'impôt au taux en vigueur et vérifier le traitement de l'impôt minimum forfaitaire le cas échéant.",
+      "srcEn": "Tax rates in force · computation",
+      "srcFr": "Taux en vigueur · calcul"
+     },
+     {
+      "key": "payments",
+      "en": "Agree the instalments paid and the withholding tax suffered to the receipts, and reconcile the balance payable at the year end.",
+      "fr": "Rapprocher les acomptes versés et les retenues à la source des quittances et rapprocher le solde dû à la clôture.",
+      "srcEn": "Payment receipts · tax account statement",
+      "srcFr": "Quittances de paiement · état de compte fiscal"
+     },
+     {
+      "key": "returns",
+      "en": "Agree the prior period charge to the return as filed, and record the effect of any assessment received since.",
+      "fr": "Rapprocher la charge de l'exercice précédent de la déclaration déposée et consigner l'effet de tout redressement notifié depuis.",
+      "srcEn": "Filed returns · assessments · correspondence",
+      "srcFr": "Déclarations déposées · notifications · correspondance"
+     },
+     {
+      "key": "uncertain",
+      "en": "Identify the uncertain tax positions, and test the provision recorded against the correspondence with the administration and any advice obtained.",
+      "fr": "Identifier les positions fiscales incertaines et tester la provision comptabilisée au regard de la correspondance avec l'administration et des conseils obtenus.",
+      "srcEn": "Tax correspondence · adviser's opinion · S4.1",
+      "srcFr": "Correspondance fiscale · avis du conseil · S4.1"
+     },
+     {
+      "key": "deferred",
+      "en": "Test the deferred tax: the temporary differences identified, the rate applied, and the recoverability of any deferred tax asset.",
+      "fr": "Tester l'impôt différé : différences temporelles identifiées, taux appliqué et recouvrabilité de tout actif d'impôt différé.",
+      "srcEn": "Deferred tax computation · forecasts · framework",
+      "srcFr": "Calcul d'impôt différé · prévisions · référentiel"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "supported",
+      "en": "Every reconciling item between the accounting and taxable result is supported (procedure 1).",
+      "fr": "Chaque retraitement entre le résultat comptable et fiscal est justifié (procédure 1)."
+     },
+     {
+      "key": "balance",
+      "en": "The tax balance at the year end agrees to the tax account statement (procedure 3).",
+      "fr": "Le solde d'impôt à la clôture concorde avec l'état de compte fiscal (procédure 3)."
+     },
+     {
+      "key": "uncertain",
+      "en": "Every uncertain tax position identified is either provided for or disclosed (procedure 5).",
+      "fr": "Chaque position fiscale incertaine identifiée fait l'objet d'une provision ou d'une mention (procédure 5).",
+      "na": true
+     },
+     {
+      "key": "deferred_asset",
+      "en": "Any deferred tax asset recognised is supported by evidence that sufficient taxable profit will be available (procedure 6).",
+      "fr": "Tout actif d'impôt différé comptabilisé est étayé par la perspective de bénéfices imposables suffisants (procédure 6).",
+      "na": true
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

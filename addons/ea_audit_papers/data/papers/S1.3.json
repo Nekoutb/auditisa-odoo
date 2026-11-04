@@ -1,0 +1,108 @@
+{
+ "code": "S1.3",
+ "source": "lib/papers/gam.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶26(a) · ISA 230 ¶8",
+  "ownsEn": "the walkthrough evidence that the documented flows and controls exist as described",
+  "ownsFr": "la preuve par cheminement que les flux et contrôles documentés existent tels que décrits",
+  "reqEn": [
+   "A walkthrough traces one transaction of each significant class from origination through the entity's processes to its reporting in the financial statements, using the same documents and IT systems the entity uses. It combines inquiry, observation and inspection: we watch the control performed, inspect the evidence it leaves, and ask the performer what happens when something unusual arrives (ISA 315 ¶26(a), A verification of implementation).",
+   "The walkthrough confirms — or corrects — the flow documentation in S1.2. A difference between the documented and the observed process is not a footnote: it updates S1.2, may create a new what-could-go-wrong, and may change the controls strategy in S2.1."
+  ],
+  "reqFr": [
+   "Un test de cheminement suit une transaction de chaque catégorie significative depuis son origine jusqu'aux états financiers, avec les documents et systèmes réels de l'entité. Il combine entretien, observation et inspection (ISA 315 ¶26(a)).",
+   "Le cheminement confirme — ou corrige — la documentation de S1.2. Un écart entre le processus documenté et le processus observé met à jour S1.2, peut créer un nouveau WCGW et modifier la stratégie de contrôles (S2.1)."
+  ],
+  "conclEn": [
+   "Walkthroughs confirm that the documented flows and controls are implemented as described."
+  ],
+  "conclFr": [
+   "Les tests de cheminement confirment que les flux et contrôles documentés sont mis en œuvre tels que décrits."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "select",
+      "en": "Select one representative transaction per SCOT (and one non-routine instance where the flow differs at period end).",
+      "fr": "Sélectionner une transaction représentative par SCOT (et un cas non routinier lorsque le flux diffère en clôture).",
+      "srcEn": "Transaction listings",
+      "srcFr": "Journaux de transactions",
+      "tipEn": "Pick from the middle of the population, not the item the accountant offers: take the journal des ventes, choose an ordinary invoice from a routine month, and separately a period-end item — a December sale, a year-end OD — where the flow differs. Note the reference before announcing the walkthrough, so the file is not tidied up in advance.",
+      "tipFr": "Choisir au milieu de la population, pas la pièce que le comptable propose : prendre le journal des ventes, retenir une facture ordinaire d'un mois banal, et à part un élément de fin d'exercice — une vente de décembre, une OD de clôture — où le circuit diffère. Relever la référence avant d'annoncer le cheminement, pour que le dossier ne soit pas remis en ordre à l'avance."
+     },
+     {
+      "key": "trace",
+      "en": "Trace it end-to-end through documents and systems, recording each step against the S1.2 flow.",
+      "fr": "La suivre de bout en bout à travers documents et systèmes, en rapprochant chaque étape du flux S1.2.",
+      "srcEn": "Source documents · system records",
+      "srcFr": "Pièces d'origine · enregistrements systèmes",
+      "tipEn": "Follow the paper and the screen together: start at the bon de commande, follow to the bon de livraison, the facture, the Sage entry, and the collection on the relevé bancaire or mobile money statement. Tick each step against the S1.2 flow as you go and note the dates — a facture dated before its delivery is a finding, not a formality.",
+      "tipFr": "Suivre le papier et l'écran ensemble : partir du bon de commande, suivre le bon de livraison, la facture, l'écriture Sage, puis l'encaissement sur le relevé bancaire ou le relevé mobile money. Pointer chaque étape contre le flux S1.2 en avançant et noter les dates — une facture antérieure à sa livraison est un constat, pas un détail."
+     },
+     {
+      "key": "observe",
+      "en": "At each control point, observe or reperform the control and inspect the evidence it leaves.",
+      "fr": "À chaque point de contrôle, observer ou refaire le contrôle et inspecter la preuve laissée.",
+      "srcEn": "Control evidence (signatures, logs, reports)",
+      "srcFr": "Preuves de contrôle (visas, journaux, états)",
+      "tipEn": "Sit next to the performer and watch them do it on a live item: ask the accountant to run this month's rapprochement in front of you, or to show the Sage screen that blocks a duplicate invoice number. Scan or photograph the signed evidence there and then — 'yes, we sign it' with no signature to show is inquiry, not observation.",
+      "tipFr": "S'asseoir à côté de l'exécutant et le regarder faire sur une pièce réelle : demander au comptable de dérouler le rapprochement du mois devant soi, ou de montrer l'écran Sage qui bloque un numéro de facture en double. Scanner ou photographier la trace signée sur-le-champ — « oui, on le signe » sans signature à montrer relève de l'entretien, pas de l'observation."
+     },
+     {
+      "key": "exceptions",
+      "en": "Ask each performer how exceptions and unusual items are handled, and corroborate with an example where available.",
+      "fr": "Demander à chaque exécutant le traitement des exceptions et le corroborer par un exemple si possible.",
+      "srcEn": "Inquiry · exception logs",
+      "srcFr": "Entretiens · journaux d'exceptions",
+      "tipEn": "Ask 'show me the last one that went wrong': a rejected mobile money payment, a refused delivery, a credit note. If the performer cannot produce a single example, either exceptions never happen — unlikely — or they are handled off the books; both answers belong in the paper.",
+      "tipFr": "Demander « montrez-moi la dernière qui a mal tourné » : un paiement mobile money rejeté, une livraison refusée, un avoir. Si l'exécutant ne peut produire aucun exemple, soit les exceptions n'arrivent jamais — peu probable —, soit elles se traitent hors circuit ; les deux réponses ont leur place dans le papier."
+     },
+     {
+      "key": "update",
+      "en": "Record every difference from the documented flow and update S1.2, S3.1 and S2.1 accordingly.",
+      "fr": "Consigner tout écart avec le flux documenté et mettre à jour S1.2, S3.1 et S2.1.",
+      "srcEn": "This paper",
+      "srcFr": "Ce papier",
+      "tipEn": "Write the differences down at the client's premises the same day, while the detail is fresh, and route each one: correct the S1.2 flow, add any new what-could-go-wrong, and re-ask whether the S2.1 strategy still holds. A walkthrough that changed nothing anywhere should make a reviewer suspicious.",
+      "tipFr": "Consigner les écarts chez le client le jour même, tant que le détail est frais, et donner une suite à chacun : corriger le flux S1.2, ajouter tout nouveau risque d'anomalie, et réexaminer si la stratégie S2.1 tient toujours. Un cheminement qui n'a rien changé nulle part doit rendre le réviseur méfiant."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Confirmations",
+    "titleFr": "Partie B — Confirmations",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "all_scots",
+      "en": "A walkthrough was performed for every SCOT.",
+      "fr": "Un cheminement a été réalisé pour chaque SCOT."
+     },
+     {
+      "key": "as_described",
+      "en": "The observed process matches the S1.2 documentation (differences resolved and documented).",
+      "fr": "Le processus observé correspond à la documentation S1.2 (écarts résolus et documentés)."
+     },
+     {
+      "key": "controls_seen",
+      "en": "Each key control was observed or reperformed, not merely described in inquiry.",
+      "fr": "Chaque contrôle clé a été observé ou refait, et non simplement décrit en entretien."
+     },
+     {
+      "key": "updates_done",
+      "en": "Differences found have been carried through to S1.2, S3.1 and S2.1.",
+      "fr": "Les écarts relevés ont été répercutés dans S1.2, S3.1 et S2.1."
+     }
+    ]
+   }
+  ]
+ }
+}

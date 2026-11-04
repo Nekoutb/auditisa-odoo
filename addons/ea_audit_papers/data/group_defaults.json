@@ -1,0 +1,296 @@
+{
+ "fields": [
+  {
+   "key": "procedures",
+   "kind": "input",
+   "labelEn": "Procedures performed",
+   "labelFr": "Procédures mises en œuvre"
+  },
+  {
+   "key": "results",
+   "kind": "input",
+   "labelEn": "Results, with the working-paper reference of the evidence filed",
+   "labelFr": "Résultats, avec la référence du dossier de travail"
+  },
+  {
+   "key": "exceptions",
+   "kind": "input",
+   "labelEn": "Exceptions identified and how each was resolved",
+   "labelFr": "Exceptions relevées et leur résolution"
+  },
+  {
+   "key": "conclusion",
+   "kind": "input",
+   "labelEn": "Conclusion",
+   "labelFr": "Conclusion"
+  }
+ ],
+ "groups": {
+  "p1": {
+   "std": "ISQM 1 ¶30 · ISA 220 (Revised) ¶22–28 · ISA 210",
+   "ownsEn": "the acceptance conclusion",
+   "ownsFr": "la conclusion d'acceptation"
+  },
+  "p2": {
+   "std": "IESBA Code · ISA 220 (Revised) ¶16–21",
+   "ownsEn": "the independence and resourcing record",
+   "ownsFr": "le dossier indépendance et moyens"
+  },
+  "p3": {
+   "std": "ISA 315 (Revised 2019) ¶19, ¶A56–A67",
+   "ownsEn": "the understanding of the business",
+   "ownsFr": "la connaissance de l'activité"
+  },
+  "p4": {
+   "std": "ISA 315 (Revised 2019) ¶21–27",
+   "ownsEn": "the entity-level control and IT conclusion",
+   "ownsFr": "la conclusion contrôles de l'entité et informatique"
+  },
+  "p5": {
+   "std": "{{ISA240}} ¶17–27 · ISA 315 (Revised 2019) ¶17",
+   "ownsEn": "the fraud risk record and team discussion",
+   "ownsFr": "le dossier risques de fraude et discussion d'équipe"
+  },
+  "p6": {
+   "std": "ISA 320 · ISA 315 (Revised 2019) ¶28–29",
+   "ownsEn": "the materiality and scoping record",
+   "ownsFr": "le seuil de signification et le périmètre"
+  },
+  "p7": {
+   "std": "ISA 300 ¶7–12 · ISA 220 (Revised) ¶22–35 · ISQM 1",
+   "ownsEn": "the planning approval",
+   "ownsFr": "l'approbation de la planification"
+  },
+  "s1": {
+   "std": "ISA 315 (Revised 2019) ¶25–26, ¶A136–A150",
+   "ownsEn": "the transaction-flow understanding",
+   "ownsFr": "la compréhension des flux de transactions"
+  },
+  "s2": {
+   "std": "ISA 330 ¶8–11",
+   "ownsEn": "the controls-reliance strategy",
+   "ownsFr": "la stratégie d'appui sur les contrôles"
+  },
+  "s3": {
+   "std": "ISA 315 (Revised 2019) ¶28–34 · ISA 330 ¶5–15",
+   "ownsEn": "the combined risk assessment and planned responses",
+   "ownsFr": "l'évaluation combinée des risques et les réponses"
+  },
+  "s4": {
+   "std": "ISA 402 · ISA 610 (Revised) · ISA 620",
+   "ownsEn": "the reliance on others' work",
+   "ownsFr": "l'utilisation des travaux de tiers"
+  },
+  "s5": {
+   "std": "ISA 300 ¶7–12",
+   "ownsEn": "the audit strategies memorandum",
+   "ownsFr": "le mémorandum de stratégie d'audit"
+  },
+  "e1": {
+   "std": "ISA 330 ¶8–17 · ISA 315 (Revised 2019) ¶26(b)–(c)",
+   "ownsEn": "the controls testing conclusion",
+   "ownsFr": "la conclusion des tests de contrôles"
+  },
+  "e2": {
+   "std": "ISA 330 ¶12–14 · ISA 315 (Revised 2019) ¶26(b)",
+   "ownsEn": "the controls conclusion carried from the interim to the year end",
+   "ownsFr": "la conclusion sur les contrôles reportée de l'intérim à la clôture"
+  },
+  "e4": {
+   "std": "ISA 330 ¶18–23 · ISA 500 · ISA 520",
+   "ownsEn": "the evidence obtained on the account",
+   "ownsFr": "les éléments probants du compte"
+  },
+  "e5": {
+   "std": "{{ISA240}} ¶32–33 · ISA 501 · ISA 540 · ISA 550 · ISA 560 · {{ISA570}}",
+   "ownsEn": "the general audit procedure and what it found",
+   "ownsFr": "la procédure générale d'audit et ses constats"
+  },
+  "e6": {
+   "std": "ISA 230 ¶8–11 · ISA 510 · ISA 710 · ISA 315 (Revised 2019) ¶37",
+   "ownsEn": "the statutory records, the opening balances and the reassessed risks",
+   "ownsFr": "les registres légaux, les soldes d'ouverture et les risques réévalués"
+  },
+  "c1": {
+   "std": "ISA 450 ¶10–15 · ISA 701",
+   "ownsEn": "the evaluation of audit differences",
+   "ownsFr": "l'évaluation des écarts d'audit"
+  },
+  "c2": {
+   "std": "ISA 520 ¶6 · ISA 560 · {{ISA570}}",
+   "ownsEn": "the final review conclusion",
+   "ownsFr": "la conclusion de revue finale"
+  },
+  "c3": {
+   "std": "ISA 580 · ISA 505",
+   "ownsEn": "the representations obtained",
+   "ownsFr": "les déclarations obtenues"
+  },
+  "c4": {
+   "std": "ISA 700 ¶12–15 · ISA 220 (Revised) ¶29–35",
+   "ownsEn": "the review and approval record",
+   "ownsFr": "le dossier de revue et d'approbation"
+  },
+  "c5": {
+   "std": "ISA 260 (Revised) · ISA 265 · OHADA — Acte uniforme (sociétés commerciales)",
+   "ownsEn": "the communications and statutory record",
+   "ownsFr": "le dossier communications et obligations légales"
+  },
+  "c6": {
+   "std": "ISA 230 ¶14–16 · ISQM 1 ¶31(f)",
+   "ownsEn": "the assembly and archive record",
+   "ownsFr": "le dossier d'assemblage et d'archivage"
+  }
+ },
+ "fallback": {
+  "std": "ISA 230 ¶8–11",
+  "ownsEn": "the work performed and the conclusion reached",
+  "ownsFr": "les travaux effectués et la conclusion"
+ },
+ "members": {
+  "P1.1": "p1",
+  "P1.2": "p1",
+  "P1.3": "p1",
+  "P1.4": "p1",
+  "P1.5": "p1",
+  "P2.1": "p2",
+  "P2.2": "p2",
+  "P2.3": "p2",
+  "P3.1": "p3",
+  "P3.2": "p3",
+  "P4.1": "p4",
+  "P4.2": "p4",
+  "P4.3": "p4",
+  "P5.1": "p5",
+  "P5.2": "p5",
+  "P6.1": "p6",
+  "P6.2": "p6",
+  "P7.1": "p7",
+  "P7.2": "p7",
+  "S1.1": "s1",
+  "S1.2": "s1",
+  "S1.3": "s1",
+  "S1.4": "s1",
+  "S2.1": "s2",
+  "S2.2": "s2",
+  "S2.3": "s2",
+  "S2.4": "s2",
+  "S2.5": "s2",
+  "S3.1": "s3",
+  "S4.1": "s4",
+  "S4.2": "s4",
+  "S4.3": "s4",
+  "S4.4": "s4",
+  "S5.1": "s5",
+  "S5.2": "s5",
+  "S5.3": "s5",
+  "S5.4": "s5",
+  "S5.5": "s5",
+  "S5.6": "s5",
+  "S6.1": "s6",
+  "S6.2": "s6",
+  "E1.1": "e1",
+  "E1.2": "e1",
+  "E2.1": "e2",
+  "E4.1": "e4",
+  "E4.2": "e4",
+  "E4.3": "e4",
+  "E4.4": "e4",
+  "E4.5": "e4",
+  "E4.6": "e4",
+  "E4.7": "e4",
+  "E4.8": "e4",
+  "E4.9": "e4",
+  "E4.10": "e4",
+  "E4.11": "e4",
+  "E4.12": "e4",
+  "E4.13": "e4",
+  "E4.14": "e4",
+  "E4.15": "e4",
+  "E4.16": "e4",
+  "E4.17": "e4",
+  "E4.18": "e4",
+  "E4.19": "e4",
+  "E4.20": "e4",
+  "E4.21": "e4",
+  "E4.22": "e4",
+  "E4.23": "e4",
+  "E4.24": "e4",
+  "E4.25": "e4",
+  "E4.26": "e4",
+  "E4.27": "e4",
+  "E4.28": "e4",
+  "E4.29": "e4",
+  "E4.30": "e4",
+  "E4.31": "e4",
+  "E4.32": "e4",
+  "E4.33": "e4",
+  "E4.34": "e4",
+  "E4.35": "e4",
+  "E4.36": "e4",
+  "E5.1": "e4",
+  "E5.2": "e4",
+  "E5.3": "e4",
+  "E5.4": "e4",
+  "E5.5": "e4",
+  "E3.1": "e5",
+  "E6.7": "e5",
+  "E6.2": "e5",
+  "E6.3": "e5",
+  "E6.1": "e5",
+  "E6.9": "e5",
+  "E6.6": "e5",
+  "E6.10": "e5",
+  "E6.4": "e6",
+  "E6.5": "e6",
+  "E6.8": "e6",
+  "C1.1": "c1",
+  "C1.2": "c1",
+  "C1.3": "c1",
+  "C2.1": "c2",
+  "C2.2": "c2",
+  "C3.1": "c3",
+  "C4.1": "c4",
+  "C4.2": "c4",
+  "C4.3": "c4",
+  "C5.1": "c5",
+  "C5.11": "c5",
+  "C5.2": "c5",
+  "C5.3": "c5",
+  "C5.4": "c5",
+  "C5.5": "c5",
+  "C5.6": "c5",
+  "C5.7": "c5",
+  "C5.8": "c5",
+  "C5.9": "c5",
+  "C5.10": "c5",
+  "C6.1": "c6",
+  "C6.2": "c6"
+ },
+ "prefixes": {
+  "P1": "p1",
+  "P2": "p2",
+  "P3": "p3",
+  "P4": "p4",
+  "P5": "p5",
+  "P6": "p6",
+  "P7": "p7",
+  "S1": "s1",
+  "S2": "s2",
+  "S3": "s3",
+  "S4": "s4",
+  "S5": "s5",
+  "S6": "s6",
+  "E1": "e1",
+  "E2": "e2",
+  "E4": "e4",
+  "E5": "e5",
+  "E6": "e6",
+  "C1": "c1",
+  "C2": "c2",
+  "C3": "c3",
+  "C4": "c4",
+  "C5": "c5",
+  "C6": "c6"
+ }
+}

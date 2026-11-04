@@ -1,0 +1,429 @@
+{
+ "editions": [
+  "current",
+  "revised_2026"
+ ],
+ "revised_2026_from": "2026-12-15",
+ "refs": {
+  "ISA240": {
+   "current": [
+    "ISA 240",
+    "ISA 240"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised)",
+    "ISA 240 révisée"
+   ]
+  },
+  "ISA570": {
+   "current": [
+    "ISA 570 (Revised)",
+    "ISA 570 révisée"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024)",
+    "ISA 570 révisée 2024"
+   ]
+  },
+  "ISA240.std.P51": {
+   "current": [
+    "ISA 240 ¶12–27, ¶31–33, ¶40–43",
+    "ISA 240 ¶12–27, ¶31–33, ¶40–43"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶12–27, ¶31–33, ¶40–43",
+    "ISA 240 révisée ¶12–27, ¶31–33, ¶40–43"
+   ]
+  },
+  "ISA240.std.E31": {
+   "current": [
+    "ISA 240 ¶31–33",
+    "ISA 240 ¶31–33"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶31–33",
+    "ISA 240 révisée ¶31–33"
+   ]
+  },
+  "ISA240.records": {
+   "current": [
+    "ISA 240 ¶13",
+    "ISA 240 ¶13"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶13",
+    "ISA 240 révisée ¶13"
+   ]
+  },
+  "ISA240.discussion": {
+   "current": [
+    "ISA 240 ¶16",
+    "ISA 240 ¶16"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶16",
+    "ISA 240 révisée ¶16"
+   ]
+  },
+  "ISA240.assess": {
+   "current": [
+    "ISA 240 ¶25",
+    "ISA 240 ¶25"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶25",
+    "ISA 240 révisée ¶25"
+   ]
+  },
+  "ISA240.revenue": {
+   "current": [
+    "ISA 240 ¶26, ¶47",
+    "ISA 240 ¶26, ¶47"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶26, ¶47",
+    "ISA 240 révisée ¶26, ¶47"
+   ]
+  },
+  "ISA240.unpredictability": {
+   "current": [
+    "ISA 240 ¶29(c)",
+    "ISA 240 ¶29 c)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶29(c)",
+    "ISA 240 révisée ¶29 c)"
+   ]
+  },
+  "ISA240.override": {
+   "current": [
+    "ISA 240 ¶31",
+    "ISA 240 ¶31"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶31",
+    "ISA 240 révisée ¶31"
+   ]
+  },
+  "ISA240.overrideResponses": {
+   "current": [
+    "ISA 240 ¶31–33",
+    "ISA 240 ¶31–33"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶31–33",
+    "ISA 240 révisée ¶31–33"
+   ]
+  },
+  "ISA240.jeTesting": {
+   "current": [
+    "ISA 240 ¶32",
+    "ISA 240 ¶32"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32",
+    "ISA 240 révisée ¶32"
+   ]
+  },
+  "ISA240.jeCriteria": {
+   "current": [
+    "ISA 240 ¶32(a)",
+    "ISA 240 ¶32 a)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32(a)",
+    "ISA 240 révisée ¶32 a)"
+   ]
+  },
+  "ISA240.jeInquiry": {
+   "current": [
+    "ISA 240 ¶32(a)(i)",
+    "ISA 240 ¶32 a) i)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32(a)(i)",
+    "ISA 240 révisée ¶32 a) i)"
+   ]
+  },
+  "ISA240.jePeriodEnd": {
+   "current": [
+    "ISA 240 ¶32(a)(ii)",
+    "ISA 240 ¶32 a) ii)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32(a)(ii)",
+    "ISA 240 révisée ¶32 a) ii)"
+   ]
+  },
+  "ISA240.jeThroughout": {
+   "current": [
+    "ISA 240 ¶32(a)(iii)",
+    "ISA 240 ¶32 a) iii)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32(a)(iii)",
+    "ISA 240 révisée ¶32 a) iii)"
+   ]
+  },
+  "ISA240.jeEstimates": {
+   "current": [
+    "ISA 240 ¶32(b)",
+    "ISA 240 ¶32 b)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32(b)",
+    "ISA 240 révisée ¶32 b)"
+   ]
+  },
+  "ISA240.unusual": {
+   "current": [
+    "ISA 240 ¶32(c)",
+    "ISA 240 ¶32 c)"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶32(c)",
+    "ISA 240 révisée ¶32 c)"
+   ]
+  },
+  "ISA240.otherProcedures": {
+   "current": [
+    "ISA 240 ¶33",
+    "ISA 240 ¶33"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶33",
+    "ISA 240 révisée ¶33"
+   ]
+  },
+  "ISA240.evaluate": {
+   "current": [
+    "ISA 240 ¶35–36",
+    "ISA 240 ¶35-36"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶35–36",
+    "ISA 240 révisée ¶35-36"
+   ]
+  },
+  "ISA240.representations": {
+   "current": [
+    "ISA 240 ¶39",
+    "ISA 240 ¶39"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶39",
+    "ISA 240 révisée ¶39"
+   ]
+  },
+  "ISA240.commMgmt": {
+   "current": [
+    "ISA 240 ¶40",
+    "ISA 240 ¶40"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶40",
+    "ISA 240 révisée ¶40"
+   ]
+  },
+  "ISA240.commTcwg": {
+   "current": [
+    "ISA 240 ¶41",
+    "ISA 240 ¶41"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶41",
+    "ISA 240 révisée ¶41"
+   ]
+  },
+  "ISA240.commOther": {
+   "current": [
+    "ISA 240 ¶42",
+    "ISA 240 ¶42"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶42",
+    "ISA 240 révisée ¶42"
+   ]
+  },
+  "ISA240.authorities": {
+   "current": [
+    "ISA 240 ¶43",
+    "ISA 240 ¶43"
+   ],
+   "revised_2026": [
+    "ISA 240 (Revised) ¶43",
+    "ISA 240 révisée ¶43"
+   ]
+  },
+  "ISA570.std.S42": {
+   "current": [
+    "ISA 570 (Revised) ¶10–12",
+    "ISA 570 révisée ¶10–12"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶10–12",
+    "ISA 570 révisée 2024 ¶10–12"
+   ]
+  },
+  "ISA570.std.E63": {
+   "current": [
+    "ISA 570 (Revised) ¶12–20, ¶25",
+    "ISA 570 révisée ¶12–20, ¶25"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶12–20, ¶25",
+    "ISA 570 révisée 2024 ¶12–20, ¶25"
+   ]
+  },
+  "ISA570.std.C22": {
+   "current": [
+    "ISA 570 (Revised) ¶21–24",
+    "ISA 570 révisée ¶21–24"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶21–24",
+    "ISA 570 révisée 2024 ¶21–24"
+   ]
+  },
+  "ISA570.riskAssessment": {
+   "current": [
+    "ISA 570 (Revised) ¶10–11",
+    "ISA 570 révisée ¶10–11"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶10–11",
+    "ISA 570 révisée 2024 ¶10–11"
+   ]
+  },
+  "ISA570.period": {
+   "current": [
+    "ISA 570 (Revised) ¶13",
+    "ISA 570 révisée ¶13"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶13",
+    "ISA 570 révisée 2024 ¶13"
+   ]
+  },
+  "ISA570.plans": {
+   "current": [
+    "ISA 570 (Revised) ¶16",
+    "ISA 570 révisée ¶16"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶16",
+    "ISA 570 révisée 2024 ¶16"
+   ]
+  },
+  "ISA570.representation": {
+   "current": [
+    "ISA 570 (Revised) ¶16(e)",
+    "ISA 570 révisée ¶16 e)"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶16(e)",
+    "ISA 570 révisée 2024 ¶16 e)"
+   ]
+  },
+  "ISA570.muDisclosure": {
+   "current": [
+    "ISA 570 (Revised) ¶19",
+    "ISA 570 révisée ¶19"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶19",
+    "ISA 570 révisée 2024 ¶19"
+   ]
+  },
+  "ISA570.closeCall": {
+   "current": [
+    "ISA 570 (Revised) ¶20",
+    "ISA 570 révisée ¶20"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶20",
+    "ISA 570 révisée 2024 ¶20"
+   ]
+  },
+  "ISA570.conclusions": {
+   "current": [
+    "ISA 570 (Revised) ¶21–24",
+    "ISA 570 révisée ¶21–24"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶21–24",
+    "ISA 570 révisée 2024 ¶21–24"
+   ]
+  },
+  "ISA570.basis": {
+   "current": [
+    "ISA 570 (Revised) ¶21",
+    "ISA 570 révisée ¶21"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶21",
+    "ISA 570 révisée 2024 ¶21"
+   ]
+  },
+  "ISA570.muSection": {
+   "current": [
+    "ISA 570 (Revised) ¶22",
+    "ISA 570 révisée ¶22"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶22",
+    "ISA 570 révisée 2024 ¶22"
+   ]
+  },
+  "ISA570.muModified": {
+   "current": [
+    "ISA 570 (Revised) ¶23",
+    "ISA 570 révisée ¶23"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶23",
+    "ISA 570 révisée 2024 ¶23"
+   ]
+  },
+  "ISA570.communicate": {
+   "current": [
+    "ISA 570 (Revised) ¶25",
+    "ISA 570 révisée ¶25"
+   ],
+   "revised_2026": [
+    "ISA 570 (Revised 2024) ¶25",
+    "ISA 570 révisée 2024 ¶25"
+   ]
+  },
+  "ISA570.horizon": {
+   "current": [
+    "at least twelve months from the date of the financial statements (ISA 570 (Revised) ¶13)",
+    "au moins douze mois à compter de la date de clôture des états financiers (ISA 570 révisée ¶13)"
+   ],
+   "revised_2026": [
+    "at least twelve months from the date of approval of the financial statements (ISA 570 (Revised 2024) ¶13)",
+    "au moins douze mois à compter de la date d'approbation des états financiers (ISA 570 révisée 2024 ¶13)"
+   ]
+  },
+  "ISA570.horizonClock": {
+   "current": [
+    "under the edition in force the period is measured from the balance sheet date; ISA 570 (Revised 2024), which measures it from the approval of the financial statements, applies to periods beginning on or after 15 December 2026, and a longer horizon is still examined where the facts call for it (¶15)",
+    "selon l'édition en vigueur la période se mesure à partir de la date de clôture ; l'ISA 570 révisée 2024, qui la mesure à compter de l'approbation des états financiers, s'applique aux exercices ouverts à partir du 15 décembre 2026, et un horizon plus long reste examiné lorsque les faits l'exigent (¶15)"
+   ],
+   "revised_2026": [
+    "the clock starts at approval, not at the period end, so a SYSCOHADA entity approving its accounts four to six months after the year end needs a forecast reaching sixteen to eighteen months past the balance sheet date",
+    "le délai court à partir de l'approbation, non de la clôture, de sorte qu'une entité SYSCOHADA qui approuve ses comptes quatre à six mois après la clôture a besoin d'une prévision atteignant seize à dix-huit mois au-delà de la date du bilan"
+   ]
+  },
+  "ISA570.horizonFrom": {
+   "current": [
+    "the date of the financial statements",
+    "la date de clôture des états financiers"
+   ],
+   "revised_2026": [
+    "the date of approval of the financial statements",
+    "la date d'approbation des états financiers"
+   ]
+  }
+ }
+}

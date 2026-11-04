@@ -1,0 +1,171 @@
+{
+ "code": "S2.5",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 330 ¶16–17 · ISA 265 · ISA 315 (Revised 2019) ¶34",
+  "ownsEn": "the evaluation of the general IT controls and its effect on the controls-reliance strategy",
+  "ownsFr": "l'évaluation des contrôles généraux informatiques et son effet sur la stratégie d'appui sur les contrôles",
+  "reqEn": [
+   "We evaluate each tested ITGC as effective or ineffective for the period: a control deficient for any part of the reliance period is ineffective for that period, whatever was later remediated (ISA 330 ¶16–17).",
+   "The ITGC evaluations roll up: per IT process per application the process is effective (its ITGCs operated), reliable (its risks were answered by substantive procedures on the process activity), or ineffective; and per application the processes aggregate to support or not support the automated functioning of the application controls and the reports. Where the aggregate does not support, an automated control cannot be relied on with a test of one, and reports lose their presumption of integrity.",
+   "An ineffective ITGC is answered down a ladder: a compensating ITGC covering the same risk; substantive procedures over the process activity; compensating controls inside the affected SCOTs — the orphaned risks becoming WCGWs in S1.2; direct testing of the automated controls through the period; and, last, no reliance — the control risk assessment flips to not-rely in the S3.1 matrix and the substantive procedures expand (ISA 315 ¶34).",
+   "Deficiencies in ITGCs are evaluated for severity and communicated: significant deficiencies in writing to those charged with governance (ISA 265 ¶9–10)."
+  ],
+  "reqFr": [
+   "Nous évaluons chaque ITGC testé comme efficace ou inefficace pour la période : un contrôle déficient sur une partie quelconque de la période d'appui est inefficace pour cette période, quelles que soient les corrections ultérieures (ISA 330 ¶16–17).",
+   "Les évaluations se consolident : par processus et par application, le processus est efficace (ses ITGC ont fonctionné), fiable (ses risques ont été couverts par des procédures substantives sur l'activité du processus), ou inefficace ; et par application, les processus s'agrègent en soutient ou ne soutient pas le fonctionnement automatisé des contrôles applicatifs et des états. Sans soutien, un contrôle automatisé ne peut être testé par un test unique, et les états perdent leur présomption d'intégrité.",
+   "Un ITGC inefficace se traite par paliers : un ITGC compensatoire couvrant le même risque ; des procédures substantives sur l'activité du processus ; des contrôles compensatoires dans les SCOT concernés — les risques orphelins devenant des WCGW en S1.2 ; le test direct des contrôles automatisés sur la période ; et, en dernier lieu, l'absence d'appui — le risque lié au contrôle bascule à « sans appui » dans la matrice S3.1 et les procédures substantives s'étendent (ISA 315 ¶34).",
+   "Les déficiences des ITGC sont évaluées en gravité et communiquées : les déficiences significatives par écrit aux personnes constituant le gouvernement d'entreprise (ISA 265 ¶9–10)."
+  ],
+  "conclEn": [
+   "Every tested ITGC carries an evaluation, every ineffective one carries a response from the ladder, and the S3.1 control-risk assessments reflect the aggregate conclusion recorded below."
+  ],
+  "conclFr": [
+   "Chaque ITGC testé porte une évaluation, chaque ITGC inefficace porte une réponse par paliers, et les évaluations du risque lié au contrôle en S3.1 reflètent la conclusion d'ensemble consignée ci-dessous."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "controls",
+      "en": "Conclude on each tested ITGC: effective or ineffective for the period — deficient for part of the period means ineffective, later remediation notwithstanding.",
+      "fr": "Conclure sur chaque ITGC testé : efficace ou inefficace pour la période — déficient sur une partie de la période signifie inefficace, nonobstant toute correction ultérieure.",
+      "srcEn": "S2.4 tests and exceptions",
+      "srcFr": "Tests et exceptions S2.4",
+      "tipEn": "A design-ineffective, unimplemented or untested ITGC is ineffective by definition. A sound control that simply had no occasion to operate in the period can still be evaluated effective — say why.",
+      "tipFr": "Un ITGC mal conçu, non mis en œuvre ou non testé est inefficace par définition. Un contrôle sain qui n'a simplement pas eu l'occasion de fonctionner dans la période peut rester évalué efficace — dire pourquoi."
+     },
+     {
+      "key": "process",
+      "en": "Roll up per IT process per application: effective, reliable (risks answered substantively), or ineffective; a judgment that a process survives a failed ITGC is recorded with its rationale.",
+      "fr": "Consolider par processus et par application : efficace, fiable (risques couverts par voie substantive), ou inefficace ; le jugement qu'un processus survit à un ITGC défaillant est consigné avec son fondement.",
+      "srcEn": "Procedure 1 conclusions",
+      "srcFr": "Conclusions de la procédure 1"
+     },
+     {
+      "key": "aggregate",
+      "en": "Aggregate per application: do the process conclusions support the automated functioning of the application controls and the reports? Record the conclusion in the field below — the S3.1 matrix reads it.",
+      "fr": "Agréger par application : les conclusions par processus soutiennent-elles le fonctionnement automatisé des contrôles applicatifs et des états ? Consigner la conclusion dans le champ ci-dessous — la matrice S3.1 la lit.",
+      "srcEn": "Procedure 2 conclusions · S3.1",
+      "srcFr": "Conclusions de la procédure 2 · S3.1",
+      "tipEn": "Support unlocks the test of one for automated controls and the light-touch validation of reports. Not-support means the automated controls are tested directly through the period or not relied on at all — and the reports are validated substantively each time they are used. One ineffective process does not always sink the aggregate: if the failure's cause cannot touch a given control, say so and keep it — in writing.",
+      "tipFr": "« Soutient » ouvre le test unique pour les contrôles automatisés et la validation allégée des états. « Ne soutient pas » signifie tester les contrôles automatisés directement sur la période ou y renoncer — et valider les états de façon substantive à chaque usage. Un processus inefficace ne coule pas toujours l'agrégat : si la cause de l'échec ne peut atteindre un contrôle donné, le dire et le conserver — par écrit."
+     },
+     {
+      "key": "ladder",
+      "en": "For each ineffective ITGC, work the response ladder: compensating ITGC, substantive procedures on the process activity, compensating SCOT controls (write the orphaned risks into S1.2 as WCGWs), direct testing, or no reliance.",
+      "fr": "Pour chaque ITGC inefficace, dérouler les paliers de réponse : ITGC compensatoire, procédures substantives sur l'activité du processus, contrôles compensatoires dans les SCOT (inscrire les risques orphelins en S1.2 comme WCGW), test direct, ou absence d'appui.",
+      "srcEn": "S1.2 · S2.3 register",
+      "srcFr": "S1.2 · registre S2.3",
+      "tipEn": "Entities rarely have SCOT-level activities that verify processing accuracy or data security, so when ITGCs fail, expect the honest answer to be direct testing or no reliance more often than a convenient compensating control.",
+      "tipFr": "Les entités ont rarement des activités au niveau des SCOT vérifiant l'exactitude des traitements ou la sécurité des données ; quand les ITGC échouent, la réponse honnête est plus souvent le test direct ou l'absence d'appui qu'un contrôle compensatoire providentiel."
+     },
+     {
+      "key": "cra",
+      "en": "Where the conclusion is not-support, revisit the control-risk assessments in the S3.1 matrix for the assertions the affected controls carried, and expand the substantive design in S5.5 accordingly.",
+      "fr": "Lorsque la conclusion est « ne soutient pas », revoir les évaluations du risque lié au contrôle dans la matrice S3.1 pour les assertions portées par les contrôles concernés, et étendre la conception substantive en S5.5 en conséquence.",
+      "srcEn": "S3.1 matrix · S5.5",
+      "srcFr": "Matrice S3.1 · S5.5"
+     },
+     {
+      "key": "communicate",
+      "en": "Evaluate each deficiency's severity and communicate: significant deficiencies in writing to those charged with governance, others to management.",
+      "fr": "Évaluer la gravité de chaque déficience et communiquer : les déficiences significatives par écrit au gouvernement d'entreprise, les autres à la direction.",
+      "srcEn": "ISA 265 · C5.11",
+      "srcFr": "ISA 265 · C5.11"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part B — Conclusion and registers",
+    "titleFr": "Partie B — Conclusion et registres",
+    "fields": [
+     {
+      "key": "itgc_state",
+      "kind": "select",
+      "labelEn": "Aggregate conclusion — do the IT processes support reliance on automated controls and reports? (read by the S3.1 matrix)",
+      "labelFr": "Conclusion d'ensemble — les processus informatiques soutiennent-ils l'appui sur les contrôles automatisés et les états ? (lue par la matrice S3.1)",
+      "options": [
+       {
+        "value": "support",
+        "en": "Support — processes effective or reliable",
+        "fr": "Soutiennent — processus efficaces ou fiables"
+       },
+       {
+        "value": "mixed",
+        "en": "Mixed — support differs by application",
+        "fr": "Mitigé — le soutien diffère selon l'application"
+       },
+       {
+        "value": "not_support",
+        "en": "Do not support — reliance on automated controls unavailable",
+        "fr": "Ne soutiennent pas — appui sur les contrôles automatisés indisponible"
+       }
+      ]
+     },
+     {
+      "key": "evaluations_register",
+      "kind": "input",
+      "labelEn": "Evaluations: each tested ITGC, its process roll-up per application, and the aggregate per application",
+      "labelFr": "Évaluations : chaque ITGC testé, la consolidation par processus et par application, et l'agrégat par application"
+     },
+     {
+      "key": "responses_register",
+      "kind": "input",
+      "labelEn": "Responses to ineffective ITGCs: the rung chosen, the work done, the residual conclusion",
+      "labelFr": "Réponses aux ITGC inefficaces : le palier retenu, les travaux réalisés, la conclusion résiduelle"
+     },
+     {
+      "key": "deficiencies",
+      "kind": "input",
+      "labelEn": "Deficiencies: severity, and where each was communicated",
+      "labelFr": "Déficiences : gravité et destinataire de chaque communication"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part C — Evaluation",
+    "titleFr": "Partie C — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "evaluated",
+      "en": "Every tested ITGC carries an effective/ineffective evaluation for the whole period (procedure 1).",
+      "fr": "Chaque ITGC testé porte une évaluation efficace/inefficace pour toute la période (procédure 1)."
+     },
+     {
+      "key": "responded",
+      "en": "Every ineffective ITGC carries a response from the ladder, with rationale (procedure 4).",
+      "fr": "Chaque ITGC inefficace porte une réponse par paliers, avec fondement (procédure 4).",
+      "na": true
+     },
+     {
+      "key": "wcgw",
+      "en": "Risks orphaned by an ineffective process were written into the affected SCOTs as WCGWs (procedure 4).",
+      "fr": "Les risques rendus orphelins par un processus inefficace ont été inscrits dans les SCOT concernés comme WCGW (procédure 4).",
+      "na": true
+     },
+     {
+      "key": "cra",
+      "en": "The S3.1 control-risk assessments reflect the aggregate conclusion (procedure 5).",
+      "fr": "Les évaluations du risque lié au contrôle en S3.1 reflètent la conclusion d'ensemble (procédure 5)."
+     },
+     {
+      "key": "communicated",
+      "en": "Deficiencies were evaluated for severity and communicated to the right level (procedure 6).",
+      "fr": "Les déficiences ont été évaluées en gravité et communiquées au bon niveau (procédure 6).",
+      "na": true
+     }
+    ]
+   }
+  ]
+ }
+}

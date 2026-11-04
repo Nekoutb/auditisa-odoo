@@ -1,0 +1,132 @@
+{
+ "code": "S5.1",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 620 ¶7–13",
+  "ownsEn": "the use of an auditor's expert and the evaluation of that expert's work",
+  "ownsFr": "le recours à un expert de l'auditeur et l'appréciation de ses travaux",
+  "reqEn": [
+   "Where expertise in a field other than accounting or auditing is necessary to obtain sufficient appropriate audit evidence, we determine whether to use an auditor's expert (ISA 620 ¶7). We evaluate the expert's competence, capabilities and objectivity, obtain an understanding of the field, and agree the nature, scope and objectives of the work.",
+   "We remain responsible for the opinion. The expert's work is evaluated for its adequacy for our purposes, including the relevance and reasonableness of the findings and of the assumptions and methods used (ISA 620 ¶12)."
+  ],
+  "reqFr": [
+   "Lorsqu'une expertise dans un domaine autre que la comptabilité ou l'audit est nécessaire, nous déterminons s'il y a lieu de recourir à un expert de l'auditeur (ISA 620 ¶7).",
+   "Nous restons responsables de l'opinion. Les travaux de l'expert sont appréciés quant à leur adéquation, y compris la pertinence des hypothèses et méthodes retenues (ISA 620 ¶12)."
+  ],
+  "conclEn": [
+   "The expert's work is adequate for our purposes as audit evidence, and the findings are consistent with the other evidence obtained."
+  ],
+  "conclFr": [
+   "Les travaux de l'expert sont adéquats pour nos besoins en tant qu'éléments probants, et les conclusions concordent avec les autres éléments obtenus."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "need",
+      "en": "Record the matter requiring expertise, and why the engagement team cannot address it alone.",
+      "fr": "Consigner la question requérant une expertise et la raison pour laquelle l'équipe ne peut la traiter seule.",
+      "srcEn": "P2.2 · risk register S3.1",
+      "srcFr": "P2.2 · registre des risques S3.1",
+      "tipEn": "Common triggers in the zone: a revaluation of land and buildings, the actuarial provision for retirement gratuities (indemnités de fin de carrière), the valuation of a plantation or of mineral reserves. State the account and assertion affected, then one line on what the team cannot do itself — for the retirement provision, projecting salaries and discounting. That line is also what justifies the expert's cost to the client.",
+      "tipFr": "Cas fréquents dans la zone : réévaluation des terrains et constructions, provision actuarielle pour indemnités de fin de carrière, évaluation d'une plantation ou de réserves minières. Indiquer le compte et l'assertion concernés, puis en une ligne ce que l'équipe ne sait pas faire seule — pour la provision de retraite, projeter les salaires et actualiser. Cette ligne justifie aussi le coût de l'expert auprès du client."
+     },
+     {
+      "key": "competence",
+      "en": "Obtain evidence of the expert's competence and capabilities: qualifications, membership of a professional body, and experience of comparable work.",
+      "fr": "Obtenir les éléments attestant de la compétence et des capacités de l'expert : qualifications, appartenance à un organisme professionnel et expérience de travaux comparables.",
+      "srcEn": "Curriculum vitae · professional credentials · references",
+      "srcFr": "Curriculum vitae · titres professionnels · références",
+      "tipEn": "Ask for the CV, the registration number and the professional body: an expert immobilier should hold the MINDCAF agrément, an actuary should belong to a recognised institute. Ask for two recent reports of comparable work and skim them for method and depth. A phone call to the professional body confirms the registration in minutes.",
+      "tipFr": "Demander le CV, le numéro d'agrément et l'ordre de rattachement : un expert immobilier doit détenir l'agrément du MINDCAF, un actuaire relever d'un institut reconnu. Demander deux rapports récents de travaux comparables et les parcourir pour juger la méthode et la profondeur. Un appel à l'ordre professionnel confirme l'inscription en quelques minutes."
+     },
+     {
+      "key": "objectivity",
+      "en": "Inquire into the expert's relationships with the entity, including any financial interest and any prior engagement, and evaluate the threats to objectivity.",
+      "fr": "S'enquérir des liens de l'expert avec l'entité, y compris tout intérêt financier et toute mission antérieure, et apprécier les risques pesant sur son objectivité.",
+      "srcEn": "Expert's declaration · P2.1 · inquiry of the entity",
+      "srcFr": "Déclaration de l'expert · P2.1 · entretien avec l'entité",
+      "tipEn": "Have the expert sign a short declaration listing fees received from the entity, shareholdings and family ties, and put the same question to the DAF the other way round. The classic trap: the valuer who produced the entity's own revaluation cannot also be our expert on it — that is management's expert, to be evaluated separately. Note any threat found and the safeguard applied.",
+      "tipFr": "Faire signer à l'expert une courte déclaration listant honoraires perçus de l'entité, participations et liens familiaux, et poser la même question au DAF en sens inverse. Piège classique : l'évaluateur qui a produit la réévaluation de l'entité ne peut pas être aussi notre expert sur ce point — c'est un expert de la direction, à évaluer séparément. Noter toute menace relevée et la sauvegarde appliquée."
+     },
+     {
+      "key": "agree",
+      "en": "Agree in writing the nature, scope and objectives of the work, our respective roles, the form of the report, and confidentiality.",
+      "fr": "Convenir par écrit de la nature, de l'étendue et des objectifs des travaux, des rôles respectifs, de la forme du rapport et de la confidentialité.",
+      "srcEn": "Written terms with the expert · ISA 620 ¶11",
+      "srcFr": "Termes écrits convenus · ISA 620 ¶11",
+      "tipEn": "Use a short engagement letter or an annex to ours: which assets or liabilities, at what date, which method, the form and deadline of the report, confidentiality, and who pays. Be precise on scope — \"value the Bonaberi factory buildings at 31 December\" beats \"assist with fixed assets\". File the signed copy before the work starts.",
+      "tipFr": "Utiliser une courte lettre de mission ou une annexe à la nôtre : quels actifs ou passifs, à quelle date, quelle méthode, la forme et le délai du rapport, la confidentialité et qui paie. Être précis sur le périmètre — « évaluer les bâtiments de l'usine de Bonabéri au 31 décembre » vaut mieux que « assister sur les immobilisations ». Classer l'exemplaire signé avant le début des travaux."
+     },
+     {
+      "key": "field",
+      "en": "Obtain sufficient understanding of the expert's field to evaluate the work, including the methods generally used and their limitations.",
+      "fr": "Acquérir une connaissance suffisante du domaine de l'expert pour apprécier les travaux, y compris les méthodes usuelles et leurs limites.",
+      "srcEn": "Technical literature · discussion with the expert",
+      "srcFr": "Documentation technique · échange avec l'expert",
+      "tipEn": "Ask the expert to walk you through the method in plain words and to name its two or three sensitive inputs — for an actuary, the discount rate and salary growth; for a valuer, the price per square metre and the comparables used. Read one short technical reference so you can challenge those inputs. You need enough to question the work, not to redo it.",
+      "tipFr": "Demander à l'expert d'expliquer la méthode en termes simples et de nommer ses deux ou trois paramètres sensibles — pour un actuaire, le taux d'actualisation et la progression des salaires ; pour un évaluateur, le prix au mètre carré et les comparables retenus. Lire une courte référence technique pour pouvoir remettre en cause ces paramètres. Il faut de quoi questionner le travail, pas le refaire."
+     },
+     {
+      "key": "evaluate",
+      "en": "Evaluate the expert's findings: the relevance and reasonableness of the conclusions, the source data used, and the significant assumptions and methods.",
+      "fr": "Apprécier les conclusions de l'expert : pertinence et caractère raisonnable, données sources utilisées, hypothèses et méthodes importantes.",
+      "srcEn": "Expert's report · underlying data · ISA 620 ¶12",
+      "srcFr": "Rapport de l'expert · données sous-jacentes · ISA 620 ¶12",
+      "tipEn": "Recompute one item end to end and compare the sensitive assumptions to something observable: the discount rate to BEAC bond yields, salary growth to the last three years of payroll, the price per square metre to recent sales in the neighbourhood. Check that the report actually answers the question in the terms of engagement and carries no unexpected caveat. Record your conclusion on reasonableness in the file.",
+      "tipFr": "Recalculer un élément de bout en bout et comparer les hypothèses sensibles à des données observables : le taux d'actualisation aux rendements obligataires BEAC, la progression des salaires aux trois derniers exercices de paie, le prix au mètre carré aux ventes récentes du quartier. Vérifier que le rapport répond bien à la question posée dans la lettre de mission et ne comporte pas de réserve inattendue. Consigner au dossier la conclusion sur le caractère raisonnable."
+     },
+     {
+      "key": "data",
+      "en": "Agree the source data the expert used to the entity's accounting records, and test its accuracy and completeness.",
+      "fr": "Rapprocher les données sources utilisées par l'expert de la comptabilité de l'entité et en tester l'exactitude et l'exhaustivité.",
+      "srcEn": "Accounting records · expert's working data",
+      "srcFr": "Comptabilité · données de travail de l'expert",
+      "tipEn": "Trace the file the entity gave the expert back to its source: the staff list to the payroll register and a sample of fiches de paie, the asset list to the fichier des immobilisations and the grand livre. Test completeness the other way too — pick employees or assets from the records and confirm they reached the expert's file. Wrong input data invalidates the best actuarial model.",
+      "tipFr": "Rapprocher le fichier remis à l'expert de sa source : la liste du personnel du registre de paie et d'un échantillon de fiches de paie, la liste des actifs du fichier des immobilisations et du grand livre. Tester aussi l'exhaustivité en sens inverse — choisir des salariés ou des actifs dans les registres et vérifier qu'ils figurent dans le fichier de l'expert. Des données d'entrée fausses invalident le meilleur modèle actuariel."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "objective",
+      "en": "No threat to the expert's objectivity remains unaddressed (procedure 3).",
+      "fr": "Aucun risque pesant sur l'objectivité de l'expert ne demeure sans réponse (procédure 3)."
+     },
+     {
+      "key": "written",
+      "en": "The nature, scope and objectives of the work were agreed in writing before it began (procedure 4).",
+      "fr": "La nature, l'étendue et les objectifs des travaux ont été convenus par écrit avant leur début (procédure 4)."
+     },
+     {
+      "key": "assumptions",
+      "en": "The significant assumptions and methods used are reasonable in the circumstances (procedure 6).",
+      "fr": "Les hypothèses et méthodes importantes retenues sont raisonnables dans les circonstances (procédure 6)."
+     },
+     {
+      "key": "data_agreed",
+      "en": "The source data used by the expert agrees to the entity's records (procedure 7).",
+      "fr": "Les données sources utilisées par l'expert concordent avec la comptabilité de l'entité (procédure 7)."
+     },
+     {
+      "key": "no_reference",
+      "en": "The auditor's report will not refer to the expert's work, unless law requires it and the reference is explained as not reducing our responsibility.",
+      "fr": "Le rapport ne fera pas référence aux travaux de l'expert, sauf obligation légale assortie de la précision que notre responsabilité n'en est pas réduite.",
+      "na": true
+     }
+    ]
+   }
+  ]
+ }
+}

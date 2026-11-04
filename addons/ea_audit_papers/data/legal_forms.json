@@ -1,0 +1,232 @@
+{
+ "forms": [
+  "SA",
+  "SA_AG",
+  "SARL",
+  "SAS",
+  "GIE",
+  "OTHER"
+ ],
+ "organ_keys": [
+  "form",
+  "board",
+  "chair",
+  "ceo",
+  "executive",
+  "meeting",
+  "members",
+  "officers"
+ ],
+ "vocabulary": {
+  "SA": {
+   "form": [
+    "SA with a board of directors",
+    "SA avec conseil d'administration"
+   ],
+   "board": [
+    "board of directors",
+    "conseil d'administration"
+   ],
+   "chair": [
+    "chairman of the board of directors (PCA)",
+    "président du conseil d'administration (PCA)"
+   ],
+   "ceo": [
+    "managing director (DG) or chairman and managing director (PDG)",
+    "directeur général (DG) ou président-directeur général (PDG)"
+   ],
+   "executive": [
+    "chairman of the board of directors or the PDG",
+    "président du conseil d'administration ou PDG"
+   ],
+   "meeting": [
+    "general meeting of shareholders",
+    "assemblée générale des actionnaires"
+   ],
+   "members": [
+    "shareholders",
+    "actionnaires"
+   ],
+   "officers": [
+    "directors, the managing director and the deputy managing directors",
+    "administrateurs, directeur général et directeurs généraux adjoints"
+   ]
+  },
+  "SA_AG": {
+   "form": [
+    "SA with an administrateur général (no board)",
+    "SA avec administrateur général (sans conseil)"
+   ],
+   "board": [
+    "administrateur général (the SA has no board of directors)",
+    "administrateur général (la SA n'a pas de conseil d'administration)"
+   ],
+   "chair": [
+    "administrateur général",
+    "administrateur général"
+   ],
+   "ceo": [
+    "administrateur général",
+    "administrateur général"
+   ],
+   "executive": [
+    "administrateur général",
+    "administrateur général"
+   ],
+   "meeting": [
+    "general meeting of shareholders",
+    "assemblée générale des actionnaires"
+   ],
+   "members": [
+    "shareholders",
+    "actionnaires"
+   ],
+   "officers": [
+    "administrateur général and the administrateur général adjoint",
+    "administrateur général et administrateur général adjoint"
+   ]
+  },
+  "SARL": {
+   "form": [
+    "SARL",
+    "SARL"
+   ],
+   "board": [
+    "gérant (the SARL has no board)",
+    "gérant (la SARL n'a pas de conseil)"
+   ],
+   "chair": [
+    "gérant",
+    "gérant"
+   ],
+   "ceo": [
+    "gérant",
+    "gérant"
+   ],
+   "executive": [
+    "gérant",
+    "gérant"
+   ],
+   "meeting": [
+    "members' meeting",
+    "assemblée des associés"
+   ],
+   "members": [
+    "members",
+    "associés"
+   ],
+   "officers": [
+    "gérant(s)",
+    "gérant(s)"
+   ]
+  },
+  "SAS": {
+   "form": [
+    "SAS",
+    "SAS"
+   ],
+   "board": [
+    "président and the organs the statutes create",
+    "président et organes statutaires"
+   ],
+   "chair": [
+    "président",
+    "président"
+   ],
+   "ceo": [
+    "président (or the directeur général the statutes provide for)",
+    "président (ou le directeur général prévu par les statuts)"
+   ],
+   "executive": [
+    "président",
+    "président"
+   ],
+   "meeting": [
+    "collective decisions of the members, in the form the statutes set",
+    "décisions collectives des associés, dans les formes prévues par les statuts"
+   ],
+   "members": [
+    "members",
+    "associés"
+   ],
+   "officers": [
+    "président and the other dirigeants the statutes name",
+    "président et autres dirigeants désignés par les statuts"
+   ]
+  },
+  "GIE": {
+   "form": [
+    "GIE",
+    "GIE"
+   ],
+   "board": [
+    "administrator(s) of the GIE",
+    "administrateur(s) du GIE"
+   ],
+   "chair": [
+    "administrator",
+    "administrateur"
+   ],
+   "ceo": [
+    "administrator",
+    "administrateur"
+   ],
+   "executive": [
+    "administrator",
+    "administrateur"
+   ],
+   "meeting": [
+    "assembly of the members",
+    "assemblée des membres"
+   ],
+   "members": [
+    "members",
+    "membres"
+   ],
+   "officers": [
+    "administrator(s)",
+    "administrateur(s)"
+   ]
+  },
+  "OTHER": {
+   "form": [
+    "entity of another legal form",
+    "entité d'une autre forme juridique"
+   ],
+   "board": [
+    "governing body",
+    "organe de gouvernance"
+   ],
+   "chair": [
+    "chair of the governing body",
+    "président de l'organe de gouvernance"
+   ],
+   "ceo": [
+    "chief executive",
+    "dirigeant"
+   ],
+   "executive": [
+    "chief executive",
+    "dirigeant"
+   ],
+   "meeting": [
+    "general meeting",
+    "assemblée générale"
+   ],
+   "members": [
+    "members or shareholders",
+    "associés ou actionnaires"
+   ],
+   "officers": [
+    "officers",
+    "dirigeants"
+   ]
+  }
+ },
+ "task_exclusions": {
+  "C5.7": [
+   "SARL",
+   "GIE"
+  ]
+ }
+}

@@ -1,0 +1,128 @@
+{
+ "code": "S5.2",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 402 ¶9–18",
+  "ownsEn": "the effect of the service organisation on the audit",
+  "ownsFr": "l'incidence de l'organisme de services sur la mission",
+  "reqEn": [
+   "Where the entity uses a service organisation, we obtain an understanding of how the entity uses its services and of the effect on the entity's system of internal control, sufficient to identify and assess the risks of material misstatement (ISA 402 ¶9).",
+   "Where that understanding cannot be obtained from the entity, we obtain it from a type 1 or type 2 report, by contacting the service organisation, by visiting it, or by using another auditor (ISA 402 ¶12). A type 1 report provides no evidence of operating effectiveness."
+  ],
+  "reqFr": [
+   "Lorsque l'entité recourt à un organisme de services, nous prenons connaissance de l'utilisation de ces services et de leur incidence sur le contrôle interne (ISA 402 ¶9).",
+   "À défaut de pouvoir l'obtenir auprès de l'entité, nous l'obtenons par un rapport de type 1 ou 2, un contact ou une visite (ISA 402 ¶12). Un rapport de type 1 n'apporte aucun élément sur l'efficacité du fonctionnement."
+  ],
+  "conclEn": [
+   "We have obtained an understanding of the services and their effect on internal control sufficient to assess the risks of material misstatement, and have obtained the evidence needed on the controls at the service organisation on which we intend to rely."
+  ],
+  "conclFr": [
+   "Nous avons acquis une connaissance suffisante des services et de leur incidence sur le contrôle interne, et obtenu les éléments nécessaires sur les contrôles de l'organisme de services sur lesquels nous entendons nous appuyer."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "identify",
+      "en": "Identify each service organisation used, the services provided, and the transactions and accounts affected.",
+      "fr": "Identifier chaque organisme de services utilisé, les prestations fournies et les opérations et comptes concernés.",
+      "srcEn": "Contracts · inquiry of management · payments ledger",
+      "srcFr": "Contrats · entretien avec la direction · journal des paiements",
+      "tipEn": "Scan the suppliers balance and the relevés bancaires for recurring service fees: a payroll bureau or fiduciaire, an IT host, a mobile money aggregator, a customs broker handling the entity's declarations. Ask the chief accountant which processing happens outside the entity's own Sage. For each one, list the accounts fed by its output — payroll, cash, sales collected by mobile money.",
+      "tipFr": "Parcourir la balance fournisseurs et les relevés bancaires à la recherche d'honoraires récurrents : cabinet de paie ou fiduciaire, hébergeur informatique, agrégateur mobile money, transitaire qui traite les déclarations en douane. Demander au chef comptable quels traitements se font hors du Sage de l'entité. Pour chacun, lister les comptes alimentés par ses sorties — paie, trésorerie, ventes encaissées par mobile money."
+     },
+     {
+      "key": "contract",
+      "en": "Read the contract and the service level terms to establish what the service organisation does and what the entity retains.",
+      "fr": "Examiner le contrat et les niveaux de service pour établir ce qui relève de l'organisme et ce qui reste chez l'entité.",
+      "srcEn": "Service contract · service level agreement",
+      "srcFr": "Contrat de prestation · convention de niveau de service",
+      "tipEn": "Read the contract with a pen: underline who initiates, authorises and records each step, and what the entity keeps — typically approval of the payroll variables and the bank signature. Note the service levels, any right to audit and the notice period. What the entity retains is where your user controls will sit.",
+      "tipFr": "Lire le contrat crayon en main : souligner qui initie, autorise et enregistre chaque étape, et ce que l'entité conserve — en général la validation des variables de paie et la signature bancaire. Noter les niveaux de service, l'éventuel droit d'audit et le préavis. Ce que l'entité conserve, c'est là que se logeront vos contrôles utilisateur."
+     },
+     {
+      "key": "user_controls",
+      "en": "Identify the controls the entity itself operates over the service, including the reconciliation of its own records to the service organisation's reports.",
+      "fr": "Identifier les contrôles exercés par l'entité elle-même sur la prestation, dont le rapprochement de ses propres données avec les états de l'organisme.",
+      "srcEn": "Process narratives · reconciliations · inquiry",
+      "srcFr": "Descriptifs de processus · rapprochements · entretien",
+      "tipEn": "The reconciliation is usually the whole story: the entity should tie the bureau's payroll journal to its headcount and the bank payments each month, or the aggregator's mobile money statement to its own sales records. Obtain the reconciliations for the year and re-perform one month yourself. If nobody at the entity checks the provider's output, say so now — it changes the audit approach.",
+      "tipFr": "Le rapprochement est souvent l'essentiel : l'entité doit rapprocher chaque mois le journal de paie du cabinet de ses effectifs et des paiements bancaires, ou le relevé de l'agrégateur mobile money de ses propres ventes. Obtenir les rapprochements de l'exercice et en refaire un mois soi-même. Si personne à l'entité ne contrôle les sorties du prestataire, le dire maintenant — cela change l'approche d'audit."
+     },
+     {
+      "key": "report",
+      "en": "Obtain the type 1 or type 2 report where one exists. Record the period it covers, the auditor who issued it and any modification.",
+      "fr": "Obtenir le rapport de type 1 ou 2 lorsqu'il existe. Consigner la période couverte, l'auditeur émetteur et toute modification.",
+      "srcEn": "Type 1 or type 2 report (ISAE 3402)",
+      "srcFr": "Rapport de type 1 ou 2 (ISAE 3402)",
+      "tipEn": "ISAE 3402 reports are rare in the zone outside banks and international payroll or IT providers — ask for one anyway, in writing. If a report arrives, record the period covered, the auditor who signed it and the type, then read the opinion and the exceptions before anything else. A type 1 report describes controls at a date; it proves nothing about how they operated.",
+      "tipFr": "Les rapports ISAE 3402 sont rares dans la zone hors banques et prestataires internationaux de paie ou d'informatique — en demander un quand même, par écrit. Si un rapport arrive, noter la période couverte, l'auditeur signataire et le type, puis lire d'abord l'opinion et les exceptions. Un rapport de type 1 décrit des contrôles à une date ; il ne prouve rien sur leur fonctionnement."
+     },
+     {
+      "key": "gap",
+      "en": "Where the report period does not cover our period, determine the additional procedures for the uncovered months.",
+      "fr": "Lorsque la période du rapport ne couvre pas notre exercice, déterminer les procédures complémentaires pour les mois non couverts.",
+      "srcEn": "Report period · our reporting period",
+      "srcFr": "Période du rapport · notre exercice",
+      "tipEn": "For the uncovered months, write to the service organisation asking whether the system or the key controls changed since the report period, and corroborate with the entity's reconciliations for those months. If the gap is long or the answer vague, extend substantive work over the period — for payroll, recompute a month that falls inside the gap.",
+      "tipFr": "Pour les mois non couverts, écrire au prestataire pour savoir si le système ou les contrôles clés ont changé depuis la période du rapport, et corroborer avec les rapprochements de l'entité sur ces mois. Si l'écart est long ou la réponse vague, étendre les travaux substantifs sur la période — pour la paie, recalculer un mois situé dans l'écart."
+     },
+     {
+      "key": "cucs",
+      "en": "Identify the complementary user entity controls the report assumes, and test that the entity operates each one.",
+      "fr": "Identifier les contrôles complémentaires attendus de l'entité utilisatrice et tester que l'entité les met en œuvre.",
+      "srcEn": "Type 2 report appendix · entity's controls",
+      "srcFr": "Annexe du rapport de type 2 · contrôles de l'entité",
+      "tipEn": "Open the appendix of the type 2 report and list every complementary user entity control — usually a dozen lines: approve inputs before submission, review the output report, restrict access. For each one, name the person at the entity who performs it and get one month's evidence — the signed variables sheet, the reviewed report. One untested control quietly breaks the reliance the report gives you.",
+      "tipFr": "Ouvrir l'annexe du rapport de type 2 et lister chaque contrôle complémentaire de l'entité utilisatrice — souvent une douzaine de lignes : valider les données avant envoi, revoir l'état de sortie, restreindre les accès. Pour chacun, nommer la personne qui l'exécute chez l'entité et obtenir la preuve d'un mois — la fiche de variables signée, l'état revu. Un seul contrôle non testé ruine en silence l'appui que donne le rapport."
+     },
+     {
+      "key": "alternative",
+      "en": "Where no report is available and we intend to rely on the service organisation's controls, contact or visit it, or arrange for another auditor to perform procedures.",
+      "fr": "En l'absence de rapport et si nous entendons nous appuyer sur les contrôles de l'organisme, le contacter ou le visiter, ou faire intervenir un autre auditeur.",
+      "srcEn": "ISA 402 ¶12(b)–(d) · correspondence",
+      "srcFr": "ISA 402 ¶12(b)–(d) · correspondance",
+      "tipEn": "A local payroll bureau or fiduciaire in Douala or Yaoundé can simply be visited: an afternoon on site with a short questionnaire — access, backups, segregation of duties, how corrections are handled — often settles it. Where a visit is impossible, decide instead not to rely on their controls and cover the balances substantively. Do not let the reliance decision drift: pick one route and document it.",
+      "tipFr": "Un cabinet de paie ou une fiduciaire à Douala ou Yaoundé se visite tout simplement : une après-midi sur place avec un court questionnaire — accès, sauvegardes, séparation des tâches, traitement des corrections — suffit souvent. Si la visite est impossible, choisir plutôt de ne pas s'appuyer sur leurs contrôles et couvrir les soldes par des travaux substantifs. Ne pas laisser la décision d'appui en suspens : choisir une voie et la documenter."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "understanding",
+      "en": "The understanding obtained is sufficient to identify and assess the risks of material misstatement (procedures 1 to 3).",
+      "fr": "La connaissance acquise suffit à identifier et évaluer les risques d'anomalies significatives (procédures 1 à 3)."
+     },
+     {
+      "key": "type2",
+      "en": "Where we rely on controls at the service organisation, a type 2 report or equivalent evidence of operating effectiveness has been obtained (procedures 4, 7).",
+      "fr": "Lorsque nous nous appuyons sur les contrôles de l'organisme, un rapport de type 2 ou un élément équivalent a été obtenu (procédures 4, 7).",
+      "na": true
+     },
+     {
+      "key": "period",
+      "en": "The evidence covers our reporting period, or the gap has been addressed (procedure 5).",
+      "fr": "Les éléments couvrent notre exercice, ou l'écart a été traité (procédure 5)."
+     },
+     {
+      "key": "cucs",
+      "en": "Each complementary user entity control assumed by the report has been tested (procedure 6).",
+      "fr": "Chaque contrôle complémentaire attendu de l'entité a été testé (procédure 6).",
+      "na": true
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,461 @@
+{
+ "baseline_commit": "bd3af7e9be86f520d2827947505b880a7215f128",
+ "counts": {
+  "definitions": 95,
+  "codes": 94,
+  "shadowed": 1,
+  "task_codes": 118,
+  "tasks_on_default_paper": 24
+ },
+ "marks": {
+  "[Projet]": 95,
+  "[Draft]": 95,
+  "(à valider)": 86
+ },
+ "papers": {
+  "C1.1": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "55f66f23e90da69944f6d35e463a0cb15dc3e09e020dbbe89660d0dd8d828797"
+  },
+  "C1.2": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "8b1d6eeb3ec46501c210f4db03d72406f0aa16d3d39c153306b6cd4e8ca5e865"
+  },
+  "C1.3": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "f56ccba518d47c2fe2521779505d1d64268946552f5b79b29523ebecaacaa1e7"
+  },
+  "C2.1": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "3f46c0dca5224b5ffc25d10f9b3797f1c0ca0774a8b407e58a66199d7a97f461"
+  },
+  "C2.2": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "22e35e5f75155c400a20fe4683c0173137ed8ba82f1f93f0733a67dc5123f2c6"
+  },
+  "C3.1": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "a0c5cba7b88f4d9a42ceeffa6a9a2b1dea4853ba751d47a55bd6ba81c84be866"
+  },
+  "C4.1": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "559a687ac6804884e5b0949773ea87d88f1d138c48421d47c6dd7bdeb61681d6"
+  },
+  "C4.2": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "7f22b267ba3c7875aa44177e7351901d7238991a9c8f7585ea71d0b00d089343"
+  },
+  "C4.3": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "6c94f926469f37226faf70045b6efa520747d3749fb5fc3986d7f8e36dfb5bf6"
+  },
+  "C5.1": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "d925a1da18b0657bca253d639c51ef38a66ca3a58f098d61beefccc560a92e5b"
+  },
+  "C5.2": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "23bbc680e5b90075652555caa54f8f7a63337097cca7678154cfef5755c3d38a"
+  },
+  "C5.3": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "8f6e21ae8e9dec2f62c5bbba531608fffd91d4bc58bbe96b4c6bd362d9c976dc"
+  },
+  "C5.4": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "03d2f5245643f52983bf7c71c2ac09127eb7cb9ad476debb47dcaa62db236347"
+  },
+  "C5.5": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "e5a14bfc9d9f3f1f79bda028ffa01e8e48c57d3899fe6ae06b67d3ba41eb1c00"
+  },
+  "C5.6": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "c33f68e2e12218df96d113da6aec3bda2296ffbe1f7a6f4ab305eb30133b043e"
+  },
+  "C5.7": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "37e4e55d8ef70e53b1b7423a59f1557394d7bfb2ecd0a2adf59c4afe64f765b8"
+  },
+  "C5.8": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "eb9859a73ed2f6a962a425d6b15ab1f6aadb3679e6d5dab0aea30ba2cc1ef2a1"
+  },
+  "C5.9": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "875a652400687c2cfba09b8417b577c3990181f164a2d36ac84b84eb56bc402a"
+  },
+  "C5.10": {
+   "source": "lib/papers/statutory-525.ts",
+   "definition_hash": "95d70ec86ad617224fc0b7387ad16e95d9594ee2ed611fe15ca6ce7fedfbf14f"
+  },
+  "C5.11": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "c404e6d32bcde80217f87f6d11eafb872184f445642b77d0a9e1c358a6bc9320"
+  },
+  "C6.1": {
+   "source": "lib/papers/conclusion.ts",
+   "definition_hash": "9a9c2d7503a3c686f4d4c917b599d373a59c485529e67992700d880e130c002d"
+  },
+  "C6.2": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "fd5111c2bc981d56340b89cfb59862daaf5cabe7f18f98c1339b9931e65f4344"
+  },
+  "E1.1": {
+   "source": "lib/papers/itgc.ts",
+   "definition_hash": "c2f9106d5e62882031b9d2aad499d42e37a17a1f5674d8eb0db5b384354d31bb"
+  },
+  "E1.2": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "3abadc8c6a6d05880fec3453e3dcdfbaa1898aedd979f62ad53f7f571877c350"
+  },
+  "E2.1": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "aef64fbef16a2702644823d2446900f36e754ff5e827c5c643b35783280ea176"
+  },
+  "E3.1": {
+   "source": "lib/papers/journal-entries.ts",
+   "definition_hash": "e47a12ba353540d1294ef68d65c243507778a53a64f60c7dadf1997549a0efc6"
+  },
+  "E4.1": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "79899b0de8b41e80fd66c7890b7d21042ed09dce8eb46830c8376b542a7777f2"
+  },
+  "E4.2": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "a376c0cc4e1bd75d5cd22ad2d6c82dc43f8b6d3751b770f98cb9a71dc10ef420"
+  },
+  "E4.3": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "d8600b5ccef6acf1903dc389552a5781b511931cec2771b6e97ee35b9ed3551f"
+  },
+  "E4.4": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "5c5185d7a1bee4853880f7463cfe4e5ed5437ac5e8db4d66d2901004dc620932"
+  },
+  "E4.5": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "630de209131ed9f1721c7afe28fc741b7b7dac32e21f521ce7b2a910dc384cb0"
+  },
+  "E4.6": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "b5c700a2be5acc904f342418bf908775253650d363af8bb01c59fc9cae706159"
+  },
+  "E4.7": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "6354bda450e3925524dea6c70ef37b35fe66e052ec3ad3b851de892285bdb45a"
+  },
+  "E4.8": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "6354bda450e3925524dea6c70ef37b35fe66e052ec3ad3b851de892285bdb45a"
+  },
+  "E4.9": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "41d9cb862ff44a3050271afa61e86fa141032b8d334d843cfbf94503f1b9a985"
+  },
+  "E4.10": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "fe01413ba26f1389a153225933d8433ff873344e40a0c1519d1d0fe516a5f57e"
+  },
+  "E4.14": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "cd4c9e64b6f0fa8f2256a5484705f786317c0f433cf2a3450dfcb69ff0d20947"
+  },
+  "E4.15": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "cd4c9e64b6f0fa8f2256a5484705f786317c0f433cf2a3450dfcb69ff0d20947"
+  },
+  "E4.23": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "471b7a99bdd45b556ef37678c46f1e5eca64aeed14ed33cc13a05c710c8050ea"
+  },
+  "E4.26": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "eabe04a23471712a3af8865f040348e7ac52b66f6020a290815e0ba83e679115"
+  },
+  "E4.33": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "471b7a99bdd45b556ef37678c46f1e5eca64aeed14ed33cc13a05c710c8050ea"
+  },
+  "E4.34": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "5c94d21d8dd64cb3c0b77074089167f77dbce41152652ebf180abc27036ba7ae"
+  },
+  "E4.35": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "805fc0e03907901625f919cf106e9b87a98fb9fbe63dcd35c24c421b25a87dff"
+  },
+  "E4.36": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "a729ffa53683bfa0819dab55330f1f32a74f9891c5692fe151e40a3db9938224"
+  },
+  "E6.1": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "e799a9bdb641dd05f77c7d725f6ed5a12f7047950b79c53747f367c75bd6e675"
+  },
+  "E6.2": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "ebb8415910d4f23f3b721e61b0d4e5290fc3b8f02887c457a5bc7c7a82cb268c"
+  },
+  "E6.3": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "65acea0a3d2bfa5d6c9c75952e9e6c4dbc4c79cead50e02f771ca8b252c61cc6"
+  },
+  "E6.4": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "c801b7c84f6c8cfdea089148ac84ca676ba35ec037ffa3d85913e0fda249d0e5"
+  },
+  "E6.5": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "ebf9859259c122a022ae491e7c00a504c793e95f519f9a1536c692b96c387eb1"
+  },
+  "E6.6": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "5c1c93940207e1c364fad4856f52e892714fb8b6135ad9bca600b5d175e45e90"
+  },
+  "E6.7": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "94b193aa3ab67cc59fa1a749b22fa6c433e6f7d02dd2619a513c20ff1aa7494c"
+  },
+  "E6.8": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "bc82e59900cc0874fde164b772587808d6edd422c820738091365c53d2b33f92"
+  },
+  "E6.9": {
+   "source": "lib/papers/execution.ts",
+   "definition_hash": "72bcd83dcb9b272b7e39693cf67d6499a445b84a2f63c87fd22c3a5f92022cda"
+  },
+  "E6.10": {
+   "source": "lib/papers/financial-statements.ts",
+   "definition_hash": "47a25d5d1aa7a79e1eefb226aa4cd1fe81a692d36c13e7a21258b2ca095addea"
+  },
+  "P1.1": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "a29c4ab83c51e8b7c910bea19204525dd014b0aa6b3e90596b65899058575d9a"
+  },
+  "P1.2": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "5eccf13dce13ab5d4b50278be945da623eccc49c388c6e15529521198fdef63b"
+  },
+  "P1.3": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "859b882cb8adddcc8462f7d96ed92508af95520692306163e5e092a019c46fdc"
+  },
+  "P1.4": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "71e96d2e777a2cb827ffa7fd721dbfd42af4f78ef13bb7be5e5b6ad57a7e528a"
+  },
+  "P1.5": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "5b98bc91f4a4990d8614d64f88285e108b373a7180bf53574d5f59c5c7eb9f51"
+  },
+  "P2.1": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "2047fc84478682b3639890db2cdb89ea34a4a3e0b6c677c3ef44d4723a6ca2a6"
+  },
+  "P2.2": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "204955fb0c68b51e5ff9d5672d7d8d498f7875079dd77cf61e26e79fac1947ed"
+  },
+  "P2.3": {
+   "source": "lib/papers/acceptance.ts",
+   "definition_hash": "c17e276097cb88809d58a58284eaed6f868b08246b7dcbd59019d15d5af3e371"
+  },
+  "P3.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "0813a7360b80051e4b8bfa7a6be95be9d43020d48b45730a57246334cc80a5d4"
+  },
+  "P3.2": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "f7dfcae094b6730e40df077cc592ce60b082ce4fe96821d387ff277286bc7b1d"
+  },
+  "P4.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "d28efbdb787572faf20a18c09ba6dd96dab6fab70b9018d33362b01e6bd98f45"
+  },
+  "P4.2": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "9b0b97489cc42e457e6a6f1ef65f631747b3098cee4645c446ea1c66d8530c2f"
+  },
+  "P4.3": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "bf05a68f7c136abef03de3f3ea1eb2fa63172f88de6a908a055b3fa5ba2c1434"
+  },
+  "P5.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "61466d710fbab444f2ece7d718b0a4a26c869df67cd2e6e0bd24b6ef56353621"
+  },
+  "P5.2": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "72442d2b7330e25dcc5251763699e8b9b62e6efcb9f6b57ceb431d51cc5adc55"
+  },
+  "P6.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "c2c3e15536e410adb0dfd23f4f49786b495be12938bba949c2036fb9fcadf2e3"
+  },
+  "P6.2": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "4b40d8b29e92e87ad6c22c49b650871e32dc115064e2298f59651b83c797a8fc"
+  },
+  "P7.1": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "d2eea06fe7bd0c96412e8fc61ef191fda72d79c9dea29604555cc2078fbcb026"
+  },
+  "S1.1": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "17ff5578dd04a0848d4777972fc846427d81a5441330c777b1ddfe828bf57b42"
+  },
+  "S1.2": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "731efc477f24151e81f3eb9c052feff2785634f28f8765b09f4308645e9b70ad"
+  },
+  "S1.3": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "e1ea08b2dbade38beeea1ea440e79fe42cbd5d89e4a537c151770f68460d4312"
+  },
+  "S1.4": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "131cbb9bcf57260534dcb19245a396f748f0cb4f85726acc28361b053094ca29"
+  },
+  "S2.1": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "e272bc06863af777b8a8034f8ece96aba7e2edb6a8bc5f6ed11649f379e30fe1"
+  },
+  "S2.2": {
+   "source": "lib/papers/gam.ts",
+   "definition_hash": "6a2d2210ca7b5b40c7e86789b585179d61038d2263a0fc077c3910d3b0de9a0e"
+  },
+  "S2.3": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "732742e0236c2af229c75a440a142125d0c14ae3a266b920b7d3928f920b74da"
+  },
+  "S2.4": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "3264434faf05ead3bd8b22e73b35a3b6e270b11daccfb8f3cd5cc53a6b084a72"
+  },
+  "S2.5": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "36503c2c4219fc299eef92a48ce4158b298a08fb2cd2cd439f1d6d896ec24eb8"
+  },
+  "S3.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "9dd01393785cdf1637668483e5d273719900ee6ed1c77b9806b3c9b14cfdc1ab"
+  },
+  "S4.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "2f900097e04341a8742ff3af37c3f49a555b9b0bf8958c53ab663a5f9c5ada9b"
+  },
+  "S4.2": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "28f17534b5a0dc24244c8d897384efe068d9c1d745b62093a8be3e00dee8cc13"
+  },
+  "S4.3": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "15d005b58ab479e1382645af3dddc2a545e9119e6a60466a6233d1050fa886cf"
+  },
+  "S4.4": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "8ff7dc57a388271ec37255c11739794d006226b958b7bf3fd054593576f972bf"
+  },
+  "S5.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "8ae5d3b7b4af897047c0e7589af7974b428c113e36297cad100204dfc73e7be5"
+  },
+  "S5.2": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "405ad12e72cdaf7891d1b976b974f1f70ae3134c9adc8e19ce5227a7ebfb9294"
+  },
+  "S5.3": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "db801c199e4e4e9d26d0d36e091de316d1b9242075f5f1e483213068eeee2af6"
+  },
+  "S5.4": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "259738aa47a0982ad99033e826eb4b0014682cb2e9c53df540caaa57200e1a12"
+  },
+  "S5.5": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "66015a8c38cab14479d91da6415cdd189d6bc516ea448af7bd4940d2d2b9f994"
+  },
+  "S5.6": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "96e5d0e6b6f4104a782cc6e3b595aa206d2091dcb5c0d05e4dcda0b376481b8b"
+  },
+  "S6.1": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "38bec1c8578f0f139fabce2dad9785b3aa0f049f4b1a1d4f2e716ff589f4fa89"
+  },
+  "S6.2": {
+   "source": "lib/papers/strategy.ts",
+   "definition_hash": "daaaddb303f154c472297e6552afa1208440a8f3d5144b7a43787108016a9de8"
+  }
+ },
+ "shadowed": [
+  {
+   "code": "C6.2",
+   "file": "C6.2__conclusion.json",
+   "source": "lib/papers/conclusion.ts",
+   "shadowed_by": "lib/papers/gam.ts",
+   "definition_hash": "6805827601f7f7c6654b8b21caa4e723dbd0a85fbca92817d3d0880e79b89a7c"
+  }
+ ],
+ "tasks_on_default_paper": [
+  "P7.2",
+  "E4.11",
+  "E4.12",
+  "E4.13",
+  "E4.16",
+  "E4.17",
+  "E4.18",
+  "E4.19",
+  "E4.20",
+  "E4.21",
+  "E4.22",
+  "E4.24",
+  "E4.25",
+  "E4.27",
+  "E4.28",
+  "E4.29",
+  "E4.30",
+  "E4.31",
+  "E4.32",
+  "E5.1",
+  "E5.2",
+  "E5.3",
+  "E5.4",
+  "E5.5"
+ ],
+ "bespoke_outside_file_index": [],
+ "lint": [
+  "C5.8 (conclusion): duplicate required keys q_above"
+ ],
+ "keys_refused_by_save_allow_list": {
+  "C5.3": [
+   "p_authorisation",
+   "p_authorisation_na",
+   "p_authorisation_x",
+   "q_authorised",
+   "q_authorised_x",
+   "q_abstained",
+   "q_abstained_x",
+   "p_authorisation_ag",
+   "p_authorisation_ag_na",
+   "p_authorisation_ag_x",
+   "q_authorised_ag",
+   "q_authorised_ag_x",
+   "p_approval",
+   "p_approval_na",
+   "p_approval_x",
+   "q_approved",
+   "q_approved_x",
+   "p_statutes_sas",
+   "p_statutes_sas_na",
+   "p_statutes_sas_x"
+  ],
+  "C5.5": [
+   "p_stage2",
+   "p_stage2_na",
+   "p_stage2_x"
+  ]
+ }
+}

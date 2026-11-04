@@ -1,0 +1,149 @@
+{
+ "code": "E4.2",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶25–26 · ISA 330 ¶18–23 · ISA 505",
+  "ownsEn": "the purchases and payables flow, and the evidence obtained on it",
+  "ownsFr": "le flux achats et fournisseurs et les éléments probants obtenus",
+  "reqEn": [
+   "The risk in this cycle is predominantly one of completeness: a liability that has been incurred but not recorded. Procedures are therefore directed at sources outside the purchase ledger as well as at the recorded population.",
+   "We obtain an understanding of the flow from the raising of the order through to payment, and identify the points at which a misstatement could arise (ISA 315 (Revised 2019) ¶25)."
+  ],
+  "reqFr": [
+   "Le risque de ce cycle porte surtout sur l'exhaustivité : une dette engagée mais non comptabilisée. Les procédures visent donc aussi des sources extérieures au journal des achats.",
+   "Nous prenons connaissance du flux, de la commande au paiement, et identifions les points où une anomalie pourrait survenir (ISA 315 révisée ¶25)."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over the purchases and payables flow for the assertions identified as relevant in S3.1, including completeness."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur le flux achats et fournisseurs pour les assertions retenues en S3.1, dont l'exhaustivité."
+  ],
+  "tools": [
+   "what-can-go-wrong",
+   "sampling",
+   "confirmations"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "flow",
+      "en": "Record the critical path: how a purchase is ordered, received, recorded, approved and paid, naming the actors, the documents and the control points.",
+      "fr": "Consigner le chemin critique : commande, réception, enregistrement, approbation et paiement, en nommant les acteurs, documents et points de contrôle.",
+      "srcEn": "Process narrative · inquiry of the cycle owner",
+      "srcFr": "Descriptif de processus · entretien avec le responsable du cycle"
+     },
+     {
+      "key": "walkthrough",
+      "en": "Walk one transaction through the whole flow, inspecting the evidence at each step.",
+      "fr": "Dérouler une opération sur l'ensemble du flux en examinant les preuves à chaque étape.",
+      "srcEn": "Purchase order · goods received note · invoice · payment",
+      "srcFr": "Bon de commande · bon de réception · facture · paiement"
+     },
+     {
+      "key": "controls",
+      "en": "Where a controls-reliance strategy was set in S3.1, test the operating effectiveness of the identified controls, including the three-way match and payment authorisation.",
+      "fr": "Lorsque S3.1 retient l'appui sur les contrôles, tester leur efficacité, dont le rapprochement à trois documents et l'autorisation des paiements.",
+      "srcEn": "S3.1 · control evidence · delegation of authority",
+      "srcFr": "S3.1 · preuves de contrôle · délégations de pouvoirs"
+     },
+     {
+      "key": "unrecorded",
+      "en": "Search for unrecorded liabilities: examine the payments made after the year end, the invoices received after it, and the goods received notes not yet matched to an invoice.",
+      "fr": "Rechercher les dettes non comptabilisées : examiner les paiements postérieurs à la clôture, les factures reçues après celle-ci et les bons de réception non encore rapprochés d'une facture.",
+      "srcEn": "Post year-end cash book · unmatched GRN report · supplier statements",
+      "srcFr": "Journal de trésorerie postérieur · état des réceptions non rapprochées · relevés fournisseurs"
+     },
+     {
+      "key": "statements",
+      "en": "Reconcile the supplier statements to the recorded balances for the suppliers selected, and investigate every reconciling item.",
+      "fr": "Rapprocher les relevés fournisseurs des soldes comptabilisés pour les fournisseurs sélectionnés et examiner chaque écart.",
+      "srcEn": "Supplier statements · purchase ledger",
+      "srcFr": "Relevés fournisseurs · journal des achats"
+     },
+     {
+      "key": "confirm",
+      "en": "Where statements are not available for a significant supplier, circularise the balance, including suppliers with a nil or debit balance.",
+      "fr": "À défaut de relevé pour un fournisseur significatif, circulariser le solde, y compris les soldes nuls ou débiteurs.",
+      "srcEn": "Confirmation replies · ISA 505",
+      "srcFr": "Réponses de circularisation · ISA 505"
+     },
+     {
+      "key": "cutoff",
+      "en": "Test cut-off: trace goods received either side of the year end to the period in which the liability and the expense were recorded.",
+      "fr": "Tester la césure : rapprocher les réceptions de part et d'autre de la clôture de la période d'enregistrement de la dette et de la charge.",
+      "srcEn": "Goods received register · invoices · accruals listing",
+      "srcFr": "Registre des réceptions · factures · état des charges à payer"
+     },
+     {
+      "key": "substantive",
+      "en": "Test the recorded purchases for occurrence and accuracy on the sample selected, agreeing each to the order, the receipt evidence and the invoice.",
+      "fr": "Tester la réalité et l'exactitude des achats comptabilisés sur l'échantillon retenu, par rapprochement de la commande, de la preuve de réception et de la facture.",
+      "srcEn": "Sampling tool · purchase documentation",
+      "srcFr": "Outil d'échantillonnage · documentation achats"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "walkthrough",
+      "en": "The walkthrough confirmed the flow operates as described (procedure 2).",
+      "fr": "Le test de cheminement confirme que le flux fonctionne comme décrit (procédure 2)."
+     },
+     {
+      "key": "controls",
+      "en": "Where reliance was planned, the controls tested operated effectively throughout the period of reliance (procedure 3).",
+      "fr": "Lorsque l'appui était prévu, les contrôles testés ont fonctionné efficacement sur toute la période (procédure 3).",
+      "na": true
+     },
+     {
+      "key": "completeness",
+      "en": "The search for unrecorded liabilities identified no material liability omitted from the balance sheet (procedures 4, 5).",
+      "fr": "La recherche de dettes non comptabilisées n'a révélé aucune dette significative omise (procédures 4, 5)."
+     },
+     {
+      "key": "cutoff",
+      "en": "Purchases and the related liabilities are recorded in the period in which the goods or services were received (procedure 7).",
+      "fr": "Les achats et dettes correspondantes sont comptabilisés dans la période de réception des biens ou services (procédure 7)."
+     },
+     {
+      "key": "reconciled",
+      "en": "Every reconciling item between the supplier statements and the ledger has been explained (procedure 5).",
+      "fr": "Chaque écart entre les relevés fournisseurs et le journal a été expliqué (procédure 5)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,145 @@
+{
+ "code": "C4.2",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISQM 2 ¶19–26 · ISA 220 (Revised) ¶36 · ISA 260 (Revised) · ISA 265",
+  "ownsEn": "the engagement quality review and the communications to those charged with governance",
+  "ownsFr": "la revue de qualité de la mission et les communications à la gouvernance",
+  "reqEn": [
+   "The engagement quality reviewer performs an objective evaluation of the significant judgements made by the engagement team and the conclusions reached. The auditor's report is not dated until the review is complete (ISQM 2 ¶25–26).",
+   "We communicate to those charged with governance our responsibilities, the planned scope and timing, the significant findings, and our independence, on a timely basis (ISA 260 (Revised) ¶14–17). Significant deficiencies in internal control are communicated in writing (ISA 265 ¶9)."
+  ],
+  "reqFr": [
+   "Le responsable de la revue de qualité procède à une évaluation objective des jugements importants et des conclusions retenues. Le rapport n'est pas daté avant l'achèvement de la revue (ISQM 2 ¶25–26).",
+   "Nous communiquons à la gouvernance nos responsabilités, l'étendue et le calendrier prévus, les constats significatifs et notre indépendance (ISA 260 révisée ¶14–17). Les déficiences significatives du contrôle interne sont communiquées par écrit (ISA 265 ¶9)."
+  ],
+  "conclEn": [
+   "Where required, the engagement quality review is complete and no matter remains unresolved.",
+   "The communications to those charged with governance required by the ISAs have been made."
+  ],
+  "conclFr": [
+   "Lorsqu'elle est requise, la revue de qualité est achevée et aucun point ne reste non résolu.",
+   "Les communications à la gouvernance requises par les normes ont été effectuées."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "required",
+      "en": "Confirm from P1.5 whether an engagement quality review is required, and the identity of the reviewer appointed.",
+      "fr": "Confirmer à partir de P1.5 si une revue de qualité est requise et l'identité du responsable désigné.",
+      "srcEn": "P1.5 · firm records",
+      "srcFr": "P1.5 · dossiers du cabinet",
+      "tipEn": "[Draft] Re-read the P1.5 determination against the facts at completion — a listed entity, a public-interest entity, a high-risk file, a firm policy trigger — because a file that became high-risk during the audit needs a reviewer appointed now, not at planning. Confirm the appointed reviewer is still eligible: not a team member, not the previous year's engagement partner within the cooling-off period, and with the objectivity declaration on file.",
+      "tipFr": "[Projet] Relire la détermination de P1.5 au regard des faits à l'achèvement — entité cotée, entité d'intérêt public, dossier à risque élevé, critère de la politique du cabinet — car un dossier devenu à risque élevé en cours d'audit appelle la désignation d'un responsable maintenant, pas à la planification. Vérifier que le responsable désigné est toujours éligible : pas membre de l'équipe, pas l'associé de la mission de l'exercice précédent pendant le délai de viduité, et avec sa déclaration d'objectivité au dossier."
+     },
+     {
+      "key": "scope",
+      "en": "Provide the reviewer with the significant judgements, the significant risks and the conclusions reached, and record what was provided.",
+      "fr": "Mettre à disposition du responsable les jugements importants, les risques importants et les conclusions retenues, et consigner ce qui a été fourni.",
+      "srcEn": "C1.2 · S3.1 · working papers",
+      "srcFr": "C1.2 · S3.1 · feuilles de travail",
+      "tipEn": "[Draft] Prepare a short pack for the reviewer: the C1.2 significant matters, the S3.1 risk register, the materiality and its revisions, the SAD, the draft report and the papers behind each significant judgement (going concern, estimates, fraud). Give access to the whole file, but say in writing which papers carry the judgements. The pack and the date it was handed over are the record of procedure 2.",
+      "tipFr": "[Projet] Préparer un dossier succinct pour le responsable : les points significatifs de C1.2, le registre des risques S3.1, le seuil de signification et ses révisions, le SAD, le projet de rapport et les feuilles qui portent chaque jugement important (continuité, estimations, fraude). Donner accès au dossier entier, mais indiquer par écrit quelles feuilles portent les jugements. Ce dossier et la date de sa remise constituent la trace de la procédure 2."
+     },
+     {
+      "key": "review",
+      "en": "Record the reviewer's evaluation, the matters raised, the responses given, and confirm each has been resolved.",
+      "fr": "Consigner l'évaluation du responsable, les points soulevés, les réponses apportées et vérifier leur résolution.",
+      "srcEn": "Reviewer's notes · our responses",
+      "srcFr": "Notes du responsable · nos réponses",
+      "tipEn": "[Draft] Keep the reviewer's points as a numbered list with, for each, the team's response, the paper changed and the date the reviewer accepted the answer. A point closed by a conversation nobody wrote down is still open. Where the reviewer and the engagement partner disagree, the firm's differences-of-opinion procedure applies and the report is not dated until it concludes.",
+      "tipFr": "[Projet] Tenir les points du responsable en liste numérotée avec, pour chacun, la réponse de l'équipe, la feuille modifiée et la date à laquelle le responsable a accepté la réponse. Un point clos par une conversation que personne n'a écrite reste ouvert. En cas de désaccord entre le responsable et l'associé de la mission, la procédure du cabinet sur les divergences d'opinion s'applique et le rapport n'est pas daté avant sa conclusion."
+     },
+     {
+      "key": "completion",
+      "en": "Confirm the review is complete and record its date, which must not be later than the date of the auditor's report.",
+      "fr": "Confirmer l'achèvement de la revue et consigner sa date, qui ne peut être postérieure à celle du rapport.",
+      "srcEn": "ISQM 2 ¶25 · reviewer's confirmation",
+      "srcFr": "ISQM 2 ¶25 · confirmation du responsable",
+      "tipEn": "[Draft] Obtain the reviewer's own sign-off on this paper with the date of completion, and compare it with the report date before the report is released. The review is complete when every point is resolved and the reviewer has read the final draft of the report and the financial statements; a review completed on a draft that changed afterwards is not complete.",
+      "tipFr": "[Projet] Obtenir la signature du responsable lui-même sur cette feuille avec la date d'achèvement, et la comparer à la date du rapport avant sa diffusion. La revue est achevée lorsque chaque point est résolu et que le responsable a lu la version définitive du rapport et des états financiers ; une revue achevée sur un projet modifié ensuite n'est pas achevée."
+     },
+     {
+      "key": "planning_comm",
+      "en": "Confirm the planning communication to those charged with governance was made, covering our responsibilities and the planned scope and timing.",
+      "fr": "Vérifier que la communication de planification à la gouvernance a été faite, couvrant nos responsabilités et l'étendue et le calendrier prévus.",
+      "srcEn": "C5.11 · ISA 260 (Revised) ¶14–15 · correspondence",
+      "srcFr": "C5.11 · ISA 260 révisée ¶14–15 · correspondance",
+      "tipEn": "[Draft] Open C5.11 and check the planning letter is filed with its date, its recipients and the evidence of receipt, and that it covers responsibilities, scope and timing, significant risks and materiality. Where it was given orally at a board meeting, the minutes or our own dated note stand as the record.",
+      "tipFr": "[Projet] Ouvrir C5.11 et vérifier que la lettre de planification y est classée avec sa date, ses destinataires et la preuve de réception, et qu'elle couvre les responsabilités, l'étendue et le calendrier, les risques importants et le seuil. Lorsqu'elle a été donnée oralement en conseil, le procès-verbal ou notre propre note datée en tient lieu."
+     },
+     {
+      "key": "findings_comm",
+      "en": "Communicate the significant findings, including our views on the qualitative aspects of the accounting practices and any significant difficulty encountered.",
+      "fr": "Communiquer les constats significatifs, y compris notre appréciation des aspects qualitatifs des pratiques comptables et toute difficulté importante rencontrée.",
+      "srcEn": "C5.11 · ISA 260 ¶16 · C1.2 · governance letter",
+      "srcFr": "C5.11 · ISA 260 ¶16 · C1.2 · lettre à la gouvernance",
+      "tipEn": "[Draft] Build the completion report to governance from C1.2 and C1.1: each significant matter, the accounting policies and estimates we consider aggressive or at the edge, the uncorrected misstatements with management's reasons, the difficulties met (late information, access refused) and the representations requested. Send it before the report is dated where a matter bears on it, and record the date and recipients on C5.11.",
+      "tipFr": "[Projet] Construire le rapport d'achèvement à la gouvernance à partir de C1.2 et C1.1 : chaque point significatif, les méthodes comptables et estimations que nous jugeons agressives ou en limite, les anomalies non corrigées avec les motifs de la direction, les difficultés rencontrées (informations tardives, accès refusé) et les déclarations demandées. L'adresser avant la date du rapport lorsqu'un point l'affecte, et consigner la date et les destinataires en C5.11."
+     },
+     {
+      "key": "independence",
+      "en": "Confirm our independence to those charged with governance in writing, listing the relationships and the safeguards applied.",
+      "fr": "Confirmer par écrit notre indépendance à la gouvernance, en listant les relations et les sauvegardes appliquées.",
+      "srcEn": "P2.1 · ISA 260 ¶17 · independence letter",
+      "srcFr": "P2.1 · ISA 260 ¶17 · lettre d'indépendance",
+      "tipEn": "[Draft] Draw the letter from the P2.1 declarations: the firm's and the team's compliance, every relationship and service that may bear on independence (non-audit services and their fees, family ties, long association), and the safeguards applied. Required for a listed entity, recommended by the firm for every statutory appointment. Date it, file it on C5.11.",
+      "tipFr": "[Projet] Établir la lettre à partir des déclarations de P2.1 : le respect des règles par le cabinet et l'équipe, chaque relation et prestation pouvant affecter l'indépendance (services autres que l'audit et leurs honoraires, liens familiaux, association de longue durée) et les sauvegardes appliquées. Obligatoire pour une entité cotée, recommandée par le cabinet pour tout mandat légal. La dater, la classer en C5.11."
+     },
+     {
+      "key": "deficiencies",
+      "en": "Communicate the significant deficiencies in internal control in writing, describing each and explaining its potential effect.",
+      "fr": "Communiquer par écrit les déficiences significatives du contrôle interne, en décrivant chacune et son effet potentiel.",
+      "srcEn": "C5.11 · ISA 265 ¶9 · P4.1 · management letter",
+      "srcFr": "C5.11 · ISA 265 ¶9 · P4.1 · lettre de recommandations",
+      "tipEn": "[Draft] Take the deficiencies graded significant on the C5.11 grid and write each in three parts: the deficiency observed, its potential effect on the financial statements, and the recommendation. Add the sentence that the audit was not designed to identify every deficiency. Address the letter to governance, not only to the finance director, and record the date sent on the grid.",
+      "tipFr": "[Projet] Reprendre les déficiences gradées significatives dans la grille de C5.11 et rédiger chacune en trois parties : la déficience constatée, son effet potentiel sur les états financiers, la recommandation. Ajouter la phrase précisant que l'audit n'avait pas pour objet de relever toutes les déficiences. Adresser la lettre à la gouvernance, pas seulement au directeur financier, et consigner la date d'envoi dans la grille."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "complete",
+      "en": "Where required, the engagement quality review is complete and dated no later than the auditor's report (procedures 3, 4).",
+      "fr": "Lorsqu'elle est requise, la revue de qualité est achevée et datée au plus tard à la date du rapport (procédures 3, 4).",
+      "na": true
+     },
+     {
+      "key": "resolved",
+      "en": "Every matter raised by the reviewer has been resolved (procedure 3).",
+      "fr": "Chaque point soulevé par le responsable de la revue a été résolu (procédure 3).",
+      "na": true
+     },
+     {
+      "key": "planning",
+      "en": "The planning communication to those charged with governance was made (procedure 5).",
+      "fr": "La communication de planification à la gouvernance a été faite (procédure 5)."
+     },
+     {
+      "key": "findings",
+      "en": "The significant findings and our independence have been communicated (procedures 6, 7).",
+      "fr": "Les constats significatifs et notre indépendance ont été communiqués (procédures 6, 7)."
+     },
+     {
+      "key": "deficiencies",
+      "en": "Every significant deficiency in internal control has been communicated in writing (procedure 8).",
+      "fr": "Chaque déficience significative du contrôle interne a été communiquée par écrit (procédure 8).",
+      "na": true
+     }
+    ]
+   }
+  ]
+ }
+}

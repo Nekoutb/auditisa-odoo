@@ -1,0 +1,117 @@
+{
+ "code": "S5.3",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 610 (Revised 2013) ¶15–25",
+  "ownsEn": "the use made of the internal audit function",
+  "ownsFr": "l'utilisation faite de la fonction d'audit interne",
+  "reqEn": [
+   "Where the entity has an internal audit function, we determine whether its work can be used, by evaluating the extent to which its organisational status supports its objectivity, its level of competence, and whether it applies a systematic and disciplined approach (ISA 610 (Revised 2013) ¶15).",
+   "We make all significant judgements ourselves, and plan the use of internal audit work so that we remain sufficiently involved. The more judgement involved and the higher the assessed risk, the less work can be used (ISA 610 ¶18–19)."
+  ],
+  "reqFr": [
+   "Lorsque l'entité dispose d'un audit interne, nous déterminons si ses travaux peuvent être utilisés en appréciant son statut organisationnel, sa compétence et le caractère méthodique de son approche (ISA 610 révisée ¶15).",
+   "Nous portons nous-mêmes tous les jugements importants. Plus le jugement requis et le risque évalué sont élevés, moins les travaux peuvent être utilisés (ISA 610 ¶18–19)."
+  ],
+  "conclEn": [
+   "The internal audit function's objectivity, competence and approach support the use we intend to make of its work, and we remain sufficiently involved in the audit."
+  ],
+  "conclFr": [
+   "L'objectivité, la compétence et l'approche de l'audit interne justifient l'utilisation envisagée de ses travaux, et notre implication demeure suffisante."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "status",
+      "en": "Establish to whom the internal audit function reports, who appoints and removes its head, and who sets its budget and its plan.",
+      "fr": "Établir à qui l'audit interne rend compte, qui nomme et révoque son responsable, et qui arrête son budget et son plan.",
+      "srcEn": "Internal audit charter · organisation chart · minutes",
+      "srcFr": "Charte d'audit interne · organigramme · procès-verbaux",
+      "tipEn": "Read the internal audit charter and the board minutes side by side: the head should report to the board or audit committee, not only to the DG or DAF — in banks and microfinance, COBAC rules require it. Check who signed the head's appointment and who approves the plan and the budget. If findings never reach the conseil d'administration, objectivity is compromised whatever the charter says.",
+      "tipFr": "Lire la charte d'audit interne et les procès-verbaux du conseil en parallèle : le responsable doit rendre compte au conseil ou au comité d'audit, pas seulement au DG ou au DAF — dans les banques et la microfinance, la réglementation COBAC l'exige. Vérifier qui a signé la nomination du responsable et qui approuve le plan et le budget. Si les constats n'atteignent jamais le conseil d'administration, l'objectivité est compromise quoi qu'en dise la charte."
+     },
+     {
+      "key": "competence",
+      "en": "Evaluate the competence of the function: the qualifications and experience of its staff, and its training and resources.",
+      "fr": "Apprécier la compétence de la fonction : qualifications et expérience du personnel, formation et moyens.",
+      "srcEn": "Staff records · training log · inquiry",
+      "srcFr": "Dossiers du personnel · registre de formation · entretien",
+      "tipEn": "Get the team list with qualifications and years in post: look for a DSCG, a CIA or an expertise comptable in progress, and experience beyond cash counts. Ask for the year's training log and the tools they use. Two juniors doing only branch inventories is a different function from a staffed department with a methodology.",
+      "tipFr": "Obtenir la liste de l'équipe avec diplômes et ancienneté : chercher un DSCG, un CIA ou une expertise comptable en cours, et une expérience au-delà des comptages de caisse. Demander le plan de formation de l'exercice et les outils utilisés. Deux juniors qui ne font que des inventaires d'agences, ce n'est pas la même fonction qu'un service étoffé doté d'une méthodologie."
+     },
+     {
+      "key": "approach",
+      "en": "Evaluate whether the function applies a systematic and disciplined approach, including documented methodology and quality control over its work.",
+      "fr": "Apprécier si la fonction applique une approche méthodique et rigoureuse, avec une méthodologie documentée et un contrôle qualité de ses travaux.",
+      "srcEn": "Internal audit manual · working papers · quality reviews",
+      "srcFr": "Manuel d'audit interne · feuilles de travail · revues qualité",
+      "tipEn": "Take one recent internal audit report and ask for its working papers: a real methodology shows a work programme, evidence referenced to each finding, and a supervisor's review note. Check the manual exists and is actually followed — the dates on the papers tell you. Findings written from memory, with no file behind them, fail the systematic-and-disciplined test.",
+      "tipFr": "Prendre un rapport d'audit interne récent et demander ses papiers de travail : une vraie méthodologie montre un programme de travail, des preuves référencées à chaque constat et une note de revue du superviseur. Vérifier que le manuel existe et est réellement appliqué — les dates sur les papiers le disent. Des constats écrits de mémoire, sans dossier derrière, échouent au test de l'approche systématique et disciplinée."
+     },
+     {
+      "key": "plan",
+      "en": "Read the internal audit plan and reports for the period, and identify the work that bears on the risks we have assessed.",
+      "fr": "Examiner le plan et les rapports d'audit interne de l'exercice et identifier les travaux touchant aux risques évalués.",
+      "srcEn": "Internal audit plan and reports · S3.1",
+      "srcFr": "Plan et rapports d'audit interne · S3.1",
+      "tipEn": "Get the annual plan and every report issued in the period, then map each against the risk register in S3.1: branch cash counts bear on cash existence, revolving stock counts on inventory, credit file reviews on loan provisioning. Mark what is usable, what is stale and what was planned but never done. A report issued after year-end can still tell you about conditions during the period.",
+      "tipFr": "Obtenir le plan annuel et tous les rapports émis dans la période, puis les rapprocher du registre des risques en S3.1 : les comptages de caisse en agence touchent l'existence de la trésorerie, les inventaires tournants les stocks, les revues de dossiers de crédit le provisionnement. Marquer ce qui est utilisable, ce qui est périmé et ce qui était prévu mais jamais réalisé. Un rapport émis après la clôture peut encore renseigner sur la période auditée."
+     },
+     {
+      "key": "determine",
+      "en": "Determine the areas and the extent of work to be used, giving less weight where more judgement is involved or the assessed risk is higher.",
+      "fr": "Déterminer les domaines et l'étendue des travaux utilisés, en réduisant le recours lorsque le jugement requis ou le risque évalué est plus élevé.",
+      "srcEn": "ISA 610 ¶18–19 · S3.1",
+      "srcFr": "ISA 610 ¶18–19 · S3.1",
+      "tipEn": "Keep the judgement-heavy areas for the team — estimates, provisions, going concern, anything touching fraud — and use internal audit where the work is mechanical: branch cash counts, fixed asset verification, compliance testing. Write the split into the audit strategy with one sentence of reasoning per area. Where a significant risk is involved, plan to do the work yourself and take theirs only as corroboration.",
+      "tipFr": "Garder pour l'équipe les zones de jugement — estimations, provisions, continuité d'exploitation, tout ce qui touche à la fraude — et utiliser l'audit interne là où le travail est mécanique : comptages de caisse en agence, vérification des immobilisations, tests de conformité. Inscrire cette répartition dans la stratégie d'audit avec une phrase de justification par zone. En présence d'un risque important, prévoir de faire le travail soi-même et ne prendre le leur qu'en corroboration."
+     },
+     {
+      "key": "reperform",
+      "en": "Re-perform a portion of the work to be used, and evaluate whether it was properly planned, performed, supervised, reviewed and documented.",
+      "fr": "Réexécuter une partie des travaux utilisés et apprécier s'ils ont été correctement planifiés, réalisés, supervisés, revus et documentés.",
+      "srcEn": "Internal audit working papers · our re-performance note",
+      "srcFr": "Feuilles de travail de l'audit interne · notre note de réexécution",
+      "tipEn": "Pick a slice of the work you plan to use and redo it cold: recount a branch's cash against their count sheet, retrace ten of their sampled items to the supporting documents. Compare your results to theirs and clear any difference before relying on the rest. While you are in their papers, check the planning, supervision and review sign-offs — the how matters as much as the result.",
+      "tipFr": "Choisir une tranche des travaux à utiliser et la refaire à froid : recompter la caisse d'une agence contre leur feuille de comptage, retracer dix éléments de leur échantillon jusqu'aux pièces justificatives. Comparer vos résultats aux leurs et éclaircir tout écart avant de s'appuyer sur le reste. Pendant qu'on est dans leurs dossiers, vérifier les visas de planification, de supervision et de revue — la manière compte autant que le résultat."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "objectivity",
+      "en": "The organisational status of the function supports its objectivity (procedure 1).",
+      "fr": "Le statut organisationnel de la fonction soutient son objectivité (procédure 1)."
+     },
+     {
+      "key": "systematic",
+      "en": "The function applies a systematic and disciplined approach (procedure 3).",
+      "fr": "La fonction applique une approche méthodique et rigoureuse (procédure 3)."
+     },
+     {
+      "key": "judgement",
+      "en": "No significant judgement has been delegated to the internal audit function (procedure 5).",
+      "fr": "Aucun jugement important n'a été délégué à l'audit interne (procédure 5)."
+     },
+     {
+      "key": "reperformed",
+      "en": "The re-performance supports the adequacy of the work used (procedure 6).",
+      "fr": "La réexécution confirme l'adéquation des travaux utilisés (procédure 6)."
+     }
+    ]
+   }
+  ]
+ }
+}

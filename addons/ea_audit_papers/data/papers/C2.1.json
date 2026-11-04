@@ -1,0 +1,145 @@
+{
+ "code": "C2.1",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 700 (Revised) ¶12–15 · ISA 330 ¶25–27 · SYSCOHADA — états financiers",
+  "ownsEn": "the financial statements as presented, and their agreement to the audited record",
+  "ownsFr": "les états financiers présentés et leur concordance avec le dossier audité",
+  "reqEn": [
+   "We evaluate whether the financial statements are prepared in all material respects in accordance with the applicable financial reporting framework, including whether they adequately refer to or describe that framework (ISA 700 (Revised) ¶13–15).",
+   "The evaluation covers the presentation, structure and content of the statements and the notes, and whether the underlying transactions and events are represented in a manner that achieves fair presentation."
+  ],
+  "reqFr": [
+   "Nous apprécions si les états financiers sont établis, dans tous leurs aspects significatifs, conformément au référentiel applicable et s'ils y font référence de manière appropriée (ISA 700 révisée ¶13–15).",
+   "L'appréciation porte sur la présentation, la structure et le contenu des états et des notes, et sur la traduction fidèle des opérations sous-jacentes."
+  ],
+  "conclEn": [
+   "The financial statements are prepared, in all material respects, in accordance with the applicable financial reporting framework and agree to the audited record."
+  ],
+  "conclFr": [
+   "Les états financiers sont établis, dans tous leurs aspects significatifs, conformément au référentiel applicable et concordent avec le dossier audité."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "analytics",
+      "en": "Perform final analytical procedures at the financial statement level, and evaluate whether the statements as a whole are consistent with our understanding of the entity.",
+      "fr": "Mettre en œuvre des procédures analytiques finales au niveau des états financiers et apprécier leur cohérence d'ensemble avec notre connaissance de l'entité.",
+      "srcEn": "Final trial balance · prior financial statements · P3.2 expectations · ISA 520 ¶6",
+      "srcFr": "Balance définitive · états financiers antérieurs · attentes P3.2 · ISA 520 ¶6"
+     },
+     {
+      "key": "tieout",
+      "en": "Agree every figure in the primary statements to the final trial balance as adjusted, and confirm the statements cast and cross-cast.",
+      "fr": "Rapprocher chaque montant des états de synthèse de la balance définitive ajustée et vérifier les totaux en lignes et en colonnes.",
+      "srcEn": "Final trial balance · adjustment schedule · lead schedules",
+      "srcFr": "Balance définitive · état des ajustements · feuilles maîtresses"
+     },
+     {
+      "key": "notes",
+      "en": "Agree every figure in the notes to the primary statements and to the supporting working paper.",
+      "fr": "Rapprocher chaque montant des notes des états de synthèse et de la feuille de travail correspondante.",
+      "srcEn": "Draft notes · working papers",
+      "srcFr": "Projet de notes · feuilles de travail"
+     },
+     {
+      "key": "adjustments",
+      "en": "Confirm that every adjustment agreed with management in C1.1 has been posted, and that none has been posted that was not agreed.",
+      "fr": "Vérifier que chaque ajustement convenu avec la direction en C1.1 a été comptabilisé et qu'aucun autre ne l'a été.",
+      "srcEn": "C1.1 · final trial balance · journal entries",
+      "srcFr": "C1.1 · balance définitive · écritures"
+     },
+     {
+      "key": "presentation",
+      "en": "Test the presentation, structure and content of the statements against the framework, including the format prescribed by SYSCOHADA where it applies.",
+      "fr": "Tester la présentation, la structure et le contenu des états au regard du référentiel, y compris le format SYSCOHADA le cas échéant.",
+      "srcEn": "SYSCOHADA / IFRS presentation requirements",
+      "srcFr": "Exigences de présentation SYSCOHADA / IFRS"
+     },
+     {
+      "key": "disclosure",
+      "en": "Complete the disclosure checklist for the framework, and test each disclosure the entity is required to make.",
+      "fr": "Renseigner la liste de contrôle des informations à fournir et tester chaque mention obligatoire.",
+      "srcEn": "Disclosure checklist · framework · draft statements",
+      "srcFr": "Liste de contrôle · référentiel · projet d'états"
+     },
+     {
+      "key": "comparatives",
+      "en": "Agree the comparative figures to the prior period financial statements, and cross-refer to E6.5.",
+      "fr": "Rapprocher les chiffres comparatifs des états financiers antérieurs et renvoyer à E6.5.",
+      "srcEn": "Prior financial statements · E6.5",
+      "srcFr": "États financiers antérieurs · E6.5"
+     },
+     {
+      "key": "consistency",
+      "en": "Read the other information issued with the financial statements, including the management report, and identify any material inconsistency with the statements or with our knowledge.",
+      "fr": "Examiner les autres informations diffusées avec les états financiers, dont le rapport de gestion, et relever toute incohérence significative.",
+      "srcEn": "Management report · ISA 720 (Revised)",
+      "srcFr": "Rapport de gestion · ISA 720 révisée"
+     },
+     {
+      "key": "terminology",
+      "en": "Confirm the terminology used, including the title of each statement and the description of the framework.",
+      "fr": "Vérifier la terminologie employée, dont l'intitulé de chaque état et la désignation du référentiel.",
+      "srcEn": "Framework · draft statements",
+      "srcFr": "Référentiel · projet d'états"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "ties",
+      "en": "Every figure in the statements and the notes agrees to the audited record (procedures 1, 2).",
+      "fr": "Chaque montant des états et des notes concorde avec le dossier audité (procédures 1, 2)."
+     },
+     {
+      "key": "adjustments",
+      "en": "Every agreed adjustment has been posted, and no unagreed adjustment has been (procedure 3).",
+      "fr": "Chaque ajustement convenu a été comptabilisé et aucun ajustement non convenu ne l'a été (procédure 3)."
+     },
+     {
+      "key": "disclosures",
+      "en": "The disclosure checklist is complete and every required disclosure is made (procedure 5).",
+      "fr": "La liste de contrôle est complète et chaque information requise est fournie (procédure 5)."
+     },
+     {
+      "key": "other_info",
+      "en": "The other information contains no material inconsistency with the financial statements or with our knowledge (procedure 7).",
+      "fr": "Les autres informations ne présentent aucune incohérence significative avec les états financiers ni avec notre connaissance (procédure 7)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

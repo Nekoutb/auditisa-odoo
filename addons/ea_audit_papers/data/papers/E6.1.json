@@ -1,0 +1,132 @@
+{
+ "code": "E6.1",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 250 (Revised) ¶13–29",
+  "ownsEn": "the consideration of laws and regulations and of any non-compliance identified",
+  "ownsFr": "la prise en compte des textes légaux et réglementaires et des non-conformités relevées",
+  "reqEn": [
+   "For the laws and regulations that have a direct effect on the determination of material amounts and disclosures, we obtain sufficient appropriate evidence of compliance. For other laws and regulations that may have a material effect, we perform specified procedures to help identify non-compliance (ISA 250 (Revised) ¶14–15).",
+   "Where non-compliance is identified or suspected, we obtain an understanding of the act and the circumstances, evaluate the effect on the financial statements, and communicate it to those charged with governance unless prohibited by law (ISA 250 ¶19–24). Reporting obligations to an authority may also arise."
+  ],
+  "reqFr": [
+   "Pour les textes ayant une incidence directe sur la détermination de montants et informations significatifs, nous obtenons des éléments suffisants sur leur respect. Pour les autres, nous mettons en œuvre des procédures spécifiques (ISA 250 révisée ¶14–15).",
+   "En cas de non-conformité relevée ou suspectée, nous en comprenons la nature et les circonstances, en évaluons l'effet et la communiquons aux responsables de la gouvernance sauf interdiction légale (ISA 250 ¶19–24)."
+  ],
+  "conclEn": [
+   "The laws and regulations relevant to the financial statements have been considered, and any non-compliance identified has been evaluated, communicated and reflected in the financial statements."
+  ],
+  "conclFr": [
+   "Les textes légaux et réglementaires pertinents ont été pris en compte, et toute non-conformité relevée a été évaluée, communiquée et traduite dans les comptes."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "framework",
+      "en": "Establish the legal and regulatory framework applicable to the entity and its sector, and identify the texts with a direct effect on the financial statements.",
+      "fr": "Établir le cadre légal et réglementaire applicable à l'entité et à son secteur et identifier les textes ayant une incidence directe sur les comptes.",
+      "srcEn": "Statutes · sector regulation · OHADA Uniform Acts · P3.1",
+      "srcFr": "Statuts · réglementation sectorielle · Actes uniformes OHADA · P3.1"
+     },
+     {
+      "key": "compliance",
+      "en": "For each such text, obtain evidence of compliance, including the licences held and the returns filed.",
+      "fr": "Pour chacun de ces textes, obtenir les éléments attestant du respect : agréments détenus et déclarations déposées.",
+      "srcEn": "Licences · filed returns · regulator correspondence",
+      "srcFr": "Agréments · déclarations déposées · correspondance du régulateur"
+     },
+     {
+      "key": "inquire",
+      "en": "Inquire of management and of those charged with governance about compliance, and about any investigation, inspection or penalty.",
+      "fr": "S'enquérir auprès de la direction et des responsables de la gouvernance du respect des textes et de toute enquête, inspection ou sanction.",
+      "srcEn": "Inquiry · minutes · correspondence",
+      "srcFr": "Entretien · procès-verbaux · correspondance"
+     },
+     {
+      "key": "inspect",
+      "en": "Inspect the correspondence with the licensing and regulatory authorities.",
+      "fr": "Examiner la correspondance avec les autorités de tutelle et de régulation.",
+      "srcEn": "Regulator correspondence file",
+      "srcFr": "Chrono de correspondance avec les régulateurs"
+     },
+     {
+      "key": "indicators",
+      "en": "Remain alert to indicators of non-compliance: unexplained payments, payments to unusual destinations, unauthorised transactions and adverse media.",
+      "fr": "Rester attentif aux indices de non-conformité : paiements inexpliqués, versements vers des destinations inhabituelles, opérations non autorisées et presse défavorable.",
+      "srcEn": "General ledger · E3.1 · P1.1 screening",
+      "srcFr": "Grand livre · E3.1 · criblage P1.1"
+     },
+     {
+      "key": "evaluate",
+      "en": "Where non-compliance is identified or suspected, obtain an understanding of the act and evaluate the effect on the financial statements, including any provision or disclosure required.",
+      "fr": "En cas de non-conformité relevée ou suspectée, en comprendre la nature et évaluer l'effet sur les comptes, y compris toute provision ou mention requise.",
+      "srcEn": "Legal advice · management explanation · E4.10 · E6.9",
+      "srcFr": "Avis juridique · explications de la direction · E4.10 · E6.9"
+     },
+     {
+      "key": "report",
+      "en": "Determine whether a duty to report to an authority arises, including the révélation des faits délictueux, and cross-refer to C5.6.",
+      "fr": "Déterminer s'il existe une obligation de signalement à une autorité, dont la révélation des faits délictueux, et renvoyer à C5.6.",
+      "srcEn": "OHADA Uniform Act · professional obligations · C5.6",
+      "srcFr": "Acte uniforme OHADA · obligations professionnelles · C5.6"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "direct",
+      "en": "Evidence of compliance has been obtained for every law with a direct effect on material amounts and disclosures (procedure 2).",
+      "fr": "Des éléments de conformité ont été obtenus pour chaque texte ayant une incidence directe sur des montants et informations significatifs (procédure 2)."
+     },
+     {
+      "key": "none",
+      "en": "No instance of non-compliance was identified or suspected (procedures 3 to 5).",
+      "fr": "Aucune non-conformité n'a été relevée ni suspectée (procédures 3 à 5)."
+     },
+     {
+      "key": "communicated",
+      "en": "Each instance identified has been communicated to those charged with governance (procedure 6).",
+      "fr": "Chaque cas relevé a été communiqué aux responsables de la gouvernance (procédure 6).",
+      "na": true
+     },
+     {
+      "key": "reporting",
+      "en": "The duty to report to an authority has been considered and the conclusion recorded (procedure 7).",
+      "fr": "L'obligation de signalement à une autorité a été examinée et la conclusion consignée (procédure 7)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

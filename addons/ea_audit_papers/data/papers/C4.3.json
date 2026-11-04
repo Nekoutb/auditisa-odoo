@@ -1,0 +1,93 @@
+{
+ "code": "C4.3",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "ISA 220 (Revised) ¶30–33 · ISA 230 ¶8",
+  "ownsEn": "the points outstanding and their clearance before the report is dated",
+  "ownsFr": "les points en suspens et leur levée avant la date du rapport",
+  "reqEn": [
+   "A point outstanding is a matter that must be resolved before the report can be dated. Each is recorded with the person responsible and the date by which it is required.",
+   "A point is cleared only when the evidence that resolves it is on the file. Clearing a point by inquiry alone is recorded as such, with the reason it is sufficient."
+  ],
+  "reqFr": [
+   "Un point en suspens doit être résolu avant que le rapport puisse être daté. Chacun est consigné avec le responsable et l'échéance.",
+   "Un point n'est levé que lorsque l'élément qui le résout figure au dossier. Une levée par simple entretien est consignée comme telle, avec le motif de sa suffisance."
+  ],
+  "conclEn": [
+   "Every point outstanding has been cleared, or the reason it does not prevent the report from being issued is recorded and approved by the engagement partner."
+  ],
+  "conclFr": [
+   "Chaque point en suspens a été levé, ou le motif pour lequel il n'empêche pas l'émission du rapport est consigné et approuvé par l'associé responsable."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "collect",
+      "en": "Collect the points outstanding from every working paper and from the review notes, and record the working paper each relates to.",
+      "fr": "Recenser les points en suspens de chaque feuille de travail et des notes de revue, et consigner la feuille concernée.",
+      "srcEn": "Working papers · review notes · task list",
+      "srcFr": "Feuilles de travail · notes de revue · liste des tâches"
+     },
+     {
+      "key": "assign",
+      "en": "Assign each point to a person and set the date by which it is required, having regard to the reporting deadline.",
+      "fr": "Affecter chaque point à une personne et fixer l'échéance au regard de la date de reporting.",
+      "srcEn": "Team page · timetable · C5.2",
+      "srcFr": "Page Équipe · calendrier · C5.2"
+     },
+     {
+      "key": "chase",
+      "en": "Follow up the points not cleared by their date, and escalate to the engagement partner those that put the deadline at risk.",
+      "fr": "Relancer les points non levés à l'échéance et remonter à l'associé responsable ceux qui compromettent le calendrier.",
+      "srcEn": "Follow-up record · partner communication",
+      "srcFr": "Suivi des relances · communication à l'associé"
+     },
+     {
+      "key": "clear",
+      "en": "Clear each point by filing the evidence that resolves it, and cross-refer the clearance to the working paper.",
+      "fr": "Lever chaque point en classant l'élément qui le résout et le renvoyer à la feuille de travail concernée.",
+      "srcEn": "Supporting evidence · working papers",
+      "srcFr": "Éléments justificatifs · feuilles de travail"
+     },
+     {
+      "key": "remaining",
+      "en": "For any point still open at the date of the report, record why it does not prevent the opinion from being expressed, or carry it to C5.1 as a limitation.",
+      "fr": "Pour tout point encore ouvert à la date du rapport, consigner pourquoi il n'empêche pas l'expression de l'opinion, ou le reporter en C5.1 comme limitation.",
+      "srcEn": "Partner approval · C5.1",
+      "srcFr": "Approbation de l'associé · C5.1"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "collected",
+      "en": "Every point raised in the file or in the review notes is on this list (procedure 1).",
+      "fr": "Chaque point soulevé au dossier ou en note de revue figure sur cette liste (procédure 1)."
+     },
+     {
+      "key": "cleared",
+      "en": "Every point has been cleared by evidence on the file (procedure 4).",
+      "fr": "Chaque point a été levé par un élément figurant au dossier (procédure 4)."
+     },
+     {
+      "key": "none_open",
+      "en": "No point remains open at the date of the report (procedure 5).",
+      "fr": "Aucun point ne reste ouvert à la date du rapport (procédure 5)."
+     }
+    ]
+   }
+  ]
+ }
+}

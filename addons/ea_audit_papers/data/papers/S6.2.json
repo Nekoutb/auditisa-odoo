@@ -1,0 +1,104 @@
+{
+ "code": "S6.2",
+ "source": "lib/papers/strategy.ts",
+ "definition": {
+  "std": "ISA 220 (Revised) ¶13–15, ¶29–35 · ISA 300 ¶5",
+  "ownsEn": "the partner's direction, supervision and review of the engagement",
+  "ownsFr": "la direction, la supervision et la revue par l'associé",
+  "reqEn": [
+   "The engagement partner takes overall responsibility for managing and achieving quality, and is sufficiently and appropriately involved throughout (ISA 220 (Revised) ¶13). Direction, supervision and review are planned in response to the nature and circumstances of the engagement and the assessed risks, not applied uniformly.",
+   "The engagement partner reviews the work on significant judgements, on significant risks, and on other matters that in their judgement are significant, before the auditor's report is dated (ISA 220 (Revised) ¶30–31)."
+  ],
+  "reqFr": [
+   "L'associé responsable assume la responsabilité globale de la qualité et s'implique de façon suffisante et appropriée tout au long de la mission (ISA 220 révisée ¶13).",
+   "Il revoit les travaux portant sur les jugements importants, les risques importants et les autres points significatifs, avant la date du rapport (ISA 220 révisée ¶30–31)."
+  ],
+  "conclEn": [
+   "The nature, timing and extent of direction, supervision and review planned here respond to the assessed risks and to the competence of the team members performing the work."
+  ],
+  "conclFr": [
+   "La nature, le calendrier et l'étendue de la direction, de la supervision et de la revue répondent aux risques évalués et à la compétence des membres de l'équipe."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "brief",
+      "en": "Hold the engagement partner's briefing with the team. Record the date, who attended and the direction given.",
+      "fr": "Tenir la réunion de cadrage de l'associé avec l'équipe. Consigner la date, les participants et les instructions données.",
+      "srcEn": "Meeting note · team page",
+      "srcFr": "Note de réunion · page Équipe",
+      "tipEn": "Hold the briefing once the risk material is on the table, so the partner directs on real risks rather than generalities. Keep the note short but named: date, attendees, and the two or three messages the partner insisted on — sensitive estimates, scepticism points, dates that will not move.",
+      "tipFr": "Tenir le briefing une fois les éléments de risque sur la table, pour que l'associé oriente sur des risques réels et non des généralités. Garder une note courte mais nominative : date, participants, et les deux ou trois messages sur lesquels l'associé a insisté — estimations sensibles, points d'esprit critique, dates non négociables."
+     },
+     {
+      "key": "areas",
+      "en": "Identify the areas the engagement partner will review personally, including every significant judgement and every significant risk.",
+      "fr": "Identifier les zones que l'associé revoira personnellement, dont chaque jugement important et chaque risque important.",
+      "srcEn": "S3.1 risk register · P5.1 · S4.4",
+      "srcFr": "Registre des risques S3.1 · P5.1 · S4.4",
+      "tipEn": "Build the list from the S3.1 risk register and P5.1, not from memory: every significant risk and every significant judgement — going concern, provisions, revenue estimates — plus the sections the fraud response touches. Put the working-paper reference beside each item so the partner's review is a checklist, not an ambition.",
+      "tipFr": "Construire la liste depuis le registre des risques S3.1 et P5.1, pas de mémoire : chaque risque significatif et chaque jugement significatif — continuité d'exploitation, provisions, estimations de revenus — plus les sections touchées par la réponse au risque de fraude. Mettre la référence de feuille de travail en face de chaque point pour que la revue de l'associé soit une liste de contrôle, pas une ambition."
+     },
+     {
+      "key": "supervision",
+      "en": "Set the level of supervision for each team member against their competence and the difficulty of the work assigned.",
+      "fr": "Fixer le niveau de supervision de chaque membre au regard de sa compétence et de la difficulté des travaux confiés.",
+      "srcEn": "Team page grades · P2.2",
+      "srcFr": "Grades de la page Équipe · P2.2",
+      "tipEn": "Grade supervision by the pairing of task and person, not the person alone: a first-year assistant on bank confirmations needs a day-end debrief; the same assistant attending a stock count at a remote depot needs the senior reachable during the count. Write the review frequency next to each name on the P2.2 team plan.",
+      "tipFr": "Doser la supervision selon le binôme tâche-personne, pas la personne seule : un assistant de première année sur les confirmations bancaires a besoin d'un point en fin de journée ; le même assistant à un inventaire physique dans un dépôt éloigné doit pouvoir joindre le chef de mission pendant le comptage. Écrire la fréquence de revue à côté de chaque nom sur le plan d'équipe P2.2."
+     },
+     {
+      "key": "consult",
+      "en": "Identify the matters on which consultation is expected, and who will be consulted.",
+      "fr": "Identifier les points appelant une consultation et les personnes à consulter.",
+      "srcEn": "Firm consultation policy · C1.3",
+      "srcFr": "Politique de consultation du cabinet · C1.3",
+      "tipEn": "Flag now the questions the firm's policy says must leave the engagement team: a going-concern doubt, a suspected fraud, a contested tax reassessment, a possible modification of the opinion. Name the person or technical desk to consult and open the C1.3 record before the issue turns hot, not after.",
+      "tipFr": "Repérer dès maintenant les questions que la politique du cabinet fait sortir de l'équipe : un doute sur la continuité d'exploitation, un soupçon de fraude, un redressement fiscal contesté, une possible modification de l'opinion. Nommer la personne ou le service technique à consulter et ouvrir la fiche C1.3 avant que le sujet ne devienne brûlant, pas après."
+     },
+     {
+      "key": "review",
+      "en": "Record the review points during the engagement, and confirm the report will not be dated before the partner's review is complete.",
+      "fr": "Consigner les points de revue prévus et confirmer que le rapport ne sera pas daté avant l'achèvement de la revue de l'associé.",
+      "srcEn": "Timetable · ISA 220 (Revised) ¶31",
+      "srcFr": "Calendrier · ISA 220 révisée ¶31",
+      "tipEn": "Enter the partner's review dates in the timetable as milestones with the same weight as fieldwork: interim review, pre-final review of the significant areas, final review before the report date. Check the report date falls after the last sign-off and, where P1.5 requires an engagement quality review, after that reviewer's completion too.",
+      "tipFr": "Inscrire les dates de revue de l'associé au calendrier comme des jalons du même poids que les travaux sur place : revue intérimaire, revue pré-finale des zones significatives, revue finale avant la date du rapport. Vérifier que la date du rapport tombe après la dernière signature et, quand P1.5 impose une revue de la qualité de la mission, après l'achèvement de cette revue également."
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "items": [
+     {
+      "key": "attended",
+      "en": "The engagement partner attended the team briefing (procedure 1).",
+      "fr": "L'associé responsable a participé à la réunion de cadrage (procédure 1)."
+     },
+     {
+      "key": "judgements",
+      "en": "Every significant judgement and significant risk is on the partner's personal review list (procedure 2).",
+      "fr": "Chaque jugement important et risque important figure sur la liste de revue personnelle de l'associé (procédure 2)."
+     },
+     {
+      "key": "eqr",
+      "en": "Where an engagement quality review is required under P1.5, its timing is built into the review plan (procedure 5).",
+      "fr": "Lorsqu'une revue de qualité est requise (P1.5), son calendrier est intégré au plan de revue (procédure 5).",
+      "na": true
+     }
+    ]
+   }
+  ]
+ }
+}

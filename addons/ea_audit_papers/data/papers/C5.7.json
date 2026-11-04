@@ -1,0 +1,142 @@
+{
+ "code": "C5.7",
+ "source": "lib/papers/conclusion.ts",
+ "definition": {
+  "std": "AUSCGIE arts. 746-1 and 746-2 (à valider) · arts. 764 et s. (titres nominatifs)",
+  "ownsEn": "the attestation on the register of registered securities",
+  "ownsFr": "l'attestation sur le registre des titres nominatifs",
+  "reqEn": [
+   "Registered securities [titres nominatifs] are represented by an entry in an account kept by the issuing company or by an authorised financial intermediary (art. 746-1 — to validate); the commissaire aux comptes verifies the registers and attests their existence and their keeping (art. 746-2 — to validate). The register evidences who owns the company. An entry not made, or made without the transfer document behind it, undermines the ownership disclosed in the accounts and the identification of related parties. A SARL or a GIE issues no titres nominatifs: this paper exists only on the forms that do.",
+   "Where the securities are held in accounts by an authorised intermediary rather than in the company's own register, the evidence changes: the intermediary's statement of the accounts at the closing date is obtained and reconciled to the share capital, and the attestation says so. The attestation is generated from the legal tool (/legal, C5.7) once this paper concludes that the register is kept and agrees."
+  ],
+  "reqFr": [
+   "Les titres nominatifs sont représentés par une inscription en compte tenu par la société émettrice ou par un intermédiaire financier agréé (art. 746-1 — à valider) ; le commissaire aux comptes vérifie les registres et atteste de leur existence et de leur tenue (art. 746-2 — à valider). Le registre établit la propriété de la société. Une inscription omise, ou effectuée sans l'ordre de mouvement correspondant, fragilise l'information sur l'actionnariat et l'identification des parties liées. Une SARL ou un GIE n'émet pas de titres nominatifs : cette feuille n'existe que pour les formes qui en émettent.",
+   "Lorsque les titres sont inscrits en compte chez un intermédiaire agréé plutôt que dans le registre propre de la société, la preuve change : le relevé des comptes de l'intermédiaire à la date de clôture est obtenu et rapproché du capital social, et l'attestation le mentionne. L'attestation est générée depuis l'outil juridique (/legal, C5.7) une fois cette feuille conclue sur la tenue et la concordance du registre."
+  ],
+  "conclEn": [
+   "The register of registered securities is kept as the Uniform Act requires and agrees with the share capital shown in the financial statements."
+  ],
+  "conclFr": [
+   "Le registre des titres nominatifs est tenu conformément à l'Acte uniforme et concorde avec le capital figurant dans les états financiers."
+  ],
+  "tools": [
+   "legal"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "procs": [
+     {
+      "key": "exists",
+      "en": "Inspect the register and confirm it is kept in the form the Uniform Act requires — the issuing company keeping the accounts of its registered securities, or an authorised intermediary doing so — and that its pages or its account records are numbered, chronological and unbroken.",
+      "fr": "Examiner le registre et vérifier sa tenue dans la forme requise par l'Acte uniforme — comptes des titres nominatifs tenus par la société émettrice, ou par un intermédiaire agréé — avec une pagination ou des inscriptions en compte continues et chronologiques.",
+      "srcEn": "Register of registered securities · AUSCGIE arts. 746-1, 746-2 (à valider)",
+      "srcFr": "Registre des titres nominatifs · AUSCGIE arts. 746-1, 746-2 (à valider)"
+     },
+     {
+      "key": "holding_mode",
+      "en": "Establish how the securities are held: in the company's own register, or in accounts kept by an authorised financial intermediary (bank, custodian, central depository). Record the mode in the legal tool before the attestation is generated, because the attestation's wording follows it.",
+      "fr": "Établir le mode de détention des titres : registre propre de la société, ou comptes tenus par un intermédiaire financier agréé (banque, teneur de comptes, dépositaire central). Consigner le mode dans l'outil juridique avant de générer l'attestation, dont la rédaction en dépend.",
+      "srcEn": "Statutes · custody agreement · AUSCGIE art. 746-1 (à valider)",
+      "srcFr": "Statuts · convention de tenue de comptes · AUSCGIE art. 746-1 (à valider)"
+     },
+     {
+      "key": "intermediary",
+      "en": "Where the securities are held in accounts by an authorised intermediary, obtain the intermediary's statement of the securities accounts at the closing date directly from the intermediary, reconcile the total securities and the holders to the share capital and to the company's own records, and explain any difference.",
+      "fr": "Lorsque les titres sont inscrits en compte chez un intermédiaire agréé, obtenir directement de l'intermédiaire le relevé des comptes-titres à la date de clôture, rapprocher le total des titres et les titulaires du capital social et des propres enregistrements de la société, et expliquer tout écart.",
+      "srcEn": "Intermediary's statement (direct confirmation) · E4.9 · AUSCGIE art. 746-1 (à valider)",
+      "srcFr": "Relevé de l'intermédiaire (confirmation directe) · E4.9 · AUSCGIE art. 746-1 (à valider)"
+     },
+     {
+      "key": "agree",
+      "en": "Agree the total number of securities recorded to the share capital in the financial statements and to the statutes.",
+      "fr": "Rapprocher le nombre total de titres inscrits du capital figurant dans les états financiers et des statuts.",
+      "srcEn": "Register · statutes · E4.9",
+      "srcFr": "Registre · statuts · E4.9"
+     },
+     {
+      "key": "movements",
+      "en": "Test the transfers recorded in the period to the transfer documents and to the approval of the [[lf.board]] where the statutes require it.",
+      "fr": "Tester les mouvements de l'exercice au regard des ordres de mouvement et de l'agrément de l'[[lf.board]] lorsque les statuts l'exigent.",
+      "srcEn": "Transfer orders · minutes of the [[lf.board]]",
+      "srcFr": "Ordres de mouvement · procès-verbaux de l'[[lf.board]]"
+     },
+     {
+      "key": "holders",
+      "en": "Agree the holders recorded to the list used to convene the general meeting, and to the related party register.",
+      "fr": "Rapprocher les titulaires inscrits de la liste ayant servi à convoquer l'assemblée et du registre des parties liées.",
+      "srcEn": "Convening list · S4.3 · E6.2",
+      "srcFr": "Liste de convocation · S4.3 · E6.2"
+     },
+     {
+      "key": "pledges",
+      "en": "Identify any pledge or restriction recorded against the securities, and confirm it is disclosed.",
+      "fr": "Identifier tout nantissement ou restriction inscrit sur les titres et vérifier sa mention.",
+      "srcEn": "Register · loan agreements · E4.8",
+      "srcFr": "Registre · contrats de prêt · E4.8"
+     },
+     {
+      "key": "attest",
+      "en": "Generate the attestation from the legal tool (/legal, C5.7) — its wording follows the holding mode recorded there — and record its date and the person to whom it was given.",
+      "fr": "Générer l'attestation depuis l'outil juridique (/legal, C5.7) — sa rédaction suit le mode de détention consigné — et consigner sa date et son destinataire.",
+      "srcEn": "Our attestation (legal tool) · AUSCGIE art. 746-2 (à valider)",
+      "srcFr": "Notre attestation (outil juridique) · AUSCGIE art. 746-2 (à valider)"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "items": [
+     {
+      "key": "kept",
+      "en": "The register is kept in the form the Uniform Act requires (procedure 1).",
+      "fr": "Le registre est tenu dans la forme requise par l'Acte uniforme (procédure 1)."
+     },
+     {
+      "key": "intermediary_reconciled",
+      "en": "Where the securities are held by an authorised intermediary, its statement at the closing date was obtained directly and reconciles to the share capital (procedure 3).",
+      "fr": "Lorsque les titres sont détenus par un intermédiaire agréé, son relevé à la date de clôture a été obtenu directement et se rapproche du capital social (procédure 3).",
+      "na": true
+     },
+     {
+      "key": "agrees",
+      "en": "The register agrees to the share capital in the financial statements and to the statutes (procedure 4).",
+      "fr": "Le registre concorde avec le capital des états financiers et avec les statuts (procédure 4)."
+     },
+     {
+      "key": "supported",
+      "en": "Every transfer recorded is supported by a transfer document and, where required, by the approval of the [[lf.board]] (procedure 5).",
+      "fr": "Chaque mouvement inscrit est justifié par un ordre de mouvement et, si requis, par l'agrément de l'[[lf.board]] (procédure 5)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "matters",
+      "kind": "input",
+      "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+     },
+     {
+      "key": "effect",
+      "kind": "input",
+      "labelEn": "Effect on the auditor's report, if any",
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+     }
+    ]
+   }
+  ]
+ }
+}

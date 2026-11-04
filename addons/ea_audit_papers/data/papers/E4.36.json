@@ -1,0 +1,112 @@
+{
+ "code": "E4.36",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 330 ¶18–23 · SYSCOHADA — tableau des flux de trésorerie",
+  "ownsEn": "the tie-out of the cash flow statement",
+  "ownsFr": "le rapprochement du tableau des flux de trésorerie",
+  "reqEn": [
+   "The cash flow statement is derived from the other primary statements. It is tested by agreeing its components back to those statements and to the movement schedules, so that the derivation itself is the evidence.",
+   "Non-cash transactions are the usual source of error: an acquisition settled other than in cash, or a movement arising on translation, does not belong in a cash flow."
+  ],
+  "reqFr": [
+   "Le tableau des flux découle des autres états de synthèse. Il est testé par rapprochement de ses composantes avec ces états et les tableaux de mouvements.",
+   "Les opérations sans effet de trésorerie sont la source d'erreur habituelle : une acquisition réglée autrement qu'en numéraire ou un écart de conversion n'a pas sa place dans un flux."
+  ],
+  "conclEn": [
+   "The cash flow statement is derived correctly from the other primary statements and is presented in accordance with the applicable framework."
+  ],
+  "conclFr": [
+   "Le tableau des flux de trésorerie découle correctement des autres états de synthèse et est présenté conformément au référentiel applicable."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "opening_closing",
+      "en": "Agree the opening and closing cash and cash equivalents to the balance sheet and to E4.7.",
+      "fr": "Rapprocher la trésorerie d'ouverture et de clôture du bilan et de E4.7.",
+      "srcEn": "Balance sheet · E4.7 · general ledger",
+      "srcFr": "Bilan · E4.7 · grand livre"
+     },
+     {
+      "key": "components",
+      "en": "Agree each line of the statement to the underlying movement schedule, and confirm the totals cast and cross-cast.",
+      "fr": "Rapprocher chaque ligne du tableau du tableau de mouvements correspondant et vérifier les totaux en lignes et en colonnes.",
+      "srcEn": "Movement schedules E4.4/E4.5/E4.8/E4.9 · working papers",
+      "srcFr": "Tableaux de mouvements E4.4/E4.5/E4.8/E4.9 · feuilles de travail"
+     },
+     {
+      "key": "noncash",
+      "en": "Identify the non-cash transactions in the period and confirm that each has been excluded from the statement and disclosed where required.",
+      "fr": "Identifier les opérations sans effet de trésorerie de l'exercice et vérifier leur exclusion du tableau et leur mention le cas échéant.",
+      "srcEn": "General ledger · minutes · movement schedules",
+      "srcFr": "Grand livre · procès-verbaux · tableaux de mouvements"
+     },
+     {
+      "key": "classification",
+      "en": "Test the classification of each flow between operating, investing and financing.",
+      "fr": "Tester le classement de chaque flux entre exploitation, investissement et financement.",
+      "srcEn": "SYSCOHADA presentation rules · draft statement",
+      "srcFr": "Règles de présentation SYSCOHADA · projet de tableau"
+     },
+     {
+      "key": "recompute",
+      "en": "Recompute the statement independently from the movement schedules, and reconcile any difference to the version presented.",
+      "fr": "Recalculer le tableau de façon indépendante à partir des tableaux de mouvements et justifier tout écart avec la version présentée.",
+      "srcEn": "Our recomputation · draft financial statements",
+      "srcFr": "Notre recalcul · projet d'états financiers"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "ties",
+      "en": "The statement ties to the balance sheet and to the profit and loss account (procedures 1, 2).",
+      "fr": "Le tableau se rapproche du bilan et du compte de résultat (procédures 1, 2)."
+     },
+     {
+      "key": "noncash",
+      "en": "No non-cash transaction is presented as a cash flow (procedure 3).",
+      "fr": "Aucune opération sans effet de trésorerie n'est présentée comme un flux (procédure 3)."
+     },
+     {
+      "key": "classified",
+      "en": "Each flow is classified in the correct category (procedure 4).",
+      "fr": "Chaque flux est classé dans la catégorie correcte (procédure 4)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,124 @@
+{
+ "code": "E6.4",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 250 (Revised) ¶15 · ISA 500 · OHADA — Acte uniforme sociétés commerciales",
+  "ownsEn": "the reading of the minutes and the statutory records",
+  "ownsFr": "l'examen des procès-verbaux et des registres statutaires",
+  "reqEn": [
+   "The minutes record the decisions that give rise to accounting consequences. They are read for the whole period and up to the date of our report, because a decision taken after the year end may be an adjusting event or a disclosure.",
+   "The statutory records evidence that the entity has complied with the Uniform Act on the holding of meetings, the keeping of registers and the filing of accounts."
+  ],
+  "reqFr": [
+   "Les procès-verbaux consignent les décisions ayant des conséquences comptables. Ils sont examinés sur l'ensemble de l'exercice et jusqu'à la date de notre rapport.",
+   "Les registres statutaires attestent du respect de l'Acte uniforme quant à la tenue des assemblées, des registres et au dépôt des comptes."
+  ],
+  "conclEn": [
+   "The minutes and statutory records have been read for the period and up to the date of our report, and every matter with an accounting or reporting consequence has been reflected in the file."
+  ],
+  "conclFr": [
+   "Les procès-verbaux et registres statutaires ont été examinés sur l'exercice et jusqu'à la date de notre rapport, et chaque point à conséquence comptable ou d'information est repris au dossier."
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "completeness",
+      "en": "Establish that the minutes obtained are complete: compare the meetings held with the requirements of the statutes and confirm the numbering of the minutes is unbroken.",
+      "fr": "Établir l'exhaustivité des procès-verbaux : comparer les réunions tenues aux exigences statutaires et vérifier la continuité de leur numérotation.",
+      "srcEn": "Statutes · minute book · inquiry of the secretary",
+      "srcFr": "Statuts · registre des procès-verbaux · entretien avec le secrétaire"
+     },
+     {
+      "key": "read",
+      "en": "Read the minutes of the general meetings, the board and any committee for the period and up to the date of our report.",
+      "fr": "Examiner les procès-verbaux des assemblées, du conseil et des comités sur l'exercice et jusqu'à la date de notre rapport.",
+      "srcEn": "Minute book · committee papers",
+      "srcFr": "Registre des procès-verbaux · dossiers des comités"
+     },
+     {
+      "key": "extract",
+      "en": "Extract every decision with an accounting or disclosure consequence, and cross-refer each to the working paper that deals with it.",
+      "fr": "Relever chaque décision ayant une conséquence comptable ou d'information et la renvoyer à la feuille de travail concernée.",
+      "srcEn": "Our extract schedule · related working papers",
+      "srcFr": "Notre relevé · feuilles de travail concernées"
+     },
+     {
+      "key": "registers",
+      "en": "Inspect the statutory registers: the register of registered securities, the register of attendance and the register of the board's deliberations.",
+      "fr": "Examiner les registres statutaires : registre des titres nominatifs, feuille de présence et registre des délibérations.",
+      "srcEn": "Statutory registers · C5.7",
+      "srcFr": "Registres statutaires · C5.7"
+     },
+     {
+      "key": "filings",
+      "en": "Confirm that the prior period accounts were approved within the statutory deadline and filed with the RCCM.",
+      "fr": "Vérifier que les comptes de l'exercice précédent ont été approuvés dans le délai légal et déposés au RCCM.",
+      "srcEn": "AGO minutes · RCCM filing receipt · C5.2",
+      "srcFr": "Procès-verbal d'AGO · récépissé de dépôt RCCM · C5.2"
+     },
+     {
+      "key": "subsequent",
+      "en": "Read the minutes of the meetings held after the year end for events requiring adjustment or disclosure, and carry each to E6.6.",
+      "fr": "Examiner les procès-verbaux des réunions postérieures à la clôture à la recherche d'événements à ajuster ou à mentionner et les reporter en E6.6.",
+      "srcEn": "Post year-end minutes · E6.6",
+      "srcFr": "Procès-verbaux postérieurs · E6.6"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "complete",
+      "en": "The minutes obtained cover every meeting held in the period and up to the date of our report (procedures 1, 2).",
+      "fr": "Les procès-verbaux obtenus couvrent chaque réunion tenue sur l'exercice et jusqu'à la date de notre rapport (procédures 1, 2)."
+     },
+     {
+      "key": "extracted",
+      "en": "Every decision with an accounting consequence has been cross-referred to the working paper that deals with it (procedure 3).",
+      "fr": "Chaque décision à conséquence comptable est renvoyée à la feuille de travail concernée (procédure 3)."
+     },
+     {
+      "key": "registers",
+      "en": "The statutory registers are kept and up to date (procedure 4).",
+      "fr": "Les registres statutaires sont tenus et à jour (procédure 4)."
+     },
+     {
+      "key": "filed",
+      "en": "The prior period accounts were approved and filed within the statutory deadline (procedure 5).",
+      "fr": "Les comptes de l'exercice précédent ont été approuvés et déposés dans le délai légal (procédure 5)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}

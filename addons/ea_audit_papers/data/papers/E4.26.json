@@ -1,0 +1,141 @@
+{
+ "code": "E4.26",
+ "source": "lib/papers/execution.ts",
+ "definition": {
+  "std": "ISA 315 (Revised 2019) ¶25–26 · ISA 330 ¶18–23 · SYSCOHADA classes 42 / 66",
+  "ownsEn": "the payroll flow and the evidence obtained on personnel costs",
+  "ownsFr": "le flux paie et les éléments probants sur les charges de personnel",
+  "reqEn": [
+   "Payroll is high in volume and low in individual value, and is usually processed by a system. A predictive analytical procedure is often the most efficient primary test, supported by tests of the reconciling items and of the statutory deductions.",
+   "The completeness of the related social and tax liabilities at the year end is tested separately, because an unpaid declaration is a liability whether or not it has been recorded."
+  ],
+  "reqFr": [
+   "La paie présente un volume élevé et des valeurs unitaires faibles, et est généralement traitée par un système. Une procédure analytique prédictive constitue souvent le test principal le plus efficace.",
+   "L'exhaustivité des dettes sociales et fiscales à la clôture est testée séparément, une déclaration impayée constituant une dette qu'elle soit ou non comptabilisée."
+  ],
+  "conclEn": [
+   "Sufficient appropriate audit evidence has been obtained over payroll and personnel costs for the assertions identified as relevant in S3.1."
+  ],
+  "conclFr": [
+   "Des éléments probants suffisants et appropriés ont été obtenus sur la paie et les charges de personnel pour les assertions retenues en S3.1."
+  ],
+  "tools": [
+   "what-can-go-wrong",
+   "sampling",
+   "analytics"
+  ],
+  "sections": [
+   {
+    "kind": "proc",
+    "titleEn": "Part A — Procedures and expected sources",
+    "titleFr": "Partie A — Procédures et sources attendues",
+    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
+    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "procs": [
+     {
+      "key": "flow",
+      "en": "Record how an employee is engaged, how changes to pay are authorised, how the payroll is prepared and approved, and how payment is released.",
+      "fr": "Consigner l'embauche d'un salarié, l'autorisation des changements de rémunération, la préparation et l'approbation de la paie et la mise en paiement.",
+      "srcEn": "Process narrative · inquiry of human resources and payroll",
+      "srcFr": "Descriptif de processus · entretiens RH et paie"
+     },
+     {
+      "key": "starters",
+      "en": "Test the starters and leavers in the period to the supporting authorisation, and confirm that leavers ceased to be paid from the correct date.",
+      "fr": "Tester les entrées et sorties de l'exercice au regard des autorisations, et vérifier l'arrêt de la paie des sortants à la bonne date.",
+      "srcEn": "Contracts · termination letters · payroll journal",
+      "srcFr": "Contrats · lettres de rupture · journal de paie"
+     },
+     {
+      "key": "predictive",
+      "en": "Build an expectation of the total payroll charge from the opening headcount, the pay awards, the joiners and the leavers, and compare it with the recorded charge. Investigate the difference.",
+      "fr": "Construire une attente de la charge totale à partir de l'effectif d'ouverture, des augmentations, des entrées et sorties, et la comparer à la charge comptabilisée. Investiguer l'écart.",
+      "srcEn": "Payroll reports · HR records · prior period charge",
+      "srcFr": "États de paie · données RH · charge de l'exercice précédent"
+     },
+     {
+      "key": "recalculate",
+      "en": "Recalculate the gross-to-net for the sample selected, including the statutory deductions and the employer contributions.",
+      "fr": "Recalculer le brut au net pour l'échantillon retenu, y compris les retenues légales et les cotisations patronales.",
+      "srcEn": "Payslips · CNPS and tax rate tables · contracts",
+      "srcFr": "Bulletins de paie · barèmes CNPS et fiscaux · contrats"
+     },
+     {
+      "key": "existence",
+      "en": "Test the existence of the employees selected by agreeing to personnel files and to evidence of payment into a bank account in the employee's name.",
+      "fr": "Tester l'existence des salariés sélectionnés par rapprochement des dossiers du personnel et des preuves de virement sur un compte à leur nom.",
+      "srcEn": "Personnel files · bank payment listing",
+      "srcFr": "Dossiers du personnel · état des virements"
+     },
+     {
+      "key": "liabilities",
+      "en": "Agree the social and tax liabilities at the year end to the declarations filed, and confirm the payment made after the year end.",
+      "fr": "Rapprocher les dettes sociales et fiscales de clôture des déclarations déposées et vérifier le paiement postérieur.",
+      "srcEn": "CNPS and tax declarations · post year-end payments",
+      "srcFr": "Déclarations CNPS et fiscales · paiements postérieurs"
+     },
+     {
+      "key": "directors",
+      "en": "Test the remuneration of the directors and of key management separately, and agree it to the authorisation and to the related party disclosure.",
+      "fr": "Tester séparément la rémunération des dirigeants et des cadres dirigeants, et la rapprocher de l'autorisation et de l'information sur les parties liées.",
+      "srcEn": "Minutes · contracts · E6.2",
+      "srcFr": "Procès-verbaux · contrats · E6.2"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Part B — Evaluation",
+    "titleFr": "Partie B — Évaluation",
+    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
+    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "items": [
+     {
+      "key": "expectation",
+      "en": "The recorded charge agrees with the expectation built, or the difference is explained and corroborated (procedure 3).",
+      "fr": "La charge comptabilisée concorde avec l'attente construite, ou l'écart est expliqué et corroboré (procédure 3)."
+     },
+     {
+      "key": "authorised",
+      "en": "Every change in pay tested was authorised by a person with the authority to approve it (procedures 2, 4).",
+      "fr": "Chaque changement de rémunération testé a été autorisé par une personne habilitée (procédures 2, 4)."
+     },
+     {
+      "key": "existence",
+      "en": "The employees tested exist and were employed in the period (procedure 5).",
+      "fr": "Les salariés testés existent et étaient employés sur la période (procédure 5)."
+     },
+     {
+      "key": "liabilities",
+      "en": "The social and tax liabilities at the year end are complete and agree to the declarations filed (procedure 6).",
+      "fr": "Les dettes sociales et fiscales de clôture sont exhaustives et concordent avec les déclarations déposées (procédure 6)."
+     },
+     {
+      "key": "directors",
+      "en": "Directors' remuneration is authorised and is disclosed as a related party transaction (procedure 7).",
+      "fr": "La rémunération des dirigeants est autorisée et présentée comme opération avec une partie liée (procédure 7)."
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part C — Outcome",
+    "titleFr": "Partie C — Résultat",
+    "fields": [
+     {
+      "key": "exceptions",
+      "kind": "input",
+      "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+     },
+     {
+      "key": "carried",
+      "kind": "input",
+      "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+     }
+    ]
+   }
+  ]
+ }
+}
