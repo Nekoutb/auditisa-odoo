@@ -65,6 +65,12 @@ export class EaTopBar extends Component {
         return this.ctxState.mission?.label || "Choisir une mission";
     }
 
+    /** The mission one is in comes first, then the most recently worked. */
+    get recentMissions() {
+        const current = this.ctxState.mission?.id;
+        return [...this.ctxState.recent].sort((a, b) => (b.id === current) - (a.id === current));
+    }
+
     get gearItems() {
         const items = [];
         if (this.inMission) {

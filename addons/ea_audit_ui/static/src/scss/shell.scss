@@ -24,6 +24,9 @@ body.ea-shell {
   .o-mail-ChatHub { display: none !important; }
 
   .o_action_manager { background: var(--ea-canvas); }
+  // Odoo's own lists and forms keep clear of the bar.
+  .o_action_manager > .o_action > .o_control_panel,
+  .o_action_manager > .o_view_controller > .o_control_panel { margin-top: 10px; }
 }
 
 body.ea-shell .ea-top,
@@ -135,7 +138,7 @@ body.ea-shell .ea-pop {
   }
   .ea-pop-row {
     display: block; padding: 8px 14px; line-height: 1.25; border-bottom: 1px solid var(--ea-line); color: var(--ea-ink);
-    b { display: block; font-size: 13px; font-weight: 600; }
+    b { display: block; font-size: 13px; font-weight: 700; }
     small { display: block; color: var(--ea-muted); font-size: 11px; }
     code { font-size: 12px; font-weight: 700; margin-right: 2px; }
     &:hover { background: var(--ea-greenbg); }

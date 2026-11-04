@@ -7,7 +7,7 @@
         <xpath expr="//body" position="inside">
             <t t-set="ea_staging_band" t-value="request and request.env['ir.config_parameter'].sudo().get_param('ea_audit.staging_band') in ('1', 'True', 'true')"/>
             <div t-if="ea_staging_band" class="ea-staging-band" role="status"
-                 style="position:fixed;bottom:0;left:0;right:0;z-index:1060;height:22px;line-height:22px;text-align:center;background:#9c660e;color:#fff;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;">STAGING - données de test, aucun e-mail n'est envoyé</div>
+                 style="position:fixed;bottom:0;left:0;right:0;z-index:1060;height:22px;line-height:22px;text-align:center;background:#9c660e;color:#fff;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;overflow:hidden;pointer-events:none;">STAGING - données de test, sans e-mail</div>
         </xpath>
     </template>
 </odoo>

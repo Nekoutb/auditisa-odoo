@@ -34,7 +34,7 @@
                 </button>
                 <div t-if="state.open === 'selector'" class="ea-pop ea-pop-sel">
                     <div class="ea-pop-h">Missions récentes</div>
-                    <a t-foreach="ctxState.recent" t-as="mission" t-key="mission.id" class="ea-pop-row" href="#" role="button"
+                    <a t-foreach="recentMissions" t-as="mission" t-key="mission.id" class="ea-pop-row" href="#" role="button"
                        t-on-click.prevent="() => this.pickMission(mission)">
                         <b t-esc="mission.label"/>
                         <small t-esc="mission.phase_label"/>
