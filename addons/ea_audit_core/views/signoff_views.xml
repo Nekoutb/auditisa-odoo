@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_signoff_list" model="ir.ui.view">
+        <field name="name">ea.audit.signoff.list</field>
+        <field name="model">ea.audit.signoff</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="code"/>
+                <field name="role"/>
+                <field name="user_id"/>
+                <field name="signed_at"/>
+                <field name="voided_at" optional="hide"/>
+                <field name="invalidated_at" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_signoff_form" model="ir.ui.view">
+        <field name="name">ea.audit.signoff.form</field>
+        <field name="model">ea.audit.signoff</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="engagement_id"/>
+                            <field name="file_item_id"/>
+                            <field name="kind"/>
+                            <field name="role"/>
+                            <field name="user_id"/>
+                            <field name="signed_at"/>
+                        </group>
+                        <group>
+                            <field name="version_no"/>
+                            <field name="content_hash"/>
+                            <field name="voided_at"/>
+                            <field name="voided_by_id"/>
+                            <field name="void_reason"/>
+                            <field name="invalidated_at"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_signoff_policy_form" model="ir.ui.view">
+        <field name="name">ea.audit.signoff.policy.form</field>
+        <field name="model">ea.audit.signoff.policy</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="min_reviewer_role"/>
+                        <field name="require_distinct_preparer_approver"/>
+                        <field name="allow_sole_practitioner" readonly="1"/>
+                        <field name="allowed_email_domains"/>
+                        <field name="require_partner_on_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_signoff_task_rule_list" model="ir.ui.view">
+        <field name="name">ea.audit.signoff.task.rule.list</field>
+        <field name="model">ea.audit.signoff.task.rule</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="template_id"/>
+                <field name="min_preparer"/>
+                <field name="min_reviewer"/>
+                <field name="partner_required"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_signoff_task_rule" model="ir.actions.act_window">
+        <field name="name">Sign-off rules per task</field>
+        <field name="res_model">ea.audit.signoff.task.rule</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="action_signoff_policy_open" model="ir.actions.server">
+        <field name="name">Sign-off policy</field>
+        <field name="model_id" ref="model_ea_audit_signoff_policy"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_firm_policy()</field>
+    </record>
+</odoo>

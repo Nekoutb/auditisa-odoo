@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- F008: only an ACCEPTED member of the team reads or writes an engagement
+         and its children. These rules are global (no groups), so they bind every
+         firm role, the firm administrator and the partner included: only the
+         superuser environment of the rules engine passes them.
+
+         perm_create is off on the engagement: a partner may open a file for
+         another partner and is not seated on it. Creation is decided in create(). -->
+    <record id="rule_engagement_team_only" model="ir.rule">
+        <field name="name">Engagement: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_engagement"/>
+        <field name="domain_force">[('team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="rule_file_item_team_only" model="ir.rule">
+        <field name="name">File item: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_file_item"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_signoff_team_only" model="ir.rule">
+        <field name="name">Sign-off: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_signoff"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_planning_snapshot_team_only" model="ir.rule">
+        <field name="name">Planning snapshot: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_planning_snapshot"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+
+    <!-- The team list: an invited member reads their own invitation row and nothing else. -->
+    <record id="rule_team_member_read" model="ir.rule">
+        <field name="name">Team member: read as accepted member, or one's own open invitation</field>
+        <field name="model_id" ref="model_ea_audit_team_member"/>
+        <field name="domain_force">['|', ('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')]), '&amp;', ('user_id', '=', user.id), ('state', '=', 'invited')]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="rule_team_member_write" model="ir.rule">
+        <field name="name">Team member: change as accepted member</field>
+        <field name="model_id" ref="model_ea_audit_team_member"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>

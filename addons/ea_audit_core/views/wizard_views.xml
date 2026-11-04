@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_engagement_create_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.create.wizard.form</field>
+        <field name="model">ea.audit.engagement.create.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="client_id"/>
+                        <field name="fiscal_year"/>
+                        <field name="period_end"/>
+                        <field name="duration_months"/>
+                    </group>
+                    <group>
+                        <field name="engagement_partner_id"/>
+                        <field name="nature"/>
+                        <field name="complexity"/>
+                        <field name="first_year"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_create" type="object" string="Create" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_engagement_create_wizard" model="ir.actions.act_window">
+        <field name="name">New engagement</field>
+        <field name="res_model">ea.audit.engagement.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_team_invite_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.team.invite.wizard.form</field>
+        <field name="model">ea.audit.team.invite.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="email"/>
+                    <field name="display_name_typed"/>
+                    <field name="team_role"/>
+                    <field name="eqr_declaration" invisible="team_role != 'eqr_reviewer'"/>
+                </group>
+                <footer>
+                    <button name="action_invite" type="object" string="Invite" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_team_invite_wizard" model="ir.actions.act_window">
+        <field name="name">Invite to the team</field>
+        <field name="res_model">ea.audit.team.invite.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_partner_transfer_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.partner.transfer.wizard.form</field>
+        <field name="model">ea.audit.partner.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="new_user_id"/>
+                    <field name="outgoing_role"/>
+                </group>
+                <footer>
+                    <button name="action_transfer" type="object" string="Transfer" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_partner_transfer_wizard" model="ir.actions.act_window">
+        <field name="name">Transfer the partner role</field>
+        <field name="res_model">ea.audit.partner.transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_team_decline_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.team.decline.wizard.form</field>
+        <field name="model">ea.audit.team.decline.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="member_id" invisible="1"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_decline" type="object" string="Decline" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_team_decline_wizard" model="ir.actions.act_window">
+        <field name="name">Decline the engagement</field>
+        <field name="res_model">ea.audit.team.decline.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

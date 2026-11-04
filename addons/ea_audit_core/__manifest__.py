@@ -1,0 +1,23 @@
+{
+    "name": "AuditISA Core",
+    "summary": "Firm roles, engagements, teams, file index, sign-off governance and gates",
+    "version": "19.0.1.0.0",
+    "category": "Accounting/Audit",
+    "license": "LGPL-3",
+    "depends": ["base", "mail"],
+    "data": [
+        "security/ea_audit_security.xml",
+        "security/ir.model.access.csv",
+        "security/ea_audit_rules.xml",
+        "data/ea.audit.task.template.csv",
+        "views/wizard_views.xml",
+        "views/client_views.xml",
+        "views/engagement_views.xml",
+        "views/team_member_views.xml",
+        "views/file_item_views.xml",
+        "views/signoff_views.xml",
+        "views/menus.xml",
+    ],
+    "application": True,
+    "installable": True,
+}
