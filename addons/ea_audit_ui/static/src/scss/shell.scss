@@ -71,19 +71,22 @@ body.ea-shell .ea-top {
     }
   }
   .ea-sp { flex: 1; }
-  .ea-anchor { position: relative; }
+  .ea-anchor { position: relative; flex: 0 0 auto; }
+  // Inside a mission the four phases need the room: these two give first.
+  .ea-sel-wrap { flex: 0 1 230px; min-width: 170px; }
+  .ea-search-wrap { flex: 0 1 170px; min-width: 110px; }
 
   .ea-sel {
-    display: block; width: 230px; padding: 3px 10px; line-height: 1.2; text-align: left;
+    display: block; width: 100%; padding: 3px 10px; line-height: 1.2; text-align: left;
     background: var(--ea-card); color: var(--ea-ink);
     border: 1px solid var(--ea-line2); border-radius: 8px;
     small { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: .08em; color: var(--ea-muted); }
     .ea-sel-line { display: flex; align-items: center; gap: 6px; }
     b { flex: 0 1 auto; min-width: 0; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
-    .ea-caret { flex: 0 0 auto; font-style: normal; font-size: 11px; }
+    .ea-caret { flex: 0 0 auto; font-style: normal; font-size: 13px; }
   }
   .ea-search {
-    width: 170px; height: 34px; padding: 7px 10px; font-size: 13px; color: var(--ea-ink);
+    width: 100%; height: 34px; padding: 7px 10px; font-size: 13px; color: var(--ea-ink);
     background: var(--ea-card); border: 1px solid var(--ea-line2); border-radius: 8px; outline: 0;
     &::placeholder { color: var(--ea-muted); }
     &:focus { border-color: var(--ea-green); }
@@ -98,15 +101,15 @@ body.ea-shell .ea-top {
     background: var(--ea-green); color: #fff; font-size: 10px; font-weight: 700; line-height: 15px;
   }
   .ea-who {
-    text-align: right; line-height: 1.15; font-size: 13px;
+    flex: 0 0 auto; text-align: right; line-height: 1.15; font-size: 13px;
     small { display: block; color: var(--ea-muted); font-size: 11px; }
   }
   .ea-av {
-    width: 32px; height: 32px; border-radius: 8px; background: var(--ea-green); color: #fff;
+    flex: 0 0 32px; width: 32px; height: 32px; border-radius: 8px; background: var(--ea-green); color: #fff;
     display: grid; place-items: center; font-weight: 700; font-size: 12px;
   }
   .ea-out {
-    border: 1px solid var(--ea-line); border-radius: 8px; padding: 6px 10px; font-size: 13px;
+    flex: 0 0 auto; border: 1px solid var(--ea-line); border-radius: 8px; padding: 6px 10px; font-size: 13px;
     &:hover { background: var(--ea-canvas); }
   }
   .ea-out-icon { display: none; }
@@ -116,7 +119,7 @@ body.ea-shell .ea-top {
 body.ea-shell .ea-pop {
   position: absolute;
   top: calc(100% + 13px);
-  left: 0;
+  left: 41px;
   width: 300px;
   background: var(--ea-card);
   border: 1px solid var(--ea-line2);
@@ -153,7 +156,7 @@ body.ea-shell .ea-pop {
     }
   }
 }
-body.ea-shell .ea-pop-bell { left: auto; right: -112px; width: 360px; }
+body.ea-shell .ea-pop-bell { left: auto; right: -272px; width: 360px; }
 body.ea-shell .ea-pop-gear { left: auto; right: 0; width: 250px; }
 body.ea-shell .ea-pop-search { left: auto; right: 0; width: 340px; }
 
@@ -198,7 +201,7 @@ body.ea-shell .ea-page {
     padding: 13px 18px; border-top: 1px solid var(--ea-line);
     &:first-child { border-top: 0; }
     &:hover { background: #f6f8f9; }
-    > div > b { font-size: 14px; font-weight: 600; }
+    > div > b { font-size: 14px; font-weight: 700; }
     .ea-m { color: var(--ea-muted); font-size: 12.5px; line-height: 1.5; b { font-weight: 700; color: var(--ea-soft); font-size: 14px; } }
   }
   .ea-bar { height: 6px; background: var(--ea-line); border-radius: 4px; overflow: hidden; i { display: block; height: 100%; background: var(--ea-green); } }
@@ -214,11 +217,12 @@ body.ea-shell .ea-page {
   }
   .ea-rings { display: grid; gap: 12px; margin-top: 14px; }
   .ea-ring-card {
+    display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
     padding: 14px 10px; text-align: center; color: var(--ea-ink); min-width: 0;
     &:hover { border-color: var(--ea-line2); }
     &.on { border: 2px solid var(--ea-green); padding: 13px 9px; }
     h3 {
-      margin: 0 0 10px; min-height: 30px; font-size: 11px; font-weight: 600; letter-spacing: .07em; line-height: 1.35;
+      margin: 0 0 10px; min-height: 30px; font-size: 11px; font-weight: 700; letter-spacing: .07em; line-height: 1.35;
       text-transform: uppercase; color: var(--ea-soft); display: flex; align-items: center; justify-content: center;
     }
   }
@@ -231,7 +235,7 @@ body.ea-shell .ea-page {
     a {
       display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 13px; border-top: 1px solid var(--ea-line);
       &:first-child { border-top: 0; }
-      b { font-weight: 600; }
+      b { font-weight: 700; }
       span { color: var(--ea-muted); white-space: nowrap; }
       &:hover b { color: var(--ea-green); }
       &.cur, &.cur span { color: var(--ea-green); }
@@ -257,7 +261,7 @@ body.ea-shell .ea-page {
   .ea-tile {
     padding: 13px 16px; min-width: 0;
     h4 {
-      margin: 0 0 8px; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ea-ink);
+      margin: 0 0 8px; font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--ea-ink);
       display: flex; justify-content: space-between; align-items: center; gap: 8px;
       small { color: var(--ea-muted); font-weight: 400; font-size: 12px; }
     }
@@ -272,7 +276,7 @@ body.ea-shell .ea-page {
   .ea-pill { background: var(--ea-rosebg); color: var(--ea-rose); font-size: 11px; font-weight: 700; border-radius: 9px; padding: 1px 8px; white-space: nowrap; }
 
   // Task list
-  .ea-back { display: inline-block; margin-top: 14px; color: var(--ea-green); font-size: 13px; font-weight: 600; }
+  .ea-back { display: inline-block; margin-top: 12px; color: var(--ea-green); font-size: 13px; font-weight: 600; }
   .ea-title-tasks { margin-top: 6px; }
   .ea-task-card { margin-top: 14px; overflow: hidden; }
   .ea-table-wrap { overflow-x: auto; }
@@ -282,6 +286,11 @@ body.ea-shell .ea-page {
       font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-align: left; color: var(--ea-muted);
       padding: 9px 16px; border-top: 1px solid var(--ea-line); border-bottom: 1px solid var(--ea-line); white-space: nowrap;
     }
+    th:nth-child(1) { width: 28%; }
+    th:nth-child(2) { width: 18%; }
+    th:nth-child(3) { width: 20%; }
+    th:nth-child(4) { width: 11%; }
+    th:nth-child(5) { width: 11%; }
     td { padding: 10px 16px; border-bottom: 1px solid var(--ea-line); vertical-align: middle; }
     tbody tr { cursor: pointer; }
     tbody tr:hover td { background: #f6f8f9; }

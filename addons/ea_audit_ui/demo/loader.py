@@ -211,7 +211,8 @@ class _Demo:
         return engagement
 
     def settle_the_bell(self):
-        """Keep what still asks something of the reader; the rest was seen."""
+        """Keep what still asks something of the reader: the hundreds of rows the
+        build itself produced would bury it."""
         Notification = self.env["ea.audit.notification"].sudo()
         for row in Notification.search([("read_at", "=", False)]):
             item = row.file_item_id
@@ -219,7 +220,7 @@ class _Demo:
                 row.title.startswith("À réviser") and item.state == "prepared" and item.approver_id == row.user_id
             )
             if not still_asked:
-                row.read_at = fields.Datetime.now()
+                row.unlink()
 
 
 class AuditUiDemo(models.AbstractModel):

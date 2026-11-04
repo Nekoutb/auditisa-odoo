@@ -252,7 +252,14 @@ class AuditUi(models.AbstractModel):
             mission = "%s, exercice %s" % (engagement.client_id.name, engagement.fiscal_year)
             own = items.filtered(lambda item: item.engagement_id == engagement)
             is_partner = user == engagement.engagement_partner_id or user == engagement.partner_delegate_id
-            to_review = own.filtered(lambda item: self._ea_ui_my_word(item, user, is_partner, policy) in ("À réviser", "À signer"))
+            awaiting_acceptance = (
+                is_partner and engagement.phase == "acceptance" and not engagement.sudo()._ea_approval_signed("P1.1")
+            )
+            to_review = own.filtered(
+                lambda item: self._ea_ui_my_word(item, user, is_partner, policy) in ("À réviser", "À signer")
+                # the acceptance has a row of its own
+                and not (awaiting_acceptance and item.code == "P1.1")
+            )
             if to_review:
                 rows.append({
                     "title": "Feuilles de travail en attente de revue",
@@ -261,7 +268,7 @@ class AuditUi(models.AbstractModel):
                     "engagement_id": engagement.id,
                     "item_ids": to_review.ids,
                 })
-            if is_partner and engagement.phase == "acceptance" and not engagement.sudo()._ea_approval_signed("P1.1"):
+            if awaiting_acceptance:
                 acceptance = own.filtered(lambda item: item.code == "P1.1")
                 rows.append({
                     "title": "Acceptation en attente de la signature de l'associé",
@@ -294,7 +301,7 @@ class AuditUi(models.AbstractModel):
     @api.model
     def ea_ui_home(self):
         today = fields.Date.context_today(self)
-        engagements = self.env["ea.audit.engagement"].search([], order="fiscal_year desc, id desc")
+        engagements = self.env["ea.audit.engagement"].search([], order="fiscal_year desc, id")
         engagements = engagements.sorted(lambda e: bool(e.archived_at or e.phase == "archived"))
         items = self._ea_ui_active_items(engagements)
         done_ids = self._ea_ui_done_ids(items)
@@ -389,7 +396,7 @@ class AuditUi(models.AbstractModel):
             "text": "en retard de %s j" % self._ea_ui_late_days(item, today),
         } for item in late[:_STRIP_CHIPS]] + [{
             "id": item.id, "code": item.code, "title": item.title, "tone": "g",
-            "text": "à signer" if item.state == "reviewed" else "en attente de révision",
+            "text": "à signer" if item.state == "reviewed" else "à réviser",
         } for item in awaiting[:max(0, _STRIP_CHIPS - len(late))]]
 
         mine = []

@@ -189,8 +189,7 @@
                 </div>
 
                 <div class="ea-alert" t-if="d.unassigned_ids.length">
-                    &#9888; <t t-esc="d.unassigned_ids.length"/> <t t-if="d.unassigned_ids.length > 1">tâches n'ont pas de préparateur.</t><t t-else="">tâche n'a pas de préparateur.</t>
-                    <a href="#" role="button" t-on-click.prevent="openUnassigned"><b>Les répartir &#8594;</b></a>
+                    &#9888; <t t-esc="d.unassigned_ids.length"/> <t t-if="d.unassigned_ids.length > 1">tâches n'ont pas de préparateur.</t><t t-else="">tâche n'a pas de préparateur.</t><t t-out="' '"/><a href="#" role="button" t-on-click.prevent="openUnassigned"><b>Les répartir &#8594;</b></a>
                 </div>
 
                 <div class="ea-strip" t-if="d.attention.length">

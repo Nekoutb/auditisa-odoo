@@ -163,6 +163,16 @@ class TestUiData(EaAuditCase):
         titles = [t["title"] for t in self.ui(self.partner).ea_ui_home()["todo"] if t["engagement_id"] == fresh.id]
         self.assertIn("Acceptation en attente de la signature de l'associé", titles)
 
+    def test_home_todo_does_not_list_the_acceptance_twice(self):
+        fresh = self.make_engagement(2026, partner=self.partner)
+        self.seat(fresh, self.manager, "manager")
+        p11 = self.item(fresh, "P1.1")
+        p11.with_user(self.manager).assign_tasks(self.manager.id, "preparer")
+        p11.with_user(self.manager).assign_tasks(self.partner.id, "approver")
+        p11.with_user(self.manager).action_sign("preparer")
+        titles = [t["title"] for t in self.ui(self.partner).ea_ui_home()["todo"] if t["engagement_id"] == fresh.id]
+        self.assertEqual(titles, ["Acceptation en attente de la signature de l'associé"])
+
     def test_home_todo_shows_an_invitation_without_opening_the_file(self):
         self.engagement.with_user(self.partner)._ea_invite_user(self.outsider, "staff")
         home = self.ui(self.outsider).ea_ui_home()
