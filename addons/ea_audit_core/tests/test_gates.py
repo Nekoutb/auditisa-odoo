@@ -36,6 +36,9 @@ class GateCase(EaAuditCase):
         self.seat(self.engagement, self.manager, "manager")
         self.seat(self.engagement, self.senior, "senior")
         self.cls_engagement = type(self.env["ea.audit.engagement"])
+        # With ea_audit_tools installed the presumed risks are really seeded and wait on a
+        # programme. This fixture tests the gates' logic: each count gate patches its own hook.
+        self.patch(self.cls_engagement, "_ea_unlinked_significant_risk_count", lambda _self: 0)
 
     def keys(self, gates):
         return [g["key"] for g in gates]

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_materiality_form" model="ir.ui.view">
+        <field name="name">ea.audit.materiality.form</field>
+        <field name="model">ea.audit.materiality</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="version_no"/>
+                            <field name="state"/>
+                            <field name="benchmark"/>
+                            <field name="benchmark_amount"/>
+                            <field name="percentage"/>
+                        </group>
+                        <group>
+                            <field name="overall"/>
+                            <field name="performance_pct"/>
+                            <field name="performance"/>
+                            <field name="trivial_pct"/>
+                            <field name="trivial"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="justification"/>
+                        <field name="performance_justification"/>
+                        <field name="created_by_id"/>
+                        <field name="approved_by_id"/>
+                        <field name="approved_at"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_engagement_materiality_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.materiality.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_open_materiality_wizard" type="object" string="Generate a version" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_approve_latest_materiality" type="object" string="Approve the latest version"
+                            invisible="not mat_user_may_approve" confirm="Approve the latest materiality version?"/>
+                    <button name="action_export_materiality" type="object" string="Export to Excel"/>
+                    <field name="mat_user_may_approve" invisible="1"/>
+                    <field name="mat_draft_pending" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="o_ea_title">Materiality</div>
+                            <div class="o_ea_sub">P6.1 · ISA 320, ISA 450 · <field name="bilan_label" readonly="1"/></div>
+                        </div>
+                        <div>
+                            <span class="o_ea_chip o_ea_chip_good me-2"><field name="mat_status_label" readonly="1"/></span>
+                            <span class="o_ea_chip"><field name="mat_version_label" readonly="1"/></span>
+                        </div>
+                    </div>
+                    <div class="o_ea_banner" invisible="not mat_draft_pending">
+                        A draft version awaits the partner's approval: until then the approved version stays in force.
+                    </div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Overall materiality</div>
+                            <field name="mat_overall_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="mat_overall_note"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Performance materiality</div>
+                            <field name="mat_performance_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="mat_performance_note"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Clearly trivial misstatements</div>
+                            <field name="mat_trivial_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="mat_trivial_note"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="o_ea_panel">
+                                <div class="o_ea_card_label mb-2">Trial balance bases</div>
+                                <field name="mat_bases_html" readonly="1" nolabel="1"/>
+                                <div class="o_ea_card_label mt-2">Justification of the base, the percentage and the qualitative factors (ISA 320 para 14)</div>
+                                <field name="mat_justification" readonly="1" nolabel="1"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="o_ea_panel">
+                                <div class="o_ea_card_label mb-2">Version history</div>
+                                <field name="materiality_ids" readonly="1" nolabel="1">
+                                    <list>
+                                        <field name="version_no"/>
+                                        <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-warning="state == 'draft'"/>
+                                        <field name="overall"/>
+                                        <field name="approved_by_id"/>
+                                        <field name="approved_at" widget="date"/>
+                                    </list>
+                                </field>
+                                <div class="o_ea_card_label mt-3 mb-1">Papers fed</div>
+                                <span class="o_ea_chip o_ea_chip_good me-1">P6.1</span>
+                                <span class="o_ea_chip o_ea_chip_good me-1">P6.2</span>
+                                <span class="o_ea_chip o_ea_chip_good">C1.1</span>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

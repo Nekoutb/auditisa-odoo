@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_risk_list" model="ir.ui.view">
+        <field name="name">ea.audit.risk.list</field>
+        <field name="model">ea.audit.risk</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0">
+                <header>
+                    <button name="action_list_add_risk" type="object" string="Add a risk" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                </header>
+                <field name="title"/>
+                <field name="category"/>
+                <field name="level"/>
+                <field name="inherent_rating" widget="badge" decoration-danger="inherent_rating == 'high'" decoration-warning="inherent_rating == 'medium'" decoration-success="inherent_rating == 'low'"/>
+                <field name="significant"/>
+                <field name="rebutted" optional="show"/>
+                <field name="index_summary"/>
+                <field name="linked_step_count"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_risk_form" model="ir.ui.view">
+        <field name="name">ea.audit.risk.form</field>
+        <field name="model">ea.audit.risk</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <header>
+                    <button name="action_open_index_link" type="object" string="Link to a lead index" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_rebut" type="object" string="Rebut" invisible="presumed_type != 'revenue_fraud' or rebutted" groups="ea_audit_core.group_partner"/>
+                    <button name="approve_addition" type="object" string="Approve the addition" invisible="not added_after_planning or addition_approved_by_id" groups="ea_audit_core.group_partner"/>
+                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="title" readonly="1"/>
+                        <field name="description" readonly="presumed_type"/>
+                        <field name="source" readonly="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="category"/>
+                            <field name="level"/>
+                            <field name="likelihood"/>
+                            <field name="magnitude"/>
+                            <field name="inherent_rating"/>
+                        </group>
+                        <group>
+                            <field name="significant"/>
+                            <field name="substantive_alone_insufficient"/>
+                            <field name="controls_reliance"/>
+                            <field name="presumed_type"/>
+                            <field name="rebutted"/>
+                            <field name="rebuttal_approved_by_id" invisible="not rebutted"/>
+                            <field name="added_after_planning"/>
+                            <field name="addition_approved_by_id" invisible="not added_after_planning"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="inherent_factors"/>
+                        <field name="fs_note" invisible="level != 'fs'"/>
+                        <field name="rebuttal_justification" invisible="not rebutted"/>
+                    </group>
+                    <notebook>
+                        <page string="Lead indexes">
+                            <field name="index_link_ids" readonly="1">
+                                <list>
+                                    <field name="index_code"/>
+                                    <field name="assertion_ids" widget="many2many_tags"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Program steps">
+                            <field name="program_step_ids" readonly="1">
+                                <list>
+                                    <field name="file_item_id"/>
+                                    <field name="description"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_potential_risk_list" model="ir.ui.view">
+        <field name="name">ea.audit.potential.risk.list</field>
+        <field name="model">ea.audit.potential.risk</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="description"/>
+                <field name="source_code"/>
+                <field name="raised_by_id"/>
+                <field name="status"/>
+                <field name="dismissal_rationale"/>
+                <button name="action_promote" type="object" string="Promote to S3.1" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
+                <button name="action_open_dismiss" type="object" string="Dismiss" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
+            </list>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tool_tile_kanban" model="ir.ui.view">
+        <field name="name">ea.audit.tool.tile.kanban</field>
+        <field name="model">ea.audit.tool.tile</field>
+        <field name="arch" type="xml">
+            <kanban create="0" delete="0" edit="0" can_open="0" action="action_open_tool" type="object">
+                <field name="method"/>
+                <field name="feeds"/>
+                <templates>
+                    <t t-name="card" t-attf-class="o_ea_tile #{record.method.raw_value ? '' : 'o_ea_tile_off'}">
+                        <span class="o_ea_tile_name"><field name="name"/></span>
+                        <span class="o_ea_tile_desc"><field name="subtitle"/></span>
+                        <div class="mt-2">
+                            <t t-foreach="(record.feeds.raw_value || '').split(',')" t-as="code" t-key="code">
+                                <span class="o_ea_tile_code" t-esc="code"/>
+                            </t>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- The entry: on the engagement, next to its phase. -->
+    <record id="view_engagement_form_tools_button" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.form.tools</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='phase']" position="before">
+                <button name="action_open_tools" type="object" string="Tools"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

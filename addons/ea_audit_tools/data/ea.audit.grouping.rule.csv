@@ -1,0 +1,95 @@
+id,account_prefix,label,fs_ref,section_code,priority,source
+rule_10,10,Capital,CA-CE,E280,0,appendix-a
+rule_11,11,Reserves,CF-CG,E280,0,appendix-a
+rule_12,12,Retained earnings,CH,E280,0,appendix-a
+rule_13,13,Net income for the year,CJ,E280,0,appendix-a
+rule_14,14,Investment subsidies,CL,E280,0,appendix-a
+rule_15,15,Regulated provisions,CM,E280,0,appendix-a
+rule_16,16,Borrowings and similar debts,DA,E170,0,appendix-a
+rule_17,17,Finance-lease debts,DB,E210,0,appendix-a
+rule_18,18,Participation-linked debts & liaison,DA,E170,0,appendix-a
+rule_19,19,Provisions for risks and charges,DC,E200,0,appendix-a
+rule_21,21,Intangible assets,AE-AH,E150,0,appendix-a
+rule_22,22,Land,AJ,E140,0,appendix-a
+rule_23,23,"Buildings, technical installations",AK-AL,E140,0,appendix-a
+rule_24,24,"Equipment, furniture and biological assets",AM-AN,E140,0,appendix-a
+rule_25,25,Advances on non-current assets,AP,E140,0,appendix-a
+rule_26,26,Equity investments,AR,E160,0,appendix-a
+rule_27,27,Other financial assets,AS,E160,0,appendix-a
+rule_28,28,Depreciation of non-current assets,AJ-AN,E140,0,appendix-a
+rule_281,281,Amortisation of intangibles,AE-AH,E150,10,appendix-a
+rule_29,29,Impairment of non-current assets,AJ-AN,E140,0,appendix-a
+rule_291,291,Impairment of intangibles,AE-AH,E150,10,appendix-a
+rule_296,296,Impairment of equity investments,AR,E160,10,appendix-a
+rule_297,297,Impairment of other financial assets,AS,E160,10,appendix-a
+rule_31,31,Merchandise,BB,E130,0,appendix-a
+rule_32,32,Raw materials and related supplies,BB,E130,0,appendix-a
+rule_33,33,Other supplies,BB,E130,0,appendix-a
+rule_34,34,Work in progress (goods),BB,E130,0,appendix-a
+rule_35,35,Services in progress,BB,E130,0,appendix-a
+rule_36,36,Finished goods,BB,E130,0,appendix-a
+rule_37,37,Intermediate and residual products,BB,E130,0,appendix-a
+rule_38,38,Goods in transit / on consignment,BB,E130,0,appendix-a
+rule_39,39,Impairment of inventories,BB,E130,0,appendix-a
+rule_40,40,Suppliers and related accounts,DJ,E110,0,appendix-a
+rule_409,409,Suppliers — debit balances (advances),BH,E110,10,appendix-a
+rule_41,41,Customers and related accounts,BI,E100,0,appendix-a
+rule_419,419,Customers — credit balances (advances received),DI,E100,10,appendix-a
+rule_42,42,Personnel,BJ/DK,E120,0,appendix-a
+rule_43,43,Social security bodies,BJ/DK,E120,0,appendix-a
+rule_44,44,State and public authorities,BJ/DK,E180,0,appendix-a
+rule_443,443,VAT collected/payable,DK,E190,10,appendix-a
+rule_444,444,VAT due or credit,BJ/DK,E190,10,appendix-a
+rule_445,445,Recoverable VAT,BJ,E190,10,appendix-a
+rule_45,45,International organisations,BJ/DM,E220,0,appendix-a
+rule_46,46,"Shareholders, associates and group",BJ/DM,E320,0,appendix-a
+rule_47,47,Sundry debtors and creditors,BJ/DM,E220,0,appendix-a
+rule_478,478,Translation difference — assets,BU,E220,10,appendix-a
+rule_479,479,Translation difference — liabilities,DV,E220,10,appendix-a
+rule_48,48,HAO receivables and payables,BA/DH,E220,0,appendix-a
+rule_49,49,Impairment and short-term provisions (third parties),BH-BJ,E220,0,appendix-a
+rule_490,490,Impairment — supplier debit balances,BH,E110,10,appendix-a
+rule_491,491,Impairment — customer accounts,BI,E100,10,appendix-a
+rule_499,499,Short-term risk provisions,DN,E200,10,appendix-a
+rule_50,50,Marketable securities,BQ,E160,0,appendix-a
+rule_51,51,Items for collection,BR,E170,0,appendix-a
+rule_52,52,Banks,BS/DR,E170,0,appendix-a
+rule_53,53,Financial institutions and similar,BS/DR,E170,0,appendix-a
+rule_54,54,Treasury instruments,BS,E170,0,appendix-a
+rule_55,55,Electronic money instruments,BS,E170,0,appendix-a
+rule_56,56,Bank overdrafts and discount credits,DQ/DR,E170,0,appendix-a
+rule_57,57,Cash,BS,E170,0,appendix-a
+rule_58,58,Imprest accounts and internal transfers,BS,E170,0,appendix-a
+rule_59,59,Short-term impairment (treasury),BQ-BS,E170,0,appendix-a
+rule_599,599,Short-term treasury risk provisions,DN,E200,10,appendix-a
+rule_60,60,Purchases and inventory variations,RA-RF,E110,0,appendix-a
+rule_61,61,Transport,RG,E110,0,appendix-a
+rule_62,62,External services A,RH,E110,0,appendix-a
+rule_63,63,External services B,RH,E110,0,appendix-a
+rule_64,64,Taxes and duties,RI,E180,0,appendix-a
+rule_65,65,Other operating expenses,RJ,E110,0,appendix-a
+rule_66,66,Personnel costs,RK,E120,0,appendix-a
+rule_67,67,Financial expenses,RM,E170,0,appendix-a
+rule_68,68,Depreciation charges,RL,E140,0,appendix-a
+rule_69,69,Provision and impairment charges,RL,E200,0,appendix-a
+rule_697,697,Financial provision charges,RN,E170,10,appendix-a
+rule_70,70,Sales,TA-TD,E100,0,appendix-a
+rule_71,71,Operating subsidies,TG,E100,0,appendix-a
+rule_72,72,Capitalised production,TF,E100,0,appendix-a
+rule_73,73,Variations in produced inventories,TE,E100,0,appendix-a
+rule_75,75,Other income,TH,E100,0,appendix-a
+rule_77,77,Financial income,TK,E170,0,appendix-a
+rule_78,78,Expense transfers,TI,E100,0,appendix-a
+rule_787,787,Financial expense transfers,TM,E170,10,appendix-a
+rule_79,79,Provision and impairment reversals,TJ,E200,0,appendix-a
+rule_791,791,Operating reversals,TJ,E100,10,appendix-a
+rule_797,797,Financial reversals,TL,E170,10,appendix-a
+rule_81,81,Book value of disposed assets,RO,E220,0,appendix-a
+rule_82,82,Proceeds from asset disposals,TN,E220,0,appendix-a
+rule_83,83,HAO expenses,RP,E220,0,appendix-a
+rule_84,84,HAO income,TO,E220,0,appendix-a
+rule_85,85,HAO charges (provisions),RP,E220,0,appendix-a
+rule_86,86,HAO reversals,TO,E220,0,appendix-a
+rule_87,87,Employee profit-sharing,RQ,E120,0,appendix-a
+rule_88,88,Balancing subsidies,TO,E220,0,appendix-a
+rule_89,89,Income tax,RS,E180,0,appendix-a

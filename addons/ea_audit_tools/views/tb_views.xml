@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tb_version_list" model="ir.ui.view">
+        <field name="name">ea.audit.tb.version.list</field>
+        <field name="model">ea.audit.tb.version</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-danger="validation_status == 'invalid'" decoration-muted="superseded_at and not is_current">
+                <field name="version_no"/>
+                <field name="timing"/>
+                <field name="validation_status" widget="badge" decoration-success="validation_status == 'valid'" decoration-danger="validation_status == 'invalid'"/>
+                <field name="is_current"/>
+                <field name="source_filename"/>
+                <field name="row_count"/>
+                <field name="total_debit"/>
+                <field name="total_credit"/>
+                <field name="superseded_at"/>
+                <field name="create_uid" string="Imported by"/>
+                <field name="create_date" string="Imported on"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_tb_version_form" model="ir.ui.view">
+        <field name="name">ea.audit.tb.version.form</field>
+        <field name="model">ea.audit.tb.version</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="version_no"/>
+                            <field name="timing"/>
+                            <field name="validation_status"/>
+                            <field name="is_current"/>
+                        </group>
+                        <group>
+                            <field name="source_filename"/>
+                            <field name="source_sha256"/>
+                            <field name="total_debit"/>
+                            <field name="total_credit"/>
+                        </group>
+                    </group>
+                    <field name="checks_text" nolabel="1"/>
+                    <field name="line_ids" readonly="1">
+                        <list>
+                            <field name="account_code"/>
+                            <field name="account_name"/>
+                            <field name="opening_debit"/>
+                            <field name="opening_credit"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="closing"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_engagement_tb_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.tb.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_open_tb_import" type="object" string="Import a trial balance" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_tool_lead" type="object" string="Lead schedules"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Trial balance</div>
+                    <div class="o_ea_sub"><field name="display_name" readonly="1"/></div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Version in force</div>
+                            <field name="tb_current_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="tb_status_label"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Total net assets</div>
+                            <field name="bilan_total_assets" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="bilan_label"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Total equity and liabilities</div>
+                            <field name="bilan_total_equity_liabilities" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note">Class 1 + current liabilities + result</div>
+                        </div>
+                    </div>
+                    <div class="o_ea_panel">
+                        <group string="Balance sheet (SYSCOHADA)">
+                            <group string="Assets">
+                                <field name="bilan_fixed_assets"/>
+                                <field name="bilan_inventory"/>
+                                <field name="bilan_receivables"/>
+                                <field name="bilan_cash_assets"/>
+                            </group>
+                            <group string="Equity and liabilities">
+                                <field name="bilan_class1"/>
+                                <field name="bilan_class4_credit"/>
+                                <field name="bilan_cash_liabilities"/>
+                                <field name="bilan_net_result"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Versions</div>
+                        <field name="tb_version_ids" readonly="1" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

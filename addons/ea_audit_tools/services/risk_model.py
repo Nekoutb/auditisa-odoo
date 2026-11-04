@@ -17,6 +17,13 @@ PRESUMED_SEED = (
     ("mgmt_override", "E3.1", ("C", "E", "A")),
 )
 
+#: The response ISA 240 prescribes to the presumed override risk: E3.1's opening step.
+MGMT_OVERRIDE_PROCEDURE = (
+    "Test the appropriateness of journal entries and other adjustments made in the preparation of the "
+    "financial statements, review accounting estimates for bias, and evaluate the business rationale of "
+    "significant unusual transactions (ISA 240 ¶32)."
+)
+
 _SCORE = {"low": 1, "medium": 2, "high": 3}
 
 
