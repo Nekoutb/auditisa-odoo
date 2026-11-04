@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_notification_own" model="ir.rule">
+        <field name="name">Notification: one's own only</field>
+        <field name="model_id" ref="model_ea_audit_notification"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+</odoo>

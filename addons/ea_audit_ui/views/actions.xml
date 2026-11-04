@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The landing action of audit users (see ir_http.session_info). -->
+    <record id="action_home" model="ir.actions.client">
+        <field name="name">Tableau de bord</field>
+        <field name="tag">ea_audit_ui.home</field>
+        <field name="path">ea-accueil</field>
+    </record>
+</odoo>
