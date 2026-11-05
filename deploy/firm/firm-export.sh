@@ -56,6 +56,6 @@ restic backup --quiet --tag export --host "$FIRM_SLUG" "$file"
 
 set_status export_sha256 "$digest"
 set_status export_at "$(now_utc)"
-set_status export_state done
+set_status export_state "done"
 printf '%s export %s -\n' "$(now_utc)" "$(id -un)" >> "$BREAK_GLASS_LOG"
 fl_log "export ready: $file"

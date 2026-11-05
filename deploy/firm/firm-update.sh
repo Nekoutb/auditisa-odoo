@@ -111,7 +111,7 @@ restore_previous() {
 on_exit() {
   local rc=$?
   trap - EXIT
-  [ "$PHASE" != done ] || exit 0
+  [ "$PHASE" != "done" ] || exit 0
   set +e
   [ "$rc" != 0 ] || rc=1
   mark_refused
@@ -218,7 +218,7 @@ update_modules
 systemctl start "$SERVICE"
 healthy
 
-PHASE=done
+PHASE="done"
 psql_q "DROP DATABASE IF EXISTS \"$SNAPSHOT\"" >/dev/null || fl_warn "could not drop $SNAPSHOT"
 set_status release "$SHA"
 result ok

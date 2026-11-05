@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034  # used by the scripts that source this file
 # firm-lib.sh: what the firm server's scripts share. Sourced, never run.
 #
 # FIRM_PREFIX is empty on a real server. The dry runs set it to a folder, so that nothing outside

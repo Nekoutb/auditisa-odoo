@@ -99,7 +99,9 @@ real() {
 
   on "$a" "$key_a" firm-isolation fingerprints > "$work/a.peer"
   on "$b" "$key_b" firm-isolation fingerprints > "$work/b.peer"
+  # shellcheck disable=SC2016  # expanded on the remote side
   on "$a" "$key_a" 'cat > /run/firm-peer && firm-isolation check --peer /run/firm-peer; rc=$?; rm -f /run/firm-peer; exit $rc' < "$work/b.peer" || rc=1
+  # shellcheck disable=SC2016  # expanded on the remote side
   on "$b" "$key_b" 'cat > /run/firm-peer && firm-isolation check --peer /run/firm-peer; rc=$?; rm -f /run/firm-peer; exit $rc' < "$work/a.peer" || rc=1
   exit "$rc"
 }
