@@ -1,0 +1,141 @@
+import json
+import os
+import shutil
+import tempfile
+from unittest.mock import patch
+
+import requests
+
+from odoo.tests import TransactionCase, tagged
+
+from ..models import firm_agent
+from ..services import signing
+
+TOKEN = "t" * 64
+SLUG = "cabinet-a"
+URL = "https://hb.example.invalid/platform/heartbeat"
+
+
+class Answer:
+    def __init__(self, status=200, content=b"{}", signature=None):
+        self.status_code = status
+        self.content = content
+        self.headers = {signing.HEADER_RESPONSE_SIGNATURE: signature} if signature else {}
+
+
+@tagged("post_install", "-at_install")
+class TestHeartbeat(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.folder = tempfile.mkdtemp(prefix="ea-agent-test-")
+        self.addCleanup(shutil.rmtree, self.folder, ignore_errors=True)
+        self.status = os.path.join(self.folder, "status")
+        os.mkdir(self.status)
+        self.spool = os.path.join(self.folder, "desired.json")
+        token_file = os.path.join(self.folder, "token")
+        with open(token_file, "w", encoding="ascii") as out:
+            out.write(TOKEN + "\n")
+        for name, value in (("TOKEN_FILE", token_file), ("STATUS_DIR", self.status), ("SPOOL_FILE", self.spool)):
+            patcher = patch.object(firm_agent, name, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+        self.agent = self.env["ea.firm.agent"]
+        params = self.env["ir.config_parameter"].sudo()
+        params.set_param(firm_agent.PARAM_URL, URL)
+        params.set_param(firm_agent.PARAM_SLUG, SLUG)
+        with open(os.path.join(self.status, "release"), "w", encoding="ascii") as out:
+            out.write("abcdef123456\n")
+
+    def _capture(self, answer=None):
+        sent = {}
+
+        def post(url, data=None, headers=None, timeout=None, allow_redirects=None):
+            sent.update(url=url, data=data, headers=headers, timeout=timeout, allow_redirects=allow_redirects)
+            if isinstance(answer, Exception):
+                raise answer
+            return answer or Answer()
+
+        return sent, patch.object(firm_agent.requests, "post", post)
+
+    def test_figures_are_counts_and_never_records(self):
+        figures = self.agent._build_figures()
+        self.assertEqual(figures["release"], "abcdef123456")
+        self.assertGreaterEqual(figures["users_active"], 1)
+        self.assertFalse(figures["mail_enabled"])
+        for key, value in figures.items():
+            self.assertIsInstance(value, (int, str, bool, type(None)), key)
+        allowed = {
+            "schema", "release", "odoo_version", "update_state", "export_state", "ssh_sessions_24h",
+            "mem_total_mb", "mem_available_mb", "disk_total_gb", "disk_used_pct",
+            "users_active", "engagements_active", "mail_enabled",
+        }
+        self.assertEqual(set(figures), allowed)
+
+    def test_engagement_count_needs_no_audit_addon(self):
+        self.assertIsInstance(self.agent._count_engagements(), int)
+
+    def test_a_sent_heartbeat_is_signed_and_goes_out_without_redirects(self):
+        sent, patcher = self._capture()
+        with patcher:
+            self.agent._cron_send_heartbeat()
+        self.assertEqual(sent["url"], URL)
+        self.assertFalse(sent["allow_redirects"])
+        self.assertTrue(sent["timeout"])
+        timestamp = sent["headers"][signing.HEADER_TIMESTAMP]
+        self.assertEqual(sent["headers"][signing.HEADER_FIRM], SLUG)
+        self.assertEqual(
+            sent["headers"][signing.HEADER_SIGNATURE],
+            signing.sign(TOKEN, SLUG, timestamp, sent["data"]),
+        )
+        self.assertNotIn(TOKEN.encode(), sent["data"])
+
+    def test_nothing_goes_out_without_a_configuration(self):
+        self.env["ir.config_parameter"].sudo().set_param(firm_agent.PARAM_URL, False)
+        with patch.object(firm_agent.requests, "post", side_effect=AssertionError("sent")):
+            self.assertFalse(self.agent._cron_send_heartbeat())
+
+    def test_nothing_goes_out_without_a_token(self):
+        with patch.object(firm_agent, "TOKEN_FILE", os.path.join(self.folder, "none")), \
+                patch.object(firm_agent.requests, "post", side_effect=AssertionError("sent")):
+            self.assertFalse(self.agent._cron_send_heartbeat())
+
+    def test_plain_http_is_refused(self):
+        self.env["ir.config_parameter"].sudo().set_param(firm_agent.PARAM_URL, "http://hb.example.invalid/x")
+        with patch.object(firm_agent.requests, "post", side_effect=AssertionError("sent")):
+            self.assertFalse(self.agent._cron_send_heartbeat())
+
+    def test_a_network_failure_is_quiet(self):
+        _sent, patcher = self._capture(requests.ConnectionError("down"))
+        with patcher:
+            self.assertFalse(self.agent._cron_send_heartbeat())
+
+    def test_an_unsigned_answer_is_ignored(self):
+        body = json.dumps({"export_requested": True}).encode()
+        _sent, patcher = self._capture(Answer(content=body))
+        with patcher:
+            self.assertFalse(self.agent._cron_send_heartbeat())
+        self.assertFalse(os.path.exists(self.spool))
+
+    def test_a_signed_answer_reaches_the_spool(self):
+        body = json.dumps({"export_requested": True, "run": "rm -rf /"}).encode()
+        import hashlib
+        import hmac
+
+        def answer_for(sent_timestamp):
+            message = b"\n".join([
+                b"ea-heartbeat-response-v1", SLUG.encode(), str(sent_timestamp).encode(),
+                hashlib.sha256(body).hexdigest().encode(),
+            ])
+            return hmac.new(TOKEN.encode(), message, hashlib.sha256).hexdigest()
+
+        with patch.object(firm_agent.time, "time", return_value=1800000000), \
+                patch.object(firm_agent.requests, "post", return_value=Answer(content=body, signature=answer_for(1800000000))):
+            self.assertTrue(self.agent._cron_send_heartbeat())
+        with open(self.spool, encoding="ascii") as handle:
+            self.assertEqual(json.load(handle), {"export_requested": True})
+
+    def test_a_refusal_changes_nothing(self):
+        _sent, patcher = self._capture(Answer(status=403))
+        with patcher:
+            self.assertFalse(self.agent._cron_send_heartbeat())
+        self.assertFalse(os.path.exists(self.spool))

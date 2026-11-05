@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_job_list" model="ir.ui.view">
+        <field name="name">platform.provision.job.list</field>
+        <field name="model">platform.provision.job</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-danger="state == 'rollback_failed'" decoration-muted="state == 'rolled_back'">
+                <field name="firm_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'rollback_failed'" decoration-info="state == 'waiting'"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="last_message"/>
+                <field name="started_by"/>
+                <field name="create_date" string="Lancée le"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_job_form" model="ir.ui.view">
+        <field name="name">platform.provision.job.form</field>
+        <field name="model">platform.provision.job</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0" class="o_ea_platform_form">
+                <header>
+                    <button name="action_resume" type="object" string="Reprendre" class="btn-primary"
+                            invisible="state != 'waiting'" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_rollback" type="object" string="Annuler et nettoyer"
+                            invisible="state != 'waiting'" groups="ea_platform_admin.group_platform_operator"
+                            confirm="Tout ce qui a été créé pour ce cabinet sera supprimé chez le fournisseur. Continuer ?"/>
+                    <button name="action_rollback" type="object" string="Relancer le nettoyage" class="btn-danger"
+                            invisible="state != 'rollback_failed'" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_retry" type="object" string="Relancer la mise en service" class="btn-primary"
+                            invisible="state != 'rolled_back'" groups="ea_platform_admin.group_platform_operator"/>
+                    <field name="state" widget="statusbar" statusbar_visible="waiting,done"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'rollback_failed'">
+                        <strong>Le nettoyage n'a pas abouti : des ressources restent et peuvent être facturées.</strong>
+                        <field name="leftovers" nolabel="1" class="d-block"/>
+                        Relancez le nettoyage, puis voir INCIDENT.md si l'échec persiste.
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="state != 'waiting' or not last_message">
+                        <field name="last_message" nolabel="1"/>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="state != 'rolled_back'">
+                        La mise en service a échoué et tout a été retiré : aucun serveur ne reste. Le motif figure à l'étape en échec.
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="firm_id" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="progress" widget="progressbar"/>
+                            <field name="started_by"/>
+                        </group>
+                        <group>
+                            <field name="create_date" string="Lancée le"/>
+                            <field name="is_simulation"/>
+                        </group>
+                    </group>
+                    <field name="step_ids" readonly="1">
+                        <list decoration-success="state == 'done'" decoration-danger="state == 'failed'"
+                              decoration-info="state == 'running'" decoration-muted="state in ('undone', 'pending')">
+                            <field name="sequence" column_invisible="1"/>
+                            <field name="label"/>
+                            <field name="state" widget="badge" decoration-success="state == 'done'"
+                                   decoration-danger="state == 'failed'" decoration-info="state == 'running'"/>
+                            <field name="attempts"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                            <field name="message"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_jobs" model="ir.actions.act_window">
+        <field name="name">Mises en service</field>
+        <field name="res_model">platform.provision.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

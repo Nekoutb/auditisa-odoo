@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_onboarding_form" model="ir.ui.view">
+        <field name="name">platform.onboarding.wizard.form</field>
+        <field name="model">platform.onboarding.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Nouveau cabinet" class="o_ea_platform_form">
+                <field name="step" widget="statusbar" statusbar_visible="identity,technical,preflight" class="mb-3"/>
+                <group invisible="step != 'identity'">
+                    <group string="Le cabinet">
+                        <field name="name" placeholder="Cabinet Exemple"/>
+                        <field name="slug" placeholder="cabinet-exemple"/>
+                        <field name="allowed_email_domains" placeholder="exemple.cm"/>
+                    </group>
+                    <group string="Son contact">
+                        <field name="contact_name"/>
+                        <field name="contact_email"/>
+                        <field name="contact_phone"/>
+                    </group>
+                </group>
+                <group invisible="step != 'technical'">
+                    <group string="Le serveur">
+                        <field name="region"/>
+                        <field name="size"/>
+                        <field name="lang"/>
+                        <field name="release_id" options="{'no_create': True}"/>
+                    </group>
+                    <group string="La clé de ce cabinet">
+                        <field name="ssh_public_key" placeholder="ssh-ed25519 AAAA..."/>
+                        <div colspan="2" class="text-muted">
+                            Sur votre ordinateur : <code>ssh-keygen -t ed25519 -f ~/.ssh/auditisa-IDENTIFIANT</code>, puis
+                            collez ici le contenu du fichier <code>.pub</code>. Une clé par cabinet. La clé privée reste chez vous.
+                        </div>
+                    </group>
+                </group>
+                <div invisible="step != 'preflight'">
+                    <div class="alert alert-warning" role="status"><field name="preview_mode" nolabel="1"/></div>
+                    <group>
+                        <group string="Ce qui sera créé">
+                            <field name="name" readonly="1" string="Cabinet"/>
+                            <field name="preview_address"/>
+                            <field name="preview_server"/>
+                            <field name="preview_allowlist"/>
+                            <field name="contact_email" readonly="1" string="Premier administrateur"/>
+                            <field name="release_id" readonly="1"/>
+                        </group>
+                        <group string="Coût mensuel estimé">
+                            <field name="preview_server_cost"/>
+                            <field name="preview_storage_cost"/>
+                            <field name="preview_total_cost" class="fw-bold"/>
+                            <div colspan="2" class="text-muted small">
+                                Estimation d'après le tarif public de Vultr, à confirmer sur vultr.com avant le premier cabinet réel.
+                            </div>
+                        </group>
+                    </group>
+                    <p>
+                        Durée : de 20 à 45 minutes. Le premier administrateur recevra un lien à usage unique, jamais de mot de passe.
+                        En cas d'échec, tout ce qui a été créé est retiré automatiquement.
+                    </p>
+                    <group>
+                        <field name="confirmed"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_back" type="object" string="Retour" invisible="step == 'identity'"/>
+                    <button name="action_next" type="object" string="Continuer" class="btn-primary" invisible="step == 'preflight'"/>
+                    <button name="action_confirm" type="object" string="Créer le serveur" class="btn-primary" invisible="step != 'preflight'"/>
+                    <button special="cancel" string="Annuler"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_onboarding" model="ir.actions.act_window">
+        <field name="name">Nouveau cabinet</field>
+        <field name="res_model">platform.onboarding.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

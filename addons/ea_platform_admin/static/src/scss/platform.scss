@@ -1,0 +1,113 @@
+// The approved look: solid cards on a grey canvas, emerald accent. This instance serves only the
+// platform, so it applies to the whole web client.
+
+$ea-canvas: #e4e7eb;
+$ea-card: #fff;
+$ea-ink: #1b1e23;
+$ea-muted: #5a626d;
+$ea-line: #dfe3e8;
+$ea-green: #0f6e56;
+$ea-green-dark: #0b5a46;
+$ea-green2: #12a57f;
+$ea-greenbg: #e4f2ec;
+$ea-rose: #b23c4f;
+$ea-rosebg: #f7e7ea;
+$ea-gold: #9c660e;
+$ea-goldbg: #f7edd8;
+$ea-grey: #8a929d;
+
+.o_web_client {
+    .o_main_navbar {
+        background: $ea-green;
+        border-bottom-color: $ea-green-dark;
+        .o_menu_brand, .dropdown-toggle, a, button { color: #fff; }
+    }
+    .o_action_manager, .o_content, .o_control_panel { background: $ea-canvas; }
+
+    .btn-primary {
+        --btn-bg: #{$ea-green};
+        --btn-border-color: #{$ea-green};
+        --btn-hover-bg: #{$ea-green-dark};
+        --btn-hover-border-color: #{$ea-green-dark};
+        --btn-active-bg: #{$ea-green-dark};
+        --btn-active-border-color: #{$ea-green-dark};
+        background-color: $ea-green;
+        border-color: $ea-green;
+        color: #fff;
+    }
+    .btn-primary:hover { background-color: $ea-green-dark; border-color: $ea-green-dark; }
+    .btn-secondary { --btn-color: #{$ea-ink}; }
+    .o_form_view .o_field_radio input:checked,
+    .form-check-input:checked { background-color: $ea-green; border-color: $ea-green; }
+    .o_statusbar_status .o_arrow_button_current { background-color: $ea-green !important; color: #fff !important; }
+    .o_progressbar .o_progressbar_complete,
+    .progress-bar { background-color: $ea-green; }
+    a { color: $ea-green; }
+    .o_main_navbar a { color: #fff; }
+
+    .o_form_view .o_form_sheet_bg { background: $ea-canvas; }
+    .o_form_view .o_form_sheet {
+        background: $ea-card;
+        border: 1px solid $ea-line;
+        border-radius: 10px;
+        box-shadow: none;
+    }
+    .o_list_renderer, .o_list_view .o_list_table { background: $ea-card; }
+    .o_chatter, .o-mail-Chatter { background: $ea-canvas; }
+}
+
+.modal-content .o_ea_platform_form {
+    .o_statusbar_status { float: none; justify-content: flex-start; }
+}
+
+// The board
+.o_kanban_view.o_ea_platform_board {
+    background: $ea-canvas;
+
+    .o_kanban_group { background: transparent; }
+    .o_kanban_header { color: $ea-ink; font-weight: 600; }
+    .o_kanban_record { background: transparent; border: 0; box-shadow: none; padding: 0; margin-bottom: 10px; }
+
+    .ea-firm-card {
+        display: block;
+        background: $ea-card;
+        border: 1px solid $ea-line;
+        border-left: 5px solid $ea-grey;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 13px;
+        color: $ea-ink;
+    }
+    .ea-firm-card.ea-health-green { border-left-color: $ea-green2; }
+    .ea-firm-card.ea-health-amber { border-left-color: $ea-gold; }
+    .ea-firm-card.ea-health-red { border-left-color: $ea-rose; }
+
+    .ea-firm-head { display: flex; align-items: center; gap: 8px; }
+    .ea-firm-name { font-weight: 700; font-size: 14px; flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ea-dot { flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; background: $ea-grey; }
+    .ea-health-green .ea-dot { background: $ea-green2; }
+    .ea-health-amber .ea-dot { background: $ea-gold; }
+    .ea-health-red .ea-dot { background: $ea-rose; }
+    .ea-chip { flex: 0 0 auto; padding: 0 7px; border-radius: 9px; background: $ea-goldbg; color: $ea-gold; font-size: 11px; }
+    .ea-firm-address { display: block; color: $ea-muted; font-size: 12px; margin-top: 1px; }
+    .ea-firm-reason { display: block; margin-top: 6px; color: $ea-muted; }
+    .ea-health-green .ea-firm-reason { color: $ea-green; }
+    .ea-health-amber .ea-firm-reason { color: $ea-gold; font-weight: 600; }
+    .ea-health-red .ea-firm-reason { color: $ea-rose; font-weight: 600; }
+
+    .ea-firm-figures {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px 10px;
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px solid $ea-line;
+        span:first-child { display: block; color: $ea-muted; font-size: 11px; }
+        strong { font-weight: 600; }
+        > div { min-width: 0; overflow: hidden; }
+    }
+    .ea-mono { font-family: Consolas, "Liberation Mono", Menlo, monospace; font-size: 12px; display: block; overflow: hidden; text-overflow: ellipsis; }
+}
+
+.o_ea_platform_form .ea-firm-address { color: $ea-muted; }
+.o_ea_platform_form .ea-health-box { background: $ea-greenbg; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }

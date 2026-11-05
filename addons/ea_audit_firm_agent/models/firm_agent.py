@@ -1,0 +1,117 @@
+import json
+import logging
+import os
+import tempfile
+import time
+
+import requests
+
+from odoo import api, models
+
+from ..services import collect, signing
+
+_logger = logging.getLogger(__name__)
+
+# Written by deploy/firm/install-firm-server.sh. The agent does nothing while they are absent,
+# which is the case on staging and in any database not built by that script.
+TOKEN_FILE = "/etc/auditisa-firm/secrets/heartbeat.token"
+STATUS_DIR = "/var/lib/auditisa-firm/status"
+SPOOL_FILE = "/var/lib/auditisa-firm/spool/desired.json"
+TIMEOUT_SECONDS = 20
+
+PARAM_URL = "ea_firm_agent.heartbeat_url"
+PARAM_SLUG = "ea_firm_agent.slug"
+PARAM_MAIL_TESTED = "ea_firm_agent.mail_tested"
+
+
+class EaFirmAgent(models.AbstractModel):
+    _name = "ea.firm.agent"
+    _description = "Heartbeat of this firm's server"
+
+    @api.model
+    def _read_token(self):
+        try:
+            with open(TOKEN_FILE, encoding="ascii") as handle:
+                return handle.read().strip()
+        except (OSError, UnicodeDecodeError):
+            return ""
+
+    @api.model
+    def _count_users(self):
+        return self.env["res.users"].sudo().with_context(active_test=True).search_count([("share", "=", False)])
+
+    @api.model
+    def _count_engagements(self):
+        """A count, nothing else: no field of an engagement ever leaves this method."""
+        if "ea.audit.engagement" not in self.env:
+            return 0
+        model = self.env["ea.audit.engagement"].sudo()
+        domain = [("phase", "!=", "archived")] if "phase" in model._fields else []
+        return model.search_count(domain)
+
+    @api.model
+    def _build_figures(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        return collect.build_figures(
+            collect.read_status(STATUS_DIR),
+            collect.memory_figures(),
+            collect.disk_figures(),
+            self._count_users(),
+            self._count_engagements(),
+            get_param(PARAM_MAIL_TESTED) == "1",
+        )
+
+    @api.model
+    def _cron_send_heartbeat(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        url, slug, token = get_param(PARAM_URL), get_param(PARAM_SLUG), self._read_token()
+        if not (url and slug and token):
+            return False
+        if not url.startswith("https://"):
+            _logger.error("Heartbeat refused: the address is not https")
+            return False
+        figures = self._build_figures()
+        if "release" not in figures:
+            _logger.warning("Heartbeat not sent: this server does not know its release yet")
+            return False
+        return self._post(url, slug, token, figures)
+
+    @api.model
+    def _post(self, url, slug, token, figures):
+        body = signing.encode(figures)
+        timestamp = int(time.time())
+        headers = {
+            "Content-Type": "application/json",
+            signing.HEADER_FIRM: slug,
+            signing.HEADER_TIMESTAMP: str(timestamp),
+            signing.HEADER_SIGNATURE: signing.sign(token, slug, timestamp, body),
+        }
+        try:
+            response = requests.post(url, data=body, headers=headers, timeout=TIMEOUT_SECONDS, allow_redirects=False)
+        except requests.RequestException as error:
+            _logger.warning("Heartbeat not delivered: %s", type(error).__name__)
+            return False
+        if response.status_code != 200:
+            _logger.warning("Heartbeat refused by the control plane: HTTP %s", response.status_code)
+            return False
+        # An answer that is not signed by the control plane is ignored, whatever it asks for.
+        signature = response.headers.get(signing.HEADER_RESPONSE_SIGNATURE)
+        if not signing.response_is_authentic(token, slug, timestamp, response.content, signature):
+            _logger.warning("Heartbeat answer ignored: bad signature")
+            return False
+        desired = collect.parse_desired(response.content)
+        if desired is not None:
+            self._write_spool(desired)
+        return True
+
+    @api.model
+    def _write_spool(self, desired):
+        """Handed to root's firm-apply-desired.sh, which validates it again and acts on it."""
+        folder = os.path.dirname(SPOOL_FILE)
+        try:
+            handle, path = tempfile.mkstemp(dir=folder, prefix=".desired-")
+            with os.fdopen(handle, "w", encoding="ascii") as out:
+                json.dump(desired, out, sort_keys=True)
+            os.replace(path, SPOOL_FILE)
+        except OSError as error:
+            _logger.warning("Could not hand over the control plane's answer: %s", type(error).__name__)

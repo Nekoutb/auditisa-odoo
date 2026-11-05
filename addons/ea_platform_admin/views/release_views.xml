@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_release_list" model="ir.ui.view">
+        <field name="name">platform.release.list</field>
+        <field name="model">platform.release</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sha"/>
+                <field name="label"/>
+                <field name="bundle_sha256" optional="hide"/>
+                <field name="firm_count"/>
+                <field name="create_date" string="Enregistrée le"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_release_form" model="ir.ui.view">
+        <field name="name">platform.release.form</field>
+        <field name="model">platform.release</field>
+        <field name="arch" type="xml">
+            <form class="o_ea_platform_form">
+                <sheet>
+                    <p class="text-muted">
+                        Une version se construit et se signe sur votre ordinateur avec scripts/provision/build_release.sh.
+                        La clé privée de signature ne vient jamais ici : voir UPDATING.md.
+                    </p>
+                    <group>
+                        <group>
+                            <field name="sha"/>
+                            <field name="label"/>
+                            <field name="bundle_sha256"/>
+                            <field name="odoo_commit"/>
+                        </group>
+                        <group>
+                            <field name="firm_count"/>
+                            <field name="active"/>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_releases" model="ir.actions.act_window">
+        <field name="name">Versions</field>
+        <field name="res_model">platform.release</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_rollout_list" model="ir.ui.view">
+        <field name="name">platform.rollout.list</field>
+        <field name="model">platform.rollout</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'stopped'">
+                <field name="release_id"/>
+                <field name="canary_firm_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-danger="state == 'stopped'" decoration-info="state == 'running'"/>
+                <field name="stop_reason"/>
+                <field name="started_at"/>
+                <field name="finished_at"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_rollout_form" model="ir.ui.view">
+        <field name="name">platform.rollout.form</field>
+        <field name="model">platform.rollout</field>
+        <field name="arch" type="xml">
+            <form class="o_ea_platform_form">
+                <header>
+                    <button name="action_start" type="object" string="Lancer : le témoin d'abord" class="btn-primary" invisible="state != 'draft'"
+                            confirm="Le cabinet témoin recevra la version à son prochain heartbeat. Continuer ?"/>
+                    <button name="action_simulate_answers" type="object" string="Simuler les réponses des cabinets"
+                            invisible="state != 'running'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,running,done"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'stopped'">
+                        <strong>Mise à jour arrêtée sur le premier échec.</strong>
+                        <field name="stop_reason" nolabel="1" class="d-block"/>
+                        Le cabinet en échec a repris sa version précédente. Les cabinets suivants n'ont rien reçu.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="release_id" readonly="state != 'draft'"/>
+                            <field name="canary_firm_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="batch_size" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="firm_ids" widget="many2many_tags" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                            <field name="skipped" invisible="not skipped"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" readonly="1" invisible="state == 'draft'">
+                        <list decoration-success="state == 'healthy'" decoration-danger="state in ('failed', 'rolled_back', 'timed_out')"
+                              decoration-info="state == 'requested'" decoration-muted="state in ('pending', 'cancelled')">
+                            <field name="batch"/>
+                            <field name="firm_id"/>
+                            <field name="state" widget="badge" decoration-success="state == 'healthy'"
+                                   decoration-danger="state in ('failed', 'rolled_back', 'timed_out')" decoration-info="state == 'requested'"/>
+                            <field name="requested_at"/>
+                            <field name="closed_at"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_rollouts" model="ir.actions.act_window">
+        <field name="name">Mises à jour</field>
+        <field name="res_model">platform.rollout</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

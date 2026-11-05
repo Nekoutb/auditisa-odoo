@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_suspend_form" model="ir.ui.view">
+        <field name="name">platform.suspend.wizard.form</field>
+        <field name="model">platform.suspend.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Suspendre ce cabinet">
+                <p>Le serveur est arrêté : le cabinet n'a plus accès à son application. Ses données restent en place et il peut reprendre.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Suspendre" class="btn-primary"/>
+                    <button special="cancel" string="Annuler"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_breakglass_wizard_form" model="ir.ui.view">
+        <field name="name">platform.breakglass.wizard.form</field>
+        <field name="model">platform.breakglass.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Ouvrir un accès d'urgence">
+                <p>À remplir AVANT de vous connecter. Le serveur du cabinet compte chaque connexion : une connexion sans entrée ici fait passer le cabinet à l'orange.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="reason"/>
+                    <field name="firm_informed"/>
+                    <field name="command" readonly="1" widget="CopyClipboardChar"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Enregistrer l'accès" class="btn-primary"/>
+                    <button special="cancel" string="Annuler"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_first_admin_link_form" model="ir.ui.view">
+        <field name="name">platform.first.admin.link.form</field>
+        <field name="model">platform.first.admin.link</field>
+        <field name="arch" type="xml">
+            <form string="Lien du premier administrateur">
+                <field name="revealed" invisible="1"/>
+                <div invisible="revealed">
+                    <p>Le lien ne s'affiche <strong>qu'une seule fois</strong>, puis il est effacé d'ici. Préparez le moyen de le transmettre au cabinet (appel, messagerie chiffrée). Ne l'envoyez pas avec le nom du cabinet dans un e-mail ouvert.</p>
+                    <group><field name="firm_id"/></group>
+                </div>
+                <div invisible="not revealed">
+                    <p>Copiez ce lien maintenant et transmettez-le au contact du cabinet. Il ne sert qu'une fois et expire à la date indiquée.</p>
+                    <group>
+                        <field name="link" widget="CopyClipboardChar"/>
+                        <field name="expires_at"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_reveal" type="object" string="Afficher le lien" class="btn-primary" invisible="revealed"/>
+                    <button name="action_close" type="object" string="J'ai copié le lien" class="btn-primary" invisible="not revealed"/>
+                    <button special="cancel" string="Annuler" invisible="revealed"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_offboard_form" model="ir.ui.view">
+        <field name="name">platform.offboard.wizard.form</field>
+        <field name="model">platform.offboard.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sortie du cabinet">
+                <div class="alert alert-warning" role="alert">
+                    Première confirmation. Rien n'est détruit ici. Le serveur exporte les données du cabinet à son prochain heartbeat ;
+                    la destruction ne sera possible qu'après remise de l'export et fin de la durée de conservation.
+                </div>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="slug"/>
+                    <field name="retention_days"/>
+                    <field name="reason"/>
+                    <field name="typed_slug"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Lancer la sortie" class="btn-primary"/>
+                    <button special="cancel" string="Annuler"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_destroy_form" model="ir.ui.view">
+        <field name="name">platform.destroy.wizard.form</field>
+        <field name="model">platform.destroy.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Détruire le serveur">
+                <field name="step" invisible="1"/>
+                <div class="alert alert-danger" role="alert">
+                    Irréversible : le serveur, ses disques, ses sauvegardes et son adresse disparaissent. Seule cette fiche et son journal restent.
+                </div>
+                <group invisible="step != 'slug'">
+                    <field name="firm_id"/>
+                    <field name="slug"/>
+                    <field name="typed_slug"/>
+                </group>
+                <group invisible="step != 'word'">
+                    <field name="firm_id"/>
+                    <field name="typed_word"/>
+                </group>
+                <footer>
+                    <button name="action_next" type="object" string="Continuer" class="btn-primary" invisible="step != 'slug'"/>
+                    <button name="action_destroy" type="object" string="Détruire définitivement" class="btn-danger" invisible="step != 'word'"/>
+                    <button special="cancel" string="Annuler"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

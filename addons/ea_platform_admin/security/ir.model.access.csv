@@ -1,0 +1,19 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_firm_viewer,platform.firm viewer,model_platform_firm,group_platform_viewer,1,0,0,0
+access_firm_operator,platform.firm operator,model_platform_firm,group_platform_operator,1,1,0,0
+access_log_viewer,platform.log viewer,model_platform_log,group_platform_viewer,1,0,0,0
+access_breakglass_viewer,platform.breakglass viewer,model_platform_breakglass,group_platform_viewer,1,0,0,0
+access_release_viewer,platform.release viewer,model_platform_release,group_platform_viewer,1,0,0,0
+access_release_owner,platform.release owner,model_platform_release,group_platform_owner,1,1,1,0
+access_job_viewer,platform.provision.job viewer,model_platform_provision_job,group_platform_viewer,1,0,0,0
+access_step_viewer,platform.provision.step viewer,model_platform_provision_step,group_platform_viewer,1,0,0,0
+access_rollout_viewer,platform.rollout viewer,model_platform_rollout,group_platform_viewer,1,0,0,0
+access_rollout_operator,platform.rollout operator,model_platform_rollout,group_platform_operator,1,1,1,0
+access_rollout_line_viewer,platform.rollout.line viewer,model_platform_rollout_line,group_platform_viewer,1,0,0,0
+access_onboarding_operator,platform.onboarding.wizard operator,model_platform_onboarding_wizard,group_platform_operator,1,1,1,1
+access_suspend_operator,platform.suspend.wizard operator,model_platform_suspend_wizard,group_platform_operator,1,1,1,1
+access_breakglass_wizard_operator,platform.breakglass.wizard operator,model_platform_breakglass_wizard,group_platform_operator,1,1,1,1
+access_link_operator,platform.first.admin.link operator,model_platform_first_admin_link,group_platform_operator,1,1,1,1
+access_offboard_owner,platform.offboard.wizard owner,model_platform_offboard_wizard,group_platform_owner,1,1,1,1
+access_destroy_owner,platform.destroy.wizard owner,model_platform_destroy_wizard,group_platform_owner,1,1,1,1
+access_settings_owner,platform.settings owner,model_platform_settings,group_platform_owner,1,1,1,1

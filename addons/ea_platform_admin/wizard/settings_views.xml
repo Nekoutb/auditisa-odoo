@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_settings_form" model="ir.ui.view">
+        <field name="name">platform.settings.form</field>
+        <field name="model">platform.settings</field>
+        <field name="arch" type="xml">
+            <form string="Réglages de la plateforme" class="o_ea_platform_form">
+                <sheet>
+                    <p class="text-muted">
+                        Aucun jeton ne s'enregistre ici. Le jeton Vultr et le jeton DNS sont dans des fichiers lisibles par root seul,
+                        sur ce serveur : voir PREREQUISITES.md.
+                    </p>
+                    <group>
+                        <group string="Le fournisseur">
+                            <field name="provider" widget="radio"/>
+                            <field name="confirm_real" invisible="provider != 'vultr'"/>
+                            <field name="vultr_os_id"/>
+                            <field name="vultr_storage_cluster"/>
+                            <field name="dns_zone_id"/>
+                        </group>
+                        <group string="Les adresses">
+                            <field name="base_domain"/>
+                            <field name="heartbeat_url"/>
+                            <field name="release_base_url"/>
+                            <field name="ssh_allowlist" placeholder="198.51.100.7"/>
+                        </group>
+                    </group>
+                    <group string="Signature des versions">
+                        <field name="release_signing_public_key" nolabel="1" colspan="2" placeholder="-----BEGIN PUBLIC KEY-----"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_save" type="object" string="Enregistrer" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_settings" model="ir.actions.act_window">
+        <field name="name">Réglages</field>
+        <field name="res_model">platform.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+</odoo>
