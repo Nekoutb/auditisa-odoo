@@ -4,6 +4,8 @@ is not an accepted member of a file's team gets nothing from it, whatever their
 firm role. sudo() appears only on the core's own read helpers and on the caller's
 own notification rows."""
 from odoo import api, fields, models
+from odoo.exceptions import UserError
+from odoo.http import request
 
 from odoo.addons.ea_audit_core.services.phases import phase_of_task
 
@@ -58,11 +60,23 @@ class AuditUi(models.AbstractModel):
             "name": short_name(user.name),
             "first_name": first_name(user.name),
             "initials": initials(user.name),
-            "role": FIRM_ROLE_LABELS.get(role, ""),
+            "role": self.env._(FIRM_ROLE_LABELS[role]) if role in FIRM_ROLE_LABELS else "",
+            "language": "fr_FR" if (user.lang or "").startswith("fr") else "en_US",
             "can_write": role != "read_only",
             "is_partner": user.has_group("ea_audit_core.group_partner"),
             "is_system": user.has_group("base.group_system"),
         }
+
+    @api.model
+    def ea_ui_set_language(self, code):
+        """The language switch: saved on the user and on the running session, so the
+        reload comes back in it."""
+        if code not in ("en_US", "fr_FR"):
+            raise UserError(self.env._("Unknown language."))
+        self.env.user.sudo().write({"lang": code})
+        if request and request.session.uid == self.env.uid:
+            request.session.context = dict(request.session.context, lang=code)
+        return code
 
     # ------------------------------------------------------------------
     # Shared facts
@@ -70,10 +84,7 @@ class AuditUi(models.AbstractModel):
 
     @api.model
     def _ea_ui_titled(self, records):
-        """Task titles in French first, whatever the user's language, where the
-        database has French installed."""
-        if "fr_FR" in dict(self.env["res.lang"].get_installed()):
-            return records.with_context(lang="fr_FR")
+        """Task titles read in the caller's language."""
         return records
 
     @api.model
@@ -85,7 +96,7 @@ class AuditUi(models.AbstractModel):
             "fiscal_year": engagement.fiscal_year,
             "label": "%s, %s" % (engagement.client_id.name, engagement.fiscal_year),
             "phase": engagement.phase,
-            "phase_label": phase_label(engagement.phase),
+            "phase_label": self.env._(phase_label(engagement.phase)),
             "section": SECTION_OF_PHASE[engagement.phase],
         }
 
@@ -147,18 +158,31 @@ class AuditUi(models.AbstractModel):
 
     @api.model
     def _ea_ui_my_word(self, item, user, is_partner, policy):
-        """What this open task asks of me, None when it asks nothing."""
+        """What this open task asks of me, a key of _ea_ui_word; None when it asks nothing."""
         if not self._ea_ui_is_open(item):
             return None
         if is_partner and self._ea_ui_partner_awaited(item, policy):
             # the assigned reviewer goes first where the paper has one
             if item.state == "reviewed" or item.approver_id in (user, self.env["res.users"]):
-                return "À signer"
+                return "to_sign"
         if item.state == "prepared" and item.approver_id == user:
-            return "À réviser"
+            return "to_review"
         if user in (item.preparer_id, item.assignee_id) and item.state in ("not_started", "in_progress"):
-            return "À préparer" if item.state == "not_started" else "En cours"
+            return "to_prepare" if item.state == "not_started" else "in_progress"
         return None
+
+    @api.model
+    def _ea_ui_word(self, word):
+        return {
+            "to_sign": self.env._("To sign"),
+            "to_review": self.env._("To review"),
+            "to_prepare": self.env._("To prepare"),
+            "in_progress": self.env._("In progress"),
+        }[word]
+
+    @api.model
+    def _ea_ui_late_text(self, days):
+        return self.env._("Overdue by %(days)s d", days=days) if days else ""
 
     # ------------------------------------------------------------------
     # The top bar
@@ -252,20 +276,20 @@ class AuditUi(models.AbstractModel):
         policy = self.env["ea.audit.signoff.policy"]._ea_policy()
         rows = []
         for engagement in engagements.filtered(lambda e: not e.archived_at and e.phase != "archived"):
-            mission = "%s, exercice %s" % (engagement.client_id.name, engagement.fiscal_year)
+            mission = self.env._("%(client)s, fiscal year %(year)s", client=engagement.client_id.name, year=engagement.fiscal_year)
             own = items.filtered(lambda item: item.engagement_id == engagement)
             is_partner = user == engagement.engagement_partner_id or user == engagement.partner_delegate_id
             awaiting_acceptance = (
                 is_partner and engagement.phase == "acceptance" and not engagement.sudo()._ea_approval_signed("P1.1")
             )
             to_review = own.filtered(
-                lambda item: self._ea_ui_my_word(item, user, is_partner, policy) in ("À réviser", "À signer")
+                lambda item: self._ea_ui_my_word(item, user, is_partner, policy) in ("to_review", "to_sign")
                 # the acceptance has a row of its own
                 and not (awaiting_acceptance and item.code == "P1.1")
             )
             if to_review:
                 rows.append({
-                    "title": "Feuilles de travail en attente de revue",
+                    "title": self.env._("Working papers awaiting review"),
                     "mission": mission,
                     "count": len(to_review),
                     "engagement_id": engagement.id,
@@ -274,7 +298,7 @@ class AuditUi(models.AbstractModel):
             if awaiting_acceptance:
                 acceptance = own.filtered(lambda item: item.code == "P1.1")
                 rows.append({
-                    "title": "Acceptation en attente de la signature de l'associé",
+                    "title": self.env._("Acceptance awaiting the partner's sign-off"),
                     "mission": mission,
                     "count": 0,
                     "engagement_id": engagement.id,
@@ -285,7 +309,7 @@ class AuditUi(models.AbstractModel):
             )
             if late:
                 rows.append({
-                    "title": "Tâches en retard",
+                    "title": self.env._("Overdue tasks"),
                     "mission": mission,
                     "count": len(late),
                     "engagement_id": engagement.id,
@@ -294,7 +318,7 @@ class AuditUi(models.AbstractModel):
             uncommunicated = engagement.sudo()._ea_uncommunicated_significant_count() if is_partner else 0
             if uncommunicated:
                 rows.append({
-                    "title": "Déficience significative à communiquer",
+                    "title": self.env._("Significant deficiency to communicate"),
                     "mission": mission,
                     "count": uncommunicated,
                     "engagement_id": engagement.id,
@@ -303,8 +327,8 @@ class AuditUi(models.AbstractModel):
         invitations = self.env["ea.audit.team.member"].search([("user_id", "=", user.id), ("state", "=", "invited")])
         for invitation in invitations:
             rows.append({
-                "title": "Invitation à répondre",
-                "mission": "%s, exercice %s" % (invitation.invitation_client_name, invitation.invitation_fiscal_year),
+                "title": self.env._("Invitation to answer"),
+                "mission": self.env._("%(client)s, fiscal year %(year)s", client=invitation.invitation_client_name, year=invitation.invitation_fiscal_year),
                 "count": 0,
                 "invitation": True,
             })
@@ -326,7 +350,7 @@ class AuditUi(models.AbstractModel):
             missions.append({
                 **self._ea_ui_mission(engagement),
                 "period_end": fmt_date(engagement.period_end),
-                "nature": NATURE_LABELS.get(engagement.nature, ""),
+                "nature": self.env._(NATURE_LABELS[engagement.nature]) if engagement.nature in NATURE_LABELS else "",
                 "archived": archived,
                 "archived_on": fmt_date(fields.Date.to_date(engagement.archived_at)) if engagement.archived_at else "",
                 "phase_deadline": fmt_date(phase_deadline(engagement.period_end, engagement.phase)),
@@ -360,7 +384,7 @@ class AuditUi(models.AbstractModel):
                 groups.append({
                     "id": group["id"],
                     "code": group["code"],
-                    "label": group.get("short") or group["title"],
+                    "label": self.env._(group.get("short") or group["title"]),
                     "done": len([item for item in members if item.id in done_ids]),
                     "total": len(members),
                 })
@@ -370,7 +394,7 @@ class AuditUi(models.AbstractModel):
             current = next((g["id"] for g in groups if g["total"] and g["done"] < g["total"]), None)
             rings.append({
                 "key": section,
-                "label": SECTION_LABELS[section],
+                "label": self.env._(SECTION_LABELS[section]),
                 "done": done,
                 "total": total,
                 "pct": percent(done, total),
@@ -407,7 +431,7 @@ class AuditUi(models.AbstractModel):
         )
         chips = [{
             "id": item.id, "code": item.code, "title": item.short_title or item.title, "tone": "r",
-            "text": "en retard de %s j" % self._ea_ui_late_days(item, today),
+            "text": self.env._("overdue by %(days)s d", days=self._ea_ui_late_days(item, today)),
         } for item in late[:_LATE_CHIPS]]
         register = items.filtered(lambda item: item.code == "S3.1")[:1]
         if register:
@@ -416,7 +440,7 @@ class AuditUi(models.AbstractModel):
                 ("program_step_ids", "=", False),
             ]).with_context(lang=register.env.lang)
             chips += [{
-                "id": register.id, "code": register.code, "title": risk.title, "tone": "r", "text": "sans procédure prévue",
+                "id": register.id, "code": register.code, "title": risk.title, "tone": "r", "text": self.env._("no planned procedure"),
             } for risk in risks[:2]]
         notes = self.env["ea.audit.review.note"].search([
             ("engagement_id", "=", engagement.id), ("state", "=", "open"), ("assignee_id", "=", self.env.uid),
@@ -424,14 +448,14 @@ class AuditUi(models.AbstractModel):
         by_item = {item.id: item for item in items}
         chips += [{
             "id": note.file_item_id.id, "code": note.code, "title": by_item[note.file_item_id.id].short_title or by_item[note.file_item_id.id].title,
-            "tone": "g", "text": "note de revue",
+            "tone": "g", "text": self.env._("review note"),
         } for note in notes if note.file_item_id.id in by_item][:3]
         awaiting = items.filtered(
             lambda item: not item.not_applicable and item.state in ("prepared", "reviewed") and item not in late
         )
         chips += [{
             "id": item.id, "code": item.code, "title": item.short_title or item.title, "tone": "g",
-            "text": "à signer" if item.state == "reviewed" else "à réviser",
+            "text": self.env._("to sign") if item.state == "reviewed" else self.env._("to review"),
         } for item in awaiting[:_STRIP_CHIPS]]
         return chips[:_STRIP_CHIPS], late
 
@@ -461,7 +485,7 @@ class AuditUi(models.AbstractModel):
         for item in items:
             word = self._ea_ui_my_word(item, user, is_partner, policy)
             if word:
-                mine.append({"id": item.id, "code": item.code, "title": item.short_title or item.title, "word": word})
+                mine.append({"id": item.id, "code": item.code, "title": item.short_title or item.title, "word": self._ea_ui_word(word)})
 
         upcoming = items.filtered(
             lambda item: self._ea_ui_is_open(item) and not archived and self._ea_ui_due(item)
@@ -472,7 +496,8 @@ class AuditUi(models.AbstractModel):
             "title": item.short_title or item.title,
             "due": fmt_date(self._ea_ui_due(item)),
             "late_days": self._ea_ui_late_days(item, today),
-            "status": STATUS_WORDS[self._ea_ui_status(item)],
+            "late_text": self._ea_ui_late_text(self._ea_ui_late_days(item, today)),
+            "status": self.env._(STATUS_WORDS[self._ea_ui_status(item)]),
         } for item in upcoming[:_CALENDAR_ROWS]]
 
         total = sum(ring["total"] for ring in rings)
@@ -503,9 +528,9 @@ class AuditUi(models.AbstractModel):
             return {
                 "name": short_name(signoff.user_id.name),
                 "signed": True,
-                "detail": "Signé le %s" % fmt_date(fields.Date.context_today(self, signoff.signed_at)),
+                "detail": self.env._("Signed on %(date)s", date=fmt_date(fields.Date.context_today(self, signoff.signed_at))),
             }
-        return {"name": short_name(name) if name else "Non assigné", "signed": False, "detail": waiting if name else ""}
+        return {"name": short_name(name) if name else self.env._("Unassigned"), "signed": False, "detail": waiting if name else ""}
 
     @api.model
     def _ea_ui_task_row(self, item, signoffs, partner, policy, today):
@@ -513,14 +538,14 @@ class AuditUi(models.AbstractModel):
         by_role = {s.role: s for s in own}
         rule = self.env["ea.audit.signoff.policy"]._ea_effective_rule(item.code, policy)
         preparer_user = item.preparer_id or item.assignee_id
-        preparer_waiting = "En cours" if item.state == "in_progress" else "Non commencé"
+        preparer_waiting = self.env._("In progress") if item.state == "in_progress" else self.env._("Not started yet")
         reviewer_user = item.approver_id or partner
         if "partner" in by_role and "reviewer" not in by_role:
-            reviewer_waiting = "Approbation de l'associé"
+            reviewer_waiting = self.env._("Partner approval")
         elif "preparer" in by_role:
-            reviewer_waiting = "En attente de révision"
+            reviewer_waiting = self.env._("Awaiting review")
         else:
-            reviewer_waiting = "En attente du préparateur"
+            reviewer_waiting = self.env._("Awaiting preparer")
         status = self._ea_ui_status(item)
         pill, tone = STATUS_PILLS[status]
         row = {
@@ -532,11 +557,12 @@ class AuditUi(models.AbstractModel):
             "partner": None,
             "due": fmt_date(self._ea_ui_due(item)),
             "late_days": self._ea_ui_late_days(item, today),
-            "pill": pill,
+            "late_text": self._ea_ui_late_text(self._ea_ui_late_days(item, today)),
+            "pill": self.env._(pill),
             "tone": tone,
         }
         if rule["partner_required"]:
-            waiting = "En attente de signature" if item.state in ("prepared", "reviewed") else "En attente du préparateur"
+            waiting = self.env._("Awaiting sign-off") if item.state in ("prepared", "reviewed") else self.env._("Awaiting preparer")
             row["partner"] = self._ea_ui_signer_cell(partner.name, by_role.get("partner"), waiting)
         return row
 
@@ -557,9 +583,9 @@ class AuditUi(models.AbstractModel):
             "group": {
                 "id": group["id"],
                 "code": group["code"],
-                "title": group["title"],
+                "title": self.env._(group["title"]),
                 "section": group["section"],
-                "section_label": SECTION_LABELS[group["section"]],
+                "section_label": self.env._(SECTION_LABELS[group["section"]]),
             },
             "done": len(done_ids & set(items.ids)),
             "total": len(items),

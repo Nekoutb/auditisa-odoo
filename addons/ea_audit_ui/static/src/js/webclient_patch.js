@@ -7,7 +7,7 @@ import { EaTopBar } from "./top_bar";
 
 WebClient.components = { ...WebClient.components, EaTopBar };
 
-// The firm reads DD/MM/YYYY everywhere: Odoo's date fields default to "31 déc."
+// The firm reads DD/MM/YYYY everywhere: Odoo's date fields default to a short month name
 // in lists and forms. A view that sets the option itself keeps its choice.
 if (shellSession) {
     for (const name of ["date", "datetime", "daterange"]) {

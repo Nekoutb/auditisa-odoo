@@ -1,30 +1,32 @@
 import { Component, onMounted, useExternalListener, useState } from "@odoo/owl";
+import { browser } from "@web/core/browser/browser";
+import { _t } from "@web/core/l10n/translation";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { user } from "@web/core/user";
 import { debounce } from "@web/core/utils/timing";
 import { shellSession } from "./context_service";
 
 const PHASES = [
-    { key: "acceptance", label: "Planification" },
-    { key: "strategy", label: "Stratégie & risques" },
-    { key: "execution", label: "Exécution" },
-    { key: "conclusion", label: "Conclusion" },
+    { key: "acceptance", label: _t("Planning") },
+    { key: "strategy", label: _t("Strategy & risks") },
+    { key: "execution", label: _t("Execution") },
+    { key: "conclusion", label: _t("Conclusion") },
 ];
 
 function timeAgo(created) {
     const minutes = Math.floor((Date.now() - new Date(`${created.replace(" ", "T")}Z`)) / 60000);
     if (minutes < 1) {
-        return "à l'instant";
+        return _t("just now");
     }
     if (minutes < 60) {
-        return `il y a ${minutes} min`;
+        return _t("%s min ago", minutes);
     }
     const hours = Math.floor(minutes / 60);
     if (hours < 24) {
-        return `il y a ${hours} h`;
+        return _t("%s h ago", hours);
     }
     const days = Math.floor(hours / 24);
-    return days === 1 ? "hier" : `il y a ${days} j`;
+    return days === 1 ? _t("yesterday") : _t("%s d ago", days);
 }
 
 export class EaTopBar extends Component {
@@ -62,7 +64,7 @@ export class EaTopBar extends Component {
     }
 
     get selectorLabel() {
-        return this.ctxState.mission?.label || "Choisir une mission";
+        return this.ctxState.mission?.label || _t("Select engagement");
     }
 
     /** The mission one is in comes first, then the most recently worked. */
@@ -71,23 +73,40 @@ export class EaTopBar extends Component {
         return [...this.ctxState.recent].sort((a, b) => (b.id === current) - (a.id === current));
     }
 
+    get unreadLabel() {
+        const count = this.ctxState.unread;
+        return count > 1 ? _t("%s unread", count) : _t("1 unread");
+    }
+
+    /** The saved language of the user; the web client comes back in it. */
+    get language() {
+        return this.shell.language;
+    }
+
+    async setLanguage(code) {
+        if (code !== this.shell.language) {
+            await this.ctx.call("ea_ui_set_language", code);
+            browser.location.reload();
+        }
+    }
+
     get gearItems() {
         const items = [];
         if (this.inMission) {
-            items.push({ label: "Fiche de la mission", run: () => this.ctx.openForm("ea.audit.engagement", this.ctxState.mission.id) });
+            items.push({ label: _t("Engagement record"), run: () => this.ctx.openForm("ea.audit.engagement", this.ctxState.mission.id) });
         }
-        items.push({ label: "Clients", run: () => this.ctx.openXmlid("ea_audit_core.action_client") });
-        items.push({ label: "Mes invitations", run: () => this.ctx.openXmlid("ea_audit_core.action_my_invitations") });
+        items.push({ label: _t("Clients"), run: () => this.ctx.openXmlid("ea_audit_core.action_client") });
+        items.push({ label: _t("My invitations"), run: () => this.ctx.openXmlid("ea_audit_core.action_my_invitations") });
         if (this.shell.is_partner) {
-            items.push({ label: "Politique de signature", run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_policy_open") });
-            items.push({ label: "Règles de signature par tâche", run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_task_rule") });
-            items.push({ label: "Index du dossier", run: () => this.ctx.openXmlid("ea_audit_core.action_task_template") });
+            items.push({ label: _t("Sign-off policy"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_policy_open") });
+            items.push({ label: _t("Sign-off rules by task"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_task_rule") });
+            items.push({ label: _t("File index"), run: () => this.ctx.openXmlid("ea_audit_core.action_task_template") });
         }
         if (this.shell.is_system) {
-            items.push({ label: "Utilisateurs", run: () => this.ctx.openXmlid("base.action_res_users") });
-            items.push({ label: "Applications", run: () => this.ctx.openXmlid("base.open_module_tree") });
+            items.push({ label: _t("Users"), run: () => this.ctx.openXmlid("base.action_res_users") });
+            items.push({ label: _t("Apps"), run: () => this.ctx.openXmlid("base.open_module_tree") });
         }
-        items.push({ label: "Préférences", run: () => this.openPreferences() });
+        items.push({ label: _t("Preferences"), run: () => this.openPreferences() });
         return items;
     }
 

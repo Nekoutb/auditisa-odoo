@@ -4,53 +4,60 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
 # phaseDeadline of lib/engagement-dashboard.ts, in days from the period end.
+
+
+def _lt(text):
+    """Marks an English source for fr.po; the model layer translates it with env._."""
+    return text
+
+
 _PHASE_OFFSET_DAYS = {"acceptance": -90, "planning": -45, "execution": 90, "conclusion": 150}
 
 NATURE_LABELS = {
-    "statutory_audit": "commissariat aux comptes",
-    "contractual_audit": "audit contractuel",
-    "limited_review": "examen limité",
-    "commissariat_apports": "commissariat aux apports",
-    "agreed_procedures": "procédures convenues",
-    "other": "autre mission",
+    "statutory_audit": _lt("statutory audit"),
+    "contractual_audit": _lt("contractual audit"),
+    "limited_review": _lt("limited review"),
+    "commissariat_apports": _lt("contribution audit"),
+    "agreed_procedures": _lt("agreed-upon procedures"),
+    "other": _lt("other engagement"),
 }
 
 FIRM_ROLE_LABELS = {
-    "firm_admin": "Administrateur",
-    "partner": "Associé",
-    "manager": "Manager",
-    "senior": "Senior",
-    "staff": "Collaborateur",
-    "eqr_reviewer": "Réviseur qualité",
-    "read_only": "Lecture seule",
+    "firm_admin": _lt("Administrator"),
+    "partner": _lt("Partner"),
+    "manager": _lt("Manager"),
+    "senior": _lt("Senior"),
+    "staff": _lt("Staff"),
+    "eqr_reviewer": _lt("Quality reviewer"),
+    "read_only": _lt("Read only"),
 }
 
 TEAM_ROLE_LABELS = {
-    "staff": "collaborateur",
-    "senior": "senior",
-    "manager": "manager",
-    "senior_manager": "senior manager",
-    "director": "directeur",
-    "partner": "associé",
-    "eqr_reviewer": "réviseur qualité",
+    "staff": _lt("staff member"),
+    "senior": _lt("senior"),
+    "manager": _lt("manager"),
+    "senior_manager": _lt("senior manager"),
+    "director": _lt("director"),
+    "partner": _lt("partner"),
+    "eqr_reviewer": _lt("quality reviewer"),
 }
 
 STATUS_PILLS = {
-    "signed": ("TERMINÉE", "g"),
-    "reviewed": ("À SIGNER", "y"),
-    "prepared": ("EN RÉVISION", "y"),
-    "in_progress": ("EN COURS", "bl"),
-    "not_started": ("NON COMMENCÉE", "n"),
-    "not_applicable": ("SANS OBJET", "n"),
+    "signed": (_lt("COMPLETE"), "g"),
+    "reviewed": (_lt("TO SIGN"), "y"),
+    "prepared": (_lt("IN REVIEW"), "y"),
+    "in_progress": (_lt("IN PROGRESS"), "bl"),
+    "not_started": (_lt("NOT STARTED"), "n"),
+    "not_applicable": (_lt("NOT APPLICABLE"), "n"),
 }
 
 STATUS_WORDS = {
-    "signed": "Signée",
-    "reviewed": "À signer",
-    "prepared": "En revue",
-    "in_progress": "En cours",
-    "not_started": "Non commencée",
-    "not_applicable": "Sans objet",
+    "signed": _lt("Signed"),
+    "reviewed": _lt("To sign"),
+    "prepared": _lt("In review"),
+    "in_progress": _lt("In progress"),
+    "not_started": _lt("Not started"),
+    "not_applicable": _lt("Not applicable"),
 }
 
 
@@ -60,7 +67,7 @@ def fmt_date(value):
 
 
 def report_due(period_end):
-    """"Rapport attendu avant le": the period end plus six months."""
+    """The report's due date: the period end plus six months."""
     return period_end + relativedelta(months=6)
 
 

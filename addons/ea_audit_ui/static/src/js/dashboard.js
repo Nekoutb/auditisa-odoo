@@ -1,4 +1,5 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
@@ -7,7 +8,7 @@ export class EaDashboard extends Component {
     static template = "ea_audit_ui.Dashboard";
     static props = { ...standardActionServiceProps };
     static path = "ea-mission";
-    static displayName = "Tableau de bord de la mission";
+    static displayName = _t("Engagement dashboard");
 
     setup() {
         this.ctx = useService("ea_audit_context");
@@ -19,7 +20,7 @@ export class EaDashboard extends Component {
         onWillStart(async () => {
             const data = await this.ctx.call("ea_ui_dashboard", this.engagementId);
             if (data.denied) {
-                this.notification.add("Vous n'êtes pas membre de l'équipe de cette mission.", { type: "warning" });
+                this.notification.add(_t("You are not a member of this engagement's team."), { type: "warning" });
                 this.ctx.openHome();
                 return;
             }
@@ -69,7 +70,7 @@ export class EaDashboard extends Component {
         if (ids.length === 1) {
             return this.ctx.openItem(ids[0]);
         }
-        return ids.length ? this.ctx.openItems(ids, "Notes de revue pour moi") : undefined;
+        return ids.length ? this.ctx.openItems(ids, _t("Review notes for me")) : undefined;
     }
 
     openTool(method) {
@@ -77,7 +78,7 @@ export class EaDashboard extends Component {
     }
 
     openUnassigned() {
-        return this.ctx.openItems(this.state.data.unassigned_ids, "Tâches sans préparateur");
+        return this.ctx.openItems(this.state.data.unassigned_ids, _t("Tasks without a preparer"));
     }
 
     openClient() {

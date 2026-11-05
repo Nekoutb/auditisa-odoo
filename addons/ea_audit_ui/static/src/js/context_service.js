@@ -1,4 +1,5 @@
 import { reactive } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { session } from "@web/session";
 
@@ -65,7 +66,7 @@ const contextService = {
                     return;
                 }
                 return action.doAction(
-                    clientAction("ea_audit_ui.dashboard", "Tableau de bord de la mission", {
+                    clientAction("ea_audit_ui.dashboard", _t("Engagement dashboard"), {
                         resId: engagementId,
                         section,
                     }),
@@ -74,14 +75,14 @@ const contextService = {
             },
             openTasks(engagementId, group) {
                 return action.doAction(
-                    clientAction("ea_audit_ui.tasks", "Liste des tâches", { resId: engagementId, group })
+                    clientAction("ea_audit_ui.tasks", _t("Task list"), { resId: engagementId, group })
                 );
             },
             openItem(itemId) {
                 return action.doAction({
                     type: "ir.actions.client",
                     tag: "ea_audit_paper",
-                    name: "Papier de travail",
+                    name: _t("Working paper"),
                     params: { file_item_id: itemId },
                     context: { active_id: itemId },
                 });

@@ -121,6 +121,13 @@ body.ea-shell .ea-top {
     position: absolute; top: -7px; right: -7px; padding: 0 5px; border-radius: 9px;
     background: var(--ea-green); color: #fff; font-size: 10px; font-weight: 700; line-height: 15px;
   }
+  .ea-lang {
+    flex: 0 0 auto; display: inline-flex; border: 1px solid var(--ea-line); border-radius: 8px; overflow: hidden;
+    .ea-lang-b {
+      border: 0; background: transparent; padding: 4px 8px; font-size: 11px; font-weight: 600; color: var(--ea-muted); cursor: pointer;
+      &.on { background: var(--ea-greenbg); color: var(--ea-green); }
+    }
+  }
   .ea-who {
     flex: 0 0 auto; text-align: right; line-height: 1.15; font-size: 13px;
     small { display: block; color: var(--ea-muted); font-size: 11px; }

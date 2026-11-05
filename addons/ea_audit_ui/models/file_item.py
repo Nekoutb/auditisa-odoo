@@ -2,7 +2,12 @@ from odoo import models
 
 from ..services.presentation import short_name
 
-_ROLE_WORDS = {"preparer": "préparateur", "approver": "réviseur", "assignee": "assigné"}
+
+def _lt(text):
+    return text
+
+
+_ROLE_WORDS = {"preparer": _lt("preparer"), "approver": _lt("reviewer"), "assignee": _lt("assignee")}
 
 
 class FileItem(models.Model):
@@ -10,7 +15,11 @@ class FileItem(models.Model):
 
     def _ea_ui_label(self):
         self.ensure_one()
-        return "%s %s" % (self.code, self.env["ea.audit.ui"]._ea_ui_titled(self.sudo()).title)
+        return "%s %s" % (self.code, self.sudo().title)
+
+    def _ea_ui_for_reader(self, user):
+        """The same records in the addressee's language: a notification is read by them."""
+        return self.with_context(lang=user.sudo().lang or self.env.lang)
 
     def _ea_ui_notify(self, user, title, detail):
         if user and user != self.env.user:
@@ -28,35 +37,49 @@ class FileItem(models.Model):
         item = self.sudo()
         engagement = item.engagement_id
         signer = short_name(self.env.user.name)
-        label = item._ea_ui_label()
         if role == "preparer":
             # the partner signs a partner-only paper; anyone else, the assigned reviewer
             rule = self.env["ea.audit.signoff.policy"]._ea_effective_rule(item.code)
             reviewer = item.approver_id or (engagement.engagement_partner_id if rule["partner_required"] else None)
-            self._ea_ui_notify(reviewer, "À réviser : %s" % label, "%s a signé comme préparateur" % signer)
+            if reviewer:
+                reader = self._ea_ui_for_reader(reviewer)
+                self._ea_ui_notify(
+                    reviewer,
+                    reader.env._("To review: %(label)s", label=reader._ea_ui_label()),
+                    reader.env._("%(name)s signed as preparer", name=signer),
+                )
         elif role == "reviewer" and item.state == "reviewed":
+            partner = engagement.engagement_partner_id
+            reader = self._ea_ui_for_reader(partner)
             self._ea_ui_notify(
-                engagement.engagement_partner_id, "À signer : %s" % label, "%s a signé comme réviseur" % signer,
+                partner,
+                reader.env._("To sign: %(label)s", label=reader._ea_ui_label()),
+                reader.env._("%(name)s signed as reviewer", name=signer),
             )
         return role
 
     def assign_tasks(self, user_id, role="assignee"):
         count = super().assign_tasks(user_id, role)
         if user_id and user_id != self.env.uid:
-            word = _ROLE_WORDS.get(role, role)
+            addressee = self.env["res.users"].sudo().browse(user_id)
+            reader = self._ea_ui_for_reader(addressee)
+            word = reader.env._(_ROLE_WORDS[role]) if role in _ROLE_WORDS else role
             actor = short_name(self.env.user.name)
             for engagement in self.sudo().engagement_id:
-                items = self.sudo().filtered(lambda i: i.engagement_id == engagement)
+                items = reader.sudo().filtered(lambda i: i.engagement_id == engagement)
                 single = len(items) == 1
                 self.env["ea.audit.notification"].sudo().create({
                     "user_id": user_id,
                     "kind": "task" if single else "mission",
                     "title": (
-                        "Tâche affectée : %s" % items._ea_ui_label()
+                        reader.env._("Task assigned: %(label)s", label=items._ea_ui_label())
                         if single
-                        else "%s tâches affectées : %s, %s" % (len(items), engagement.client_id.name, engagement.fiscal_year)
+                        else reader.env._(
+                            "%(count)s tasks assigned: %(client)s, %(year)s",
+                            count=len(items), client=engagement.client_id.name, year=engagement.fiscal_year,
+                        )
                     ),
-                    "detail": "%s vous a désigné comme %s" % (actor, word),
+                    "detail": reader.env._("%(name)s named you as %(role)s", name=actor, role=word),
                     "engagement_id": engagement.id,
                     "file_item_id": items.id if single else False,
                 })

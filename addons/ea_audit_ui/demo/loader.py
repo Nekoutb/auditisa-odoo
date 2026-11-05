@@ -19,6 +19,8 @@ import logging
 import os
 from datetime import date, timedelta
 
+import os
+
 from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.signoff_rules import team_rank
@@ -39,35 +41,35 @@ WALK_PAPERS = (
     "E1.2", "E3.1", "E4.1", "E4.20", "E6.10",
     "C1.1", "C1.2", "C2.1", "C3.1", "C4.1", "C4.3", "C5.3", "C5.11", "C6.1", "C6.2",
 )
-_WALK_NA_REASON = "Dossier de démonstration : papier non retenu pour la visite guidée."
+_WALK_NA_REASON = ("Demonstration file: paper not kept for the guided walk.", "Dossier de démonstration : papier non retenu pour la visite guidée.")
 _SELECT_ANSWERS = {
     "engagement_type": "recurring",
     "auditor_change": "no",
     "rating": "moderate",
     "itgc_state": "support",
 }
-_DONE_TEXT = "Effectué, voir la feuille de travail."
+_DONE_TEXT = ("Done, see the working paper.", "Effectué, voir la feuille de travail.")
 
 _ACCOUNTS = {
-    "101000": "Capital social",
-    "121000": "Report à nouveau",
-    "162000": "Emprunts",
-    "231000": "Bâtiments",
-    "241000": "Matériel et outillage",
-    "284000": "Amortissements du matériel",
-    "311000": "Marchandises",
-    "401000": "Fournisseurs",
-    "411000": "Clients",
-    "431000": "Sécurité sociale",
-    "441000": "État, impôt sur les bénéfices",
-    "521000": "Banques",
-    "571000": "Caisse",
-    "601000": "Achats de marchandises",
-    "622000": "Locations",
-    "641000": "Impôts et taxes",
-    "661000": "Rémunérations",
-    "681000": "Dotations aux amortissements",
-    "701000": "Ventes de marchandises",
+    "101000": ("Share capital", "Capital social"),
+    "121000": ("Retained earnings", "Report à nouveau"),
+    "162000": ("Borrowings", "Emprunts"),
+    "231000": ("Buildings", "Bâtiments"),
+    "241000": ("Equipment and tools", "Matériel et outillage"),
+    "284000": ("Accumulated depreciation of equipment", "Amortissements du matériel"),
+    "311000": ("Goods for resale", "Marchandises"),
+    "401000": ("Trade payables", "Fournisseurs"),
+    "411000": ("Trade receivables", "Clients"),
+    "431000": ("Social security", "Sécurité sociale"),
+    "441000": ("State, income tax", "État, impôt sur les bénéfices"),
+    "521000": ("Banks", "Banques"),
+    "571000": ("Cash on hand", "Caisse"),
+    "601000": ("Purchases of goods", "Achats de marchandises"),
+    "622000": ("Rentals", "Locations"),
+    "641000": ("Taxes and duties", "Impôts et taxes"),
+    "661000": ("Salaries", "Rémunérations"),
+    "681000": ("Depreciation expense", "Dotations aux amortissements"),
+    "701000": ("Sales of goods", "Ventes de marchandises"),
 }
 _CLOSING_2024 = {
     "101000": -50000000, "121000": -8000000, "162000": -20000000, "231000": 60000000, "241000": 25000000,
@@ -83,32 +85,38 @@ _CLOSING_2025 = {
 }
 
 
+def _d(english, french):
+    """Demonstration content, in the firm's language: what its people would have typed."""
+    return french if _Demo.french else english
+
+
 def _ledger_csv(year):
     """A small general ledger: twelve months of sales, purchases and cash, with what the journal-entry
     selection looks for: round amounts, a Saturday, a closing-day entry, one self-approved."""
-    lines = ["Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Référence;Journal;Préparé;Approuvé"]
+    # A client's file: its column names are read, not shown.
+    lines = ["Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Référence;Journal;Préparé;Approuvé"]  # i18n: input
 
     def entry(number, label, day, debit_account, credit_account, amount, journal, preparer="Awa", approver="Ben"):
         for account, debit, credit in ((debit_account, amount, ""), (credit_account, "", amount)):
             lines.append(";".join(str(cell) for cell in (
-                account, _ACCOUNTS[account], number, label, day, debit, credit, "P-%s" % number, journal, preparer, approver,
+                account, _d(*_ACCOUNTS[account]), number, label, day, debit, credit, "P-%s" % number, journal, preparer, approver,
             )))
 
     for month in range(1, 13):
         stamp = "%02d/%02d/%d" % (15, month, year)
-        entry("VE%03d" % month, "Ventes du mois %d" % month, stamp, "411000", "701000", 14000000 + month * 137000, "VE")
-        entry("AC%03d" % month, "Achats du mois %d" % month, stamp, "601000", "401000", 8000000 + month * 91000, "AC")
-        entry("BQ%03d" % month, "Encaissement clients %d" % month, "20/%02d/%d" % (month, year), "521000", "411000", 12500000 + month * 73000, "BQ")
-        entry("PA%03d" % month, "Salaires du mois %d" % month, "28/%02d/%d" % (month, year), "661000", "521000", 2300000 + month * 11000, "OD")
-    entry("OD900", "Écriture manuelle de clôture", "31/12/%d" % year, "622000", "401000", 5000000, "OD", "Dan", "Dan")
-    entry("OD901", "Régularisation un samedi", "01/02/%d" % year, "641000", "521000", 1000000, "OD", "Dan", "Ben")
+        entry("VE%03d" % month, _d("Sales for month %d", "Ventes du mois %d") % month, stamp, "411000", "701000", 14000000 + month * 137000, "VE")
+        entry("AC%03d" % month, _d("Purchases for month %d", "Achats du mois %d") % month, stamp, "601000", "401000", 8000000 + month * 91000, "AC")
+        entry("BQ%03d" % month, _d("Customer receipts %d", "Encaissement clients %d") % month, "20/%02d/%d" % (month, year), "521000", "411000", 12500000 + month * 73000, "BQ")
+        entry("PA%03d" % month, _d("Salaries for month %d", "Salaires du mois %d") % month, "28/%02d/%d" % (month, year), "661000", "521000", 2300000 + month * 11000, "OD")
+    entry("OD900", _d("Manual closing entry", "Écriture manuelle de clôture"), "31/12/%d" % year, "622000", "401000", 5000000, "OD", "Dan", "Dan")
+    entry("OD901", _d("Adjustment on a Saturday", "Régularisation un samedi"), "01/02/%d" % year, "641000", "521000", 1000000, "OD", "Dan", "Ben")
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
 _LEDGER_MAPPING = {
-    "account": "Compte", "accountName": "Intitulé", "jeNumber": "N° écriture", "jeDescription": "Libellé",
-    "journalDate": "Date", "debit": "Débit", "credit": "Crédit", "reference": "Référence",
-    "journalCode": "Journal", "preparedBy": "Préparé", "approvedBy": "Approuvé",
+    "account": "Compte", "accountName": "Intitulé", "jeNumber": "N° écriture", "jeDescription": "Libellé",  # i18n: input
+    "journalDate": "Date", "debit": "Débit", "credit": "Crédit", "reference": "Référence",  # i18n: input
+    "journalCode": "Journal", "preparedBy": "Préparé", "approvedBy": "Approuvé",  # i18n: input
 }
 
 
@@ -127,7 +135,7 @@ def _carried(closing):
 
 
 def _tb_csv(opening, closing):
-    lines = ["Compte;Libellé;Solde ouverture débit;Solde ouverture crédit;Mouvement débit;Mouvement crédit"]
+    lines = ["Compte;Libellé;Solde ouverture débit;Solde ouverture crédit;Mouvement débit;Mouvement crédit"]  # i18n: input
     for code in sorted(_ACCOUNTS):
         before = opening.get(code, 0)
         movement = closing.get(code, 0) - before
@@ -138,6 +146,8 @@ def _tb_csv(opening, closing):
 
 
 class _Demo:
+    french = False
+
     def __init__(self, env):
         self.env = env
         self.today = fields.Date.context_today(env["ea.audit.ui"])
@@ -233,11 +243,11 @@ class _Demo:
             elif item.code == "P1.5" and key.startswith("q_"):
                 # a "yes" on any criterion would require a quality reviewer on the file
                 out[key] = "no"
-                out["%s_x" % key] = "Critère non rempli pour cette entité."
+                out["%s_x" % key] = _d("Criterion not met for this entity.", "Critère non rempli pour cette entité.")
             elif key.startswith(("q_", "c_")):
                 out[key] = "yes"
             else:
-                out[key] = _DONE_TEXT
+                out[key] = _d(*_DONE_TEXT)
         return out
 
     def fill(self, item, user):
@@ -279,7 +289,7 @@ class _Demo:
     def approve_materiality(self, engagement):
         amount = engagement._ea_tb_bases()["revenue"]
         version = engagement.with_user(self.ndongo).create_materiality_version(
-            "revenue", amount, 1, "Le chiffre d'affaires est stable et le principal indicateur suivi par les associés.",
+            "revenue", amount, 1, _d("Revenue is stable and the main indicator the shareholders follow.", "Le chiffre d'affaires est stable et le principal indicateur suivi par les associés."),
         )
         version.with_user(self.mbarga).action_approve()
 
@@ -288,16 +298,16 @@ class _Demo:
         as_senior = engagement.with_user(self.ndongo)
         receivables = next(code for code, paper in INDEX_SECTION.items() if paper == "E4.1")
         as_senior.add_risk(
-            "Dépréciation insuffisante des créances anciennes", category="error", likelihood="medium", magnitude="high",
+            _d("Insufficient allowance on old receivables", "Dépréciation insuffisante des créances anciennes"), category="error", likelihood="medium", magnitude="high",
             significant=True, index=receivables, assertions=["V"],
         )
-        as_senior.add_risk("Dépendance à un fournisseur unique", category="business", likelihood="medium", magnitude="medium")
+        as_senior.add_risk(_d("Dependence on a single supplier", "Dépendance à un fournisseur unique"), category="business", likelihood="medium", magnitude="medium")
         for risk in self.env["ea.audit.risk"].sudo().search([
             ("engagement_id", "=", engagement.id), ("significant", "=", True), ("program_step_ids", "=", False),
         ]):
             items = self.items(engagement)
             section = risk.section_link_ids.file_item_id[:1] or items.get("E4.1") or items["E1.1"]
-            step = as_senior.add_program_step(section, "Réponse au risque : %s" % risk.description[:80])
+            step = as_senior.add_program_step(section, _d("Response to the risk: %s", "Réponse au risque : %s") % risk.description[:80])
             risk.with_user(self.ndongo).link_step(step)
 
     def record_scots(self, engagement):
@@ -305,11 +315,11 @@ class _Demo:
         substantive SCOT, the walkthroughs answered, each IT application given its strategy."""
         as_senior = engagement.with_user(self.ndongo)
         sales = as_senior.create_scot(
-            "Ventes et créances clients", "routine", "controls", "Logiciel de facturation",
-            "De la commande à l'encaissement.",
+            _d("Sales and trade receivables", "Ventes et créances clients"), "routine", "controls", _d("Invoicing software", "Logiciel de facturation"),
+            _d("From order to cash receipt.", "De la commande à l'encaissement."),
         )
         sales.link_index("E", ["E", "A", "C"])
-        missed = sales.add_wcgw("Une vente n'est pas facturée ni comptabilisée.", ["C"])
+        missed = sales.add_wcgw(_d("A sale is neither invoiced nor recorded.", "Une vente n'est pas facturée ni comptabilisée."), ["C"])
         control = sales.add_control(
             "Rapprochement mensuel des bons de livraison et des factures", "Directeur financier", "manual", "mensuel", "detect", wcgws=missed,
         )
@@ -317,11 +327,11 @@ class _Demo:
             "selected_for_testing": True, "test_design": "Reprendre le rapprochement du mois et le visa du directeur financier.",
             "design_eval": "effective", "implemented": "yes",
         })
-        purchases = as_senior.create_scot("Achats et fournisseurs", "routine", "substantive", "Logiciel comptable", "De la commande au règlement.")
+        purchases = as_senior.create_scot(_d("Purchases and suppliers", "Achats et fournisseurs"), "routine", "substantive", _d("Accounting software", "Logiciel comptable"), _d("From order to payment.", "De la commande au règlement."))
         purchases.link_index("N", ["C", "A"])
-        purchases.add_wcgw("Une facture fournisseur est enregistrée deux fois.", ["E"])
+        purchases.add_wcgw(_d("A supplier invoice is recorded twice.", "Une facture fournisseur est enregistrée deux fois."), ["E"])
         answers = {
-            field["key"]: "yes" if field.get("kind") == "yn" else "Décrit lors de l'entretien avec le directeur financier."
+            field["key"]: "yes" if field.get("kind") == "yn" else _d("Described in the meeting with the finance director.", "Décrit lors de l'entretien avec le directeur financier.")
             for field in WALKTHROUGH_FIELDS
         }
         (sales | purchases).write(answers)
@@ -336,7 +346,7 @@ class _Demo:
         for code in codes:
             index = next((index for index, task in INDEX_SECTION.items() if task == code), None)
             if index:
-                as_senior.add_dsp_osp(index, "Procédure de détail conçue sur le compte %s." % index, ["E"])
+                as_senior.add_dsp_osp(index, _d("Test of details designed on account %s.", "Procédure de détail conçue sur le compte %s.") % index, ["E"])
 
     def conclude(self, engagement):
         """Execution to the archive, by the methods a file goes through. C6.x wait for the report."""
@@ -344,22 +354,22 @@ class _Demo:
         as_partner = engagement.with_user(self.mbarga)
         steps = self.env["ea.audit.program.step"].sudo().search([("engagement_id", "=", engagement.id), ("status", "=", "open")])
         for step in steps:
-            step.with_user(self.ndongo).complete("Diligence réalisée, sans anomalie.")
+            step.with_user(self.ndongo).complete(_d("Procedure performed, no misstatement.", "Diligence réalisée, sans anomalie."))
         for risk in self.env["ea.audit.risk"].sudo().search([("engagement_id", "=", engagement.id), ("rebutted", "=", False)]):
             risk.with_user(self.ndongo).write({"status": "concluded"})
         worked = steps.file_item_id
         for item in worked:
             item.with_user(self.ndongo).save_section_conclusion("Objectifs atteints.", objectives_achieved=True)
             item.with_user(self.essomba).review_section_conclusion()
-        as_senior.save_sad_conclusion("Aucune anomalie significative non corrigée.")
+        as_senior.save_sad_conclusion(_d("No uncorrected material misstatement.", "Aucune anomalie significative non corrigée."))
         as_senior.run_final_analytics()
         as_senior.run_fs_tieout()
-        as_senior.record_disclosure_checklist(True, "Notes 1 à 36 revues.")
+        as_senior.record_disclosure_checklist(True, _d("Notes 1 to 36 reviewed.", "Notes 1 à 36 revues."))
         report_date = date(engagement.fiscal_year + 1, 3, 31)
         as_senior.record_subsequent_events(report_date)
         as_partner.generate_letter("rep_affirmation", "fr")
         as_partner.generate_letter("rep_complementary", "fr")
-        as_partner.record_completion("partner_conclusion", {"conclusion": "Les travaux soutiennent une opinion sans réserve."})
+        as_partner.record_completion("partner_conclusion", {"conclusion": _d("The work supports an unmodified opinion.", "Les travaux soutiennent une opinion sans réserve.")})
         scoped_out = engagement._ea_e4_out_of_scope()
         open_items = engagement.file_item_ids.filtered(
             lambda i: not i.conditional and i.state != "signed" and not i.not_applicable and i not in scoped_out
@@ -478,28 +488,28 @@ class _Demo:
     def findings(self, engagement, active):
         as_senior = engagement.with_user(self.ndongo)
         as_senior.route_finding(
-            "c1", "Absence de rapprochement bancaire mensuel", severity="significant_deficiency",
-            detail="Les rapprochements de 2025 n'ont été faits qu'en fin d'exercice.",
-            recommendation="Rapprocher chaque compte bancaire chaque mois, avec revue par le directeur financier.",
+            "c1", _d("No monthly bank reconciliation", "Absence de rapprochement bancaire mensuel"), severity="significant_deficiency",
+            detail=_d("The 2025 reconciliations were only done at year end.", "Les rapprochements de 2025 n'ont été faits qu'en fin d'exercice."),
+            recommendation=_d("Reconcile each bank account every month, reviewed by the finance director.", "Rapprocher chaque compte bancaire chaque mois, avec revue par le directeur financier."),
             file_item=active["E4.3"],
         )
         as_senior.route_finding(
-            "b4", "Reprise manuelle sur les comptes clients", detail="Saisies manuelles sans pièce en décembre.",
+            "b4", _d("Manual adjustment on the receivable accounts", "Reprise manuelle sur les comptes clients"), detail=_d("Manual entries without support in December.", "Saisies manuelles sans pièce en décembre."),
             file_item=active["E4.1"],
         )
         as_senior.route_finding(
-            "b5", "Provision clients sous-estimée", amount=3200000, accounts="411000 / 681000",
+            "b5", _d("Understated allowance on receivables", "Provision clients sous-estimée"), amount=3200000, accounts="411000 / 681000",
             file_item=active["E4.1"], mtype="factual",
         )
         as_senior.route_finding(
-            "b5", "Cut-off des ventes de décembre", amount=1450000, accounts="701000 / 411000",
+            "b5", _d("Cut-off of December sales", "Cut-off des ventes de décembre"), amount=1450000, accounts="701000 / 411000",
             file_item=active["E4.20"], mtype="judgmental",
         )
 
     def review_notes(self, active):
-        active["C5.11"].with_user(self.essomba).add_review_note("Merci de préciser les destinataires de la communication.")
-        active["E6.3"].with_user(self.mbarga).add_review_note("Le plan de trésorerie à douze mois manque : à obtenir de la direction.")
-        active["E4.1"].with_user(self.ndongo).add_review_note("L'écart de 450 000 FCFA avec la balance auxiliaire reste à expliquer.")
+        active["C5.11"].with_user(self.essomba).add_review_note(_d("Please state who receives the communication.", "Merci de préciser les destinataires de la communication."))
+        active["E6.3"].with_user(self.mbarga).add_review_note(_d("The twelve-month cash plan is missing: obtain it from management.", "Le plan de trésorerie à douze mois manque : à obtenir de la direction."))
+        active["E4.1"].with_user(self.ndongo).add_review_note(_d("The 450,000 FCFA difference with the sub-ledger remains to be explained.", "L'écart de 450 000 FCFA avec la balance auxiliaire reste à expliquer."))
 
     def agro_2025(self):
         """The file a person walks: acceptance waits for the partner, then WALK_PAPERS."""
@@ -547,8 +557,8 @@ class _Demo:
             item = row.file_item_id
             still_asked = (
                 row.kind == "invitation"
-                or row.title.startswith(("Constat", "Note de revue"))
-                or (row.title.startswith("À réviser") and item.state == "prepared" and item.approver_id == row.user_id)
+                or row.title.startswith(("Finding", "Review note", "Constat", "Note de revue"))  # i18n: input
+                or (row.title.startswith(("To review", "À réviser")) and item.state == "prepared" and item.approver_id == row.user_id)  # i18n: input
             )
             if not still_asked:
                 row.unlink()
@@ -562,17 +572,20 @@ class AuditUiDemo(models.AbstractModel):
         env = self.env
         if env["ea.audit.engagement"].sudo().search_count([]):
             return  # never on top of real files
-        env["res.lang"]._activate_lang("fr_FR")
+        # The demonstration speaks the firm's language: EA_AUDIT_DEMO_LANG, else the company's.
+        lang = os.environ.get("EA_AUDIT_DEMO_LANG") or env.company.partner_id.lang or "en_US"
+        _Demo.french = lang.startswith("fr")
+        lang = "fr_FR" if _Demo.french else "en_US"
         xaf = env.ref("base.XAF")
         xaf.active = True
         env.ref("base.main_company").currency_id = xaf
         people = env["res.users"].browse([
             env.ref("ea_audit_ui.demo_user_%s" % name).id for name in ("mbarga", "essomba", "ndongo", "tchoua", "fotso")
         ])
-        people.write({"lang": "fr_FR"})
+        people.write({"lang": lang})
         # the administrator is a firm role like any other: no team, no mission
         admin = env.ref("base.user_admin")
-        admin.write({"name": "Administrateur Démo", "lang": "fr_FR", "group_ids": [(4, env.ref("ea_audit_core.group_firm_admin").id)]})
+        admin.write({"name": _d("Demo Administrator", "Administrateur Démo"), "lang": lang, "group_ids": [(4, env.ref("ea_audit_core.group_firm_admin").id)]})
 
         demo = _Demo(env)
         demo.archived_2024()

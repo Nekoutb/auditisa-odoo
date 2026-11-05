@@ -1,4 +1,5 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
@@ -7,7 +8,7 @@ export class EaTasks extends Component {
     static template = "ea_audit_ui.Tasks";
     static props = { ...standardActionServiceProps };
     static path = "ea-taches";
-    static displayName = "Liste des tâches";
+    static displayName = _t("Task list");
 
     setup() {
         this.ctx = useService("ea_audit_context");

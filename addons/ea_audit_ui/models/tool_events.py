@@ -8,13 +8,15 @@ from ..services.presentation import short_name
 class Engagement(models.Model):
     _inherit = "ea.audit.engagement"
 
-    def _ea_ui_notify_seniors(self, title, detail, item=None):
-        """The partner and the file's managers, not the one who acted."""
+    def _ea_ui_notify_seniors(self, words, item=None):
+        """The partner and the file's managers, not the one who acted. ``words`` gets the
+        environment of each addressee and returns (title, detail) in their language."""
         as_root = self.sudo()
         managers = as_root.team_member_ids.filtered(
             lambda member: member.state == "accepted" and member.team_role in ("manager", "director")
         ).user_id
         for user in (as_root.engagement_partner_id | managers) - self.env.user:
+            title, detail = words(self.with_context(lang=user.lang or self.env.lang).env)
             self.env["ea.audit.notification"].sudo().create({
                 "user_id": user.id,
                 "kind": "task" if item else "mission",
@@ -29,19 +31,24 @@ class Engagement(models.Model):
         finding = result.get("finding")
         if finding:
             as_root = finding.sudo()
+            actor = short_name(self.env.user.name)
             self._ea_ui_notify_seniors(
-                "Constat %s : %s" % (as_root.reference, as_root.title),
-                "%s a relevé ce constat" % short_name(self.env.user.name),
+                lambda env: (
+                    env._("Finding %(reference)s: %(title)s", reference=as_root.reference, title=as_root.title),
+                    env._("%(name)s raised this finding", name=actor),
+                ),
                 as_root.file_item_id or None,
             )
         return result
 
     def create_materiality_version(self, *args, **kwargs):
         version = super().create_materiality_version(*args, **kwargs)
-        self._ea_ui_notify_seniors(
-            "Seuil à approuver : version %s" % version.sudo().version_no,
-            "%s a créé cette version" % short_name(self.env.user.name),
-        )
+        actor = short_name(self.env.user.name)
+        number = version.sudo().version_no
+        self._ea_ui_notify_seniors(lambda env: (
+            env._("Materiality to approve: version %(number)s", number=number),
+            env._("%(name)s created this version", name=actor),
+        ))
         return version
 
 
@@ -51,7 +58,11 @@ class FileItem(models.Model):
     def add_review_note(self, body):
         note_id = super().add_review_note(body)
         note = self.env["ea.audit.review.note"].sudo().browse(note_id)
-        self._ea_ui_notify(
-            note.assignee_id, "Note de revue : %s" % self.sudo()._ea_ui_label(), "%s a écrit une note" % short_name(self.env.user.name),
-        )
+        if note.assignee_id:
+            reader = self._ea_ui_for_reader(note.assignee_id)
+            self._ea_ui_notify(
+                note.assignee_id,
+                reader.env._("Review note: %(label)s", label=reader.sudo()._ea_ui_label()),
+                reader.env._("%(name)s wrote a note", name=short_name(self.env.user.name)),
+            )
         return note_id
