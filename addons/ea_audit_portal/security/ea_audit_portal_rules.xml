@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- A client contact reads the requests of their own client. The firm's rule is in ea_audit_tools,
+         a group rule too, so the two do not add up to nothing. -->
+    <record id="rule_pbc_item_own_client" model="ir.rule">
+        <field name="name">ea.audit.pbc.item: the contact's own client</field>
+        <field name="model_id" ref="ea_audit_tools.model_ea_audit_pbc_item"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('client_id.portal_contact_ids.user_id', '=', user.id)]</field>
+    </record>
+</odoo>

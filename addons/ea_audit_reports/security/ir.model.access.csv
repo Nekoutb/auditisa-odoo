@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_member,document member,model_ea_audit_document,ea_audit_core.group_member,1,0,0,0
+access_document_version_member,document version member,model_ea_audit_document_version,ea_audit_core.group_member,1,0,0,0
+access_completion_record_member,completion record member,model_ea_audit_completion_record,ea_audit_core.group_member,1,0,0,0
+access_legal_hold_member,legal hold member,model_ea_audit_legal_hold,ea_audit_core.group_member,1,0,0,0
+access_archive_manifest_member,archive manifest member,model_ea_audit_archive_manifest,ea_audit_core.group_member,1,0,0,0
+access_notice_member,notice member,model_ea_audit_notice,ea_audit_core.group_member,1,0,0,0
+access_issue_wizard,issue wizard,model_ea_audit_issue_report_wizard,ea_audit_core.group_member,1,1,1,0
+access_completion_wizard,completion wizard,model_ea_audit_completion_wizard,ea_audit_core.group_member,1,1,1,0
+access_hold_wizard,hold wizard,model_ea_audit_hold_wizard,ea_audit_core.group_member,1,1,1,0
+access_tieout_wizard,tieout wizard,model_ea_audit_tieout_wizard,ea_audit_core.group_member,1,1,1,0

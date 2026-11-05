@@ -35,8 +35,10 @@ class TestPaperIncomplete(PaperCase):
         self.outputs_exist()
         self.assertEqual(self.sign(self.staff, self.engagement, "E4.1", "preparer"), "preparer")
 
-    def test_papers_with_a_board_refuse_until_the_tools_addon_reads_it(self):
-        for code, refusal in (("S1.2", "wcgw-missing"), ("S1.3", "walkthrough-incomplete")):
+    def test_a_gap_on_the_board_refuses_the_signature(self):
+        gaps = {"S1.2": "wcgw-missing", "S1.3": "walkthrough-incomplete"}
+        self.patch(type(self.env["ea.audit.file.item"]), "_ea_tool_gap", lambda _self: gaps.get(_self.code))
+        for code, refusal in gaps.items():
             self.assertCode(refusal, self.sign, self.senior, self.engagement, code, "preparer")
         self.patch(type(self.env["ea.audit.file.item"]), "_ea_tool_gap", lambda _self: None)
         self.assertEqual(self.sign(self.senior, self.engagement, "S1.2", "preparer"), "preparer")

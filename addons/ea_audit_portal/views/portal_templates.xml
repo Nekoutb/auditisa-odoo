@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_pbc" inherit_id="portal.portal_my_home" name="Client-provided documents">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Documents requested by your auditor</t>
+                <t t-set="text">See what is requested and upload it</t>
+                <t t-set="url" t-value="'/my/pbc'"/>
+                <t t-set="placeholder_count" t-value="'pbc_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_pbc_list" name="Documents requested by your auditor">
+        <t t-call="portal.portal_layout">
+            <div class="o_ea_portal mt-3">
+                <p class="text-uppercase small fw-bold mb-1"><t t-esc="firm_name"/></p>
+                <h3>Documents requested by your auditor</h3>
+                <div t-if="error == 'not-your-client'" class="alert alert-danger" role="alert">This request belongs to another client.</div>
+                <div t-elif="error == 'empty-file'" class="alert alert-danger" role="alert">The file is empty.</div>
+                <div t-elif="error == 'file-too-large'" class="alert alert-danger" role="alert">The file is larger than the 25 MB limit.</div>
+                <div t-elif="error == 'not-found'" class="alert alert-danger" role="alert">This request has already been accepted.</div>
+                <div t-elif="error" class="alert alert-danger" role="alert">This file cannot be accepted: its type is refused, or its content does not match its extension.</div>
+                <p t-if="not items" class="text-muted">Nothing is requested at the moment.</p>
+                <div t-foreach="items" t-as="item" class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title mb-1"><t t-esc="item['title']"/></h5>
+                            <span class="badge text-bg-light"><t t-esc="item['status_label']"/></span>
+                        </div>
+                        <p class="small text-muted mb-1"><t t-esc="item['client']"/> · <t t-esc="item['year']"/> · <t t-esc="item['created']"/></p>
+                        <p t-if="item['note']" class="mb-2"><t t-esc="item['note']"/></p>
+                        <p t-if="item['filename']" class="small mb-2">Uploaded: <t t-esc="item['filename']"/> (<t t-esc="item['uploaded']"/>)</p>
+                        <form t-if="item['status'] != 'accepted'" t-att-action="'/my/pbc/%d/upload' % item['id']" method="post" enctype="multipart/form-data" class="d-flex gap-2">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="file" name="upload" class="form-control form-control-sm" required="required" aria-label="File"/>
+                            <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_invite" name="Choose your password">
+        <t t-call="web.login_layout">
+            <div class="o_ea_portal">
+                <p class="text-uppercase small fw-bold mb-1"><t t-esc="firm_name"/></p>
+                <t t-if="valid">
+                    <h4>Choose your password</h4>
+                    <p class="small text-muted">At least 12 characters, upper and lower case, and at least one digit. Nobody at your auditor's firm knows it.</p>
+                    <div t-if="error" class="alert alert-danger" role="alert"><t t-esc="error"/></div>
+                    <form method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="mb-2">
+                            <label class="form-label" for="email">Email</label>
+                            <input id="email" class="form-control" type="email" t-att-value="email" readonly="readonly" autocomplete="username"/>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" for="password">Password</label>
+                            <input id="password" class="form-control" type="password" name="password" required="required" minlength="12" autocomplete="new-password"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="confirm">Confirm the password</label>
+                            <input id="confirm" class="form-control" type="password" name="confirm" required="required" minlength="12" autocomplete="new-password"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Save and continue</button>
+                    </form>
+                </t>
+                <div t-else="" class="alert alert-warning" role="alert">This invitation has expired or has already been used. Ask your auditor for a new one.</div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,7 @@
+id,key,category,name,filename,description,default_for,shipped_file,sequence
+wp_toc_scot,toc-scot,test-of-controls,E1.2 Tests of controls,E1.2 Tests of Controls.xlsx,"One tab per control selected, with the occurrences to test.",E1.2,,10
+wp_sub_trade_receivables,sub-trade-receivables,substantive,Trade receivables (E),E_Trade Receivables.xlsx,"Lead schedule, ageing and the substantive procedures for trade receivables.",E4.1,E_Trade Receivables.xlsx,30
+wp_sub_trade_payables,sub-trade-payables,substantive,Trade payables (N),N_Trade Payables.xlsx,"Lead schedule, unrecorded liabilities and the substantive procedures for trade payables.",E4.2,N_Trade Payables.xlsx,40
+wp_sub_inventory,sub-inventory,substantive,Inventory (F),F_Inventory.xlsx,"Lead schedule, counts, valuation and the substantive procedures for inventory.",E4.3,F_Inventory.xlsx,50
+wp_sub_fixed_assets,sub-fixed-assets,substantive,Fixed assets (K),K_Fixed Assets.xlsx,"Lead schedule, movements and the substantive procedures for fixed assets.",E4.4,K_Fixed Assets.xlsx,60
+wp_je_testing,je-testing,general-procedures,E3.1 Journal entries,E3.1 Journal Entries.xlsx,"Cover, population, criteria, selection and exceptions.",E3.1,,70

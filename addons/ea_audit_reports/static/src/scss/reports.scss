@@ -1,0 +1,8 @@
+// The gate lists of the conclusion workspace, on the solid cards of the tools.
+.o_ea_gates { list-style: none; padding: 0; margin: 0 0 8px; }
+.o_ea_gates ul { margin: 2px 0 6px 22px; font-size: .85rem; color: #5b6470; }
+.o_ea_gate { padding: 3px 0; }
+.o_ea_gate_mark { display: inline-block; width: 18px; font-weight: 700; }
+.o_ea_gate_ok .o_ea_gate_mark { color: #0b6b4f; }
+.o_ea_gate_ko .o_ea_gate_mark { color: #a11d44; }
+.o_ea_group { font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #5b6470; margin: 12px 0 4px; }

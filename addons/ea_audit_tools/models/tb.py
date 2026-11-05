@@ -193,6 +193,8 @@ class EngagementTb(models.Model):
     _inherit = "ea.audit.engagement"
 
     tb_version_ids = fields.One2many("ea.audit.tb.version", "engagement_id", string="Trial balance versions")
+    lead_override_ids = fields.Many2many("ea.audit.lead.index.override", compute="_compute_client_overrides", compute_sudo=True, string="Lead index overrides")
+    grouping_override_ids = fields.Many2many("ea.audit.client.grouping.override", compute="_compute_client_overrides", compute_sudo=True, string="Section overrides")
     tb_current_label = fields.Char(string="Trial balance", compute="_compute_tb_card", compute_sudo=True)
     tb_status_label = fields.Char(string="Trial balance status", compute="_compute_tb_card", compute_sudo=True)
     bilan_fixed_assets = fields.Float(string="Fixed assets", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
@@ -206,6 +208,12 @@ class EngagementTb(models.Model):
     bilan_net_result = fields.Float(string="Net result", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
     bilan_total_equity_liabilities = fields.Float(string="Total equity and liabilities", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
     bilan_label = fields.Char(string="Basis", compute="_compute_bilan", compute_sudo=True)
+
+    def _compute_client_overrides(self):
+        for engagement in self:
+            client = engagement.client_id.id
+            engagement.lead_override_ids = self.env["ea.audit.lead.index.override"].sudo().search([("client_id", "=", client)])
+            engagement.grouping_override_ids = self.env["ea.audit.client.grouping.override"].sudo().search([("client_id", "=", client)])
 
     def _compute_tb_card(self):
         for engagement in self:

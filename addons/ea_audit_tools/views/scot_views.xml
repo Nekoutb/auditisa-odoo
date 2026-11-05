@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_scot_list" model="ir.ui.view">
+        <field name="name">ea.audit.scot.list</field>
+        <field name="model">ea.audit.scot</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_list_new_scot" type="object" string="New SCOT" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export_scots" type="object" string="Export to Excel" display="always"/>
+                </header>
+                <field name="name"/>
+                <field name="transaction_type"/>
+                <field name="strategy"/>
+                <field name="index_summary"/>
+                <field name="applications" optional="show"/>
+                <field name="wcgw_count"/>
+                <field name="control_count"/>
+                <field name="selected_count"/>
+                <field name="walkthrough_open" optional="show"/>
+                <field name="assignee_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_scot_form" model="ir.ui.view">
+        <field name="name">ea.audit.scot.form</field>
+        <field name="model">ea.audit.scot</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button name="action_open_index_wizard" type="object" string="Link a lead index" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_assign" type="object" string="Assign the SCOT" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_wcgw_wizard" type="object" string="Add what can go wrong" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_control_wizard" type="object" string="Add a control" groups="ea_audit_core.group_writer"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title"><field name="name"/></div>
+                    <group>
+                        <group>
+                            <field name="transaction_type"/>
+                            <field name="strategy"/>
+                            <field name="assignee_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="applications"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lead indexes (S1.1)">
+                            <field name="index_ids" readonly="1" nolabel="1">
+                                <list>
+                                    <field name="index_code"/>
+                                    <field name="assertion_ids" widget="many2many_tags"/>
+                                    <button name="action_unlink_index" type="object" string="Remove" groups="ea_audit_core.group_writer"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="What can go wrong (S1.2)">
+                            <field name="wcgw_ids" readonly="1" nolabel="1">
+                                <list>
+                                    <field name="description"/>
+                                    <field name="assertion_ids" widget="many2many_tags"/>
+                                    <field name="control_ids" widget="many2many_tags"/>
+                                    <field name="answered"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Controls (S1.2, S2.1, S2.2)">
+                            <field name="control_ids" readonly="1" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="control_type"/>
+                                    <field name="frequency"/>
+                                    <field name="objective"/>
+                                    <field name="wcgw_ids" widget="many2many_tags"/>
+                                    <field name="selected_for_testing"/>
+                                    <field name="design_eval"/>
+                                    <field name="operating_eval"/>
+                                    <button name="action_open_full" type="object" string="Open" class="btn-link"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Walkthrough (S1.3)">
+                            <group string="A. Understanding the flow">
+                                <field name="flow_initiation"/>
+                                <field name="flow_recording"/>
+                                <field name="flow_processing"/>
+                                <field name="flow_reporting"/>
+                                <field name="people"/>
+                                <field name="documents"/>
+                                <field name="systems"/>
+                            </group>
+                            <group string="B. The walkthrough">
+                                <field name="wt_item"/>
+                                <field name="wt_trace"/>
+                                <field name="wt_evidence"/>
+                                <field name="wt_exceptions"/>
+                                <field name="wt_design"/>
+                                <field name="wt_implemented"/>
+                                <field name="wt_conclusion"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_control_form" model="ir.ui.view">
+        <field name="name">ea.audit.scot.control.form</field>
+        <field name="model">ea.audit.scot.control</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button name="action_open_draw" type="object" string="Draw the sample" class="btn-primary" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_test" type="object" string="Record a test" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_grid_import" type="object" string="Import the test grid" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_link" type="object" string="What it answers" groups="ea_audit_core.group_writer"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title"><field name="name"/></div>
+                    <group>
+                        <group string="The control (S1.2)">
+                            <field name="scot_id" readonly="1"/>
+                            <field name="owner"/>
+                            <field name="control_type"/>
+                            <field name="frequency"/>
+                            <field name="objective"/>
+                            <field name="wcgw_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="assertion_summary"/>
+                        </group>
+                        <group string="Selection and design (S2.1, S2.2)">
+                            <field name="selected_for_testing"/>
+                            <field name="test_design"/>
+                            <field name="design_eval"/>
+                            <field name="implemented"/>
+                            <field name="sample_note"/>
+                        </group>
+                    </group>
+                    <group string="Sampling and results (E1.2)">
+                        <group>
+                            <field name="toc_population"/>
+                            <field name="sole_control"/>
+                            <field name="suggested_size"/>
+                            <field name="suggested_rule"/>
+                            <field name="sample_size" readonly="1"/>
+                            <field name="items_label"/>
+                            <field name="toc_sample_drawn_at" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="rows_tested"/>
+                            <field name="testing_started"/>
+                            <field name="deviations"/>
+                            <field name="toc_evaluation"/>
+                            <field name="operating_notes"/>
+                            <field name="operating_eval"/>
+                        </group>
+                    </group>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Operating tests</div>
+                        <field name="test_ids" readonly="1" nolabel="1">
+                            <list>
+                                <field name="description"/>
+                                <field name="result"/>
+                                <field name="deviation_decision"/>
+                                <field name="note"/>
+                                <field name="tested_by_id"/>
+                                <field name="create_date" string="Recorded on"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Draw history</div>
+                        <field name="draw_ids" readonly="1" nolabel="1">
+                            <list>
+                                <field name="draw_no"/>
+                                <field name="population"/>
+                                <field name="sample_size"/>
+                                <field name="items_label"/>
+                                <field name="seed"/>
+                                <field name="rule"/>
+                                <field name="reason"/>
+                                <field name="drawn_by_id"/>
+                                <field name="create_date" string="Drawn on"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_control_sampling_list" model="ir.ui.view">
+        <field name="name">ea.audit.scot.control.sampling.list</field>
+        <field name="model">ea.audit.scot.control</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="name"/>
+                <field name="scot_id"/>
+                <field name="frequency"/>
+                <field name="control_type"/>
+                <field name="assertion_summary"/>
+                <field name="sole_control"/>
+                <field name="toc_population"/>
+                <field name="suggested_size"/>
+                <field name="sample_size"/>
+                <field name="items_label"/>
+                <field name="toc_sample_drawn_at"/>
+                <field name="rows_tested"/>
+                <field name="operating_eval"/>
+                <button name="action_open_draw" type="object" string="Draw" groups="ea_audit_core.group_writer"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_fscp_form" model="ir.ui.view">
+        <field name="name">ea.audit.fscp.form</field>
+        <field name="model">ea.audit.fscp</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <sheet>
+                    <div class="o_ea_title">Financial statement close process (S1.4)</div>
+                    <group string="A. The critical path of the close">
+                        <field name="tb_preparation"/>
+                        <field name="je_process"/>
+                        <field name="fs_preparation"/>
+                        <field name="disclosure_sources"/>
+                        <field name="policies_it"/>
+                        <field name="override_risk"/>
+                    </group>
+                    <group string="B. What can go wrong">
+                        <field name="wcgw_tb"/>
+                        <field name="wcgw_je"/>
+                        <field name="wcgw_disclosures"/>
+                    </group>
+                    <group string="C. Changes and communications">
+                        <field name="policy_changes"/>
+                        <field name="estimate_changes"/>
+                        <field name="error_corrections"/>
+                        <field name="tcwg_comms"/>
+                    </group>
+                    <group string="D. Strategy and confirmation">
+                        <field name="fscp_strategy"/>
+                        <field name="je_controls_design"/>
+                        <field name="je_controls_implemented"/>
+                        <field name="fscp_walkthrough"/>
+                        <field name="fscp_conclusion"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_engagement_itgc_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.itgc.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_set_itgc_conclusion" type="object" string="Record the S2.5 conclusion" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_export_itgc" type="object" string="Export to Excel"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">IT applications and ITGC</div>
+                    <div class="o_ea_sub"><field name="display_name" readonly="1"/></div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">S2.5 conclusion</div>
+                            <field name="itgc_state" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">Feeds the combined risk assessment.</div>
+                        </div>
+                    </div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">S2.3 register</div>
+                        <field name="it_application_ids" nolabel="1" readonly="1">
+                            <list decoration-muted="removed">
+                                <field name="name"/>
+                                <field name="layers"/>
+                                <field name="scot_names"/>
+                                <field name="strategy"/>
+                                <field name="itgc_note"/>
+                                <field name="removed" column_invisible="1"/>
+                                <button name="action_remove" type="object" string="Remove" invisible="removed" groups="ea_audit_core.group_writer"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="layers"/>
+                                    <field name="scot_names"/>
+                                    <field name="strategy"/>
+                                    <field name="itgc_note"/>
+                                </group>
+                            </form>
+                        </field>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Sampling (C.7.19) -->
+    <record id="view_engagement_sampling_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.sampling.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_sampling_controls" type="object" string="Tests of controls" class="btn-primary"/>
+                    <button name="action_open_tod_wizard" type="object" string="Tests of details"/>
+                    <button name="action_open_tod_result_wizard" type="object" string="Record a result" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_sampling_wizard" type="object" string="Draw from a dataset" groups="ea_audit_core.group_writer"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Sampling</div>
+                    <div class="o_ea_sub"><field name="display_name" readonly="1"/></div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Prerequisites</div>
+                        <field name="sampling_prerequisites_html" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Performance materiality</div>
+                            <field name="sampling_te_label" class="o_ea_card_value"/>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Controls selected</div>
+                            <field name="sampling_selected_count" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note">Samples drawn: <field name="sampling_drawn_count"/></div>
+                            <button name="action_export_toc_samples" type="object" string="Extract the samples" class="btn-link p-0"/>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Results recorded</div>
+                            <field name="sampling_result_count" class="o_ea_card_value"/>
+                            <button name="action_sampling_results" type="object" string="See the results" class="btn-link p-0"/>
+                            <button name="action_sampling_runs" type="object" string="Dataset runs" class="btn-link p-0 ms-3"/>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_tod_result_list" model="ir.ui.view">
+        <field name="name">ea.audit.automation.run.tod.list</field>
+        <field name="model">ea.audit.automation.run</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-danger="exceeds_te">
+                <field name="index_code"/>
+                <field name="sample_value"/>
+                <field name="sample_misstatement"/>
+                <field name="key_misstatement"/>
+                <field name="remaining_value"/>
+                <field name="projected"/>
+                <field name="total_likely"/>
+                <field name="exceeds_te"/>
+                <field name="raised_to_b5"/>
+                <field name="create_uid" string="Recorded by"/>
+                <field name="create_date" string="Recorded on"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_sampling_run_list" model="ir.ui.view">
+        <field name="name">ea.audit.automation.run.sampling.list</field>
+        <field name="model">ea.audit.automation.run</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="title"/>
+                <field name="method"/>
+                <field name="dataset_id"/>
+                <field name="create_uid" string="Drawn by"/>
+                <field name="create_date" string="Drawn on"/>
+                <button name="action_export" type="object" string="Worksheet"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Wizards -->
+    <record id="view_scot_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.scot.wizard.form</field>
+        <field name="model">ea.audit.scot.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="name"/>
+                    <field name="transaction_type"/>
+                    <field name="strategy"/>
+                    <field name="applications"/>
+                    <field name="description"/>
+                </group>
+                <footer>
+                    <button name="action_create" type="object" string="Create" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_scot_index_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.scot.index.wizard.form</field>
+        <field name="model">ea.audit.scot.index.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="index_code"/>
+                    <field name="assertion_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_link" type="object" string="Link" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_wcgw_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.wcgw.wizard.form</field>
+        <field name="model">ea.audit.wcgw.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="description"/>
+                    <field name="assertion_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_add" type="object" string="Add" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_control_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.control.wizard.form</field>
+        <field name="model">ea.audit.control.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="name"/>
+                    <field name="owner"/>
+                    <field name="control_type"/>
+                    <field name="frequency"/>
+                    <field name="objective"/>
+                    <field name="wcgw_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_add" type="object" string="Add" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_scot_assign_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.scot.assign.wizard.form</field>
+        <field name="model">ea.audit.scot.assign.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="user_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_assign" type="object" string="Assign" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_control_link_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.control.link.wizard.form</field>
+        <field name="model">ea.audit.control.link.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="control_id" invisible="1"/>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="wcgw_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_control_test_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.control.test.wizard.form</field>
+        <field name="model">ea.audit.control.test.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="control_id" readonly="1"/>
+                    <field name="description"/>
+                    <field name="result"/>
+                    <field name="deviation_decision" invisible="result != 'deviation'" required="result == 'deviation'"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_record" type="object" string="Record" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_toc_draw_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.toc.draw.wizard.form</field>
+        <field name="model">ea.audit.toc.draw.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="control_id" invisible="1"/>
+                <group>
+                    <field name="population"/>
+                    <field name="sample_size"/>
+                    <field name="suggested_rule"/>
+                    <field name="draw_count"/>
+                    <field name="reason" invisible="draw_count == 0" required="draw_count &gt; 0"/>
+                </group>
+                <footer>
+                    <button name="action_draw" type="object" string="Draw" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_toc_grid_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.toc.grid.wizard.form</field>
+        <field name="model">ea.audit.toc.grid.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="control_id" invisible="1"/>
+                <p class="o_ea_legend">Columns: ref, date, desc, then one column per attribute with pass, fail or na.</p>
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_itgc_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.itgc.wizard.form</field>
+        <field name="model">ea.audit.itgc.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="state"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_tod_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.tod.wizard.form</field>
+        <field name="model">ea.audit.tod.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="side"/>
+                    <field name="assurance"/>
+                </group>
+                <field name="preview_html" nolabel="1"/>
+                <footer>
+                    <button name="action_preview" type="object" string="Parameters per index" class="btn-primary"/>
+                    <button name="action_export" type="object" string="Generate the workbook"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_tod_result_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.tod.result.wizard.form</field>
+        <field name="model">ea.audit.tod.result.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="index_code"/>
+                    <field name="sample_value"/>
+                    <field name="sample_misstatement"/>
+                    <field name="key_misstatement"/>
+                    <field name="remaining_value"/>
+                </group>
+                <footer>
+                    <button name="action_record" type="object" string="Record and project" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_sampling_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.sampling.wizard.form</field>
+        <field name="model">ea.audit.sampling.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="dataset_id" options="{'no_create': True}"/>
+                        <field name="method"/>
+                        <field name="sample_size"/>
+                        <field name="seed"/>
+                        <field name="threshold" invisible="method != 'criteria'"/>
+                    </group>
+                    <group>
+                        <field name="confidence" invisible="method != 'mus'"/>
+                        <field name="expected" invisible="method != 'mus'"/>
+                        <field name="override_size"/>
+                        <field name="override_rationale" invisible="not override_size" required="override_size"/>
+                    </group>
+                </group>
+                <group string="Attribute plan">
+                    <field name="frequency"/>
+                    <field name="attribute_size"/>
+                </group>
+                <footer>
+                    <button name="action_run" type="object" string="Draw" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

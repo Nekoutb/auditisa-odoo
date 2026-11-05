@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_je_studio_form" model="ir.ui.view">
+        <field name="name">ea.audit.je.studio.form</field>
+        <field name="model">ea.audit.je.studio</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <header>
+                    <button name="action_run" type="object" string="Run" class="btn-primary"/>
+                    <button name="action_record" type="object" string="Record as the S5.4 design" groups="ea_audit_core.group_writer"/>
+                    <button name="action_export" type="object" string="Export the E3.1 workbook"/>
+                    <button name="action_designs" type="object" string="Designs recorded"/>
+                    <button name="action_import_ledger" type="object" string="The ledgers"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Journal entries: risk-directed selection</div>
+                    <div class="o_ea_sub">Every line carries the stated criterion that chose it. Nothing here is drawn at random (ISA 240 ¶32).</div>
+                    <field name="engagement_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="dataset_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="limit"/>
+                        </group>
+                        <group>
+                            <field name="designs_count"/>
+                            <field name="offset" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Criteria">
+                            <group>
+                                <group string="Timing">
+                                    <field name="use_weekend_posting"/>
+                                    <field name="use_public_holiday"/>
+                                    <field name="date_basis"/>
+                                    <field name="country" invisible="not use_public_holiday"/>
+                                    <field name="use_year_end_volume"/>
+                                    <field name="top_entries" invisible="not use_year_end_volume"/>
+                                    <field name="year_end_days" invisible="not use_year_end_volume"/>
+                                    <field name="volume_basis" invisible="not use_year_end_volume"/>
+                                </group>
+                                <group string="Documentation and attribution">
+                                    <field name="use_no_description"/>
+                                    <field name="use_incomplete_description"/>
+                                    <field name="min_chars" invisible="not use_incomplete_description"/>
+                                    <field name="min_words" invisible="not use_incomplete_description"/>
+                                    <field name="use_preparer_is_reviewer"/>
+                                    <field name="use_preparer_is_approver"/>
+                                </group>
+                                <group string="Value">
+                                    <field name="use_round_amount"/>
+                                    <field name="round_min" invisible="not use_round_amount"/>
+                                    <field name="round_step" invisible="not use_round_amount"/>
+                                </group>
+                                <group string="Pattern">
+                                    <field name="use_unusual_pairing"/>
+                                    <field name="pair_revenue_cash" invisible="not use_unusual_pairing"/>
+                                    <field name="pair_expense_cash" invisible="not use_unusual_pairing"/>
+                                    <field name="pair_revenue_expense" invisible="not use_unusual_pairing"/>
+                                    <field name="pair_fixed_assets_revenue" invisible="not use_unusual_pairing"/>
+                                    <field name="pair_fixed_assets_cash" invisible="not use_unusual_pairing"/>
+                                    <field name="pair_inventory_cash" invisible="not use_unusual_pairing"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="The auditor's own rules">
+                            <group>
+                                <field name="rules_mode"/>
+                            </group>
+                            <field name="rule_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="field"/>
+                                    <field name="operator"/>
+                                    <field name="value"/>
+                                    <field name="value2"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div class="o_ea_panel" invisible="not result_html">
+                        <field name="result_truncated" invisible="1"/>
+                        <field name="result_html" nolabel="1"/>
+                        <button name="action_previous" type="object" string="Previous" class="btn-secondary me-2" invisible="offset == 0"/>
+                        <button name="action_next" type="object" string="Next" class="btn-secondary" invisible="not result_truncated"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_je_design_list" model="ir.ui.view">
+        <field name="name">ea.audit.je.design.list</field>
+        <field name="model">ea.audit.je.design</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-muted="not is_current">
+                <field name="is_current"/>
+                <field name="recorded_at"/>
+                <field name="recorded_by_id"/>
+                <field name="selected_lines"/>
+                <field name="population_lines"/>
+                <field name="summary"/>
+            </list>
+        </field>
+    </record>
+</odoo>

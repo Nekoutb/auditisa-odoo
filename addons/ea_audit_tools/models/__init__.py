@@ -8,5 +8,16 @@ from . import risk
 from . import cra
 from . import finding
 from . import sad
+from . import dataset
+from . import gl_console
+from . import scot
+from . import control_test
+from . import sampling
+from . import je_selection
+from . import analyzer
+from . import design
+from . import sap
+from . import pbc
+from . import analysis
 from . import tool_tile
 from . import paper_hooks

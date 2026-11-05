@@ -5,11 +5,11 @@
         <field name="model">ea.audit.tool.tile</field>
         <field name="arch" type="xml">
             <kanban class="o_ea_hub" create="0" delete="0" edit="0" can_open="0" action="action_open_tool" type="object">
-                <field name="method"/>
+                <field name="enabled_method"/>
                 <field name="feeds"/>
                 <templates>
                     <t t-name="card">
-                        <div t-attf-class="o_ea_tile #{record.method.raw_value ? '' : 'o_ea_tile_off'}">
+                        <div t-attf-class="o_ea_tile #{record.enabled_method.raw_value ? '' : 'o_ea_tile_off'}">
                             <span class="o_ea_tile_name"><field name="name"/></span>
                             <span class="o_ea_tile_desc"><field name="subtitle"/></span>
                             <div class="mt-2">
@@ -21,6 +21,40 @@
                     </t>
                 </templates>
             </kanban>
+        </field>
+    </record>
+
+    <record id="view_review_note_register" model="ir.ui.view">
+        <field name="name">ea.audit.review.note.register</field>
+        <field name="model">ea.audit.review.note</field>
+        <field name="priority">40</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="code" string="Task"/>
+                <field name="body"/>
+                <field name="author_id" string="Raised by"/>
+                <field name="assignee_id"/>
+                <field name="state"/>
+                <field name="create_date" string="Raised on"/>
+                <field name="cleared_at" string="Cleared on"/>
+                <field name="response"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_forms_register" model="ir.ui.view">
+        <field name="name">ea.audit.file.item.forms.register</field>
+        <field name="model">ea.audit.file.item</field>
+        <field name="priority">40</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" default_order="sequence, code" action="action_open_paper" type="object">
+                <field name="code"/>
+                <field name="short_title" string="Paper"/>
+                <field name="task_phase"/>
+                <field name="preparer_id"/>
+                <field name="approver_id"/>
+                <field name="state"/>
+                <field name="due_date"/>
+            </list>
         </field>
     </record>
 
