@@ -11,9 +11,12 @@ tile_cra,cra,Combined risk assessment,Inherent and control risk per account.,"S3
 tile_sad,sad,Audit differences,"Misstatements by caption, linked to the papers.","C1.1,C3.1",action_tool_sad,90
 tile_findings,findings,Findings,"The register: deficiencies, matters and misstatements.","C1.1,C5.11",action_tool_findings,95
 tile_sap,sap,Substantive analytics,"Expectation, threshold by risk, difference, conclusion.","S5.5,E4.1",,100
-tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and its reason.","E4.1,E1.2",,110
-tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,,120
+tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and its reason.","E4.1,E1.2",action_tool_sampling,110
+tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,action_tool_je,120
 tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,,130
 tile_pbc,pbc,PBC requests,Documents requested and reminders.,"P2.2,E1.1",,140
 tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",,150
 tile_deficiencies,deficiencies,ISA 265 deficiencies,Evaluation and written communication.,C5.11,action_tool_deficiencies,160
+tile_scot,scot,SCOTs and controls,"Classes of transactions, what can go wrong, controls, walkthroughs.","S1.1,S1.2,S1.3,S2.1",action_tool_scot,105
+tile_itgc,itgc,IT applications and ITGC,"The register, the strategy per application and the S2.5 conclusion.","S2.3,S2.5",action_tool_itgc,106
+tile_fscp,fscp,Close process,"The financial statement close process.","S1.4",action_tool_fscp,107

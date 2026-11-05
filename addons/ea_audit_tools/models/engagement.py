@@ -163,6 +163,10 @@ class Engagement(models.Model):
         action.update(extra or {})
         return action
 
+    def _ea_export_dynamic_method(self, kind):
+        """A workbook whose kind carries a parameter (tod_bs_little, run_12): the later tools extend it."""
+        return None
+
     def _ea_export_action(self, kind):
         self.ensure_one()
         self._ea_require_access()

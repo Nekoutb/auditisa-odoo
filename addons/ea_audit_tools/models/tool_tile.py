@@ -80,12 +80,15 @@ class EngagementTools(models.Model):
         """(filename, bytes) of one workbook. Read rights: any accepted member, EQR included."""
         self.ensure_one()
         self._ea_require_access()
-        method = getattr(self, "_ea_export_%s" % kind, None) if re.fullmatch(r"[a-z_]+", kind or "") else None
+        method = self._ea_export_dynamic_method(kind) or self._ea_export_method(kind)
         if method is None:
             raise rule_error(self.env, "not-found")
         filename, content = method(is_french(self.env))
         self._ea_log("exported", "%s exported by %s" % (filename, self.env.user.name))
         return filename, content
+
+    def _ea_export_method(self, kind):
+        return getattr(self, "_ea_export_%s" % kind, None) if re.fullmatch(r"[a-z_]+", kind or "") else None
 
     def _ea_export_slug(self):
         return re.sub(r"[^\w-]+", "_", self.sudo().name or self.sudo().client_id.name or "file")[:60]

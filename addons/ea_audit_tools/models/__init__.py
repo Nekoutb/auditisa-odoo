@@ -10,4 +10,7 @@ from . import finding
 from . import sad
 from . import dataset
 from . import gl_console
+from . import scot
+from . import sampling
+from . import je_selection
 from . import tool_tile

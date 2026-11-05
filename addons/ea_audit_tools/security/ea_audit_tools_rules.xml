@@ -143,4 +143,54 @@
         <field name="model_id" ref="model_ea_audit_gl_line"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_scot_team_only" model="ir.rule">
+        <field name="name">ea.audit.scot: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_scot"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_scot_index_team_only" model="ir.rule">
+        <field name="name">ea.audit.scot.index: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_scot_index"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_wcgw_team_only" model="ir.rule">
+        <field name="name">ea.audit.wcgw: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_wcgw"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_scot_control_team_only" model="ir.rule">
+        <field name="name">ea.audit.scot.control: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_scot_control"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_toc_draw_team_only" model="ir.rule">
+        <field name="name">ea.audit.toc.draw: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_toc_draw"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_fscp_team_only" model="ir.rule">
+        <field name="name">ea.audit.fscp: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_fscp"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_it_application_team_only" model="ir.rule">
+        <field name="name">ea.audit.it.application: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_it_application"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_automation_run_team_only" model="ir.rule">
+        <field name="name">ea.audit.automation.run: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_automation_run"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_je_design_team_only" model="ir.rule">
+        <field name="name">ea.audit.je.design: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_je_design"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_firm_holiday" model="ir.rule">
+        <field name="name">ea.audit.firm.holiday: firm-wide, or the team of the file</field>
+        <field name="model_id" ref="model_ea_audit_firm_holiday"/>
+        <field name="domain_force">['|', ('engagement_id', '=', False), ('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>
