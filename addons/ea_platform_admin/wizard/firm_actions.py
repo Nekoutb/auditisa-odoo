@@ -203,8 +203,7 @@ class PlatformDestroyWizard(models.TransientModel):
         self.env["platform.services"]._save_dry_state(provider, dns)
         if leftovers:
             # No error raised here: that would roll back the record of what was already removed.
-            detail = "
-".join(leftovers)
+            detail = "\n".join(leftovers)
             firm.write({
                 "orphan_flag": True, "orphan_detail": detail,
                 **{key: resources.get(key) or False for key in keys},
