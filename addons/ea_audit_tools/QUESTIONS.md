@@ -100,5 +100,5 @@ Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only t
 - SAD entries are entered on the tool until the papers addon feeds them from step results.
 - GL volume on P6.2, adjusting journals, `_ea_carry_forward_from`: not built.
 - S3.1 and the SCOT papers void live signatures on any saved change; the platform compares content hashes, which arrive with the papers addon.
-- The E1.2 test grid is imported from Excel, not edited on screen (decision I-6). Same with the ToC evaluation: `toc_evaluate` is ported and tested, but no screen shows it yet.
+- The E1.2 test grid is imported from Excel, not edited on screen (decision I-6).
 - Review notes, forms and the OHADA register tiles remain greyed: not in this milestone.

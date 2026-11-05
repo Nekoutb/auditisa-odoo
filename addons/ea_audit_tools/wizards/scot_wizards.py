@@ -80,6 +80,39 @@ class ControlWizard(models.TransientModel):
         return _RELOAD
 
 
+class ScotAssignWizard(models.TransientModel):
+    _name = "ea.audit.scot.assign.wizard"
+    _description = "Assign a SCOT"
+
+    scot_id = fields.Many2one("ea.audit.scot", required=True)
+    user_id = fields.Many2one("res.users", string="Assigned to")
+
+    def action_assign(self):
+        self.ensure_one()
+        self.scot_id.assign(self.user_id)
+        return _RELOAD
+
+
+class ControlLinkWizard(models.TransientModel):
+    """toggleWcgwControl, one link at a time: a senior and above."""
+
+    _name = "ea.audit.control.link.wizard"
+    _description = "What a control answers"
+
+    control_id = fields.Many2one("ea.audit.scot.control", required=True)
+    scot_id = fields.Many2one(related="control_id.scot_id")
+    wcgw_ids = fields.Many2many("ea.audit.wcgw", string="What it answers", domain="[('scot_id', '=', scot_id)]")
+
+    def action_save(self):
+        self.ensure_one()
+        current = self.control_id.sudo().wcgw_ids
+        for wcgw in self.wcgw_ids - current:
+            wcgw.toggle_control(self.control_id, True)
+        for wcgw in current - self.wcgw_ids:
+            wcgw.with_env(self.env).toggle_control(self.control_id, False)
+        return _RELOAD
+
+
 class TocDrawWizard(models.TransientModel):
     _name = "ea.audit.toc.draw.wizard"
     _description = "Draw a test-of-controls sample"

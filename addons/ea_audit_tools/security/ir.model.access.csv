@@ -95,3 +95,5 @@ access_pbc_accept_wizard_writer,ea.audit.pbc.accept.wizard writer,model_ea_audit
 access_override_wizard_writer,ea.audit.override.wizard writer,model_ea_audit_override_wizard,ea_audit_core.group_writer,1,1,1,1
 access_potential_wizard_writer,ea.audit.potential.wizard writer,model_ea_audit_potential_wizard,ea_audit_core.group_writer,1,1,1,1
 access_wp_assign_wizard_writer,ea.audit.wp.assign.wizard writer,model_ea_audit_wp_assign_wizard,ea_audit_core.group_writer,1,1,1,1
+access_scot_assign_wizard_writer,ea.audit.scot.assign.wizard writer,model_ea_audit_scot_assign_wizard,ea_audit_core.group_writer,1,1,1,1
+access_control_link_wizard_writer,ea.audit.control.link.wizard writer,model_ea_audit_control_link_wizard,ea_audit_core.group_writer,1,1,1,1

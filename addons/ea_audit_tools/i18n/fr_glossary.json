@@ -1071,5 +1071,15 @@
 "Why the size is typed by hand": "Pourquoi la taille est saisie à la main",
 "Working-paper template": "Modèle de papier",
 "Worksheet": "Feuille de travail",
-"Created": "Créé"
+"Created": "Créé",
+"High assurance": "Assurance élevée",
+"Moderate assurance": "Assurance modérée",
+"Reliance supported": "Appui justifié",
+"Extend the test to 60": "Étendre le test à 60",
+"No reliance": "Aucun appui",
+"Evaluation of the deviations": "Évaluation des écarts",
+"Deviations": "Écarts",
+"Assign the SCOT": "Affecter le SCOT",
+"Assign a SCOT": "Affecter un SCOT",
+"What a control answers": "Ce à quoi répond un contrôle"
 }

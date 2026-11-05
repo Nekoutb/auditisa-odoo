@@ -29,6 +29,7 @@
             <form create="0">
                 <header>
                     <button name="action_open_index_wizard" type="object" string="Link a lead index" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_assign" type="object" string="Assign the SCOT" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_wcgw_wizard" type="object" string="Add what can go wrong" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_control_wizard" type="object" string="Add a control" groups="ea_audit_core.group_writer"/>
                 </header>
@@ -113,6 +114,7 @@
                 <header>
                     <button name="action_open_draw" type="object" string="Draw the sample" class="btn-primary" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_grid_import" type="object" string="Import the test grid" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_link" type="object" string="What it answers" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>
                     <div class="o_ea_title"><field name="name"/></div>
@@ -147,6 +149,8 @@
                         <group>
                             <field name="rows_tested"/>
                             <field name="testing_started"/>
+                            <field name="deviations"/>
+                            <field name="toc_evaluation"/>
                             <field name="operating_notes"/>
                             <field name="operating_eval"/>
                         </group>
@@ -427,6 +431,39 @@
                 </group>
                 <footer>
                     <button name="action_add" type="object" string="Add" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_scot_assign_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.scot.assign.wizard.form</field>
+        <field name="model">ea.audit.scot.assign.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="user_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_assign" type="object" string="Assign" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_control_link_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.control.link.wizard.form</field>
+        <field name="model">ea.audit.control.link.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="control_id" invisible="1"/>
+                <field name="scot_id" invisible="1"/>
+                <group>
+                    <field name="wcgw_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>

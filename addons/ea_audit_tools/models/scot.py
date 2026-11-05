@@ -15,7 +15,7 @@ from ..services.engines import seeded_random
 from ..services.itgc_model import IT_STRATEGIES, new_app_key
 from ..services.scot_forms import FSCP_FIELDS, WALKTHROUGH_FIELDS
 from ..services.toc_grid import toc_rows_planned, toc_rows_tested
-from ..services.toc_sampling import draw_toc_sample, seeded_rng, toc_suggested, toc_testing_started
+from ..services.toc_sampling import draw_toc_sample, seeded_rng, toc_evaluate, toc_suggested, toc_testing_started
 from .tool_record import french_date, is_french
 
 TYPE_SELECTION = [("routine", "Routine"), ("non_routine", "Non-routine"), ("estimation", "Estimation")]
@@ -217,6 +217,9 @@ class Scot(models.Model):
     def action_open_wcgw_wizard(self):
         return _wizard(self, "ea.audit.wcgw.wizard", self.env._("Add what can go wrong"), {"default_scot_id": self.id})
 
+    def action_open_assign(self):
+        return _wizard(self, "ea.audit.scot.assign.wizard", self.env._("Assign the SCOT"), {"default_scot_id": self.id, "default_user_id": self.sudo().assignee_id.id})
+
     def action_open_index_wizard(self):
         return _wizard(self, "ea.audit.scot.index.wizard", self.env._("Link a lead index"), {"default_scot_id": self.id})
 
@@ -334,6 +337,11 @@ class ScotControl(models.Model):
     suggested_rule = fields.Char(string="Rule", compute="_compute_sampling", compute_sudo=True)
     testing_started = fields.Boolean(compute="_compute_sampling", compute_sudo=True)
     rows_tested = fields.Integer(string="Tested", compute="_compute_sampling", compute_sudo=True)
+    deviations = fields.Integer(compute="_compute_sampling", compute_sudo=True)
+    toc_evaluation = fields.Selection(
+        [("high", "High assurance"), ("moderate", "Moderate assurance"), ("rely", "Reliance supported"), ("extend", "Extend the test to 60"), ("none", "No reliance")],
+        string="Evaluation of the deviations", compute="_compute_sampling", compute_sudo=True,
+    )
 
     @api.depends("toc_sample_items", "toc_population", "wcgw_ids", "selected_for_testing", "frequency", "control_type", "toc_grid")
     @api.depends_context("lang")
@@ -355,6 +363,11 @@ class ScotControl(models.Model):
             control.suggested_rule = suggestion["rule"] if suggestion and "rule" in suggestion else False
             control.testing_started = bool(toc_testing_started(control.toc_grid))
             control.rows_tested = toc_rows_tested(control.toc_grid)
+            rows = (control.toc_grid or {}).get("rows") or []
+            control.deviations = len([row for row in rows if "fail" in (row.get("results") or {}).values()])
+            control.toc_evaluation = (
+                toc_evaluate(control.sample_size, control.rows_tested, control.deviations) if control.sample_size and control.rows_tested else False
+            )
 
     def _ea_assertions(self):
         codes = set(self.sudo().wcgw_ids.assertion_ids.mapped("code"))
@@ -520,6 +533,12 @@ class ScotControl(models.Model):
     def action_open_draw(self):
         self.ensure_one()
         return _wizard(self, "ea.audit.toc.draw.wizard", self.env._("Draw the sample"), {"default_control_id": self.id})
+
+    def action_open_link(self):
+        self.ensure_one()
+        return _wizard(self, "ea.audit.control.link.wizard", self.env._("What it answers"), {
+            "default_control_id": self.id, "default_wcgw_ids": [(6, 0, self.sudo().wcgw_ids.ids)],
+        })
 
     def action_open_grid_import(self):
         self.ensure_one()

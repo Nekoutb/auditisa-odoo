@@ -120,6 +120,29 @@ class TestScots(ScotCase):
         self.assertEqual(self.engagement.sudo()._ea_control_coverage("C", "C"), {"covering": 1, "effective": 0, "failed": 0})
         self.assertEqual(self.engagement.sudo()._ea_control_coverage("C", "E")["covering"], 0)
 
+    def test_the_evaluation_reads_the_deviations(self):
+        self.select()
+        self.control.draw_toc_sample(12, 2)
+        grid = {"attributes": ["a"], "rows": [
+            {"ref": "1", "date": "", "desc": "", "results": {"a": "pass"}}, {"ref": "2", "date": "", "desc": "", "results": {"a": "fail"}},
+        ]}
+        self.control.update_control({"toc_grid": grid})
+        self.assertEqual(self.control.sudo().deviations, 1)
+        self.assertEqual(self.control.sudo().toc_evaluation, "none")
+
+    def test_links_need_a_senior(self):
+        other = self.scot.add_wcgw("Autre", ["E"])
+        with self.assertRaises(Exception):
+            other.toggle_control(self.control, True)
+        wizard = self.env["ea.audit.control.link.wizard"].with_user(self.senior).create({"control_id": self.control.id, "wcgw_ids": [(6, 0, other.ids)]})
+        wizard.action_save()
+        self.assertEqual(self.control.sudo().wcgw_ids, other.sudo())
+
+    def test_assignment(self):
+        wizard = self.env["ea.audit.scot.assign.wizard"].with_user(self.staff).create({"scot_id": self.scot.id, "user_id": self.manager.id})
+        wizard.action_assign()
+        self.assertEqual(self.scot.sudo().assignee_id, self.manager)
+
     def test_outsider_reads_nothing(self):
         for model in ("ea.audit.scot", "ea.audit.wcgw", "ea.audit.scot.control", "ea.audit.toc.draw", "ea.audit.it.application"):
             self.assertFalse(self.env[model].with_user(self.outsider).search([]), model)
