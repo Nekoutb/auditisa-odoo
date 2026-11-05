@@ -47,3 +47,53 @@ access_finding_wizard_writer,ea.audit.finding.wizard writer,model_ea_audit_findi
 access_deficiency_wizard_writer,ea.audit.deficiency.wizard writer,model_ea_audit_deficiency_wizard,ea_audit_core.group_writer,1,1,1,1
 access_reason_wizard_writer,ea.audit.reason.wizard writer,model_ea_audit_reason_wizard,ea_audit_core.group_writer,1,1,1,1
 access_tool_import_wizard_writer,ea.audit.tool.import.wizard writer,model_ea_audit_tool_import_wizard,ea_audit_core.group_writer,1,1,1,1
+access_dataset_member,ea.audit.dataset member,model_ea_audit_dataset,ea_audit_core.group_member,1,0,0,0
+access_dataset_row_member,ea.audit.dataset.row member,model_ea_audit_dataset_row,ea_audit_core.group_member,1,0,0,0
+access_gl_line_member,ea.audit.gl.line member,model_ea_audit_gl_line,ea_audit_core.group_member,1,0,0,0
+access_dataset_import_wizard,ea.audit.dataset.import.wizard,model_ea_audit_dataset_import_wizard,ea_audit_core.group_member,1,1,1,1
+access_dataset_import_map,ea.audit.dataset.import.map,model_ea_audit_dataset_import_map,ea_audit_core.group_member,1,1,1,1
+access_gl_console,ea.audit.gl.console,model_ea_audit_gl_console,ea_audit_core.group_member,1,1,1,1
+access_gl_console_account,ea.audit.gl.console.account,model_ea_audit_gl_console_account,ea_audit_core.group_member,1,1,1,1
+access_scot_member,ea.audit.scot member,model_ea_audit_scot,ea_audit_core.group_member,1,0,0,0
+access_scot_index_member,ea.audit.scot.index member,model_ea_audit_scot_index,ea_audit_core.group_member,1,0,0,0
+access_wcgw_member,ea.audit.wcgw member,model_ea_audit_wcgw,ea_audit_core.group_member,1,0,0,0
+access_scot_control_member,ea.audit.scot.control member,model_ea_audit_scot_control,ea_audit_core.group_member,1,0,0,0
+access_toc_draw_member,ea.audit.toc.draw member,model_ea_audit_toc_draw,ea_audit_core.group_member,1,0,0,0
+access_fscp_member,ea.audit.fscp member,model_ea_audit_fscp,ea_audit_core.group_member,1,0,0,0
+access_it_application_member,ea.audit.it.application member,model_ea_audit_it_application,ea_audit_core.group_member,1,0,0,0
+access_automation_run_member,ea.audit.automation.run member,model_ea_audit_automation_run,ea_audit_core.group_member,1,0,0,0
+access_scot_wizard_writer,ea.audit.scot.wizard writer,model_ea_audit_scot_wizard,ea_audit_core.group_writer,1,1,1,1
+access_scot_index_wizard_writer,ea.audit.scot.index.wizard writer,model_ea_audit_scot_index_wizard,ea_audit_core.group_writer,1,1,1,1
+access_wcgw_wizard_writer,ea.audit.wcgw.wizard writer,model_ea_audit_wcgw_wizard,ea_audit_core.group_writer,1,1,1,1
+access_control_wizard_writer,ea.audit.control.wizard writer,model_ea_audit_control_wizard,ea_audit_core.group_writer,1,1,1,1
+access_toc_draw_wizard_writer,ea.audit.toc.draw.wizard writer,model_ea_audit_toc_draw_wizard,ea_audit_core.group_writer,1,1,1,1
+access_toc_grid_wizard_writer,ea.audit.toc.grid.wizard writer,model_ea_audit_toc_grid_wizard,ea_audit_core.group_writer,1,1,1,1
+access_itgc_wizard_writer,ea.audit.itgc.wizard writer,model_ea_audit_itgc_wizard,ea_audit_core.group_writer,1,1,1,1
+access_tod_result_wizard_writer,ea.audit.tod.result.wizard writer,model_ea_audit_tod_result_wizard,ea_audit_core.group_writer,1,1,1,1
+access_sampling_wizard_writer,ea.audit.sampling.wizard writer,model_ea_audit_sampling_wizard,ea_audit_core.group_writer,1,1,1,1
+access_tod_wizard_member,ea.audit.tod.wizard member,model_ea_audit_tod_wizard,ea_audit_core.group_member,1,1,1,1
+access_je_design_member,ea.audit.je.design member,model_ea_audit_je_design,ea_audit_core.group_member,1,0,0,0
+access_public_holiday_member,ea.audit.public.holiday member,model_ea_audit_public_holiday,ea_audit_core.group_member,1,0,0,0
+access_je_studio_member,ea.audit.je.studio member,model_ea_audit_je_studio,ea_audit_core.group_member,1,1,1,1
+access_je_studio_rule_member,ea.audit.je.studio.rule member,model_ea_audit_je_studio_rule,ea_audit_core.group_member,1,1,1,1
+access_firm_holiday_member,ea.audit.firm.holiday member,model_ea_audit_firm_holiday,ea_audit_core.group_member,1,0,0,0
+access_supplier_recon_wizard_writer,ea.audit.supplier.recon.wizard writer,model_ea_audit_supplier_recon_wizard,ea_audit_core.group_writer,1,1,1,1
+access_dsp_design_member,ea.audit.dsp.design member,model_ea_audit_dsp_design,ea_audit_core.group_member,1,0,0,0
+access_dsp_choice_member,ea.audit.dsp.choice member,model_ea_audit_dsp_choice,ea_audit_core.group_member,1,0,0,0
+access_dsp_osp_member,ea.audit.dsp.osp member,model_ea_audit_dsp_osp,ea_audit_core.group_member,1,0,0,0
+access_sap_procedure_member,ea.audit.sap.procedure member,model_ea_audit_sap_procedure,ea_audit_core.group_member,1,0,0,0
+access_osp_wizard_writer,ea.audit.osp.wizard writer,model_ea_audit_osp_wizard,ea_audit_core.group_writer,1,1,1,1
+access_program_wizard_writer,ea.audit.program.wizard writer,model_ea_audit_program_wizard,ea_audit_core.group_writer,1,1,1,1
+access_sap_wizard_writer,ea.audit.sap.wizard writer,model_ea_audit_sap_wizard,ea_audit_core.group_writer,1,1,1,1
+access_pbc_item_member,ea.audit.pbc.item member,model_ea_audit_pbc_item,ea_audit_core.group_member,1,0,0,0
+access_fa_ratio_member,ea.audit.fa.ratio member,model_ea_audit_fa_ratio,ea_audit_core.group_member,1,0,0,0
+access_wp_template_member,ea.audit.wp.template member,model_ea_audit_wp_template,ea_audit_core.group_member,1,0,0,0
+access_portal_contact_member,ea.audit.portal.contact member,model_ea_audit_portal_contact,ea_audit_core.group_member,1,0,0,0
+access_pbc_wizard_writer,ea.audit.pbc.wizard writer,model_ea_audit_pbc_wizard,ea_audit_core.group_writer,1,1,1,1
+access_pbc_upload_wizard_writer,ea.audit.pbc.upload.wizard writer,model_ea_audit_pbc_upload_wizard,ea_audit_core.group_writer,1,1,1,1
+access_pbc_accept_wizard_writer,ea.audit.pbc.accept.wizard writer,model_ea_audit_pbc_accept_wizard,ea_audit_core.group_writer,1,1,1,1
+access_override_wizard_writer,ea.audit.override.wizard writer,model_ea_audit_override_wizard,ea_audit_core.group_writer,1,1,1,1
+access_potential_wizard_writer,ea.audit.potential.wizard writer,model_ea_audit_potential_wizard,ea_audit_core.group_writer,1,1,1,1
+access_wp_assign_wizard_writer,ea.audit.wp.assign.wizard writer,model_ea_audit_wp_assign_wizard,ea_audit_core.group_writer,1,1,1,1
+access_scot_assign_wizard_writer,ea.audit.scot.assign.wizard writer,model_ea_audit_scot_assign_wizard,ea_audit_core.group_writer,1,1,1,1
+access_control_link_wizard_writer,ea.audit.control.link.wizard writer,model_ea_audit_control_link_wizard,ea_audit_core.group_writer,1,1,1,1

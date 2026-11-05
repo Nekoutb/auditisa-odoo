@@ -23,6 +23,7 @@ class ToolTile(models.Model):
     feeds = fields.Char(string="Papers", readonly=True)
     method = fields.Char(readonly=True, help="The engagement method that opens the tool. Empty: not built yet.")
     sequence = fields.Integer(default=10, readonly=True)
+    section = fields.Char(default="hub", readonly=True, index=True)
     available = fields.Boolean(compute="_compute_available")
     subtitle = fields.Char(compute="_compute_available")
 
@@ -60,6 +61,7 @@ class EngagementTools(models.Model):
             "view_mode": "kanban",
             "views": [(self.env.ref("ea_audit_tools.view_tool_tile_kanban").id, "kanban")],
             "target": "current",
+            "domain": [("section", "=", "hub")],
             "context": {"ea_engagement_id": self.id, "create": False},
         }
 
@@ -80,12 +82,15 @@ class EngagementTools(models.Model):
         """(filename, bytes) of one workbook. Read rights: any accepted member, EQR included."""
         self.ensure_one()
         self._ea_require_access()
-        method = getattr(self, "_ea_export_%s" % kind, None) if re.fullmatch(r"[a-z_]+", kind or "") else None
+        method = self._ea_export_dynamic_method(kind) or self._ea_export_method(kind)
         if method is None:
             raise rule_error(self.env, "not-found")
         filename, content = method(is_french(self.env))
         self._ea_log("exported", "%s exported by %s" % (filename, self.env.user.name))
         return filename, content
+
+    def _ea_export_method(self, kind):
+        return getattr(self, "_ea_export_%s" % kind, None) if re.fullmatch(r"[a-z_]+", kind or "") else None
 
     def _ea_export_slug(self):
         return re.sub(r"[^\w-]+", "_", self.sudo().name or self.sudo().client_id.name or "file")[:60]
@@ -183,9 +188,15 @@ class EngagementTools(models.Model):
         except ServiceError as error:
             raise rule_error(self.env, error.code) from error
         method = {"cra": self._ea_import_cra, "significance": self._ea_import_significance, "risks": self._ea_import_risks}.get(kind)
+        if not method and kind in self._ea_extra_import_kinds():
+            method = getattr(self, "_ea_import_%s" % kind)
         if not method:
             raise rule_error(self.env, "not-found")
         return method(table)
+
+    def _ea_extra_import_kinds(self):
+        """The later tools that take a workbook back."""
+        return ("dsp", "pbc")
 
     def _ea_import_cra(self, table):
         self.sudo()._ea_sync_cra()

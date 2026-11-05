@@ -259,7 +259,7 @@ class TestHubAndGates(ToolsCase):
         self.assertEqual(by["materiality"].feeds, "P6.1")
         self.assertEqual(by["sad"].feeds, "C1.1,C3.1")
         self.assertIn("S3.1", by["cra"].feeds)
-        self.assertEqual(len(tiles), 18)
+        self.assertGreaterEqual(len(tiles), 18)
 
     def test_opening_a_tool_goes_through_the_engagement(self):
         tile = self.env.ref("ea_audit_tools.tile_materiality").with_user(self.staff)
@@ -267,10 +267,10 @@ class TestHubAndGates(ToolsCase):
         self.assertEqual(action["res_id"], self.engagement.id)
         outsider = self.env.ref("ea_audit_tools.tile_materiality").with_user(self.outsider)
         self.assertCode("not-on-this-engagement", outsider.with_context(ea_engagement_id=self.engagement.id).action_open_tool)
-        coming = self.env.ref("ea_audit_tools.tile_sampling").with_user(self.staff)
+        coming = self.env.ref("ea_audit_tools.tile_legal").with_user(self.staff)
         self.assertCode("tool-not-available", coming.with_context(ea_engagement_id=self.engagement.id).action_open_tool)
 
-    def test_every_tile_with_a_method_opens(self):
+    def test_every_tile_with_a_method_opens(self):  # the hub and the analyzers
         for tile in self.env["ea.audit.tool.tile"].sudo().search([("method", "!=", False)]):
             action = tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
             self.assertEqual(action["type"], "ir.actions.act_window", tile.code)
