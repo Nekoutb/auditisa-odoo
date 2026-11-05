@@ -24,6 +24,9 @@ body.ea-shell {
   .o-mail-ChatHub { display: none !important; }
 
   .o_action_manager { background: var(--ea-canvas); }
+  .o_action:has(.o_ea_hub) .o_content,
+  .o_action:has(.o_ea_hub) .o_kanban_renderer,
+  .o_action:has(.o_ea_hub) .o_control_panel { background: var(--ea-canvas); border: 0; }
   // Odoo's own lists and forms keep clear of the bar.
   .o_action_manager > .o_action > .o_control_panel,
   .o_action_manager > .o_view_controller > .o_control_panel { margin-top: 10px; }

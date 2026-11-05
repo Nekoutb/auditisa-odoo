@@ -402,7 +402,7 @@ class AuditUi(models.AbstractModel):
             lambda item: (self._ea_ui_due(item), item.sequence)
         )
         chips = [{
-            "id": item.id, "code": item.code, "title": item.title, "tone": "r",
+            "id": item.id, "code": item.code, "title": item.short_title or item.title, "tone": "r",
             "text": "en retard de %s j" % self._ea_ui_late_days(item, today),
         } for item in late[:_LATE_CHIPS]]
         register = items.filtered(lambda item: item.code == "S3.1")[:1]
@@ -419,14 +419,14 @@ class AuditUi(models.AbstractModel):
         ])
         by_item = {item.id: item for item in items}
         chips += [{
-            "id": note.file_item_id.id, "code": note.code, "title": by_item[note.file_item_id.id].title,
+            "id": note.file_item_id.id, "code": note.code, "title": by_item[note.file_item_id.id].short_title or by_item[note.file_item_id.id].title,
             "tone": "g", "text": "note de revue",
         } for note in notes if note.file_item_id.id in by_item][:3]
         awaiting = items.filtered(
             lambda item: not item.not_applicable and item.state in ("prepared", "reviewed") and item not in late
         )
         chips += [{
-            "id": item.id, "code": item.code, "title": item.title, "tone": "g",
+            "id": item.id, "code": item.code, "title": item.short_title or item.title, "tone": "g",
             "text": "à signer" if item.state == "reviewed" else "à réviser",
         } for item in awaiting[:_STRIP_CHIPS]]
         return chips[:_STRIP_CHIPS], late
