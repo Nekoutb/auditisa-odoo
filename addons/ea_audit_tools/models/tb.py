@@ -68,20 +68,26 @@ class TbVersion(models.Model):
             version.is_current = version.tb_id.current_version_no == version.version_no
 
     @api.depends("validation_summary")
+    @api.depends_context("lang")
     def _compute_checks_text(self):
+        labels = {
+            "balanced": self.env._("Debits equal credits"),
+            "openingBalanced": self.env._("Opening balances balance"),
+            "closingEquation": self.env._("Closing equals opening plus movements"),
+            "codification": self.env._("Account codes valid"),
+        }
         for version in self:
             checks = (version.validation_summary or {}).get("checks") or {}
             lines = []
-            for key in ("balanced", "openingBalanced", "closingEquation", "codification"):
+            for key, label in labels.items():
                 check = checks.get(key)
                 if check:
-                    lines.append("%s %s" % ("OK" if check.get("ok") else "KO", key))
-            for key, label in (("unknownAccounts", "unknownAccounts"),):
-                if checks.get(key):
-                    lines.append("%s: %s" % (label, ", ".join(str(item) for item in checks[key][:20])))
+                    lines.append("%s %s" % ("OK" if check.get("ok") else "KO", label))
+            if checks.get("unknownAccounts"):
+                lines.append(self.env._("Unknown accounts: %(accounts)s", accounts=", ".join(str(item) for item in checks["unknownAccounts"][:20])))
             prior = checks.get("openingTiesToPrior") or {}
             if prior.get("checked"):
-                lines.append("openingTiesToPrior: %d exception(s)" % len(prior.get("exceptions") or []))
+                lines.append(self.env._("Opening ties to prior year: %(count)s exception(s)", count=len(prior.get("exceptions") or [])))
             version.checks_text = "\n".join(lines)
 
 

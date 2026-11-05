@@ -1,6 +1,6 @@
 from odoo import api, fields, models
 
-from ..services.lead_classes import INDEX_SECTION, account_class_label, account_type_label
+from ..services.lead_classes import INDEX_SECTION, account_class_label, account_type_label, lead_schedule_alerts
 
 
 class ApComment(models.Model):
@@ -79,10 +79,19 @@ class LeadSchedule(models.Model):
     account_type_label = fields.Char(string="Account type", compute="_compute_labels")
     account_class_label = fields.Char(string="Account class", compute="_compute_labels")
     alerts = fields.Text()
+    alerts_label = fields.Text(string="Alerts", compute="_compute_alerts_label", compute_sudo=True)
     line_ids = fields.One2many("ea.audit.lead.line", "schedule_id", string="Accounts")
 
     def _ea_comment_key(self):
         return self.index_code, "total"
+
+    @api.depends("alerts", "line_ids.closing")
+    @api.depends_context("lang")
+    def _compute_alerts_label(self):
+        locale = "fr" if (self.env.lang or "").startswith("fr") else "en"
+        for row in self:
+            accounts = [{"account": line.account_code, "closing": line.closing} for line in row.line_ids]
+            row.alerts_label = chr(10).join(alert[locale] for alert in lead_schedule_alerts(accounts)) or False
 
     @api.depends("account_type", "account_class", "index_code")
     def _compute_labels(self):

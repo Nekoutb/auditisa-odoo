@@ -55,7 +55,8 @@
                             <field name="has_variance_pct" invisible="1"/>
                         </group>
                     </group>
-                    <field name="alerts" readonly="1" invisible="not alerts" class="o_ea_banner"/>
+                    <field name="alerts" invisible="1"/>
+                    <field name="alerts_label" readonly="1" invisible="not alerts" class="o_ea_banner"/>
                     <group><field name="commentary"/></group>
                     <field name="line_ids" readonly="1">
                         <list>

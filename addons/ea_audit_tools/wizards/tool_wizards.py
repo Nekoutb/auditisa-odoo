@@ -59,7 +59,7 @@ class TbImportWizard(models.TransientModel):
         values = {
             "step": "confirm",
             "preview_html": preview_html(preview, self.env),
-            "mapping_error": preview["mappingError"] or False,
+            "mapping_error": rule_error(self.env, preview["mappingError"]).args[0] if preview["mappingError"] else False,
         }
         for column in ALIASES:
             values["map_%s" % column] = preview["mapping"].get(column) or False

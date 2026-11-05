@@ -1,0 +1,4293 @@
+# French translation of ea_audit_tools.
+# This file contains the translation of the following modules:
+# 	* ea_audit_tools
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 08:00+0000\n"
+"PO-Revision-Date: 2026-11-05 08:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/cra.py:0
+msgid "%(count)s cells to assess"
+msgstr "%(count)s cellules à évaluer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+msgid "%(count)s rows read"
+msgstr "%(count)s lignes lues"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
+msgid "(coming)"
+msgstr "(à venir)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_1
+msgid "1. Misstatements sensitive in the entity's circumstances"
+msgstr "1. Anomalies sensibles au regard des circonstances de l'entité"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_2
+msgid "2. Misstatements masking a change in earnings or other trends"
+msgstr "2. Anomalies masquant un changement de tendance"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_3
+msgid "3. Possible management bias"
+msgstr "3. Biais possible de la direction"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_4
+msgid "4. Intentional misstatements (possible fraud)"
+msgstr "4. Anomalies intentionnelles (fraude potentielle)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_5
+msgid "5. Material effect of prior-period uncorrected misstatements"
+msgstr "5. Effet significatif des anomalies des exercices antérieurs"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid ""
+"<b>C</b> Completeness · <b>E</b> Existence, occurrence · <b>A</b> Accuracy ·"
+" <b>V</b> Valuation · <b>P</b> Presentation · <b>RO</b> Rights and "
+"obligations"
+msgstr ""
+"<b>C</b> Exhaustivité · <b>E</b> Existence, réalité · <b>A</b> Exactitude · "
+"<b>V</b> Valorisation · <b>P</b> Présentation · <b>RO</b> Droits et "
+"obligations"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid ""
+"<span class=\"o_ea_chip o_ea_chip_good me-1\">P6.1</span>\n"
+"                                <span class=\"o_ea_chip o_ea_chip_good me-1\">P6.2</span>\n"
+"                                <span class=\"o_ea_chip o_ea_chip_good\">C1.1</span>"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_a
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__assertion__a
+msgid "A"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_deficiency_evaluation_finding_uniq
+msgid "A deficiency has one evaluation."
+msgstr "Une déficience a une seule évaluation."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A description is required."
+msgstr "Une description est requise."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid ""
+"A draft version awaits the partner's approval: until then the approved "
+"version stays in force."
+msgstr ""
+"Une version brouillon attend l'approbation de l'associé : d'ici là, la "
+"version approuvée reste en vigueur."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_finding_number_uniq
+msgid "A finding number is used once per engagement."
+msgstr "Un numéro de constat n'est utilisé qu'une fois par mission."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A justification is required."
+msgstr "Une justification est requise."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A rationale is required."
+msgstr "Un motif est requis."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A related deficiency must be another deficiency of this file."
+msgstr "Une déficience connexe doit être une autre déficience de ce dossier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A response is required to clear a note."
+msgstr "Une réponse est requise pour lever une note."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"A specific materiality must be below overall materiality (ISA 320 ¶10)."
+msgstr ""
+"Un seuil de signification spécifique doit être inférieur au seuil de "
+"signification global (ISA 320 ¶10)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"A specific materiality must be below performance materiality (ISA 320 ¶10)."
+msgstr ""
+"Un seuil de signification spécifique doit être inférieur au seuil de travail"
+" (ISA 320 ¶10)."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_tool_tile_code_uniq
+msgid "A tile code is unique."
+msgstr "Un code de tuile est unique."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A title is required."
+msgstr "Un intitulé est requis."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_tb_version_version_uniq
+msgid "A version number is used once on a trial balance."
+msgstr "Un numéro de version n'est utilisé qu'une fois par balance."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_materiality_version_uniq
+msgid "A version number is used once per engagement."
+msgstr "Un numéro de version n'est utilisé qu'une fois par mission."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A written communication needs its recipient: name who received it."
+msgstr "Une communication écrite a un destinataire : indiquer qui l'a reçue."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_reason_wizard
+msgid "A written reason"
+msgstr "Un motif écrit"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "Above the threshold (%(umt)s)"
+msgstr "Au-dessus du seuil (%(umt)s)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__above_te
+msgid "Above threshold"
+msgstr "Au-dessus du seuil"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__account
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__account_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_account
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__account_code
+msgid "Account"
+msgstr "Compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__account_class
+msgid "Account Class"
+msgstr "Classe de compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__account_prefix
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__account_prefix
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__account_prefix
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__account_prefix
+msgid "Account Prefix"
+msgstr "Préfixe de compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__account_type
+msgid "Account Type"
+msgstr "Type de compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__account_class_label
+msgid "Account class"
+msgstr "Classe de compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__account_type_label
+msgid "Account type"
+msgstr "Type de compte"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__accounts
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__line_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__accounts
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__line_ids
+msgid "Accounts"
+msgstr "Comptes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__accounts_assertions
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__accounts_assertions
+msgid "Accounts and assertions exposed"
+msgstr "Comptes et assertions exposés"
+
+#. module: ea_audit_tools
+#: model:ea.audit.assertion,name:ea_audit_tools.assertion_A
+msgid "Accuracy"
+msgstr "Exactitude"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__active
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_wizard
+msgid "Add"
+msgstr "Ajouter"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_risk_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+msgid "Add a risk"
+msgstr "Ajouter un risque"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__added_after_planning
+msgid "Added After Planning"
+msgstr "Ajouté après la planification"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__addition_approved_by_id
+msgid "Addition approved by"
+msgstr "Ajout approuvé par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__version_kind__adjusted
+msgid "Adjusted"
+msgstr "Ajustée"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_25
+msgid "Advances on non-current assets"
+msgstr "Avances et acomptes versés sur immobilisations"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__aggregation_note
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__aggregation_note
+msgid "Aggregation Note"
+msgstr "Note de cumul"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_legal
+msgid "Agreements, alert, equity, securities."
+msgstr "Conventions, alerte, capitaux propres, titres."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__alerts
+msgid "Alerts"
+msgstr "Alertes"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_281
+msgid "Amortisation of intangibles"
+msgstr "Amortissements des immobilisations incorporelles"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__amount
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__amount
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__amount
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__amount
+msgid "Amount"
+msgstr "Montant"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_ap_comment__account
+msgid "An account number, or 'total' for the schedule's row."
+msgstr "Un numéro de compte, ou « total » pour la ligne de la feuille."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "An amount is required for a misstatement."
+msgstr "Un montant est requis pour une anomalie."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_assertion_code_uniq
+msgid "An assertion code is unique."
+msgstr "Un code d'assertion est unique."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_sad_meta_uniq
+msgid "An engagement has one SAD conclusion."
+msgstr "Une mission a une seule conclusion SAD."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_tb_engagement_uniq
+msgid "An engagement has one trial balance."
+msgstr "Une mission a une seule balance."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Approve the addition"
+msgstr "Approuver l'ajout"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Approve the latest materiality version?"
+msgstr "Approuver la dernière version du seuil ?"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Approve the latest version"
+msgstr "Approuver la dernière version"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__state__approved
+msgid "Approved"
+msgstr "Approuvé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__approved_at
+msgid "Approved At"
+msgstr "Approuvé le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__approved_by_id
+msgid "Approved by"
+msgstr "Approuvé par"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "Approved, %(who)s, %(date)s"
+msgstr "Approuvé, %(who)s, %(date)s"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__assertion
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__assertion
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__level__assertion
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__level__assertion
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_search
+msgid "Assertion"
+msgstr "Assertion"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__assertion_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__assertion_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__assertion_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__assertion_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__assertion_ids
+msgid "Assertions"
+msgstr "Assertions"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Assess the cells"
+msgstr "Évaluer les cellules"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__assessment_id
+msgid "Assessment"
+msgstr "Évaluation"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Assets"
+msgstr "Actif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__current_asset
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__current_asset
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__current_asset
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__current_asset
+msgid "Assets Current"
+msgstr "Actif courant"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__non_current_asset
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__non_current_asset
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__non_current_asset
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__non_current_asset
+msgid "Assets Non-current"
+msgstr "Actif non courant"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_assertion
+msgid "Audit assertion"
+msgstr "Assertion d'audit"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sad
+#: model:ir.actions.act_window,name:ea_audit_tools.action_sad_entries
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_entry_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "Audit differences"
+msgstr "Écarts d'audit"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_file_item
+msgid "Audit file task"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_program_step
+msgid "Audit program step"
+msgstr "Étape du programme d'audit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__guidance
+msgid "Authoritative guidance"
+msgstr "Référence normative"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__available
+msgid "Available"
+msgstr "Disponible"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "Awaiting partner approval"
+msgstr "En attente d'approbation de l'associé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__b5_exceeds
+msgid "B5 Exceeds"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__b5_uncorrected_note
+msgid "B5 Uncorrected Note"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Balance sheet (SYSCOHADA)"
+msgstr "Bilan (SYSCOHADA)"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_88
+msgid "Balancing subsidies"
+msgstr "Subventions d'équilibre"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_56
+msgid "Bank overdrafts and discount credits"
+msgstr "Banques, crédits de trésorerie et d'escompte"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_52
+msgid "Banks"
+msgstr "Banques"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "Base"
+msgstr "Base"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__benchmark_amount
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__benchmark_amount
+msgid "Base amount"
+msgstr "Montant de la base"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_bases_html
+msgid "Bases"
+msgstr "Bases"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_label
+msgid "Basis"
+msgstr "Base"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "Below the threshold (%(umt)s)"
+msgstr "Sous le seuil (%(umt)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"Below the trivial threshold — tick the confirmation to log it as trivial."
+msgstr ""
+"Sous le seuil négligeable — cochez la confirmation pour la consigner comme "
+"négligeable."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__benchmark
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__benchmark
+msgid "Benchmark"
+msgstr "Base"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__body
+msgid "Body"
+msgstr "Texte"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_81
+msgid "Book value of disposed assets"
+msgstr "Valeurs comptables des cessions d'immobilisations"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_16
+msgid "Borrowings and similar debts"
+msgstr "Emprunts et dettes assimilées"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_23
+msgid "Buildings, technical installations"
+msgstr "Bâtiments, installations techniques et agencements"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__category__business
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__category__business
+msgid "Business"
+msgstr "Activité"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+msgid "By account, with commentary"
+msgstr "Par compte, avec commentaire"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_lead_schedule
+msgid "By index, with checks and an Excel extract."
+msgstr "Par indice, avec contrôles et extraction Excel."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_c
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__assertion__c
+msgid "C"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "C1.1, C3.1 · ISA 450 ·"
+msgstr "C1.1, C3.1 · ISA 450 ·"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__cr_basis
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__cr_basis
+msgid "CR basis"
+msgstr "Fondement RC"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_deficiency_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_materiality_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_reason_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_link_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tool_import_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_10
+msgid "Capital"
+msgstr "Capital"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_72
+msgid "Capitalised production"
+msgstr "Production immobilisée"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "Carried to C1.1"
+msgstr "Reporté en C1.1"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_57
+msgid "Cash"
+msgstr "Caisse"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_cash_assets
+msgid "Cash assets"
+msgstr "Trésorerie-actif"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_meta_form
+msgid "Cash flow"
+msgstr "Flux de trésorerie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__cf_row_ids
+msgid "Cash-flow misstatements"
+msgstr "Anomalies des flux de trésorerie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__category
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__category
+msgid "Category"
+msgstr "Catégorie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Cells"
+msgstr "Cellules"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_to_assess_label
+msgid "Cells to assess"
+msgstr "Cellules à évaluer"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__changed_by_id
+msgid "Changed by"
+msgstr "Modifié par"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"Check the materiality figures: amount > 0, percentage 0–100, performance "
+"60–85 %, trivial 3–5 %."
+msgstr ""
+"Vérifiez les montants : montant > 0, pourcentage 0–100, seuil de travail "
+"60–85 %, négligeable 3–5 %."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__checks_text
+msgid "Checks"
+msgstr "Contrôles"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Choose a financial-statement caption from the options offered."
+msgstr ""
+"Choisissez une rubrique des états financiers parmi les options proposées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Choose a misstatement type from the options offered."
+msgstr "Choisissez un type d'anomalie parmi les options proposées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Choose a severity for the deficiency."
+msgstr "Choisissez la gravité de la déficience."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Choose an assertion (C, E, A, V, P or RO)."
+msgstr "Choisir une assertion (C, E, A, V, P ou RO)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Choose the likelihood and the magnitude from the options offered."
+msgstr "Choisir la probabilité et l'ampleur parmi les options proposées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+msgid "Class"
+msgstr "Classe"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_class1
+msgid "Class 1 (credit)"
+msgstr "Classe 1 (crédit)"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Class 1 + current liabilities + result"
+msgstr "Classe 1 + passif courant + résultat"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_class4_credit
+msgid "Class 4 in credit"
+msgstr "Classe 4 créditrice"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_form
+msgid "Clear"
+msgstr "Lever"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__cleared_at
+msgid "Cleared At"
+msgstr "Levé le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__cleared_by_id
+msgid "Cleared by"
+msgstr "Levé par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_reason_wizard__kind__clear
+msgid "Clearing"
+msgstr "Levée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_trivial_label
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__trivial
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__is_trivial
+msgid "Clearly trivial"
+msgstr "Manifestement négligeable"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__trivial_pct
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__trivial_pct
+msgid "Clearly trivial %"
+msgstr "% négligeable"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Clearly trivial misstatements"
+msgstr "Anomalies manifestement négligeables"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__trivial
+msgid "Clearly trivial threshold"
+msgstr "Seuil de négligeabilité"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__client_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__client_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__client_id
+msgid "Client"
+msgstr "Client"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_client_grouping_override
+msgid "Client grouping override"
+msgstr "Personnalisation de regroupement du client"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_lead_index_override
+msgid "Client lead-index override"
+msgstr "Personnalisation d'indice du client"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_client_override_mixin
+msgid "Client mapping override"
+msgstr "Personnalisation de correspondance du client"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__status__cleared
+msgid "Closed"
+msgstr "Clos"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__closing
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__closing
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__closing
+msgid "Closing"
+msgstr "Clôture"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_closing
+msgid "Closing (signed)"
+msgstr "Clôture (signé)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_closingCredit
+msgid "Closing credit"
+msgstr "Clôture crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_closingDebit
+msgid "Closing debit"
+msgstr "Clôture débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__code
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+msgid "Column mapping"
+msgstr "Correspondance des colonnes"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/cra.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_cra
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_row_ids
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__cra
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Combined risk assessment"
+msgstr "Évaluation combinée des risques"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_cra_assessment
+msgid "Combined risk assessment cell"
+msgstr "Cellule de l'évaluation combinée"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_cra_history
+msgid "Combined risk assessment history"
+msgstr "Historique de l'évaluation combinée"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_cra_row
+msgid "Combined risk assessment row"
+msgstr "Ligne de l'évaluation combinée"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/cra.py:0
+msgid "Combined risk assessment: cells"
+msgstr "Évaluation combinée : cellules"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_1c
+msgid "Comment 1"
+msgstr "Commentaire 1"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_2c
+msgid "Comment 2"
+msgstr "Commentaire 2"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_3c
+msgid "Comment 3"
+msgstr "Commentaire 3"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_4c
+msgid "Comment 4"
+msgstr "Commentaire 4"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tq_5c
+msgid "Comment 5"
+msgstr "Commentaire 5"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_comment_mixin__commentary
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__commentary
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__commentary
+msgid "Commentary"
+msgstr "Commentaire"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_lead_comment_mixin
+msgid "Commented lead row"
+msgstr "Ligne commentée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__communicated_on
+msgid "Communicated On"
+msgstr "Communiqué le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__communicated_on
+msgid "Communicated in writing on"
+msgstr "Communiqué par écrit le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__communicated_on
+msgid "Communicated on"
+msgstr "Communiqué le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__lead_prior_label
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__prior_source
+msgid "Comparative"
+msgstr "Comparatif"
+
+#. module: ea_audit_tools
+#: model:ea.audit.assertion,name:ea_audit_tools.assertion_C
+msgid "Completeness"
+msgstr "Exhaustivité"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__status__concluded
+msgid "Concluded"
+msgstr "Conclu"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__step__confirm
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_reason_wizard
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+msgid "Confirm the column mapping"
+msgstr "Confirmer la correspondance des colonnes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__route__c1
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__c1
+msgid "Control deficiency"
+msgstr "Déficience de contrôle"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__cr
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__cr
+msgid "Control risk"
+msgstr "Risque de contrôle"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__controls_covering
+msgid "Controls"
+msgstr "Contrôles"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__controls_reliance
+msgid "Controls reliance"
+msgstr "Appui sur les contrôles"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__corrected
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__corrected
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__corrected
+msgid "Corrected"
+msgstr "Corrigée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__cr_account
+msgid "Cr account"
+msgstr "Compte crédité"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__cr_amount
+msgid "Cr amount"
+msgstr "Montant crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__cr_caption_effective
+msgid "Cr caption"
+msgstr "Rubrique crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__cr_caption
+msgid "Cr caption (override)"
+msgstr "Rubrique crédit (choisie)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_to_assess_count
+msgid "Cra To Assess Count"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__created_by_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__created_by_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__created_by_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_credit
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__credit
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+msgid "Credit"
+msgstr "Crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__currency
+msgid "Currency"
+msgstr "Devise"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__current_version_no
+msgid "Current version"
+msgstr "Version courante"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__closing
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__closing
+msgid "Current year"
+msgstr "Exercice N"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_41
+msgid "Customers and related accounts"
+msgstr "Clients et comptes rattachés"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_419
+msgid "Customers — credit balances (advances received)"
+msgstr "Clients créditeurs"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_data_analytics
+msgid "Data analytics"
+msgstr "Analyse de données"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_debit
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__debit
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+msgid "Debit"
+msgstr "Débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__decided_at
+msgid "Decided At"
+msgstr "Décidé le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__decided_by_id
+msgid "Decided by"
+msgstr "Décidé par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__default_status
+msgid "Default"
+msgstr "Par défaut"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__grade__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__suggested_severity__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__grade__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__suggested__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__severity__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__suggested_severity__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__severity__deficiency
+msgid "Deficiency"
+msgstr "Déficience"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_68
+msgid "Depreciation charges"
+msgstr "Dotations aux amortissements"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_28
+msgid "Depreciation of non-current assets"
+msgstr "Amortissements"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Describe the risk (at least three characters)."
+msgstr "Décrivez le risque (au moins trois caractères)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__account_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__finding
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_label
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__account_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__description
+msgid "Description"
+msgstr "Intitulé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__description
+msgid "Description of misstatement"
+msgstr "Description de l'anomalie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__detail
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__detail
+msgid "Detail"
+msgstr "Détail"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__disclosure
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__disclosure
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__disclosure
+msgid "Disclosure"
+msgstr "Information annexe"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__disc_row_ids
+msgid "Disclosure misstatements"
+msgstr "Anomalies des informations annexes"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_meta_form
+msgid "Disclosures"
+msgstr "Informations annexes"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_potential_risk_list
+msgid "Dismiss"
+msgstr "Écarter"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_reason_wizard__kind__dismiss
+msgid "Dismissal"
+msgstr "Rejet"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__dismissal_rationale
+msgid "Dismissal Rationale"
+msgstr "Motif du rejet"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_potential_risk__status__dismissed
+msgid "Dismissed"
+msgstr "Écarté"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_comment_mixin__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_record__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_pbc
+msgid "Documents requested and reminders."
+msgstr "Documents demandés et relances."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__done
+msgid "Done"
+msgstr "Fait"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__dr_account
+msgid "Dr account"
+msgstr "Compte débité"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__dr_amount
+msgid "Dr amount"
+msgstr "Montant débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__dr_caption_effective
+msgid "Dr caption"
+msgstr "Rubrique débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__dr_caption
+msgid "Dr caption (override)"
+msgstr "Rubrique débit (choisie)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__state__draft
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__is_current
+msgid "Drives the file"
+msgstr "Pilote le dossier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_e
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__assertion__e
+msgid "E"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_55
+msgid "Electronic money instruments"
+msgstr "Instruments de monnaie électronique"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_87
+msgid "Employee profit-sharing"
+msgstr "Participation des travailleurs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_comment_mixin__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_record__engagement_id
+msgid "Engagement"
+msgstr "Mission"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Enter a valid date."
+msgstr "Saisissez une date valide."
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_24
+msgid "Equipment, furniture and biological assets"
+msgstr "Matériel, mobilier et actifs biologiques"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__equity
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__equity
+msgid "Equity"
+msgstr "Capitaux propres"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Equity and liabilities"
+msgstr "Passif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__equity
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__equity
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__equity
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__equity
+msgid "Equity components"
+msgstr "Capitaux propres"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_26
+msgid "Equity investments"
+msgstr "Titres de participation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__category__error
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__category__error
+msgid "Error"
+msgstr "Erreur"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__evaluation
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__evaluation
+msgid "Evaluation and conclusion"
+msgstr "Évaluation et conclusion"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_deficiencies
+msgid "Evaluation and written communication."
+msgstr "Évaluation et communication écrite."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_forms
+msgid "Every paper by phase, and who it is assigned to."
+msgstr "Tous les papiers par phase, et leur affectation."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_client_grouping_override__match_type__exact
+msgid "Exact"
+msgstr "Exact"
+
+#. module: ea_audit_tools
+#: model:ea.audit.assertion,name:ea_audit_tools.assertion_E
+msgid "Existence, occurrence"
+msgstr "Existence, réalité"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_sap
+msgid "Expectation, threshold by risk, difference, conclusion."
+msgstr "Attente, seuil selon le risque, écart, conclusion."
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_78
+msgid "Expense transfers"
+msgstr "Transferts de charges"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Export to Excel"
+msgstr "Exporter vers Excel"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_62
+msgid "External services A"
+msgstr "Services extérieurs A"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_63
+msgid "External services B"
+msgstr "Autres services extérieurs B"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
+msgid "Extract to Excel"
+msgstr "Extraire vers Excel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__fn
+msgid "FN reference"
+msgstr "Réf. note"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__fs_ref
+msgid "FS reference"
+msgstr "Réf. états financiers"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__factual
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__factual
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__factual
+msgid "Factual"
+msgstr "Avérée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__source_filename
+msgid "File"
+msgstr "Fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__file
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__file
+msgid "File (.csv, .xlsx)"
+msgstr "Fichier (.csv, .xlsx)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__filename
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__filename
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__version_kind__final
+msgid "Final"
+msgstr "Définitive"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_17
+msgid "Finance-lease debts"
+msgstr "Dettes de location acquisition"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_787
+msgid "Financial expense transfers"
+msgstr "Transferts de charges financières"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_67
+msgid "Financial expenses"
+msgstr "Frais financiers"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_77
+msgid "Financial income"
+msgstr "Revenus financiers"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_53
+msgid "Financial institutions and similar"
+msgstr "Établissements financiers et assimilés"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_697
+msgid "Financial provision charges"
+msgstr "Dotations financières"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_797
+msgid "Financial reversals"
+msgstr "Reprises financières"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__level__fs
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__level__fs
+msgid "Financial statements"
+msgstr "États financiers"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__financing
+msgid "Financing"
+msgstr "Financement"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_finding
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__finding_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__finding_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__title
+msgid "Finding"
+msgstr "Constat"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_total_count
+msgid "Finding Total Count"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_uncommunicated_count
+msgid "Finding Uncommunicated Count"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_findings
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Findings"
+msgstr "Constats"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_36
+msgid "Finished goods"
+msgstr "Produits finis"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__header_row
+msgid "First line is a header"
+msgstr "La première ligne est un en-tête"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
+msgid "Fiscal year"
+msgstr "Exercice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_fixed_assets
+msgid "Fixed assets"
+msgstr "Actif immobilisé"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_forms
+msgid "Forms"
+msgstr "Formulaires"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__fraud
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__category__fraud
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__category__fraud
+msgid "Fraud"
+msgstr "Fraude"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_gl_console
+msgid "General ledger console"
+msgstr "Console du grand livre"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_materiality_wizard
+msgid "Generate"
+msgstr "Générer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_materiality_wizard
+msgid "Generate a materiality version"
+msgstr "Générer une version du seuil"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Generate a version"
+msgstr "Générer une version"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_38
+msgid "Goods in transit / on consignment"
+msgstr "Stocks en cours de route, en consignation ou en dépôt"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__grade
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__grade
+msgid "Grade"
+msgstr "Gravité"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_85
+msgid "HAO charges (provisions)"
+msgstr "Dotations HAO"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_83
+msgid "HAO expenses"
+msgstr "Charges HAO"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_84
+msgid "HAO income"
+msgstr "Produits HAO"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_48
+msgid "HAO receivables and payables"
+msgstr "Créances et dettes HAO"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_86
+msgid "HAO reversals"
+msgstr "Reprises HAO"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__has_variance_pct
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__has_variance_pct
+msgid "Has Variance Pct"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_p__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__worst_tod__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__inherent_rating__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__likelihood__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__magnitude__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__likelihood__high
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__magnitude__high
+msgid "High"
+msgstr "Élevé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__high_sr
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__worst_tod__high_sr
+msgid "High +SR"
+msgstr "Élevé +RS"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__ir__higher
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__suggested_ir__higher
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__ir__higher
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__new_ir__higher
+msgid "Higher"
+msgstr "Plus élevé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__history_ids
+msgid "History"
+msgstr "Historique"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_comment_mixin__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_record__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__ir_basis
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__ir_basis
+msgid "IR basis"
+msgstr "Fondement RI"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__indicators
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__indicators
+msgid "ISA 265 A6-A7 indicators"
+msgstr "Indicateurs ISA 265 A6-A7"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_deficiencies
+msgid "ISA 265 deficiencies"
+msgstr "Déficiences ISA 265"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_deficiency_evaluation
+msgid "ISA 265 deficiency evaluation"
+msgstr "Évaluation de déficience ISA 265"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_deficiency_wizard
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__evaluation_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_form
+msgid "ISA 265 evaluation"
+msgstr "Évaluation ISA 265"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__evaluation_ids
+msgid "ISA 265 evaluations"
+msgstr "Évaluations ISA 265"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__status__identified
+msgid "Identified"
+msgstr "Identifié"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_49
+msgid "Impairment and short-term provisions (third parties)"
+msgstr "Dépréciations et provisions pour risques à court terme"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_296
+msgid "Impairment of equity investments"
+msgstr "Dépréciations des titres de participation"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_291
+msgid "Impairment of intangibles"
+msgstr "Dépréciations des immobilisations incorporelles"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_39
+msgid "Impairment of inventories"
+msgstr "Dépréciations des stocks"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_29
+msgid "Impairment of non-current assets"
+msgstr "Dépréciations des immobilisations"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_297
+msgid "Impairment of other financial assets"
+msgstr "Dépréciations des autres immobilisations financières"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_491
+msgid "Impairment — customer accounts"
+msgstr "Dépréciations des comptes clients"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_490
+msgid "Impairment — supplier debit balances"
+msgstr "Dépréciations des comptes fournisseurs débiteurs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__version_kind__initial
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tool_import_wizard
+msgid "Import"
+msgstr "Importer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Import a trial balance"
+msgstr "Importer une balance"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tool_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Import from Excel"
+msgstr "Importer depuis Excel"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
+msgid "Imported by"
+msgstr "Importé par"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
+msgid "Imported on"
+msgstr "Importé le"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_58
+msgid "Imprest accounts and internal transfers"
+msgstr "Régies d'avances, accréditifs et virements internes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__income_after_tax
+msgid "Income after tax"
+msgstr "Résultat après impôt"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__expense
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__expense
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__expense
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__expense
+msgid "Income statement — expenses"
+msgstr "Résultat — charges"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__income
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__income
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__income
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__income
+msgid "Income statement — income"
+msgstr "Résultat — produits"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_89
+msgid "Income tax"
+msgstr "Impôts sur le résultat"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__magnitude__inconsequential
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__magnitude__inconsequential
+msgid "Inconsequential"
+msgstr "Sans conséquence"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__index_code
+msgid "Index Code"
+msgstr "Indice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__index_summary
+msgid "Indexes"
+msgstr "Indices"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__inherent_rating
+msgid "Inherent Rating"
+msgstr "Cotation inhérente"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_cra
+msgid "Inherent and control risk per account."
+msgstr "Risque inhérent et de contrôle par compte."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__ir
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__ir
+msgid "Inherent risk"
+msgstr "Risque inhérent"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__inherent_factors
+msgid "Inherent risk factors"
+msgstr "Facteurs de risque inhérent"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_21
+msgid "Intangible assets"
+msgstr "Immobilisations incorporelles"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_37
+msgid "Intermediate and residual products"
+msgstr "Produits intermédiaires et résiduels"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_45
+msgid "International organisations"
+msgstr "Organismes internationaux"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__validation_status__invalid
+msgid "Invalid"
+msgstr "Invalide"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_inventory
+msgid "Inventory"
+msgstr "Stocks"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__investing
+msgid "Investing"
+msgstr "Investissement"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_14
+msgid "Investment subsidies"
+msgstr "Subventions d'investissement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__is_latest
+msgid "Is Latest"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_51
+msgid "Items for collection"
+msgstr "Valeurs à encaisser"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_je_selection
+msgid "Journal entries"
+msgstr "Écritures de journal"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__judgmental
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__judgmental
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__judgmental
+msgid "Judgmental"
+msgstr "De jugement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_justification
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__justification
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__justification
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__justification
+msgid "Justification"
+msgstr "Justification"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid ""
+"Justification of the base, the percentage and the qualitative factors (ISA "
+"320 para 14)"
+msgstr ""
+"Justification de la base, du pourcentage et des facteurs qualitatifs (ISA "
+"320 ¶14)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__threshold_hint
+msgid "Key items"
+msgstr "Éléments clés"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__key_item_threshold
+msgid "Key-item threshold"
+msgstr "Seuil des éléments clés"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__kind
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__kind
+msgid "Kind"
+msgstr "Nature"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__label
+msgid "Label"
+msgstr "Libellé"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_22
+msgid "Land"
+msgstr "Terrains"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__index_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__index_code
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_search
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_search
+msgid "Lead index"
+msgstr "Indice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__index_link_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Lead indexes"
+msgstr "Indices"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_lead_schedule
+msgid "Lead schedule"
+msgstr "Feuille maîtresse"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_lead_line
+msgid "Lead schedule account"
+msgstr "Compte de feuille maîtresse"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_ap_comment
+msgid "Lead schedule commentary"
+msgstr "Commentaire de feuille maîtresse"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_lead_schedule
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__lead_schedule_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Lead schedules"
+msgstr "Feuilles maîtresses"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Lead schedules by account"
+msgstr "Feuilles maîtresses par compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__level
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__level
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__level
+msgid "Level"
+msgstr "Niveau"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__current_liability
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__current_liability
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__current_liability
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__current_liability
+msgid "Liabilities Current"
+msgstr "Passif courant"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__non_current_liability
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__non_current_liability
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__non_current_liability
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__non_current_liability
+msgid "Liabilities Non-current"
+msgstr "Passif non courant"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__likelihood
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__likelihood
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__likelihood
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__likelihood
+msgid "Likelihood"
+msgstr "Probabilité"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_link_wizard
+msgid "Link"
+msgstr "Lier"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_risk_link_wizard
+msgid "Link a risk to a lead index"
+msgstr "Lier un risque à un indice"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Link to a lead index"
+msgstr "Lier à un indice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_p__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__worst_tod__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__inherent_rating__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__likelihood__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__magnitude__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__likelihood__low
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__magnitude__low
+msgid "Low"
+msgstr "Faible"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__low_sr
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__worst_tod__low_sr
+msgid "Low +SR"
+msgstr "Faible +RS"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__ir__lower
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__suggested_ir__lower
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__ir__lower
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__new_ir__lower
+msgid "Lower"
+msgstr "Plus faible"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_sampling
+msgid "MUS and attributes, with every draw kept and its reason."
+msgstr "MUS et attributs, tirages conservés avec motif."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__magnitude
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__magnitude
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__magnitude
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__magnitude
+msgid "Magnitude"
+msgstr "Ampleur"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__management_response
+msgid "Management Response"
+msgstr "Réponse de la direction"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__management_aware
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__management_aware
+msgid "Management aware"
+msgstr "Direction informée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__presumed_type__mgmt_override
+msgid "Management override"
+msgstr "Contournement par la direction"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__mapping_error
+msgid "Mapping Error"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_50
+msgid "Marketable securities"
+msgstr "Titres de placement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_draft_pending
+msgid "Mat Draft Pending"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_overall_note
+msgid "Mat Overall Note"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_performance_note
+msgid "Mat Performance Note"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_trivial_note
+msgid "Mat Trivial Note"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_user_may_approve
+msgid "Mat User May Approve"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__match_type
+msgid "Match Type"
+msgstr "Type de correspondance"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__magnitude__material
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__magnitude__material
+msgid "Material"
+msgstr "Significative"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_materiality
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Materiality"
+msgstr "Seuil de signification"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_status_label
+msgid "Materiality status"
+msgstr "État du seuil"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_materiality
+msgid "Materiality version"
+msgstr "Version du seuil"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__materiality_ids
+msgid "Materiality versions"
+msgstr "Versions du seuil"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__route__b4
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__b4
+msgid "Matter for attention"
+msgstr "Point d'attention"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__inherent_rating__medium
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__likelihood__medium
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__magnitude__medium
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__likelihood__medium
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__magnitude__medium
+msgid "Medium"
+msgstr "Moyen"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_31
+msgid "Merchandise"
+msgstr "Marchandises"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__meta_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__meta_id
+msgid "Meta"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__method
+msgid "Method"
+msgstr "Méthode"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_p__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__minimal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__worst_tod__minimal
+msgid "Minimal"
+msgstr "Minimal"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_misstatement
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__misstatement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__misstatement_id
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__route__b5
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__b5
+msgid "Misstatement"
+msgstr "Anomalie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__misstatement_ids
+msgid "Misstatements"
+msgstr "Anomalies"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_sad
+msgid "Misstatements by caption, linked to the papers."
+msgstr "Anomalies par rubrique, liées aux papiers."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_p__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__moderate
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__worst_tod__moderate
+msgid "Moderate"
+msgstr "Modéré"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__movement
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__movement
+msgid "Movement"
+msgstr "Mouvement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_p__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_1__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_2__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_3__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_4__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_5__na
+msgid "N/A"
+msgstr "S.O."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__na_rationale
+msgid "N/A rationale"
+msgstr "Motif S.O."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_13
+msgid "Net income for the year"
+msgstr "Résultat net de l'exercice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_net_result
+msgid "Net result"
+msgstr "Résultat net"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__new_cr
+msgid "New control risk"
+msgstr "Nouveau risque de contrôle"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_finding_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "New finding"
+msgstr "Nouveau constat"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__new_ir
+msgid "New inherent risk"
+msgstr "Nouveau risque inhérent"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_1__no
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_2__no
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_3__no
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_4__no
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_5__no
+msgid "No"
+msgstr "Non"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "No account-number column was recognised in the file."
+msgstr "Aucune colonne de numéro de compte n'a été reconnue."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "No trial balance has been imported for this engagement yet."
+msgstr "Aucune balance générale n'a encore été importée pour cette mission."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "No version yet"
+msgstr "Aucune version"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__number
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__no
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__no
+msgid "No."
+msgstr "N°"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Nominal (clearly trivial)"
+msgstr "Nominal (manifestement négligeable)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__na
+msgid "Not applicable"
+msgstr "Sans objet"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "Not evaluable: materiality is not approved"
+msgstr "Non évaluable : le seuil n'est pas approuvé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__trivial_confirmed
+msgid "Not indicative of a pervasive issue"
+msgstr "Non révélateur d'un problème généralisé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__cr__not_rely
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__suggested_cr__not_rely
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__cr__not_rely
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__new_cr__not_rely
+msgid "Not rely"
+msgstr "Ne pas s'appuyer"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__decision__not_significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__default_status__not_significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__status__not_significant
+msgid "Not significant"
+msgstr "Non significatif"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_legal
+msgid "OHADA legal register"
+msgstr "Registre légal OHADA"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__grade__observation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__suggested_severity__observation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__grade__observation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__suggested__observation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__severity__observation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__suggested_severity__observation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__severity__observation
+msgid "Observation"
+msgstr "Observation"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_sample_papers
+msgid "One Excel workbook per index."
+msgstr "Un classeur Excel par indice."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_cra_row_uniq
+msgid "One board line per lead index."
+msgstr "Une ligne par indice."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_cra_assessment_uniq
+msgid "One cell per index and assertion."
+msgstr "Une cellule par indice et assertion."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_ap_comment_uniq
+msgid "One commentary per account of a schedule."
+msgstr "Un commentaire par compte d'une feuille."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_significance_uniq
+msgid "One decision per lead index."
+msgstr "Une décision par indice."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Only .csv and .xlsx files are accepted."
+msgstr "Seuls les fichiers .csv et .xlsx sont acceptés."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"Only a partner can rebut the presumed revenue-fraud risk (ISA 240 ¶26)."
+msgstr ""
+"Seul l'associé peut réfuter le risque présumé de fraude dans la "
+"comptabilisation des produits (ISA 240 ¶26)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Only the latest materiality version can be approved."
+msgstr ""
+"Seule la dernière version du seuil de signification peut être approuvée."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__status__open
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_potential_risk__status__open
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__open
+msgid "Open"
+msgstr "Ouvert"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_open_count
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "Open findings"
+msgstr "Constats ouverts"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__opening
+msgid "Opening"
+msgstr "Ouverture"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_opening
+msgid "Opening (signed)"
+msgstr "Ouverture (signé)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__opening_credit
+msgid "Opening Credit"
+msgstr "Ouverture crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__opening_debit
+msgid "Opening Debit"
+msgstr "Ouverture débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__opening
+msgid "Opening balances"
+msgstr "Soldes d'ouverture"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_openingCredit
+msgid "Opening credit"
+msgstr "Ouverture crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_openingDebit
+msgid "Opening debit"
+msgstr "Ouverture débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__operating
+msgid "Operating"
+msgstr "Exploitation"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_791
+msgid "Operating reversals"
+msgstr "Reprises de provisions d'exploitation"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_71
+msgid "Operating subsidies"
+msgstr "Subventions d'exploitation"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_27
+msgid "Other financial assets"
+msgstr "Autres immobilisations financières"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_75
+msgid "Other income"
+msgstr "Autres produits"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_65
+msgid "Other operating expenses"
+msgstr "Autres charges"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_33
+msgid "Other supplies"
+msgstr "Autres approvisionnements"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "Out of"
+msgstr "Sur"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_overall_label
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__overall
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Overall materiality"
+msgstr "Seuil global"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_materiality
+msgid "Overall, performance and clearly trivial, with approval."
+msgstr "Global, de travail, négligeable, avec approbation."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__overridden
+msgid "Overridden"
+msgstr "Décision modifiée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_p
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__assertion__p
+msgid "P"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "P6.1 · ISA 320, ISA 450 ·"
+msgstr "P6.1 · ISA 320, ISA 450 ·"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_pbc
+msgid "PBC requests"
+msgstr "Demandes PBC"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__paper_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__file_item_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_list
+msgid "Paper"
+msgstr "Papier"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sample_papers
+msgid "Paper templates"
+msgstr "Modèles de papiers"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__feeds
+msgid "Papers"
+msgstr "Papiers"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Papers fed"
+msgstr "Papiers alimentés"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_18
+msgid "Participation-linked debts & liaison"
+msgstr "Dettes liées à des participations et comptes de liaison"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_significance
+msgid "Per index: closing against threshold, decision, assertions."
+msgstr "Par indice : solde face au seuil, décision, assertions."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__percentage
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__percentage
+msgid "Percentage"
+msgstr "Pourcentage"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__performance_pct
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__performance_pct
+msgid "Performance %"
+msgstr "% seuil de travail"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__performance_justification
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__performance_justification
+msgid "Performance Justification"
+msgstr "Justification du seuil de travail"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_performance_label
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__performance
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Performance materiality"
+msgstr "Seuil de travail"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"Performance materiality departs from the default share of overall "
+"materiality — give the justification for the percentage chosen."
+msgstr ""
+"Le seuil de travail s'écarte de la part par défaut du seuil de signification"
+" global — justifiez le pourcentage retenu."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__period_end
+msgid "Period End"
+msgstr "Date de clôture"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_42
+msgid "Personnel"
+msgstr "Personnel"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_66
+msgid "Personnel costs"
+msgstr "Charges de personnel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__fs_note
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__fs_note
+msgid "Pervasive effect"
+msgstr "Effet diffus"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"Planning is closed: revising a recorded risk assessment needs a reason "
+"(E6.8)."
+msgstr ""
+"La planification est close : la révision d'une cotation de risque "
+"enregistrée exige un motif (E6.8)."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+msgid "Post to the C1.1 schedule"
+msgstr "Reporter sur l'état C1.1"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__timing__post_audit
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__post_audit
+msgid "Post-audit"
+msgstr "Post-audit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__posted
+msgid "Posted"
+msgstr "Reportée"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_potential_risk
+msgid "Potential risk"
+msgstr "Risque potentiel"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__potential_risk_ids
+msgid "Potential risks"
+msgstr "Risques potentiels"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__timing__pre_audit
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__pre_audit
+msgid "Pre-audit"
+msgstr "Pré-audit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_client_grouping_override__match_type__prefix
+msgid "Prefix"
+msgstr "Préfixe"
+
+#. module: ea_audit_tools
+#: model:ea.audit.assertion,name:ea_audit_tools.assertion_P
+msgid "Presentation"
+msgstr "Présentation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__presumed_type
+msgid "Presumed Type"
+msgstr "Type présumé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__preview_html
+msgid "Preview Html"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__prior
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__prior
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__timing__prior_year
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__prior_year
+msgid "Prior year"
+msgstr "Exercice N-1"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Prior year: the current trial balance's opening balances"
+msgstr "Exercice N-1 : les soldes d'ouverture de la balance"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Prior year: the valid prior-year trial balance"
+msgstr "Exercice N-1 : la balance N-1 valide"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__turnaround_factual
+msgid "Prior-period turnaround: factual and projected"
+msgstr "Retournement N-1 : avérées et extrapolées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__turnaround_judgmental
+msgid "Prior-period turnaround: judgmental"
+msgstr "Retournement N-1 : de jugement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__prior_year_tb
+msgid "Prior-year TB"
+msgstr "Balance N-1"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__priority
+msgid "Priority"
+msgstr "Priorité"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__likelihood__probable
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__likelihood__probable
+msgid "Probable"
+msgstr "Probable"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_82
+msgid "Proceeds from asset disposals"
+msgstr "Produits des cessions d'immobilisations"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__pbt
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__pbt
+msgid "Profit before tax"
+msgstr "Résultat avant impôt"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__program_step_id
+msgid "Program Step"
+msgstr "Étape du programme"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__program_step_id
+msgid "Program step"
+msgstr "Étape du programme"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__program_step_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Program steps"
+msgstr "Étapes du programme"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__projected
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__projected
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__projected
+msgid "Projected"
+msgstr "Extrapolée"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_potential_risk_list
+msgid "Promote to S3.1"
+msgstr "Promouvoir en S3.1"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_potential_risk__status__promoted
+msgid "Promoted"
+msgstr "Promu"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_69
+msgid "Provision and impairment charges"
+msgstr "Dotations aux provisions et dépréciations"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_79
+msgid "Provision and impairment reversals"
+msgstr "Reprises de provisions et dépréciations"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_19
+msgid "Provisions for risks and charges"
+msgstr "Provisions pour risques et charges"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_60
+msgid "Purchases and inventory variations"
+msgstr "Achats et variations de stocks"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_meta_form
+msgid "Qualitative factors"
+msgstr "Facteurs qualitatifs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_ro
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__assertion__ro
+msgid "RO"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__created_by_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__raised_by_id
+msgid "Raised by"
+msgstr "Soulevé par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__source_code
+msgid "Raised from"
+msgstr "Soulevé depuis"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "Range %"
+msgstr "Fourchette %"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__rationale
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__rationale
+msgid "Rationale"
+msgstr "Justification"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__raw_data
+msgid "Raw Data"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_32
+msgid "Raw materials and related supplies"
+msgstr "Matières premières et fournitures liées"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+msgid "Read the file"
+msgstr "Lire le fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__reason
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__reason
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__likelihood__reasonably_possible
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__likelihood__reasonably_possible
+msgid "Reasonably possible"
+msgstr "Raisonnablement possible"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Rebut"
+msgstr "Réfuter"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_reason_wizard__kind__rebut
+msgid "Rebuttal"
+msgstr "Réfutation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_justification
+msgid "Rebuttal Justification"
+msgstr "Justification de la réfutation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_approved_by_id
+msgid "Rebuttal approved by"
+msgstr "Réfutation approuvée par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebutted
+msgid "Rebutted"
+msgstr "Réfuté"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_receivables
+msgid "Receivables"
+msgstr "Créances"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__recipient
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__recipient
+msgid "Recipient"
+msgstr "Destinataire"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__classification
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__classification
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__classification
+msgid "Reclassification"
+msgstr "Reclassement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__recommendation
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__recommendation
+msgid "Recommendation"
+msgstr "Recommandation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__record_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_wizard
+msgid "Record"
+msgstr "Enregistrer"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__recorded
+msgid "Recorded"
+msgstr "Enregistrée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__decision
+msgid "Recorded decision"
+msgstr "Décision enregistrée"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_445
+msgid "Recoverable VAT"
+msgstr "État, TVA récupérable"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__reference
+msgid "Ref."
+msgstr "N°"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__register_only
+msgid "Register Only"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_15
+msgid "Regulated provisions"
+msgstr "Provisions réglementées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__related_finding_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__related_finding_ids
+msgid "Related deficiencies"
+msgstr "Déficiences connexes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__relevant
+msgid "Relevant"
+msgstr "Pertinente"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__relevant_defaulted
+msgid "Relevant Defaulted"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__assertion_ids
+msgid "Relevant assertions"
+msgstr "Assertions pertinentes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__cr__rely
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__suggested_cr__rely
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__cr__rely
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_history__new_cr__rely
+msgid "Rely"
+msgstr "S'appuyer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"Relying on controls needs a tested control covering this assertion (S2.1) "
+"and ITGCs that support reliance (S2.5), or a written CR basis (ISA 330 ¶8)."
+msgstr ""
+"L'appui sur les contrôles suppose un contrôle testé couvrant cette assertion"
+" (S2.1) et des ITGC qui le permettent (S2.5), ou un fondement RC écrit (ISA "
+"330 ¶8)."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__likelihood__remote
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__likelihood__remote
+msgid "Remote"
+msgstr "Faible"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_11
+msgid "Reserves"
+msgstr "Réserves"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__response
+msgid "Response"
+msgstr "Réponse"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__status__response_executed
+msgid "Response executed"
+msgstr "Réponse exécutée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__status__response_planned
+msgid "Response planned"
+msgstr "Réponse planifiée"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "Retained"
+msgstr "Retenue"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_12
+msgid "Retained earnings"
+msgstr "Report à nouveau"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__revenue
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__revenue
+msgid "Revenue"
+msgstr "Chiffre d'affaires"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__presumed_type__revenue_fraud
+msgid "Revenue fraud"
+msgstr "Fraude sur les produits"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_review_notes
+msgid "Review notes"
+msgstr "Notes de revue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__revise
+msgid "Revise the approach"
+msgstr "Réviser l'approche"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__reason
+msgid "Revision reason"
+msgstr "Motif de la révision"
+
+#. module: ea_audit_tools
+#: model:ea.audit.assertion,name:ea_audit_tools.assertion_RO
+msgid "Rights and obligations"
+msgstr "Droits et obligations"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_risk
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__title
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_index__risk_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_link_wizard__risk_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__risk_id
+msgid "Risk"
+msgstr "Risque"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__risk_assertions
+msgid "Risk assertions"
+msgstr "Assertions du risque"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__has_risk
+msgid "Risk linked"
+msgstr "Risque lié"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_risk
+msgid "Risk register"
+msgstr "Registre des risques"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_risk_index
+msgid "Risk to lead index"
+msgstr "Risque vers indice"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_risk_section
+msgid "Risk to task"
+msgstr "Risque vers tâche"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_je_selection
+msgid "Risk-directed selection, the reason for each choice."
+msgstr "Sélection orientée risque, motif de chaque choix."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__risk_count
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__risk_ids
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__risk_ids
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__risks
+msgid "Risks"
+msgstr "Risques"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__route
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__route
+msgid "Route"
+msgstr "Voie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__row_id
+msgid "Row"
+msgstr "Ligne"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__row_no
+msgid "Row No"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__row_count
+msgid "Rows"
+msgstr "Lignes"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "S3.1 · Inherent and control risk, by account and assertion"
+msgstr "S3.1 · Risque inhérent et risque de contrôle, par compte et assertion"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_sad_cf_row
+msgid "SAD cash-flow misstatement"
+msgstr "Anomalie de flux du SAD"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_meta_id
+msgid "SAD conclusion"
+msgstr "Conclusion du SAD"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_sad_disc_row
+msgid "SAD disclosure misstatement"
+msgstr "Anomalie d'annexe du SAD"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__source_sha256
+msgid "SHA-256"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_grouping_rule
+msgid "SYSCOHADA grouping rule"
+msgstr "Règle de regroupement SYSCOHADA"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_70
+msgid "Sales"
+msgstr "Ventes"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sampling
+msgid "Sampling"
+msgstr "Échantillonnage"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__tod_level
+msgid "Sampling level"
+msgstr "Niveau d'échantillonnage"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_deficiency_wizard
+msgid "Save"
+msgstr "Enregistrer"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__schedule_id
+msgid "Schedule"
+msgstr "Feuille"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__section_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__section_code
+msgid "Section"
+msgstr "Section"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_review_notes
+msgid "Section, owner, state and turnaround."
+msgstr "Section, responsable, état et délai."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__section_link_ids
+msgid "Sections"
+msgstr "Sections"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__seq
+msgid "Seq"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_35
+msgid "Services in progress"
+msgstr "Services en cours"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__severity
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__severity
+msgid "Severity"
+msgstr "Gravité"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_46
+msgid "Shareholders, associates and group"
+msgstr "Apporteurs, associés et groupe"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_59
+msgid "Short-term impairment (treasury)"
+msgstr "Dépréciations et provisions à court terme"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_499
+msgid "Short-term risk provisions"
+msgstr "Provisions pour risques à court terme"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_599
+msgid "Short-term treasury risk provisions"
+msgstr "Provisions pour risques à court terme (trésorerie)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__significant
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__significant
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__magnitude__significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__magnitude__significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__decision__significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__default_status__significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__status__significant
+msgid "Significant"
+msgstr "Significatif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__index_code
+msgid "Significant account"
+msgstr "Compte significatif"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_significance
+msgid "Significant account decision"
+msgstr "Décision sur compte significatif"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/significance.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_significance
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_ids
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__significance
+msgid "Significant accounts"
+msgstr "Comptes significatifs"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Significant accounts (P6.2)"
+msgstr "Comptes significatifs (P6.2)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_count
+msgid "Significant accounts count"
+msgstr "Nombre de comptes significatifs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_significant_count
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "Significant deficiencies"
+msgstr "Déficiences significatives"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__grade__significant_deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_evaluation__suggested_severity__significant_deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__grade__significant_deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_deficiency_wizard__suggested__significant_deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__severity__significant_deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__suggested_severity__significant_deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__severity__significant_deficiency
+msgid "Significant deficiency"
+msgstr "Déficience significative"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__significant
+msgid "Significant risk"
+msgstr "Risque significatif"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Significant risks in the register linked to no account:"
+msgstr "Risques significatifs du registre liés à aucun compte :"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_unlinked_risk_label
+msgid "Significant risks with no account"
+msgstr "Risques significatifs sans compte"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_43
+msgid "Social security bodies"
+msgstr "Organismes sociaux"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__source
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__source
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__source
+msgid "Source"
+msgstr "Source"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__specific_te
+msgid "Specific materiality"
+msgstr "Seuil spécifique"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__stale
+msgid "Stale"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__state_label
+msgid "State"
+msgstr "État"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_44
+msgid "State and public authorities"
+msgstr "État et collectivités publiques"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__line
+msgid "Statement of cash flows line"
+msgstr "Ligne du tableau des flux"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__status
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__state
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__status
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__status
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__status
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__status
+msgid "Status"
+msgstr "État"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__step
+msgid "Step"
+msgstr "Étape"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__linked_step_count
+msgid "Steps"
+msgstr "Étapes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__sub_index
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_search
+msgid "Sub-index"
+msgstr "Sous-indice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__substantive_alone_insufficient
+msgid "Substantive alone insufficient"
+msgstr "Substantif seul insuffisant"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sap
+msgid "Substantive analytics"
+msgstr "Analytiques substantives"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__subtitle
+msgid "Subtitle"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__suggested_cr
+msgid "Suggested CR"
+msgstr "RC suggéré"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__suggested_ir
+msgid "Suggested IR"
+msgstr "RI suggéré"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__suggested_severity
+msgid "Suggested Severity"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__suggested
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__suggested_severity
+msgid "Suggested grade"
+msgstr "Gravité suggérée"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Summary of audit differences"
+msgstr "Récapitulatif des écarts d'audit"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_sad_meta
+msgid "Summary of audit differences conclusion"
+msgstr "Conclusion du récapitulatif des écarts"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_sad_entry
+msgid "Summary of audit differences entry"
+msgstr "Ligne du récapitulatif des écarts"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_47
+msgid "Sundry debtors and creditors"
+msgstr "Débiteurs et créditeurs divers"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__state__superseded
+msgid "Superseded"
+msgstr "Remplacé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__superseded_at
+msgid "Superseded At"
+msgstr "Remplacée le"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_40
+msgid "Suppliers and related accounts"
+msgstr "Fournisseurs et comptes rattachés"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_409
+msgid "Suppliers — debit balances (advances)"
+msgstr "Fournisseurs débiteurs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__task_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_section__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__task_code
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_meta_form
+msgid "Tax and turnaround"
+msgstr "Impôt et retournement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__tax_rate
+msgid "Tax rate %"
+msgstr "Taux d'impôt %"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_64
+msgid "Taxes and duties"
+msgstr "Impôts et taxes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__tb_id
+msgid "Tb"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_concl_text
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__concl_text
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Team conclusion"
+msgstr "Conclusion de l'équipe"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Team conclusion and tabs"
+msgstr "Conclusion de l'équipe et onglets"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "That field cannot be changed here."
+msgstr "Ce champ ne peut pas être modifié ici."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "That lead index is not one of the file's."
+msgstr "Cet indice n'est pas un indice du dossier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "That value is not one of the options offered."
+msgstr "Cette valeur ne fait pas partie des options proposées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The account prefix must be 1–8 digits."
+msgstr "Le préfixe de compte doit comporter 1 à 8 chiffres."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"The amount differs from the trial-balance base for this benchmark — give a "
+"justification for the deviation."
+msgstr ""
+"Le montant diffère de la base issue de la balance pour ce critère — "
+"justifiez l'écart."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_tool_tile__method
+msgid "The engagement method that opens the tool. Empty: not built yet."
+msgstr ""
+"La méthode de la mission qui ouvre l'outil. Vide : pas encore construit."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"The file could not be read. Check that it is a valid .xlsx or .csv export, "
+"not renamed, corrupt or password-protected."
+msgstr ""
+"Le fichier n'a pas pu être lu. Vérifiez qu'il s'agit d'un export .xlsx ou "
+".csv valide, ni renommé, ni corrompu, ni protégé par mot de passe."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The file is empty."
+msgstr "Le fichier est vide."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The file needs movement (debit/credit) or closing-balance columns."
+msgstr ""
+"Le fichier doit contenir des colonnes de mouvements (débit/crédit) ou de "
+"soldes."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The key-item threshold must be an amount above zero."
+msgstr "Le seuil des éléments clés doit être un montant supérieur à zéro."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid ""
+"The percentage is outside the firm's range for this benchmark — give a "
+"justification for the deviation."
+msgstr ""
+"Le pourcentage est hors de la fourchette du cabinet pour ce critère — "
+"justifiez l'écart."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_findings
+msgid "The register: deficiencies, matters and misstatements."
+msgstr "Le registre : déficiences, points d'attention et anomalies."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The section must be an E-code (e.g. E4.1)."
+msgstr "La section doit être un code E (ex. E4.1)."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_gl_console
+msgid "Thirty analytics and correlations between accounts."
+msgstr "Trente analyses et corrélations entre comptes."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_lead_index_override_client_prefix_uniq
+msgid "This client already overrides that account prefix."
+msgstr "Ce client personnalise déjà ce préfixe de compte."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_client_grouping_override_client_prefix_uniq
+msgid "This client already overrides that account."
+msgstr "Ce client personnalise déjà ce compte."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This presumed risk cannot be rebutted or downgraded."
+msgstr "Ce risque présumé ne peut être réfuté ni déclassé."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_risk_index_uniq
+msgid "This risk already lands on that index."
+msgstr "Ce risque porte déjà sur cet indice."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_risk_section_uniq
+msgid "This risk is already mapped to that task."
+msgstr "Ce risque est déjà lié à cette tâche."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This tool is not available yet on this version."
+msgstr "Cet outil n'est pas encore disponible dans cette version."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "Threshold"
+msgstr "Seuil"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__timing_hint
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__timing
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__timing
+msgid "Timing"
+msgstr "Moment"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__title
+msgid "Title"
+msgstr "Intitulé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__to_assess
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__to_assess
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__to_assess
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_p__to_assess
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__to_assess
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__to_assess
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_search
+msgid "To assess"
+msgstr "À évaluer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_form_tools_button
+msgid "Tools"
+msgstr "Outils"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tool_tile
+msgid "Tools hub tile"
+msgstr "Tuile du tableau des outils"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tool_record
+msgid "Tools record"
+msgstr "Enregistrement des outils"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
+msgid "Total"
+msgstr "Total"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__total_credit
+msgid "Total Credit"
+msgstr "Total crédit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__total_debit
+msgid "Total Debit"
+msgstr "Total débit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__total_assets
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__total_assets
+msgid "Total assets"
+msgstr "Total de l'actif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_total_equity_liabilities
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Total equity and liabilities"
+msgstr "Total passif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__expenses
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__expenses
+msgid "Total expenses"
+msgstr "Total des charges"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_total_assets
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Total net assets"
+msgstr "Total actif net"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_478
+msgid "Translation difference — assets"
+msgstr "Écart de conversion - Actif"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_479
+msgid "Translation difference — liabilities"
+msgstr "Écart de conversion - Passif"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_61
+msgid "Transport"
+msgstr "Transports"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_54
+msgid "Treasury instruments"
+msgstr "Instruments de trésorerie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_cash_liabilities
+msgid "Treasury liabilities"
+msgstr "Trésorerie-passif"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tb
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_current_label
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Trial balance"
+msgstr "Balance générale"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Trial balance bases"
+msgstr "Bases de la balance"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tb_line
+msgid "Trial balance row"
+msgstr "Ligne de balance"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_status_label
+msgid "Trial balance status"
+msgstr "État de la balance"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_tb_version
+msgid "Trial balance version"
+msgstr "Version de balance"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_version_ids
+msgid "Trial balance versions"
+msgstr "Versions de balance"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_data_analytics
+msgid "Trial balance, general ledger, receivables, payables, inventory."
+msgstr "Balance, grand livre, clients, fournisseurs, stocks."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_materiality_one_approved
+msgid "Two materiality versions can never both be approved."
+msgstr ""
+"Deux versions du seuil ne peuvent jamais être approuvées en même temps."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__mtype
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__mtype
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__mtype
+msgid "Type"
+msgstr "Type"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_umt_label
+msgid "Uncorrected misstatement threshold"
+msgstr "Seuil des anomalies non corrigées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__b5_uncorrected_label
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+msgid "Uncorrected misstatements"
+msgstr "Anomalies non corrigées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__unjustified
+msgid "Unjustified"
+msgstr "Non justifiée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_unjustified
+msgid "Unjustified departures"
+msgstr "Écarts non justifiés"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+msgid "Unmapped"
+msgstr "Non affecté"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__updated_by_id
+msgid "Updated by"
+msgstr "Modifié par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__step__upload
+msgid "Upload"
+msgstr "Envoi"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_v
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__assertion__v
+msgid "V"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_443
+msgid "VAT collected/payable"
+msgstr "État, TVA facturée"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_444
+msgid "VAT due or credit"
+msgstr "État, TVA due ou crédit de TVA"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__validation_status__valid
+msgid "Valid"
+msgstr "Valide"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__validation_status
+msgid "Validation Status"
+msgstr "État de validation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__validation_summary
+msgid "Validation Summary"
+msgstr "Résumé de validation"
+
+#. module: ea_audit_tools
+#: model:ea.audit.assertion,name:ea_audit_tools.assertion_V
+msgid "Valuation"
+msgstr "Valorisation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__variance_pct
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__variance_pct
+msgid "Variance %"
+msgstr "Variation %"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_73
+msgid "Variations in produced inventories"
+msgstr "Variations des stocks de biens et services produits"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__version_no
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__version_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__version_no
+msgid "Version"
+msgstr "Version"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__version_kind
+msgid "Version Kind"
+msgstr "Nature de la version"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+msgid "Version history"
+msgstr "Historique des versions"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_version_label
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Version in force"
+msgstr "Version en vigueur"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__version_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "Versions"
+msgstr "Versions"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__ref
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__ref
+msgid "W/P ref."
+msgstr "Réf. papier"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_risk
+msgid "What can go wrong, by assertion."
+msgstr "Ce qui peut mal tourner, par assertion."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__source
+msgid "Where it was identified"
+msgstr "Où il a été identifié"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__override_justification
+msgid "Why it departs from the range or the TB base"
+msgstr "Pourquoi elle s'écarte de la fourchette ou de la base de la balance"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__management_missed
+msgid "Why management's process did not identify it"
+msgstr "Pourquoi le processus de la direction ne l'a pas identifié"
+
+#. module: ea_audit_tools
+#: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_34
+msgid "Work in progress (goods)"
+msgstr "Produits en cours"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__worst_tod
+msgid "Worst (sampling)"
+msgstr "Le plus élevé (échantillonnage)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_1__yes
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_2__yes
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_3__yes
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_4__yes
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_5__yes
+msgid "Yes"
+msgstr "Oui"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/cra.py:0
+msgid "ea_audit_tools.view_cra_cell_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "ea_audit_tools.view_finding_form"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "ea_audit_tools.view_finding_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "ea_audit_tools.view_lead_line_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "ea_audit_tools.view_potential_risk_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "ea_audit_tools.view_risk_form"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "ea_audit_tools.view_risk_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/significance.py:0
+msgid "ea_audit_tools.view_significance_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "engagement_id"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "in all"
+msgstr "au total"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+msgid "not communicated in writing: blocks the archive"
+msgstr "non communiquée(s) par écrit : bloque l'archivage"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "of overall materiality"
+msgstr "du seuil global"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "Debits equal credits"
+msgstr "Débits égaux aux crédits"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "Opening balances balance"
+msgstr "Soldes d'ouverture équilibrés"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "Closing equals opening plus movements"
+msgstr "Clôture égale à l'ouverture plus les mouvements"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "Account codes valid"
+msgstr "Codes de compte valides"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+#, python-format
+msgid "Unknown accounts: %(accounts)s"
+msgstr "Comptes inconnus : %(accounts)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+#, python-format
+msgid "Opening ties to prior year: %(count)s exception(s)"
+msgstr "Rapprochement de l'ouverture avec N-1 : %(count)s exception(s)"
