@@ -283,7 +283,8 @@ class TestAlerte(LegalCase):
     def test_stage_basis_is_marked(self):
         alerte = self.as_partner.start_alerte("x")
         self.assertEqual(unmarked_articles(alerte.stage_basis), [])
-        self.assertIn(MARK, alerte.stage_basis)
+        self.assertIn("(to validate)", alerte.stage_basis)
+        self.assertIn(MARK, alerte.with_context(lang="fr_FR").stage_basis)
 
 
 @tagged("post_install", "-at_install")

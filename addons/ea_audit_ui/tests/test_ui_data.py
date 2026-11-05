@@ -140,7 +140,7 @@ class TestUiData(EaAuditCase):
         self.assertEqual(row["phase_deadline"], "31/03/2026")
         self.assertEqual(row["phase_label"], "Execution")
         self.assertEqual(row["partner"], "Partner")
-        self.assertEqual(row["nature"], "commissariat aux comptes")
+        self.assertEqual(row["nature"], "statutory audit")
         self.assertFalse(row["acceptance_signed"])
         self.assertEqual(row["done"], 1)
         self.assertEqual(row["pct"], round(100 / row["total"]))
@@ -151,7 +151,7 @@ class TestUiData(EaAuditCase):
         item.with_user(self.partner).assign_tasks(self.senior.id, "approver")
         item.with_user(self.staff).action_sign("preparer")
         todo = self.ui(self.senior).ea_ui_home()["todo"]
-        self.assertEqual([(t["title"], t["count"]) for t in todo], [("Feuilles de travail en attente de revue", 1)])
+        self.assertEqual([(t["title"], t["count"]) for t in todo], [("Working papers awaiting review", 1)])
         self.assertEqual(self.ui(self.manager).ea_ui_home()["todo"], [])
 
     def test_home_todo_acceptance_is_the_partners(self):

@@ -163,9 +163,9 @@ class TestIntegration(EaAuditCase):
     def test_a_finding_rings_the_partners_bell_not_the_raisers(self):
         self.as_senior.route_finding("b4", "Saisies manuelles sans pièce")
         titles = [row["title"] for row in self.Ui.with_user(self.partner).ea_ui_notifications()["rows"]]
-        self.assertTrue(any(title.startswith("Constat F-01") for title in titles))
+        self.assertTrue(any(title.startswith("Finding F-01") for title in titles))
         mine = [row["title"] for row in self.Ui.with_user(self.senior).ea_ui_notifications()["rows"]]
-        self.assertFalse(any(title.startswith("Constat") for title in mine))
+        self.assertFalse(any(title.startswith("Finding") for title in mine))
 
     def test_a_significant_deficiency_stays_on_the_partners_home_until_communicated(self):
         self.as_senior.route_finding("c1", "Pas de rapprochement", severity="significant_deficiency")
