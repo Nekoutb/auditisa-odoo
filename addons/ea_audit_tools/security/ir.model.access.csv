@@ -101,3 +101,9 @@ access_control_test_member,ea.audit.control.test member,model_ea_audit_control_t
 access_control_test_wizard_writer,ea.audit.control.test.wizard writer,model_ea_audit_control_test_wizard,ea_audit_core.group_writer,1,1,1,1
 access_sap_threshold_wizard_admin,ea.audit.sap.threshold.wizard admin,model_ea_audit_sap_threshold_wizard,ea_audit_core.group_firm_admin,1,1,1,1
 access_step_wizard_writer,ea.audit.step.wizard writer,model_ea_audit_step_wizard,ea_audit_core.group_writer,1,1,1,1
+access_dsp_design_writer,ea.audit.dsp.design writer,model_ea_audit_dsp_design,ea_audit_core.group_writer,1,1,0,0
+access_dsp_choice_writer,ea.audit.dsp.choice writer,model_ea_audit_dsp_choice,ea_audit_core.group_writer,1,1,0,0
+access_scot_writer,ea.audit.scot writer,model_ea_audit_scot,ea_audit_core.group_writer,1,1,0,1
+access_scot_control_writer,ea.audit.scot.control writer,model_ea_audit_scot_control,ea_audit_core.group_writer,1,1,0,1
+access_fscp_writer,ea.audit.fscp writer,model_ea_audit_fscp,ea_audit_core.group_writer,1,1,0,0
+access_it_application_writer,ea.audit.it.application writer,model_ea_audit_it_application,ea_audit_core.group_writer,1,1,0,0
