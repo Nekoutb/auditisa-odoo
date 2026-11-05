@@ -94,6 +94,12 @@ export class EaTopBar extends Component {
         const items = [];
         if (this.inMission) {
             items.push({ label: _t("Engagement record"), run: () => this.ctx.openForm("ea.audit.engagement", this.ctxState.mission.id) });
+            for (const entry of this.shell.mission_items || []) {
+                items.push({
+                    label: entry.label,
+                    run: () => this.action.doAction({ type: "ir.actions.client", tag: entry.tag, name: entry.label, params: { resId: this.ctxState.mission.id } }),
+                });
+            }
         }
         items.push({ label: _t("Clients"), run: () => this.ctx.openXmlid("ea_audit_core.action_client") });
         items.push({ label: _t("My invitations"), run: () => this.ctx.openXmlid("ea_audit_core.action_my_invitations") });
@@ -106,8 +112,31 @@ export class EaTopBar extends Component {
             items.push({ label: _t("Users"), run: () => this.ctx.openXmlid("base.action_res_users") });
             items.push({ label: _t("Apps"), run: () => this.ctx.openXmlid("base.open_module_tree") });
         }
+        for (const app of this.apps.filter((a) => a.gear)) {
+            items.push({ label: app.label, run: () => this.openApp(app) });
+        }
         items.push({ label: _t("Preferences"), run: () => this.openPreferences() });
         return items;
+    }
+
+    get apps() {
+        return this.shell.apps || [];
+    }
+
+    get quickApps() {
+        return this.apps.filter((app) => app.top);
+    }
+
+    /** Every app opens inside this bar; the audit is one click away, here and on the logo. */
+    openApp(app) {
+        this.state.open = null;
+        if (app.key === "audit") {
+            return this.ctx.openHome();
+        }
+        this.ctxState.mission = null;
+        this.ctxState.openSection = null;
+        this.ctxState.screen = app.key;
+        return this.action.doAction(app.xmlid, { clearBreadcrumbs: true });
     }
 
     async openPreferences() {

@@ -94,8 +94,8 @@ body.ea-shell .ea-top {
   .ea-sp { flex: 1; }
   .ea-anchor { position: relative; flex: 0 0 auto; }
   // Inside a mission the four phases need the room: these two give first.
-  .ea-sel-wrap { flex: 0 1 230px; min-width: 170px; }
-  .ea-search-wrap { flex: 0 1 170px; min-width: 110px; }
+  .ea-sel-wrap { flex: 0 1 230px; min-width: 120px; }
+  .ea-search-wrap { flex: 0 1 170px; min-width: 80px; }
 
   .ea-sel {
     display: block; width: 100%; padding: 3px 10px; line-height: 1.2; text-align: left;
@@ -113,7 +113,7 @@ body.ea-shell .ea-top {
     &:focus { border-color: var(--ea-green); }
   }
   .ea-ic {
-    width: 34px; height: 34px; padding: 0; display: grid; place-items: center; position: relative;
+    flex: 0 0 34px; width: 34px; height: 34px; padding: 0; display: grid; place-items: center; position: relative;
     background: var(--ea-card); color: var(--ea-soft); border: 1px solid var(--ea-line); border-radius: 8px;
     &:hover { background: var(--ea-canvas); }
   }

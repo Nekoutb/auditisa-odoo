@@ -1,0 +1,1440 @@
+# French translation of ea_audit_timesheet.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "%(week)s, %(hours)s h entered"
+msgstr "%(week)s, %(hours)s h saisies"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "%(week)s: submit by %(deadline)s, Douala time."
+msgstr "%(week)s : à soumettre au plus tard %(deadline)s, heure de Douala."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "A budget is a positive number of hours."
+msgstr "Le budget est un nombre d'heures positif."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "A date of the week"
+msgstr "Une date de la semaine"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "A password does not travel unencrypted: choose STARTTLS or SSL."
+msgstr "Un mot de passe ne circule pas sans chiffrement : choisissez STARTTLS ou SSL."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "A time line stays on its project."
+msgstr "Une ligne de temps reste sur son projet."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "A user already exists with this address."
+msgstr "Un utilisateur existe déjà avec cette adresse."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "ACTUAL / BUDGET"
+msgstr "RÉALISÉ / BUDGET"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "About"
+msgstr "Concerne"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Account deactivated."
+msgstr "Compte désactivé."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Account reactivated."
+msgstr "Compte réactivé."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Active"
+msgstr "Actif"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Add"
+msgstr "Ajouter"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Administration log"
+msgstr "Journal d'administration"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Allowed domains saved."
+msgstr "Domaines autorisés enregistrés."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Allowed email domains"
+msgstr "Domaines e-mail autorisés"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Archive"
+msgstr "Archiver"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Archived: %(name)s"
+msgstr "Archivé : %(name)s"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Back to the audit"
+msgstr "Retour à l'audit"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Back to the dashboard"
+msgstr "Retour au tableau de bord"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Budget"
+msgstr "Budget"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Budget and actual"
+msgstr "Budget et réalisé"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "By"
+msgstr "Par"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "By engagement"
+msgstr "Par mission"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "By person"
+msgstr "Par personne"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "By week"
+msgstr "Par semaine"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Charge"
+msgstr "Imputer"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Choose a firm role."
+msgstr "Choisissez un rôle du cabinet."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Choose an encryption."
+msgstr "Choisissez un chiffrement."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Choose an engagement or a project."
+msgstr "Choisissez une mission ou un projet."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Choose the person and a date of the week, DD/MM/YYYY."
+msgstr "Choisissez la personne et une date de la semaine, JJ/MM/AAAA."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Choose…"
+msgstr "Choisir…"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Closed"
+msgstr "Close"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Connection passed. No message was sent."
+msgstr "Connexion réussie. Aucun message n'a été envoyé."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Copied"
+msgstr "Copié"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Copy"
+msgstr "Copier"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Created: %(name)s"
+msgstr "Créé : %(name)s"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "DD/MM/YYYY"
+msgstr "JJ/MM/AAAA"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Dates read DD/MM/YYYY."
+msgstr "Les dates s'écrivent JJ/MM/AAAA."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Deactivate"
+msgstr "Désactiver"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Deactivated"
+msgstr "Désactivé"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Deadline: %(deadline)s, Douala time"
+msgstr "Délai : %(deadline)s, heure de Douala"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Detail"
+msgstr "Détail"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Disable sending"
+msgstr "Désactiver l'envoi"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Each cell reads actual hours / budget hours. An entry without a task counts in the phase the engagement is in on the day of entry."
+msgstr "Chaque case se lit heures réalisées / heures budgétées. Une saisie sans tâche compte dans la phase où se trouve la mission le jour de la saisie."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Email"
+msgstr "E-mail"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Enable sending"
+msgstr "Activer l'envoi"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Encryption"
+msgstr "Chiffrement"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Engagement or project"
+msgstr "Mission ou projet"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Engagements"
+msgstr "Missions"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Enter a valid server. Local or private addresses are refused."
+msgstr "Indiquez un serveur valide. Les adresses locales ou privées sont refusées."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Enter and submit your hours"
+msgstr "Saisir et soumettre ses heures"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Event"
+msgstr "Événement"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Everyone enters their own hours only."
+msgstr "Chacun saisit uniquement ses propres heures."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Excel export"
+msgstr "Export Excel"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Expired"
+msgstr "Expirée"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Failed"
+msgstr "Échec"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Firm administrator"
+msgstr "Administrateur du cabinet"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Fri"
+msgstr "ven."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "From"
+msgstr "Du"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Give the project a name."
+msgstr "Donnez un nom au projet."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Give the reason for reopening (at least 10 characters)."
+msgstr "Indiquez le motif de la réouverture (10 caractères au moins)."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Hours"
+msgstr "Heures"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Hours cannot be entered on a future date."
+msgstr "On ne peut pas saisir d'heures à une date future."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Hours charged."
+msgstr "Heures imputées."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Hours must be between 0 and 24."
+msgstr "Les heures doivent être comprises entre 0 et 24."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Internal projects"
+msgstr "Projets internes"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Invalid email address."
+msgstr "Adresse e-mail non valide."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Invitation link"
+msgstr "Lien d'invitation"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Invite"
+msgstr "Inviter"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Invite, roles, deactivate"
+msgstr "Inviter, rôles, désactiver"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Invited"
+msgstr "Invité"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Last login"
+msgstr "Dernière connexion"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Locked, not submitted"
+msgstr "Verrouillée, non soumise"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Locked, submitted"
+msgstr "Verrouillée, soumise"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Mail, internal projects"
+msgstr "Messagerie, projets internes"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Manager"
+msgstr "Manager"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Mon"
+msgstr "lun."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "More than 24 hours on this day."
+msgstr "Plus de 24 heures sur cette journée."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "New link"
+msgstr "Nouveau lien"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "New project"
+msgstr "Nouveau projet"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Next week"
+msgstr "Semaine suivante"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "No hours in this period."
+msgstr "Aucune heure sur cette période."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "No hours this week."
+msgstr "Aucune heure cette semaine."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "No restriction"
+msgstr "Aucune restriction"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "No role"
+msgstr "Sans rôle"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "No server"
+msgstr "Aucun serveur"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "None"
+msgstr "Aucune"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Not started"
+msgstr "À venir"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Note"
+msgstr "Note"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Off, not tested"
+msgstr "Coupé, non testé"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Off, test passed"
+msgstr "Coupé, test réussi"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "One per line. Empty means no restriction."
+msgstr "Un par ligne. Vide : aucune restriction."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Only a firm administrator, or the partner of one of this person's engagements, can reopen their week."
+msgstr "Seul un administrateur du cabinet, ou l'associé d'une mission de cette personne, peut rouvrir sa semaine."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Only an accepted member of the team can charge hours to this engagement."
+msgstr "Seul un membre accepté de l'équipe peut imputer des heures à cette mission."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Open"
+msgstr "Ouverte"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Open this week"
+msgstr "Ouvrir cette semaine"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Outgoing mail server"
+msgstr "Serveur de messagerie sortante"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Overdue, not submitted"
+msgstr "En retard, non soumises"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Partner"
+msgstr "Associé"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Passed"
+msgstr "Réussi"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Password"
+msgstr "Mot de passe"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Person"
+msgstr "Personne"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Phase"
+msgstr "Phase"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Pivot table"
+msgstr "Tableau croisé"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Port"
+msgstr "Port"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Port refused: 25, 465, 587 or 2525."
+msgstr "Port refusé : 25, 465, 587 ou 2525."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Previous week"
+msgstr "Semaine précédente"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Quality reviewer (EQR)"
+msgstr "Réviseur qualité (EQR)"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Reactivate"
+msgstr "Réactiver"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Reactivated: %(name)s"
+msgstr "Réactivé : %(name)s"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Read only"
+msgstr "Lecture seule"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Reopen a locked week"
+msgstr "Rouvrir une semaine verrouillée"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Reopen for 48 hours"
+msgstr "Rouvrir pour 48 heures"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Reopened"
+msgstr "Rouverte"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Reopened until %(until)s. Reason: %(reason)s"
+msgstr "Rouverte jusqu'au %(until)s. Motif : %(reason)s"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Reports"
+msgstr "Rapports"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Reserved for the firm administrator."
+msgstr "Réservé à l'administrateur du cabinet."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Role"
+msgstr "Rôle"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Role changed."
+msgstr "Rôle modifié."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Running"
+msgstr "En cours"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Sat"
+msgstr "sam."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Save"
+msgstr "Enregistrer"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Save the server first."
+msgstr "Enregistrez d'abord le serveur."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Send it to this person yourself. They choose their own password: none is created or sent. The link expires after 6 days."
+msgstr "Transmettez-le vous-même à cette personne. Elle choisit son mot de passe : aucun n'est créé ni envoyé. Le lien expire après 6 jours."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Sender address or domain"
+msgstr "Adresse ou domaine d'expédition"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Sending email stays off on the test environment, by policy."
+msgstr "L'envoi d'e-mails reste coupé sur l'environnement de test, par principe."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Sending on"
+msgstr "Envoi activé"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Senior"
+msgstr "Senior"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Server"
+msgstr "Serveur"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Server saved. Sending stays off until a test passes."
+msgstr "Serveur enregistré. L'envoi reste coupé jusqu'à un test réussi."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Settings"
+msgstr "Paramètres"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Show"
+msgstr "Afficher"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Staff"
+msgstr "Collaborateur"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Status"
+msgstr "Statut"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Strategy & risks"
+msgstr "Stratégie & risques"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Submit the week"
+msgstr "Soumettre la semaine"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Submitted"
+msgstr "Soumise"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Submitted on %(at)s"
+msgstr "Soumise le %(at)s"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Sun"
+msgstr "dim."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Take back"
+msgstr "Reprendre"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Task (optional)"
+msgstr "Tâche (facultatif)"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Team"
+msgstr "Équipe"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Technical support"
+msgstr "Support technique"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Test passed on %(at)s"
+msgstr "Test réussi le %(at)s"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Test the connection"
+msgstr "Tester la connexion"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Test the connection before enabling sending."
+msgstr "Testez la connexion avant d'activer l'envoi."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "The deadline of this week has passed: it can no longer be submitted."
+msgstr "Le délai de cette semaine est passé : elle ne peut plus être soumise."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "The firm must keep at least one active administrator."
+msgstr "Le cabinet doit garder au moins un administrateur actif."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "The firm's outgoing mail and internal projects."
+msgstr "La messagerie sortante du cabinet et ses projets internes."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "The firm's people and their roles. A role gives no access to a file: only the engagement's team does."
+msgstr "Les personnes du cabinet et leurs rôles. Un rôle ne donne accès à aucun dossier : seule l'équipe de la mission y donne accès."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "The technical support account is not managed from this screen."
+msgstr "Le compte technique de support n'est pas géré depuis cet écran."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "The whole firm"
+msgstr "Tout le cabinet"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This account is deactivated."
+msgstr "Ce compte est désactivé."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This engagement is archived: it takes no more hours."
+msgstr "Cette mission est archivée : elle ne reçoit plus d'heures."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "This is the test environment: sending email stays off here, by policy. The server can be saved, not tested or enabled."
+msgstr "Environnement de test : l'envoi d'e-mails reste coupé ici, par principe. Le serveur peut être enregistré, mais ni testé ni activé."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This person has already activated their account: no invitation link."
+msgstr "Cette personne a déjà activé son compte : pas de lien d'invitation."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This person is the engagement partner of a file: transfer that role first."
+msgstr "Cette personne est l'associé signataire d'une mission : transférez d'abord ce rôle."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This project takes no hours."
+msgstr "Ce projet ne reçoit pas d'heures."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This task does not belong to this project."
+msgstr "Cette tâche n'appartient pas à ce projet."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "This week"
+msgstr "Cette semaine"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This week can no longer be taken back."
+msgstr "Cette semaine ne peut plus être reprise."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This week has not started."
+msgstr "Cette semaine n'a pas commencé."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This week is already reopened."
+msgstr "Cette semaine est déjà rouverte."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This week is locked: the deadline (Tuesday 23:59 of the following week, Douala time) has passed."
+msgstr "Cette semaine est verrouillée : le délai (mardi 23:59 de la semaine suivante, heure de Douala) est passé."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This week is not locked."
+msgstr "Cette semaine n'est pas verrouillée."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This week is submitted: take it back before the deadline to change it."
+msgstr "Cette semaine est soumise : reprenez-la avant le délai pour la modifier."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "This week was not submitted and is now read only. A firm administrator or partner can reopen it, with a written reason."
+msgstr "Cette semaine n'a pas été soumise et n'est plus modifiable. Un administrateur du cabinet ou un associé peut la rouvrir, avec un motif écrit."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Thu"
+msgstr "jeu."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Time reports"
+msgstr "Rapports de temps"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Timesheet"
+msgstr "Feuille de temps"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "To"
+msgstr "Au"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Total"
+msgstr "Total"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Tue"
+msgstr "mar."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Tuesday %(day)s, 23:59"
+msgstr "mardi %(day)s, 23:59"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Until"
+msgstr "Jusqu'au"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Username"
+msgstr "Identifiant"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Wed"
+msgstr "mer."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/models/common.py:0
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Week"
+msgstr "Semaine"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Week of %(start)s to %(end)s"
+msgstr "Semaine du %(start)s au %(end)s"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Week reopened until %(until)s."
+msgstr "Semaine rouverte jusqu'au %(until)s."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Week submitted."
+msgstr "Semaine soumise."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Week taken back."
+msgstr "Semaine reprise."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "When"
+msgstr "Quand"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Written reason"
+msgstr "Motif écrit"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "You cannot change your own access: ask another administrator."
+msgstr "Vous ne pouvez pas changer votre propre accès : demandez à un autre administrateur."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "You cannot reopen your own week: ask another partner or administrator."
+msgstr "On ne rouvre pas sa propre semaine : demandez à un autre associé ou administrateur."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Your hours"
+msgstr "Vos heures"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Your hours and those of the engagements you lead"
+msgstr "Vos heures et celles des missions que vous dirigez"
+
+#. module: ea_audit_timesheet
+#: model:ir.actions.client,name:ea_audit_timesheet.action_sheet
+msgid "Timesheet"
+msgstr "Feuille de temps"
+
+#. module: ea_audit_timesheet
+#: model:ir.actions.client,name:ea_audit_timesheet.action_reports
+msgid "Time reports"
+msgstr "Rapports de temps"
+
+#. module: ea_audit_timesheet
+#: model:ir.actions.client,name:ea_audit_timesheet.action_users
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: ea_audit_timesheet
+#: model:ir.actions.client,name:ea_audit_timesheet.action_settings
+msgid "Settings"
+msgstr "Paramètres"
+
+#. module: ea_audit_timesheet
+#: model:ir.actions.act_window,name:ea_audit_timesheet.action_report_pivot
+msgid "Hours"
+msgstr "Heures"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__acceptance
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__strategy
+msgid "Strategy & risks"
+msgstr "Stratégie & risques"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__execution
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__conclusion
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__acceptance
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__strategy
+msgid "Strategy & risks"
+msgstr "Stratégie & risques"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__execution
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__conclusion
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__acceptance
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__strategy
+msgid "Strategy & risks"
+msgstr "Stratégie & risques"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__execution
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__conclusion
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__support_login
+msgid "Technical account login"
+msgstr "Connexion du compte technique"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__user_invited
+msgid "Invitation"
+msgstr "Invitation"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__link_issued
+msgid "New invitation link"
+msgstr "Nouveau lien d'invitation"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__role_changed
+msgid "Role change"
+msgstr "Changement de rôle"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__user_deactivated
+msgid "Deactivation"
+msgstr "Désactivation"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__user_reactivated
+msgid "Reactivation"
+msgstr "Réactivation"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__domains_changed
+msgid "Allowed domains"
+msgstr "Domaines autorisés"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__mail_saved
+msgid "Mail server saved"
+msgstr "Serveur de messagerie enregistré"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__mail_tested
+msgid "Mail server test"
+msgstr "Test du serveur de messagerie"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__mail_enabled
+msgid "Sending enabled"
+msgstr "Envoi activé"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__mail_disabled
+msgid "Sending disabled"
+msgstr "Envoi désactivé"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__project_changed
+msgid "Internal project"
+msgstr "Projet interne"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__week_reopened
+msgid "Week reopened"
+msgstr "Réouverture d'une semaine"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Person"
+msgstr "Personne"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Engagement or project"
+msgstr "Mission ou projet"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Phase"
+msgstr "Phase"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+msgid "Note"
+msgstr "Note"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_pivot
+msgid "Hours"
+msgstr "Heures"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_list
+msgid "Total"
+msgstr "Total"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Period"
+msgstr "Période"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Week"
+msgstr "Semaine"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_line_search
+msgid "Month"
+msgstr "Mois"
+
+#. module: ea_audit_timesheet
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_engagement_form_budget
+msgid "Budget and actual"
+msgstr "Budget et réalisé"
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields,field_description:ea_audit_timesheet.field_account_analytic_line__ea_phase
+msgid "Phase"
+msgstr "Phase"

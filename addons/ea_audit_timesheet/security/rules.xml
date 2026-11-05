@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Every firm role can keep a sheet: an EQR reviewer and a read-only member work hours too. -->
+    <record id="ea_audit_core.group_member" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('hr_timesheet.group_hr_timesheet_user'))]"/>
+    </record>
+
+    <!-- The sheet: one's own lines, in every mode. Everything else is read only.
+         The team lead's and firm administrator's rules open no audit file: the
+         engagement's own rules (ea_audit_core, global) are untouched. -->
+    <record id="rule_line_own" model="ir.rule">
+        <field name="name">Time: one's own lines</field>
+        <field name="model_id" ref="analytic.model_account_analytic_line"/>
+        <field name="domain_force">[('project_id', '!=', False), ('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+    </record>
+    <record id="rule_line_engagement_lead" model="ir.rule">
+        <field name="name">Time: partner or manager seat reads the engagement's lines</field>
+        <field name="model_id" ref="analytic.model_account_analytic_line"/>
+        <field name="domain_force">[('project_id.ea_engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted'), ('team_role', 'in', ['partner', 'manager'])])]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="rule_line_firm_admin" model="ir.rule">
+        <field name="name">Time: the firm administrator reads all lines, for reporting</field>
+        <field name="model_id" ref="analytic.model_account_analytic_line"/>
+        <field name="domain_force">[('project_id', '!=', False)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_firm_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Engagement projects are follower-only for Odoo: these say who else reads them. -->
+    <record id="rule_project_team" model="ir.rule">
+        <field name="name">Project: accepted team members, and internal projects</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">['|', ('ea_is_internal', '=', True), ('ea_engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="rule_project_firm_admin" model="ir.rule">
+        <field name="name">Project: the firm administrator reads project names, for reporting</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_firm_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_week_own" model="ir.rule">
+        <field name="name">Timesheet week: one's own</field>
+        <field name="model_id" ref="model_ea_audit_timesheet_week"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+    </record>
+    <record id="rule_week_firm_admin" model="ir.rule">
+        <field name="name">Timesheet week: firm administrator</field>
+        <field name="model_id" ref="model_ea_audit_timesheet_week"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_firm_admin'))]"/>
+    </record>
+    <record id="rule_reopen_own" model="ir.rule">
+        <field name="name">Timesheet reopening: one's own, or opened by oneself</field>
+        <field name="model_id" ref="model_ea_audit_timesheet_reopen"/>
+        <field name="domain_force">['|', ('user_id', '=', user.id), ('opened_by_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+    </record>
+    <record id="rule_reopen_firm_admin" model="ir.rule">
+        <field name="name">Timesheet reopening: firm administrator</field>
+        <field name="model_id" ref="model_ea_audit_timesheet_reopen"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_firm_admin'))]"/>
+    </record>
+    <record id="rule_budget_team_only" model="ir.rule">
+        <field name="name">Team budget: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_team_budget"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+</odoo>

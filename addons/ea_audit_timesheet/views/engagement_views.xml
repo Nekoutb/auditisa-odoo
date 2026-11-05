@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_engagement_form_budget" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.form.budget</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='team']/field[@name='team_member_ids']" position="before">
+                <button name="action_open_ea_budget" type="object" string="Budget and actual" class="btn btn-secondary mb-2"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
