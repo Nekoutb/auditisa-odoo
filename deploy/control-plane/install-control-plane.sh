@@ -199,7 +199,7 @@ else
   if [ ! -e /etc/auditisa-platform/admin.password ]; then
     (umask 077; openssl rand -hex 16 > /etc/auditisa-platform/admin.password)
     { printf 'NEW_PASSWORD = "%s"\n' "$(cat /etc/auditisa-platform/admin.password)"
-      printf 'env.ref("base.user_admin").write({"password": NEW_PASSWORD, "lang": "fr_FR"})\nenv.company.name = "AuditISA"\nenv.cr.commit()\n'
+      printf 'env.ref("base.user_admin").write({"password": NEW_PASSWORD, "lang": "fr_FR"})\nenv.company.name = "AuditISA"\nenv["res.lang"]._activate_lang("en_US")\nenv.cr.commit()\n'
     } | runuser -u odoo -- /opt/odoo19/venv/bin/python /opt/odoo19/src/odoo-bin shell -c /etc/odoo/odoo.conf -d "$DB" \
         --no-http --max-cron-threads=0 >/dev/null
   fi

@@ -2224,8 +2224,8 @@ msgstr "Connexions SSH (24 h)"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
-msgid "Save"
-msgstr "Enregistrer"
+msgid "Apply these settings"
+msgstr "Appliquer ces réglages"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
