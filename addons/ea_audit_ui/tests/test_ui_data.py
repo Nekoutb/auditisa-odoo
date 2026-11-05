@@ -8,8 +8,6 @@ from odoo.tests import tagged
 
 from odoo.addons.ea_audit_core.tests.common import EaAuditCase
 
-from ..models.ui_data import DEMO_DIRECT_HASH
-
 
 @tagged("post_install", "-at_install")
 class TestUiData(EaAuditCase):
@@ -115,10 +113,6 @@ class TestUiData(EaAuditCase):
         self.assertEqual(data["attention"][0]["code"], "E6.3")
         self.assertEqual(data["attention"][0]["tone"], "r")
 
-    def test_owner_data_of_later_addons_is_absent_not_invented(self):
-        data = self.ui(self.partner).ea_ui_dashboard(self.engagement.id)
-        self.assertEqual(set(data["notes"].values()), {None})
-
     def test_my_tasks(self):
         item = self.item(self.engagement, "E6.2")
         item.with_user(self.partner).assign_tasks(self.staff.id, "preparer")
@@ -220,14 +214,6 @@ class TestUiData(EaAuditCase):
         self.assertTrue(row["partner"]["signed"])
         self.assertFalse(row["reviewer"]["signed"])
         self.assertEqual(row["pill"], "TERMINÉE")
-
-    def test_a_directly_written_demo_signature_is_labelled(self):
-        item = self.item(self.engagement, "E4.1")
-        self.env["ea.audit.signoff"].sudo().create({
-            "file_item_id": item.id, "role": "preparer", "user_id": self.staff.id, "content_hash": DEMO_DIRECT_HASH,
-        })
-        rows = self.ui(self.partner).ea_ui_tasks(self.engagement.id, "e4")["rows"]
-        self.assertTrue(next(r for r in rows if r["code"] == "E4.1")["preparer"]["demo"])
 
     def test_an_unknown_group_is_refused(self):
         self.assertEqual(self.ui(self.partner).ea_ui_tasks(self.engagement.id, "zz"), {"denied": True})

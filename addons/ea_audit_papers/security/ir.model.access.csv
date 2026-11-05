@@ -6,3 +6,4 @@ access_paper_answer_history_member,answer history member,model_ea_audit_paper_an
 access_review_note_member,review note member,model_ea_audit_review_note,ea_audit_core.group_member,1,0,0,0
 access_section_conclusion_member,section conclusion member,model_ea_audit_section_conclusion,ea_audit_core.group_member,1,0,0,0
 access_task_attachment_member,task attachment member,model_ea_audit_task_attachment,ea_audit_core.group_member,1,0,0,0
+access_planning_ras_member,planning ras member,model_ea_audit_planning_ras,ea_audit_core.group_member,1,0,0,0

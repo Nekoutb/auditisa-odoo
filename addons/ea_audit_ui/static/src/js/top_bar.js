@@ -130,6 +130,11 @@ export class EaTopBar extends Component {
         }
     }
 
+    openTools() {
+        this.state.open = null;
+        return this.ctx.openTool(this.ctxState.mission.id, "action_open_tools");
+    }
+
     goHome() {
         this.state.open = null;
         return this.ctx.openHome();

@@ -5,7 +5,7 @@
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
-    "depends": ["ea_audit_core"],
+    "depends": ["ea_audit_core", "ea_audit_papers", "web"],
     "data": [
         "security/ir.model.access.csv",
         "security/ea_audit_tools_rules.xml",
@@ -24,7 +24,11 @@
         "views/tool_hub_views.xml",
     ],
     "assets": {
-        "web.assets_backend": ["ea_audit_tools/static/src/scss/tools.scss"],
+        "web.assets_backend": [
+            "ea_audit_tools/static/src/scss/tools.scss",
+            "ea_audit_tools/static/src/js/**/*",
+            "ea_audit_tools/static/src/xml/**/*",
+        ],
     },
     "application": False,
     "installable": True,

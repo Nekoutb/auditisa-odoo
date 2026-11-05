@@ -25,6 +25,9 @@ export class EaHome extends Component {
         if (row.invitation) {
             return this.ctx.openXmlid("ea_audit_core.action_my_invitations");
         }
+        if (row.tool) {
+            return this.ctx.openTool(row.engagement_id, row.tool);
+        }
         if (row.item_ids?.length === 1) {
             return this.ctx.openItem(row.item_ids[0]);
         }

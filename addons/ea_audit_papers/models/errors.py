@@ -32,6 +32,10 @@ MESSAGES = {
     "name-taken": _lt("A file with this name already exists on this task."),
     "restore-window-expired": _lt("The 30-day recovery window of this file has passed."),
     "rationale-required": _lt("Give the reason why this task is not applicable."),
+    "ras-incomplete": _lt("The summary is not ready for this signature. Still missing: %(gaps)s."),
+    "ras-invalid-key": _lt("This line is not on the summary."),
+    "ras-section-floor": _lt("This section is answered at a higher rank."),
+    "eqr-must-be-the-quality-reviewer": _lt("Section C belongs to the engagement quality reviewer appointed on this file."),
 }
 
 INCOMPLETE_PARTS = _lt("Still to complete: %(parts)s.")
@@ -42,6 +46,13 @@ def paper_error(env, code):
     if code in CORE_MESSAGES or code not in MESSAGES:
         return rule_error(env, code)
     return AuditRuleError(code, "%s [%s]" % (env._(MESSAGES[code]), code))
+
+
+def ras_incomplete_error(env, gaps):
+    """ras-incomplete naming what is missing, in the summary's own keys (UAT B16)."""
+    return AuditRuleError(
+        "ras-incomplete", "%s [ras-incomplete]" % (env._(MESSAGES["ras-incomplete"]) % {"gaps": ", ".join(gaps)}),
+    )
 
 
 def incomplete_error(env, parts):

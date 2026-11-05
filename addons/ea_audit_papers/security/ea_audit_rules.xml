@@ -6,6 +6,11 @@
         <field name="model_id" ref="model_ea_audit_paper"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_planning_ras_team_only" model="ir.rule">
+        <field name="name">Planning summary: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_planning_ras"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
     <record id="rule_paper_answer_team_only" model="ir.rule">
         <field name="name">Answer: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_paper_answer"/>
