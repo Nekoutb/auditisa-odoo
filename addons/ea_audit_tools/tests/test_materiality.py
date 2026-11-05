@@ -112,9 +112,9 @@ class TestMateriality(ToolsCase):
         version.with_user(self.partner).action_approve()
         board = self.engagement.with_user(self.staff)
         board.invalidate_recordset()
-        self.assertEqual(board.mat_overall_label, "84 500 000 FCFA")
-        self.assertEqual(board.mat_performance_label, "63 375 000 FCFA")
-        self.assertEqual(board.mat_trivial_label, "4 225 000 FCFA")
+        self.assertEqual(board.mat_overall_label, "84,500,000 FCFA")
+        self.assertEqual(board.mat_performance_label, "63,375,000 FCFA")
+        self.assertEqual(board.mat_trivial_label, "4,225,000 FCFA")
         self.assertIn("Version 1", board.mat_version_label)
         self.assertFalse(board.mat_user_may_approve)
 

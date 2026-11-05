@@ -23,7 +23,7 @@ class TestFrench(ReportsCase):
                 untranslated.append(code)
         self.assertEqual(untranslated, [])
 
-    def test_a_letter_comes_in_the_readers_language(self):
+    def test_a_letter_comes_in_the_report_language(self):
         document = self.engagement.with_user(self.senior).with_context(lang="fr_FR").generate_letter("engagement")
         self.assertEqual(document.title, "Lettre de mission")
         self.assertEqual(document.language, "fr")

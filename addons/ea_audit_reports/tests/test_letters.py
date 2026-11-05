@@ -51,7 +51,7 @@ class TestLetters(ReportsCase):
     def test_english_on_request(self):
         text = self.text_of(self.as_senior.generate_letter("engagement", "en"))
         self.assertIn("Engagement letter", text)
-        self.assertIn("article 718 %s" % MARK, text)
+        self.assertIn("article 718 (to validate)", text)
 
     def test_affirmation_lists_uncorrected_misstatements_in_fcfa(self):
         Misstatement = self.env["ea.audit.misstatement"].sudo()

@@ -237,7 +237,8 @@ class TestSad(ToolsCase):
     def test_workbook_in_french(self):
         self.import_tb()
         self.env["res.lang"]._activate_lang("fr_FR")
-        _filename, content = self.engagement.with_user(self.staff).with_context(lang="fr_FR").ea_export_xlsx("sad")
+        self.engagement.sudo().report_language = "fr"
+        _filename, content = self.engagement.with_user(self.staff).ea_export_xlsx("sad")
         book = load_workbook(io.BytesIO(content))
         self.assertEqual(book.sheetnames[0], "SAD non corrigées")
 

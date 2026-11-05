@@ -168,12 +168,12 @@ class Engagement(models.Model):
         company = self.env.company.sudo()
         return company.ea_display_name or company.name
 
-    def _ea_seal_blocks(self, blocks):
+    def _ea_seal_blocks(self, blocks, language=None):
         """Letterhead, footer, and the validation mark on every article number; the jurist's
         switch also lifts the "(to validate)" of new English wording."""
         head, foot = self._ea_letterhead()
         validated = self.env.company.sudo().ea_articles_validated
-        fr = self._ea_report_fr()
+        fr = (language or self.sudo().report_language) == "fr"
 
         def sealed(text):
             text = mark_articles(text, validated, fr)
@@ -201,8 +201,9 @@ class Engagement(models.Model):
                 "engagement_id": self.id, "file_item_id": item.id, "title": title, "kind": kind,
                 "language": language or as_root.report_language, "restricted": restricted, "created_by_id": self.env.user.id,
             })
-        sealed = self._ea_seal_blocks(blocks)
-        document._ea_add_version(build_docx(sealed, "fr-FR" if self._ea_report_fr() else "en-US"), DOCX_MIME, note, sealed)
+        language = language or as_root.report_language
+        sealed = self._ea_seal_blocks(blocks, language)
+        document._ea_add_version(build_docx(sealed, "fr-FR" if language == "fr" else "en-US"), DOCX_MIME, note, sealed)
         return document
 
     # ------------------------------------------------------------------
