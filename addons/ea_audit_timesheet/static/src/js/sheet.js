@@ -89,8 +89,7 @@ export class EaTimesheet extends Component {
         await this.load(this.data.monday);
     }
 
-    onProject(ev) {
-        this.state.form.project = ev.target.value;
+    onProject() {
         this.state.form.task = "";
     }
 

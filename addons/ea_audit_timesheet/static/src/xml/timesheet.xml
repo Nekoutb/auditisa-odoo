@@ -32,13 +32,13 @@
                     </select>
                 </label>
                 <label class="ea-ts-grow"><small>Engagement or project</small>
-                    <select t-att-value="state.form.project" t-on-change="onProject">
+                    <select t-model="state.form.project" t-on-change="onProject">
                         <option value="">Choose…</option>
                         <optgroup t-if="missions.length" label="Engagements">
-                            <option t-foreach="missions" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="String(project.id) === state.form.project" t-esc="project.label"/>
+                            <option t-foreach="missions" t-as="project" t-key="project.id" t-att-value="project.id" t-esc="project.label"/>
                         </optgroup>
                         <optgroup t-if="internal.length" label="Internal projects">
-                            <option t-foreach="internal" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="String(project.id) === state.form.project" t-esc="project.label"/>
+                            <option t-foreach="internal" t-as="project" t-key="project.id" t-att-value="project.id" t-esc="project.label"/>
                         </optgroup>
                     </select>
                 </label>

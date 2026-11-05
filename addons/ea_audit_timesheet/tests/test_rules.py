@@ -274,11 +274,13 @@ class TestWhoChargesWhat(TimesheetCase):
         self.assertCode("ts-archived", line.with_user(self.staff).unlink)
 
     def test_a_task_of_another_file_does_not_open_that_file(self):
-        # hr_timesheet takes the project from the task: the team rule then reads that project
         other = self.make_engagement(2024, partner=self.partner, nature="statutory_audit")
-        self.assertCode(
-            "ts-not-on-team", self.charge, self.staff, task_id=other._ea_ts_project().task_ids[0].id,
-        )
+        foreign = other._ea_ts_project()
+        line = self.charge(self.staff, task_id=foreign.task_ids[0].id)
+        self.assertEqual(line.sudo().project_id, self.project)
+        self.assertFalse(line.sudo().task_id)
+        self.attempt(line.with_user(self.staff).write, {"task_id": foreign.task_ids[0].id})
+        self.assertEqual(line.sudo().project_id, self.project)
 
     def test_the_phase_comes_from_the_task_or_the_file(self):
         self.set_phase(self.engagement, "execution")
