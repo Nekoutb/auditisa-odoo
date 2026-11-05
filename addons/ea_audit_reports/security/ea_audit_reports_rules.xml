@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- F008: only an accepted member of the team reads these. Global rules, so they bind every
+         firm role, firm administrator and partner included. -->
+    <record id="rule_document_team_only" model="ir.rule">
+        <field name="name">ea.audit.document: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_document"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_document_version_team_only" model="ir.rule">
+        <field name="name">ea.audit.document.version: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_document_version"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_completion_record_team_only" model="ir.rule">
+        <field name="name">ea.audit.completion.record: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_completion_record"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_legal_hold_team_only" model="ir.rule">
+        <field name="name">ea.audit.legal.hold: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_legal_hold"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_archive_manifest_team_only" model="ir.rule">
+        <field name="name">ea.audit.archive.manifest: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_archive_manifest"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_notice_own" model="ir.rule">
+        <field name="name">ea.audit.notice: own rows only</field>
+        <field name="model_id" ref="model_ea_audit_notice"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+</odoo>
