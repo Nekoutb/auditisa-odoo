@@ -1,37 +1,44 @@
 """The demonstration missions, loaded by demo_data.xml only when demo data is on.
 
-Everything goes through the real methods, as the named user: engagements are created,
-teams seated, papers answered with save_answers, signed with action_sign, the trial
-balance imported, materiality approved, phases advanced by their gates. What cannot,
-because the method or tool does not exist yet, is written directly and listed here:
+Everything goes through the real methods, as the real user: engagements are created, teams seated,
+papers answered with save_answers, signed with action_sign, the trial balance imported, materiality
+approved, SCOTs and controls recorded, S5.5 designed (which is what scopes the E4 tasks), phases
+advanced by their gates, the report issued and the file archived. Nothing here writes a phase, a
+state or a task's scope by hand.
 
-- execution to conclusion and archiving: core has no method for them. The 2024 file's
-  phase is set by hand once planning has really closed.
-- S1.2, S1.3, S2.1, S2.2, S2.3: SCOT Studio and S2.5 are not built, so their signature
-  refuses. They stay in progress on the current files and not applicable on the archive.
-- the E4 tasks left out of the eleven shown: S5.5 decides that, and is not built, so the
-  others are marked conditional here.
-
-Tropical Agro-Industries 2025 is the file a person walks: its trial balance is imported,
-P1.1 is prepared and waits for the partner, and nothing of planning is done.
+- Négoce 2024 went all the way: it is really archived, through issue_report and archive_engagement.
+- Négoce 2025 is mid-execution, with the mock-up's lists of late, waiting and open tasks.
+- Forêt 2025 is another partner's file, on invitation.
+- Tropical Agro-Industries 2025 is the file a person walks, from the partner's signature on P1.1 to
+  the archive. So that a walk is one sitting and not a real audit's hundred papers, the papers the
+  walk does not need are marked not applicable, with that reason, by the manager (WALK_PAPERS below
+  are the ones left). The S-section, E1 and C5.3 papers a very simple file does not start with are
+  put on the file with _ea_ensure_task, which is the method a trigger uses.
 """
 import logging
 from datetime import date, timedelta
 
 from odoo import api, fields, models
 
-from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 from odoo.addons.ea_audit_core.services.signoff_rules import team_rank
 from odoo.addons.ea_audit_papers.services import required_keys
 from odoo.addons.ea_audit_papers.services.planning_ras import SECTION_A, SECTION_B
 from odoo.addons.ea_audit_tools.services.lead_classes import INDEX_SECTION
+from odoo.addons.ea_audit_tools.services.scot_forms import WALKTHROUGH_FIELDS
 
 _logger = logging.getLogger(__name__)
 
 _E4_SHOWN = ("E4.1", "E4.2", "E4.3", "E4.4", "E4.5", "E4.6", "E4.7", "E4.8", "E4.9", "E4.10", "E4.20")
 _NOT_DONE_STRATEGY = ("S2.5", "S4.4", "S5.4")
-# their board belongs to a tool not built: see the module docstring
-_NO_TOOL_YET = ("S1.2", "S1.3", "S2.1", "S2.2", "S2.3")
+# What a very simple file does not start with and the walk goes through.
+_WALK_ENSURED = ("S1.1", "S1.2", "S1.3", "S2.1", "S2.2", "S2.3", "S2.5", "S5.5", "E1.2", "C5.3")
+# The papers of the walk, past acceptance. Every other one is marked not applicable on that file.
+WALK_PAPERS = (
+    "P6.1", "P6.2", "S3.1", "S1.1", "S1.2", "S1.3", "S2.1", "S2.2", "S2.3", "S2.5", "S5.5", "P7.2",
+    "E1.2", "E3.1", "E4.1", "E4.20", "E6.10",
+    "C1.1", "C1.2", "C2.1", "C3.1", "C4.1", "C4.3", "C5.3", "C5.11", "C6.1", "C6.2",
+)
+_WALK_NA_REASON = "Dossier de démonstration : papier non retenu pour la visite guidée."
 _SELECT_ANSWERS = {
     "engagement_type": "recurring",
     "auditor_change": "no",
@@ -72,6 +79,35 @@ _CLOSING_2025 = {
     "284000": -21000000, "311000": 21000000, "401000": -26000000, "411000": 41000000, "431000": -2500000,
     "441000": -3500000, "571000": 1500000, "601000": 104000000, "622000": 6500000, "641000": 2500000,
     "661000": 28000000, "681000": 6000000, "701000": -175000000,
+}
+
+
+def _ledger_csv(year):
+    """A small general ledger: twelve months of sales, purchases and cash, with what the journal-entry
+    selection looks for: round amounts, a Saturday, a closing-day entry, one self-approved."""
+    lines = ["Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Référence;Journal;Préparé;Approuvé"]
+
+    def entry(number, label, day, debit_account, credit_account, amount, journal, preparer="Awa", approver="Ben"):
+        for account, debit, credit in ((debit_account, amount, ""), (credit_account, "", amount)):
+            lines.append(";".join(str(cell) for cell in (
+                account, _ACCOUNTS[account], number, label, day, debit, credit, "P-%s" % number, journal, preparer, approver,
+            )))
+
+    for month in range(1, 13):
+        stamp = "%02d/%02d/%d" % (15, month, year)
+        entry("VE%03d" % month, "Ventes du mois %d" % month, stamp, "411000", "701000", 14000000 + month * 137000, "VE")
+        entry("AC%03d" % month, "Achats du mois %d" % month, stamp, "601000", "401000", 8000000 + month * 91000, "AC")
+        entry("BQ%03d" % month, "Encaissement clients %d" % month, "20/%02d/%d" % (month, year), "521000", "411000", 12500000 + month * 73000, "BQ")
+        entry("PA%03d" % month, "Salaires du mois %d" % month, "28/%02d/%d" % (month, year), "661000", "521000", 2300000 + month * 11000, "OD")
+    entry("OD900", "Écriture manuelle de clôture", "31/12/%d" % year, "622000", "401000", 5000000, "OD", "Dan", "Dan")
+    entry("OD901", "Régularisation un samedi", "01/02/%d" % year, "641000", "521000", 1000000, "OD", "Dan", "Ben")
+    return ("\n".join(lines) + "\n").encode("utf-8")
+
+
+_LEDGER_MAPPING = {
+    "account": "Compte", "accountName": "Intitulé", "jeNumber": "N° écriture", "jeDescription": "Libellé",
+    "journalDate": "Date", "debit": "Débit", "credit": "Crédit", "reference": "Référence",
+    "journalCode": "Journal", "preparedBy": "Préparé", "approvedBy": "Approuvé",
 }
 
 
@@ -245,6 +281,74 @@ class _Demo:
             step = as_senior.add_program_step(section, "Réponse au risque : %s" % risk.description[:80])
             risk.with_user(self.ndongo).link_step(step)
 
+    def record_scots(self, engagement):
+        """SCOT Studio as a senior fills it: a controls SCOT with a selected, designed control, a
+        substantive SCOT, the walkthroughs answered, each IT application given its strategy."""
+        as_senior = engagement.with_user(self.ndongo)
+        sales = as_senior.create_scot(
+            "Ventes et créances clients", "routine", "controls", "Logiciel de facturation",
+            "De la commande à l'encaissement.",
+        )
+        sales.link_index("E", ["E", "A", "C"])
+        missed = sales.add_wcgw("Une vente n'est pas facturée ni comptabilisée.", ["C"])
+        control = sales.add_control(
+            "Rapprochement mensuel des bons de livraison et des factures", "Directeur financier", "manual", "mensuel", "detect", wcgws=missed,
+        )
+        control.update_control({
+            "selected_for_testing": True, "test_design": "Reprendre le rapprochement du mois et le visa du directeur financier.",
+            "design_eval": "effective", "implemented": "yes",
+        })
+        purchases = as_senior.create_scot("Achats et fournisseurs", "routine", "substantive", "Logiciel comptable", "De la commande au règlement.")
+        purchases.link_index("N", ["C", "A"])
+        purchases.add_wcgw("Une facture fournisseur est enregistrée deux fois.", ["E"])
+        answers = {field["key"]: "Décrit lors de l'entretien avec le directeur financier." for field in WALKTHROUGH_FIELDS}
+        (sales | purchases).write(answers)
+        engagement._ea_sync_it_applications()
+        for application in self.env["ea.audit.it.application"].sudo().search([("engagement_id", "=", engagement.id), ("removed", "=", False)]):
+            as_senior.save_it_application(application.key, {"strategy": "substantive_only"})
+        return control
+
+    def design(self, engagement, codes):
+        """S5.5: a procedure designed on an account of each task brings that task on the lists."""
+        as_senior = engagement.with_user(self.ndongo)
+        for code in codes:
+            index = next((index for index, task in INDEX_SECTION.items() if task == code), None)
+            if index:
+                as_senior.add_dsp_osp(index, "Procédure de détail conçue sur le compte %s." % index, ["E"])
+
+    def conclude(self, engagement):
+        """Execution to the archive, by the methods a file goes through. C6.x wait for the report."""
+        as_senior = engagement.with_user(self.ndongo)
+        as_partner = engagement.with_user(self.mbarga)
+        steps = self.env["ea.audit.program.step"].sudo().search([("engagement_id", "=", engagement.id), ("status", "=", "open")])
+        for step in steps:
+            step.with_user(self.ndongo).complete("Diligence réalisée, sans anomalie.")
+        for risk in self.env["ea.audit.risk"].sudo().search([("engagement_id", "=", engagement.id), ("rebutted", "=", False)]):
+            risk.with_user(self.ndongo).write({"status": "concluded"})
+        worked = steps.file_item_id
+        for item in worked:
+            item.with_user(self.ndongo).save_section_conclusion("Objectifs atteints.", objectives_achieved=True)
+            item.with_user(self.essomba).review_section_conclusion()
+        as_senior.save_sad_conclusion("Aucune anomalie significative non corrigée.")
+        as_senior.run_final_analytics()
+        as_senior.run_fs_tieout()
+        as_senior.record_disclosure_checklist(True, "Notes 1 à 36 revues.")
+        report_date = date(engagement.fiscal_year + 1, 3, 31)
+        as_senior.record_subsequent_events(report_date)
+        as_partner.generate_letter("rep_affirmation", "fr")
+        as_partner.generate_letter("rep_complementary", "fr")
+        as_partner.record_completion("partner_conclusion", {"conclusion": "Les travaux soutiennent une opinion sans réserve."})
+        scoped_out = engagement._ea_e4_out_of_scope()
+        open_items = engagement.file_item_ids.filtered(
+            lambda i: not i.conditional and i.state != "signed" and not i.not_applicable and i not in scoped_out
+        )
+        for item in open_items.filtered(lambda i: i.code not in ("C6.1", "C6.2")).sorted(lambda i: i.code == "C4.1"):
+            self.complete(item)
+        as_partner.issue_report_from_form(report_date=report_date)
+        for item in open_items.filtered(lambda i: i.code in ("C6.1", "C6.2")):
+            self.complete(item)
+        as_partner.archive_engagement()
+
     def assess_cra(self, engagement):
         engagement._ea_sync_cra()
         cells = self.env["ea.audit.cra.assessment"].sudo().search([("engagement_id", "=", engagement.id)], limit=8)
@@ -274,15 +378,18 @@ class _Demo:
                 self.complete(item)
         engagement.with_user(self.mbarga).advance_to_planning()
 
-    def walk_planning(self, engagement, opening, closing, keep_open=()):
+    def walk_planning(self, engagement, opening, closing, keep_open=(), designed=()):
         self.import_tb(engagement, opening, closing)
         self.approve_materiality(engagement)
         self.respond_to_risks(engagement)
         self.assess_cra(engagement)
+        if "S1.1" in self.items(engagement):
+            self.record_scots(engagement)
+        self.design(engagement, designed)
         for code, item in self.items(engagement).items():
             if item.conditional or item.task_phase != "planning" or code == "P7.2":
                 continue
-            if code in _NO_TOOL_YET or code in keep_open:
+            if code in keep_open:
                 self.assign_by_rule(item)
                 self.touch(item)
             else:
@@ -297,29 +404,17 @@ class _Demo:
         self.seat_team(engagement)
         self.walk_acceptance(engagement)
         opening = _carried(_balanced({**_CLOSING_2024, "701000": -140000000}))
-        self.walk_planning(engagement, opening, _CLOSING_2024)
-        engagement.phase = "conclusion"  # see the module docstring
-        engagement.with_user(self.ndongo).save_sad_conclusion("Aucune anomalie significative non corrigée.")
-        for item in engagement.file_item_ids.filtered(lambda i: not i.conditional and i.state != "signed"):
-            if item.code in _NO_TOOL_YET:
-                item.with_user(self.essomba).set_not_applicable("Traité hors outil sur ce dossier de démonstration.")
-                continue
-            try:
-                with self.env.cr.savepoint():
-                    self.complete(item)
-            except AuditRuleError as error:
-                _logger.warning("Demo: %s of the 2024 file stays unsigned: %s", item.code, error.code)
-        engagement.write({"phase": "archived", "archived_at": fields.Datetime.now() - timedelta(days=60)})
+        self.walk_planning(engagement, opening, _CLOSING_2024, designed=("E4.1",))
+        self.conclude(engagement)
         return engagement
 
     def negoce_2025(self):
         engagement = self.mission("ea_audit_ui.demo_client_negoce", 2025, self.mbarga, "complex")
         self.seat_team(engagement)
-        for code, item in self.items(engagement).items():
-            if code.startswith("E4.") and code not in _E4_SHOWN:
-                item.conditional = True  # see the module docstring
         self.walk_acceptance(engagement)
-        self.walk_planning(engagement, _carried(_balanced(_CLOSING_2024)), _CLOSING_2025, keep_open=_NOT_DONE_STRATEGY)
+        self.walk_planning(
+            engagement, _carried(_balanced(_CLOSING_2024)), _CLOSING_2025, keep_open=_NOT_DONE_STRATEGY, designed=_E4_SHOWN,
+        )
         active = {code: item for code, item in self.items(engagement).items() if not item.conditional}
 
         # execution, as the mock-up's lists
@@ -385,10 +480,17 @@ class _Demo:
         active["E4.1"].with_user(self.ndongo).add_review_note("L'écart de 450 000 FCFA avec la balance auxiliaire reste à expliquer.")
 
     def agro_2025(self):
-        """The file a person walks: acceptance waits for the partner, planning is all ahead."""
+        """The file a person walks: acceptance waits for the partner, then WALK_PAPERS."""
         engagement = self.mission("ea_audit_ui.demo_client_agro", 2025, self.mbarga, "very_simple")
         self.seat_team(engagement)
+        for code in _WALK_ENSURED:
+            engagement._ea_ensure_task(code)
         self.import_tb(engagement, _carried(_balanced(_CLOSING_2024)), _CLOSING_2025)
+        engagement.with_user(self.ndongo).create_dataset(
+            "journal_entries", "grand-livre-2025.csv", _ledger_csv(2025), mapping=_LEDGER_MAPPING,
+        )
+        ledger = self.env["ea.audit.dataset"].sudo().search([("engagement_id", "=", engagement.id)], limit=1)
+        engagement.with_user(self.ndongo).gl_build_projection(ledger.id)
         for code, item in self.items(engagement).items():
             if item.task_phase == "acceptance" and not item.conditional and code != "P1.1":
                 self.complete(item)
@@ -396,9 +498,14 @@ class _Demo:
         self.assign(p11, self.essomba, self.mbarga)
         self.fill(p11, self.essomba)
         p11.with_user(self.essomba).action_sign("preparer")
-        for item in engagement.file_item_ids.filtered(lambda i: i.state == "not_started" and not i.conditional):
-            self.assign_by_rule(item)
-        open_items = engagement.file_item_ids.filtered(lambda i: i.state != "signed" and not i.conditional)
+        for code, item in self.items(engagement).items():
+            if item.task_phase == "acceptance" or item.conditional:
+                continue
+            if code in WALK_PAPERS:
+                self.assign_by_rule(item)
+            elif not code.startswith("E4.") or code == "E4.36":
+                item.with_user(self.essomba).set_not_applicable(_WALK_NA_REASON)
+        open_items = engagement.file_item_ids.filtered(lambda i: i.state != "signed" and not i.conditional and not i.not_applicable)
         self.due(list(open_items), 30)
         self.due([p11], 7)
         return engagement

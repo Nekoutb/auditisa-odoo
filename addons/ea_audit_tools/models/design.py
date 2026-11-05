@@ -288,9 +288,13 @@ class EngagementDesign(models.Model):
         items = self.env["ea.audit.file.item"].sudo().search([
             ("engagement_id", "=", self.id), ("code", "=like", "E4.%"), ("conditional", "=", False),
         ])
+        with_steps = self.env["ea.audit.program.step"].sudo().search([("file_item_id", "in", items.ids)]).file_item_id
+
         def scoped_out(item):
             indexes = indexes_for_task(item.code)
-            return bool(indexes) and item.state == "not_started" and not designed.intersection(indexes)
+            holds_work = item.state != "not_started" or item in with_steps
+            return bool(indexes) and not holds_work and not designed.intersection(indexes)
+
         return items.filtered(scoped_out)
 
     def generate_psp(self, task_code):
