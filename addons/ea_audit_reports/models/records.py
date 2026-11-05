@@ -135,7 +135,7 @@ class ArchiveManifest(models.Model):
 
     content = fields.Text(required=True, readonly=True)
     sha256 = fields.Char(string="SHA-256", required=True, readonly=True)
-    attachment_id = fields.Many2one("ir.attachment", ondelete="restrict", readonly=True)
+    attachment_id = fields.Many2one("ir.attachment", compute="_compute_attachment", compute_sudo=True)
     archived_by_id = fields.Many2one("res.users", string="Archived by", ondelete="restrict", readonly=True)
 
     _engagement_uniq = models.Constraint("UNIQUE(engagement_id)", "A file is archived once.")
@@ -181,6 +181,12 @@ class ArchiveManifest(models.Model):
             """
         )
         install_archive_triggers(cr)
+
+    def _compute_attachment(self):
+        for manifest in self:
+            manifest.attachment_id = self.env["ir.attachment"].sudo().search(
+                [("res_model", "=", self._name), ("res_id", "=", manifest.id)], limit=1,
+            )
 
     def action_download(self):
         self.ensure_one()

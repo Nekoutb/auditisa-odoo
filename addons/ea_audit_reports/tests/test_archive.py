@@ -145,6 +145,9 @@ class TestArchive(ReportsCase):
         self.assertEqual(manifest.sudo().sha256, hashlib.sha256(manifest.sudo().content.encode()).hexdigest())
         self.assertEqual(hashlib.sha256(manifest.sudo().attachment_id.raw).hexdigest(), manifest.sudo().sha256)
         self.assertTrue(manifest._ea_verify())
+        # any member of the team may read it, not only the partner who archived
+        self.assertTrue(manifest.with_user(self.reader).attachment_id)
+        self.assertTrue(manifest.sudo().attachment_id.with_user(self.reader).read(["name"]))
 
     def test_retention_is_fixed_at_archiving(self):
         """UAT run 2 B86: a later change of the firm's period does not move a closed file."""

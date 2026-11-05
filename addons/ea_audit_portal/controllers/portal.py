@@ -19,7 +19,7 @@ class PbcPortal(CustomerPortal):
             ) if contact else 0
         return values
 
-    @http.route("/my/pbc", type="http", auth="user", website=False, methods=["GET"])
+    @http.route("/my/pbc", type="http", auth="user", website=True, methods=["GET"])
     def pbc_list(self, error=None, **_kw):
         """9.1: PBC requests only, never the audit file."""
         Item = request.env["ea.audit.pbc.item"]
@@ -42,7 +42,7 @@ class PbcPortal(CustomerPortal):
         })
         return request.render("ea_audit_portal.portal_pbc_list", values)
 
-    @http.route("/my/pbc/<int:item_id>/upload", type="http", auth="user", website=False, methods=["POST"], csrf=True)
+    @http.route("/my/pbc/<int:item_id>/upload", type="http", auth="user", website=True, methods=["POST"], csrf=True)
     def pbc_upload(self, item_id, upload=None, **_kw):
         """The rules are the model's. A refusal comes back to the list, in the reader's language."""
         item = request.env["ea.audit.pbc.item"].browse(item_id)

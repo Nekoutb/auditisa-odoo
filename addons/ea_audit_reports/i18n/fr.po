@@ -1,0 +1,1052 @@
+# French translation of ea_audit_reports.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 10:00+0000\n"
+"PO-Revision-Date: 2026-11-05 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "60 days from the report: shown, not enforced"
+msgstr "60 jours à compter du rapport : indiqué, non bloquant"
+
+#. module: ea_audit_reports
+#: model:ir.model.constraint,message:ea_audit_reports.constraint_ea_audit_document_version_doc_version_uniq
+msgid "A document has one row per version."
+msgstr "Un document compte une ligne par version."
+
+#. module: ea_audit_reports
+#: model:ir.model.constraint,message:ea_audit_reports.constraint_ea_audit_completion_record_engagement_key_uniq
+msgid "A file has one record per key."
+msgstr "Un dossier compte un enregistrement par clé."
+
+#. module: ea_audit_reports
+#: model:ir.model.constraint,message:ea_audit_reports.constraint_ea_audit_archive_manifest_engagement_uniq
+msgid "A file is archived once."
+msgstr "Un dossier n'est archivé qu'une fois."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "A listed entity needs its key audit matters, or a statement that there are none with the reason."
+msgstr "Une entité cotée doit présenter ses points clés de l'audit, ou une déclaration motivée qu'il n'y en a pas."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "A modified opinion needs the basis of the modification."
+msgstr "Une opinion modifiée doit indiquer le fondement de la modification."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "A reason is required."
+msgstr "Un motif est requis."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_client__address
+msgid "Address"
+msgstr "Adresse"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_engagement__opinion__adverse
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_issue_report_wizard__opinion__adverse
+msgid "Adverse"
+msgstr "Défavorable"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Affirmation letter"
+msgstr "Lettre d'affirmation"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__all_complete
+msgid "All 36 notes reviewed and complete"
+msgstr "Les 36 notes sont revues et complètes"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__archive_checklist_html
+msgid "Archive Checklist Html"
+msgstr "Liste d'archivage"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__archive_manifest_id
+msgid "Archive Manifest"
+msgstr "Manifeste d'archivage"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Archive and lock the file"
+msgstr "Archiver et verrouiller le dossier"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Archive checklist (ISA 230)"
+msgstr "Liste d'archivage (ISA 230)"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_archive_manifest
+msgid "Archive manifest"
+msgstr "Manifeste d'archivage"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__archived_by_id
+msgid "Archived by"
+msgstr "Archivé par"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_articles_validated
+msgid "Article numbers validated by the jurist"
+msgstr "Numéros d'articles validés par le juriste"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ir_attachment
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__attachment_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__attachment_id
+msgid "Attachment"
+msgstr "Pièce jointe"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_client
+msgid "Audit client"
+msgstr "Client d'audit"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_company_form_reports
+msgid "Audit documents"
+msgstr "Documents d'audit"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr "Mission d'audit"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_notice
+msgid "Audit notice"
+msgstr "Avis d'audit"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__base_version
+msgid "Base Version"
+msgstr "Version de départ"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__report_basis
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__basis
+msgid "Basis of the modification"
+msgstr "Fondement de la modification"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__blocks
+msgid "Blocks"
+msgstr "Blocs"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__board_date
+msgid "Board meeting closing the accounts"
+msgstr "Réunion d'arrêté des comptes"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__body
+msgid "Body"
+msgstr "Texte"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__byte_size
+msgid "Byte Size"
+msgstr "Taille en octets"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_completion_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_hold_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_issue_report_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Choose a letter from those offered."
+msgstr "Choisissez une lettre parmi celles proposées."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__code
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Complementary letter"
+msgstr "Lettre complémentaire"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__completion_gates_html
+msgid "Completion Gates Html"
+msgstr "Portes d'achèvement"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Completion gates (C4.1)"
+msgstr "Portes d'achèvement (C4.1)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_completion_record
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_completion_wizard
+msgid "Completion record"
+msgstr "Enregistrement d'achèvement"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__completion_record_ids
+msgid "Completion records"
+msgstr "Enregistrements d'achèvement"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_conclusion_button
+msgid "Conclusion and archive"
+msgstr "Conclusion et archivage"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_hold_wizard
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__content
+msgid "Content"
+msgstr "Contenu"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__current_version
+msgid "Current Version"
+msgstr "Version en cours"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__data
+msgid "Data"
+msgstr "Données"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_engagement__opinion__disclaimer
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_issue_report_wizard__opinion__disclaimer
+msgid "Disclaimer"
+msgstr "Impossibilité de certifier"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_completion_wizard__key__disclosure_checklist
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Disclosure checklist"
+msgstr "Contrôle des informations à fournir"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_client__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__document_id
+msgid "Document"
+msgstr "Document"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__document_ids
+msgid "Documents"
+msgstr "Documents"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__done
+msgid "Done"
+msgstr "Fait"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__done_at
+msgid "Done At"
+msgstr "Fait le"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__done_by_id
+msgid "Done by"
+msgstr "Fait par"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_form
+msgid "Download Word"
+msgstr "Télécharger le Word"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__engagement_id
+msgid "Engagement"
+msgstr "Mission"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Engagement letter"
+msgstr "Lettre de mission"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__language__en
+msgid "English"
+msgstr "Anglais"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Export the file"
+msgstr "Exporter le dossier"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "File assembly (ISA 230)"
+msgstr "Assemblage du dossier (ISA 230)"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__assembly_deadline
+msgid "File assembly deadline"
+msgstr "Échéance d'assemblage du dossier"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Fill in the required fields."
+msgstr "Renseignez les champs obligatoires."
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Fixed when the file is archived"
+msgstr "Fixée à l'archivage du dossier"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__language__fr
+msgid "French"
+msgstr "Français"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__gates_blocking_count
+msgid "Gates Blocking Count"
+msgstr "Portes bloquantes"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Gates still blocking"
+msgstr "Portes encore bloquantes"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__agm_date
+msgid "General meeting"
+msgstr "Assemblée générale"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_client__mandate_type__ago
+msgid "General meeting (6 fiscal years)"
+msgstr "Assemblée générale (6 exercices)"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_list
+msgid "Generated"
+msgstr "Généré le"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_document
+msgid "Generated audit document"
+msgstr "Document d'audit généré"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_document_version
+msgid "Generated audit document version"
+msgstr "Version de document d'audit généré"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__created_by_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__created_by_id
+msgid "Generated by"
+msgstr "Généré par"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__report_going_concern
+msgid "Going-concern paragraph"
+msgstr "Paragraphe sur la continuité d'exploitation"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Governance report"
+msgstr "Rapport à la gouvernance"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__held
+msgid "Held"
+msgstr "Sous conservation légale"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_client__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ir_attachment__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_issue_report_wizard
+msgid "Issue the audit report"
+msgstr "Émettre le rapport d'audit"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_issue_report_wizard
+msgid "Issue the report"
+msgstr "Émettre le rapport"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__key
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__key
+msgid "Key"
+msgstr "Clé"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__report_kam
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__kam
+msgid "Key audit matters"
+msgstr "Points clés de l'audit"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__kind
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__kind
+msgid "Kind"
+msgstr "Type"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__language
+msgid "Language"
+msgstr "Langue"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__current_version_id
+msgid "Latest version"
+msgstr "Dernière version"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_hold_wizard
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_legal_hold
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Legal hold"
+msgstr "Conservation légale"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__legal_hold_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Legal holds"
+msgstr "Conservations légales"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__kind__letter
+msgid "Letter"
+msgstr "Lettre"
+
+#. module: ea_audit_reports
+#: model:ir.actions.report,name:ea_audit_reports.action_report_document
+msgid "Letter or report (PDF)"
+msgstr "Lettre ou rapport (PDF)"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_letterhead_footer
+msgid "Letterhead footer"
+msgstr "Pied de page de l'en-tête"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_letterhead1
+msgid "Letterhead line 1"
+msgstr "En-tête, ligne 1"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_letterhead2
+msgid "Letterhead line 2"
+msgstr "En-tête, ligne 2"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Letters"
+msgstr "Lettres"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Letters and reports"
+msgstr "Lettres et rapports"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__listed
+msgid "Listed"
+msgstr "Cotée"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.report_document
+msgid "Logo"
+msgstr "Logo"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Management letter"
+msgstr "Lettre de recommandations"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_client__mandate_start_year
+msgid "Mandate Start Year"
+msgstr "Première année du mandat"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_client__mandate_type
+msgid "Mandate Type"
+msgstr "Type de mandat"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__going_concern_uncertainty
+msgid "Material uncertainty on going concern, adequately disclosed"
+msgstr "Incertitude significative sur la continuité d'exploitation, correctement présentée"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__mime
+msgid "Mime"
+msgstr "Type de fichier"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__mode
+msgid "Mode"
+msgstr "Mode"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,help:ea_audit_reports.field_ea_audit_completion_record__version
+msgid "Moves with each save: the form's optimistic lock (UAT B104)."
+msgstr "Change à chaque enregistrement : le verrou optimiste du formulaire (UAT B104)."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_display_name
+msgid "Name on letterhead"
+msgstr "Nom sur l'en-tête"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__kam_none
+msgid "No key audit matter to report"
+msgstr "Aucun point clé de l'audit à communiquer"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__note
+msgid "Note"
+msgstr "Note"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__text
+msgid "Notes"
+msgstr "Notes"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Once archived, nothing on this file can be changed. Archive it?"
+msgstr "Une fois archivé, plus rien ne peut être modifié dans ce dossier. L'archiver ?"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Only a firm administrator can change this setting."
+msgstr "Seul un administrateur du cabinet peut modifier ce paramètre."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Only a manager or above can do this."
+msgstr "Seul un manager ou un rang supérieur peut le faire."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Only a partner can archive the file."
+msgstr "Seul un associé peut archiver le dossier."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__opinion
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__opinion
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Opinion"
+msgstr "Opinion"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_list
+msgid "PDF"
+msgstr "PDF"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_completion_wizard__key__partner_conclusion
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Partner conclusion"
+msgstr "Conclusion de l'associé"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,help:ea_audit_reports.field_ea_audit_document__restricted
+#: model:ir.model.fields,help:ea_audit_reports.field_ea_audit_document_version__restricted
+msgid "Partners only: the disclosure of criminal facts (spec 12.5.6)."
+msgstr "Associés uniquement : la révélation de faits délictueux (spéc. 12.5.6)."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_hold_wizard__mode__place
+msgid "Place"
+msgstr "Placer"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__placed_at
+msgid "Placed At"
+msgstr "Placée le"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__placed_by_id
+msgid "Placed by"
+msgstr "Placée par"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Planning communication"
+msgstr "Communication de planification"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__points_from_prior
+msgid "Points From Prior"
+msgstr "Points de l'exercice précédent"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Points carried from the prior year:"
+msgstr "Points repris de l'exercice précédent :"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_completion_wizard__key__points_forward
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Points forward"
+msgstr "Points à reporter"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_form
+msgid "Print PDF"
+msgstr "Imprimer le PDF"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_engagement__opinion__qualified
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_issue_report_wizard__opinion__qualified
+msgid "Qualified"
+msgstr "Avec réserves"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__reason
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__reason
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_hold_wizard__mode__release
+msgid "Release"
+msgstr "Lever"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__release_reason
+msgid "Release Reason"
+msgstr "Motif de la levée"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__released_at
+msgid "Released At"
+msgstr "Levée le"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__released_by_id
+msgid "Released by"
+msgstr "Levée par"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__kind__report
+msgid "Report"
+msgstr "Rapport"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__report_date
+msgid "Report Date"
+msgstr "Date du rapport"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__report_kam_none_reason
+msgid "Report Kam None Reason"
+msgstr "Motif de l'absence de points clés"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__report_date
+msgid "Report date"
+msgstr "Date du rapport"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Report date:"
+msgstr "Date du rapport :"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Report, completion, papers, review, assembly"
+msgstr "Rapport, achèvement, papiers, revue, assemblage"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__restricted
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__restricted
+msgid "Restricted"
+msgstr "Restreint"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__retention_until
+msgid "Retention Until"
+msgstr "Conservation jusqu'au"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_retention_years
+msgid "Retention period (years)"
+msgstr "Durée de conservation (années)"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Retention until"
+msgstr "Conservation jusqu'au"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__reviewed_to
+msgid "Reviewed to"
+msgstr "Revus jusqu'au"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Roll forward"
+msgstr "Reconduire"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Run the FS tie-out"
+msgstr "Lancer le rapprochement des états financiers"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Run the final analytical review"
+msgstr "Lancer la revue analytique finale"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__sha256
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__current_sha256
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__sha256
+msgid "SHA-256"
+msgstr "SHA-256"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_completion_wizard
+msgid "Save"
+msgstr "Enregistrer"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_client__share_capital
+msgid "Share capital (FCFA)"
+msgstr "Capital social (FCFA)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Someone else saved this record while you were editing it. Reload, merge your text with theirs, and save again: your entry has not been stored."
+msgstr "Une autre personne a enregistré ce document pendant votre saisie. Rechargez, fusionnez votre texte avec le sien et enregistrez à nouveau : votre saisie n'a pas été conservée."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_client__mandate_type__statutes
+msgid "Statutes (2 fiscal years)"
+msgstr "Statuts (2 exercices)"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_completion_wizard__key__subsequent_events
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Subsequent events"
+msgstr "Événements postérieurs"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Subsequent events must be reviewed to a date after the period end."
+msgstr "Les événements postérieurs doivent être revus jusqu'à une date postérieure à la clôture."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__scope_limitation
+msgid "Sufficient appropriate evidence could not be obtained"
+msgstr "Des éléments probants suffisants et appropriés n'ont pas pu être obtenus"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__file_item_id
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The financial statements do not tie out to the trial balance."
+msgstr "Les états financiers ne concordent pas avec la balance."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__pervasive
+msgid "The matter is pervasive to the financial statements"
+msgstr "Le point a un effet généralisé sur les états financiers"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The report can be issued only once the engagement is in execution or conclusion."
+msgstr "Le rapport ne peut être émis que lorsque la mission est en exécution ou en conclusion."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The report has already been issued."
+msgstr "Le rapport a déjà été émis."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The report must be issued before the file is archived."
+msgstr "Le rapport doit être émis avant l'archivage du dossier."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The retention period must be between 10 and 30 years."
+msgstr "La durée de conservation doit être comprise entre 10 et 30 ans."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "These gates are not met: %(gates)s."
+msgstr "Ces portes ne sont pas franchies : %(gates)s."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This completion record is written by the system."
+msgstr "Cet enregistrement d'achèvement est écrit par le système."
+
+#. module: ea_audit_reports
+#: model:ir.model.constraint,message:ea_audit_reports.constraint_ea_audit_document_item_kind_title_uniq
+msgid "This document already exists on this task."
+msgstr "Ce document existe déjà sur cette tâche."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This file is already archived."
+msgstr "Ce dossier est déjà archivé."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This file is already under a legal hold."
+msgstr "Ce dossier est déjà sous conservation légale."
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "This file is archived and immutable."
+msgstr "Ce dossier est archivé et immuable."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This file is not under a legal hold."
+msgstr "Ce dossier n'est pas sous conservation légale."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This file is under a legal hold and cannot be destroyed."
+msgstr "Ce dossier est sous conservation légale et ne peut pas être détruit."
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "This file is under a legal hold: retention expiry is suspended."
+msgstr "Ce dossier est sous conservation légale : l'échéance de conservation est suspendue."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This task is not in the file's scope."
+msgstr "Cette tâche n'entre pas dans le périmètre du dossier."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Tick the confirmation that the disclosure checklist is complete."
+msgstr "Cochez la confirmation que le contrôle des informations à fournir est complet."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__title
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__title
+msgid "Title"
+msgstr "Titre"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__material_misstatement
+msgid "Uncorrected misstatements exceed materiality"
+msgstr "Les anomalies non corrigées dépassent le seuil de signification"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_engagement__opinion__unmodified
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_issue_report_wizard__opinion__unmodified
+msgid "Unmodified"
+msgstr "Sans réserve"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__user_id
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__version
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__version_no
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_list
+msgid "Version"
+msgstr "Version"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__version_ids
+msgid "Versions"
+msgstr "Versions"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,help:ea_audit_reports.field_res_company__ea_articles_validated
+msgid "While off, every article number printed or shown carries (à valider)."
+msgstr "Tant que cette case est décochée, chaque numéro d'article imprimé ou affiché porte (à valider)."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__kam_none_reason
+msgid "Why there is none"
+msgstr "Motif de l'absence"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_list
+msgid "Word"
+msgstr "Word"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__kind__workpaper
+msgid "Working paper"
+msgstr "Feuille de travail"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "ea_audit_reports.view_document_form"
+msgstr ""
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "ea_audit_reports.view_document_list"
+msgstr ""
+
+#. module: ea_audit_reports
+#: model:ir.actions.report,print_report_name:ea_audit_reports.action_report_document
+msgid "object.title"
+msgstr ""
+

@@ -916,10 +916,10 @@ class Engagement(models.Model):
         manifest = self.env["ea.audit.archive.manifest"].sudo().create({
             "engagement_id": self.id, "content": content, "sha256": hashlib.sha256(raw).hexdigest(),
             "archived_by_id": self.env.user.id,
-            "attachment_id": self.env["ir.attachment"].sudo().create({
-                "name": "archive-manifest-%s.json" % as_root.fiscal_year, "raw": raw, "mimetype": "application/json",
-                "res_model": "ea.audit.archive.manifest", "res_id": 0,
-            }).id,
+        })
+        self.env["ir.attachment"].sudo().create({
+            "name": "archive-manifest-%s.json" % as_root.fiscal_year, "raw": raw, "mimetype": "application/json",
+            "res_model": "ea.audit.archive.manifest", "res_id": manifest.id,
         })
         as_root.write({"phase": "archived", "archived_at": fields.Datetime.now()})
         self._ea_log("archive", "Audit file archived and locked")

@@ -1,0 +1,854 @@
+# French translation of ea_audit_legal.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 10:00+0000\n"
+"PO-Revision-Date: 2026-11-05 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_legal
+#: model:ir.model.constraint,message:ea_audit_legal.constraint_ea_audit_legal_deadline_engagement_key_uniq
+msgid "A file has one row per deadline."
+msgstr "Un dossier compte une ligne par échéance."
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_engagement__legal_equity_conclusion__ok
+msgid "Above half of the capital"
+msgstr "Au-dessus de la moitié du capital"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Add an agreement"
+msgstr "Ajouter une convention"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__target
+msgid "Addressed to"
+msgstr "Destinataire"
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_alerte
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_alerte_stage
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Alert procedure"
+msgstr "Procédure d'alerte"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Alert procedure (C5.5)"
+msgstr "Procédure d'alerte (C5.5)"
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_alerte_event
+msgid "Alert procedure event"
+msgstr "Événement de la procédure d'alerte"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__alerte_ids
+msgid "Alert procedures"
+msgstr "Procédures d'alerte"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__alerte_id
+msgid "Alerte"
+msgstr "Alerte"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__amounts_period
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__amounts_period
+msgid "Amounts of the period (FCFA)"
+msgstr "Montants de l'exercice (FCFA)"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "An alert procedure is already open on this file."
+msgstr "Une procédure d'alerte est déjà ouverte sur ce dossier."
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr "Mission d'audit"
+
+#. module: ea_audit_legal
+#: model:ir.actions.server,name:ea_audit_legal.cron_legal_deadlines_ir_actions_server
+msgid "AuditISA: escalate overdue statutory deadlines"
+msgstr "AuditISA : remonter les échéances légales dépassées"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__stage_basis
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__basis
+msgid "Basis"
+msgstr "Base"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_engagement__legal_equity_conclusion__breach
+msgid "Below half: procedure running"
+msgstr "Sous la moitié : procédure en cours"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_engagement__legal_equity_conclusion__unchecked-breach
+msgid "Below half: run the check"
+msgstr "Sous la moitié : lancer le contrôle"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__target__board
+msgid "Board"
+msgstr "Conseil"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__board_deliberated
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__board_deliberated
+msgid "Board deliberated"
+msgstr "Conseil ayant délibéré"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__board_invited
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__board_invited
+msgid "Board invited to deliberate"
+msgstr "Conseil invité à délibérer"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__board_date
+msgid "Board meeting closing the accounts"
+msgstr "Réunion d'arrêté des comptes"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_equity_conclusion
+msgid "C5.8 conclusion"
+msgstr "Conclusion C5.8"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_legal_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__capacity
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__capacity
+msgid "Capacity"
+msgstr "Qualité"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Certification, art. 525 (à valider)"
+msgstr "Attestation, art. 525 (à valider)"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Check equity against half of the capital"
+msgstr "Comparer les capitaux propres à la moitié du capital"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Choose the capacity of the interested person from those offered."
+msgstr "Choisissez la qualité de la personne intéressée parmi celles proposées."
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__closed
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__closed
+msgid "Closed"
+msgstr "Clos"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__ag_communicated
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__ag_communicated
+msgid "Communicated to the general meeting"
+msgstr "Communiqué à l'assemblée générale"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Complete C5.10 first: the certification needs the number of persons and the total amount."
+msgstr "Complétez d'abord C5.10 : l'attestation requiert le nombre de personnes et le montant global."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Complete C5.7 first: the attestation needs the conclusions that the register is kept and agrees."
+msgstr "Complétez d'abord C5.7 : l'attestation requiert les conclusions que le registre est tenu et concorde."
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_legal_wizard
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__confirmed
+msgid "Confirmed with the joint auditor"
+msgstr "Confirmé avec le co-commissaire"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__continuing
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__continuing
+msgid "Continuing"
+msgstr "Poursuivie"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__capacity__controlling
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_regulated_agreement__capacity__controlling
+msgid "Controlling company"
+msgstr "Société contrôlante"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__court_informed
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__court_informed
+msgid "Court informed"
+msgstr "Juridiction informée"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__create_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__create_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__create_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__create_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__create_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__create_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__create_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__create_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Criminal facts (partners)"
+msgstr "Faits délictueux (associés)"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__joint_key__crossreview
+msgid "Cross-review"
+msgstr "Revue croisée"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__inspection_date
+msgid "Date of inspection"
+msgstr "Date d'examen"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__event_date
+msgid "Date of the event"
+msgstr "Date de l'événement"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__days_left
+msgid "Days Left"
+msgstr "Jours restants"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__stage_deadline
+msgid "Deadline of the stage"
+msgstr "Échéance de l'étape"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__description
+msgid "Description"
+msgstr "Intitulé"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__capacity__director
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_regulated_agreement__capacity__director
+msgid "Director"
+msgstr "Directeur"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__joint_key__disagreement
+msgid "Disagreement"
+msgstr "Divergence"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Disclose criminal facts"
+msgstr "Révéler des faits délictueux"
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_criminal_disclosure
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__fait
+msgid "Disclosure of criminal facts"
+msgstr "Révélation de faits délictueux"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+msgid "Disclosures of criminal facts"
+msgstr "Révélations de faits délictueux"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__discontinued_at
+msgid "Discontinued At"
+msgstr "Interrompue le"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__display_name
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__display_name
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__display_name
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__display_name
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__document_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__document_id
+msgid "Document"
+msgstr "Document"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__done
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Done"
+msgstr "Fait"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__done_at
+msgid "Done At"
+msgstr "Fait le"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__due_date
+msgid "Due Date"
+msgstr "Échéance"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__engagement_id
+msgid "Engagement"
+msgstr "Mission"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Enter a valid date, not in the future."
+msgstr "Saisissez une date valide, non future."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Enter an amount above zero."
+msgstr "Saisissez un montant supérieur à zéro."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Enter the date the register was inspected."
+msgstr "Saisissez la date d'examen du registre."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Enter the number of securities the register shows."
+msgstr "Saisissez le nombre de titres figurant au registre."
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Equity and irregularities (C5.6, C5.8)"
+msgstr "Capitaux propres et irrégularités (C5.6, C5.8)"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__event_date
+msgid "Event Date"
+msgstr "Date de l'événement"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__event_ids
+msgid "Events"
+msgstr "Événements"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Every article number stays marked (à valider) until the firm's jurist has validated the workbook."
+msgstr "Chaque numéro d'article reste marqué (à valider) jusqu'à la validation du classeur par le juriste du cabinet."
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__request_sent
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__request_sent
+msgid "Explanations requested"
+msgstr "Explications demandées"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_engagement__legal_equity_conclusion__stale
+msgid "Figures moved: check again"
+msgstr "Les chiffres ont changé : refaire le contrôle"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__agm_date
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__target__ag
+msgid "General meeting"
+msgstr "Assemblée générale"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "General meeting:"
+msgstr "Assemblée générale :"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Generate the calendar"
+msgstr "Générer le calendrier"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__capacity__gerant
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_regulated_agreement__capacity__gerant
+msgid "Gérant"
+msgstr "Gérant"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_half_capital_label
+msgid "Half of the capital"
+msgstr "Moitié du capital"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Half of the capital:"
+msgstr "Moitié du capital :"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__held_by_intermediary
+msgid "Held in accounts by an authorised intermediary"
+msgstr "Inscrits en compte auprès d'un intermédiaire agréé"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__interested
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__interested
+msgid "Interested person"
+msgstr "Personne intéressée"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__intermediary_name
+msgid "Intermediary"
+msgstr "Intermédiaire"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__joint
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Joint auditor file"
+msgstr "Dossier du co-commissariat"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__key
+msgid "Key"
+msgstr "Clé"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__write_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__write_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__write_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__write_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__write_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__write_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__write_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__write_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_titres_available
+msgid "Legal Titres Available"
+msgstr "Attestation de titres disponible"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_form_name
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Legal form"
+msgstr "Forme juridique"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Letters and reports"
+msgstr "Lettres et rapports"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__dates
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Meeting dates"
+msgstr "Dates des réunions"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__mode
+msgid "Mode"
+msgstr "Mode"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "Name the financial intermediary holding the accounts."
+msgstr "Indiquez l'intermédiaire financier qui tient les comptes."
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__nature
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__nature
+msgid "Nature"
+msgstr "Nature"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_equity_label
+msgid "Net equity"
+msgstr "Capitaux propres"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Net equity (C5.8)"
+msgstr "Capitaux propres (C5.8)"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__to_stage
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Next stage"
+msgstr "Étape suivante"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__alerte_advance
+msgid "Next stage of the alert procedure"
+msgstr "Étape suivante de la procédure d'alerte"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_engagement__legal_equity_conclusion__none
+msgid "No figures"
+msgstr "Pas de chiffres"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__note
+msgid "Note"
+msgstr "Note"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__notified_at
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__notified_at
+msgid "Notified on"
+msgstr "Notifiée le"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_form_legal_button
+msgid "OHADA legal register"
+msgstr "Registre légal OHADA"
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_legal_wizard
+msgid "OHADA legal register dialogue"
+msgstr "Boîte de dialogue du registre légal OHADA"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__note
+msgid "Observations"
+msgstr "Observations"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__capacity__dirigeant
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_regulated_agreement__capacity__dirigeant
+msgid "Officer"
+msgstr "Dirigeant"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_board_name
+msgid "Organ closing the accounts"
+msgstr "Organe arrêtant les comptes"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__variant__non_sa
+msgid "Other forms"
+msgstr "Autres formes"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_overdue_count
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Overdue deadlines"
+msgstr "Échéances dépassées"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_meeting_name
+msgid "Owners' assembly"
+msgstr "Assemblée des associés"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__parties
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__parties
+msgid "Parties"
+msgstr "Parties"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__capacity__president
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_regulated_agreement__capacity__president
+msgid "President"
+msgstr "Président"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__board_auth_ref
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__board_auth_ref
+msgid "Prior authorisation"
+msgstr "Autorisation préalable"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__created_by_id
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__created_by_id
+msgid "Recorded by"
+msgstr "Enregistré par"
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_regulated_agreement
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__convention
+msgid "Regulated agreement"
+msgstr "Convention réglementée"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__regulated_agreement_ids
+msgid "Regulated agreements"
+msgstr "Conventions réglementées"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Regulated agreements (C5.3)"
+msgstr "Conventions réglementées (C5.3)"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__reply_recorded
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__reply_recorded
+msgid "Reply recorded"
+msgstr "Réponse enregistrée"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Report irregularities"
+msgstr "Signaler des irrégularités"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__irregularities
+msgid "Report of irregularities"
+msgstr "Signalement d'irrégularités"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Report to the board, art. 715 (à valider)"
+msgstr "Rapport au conseil, art. 715 (à valider)"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Reports and attestations"
+msgstr "Rapports et attestations"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Resume"
+msgstr "Reprendre"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__alerte_resume
+msgid "Resume the alert procedure"
+msgstr "Reprendre la procédure d'alerte"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__revealed_at
+msgid "Revealed At"
+msgstr "Révélé le"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_criminal_disclosure__created_by_id
+msgid "Revealed by"
+msgstr "Révélé par"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,help:ea_audit_legal.field_ea_audit_regulated_agreement__unauthorized
+msgid "SA only: no prior authorisation, by the board or on an SA_AG by the general meeting: curable nullity."
+msgstr "SA uniquement : sans autorisation préalable du conseil, ou de l'assemblée générale pour une SA à administrateur général : nullité couvrable."
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__variant__sa
+msgid "SA or SAS"
+msgstr "SA ou SAS"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__satisfactory
+msgid "Satisfactory reply: the procedure stops, resumable for six months"
+msgstr "Réponse satisfaisante : la procédure s'interrompt, reprise possible pendant six mois"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__joint_key
+msgid "Section"
+msgstr "Section"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__titres
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Securities attestation"
+msgstr "Attestation sur les titres"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__securities_count
+msgid "Securities shown"
+msgstr "Titres inscrits"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__share_capital
+msgid "Share Capital"
+msgstr "Capital social"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__capital
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Share capital"
+msgstr "Capital social"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__capacity__shareholder10
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_regulated_agreement__capacity__shareholder10
+msgid "Shareholder holding 10% or more"
+msgstr "Actionnaire détenant 10 % ou plus"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_alerte__stage__rapport_special
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__to_stage__rapport_special
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Special report"
+msgstr "Rapport spécial"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__stage
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte_event__stage
+msgid "Stage"
+msgstr "Étape"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Start"
+msgstr "Démarrer"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__mode__alerte_start
+msgid "Start the alert procedure"
+msgstr "Démarrer la procédure d'alerte"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__created_by_id
+msgid "Started by"
+msgstr "Démarrée par"
+
+#. module: ea_audit_legal
+#: model:ir.model,name:ea_audit_legal.model_ea_audit_legal_deadline
+msgid "Statutory deadline"
+msgstr "Échéance légale"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_deadline_ids
+msgid "Statutory deadlines"
+msgstr "Échéances légales"
+
+#. module: ea_audit_legal
+#: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
+msgid "Statutory deadlines (C5.2)"
+msgstr "Échéances légales (C5.2)"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_wizard__terms
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__terms
+msgid "Terms"
+msgstr "Modalités"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "That section of the joint auditor file does not exist."
+msgstr "Cette section du dossier du co-commissariat n'existe pas."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "The C5.10 task is not on this file."
+msgstr "La tâche C5.10 n'est pas au dossier."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "The C5.7 task is not on this file."
+msgstr "La tâche C5.7 n'est pas au dossier."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "The procedure cannot move to that stage from where it stands."
+msgstr "La procédure ne peut pas passer à cette étape depuis son état actuel."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "The six months for resuming this alert procedure have passed."
+msgstr "Les six mois permettant de reprendre cette procédure d'alerte sont écoulés."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "This alert procedure is discontinued: resume it first."
+msgstr "Cette procédure d'alerte est interrompue : reprenez-la d'abord."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "This alert procedure is not discontinued."
+msgstr "Cette procédure d'alerte n'est pas interrompue."
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/rules.py:0
+msgid "This step cannot be dated before the step it follows."
+msgstr "Cette étape ne peut pas être datée avant celle qu'elle suit."
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_regulated_agreement__unauthorized
+msgid "Unauthorized"
+msgstr "Non autorisée"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__variant
+msgid "Variant"
+msgstr "Variante"
+
+#. module: ea_audit_legal
+#: model:ir.model.fields.selection,name:ea_audit_legal.selection__ea_audit_legal_wizard__joint_key__worksplit
+msgid "Work split"
+msgstr "Répartition des travaux"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+msgid "ea_audit_legal.view_criminal_disclosure_list"
+msgstr ""
+
