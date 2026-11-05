@@ -93,6 +93,9 @@ MESSAGES = {
     "je-design-empty": _lt("This run selected nothing: there is no design to record."),
     "invalid-country": _lt("The country must be a two-letter ISO code."),
     "label-required": _lt("Give the holiday a label in both languages."),
+    "unsupported-dataset": _lt("This kind of dataset has no control account to agree to."),
+    "recon-task-missing": _lt("The paper this reconciliation is filed under is not on the file."),
+    "supplier-column-missing": _lt("No supplier column was recognised in the file."),
     "tool-not-available": _lt("This tool is not available yet on this version."),
 }
 

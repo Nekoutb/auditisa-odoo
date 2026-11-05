@@ -7,6 +7,7 @@
             <list create="0" delete="0" edit="0">
                 <header>
                     <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_template" type="object" string="Download the template" display="always"/>
                 </header>
                 <field name="kind"/>
                 <field name="timing"/>
@@ -29,6 +30,9 @@
                     <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="kind != 'journal_entries' or gl_built_at" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_console" type="object" string="Open the console" class="btn-primary" invisible="kind != 'journal_entries' or not gl_built_at"/>
                     <button name="action_open_lines" type="object" string="Ledger lines" invisible="not gl_built_at"/>
+                    <button name="action_reconcile" type="object" string="Reconcile to the control account" class="btn-primary" invisible="not has_recon" groups="ea_audit_core.group_writer"/>
+                    <button name="action_export_aging" type="object" string="Export the aging" invisible="kind not in ('ar_open_items', 'ap_open_items')"/>
+                    <button name="action_open_supplier_recon" type="object" string="Supplier statements against the ledger" invisible="kind != 'supplier_statements'" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>
                     <div class="o_ea_title"><field name="name" readonly="1"/></div>
@@ -59,6 +63,15 @@
                             <field name="gl_built_at" invisible="kind != 'journal_entries'"/>
                         </group>
                     </group>
+                    <div class="o_ea_panel" invisible="not has_recon">
+                        <div class="o_ea_card_label">Agreement to the trial balance</div>
+                        <field name="has_recon" invisible="1"/>
+                        <field name="recon_html" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_panel" invisible="kind not in ('ar_open_items', 'ap_open_items')">
+                        <div class="o_ea_card_label">Aging</div>
+                        <field name="aging_html" nolabel="1"/>
+                    </div>
                     <div class="o_ea_panel" invisible="not gl_built_at">
                         <div class="o_ea_card_label">Population checks</div>
                         <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'"/>
@@ -158,6 +171,23 @@
                 <footer>
                     <button name="action_preview" type="object" string="Continue" class="btn-primary" invisible="step != 'upload'"/>
                     <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'confirm'"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_supplier_recon_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.supplier.recon.wizard.form</field>
+        <field name="model">ea.audit.supplier.recon.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="statement_id" options="{'no_create': True}"/>
+                    <field name="ledger_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_run" type="object" string="Run" class="btn-primary"/>
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>

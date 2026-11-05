@@ -13,4 +13,5 @@ from . import gl_console
 from . import scot
 from . import sampling
 from . import je_selection
+from . import analyzer
 from . import tool_tile

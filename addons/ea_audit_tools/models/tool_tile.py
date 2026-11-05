@@ -23,6 +23,7 @@ class ToolTile(models.Model):
     feeds = fields.Char(string="Papers", readonly=True)
     method = fields.Char(readonly=True, help="The engagement method that opens the tool. Empty: not built yet.")
     sequence = fields.Integer(default=10, readonly=True)
+    section = fields.Char(default="hub", readonly=True, index=True)
     available = fields.Boolean(compute="_compute_available")
     subtitle = fields.Char(compute="_compute_available")
 
@@ -60,6 +61,7 @@ class EngagementTools(models.Model):
             "view_mode": "kanban",
             "views": [(self.env.ref("ea_audit_tools.view_tool_tile_kanban").id, "kanban")],
             "target": "current",
+            "domain": [("section", "=", "hub")],
             "context": {"ea_engagement_id": self.id, "create": False},
         }
 

@@ -77,3 +77,4 @@ access_public_holiday_member,ea.audit.public.holiday member,model_ea_audit_publi
 access_je_studio_member,ea.audit.je.studio member,model_ea_audit_je_studio,ea_audit_core.group_member,1,1,1,1
 access_je_studio_rule_member,ea.audit.je.studio.rule member,model_ea_audit_je_studio_rule,ea_audit_core.group_member,1,1,1,1
 access_firm_holiday_member,ea.audit.firm.holiday member,model_ea_audit_firm_holiday,ea_audit_core.group_member,1,0,0,0
+access_supplier_recon_wizard_writer,ea.audit.supplier.recon.wizard writer,model_ea_audit_supplier_recon_wizard,ea_audit_core.group_writer,1,1,1,1
