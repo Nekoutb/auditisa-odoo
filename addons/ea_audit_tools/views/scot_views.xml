@@ -77,6 +77,7 @@
                                     <field name="selected_for_testing"/>
                                     <field name="design_eval"/>
                                     <field name="operating_eval"/>
+                                    <button name="action_open_full" type="object" string="Open" class="btn-link"/>
                                 </list>
                             </field>
                         </page>
