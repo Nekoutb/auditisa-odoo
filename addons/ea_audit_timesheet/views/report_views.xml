@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_line_list" model="ir.ui.view">
+        <field name="name">ea.timesheet.line.list</field>
+        <field name="model">account.analytic.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" import="0" default_order="date desc">
+                <field name="date" string="Date"/>
+                <field name="user_id" string="Personne"/>
+                <field name="project_id" string="Mission ou projet"/>
+                <field name="task_id" string="Tâche" optional="show"/>
+                <field name="ea_phase" string="Phase" optional="show"/>
+                <field name="name" string="Note" optional="show"/>
+                <field name="unit_amount" string="Heures" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_line_pivot" model="ir.ui.view">
+        <field name="name">ea.timesheet.line.pivot</field>
+        <field name="model">account.analytic.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <pivot string="Heures" disable_linking="1">
+                <field name="user_id" type="row" string="Personne"/>
+                <field name="project_id" type="row" string="Mission ou projet"/>
+                <field name="date" type="col" interval="month"/>
+                <field name="unit_amount" type="measure" string="Heures"/>
+                <field name="amount" invisible="1"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_line_search" model="ir.ui.view">
+        <field name="name">ea.timesheet.line.search</field>
+        <field name="model">account.analytic.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="user_id" string="Personne"/>
+                <field name="project_id" string="Mission ou projet"/>
+                <field name="date" string="Date"/>
+                <filter name="date_filter" string="Période" date="date"/>
+                <group>
+                    <filter name="by_person" string="Personne" context="{'group_by': 'user_id'}"/>
+                    <filter name="by_project" string="Mission ou projet" context="{'group_by': 'project_id'}"/>
+                    <filter name="by_phase" string="Phase" context="{'group_by': 'ea_phase'}"/>
+                    <filter name="by_week" string="Semaine" context="{'group_by': 'date:week'}"/>
+                    <filter name="by_month" string="Mois" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_report_pivot" model="ir.actions.act_window">
+        <field name="name">Heures</field>
+        <field name="res_model">account.analytic.line</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="domain">[('project_id', '!=', False)]</field>
+        <field name="search_view_id" ref="view_line_search"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_line_pivot')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_line_list')})]"/>
+    </record>
+</odoo>

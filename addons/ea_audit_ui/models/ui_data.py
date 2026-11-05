@@ -62,7 +62,19 @@ class AuditUi(models.AbstractModel):
             "can_write": role != "read_only",
             "is_partner": user.has_group("ea_audit_core.group_partner"),
             "is_system": user.has_group("base.group_system"),
+            "apps": self._ea_ui_apps(),
+            "mission_items": self._ea_ui_mission_items(),
         }
+
+    @api.model
+    def _ea_ui_apps(self):
+        """The app switcher: what this person may open. Later addons append."""
+        return [{"key": "audit", "label": "Audit", "sub": "Missions et dossiers", "xmlid": "ea_audit_ui.action_home"}]
+
+    @api.model
+    def _ea_ui_mission_items(self):
+        """The gear's entries inside a mission: client actions taking resId. Later addons append."""
+        return []
 
     # ------------------------------------------------------------------
     # Shared facts

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_week_member,timesheet week member,model_ea_audit_timesheet_week,ea_audit_core.group_member,1,0,0,0
+access_reopen_member,timesheet reopen member,model_ea_audit_timesheet_reopen,ea_audit_core.group_member,1,0,0,0
+access_budget_member,team budget member,model_ea_audit_team_budget,ea_audit_core.group_member,1,0,0,0
+access_firm_log_admin,firm log firm admin,model_ea_audit_firm_log,ea_audit_core.group_firm_admin,1,0,0,0
+access_firm_log_system,firm log technical admin,model_ea_audit_firm_log,base.group_system,1,0,0,0

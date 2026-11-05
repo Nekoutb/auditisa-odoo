@@ -72,6 +72,24 @@
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             </button>
 
+            <button t-foreach="quickApps" t-as="app" t-key="app.key" type="button" class="ea-ic" t-att-aria-label="app.label" t-att-title="app.label" t-att-class="{on: ctxState.screen === app.key}" t-on-click="() => this.openApp(app)">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </button>
+
+            <div class="ea-anchor" data-ea-panel="apps">
+                <button type="button" class="ea-ic" aria-label="Applications" title="Applications" t-att-aria-expanded="state.open === 'apps' ? 'true' : 'false'" t-on-click="() => this.toggle('apps')">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>
+                </button>
+                <div t-if="state.open === 'apps'" class="ea-pop ea-pop-gear">
+                    <div class="ea-pop-h">Applications</div>
+                    <a t-foreach="apps" t-as="app" t-key="app.key" class="ea-pop-row" href="#" role="button"
+                       t-att-data-ea-app="app.key" t-on-click.prevent="() => this.openApp(app)">
+                        <b t-esc="app.label"/>
+                        <small t-esc="app.sub"/>
+                    </a>
+                </div>
+            </div>
+
             <div class="ea-anchor" data-ea-panel="bell">
                 <button type="button" class="ea-ic" aria-label="Notifications" t-att-aria-expanded="state.open === 'bell' ? 'true' : 'false'" t-on-click="toggleBell">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
