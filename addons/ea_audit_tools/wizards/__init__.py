@@ -4,3 +4,5 @@ from . import gl_console_wizard
 from . import scot_wizards
 from . import je_studio
 from . import analyzer_wizards
+from . import design_wizards
+from . import analysis_wizards

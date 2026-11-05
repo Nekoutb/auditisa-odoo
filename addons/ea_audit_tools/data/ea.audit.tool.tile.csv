@@ -10,11 +10,11 @@ tile_risk,risk,Risk register,"What can go wrong, by assertion.",S3.1,action_tool
 tile_cra,cra,Combined risk assessment,Inherent and control risk per account.,"S3.1,E6.8",action_tool_cra,80,hub
 tile_sad,sad,Audit differences,"Misstatements by caption, linked to the papers.","C1.1,C3.1",action_tool_sad,90,hub
 tile_findings,findings,Findings,"The register: deficiencies, matters and misstatements.","C1.1,C5.11",action_tool_findings,95,hub
-tile_sap,sap,Substantive analytics,"Expectation, threshold by risk, difference, conclusion.","S5.5,E4.1",,100,hub
+tile_sap,sap,Substantive analytics,"Expectation, threshold by risk, difference, conclusion.","S5.5,E4.1",action_tool_sap,100,hub
 tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and its reason.","E4.1,E1.2",action_tool_sampling,110,hub
 tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,action_tool_je,120,hub
-tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,,130,hub
-tile_pbc,pbc,PBC requests,Documents requested and reminders.,"P2.2,E1.1",,140,hub
+tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,action_tool_templates,130,hub
+tile_pbc,pbc,PBC requests,Documents requested and reminders.,"P2.2,E1.1",action_tool_pbc,140,hub
 tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",,150,hub
 tile_deficiencies,deficiencies,ISA 265 deficiencies,Evaluation and written communication.,C5.11,action_tool_deficiencies,160,hub
 tile_scot,scot,SCOTs and controls,"Classes of transactions, what can go wrong, controls, walkthroughs.","S1.1,S1.2,S1.3,S2.1",action_tool_scot,105,hub
@@ -29,5 +29,9 @@ tile_an_fixed,an-fixed,Fixed assets analyzer,"Register and agreement to the bala
 tile_an_payroll,an-payroll,Payroll analyzer,"Payroll register and agreement to the balance.","E4.11",action_tool_payroll,260,analyzers
 tile_an_bank,an-bank,Bank analyzer,"Bank statements, outstanding items.","E4.7",action_tool_bank,270,analyzers
 tile_an_supplier,an-supplier,Supplier statements,"Statements against the payables ledger.","E4.2",action_tool_supplier,280,analyzers
-tile_an_financial,an-financial,Financial analysis,"Current, quick and cash ratios, turnover and margins.","P3.2,S4.2",,290,analyzers
-tile_an_analytics,an-analytics,Analytical procedures,"Current against prior, by lead schedule.","P3.2,C2.1",,300,analyzers
+tile_an_financial,an-financial,Financial analysis,"Current, quick and cash ratios, turnover and margins.","P3.2,S4.2",action_tool_financial,290,analyzers
+tile_an_analytics,an-analytics,Analytical procedures,"Current against prior, by lead schedule.","P3.2,C2.1",action_tool_analytics,300,analyzers
+tile_dsp,dsp,Design of procedures,"Nature, timing, extent and the library, per account and assertion.","S5.5,E4.x",action_tool_dsp,108,hub
+tile_programs,programs,Audit programs,"Generated from the library and the risks of the section.","E4.x,E3.1,E6.x",action_tool_programs,109,hub
+tile_overrides,overrides,Client overrides,"Which index or section an account of this client feeds.","P6.2,S4.1",action_tool_overrides,170,hub
+tile_potential,potential,Potential risks,"Raised from the papers, promoted or dismissed.","P5.2,S3.1",action_tool_potential,180,hub

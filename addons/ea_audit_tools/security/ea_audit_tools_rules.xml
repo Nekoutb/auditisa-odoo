@@ -193,4 +193,39 @@
         <field name="model_id" ref="model_ea_audit_firm_holiday"/>
         <field name="domain_force">['|', ('engagement_id', '=', False), ('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_dsp_design_team_only" model="ir.rule">
+        <field name="name">ea.audit.dsp.design: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_dsp_design"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_dsp_choice_team_only" model="ir.rule">
+        <field name="name">ea.audit.dsp.choice: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_dsp_choice"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_dsp_osp_team_only" model="ir.rule">
+        <field name="name">ea.audit.dsp.osp: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_dsp_osp"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_sap_procedure_team_only" model="ir.rule">
+        <field name="name">ea.audit.sap.procedure: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_sap_procedure"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_pbc_item_team_only" model="ir.rule">
+        <field name="name">ea.audit.pbc.item: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_pbc_item"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_fa_ratio_team_only" model="ir.rule">
+        <field name="name">ea.audit.fa.ratio: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_fa_ratio"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_portal_contact_team_only" model="ir.rule">
+        <field name="name">ea.audit.portal.contact: on a file of this client</field>
+        <field name="model_id" ref="model_ea_audit_portal_contact"/>
+        <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>

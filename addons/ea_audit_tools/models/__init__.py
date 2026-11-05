@@ -14,4 +14,8 @@ from . import scot
 from . import sampling
 from . import je_selection
 from . import analyzer
+from . import design
+from . import sap
+from . import pbc
+from . import analysis
 from . import tool_tile

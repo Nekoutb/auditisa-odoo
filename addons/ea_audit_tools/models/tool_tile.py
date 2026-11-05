@@ -188,9 +188,15 @@ class EngagementTools(models.Model):
         except ServiceError as error:
             raise rule_error(self.env, error.code) from error
         method = {"cra": self._ea_import_cra, "significance": self._ea_import_significance, "risks": self._ea_import_risks}.get(kind)
+        if not method and kind in self._ea_extra_import_kinds():
+            method = getattr(self, "_ea_import_%s" % kind)
         if not method:
             raise rule_error(self.env, "not-found")
         return method(table)
+
+    def _ea_extra_import_kinds(self):
+        """The later tools that take a workbook back."""
+        return ("dsp", "pbc")
 
     def _ea_import_cra(self, table):
         self.sudo()._ea_sync_cra()

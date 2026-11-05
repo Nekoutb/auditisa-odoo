@@ -278,3 +278,56 @@ def je_workbook(view, fr):
     for _empty in range(10):
         row_of(exceptions, [None] * 5, background=ENTRY)
     return to_bytes(book)
+
+
+def substantive_workbook(code, title, fr):
+    """The generic substantive paper (F062): population, selection, tests, exceptions, conclusion."""
+    book = new_book()
+    ws = book.create_sheet(tab(code.replace(".", "-")))
+    widths(ws, [10, 38, 16, 18, 18, 18, 28, 28])
+
+    def band(text):
+        row_of(ws, [text] + [None] * 7, bold=True, background=BAND)
+
+    def entry(label):
+        cells = row_of(ws, [label, None, None, None, None, None, None, None])
+        for cell in cells[2:]:
+            cell.fill = fill(ENTRY)
+
+    ws.append([title])
+    ws["A1"].font = Font(bold=True, size=13)
+    ws.append([])
+    band("Identification")
+    for label in (("Client", "Exercice", "Préparé par", "Revu par") if fr else ("Client", "Fiscal year", "Prepared by", "Reviewed by")):
+        entry(label)
+    ws.append([])
+    band("1. Population")
+    for label in (
+        ("Source de la population (IPE)", "Exhaustivité et exactitude vérifiées", "Valeur totale", "Nombre d'éléments") if fr else
+        ("Source of the population (IPE)", "Completeness and accuracy checked", "Total value", "Number of items")
+    ):
+        entry(label)
+    ws.append([])
+    band("2. Sélection" if fr else "2. Selection")
+    for label in (("Méthode", "Seuil des éléments clés", "Taille de l'échantillon") if fr else ("Method", "Key-item threshold", "Sample size")):
+        entry(label)
+    ws.append([])
+    band("3. Tests")
+    row_of(ws, (
+        ["N°", "Élément testé", "Date", "Montant", "Attendu", "Constaté", "Écart", "Commentaire"] if fr else
+        ["No.", "Item tested", "Date", "Amount", "Expected", "Found", "Difference", "Comment"]
+    ), bold=True, background=HDR)
+    for number in range(1, 26):
+        row_of(ws, [number, None, None, None, None, None, None, None], background=ENTRY)
+    ws.append([])
+    band("4. Anomalies" if fr else "4. Exceptions")
+    row_of(ws, (
+        ["N°", "Description", "Montant", "Nature", "Extrapolation", "Corrigée", "Réf. C1.1", "Suite"] if fr else
+        ["No.", "Description", "Amount", "Type", "Projection", "Corrected", "C1.1 ref.", "Follow-up"]
+    ), bold=True, background=HDR)
+    for number in range(1, 6):
+        row_of(ws, [number, None, None, None, None, None, None, None], background=ENTRY)
+    ws.append([])
+    band("5. Conclusion")
+    entry("Conclusion")
+    return to_bytes(book)

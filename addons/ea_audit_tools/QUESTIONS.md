@@ -1,6 +1,6 @@
 # Questionable behaviours found while porting the tools
 
-Source: platform at commit 8725e6a. Only the owner rules (`docs/decisions.md`). "Ported" means the odd behaviour is kept as it is. "Changed" means the port differs, and the reason is given.
+Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only the owner rules (`docs/decisions.md`). "Ported" means the odd behaviour is kept as it is. "Changed" means the port differs, and the reason is given.
 
 ## A. Changed in the port: please confirm
 
@@ -29,6 +29,21 @@ Source: platform at commit 8725e6a. Only the owner rules (`docs/decisions.md`). 
 | A21 | Insights live on the analyzer page (GlInsightsBoard) and always read the CY ledger | They are the console's fourth tab, and still read the CY ledger whichever ledger the console has open | The brief's tabs. The source's choice of ledger is kept. |
 | A22 | Weekday, lag and matrix load every raw row into memory, in no stated order | Read in batches of 2 000 by row number | RAM. "First readable pair of a journal" is therefore in file order. |
 | A23 | No Excel export of an analytic | Extract to Excel on the analytics tab, logged like every export | The brief. |
+| A24 | Walkthrough and close-process answers are key-value rows; `invalid-key` guards the keys | Real fields on the SCOT and on `ea.audit.fscp`, the same 14 and 18 questions; a stray field is `invalid-field` | Native forms. Blank clears, as in the source. |
+| A25 | Control coverage also reads `control_test` rows until E1.2 concludes | Reads the E1.2 conclusion and the design only | `control_test` belongs to the papers. Until they feed it, an inconclusive control counts as neither effective nor failed. |
+| A26 | The S2.5 conclusion is an answer on the paper | `itgc_state` on the engagement, set by `save_itgc_conclusion` | The CRA needs it now. The papers addon should write through that method. |
+| A27 | `todPreview` and `musPreview` return `{ok: false, error}` | They raise the same codes | One way of refusing. |
+| A28 | Engine worksheets are filed as a versioned document on the paper | Kept on the run and downloadable from it | The document model belongs to the papers addon. |
+| A29 | Reconcile is disabled when the E4 paper is not on the file | The method also refuses `recon-task-missing` | A disabled button is not a control. |
+| A30 | PBC upload exists only on the portal | The firm can also record a document received; `upload_pbc` is what the portal will call | The portal addon is not built. Its checks are the same. |
+| A31 | An accepted PBC becomes a document and version | An `ir.attachment` on the task | As A28. |
+| A32 | Portal contacts are user accounts with an invitation | `ea.audit.portal.contact` records who receives requests; the account and invitation wait for the portal | No mail from this addon. Requests and chases are on the trail only: nobody is notified yet. |
+| A33 | The firm's SAP percentages are on the tenant, with a settings screen | `ir.config_parameter` through `set_thresholds`, firm administrators only, **no screen yet** | One database per firm. A settings screen is to be added. |
+| A34 | The template download is a CSV of headers | An `.xlsx` of the same headers | Lists and Excel. |
+| A35 | The E3.1, ToD and ToC workbooks have a long fixed layout | Same tabs and data, condensed text and layout. E1.1 ITGC and the full E1.2 workbook are not ported: the register and samples export instead | Economy. The firm should check the condensed papers before relying on them. |
+| A36 | Eight templates, OHADA checklist and E1.1 included | The E1 and E3 blanks, the four shipped E4 papers, and a generic paper per other E4 task. The checklist and E1.1 are not offered | The checklist's 36 notes need their own port. |
+| A37 | A hub of tiles for these tools did not list SCOTs, ITGC, the close, design, programs, overrides or potential risks | Tiles added; the analyzers are a second page of tiles | They had no way in without the papers addon. |
+| A38 | PBC "red after 14 days" applies to any row with an age | Only to a request still unanswered | An accepted document is not late. Confirm. |
 
 ## B. Ported as they are: please rule
 
@@ -65,11 +80,25 @@ Source: platform at commit 8725e6a. Only the owner rules (`docs/decisions.md`). 
 | B29 | Insights read the raw rows, rejected lines included, and count a negative lag in the same-day bucket; analytic 8 flags it as an exception | Two answers to one question on one screen. |
 | B30 | Two Pearson functions: analytics need 3 points, insights 2 | Two months correlate at ±1 in one place and not at all in the other. |
 | B31 | Lead-figure links keep digit-only accounts and the first 50, silently; a selection above 25 is then refused by the entry analysis | An alphanumeric account or a wide schedule shows a gap that is not in the ledger. |
+| B32 | `linkScotIndex` accepts any `[A-Z0-9]{1,4}`, so an unknown index is stored; `saveDsp` uses another pattern (A8 covers risks and CRA only) | A SCOT can feed an index that does not exist. |
+| B33 | ToC minimums come from `tocSuggested`, while `ATTRIBUTE_SAMPLE_SIZES` is a second table with other figures | Daily 25 or 60 against 30, monthly 2 against 4. |
+| B34 | `musPreview` sizes at TE/3, `planTod` from the audit-risk table | Two sizes for one population. |
+| B35 | `todPreview` needs a single amount column; `todSideView` also takes a debit/credit pair (UAT B30 fixed one of them) | The preview refuses a ledger the workbook reads. |
+| B36 | ToD reads the raw rows, rejected lines included; JE selection and the analytics read the projection | The populations can differ on one ledger. |
+| B37 | **`stableStartFraction` hashes the engagement id. Ids change at migration (UUID to integer), so a migrated file draws a different ToD sample from the same ledger** | Previously drawn samples will not reproduce. Decide before migrating: keep the old UUID for the hash, or accept. |
+| B38 | Redraw after testing goes by team rank; deletions by firm role | A firm senior seated as staff can delete a control but not redraw. |
+| B39 | A CRA not assessed is the tightest for SAP (high), and moderate for ToD | One gap, two defaults. |
+| B40 | A reconciliation difference reads red above 0.5 but raises a finding only above clearly trivial, and through route b4, not b5 | A small visible difference with no record. |
+| B41 | The preliminary review reads the prior engagement's TB, ignoring a prior-year upload; the lead schedule prefers the upload | Adds to B13. |
+| B42 | JE selection never offers out-of-hours testing, as the import has no time of day | ISA 240 users may ask for it. Stated honestly on the screen in the source only. |
+| B43 | A firm-wide holiday can be added by any writer | A firm setting without a firm role. |
+| B44 | Editing a walkthrough or control always voids S1.x and S2.x signatures here; the source compares content hashes | Stricter, until the papers addon brings hashes (see section C). |
 
-## C. Not in this milestone, so reduced
+## C. Reduced, or not built
 
-- Notifications: revisions and risk additions go on the chatter only. No mail from this addon.
-- SCOT coverage and the S2.5 conclusion: `_ea_control_coverage` answers none and `_ea_itgc_state` none until those tools exist, so every "rely" needs a written basis.
+- Notifications: revisions, risk additions, SCOT assignment and PBC requests go on the chatter only. No mail from this addon.
 - SAD entries are entered on the tool until the papers addon feeds them from step results.
-- GL volume on P6.2, adjusting journals, `_ea_carry_forward_from`, the SAP tool: not built.
-- S3.1 invalidation voids live signatures on any saved cell; the platform compares content hashes, which arrive with the papers addon.
+- GL volume on P6.2, adjusting journals, `_ea_carry_forward_from`: not built.
+- S3.1 and the SCOT papers void live signatures on any saved change; the platform compares content hashes, which arrive with the papers addon.
+- The E1.2 test grid is imported from Excel, not edited on screen (decision I-6). Same with the ToC evaluation: `toc_evaluate` is ported and tested, but no screen shows it yet.
+- Review notes, forms and the OHADA register tiles remain greyed: not in this milestone.
