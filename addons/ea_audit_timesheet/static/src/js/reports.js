@@ -10,10 +10,14 @@ const MODEL = "ea.audit.timesheet.sheet";
 export class EaTimeReports extends Component {
     static template = "ea_audit_timesheet.Reports";
     static props = { ...standardActionServiceProps };
-    static path = "rapports-de-temps";
 
     setup() {
         this.orm = useService("orm");
+        // an app opened by its address leaves any mission, and no audit tab is lit
+        const shell = useService("ea_audit_context").state;
+        shell.mission = null;
+        shell.openSection = null;
+        shell.screen = "reports";
         this.action = useService("action");
         this.hours = hours;
         this.groupings = [

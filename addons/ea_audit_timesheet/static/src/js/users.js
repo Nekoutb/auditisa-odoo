@@ -10,10 +10,14 @@ const MODEL = "ea.audit.firm.admin";
 export class EaFirmUsers extends Component {
     static template = "ea_audit_timesheet.Users";
     static props = { ...standardActionServiceProps };
-    static path = "utilisateurs-firme";
 
     setup() {
         this.orm = useService("orm");
+        // an app opened by its address leaves any mission, and no audit tab is lit
+        const shell = useService("ea_audit_context").state;
+        shell.mission = null;
+        shell.openSection = null;
+        shell.screen = "users";
         this.state = useState({
             data: null, error: null, notice: null, link: null, linkFor: "", copied: false,
             invite: { email: "", name: "", role: "staff" },

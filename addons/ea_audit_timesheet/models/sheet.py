@@ -7,7 +7,7 @@ from ..services import deadlines
 from . import labels
 from .common import refuse
 
-OVERDUE_WEEKS = 8
+OVERDUE_WEEKS = 4
 GROUPINGS = ("person", "engagement", "period")
 
 
@@ -147,9 +147,9 @@ class TimesheetSheet(models.AbstractModel):
             "can_submit": can_edit,
             "can_recall": status == deadlines.SUBMITTED,
             "submitted_at": deadlines.instant_label(submitted.submitted_at) if submitted.submitted_at else False,
-            "reopen": reopen and {
+            "reopen": {
                 "until": deadlines.instant_label(reopen.expires_at), "reason": reopen.reason,
-            },
+            } if reopen else False,
             "days": [
                 {
                     "date": fields.Date.to_string(d),

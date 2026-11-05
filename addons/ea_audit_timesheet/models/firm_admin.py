@@ -87,7 +87,7 @@ class FirmAdmin(models.AbstractModel):
                 "active": user.active,
                 "joined": joined,
                 "is_me": user == self.env.user,
-                "state_label": self.env._("Deactivated") if not user.active else (self.env._("Active") if joined else self.env._("Invited")),
+                "state_label": self.env._("Deactivated") if not user.active else (self.env._("Active") if joined or technical else self.env._("Invited")),
                 "last_login": deadlines.instant_label(user.login_date) if joined else "",
             })
         company = self.env.company.sudo()
