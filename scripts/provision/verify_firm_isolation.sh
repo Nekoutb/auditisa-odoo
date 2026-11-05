@@ -34,9 +34,10 @@ must_fail() {
 }
 
 rehearse() {
-  local a=$1 b=$2 work
-  work=$(mktemp -d)
-  trap 'rm -rf "$work"' EXIT
+  local a=$1 b=$2
+  WORK=$(mktemp -d)
+  trap 'rm -rf "$WORK"' EXIT
+  local work=$WORK
   in_folder "$a" fingerprints > "$work/a.peer"
   in_folder "$b" fingerprints > "$work/b.peer"
   in_folder "$a" check --peer "$work/b.peer" --no-network
@@ -92,9 +93,10 @@ real() {
     shift
   done
   [ -n "$a" ] && [ -n "$key_a" ] && [ -n "$b" ] && [ -n "$key_b" ] || die "--a, --key-a, --b and --key-b are required"
-  local work rc=0
-  work=$(mktemp -d)
-  trap 'rm -rf "$work"' EXIT
+  local rc=0
+  WORK=$(mktemp -d)
+  trap 'rm -rf "$WORK"' EXIT
+  local work=$WORK
   on() { local target=$1 key=$2; shift 2; ssh -i "$key" -o IdentitiesOnly=yes -o BatchMode=yes "$target" "$@"; }
 
   on "$a" "$key_a" firm-isolation fingerprints > "$work/a.peer"

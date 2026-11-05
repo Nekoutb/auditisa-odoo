@@ -194,6 +194,15 @@ else
     || runuser -u postgres -- createdb -O odoo -E UTF8 -T template0 --lc-collate=C --lc-ctype=C.UTF-8 "$DB"
   runuser -u odoo -- /opt/odoo19/venv/bin/python /opt/odoo19/src/odoo-bin -c /etc/odoo/odoo.conf -d "$DB" \
     -i ea_platform_admin --without-demo=True --load-language=fr_FR --no-http --max-cron-threads=0 --workers=0 --stop-after-init
+  # No default admin: Odoo's admin/admin never exists on a reachable server. Root reads the password
+  # once from this file, keeps it in the owner's safe and deletes the file.
+  if [ ! -e /etc/auditisa-platform/admin.password ]; then
+    (umask 077; openssl rand -hex 16 > /etc/auditisa-platform/admin.password)
+    { printf 'NEW_PASSWORD = "%s"\n' "$(cat /etc/auditisa-platform/admin.password)"
+      printf 'env.ref("base.user_admin").write({"password": NEW_PASSWORD, "lang": "fr_FR"})\nenv.cr.commit()\n'
+    } | runuser -u odoo -- /opt/odoo19/venv/bin/python /opt/odoo19/src/odoo-bin shell -c /etc/odoo/odoo.conf -d "$DB" \
+        --no-http --max-cron-threads=0 >/dev/null
+  fi
 fi
 run systemctl daemon-reload
 run systemctl enable --now odoo
@@ -251,4 +260,4 @@ run nginx -t
 run systemctl reload nginx
 run certbot --nginx -d "$ADMIN_HOST" -d "$HEARTBEAT_HOST" --redirect --agree-tos --no-eff-email --register-unsafely-without-email --non-interactive
 
-log "done. The first login: set a strong admin password at once, then see docs/runbook/PREREQUISITES.md"
+log "done. The admin password is in /etc/auditisa-platform/admin.password: see docs/runbook/PREREQUISITES.md"
