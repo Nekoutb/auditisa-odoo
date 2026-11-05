@@ -690,7 +690,7 @@ class EngagementScot(models.Model):
 
     def _ea_control_coverage(self, index_code, assertion):
         """Selected controls answering a WCGW with this assertion on a SCOT feeding this index. The E1.2
-        conclusion is what the board reads; control tests stand in with the papers (see QUESTIONS.md)."""
+        conclusion is what the board reads; the raw test outcome stands in until E1.2 concludes (cra.ts)."""
         self.ensure_one()
         scots = self.env["ea.audit.scot"].sudo().search([
             ("engagement_id", "=", self.id), ("index_ids.index_code", "=", index_code),
@@ -700,10 +700,10 @@ class EngagementScot(models.Model):
             if assertion not in control._ea_assertions():
                 continue
             out["covering"] += 1
-            failed = control.design_eval == "ineffective" or control.operating_eval == "not_effective"
-            if failed:
+            concluded = control._ea_concluded()
+            if control.design_eval == "ineffective" or concluded == "not_effective":
                 out["failed"] += 1
-            elif control.operating_eval == "effective":
+            elif concluded == "effective":
                 out["effective"] += 1
         return out
 
@@ -898,10 +898,10 @@ class FileItemScot(models.Model):
 
     _inherit = "ea.audit.file.item"
 
-    def _ea_paper_refusal(self, role):
-        refusal = super()._ea_paper_refusal(role)
-        if refusal or self.code not in ("S1.2", "S1.3", "S2.1", "S2.2", "S2.3"):
-            return refusal
+    def _ea_tool_gap(self):
+        self.ensure_one()
+        if self.code not in ("S1.2", "S1.3", "S2.1", "S2.2", "S2.3"):
+            return super()._ea_tool_gap()
         scots = self.sudo().engagement_id.scot_ids
         controls = scots.control_ids.filtered("selected_for_testing")
         if self.code == "S1.3":

@@ -9,6 +9,8 @@ from ..rules import rule_error
 ARCHIVE_EXEMPT = (
     "ea_audit_completion_record", "ea_audit_legal_hold", "ea_audit_archive_manifest",
     "ea_audit_notice", "ea_audit_notification",
+    # the state of a screen, one row a person: reading an archived ledger still needs it
+    "ea_audit_gl_console",
 )
 _FILE_ITEM_WORK = "state, conditional, not_applicable, na_reason, preparer_id, approver_id, assignee_id, due_date"
 
@@ -26,17 +28,22 @@ def install_archive_trigger(cr, table):
 
 
 def install_archive_triggers(cr):
-    """Every engagement-scoped table present now. Called on install and on update."""
+    """Every engagement-scoped table present now. Called on install and on update. A wizard's table
+    is no evidence: a legal hold placed on an archived file goes through one."""
     cr.execute(
         """SELECT c.table_name FROM information_schema.columns c
              JOIN information_schema.tables t ON t.table_name = c.table_name AND t.table_schema = c.table_schema
             WHERE c.column_name = 'engagement_id' AND c.table_name LIKE 'ea_audit_%%'
-              AND t.table_type = 'BASE TABLE' AND c.table_schema = current_schema()
-              AND c.table_name NOT IN %s""",
-        [ARCHIVE_EXEMPT],
+              AND t.table_type = 'BASE TABLE' AND c.table_schema = current_schema()"""
     )
-    for (table,) in cr.fetchall():
-        install_archive_trigger(cr, table)
+    tables = [row[0] for row in cr.fetchall()]
+    cr.execute("SELECT replace(model, '.', '_') FROM ir_model WHERE transient")
+    transient = {row[0] for row in cr.fetchall()}
+    for table in tables:
+        if table in ARCHIVE_EXEMPT or table in transient or table.endswith("_wizard"):
+            cr.execute("DROP TRIGGER IF EXISTS ea_audit_archive_lock ON %s" % table)
+        else:
+            install_archive_trigger(cr, table)
 
 
 class Notice(models.Model):

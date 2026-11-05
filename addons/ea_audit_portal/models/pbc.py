@@ -39,36 +39,17 @@ class PortalContact(models.Model):
     never sets or sees the password (F069): the account starts with none and the contact chooses
     theirs from a one-time link. Only the link's digest is stored."""
 
-    _name = "ea.audit.portal.contact"
-    _description = "Client portal contact"
+    _inherit = "ea.audit.portal.contact"
     _order = "email"
     _rec_name = "email"
 
-    client_id = fields.Many2one("ea.audit.client", required=True, index=True, ondelete="cascade", readonly=True)
     user_id = fields.Many2one("res.users", required=True, index=True, ondelete="cascade", readonly=True)
-    name = fields.Char(related="user_id.name")
     email = fields.Char(required=True, readonly=True)
     pending = fields.Boolean(default=True, readonly=True, help="The contact has not chosen a password yet.")
     invite_digest = fields.Char(readonly=True, copy=False, groups="base.group_system")
     invite_expires_at = fields.Datetime(readonly=True, copy=False)
 
     _user_uniq = models.Constraint("UNIQUE(user_id)", "A portal account belongs to one client.")
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        if not self.env.su:
-            raise rule_error(self.env, "forbidden")
-        return super().create(vals_list)
-
-    def write(self, vals):
-        if not self.env.su:
-            raise rule_error(self.env, "forbidden")
-        return super().write(vals)
-
-    def unlink(self):
-        if not self.env.su:
-            raise rule_error(self.env, "forbidden")
-        return super().unlink()
 
     def _ea_new_link(self):
         """A fresh one-time link. The previous one stops working as soon as this one is issued."""
@@ -165,7 +146,7 @@ class Client(models.Model):
             "name": name, "login": email, "email": email, "partner_id": partner.id,
             "group_ids": [(6, 0, [self.env.ref("base.group_portal").id])],
         })
-        contact = self.env["ea.audit.portal.contact"].sudo().create({"client_id": self.id, "user_id": user.id, "email": email})
+        contact = self.env["ea.audit.portal.contact"].sudo().create({"client_id": self.id, "user_id": user.id, "email": email, "name": name})
         return contact.with_env(self.env), contact._ea_new_link()
 
     def _ea_show_link(self, contact, link):
@@ -184,31 +165,16 @@ class Client(models.Model):
 
 
 class PbcItem(models.Model):
-    """pbc_item: a document asked of the client. The firm raises and accepts; the client's contacts
-    read and upload. Nothing writes through the plain ORM: see ea.audit.tool.record."""
+    """The firm's request lives in ea_audit_tools. Here: what the client's contact reads and uploads,
+    and the versioned document an accepted upload becomes."""
 
-    _name = "ea.audit.pbc.item"
-    _inherit = ["ea.audit.tool.record"]
-    _description = "Client-provided document request"
-    _order = "id"
-    _rec_name = "title"
+    _inherit = "ea.audit.pbc.item"
 
     client_id = fields.Many2one(related="engagement_id.client_id", store=True, index=True, string="Client")
     fiscal_year = fields.Integer(related="engagement_id.fiscal_year", store=True)
-    title = fields.Char(required=True, readonly=True)
-    note = fields.Text(readonly=True)
-    status = fields.Selection(STATUS_SELECTION, required=True, default="requested", index=True, readonly=True)
-    filename = fields.Char(readonly=True)
-    mime = fields.Char(readonly=True)
-    attachment_id = fields.Many2one("ir.attachment", ondelete="restrict", readonly=True)
-    uploaded_by_id = fields.Many2one("res.users", ondelete="restrict", readonly=True)
-    uploaded_at = fields.Datetime(readonly=True)
-    accepted_by_id = fields.Many2one("res.users", ondelete="restrict", readonly=True)
-    accepted_at = fields.Datetime(readonly=True)
+    attachment_id = fields.Many2one("ir.attachment", string="Upload", ondelete="restrict", readonly=True)
     document_id = fields.Many2one("ea.audit.document", ondelete="set null", readonly=True)
     filed_code = fields.Char(related="document_id.code", string="Filed under")
-    chased_at = fields.Datetime(readonly=True)
-    chase_count = fields.Integer(readonly=True)
 
     # -- portal side -------------------------------------------------------------------
 
@@ -228,8 +194,17 @@ class PbcItem(models.Model):
 
     def upload_pbc(self, filename, content):
         """uploadPbc: the same allowlist and byte-signature check as a task attachment; the stored
-        name and MIME come from what the bytes are, never from the client's claim."""
+        name and MIME come from what the bytes are, never from the client's claim. A member of the
+        firm records a document received another way through the tools' half (A30), and its bytes end
+        up in the same place."""
         self.ensure_one()
+        if self.env.user.has_group("ea_audit_core.group_member"):
+            result = super().upload_pbc(filename, content)
+            row = self.sudo()
+            row.attachment_id = self.env["ir.attachment"].sudo().create({
+                "name": row.filename, "raw": content, "mimetype": row.mime, "res_model": self._name, "res_id": row.id,
+            })
+            return result
         contact = self._ea_contact()
         row = self.sudo()
         if not row.exists() or row.client_id != contact.client_id:
@@ -318,7 +293,10 @@ class PbcItem(models.Model):
         if row.status != "uploaded" or not row.attachment_id:
             raise rule_error(self.env, "wrong-status")
         document = self._ea_file(file_item.sudo())
-        row.write({"status": "accepted", "accepted_by_id": self.env.user.id, "accepted_at": fields.Datetime.now(), "document_id": document.id})
+        row.write({
+            "status": "accepted", "accepted_by_id": self.env.user.id, "accepted_at": fields.Datetime.now(),
+            "document_id": document.id, "file_item_id": file_item.id,
+        })
         row.engagement_id._ea_log("pbc_accepted", "PBC accepted: %s → %s" % (row.title, file_item.sudo().code))
         return document
 
@@ -329,21 +307,17 @@ class PbcItem(models.Model):
         if row.status != "accepted" or row.document_id or not row.attachment_id:
             raise rule_error(self.env, "wrong-status")
         document = self._ea_file(file_item.sudo())
-        row.document_id = document
+        row.write({"document_id": document.id, "file_item_id": file_item.id})
         row.engagement_id._ea_log("pbc_attached", "PBC filed: %s → %s" % (row.title, file_item.sudo().code))
         return document
 
     def action_open_accept(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.pbc.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "target": "new",
             "name": self.env._("Accept and file the upload"),
             "context": {"default_engagement_id": self.sudo().engagement_id.id, "default_item_id": self.id},
         }
-
-    def action_chase(self):
-        self.chase()
-        return True
 
     def action_download(self):
         self.ensure_one()
@@ -355,6 +329,13 @@ class Engagement(models.Model):
     _inherit = "ea.audit.engagement"
 
     pbc_item_ids = fields.One2many("ea.audit.pbc.item", "engagement_id", string="Client-provided documents")
+
+    def add_portal_contact(self, name, email):
+        """The account and its invitation: see Client.add_portal_contact, which returns the link."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        return self.sudo().client_id.with_env(self.env).add_portal_contact(email, name)[0]
+
     pbc_open_count = fields.Integer(string="Open requests", compute="_compute_pbc_open", compute_sudo=True)
 
     def _compute_pbc_open(self):
@@ -384,7 +365,7 @@ class Engagement(models.Model):
     def action_open_pbc_request(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.pbc.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "target": "new",
             "name": self.env._("New request"), "context": {"default_engagement_id": self.id},
         }
 

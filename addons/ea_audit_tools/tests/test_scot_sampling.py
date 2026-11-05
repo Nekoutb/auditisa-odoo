@@ -170,7 +170,7 @@ class TestScots(ScotCase):
         for code, refusal in (("S1.3", "walkthrough-incomplete"), ("S2.1", "control-selection-incomplete"), ("S2.3", "itapp-strategy-missing")):
             item = self.item(self.engagement, code)
             if item:
-                self.assertEqual(item._ea_paper_refusal("preparer"), refusal, code)
+                self.assertEqual(item._ea_tool_gap(), refusal, code)
         self.assertEqual(self.engagement.sudo().scot_ids.walkthrough_open, 14)
 
     def test_the_views_load(self):

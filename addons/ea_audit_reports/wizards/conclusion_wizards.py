@@ -1,3 +1,5 @@
+import base64
+
 from odoo import api, fields, models
 
 from ..services.opinion import decide_opinion
@@ -104,3 +106,31 @@ class HoldWizard(models.TransientModel):
         else:
             self.engagement_id.release_legal_hold(self.reason)
         return {"type": "ir.actions.act_window_close"}
+
+
+class TieoutWizard(models.TransientModel):
+    """The client's statements (ref;amount) against the recomputation. Differences stay on the screen;
+    only a tie-out that passes is recorded."""
+
+    _name = "ea.audit.tieout.wizard"
+    _description = "Tie-out against the client's statements"
+
+    engagement_id = fields.Many2one("ea.audit.engagement", required=True, ondelete="cascade")
+    client_file = fields.Binary(string="Client's statements (CSV: ref;amount)")
+    client_filename = fields.Char()
+    result_html = fields.Html(readonly=True, sanitize=False)
+
+    def action_run(self):
+        self.ensure_one()
+        engagement = self.engagement_id
+        engagement._ea_require_access()
+        content = base64.b64decode(self.client_file) if self.client_file else None
+        result = engagement._ea_fs_tieout(content)
+        if result["pass"]:
+            engagement.run_fs_tieout(content)
+            return {"type": "ir.actions.client", "tag": "soft_reload"}
+        self.result_html = engagement._ea_tieout_html(result)
+        return {
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form",
+            "target": "new", "name": self.env._("Tie-out against the client's statements"),
+        }

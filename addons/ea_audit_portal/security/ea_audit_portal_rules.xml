@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Group rules, not global: the firm reads a request as an accepted member of the file,
-         whatever the firm role; a client contact reads the requests of their own client. -->
-    <record id="rule_pbc_item_team_only" model="ir.rule">
-        <field name="name">ea.audit.pbc.item: accepted team members only</field>
-        <field name="model_id" ref="model_ea_audit_pbc_item"/>
-        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
-    </record>
+    <!-- A client contact reads the requests of their own client. The firm's rule is in ea_audit_tools,
+         a group rule too, so the two do not add up to nothing. -->
     <record id="rule_pbc_item_own_client" model="ir.rule">
         <field name="name">ea.audit.pbc.item: the contact's own client</field>
-        <field name="model_id" ref="model_ea_audit_pbc_item"/>
+        <field name="model_id" ref="ea_audit_tools.model_ea_audit_pbc_item"/>
         <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
         <field name="domain_force">[('client_id.portal_contact_ids.user_id', '=', user.id)]</field>
     </record>

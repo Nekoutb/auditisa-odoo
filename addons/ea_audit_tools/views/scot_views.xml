@@ -113,6 +113,7 @@
             <form create="0">
                 <header>
                     <button name="action_open_draw" type="object" string="Draw the sample" class="btn-primary" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_test" type="object" string="Record a test" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_grid_import" type="object" string="Import the test grid" invisible="not selected_for_testing" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_link" type="object" string="What it answers" groups="ea_audit_core.group_writer"/>
                 </header>
@@ -155,6 +156,19 @@
                             <field name="operating_eval"/>
                         </group>
                     </group>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Operating tests</div>
+                        <field name="test_ids" readonly="1" nolabel="1">
+                            <list>
+                                <field name="description"/>
+                                <field name="result"/>
+                                <field name="deviation_decision"/>
+                                <field name="note"/>
+                                <field name="tested_by_id"/>
+                                <field name="create_date" string="Recorded on"/>
+                            </list>
+                        </field>
+                    </div>
                     <div class="o_ea_panel">
                         <div class="o_ea_card_label">Draw history</div>
                         <field name="draw_ids" readonly="1" nolabel="1">
@@ -464,6 +478,25 @@
                 </group>
                 <footer>
                     <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_control_test_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.control.test.wizard.form</field>
+        <field name="model">ea.audit.control.test.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="control_id" readonly="1"/>
+                    <field name="description"/>
+                    <field name="result"/>
+                    <field name="deviation_decision" invisible="result != 'deviation'" required="result == 'deviation'"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_record" type="object" string="Record" class="btn-primary"/>
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>

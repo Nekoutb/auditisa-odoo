@@ -61,6 +61,8 @@ MESSAGES = {
     "duplicate-name": _lt("This name is already used on this file."),
     "assertion-required": _lt("Choose at least one assertion: a risk with none feeds nothing in the combined assessment."),
     "control-without-wcgw": _lt("Only a control answering at least one thing that can go wrong can be selected for testing."),
+    "deviation-decision-required": _lt("A deviation needs its decision: extend the test, abandon reliance or report a deficiency."),
+    "conclusion-required": _lt("A step is complete only with its conclusion."),
     "toc-no-sample": _lt("A control can be concluded effective only on a sample that was planned and tested."),
     "toc-incomplete": _lt("Test every planned item, with every attribute answered, before concluding the control effective."),
     "toc-population-required": _lt("Enter the number of occurrences of the control in the period."),

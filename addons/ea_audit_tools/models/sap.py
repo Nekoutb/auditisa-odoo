@@ -204,6 +204,13 @@ class EngagementSap(models.Model):
             [("ea_audit_tools.view_sap_list", "list")], {"context": {"ea_engagement_id": self.id, "create": False}},
         )
 
+    def action_open_sap_thresholds(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "name": self.env._("Firm thresholds for substantive analytics"),
+            "res_model": "ea.audit.sap.threshold.wizard", "view_mode": "form", "target": "new",
+        }
+
     def action_open_sap_wizard(self):
         self.ensure_one()
         self._ea_require_access()
@@ -229,3 +236,26 @@ class EngagementSap(models.Model):
             ["Index", "Assertion", "Expectation model", "Inputs", "Expected value", "Data reliability", "CRA level", "Threshold %", "Override reason", "Threshold", "Recorded amount", "Source", "Difference", "Evaluation", "Investigation", "Corroboration", "Conclusion"]
         )
         return "sap-%s.xlsx" % self._ea_export_slug(), simple_workbook("SAP", head, rows)
+
+
+class SapThresholdWizard(models.TransientModel):
+    """setSapThresholds' screen: the firm's percentages, firm administrators only."""
+
+    _name = "ea.audit.sap.threshold.wizard"
+    _description = "Firm thresholds for substantive analytics"
+
+    low = fields.Integer(string="Lower risk (%)", required=True)
+    moderate = fields.Integer(string="Moderate risk (%)", required=True)
+    high = fields.Integer(string="Higher risk (%)", required=True)
+
+    @api.model
+    def default_get(self, fields_list):
+        values = super().default_get(fields_list)
+        current = self.env["ea.audit.sap.settings"]._ea_get()
+        values.update({key: current[key] for key in ("low", "moderate", "high") if key in fields_list})
+        return values
+
+    def action_save(self):
+        self.ensure_one()
+        self.env["ea.audit.sap.settings"].set_thresholds(self.low, self.moderate, self.high)
+        return {"type": "ir.actions.act_window_close"}

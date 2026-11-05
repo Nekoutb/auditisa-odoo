@@ -142,7 +142,10 @@ class TestPbcFlow(PortalCase):
 
     def test_firm_user_is_not_a_portal_user(self):
         self.assertCode("portal-only", self.env["ea.audit.pbc.item"].with_user(self.partner).list_portal_items)
-        self.assertCode("portal-only", self.req.with_user(self.partner).upload_pbc, "gl.csv", CSV)
+        # the firm records a document received another way, on a file it is seated on (A30)
+        self.req.with_user(self.partner).upload_pbc("gl.csv", CSV)
+        self.assertEqual(self.req.sudo().status, "uploaded")
+        self.assertEqual(self.req.sudo().attachment_id.raw, CSV)
 
     def test_contact_never_reaches_the_audit_file(self):
         """Spec 2.3: the portal is PBC requests only."""

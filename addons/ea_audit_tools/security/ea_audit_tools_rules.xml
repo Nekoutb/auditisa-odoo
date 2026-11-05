@@ -163,6 +163,11 @@
         <field name="model_id" ref="model_ea_audit_scot_control"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_control_test_team_only" model="ir.rule">
+        <field name="name">ea.audit.control.test: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_control_test"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
     <record id="rule_toc_draw_team_only" model="ir.rule">
         <field name="name">ea.audit.toc.draw: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_toc_draw"/>
@@ -216,6 +221,7 @@
     <record id="rule_pbc_item_team_only" model="ir.rule">
         <field name="name">ea.audit.pbc.item: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_pbc_item"/>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
     <record id="rule_fa_ratio_team_only" model="ir.rule">
@@ -226,6 +232,7 @@
     <record id="rule_portal_contact_team_only" model="ir.rule">
         <field name="name">ea.audit.portal.contact: on a file of this client</field>
         <field name="model_id" ref="model_ea_audit_portal_contact"/>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
         <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
 </odoo>

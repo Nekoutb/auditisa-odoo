@@ -97,3 +97,7 @@ access_potential_wizard_writer,ea.audit.potential.wizard writer,model_ea_audit_p
 access_wp_assign_wizard_writer,ea.audit.wp.assign.wizard writer,model_ea_audit_wp_assign_wizard,ea_audit_core.group_writer,1,1,1,1
 access_scot_assign_wizard_writer,ea.audit.scot.assign.wizard writer,model_ea_audit_scot_assign_wizard,ea_audit_core.group_writer,1,1,1,1
 access_control_link_wizard_writer,ea.audit.control.link.wizard writer,model_ea_audit_control_link_wizard,ea_audit_core.group_writer,1,1,1,1
+access_control_test_member,ea.audit.control.test member,model_ea_audit_control_test,ea_audit_core.group_member,1,0,0,0
+access_control_test_wizard_writer,ea.audit.control.test.wizard writer,model_ea_audit_control_test_wizard,ea_audit_core.group_writer,1,1,1,1
+access_sap_threshold_wizard_admin,ea.audit.sap.threshold.wizard admin,model_ea_audit_sap_threshold_wizard,ea_audit_core.group_firm_admin,1,1,1,1
+access_step_wizard_writer,ea.audit.step.wizard writer,model_ea_audit_step_wizard,ea_audit_core.group_writer,1,1,1,1

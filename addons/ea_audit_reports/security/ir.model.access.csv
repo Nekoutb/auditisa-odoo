@@ -8,3 +8,4 @@ access_notice_member,notice member,model_ea_audit_notice,ea_audit_core.group_mem
 access_issue_wizard,issue wizard,model_ea_audit_issue_report_wizard,ea_audit_core.group_member,1,1,1,0
 access_completion_wizard,completion wizard,model_ea_audit_completion_wizard,ea_audit_core.group_member,1,1,1,0
 access_hold_wizard,hold wizard,model_ea_audit_hold_wizard,ea_audit_core.group_member,1,1,1,0
+access_tieout_wizard,tieout wizard,model_ea_audit_tieout_wizard,ea_audit_core.group_member,1,1,1,0

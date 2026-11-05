@@ -25,20 +25,24 @@ class ToolTile(models.Model):
     sequence = fields.Integer(default=10, readonly=True)
     section = fields.Char(default="hub", readonly=True, index=True)
     available = fields.Boolean(compute="_compute_available")
+    enabled_method = fields.Char(compute="_compute_available", help="The method, when an installed addon provides it.")
     subtitle = fields.Char(compute="_compute_available")
 
     _code_uniq = models.Constraint("UNIQUE(code)", "A tile code is unique.")
 
     def _compute_available(self):
+        Engagement = self.env["ea.audit.engagement"]
         for tile in self:
-            tile.available = bool(tile.method)
-            tile.subtitle = tile.description if tile.method else "%s %s" % (tile.description, self.env._("(coming)"))
+            on = bool(tile.method) and hasattr(Engagement, tile.method)
+            tile.available = on
+            tile.enabled_method = tile.method if on else False
+            tile.subtitle = tile.description if on else "%s %s" % (tile.description, self.env._("(coming)"))
 
     def action_open_tool(self):
         self.ensure_one()
         engagement = self.env["ea.audit.engagement"].browse(self.env.context.get("ea_engagement_id"))
         engagement._ea_require_access()
-        if not self.method:
+        if not self.method or not hasattr(engagement, self.method):
             raise rule_error(self.env, "tool-not-available")
         if not self.method.startswith("action_tool_"):
             raise rule_error(self.env, "forbidden")
@@ -47,6 +51,25 @@ class ToolTile(models.Model):
 
 class EngagementTools(models.Model):
     _inherit = "ea.audit.engagement"
+
+    def action_tool_review_notes(self):
+        """The file's review notes: section, owner, state and turnaround."""
+        return self._ea_list(
+            "ea.audit.review.note", self.env._("Review notes"),
+            [("ea_audit_tools.view_review_note_register", "list")],
+            {"context": {"ea_engagement_id": self.id, "create": False, "group_by": ["state"]}},
+        )
+
+    def action_tool_forms(self):
+        """Every paper of the file by phase, and who it is assigned to. Opening a row opens its paper."""
+        return self._ea_list(
+            "ea.audit.file.item", self.env._("Forms"),
+            [("ea_audit_tools.view_forms_register", "list")],
+            {
+                "domain": [("engagement_id", "=", self.id), ("conditional", "=", False), ("id", "not in", self.sudo()._ea_e4_out_of_scope().ids)],
+                "context": {"ea_engagement_id": self.id, "create": False, "group_by": ["task_phase"]},
+            },
+        )
 
     def action_open_tools(self):
         """/engagements/[id]/tools."""

@@ -114,7 +114,7 @@ msgstr "Contact du portail client"
 
 #. module: ea_audit_portal
 #: model:ir.model,name:ea_audit_portal.model_ea_audit_pbc_item
-#: model:ir.model,name:ea_audit_portal.model_ea_audit_pbc_wizard
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_portal_pbc_wizard
 msgid "Client-provided document request"
 msgstr "Demande de document au client"
 
@@ -152,7 +152,7 @@ msgstr "Créer et obtenir le lien"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__create_uid
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__create_uid
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__create_uid
 msgid "Created by"
@@ -160,7 +160,7 @@ msgstr "Créé par"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__create_date
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__create_date
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__create_date
 msgid "Created on"
@@ -170,7 +170,7 @@ msgstr "Créé le"
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__display_name
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__display_name
 msgid "Display Name"
@@ -201,7 +201,7 @@ msgstr "E-mail"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__engagement_id
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__engagement_id
 msgid "Engagement"
 msgstr "Mission"
 
@@ -217,7 +217,7 @@ msgstr "Classer sous une tâche"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__filed_code
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__file_item_id
 msgid "Filed under"
 msgstr "Classé sous"
 
@@ -235,7 +235,7 @@ msgstr "Exercice"
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__id
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__id
 msgid "ID"
@@ -260,13 +260,13 @@ msgid "Invite Expires At"
 msgstr "Expiration de l'invitation"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__item_id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__item_id
 msgid "Item"
 msgstr "Demande"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__write_uid
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__write_uid
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__write_uid
 msgid "Last Updated by"
@@ -274,7 +274,7 @@ msgstr "Dernière mise à jour par"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__write_date
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__write_date
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__write_date
 msgid "Last Updated on"
@@ -327,7 +327,7 @@ msgstr "Nouvelle demande"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__note
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__note
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__note
 msgid "Note"
 msgstr "Note"
 
@@ -475,7 +475,7 @@ msgstr "Cette demande n'est pas dans le bon état pour cela."
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__title
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_wizard__title
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__title
 msgid "Title"
 msgstr "Titre"
 

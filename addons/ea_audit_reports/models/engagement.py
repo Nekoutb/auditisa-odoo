@@ -20,6 +20,7 @@ from odoo.addons.ea_audit_tools.services.risk_model import MGMT_OVERRIDE_PROCEDU
 from ..rules import gates_error, rule_error
 from ..services.articles import mark_articles
 from ..services.docx_builder import DOCX_MIME, block, build_docx
+from ..services.fs_tieout import run_tieout
 from ..services.gates import CODE_CAP, GROUP_OF, GROUPS, gate_applies_to_nature, gate_label
 from ..services.letters import LETTER_CODES, LETTER_KINDS, build_letter, end_sentence
 from ..services.opinion import OPINIONS, decide_opinion, report_blocks
@@ -80,6 +81,7 @@ class Engagement(models.Model):
     archive_manifest_id = fields.Many2one("ea.audit.archive.manifest", compute="_compute_conclusion_cards", compute_sudo=True)
     held = fields.Boolean(compute="_compute_conclusion_cards", compute_sudo=True)
     completion_gates_html = fields.Html(compute="_compute_conclusion_cards", sanitize=False)
+    fs_tieout_html = fields.Html(string="FS tie-out", compute="_compute_conclusion_cards", sanitize=False)
     archive_checklist_html = fields.Html(compute="_compute_conclusion_cards", sanitize=False)
     gates_blocking_count = fields.Integer(compute="_compute_conclusion_cards")
     points_from_prior = fields.Text(compute="_compute_conclusion_cards", compute_sudo=True)
@@ -95,6 +97,7 @@ class Engagement(models.Model):
             checklist = as_root._ea_checklist()
             engagement.gates_blocking_count = checklist["blocking"]
             engagement.completion_gates_html = engagement._ea_gates_html(as_root._ea_completion_gates())
+            engagement.fs_tieout_html = engagement._ea_tieout_html() if as_root._ea_tb_balances() else False
             engagement.archive_checklist_html = engagement._ea_checklist_html(checklist)
             prior = as_root._ea_completion_data("points_from_prior") or {}
             engagement.points_from_prior = prior.get("points") or False
@@ -264,27 +267,67 @@ class Engagement(models.Model):
             "lines": lines, "performanceMateriality": materiality.get("performance"),
         })
 
-    def _ea_fs_tieout(self):
-        """computeBilan's checks, from the closings of the current trial balance. The class totals
-        carry their sign: a balanced ledger sums to nil and classes 1-5 mirror the result."""
-        balances = self.sudo()._ea_tb_balances()
-        class15 = sum(line["value"] for line in balances if (line["account"] or " ")[0] in "12345")
-        class68 = sum(line["value"] for line in balances if (line["account"] or " ")[0] in "678")
-        result = -class68
-        checks = [
-            {"key": "tb_balanced", "ok": abs(class15 + class68) < 1, "amount": class15 + class68},
-            {"key": "bilan_equilibrium", "ok": abs(class15 - result) < 1, "amount": class15 - result},
-        ]
-        return {"checks": checks, "crResult": result, "pass": bool(balances) and all(c["ok"] for c in checks)}
+    def _ea_fs_tieout(self, client_fs=None):
+        """runFsTieout: the cascade and the aggregates from the current trial balance, the equilibrium
+        checks, and, when the client's statements are given (ref;amount), what differs from them above
+        the trivial line (spec 10.4). Read as superuser by callers that have guarded."""
+        as_root = self.sudo()
+        rows = [(line["account"] or "", line["value"]) for line in as_root._ea_tb_balances()]
+        threshold = (as_root._ea_materiality_dict() or {}).get("trivial") or 0
+        return run_tieout(rows, threshold, client_fs)
 
-    def run_fs_tieout(self):
+    def run_fs_tieout(self, client_fs=None):
         """fsTieoutAction: only a tie-out that passes reaches the gate."""
         self.ensure_one()
         self._ea_require_access()
-        result = self._ea_fs_tieout()
+        result = self._ea_fs_tieout(client_fs)
         if not result["pass"]:
             raise rule_error(self.env, "tieout-failed")
-        return self.record_completion("fs_tieout", {"checks": result["checks"], "crResult": result["crResult"]})
+        return self.record_completion("fs_tieout", {
+            "checks": result["checks"], "crResult": result["crResult"], "clientCompared": bool(client_fs),
+        })
+
+    def action_open_tieout_wizard(self):
+        self.ensure_one()
+        self._ea_require_access()
+        return {
+            "type": "ir.actions.act_window", "res_model": "ea.audit.tieout.wizard", "view_mode": "form", "target": "new",
+            "name": self.env._("Tie-out against the client's statements"), "context": {"default_engagement_id": self.id},
+        }
+
+    def _ea_tieout_html(self, result=None):
+        """The subtotals of the cascade, the aggregates and the checks, as the auditor reads them."""
+        self.ensure_one()
+        result = result or self._ea_fs_tieout()
+        fr = self._ea_fr()
+        cell = Markup('<tr class="%s"><td>%s</td><td>%s</td><td class="text-end">%s</td></tr>')
+        rows = [
+            cell % ("fw-bold" if line["ref"].startswith("X") else "", line["ref"], line["label"], "{:,.0f}".format(line["amount"]).replace(",", " "))
+            for line in result["cr"] if line["amount"] or line["ref"] == "XI"
+        ]
+        rows += [
+            cell % ("", line["ref"], line["label"] if fr else line["labelEn"], "{:,.0f}".format(line["amount"]).replace(",", " "))
+            for line in result["bilan"] if line["amount"]
+        ]
+        names = {
+            "tb_balanced": ("Balance équilibrée", "Trial balance balanced"),
+            "bilan_equilibrium": ("Équilibre du bilan", "Balance sheet equilibrium"),
+        }
+        marks = Markup("").join(
+            Markup('<li class="o_ea_gate %s"><span class="o_ea_gate_mark">%s</span> %s</li>') % (
+                "o_ea_gate_ok" if check["ok"] else "o_ea_gate_ko", "✓" if check["ok"] else "✗", names[check["key"]][0 if fr else 1],
+            ) for check in result["checks"]
+        )
+        diffs = Markup("").join(
+            Markup('<tr class="table-danger"><td>%s</td><td>%s</td><td class="text-end">%s</td></tr>') % (
+                diff["ref"],
+                ("Client : %s ; recalculé : %s" if fr else "Client: %s; recomputed: %s") % (diff["client"], diff["recomputed"]),
+                "{:,.0f}".format(diff["difference"]).replace(",", " "),
+            ) for diff in result["clientDiffs"]
+        )
+        return Markup('<ul class="o_ea_gates">%s</ul><table class="table table-sm o_ea_tieout"><tbody>%s%s</tbody></table>') % (
+            marks, diffs, Markup("").join(rows),
+        )
 
     def record_disclosure_checklist(self, all_complete, notes=""):
         self.ensure_one()
@@ -637,10 +680,13 @@ class Engagement(models.Model):
         return unsigned, unreviewed
 
     def _ea_untouched_tasks(self):
-        """UAT B63: every non-conditional task carries work or is marked not applicable with a reason."""
+        """UAT B63: every non-conditional task carries work or is marked not applicable with a reason.
+        An E4 task S5.5 left out is on no list, so it asks for nothing here (see QUESTIONS.md)."""
+        scoped_out = self._ea_e4_out_of_scope()
         return [
             row["item"] for row in self._ea_item_activity()
             if not row["item"].conditional and not (row["item"].na_reason or "").strip() and not row["worked"]
+            and row["item"] not in scoped_out
         ]
 
     def _ea_paper_is_complete(self, code):
@@ -648,9 +694,13 @@ class Engagement(models.Model):
         return bool(paper) and paper_complete(paper._ea_resolved(), paper._ea_values())
 
     def _ea_open_control_rows(self):
-        """Selected controls not concluded on. The controls register comes with the S-section tools:
-        no row, nothing blocking, until that addon extends this."""
-        return []
+        """Selected controls not concluded on: design not evaluated, or operating test not recorded,
+        unless the selection was reversed in S2.1. Named for the checklist."""
+        self.ensure_one()
+        controls = self.env["ea.audit.scot.control"].sudo().search([
+            ("engagement_id", "=", self.id), ("selected_for_testing", "=", True),
+        ])
+        return controls.filtered(lambda control: control._ea_is_open()).mapped("name")
 
     def _ea_archive_gates(self):
         """archiveGates. The 60-day window is shown, not enforced: a late file must still be archivable."""
@@ -1196,3 +1246,33 @@ class Engagement(models.Model):
         )
 
 
+class Paper(models.Model):
+    _inherit = "ea.audit.paper"
+
+    def _ea_tieout_failed(self):
+        """E6.10: "column N agrees" cannot be Yes while the tie-out shows unexplained differences."""
+        result = self.sudo().engagement_id._ea_fs_tieout()
+        return bool(result["cr"]) and not result["pass"]
+
+
+class FileItem(models.Model):
+    _inherit = "ea.audit.file.item"
+
+    def ea_paper_board(self):
+        """E6.10 fronts the tie-out: the same figures as the conclusion board."""
+        board = super().ea_paper_board()
+        item = self.sudo()
+        if item.code != "E6.10" or not item.engagement_id._ea_tb_balances():
+            return board
+        result = item.engagement_id._ea_fs_tieout()
+        fr = is_french(self.env)
+        board["facts"] = [
+            {"label": "Résultat net (CR)" if fr else "Net result (income statement)", "value": "{:,.0f} FCFA".format(result["crResult"]).replace(",", " ")},
+            {"label": "Rapprochement" if fr else "Tie-out", "value": ("Concluant" if fr else "Passed") if result["pass"] else ("Écarts" if fr else "Differences")},
+        ]
+        board["head"] = ["Ref", "Poste" if fr else "Caption", "Montant" if fr else "Amount"]
+        board["rows"] = [
+            [line["ref"], line["label"], "{:,.0f}".format(line["amount"]).replace(",", " ")]
+            for line in result["cr"] if line["ref"].startswith("X")
+        ]
+        return board

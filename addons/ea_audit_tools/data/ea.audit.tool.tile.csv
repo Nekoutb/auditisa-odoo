@@ -2,8 +2,8 @@ id,code,name,description,feeds,method,sequence,section
 tile_data_analytics,data-analytics,Data analytics,"Trial balance, general ledger, receivables, payables, inventory.","P6.1,P6.2",action_tool_data_analytics,10,hub
 tile_gl_console,gl-console,General ledger console,Thirty analytics and correlations between accounts.,"P6.2,E3.1",action_tool_gl,20,hub
 tile_lead_schedule,lead-schedule,Lead schedules,"By index, with checks and an Excel extract.","S4.1,C2.1",action_tool_lead,30,hub
-tile_review_notes,review-notes,Review notes,"Section, owner, state and turnaround.","C4.1,C4.3",,40,hub
-tile_forms,forms,Forms,"Every paper by phase, and who it is assigned to.","P1.1,C4.1",,50,hub
+tile_review_notes,review-notes,Review notes,"Section, owner, state and turnaround.","C4.1,C4.3",action_tool_review_notes,40,hub
+tile_forms,forms,Forms,"Every paper by phase, and who it is assigned to.","P1.1,C4.1",action_tool_forms,50,hub
 tile_materiality,materiality,Materiality,"Overall, performance and clearly trivial, with approval.",P6.1,action_tool_materiality,60,hub
 tile_significance,significance,Significant accounts,"Per index: closing against threshold, decision, assertions.",P6.2,action_tool_significance,65,hub
 tile_risk,risk,Risk register,"What can go wrong, by assertion.",S3.1,action_tool_risk,70,hub
@@ -15,7 +15,7 @@ tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and it
 tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,action_tool_je,120,hub
 tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,action_tool_templates,130,hub
 tile_pbc,pbc,PBC requests,Documents requested and reminders.,"P2.2,E1.1",action_tool_pbc,140,hub
-tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",,150,hub
+tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",action_tool_legal,150,hub
 tile_deficiencies,deficiencies,ISA 265 deficiencies,Evaluation and written communication.,C5.11,action_tool_deficiencies,160,hub
 tile_scot,scot,SCOTs and controls,"Classes of transactions, what can go wrong, controls, walkthroughs.","S1.1,S1.2,S1.3,S2.1",action_tool_scot,105,hub
 tile_itgc,itgc,IT applications and ITGC,"The register, the strategy per application and the S2.5 conclusion.","S2.3,S2.5",action_tool_itgc,106,hub

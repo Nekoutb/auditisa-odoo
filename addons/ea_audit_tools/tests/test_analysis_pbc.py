@@ -71,10 +71,14 @@ class TestPbc(ToolsCase):
             as_senior.accept(self.env["ea.audit.file.item"])
         with self.assertRaisesRegex(Exception, "forbidden"):
             item.accept(task)
-        attachment = as_senior.accept(task)
+        filed = as_senior.accept(task)
         self.assertEqual(item.sudo().status, "accepted")
-        self.assertEqual(attachment.res_id, task.id)
-        self.assertEqual(base64.b64decode(attachment.datas), PDF)
+        self.assertEqual(item.sudo().file_item_id, task.sudo())
+        if "document_id" in item._fields:  # ea_audit_portal files it as a versioned document
+            self.assertEqual(filed.sudo().current_version_id.attachment_id.raw, PDF)
+        else:
+            self.assertEqual(filed.res_id, task.id)
+            self.assertEqual(base64.b64decode(filed.datas), PDF)
         with self.assertRaisesRegex(Exception, "wrong-status"):
             as_senior.attach_accepted(task)
 

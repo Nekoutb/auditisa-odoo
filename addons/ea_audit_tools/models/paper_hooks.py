@@ -35,8 +35,7 @@ class FileItem(models.Model):
     _inherit = "ea.audit.file.item"
 
     def _ea_tool_gap(self):
-        """P6.2 reads the real rows. S1.2, S1.3, S2.1, S2.2 and S2.3 keep their refusal:
-        their records belong to SCOT Studio and S2.5, which are not built."""
+        """P6.2 reads the real rows; S1.2, S1.3, S2.1, S2.2 and S2.3 read SCOT Studio (scot.py)."""
         self.ensure_one()
         if self.code == "P6.2":
             rows = self.sudo().engagement_id._ea_significance_rows()
@@ -286,6 +285,18 @@ class Paper(models.Model):
                 link["action"] = action
         return links
 
+    def _ea_after_save(self, writes):
+        """S2.5: the conclusion answered on the paper is the one the CRA reads."""
+        result = super()._ea_after_save(writes)
+        paper = self.sudo()
+        if paper.code == "S2.5" and "itgc_state" in writes:
+            engagement = paper.engagement_id
+            state = (writes["itgc_state"] or "").strip() or False
+            if engagement.itgc_state != state:
+                engagement.itgc_state = state
+                engagement._ea_log("itgc_concluded", "S2.5 ITGC conclusion: %s" % (state or "—"))
+        return result
+
     def _ea_sync_seeded_response_step(self):
         """E3.1 (syncSeededResponseStep): every conclusion answered completes the seeded
         management-override step; a conclusion withdrawn reopens it."""
@@ -320,9 +331,30 @@ class ProgramStep(models.Model):
         self._ea_void_papers()
         return result
 
+    def complete(self, conclusion):
+        result = super().complete(conclusion)
+        self._ea_void_papers()
+        return result
+
+    def uncomplete(self):
+        result = super().uncomplete()
+        self._ea_void_papers()
+        return result
+
 
 class Engagement(models.Model):
     _inherit = "ea.audit.engagement"
+
+    def save_itgc_conclusion(self, state):
+        """The tool and the paper hold one conclusion: the tool answers on the paper, so its hash,
+        its history and its signatures follow."""
+        result = super().save_itgc_conclusion(state)
+        paper = self.env["ea.audit.paper"].sudo().search(
+            [("engagement_id", "=", self.id), ("code", "=", "S2.5")], limit=1,
+        )
+        if paper and (paper._ea_values().get("itgc_state") or "") != (state or ""):
+            paper.with_env(self.env).save_answers({"itgc_state": state or ""})
+        return result
 
     def add_program_step(self, file_item, description, assertions=(), source="manual"):
         step = super().add_program_step(file_item, description, assertions=assertions, source=source)

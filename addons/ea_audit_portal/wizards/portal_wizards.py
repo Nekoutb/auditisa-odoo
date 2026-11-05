@@ -27,7 +27,7 @@ class PortalContactWizard(models.TransientModel):
 class PbcWizard(models.TransientModel):
     """New request, or the task an accepted upload is filed under."""
 
-    _name = "ea.audit.pbc.wizard"
+    _name = "ea.audit.portal.pbc.wizard"
     _description = "Client-provided document request"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True, ondelete="cascade")

@@ -682,6 +682,10 @@ class Engagement(models.Model):
         ]
         return extra
 
+    def action_tool_legal(self):
+        """The hub's tile."""
+        return self.action_open_legal()
+
     def action_open_legal(self):
         self.ensure_one()
         return self._ea_board("ea_audit_legal.view_engagement_legal_form", self.env._("OHADA legal register"))

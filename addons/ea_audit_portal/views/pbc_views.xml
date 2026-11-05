@@ -57,7 +57,7 @@
     </record>
     <record id="view_pbc_wizard" model="ir.ui.view">
         <field name="name">ea.audit.pbc.wizard.form</field>
-        <field name="model">ea.audit.pbc.wizard</field>
+        <field name="model">ea.audit.portal.pbc.wizard</field>
         <field name="arch" type="xml">
             <form>
                 <group>

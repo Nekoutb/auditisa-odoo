@@ -272,6 +272,27 @@ class EngagementDesign(models.Model):
         self._ea_log("dsp_changed", "S5.5 %s osp_list changed" % index_code)
         return osp.with_env(self.env)
 
+    def _ea_designed_indexes(self):
+        """dspDesignedIndexes: the lead indexes with a library procedure or a custom one in S5.5."""
+        self.ensure_one()
+        chosen = self.env["ea.audit.dsp.choice"].sudo().search([("engagement_id", "=", self.id), ("selected", "=", True)])
+        osps = self.env["ea.audit.dsp.osp"].sudo().search([("engagement_id", "=", self.id)])
+        return set(chosen.design_id.mapped("index_code")) | set(osps.mapped("index_code"))
+
+    def _ea_e4_out_of_scope(self):
+        """visibleE4Codes' other side (F010): the E4 tasks S5.5 left out. A task shows when an account
+        it holds was designed, when it holds no account, or when it already holds work. Nothing is
+        written: designing a procedure brings the task back, on every list at once."""
+        self.ensure_one()
+        designed = self._ea_designed_indexes()
+        items = self.env["ea.audit.file.item"].sudo().search([
+            ("engagement_id", "=", self.id), ("code", "=like", "E4.%"), ("conditional", "=", False),
+        ])
+        def scoped_out(item):
+            indexes = indexes_for_task(item.code)
+            return bool(indexes) and item.state == "not_started" and not designed.intersection(indexes)
+        return items.filtered(scoped_out)
+
     def generate_psp(self, task_code):
         """generatePsp: what S5.5 designed for the task's accounts, idempotent. -1 when nothing was
         designed. The catalog half runs once; a custom procedure is de-duplicated on its wording."""

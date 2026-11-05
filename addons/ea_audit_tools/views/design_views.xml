@@ -71,8 +71,30 @@
                 <field name="assertion_ids" widget="many2many_tags"/>
                 <field name="source"/>
                 <field name="status"/>
+                <field name="conclusion" optional="show"/>
+                <field name="completed_by_id" optional="hide"/>
                 <field name="risk_ids" widget="many2many_tags" optional="hide"/>
+                <button name="action_open_complete" type="object" string="Complete" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
+                <button name="action_open_na" type="object" string="N/A" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
+                <button name="action_uncomplete" type="object" string="Reopen" invisible="status != 'done'" groups="ea_audit_core.group_writer"/>
             </list>
+        </field>
+    </record>
+    <record id="view_step_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.step.wizard.form</field>
+        <field name="model">ea.audit.step.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="step_id" readonly="1"/>
+                    <field name="mode" invisible="1"/>
+                    <field name="text"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
         </field>
     </record>
     <record id="view_program_step_search" model="ir.ui.view">
@@ -105,6 +127,32 @@
             </list>
         </field>
     </record>
+    <record id="view_sap_threshold_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.sap.threshold.wizard.form</field>
+        <field name="model">ea.audit.sap.threshold.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <p>The share of the expectation a difference may reach, by combined risk. Only procedures saved after this change take the new figures.</p>
+                <group>
+                    <field name="low"/>
+                    <field name="moderate"/>
+                    <field name="high"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_sap_thresholds" model="ir.actions.act_window">
+        <field name="name">Firm thresholds for substantive analytics</field>
+        <field name="res_model">ea.audit.sap.threshold.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_sap_thresholds" name="Substantive analytics thresholds" parent="ea_audit_core.menu_settings"
+              action="action_sap_thresholds" sequence="40" groups="ea_audit_core.group_firm_admin"/>
     <record id="view_engagement_sap_board" model="ir.ui.view">
         <field name="name">ea.audit.engagement.sap.board</field>
         <field name="model">ea.audit.engagement</field>
@@ -115,6 +163,7 @@
                     <button name="action_open_sap_wizard" type="object" string="Save a procedure" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_sap_procedures" type="object" string="The procedures"/>
                     <button name="action_export_sap" type="object" string="Export to Excel"/>
+                    <button name="action_open_sap_thresholds" type="object" string="Firm thresholds" groups="ea_audit_core.group_firm_admin"/>
                 </header>
                 <sheet>
                     <div class="o_ea_title">Substantive analytics</div>
