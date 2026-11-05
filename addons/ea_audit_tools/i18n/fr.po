@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 13:27+0000\n"
-"PO-Revision-Date: 2026-11-05 13:27+0000\n"
+"POT-Creation-Date: 2026-11-05 13:44+0000\n"
+"PO-Revision-Date: 2026-11-05 13:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_je_studio__use_incomplete_description
-msgid "\"Divers\", \"OD\" and \"régularisation\" are descriptions in form only: a reviewer learns nothing from them, so in substance the entry went unreviewed."
+msgid "\"Divers\", \"OD\" and \"regularisation\" are descriptions in form only: a reviewer learns nothing from them, so in substance the entry went unreviewed."
 msgstr "« Divers », « OD » ou « régularisation » ne sont des libellés que par la forme : le réviseur n'en apprend rien, l'écriture est donc en substance non revue."
 
 #. module: ea_audit_tools
@@ -2622,7 +2622,7 @@ msgstr "Écart"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__deviation_decision
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__deviation_decision
 msgid "Deviation Decision"
-msgstr ""
+msgstr "Décision d'écart"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__deviations
@@ -2635,6 +2635,12 @@ msgstr "Écarts"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__difference
 msgid "Difference"
 msgstr "Écart"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/paper_boards.js:0
+msgid "Differences (SAD)"
+msgstr "Anomalies (SAD)"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__wt_exceptions
@@ -3442,7 +3448,7 @@ msgstr "Champ"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__field_key
 msgid "Field Key"
-msgstr ""
+msgstr "Clé du champ"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__figure_accounts
@@ -4989,6 +4995,8 @@ msgid "Lead indexes (S1.1)"
 msgstr "Indices (S1.1)"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/paper_boards.js:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_lead_schedule
 msgid "Lead schedule"
 msgstr "Feuille maîtresse"
@@ -5353,6 +5361,12 @@ msgid "Materiality status"
 msgstr "État du seuil"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/paper_boards.js:0
+msgid "Materiality tool"
+msgstr "Outil de matérialité"
+
+#. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_materiality
 msgid "Materiality version"
 msgstr "Version du seuil"
@@ -5403,7 +5417,7 @@ msgstr "Méthode"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__mime
 msgid "Mime"
-msgstr ""
+msgstr "Type de fichier"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__minimal
@@ -7256,7 +7270,7 @@ msgstr "Résultat"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__result_html
 msgid "Result Html"
-msgstr ""
+msgstr "Résultat"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__result_truncated
@@ -7379,6 +7393,12 @@ msgstr "Sélection orientée risque, motif de chaque choix."
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__risks
 msgid "Risks"
 msgstr "Risques"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/paper_boards.js:0
+msgid "Risks and CRA"
+msgstr "Risques et CRA"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -7832,8 +7852,10 @@ msgid "Significant account decision"
 msgstr "Décision sur compte significatif"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/significance.py:0
+#: code:addons/ea_audit_tools/static/src/js/paper_boards.js:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_significance
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_ids
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__significance
@@ -7933,7 +7955,7 @@ msgstr "Seuil spécifique"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__stale
 msgid "Stale"
-msgstr ""
+msgstr "Périmé"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__sd_factor
@@ -8064,7 +8086,7 @@ msgstr "Procédures de substance"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__subtitle
 msgid "Subtitle"
-msgstr ""
+msgstr "Sous-titre"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__suggested_cr
@@ -9051,7 +9073,7 @@ msgstr "Valide"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__validation
 msgid "Validation"
-msgstr ""
+msgstr "Validation"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__validation_status

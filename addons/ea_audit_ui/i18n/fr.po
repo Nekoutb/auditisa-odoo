@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 13:14+0000\n"
-"PO-Revision-Date: 2026-11-05 13:14+0000\n"
+"POT-Creation-Date: 2026-11-05 13:44+0000\n"
+"PO-Revision-Date: 2026-11-05 13:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -477,11 +477,6 @@ msgid "Execution of tests of controls"
 msgstr "Exécution des tests de contrôles"
 
 #. module: ea_audit_ui
-#: model_terms:ir.ui.view,arch_db:ea_audit_ui.view_engagement_kanban
-msgid "Exercice"
-msgstr ""
-
-#. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "FR"
@@ -513,6 +508,7 @@ msgstr "Constat %(reference)s : %(title)s"
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.view_engagement_kanban
 msgid "Fiscal year"
 msgstr "Exercice"
 
