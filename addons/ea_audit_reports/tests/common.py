@@ -11,6 +11,8 @@ class ReportsCase(ToolsCase):
     """ToolsCase's file and team, and what it takes to turn the completion gates green."""
 
     def setUp(self):
+        # A French firm: the documents below read in the engagement's report language, its default.
+        self.env.company.sudo().partner_id.lang = "fr_FR"
         super().setUp()
         self.as_partner = self.engagement.with_user(self.partner)
         self.as_manager = self.engagement.with_user(self.manager)

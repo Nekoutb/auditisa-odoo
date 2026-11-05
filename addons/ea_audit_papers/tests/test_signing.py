@@ -83,7 +83,7 @@ class TestVoiding(PaperCase):
         self.assertEqual(paper.file_item_id.state, "in_progress")
         voided = paper.signoff_ids.filtered("voided_at")
         self.assertEqual(len(voided), 2)
-        self.assertIn("contenu de la feuille modifié", voided[0].void_reason)
+        self.assertIn("Paper content changed", voided[0].void_reason)
         self.assertEqual(voided[0].invalidated_reason, voided[0].void_reason)
         # the row stays: history is never rewritten, and it can be signed again
         self.assertEqual(self.sign(self.senior, self.engagement, "P3.1", "preparer"), "preparer")

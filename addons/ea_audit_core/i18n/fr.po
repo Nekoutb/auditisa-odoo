@@ -560,6 +560,10 @@ msgstr "Refusée"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_29
+msgid "Depreciation & Provisions (VD2)"
+msgstr "Dotations et provisions (VD2)"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_29
 msgid "Depreciation & Provisions (VD2)"
 msgstr "Dotations amortissements et provisions (VD2)"
@@ -581,12 +585,20 @@ msgstr "Tests écritures & fraude"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_5
+msgid "Design Substantive Procedures"
+msgstr "Procédures substantives"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S5_5
 msgid "Design Substantive Procedures"
 msgstr "Concevoir les procédures substantives"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_2
+msgid "Design Tests of Controls"
+msgstr "Conception des tests de contrôles"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_2
 msgid "Design Tests of Controls"
 msgstr "Concevoir les tests de contrôles"
@@ -719,6 +731,10 @@ msgstr "Lettre de mission (ISA 210)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_2
+msgid "Engagement Quality Review"
+msgstr "Revue qualité de la mission"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C4_2
 msgid "Engagement Quality Review"
 msgstr "Revue de qualité de la mission"
@@ -730,6 +746,10 @@ msgstr "Détermination de la revue de qualité (ISQM 1/2)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_2
+msgid "Engagement Team Discussion"
+msgstr "Discussion de l'équipe"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P5_2
 msgid "Engagement Team Discussion"
 msgstr "Discussion de l'équipe de mission"
@@ -1122,6 +1142,10 @@ msgstr "Environnement & implication IT"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_1
+msgid "ITGC Testing"
+msgstr "Contrôles généraux informatiques"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E1_1
 msgid "ITGC Testing"
 msgstr "Tests des contrôles généraux informatiques"
@@ -1994,6 +2018,10 @@ msgstr "Parties liées (ISA 550)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_1
+msgid "Reliance on Experts (ISA 620)"
+msgstr "Recours à un expert (ISA 620)"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S5_1
 msgid "Reliance on Experts (ISA 620)"
 msgstr "Utilisation des travaux d'un expert (ISA 620)"
@@ -2114,6 +2142,10 @@ msgstr "Secteur"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_1
+msgid "Select Controls to Test"
+msgstr "Sélection des contrôles"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_1
 msgid "Select Controls to Test"
 msgstr "Sélectionner les contrôles à tester"
@@ -2292,9 +2324,13 @@ msgstr "Commissariat aux comptes"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_2
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_6
-#: model:ea.audit.task.template,title:ea_audit_core.task_E6_6
 msgid "Subsequent Events (ISA 560)"
 msgstr "Événements postérieurs (ISA 560)"
+
+#. module: ea_audit_core
+#: model:ea.audit.task.template,title:ea_audit_core.task_E6_6
+msgid "Subsequent Events (ISA 560)"
+msgstr "Événements postérieurs à la clôture (ISA 560)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C2_2
@@ -2303,12 +2339,20 @@ msgstr "Revue des événements postérieurs (ISA 560)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_2
+msgid "Summary Review Memorandum"
+msgstr "Mémorandum récapitulatif"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C1_2
 msgid "Summary Review Memorandum"
 msgstr "Mémorandum récapitulatif de revue"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_1
+msgid "Summary of Audit Differences"
+msgstr "Écarts d'audit"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C1_1
 msgid "Summary of Audit Differences"
 msgstr "Récapitulatif des écarts d'audit"

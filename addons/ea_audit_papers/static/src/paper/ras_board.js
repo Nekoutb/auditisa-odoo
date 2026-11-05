@@ -58,5 +58,5 @@ export class RasBoard extends Component {
 
 registry.category("ea_audit_paper_boards").add("P7.2", {
     Component: RasBoard,
-    label: { fr: "Synthèse de planification", en: "Planning summary" },
+    label: _t("Planning summary"),
 });

@@ -1,6 +1,9 @@
 import glob
+import io
 import os
 from datetime import date, timedelta
+
+import openpyxl
 
 from odoo import fields
 from odoo.exceptions import AccessError
@@ -500,3 +503,70 @@ class TestRegister(LegalCase):
         self.assertCode("forbidden", row.write, {"nature": "x"})
         self.assertCode("forbidden", row.unlink)
         self.assertCode("forbidden", self.env["ea.audit.legal.deadline"].with_user(self.partner).create, {"engagement_id": self.engagement.id, "key": "x", "due_date": "2026-01-01"})
+
+
+@tagged("post_install", "-at_install")
+class TestEnglishDocuments(LegalCase):
+    """The report language of the engagement decides, whoever generates; the reader's language
+    does not change a document."""
+
+    FRENCH = ("commissaire", "Exercice clos", "Nous ", "Rapport ", "convention", "à valider", "Fait le")
+
+    def setUp(self):
+        super().setUp()
+        self.engagement.sudo().report_language = "en"
+        self.as_french_reader = self.as_partner.with_context(lang="fr_FR")
+
+    def assert_english(self, document):
+        self.assertEqual(document.sudo().language, "en")
+        text = self.text(document)
+        for word in self.FRENCH:
+            self.assertNotIn(word, text)
+        return text
+
+    def test_the_default_is_the_firm_language(self):
+        self.assertEqual(self.env["ea.audit.engagement"]._ea_firm_language(), "fr")
+        self.assertEqual(self.make_engagement(client=self.sarl).report_language, "fr")
+        self.env.company.sudo().partner_id.lang = "en_US"
+        self.assertEqual(self.env["ea.audit.engagement"]._ea_firm_language(), "en")
+
+    def test_the_audit_report_certifies_in_english_to_validate(self):
+        document = self.as_french_reader.generate_audit_report("unmodified", "2026-03-31")
+        text = self.assert_english(document)
+        self.assertIn("We certify that", text)
+        self.assertIn("(to validate)", text)
+        self.assertIn("31/03/2026", text)
+
+    def test_legal_documents(self):
+        for document in (
+            self.as_french_reader.generate_rapport_special(),
+            self.as_french_reader.generate_article_715_report(),
+        ):
+            text = self.assert_english(document)
+            self.assertIn("(to validate)", text)
+        self.assertIn("art. 715 (to validate)", text)
+
+    def test_the_jurist_lifts_the_english_mark(self):
+        self.env.company.sudo().ea_articles_validated = True
+        self.assertNotIn("(to validate)", self.text(self.as_partner.generate_article_715_report()))
+
+    def test_letters_and_amounts(self):
+        for kind in ("engagement", "rep_affirmation", "management_letter"):
+            self.assert_english(self.as_french_reader.generate_letter(kind))
+        self.env["ea.audit.misstatement"].sudo().create({
+            "engagement_id": self.engagement.id, "description": "x", "amount": 5_000_000,
+        })
+        text = self.text(self.as_partner.generate_letter("rep_affirmation"))
+        self.assertIn("5,000,000 FCFA", text)
+
+    def test_exports_follow_the_report_language(self):
+        filename, content = self.as_french_reader.ea_export_xlsx("findings")
+        self.assertTrue(content)
+        sheet = openpyxl.load_workbook(io.BytesIO(content)).active
+        header = " ".join(str(cell.value) for row in sheet.iter_rows(min_row=1, max_row=3) for cell in row if cell.value)
+        self.assertNotIn("Gravité", header)
+        self.engagement.sudo().report_language = "fr"
+        _name, content = self.as_partner.ea_export_xlsx("findings")
+        sheet = openpyxl.load_workbook(io.BytesIO(content)).active
+        header = " ".join(str(cell.value) for row in sheet.iter_rows(min_row=1, max_row=3) for cell in row if cell.value)
+        self.assertIn("Gravité", header)
