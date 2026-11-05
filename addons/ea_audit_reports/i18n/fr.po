@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 11:04+0000\n"
-"PO-Revision-Date: 2026-11-05 11:04+0000\n"
+"POT-Creation-Date: 2026-11-05 13:27+0000\n"
+"PO-Revision-Date: 2026-11-05 13:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,18 @@ msgstr "Lettre d'affirmation"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__all_complete
 msgid "All 36 notes reviewed and complete"
 msgstr "Les 36 notes sont revues et complètes"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Amount"
+msgstr "Montant"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Ancillary income"
+msgstr "Produits accessoires"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__archive_checklist_html
@@ -143,6 +155,12 @@ msgid "Audit notice"
 msgstr "Avis d'audit"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Balance sheet equilibrium"
+msgstr "Équilibre du bilan"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__base_version
 msgid "Base Version"
 msgstr "Version de départ"
@@ -182,6 +200,42 @@ msgstr "Annuler"
 
 #. module: ea_audit_reports
 #. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Capitalised production"
+msgstr "Production immobilisée"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Caption"
+msgstr "Poste"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Carrying value of disposals"
+msgstr "Valeurs comptables des cessions"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Change in goods inventory"
+msgstr "Variation stocks marchandises"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Change in other supplies inventory"
+msgstr "Variation stocks autres appro."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Change in raw materials inventory"
+msgstr "Variation stocks MP"
+
+#. module: ea_audit_reports
+#. odoo-python
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "Choose a letter from those offered."
 msgstr "Choisissez une lettre parmi celles proposées."
@@ -195,6 +249,12 @@ msgstr "Nom du fichier du client"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__client_file
 msgid "Client's statements (CSV: ref;amount)"
 msgstr "États du client (CSV : réf;montant)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Client: %(client)s; recomputed: %(recomputed)s"
+msgstr "Client : %(client)s ; recalculé : %(recomputed)s"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_tieout_wizard
@@ -300,6 +360,12 @@ msgid "Data"
 msgstr "Données"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Differences"
+msgstr "Écarts"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_engagement__opinion__disclaimer
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_issue_report_wizard__opinion__disclaimer
 msgid "Disclaimer"
@@ -332,6 +398,12 @@ msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Disposal proceeds"
+msgstr "Produits des cessions"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__document_id
 msgid "Document"
 msgstr "Document"
@@ -362,6 +434,12 @@ msgid "Download Word"
 msgstr "Télécharger le Word"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Employee profit sharing"
+msgstr "Participation des travailleurs"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__engagement_id
@@ -386,9 +464,27 @@ msgid "English"
 msgstr "Anglais"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Equity (10–15, excluding the result)"
+msgstr "Capitaux propres (10–15, hors résultat)"
+
+#. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
 msgid "Export the file"
 msgstr "Exporter le dossier"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "External services"
+msgstr "Services extérieurs"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "FINANCIAL RESULT"
+msgstr "RÉSULTAT FINANCIER"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__fs_tieout_html
@@ -412,6 +508,42 @@ msgid "Fill in the required fields."
 msgstr "Renseignez les champs obligatoires."
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Financial allowances"
+msgstr "Dotations financières"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Financial debt (16–18)"
+msgstr "Dettes financières (16–18)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Financial expense transfers"
+msgstr "Transferts de charges financières"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Financial expenses"
+msgstr "Frais financiers"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Financial income"
+msgstr "Revenus financiers"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Financial reversals"
+msgstr "Reprises financières"
+
+#. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
 msgid "Financial statement tie-out"
 msgstr "Rapprochement des états financiers"
@@ -425,6 +557,18 @@ msgstr "Fixée à l'archivage du dossier"
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__language__fr
 msgid "French"
 msgstr "Français"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "GROSS OPERATING SURPLUS"
+msgstr "EXCÉDENT BRUT D'EXPLOITATION"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "GROSS TRADING MARGIN"
+msgstr "MARGE COMMERCIALE"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__gates_blocking_count
@@ -502,6 +646,12 @@ msgstr "Sous conservation légale"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__id
 msgid "ID"
 msgstr "ID"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Income tax"
+msgstr "Impôts sur le résultat"
 
 #. module: ea_audit_reports
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_issue_report_wizard
@@ -671,9 +821,57 @@ msgid "Moves with each save: the form's optimistic lock (UAT B104)."
 msgstr "Change à chaque enregistrement : le verrou optimiste du formulaire (UAT B104)."
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "NET RESULT"
+msgstr "RÉSULTAT NET"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "NON-ORDINARY RESULT"
+msgstr "RÉSULTAT HAO"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__ea_display_name
 msgid "Name on letterhead"
 msgstr "Nom sur l'en-tête"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Net cash (5x)"
+msgstr "Trésorerie nette (5x)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Net fixed assets (2x incl. 28/29)"
+msgstr "Actif immobilisé net (2x, y compris 28/29)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Net inventories and work in progress (3x)"
+msgstr "Stocks et encours nets (3x)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Net result (income statement)"
+msgstr "Résultat net (CR)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Net result for the year (from the income statement)"
+msgstr "Résultat net de l'exercice (du CR)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Net third-party balances (4x — sign-split at FS presentation)"
+msgstr "Tiers nets (4x — ventilés par signe à la présentation des états)"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__kam_none
@@ -689,6 +887,12 @@ msgstr "Note"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_wizard__text
 msgid "Notes"
 msgstr "Notes"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "OPERATING RESULT"
+msgstr "RÉSULTAT D'EXPLOITATION"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
@@ -715,11 +919,65 @@ msgid "Only a partner can archive the file."
 msgstr "Seul un associé peut archiver le dossier."
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Operating allowances"
+msgstr "Dotations d'exploitation"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Operating expense transfers"
+msgstr "Transferts de charges d'exploitation"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Operating reversals"
+msgstr "Reprises d'exploitation"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Operating subsidies"
+msgstr "Subventions d'exploitation"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__opinion
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__opinion
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
 msgid "Opinion"
 msgstr "Opinion"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Other expenses"
+msgstr "Autres charges"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Other income"
+msgstr "Autres produits"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Other non-ordinary expenses"
+msgstr "Autres charges HAO"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Other non-ordinary income"
+msgstr "Autres produits HAO"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Other purchases"
+msgstr "Autres achats"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_document_list
@@ -737,6 +995,18 @@ msgstr "Conclusion de l'associé"
 #: model:ir.model.fields,help:ea_audit_reports.field_ea_audit_document_version__restricted
 msgid "Partners only: the disclosure of criminal facts (spec 12.5.6)."
 msgstr "Associés uniquement : la révélation de faits délictueux (spéc. 12.5.6)."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Passed"
+msgstr "Concluant"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Personnel expenses"
+msgstr "Charges de personnel"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_hold_wizard__mode__place
@@ -780,16 +1050,58 @@ msgid "Print PDF"
 msgstr "Imprimer le PDF"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Production held in inventory"
+msgstr "Production stockée"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Provisions for risks and charges (19)"
+msgstr "Provisions pour risques et charges (19)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Purchases of goods"
+msgstr "Achats de marchandises"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Purchases of raw materials"
+msgstr "Achats de MP"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_engagement__opinion__qualified
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_issue_report_wizard__opinion__qualified
 msgid "Qualified"
 msgstr "Avec réserves"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "RESULT OF ORDINARY ACTIVITIES"
+msgstr "RÉSULTAT DES ACTIVITÉS ORDINAIRES"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "REVENUE"
+msgstr "CHIFFRE D'AFFAIRES"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__reason
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__reason
 msgid "Reason"
 msgstr "Motif"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Ref"
+msgstr "Réf."
 
 #. module: ea_audit_reports
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_hold_wizard__mode__release
@@ -900,6 +1212,18 @@ msgid "SHA-256"
 msgstr "SHA-256"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Sales of goods"
+msgstr "Ventes de marchandises"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Sales of manufactured goods"
+msgstr "Ventes de produits fabriqués"
+
+#. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_completion_wizard
 msgid "Save"
 msgstr "Enregistrer"
@@ -941,6 +1265,12 @@ msgstr "Des éléments probants suffisants et appropriés n'ont pas pu être obt
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__file_item_id
 msgid "Task"
 msgstr "Tâche"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Taxes and duties"
+msgstr "Impôts et taxes"
 
 #. module: ea_audit_reports
 #. odoo-python
@@ -1048,6 +1378,12 @@ msgstr "Cochez la confirmation que le contrôle des informations à fournir est 
 #. module: ea_audit_reports
 #. odoo-python
 #: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Tie-out"
+msgstr "Rapprochement"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
 #: code:addons/ea_audit_reports/wizards/conclusion_wizards.py:0
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_tieout_wizard
 msgid "Tie-out against the client's statements"
@@ -1058,6 +1394,30 @@ msgstr "Rapprochement avec les états du client"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__title
 msgid "Title"
 msgstr "Titre"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Translation difference — assets (478)"
+msgstr "Écart de conversion — Actif (478)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Translation difference — liabilities (479)"
+msgstr "Écart de conversion — Passif (479)"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Transport"
+msgstr "Transports"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Trial balance balanced"
+msgstr "Balance équilibrée"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__material_misstatement
@@ -1074,6 +1434,12 @@ msgstr "Sans réserve"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__user_id
 msgid "User"
 msgstr "Utilisateur"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "VALUE ADDED"
+msgstr "VALEUR AJOUTÉE"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_completion_record__version
@@ -1103,6 +1469,12 @@ msgid "Word"
 msgstr "Word"
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/services/fs_tieout.py:0
+msgid "Work and services sold"
+msgstr "Travaux, services vendus"
+
+#. module: ea_audit_reports
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_paper
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__kind__workpaper
 msgid "Working paper"
@@ -1118,6 +1490,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/ea_audit_reports/models/engagement.py:0
 msgid "ea_audit_reports.view_document_list"
+msgstr ""
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "label"
 msgstr ""
 
 #. module: ea_audit_reports

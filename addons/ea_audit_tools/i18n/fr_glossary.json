@@ -196,7 +196,7 @@
 "Promote to S3.1": "Promouvoir en S3.1",
 "Dismiss": "Écarter",
 "Potential risks": "Risques potentiels",
-"Open": "Ouvert",
+"Open": "Ouvrir",
 "Dismissed": "Écarté",
 "Promoted": "Promu",
 "Done": "Fait",
@@ -1112,5 +1112,8 @@
 "The method, when an installed addon provides it.": "La méthode, lorsqu'un module installé la fournit.",
 "The share of the expectation a difference may reach, by combined risk. Only procedures saved after this change take the new figures.": "La part de l'attente qu'un écart peut atteindre, selon le risque combiné. Seules les procédures enregistrées après ce changement prennent les nouveaux chiffres.",
 "Enabled Method": "Méthode active",
-"Text": "Texte"
+"Text": "Texte",
+"Link a program step": "Lier une diligence du programme",
+"Link a risk to a program step": "Lier un risque à une diligence",
+"Program step": "Diligence"
 }
