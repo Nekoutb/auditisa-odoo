@@ -8,7 +8,7 @@ import { shellSession } from "./context_service";
 export class EaHome extends Component {
     static template = "ea_audit_ui.Home";
     static props = { ...standardActionServiceProps };
-    static path = "ea-accueil";
+    static path = "ea-home";
     static displayName = _t("Dashboard");
 
     setup() {

@@ -7,7 +7,7 @@ import { standardActionServiceProps } from "@web/webclient/actions/action_servic
 export class EaTasks extends Component {
     static template = "ea_audit_ui.Tasks";
     static props = { ...standardActionServiceProps };
-    static path = "ea-taches";
+    static path = "ea-tasks";
     static displayName = _t("Task list");
 
     setup() {

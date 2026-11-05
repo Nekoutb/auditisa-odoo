@@ -87,11 +87,13 @@ class Alerte(models.Model):
     stage_basis = fields.Char(string="Basis", compute="_compute_stage_basis", compute_sudo=True)
 
     @api.depends("stage", "variant")
+    @api.depends_context("lang")
     def _compute_stage_basis(self):
         for alerte in self:
             entry = next((e for e in flow_of(alerte.variant) if e["stage"] == alerte.stage), None) if alerte.variant else None
-            basis = entry["basis"] if entry else False
-            alerte.stage_basis = mark_articles(basis, self.env.company.sudo().ea_articles_validated) if basis else False
+            french = (self.env.lang or "").startswith("fr")
+            basis = (entry.get("basisFr", entry["basis"]) if french else entry["basis"]) if entry else False
+            alerte.stage_basis = mark_articles(basis, self.env.company.sudo().ea_articles_validated, french) if basis else False
 
 
 class AlerteEvent(models.Model):

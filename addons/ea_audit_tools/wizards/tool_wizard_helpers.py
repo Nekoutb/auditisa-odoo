@@ -1,6 +1,9 @@
 from markupsafe import Markup
 
 
+from ..models.tool_record import grouped
+
+
 def is_french_env(env):
     return (env.lang or env.context.get("lang") or "").startswith("fr")
 
@@ -10,7 +13,7 @@ def preview_html(preview, env):
     classes = Markup("").join(
         Markup("<tr><td>{p}</td><td class='text-end'>{n}</td><td class='text-end'>{t}</td><td>{i}</td></tr>").format(
             p=entry["prefix"], n=entry["accountCount"],
-            t="{:,.0f}".format(entry["closingTotal"]).replace(",", " "),
+            t=grouped(entry["closingTotal"], env.lang),
             i=entry["leadIndex"] or env._("Unmapped"),
         )
         for entry in preview["classes"]
@@ -18,8 +21,8 @@ def preview_html(preview, env):
     sample = Markup("").join(
         Markup("<tr><td>{a}</td><td>{l}</td><td class='text-end'>{o}</td><td class='text-end'>{c}</td></tr>").format(
             a=row["account"], l=row["label"] or "",
-            o="{:,.0f}".format(row["opening"]).replace(",", " "),
-            c="{:,.0f}".format(row["closing"]).replace(",", " "),
+            o=grouped(row["opening"], env.lang),
+            c=grouped(row["closing"], env.lang),
         )
         for row in preview["sample"]
     )

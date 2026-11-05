@@ -15,7 +15,7 @@ LETTER_KINDS = tuple(LETTER_CODES)
 
 _LEGAL_FORM_LABELS = {
     "OTHER": ("Autre", "Other"),
-    "SA_AG": ("SA (administrateur général)", "SA (administrateur général)"),
+    "SA_AG": ("SA (administrateur général)", "SA (general administrator)"),
     "SA": ("SA (conseil d'administration)", "SA (board of directors)"),
 }
 _INDEPENDENCE = (
@@ -37,10 +37,10 @@ def legal_form_label(form, fr):
     return (pair[0] if fr else pair[1]) if pair else form
 
 
-def framework_label(raw):
+def framework_label(raw, fr=True):
     value = (raw or "").strip().lower()
     if value in ("", "syscohada"):
-        return "SYSCOHADA révisé (AUDCIF)"
+        return "SYSCOHADA révisé (AUDCIF)" if fr else "Revised SYSCOHADA (AUDCIF)"
     return "IFRS" if value == "ifrs" else raw.strip()
 
 
@@ -49,10 +49,11 @@ def end_sentence(text):
     return text if text.endswith((".", "!", "?", "…")) else text + "."
 
 
-def fcfa(amount):
-    """Grouped with a French space, no decimals."""
+def fcfa(amount, fr=True):
+    """No decimals; grouped with a French space in French, a comma in English."""
     rounded = int(round(amount or 0))
-    return ("-" if rounded < 0 else "") + "{:,}".format(abs(rounded)).replace(",", " ")
+    digits = "{:,}".format(abs(rounded))
+    return ("-" if rounded < 0 else "") + (digits.replace(",", " ") if fr else digits)
 
 
 def mandate_years(mandate_type):
@@ -87,7 +88,7 @@ def build_letter(kind, f, fr):
         return block("b", text)
 
     client, year, end = f["client_name"], f["fiscal_year"], f["period_end"]
-    framework = framework_label(f.get("framework"))
+    framework = framework_label(f.get("framework"), fr)
     period = {"f_fiscalYear": year, "fmtDate_f_periodEnd": end, "frameworkLabel_f_framework": framework, "framework": framework}
     out = [block("title", letter_title(kind, fr))]
     if kind == "engagement":
@@ -96,9 +97,9 @@ def build_letter(kind, f, fr):
         if f.get("address"):
             identity.append(t("address_f_address", f_address=f["address"]))
         if f.get("registration_number"):
-            identity.append("RCCM : %s" % f["registration_number"])
+            identity.append(("RCCM : %s" if fr else "RCCM: %s") % f["registration_number"])
         if f.get("niu"):
-            identity.append("NIU : %s" % f["niu"])
+            identity.append(("NIU : %s" if fr else "NIU: %s") % f["niu"])
         if identity:
             out.append(p(" · ".join(identity)))
         out += [
@@ -126,7 +127,7 @@ def build_letter(kind, f, fr):
         planning = f.get("planning") or {}
         out.append(p("%s — %s %s" % (client, t("year_ended"), end)))
         if planning.get("addressees"):
-            out.append(p("%s : %s" % (t("addressees"), planning["addressees"])))
+            out.append(p(("%s : %s" if fr else "%s: %s") % (t("addressees"), planning["addressees"])))
         out += [b(t("planned_scope_and_timing_of_the")), p(t("we_audit_the_financial_statements_for", **period))]
         if planning.get("scope"):
             out.append(p(end_sentence(planning["scope"])))
@@ -140,9 +141,9 @@ def build_letter(kind, f, fr):
         if materiality:
             out.append(p(t(
                 "materiality_for_the_financial_statements_as",
-                fcfa_pl_materiality_overall=fcfa(materiality["overall"]),
-                fcfa_pl_materiality_performance=fcfa(materiality["performance"]),
-                fcfa_pl_materiality_trivial=fcfa(materiality["trivial"]),
+                fcfa_pl_materiality_overall=fcfa(materiality["overall"], fr),
+                fcfa_pl_materiality_performance=fcfa(materiality["performance"], fr),
+                fcfa_pl_materiality_trivial=fcfa(materiality["trivial"], fr),
             )))
         else:
             out.append(p(t("materiality_has_not_yet_been_approved")))
@@ -169,9 +170,9 @@ def build_letter(kind, f, fr):
         else:
             out.append(p(t(
                 "we_believe_the_effects_of_the", uncorrected_length=len(uncorrected),
-                fcfa_total=fcfa(sum(m["amount"] for m in uncorrected)),
+                fcfa_total=fcfa(sum(m["amount"] for m in uncorrected), fr),
             )))
-            out += [p("• %s — %s FCFA" % (m["description"], fcfa(m["amount"]))) for m in uncorrected]
+            out += [p("• %s — %s FCFA" % (m["description"], fcfa(m["amount"], fr))) for m in uncorrected]
         out.append(b(t("signatures_managing_director_head_of_accounting")))
     elif kind == "rep_complementary":
         out += [
@@ -190,9 +191,9 @@ def build_letter(kind, f, fr):
         else:
             out.append(p(t(
                 "uncorrected_length_uncorrected_misstatement_s_total", uncorrected_length=len(uncorrected),
-                fcfa_total=fcfa(sum(m["amount"] for m in uncorrected)),
+                fcfa_total=fcfa(sum(m["amount"] for m in uncorrected), fr),
             )))
-            out += [p("• %s — %s FCFA" % (m["description"], fcfa(m["amount"]))) for m in uncorrected]
+            out += [p("• %s — %s FCFA" % (m["description"], fcfa(m["amount"], fr))) for m in uncorrected]
         out.append(b(t("deficiencies_in_internal_control_isa_265")))
         points = f.get("c1_points") or []
         out += [p("• %s" % point) for point in points] or [p(t("no_significant_deficiency_identified"))]

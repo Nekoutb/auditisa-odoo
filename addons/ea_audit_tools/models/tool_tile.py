@@ -108,7 +108,10 @@ class EngagementTools(models.Model):
         method = self._ea_export_dynamic_method(kind) or self._ea_export_method(kind)
         if method is None:
             raise rule_error(self.env, "not-found")
-        filename, content = method(is_french(self.env))
+        # An export is a document of the engagement: its report language, whoever asks.
+        self = self.with_context(lang=self._ea_report_lang_code())
+        method = self._ea_export_dynamic_method(kind) or self._ea_export_method(kind)
+        filename, content = method(self._ea_report_fr())
         self._ea_log("exported", "%s exported by %s" % (filename, self.env.user.name))
         return filename, content
 

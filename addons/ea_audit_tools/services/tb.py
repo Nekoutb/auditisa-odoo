@@ -60,7 +60,7 @@ _COMBINING = re.compile("[̀-ͯ]")
 _NOT_ALNUM = re.compile(r"[^a-z0-9]")
 _CODIFIED = re.compile(r"[1-9][0-9]{0,7}")
 _DIGITS_4 = re.compile(r"[0-9]{4,}")
-_TEXTUAL = re.compile("[a-zA-ZÀ-ɏ]{3,}")
+_TEXTUAL = re.compile("[a-zA-Z\u00c0-\u024f]{3,}")
 
 
 def normalize_header(value):

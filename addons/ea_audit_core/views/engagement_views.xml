@@ -45,6 +45,7 @@
                             <field name="nature" readonly="1"/>
                             <field name="complexity" readonly="1"/>
                             <field name="framework" readonly="1"/>
+                            <field name="report_language"/>
                             <field name="standards_edition" readonly="1"/>
                             <field name="engagement_partner_id" readonly="1"/>
                             <field name="partner_delegate_id"/>

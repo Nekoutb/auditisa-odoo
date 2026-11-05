@@ -1,0 +1,7 @@
+{
+"Document requested: %(title)s": "Document demandé : %(title)s",
+"PBC received: %(name)s": "PBC reçu : %(name)s",
+"Please upload this document to the portal.": "Merci de déposer ce document sur le portail.",
+"Reminder — %(title)s": "Relance — %(title)s",
+"This document is still expected: please upload it to the portal.": "Ce document reste attendu : merci de le déposer sur le portail."
+}

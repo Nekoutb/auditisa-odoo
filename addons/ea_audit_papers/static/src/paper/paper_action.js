@@ -8,27 +8,11 @@ import { useSetupAction } from "@web/search/action_hook";
 import { AUTO_SOURCES, CHIP_LETTER, LABELS } from "./labels";
 
 const NA = "na";
-const LANG_KEY = "ea_audit_paper_lang";
 const SAVED_AT_WINDOW_MS = 10 * 60 * 1000;
 const PART_TITLE = /^(?:Partie|Part)\s+(\S+)\s+—\s+(.*)$/;
 
 const norm = (text) => (text ?? "").replace(/\r\n/g, "\n");
 const filled = (text) => Boolean((text ?? "").trim());
-
-function initialLang() {
-    try {
-        const stored = window.localStorage.getItem(LANG_KEY);
-        if (stored === "fr" || stored === "en") {
-            return stored;
-        }
-    } catch {
-        // storage can be blocked: the default below still works
-    }
-    // French first: en_US is Odoo's neutral default, not a choice the user made
-    // the web client reports BCP-47 (en-US), the context Odoo's own form (en_US)
-    const lang = (user.lang || user.context?.lang || "").replace("-", "_");
-    return lang.startsWith("en") && lang !== "en_US" ? "en" : "fr";
-}
 
 function readBlob(file) {
     return new Promise((resolve, reject) => {
@@ -51,7 +35,6 @@ export class PaperAction extends Component {
         const { params = {}, context = {} } = this.props.action || {};
         this.fileItemId = Number(params.file_item_id || params.active_id || context.active_id);
         this.state = useState({
-            lang: initialLang(),
             payload: null,
             values: {},
             tab: "status",
@@ -82,30 +65,21 @@ export class PaperAction extends Component {
     // ---- language ------------------------------------------------------
 
     get fr() {
-        return this.state.lang === "fr";
+        // the web client reports BCP-47 (fr-FR), the context Odoo's own form (fr_FR)
+        return (user.lang || user.context?.lang || "").startsWith("fr");
     }
 
     t(key) {
-        const pair = LABELS[key];
-        return pair ? pair[this.fr ? 0 : 1] : key;
+        const label = LABELS[key];
+        return label ? String(label) : key;
     }
 
     pick(obj, name) {
         return obj?.[name + (this.fr ? "Fr" : "En")];
     }
 
-    setLang(lang) {
-        this.state.lang = lang;
-        try {
-            window.localStorage.setItem(LANG_KEY, lang);
-        } catch {
-            // remembered for this page only
-        }
-        return this.refresh();
-    }
-
     get kwargs() {
-        return { context: { lang: this.fr ? "fr_FR" : "en_US" } };
+        return {};
     }
 
     // ---- server --------------------------------------------------------
@@ -296,7 +270,7 @@ export class PaperAction extends Component {
     get tabs() {
         const tabs = [{ id: "status", label: this.t("status"), title: this.t("statusTitle"), done: true }];
         if (this.hasBoardTab) {
-            const label = this.board?.label ? this.board.label[this.fr ? "fr" : "en"] : this.t("work");
+            const label = this.board?.label ? String(this.board.label) : this.t("work");
             tabs.push({ id: "board", label, title: label, done: false });
         }
         for (const part of this.parts) {
@@ -376,7 +350,7 @@ export class PaperAction extends Component {
             return given;
         }
         const source = AUTO_SOURCES[field.source];
-        return this.t("autoEmpty") + (source ? source[this.fr ? 0 : 1] : this.t("autoDefault"));
+        return this.t("autoEmpty") + (source ? String(source) : this.t("autoDefault"));
     }
 
     procIsDone(item) {

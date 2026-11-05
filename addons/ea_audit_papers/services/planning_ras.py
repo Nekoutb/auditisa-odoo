@@ -152,7 +152,7 @@ SECTION_B = (
     },
     {
         "key": "b10",
-        "en": "I am not aware of any fact requiring disclosure to the public prosecutor (révélation des faits délictueux) that has not been dealt with as the law requires.",
+        "en": "I am not aware of any fact requiring disclosure to the public prosecutor that has not been dealt with as the law requires.",
         "fr": "Je n'ai connaissance d'aucun fait délictueux devant être révélé au procureur de la République qui n'aurait pas été traité selon la loi.",
         "codes": ["C5.6"],
         "na": True,

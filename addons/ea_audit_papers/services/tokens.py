@@ -38,7 +38,7 @@ _FR_ARTICLES = {
     "dem": {"m": "ce ", "f": "cette ", "v": "cet ", "p": "ces "},
 }
 _FR_ARTICLE_TOKEN = re.compile(
-    r"(^|[\W\d_])(de l['’]|de la |du |des |à l['’]|à la |au |aux |l['’]|le |la |les |cette |cet |ce )\[\[lf\.([a-z]+)\]\]",
+    r"(^|[\W\d_])(de l['’]|de la |du |des |à l['’]|à la |au |aux |l['’]|le |la |les |cette |cet |ce )\[\[lf\.([a-z]+)\]\]",  # i18n: input
     re.IGNORECASE,
 )
 
@@ -139,7 +139,7 @@ def _french_articles(text, form):
         lower = article.lower()
         if lower.startswith(("de ", "du ", "des ")):
             construction = "de"
-        elif lower.startswith(("à ", "au ", "aux ")):
+        elif lower.startswith(("à ", "au ", "aux ")):  # i18n: input
             construction = "a"
         elif lower.startswith(("cette ", "cet ", "ce ")):
             construction = "dem"

@@ -23,7 +23,7 @@ class Document(models.Model):
     kind = fields.Selection(
         [("letter", "Letter"), ("report", "Report"), ("workpaper", "Working paper")], required=True, default="letter", index=True,
     )
-    language = fields.Selection([("fr", "French"), ("en", "English")], default="fr", required=True)
+    language = fields.Selection([("fr", "French"), ("en", "English")], default=lambda self: self.env["ea.audit.engagement"]._ea_firm_language(), required=True)
     current_version = fields.Integer(default=0)
     restricted = fields.Boolean(help="Partners only: the disclosure of criminal facts (spec 12.5.6).")
     version_ids = fields.One2many("ea.audit.document.version", "document_id", string="Versions")

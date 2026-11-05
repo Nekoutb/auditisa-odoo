@@ -7,7 +7,7 @@ from odoo.addons.ea_audit_papers.services.tokens import organ_name, resolve_lega
 from odoo.addons.ea_audit_reports.services.articles import mark_articles
 from odoo.addons.ea_audit_reports.services.docx_builder import block
 from odoo.addons.ea_audit_reports.services.letters import mandate_expiry_year
-from odoo.addons.ea_audit_reports.services.opinion import period_end_fr
+from odoo.addons.ea_audit_reports.services.opinion import period_end_text
 from odoo.addons.ea_audit_tools.models.tool_record import fcfa as tools_fcfa
 from odoo.addons.ea_audit_tools.models.tool_record import french_date
 from odoo.addons.ea_audit_tools.services import alerte as alerte_engine
@@ -16,7 +16,7 @@ from odoo.addons.ea_audit_tools.services.legal import add_months_clamped
 
 from ..rules import rule_error
 from ..services.texts import (
-    CAPACITIES, CAPACITY_FR, EGM_EQUITY_BASIS, STAGE_DOC_TITLES, STAGE_LETTERS, amount_or_nd, deadline_rows,
+    CAPACITIES, CAPACITY_EN, CAPACITY_FR, EGM_EQUITY_BASIS, EGM_EQUITY_BASIS_FR, STAGE_DOC_TITLES_EN, STAGE_DOC_TITLES_FR, STAGE_LETTERS, amount_or_nd, deadline_rows,
     equity_conclusion_of, fmt_amount, persons_from_headcount, signature_blocks,
 )
 
@@ -93,8 +93,12 @@ class Engagement(models.Model):
         return self.env.company.sudo().ea_articles_validated
 
     def _ea_organ(self, text):
-        """"à l'[[lf.board]]" in the legal form of this client, with the right article in French."""
-        return resolve_legal_form_text(text, self.sudo().client_id.legal_form, "fr")
+        """"à l'[[lf.board]]" in the legal form of this client and the report language, with the
+        right article in French."""
+        return resolve_legal_form_text(text, self.sudo().client_id.legal_form, "fr" if self._ea_report_fr() else "en")
+
+    def _ea_prose_date(self, value):
+        return period_end_text(value, self._ea_report_fr())
 
     def _ea_iso(self, value):
         return value.isoformat() if value else None
@@ -115,7 +119,7 @@ class Engagement(models.Model):
 
     def _ea_upsert_deadline(self, key, due, basis):
         Deadline = self.env["ea.audit.legal.deadline"].sudo()
-        basis = mark_articles(basis, self._ea_validated())
+        basis = mark_articles(basis, self._ea_validated(), self._ea_report_fr())
         row = Deadline.search([("engagement_id", "=", self.id), ("key", "=", key)], limit=1)
         if row:
             row.write({"due_date": due, "basis": basis})
@@ -130,7 +134,7 @@ class Engagement(models.Model):
             row.period_end.isoformat(), self._ea_iso(row.agm_date), self._ea_iso(row.report_date), self._ea_iso(row.board_date),
             client.mandate_type, client.mandate_start_year, row.fiscal_year, mandate_expiry_year,
         ):
-            self._ea_upsert_deadline(item["key"], item["due"], item["basis"])
+            self._ea_upsert_deadline(item["key"], item["due"], item["basisFr" if self._ea_report_fr() else "basisEn"])
         self._ea_escalate_overdue()
         return row.legal_deadline_ids
 
@@ -173,11 +177,12 @@ class Engagement(models.Model):
         Notice = self.env["ea.audit.notice"].sudo()
         partners = self.sudo()._ea_partner_users()
         for deadline in overdue:
-            title = "Statutory deadline overdue: %s" % deadline.key
             for partner in partners:
+                reader = self.with_context(lang=partner.lang or self.env.lang).env
+                title = reader._("Statutory deadline overdue: %(key)s", key=deadline.key)
                 if Notice.search_count([("engagement_id", "=", self.id), ("user_id", "=", partner.id), ("kind", "=", "deadline-overdue"), ("title", "=", title)]):
                     continue
-                self.sudo()._ea_notify(partner, "deadline-overdue", title, "Échéance %s : ouvrir le calendrier légal pour la lever." % french_date(deadline.due_date))
+                self.sudo()._ea_notify(partner, "deadline-overdue", title, reader._("Deadline %(date)s: open the statutory calendar to clear it.", date=french_date(deadline.due_date)))
         return len(overdue)
 
     def escalate_overdue(self):
@@ -207,50 +212,50 @@ class Engagement(models.Model):
         })
 
     def _ea_partner_signature(self, on_date=None):
-        return signature_blocks(self._ea_firm_name(), self.sudo()._ea_partner_name(), on_date or fields.Date.context_today(self))
+        return signature_blocks(self._ea_firm_name(), self.sudo()._ea_partner_name(), on_date or fields.Date.context_today(self), self._ea_report_fr())
 
     def generate_rapport_special(self):
         """The special report from the register (arts. 353/440/442); the organs follow the form (F052)."""
         self._ea_legal_guard()
         row = self.sudo()
         form = row.client_id.legal_form
-        members = organ_name(form, "members", "fr")
+        members = organ_name(form, "members", "fr" if self._ea_report_fr() else "en")
         blocks = [
-            _title("Rapport spécial du commissaire aux comptes sur les conventions réglementées"),
-            _b("%s — Exercice clos le %s" % (row.client_id.name, period_end_fr(row.period_end))),
-            _p("À l'assemblée générale ordinaire des %s%s." % (members, " du %s" % period_end_fr(row.agm_date) if row.agm_date else "")),
-            _p("En notre qualité de commissaire aux comptes, nous vous présentons notre rapport sur les conventions réglementées dont nous avons été avisés, conformément aux dispositions de l'Acte uniforme relatif au droit des sociétés commerciales et du GIE."),
+            _title(self._ea_pick("Special report of the statutory auditor on regulated agreements (to validate)", "Rapport spécial du commissaire aux comptes sur les conventions réglementées")),
+            _b(self._ea_pick("%s — Year ended %s", "%s — Exercice clos le %s") % (row.client_id.name, self._ea_prose_date(row.period_end))),
+            _p(self._ea_pick("To the ordinary general meeting of the %s%s.", "À l'assemblée générale ordinaire des %s%s.") % (members, self._ea_pick(" of %s", " du %s") % self._ea_prose_date(row.agm_date) if row.agm_date else "")),
+            _p(self._ea_pick("As statutory auditor, we present our report on the regulated agreements of which we have been notified, in accordance with the Uniform Act on commercial companies and economic interest groups.", "En notre qualité de commissaire aux comptes, nous vous présentons notre rapport sur les conventions réglementées dont nous avons été avisés, conformément aux dispositions de l'Acte uniforme relatif au droit des sociétés commerciales et du GIE.")),
         ]
         agreements = row.regulated_agreement_ids
         if not agreements:
             blocks += [
-                _h("Absence de convention"),
-                _p("Nous vous informons qu'il ne nous a été donné avis d'aucune convention réglementée conclue ou poursuivie au cours de l'exercice."),
+                _h(self._ea_pick("No agreement", "Absence de convention")),
+                _p(self._ea_pick("We inform you that we were not notified of any regulated agreement entered into or continued during the year.", "Nous vous informons qu'il ne nous a été donné avis d'aucune convention réglementée conclue ou poursuivie au cours de l'exercice.")),
             ]
         else:
-            blocks.append(_h("Conventions soumises à l'approbation de l'assemblée"))
+            blocks.append(_h(self._ea_pick("Agreements submitted for the approval of the general meeting", "Conventions soumises à l'approbation de l'assemblée")))
             # SA with a board: the board (arts. 438, 440); SA_AG: the general meeting (arts. 502-503);
             # SARL: none, the members approve on this report (arts. 350-354); SAS: the statutes.
-            organ = "l'assemblée générale (arts. 502–503)" if form == "SA_AG" else "%s (arts. 438 et 440)" % self._ea_organ("le [[lf.board]]")
+            organ = self._ea_pick("the general meeting (arts. 502–503)", "l'assemblée générale (arts. 502–503)") if form == "SA_AG" else self._ea_pick("%s (arts. 438 and 440)", "%s (arts. 438 et 440)") % self._ea_organ(self._ea_pick("the [[lf.board]]", "le [[lf.board]]"))
             for index, agreement in enumerate(agreements, 1):
                 blocks += [
-                    _b("Convention %d — %s" % (index, agreement.nature)),
-                    _p("Parties : %s. Personne intéressée : %s (%s)." % (agreement.parties, agreement.interested, CAPACITY_FR[agreement.capacity])),
-                    _p("Modalités essentielles : %s." % (agreement.terms or "—")),
+                    _b(self._ea_pick("Agreement %d — %s", "Convention %d — %s") % (index, agreement.nature)),
+                    _p(self._ea_pick("Parties: %s. Interested person: %s (%s).", "Parties : %s. Personne intéressée : %s (%s).") % (agreement.parties, agreement.interested, (CAPACITY_FR if self._ea_report_fr() else CAPACITY_EN)[agreement.capacity])),
+                    _p(self._ea_pick("Essential terms: %s.", "Modalités essentielles : %s.") % (agreement.terms or "—")),
                 ]
                 if agreement.continuing:
-                    blocks.append(_p("Convention poursuivie — montants comptabilisés au titre de l'exercice : %s FCFA." % fmt_amount(agreement.amounts_period)))
+                    blocks.append(_p(self._ea_pick("Continuing agreement — amounts recorded for the year: %s FCFA.", "Convention poursuivie — montants comptabilisés au titre de l'exercice : %s FCFA.") % fmt_amount(agreement.amounts_period, self._ea_report_fr())))
                 if agreement.board_auth_ref:
-                    blocks.append(_p("Autorisation préalable de %s : %s." % (organ, agreement.board_auth_ref)))
+                    blocks.append(_p(self._ea_pick("Prior authorisation of %s: %s.", "Autorisation préalable de %s : %s.") % (organ, agreement.board_auth_ref)))
                 elif form in ("SA", "SA_AG"):
-                    blocks.append(_p("ATTENTION : convention non autorisée préalablement par %s — nullité encourue, couvrable par un vote spécial de l'assemblée sur rapport explicatif du commissaire aux comptes (art. 447)." % organ))
+                    blocks.append(_p(self._ea_pick("WARNING: agreement not authorised in advance by %s — liable to nullity, curable by a special vote of the general meeting on an explanatory report of the statutory auditor (art. 447).", "ATTENTION : convention non autorisée préalablement par %s — nullité encourue, couvrable par un vote spécial de l'assemblée sur rapport explicatif du commissaire aux comptes (art. 447).") % organ))
                 elif form == "SARL":
-                    blocks.append(_p("Autorisation préalable non requise dans la SARL : la convention est soumise à l'approbation des associés sur le présent rapport, l'intéressé ne prenant pas part au vote (arts. 350–354)."))
+                    blocks.append(_p(self._ea_pick("Prior authorisation is not required in an SARL: the agreement is submitted to the members' approval on this report, the interested person not taking part in the vote (arts. 350–354).", "Autorisation préalable non requise dans la SARL : la convention est soumise à l'approbation des associés sur le présent rapport, l'intéressé ne prenant pas part au vote (arts. 350–354).")))
                 else:
-                    blocks.append(_p("Autorisation préalable non requise pour cette forme sociale (SAS : art. 853-14 et statuts ; GIE : contrat constitutif)."))
-        blocks.append(_p("Le présent rapport est déposé au siège social quinze jours au moins avant la réunion de l'assemblée générale ordinaire (art. 442)."))
+                    blocks.append(_p(self._ea_pick("Prior authorisation is not required for this legal form (SAS: art. 853-14 and the statutes; GIE: the founding contract).", "Autorisation préalable non requise pour cette forme sociale (SAS : art. 853-14 et statuts ; GIE : contrat constitutif).")))
+        blocks.append(_p(self._ea_pick("This report is filed at the registered office at least fifteen days before the ordinary general meeting (art. 442).", "Le présent rapport est déposé au siège social quinze jours au moins avant la réunion de l'assemblée générale ordinaire (art. 442).")))
         blocks += self._ea_partner_signature()
-        return self._ea_file_under_code("C5.3", "Rapport spécial conventions — %s" % row.fiscal_year, "report", blocks, "legal:rapport-special")
+        return self._ea_file_under_code("C5.3", self._ea_pick("Special report on agreements — %s", "Rapport spécial conventions — %s") % row.fiscal_year, "report", blocks, "legal:rapport-special")
 
     # ------------------------------------------------------------------
     # C5.4 article 715 report
@@ -284,34 +289,34 @@ class Engagement(models.Model):
             ("client_id", "=", row.client_id.id), ("fiscal_year", "=", row.fiscal_year - 1),
             ("nature", "=", row.nature),
         ], limit=1)
-        addressee = self._ea_organ("au [[lf.board]]")
+        addressee = self._ea_organ(self._ea_pick("to the [[lf.board]]", "au [[lf.board]]"))
         blocks = [
-            _title("Rapport du commissaire aux comptes %s (art. 715)" % addressee),
-            _b("%s — Exercice clos le %s" % (row.client_id.name, period_end_fr(row.period_end))),
-            _p("%s, lors de l'arrêté des comptes%s." % (self._ea_organ("Au [[lf.board]]"), " du %s" % period_end_fr(row.board_date) if row.board_date else "")),
-            _h("1. Contrôles et vérifications effectués et sondages opérés"),
-            _p("Tâches du dossier d'audit : %d réalisées (papier de travail signé par son préparateur) et %d jugées non applicables, sur %d tâches applicables au dossier." % (complete, not_applicable, len(items))),
+            _title(self._ea_pick("Report of the statutory auditor %s (art. 715) (to validate)", "Rapport du commissaire aux comptes %s (art. 715)") % addressee),
+            _b(self._ea_pick("%s — Year ended %s", "%s — Exercice clos le %s") % (row.client_id.name, self._ea_prose_date(row.period_end))),
+            _p(self._ea_pick("%s, when the accounts are approved%s.", "%s, lors de l'arrêté des comptes%s.") % (self._ea_organ(self._ea_pick("To the [[lf.board]]", "Au [[lf.board]]")), self._ea_pick(" of %s", " du %s") % self._ea_prose_date(row.board_date) if row.board_date else "")),
+            _h(self._ea_pick("1. Checks and verifications performed and samples taken", "1. Contrôles et vérifications effectués et sondages opérés")),
+            _p(self._ea_pick("Tasks of the audit file: %d performed (working paper signed by its preparer) and %d judged not applicable, of %d tasks applicable to the file.", "Tâches du dossier d'audit : %d réalisées (papier de travail signé par son préparateur) et %d jugées non applicables, sur %d tâches applicables au dossier.") % (complete, not_applicable, len(items))),
         ]
-        blocks += [_p("Section %s : %s" % (c.code, c.conclusion)) for c in conclusions]
-        blocks.append(_h("2. Postes du bilan et documents comptables appelant des modifications"))
+        blocks += [_p(self._ea_pick("Section %s: %s", "Section %s : %s") % (c.code, c.conclusion)) for c in conclusions]
+        blocks.append(_h(self._ea_pick("2. Balance sheet items and accounting documents requiring changes", "2. Postes du bilan et documents comptables appelant des modifications")))
         if adjustments:
             blocks += [
-                _p("%s%s — %s FCFA." % (m.description, " (comptes %s)" % m.accounts if m.accounts else "", fmt_amount(m.amount)))
+                _p("%s%s — %s FCFA." % (m.description, self._ea_pick(" (accounts %s)", " (comptes %s)") % m.accounts if m.accounts else "", fmt_amount(m.amount, self._ea_report_fr())))
                 for m in adjustments
             ]
         else:
-            blocks.append(_p("Aucun ajustement proposé demeurant non corrigé à la date du présent rapport."))
-        blocks += [_p("Observation sur les méthodes : %s%s" % (f.title, " — %s" % f.detail if f.detail else "")) for f in points]
-        blocks.append(_h("3. Irrégularités et inexactitudes découvertes"))
-        blocks += [_p(f.title) for f in irregularities] or [_p("Néant.")]
+            blocks.append(_p(self._ea_pick("No proposed adjustment remains uncorrected at the date of this report.", "Aucun ajustement proposé demeurant non corrigé à la date du présent rapport.")))
+        blocks += [_p(self._ea_pick("Observation on the methods: %s%s", "Observation sur les méthodes : %s%s") % (f.title, " — %s" % f.detail if f.detail else "")) for f in points]
+        blocks.append(_h(self._ea_pick("3. Irregularities and inaccuracies discovered", "3. Irrégularités et inexactitudes découvertes")))
+        blocks += [_p(f.title) for f in irregularities] or [_p(self._ea_pick("None.", "Néant."))]
         blocks += [
-            _h("4. Conclusions sur les résultats de l'exercice comparés au précédent"),
-            _p("Résultat de l'exercice %d : %s ; exercice %d : %s." % (
-                row.fiscal_year, amount_or_nd(self._ea_year_result(row)), row.fiscal_year - 1, amount_or_nd(self._ea_year_result(prior)),
+            _h(self._ea_pick("4. Conclusions on the results of the year compared with the previous one", "4. Conclusions sur les résultats de l'exercice comparés au précédent")),
+            _p(self._ea_pick("Result for the year %d: %s; year %d: %s.", "Résultat de l'exercice %d : %s ; exercice %d : %s.") % (
+                row.fiscal_year, amount_or_nd(self._ea_year_result(row), self._ea_report_fr()), row.fiscal_year - 1, amount_or_nd(self._ea_year_result(prior), self._ea_report_fr()),
             )),
         ]
         blocks += self._ea_partner_signature()
-        return self._ea_file_under_code("C5.4", "Rapport art. 715 — %s" % row.fiscal_year, "report", blocks, "legal:art715")
+        return self._ea_file_under_code("C5.4", self._ea_pick("Report art. 715 — %s", "Rapport art. 715 — %s") % row.fiscal_year, "report", blocks, "legal:art715")
 
     # ------------------------------------------------------------------
     # C5.5 alert procedure
@@ -332,10 +337,10 @@ class Engagement(models.Model):
     def _ea_stage_addressee(self, stage, variant):
         """F052: the PCA or PDG of an SA with a board, the administrateur général otherwise."""
         if stage == "court_informed":
-            return "Au Président de la juridiction compétente"
+            return self._ea_pick("To the President of the competent court", "Au Président de la juridiction compétente")
         if stage == "rapport_special":
-            return "Aux actionnaires" if variant == "sa" else "Aux associés"
-        return self._ea_organ("Au [[lf.executive]]") if variant == "sa" else "Au gérant"
+            return self._ea_pick("To the shareholders", "Aux actionnaires") if variant == "sa" else self._ea_pick("To the members", "Aux associés")
+        return self._ea_organ(self._ea_pick("To the [[lf.executive]]", "Au [[lf.executive]]")) if variant == "sa" else self._ea_pick("To the manager", "Au gérant")
 
     def _ea_file_stage_letter(self, stage, variant, note, event_date):
         """buildStageLetter: dated with the event date the clock runs from, addressed and signed
@@ -346,17 +351,17 @@ class Engagement(models.Model):
         row = self.sudo()
         name = row.client_id.name
         blocks = [
-            _title(template[0]),
-            _b("%s — Exercice %s" % (name, row.fiscal_year)),
-            _p("%s de %s" % (self._ea_stage_addressee(stage, variant), name)),
-            _p(template[1]),
+            _title(template["titleFr" if self._ea_report_fr() else "titleEn"]),
+            _b(self._ea_pick("%s — Fiscal year %s", "%s — Exercice %s") % (name, row.fiscal_year)),
+            _p(self._ea_pick("%s of %s", "%s de %s") % (self._ea_stage_addressee(stage, variant), name)),
+            _p(template["bodyFr" if self._ea_report_fr() else "bodyEn"]),
         ]
         if (note or "").strip():
-            blocks.append(_p("Faits relevés / observations : %s" % note))
+            blocks.append(_p(self._ea_pick("Facts noted / observations: %s", "Faits relevés / observations : %s") % note))
         blocks += self._ea_partner_signature(fields.Date.to_date(event_date))
         title = (
             "Alerte — demande d'explications (%s)" % row.fiscal_year if stage == "request_sent"
-            else "Alerte — %s (%s)" % (STAGE_DOC_TITLES.get(stage, stage), row.fiscal_year)
+            else self._ea_pick("Alert — %s (%s)", "Alerte — %s (%s)") % ((STAGE_DOC_TITLES_FR if self._ea_report_fr() else STAGE_DOC_TITLES_EN).get(stage, stage), row.fiscal_year)
         )
         return self._ea_file_under_code(
             "C5.5", title, "report" if stage == "rapport_special" else "letter", blocks, "alerte:%s" % stage,
@@ -449,14 +454,14 @@ class Engagement(models.Model):
             raise rule_error(self.env, "fields-required")
         row = self.sudo()
         blocks = [
-            _title("Révélation de faits délictueux au ministère public (art. 716)"),
-            _b("%s — Exercice %s" % (row.client_id.name, row.fiscal_year)),
-            _p("Monsieur le Procureur de la République, en application de l'article 716 de l'Acte uniforme relatif au droit des sociétés commerciales et du GIE, nous portons à votre connaissance les faits délictueux suivants dont nous avons eu connaissance dans l'exercice de notre mission, sans que notre responsabilité puisse être engagée par cette révélation :"),
+            _title(self._ea_pick("Disclosure of criminal facts to the public prosecutor (art. 716) (to validate)", "Révélation de faits délictueux au ministère public (art. 716)")),
+            _b(self._ea_pick("%s — Fiscal year %s", "%s — Exercice %s") % (row.client_id.name, row.fiscal_year)),
+            _p(self._ea_pick("Public Prosecutor, in application of article 716 of the Uniform Act on commercial companies and economic interest groups, we bring to your attention the following criminal facts of which we became aware in the course of our engagement, this disclosure engaging no liability on our part:", "Monsieur le Procureur de la République, en application de l'article 716 de l'Acte uniforme relatif au droit des sociétés commerciales et du GIE, nous portons à votre connaissance les faits délictueux suivants dont nous avons eu connaissance dans l'exercice de notre mission, sans que notre responsabilité puisse être engagée par cette révélation :")),
             _p(description),
-            _b("Le commissaire aux comptes."),
+            _b(self._ea_pick("The statutory auditor.", "Le commissaire aux comptes.")),
         ]
         document = self._ea_file_under_code(
-            "C5.6", "Révélation faits délictueux — %s" % row.fiscal_year, "letter", blocks, "legal:fait-delictueux", restricted=True,
+            "C5.6", self._ea_pick("Disclosure of criminal facts — %s", "Révélation faits délictueux — %s") % row.fiscal_year, "letter", blocks, "legal:fait-delictueux", restricted=True,
         )
         self.env["ea.audit.criminal.disclosure"].sudo().create({
             "engagement_id": self.id, "description": description, "document_id": document.id, "created_by_id": self.env.user.id,
@@ -475,13 +480,13 @@ class Engagement(models.Model):
         if not (points or "").strip():
             raise rule_error(self.env, "fields-required")
         row = self.sudo()
-        audience = "à la plus proche assemblée générale" if target == "ag" else self._ea_organ("au [[lf.board]]")
+        audience = self._ea_pick("to the next general meeting", "à la plus proche assemblée générale") if target == "ag" else self._ea_organ(self._ea_pick("to the [[lf.board]]", "au [[lf.board]]"))
         blocks = [
-            _title("Signalement d'irrégularités et d'inexactitudes %s" % audience),
-            _b("%s — Exercice %s" % (row.client_id.name, row.fiscal_year)),
-            _p("Conformément à l'article 716 de l'AUSCGIE, nous signalons les irrégularités et inexactitudes relevées au cours de l'accomplissement de notre mission :"),
+            _title(self._ea_pick("Report of irregularities and inaccuracies %s (to validate)", "Signalement d'irrégularités et d'inexactitudes %s") % audience),
+            _b(self._ea_pick("%s — Fiscal year %s", "%s — Exercice %s") % (row.client_id.name, row.fiscal_year)),
+            _p(self._ea_pick("In accordance with article 716 of the AUSCGIE, we report the irregularities and inaccuracies identified in the course of our engagement:", "Conformément à l'article 716 de l'AUSCGIE, nous signalons les irrégularités et inexactitudes relevées au cours de l'accomplissement de notre mission :")),
             _p(points),
-            _b("Le commissaire aux comptes."),
+            _b(self._ea_pick("The statutory auditor.", "Le commissaire aux comptes.")),
         ]
         title = "Signalement AG — %s" % row.fiscal_year if target == "ag" else "Signalement conseil — %s" % row.fiscal_year
         return self._ea_file_under_code("C5.6", title, "letter", blocks, "legal:irregularites-%s" % target)
@@ -512,31 +517,31 @@ class Engagement(models.Model):
         if values.get("q_kept") != "yes" or values.get("q_agrees") != "yes":
             raise rule_error(self.env, "titres-work-incomplete")
         capital = row.client_id.share_capital
-        capital_line = " Le capital social figurant dans les états financiers s'élève à %s FCFA." % fmt_amount(capital) if capital else ""
-        on_date, count = period_end_fr(inspected), fmt_amount(securities_count)
+        capital_line = self._ea_pick(" The share capital shown in the financial statements amounts to %s FCFA.", " Le capital social figurant dans les états financiers s'élève à %s FCFA.") % fmt_amount(capital, self._ea_report_fr()) if capital else ""
+        on_date, count = self._ea_prose_date(inspected), fmt_amount(securities_count, self._ea_report_fr())
         blocks = [
-            _title("Attestation sur les registres de titres nominatifs (art. 746-2)"),
-            _b("%s — Exercice clos le %s" % (row.client_id.name, period_end_fr(row.period_end))),
+            _title(self._ea_pick("Attestation on the registers of registered securities (art. 746-2) (to validate)", "Attestation sur les registres de titres nominatifs (art. 746-2)")),
+            _b(self._ea_pick("%s — Year ended %s", "%s — Exercice clos le %s") % (row.client_id.name, self._ea_prose_date(row.period_end))),
         ]
         if held_by_intermediary:
             blocks += [
-                _p("Les titres nominatifs de la société sont inscrits en compte auprès d'un intermédiaire financier agréé, %s (art. 746-1). Nous avons procédé à la vérification de l'existence et de la tenue des registres : obtention directe auprès de l'intermédiaire du relevé des comptes-titres, tenue chronologique des inscriptions, concordance du total des titres et des titulaires avec le capital social et avec les enregistrements propres de la société." % name),
-                _p("Nous avons examiné le relevé de l'intermédiaire arrêté au %s. À cette date, il fait apparaître un total de %s titres inscrits en compte.%s" % (on_date, count, capital_line)),
-                _p("Sur la base de nos travaux, nous attestons que les registres de titres nominatifs, tenus en compte par l'intermédiaire agréé, existent et sont tenus conformément aux dispositions applicables, et que leur total concorde avec le capital social."),
-                _h("Annexe — Déclaration de la direction"),
-                _p("La direction déclare que le relevé des comptes-titres établi par %s et présenté au commissaire aux comptes est complet, à jour, et retrace l'intégralité des mouvements de titres intervenus au cours de l'exercice." % name),
+                _p(self._ea_pick("The company's registered securities are held in account with an approved financial intermediary, %s (art. 746-1). We verified the existence and the keeping of the registers: statement of the securities accounts obtained directly from the intermediary, chronological keeping of the entries, agreement of the total securities and holders with the share capital and with the company's own records.", "Les titres nominatifs de la société sont inscrits en compte auprès d'un intermédiaire financier agréé, %s (art. 746-1). Nous avons procédé à la vérification de l'existence et de la tenue des registres : obtention directe auprès de l'intermédiaire du relevé des comptes-titres, tenue chronologique des inscriptions, concordance du total des titres et des titulaires avec le capital social et avec les enregistrements propres de la société.") % name),
+                _p(self._ea_pick("We examined the intermediary's statement as at %s. At that date it shows a total of %s securities held in account.%s", "Nous avons examiné le relevé de l'intermédiaire arrêté au %s. À cette date, il fait apparaître un total de %s titres inscrits en compte.%s") % (on_date, count, capital_line)),
+                _p(self._ea_pick("On the basis of our work, we attest that the registers of registered securities, held in account by the approved intermediary, exist and are kept in accordance with the applicable provisions, and that their total agrees with the share capital.", "Sur la base de nos travaux, nous attestons que les registres de titres nominatifs, tenus en compte par l'intermédiaire agréé, existent et sont tenus conformément aux dispositions applicables, et que leur total concorde avec le capital social.")),
+                _h(self._ea_pick("Appendix — Management's declaration", "Annexe — Déclaration de la direction")),
+                _p(self._ea_pick("Management declares that the statement of securities accounts prepared by %s and presented to the statutory auditor is complete, up to date, and records all the movements of securities during the year.", "La direction déclare que le relevé des comptes-titres établi par %s et présenté au commissaire aux comptes est complet, à jour, et retrace l'intégralité des mouvements de titres intervenus au cours de l'exercice.") % name),
             ]
         else:
             blocks += [
-                _p("Nous avons procédé à la vérification de l'existence et de la conformité des registres de titres nominatifs tenus par la société : existence matérielle des registres, tenue chronologique des inscriptions, concordance avec les mouvements de titres portés à notre connaissance."),
-                _p("Nous avons examiné les registres le %s. À cette date, ils font apparaître un total de %s titres inscrits.%s" % (on_date, count, capital_line)),
-                _p("Sur la base de nos travaux, nous attestons que les registres de titres nominatifs sont tenus conformément aux dispositions applicables."),
-                _h("Annexe — Déclaration de la direction"),
-                _p("La direction déclare que les registres de titres nominatifs présentés au commissaire aux comptes sont complets, à jour, et retracent l'intégralité des mouvements de titres intervenus au cours de l'exercice."),
+                _p(self._ea_pick("We verified the existence and conformity of the registers of registered securities kept by the company: physical existence of the registers, chronological keeping of the entries, agreement with the movements of securities brought to our knowledge.", "Nous avons procédé à la vérification de l'existence et de la conformité des registres de titres nominatifs tenus par la société : existence matérielle des registres, tenue chronologique des inscriptions, concordance avec les mouvements de titres portés à notre connaissance.")),
+                _p(self._ea_pick("We examined the registers on %s. At that date they show a total of %s registered securities.%s", "Nous avons examiné les registres le %s. À cette date, ils font apparaître un total de %s titres inscrits.%s") % (on_date, count, capital_line)),
+                _p(self._ea_pick("On the basis of our work, we attest that the registers of registered securities are kept in accordance with the applicable provisions.", "Sur la base de nos travaux, nous attestons que les registres de titres nominatifs sont tenus conformément aux dispositions applicables.")),
+                _h(self._ea_pick("Appendix — Management's declaration", "Annexe — Déclaration de la direction")),
+                _p(self._ea_pick("Management declares that the registers of registered securities presented to the statutory auditor are complete, up to date, and record all the movements of securities during the year.", "La direction déclare que les registres de titres nominatifs présentés au commissaire aux comptes sont complets, à jour, et retracent l'intégralité des mouvements de titres intervenus au cours de l'exercice.")),
             ]
-        blocks.append(_b("Le représentant légal de la société"))
+        blocks.append(_b(self._ea_pick("The company's legal representative", "Le représentant légal de la société")))
         blocks += self._ea_partner_signature()
-        return self._ea_file_under_code("C5.7", "Attestation titres nominatifs — %s" % row.fiscal_year, "report", blocks, "legal:titres-attestation")
+        return self._ea_file_under_code("C5.7", self._ea_pick("Attestation on registered securities — %s", "Attestation titres nominatifs — %s") % row.fiscal_year, "report", blocks, "legal:titres-attestation")
 
     # ------------------------------------------------------------------
     # C5.8 equity against half of the share capital
@@ -602,10 +607,10 @@ class Engagement(models.Model):
         figures = row._ea_compute_equity()
         if figures["breach"]:
             basis_date = row.agm_date.isoformat() if row.agm_date else add_months_clamped(row.period_end.isoformat(), 6)
-            self._ea_upsert_deadline("egm_equity", add_months_clamped(basis_date, 4), EGM_EQUITY_BASIS)
+            self._ea_upsert_deadline("egm_equity", add_months_clamped(basis_date, 4), self._ea_pick(EGM_EQUITY_BASIS, EGM_EQUITY_BASIS_FR))
             row._ea_notify(
-                row._ea_partner_users(), "equity-breach", "Capitaux propres < ½ capital social",
-                "Capitaux propres %s FCFA vs ½ capital %s FCFA — procédure statutaire d'AGE déclenchée (C5.8)." % (fmt_amount(figures["equity"]), fmt_amount(figures["half_capital"])),
+                row._ea_partner_users(), "equity-breach", self._ea_pick("Equity below half of the share capital", "Capitaux propres < ½ capital social"),
+                self._ea_pick("Equity %s FCFA against half the capital %s FCFA — statutory extraordinary general meeting procedure triggered (C5.8).", "Capitaux propres %s FCFA vs ½ capital %s FCFA — procédure statutaire d'AGE déclenchée (C5.8).") % (fmt_amount(figures["equity"], self._ea_report_fr()), fmt_amount(figures["half_capital"], self._ea_report_fr())),
             )
         elif figures["has_tb"] and figures["half_capital"] is not None:
             egm = row._ea_egm_row()
@@ -647,20 +652,20 @@ class Engagement(models.Model):
         amount = (values.get("amount") or "").strip()
         if persons not in ("five", "ten") or not amount:
             raise rule_error(self.env, "art525-work-incomplete")
-        number = "dix" if persons == "ten" else "cinq"
-        members = organ_name(row.client_id.legal_form, "members", "fr")
+        number = self._ea_pick("ten", "dix") if persons == "ten" else self._ea_pick("five", "cinq")
+        members = organ_name(row.client_id.legal_form, "members", "fr" if self._ea_report_fr() else "en")
         blocks = [
-            _title("Attestation du commissaire aux comptes sur le montant global des rémunérations versées aux personnes les mieux rémunérées (art. 525)"),
-            _b("%s — Exercice clos le %s" % (row.client_id.name, period_end_fr(row.period_end))),
-            _p("Aux %s," % members),
-            _p("En notre qualité de commissaire aux comptes, et en application de l'article 525 de l'Acte uniforme relatif au droit des sociétés commerciales et du GIE, nous avons établi la présente attestation sur le montant global des rémunérations versées aux %s personnes les mieux rémunérées au titre de l'exercice clos le %s, figurant dans le document joint." % (number, period_end_fr(row.period_end))),
-            _p("Cette information a été établie sous la responsabilité de la direction. Il nous appartient de l'attester. L'audit des états financiers pris dans leur ensemble n'a pas pour objet d'exprimer une opinion sur ces montants pris isolément."),
-            _p("Nos diligences, réalisées selon les normes professionnelles du Règlement n°01/2017/CM/OHADA, ne constituent ni un audit ni un examen limité. Elles ont consisté à rapprocher le montant global de la comptabilité dont sont issus les états financiers."),
-            _p("Sur la base de ces travaux, nous attestons que le montant global des rémunérations versées aux %s personnes les mieux rémunérées, soit %s, est exact et concorde avec la comptabilité." % (number, amount)),
-            _p("La présente attestation tient lieu de la certification exigée par l'article 525. Elle est établie à cette seule fin et ne peut être utilisée à aucune autre."),
+            _title(self._ea_pick("Statutory auditor's attestation on the total remuneration paid to the highest-paid persons (art. 525) (to validate)", "Attestation du commissaire aux comptes sur le montant global des rémunérations versées aux personnes les mieux rémunérées (art. 525)")),
+            _b(self._ea_pick("%s — Year ended %s", "%s — Exercice clos le %s") % (row.client_id.name, self._ea_prose_date(row.period_end))),
+            _p(self._ea_pick("To the %s,", "Aux %s,") % members),
+            _p(self._ea_pick("As statutory auditor, and in application of article 525 of the Uniform Act on commercial companies and economic interest groups, we have prepared this attestation on the total remuneration paid to the %s highest-paid persons for the year ended %s, shown in the attached document.", "En notre qualité de commissaire aux comptes, et en application de l'article 525 de l'Acte uniforme relatif au droit des sociétés commerciales et du GIE, nous avons établi la présente attestation sur le montant global des rémunérations versées aux %s personnes les mieux rémunérées au titre de l'exercice clos le %s, figurant dans le document joint.") % (number, self._ea_prose_date(row.period_end))),
+            _p(self._ea_pick("This information was prepared under management's responsibility. Our responsibility is to attest it. The audit of the financial statements as a whole does not aim to express an opinion on these amounts taken in isolation.", "Cette information a été établie sous la responsabilité de la direction. Il nous appartient de l'attester. L'audit des états financiers pris dans leur ensemble n'a pas pour objet d'exprimer une opinion sur ces montants pris isolément.")),
+            _p(self._ea_pick("Our procedures, performed under the professional standards of Regulation no. 01/2017/CM/OHADA, are neither an audit nor a limited review. They consisted of agreeing the total to the accounting records from which the financial statements are drawn.", "Nos diligences, réalisées selon les normes professionnelles du Règlement n°01/2017/CM/OHADA, ne constituent ni un audit ni un examen limité. Elles ont consisté à rapprocher le montant global de la comptabilité dont sont issus les états financiers.")),
+            _p(self._ea_pick("On the basis of this work, we attest that the total remuneration paid to the %s highest-paid persons, being %s, is accurate and agrees with the accounting records.", "Sur la base de ces travaux, nous attestons que le montant global des rémunérations versées aux %s personnes les mieux rémunérées, soit %s, est exact et concorde avec la comptabilité.") % (number, amount)),
+            _p(self._ea_pick("This attestation stands as the certification required by article 525. It is prepared for this sole purpose and may not be used for any other.", "La présente attestation tient lieu de la certification exigée par l'article 525. Elle est établie à cette seule fin et ne peut être utilisée à aucune autre.")),
         ]
         blocks += self._ea_partner_signature()
-        return self._ea_file_under_code("C5.10", "Attestation art. 525 — %s" % row.fiscal_year, "report", blocks, "legal:art525")
+        return self._ea_file_under_code("C5.10", self._ea_pick("Attestation art. 525 — %s", "Attestation art. 525 — %s") % row.fiscal_year, "report", blocks, "legal:art525")
 
     # ------------------------------------------------------------------
     # Manifest and screens

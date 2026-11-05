@@ -14,7 +14,7 @@
                     <field name="archived_at" invisible="1"/>
                     <field name="legal_titres_available" invisible="1"/>
                     <div class="alert alert-info" role="status">
-                        Every article number stays marked (à valider) until the firm's jurist has validated the workbook.
+                        Every article number stays marked (to validate) until the firm's jurist has validated the workbook.
                     </div>
                     <div class="o_ea_cards">
                         <div class="o_ea_card">
@@ -71,8 +71,8 @@
                     </div>
                     <div class="o_ea_panel">
                         <h4>Reports and attestations</h4>
-                        <button name="action_generate_article_715" type="object" string="Report to the board, art. 715 (à valider)" class="btn btn-secondary me-2" invisible="archived_at"/>
-                        <button name="action_generate_art525" type="object" string="Certification, art. 525 (à valider)" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_generate_article_715" type="object" string="Report to the board, art. 715 (to validate)" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_generate_art525" type="object" string="Certification, art. 525 (to validate)" class="btn btn-secondary me-2" invisible="archived_at"/>
                         <button name="action_open_legal_wizard" type="object" string="Securities attestation" class="btn btn-secondary me-2" context="{'legal_mode': 'titres'}" invisible="archived_at or not legal_titres_available"/>
                         <button name="action_open_legal_wizard" type="object" string="Joint auditor file" class="btn btn-secondary" context="{'legal_mode': 'joint'}" invisible="archived_at"/>
                     </div>

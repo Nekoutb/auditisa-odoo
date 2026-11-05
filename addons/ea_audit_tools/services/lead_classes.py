@@ -383,7 +383,7 @@ SUB_INDEXES = [
     {
         "code": "L-1",
         "index": "L",
-        "labelEn": "Legacy class 20 — non-compliant with SYSCOHADA révisé",
+        "labelEn": "Legacy class 20 — non-compliant with the revised SYSCOHADA",
         "labelFr": "Charges immobilisées (classe 20, supprimée)",
     },
     {"code": "L-2", "index": "L", "labelEn": "Intangible assets, gross"},
@@ -626,7 +626,7 @@ def lead_schedule_alerts(accounts):
         out.append({
             "code": "legacy_class_20",
             "accounts": class20,
-            "en": "Class 20 (charges immobilisées) carries a balance (%s): the class was removed by the SYSCOHADA révisé — the balance is non-compliant and must be reclassified or written off, and the finding carried to C1.1." % listed,
+            "en": "Class 20 (capitalised charges) carries a balance (%s): the class was removed by the revised SYSCOHADA — the balance is non-compliant and must be reclassified or written off, and the finding carried to C1.1." % listed,
             "fr": "La classe 20 (charges immobilisées) porte un solde (%s) : la classe a été supprimée par le SYSCOHADA révisé — le solde est non conforme et doit être reclassé ou sorti, et le constat porté en C1.1." % listed,
         })
     return out

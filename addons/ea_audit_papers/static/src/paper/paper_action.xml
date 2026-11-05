@@ -43,10 +43,6 @@
                             <t t-esc="tab.label"/><span class="eap-tick" t-if="tab.done"> ✓</span>
                         </button>
                     </t>
-                    <span class="eap-lang">
-                        <button type="button" t-att-class="{'is-on': fr}" t-on-click="() => this.setLang('fr')">FR</button>
-                        <button type="button" t-att-class="{'is-on': !fr}" t-on-click="() => this.setLang('en')">EN</button>
-                    </span>
                 </div>
 
                 <t t-if="state.tab === 'status'"><t t-call="ea_audit_papers.PaperStatus"/></t>

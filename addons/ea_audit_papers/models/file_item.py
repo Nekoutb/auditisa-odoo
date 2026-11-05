@@ -219,7 +219,7 @@ class FileItem(models.Model):
             "file_item_id": item.id, "author_id": env.user.id, "assignee_id": addressee.id, "body": text,
         })
         paper.with_env(env)._ea_trail("review_note_raised", "Review note raised on %s" % item.code)
-        paper.with_env(env)._ea_notify_users(addressee, "%s: note de revue / review note" % item.code, text[:400])
+        paper.with_env(env)._ea_notify_users(addressee, lambda reader: reader._("%(code)s: review note", code=item.code), text[:400])
         return note.id
 
     # ------------------------------------------------------------------

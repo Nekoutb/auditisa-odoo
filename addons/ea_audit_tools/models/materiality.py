@@ -14,7 +14,7 @@ from ..services.materiality import (
     validate_version,
 )
 from ..services.materiality_model import PERFORMANCE_PCT_RANGE, TRIVIAL_PCT_RANGE, benchmark_label, uncorrected_misstatement_threshold
-from .tool_record import fcfa, french_date, is_french
+from .tool_record import fcfa, french_date, grouped, is_french
 
 BENCHMARK_SELECTION = [
     ("pbt", "Profit before tax"),
@@ -179,10 +179,10 @@ class EngagementMateriality(models.Model):
                     "<td class='text-end'>{range}</td><td class='text-end'>{threshold}</td><td>{chip}</td></tr>"
                 ).format(
                     label=benchmark_label(code, fr),
-                    amount="{:,.0f}".format(bases[code]).replace(",", " "),
+                    amount=grouped(bases[code]),
                     pct="%g" % pct,
                     range="%g–%g" % (BENCHMARK_RANGES[code]["min"], BENCHMARK_RANGES[code]["max"]),
-                    threshold="{:,.0f}".format(threshold).replace(",", " "),
+                    threshold=grouped(threshold),
                     chip=Markup("<span class='o_ea_chip o_ea_chip_good'>{}</span>").format(self.env._("Retained")) if retained else "",
                 ))
             engagement.mat_bases_html = Markup(

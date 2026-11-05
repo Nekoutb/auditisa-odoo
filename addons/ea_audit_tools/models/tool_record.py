@@ -1,3 +1,7 @@
+import inspect
+
+from odoo.tools.translate import _get_lang
+
 from odoo import api, fields, models
 
 from ..rules import rule_error
@@ -9,13 +13,23 @@ def is_french(env):
     return (env.lang or env.context.get("lang") or "").startswith("fr")
 
 
-def fcfa(amount):
-    """formatFCFA: no decimals, space grouping."""
+def grouped(amount, lang=None):
+    """No decimals; the separator follows the language: of ``lang``, else of the caller's
+    environment found as odoo's _ finds it. French groups with a space, English with a comma."""
+    if lang is None:
+        lang = _get_lang(inspect.currentframe().f_back)
+    digits = "{:,.0f}".format(amount)
+    return digits.replace(",", " ") if (lang or "").startswith("fr") else digits
+
+
+def fcfa(amount, lang=None):
+    """formatFCFA: no decimals, grouped as the language groups."""
     if amount is None or amount is False:
         return "—"
     negative = amount < 0
-    digits = "{:,.0f}".format(abs(amount)).replace(",", " ")
-    return "%s%s FCFA" % ("-" if negative else "", digits)
+    if lang is None:
+        lang = _get_lang(inspect.currentframe().f_back)
+    return "%s%s FCFA" % ("-" if negative else "", grouped(abs(amount), lang))
 
 
 def french_date(value):

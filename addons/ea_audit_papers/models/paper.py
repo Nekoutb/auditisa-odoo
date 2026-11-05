@@ -34,8 +34,8 @@ from .paper_answer import ANSWER_DOOR
 
 _logger = logging.getLogger(__name__)
 
-# Bilingual: it is read by whoever opens the paper next, in either language.
-SIGNOFF_INVALIDATED_REASON = "Paper content changed after sign-off / contenu de la feuille modifié après la signature"
+# English source of the stored reason; the paper's readers get it through fr.po.
+SIGNOFF_INVALIDATED_REASON = "Paper content changed after sign-off"
 CONTENT_SCHEME = 2
 TZ = "Africa/Douala"
 
@@ -68,7 +68,7 @@ TOOL_LABELS = {
     "C5.3": ("Legal tool, regulated agreements register", "Outil juridique, registre des conventions"),
     "C5.4": ("Legal tool, article 715 report", "Outil juridique, rapport article 715"),
     "C5.5": ("Legal tool, alert procedure", "Outil juridique, procédure d'alerte"),
-    "C5.6": ("Legal tool, faits délictueux", "Outil juridique, faits délictueux"),
+    "C5.6": ("Legal tool, criminal facts", "Outil juridique, faits délictueux"),
     "C5.7": ("Legal tool, securities attestation", "Outil juridique, attestation titres"),
     "C5.8": ("Legal tool, equity monitor", "Outil juridique, suivi des capitaux propres"),
 }
@@ -212,9 +212,14 @@ class Paper(models.Model):
         for user in users:
             if user == self.env.user:
                 continue
+            reader = self.with_context(lang=user.sudo().lang or self.env.lang).env
             try:
                 with self.env.cr.savepoint():
-                    paper.activity_schedule("mail.mail_activity_data_todo", user_id=user.id, summary=summary, note=note)
+                    paper.activity_schedule(
+                        "mail.mail_activity_data_todo", user_id=user.id,
+                        summary=summary(reader) if callable(summary) else summary,
+                        note=note(reader) if callable(note) else note,
+                    )
             except Exception:
                 _logger.exception("Notification lost for user %s on paper %s", user.id, self.id)
 
@@ -226,8 +231,8 @@ class Paper(models.Model):
             self._ea_trail("section_conclusion_review_cleared", "%s conclusion review cleared with the voided signature" % self.code)
         self._ea_notify_users(
             rows.user_id,
-            "%s: signature annulée / signature voided" % self.code,
-            SIGNOFF_INVALIDATED_REASON,
+            lambda env: env._("%(code)s: signature voided", code=self.code),
+            lambda env: env._("Paper content changed after sign-off"),
         )
 
     # ------------------------------------------------------------------
@@ -470,7 +475,7 @@ class Paper(models.Model):
             "voided": [
                 {
                     "role": row.role, "by": row.user_id.name, "date": self._ea_date(row.voided_at),
-                    "reason": row.void_reason or "",
+                    "reason": self.env._(row.void_reason) if row.void_reason else "",
                 }
                 for row in all_rows.filtered(lambda s: s.voided_at)
             ],

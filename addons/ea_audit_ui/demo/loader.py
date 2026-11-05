@@ -321,10 +321,10 @@ class _Demo:
         sales.link_index("E", ["E", "A", "C"])
         missed = sales.add_wcgw(_d("A sale is neither invoiced nor recorded.", "Une vente n'est pas facturée ni comptabilisée."), ["C"])
         control = sales.add_control(
-            "Rapprochement mensuel des bons de livraison et des factures", "Directeur financier", "manual", "mensuel", "detect", wcgws=missed,
+            _d("Monthly matching of delivery notes and invoices", "Rapprochement mensuel des bons de livraison et des factures"), "Directeur financier", "manual", "mensuel", "detect", wcgws=missed,
         )
         control.update_control({
-            "selected_for_testing": True, "test_design": "Reprendre le rapprochement du mois et le visa du directeur financier.",
+            "selected_for_testing": True, "test_design": _d("Re-perform the month's matching and the finance director's sign-off.", "Reprendre le rapprochement du mois et le visa du directeur financier."),
             "design_eval": "effective", "implemented": "yes",
         })
         purchases = as_senior.create_scot(_d("Purchases and suppliers", "Achats et fournisseurs"), "routine", "substantive", _d("Accounting software", "Logiciel comptable"), _d("From order to payment.", "De la commande au règlement."))

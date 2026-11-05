@@ -230,7 +230,7 @@ class PbcItem(models.Model):
         engagement = row.engagement_id
         engagement._ea_log("pbc_uploaded", "PBC uploaded by the client: %s (%s) sha256 %s" % (row.title, name, hashlib.sha256(content).hexdigest()))
         members = self.env["ea.audit.team.member"].sudo().search([("engagement_id", "=", engagement.id)]).user_id
-        engagement._ea_notify(members, "pbc-uploaded", "PBC reçu : %s" % name)
+        engagement._ea_notify(members, "pbc-uploaded", lambda env: env._("PBC received: %(name)s", name=name))
         return True
 
     # -- firm side ---------------------------------------------------------------------
@@ -251,7 +251,7 @@ class PbcItem(models.Model):
             raise rule_error(self.env, "wrong-status")
         row.write({"chased_at": fields.Datetime.now(), "chase_count": row.chase_count + 1})
         row.engagement_id._ea_log("pbc_chased", "PBC chased: %s" % row.title)
-        row.engagement_id._ea_notify(users, "pbc-reminder", "Relance — %s" % row.title, row.note or "Ce document reste attendu : merci de le déposer sur le portail.")
+        row.engagement_id._ea_notify(users, "pbc-reminder", lambda env: env._("Reminder — %(title)s", title=row.title), row.note or (lambda env: env._("This document is still expected: please upload it to the portal.")))
         return True
 
     def _ea_review_guard(self, item):
@@ -352,7 +352,7 @@ class Engagement(models.Model):
         item = self.env["ea.audit.pbc.item"].sudo().create({"engagement_id": self.id, "title": title, "note": note or ""})
         users = item._ea_contacts_of_client()
         self._ea_log("pbc_requested", "PBC requested: %s (%d contact(s))" % (title, len(users)))
-        self.sudo()._ea_notify(users, "pbc-requested", "Document demandé : %s" % title, note or "Merci de déposer ce document sur le portail.")
+        self.sudo()._ea_notify(users, "pbc-requested", lambda env: env._("Document requested: %(title)s", title=title), note or (lambda env: env._("Please upload this document to the portal.")))
         return item
 
     def action_view_pbc(self):

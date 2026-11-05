@@ -17,7 +17,7 @@ ACCENTS = re.compile("[éèêëàâçùûôîïÉÈÊÀÂÇÔÎ«»œ]")
 # Words that do not occur in English prose or in code. Two in one string count as French;
 # one trade noun is enough when the string is short.
 WEAK = set("""le la les des du une un au aux et ou est sont pour avec sans dans sur par que qui ne pas
-ce cette ces son sa ses leur nos vos votre notre doit peut faut aucun aucune avant apres tous toutes
+ce cette ces son ses leur nos vos votre notre doit peut faut aucun aucune avant apres tous toutes
 tout plus encore""".split())
 STRONG = set("""tache taches lettre lettres exercice compte comptes montant montants valider refus
 manquant manquante veuillez seuil seuils risque risques controle controles revue revues societe ecart
@@ -46,8 +46,17 @@ def looks_french(text):
 
 
 # ``_d("Sales", "Ventes")``: the English and the French side by side, the caller chooses.
-_PAIR_CALLS = {"_d", "pick"}
+_PAIR_CALLS = {"_d", "pick", "_ea_pick"}
+_FR_FIRST_CALLS = {"_words", "entry", "code_item"}  # (french, english)
+_WHOLE_CALLS = {"push"}  # push(key, label_en, label_fr, status, detail_en, detail_fr)
 _LANG_TESTS = {"fr", "french", "is_french", "_ea_fr", "isFr"}
+
+
+def _tests_language(test):
+    names = {n.id for n in ast.walk(test) if isinstance(n, ast.Name)}
+    names |= {n.attr for n in ast.walk(test) if isinstance(n, ast.Attribute)}
+    fr_constant = any(isinstance(n, ast.Constant) and n.value == "fr" for n in ast.walk(test))
+    return bool(names & _LANG_TESTS) or fr_constant
 
 
 def _is_fr_key(key):
@@ -91,14 +100,29 @@ class _Scan(ast.NodeVisitor):
 
     def visit_Assign(self, node):
         for target in node.targets:
-            if isinstance(target, ast.Name) and _is_fr_key(target.id):
+            if isinstance(target, ast.Name) and (_is_fr_key(target.id) or target.id.startswith("_FR") or "_FR_" in target.id):
                 self._skip_tree(node.value)
+        self.generic_visit(node)
+
+    def visit_If(self, node):
+        """``if fr: return "..."``: the French branch of a bilingual function."""
+        if _tests_language(node.test):
+            for sub in node.body:
+                self._skip_tree(sub)
         self.generic_visit(node)
 
     def visit_Call(self, node):
         name = getattr(node.func, "id", getattr(node.func, "attr", ""))
         if name in _PAIR_CALLS and len(node.args) >= 2:
             self._skip_tree(node.args[1])
+        if name in _WHOLE_CALLS:
+            self._skip_tree(node)
+        if name in _FR_FIRST_CALLS:
+            for arg in node.args:
+                if isinstance(arg, ast.Constant):
+                    self.skip.add(id(arg))
+        if name == "t" and len(node.args) == 3:  # t(locale, english, french)
+            self._skip_tree(node.args[2])
         for keyword in node.keywords:
             if keyword.arg and _is_fr_key(keyword.arg):
                 self._skip_tree(keyword.value)
@@ -106,21 +130,18 @@ class _Scan(ast.NodeVisitor):
 
     def visit_IfExp(self, node):
         """``"Oui" if fr else "Yes"``: both languages are in the code and the caller chooses."""
-        names = {n.id for n in ast.walk(node.test) if isinstance(n, ast.Name)}
-        names |= {n.attr for n in ast.walk(node.test) if isinstance(n, ast.Attribute)}
-        if names & _LANG_TESTS:
+        if _tests_language(node.test):
             negated = isinstance(node.test, ast.UnaryOp)
             self._skip_tree(node.orelse if negated else node.body)
         self.generic_visit(node)
 
     def _pair(self, node):
-        """An [en, fr] or (fr, en) pair: one side French, the other not. A longer tuple of
-        strings keeps the rule for its last two, as (key, en, fr) rows do."""
-        elts = node.elts[-2:]
-        if len(elts) == 2 and all(isinstance(e, ast.Constant) and isinstance(e.value, str) for e in elts):
-            first, second = looks_french(elts[0].value), looks_french(elts[1].value)
+        """An [en, fr] or (fr, en) pair: two neighbours, one French, the other not."""
+        strings = [e for e in node.elts if isinstance(e, ast.Constant) and isinstance(e.value, str)]
+        for left, right in zip(strings, strings[1:]):
+            first, second = looks_french(left.value), looks_french(right.value)
             if first != second:
-                self.skip.add(id(elts[0] if first else elts[1]))
+                self.skip.add(id(left if first else right))
 
     def visit_List(self, node):
         self._pair(node)
@@ -193,7 +214,8 @@ def scan_addons(root):
     report = []
     for path in sorted(root.rglob("*")):
         rel = path.relative_to(root).as_posix()
-        if not path.is_file() or re.search(r"(^|/)(tests|tests_pure|i18n|lib|__pycache__)/", rel):
+        # demo_data.xml holds proper names: the fictional firm and clients.
+        if not path.is_file() or re.search(r"(^|/)(tests|tests_pure|i18n|lib|__pycache__)/", rel) or rel.endswith("demo/demo_data.xml"):
             continue
         try:
             if path.suffix == ".py":

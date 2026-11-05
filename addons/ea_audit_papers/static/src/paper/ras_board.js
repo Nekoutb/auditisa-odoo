@@ -1,15 +1,17 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
+import { user } from "@web/core/user";
 import { useService } from "@web/core/utils/hooks";
 
 const STATE_WORDS = {
-    not_started: ["Non commencé", "Not started"],
-    in_progress: ["En cours", "In progress"],
-    prepared: ["Préparé", "Prepared"],
-    reviewed: ["Revu", "Reviewed"],
-    signed: ["Signé", "Signed"],
-    not_applicable: ["N/A", "N/A"],
-    absent: ["Absent", "Absent"],
+    not_started: _t("Not started"),
+    in_progress: _t("In progress"),
+    prepared: _t("Prepared"),
+    reviewed: _t("Reviewed"),
+    signed: _t("Signed"),
+    not_applicable: "N/A",
+    absent: _t("Absent"),
 };
 
 /** P7.2: sections A to C and the four signature tiers. The server decides everything. */
@@ -25,7 +27,7 @@ export class RasBoard extends Component {
     }
 
     get fr() {
-        return (document.documentElement.lang || "fr").startsWith("fr");
+        return (user.lang || "").startsWith("fr");
     }
 
     pick(row) {
@@ -33,7 +35,7 @@ export class RasBoard extends Component {
     }
 
     stateWord(state) {
-        return (STATE_WORDS[state] || [state, state])[this.fr ? 0 : 1];
+        return String(STATE_WORDS[state] || state);
     }
 
     async load() {
@@ -50,7 +52,7 @@ export class RasBoard extends Component {
 
     async sign(tier, clear = false) {
         this.state.view = await this.call("ea_ras_sign", tier.role, clear);
-        this.notification.add(this.fr ? "Signature enregistrée." : "Signature recorded.", { type: "success" });
+        this.notification.add(_t("Signature recorded."), { type: "success" });
     }
 }
 

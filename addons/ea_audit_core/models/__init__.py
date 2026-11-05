@@ -9,3 +9,4 @@ from . import file_item
 from . import signoff
 from . import signoff_policy
 from . import planning_snapshot
+from . import res_lang

@@ -1,4 +1,5 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
@@ -22,12 +23,12 @@ export class ToolBoard extends Component {
 }
 
 const boards = registry.category("ea_audit_paper_boards");
-const entry = (fr, en) => ({ Component: ToolBoard, label: { fr, en } });
+const entry = (label) => ({ Component: ToolBoard, label });
 
-boards.add("P6.1", entry("Outil de matérialité", "Materiality tool"));
-boards.add("P6.2", entry("Comptes significatifs", "Significant accounts"));
-boards.add("S3.1", entry("Risques et CRA", "Risks and CRA"));
-boards.add("C1.1", entry("Anomalies (SAD)", "Differences (SAD)"));
+boards.add("P6.1", entry(_t("Materiality tool")));
+boards.add("P6.2", entry(_t("Significant accounts")));
+boards.add("S3.1", entry(_t("Risks and CRA")));
+boards.add("C1.1", entry(_t("Differences (SAD)")));
 for (let index = 1; index <= 34; index++) {
-    boards.add(`E4.${index}`, entry("Feuille maîtresse", "Lead schedule"));
+    boards.add(`E4.${index}`, entry(_t("Lead schedule")));
 }

@@ -18,6 +18,8 @@ from odoo.addons.ea_audit_tools.services.retention import RETENTION_MAX_YEARS, R
 from odoo.addons.ea_audit_tools.services.risk_model import MGMT_OVERRIDE_PROCEDURE
 
 from ..rules import gates_error, rule_error
+from odoo.addons.ea_audit_tools.models.tool_record import grouped
+
 from ..services.articles import mark_articles
 from ..services.docx_builder import DOCX_MIME, block, build_docx
 from ..services.fs_tieout import run_tieout
@@ -50,7 +52,7 @@ _ROLE_LABELS = {
 _LETTER_STORED_TITLES = {
     "engagement": ("Lettre de mission", "Engagement letter"),
     "planning_tcwg": ("Communication de planification (ISA 260)", "Planning communication (ISA 260)"),
-    "rep_affirmation": ("Lettre d'affirmation (pré-arrêté)", "Affirmation letter (pre-arrêté)"),
+    "rep_affirmation": ("Lettre d'affirmation (pré-arrêté)", "Representation letter (before approval of the accounts)"),
     "rep_complementary": ("Lettre d'affirmation complémentaire", "Complementary representation letter"),
     "management_letter": ("Lettre de recommandations", "Management letter"),
     "tcwg_completion": ("Rapport à la gouvernance — achèvement (ISA 260)", "Governance report — completion (ISA 260)"),
@@ -127,14 +129,18 @@ class Engagement(models.Model):
 
     def _ea_notify(self, users, kind, title, body=""):
         """createNotification: a row for each addressee, never an email. The bell, when the
-        interface addon is installed, gets a line as well."""
+        interface addon is installed, gets a line as well. ``title`` and ``body`` may be
+        callables of an environment: they then read in each addressee's language."""
         self.ensure_one()
         Notice = self.env["ea.audit.notice"].sudo()
         Bell = self.env.get("ea.audit.notification")
         for user in users:
-            Notice.create({"user_id": user.id, "engagement_id": self.id, "kind": kind, "title": title, "body": body})
+            reader = self.with_context(lang=user.sudo().lang or self.env.lang).env
+            title_text = title(reader) if callable(title) else title
+            body_text = body(reader) if callable(body) else body
+            Notice.create({"user_id": user.id, "engagement_id": self.id, "kind": kind, "title": title_text, "body": body_text})
             if Bell is not None and user.has_group("ea_audit_core.group_member"):
-                Bell.sudo().create({"user_id": user.id, "kind": "mission", "title": title, "detail": (body or "")[:200], "engagement_id": self.id})
+                Bell.sudo().create({"user_id": user.id, "kind": "mission", "title": title_text, "detail": (body_text or "")[:200], "engagement_id": self.id})
 
     def _ea_partner_users(self):
         """Every engagement partner on the team."""
@@ -163,12 +169,19 @@ class Engagement(models.Model):
         return company.ea_display_name or company.name
 
     def _ea_seal_blocks(self, blocks):
-        """Letterhead, footer, and the "(à valider)" mark on every article number."""
+        """Letterhead, footer, and the validation mark on every article number; the jurist's
+        switch also lifts the "(to validate)" of new English wording."""
         head, foot = self._ea_letterhead()
         validated = self.env.company.sudo().ea_articles_validated
-        return [block(item["t"], mark_articles(item["s"], validated)) for item in head + blocks + foot]
+        fr = self._ea_report_fr()
 
-    def _ea_file_under_code(self, code, title, kind, blocks, note, language="fr", restricted=False):
+        def sealed(text):
+            text = mark_articles(text, validated, fr)
+            return text.replace(" (to validate)", "") if validated and text else text
+
+        return [block(item["t"], sealed(item["s"])) for item in head + blocks + foot]
+
+    def _ea_file_under_code(self, code, title, kind, blocks, note, language=None, restricted=False):
         """fileUnderCode: a generated .docx filed as the next version of the document of that
         title on that task. A very-simple file may lack the task: the OHADA procedures are
         required whatever the tier, so it is added from the template (UAT B34)."""
@@ -186,7 +199,7 @@ class Engagement(models.Model):
         if not document:
             document = Document.create({
                 "engagement_id": self.id, "file_item_id": item.id, "title": title, "kind": kind,
-                "language": language, "restricted": restricted, "created_by_id": self.env.user.id,
+                "language": language or as_root.report_language, "restricted": restricted, "created_by_id": self.env.user.id,
             })
         sealed = self._ea_seal_blocks(blocks)
         document._ea_add_version(build_docx(sealed), DOCX_MIME, note, sealed)
@@ -302,11 +315,11 @@ class Engagement(models.Model):
         fr = self._ea_fr()
         cell = Markup('<tr class="%s"><td>%s</td><td>%s</td><td class="text-end">%s</td></tr>')
         rows = [
-            cell % ("fw-bold" if line["ref"].startswith("X") else "", line["ref"], line["label"], "{:,.0f}".format(line["amount"]).replace(",", " "))
+            cell % ("fw-bold" if line["ref"].startswith("X") else "", line["ref"], line["label"] if fr else line["labelEn"], grouped(line["amount"]))
             for line in result["cr"] if line["amount"] or line["ref"] == "XI"
         ]
         rows += [
-            cell % ("", line["ref"], line["label"] if fr else line["labelEn"], "{:,.0f}".format(line["amount"]).replace(",", " "))
+            cell % ("", line["ref"], line["label"] if fr else line["labelEn"], grouped(line["amount"]))
             for line in result["bilan"] if line["amount"]
         ]
         names = {
@@ -322,7 +335,7 @@ class Engagement(models.Model):
             Markup('<tr class="table-danger"><td>%s</td><td>%s</td><td class="text-end">%s</td></tr>') % (
                 diff["ref"],
                 ("Client : %s ; recalculé : %s" if fr else "Client: %s; recomputed: %s") % (diff["client"], diff["recomputed"]),
-                "{:,.0f}".format(diff["difference"]).replace(",", " "),
+                grouped(diff["difference"]),
             ) for diff in result["clientDiffs"]
         )
         return Markup('<ul class="o_ea_gates">%s</ul><table class="table table-sm o_ea_tieout"><tbody>%s%s</tbody></table>') % (
@@ -497,7 +510,7 @@ class Engagement(models.Model):
         return True
 
     def generate_audit_report(self, opinion, report_date, basis=None, going_concern=False, kam=None, kam_none_reason=None):
-        """generateAuditReport: the French statutory report, filed under C2.1 as kind='report'."""
+        """generateAuditReport: the statutory report in the report language, filed under C2.1 as kind='report'."""
         self.ensure_one()
         self._ea_tool_guard()
         as_root = self.sudo()
@@ -506,9 +519,10 @@ class Engagement(models.Model):
         blocks = report_blocks(
             opinion, client.name, as_root.period_end, fields.Date.to_date(report_date), listed=client.listed, co_cac=client.co_cac,
             basis=basis, going_concern=going_concern, kam=kam, kam_none_reason=kam_none_reason, disagreement=disagreement,
+            fr=self._ea_report_fr(),
         )
         return self._ea_file_under_code(
-            "C2.1", "Rapport CAC — %s" % as_root.fiscal_year, "report", blocks, "report:%s" % opinion,
+            "C2.1", self._ea_pick("Auditor's report — %s", "Rapport CAC — %s") % as_root.fiscal_year, "report", blocks, "report:%s" % opinion,
         )
 
     def issue_report_from_form(self, material_misstatement=False, pervasive=False, scope_limitation=False,
@@ -628,7 +642,7 @@ class Engagement(models.Model):
         self._ea_tool_guard()
         if kind not in LETTER_KINDS:
             raise rule_error(self.env, "invalid-letter-kind")
-        fr = (locale or ("fr" if self._ea_fr() else "en")) == "fr"
+        fr = (locale or self.sudo().report_language) == "fr"
         as_root = self.sudo()
         code = as_root._ea_letter_item_code(kind)
         blocks = build_letter(kind, as_root._ea_letter_fields(kind, fr), fr)
@@ -977,8 +991,8 @@ class Engagement(models.Model):
         # Everyone on the file hears it closed. Never an email; a failure must not undo the archive.
         members = self.env["ea.audit.team.member"].sudo().search([("engagement_id", "=", self.id)]).user_id
         as_root._ea_notify(
-            members, "engagement_archived", "Mission archivée · Engagement archived",
-            "Le dossier est figé : plus aucune modification n'est possible. Il reste consultable et peut être reconduit depuis la liste des missions archivées.",
+            members, "engagement_archived", lambda env: env._("Engagement archived"),
+            lambda env: env._("The file is frozen: no further change is possible. It remains available and can be rolled forward from the list of archived engagements."),
         )
         return manifest
 
@@ -1268,12 +1282,12 @@ class FileItem(models.Model):
         result = item.engagement_id._ea_fs_tieout()
         fr = is_french(self.env)
         board["facts"] = [
-            {"label": "Résultat net (CR)" if fr else "Net result (income statement)", "value": "{:,.0f} FCFA".format(result["crResult"]).replace(",", " ")},
+            {"label": "Résultat net (CR)" if fr else "Net result (income statement)", "value": "%s FCFA" % grouped(result["crResult"])},
             {"label": "Rapprochement" if fr else "Tie-out", "value": ("Concluant" if fr else "Passed") if result["pass"] else ("Écarts" if fr else "Differences")},
         ]
         board["head"] = ["Ref", "Poste" if fr else "Caption", "Montant" if fr else "Amount"]
         board["rows"] = [
-            [line["ref"], line["label"], "{:,.0f}".format(line["amount"]).replace(",", " ")]
+            [line["ref"], line["label"] if fr else line["labelEn"], grouped(line["amount"])]
             for line in result["cr"] if line["ref"].startswith("X")
         ]
         return board

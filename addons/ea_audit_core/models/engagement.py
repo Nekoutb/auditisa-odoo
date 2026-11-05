@@ -29,6 +29,7 @@ NATURE_SELECTION = [
     ("agreed_procedures", "Agreed-upon procedures"),
     ("other", "Other"),
 ]
+REPORT_LANGUAGE_SELECTION = [("en", "English"), ("fr", "French")]
 COMPLEXITY_SELECTION = [("complex", "Complex"), ("non_complex", "Non-complex"), ("very_simple", "Very simple")]
 EDITION_SELECTION = [("current", "ISA in force"), ("revised_2026", "ISA revised (periods from 15 December 2026)")]
 
@@ -47,6 +48,22 @@ class Engagement(models.Model):
     _description = "Audit engagement"
     _order = "fiscal_year desc, id desc"
 
+    @api.model
+    def _ea_firm_language(self):
+        """The firm's language, set at onboarding on the company's partner."""
+        return "fr" if (self.env.company.sudo().partner_id.lang or "").startswith("fr") else "en"
+
+    def _ea_report_fr(self):
+        self.ensure_one()
+        return self.sudo().report_language == "fr"
+
+    def _ea_report_lang_code(self):
+        return "fr_FR" if self._ea_report_fr() else "en_US"
+
+    def _ea_pick(self, english, french):
+        """The wording of a generated document, in the engagement's report language."""
+        return french if self._ea_report_fr() else english
+
     name = fields.Char(tracking=True)
     client_id = fields.Many2one("ea.audit.client", string="Client", required=True, index=True, ondelete="restrict")
     fiscal_year = fields.Integer(required=True, tracking=True)
@@ -54,6 +71,10 @@ class Engagement(models.Model):
     duration_months = fields.Integer(string="Duration (months)")
     nature = fields.Selection(NATURE_SELECTION, tracking=True)
     framework = fields.Char(tracking=True)
+    report_language = fields.Selection(
+        REPORT_LANGUAGE_SELECTION, string="Report language", required=True, default=lambda self: self._ea_firm_language(),
+        tracking=True, help="The language of the audit report, the letters, the legal documents and the exports of this engagement.",
+    )
     first_year = fields.Boolean(string="First-year audit")
     complexity = fields.Selection(COMPLEXITY_SELECTION, default="complex", tracking=True)
     phase = fields.Selection(PHASE_SELECTION, required=True, default="acceptance", index=True, tracking=True)

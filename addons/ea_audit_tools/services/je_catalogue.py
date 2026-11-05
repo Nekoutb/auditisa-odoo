@@ -210,7 +210,7 @@ JE_CRITERIA = [{'key': 'weekend-posting',
                    'blank-description test, which it never overlaps.',
   'descriptionFr': 'Lignes qui portent un libellé, mais trop court, comptant trop peu de mots, ou composé uniquement de termes passe-partout et de chiffres. '
                    "Distinct du test des libellés vides, qu'il ne recoupe jamais.",
-  'rationaleEn': '"Divers", "OD" and "régularisation" are descriptions in form only: a reviewer learns nothing from them, so in substance the entry went '
+  'rationaleEn': '"Divers", "OD" and "regularisation" are descriptions in form only: a reviewer learns nothing from them, so in substance the entry went '
                  'unreviewed.',
   'rationaleFr': "« Divers », « OD » ou « régularisation » ne sont des libellés que par la forme : le réviseur n'en apprend rien, l'écriture est donc en "
                  'substance non revue.',
@@ -251,12 +251,12 @@ JE_CRITERIA = [{'key': 'weekend-posting',
                           'ajustements',
                           'adjustment',
                           'adjustments',
-                          'régularisation',
-                          'régularisations',
+                          'régularisation',  # i18n: input
+                          'régularisations',  # i18n: input
                           'correction',
                           'corrections',
-                          'écriture',
-                          'écritures',
+                          'écriture',  # i18n: input
+                          'écritures',  # i18n: input
                           'entry',
                           'journal',
                           'reclassement',

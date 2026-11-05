@@ -56,7 +56,7 @@ class ReviewNote(models.Model):
         paper = note.file_item_id._ea_paper()
         paper.with_env(self.env)._ea_trail("review_note_answered", "Review note on %s answered" % note.code)
         paper.with_env(self.env)._ea_notify_users(
-            note.author_id, "%s: réponse à votre note / reply to your note" % note.code, reply[:400],
+            note.author_id, lambda env: env._("%(code)s: reply to your note", code=note.code), reply[:400],
         )
         return True
 

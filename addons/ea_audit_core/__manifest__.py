@@ -7,6 +7,7 @@
     "author": "AuditISA",
     "depends": ["base", "mail"],
     "data": [
+        "data/res_lang_data.xml",
         "security/ea_audit_security.xml",
         "security/ir.model.access.csv",
         "security/ea_audit_rules.xml",

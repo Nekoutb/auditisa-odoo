@@ -242,7 +242,7 @@ class ResCompany(models.Model):
     ea_letterhead_footer = fields.Char(string="Letterhead footer")
     ea_articles_validated = fields.Boolean(
         string="Article numbers validated by the jurist",
-        help="While off, every article number printed or shown carries (à valider).",
+        help="While off, every article number printed or shown carries (to validate).",
     )
 
 

@@ -4,6 +4,6 @@
     <record id="action_home" model="ir.actions.client">
         <field name="name">Dashboard</field>
         <field name="tag">ea_audit_ui.home</field>
-        <field name="path">ea-accueil</field>
+        <field name="path">ea-home</field>
     </record>
 </odoo>
