@@ -164,3 +164,29 @@ def completeness_exempt(code, has_bespoke):
     """Tasks whose screen is not the questionnaire, so a signature does not read
     paper_missing (documents.ts completenessExempt)."""
     return code.startswith("E4.") or code == "P7.2" or code in EMBED_ONLY_PAPERS or not has_bespoke
+
+
+def missing_parts(definition, values):
+    """The parts of a paper that still stop a signature, in paper order, as
+    {"en", "fr", "keys"}: what paper-incomplete names."""
+    missing = set(paper_missing(definition, values))
+    parts = []
+
+    def part(title_en, title_fr, keys):
+        hit = [k for k in keys if k in missing]
+        if hit:
+            parts.append({"en": title_en, "fr": title_fr, "keys": hit})
+
+    part("Questionnaire", "Questionnaire", [f["key"] for f in definition.get("fields") or [] if _typed(f)])
+    for section in _sections(definition):
+        kind = section["kind"]
+        if kind == "fields":
+            keys = [f["key"] for f in section["fields"] if _typed(f)]
+        elif kind == "proc":
+            keys = [proc_key(p["key"]) for p in section["procs"]]
+        else:
+            keys = [k for i in section["items"] for k in (yn_key(i["key"]), yn_why_key(i["key"]))]
+        part(section["titleEn"], section["titleFr"], keys)
+    count = len(definition.get("conclEn") or [])
+    part("Conclusion", "Conclusion", [k for i in range(count) for k in (concl_key(i), concl_why_key(i))])
+    return parts

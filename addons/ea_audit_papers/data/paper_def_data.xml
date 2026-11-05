@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Runs on install and on every upgrade: a changed text adds a row and retires the old one. -->
+    <function model="ea.audit.paper.def" name="_ea_load_definitions"/>
+</odoo>

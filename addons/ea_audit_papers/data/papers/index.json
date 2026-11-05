@@ -1,5 +1,5 @@
 {
- "baseline_commit": "bd3af7e9be86f520d2827947505b880a7215f128",
+ "baseline_commit": "8725e6aa770a79f59cb00dedd0bdbda4c622c161",
  "counts": {
   "definitions": 95,
   "codes": 94,
@@ -59,7 +59,7 @@
   },
   "C5.3": {
    "source": "lib/papers/conclusion.ts",
-   "definition_hash": "8f6e21ae8e9dec2f62c5bbba531608fffd91d4bc58bbe96b4c6bd362d9c976dc"
+   "definition_hash": "c69e8da304ef1ce22a87504dd02fcc3c28add763b8bb42438af8faf6249bf6fc"
   },
   "C5.4": {
    "source": "lib/papers/conclusion.ts",
@@ -115,7 +115,7 @@
   },
   "E3.1": {
    "source": "lib/papers/journal-entries.ts",
-   "definition_hash": "e47a12ba353540d1294ef68d65c243507778a53a64f60c7dadf1997549a0efc6"
+   "definition_hash": "3e2b45dc2782108a6e1f45b81674fb5ca4d2fb8885b4378b8e5eaa48f50db7c8"
   },
   "E4.1": {
    "source": "lib/papers/execution.ts",
@@ -227,7 +227,7 @@
   },
   "E6.10": {
    "source": "lib/papers/financial-statements.ts",
-   "definition_hash": "47a25d5d1aa7a79e1eefb226aa4cd1fe81a692d36c13e7a21258b2ca095addea"
+   "definition_hash": "bb5ab2d69a639d6b7d996784e715b7ccda18957a31ee08150e2f68ce4bcd60b8"
   },
   "P1.1": {
    "source": "lib/papers/acceptance.ts",

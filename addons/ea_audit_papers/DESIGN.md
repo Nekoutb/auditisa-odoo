@@ -1,11 +1,13 @@
 # ea_audit_papers: model design
 
-Status: design only. No model and no OWL component exists yet, and the addon has no
-`__manifest__.py`, so Odoo ignores the directory. Both wait on `ea_audit_core`, whose
-`ea.audit.engagement`, `ea.audit.file.item` and `ea.audit.signoff` this design assumes.
+Status: built on `feat/papers2` (models, save door, hooks, renderer). The answers to the
+questions of section 8 are in `docs/decisions.md`, provisional, owner to confirm. Where
+the build differs: the allow-list is `all_paper_keys` (every form, as `allPaperKeys` at
+8725e6a) rather than the engagement's form; `ea.audit.paper.def` is unique on code and
+hash, as several codes share a text; and tool-fed hooks stay with `ea_audit_tools`.
 
 What exists: `data/` (definitions and token tables), `services/` (pure rules),
-`tests/pure/` (parity with baseline `bd3af7e`). Regenerate with
+`tests_pure/` (parity with baseline `bd3af7e`). Regenerate with
 `scripts/papers/run_baseline.sh`; never edit `data/` by hand while the TypeScript is
 still the source.
 

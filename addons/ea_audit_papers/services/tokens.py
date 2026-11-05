@@ -21,6 +21,26 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 
 _EDITION_TOKEN = re.compile(r"\{\{([A-Za-z0-9_.]+)\}\}")
 _FORM_TOKEN = re.compile(r"\[\[lf\.([a-z]+)\]\]")
+# How French determines each name, from FR_DETERMINER of lib/legal-forms.ts: masculine,
+# feminine, elided (v), plural. Not in data/: export_papers.ts exports the vocabulary only.
+_FR_DETERMINER = {
+    "SA": {"form": "f", "board": "m", "chair": "m", "ceo": "m", "executive": "m", "meeting": "v", "members": "p", "officers": "p", "holders": "p"},
+    "SA_AG": {"form": "f", "board": "v", "chair": "v", "ceo": "v", "executive": "v", "meeting": "v", "members": "p", "officers": "v", "holders": "p"},
+    "SARL": {"form": "f", "board": "m", "chair": "m", "ceo": "m", "executive": "m", "meeting": "v", "members": "p", "officers": "p", "holders": "p"},
+    "SAS": {"form": "f", "board": "m", "chair": "m", "ceo": "m", "executive": "m", "meeting": "p", "members": "p", "officers": "m", "holders": "p"},
+    "GIE": {"form": "m", "board": "p", "chair": "v", "ceo": "v", "executive": "v", "meeting": "v", "members": "p", "officers": "p", "holders": "p"},
+    "OTHER": {"form": "f", "board": "v", "chair": "m", "ceo": "m", "executive": "m", "meeting": "v", "members": "p", "officers": "p", "holders": "p"},
+}
+_FR_ARTICLES = {
+    "none": {"m": "le ", "f": "la ", "v": "l'", "p": "les "},
+    "de": {"m": "du ", "f": "de la ", "v": "de l'", "p": "des "},
+    "a": {"m": "au ", "f": "à la ", "v": "à l'", "p": "aux "},
+    "dem": {"m": "ce ", "f": "cette ", "v": "cet ", "p": "ces "},
+}
+_FR_ARTICLE_TOKEN = re.compile(
+    r"(^|[\W\d_])(de l['’]|de la |du |des |à l['’]|à la |au |aux |l['’]|le |la |les |cette |cet |ce )\[\[lf\.([a-z]+)\]\]",
+    re.IGNORECASE,
+)
 
 
 def _read(name):
@@ -106,6 +126,33 @@ def organ_name(form, key, locale):
     return pair[1] if locale == "fr" else pair[0]
 
 
+def _french_articles(text, form):
+    """The article written before a token states the construction (none, de, à, the
+    demonstrative); _FR_DETERMINER decides the form it takes, so "à l'[[lf.board]]" reads
+    "au conseil" on an SA and "à l'administrateur général" on an SA_AG."""
+    determiners = _FR_DETERMINER[normalise_form(form)]
+
+    def sub(match):
+        before, article, key = match.groups()
+        if key not in determiners:
+            return match.group(0)
+        lower = article.lower()
+        if lower.startswith(("de ", "du ", "des ")):
+            construction = "de"
+        elif lower.startswith(("à ", "au ", "aux ")):
+            construction = "a"
+        elif lower.startswith(("cette ", "cet ", "ce ")):
+            construction = "dem"
+        else:
+            construction = "none"
+        chosen = _FR_ARTICLES[construction][determiners[key]]
+        if article[0] == article[0].upper():
+            chosen = chosen[0].upper() + chosen[1:]
+        return "%s%s%s" % (before, chosen, organ_name(form, key, "fr"))
+
+    return _FR_ARTICLE_TOKEN.sub(sub, text)
+
+
 def resolve_legal_form_text(text, form, locale):
     """Substitute every [[lf.key]] in one string. Unknown keys are left visible."""
     if "[[lf." not in text:
@@ -116,7 +163,8 @@ def resolve_legal_form_text(text, form, locale):
         key = match.group(1)
         return organ_name(form, key, locale) if key in keys else match.group(0)
 
-    return _FORM_TOKEN.sub(sub, text)
+    prepared = _french_articles(text, form) if locale == "fr" else text
+    return _FORM_TOKEN.sub(sub, prepared)
 
 
 def has_unresolved_legal_form_token(text):
