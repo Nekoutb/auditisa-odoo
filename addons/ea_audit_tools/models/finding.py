@@ -50,9 +50,10 @@ class Finding(models.Model):
     misstatement_id = fields.Many2one("ea.audit.misstatement", ondelete="set null", readonly=True)
     amount = fields.Float(digits=(18, 0), related="misstatement_id.amount", string="Amount")
     state_label = fields.Char(string="State", compute="_compute_state_label")
+    evaluation_ids = fields.One2many("ea.audit.deficiency.evaluation", "finding_id", string="ISA 265 evaluations")
     evaluation_id = fields.Many2one("ea.audit.deficiency.evaluation", compute="_compute_evaluation", compute_sudo=True, string="ISA 265 evaluation")
-    communicated_on = fields.Date(related="evaluation_id.communicated_on", string="Communicated on")
-    suggested_severity = fields.Selection(SEVERITY_SELECTION, related="evaluation_id.suggested_severity", string="Suggested grade")
+    communicated_on = fields.Date(compute="_compute_evaluation", compute_sudo=True, string="Communicated on")
+    suggested_severity = fields.Selection(SEVERITY_SELECTION, compute="_compute_evaluation", compute_sudo=True, string="Suggested grade")
 
     _number_uniq = models.Constraint("UNIQUE(engagement_id, number)", "A finding number is used once per engagement.")
 
@@ -71,11 +72,13 @@ class Finding(models.Model):
             else:
                 finding.state_label = self.env._("Open")
 
+    @api.depends("evaluation_ids.communicated_on", "evaluation_ids.likelihood", "evaluation_ids.magnitude")
     def _compute_evaluation(self):
         for finding in self:
-            finding.evaluation_id = self.env["ea.audit.deficiency.evaluation"].sudo().search(
-                [("finding_id", "=", finding.id)], limit=1,
-            )
+            evaluation = finding.evaluation_ids[:1]
+            finding.evaluation_id = evaluation
+            finding.communicated_on = evaluation.communicated_on
+            finding.suggested_severity = evaluation.suggested_severity
 
     def _ea_user_write(self, vals):
         self._ea_only(vals, {"detail", "recommendation", "management_response"})

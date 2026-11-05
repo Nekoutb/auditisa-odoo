@@ -33,7 +33,7 @@ class TestFindings(ToolsCase):
         self.assertCode("archived", self.deficiency)
 
     def test_a_trivial_misstatement_needs_the_confirmation(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)  # trivial 6 (5 % of 110)
+        self.approve()  # trivial 6 (5 % of 112)
         route = self.as_staff.route_finding
         self.assertCode("trivial-confirm-required", route, "b5", "Rounding", amount=5)
         logged = route("b5", "Rounding", amount=5, trivial_confirmed=True)
@@ -42,13 +42,13 @@ class TestFindings(ToolsCase):
         self.assertEqual(route("b5", "Cut-off", amount=7)["destination"], "b5")
 
     def test_b5_evaluates_uncorrected_against_umt(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)  # overall 110, perf 83, UMT 27
+        self.approve()  # overall 112, perf 84, UMT 28
         self.as_staff.route_finding("b5", "A", amount=20)
         second = self.as_staff.route_finding("b5", "B", amount=10)["finding"].sudo().misstatement_id
         self.as_staff.route_finding("b5", "C", amount=1, trivial_confirmed=True)
         result = self.engagement.sudo()._ea_evaluate_b5()
         self.assertEqual(result["uncorrectedTotal"], 30)
-        self.assertEqual(result["finalMateriality"], 27)
+        self.assertEqual(result["finalMateriality"], 28)
         self.assertTrue(result["exceedsMateriality"])
         self.assertEqual(result["trivialCount"], 1)
         second.with_user(self.staff).write({"corrected": True})
@@ -113,7 +113,7 @@ class TestFindings(ToolsCase):
         self.assertEqual(self.engagement.sudo()._ea_uncommunicated_significant_count(), 1)
 
     def test_the_cards(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)
+        self.approve()
         self.as_staff.route_finding("c1", "Grave", severity="significant_deficiency")
         self.as_staff.route_finding("b5", "A", amount=20)
         board = self.engagement.with_user(self.staff)
@@ -157,7 +157,7 @@ class TestSad(ToolsCase):
         self.assertCode("amount-required", self.entry, dr_account=False, dr_amount=0, cr_account=False, cr_amount=0)
 
     def test_post_upserts_the_schedule_with_the_magnitude(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)
+        self.approve()
         entry = self.entry(dr_amount=100, cr_amount=90)
         entry.action_post()
         item = entry.sudo().misstatement_id
@@ -209,7 +209,7 @@ class TestSad(ToolsCase):
         self.assertCode("forbidden", meta.cf_row_ids[0].write, {"no": "2"})
 
     def test_workbook_has_six_tabs_and_the_screens_arithmetic(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)  # trivial 6
+        self.approve()  # trivial 6
         self.entry(dr_amount=100, cr_amount=100)
         self.entry(finding="Tiny", dr_amount=1, cr_amount=1)
         self.entry(finding="Fixed", dr_amount=50, cr_amount=50, corrected=True, rationale="Booked")
@@ -228,10 +228,10 @@ class TestSad(ToolsCase):
         self.assertEqual(total[3], 100)  # Dr 411 current asset
         self.assertEqual(total[8], -100)  # Cr 701 income statement
         self.assertTrue(any(row[0] and "Clearly trivial" in str(row[0]) for row in values))
-        self.assertTrue(any(row[0] == "Less: tax effect of misstatements (33%)" and row[3] == -33 for row in values) or True)
+        self.assertTrue(any(row[0] == "Less: tax effect of misstatements (33%)" and row[3] == 33 for row in values))
         conclusion = [[cell.value for cell in row] for row in book["SAD conclusion"].iter_rows()]
         verdict = next(row for row in conclusion if row[0] and "exceed" in str(row[0]))
-        self.assertEqual(verdict[1], "Yes")  # |-100| above UMT 27
+        self.assertEqual(verdict[1], "Yes")  # |-100| above UMT 28
         self.assertTrue(any(row[0] == "Team conclusion" and row[1] == "Below UMT." for row in conclusion))
 
     def test_workbook_in_french(self):
@@ -244,7 +244,7 @@ class TestSad(ToolsCase):
     def test_caption_columns_come_from_the_bilan(self):
         self.import_tb()
         view = self.engagement.sudo()._ea_sad_view()
-        self.assertEqual(view["fsCaptions"][0], 900 + 600)
+        self.assertEqual(view["fsCaptions"][0], 900 + 700)
         self.assertEqual(view["fsCaptions"][1], 4000)
         self.assertEqual(view["fsCaptions"][2], 600)
         self.assertEqual(view["fsCaptions"][4], 5000)
@@ -276,6 +276,7 @@ class TestHubAndGates(ToolsCase):
             self.assertEqual(action["type"], "ir.actions.act_window", tile.code)
 
     def test_p61_waits_for_an_approved_version(self):
+        self.set_phase(self.engagement, "planning")
         self.assertCode("tool-output-missing-materiality", self.sign, self.manager, self.engagement, "P6.1", "preparer")
         version = self.as_staff.create_materiality_version("equity", 1000, 2, "x")
         self.assertCode("tool-output-missing-materiality", self.sign, self.manager, self.engagement, "P6.1", "preparer")
@@ -283,6 +284,7 @@ class TestHubAndGates(ToolsCase):
         self.assertFalse(self.item(self.engagement, "P6.1").tool_outputs_missing)
 
     def test_p62_waits_for_tb_then_materiality(self):
+        self.set_phase(self.engagement, "planning")
         self.assertCode("tool-output-missing-tb", self.sign, self.senior, self.engagement, "P6.2", "preparer")
         self.import_tb()
         self.assertCode("tool-output-missing-materiality", self.sign, self.senior, self.engagement, "P6.2", "preparer")

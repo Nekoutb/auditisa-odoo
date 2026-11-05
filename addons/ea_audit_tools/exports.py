@@ -6,6 +6,8 @@ app/api/engagements/[id]/lead-schedule-export and sad/export. simple_workbook is
 import io
 import re
 
+from openpyxl.utils import get_column_letter
+
 from .services.lead_classes import account_class_label, account_type_label, lead_index_label
 from .services.materiality_model import uncorrected_misstatement_threshold
 from .services.sad_model import SAD_COLUMN_COUNT, caption_column
@@ -122,7 +124,7 @@ def lead_schedule_workbook(schedules, comments, identity, fr):
         code = definition["code"]
         sheet = book.create_sheet(_tab_name("%s %s" % (code, label(definition))))
         for index, width in enumerate(widths, start=1):
-            sheet.column_dimensions[sheet.cell(1, index).column_letter].width = width
+            sheet.column_dimensions[get_column_letter(index)].width = width
         sheet.append(["%s — %s" % (code, label(definition)), "", kind(definition)])
         for cell in sheet[1]:
             cell.font = style["Font"](bold=True, size=12)
@@ -206,7 +208,7 @@ def sad_workbook(view, fr):
 
     def widths(sheet, values):
         for index, width in enumerate(values, start=1):
-            sheet.column_dimensions[sheet.cell(1, index).column_letter].width = width
+            sheet.column_dimensions[get_column_letter(index)].width = width
 
     def grid_head(sheet, rationale):
         head = add(sheet, [

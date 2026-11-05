@@ -263,7 +263,7 @@ class TestBilan(ToolsCase):
         self.import_tb()
         as_root = self.engagement.sudo()
         as_root.invalidate_recordset()
-        self.assertEqual(as_root.bilan_total_assets, 4000 + 900 + 600)
+        self.assertEqual(as_root.bilan_total_assets, 4000 + 900 + 700)
         self.assertEqual(as_root.bilan_class1, 5000)
         self.assertEqual(as_root.bilan_class4_credit, 600)
         self.assertEqual(as_root.bilan_total_assets, as_root.bilan_total_equity_liabilities)

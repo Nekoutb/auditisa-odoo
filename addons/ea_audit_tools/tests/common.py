@@ -8,7 +8,7 @@ BALANCED_CSV = """Compte;Libellé;Solde ouverture débit;Solde ouverture crédit
 231000;Bâtiments;4000;0;0;0
 411000;Clients;800;0;1000;900
 401000;Fournisseurs;0;500;400;500
-521000;Banque;700;0;900;1000
+521000;Banque;700;0;900;900
 601000;Achats;0;0;2000;0
 701000;Ventes;0;0;0;2000
 """
@@ -49,7 +49,7 @@ class ToolsCase(EaAuditCase):
     def import_tb(self, content=BALANCED_CSV, filename="balance.csv", timing="pre_audit", actor=None):
         return (actor or self.as_staff).import_trial_balance(filename, to_bytes(content), timing=timing)
 
-    def approve(self, overall_pct=7.5, trivial_pct=5, benchmark="pbt", amount=None):
+    def approve(self, overall_pct=2, trivial_pct=5, benchmark="total_assets", amount=None):
         """A TB, a version on its base, the partner's approval."""
         if not self.engagement.sudo()._ea_current_tb_version():
             self.import_tb()

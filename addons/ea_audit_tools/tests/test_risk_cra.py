@@ -27,9 +27,9 @@ class TestSignificance(ToolsCase):
         }
 
     def test_the_default_follows_tolerable_error(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)
+        self.approve()
         rows = self.rows()
-        # overall 110, performance 83: every balance above it is significant
+        # overall 112, performance 84: every balance above it is significant
         self.assertEqual(rows["E"].default_status, "significant")
         self.assertEqual(rows["E"].status, "significant")
         self.assertEqual(rows["E"].closing, 900)
@@ -61,10 +61,10 @@ class TestSignificance(ToolsCase):
         self.assertFalse(item._ea_paper_refusal("preparer"))
 
     def test_specific_materiality_codes(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)
+        self.approve()
         row = self.rows()["E"]
-        self.assertCode("specific-above-materiality", row.write, {"specific_te": 110})
-        self.assertCode("specific-above-te", row.write, {"specific_te": 83})
+        self.assertCode("specific-above-materiality", row.write, {"specific_te": 112})
+        self.assertCode("specific-above-te", row.write, {"specific_te": 84})
         row.write({"specific_te": 40})
         row.invalidate_recordset()
         self.assertEqual(row.specific_te, 40)
@@ -221,7 +221,7 @@ class TestRisks(ToolsCase):
 @tagged("post_install", "-at_install")
 class TestCra(ToolsCase):
     def board(self):
-        self.approve(benchmark="total_assets", overall_pct=2, amount=5500)
+        self.approve()
         self.engagement.sudo()._ea_sync_cra()
         return self.engagement.sudo()
 
