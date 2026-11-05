@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Missions: a row or a card opens the mission's dashboard, as today. -->
+    <record id="view_engagement_list_missions" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.list.missions</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="/list" position="attributes">
+                <attribute name="js_class">ea_missions_list</attribute>
+            </xpath>
+            <xpath expr="//field[@name='fiscal_year']" position="attributes">
+                <attribute name="options">{'enable_formatting': false}</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_engagement_kanban" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.kanban</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="arch" type="xml">
+            <kanban js_class="ea_missions_kanban" create="0" delete="0" default_group_by="phase">
+                <templates>
+                    <t t-name="card">
+                        <field name="client_id" class="fw-bold"/>
+                        <div>Exercice <field name="fiscal_year" options="{'enable_formatting': false}"/> · <field name="period_end"/></div>
+                        <field name="engagement_partner_id" class="text-muted"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="ea_audit_core.action_engagement" model="ir.actions.act_window">
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+</odoo>

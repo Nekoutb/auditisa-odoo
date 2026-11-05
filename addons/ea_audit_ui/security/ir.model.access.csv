@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_notification_member,notification member,model_ea_audit_notification,ea_audit_core.group_member,1,0,0,0

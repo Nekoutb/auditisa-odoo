@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="ea_audit_ui.WebClient" t-inherit="web.WebClient" t-inherit-mode="extension">
+        <xpath expr="//NavBar" position="replace">
+            <EaTopBar t-if="eaShell"/>
+            <NavBar t-else=""/>
+        </xpath>
+    </t>
+
+    <t t-name="ea_audit_ui.TopBar">
+        <header class="ea-top">
+            <a class="ea-brand" href="#" role="button" title="Tableau de bord" t-on-click.prevent="goHome">
+                <span class="ea-logo">A</span>
+                <span class="ea-firm" t-esc="shell.firm"/>
+            </a>
+            <nav class="ea-nav" aria-label="Navigation principale">
+                <t t-if="inMission">
+                    <a t-foreach="phases" t-as="phase" t-key="phase.key" href="#" role="button"
+                       t-att-class="{on: currentSection === phase.key}"
+                       t-on-click.prevent="() => this.goPhase(phase.key)" t-esc="phase.label"/>
+                </t>
+                <t t-else="">
+                    <a href="#" role="button" t-att-class="{on: ctxState.screen === 'home'}" t-on-click.prevent="goHome">Tableau de bord</a>
+                    <a href="#" role="button" t-att-class="{on: ctxState.screen === 'missions'}" t-on-click.prevent="goMissions">Missions</a>
+                </t>
+            </nav>
+            <div class="ea-sp"/>
+
+            <div class="ea-anchor ea-sel-wrap" data-ea-panel="selector">
+                <button type="button" class="ea-sel" t-att-aria-expanded="state.open === 'selector' ? 'true' : 'false'" t-on-click="toggleSelector">
+                    <small>MISSIONS</small>
+                    <span class="ea-sel-line"><b t-esc="selectorLabel"/><i class="ea-caret">&#9662;</i></span>
+                </button>
+                <div t-if="state.open === 'selector'" class="ea-pop ea-pop-sel">
+                    <div class="ea-pop-h">Missions récentes</div>
+                    <a t-foreach="recentMissions" t-as="mission" t-key="mission.id" class="ea-pop-row" href="#" role="button"
+                       t-on-click.prevent="() => this.pickMission(mission)">
+                        <b t-esc="mission.label"/>
+                        <small t-esc="mission.phase_label"/>
+                    </a>
+                    <div t-if="!ctxState.recent.length" class="ea-pop-empty">Aucune mission : vous n'êtes membre d'aucune équipe.</div>
+                    <a class="ea-pop-foot" href="#" role="button" t-on-click.prevent="goMissions">Toutes les missions &#8594;</a>
+                </div>
+            </div>
+
+            <div class="ea-anchor ea-search-wrap" data-ea-panel="search">
+                <input class="ea-search" type="search" placeholder="Rechercher…" aria-label="Rechercher une mission ou une tâche"
+                       t-att-value="state.query" t-on-input="onSearchInput" t-on-focus="onSearchFocus"/>
+                <div t-if="state.open === 'search' and state.results" class="ea-pop ea-pop-search">
+                    <t t-if="state.results.missions.length">
+                        <div class="ea-pop-h">Missions</div>
+                        <a t-foreach="state.results.missions" t-as="mission" t-key="mission.id" class="ea-pop-row" href="#" role="button"
+                           t-on-click.prevent="() => this.pickMission(mission)">
+                            <b t-esc="mission.label"/>
+                            <small t-esc="mission.phase_label"/>
+                        </a>
+                    </t>
+                    <t t-if="state.results.tasks.length">
+                        <div class="ea-pop-h">Tâches</div>
+                        <a t-foreach="state.results.tasks" t-as="task" t-key="task.id" class="ea-pop-row" href="#" role="button"
+                           t-on-click.prevent="() => this.pickTask(task)">
+                            <b><code t-esc="task.code"/> <t t-esc="task.title"/></b>
+                            <small t-esc="task.mission"/>
+                        </a>
+                    </t>
+                    <div t-if="!state.results.missions.length and !state.results.tasks.length" class="ea-pop-empty">Aucun résultat.</div>
+                </div>
+            </div>
+
+            <div class="ea-anchor" data-ea-panel="bell">
+                <button type="button" class="ea-ic" aria-label="Notifications" t-att-aria-expanded="state.open === 'bell' ? 'true' : 'false'" t-on-click="toggleBell">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span t-if="ctxState.unread" class="ea-badge" t-esc="ctxState.unread"/>
+                </button>
+                <div t-if="state.open === 'bell'" class="ea-pop ea-pop-bell">
+                    <div class="ea-pop-h">Notifications<t t-if="ctxState.unread">, <t t-esc="ctxState.unread"/> non lue<t t-if="ctxState.unread > 1">s</t></t></div>
+                    <div class="ea-pop-scroll">
+                        <a t-foreach="state.notifications" t-as="row" t-key="row.id" class="ea-pop-row ea-note" href="#" role="button"
+                           t-att-class="{unread: row.unread}" t-on-click.prevent="() => this.openNotification(row)">
+                            <b t-esc="row.title"/>
+                            <small><t t-esc="row.detail"/> · <t t-esc="timeAgo(row.created)"/></small>
+                        </a>
+                        <div t-if="!state.notifications.length" class="ea-pop-empty">Aucune notification.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ea-anchor" data-ea-panel="gear">
+                <button type="button" class="ea-ic" aria-label="Paramètres" t-att-aria-expanded="state.open === 'gear' ? 'true' : 'false'" t-on-click="() => this.toggle('gear')">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.08a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+                <div t-if="state.open === 'gear'" class="ea-pop ea-pop-gear">
+                    <div class="ea-pop-h">Paramètres</div>
+                    <a t-foreach="gearItems" t-as="item" t-key="item.label" class="ea-pop-row ea-pop-simple" href="#" role="button"
+                       t-on-click.prevent="() => this.runGear(item)" t-esc="item.label"/>
+                </div>
+            </div>
+
+            <div class="ea-who"><t t-esc="shell.name"/><small t-esc="shell.role"/></div>
+            <div class="ea-av" t-esc="shell.initials"/>
+            <a class="ea-out" href="/web/session/logout" aria-label="Se déconnecter">
+                <span class="ea-out-text">Se déconnecter</span>
+                <svg class="ea-out-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+            </a>
+        </header>
+    </t>
+
+    <t t-name="ea_audit_ui.Home">
+        <div class="ea-page">
+            <div class="ea-narrow" t-if="state.loaded">
+                <div class="ea-head">
+                    <div>
+                        <h1>Bienvenue, <t t-esc="shell.first_name"/></h1>
+                        <div class="ea-sub">Vos missions.</div>
+                    </div>
+                    <button t-if="shell.can_write" type="button" class="ea-btn" t-on-click="newMission">+ Nouvelle mission</button>
+                </div>
+
+                <div class="ea-card ea-todo" t-if="state.todo.length">
+                    <div class="ea-cardh">À faire <span class="ea-count" t-esc="state.todo.length"/></div>
+                    <a t-foreach="state.todo" t-as="row" t-key="row_index" class="ea-row" href="#" role="button" t-on-click.prevent="() => this.openTodo(row)">
+                        <span><b t-esc="row.title"/> · <t t-esc="row.mission"/></span>
+                        <span class="ea-count"><t t-if="row.count"><t t-esc="row.count"/> </t>&#8594;</span>
+                    </a>
+                </div>
+
+                <div class="ea-card ea-missions">
+                    <a t-foreach="state.missions" t-as="mission" t-key="mission.id" class="ea-mis" href="#" role="button" t-on-click.prevent="() => this.openMission(mission)">
+                        <div>
+                            <b><t t-esc="mission.client"/>, <t t-esc="mission.period_end"/><t t-if="mission.nature">, <t t-esc="mission.nature"/></t></b>
+                            <div class="ea-m" t-if="mission.archived">
+                                Archivée<t t-if="mission.archived_on"> le <t t-esc="mission.archived_on"/></t><br/>
+                                <t t-esc="mission.partner"/> · Dossier verrouillé
+                            </div>
+                            <div class="ea-m" t-else="">
+                                <t t-esc="mission.phase_label"/> · Échéance de phase <t t-esc="mission.phase_deadline"/><br/>
+                                Rapport attendu avant le <b t-esc="mission.report_due"/> · <t t-esc="mission.partner"/> · <t t-if="mission.acceptance_signed">Acceptation signée</t><t t-else="">Acceptation à signer</t>
+                            </div>
+                        </div>
+                        <div class="ea-bar"><i t-attf-style="width: {{mission.pct}}%"/></div>
+                        <div class="ea-pct"><t t-esc="mission.pct"/>%</div>
+                        <div class="ea-go"><t t-if="mission.archived">Ouvrir</t><t t-else="">Continuer</t> &#8594;</div>
+                    </a>
+                    <div t-if="!state.missions.length" class="ea-empty">
+                        Aucune mission. Vous ne voyez que les missions dont vous êtes membre de l'équipe.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_ui.Dashboard">
+        <div class="ea-page">
+            <t t-if="state.data">
+                <t t-set="d" t-value="state.data"/>
+                <div class="ea-title">
+                    <div>
+                        <h1><t t-esc="d.mission.client"/>, exercice <t t-esc="d.mission.fiscal_year"/></h1>
+                        <div class="ea-sub ea-dots">
+                            <span t-esc="d.mission.phase_label"/>
+                            <span>Date de clôture <t t-esc="d.period_end"/></span>
+                            <span>Rapport attendu avant le <t t-esc="d.report_due"/></span>
+                            <span><a class="ea-link" href="#" role="button" t-on-click.prevent="openClient">À propos du client &#8594;</a></span>
+                        </div>
+                    </div>
+                    <div class="ea-big">
+                        <small>AVANCEMENT GLOBAL</small>
+                        <b><t t-esc="d.pct"/>%</b>
+                    </div>
+                </div>
+
+                <div class="ea-rings" t-att-class="{open: openSection}" t-att-style="gridStyle">
+                    <t t-foreach="d.rings" t-as="ring" t-key="ring.key">
+                        <button type="button" class="ea-card ea-ring-card" t-att-class="{on: openSection === ring.key}"
+                                t-att-aria-expanded="openSection === ring.key ? 'true' : 'false'" t-on-click="() => this.toggleRing(ring)">
+                            <h3 t-esc="ring.label"/>
+                            <div class="ea-ring" t-att-style="ringStyle(ring)"><div><t t-esc="ring.pct"/>%</div></div>
+                        </button>
+                        <div t-if="openSection === ring.key" class="ea-card ea-groups">
+                            <a t-foreach="ring.groups" t-as="group" t-key="group.id" href="#" role="button"
+                               t-att-class="{cur: ring.current_group === group.id}" t-on-click.prevent="() => this.openGroup(group)">
+                                <b t-esc="group.label"/>
+                                <span><t t-esc="group.done"/>/<t t-esc="group.total"/></span>
+                            </a>
+                            <div t-if="!ring.groups.length" class="ea-empty">Aucune tâche sur cette mission.</div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="ea-alert" t-if="d.unassigned_ids.length">
+                    &#9888; <t t-esc="d.unassigned_ids.length"/> <t t-if="d.unassigned_ids.length > 1">tâches n'ont pas de préparateur.</t><t t-else="">tâche n'a pas de préparateur.</t><t t-out="' '"/><a href="#" role="button" t-on-click.prevent="openUnassigned"><b>Les répartir &#8594;</b></a>
+                </div>
+
+                <div class="ea-strip" t-if="d.attention.length">
+                    <b>À TRAITER</b>
+                    <a t-foreach="d.attention" t-as="chip" t-key="chip.id" class="ea-chip" href="#" role="button" t-att-class="{r: chip.tone === 'r'}"
+                       t-on-click.prevent="() => this.openItem(chip.id)">
+                        <code t-esc="chip.code"/><t t-esc="chip.title"/>, <t t-esc="chip.text"/>
+                    </a>
+                </div>
+
+                <div class="ea-tiles">
+                    <div class="ea-card ea-tile">
+                        <h4>Mes tâches <small>qui me sont affectées</small> <span t-esc="d.my_tasks.count"/></h4>
+                        <a t-foreach="d.my_tasks.rows" t-as="row" t-key="row.id" class="ea-tl" href="#" role="button" t-on-click.prevent="() => this.openItem(row.id)">
+                            <span><t t-esc="row.code"/> <t t-esc="row.title"/></span>
+                            <span class="ea-tl-r" t-esc="row.word"/>
+                        </a>
+                        <div t-if="!d.my_tasks.rows.length" class="ea-empty">Rien d'ouvert ne vous est affecté sur ce dossier.</div>
+                    </div>
+                    <div class="ea-card ea-tile">
+                        <h4>Notes de revue &amp; constats</h4>
+                        <div class="ea-tl"><span>Notes pour moi</span><b t-esc="dash(d.notes.for_me)"/></div>
+                        <div class="ea-tl"><span>Notes par moi</span><b t-esc="dash(d.notes.by_me)"/></div>
+                        <div class="ea-tl"><span>Déficiences</span><b t-esc="dash(d.notes.deficiencies)"/></div>
+                        <div class="ea-tl"><span>Anomalies</span><b t-esc="dash(d.notes.misstatements)"/></div>
+                    </div>
+                    <div class="ea-card ea-tile">
+                        <h4>Calendrier <span t-if="d.calendar.late" class="ea-pill"><t t-esc="d.calendar.late"/> en retard</span></h4>
+                        <a t-foreach="d.calendar.rows" t-as="row" t-key="row.id" class="ea-tl" href="#" role="button" t-on-click.prevent="() => this.openItem(row.id)">
+                            <span>
+                                <t t-esc="row.code"/> <t t-esc="row.title"/><br/>
+                                <span t-if="row.late_days" class="ea-late">En retard de <t t-esc="row.late_days"/> j, <t t-esc="row.due"/></span>
+                                <span t-else="" class="ea-muted" t-esc="row.due"/>
+                            </span>
+                            <span class="ea-tl-r" t-esc="row.status"/>
+                        </a>
+                        <div t-if="!d.calendar.rows.length" class="ea-empty">Aucune échéance ouverte.</div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_ui.SignerCell">
+        <span class="ea-k" t-att-class="chipClass" t-esc="chip"/>
+        <span class="ea-cell">
+            <t t-esc="cell.name"/>
+            <small t-if="cell.detail"><t t-esc="cell.detail"/><em t-if="cell.demo" class="ea-demo" title="Signature de démonstration écrite directement : ce papier dépend d'un outil pas encore installé"> démo</em></small>
+        </span>
+    </t>
+
+    <t t-name="ea_audit_ui.Tasks">
+        <div class="ea-page">
+            <t t-if="state.data">
+                <t t-set="d" t-value="state.data"/>
+                <a class="ea-back" href="#" role="button" t-on-click.prevent="back">&#8592; Retour au tableau de bord</a>
+                <div class="ea-title ea-title-tasks">
+                    <div>
+                        <h1><t t-esc="d.group.code"/> <t t-esc="d.group.title"/></h1>
+                        <div class="ea-sub ea-dots">
+                            <span t-esc="d.group.section_label"/>
+                            <span t-esc="d.mission.client"/>
+                            <span>Exercice <t t-esc="d.mission.fiscal_year"/></span>
+                        </div>
+                    </div>
+                    <div class="ea-big">
+                        <small>AVANCEMENT</small>
+                        <b><t t-esc="d.done"/>/<t t-esc="d.total"/></b>
+                    </div>
+                </div>
+                <div class="ea-card ea-task-card">
+                    <div class="ea-cardh">Liste des tâches <span class="ea-sub"><t t-esc="d.total"/> tâche<t t-if="d.total > 1">s</t> active<t t-if="d.total > 1">s</t></span></div>
+                    <div class="ea-table-wrap">
+                        <table class="ea-table">
+                            <thead>
+                                <tr><th>TÂCHE</th><th>PRÉPARATEUR</th><th>RÉVISEUR</th><th>ASSOCIÉ</th><th>ÉCHÉANCE</th><th>STATUT</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="d.rows" t-as="row" t-key="row.id" t-on-click="() => this.openRow(row)">
+                                    <td class="ea-task-cell"><code t-esc="row.code"/><t t-esc="row.title"/></td>
+                                    <td><t t-call="ea_audit_ui.SignerCell"><t t-set="cell" t-value="row.preparer"/><t t-set="chip" t-value="'P'"/><t t-set="chipClass" t-value="row.preparer.signed ? '' : 'n'"/></t></td>
+                                    <td><t t-call="ea_audit_ui.SignerCell"><t t-set="cell" t-value="row.reviewer"/><t t-set="chip" t-value="'R'"/><t t-set="chipClass" t-value="row.reviewer.signed ? 'b' : 'n'"/></t></td>
+                                    <td>
+                                        <t t-if="row.partner"><t t-call="ea_audit_ui.SignerCell"><t t-set="cell" t-value="row.partner"/><t t-set="chip" t-value="'A'"/><t t-set="chipClass" t-value="'a'"/></t></t>
+                                        <t t-else="">—</t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="row.due"/>
+                                        <span t-if="row.late_days" class="ea-late"><br/>En retard de <t t-esc="row.late_days"/> j</span>
+                                    </td>
+                                    <td><span class="ea-st" t-att-class="row.tone" t-esc="row.pill"/></td>
+                                </tr>
+                                <tr t-if="!d.rows.length" class="ea-norow"><td colspan="6" class="ea-empty">Aucune tâche active dans ce groupe.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

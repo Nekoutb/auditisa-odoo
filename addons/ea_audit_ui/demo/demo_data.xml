@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fictional data for the demonstration database only: the firm, clients and
+         people of the approved mock-ups. No password is set here. The missions
+         are built by demo/loader.py through the real methods. -->
+    <record id="base.main_company" model="res.company">
+        <field name="name">Cabinet Démo</field>
+    </record>
+
+    <record id="demo_user_mbarga" model="res.users" context="{'no_reset_password': True}">
+        <field name="name">Jean-Pierre Mbarga</field>
+        <field name="login">jp.mbarga@cabinet-demo.example</field>
+        <field name="email">jp.mbarga@cabinet-demo.example</field>
+        <field name="tz">Africa/Douala</field>
+        <field name="group_ids" eval="[(6, 0, [ref('ea_audit_core.group_partner')])]"/>
+    </record>
+    <record id="demo_user_essomba" model="res.users" context="{'no_reset_password': True}">
+        <field name="name">Paul Essomba</field>
+        <field name="login">p.essomba@cabinet-demo.example</field>
+        <field name="email">p.essomba@cabinet-demo.example</field>
+        <field name="tz">Africa/Douala</field>
+        <field name="group_ids" eval="[(6, 0, [ref('ea_audit_core.group_manager')])]"/>
+    </record>
+    <record id="demo_user_ndongo" model="res.users" context="{'no_reset_password': True}">
+        <field name="name">Marie Ndongo</field>
+        <field name="login">m.ndongo@cabinet-demo.example</field>
+        <field name="email">m.ndongo@cabinet-demo.example</field>
+        <field name="tz">Africa/Douala</field>
+        <field name="group_ids" eval="[(6, 0, [ref('ea_audit_core.group_senior')])]"/>
+    </record>
+    <record id="demo_user_tchoua" model="res.users" context="{'no_reset_password': True}">
+        <field name="name">Kevin Tchoua</field>
+        <field name="login">k.tchoua@cabinet-demo.example</field>
+        <field name="email">k.tchoua@cabinet-demo.example</field>
+        <field name="tz">Africa/Douala</field>
+        <field name="group_ids" eval="[(6, 0, [ref('ea_audit_core.group_staff')])]"/>
+    </record>
+    <record id="demo_user_fotso" model="res.users" context="{'no_reset_password': True}">
+        <field name="name">Claire Fotso</field>
+        <field name="login">c.fotso@cabinet-demo.example</field>
+        <field name="email">c.fotso@cabinet-demo.example</field>
+        <field name="tz">Africa/Douala</field>
+        <field name="group_ids" eval="[(6, 0, [ref('ea_audit_core.group_partner')])]"/>
+    </record>
+
+    <record id="demo_client_negoce" model="ea.audit.client">
+        <field name="name">Sté Camerounaise de Négoce SA</field>
+        <field name="legal_form">SA</field>
+        <field name="sector">trade</field>
+    </record>
+    <record id="demo_client_agro" model="ea.audit.client">
+        <field name="name">Tropical Agro-Industries SARL</field>
+        <field name="legal_form">SARL</field>
+        <field name="sector">agriculture</field>
+    </record>
+    <record id="demo_client_foret" model="ea.audit.client">
+        <field name="name">Sté Forestière du Moungo SA</field>
+        <field name="legal_form">SA</field>
+        <field name="sector">industry</field>
+    </record>
+
+    <function model="ea.audit.ui" name="_ea_ui_load_demo"/>
+</odoo>
