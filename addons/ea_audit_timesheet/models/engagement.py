@@ -58,6 +58,6 @@ class Engagement(models.Model):
         return {
             "type": "ir.actions.client",
             "tag": "ea_audit_timesheet.budget",
-            "name": "Budget et réalisé",
+            "name": self.env._("Budget and actual"),
             "params": {"resId": self.id},
         }

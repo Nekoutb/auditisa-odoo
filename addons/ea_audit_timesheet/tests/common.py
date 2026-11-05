@@ -24,8 +24,8 @@ class TimesheetCase(EaAuditCase):
         cls.Project = cls.env["project.project"].sudo()
         cls.Log = cls.env["ea.audit.firm.log"].sudo()
         cls.FirmAdmin = cls.env["ea.audit.firm.admin"]
-        cls.internal = cls.Project._ea_ts_create_internal("Formation test")
-        cls.other_user_project = cls.Project.create({"name": "Projet Odoo ordinaire", "allow_timesheets": True})
+        cls.internal = cls.Project._ea_ts_create_internal("Training test")
+        cls.other_user_project = cls.Project.create({"name": "Plain Odoo project", "allow_timesheets": True})
 
     def setUp(self):
         super().setUp()

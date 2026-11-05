@@ -5,8 +5,6 @@ from unittest.mock import patch
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
-from odoo.addons.ea_audit_core.services.errors import AuditRuleError
-
 from .common import TimesheetCase
 
 MAIL = {"host": "smtp.example.com", "port": 587, "encryption": "starttls", "user": "firm@example.com", "password": "not-a-real-secret"}
@@ -300,13 +298,11 @@ class TestMail(FirmAdminCase):
         self.fa().ea_fm_save(MAIL)
         answer = [(2, 1, 6, "", ("10.1.2.3", 587))]
         with patch("socket.getaddrinfo", lambda *_a, **_k: answer):
-            with self.assertRaises(AuditRuleError) as caught:
-                self.fa().ea_fm_test()
-        self.assertEqual(caught.exception.code, "fm-host")
+            self.assertFalse(self.fa().ea_fm_test()["ok"])
         self.assertCode("fm-untested", self.fa().ea_fm_enable)
 
     def test_internal_projects(self):
-        project_id = self.fa().ea_fa_project_add("Congés test")
+        project_id = self.fa().ea_fa_project_add("Leave test")
         project = self.Project.browse(project_id)
         self.assertTrue(project.ea_is_internal)
         self.assertEqual(self.charge(self.staff, project=project).project_id, project)

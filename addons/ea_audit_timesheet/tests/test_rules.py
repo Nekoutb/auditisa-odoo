@@ -142,7 +142,7 @@ class TestReopen(TimesheetCase):
         line = self.charge(self.staff)
         self.at(AT_LOCK)
         result = self.sheet(self.admin).ea_ts_reopen(self.staff.id, str(TUESDAY), self.REASON)
-        self.assertEqual(result["until"], "13/11/2026 à 00:00")
+        self.assertEqual(result["until"], "13/11/2026 00:00")
         self.assertEqual(self.Week._ea_ts_status(self.staff, MONDAY), "reopened")
         line.with_user(self.staff).write({"unit_amount": 4})
         self.assertEqual(line.sudo().unit_amount, 4)

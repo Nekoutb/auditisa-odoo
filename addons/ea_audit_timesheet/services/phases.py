@@ -1,8 +1,8 @@
 """The four sections of the top bar are the phases a budget is set against."""
 BUDGET_PHASES = [
-    ("acceptance", "Planification"),
-    ("strategy", "Stratégie & risques"),
-    ("execution", "Exécution"),
+    ("acceptance", "Planning"),
+    ("strategy", "Strategy & risks"),
+    ("execution", "Execution"),
     ("conclusion", "Conclusion"),
 ]
 _FROM_ENGAGEMENT = {

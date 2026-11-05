@@ -13,8 +13,6 @@ LOCKED = "locked"
 LOCKED_SUBMITTED = "locked_submitted"
 FUTURE = "future"
 
-_DAYS = ("lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim.")
-
 
 def week_start(day):
     return day - timedelta(days=day.weekday())
@@ -52,17 +50,5 @@ def date_label(day):
     return day.strftime("%d/%m/%Y")
 
 
-def day_label(day):
-    return "%s %s" % (_DAYS[day.weekday()], date_label(day))
-
-
-def week_label(monday):
-    return "Semaine du %s au %s" % (date_label(monday), date_label(monday + timedelta(days=6)))
-
-
-def deadline_label(monday):
-    return "mardi %s à 23:59" % date_label(monday + timedelta(days=8))
-
-
 def instant_label(now):
-    return local_now(now).strftime("%d/%m/%Y à %H:%M")
+    return local_now(now).strftime("%d/%m/%Y %H:%M")

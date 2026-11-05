@@ -69,7 +69,7 @@ class AuditUi(models.AbstractModel):
     @api.model
     def _ea_ui_apps(self):
         """The app switcher: what this person may open. Later addons append."""
-        return [{"key": "audit", "label": "Audit", "sub": "Missions et dossiers", "xmlid": "ea_audit_ui.action_home"}]
+        return [{"key": "audit", "label": self.env._("Audit"), "sub": self.env._("Engagements and files"), "xmlid": "ea_audit_ui.action_home"}]
 
     @api.model
     def _ea_ui_mission_items(self):

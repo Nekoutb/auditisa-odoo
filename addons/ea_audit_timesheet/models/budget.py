@@ -3,6 +3,7 @@ from odoo import api, fields, models
 from odoo.addons.ea_audit_core.services.errors import rule_error
 
 from ..services.phases import BUDGET_PHASES
+from . import labels
 from .common import refuse
 
 _LEADS = ("partner", "manager")
@@ -21,7 +22,7 @@ class TeamBudget(models.Model):
     hours = fields.Float(required=True, default=0)
 
     _member_phase_uniq = models.Constraint("UNIQUE(member_id, phase)", "One budget per team member and phase.")
-    _hours_positive = models.Constraint("CHECK(hours >= 0)", "Le budget est un nombre d'heures positif.")
+    _hours_positive = models.Constraint("CHECK(hours >= 0)", "A budget is a positive number of hours.")
 
     @api.model
     def ea_ts_budget(self, engagement_id):
@@ -77,7 +78,7 @@ class TeamBudget(models.Model):
         return {
             "engagement": engagement.display_name,
             "engagement_id": engagement.id,
-            "phases": [{"key": key, "label": label} for key, label in BUDGET_PHASES],
+            "phases": [{"key": key, "label": label} for key, label in labels.phase_labels(self.env)],
             "rows": rows,
             "totals": totals,
             "budget": sum(t["budget"] for t in totals),
@@ -95,13 +96,13 @@ class TeamBudget(models.Model):
         engagement._ea_require_team_manager()
         engagement._ea_assert_mutable()
         if phase not in dict(BUDGET_PHASES):
-            raise refuse("ts-budget-range")
+            raise refuse(self.env, "ts-budget-range")
         try:
             hours = float(hours)
         except (TypeError, ValueError):
-            raise refuse("ts-budget-range") from None
+            raise refuse(self.env, "ts-budget-range") from None
         if not (0 <= hours <= 100000):
-            raise refuse("ts-budget-range")
+            raise refuse(self.env, "ts-budget-range")
         row = self.sudo().search([("member_id", "=", member.id), ("phase", "=", phase)], limit=1)
         if row:
             row.hours = hours

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="action_sheet" model="ir.actions.client">
-        <field name="name">Feuille de temps</field>
+        <field name="name">Timesheet</field>
         <field name="tag">ea_audit_timesheet.sheet</field>
         <field name="path">feuille-de-temps</field>
     </record>
     <record id="action_reports" model="ir.actions.client">
-        <field name="name">Rapports de temps</field>
+        <field name="name">Time reports</field>
         <field name="tag">ea_audit_timesheet.reports</field>
         <field name="path">rapports-de-temps</field>
     </record>
     <record id="action_users" model="ir.actions.client">
-        <field name="name">Utilisateurs</field>
+        <field name="name">Users</field>
         <field name="tag">ea_audit_timesheet.users</field>
         <field name="path">utilisateurs-firme</field>
     </record>
     <record id="action_settings" model="ir.actions.client">
-        <field name="name">Paramètres</field>
+        <field name="name">Settings</field>
         <field name="tag">ea_audit_timesheet.settings</field>
         <field name="path">parametres-firme</field>
     </record>

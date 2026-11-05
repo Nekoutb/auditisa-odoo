@@ -8,16 +8,16 @@ class AuditUi(models.AbstractModel):
     def _ea_ui_apps(self):
         apps = super()._ea_ui_apps()
         apps.append({
-            "key": "timesheet", "label": "Feuille de temps", "sub": "Saisir et soumettre ses heures",
+            "key": "timesheet", "label": self.env._("Timesheet"), "sub": self.env._("Enter and submit your hours"),
             "xmlid": "ea_audit_timesheet.action_sheet", "top": True,
         })
         if self.env.user._ea_firm_role() == "firm_admin":
             apps.append({
-                "key": "users", "label": "Utilisateurs", "sub": "Inviter, rôles, désactiver",
+                "key": "users", "label": self.env._("Users"), "sub": self.env._("Invite, roles, deactivate"),
                 "xmlid": "ea_audit_timesheet.action_users", "gear": True,
             })
             apps.append({
-                "key": "settings", "label": "Paramètres", "sub": "Messagerie, projets internes",
+                "key": "settings", "label": self.env._("Settings"), "sub": self.env._("Mail, internal projects"),
                 "xmlid": "ea_audit_timesheet.action_settings", "gear": True,
             })
         return apps
@@ -25,5 +25,5 @@ class AuditUi(models.AbstractModel):
     @api.model
     def _ea_ui_mission_items(self):
         items = super()._ea_ui_mission_items()
-        items.append({"label": "Budget et réalisé", "tag": "ea_audit_timesheet.budget"})
+        items.append({"label": self.env._("Budget and actual"), "tag": "ea_audit_timesheet.budget"})
         return items

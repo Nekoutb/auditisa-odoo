@@ -3,6 +3,7 @@ import socket
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.translate import LazyTranslate
 
 from odoo.addons.ea_audit_core.services.email_domains import is_valid_email
 from odoo.addons.ea_audit_core.services.signoff_rules import may_hold_partner_seat
@@ -10,14 +11,16 @@ from odoo.addons.ea_audit_core.services.signoff_rules import may_hold_partner_se
 from ..services import deadlines
 from .common import refuse
 
+_lt = LazyTranslate("ea_audit_timesheet")
+
 ROLES = [
-    ("firm_admin", "Administrateur de la firme", "ea_audit_core.group_firm_admin"),
-    ("partner", "Associé", "ea_audit_core.group_partner"),
-    ("manager", "Manager", "ea_audit_core.group_manager"),
-    ("senior", "Senior", "ea_audit_core.group_senior"),
-    ("staff", "Collaborateur", "ea_audit_core.group_staff"),
-    ("eqr_reviewer", "Revue qualité (EQR)", "ea_audit_core.group_eqr_reviewer"),
-    ("read_only", "Lecture seule", "ea_audit_core.group_read_only"),
+    ("firm_admin", _lt("Firm administrator"), "ea_audit_core.group_firm_admin"),
+    ("partner", _lt("Partner"), "ea_audit_core.group_partner"),
+    ("manager", _lt("Manager"), "ea_audit_core.group_manager"),
+    ("senior", _lt("Senior"), "ea_audit_core.group_senior"),
+    ("staff", _lt("Staff"), "ea_audit_core.group_staff"),
+    ("eqr_reviewer", _lt("Quality reviewer (EQR)"), "ea_audit_core.group_eqr_reviewer"),
+    ("read_only", _lt("Read only"), "ea_audit_core.group_read_only"),
 ]
 _ROLE_XMLIDS = {key: xmlid for key, _label, xmlid in ROLES}
 _ROLE_LABELS = {key: label for key, label, _xmlid in ROLES}
@@ -26,7 +29,7 @@ _PLUMBING = ("ea_audit_core.group_writer", "ea_audit_core.group_member")
 MAIL_PORTS = (25, 465, 587, 2525)
 MAIL_ENCRYPTIONS = ("none", "starttls", "ssl")
 _STAGING_VALUES = ("1", "True", "true")
-_MAIL_SERVER_NAME = "Serveur de la firme"
+_MAIL_SERVER_NAME = "Firm server"
 
 
 class FirmAdmin(models.AbstractModel):
@@ -41,16 +44,20 @@ class FirmAdmin(models.AbstractModel):
     @api.model
     def _ea_fa_require(self):
         if self.env.user._ea_firm_role() != "firm_admin":
-            raise refuse("fa-forbidden")
+            raise refuse(self.env, "fa-forbidden")
 
     @api.model
     def _ea_fa_target(self, user_id):
         user = self.env["res.users"].sudo().with_context(active_test=False).browse(int(user_id)).exists()
         if not user or user.share or user.id == self.env.ref("base.user_root").id:
-            raise refuse("fa-forbidden")
+            raise refuse(self.env, "fa-forbidden")
         if user.has_group("base.group_system"):
-            raise refuse("fa-technical-target")
+            raise refuse(self.env, "fa-technical-target")
         return user
+
+    @api.model
+    def _ea_fa_role_label(self, role):
+        return self.env._(_ROLE_LABELS[role]) if role in _ROLE_LABELS else self.env._("No role")
 
     @api.model
     def _ea_fa_other_active_admins(self, user):
@@ -75,25 +82,25 @@ class FirmAdmin(models.AbstractModel):
                 "name": user.name,
                 "login": user.login,
                 "role": role or "",
-                "role_label": _ROLE_LABELS.get(role, "Sans rôle"),
+                "role_label": self._ea_fa_role_label(role),
                 "technical": technical,
                 "active": user.active,
                 "joined": joined,
                 "is_me": user == self.env.user,
-                "state_label": "Désactivé" if not user.active else ("Actif" if joined else "Invité"),
+                "state_label": self.env._("Deactivated") if not user.active else (self.env._("Active") if joined else self.env._("Invited")),
                 "last_login": deadlines.instant_label(user.login_date) if joined else "",
             })
         company = self.env.company.sudo()
         return {
             "users": rows,
-            "roles": [{"key": key, "label": label} for key, label, _xmlid in ROLES],
+            "roles": [{"key": key, "label": self.env._(label)} for key, label, _xmlid in ROLES],
             "domains": company.ea_allowed_email_domains or "",
             "log": self._ea_fa_log_rows(),
         }
 
     @api.model
     def _ea_fa_log_rows(self, limit=15):
-        kinds = dict(self.env["ea.audit.firm.log"]._fields["kind"].selection)
+        kinds = dict(self.env["ea.audit.firm.log"]._fields["kind"]._description_selection(self.env))
         return [
             {
                 "id": row.id,
@@ -120,13 +127,13 @@ class FirmAdmin(models.AbstractModel):
         self._ea_fa_require()
         email = (email or "").strip().lower()
         if role not in _ROLE_XMLIDS:
-            raise refuse("fa-role-invalid")
+            raise refuse(self.env, "fa-role-invalid")
         if not is_valid_email(email):
-            raise refuse("fa-email-invalid")
+            raise refuse(self.env, "fa-email-invalid")
         self.env["ea.audit.engagement"]._ea_assert_member_domain(email)
         Users = self.env["res.users"].sudo().with_context(active_test=False)
         if Users.search_count([("login", "=", email)]):
-            raise refuse("fa-user-exists")
+            raise refuse(self.env, "fa-user-exists")
         user = Users.with_context(no_reset_password=True, active_test=True).create({
             "name": (name or "").strip() or email,
             "login": email,
@@ -134,7 +141,7 @@ class FirmAdmin(models.AbstractModel):
             "group_ids": [(6, 0, [self.env.ref(_ROLE_XMLIDS[role]).id])],
         })
         user._ea_ts_ensure_employee()
-        self.env["ea.audit.firm.log"]._ea_append("user_invited", user, _ROLE_LABELS[role])
+        self.env["ea.audit.firm.log"]._ea_append("user_invited", user, self._ea_fa_role_label(role))
         return {"user_id": user.id, "link": self._ea_fa_link(user)}
 
     @api.model
@@ -142,9 +149,9 @@ class FirmAdmin(models.AbstractModel):
         self._ea_fa_require()
         user = self._ea_fa_target(user_id)
         if not user.active:
-            raise refuse("fa-user-inactive")
+            raise refuse(self.env, "fa-user-inactive")
         if user.login_date:
-            raise refuse("fa-already-joined")
+            raise refuse(self.env, "fa-already-joined")
         self.env["ea.audit.firm.log"]._ea_append("link_issued", user)
         return {"link": self._ea_fa_link(user)}
 
@@ -152,21 +159,21 @@ class FirmAdmin(models.AbstractModel):
     def ea_fa_set_role(self, user_id, role):
         self._ea_fa_require()
         if role not in _ROLE_XMLIDS:
-            raise refuse("fa-role-invalid")
+            raise refuse(self.env, "fa-role-invalid")
         user = self._ea_fa_target(user_id)
         if user == self.env.user:
-            raise refuse("fa-self")
+            raise refuse(self.env, "fa-self")
         current = user._ea_firm_role()
         if current == "firm_admin" and role != "firm_admin" and not self._ea_fa_other_active_admins(user):
-            raise refuse("fa-last-admin")
+            raise refuse(self.env, "fa-last-admin")
         if not may_hold_partner_seat(role) and self._ea_fa_partner_seats(user):
-            raise refuse("fa-holds-partner-seat")
+            raise refuse(self.env, "fa-holds-partner-seat")
         firm_groups = [self.env.ref(xmlid).id for xmlid in (*_ROLE_XMLIDS.values(), *_PLUMBING)]
         user.write({
             "group_ids": [(3, gid) for gid in firm_groups] + [(4, self.env.ref(_ROLE_XMLIDS[role]).id)],
         })
         self.env["ea.audit.firm.log"]._ea_append(
-            "role_changed", user, "%s, puis %s" % (_ROLE_LABELS.get(current, "Sans rôle"), _ROLE_LABELS[role]),
+            "role_changed", user, "%s > %s" % (self._ea_fa_role_label(current), self._ea_fa_role_label(role)),
         )
         return True
 
@@ -182,14 +189,14 @@ class FirmAdmin(models.AbstractModel):
         user = self._ea_fa_target(user_id)
         active = bool(active)
         if user == self.env.user:
-            raise refuse("fa-self")
+            raise refuse(self.env, "fa-self")
         if active == user.active:
             return True
         if not active:
             if user._ea_firm_role() == "firm_admin" and not self._ea_fa_other_active_admins(user):
-                raise refuse("fa-last-admin")
+                raise refuse(self.env, "fa-last-admin")
             if self._ea_fa_partner_seats(user):
-                raise refuse("fa-holds-partner-seat")
+                raise refuse(self.env, "fa-holds-partner-seat")
         user.active = active
         self.env["ea.audit.firm.log"]._ea_append("user_reactivated" if active else "user_deactivated", user)
         return True
@@ -198,7 +205,7 @@ class FirmAdmin(models.AbstractModel):
     def ea_fa_set_domains(self, raw):
         self._ea_fa_require()
         domains = self.env["res.company"].ea_set_allowed_domains(raw)
-        self.env["ea.audit.firm.log"]._ea_append("domains_changed", detail=", ".join(domains) or "Aucune restriction")
+        self.env["ea.audit.firm.log"]._ea_append("domains_changed", detail=", ".join(domains) or self.env._("No restriction"))
         return domains
 
     # ------------------------------------------------------------------
@@ -219,9 +226,9 @@ class FirmAdmin(models.AbstractModel):
         self._ea_fa_require()
         name = (name or "").strip()
         if not name:
-            raise refuse("fa-project-name")
+            raise refuse(self.env, "fa-project-name")
         project = self.env["project.project"]._ea_ts_create_internal(name)
-        self.env["ea.audit.firm.log"]._ea_append("project_changed", detail="Créé : %s" % name)
+        self.env["ea.audit.firm.log"]._ea_append("project_changed", detail=self.env._("Created: %(name)s", name=name))
         return project.id
 
     @api.model
@@ -229,10 +236,10 @@ class FirmAdmin(models.AbstractModel):
         self._ea_fa_require()
         project = self.env["project.project"].sudo().with_context(active_test=False).browse(int(project_id)).exists()
         if not project or not project.ea_is_internal:
-            raise refuse("ts-project-not-chargeable")
+            raise refuse(self.env, "ts-project-not-chargeable")
         project.active = bool(active)
         self.env["ea.audit.firm.log"]._ea_append(
-            "project_changed", detail="%s : %s" % ("Réactivé" if active else "Archivé", project.name),
+            "project_changed", detail=(self.env._("Reactivated: %(name)s", name=project.name) if active else self.env._("Archived: %(name)s", name=project.name)),
         )
         return True
 
@@ -284,21 +291,21 @@ class FirmAdmin(models.AbstractModel):
         self._ea_fa_require()
         host = (vals.get("host") or "").strip()
         if not host or " " in host or self._ea_fm_address_refused(host) or host.lower() == "localhost":
-            raise refuse("fm-host")
+            raise refuse(self.env, "fm-host")
         try:
             port = int(vals.get("port") or 0)
         except (TypeError, ValueError):
-            raise refuse("fm-port") from None
+            raise refuse(self.env, "fm-port") from None
         if port not in MAIL_PORTS:
-            raise refuse("fm-port")
+            raise refuse(self.env, "fm-port")
         encryption = vals.get("encryption")
         if encryption not in MAIL_ENCRYPTIONS:
-            raise refuse("fm-encryption")
+            raise refuse(self.env, "fm-encryption")
         company = self.env.company.sudo()
         server = self._ea_fm_server()
         password = vals.get("password") or False
         if encryption == "none" and (password or (server and server.smtp_pass)):
-            raise refuse("fm-plaintext-password")
+            raise refuse(self.env, "fm-plaintext-password")
         values = {
             "name": _MAIL_SERVER_NAME,
             "smtp_host": host,
@@ -324,7 +331,7 @@ class FirmAdmin(models.AbstractModel):
     def _ea_fm_assert_public_host(self, server):
         for info in socket.getaddrinfo(server.smtp_host, server.smtp_port, type=socket.SOCK_STREAM):
             if self._ea_fm_address_refused(info[4][0]):
-                raise refuse("fm-host")
+                raise refuse(self.env, "fm-host")
 
     @api.model
     def _ea_fm_probe(self, server):
@@ -336,32 +343,32 @@ class FirmAdmin(models.AbstractModel):
     def ea_fm_test(self):
         self._ea_fa_require()
         if self._ea_fm_staging():
-            raise refuse("fm-staging-policy")
+            raise refuse(self.env, "fm-staging-policy")
         server = self._ea_fm_server()
         if not server:
-            raise refuse("fm-none")
+            raise refuse(self.env, "fm-none")
         company = self.env.company.sudo()
         try:
             self._ea_fm_probe(server)
         except (UserError, OSError) as error:
             company.ea_mail_tested_at = False
             server.active = False
-            self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail="Échec")
+            self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail=self.env._("Failed"))
             return {"ok": False, "message": str(error)[:400], "state": self.ea_fm_get()}
         company.ea_mail_tested_at = fields.Datetime.now()
-        self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail="Réussi")
-        return {"ok": True, "message": "Connexion réussie. Aucun message n'a été envoyé.", "state": self.ea_fm_get()}
+        self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail=self.env._("Passed"))
+        return {"ok": True, "message": self.env._("Connection passed. No message was sent."), "state": self.ea_fm_get()}
 
     @api.model
     def ea_fm_enable(self):
         self._ea_fa_require()
         if self._ea_fm_staging():
-            raise refuse("fm-staging-policy")
+            raise refuse(self.env, "fm-staging-policy")
         server = self._ea_fm_server()
         if not server:
-            raise refuse("fm-none")
+            raise refuse(self.env, "fm-none")
         if not self.env.company.sudo().ea_mail_tested_at:
-            raise refuse("fm-untested")
+            raise refuse(self.env, "fm-untested")
         server.active = True
         self.env["ea.audit.firm.log"]._ea_append("mail_enabled")
         return self.ea_fm_get()

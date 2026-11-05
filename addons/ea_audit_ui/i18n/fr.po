@@ -1,0 +1,26 @@
+# French translation of ea_audit_ui: the app switcher's words.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Audit"
+msgstr "Audit"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Engagements and files"
+msgstr "Missions et dossiers"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Apps"
+msgstr "Applications"

@@ -7,12 +7,10 @@ from ..deadlines import (
     OPEN,
     REOPENED,
     SUBMITTED,
-    day_label,
+    date_label,
     deadline,
-    deadline_label,
     instant_label,
     local_today,
-    week_label,
     week_start,
     week_status,
 )
@@ -57,7 +55,5 @@ def test_the_future_is_read_in_douala():
 
 
 def test_labels_read_dd_mm_yyyy():
-    assert day_label(MONDAY) == "lun. 02/11/2026"
-    assert week_label(MONDAY) == "Semaine du 02/11/2026 au 08/11/2026"
-    assert deadline_label(MONDAY) == "mardi 10/11/2026 à 23:59"
-    assert instant_label(datetime(2026, 11, 10, 22, 59)) == "10/11/2026 à 23:59"
+    assert date_label(MONDAY) == "02/11/2026"
+    assert instant_label(datetime(2026, 11, 10, 22, 59)) == "10/11/2026 23:59"

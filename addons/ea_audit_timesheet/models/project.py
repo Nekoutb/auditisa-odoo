@@ -7,9 +7,9 @@ class Project(models.Model):
     _inherit = "project.project"
 
     ea_engagement_id = fields.Many2one(
-        "ea.audit.engagement", string="Mission", copy=False, readonly=True, ondelete="set null", index="btree_not_null",
+        "ea.audit.engagement", string="Engagement", copy=False, readonly=True, ondelete="set null", index="btree_not_null",
     )
-    ea_is_internal = fields.Boolean(string="Projet interne de la firme", copy=False)
+    ea_is_internal = fields.Boolean(string="Internal project of the firm", copy=False)
 
     _ea_one_per_engagement = models.UniqueIndex("(ea_engagement_id) WHERE ea_engagement_id IS NOT NULL")
 

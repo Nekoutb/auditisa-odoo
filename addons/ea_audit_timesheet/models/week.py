@@ -3,6 +3,7 @@ from datetime import timedelta
 from odoo import api, fields, models
 
 from ..services import deadlines
+from . import labels
 from .common import refuse
 
 REOPEN_HOURS = 48
@@ -30,17 +31,17 @@ class TimesheetWeek(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         if not self.env.su:
-            raise refuse("fa-forbidden")
+            raise refuse(self.env, "fa-forbidden")
         return super().create(vals_list)
 
     def write(self, vals):
         if not self.env.su:
-            raise refuse("fa-forbidden")
+            raise refuse(self.env, "fa-forbidden")
         return super().write(vals)
 
     def unlink(self):
         if not self.env.su:
-            raise refuse("fa-forbidden")
+            raise refuse(self.env, "fa-forbidden")
         return super().unlink()
 
     @api.model
@@ -56,6 +57,7 @@ class TimesheetWeek(models.Model):
     def _ea_ts_touch(self, user, monday):
         """Take the week's row: two concurrent saves or a save and a submit on
         the same week cannot both pass under repeatable read, one is retried."""
+        self.env.flush_all()
         self.env.cr.execute(
             """
             INSERT INTO ea_audit_timesheet_week
@@ -69,7 +71,7 @@ class TimesheetWeek(models.Model):
             "UPDATE ea_audit_timesheet_week SET write_date = now() at time zone 'utc' WHERE user_id = %s AND week_start = %s",
             [user.id, monday],
         )
-        self.env.invalidate_all(flush=False)
+        self.invalidate_model()
 
     @api.model
     def _ea_ts_status(self, user, monday, now=None):
@@ -83,22 +85,21 @@ class TimesheetWeek(models.Model):
         """The deadline rule itself, whoever writes and by whichever road."""
         now = self._ea_ts_now()
         if day > deadlines.local_today(now):
-            raise refuse("ts-future-date")
+            raise refuse(self.env, "ts-future-date")
         status = self._ea_ts_status(user, deadlines.week_start(day), now)
         if status in (deadlines.LOCKED, deadlines.LOCKED_SUBMITTED):
-            raise refuse("ts-week-locked")
+            raise refuse(self.env, "ts-week-locked")
         if status == deadlines.SUBMITTED:
-            raise refuse("ts-week-submitted")
+            raise refuse(self.env, "ts-week-submitted")
 
     @api.model
     def _ea_ts_submit(self, user, monday):
         now = self._ea_ts_now()
         status = self._ea_ts_status(user, monday, now)
         if status == deadlines.FUTURE:
-            raise refuse("ts-submit-future")
+            raise refuse(self.env, "ts-submit-future")
         if not deadlines.editable(status):
-            raise refuse("ts-week-submitted" if status == deadlines.SUBMITTED else "ts-submit-closed")
-        self.env.flush_all()
+            raise refuse(self.env, "ts-week-submitted" if status == deadlines.SUBMITTED else "ts-submit-closed")
         self._ea_ts_touch(user, monday)
         self._ea_ts_row(user, monday).write({"state": "submitted", "submitted_at": now, "submitted_by_id": user.id})
         self.env["ea.audit.timesheet.reopen"]._ea_ts_active(user, monday, now).write({"closed_at": now})
@@ -107,7 +108,7 @@ class TimesheetWeek(models.Model):
     def _ea_ts_recall(self, user, monday):
         """Before the deadline a person may take their submission back."""
         if self._ea_ts_status(user, monday) != deadlines.SUBMITTED:
-            raise refuse("ts-recall-closed")
+            raise refuse(self.env, "ts-recall-closed")
         self._ea_ts_row(user, monday).write({"state": "draft", "submitted_at": False, "submitted_by_id": False})
 
 
@@ -129,17 +130,17 @@ class TimesheetReopen(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         if not self.env.su:
-            raise refuse("ts-reopen-forbidden")
+            raise refuse(self.env, "ts-reopen-forbidden")
         return super().create(vals_list)
 
     def write(self, vals):
         # the record stays what it was: only the moment a resubmission closes it is added
         if not self.env.su or set(vals) - {"closed_at"}:
-            raise refuse("ts-reopen-forbidden")
+            raise refuse(self.env, "ts-reopen-forbidden")
         return super().write(vals)
 
     def unlink(self):
-        raise refuse("ts-reopen-forbidden")
+        raise refuse(self.env, "ts-reopen-forbidden")
 
     @api.model
     def _ea_ts_active(self, user, monday, now):
@@ -165,20 +166,19 @@ class TimesheetReopen(models.Model):
     def _ea_ts_reopen(self, person, monday, reason):
         actor = self.env.user
         if actor == person:
-            raise refuse("ts-reopen-self")
+            raise refuse(self.env, "ts-reopen-self")
         if not self._ea_ts_may_reopen(actor, person):
-            raise refuse("ts-reopen-forbidden")
+            raise refuse(self.env, "ts-reopen-forbidden")
         why = (reason or "").strip()
         if len(why) < REASON_MIN_LENGTH:
-            raise refuse("ts-reopen-reason")
+            raise refuse(self.env, "ts-reopen-reason")
         Week = self.env["ea.audit.timesheet.week"]
         now = Week._ea_ts_now()
         status = Week._ea_ts_status(person, monday, now)
         if status == deadlines.REOPENED:
-            raise refuse("ts-reopen-active")
+            raise refuse(self.env, "ts-reopen-active")
         if status not in (deadlines.LOCKED, deadlines.LOCKED_SUBMITTED):
-            raise refuse("ts-reopen-not-locked")
-        self.env.flush_all()
+            raise refuse(self.env, "ts-reopen-not-locked")
         Week._ea_ts_touch(person, monday)
         Week._ea_ts_row(person, monday).write({"state": "draft"})
         record = self.sudo().create({
@@ -186,6 +186,6 @@ class TimesheetReopen(models.Model):
             "opened_at": now, "expires_at": now + timedelta(hours=REOPEN_HOURS),
         })
         self.env["ea.audit.firm.log"]._ea_append(
-            "week_reopened", person, "%s : %s" % (deadlines.week_label(monday), why),
+            "week_reopened", person, "%s: %s" % (labels.week_label(self.env, monday), why),
         )
         return record

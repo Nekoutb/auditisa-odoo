@@ -20,7 +20,7 @@ class TestSheet(TimesheetCase):
         data = sheet.ea_ts_sheet(str(TUESDAY))
         self.assertEqual(data["monday"], "2026-11-02")
         self.assertEqual(len(data["days"]), 7)
-        self.assertEqual(data["days"][0]["label"], "lun. 02/11/2026")
+        self.assertEqual(data["days"][0]["label"], "Mon 02/11/2026")
         self.assertEqual(data["total"], 10.5)
         self.assertEqual(data["totals"]["2026-11-03"], 7.5)
         row = next(r for r in data["rows"] if r["project_id"] == self.project.id)
@@ -49,7 +49,6 @@ class TestSheet(TimesheetCase):
         self.assertFalse(data["rows"])
 
     def test_it_warns_in_advance_and_shows_what_is_overdue(self):
-        self.Line.browse()  # the person joined long before these weeks
         self.env.cr.execute(
             "UPDATE res_users SET create_date = '2026-10-01' WHERE id = %s", [self.staff.id],
         )
@@ -57,7 +56,7 @@ class TestSheet(TimesheetCase):
         self.at(AT_NEXT_MONDAY)
         data = self.sheet(self.staff).ea_ts_sheet()
         self.assertEqual(len(data["warnings"]), 1)
-        self.assertIn("mardi 10/11/2026 à 23:59", data["warnings"][0]["text"])
+        self.assertIn("Tuesday 10/11/2026, 23:59", data["warnings"][0]["text"])
         self.at(AT_LOCK)
         data = self.sheet(self.staff).ea_ts_sheet(str(TUESDAY))
         self.assertFalse(data["can_edit"])
@@ -146,12 +145,12 @@ class TestReports(TimesheetCase):
         rows = self.report(self.admin, "engagement")["rows"]
         self.assertEqual({r["label"]: r["hours"] for r in rows}, {self.project.name: 8, self.internal.name: 1})
         rows = self.report(self.admin, "period")["rows"]
-        self.assertEqual([r["label"] for r in rows], ["Semaine du 02/11/2026 au 08/11/2026"])
+        self.assertEqual([r["label"] for r in rows], ["Week of 02/11/2026 to 08/11/2026"])
 
     def test_the_workbook_has_real_dates_shown_dd_mm_yyyy(self):
         sheets = self.Sheet.with_user(self.staff)._ea_ts_export(MONDAY, SUNDAY)
         book = load_workbook(io.BytesIO(report_workbook(sheets)))
-        self.assertEqual(book.sheetnames, ["Détail", "Par personne", "Par mission", "Par semaine"])
+        self.assertEqual(book.sheetnames, ["Detail", "By person", "By engagement", "By week"])
         row = list(book["Détail"].iter_rows(min_row=2))
         self.assertEqual(len(row), 1)
         self.assertEqual(row[0][0].number_format, "DD/MM/YYYY")

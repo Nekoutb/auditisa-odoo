@@ -20,7 +20,7 @@ class AccountAnalyticLine(models.Model):
 
     _ea_timesheet_hours_range = models.Constraint(
         "CHECK(project_id IS NULL OR (unit_amount >= 0 AND unit_amount <= 24))",
-        "Les heures doivent être comprises entre 0 et 24.",
+        "Hours must be between 0 and 24.",
     )
 
     @api.model_create_multi
@@ -29,11 +29,11 @@ class AccountAnalyticLine(models.Model):
         for vals in vals_list:
             if vals.get("project_id") or vals.get("task_id"):
                 vals.pop("ea_phase", None)
-                # no range check needed first: a refused value fails in _ea_ts_enforce
+                self._ea_ts_check_range(vals.get("unit_amount", 0))
                 if not vals.get("employee_id"):
                     users |= self.env["res.users"].browse(vals.get("user_id") or self._default_user())
                 if not self.env.su and vals.get("user_id", self.env.uid) != self.env.uid:
-                    raise refuse("ts-own-lines-only")
+                    raise refuse(self.env, "ts-own-lines-only")
         users._ea_ts_ensure_employee()
         lines = super().create(vals_list)
         lines.filtered("project_id")._ea_ts_enforce()
@@ -43,11 +43,13 @@ class AccountAnalyticLine(models.Model):
         if not _GUARDED & set(vals):
             return super().write(vals)
         vals = {key: value for key, value in vals.items() if key != "ea_phase"}
+        if "unit_amount" in vals and self.sudo().filtered("project_id"):
+            self._ea_ts_check_range(vals["unit_amount"])
         before = self.sudo().filtered("project_id")
         before._ea_ts_assert_may_change()
         result = super().write(vals)
         if "project_id" in vals and before.filtered(lambda line: not line.project_id):
-            raise refuse("ts-project-required")
+            raise refuse(self.env, "ts-project-required")
         self.filtered("project_id")._ea_ts_enforce()
         return result
 
@@ -57,14 +59,20 @@ class AccountAnalyticLine(models.Model):
 
     # ------------------------------------------------------------------
 
+    def _ea_ts_check_range(self, hours):
+        # before the database's own check, so that the refusal has its code;
+        # "not (a <= x <= b)" also refuses NaN
+        if not (0 <= (hours or 0) <= 24):
+            raise refuse(self.env, "ts-hours-range")
+
     def _ea_ts_assert_may_change(self):
         """On the line as it stands: whose it is, its week, its file."""
         Week = self.env["ea.audit.timesheet.week"]
         for line in self.sudo():
             if not self.env.su and line.user_id != self.env.user:
-                raise refuse("ts-own-lines-only")
+                raise refuse(self.env, "ts-own-lines-only")
             if line.project_id.ea_engagement_id._ea_is_archived() if line.project_id.ea_engagement_id else False:
-                raise refuse("ts-archived")
+                raise refuse(self.env, "ts-archived")
             Week._ea_ts_assert_editable(line.user_id, line.date)
 
     def _ea_ts_chargeable_refusal(self, project, user):
@@ -89,15 +97,13 @@ class AccountAnalyticLine(models.Model):
         lines = self.sudo()
         for line in lines:
             if not self.env.su and line.user_id != self.env.user:
-                raise refuse("ts-own-lines-only")
+                raise refuse(self.env, "ts-own-lines-only")
             refusal = self._ea_ts_chargeable_refusal(line.project_id, line.user_id)
             if refusal:
-                raise refuse(refusal)
+                raise refuse(self.env, refusal)
             if line.task_id and line.task_id.project_id != line.project_id:
-                raise refuse("ts-task-other-project")
-            # "not (a <= x <= b)" also refuses NaN
-            if not (0 <= line.unit_amount <= 24):
-                raise refuse("ts-hours-range")
+                raise refuse(self.env, "ts-task-other-project")
+            self._ea_ts_check_range(line.unit_amount)
             Week._ea_ts_assert_editable(line.user_id, line.date)
         for user, monday in sorted({(line.user_id, deadlines.week_start(line.date)) for line in lines}, key=lambda k: (k[0].id, k[1])):
             Week._ea_ts_touch(user, monday)
@@ -115,7 +121,7 @@ class AccountAnalyticLine(models.Model):
                 [("project_id", "!=", False), ("user_id", "=", user.id), ("date", "=", day)], [], ["unit_amount:sum"],
             )
             if (rows[0][0] or 0) > 24:
-                raise refuse("ts-day-over-24")
+                raise refuse(self.env, "ts-day-over-24")
 
     def _ea_ts_phase(self):
         self.ensure_one()

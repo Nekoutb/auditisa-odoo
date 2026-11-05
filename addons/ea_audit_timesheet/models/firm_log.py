@@ -4,19 +4,19 @@ from odoo.http import request
 from .common import refuse
 
 KINDS = [
-    ("support_login", "Connexion du compte technique"),
+    ("support_login", "Technical account login"),
     ("user_invited", "Invitation"),
-    ("link_issued", "Nouveau lien d'invitation"),
-    ("role_changed", "Changement de rôle"),
-    ("user_deactivated", "Désactivation"),
-    ("user_reactivated", "Réactivation"),
-    ("domains_changed", "Domaines autorisés"),
-    ("mail_saved", "Serveur de messagerie enregistré"),
-    ("mail_tested", "Test du serveur de messagerie"),
-    ("mail_enabled", "Envoi activé"),
-    ("mail_disabled", "Envoi désactivé"),
-    ("project_changed", "Projet interne"),
-    ("week_reopened", "Réouverture d'une semaine"),
+    ("link_issued", "New invitation link"),
+    ("role_changed", "Role change"),
+    ("user_deactivated", "Deactivation"),
+    ("user_reactivated", "Reactivation"),
+    ("domains_changed", "Allowed domains"),
+    ("mail_saved", "Mail server saved"),
+    ("mail_tested", "Mail server test"),
+    ("mail_enabled", "Sending enabled"),
+    ("mail_disabled", "Sending disabled"),
+    ("project_changed", "Internal project"),
+    ("week_reopened", "Week reopened"),
 ]
 
 
@@ -38,14 +38,14 @@ class FirmLog(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         if not self.env.su:
-            raise refuse("fa-forbidden")
+            raise refuse(self.env, "fa-forbidden")
         return super().create(vals_list)
 
     def write(self, vals):
-        raise refuse("fa-forbidden")
+        raise refuse(self.env, "fa-forbidden")
 
     def unlink(self):
-        raise refuse("fa-forbidden")
+        raise refuse(self.env, "fa-forbidden")
 
     @api.model
     def _ea_append(self, kind, target=None, detail=None, actor=None):

@@ -77,11 +77,11 @@
             </button>
 
             <div class="ea-anchor" data-ea-panel="apps">
-                <button type="button" class="ea-ic" aria-label="Applications" title="Applications" t-att-aria-expanded="state.open === 'apps' ? 'true' : 'false'" t-on-click="() => this.toggle('apps')">
+                <button type="button" class="ea-ic" aria-label="Apps" title="Apps" t-att-aria-expanded="state.open === 'apps' ? 'true' : 'false'" t-on-click="() => this.toggle('apps')">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>
                 </button>
                 <div t-if="state.open === 'apps'" class="ea-pop ea-pop-gear">
-                    <div class="ea-pop-h">Applications</div>
+                    <div class="ea-pop-h">Apps</div>
                     <a t-foreach="apps" t-as="app" t-key="app.key" class="ea-pop-row" href="#" role="button"
                        t-att-data-ea-app="app.key" t-on-click.prevent="() => this.openApp(app)">
                         <b t-esc="app.label"/>
