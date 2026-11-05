@@ -25,7 +25,8 @@ function initialLang() {
         // storage can be blocked: the default below still works
     }
     // French first: en_US is Odoo's neutral default, not a choice the user made
-    const lang = user.lang || user.context?.lang || "";
+    // the web client reports BCP-47 (en-US), the context Odoo's own form (en_US)
+    const lang = (user.lang || user.context?.lang || "").replace("-", "_");
     return lang.startsWith("en") && lang !== "en_US" ? "en" : "fr";
 }
 
