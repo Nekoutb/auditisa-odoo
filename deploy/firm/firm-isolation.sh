@@ -82,7 +82,8 @@ check_names() {
       *) continue ;;
     esac
     [ -n "$word" ] || continue
-    if grep -RIlwF -- "$word" "${SEARCH_DIRS[@]}" 2>/dev/null | head -n 3 | grep -q .; then
+    # A folder that does not exist makes grep exit 2 even after a match: its output decides.
+    if [ -n "$(grep -RIlwF -- "$word" "${SEARCH_DIRS[@]}" 2>/dev/null || true)" ]; then
       fail "this server's files mention the peer's $kind ($word)"
       found=1
     fi
