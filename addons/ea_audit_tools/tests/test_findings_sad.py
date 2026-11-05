@@ -267,6 +267,7 @@ class TestHubAndGates(ToolsCase):
         self.assertEqual(action["res_id"], self.engagement.id)
         outsider = self.env.ref("ea_audit_tools.tile_materiality").with_user(self.outsider)
         self.assertCode("not-on-this-engagement", outsider.with_context(ea_engagement_id=self.engagement.id).action_open_tool)
+        self.env.ref("ea_audit_tools.tile_legal").sudo().method = "action_tool_not_there"
         coming = self.env.ref("ea_audit_tools.tile_legal").with_user(self.staff)
         self.assertCode("tool-not-available", coming.with_context(ea_engagement_id=self.engagement.id).action_open_tool)
 

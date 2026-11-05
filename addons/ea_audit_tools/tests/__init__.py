@@ -10,3 +10,4 @@ from . import test_je_selection
 from . import test_analyzers
 from . import test_design_sap
 from . import test_analysis_pbc
+from . import test_wiring

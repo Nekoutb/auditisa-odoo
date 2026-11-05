@@ -681,12 +681,13 @@ class Engagement(models.Model):
 
     def _ea_untouched_tasks(self):
         """UAT B63: every non-conditional task carries work or is marked not applicable with a reason.
-        An E4 task S5.5 left out is on no list, so it asks for nothing here (see QUESTIONS.md)."""
+        An E4 task S5.5 left out is on no list, so it asks for nothing here, and a paper its preparer
+        signed is not untouched, whatever it holds: P7.2's answers live on its summary (see QUESTIONS.md)."""
         scoped_out = self._ea_e4_out_of_scope()
         return [
             row["item"] for row in self._ea_item_activity()
             if not row["item"].conditional and not (row["item"].na_reason or "").strip() and not row["worked"]
-            and row["item"] not in scoped_out
+            and not row["prepared"] and row["item"] not in scoped_out
         ]
 
     def _ea_paper_is_complete(self, code):
