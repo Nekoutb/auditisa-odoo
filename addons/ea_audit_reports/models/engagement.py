@@ -299,29 +299,26 @@ class Engagement(models.Model):
         """The subtotals of the cascade, the aggregates and the checks, as the auditor reads them."""
         self.ensure_one()
         result = result or self._ea_fs_tieout()
-        fr = self._ea_fr()
+        _ = self.env._
         cell = Markup('<tr class="%s"><td>%s</td><td>%s</td><td class="text-end">%s</td></tr>')
         rows = [
-            cell % ("fw-bold" if line["ref"].startswith("X") else "", line["ref"], line["label"], "{:,.0f}".format(line["amount"]).replace(",", " "))
+            cell % ("fw-bold" if line["ref"].startswith("X") else "", line["ref"], _(line["label"]), "{:,.0f}".format(line["amount"]).replace(",", " "))
             for line in result["cr"] if line["amount"] or line["ref"] == "XI"
         ]
         rows += [
-            cell % ("", line["ref"], line["label"] if fr else line["labelEn"], "{:,.0f}".format(line["amount"]).replace(",", " "))
+            cell % ("", line["ref"], _(line["label"]), "{:,.0f}".format(line["amount"]).replace(",", " "))
             for line in result["bilan"] if line["amount"]
         ]
-        names = {
-            "tb_balanced": ("Balance équilibrée", "Trial balance balanced"),
-            "bilan_equilibrium": ("Équilibre du bilan", "Balance sheet equilibrium"),
-        }
+        names = {"tb_balanced": _("Trial balance balanced"), "bilan_equilibrium": _("Balance sheet equilibrium")}
         marks = Markup("").join(
             Markup('<li class="o_ea_gate %s"><span class="o_ea_gate_mark">%s</span> %s</li>') % (
-                "o_ea_gate_ok" if check["ok"] else "o_ea_gate_ko", "✓" if check["ok"] else "✗", names[check["key"]][0 if fr else 1],
+                "o_ea_gate_ok" if check["ok"] else "o_ea_gate_ko", "✓" if check["ok"] else "✗", names[check["key"]],
             ) for check in result["checks"]
         )
         diffs = Markup("").join(
             Markup('<tr class="table-danger"><td>%s</td><td>%s</td><td class="text-end">%s</td></tr>') % (
                 diff["ref"],
-                ("Client : %s ; recalculé : %s" if fr else "Client: %s; recomputed: %s") % (diff["client"], diff["recomputed"]),
+                _("Client: %(client)s; recomputed: %(recomputed)s", client=diff["client"], recomputed=diff["recomputed"]),
                 "{:,.0f}".format(diff["difference"]).replace(",", " "),
             ) for diff in result["clientDiffs"]
         )
@@ -1266,14 +1263,14 @@ class FileItem(models.Model):
         if item.code != "E6.10" or not item.engagement_id._ea_tb_balances():
             return board
         result = item.engagement_id._ea_fs_tieout()
-        fr = is_french(self.env)
+        _ = self.env._
         board["facts"] = [
-            {"label": "Résultat net (CR)" if fr else "Net result (income statement)", "value": "{:,.0f} FCFA".format(result["crResult"]).replace(",", " ")},
-            {"label": "Rapprochement" if fr else "Tie-out", "value": ("Concluant" if fr else "Passed") if result["pass"] else ("Écarts" if fr else "Differences")},
+            {"label": _("Net result (income statement)"), "value": "{:,.0f} FCFA".format(result["crResult"]).replace(",", " ")},
+            {"label": _("Tie-out"), "value": _("Passed") if result["pass"] else _("Differences")},
         ]
-        board["head"] = ["Ref", "Poste" if fr else "Caption", "Montant" if fr else "Amount"]
+        board["head"] = [_("Ref"), _("Caption"), _("Amount")]
         board["rows"] = [
-            [line["ref"], line["label"], "{:,.0f}".format(line["amount"]).replace(",", " ")]
+            [line["ref"], _(line["label"]), "{:,.0f}".format(line["amount"]).replace(",", " ")]
             for line in result["cr"] if line["ref"].startswith("X")
         ]
         return board

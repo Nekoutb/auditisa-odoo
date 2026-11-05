@@ -563,6 +563,7 @@ class AuditUiDemo(models.AbstractModel):
         if env["ea.audit.engagement"].sudo().search_count([]):
             return  # never on top of real files
         env["res.lang"]._activate_lang("fr_FR")
+        env["res.lang"]._activate_lang("en_US")
         xaf = env.ref("base.XAF")
         xaf.active = True
         env.ref("base.main_company").currency_id = xaf

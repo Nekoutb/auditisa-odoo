@@ -3,7 +3,69 @@ from the closings, the equilibrium checks, and the comparison with the client's 
 closings carry natural signs (charges debit-positive, produits credit-negative), so income lines
 are negated to read positively and charge lines subtract. TFT recomputation is out of scope, as
 in the source. No ORM here."""
+from odoo.tools.translate import LazyTranslate
+
 from odoo.addons.ea_audit_tools.services._js import js_round
+
+_lt = LazyTranslate("ea_audit_reports")
+
+# The captions, read through env._ by whoever shows them. French in i18n/fr.po.
+CR_LABELS = {
+    "TA": _lt("Sales of goods"),
+    "RA": _lt("Purchases of goods"),
+    "RB": _lt("Change in goods inventory"),
+    "XA": _lt("GROSS TRADING MARGIN"),
+    "TB": _lt("Sales of manufactured goods"),
+    "TC": _lt("Work and services sold"),
+    "TD": _lt("Ancillary income"),
+    "XB": _lt("REVENUE"),
+    "TE": _lt("Production held in inventory"),
+    "TF": _lt("Capitalised production"),
+    "TG": _lt("Operating subsidies"),
+    "TH": _lt("Other income"),
+    "TI": _lt("Operating expense transfers"),
+    "RC": _lt("Purchases of raw materials"),
+    "RD": _lt("Change in raw materials inventory"),
+    "RE": _lt("Other purchases"),
+    "RF": _lt("Change in other supplies inventory"),
+    "RG": _lt("Transport"),
+    "RH": _lt("External services"),
+    "RI": _lt("Taxes and duties"),
+    "RJ": _lt("Other expenses"),
+    "XC": _lt("VALUE ADDED"),
+    "RK": _lt("Personnel expenses"),
+    "XD": _lt("GROSS OPERATING SURPLUS"),
+    "TJ": _lt("Operating reversals"),
+    "RL": _lt("Operating allowances"),
+    "XE": _lt("OPERATING RESULT"),
+    "TK": _lt("Financial income"),
+    "TL": _lt("Financial reversals"),
+    "TM": _lt("Financial expense transfers"),
+    "RM": _lt("Financial expenses"),
+    "RN": _lt("Financial allowances"),
+    "XF": _lt("FINANCIAL RESULT"),
+    "XG": _lt("RESULT OF ORDINARY ACTIVITIES"),
+    "TN": _lt("Disposal proceeds"),
+    "TO": _lt("Other non-ordinary income"),
+    "RO": _lt("Carrying value of disposals"),
+    "RP": _lt("Other non-ordinary expenses"),
+    "XH": _lt("NON-ORDINARY RESULT"),
+    "RQ": _lt("Employee profit sharing"),
+    "RS": _lt("Income tax"),
+    "XI": _lt("NET RESULT"),
+}
+BILAN_LABELS = {
+    "AZ~": _lt("Net fixed assets (2x incl. 28/29)"),
+    "BB": _lt("Net inventories and work in progress (3x)"),
+    "B~": _lt("Net third-party balances (4x — sign-split at FS presentation)"),
+    "BT~": _lt("Net cash (5x)"),
+    "BU": _lt("Translation difference — assets (478)"),
+    "CP": _lt("Equity (10–15, excluding the result)"),
+    "CJ": _lt("Net result for the year (from the income statement)"),
+    "DF~": _lt("Financial debt (16–18)"),
+    "DC": _lt("Provisions for risks and charges (19)"),
+    "DV": _lt("Translation difference — liabilities (479)"),
+}
 
 
 class Closings:
@@ -21,7 +83,7 @@ class Closings:
 
 
 def compute_cr(closings):
-    """Appendix B.3, the full cascade: (lines, result). A line is (ref, label, label_en, amount)."""
+    """Appendix B.3, the full cascade: (lines, result). A line is {ref, label, amount}."""
     income = lambda *prefixes: -closings.get(prefixes)  # noqa: E731
     charge = lambda *prefixes: closings.get(prefixes)  # noqa: E731
 
@@ -45,29 +107,50 @@ def compute_cr(closings):
     rq, rs = charge("87"), charge("89")
     xi = xg + xh - rq - rs
     lines = [
-        ("TA", "Ventes de marchandises", ta), ("RA", "Achats de marchandises", -ra),
-        ("RB", "Variation stocks marchandises", -rb), ("XA", "MARGE COMMERCIALE", xa),
-        ("TB", "Ventes de produits fabriqués", tb), ("TC", "Travaux, services vendus", tc),
-        ("TD", "Produits accessoires", td), ("XB", "CHIFFRE D'AFFAIRES", xb),
-        ("TE", "Production stockée", te), ("TF", "Production immobilisée", tf),
-        ("TG", "Subventions d'exploitation", tg), ("TH", "Autres produits", th),
-        ("TI", "Transferts de charges d'exploitation", ti), ("RC", "Achats de MP", -rc),
-        ("RD", "Variation stocks MP", -rd), ("RE", "Autres achats", -re_),
-        ("RF", "Variation stocks autres appro.", -rf), ("RG", "Transports", -rg),
-        ("RH", "Services extérieurs", -rh), ("RI", "Impôts et taxes", -ri), ("RJ", "Autres charges", -rj),
-        ("XC", "VALEUR AJOUTÉE", xc), ("RK", "Charges de personnel", -rk),
-        ("XD", "EXCÉDENT BRUT D'EXPLOITATION", xd), ("TJ", "Reprises d'exploitation", tj),
-        ("RL", "Dotations d'exploitation", -rl), ("XE", "RÉSULTAT D'EXPLOITATION", xe),
-        ("TK", "Revenus financiers", tk), ("TL", "Reprises financières", tl),
-        ("TM", "Transferts de charges financières", tm), ("RM", "Frais financiers", -rm),
-        ("RN", "Dotations financières", -rn), ("XF", "RÉSULTAT FINANCIER", xf),
-        ("XG", "RÉSULTAT DES ACTIVITÉS ORDINAIRES", xg), ("TN", "Produits des cessions", tn),
-        ("TO", "Autres produits HAO", to), ("RO", "Valeurs comptables des cessions", -ro),
-        ("RP", "Autres charges HAO", -rp), ("XH", "RÉSULTAT HAO", xh),
-        ("RQ", "Participation des travailleurs", -rq), ("RS", "Impôts sur le résultat", -rs),
-        ("XI", "RÉSULTAT NET", xi),
+        ("TA", ta),
+        ("RA", -ra),
+        ("RB", -rb),
+        ("XA", xa),
+        ("TB", tb),
+        ("TC", tc),
+        ("TD", td),
+        ("XB", xb),
+        ("TE", te),
+        ("TF", tf),
+        ("TG", tg),
+        ("TH", th),
+        ("TI", ti),
+        ("RC", -rc),
+        ("RD", -rd),
+        ("RE", -re_),
+        ("RF", -rf),
+        ("RG", -rg),
+        ("RH", -rh),
+        ("RI", -ri),
+        ("RJ", -rj),
+        ("XC", xc),
+        ("RK", -rk),
+        ("XD", xd),
+        ("TJ", tj),
+        ("RL", -rl),
+        ("XE", xe),
+        ("TK", tk),
+        ("TL", tl),
+        ("TM", tm),
+        ("RM", -rm),
+        ("RN", -rn),
+        ("XF", xf),
+        ("XG", xg),
+        ("TN", tn),
+        ("TO", to),
+        ("RO", -ro),
+        ("RP", -rp),
+        ("XH", xh),
+        ("RQ", -rq),
+        ("RS", -rs),
+        ("XI", xi),
     ]
-    return [{"ref": ref, "label": label, "amount": amount} for ref, label, amount in lines], xi
+    return [{"ref": ref, "label": CR_LABELS[ref], "amount": amount} for ref, amount in lines], xi
 
 
 def compute_bilan(closings, cr_result):
@@ -85,16 +168,8 @@ def compute_bilan(closings, cr_result):
     class15 = get(("1", "2", "3", "4", "5"))
     class68 = get(("6", "7", "8"))
     lines = [
-        ("AZ~", "Actif immobilisé net (2x, y compris 28/29)", "Net fixed assets (2x incl. 28/29)", fixed + financial),
-        ("BB", "Stocks et encours nets (3x)", "Net inventories and work in progress (3x)", stocks),
-        ("B~", "Tiers nets (4x — ventilés par signe à la présentation des états)", "Net third-party balances (4x — sign-split at FS presentation)", third - gap_assets),
-        ("BT~", "Trésorerie nette (5x)", "Net cash (5x)", cash),
-        ("BU", "Écart de conversion — Actif (478)", "Translation difference — assets (478)", gap_assets),
-        ("CP", "Capitaux propres (10–15, hors résultat)", "Equity (10–15, excluding the result)", equity),
-        ("CJ", "Résultat net de l'exercice (du CR)", "Net result for the year (from the income statement)", cr_result),
-        ("DF~", "Dettes financières (16–18)", "Financial debt (16–18)", debt),
-        ("DC", "Provisions pour risques et charges (19)", "Provisions for risks and charges (19)", provisions),
-        ("DV", "Écart de conversion — Passif (479)", "Translation difference — liabilities (479)", -gap_liabilities),
+        ("AZ~", fixed + financial), ("BB", stocks), ("B~", third - gap_assets), ("BT~", cash), ("BU", gap_assets),
+        ("CP", equity), ("CJ", cr_result), ("DF~", debt), ("DC", provisions), ("DV", -gap_liabilities),
     ]
     checks = [
         # a balanced TB: classes 1-8 sum to nil
@@ -102,7 +177,7 @@ def compute_bilan(closings, cr_result):
         # net assets of classes 1-5 equal the result, the P&L not being closed to 13x yet
         {"key": "bilan_equilibrium", "ok": abs(class15 - cr_result) < 1, "amount": class15 - cr_result},
     ]
-    return [{"ref": ref, "label": label, "labelEn": label_en, "amount": amount} for ref, label, label_en, amount in lines], checks
+    return [{"ref": ref, "label": BILAN_LABELS[ref], "amount": amount} for ref, amount in lines], checks
 
 
 def parse_client_fs(content):
