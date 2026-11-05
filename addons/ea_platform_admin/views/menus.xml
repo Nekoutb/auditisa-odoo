@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_root" name="Platform" sequence="1" web_icon="ea_platform_admin,static/description/icon.png"
+              groups="group_platform_viewer"/>
+    <menuitem id="menu_firms" name="Firms" parent="menu_root" action="action_firm_board" sequence="10"/>
+    <menuitem id="menu_attention" name="Needs attention" parent="menu_root" action="action_firm_attention" sequence="15"/>
+    <menuitem id="menu_new_firm" name="New firm" parent="menu_root" action="action_onboarding" sequence="20"
+              groups="group_platform_operator"/>
+    <menuitem id="menu_updates" name="Updates" parent="menu_root" sequence="30"/>
+    <menuitem id="menu_rollouts" name="Rollouts" parent="menu_updates" action="action_rollouts" sequence="10"/>
+    <menuitem id="menu_releases" name="Releases" parent="menu_updates" action="action_releases" sequence="20"/>
+    <menuitem id="menu_journal" name="Tracking" parent="menu_root" sequence="40"/>
+    <menuitem id="menu_jobs" name="Provisioning runs" parent="menu_journal" action="action_jobs" sequence="10"/>
+    <menuitem id="menu_log" name="Log" parent="menu_journal" action="action_log" sequence="20"/>
+    <menuitem id="menu_breakglass" name="Break-glass accesses" parent="menu_journal" action="action_breakglass" sequence="30"/>
+    <menuitem id="menu_settings" name="Settings" parent="menu_root" action="action_settings" sequence="90"
+              groups="group_platform_owner"/>
+</odoo>

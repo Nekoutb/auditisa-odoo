@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- While the provider is the dry run, every page says so: nothing here is a real server. -->
+    <template id="simulation_band" inherit_id="web.layout" name="Platform: simulation band">
+        <xpath expr="//body" position="inside">
+            <t t-set="ea_platform_simulation" t-value="request and request.env['ir.config_parameter'].sudo().get_param('ea_platform.provider', 'dry_run') != 'vultr'"/>
+            <div t-if="ea_platform_simulation" class="ea-platform-band" role="status"
+                 style="position:fixed;bottom:0;left:0;right:0;z-index:1060;height:22px;line-height:22px;text-align:center;background:#9c660e;color:#fff;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;overflow:hidden;pointer-events:none;">Simulation - no real server, no call to the provider</div>
+        </xpath>
+    </template>
+</odoo>

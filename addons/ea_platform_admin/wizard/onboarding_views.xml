@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_onboarding_form" model="ir.ui.view">
+        <field name="name">platform.onboarding.wizard.form</field>
+        <field name="model">platform.onboarding.wizard</field>
+        <field name="arch" type="xml">
+            <form string="New firm" class="o_ea_platform_form">
+                <field name="step" widget="statusbar" statusbar_visible="identity,technical,preflight" class="mb-3"/>
+                <group invisible="step != 'identity'">
+                    <group string="The firm">
+                        <field name="name" placeholder="Example Firm"/>
+                        <field name="slug" placeholder="example-firm"/>
+                        <field name="allowed_email_domains" placeholder="exemple.cm"/>
+                    </group>
+                    <group string="Its contact">
+                        <field name="contact_name"/>
+                        <field name="contact_email"/>
+                        <field name="contact_phone"/>
+                    </group>
+                </group>
+                <group invisible="step != 'technical'">
+                    <group string="The server">
+                        <field name="region"/>
+                        <field name="size"/>
+                        <field name="lang"/>
+                        <field name="release_id" options="{'no_create': True}"/>
+                    </group>
+                    <group string="This firm's key">
+                        <field name="ssh_public_key" placeholder="ssh-ed25519 AAAA..."/>
+                        <div colspan="2" class="text-muted">
+                            On your computer: <code>ssh-keygen -t ed25519 -f ~/.ssh/auditisa-SLUG</code>, then
+                            paste here the content of the <code>.pub</code> file. One key per firm. The private key stays with you.
+                        </div>
+                    </group>
+                </group>
+                <div invisible="step != 'preflight'">
+                    <div class="alert alert-warning" role="status"><field name="preview_mode" nolabel="1"/></div>
+                    <group>
+                        <group string="What will be created">
+                            <field name="name" readonly="1" string="Firm"/>
+                            <field name="preview_address"/>
+                            <field name="preview_server"/>
+                            <field name="preview_allowlist"/>
+                            <field name="contact_email" readonly="1" string="First administrator"/>
+                            <field name="release_id" readonly="1"/>
+                        </group>
+                        <group string="Estimated monthly cost">
+                            <field name="preview_server_cost"/>
+                            <field name="preview_storage_cost"/>
+                            <field name="preview_total_cost" class="fw-bold"/>
+                            <div colspan="2" class="text-muted small">
+                                Estimated from Vultr's public prices, to be confirmed on vultr.com before the first real firm.
+                            </div>
+                        </group>
+                    </group>
+                    <p>
+                        Time: 20 to 45 minutes. The first administrator will get a one-time link, never a password.
+                        If it fails, everything created is removed automatically.
+                    </p>
+                    <group>
+                        <field name="confirmed"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_back" type="object" string="Back" invisible="step == 'identity'"/>
+                    <button name="action_next" type="object" string="Continue" class="btn-primary" invisible="step == 'preflight'"/>
+                    <button name="action_confirm" type="object" string="Create the server" class="btn-primary" invisible="step != 'preflight'"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_onboarding" model="ir.actions.act_window">
+        <field name="name">New firm</field>
+        <field name="res_model">platform.onboarding.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

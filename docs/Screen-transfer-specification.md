@@ -3761,14 +3761,16 @@ The UAT workbook page (optional addon), the probe route, the `_*.js` ad-hoc scri
 
 ### E.7 Hosting of the build
 
-The Odoo target is a **dedicated staging server, test.auditisa.com**, separate from the VPS that hosts AuditISA DEV and PROD. Odoo builds, parity runs, migration rehearsals and UAT run there; nothing Odoo-related is installed on the AuditISA VPS. Consequences: migration rehearsals need a dump copied across from the AuditISA server and handled as client data on the new host (access, encryption, deletion after use); the Next.js application keeps serving the firm until cutover; and the production Odoo host remains to be decided (I-13). This review did not connect to or inspect test.auditisa.com, so its Odoo version and installed modules are unverified here.
+**Production (owner's decision, 2026-11-05): one dedicated server per client firm,** each with its own Odoo, PostgreSQL, filestore, secrets and address (`slug.auditisa.com`, or the firm's own domain), watched from a separate admin Odoo that holds health figures only. See `docs/decisions.md` and `docs/runbook/`.
+
+The build target remains a **dedicated staging server, test.auditisa.com**, separate from the VPS that hosts AuditISA DEV and PROD. Odoo builds, parity runs, migration rehearsals and UAT run there; nothing Odoo-related is installed on the AuditISA VPS. Consequences: migration rehearsals need a dump copied across from the AuditISA server and handled as client data on the new host (access, encryption, deletion after use), and the Next.js application keeps serving the firm until cutover. This review did not connect to or inspect test.auditisa.com, so its Odoo version and installed modules are unverified here.
 
 ## F. Data migration
 
 ### F.1 Principles
 
 1. **Source of truth** = a `pg_dump` of the production database `ea_audit` taken at cutover (production today runs 0d25ef0; its schema is behind DEV by the 2026-09-25 … 2026-11-03 migrations — the dump must first be upgraded to the DEV schema by applying those migrations on a copy, after repairing the `pgmigrations` order defect noted in the project memory). Document version bytes (`document_version.content`) and attachments are extracted to files.
-2. **One Odoo database per firm (tenant)** — see open decision I-1. The extraction script therefore runs once per `tenant` row, filtered by `tenant_id`, and loads into that firm's Odoo database. If the one-database multi-company variant is chosen instead, the same script runs with `company_id = <firm>` on one database.
+2. **One dedicated server, with one Odoo database, per firm (tenant)** — decision I-1. The extraction script therefore runs once per `tenant` row, filtered by `tenant_id`, and loads into that firm's server.
 3. **Identity mapping**: every source UUID is kept in an `ea_legacy_uuid` Char field (indexed) on every migrated model, and an `ea.audit.migration.map` table (model, legacy_uuid, res_id) is written during the load so relations are resolved in load order and the migration can be re-run idempotently.
 4. **Enums** map to Selection values with the same keys wherever possible (phase, roles, sign-off roles, opinion, complexity, standards edition, materiality status, CRA ir/cr …) so reports and tests keep their vocabulary.
 5. **Timestamps and authorship**: `created_at`/`updated_at` → `create_date`/`write_date` (set through SQL after load, because the ORM stamps "now"); `created_by` → `create_uid` where a user mapping exists.
@@ -3866,7 +3868,7 @@ Milestones: M1 end of phase 2 (gates 1 and 2 on migrated data), M2 end of phase 
 
 ### I.2 Open decisions for the firm owner
 
-- **I-1 Tenancy**: one Odoo database per firm (recommended) or one database with multi-company? Affects hosting, backups, record rules and the migration script.
+- **I-1 Tenancy**: decided 2026-11-05: one dedicated server per firm. See `docs/decisions.md`.
 - **I-2 Clients as `res.partner`**: link `ea.audit.client` to `res.partner` (enables contacts, portal users, future invoicing) or keep it standalone?
 - **I-3 DOCX round-trip**: keep Word check-out/check-in with in-browser preview (needs LibreOffice headless for PDF preview) or move narrative papers fully into the paper component with PDF output only?
 - **I-4 Immutability**: Python guards only, or Python guards + the existing Postgres triggers (recommended)?
@@ -3878,7 +3880,7 @@ Milestones: M1 end of phase 2 (gates 1 and 2 on migrated data), M2 end of phase 
 - **I-10 Scope cuts**: drop the UAT workbook, the marketing landing page, the GL analytics catalogue entries marked unavailable (25–28), the retired independence campaign and the SadBoard component (unused)?
 - **I-11 Parallel run**: how long should Next.js and Odoo run side by side, and which firm/engagements pilot first?
 - **I-12 Which plan governs**: this document or `Migration-plan-Odoo19.md` on module structure (six addons or one `ea_audit`), model prefix, tenancy and budget (129–190 pw or 45–60 pw plus testing)?
-- **I-13 Production host**: test.auditisa.com is the staging target; where does production Odoo run, and who may hold client data on the staging server during rehearsals?
+- **I-13 Production host**: decided 2026-11-05: each firm on its own server. See `docs/decisions.md`.
 
 ## J. Appendix — full route list
 

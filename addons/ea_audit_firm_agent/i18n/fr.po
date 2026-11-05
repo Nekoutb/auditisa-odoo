@@ -1,0 +1,186 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_firm_agent
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 12:51+0000\n"
+"PO-Revision-Date: 2026-11-05 12:51+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid ". Choose your password: nobody else will know it."
+msgstr ". Choisissez votre mot de passe : personne d'autre ne le connaîtra."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__account
+msgid "Account"
+msgstr "Compte"
+
+#. module: ea_audit_firm_agent
+#: model:ir.actions.server,name:ea_audit_firm_agent.cron_heartbeat_ir_actions_server
+msgid "AuditISA: heartbeat to the platform"
+msgstr "AuditISA : heartbeat vers la plateforme"
+
+#. module: ea_audit_firm_agent
+#: model:ir.actions.server,name:ea_audit_firm_agent.cron_access_log_ir_actions_server
+msgid "AuditISA: import the operator access log"
+msgstr "AuditISA : import du journal des accès opérateur"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__logged_at
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_agent__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ir_mail_server__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__event
+msgid "Event"
+msgstr "Événement"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_agent
+msgid "Heartbeat of this firm's server"
+msgstr "Heartbeat du serveur de ce cabinet"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_agent__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ir_mail_server__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "Login:"
+msgstr "Identifiant :"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ir_mail_server
+msgid "Mail Server"
+msgstr "Serveur de courrier"
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/ir_mail_server.py:0
+msgid "Mail closed"
+msgstr "Messagerie fermée"
+
+#. module: ea_audit_firm_agent
+#: model:ir.ui.menu,name:ea_audit_firm_agent.menu_ea_firm_access_log
+msgid "Operator access"
+msgstr "Accès de l'opérateur"
+
+#. module: ea_audit_firm_agent
+#: model:ir.actions.act_window,name:ea_audit_firm_agent.action_ea_firm_access_log
+#: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_access_log
+msgid "Operator access to this server"
+msgstr "Accès de l'opérateur à ce serveur"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "Password (at least 12 characters)"
+msgstr "Mot de passe (12 caractères au moins)"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "Repeat the password"
+msgstr "Répétez le mot de passe"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "Save and log in"
+msgstr "Enregistrer et me connecter"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__source
+msgid "Source address"
+msgstr "Adresse d'origine"
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/access_log.py:0
+msgid "The access log cannot be changed."
+msgstr "Le journal des accès ne se modifie pas."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/access_log.py:0
+msgid "The access log cannot be deleted."
+msgstr "Le journal des accès ne se supprime pas."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/controllers/first_admin.py:0
+msgid "The password must be at least %(length)s characters."
+msgstr "Le mot de passe doit faire au moins %(length)s caractères."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/controllers/first_admin.py:0
+msgid "The two entries do not match."
+msgstr "Les deux saisies ne correspondent pas."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/ir_mail_server.py:0
+msgid ""
+"This firm's mail is not open: enter a mail server and pass the connection "
+"test."
+msgstr "La messagerie de ce cabinet n'est pas ouverte : renseignez un serveur de courrier et réussissez le test de connexion."
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid ""
+"This link is no longer valid: it has been used or it has expired. Ask your "
+"AuditISA operator for a new one."
+msgstr "Ce lien n'est plus valable : il a déjà servi ou il a expiré. Demandez-en un nouveau à votre opérateur AuditISA."
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "This link works once."
+msgstr "Ce lien ne sert qu'une fois."
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "Welcome"
+msgstr "Bienvenue"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
+msgid "You are the first administrator of"
+msgstr "Vous êtes le premier administrateur de"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_settings_form" model="ir.ui.view">
+        <field name="name">platform.settings.form</field>
+        <field name="model">platform.settings</field>
+        <field name="arch" type="xml">
+            <form string="Platform settings" class="o_ea_platform_form" create="0" delete="0">
+                <!-- A page, not a dialog: a footer would not show. -->
+                <header>
+                    <button name="action_save" type="object" string="Apply these settings" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <p class="text-muted">
+                        No token is saved here. The Vultr token and the DNS token are in files only root can read,
+                        on this server: see PREREQUISITES.md.
+                    </p>
+                    <group>
+                        <group string="The provider">
+                            <field name="provider" widget="radio"/>
+                            <field name="confirm_real" invisible="provider != 'vultr'"/>
+                            <field name="vultr_os_id"/>
+                            <field name="vultr_storage_cluster"/>
+                            <field name="dns_zone_id"/>
+                        </group>
+                        <group string="The addresses">
+                            <field name="base_domain"/>
+                            <field name="heartbeat_url"/>
+                            <field name="release_base_url"/>
+                            <field name="ssh_allowlist" placeholder="your public IP address"/>
+                        </group>
+                    </group>
+                    <group string="Release signing">
+                        <field name="release_signing_public_key" nolabel="1" colspan="2" placeholder="-----BEGIN PUBLIC KEY-----"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">platform.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

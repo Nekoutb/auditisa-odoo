@@ -1,0 +1,3196 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_platform_admin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 12:53+0000\n"
+"PO-Revision-Date: 2026-11-05 12:53+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "\"%(slug)s\" is a name reserved by the platform."
+msgstr "« %(slug)s » est un nom réservé par la plateforme."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "%(count)s SSH login(s) with no entry in the break-glass log"
+msgstr "%(count)s connexion(s) SSH sans entrée au journal d'accès d'urgence"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+#: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+msgid "%(count)s days"
+msgstr "%(count)s jours"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "%(count)s h"
+msgstr "%(count)s h"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "%(count)s heartbeat(s) rejected in 24 hours"
+msgstr "%(count)s heartbeat(s) rejeté(s) en 24 h"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "%(count)s min"
+msgstr "%(count)s min"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "%(days)s days of retention. %(reason)s"
+msgstr "%(days)s jours de conservation. %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "%(firm)s: %(reason)s"
+msgstr "%(firm)s : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider.py:0
+msgid "%(method)s: simulated fault (temporary)"
+msgstr "%(method)s : panne simulée (temporaire)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "%(service)s refused %(call)s (%(status)s)."
+msgstr "%(service)s a refusé %(call)s (%(status)s)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "%(service)s: temporary error %(status)s."
+msgstr "%(service)s : erreur temporaire %(status)s."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "%(service)s: unreadable answer."
+msgstr "%(service)s : réponse illisible."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "%(step)s: %(what)s"
+msgstr "%(step)s : %(what)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "%(url)s: %(code)s (%(why)s)"
+msgstr "%(url)s : %(code)s (%(why)s)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "%(vcpu)s vCPU, %(ram)s GB memory, %(disk)s GB disk, %(region)s"
+msgstr "%(vcpu)s vCPU, %(ram)s Go de mémoire, %(disk)s Go de disque, %(region)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "%(what)s: %(reason)s"
+msgstr "%(what)s : %(reason)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "-----BEGIN PUBLIC KEY-----"
+msgstr "-----BEGIN PUBLIC KEY-----"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+msgid "100% sure"
+msgstr "100% sûr"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "<span class=\"o_stat_text\">Provisioning</span>"
+msgstr "<span class=\"o_stat_text\">Mise en service</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "<span>Backup</span>"
+msgstr "<span>Sauvegarde</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "<span>Disk</span>"
+msgstr "<span>Disque</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "<span>Engagements</span>"
+msgstr "<span>Missions</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "<span>Heartbeat</span>"
+msgstr "<span>Heartbeat</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "<span>Release</span>"
+msgstr "<span>Version</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "<span>Users</span>"
+msgstr "<span>Utilisateurs</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "<strong>ORPHAN SERVER: deal with this at once.</strong>"
+msgstr "<strong>SERVEUR ORPHELIN : à traiter tout de suite.</strong>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_rollout_form
+msgid "<strong>Rollout stopped at the first failure.</strong>"
+msgstr "<strong>Mise à jour arrêtée sur le premier échec.</strong>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid ""
+"<strong>The clean-up did not finish: resources remain and may be "
+"billed.</strong>"
+msgstr "<strong>Le nettoyage n'a pas abouti : des ressources restent et peuvent être facturées.</strong>"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid ""
+"A firm cannot be deleted: its slug and its log remain. It is archived "
+"through the exit procedure."
+msgstr "Un cabinet ne se supprime pas : son identifiant et son journal restent. Il s'archive par la procédure de sortie."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_form
+msgid ""
+"A release is built and signed on your computer with scripts/provision/build_release.sh.\n"
+"                        The private signing key never comes here: see UPDATING.md."
+msgstr "Une version se construit et se signe sur votre ordinateur avec scripts/provision/build_release.sh.\n                        La clé privée de signature ne vient jamais ici : voir UPDATING.md."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Access and heartbeats"
+msgstr "Accès et heartbeats"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_services
+msgid "Access to outside services"
+msgstr "Accès aux services extérieurs"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__action_text
+msgid "Action"
+msgstr "Action"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__action
+msgid "Action (source)"
+msgstr "Action (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_needaction
+msgid "Action Needed"
+msgstr "Action requise"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__state__active
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Active"
+msgstr "Actif"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_address
+msgid "Address"
+msgstr "Adresse"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Alert"
+msgstr "Alerte"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Alert: %(reasons)s"
+msgstr "Alerte : %(reasons)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+#: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+msgid "All is normal"
+msgstr "Tout est normal"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__allowed_email_domains
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__allowed_email_domains
+msgid "Allowed email domains"
+msgstr "Domaines de messagerie autorisés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__amber
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Amber"
+msgstr "Orange"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__region__ams
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__region__ams
+msgid "Amsterdam (Netherlands)"
+msgstr "Amsterdam (Pays-Bas)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Another rollout is running: only one at a time."
+msgstr "Une autre mise à jour est en cours : une seule à la fois."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__state__archived
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Archived"
+msgstr "Archivé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "At least one operator IP address is needed for port 22."
+msgstr "Au moins une adresse IP de l'opérateur est requise pour le port 22."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__attempts
+msgid "Attempts"
+msgstr "Tentatives"
+
+#. module: ea_platform_admin
+#: model:res.groups.privilege,name:ea_platform_admin.privilege_platform
+msgid "AuditISA Platform"
+msgstr "Plateforme AuditISA"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Automatic health check"
+msgstr "Contrôle de santé automatique"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__active
+msgid "Available"
+msgstr "Disponible"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mem_available_mb
+msgid "Available memory (MB)"
+msgstr "Mémoire disponible (Mo)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Back"
+msgstr "Retour"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Backup key is in the safe"
+msgstr "Clé de sauvegarde mise au coffre"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Backup key not yet confirmed as stored in the safe"
+msgstr "Clé de sauvegarde pas encore confirmée au coffre"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Backup key put in the safe (declared)"
+msgstr "Clé de sauvegarde mise au coffre (déclaration)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__backup_key_escrowed_at
+msgid "Backup key put in the safe on"
+msgstr "Clé de sauvegarde mise au coffre le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Backup late: the last one is %(age)s old"
+msgstr "Sauvegarde en retard : la dernière date de %(age)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Backup missed or failed"
+msgstr "Sauvegarde manquée ou en échec"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Backup missed: the last one is %(age)s old"
+msgstr "Sauvegarde manquée : la dernière date de %(age)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__storage_id
+msgid "Backup storage"
+msgstr "Stockage de sauvegarde"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_storage_cost
+msgid "Backup storage (USD/month)"
+msgstr "Stockage de sauvegarde (USD/mois)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_backup_ok
+msgid "Backup succeeded"
+msgstr "Sauvegarde réussie"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Backups"
+msgstr "Sauvegardes"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__base_domain
+msgid "Base domain"
+msgstr "Domaine de base"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__batch
+msgid "Batch"
+msgstr "Lot"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_rollout_line__batch
+msgid "Batch 0 is the canary firm."
+msgstr "Le lot 0 est le cabinet témoin."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__batch_size
+msgid "Batch size"
+msgstr "Taille des lots"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__slug
+msgid "Becomes the address: slug.auditisa.com. It never changes."
+msgstr "Devient l'adresse : identifiant.auditisa.com. Ne change plus jamais."
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_breakglass
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Break-glass access"
+msgstr "Accès d'urgence"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Break-glass access opened"
+msgstr "Accès d'urgence ouvert"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_breakglass
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__breakglass_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_breakglass
+msgid "Break-glass accesses"
+msgstr "Accès d'urgence"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__bundle_sha256
+msgid "Bundle digest (SHA-256)"
+msgstr "Empreinte du paquet (SHA-256)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__backup_key_escrowed_by
+msgid "By"
+msgstr "Par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_job__state__rollback_failed
+msgid "CLEAN-UP FAILED"
+msgstr "ÉCHEC DU NETTOYAGE"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "CLEAN-UP FAILED: resources remain"
+msgstr "ÉCHEC DU NETTOYAGE : ressources restantes"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__can_destroy
+msgid "Can be destroyed"
+msgstr "Destruction possible"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__destroy_after
+msgid "Can be destroyed from"
+msgstr "Destruction possible à partir du"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__canary_firm_id
+msgid "Canary firm"
+msgstr "Cabinet témoin"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_breakglass_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_destroy_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_offboard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_suspend_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid "Cancel and clean up"
+msgstr "Annuler et nettoyer"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__cancelled
+msgid "Cancelled"
+msgstr "Annulée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_job__state__rolled_back
+msgid "Cancelled, nothing remains"
+msgstr "Annulée, rien ne reste"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Certificate"
+msgstr "Certificat"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__cert_expires_on
+msgid "Certificate expiry"
+msgstr "Expiration du certificat"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Check refused: %(reason)s"
+msgstr "Contrôle refusé : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Checking the request"
+msgstr "Contrôle de la demande"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Choose a language."
+msgstr "Choisissez une langue."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Choose a region."
+msgstr "Choisissez une région."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Choose a size."
+msgstr "Choisissez une taille."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__city
+msgid "City"
+msgstr "Ville"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__closed_at
+msgid "Closed on"
+msgstr "Close le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__code
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__command
+msgid "Command to use"
+msgstr "Commande à utiliser"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__sha
+msgid "Commit"
+msgstr "Commit"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__contact_name
+msgid "Contact"
+msgstr "Contact"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Contact and address"
+msgstr "Contact et adresse"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__contact_email
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__contact_email
+msgid "Contact email"
+msgstr "E-mail du contact"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__contact_name
+msgid "Contact name"
+msgstr "Nom du contact"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_destroy_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Continue"
+msgstr "Continuer"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+msgid ""
+"Copy this link now and pass it to the firm's contact. It works once and "
+"expires on the date shown."
+msgstr "Copiez ce lien maintenant et transmettez-le au contact du cabinet. Il ne sert qu'une fois et expire à la date indiquée."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__country_id
+msgid "Country"
+msgstr "Pays"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Create the server"
+msgstr "Créer le serveur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Creating the server"
+msgstr "Création du serveur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "DNS"
+msgstr "DNS"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "DNS zone"
+msgstr "Zone DNS"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__dns_zone_id
+msgid "DNS zone (Cloudflare id)"
+msgstr "Zone DNS (identifiant Cloudflare)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Data export failed"
+msgstr "Export des données en échec"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__logged_at
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__lang
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__lang
+msgid "Default language"
+msgstr "Langue par défaut"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_destroy_form
+msgid "Destroy for good"
+msgstr "Détruire définitivement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_destroy_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Destroy the server"
+msgstr "Détruire le serveur"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_destroy_wizard
+msgid "Destroying a firm's server"
+msgstr "Destruction du serveur d'un cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Destruction INCOMPLETE"
+msgstr "Destruction INCOMPLÈTE"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Destruction incomplete"
+msgstr "Destruction incomplète"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__detail_text
+msgid "Detail"
+msgstr "Détail"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__detail
+msgid "Detail (source)"
+msgstr "Détail (source)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Digest %(digest)s"
+msgstr "Empreinte %(digest)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+#: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+msgid "Disk %(pct)s%% full"
+msgstr "Disque plein à %(pct)s %%"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__disk_total_gb
+msgid "Disk (GB)"
+msgstr "Disque (Go)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__disk_used_pct
+msgid "Disk used (%)"
+msgstr "Disque utilisé (%)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_services__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid ""
+"Do you confirm having copied this firm's backup key to your safe (see "
+"BACKUP-RESTORE)?"
+msgstr "Confirmez-vous avoir copié la clé de sauvegarde de ce cabinet dans votre coffre (voir BACKUP-RESTORE) ?"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__done
+msgid "Done"
+msgstr "Fait"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout__state__draft
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__engagements_active
+msgid "Engagements"
+msgstr "Missions"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__lang__en_us
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__lang__en_us
+msgid "English"
+msgstr "Anglais"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid ""
+"Estimated from Vultr's public prices, to be confirmed on vultr.com before "
+"the first real firm."
+msgstr "Estimation d'après le tarif public de Vultr, à confirmer sur vultr.com avant le premier cabinet réel."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Estimated monthly cost"
+msgstr "Coût mensuel estimé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__monthly_cost_usd
+msgid "Estimated monthly cost (USD)"
+msgstr "Coût mensuel estimé (USD)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_total_cost
+msgid "Estimated total (USD/month)"
+msgstr "Total estimé (USD/mois)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid ""
+"Everything created for this firm will be deleted at the provider. Continue?"
+msgstr "Tout ce qui a été créé pour ce cabinet sera supprimé chez le fournisseur. Continuer ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Example Firm"
+msgstr "Cabinet Exemple"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Exit"
+msgstr "Sortie"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__offboard_requested_at
+msgid "Exit requested on"
+msgstr "Sortie demandée le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__expires_at
+msgid "Expires on"
+msgstr "Expire le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__export_sha256
+msgid "Export digest"
+msgstr "Empreinte de l'export"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Export handed to the firm"
+msgstr "Export remis au cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Export handed to the firm (declared)"
+msgstr "Export remis au cabinet (déclaration)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__export_received_on
+msgid "Export handed to the firm on"
+msgstr "Export remis au cabinet le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__export_requested
+msgid "Export requested"
+msgstr "Export demandé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__export_state
+msgid "Export state"
+msgstr "État de l'export"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__export_at
+msgid "Exported on"
+msgstr "Export réalisé le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__failed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__failed
+msgid "Failed"
+msgstr "Échec"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_breakglass_wizard_form
+msgid ""
+"Fill this in BEFORE logging in. The firm's server counts each login: a login"
+" with no entry here turns the firm amber."
+msgstr "À remplir AVANT de vous connecter. Le serveur du cabinet compte chaque connexion : une connexion sans entrée ici fait passer le cabinet à l'orange."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_destroy_wizard__step__word
+msgid "Final confirmation"
+msgstr "Confirmation finale"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__finished_at
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_job__state__done
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout__state__done
+msgid "Finished"
+msgstr "Terminée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__finished_at
+msgid "Finished on"
+msgstr "Finie le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__firewall_id
+msgid "Firewall at the provider"
+msgstr "Pare-feu chez le fournisseur"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_firm
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__firm_id
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_log_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Firm"
+msgstr "Cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_rollout_line
+msgid "Firm in a rollout"
+msgstr "Cabinet d'une mise à jour"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__name
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Firm name"
+msgstr "Nom du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Firm resumed"
+msgstr "Reprise du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Firm suspended"
+msgstr "Cabinet suspendu"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__firm_informed
+msgid "Firm told"
+msgstr "Cabinet informé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Firm went live"
+msgstr "Cabinet mis en service"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_offboard_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_offboard_form
+msgid "Firm's exit"
+msgstr "Sortie du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Firm's exit started"
+msgstr "Sortie du cabinet lancée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Firm's update: %(outcome)s"
+msgstr "Mise à jour du cabinet : %(outcome)s"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_firm_board
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__firm_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_firms
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Firms"
+msgstr "Cabinets"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__firm_count
+msgid "Firms on this release"
+msgstr "Cabinets sur cette version"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__skipped
+msgid "Firms set aside"
+msgstr "Cabinets écartés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__skipped_raw
+msgid "Firms set aside (source)"
+msgstr "Cabinets écartés (source)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "First administrator"
+msgstr "Premier administrateur"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_first_admin_link
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__first_admin_token
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+msgid "First administrator's link"
+msgstr "Lien du premier administrateur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "First administrator's link shown"
+msgstr "Lien du premier administrateur affiché"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "First administrator's one-time link"
+msgstr "Lien à usage unique du premier administrateur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_offboard_form
+msgid ""
+"First confirmation. Nothing is destroyed here. The server exports the firm's data at its next heartbeat;\n"
+"                    destruction only becomes possible once the export is handed over and the retention period is over."
+msgstr "Première confirmation. Rien n'est détruit ici. Le serveur exporte les données du cabinet à son prochain heartbeat ;\n                    la destruction ne sera possible qu'après remise de l'export et fin de la durée de conservation."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (partenaires)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__region__fra
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__region__fra
+msgid "Frankfurt (Germany)"
+msgstr "Francfort (Allemagne)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__lang__fr_fr
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__lang__fr_fr
+msgid "French"
+msgstr "Français"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Give at least one allowed email domain."
+msgstr "Indiquez au moins un domaine de messagerie autorisé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "Go through the review screen first."
+msgstr "Passez d'abord par l'écran de vérification."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Go through the slug confirmation first."
+msgstr "Passez d'abord par la confirmation de l'identifiant."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Going live"
+msgstr "Mise en service"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__green
+msgid "Green"
+msgstr "Vert"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__grey
+msgid "Grey"
+msgstr "Gris"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "HTTPS certificate expired"
+msgstr "Certificat HTTPS expiré"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "HTTPS certificate missing or unreadable"
+msgstr "Certificat HTTPS absent ou illisible"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "HTTPS certificate: expires in %(days)s day(s)"
+msgstr "Certificat HTTPS : expire dans %(days)s jour(s)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Handing the export to the firm has not been confirmed."
+msgstr "La remise de l'export au cabinet n'a pas été confirmée."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__entry_hash
+msgid "Hash"
+msgstr "Empreinte"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_color
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Health"
+msgstr "Santé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Health check refused: %(problem)s"
+msgstr "Contrôle de santé refusé : %(problem)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "Health: {{0}}"
+msgstr "Santé : {{0}}"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__heartbeat_url
+msgid "Heartbeat receiving address"
+msgstr "Adresse de réception des heartbeats"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__heartbeat_token
+msgid "Heartbeat token"
+msgstr "Jeton de heartbeat"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__heartbeat_rejects_24h
+msgid "Heartbeats rejected (24 h)"
+msgstr "Heartbeats rejetés (24 h)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__confirmed
+msgid "I confirm the creation of this server and its estimated monthly cost."
+msgstr "Je confirme la création de ce serveur et son coût mensuel estimé."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+msgid "I have copied the link"
+msgstr "J'ai copié le lien"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__confirm_real
+msgid "I want to create real servers, billed by the provider."
+msgstr "Je veux créer de vrais serveurs, facturés par le fournisseur."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_services__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__server_ip
+msgid "IP address"
+msgstr "Adresse IP"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Identity"
+msgstr "Identité"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur d'envoi."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Install (Odoo, PostgreSQL, HTTPS, backups)"
+msgstr "Installation (Odoo, PostgreSQL, HTTPS, sauvegardes)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addon_release
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Installed release"
+msgstr "Version installée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Installing on the server: waiting for the first heartbeat."
+msgstr "Installation en cours sur le serveur : en attente du premier heartbeat."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Internal error: %(error)s"
+msgstr "Erreur interne : %(error)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Invalid IP address: \"%(address)s\"."
+msgstr "Adresse IP invalide : « %(address)s »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Invalid custom domain: \"%(domain)s\"."
+msgstr "Adresse propre invalide : « %(domain)s »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Invalid email domain: \"%(domain)s\"."
+msgstr "Domaine de messagerie invalide : « %(domain)s »."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_destroy_form
+msgid ""
+"Irreversible: the server, its disks, its backups and its address disappear. "
+"Only this record and its log remain."
+msgstr "Irréversible : le serveur, ses disques, ses sauvegardes et son adresse disparaissent. Seule cette fiche et son journal restent."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_is_follower
+msgid "Is Follower"
+msgstr "Est abonné"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Its contact"
+msgstr "Son contact"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__job_id
+msgid "Job"
+msgstr "Mise en service"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__region__jnb
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__region__jnb
+msgid "Johannesburg (South Africa)"
+msgstr "Johannesburg (Afrique du Sud)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Keys and references"
+msgstr "Clés et références"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__label
+msgid "Label"
+msgstr "Libellé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__size__large
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__size__large
+msgid "Large: over 30 users"
+msgstr "Grand : plus de 30 utilisateurs"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_ssh_at
+msgid "Last SSH login"
+msgstr "Dernière connexion SSH"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_backup_at
+msgid "Last backup"
+msgstr "Dernière sauvegarde"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_heartbeat_at
+msgid "Last heartbeat"
+msgstr "Dernier heartbeat"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_heartbeat_timestamp
+msgid "Last heartbeat timestamp"
+msgstr "Horodatage du dernier heartbeat"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__last_message
+msgid "Last message"
+msgstr "Dernier message"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__last_message_raw
+msgid "Last message (source)"
+msgstr "Dernier message (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_job_id
+msgid "Last provisioning run"
+msgstr "Dernière mise en service"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_reject_at
+msgid "Last rejection"
+msgstr "Dernier rejet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_reject_code
+msgid "Last rejection's reason"
+msgstr "Motif du dernier rejet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_restore_test_at
+msgid "Last restore test"
+msgstr "Dernier test de restauration"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__update_release
+msgid "Last update's release"
+msgstr "Version de la dernière mise à jour"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__state__offboarding
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Leaving"
+msgstr "Sortie en cours"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__legal_form
+msgid "Legal form"
+msgstr "Forme juridique"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__legal_name
+msgid "Legal name"
+msgstr "Raison sociale"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__first_admin_ready
+msgid "Link available"
+msgstr "Lien disponible"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__first_admin_revealed_at
+msgid "Link shown on"
+msgstr "Lien affiché le"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_log
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__log_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_log
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Log"
+msgstr "Journal"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__region__lhr
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__region__lhr
+msgid "London (United Kingdom)"
+msgstr "Londres (Royaume-Uni)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_enabled
+msgid "Mail open"
+msgstr "Messagerie ouverte"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_summary
+msgid "Main reason"
+msgstr "Motif principal"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mem_total_mb
+msgid "Memory (MB)"
+msgstr "Mémoire (Mo)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Memory: %(pct)s%% available"
+msgstr "Mémoire : %(pct)s %% disponible"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__message
+msgid "Message"
+msgstr "Message"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__message_raw
+msgid "Message (source)"
+msgstr "Message (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur d'envoi du message"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Missing setting: %(key)s"
+msgstr "Réglage manquant : %(key)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "Missing settings (Platform > Settings):"
+msgstr "Réglages manquants (Plateforme > Réglages) :"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_mode
+msgid "Mode"
+msgstr "Mode"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_firm_attention
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__needs_attention
+#: model:ir.ui.menu,name:ea_platform_admin.menu_attention
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Needs attention"
+msgstr "À surveiller"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_onboarding
+#: model:ir.model,name:ea_platform_admin.model_platform_onboarding_wizard
+#: model:ir.ui.menu,name:ea_platform_admin.menu_new_firm
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "New firm"
+msgstr "Nouveau cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "New firm confirmed"
+msgstr "Nouveau cabinet confirmé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/platform_services.py:0
+msgid "No DNS zone set."
+msgstr "Aucune zone DNS configurée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__timed_out
+msgid "No answer"
+msgstr "Sans réponse"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "No backup made"
+msgstr "Aucune sauvegarde réalisée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_firm_board
+msgid "No firm yet"
+msgstr "Aucun cabinet pour l'instant"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "No heartbeat"
+msgstr "Sans heartbeat"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+#: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+msgid "No heartbeat for %(age)s"
+msgstr "Aucun heartbeat depuis %(age)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "No heartbeat received"
+msgstr "Aucun heartbeat reçu"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "No object storage cluster set (ea_platform.vultr_storage_cluster)."
+msgstr "Aucune grappe de stockage objet configurée (ea_platform.vultr_storage_cluster)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "No operator address set for port 22."
+msgstr "Aucune adresse d'opérateur configurée pour le port 22."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid ""
+"No release is registered. Register a signed release first (Platform > "
+"Releases): see docs/runbook/UPDATING.md."
+msgstr "Aucune version n'est enregistrée. Enregistrez d'abord une version signée (Plateforme > Versions) : voir docs/runbook/UPDATING.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "No restore test made"
+msgstr "Aucun test de restauration réalisé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "No signed release has been chosen for this firm."
+msgstr "Aucune version signée n'a été choisie pour ce cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/platform_services.py:0
+msgid "No token given to this service (LoadCredential missing)."
+msgstr "Aucun jeton fourni à ce service (LoadCredential manquant)."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid ""
+"No token is saved here. The Vultr token and the DNS token are in files only root can read,\n"
+"                        on this server: see PREREQUISITES.md."
+msgstr "Aucun jeton ne s'enregistre ici. Le jeton Vultr et le jeton DNS sont dans des fichiers lisibles par root seul,\n                        sur ce serveur : voir PREREQUISITES.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Not a public address, for port 22: \"%(address)s\"."
+msgstr "Adresse non publique pour le port 22 : « %(address)s »."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__notes
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Notes"
+msgstr "Notes"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Nombre de messages demandant une action"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages avec une erreur d'envoi"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "ORPHAN SERVER: %(detail)s"
+msgstr "SERVEUR ORPHELIN : %(detail)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__vultr_storage_cluster
+msgid "Object storage cluster (Vultr id)"
+msgstr "Grappe de stockage objet (identifiant Vultr)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "Object storage not found at Vultr."
+msgstr "Stockage objet introuvable chez Vultr."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "Object storage not ready yet."
+msgstr "Stockage objet pas encore prêt."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__odoo_commit
+msgid "Odoo commit"
+msgstr "Commit d'Odoo"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Odoo must answer"
+msgstr "Odoo doit répondre"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__odoo_version
+msgid "Odoo version"
+msgstr "Version d'Odoo"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid ""
+"On your computer: <code>ssh-keygen -t ed25519 -f ~/.ssh/auditisa-SLUG</code>, then\n"
+"                            paste here the content of the <code>.pub</code> file. One key per firm. The private key stays with you."
+msgstr "Sur votre ordinateur : <code>ssh-keygen -t ed25519 -f ~/.ssh/auditisa-IDENTIFIANT</code>, puis\n                            collez ici le contenu du fichier <code>.pub</code>. Une clé par cabinet. La clé privée reste chez vous."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__allowed_email_domains
+msgid "One per line, for example exemple.cm"
+msgstr "Un par ligne, par exemple exemple.cm"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "One public key is expected, in ssh-ed25519 format."
+msgstr "Une seule clé publique est attendue, au format ssh-ed25519."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__link
+msgid "One-time link"
+msgstr "Lien à usage unique"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Only a cancelled provisioning run can be restarted."
+msgstr "Seule une mise en service annulée peut être relancée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Only a suspended firm can resume."
+msgstr "Seul un cabinet suspendu peut reprendre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Only an active firm can be suspended."
+msgstr "Seul un cabinet actif peut être suspendu."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Only an active or suspended firm can leave."
+msgstr "Seul un cabinet actif ou suspendu peut sortir."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Only for simulation firms."
+msgstr "Réservé aux cabinets de simulation."
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_breakglass_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_breakglass_wizard_form
+msgid "Open a break-glass access"
+msgstr "Ouvrir un accès d'urgence"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__opened_at
+msgid "Opened on"
+msgstr "Ouvert le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Operating system id (ea_platform.vultr_os_id) not set."
+msgstr "Identifiant du système (ea_platform.vultr_os_id) non configuré."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__user_id
+#: model:res.groups,name:ea_platform_admin.group_platform_operator
+msgid "Operator"
+msgstr "Opérateur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__ssh_allowlist
+msgid "Operator addresses for port 22"
+msgstr "Adresses de l'opérateur pour le port 22"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__note
+msgid "Operator notes"
+msgstr "Notes de l'opérateur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Operator notes. No audit data here."
+msgstr "Notes de l'opérateur. Aucune donnée d'audit ici."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__orphan_detail
+msgid "Orphan detail"
+msgstr "Détail de l'orphelin"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__orphan_detail_raw
+msgid "Orphan detail (source)"
+msgstr "Détail de l'orphelin (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__orphan_flag
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Orphan server"
+msgstr "Serveur orphelin"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "Orphan server detected"
+msgstr "Serveur orphelin détecté"
+
+#. module: ea_platform_admin
+#: model:res.groups,name:ea_platform_admin.group_platform_owner
+msgid "Owner"
+msgstr "Propriétaire"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__region__cdg
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__region__cdg
+msgid "Paris (France)"
+msgstr "Paris (France)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__contact_phone
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__contact_phone
+msgid "Phone"
+msgstr "Téléphone"
+
+#. module: ea_platform_admin
+#: model:ir.ui.menu,name:ea_platform_admin.menu_root
+msgid "Platform"
+msgstr "Plateforme"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__platform_host
+msgid "Platform address"
+msgstr "Adresse plateforme"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_log
+msgid "Platform log"
+msgstr "Journal de la plateforme"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_settings
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "Platform settings"
+msgstr "Réglages de la plateforme"
+
+#. module: ea_platform_admin
+#: model:ir.actions.server,name:ea_platform_admin.cron_run_jobs_ir_actions_server
+msgid "Platform: advance provisioning runs"
+msgstr "Plateforme : avancer les mises en service"
+
+#. module: ea_platform_admin
+#: model:ir.actions.server,name:ea_platform_admin.cron_rollouts_ir_actions_server
+msgid "Platform: advance rollouts"
+msgstr "Plateforme : avancer les mises à jour"
+
+#. module: ea_platform_admin
+#: model:ir.actions.server,name:ea_platform_admin.cron_health_ir_actions_server
+msgid "Platform: firm health and orphan servers"
+msgstr "Plateforme : santé des cabinets et serveurs orphelins"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_allowlist
+msgid "Port 22 open to"
+msgstr "Port 22 ouvert à"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__previous_hash
+msgid "Previous hash"
+msgstr "Empreinte précédente"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__previous_release_id
+msgid "Previous release"
+msgstr "Version précédente"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "Private key erased"
+msgstr "Clé privée effacée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__progress
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__line_ids
+msgid "Progress"
+msgstr "Avancement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__provider
+msgid "Provider"
+msgstr "Fournisseur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Provider firewall (22 restricted, 80, 443)"
+msgstr "Pare-feu du fournisseur (22 restreint, 80, 443)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "Provider out of reach (%(error)s)."
+msgstr "Fournisseur injoignable (%(error)s)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "Provider: %(before)s -> %(after)s"
+msgstr "Fournisseur : %(before)s -> %(after)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__state__provisioning
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Provisioning"
+msgstr "Mise en service"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Provisioning cancelled, full clean-up"
+msgstr "Mise en service annulée, nettoyage complet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Provisioning failed"
+msgstr "Mise en service en échec"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid ""
+"Provisioning failed and everything was removed: no server remains. The "
+"reason is on the failed step."
+msgstr "La mise en service a échoué et tout a été retiré : aucun serveur ne reste. Le motif figure à l'étape en échec."
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_provision_job
+msgid "Provisioning run"
+msgstr "Mise en service"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_jobs
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__job_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_jobs
+msgid "Provisioning runs"
+msgstr "Mises en service"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Provisioning started"
+msgstr "Mise en service lancée"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_provision_step
+msgid "Provisioning step"
+msgstr "Étape de mise en service"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Provisioning under way"
+msgstr "Mise en service en cours"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_public_key
+msgid "Public SSH key"
+msgstr "Clé publique SSH"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "REAL: a server will be created and billed by the provider."
+msgstr "RÉEL : un serveur sera créé et facturé par le fournisseur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "Range too wide for port 22: \"%(address)s\" (minimum /%(minimum)s)."
+msgstr "Plage trop large pour le port 22 : « %(address)s » (minimum /%(minimum)s)."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__provider__vultr
+msgid "Real: Vultr and Cloudflare"
+msgstr "Réel : Vultr et Cloudflare"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__reason
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_reason_raw
+msgid "Reason (source)"
+msgstr "Motif (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__stop_reason
+msgid "Reason for stopping"
+msgstr "Motif de l'arrêt"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__stop_reason_raw
+msgid "Reason for stopping (source)"
+msgstr "Motif de l'arrêt (source)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_breakglass_wizard_form
+msgid "Record the access"
+msgstr "Enregistrer l'accès"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__red
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Red"
+msgstr "Rouge"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__region
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__region
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Region"
+msgstr "Région"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_list
+msgid "Registered on"
+msgstr "Enregistrée le"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_release
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__release_id
+msgid "Release"
+msgstr "Version"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Release %(release)s"
+msgstr "Version %(release)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Release %(release)s, canary %(canary)s, %(count)s firm(s)"
+msgstr "Version %(release)s, témoin %(canary)s, %(count)s cabinet(s)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__release_locked
+msgid "Release locked"
+msgstr "Version verrouillée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "Release signing"
+msgstr "Signature des versions"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__release_signing_public_key
+msgid "Release signing public key"
+msgstr "Clé publique de signature des versions"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__release_id
+msgid "Release to install"
+msgstr "Version à installer"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_releases
+#: model:ir.ui.menu,name:ea_platform_admin.menu_releases
+msgid "Releases"
+msgstr "Versions"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__release_base_url
+msgid "Releases address"
+msgstr "Adresse des versions"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__requested
+msgid "Requested"
+msgstr "Demandée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__requested_at
+msgid "Requested on"
+msgstr "Demandée le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__desired_release_id
+msgid "Requested release"
+msgstr "Version demandée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Resources to check at the provider"
+msgstr "Ressources à vérifier chez le fournisseur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Restore test late: the last one is %(age)s old"
+msgstr "Test de restauration en retard : le dernier date de %(age)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Restore test missed or failed"
+msgstr "Test de restauration manqué ou en échec"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Restore test missed: the last one is %(age)s old"
+msgstr "Test de restauration manqué : le dernier date de %(age)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_restore_test_ok
+msgid "Restore test succeeded"
+msgstr "Test de restauration réussi"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid "Resume"
+msgstr "Reprendre"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__offboard_retention_days
+msgid "Retention (days)"
+msgstr "Durée de conservation (jours)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__retention_days
+msgid "Retention after the export (days)"
+msgstr "Durée de conservation après l'export (jours)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__revealed
+msgid "Revealed"
+msgstr "Affiché"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__step__preflight
+msgid "Review"
+msgstr "Vérification"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Rollback impossible: %(what)s"
+msgstr "Retour arrière impossible : %(what)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__rolled_back
+msgid "Rolled back"
+msgstr "Retour arrière"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_rollout
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__rollout_id
+msgid "Rollout"
+msgstr "Mise à jour"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Rollout STOPPED on failure"
+msgstr "Mise à jour ARRÊTÉE sur échec"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Rollout finished"
+msgstr "Mise à jour terminée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Rollout started"
+msgstr "Mise à jour lancée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Rollout stopped: %(reason)s"
+msgstr "Mise à jour arrêtée : %(reason)s"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_rollouts
+#: model:ir.ui.menu,name:ea_platform_admin.menu_rollouts
+msgid "Rollouts"
+msgstr "Déploiements"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid "Run the clean-up again"
+msgstr "Relancer le nettoyage"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid "Run the clean-up again, then see INCIDENT.md if it still fails."
+msgstr "Relancez le nettoyage, puis voir INCIDENT.md si l'échec persiste."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__running
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout__state__running
+msgid "Running"
+msgstr "En cours"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "SIMULATION: no server will be created and nothing will be billed."
+msgstr "SIMULATION : aucun serveur ne sera créé et rien ne sera facturé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "SSH key"
+msgstr "clé SSH"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_key_id
+msgid "SSH key at the provider"
+msgstr "Clé SSH chez le fournisseur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_key_fingerprint
+msgid "SSH key fingerprint"
+msgstr "Empreinte de la clé SSH"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_sessions_24h
+msgid "SSH logins (24 h)"
+msgstr "Connexions SSH (24 h)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "Apply these settings"
+msgstr "Appliquer ces réglages"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Security"
+msgstr "Sécurité"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_server
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Server"
+msgstr "Serveur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "Server %(id)s still at the provider"
+msgstr "Serveur %(id)s toujours chez le fournisseur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Server %(id)s still exists after being destroyed."
+msgstr "Le serveur %(id)s existe encore après sa destruction."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_server_cost
+msgid "Server (USD/month)"
+msgstr "Serveur (USD/mois)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Server destroyed, firm archived"
+msgstr "Serveur détruit, cabinet archivé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__server_id
+msgid "Server id"
+msgstr "Identifiant du serveur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__vultr_os_id
+msgid "Server operating system (Vultr id)"
+msgstr "Système du serveur (identifiant Vultr)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+#: model:ir.actions.act_window,name:ea_platform_admin.action_settings
+#: model:ir.ui.menu,name:ea_platform_admin.menu_settings
+msgid "Settings"
+msgstr "Réglages"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "Settings changed"
+msgstr "Réglages modifiés"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Show the first administrator's link"
+msgstr "Afficher le lien du premier administrateur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+msgid "Show the link"
+msgstr "Afficher le lien"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Simulate a heartbeat"
+msgstr "Simuler un heartbeat"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Simulate the export"
+msgstr "Simuler l'export"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_rollout_form
+msgid "Simulate the firms' answers"
+msgstr "Simuler les réponses des cabinets"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__is_simulation
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__is_simulation
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__provider__dry_run
+msgid "Simulation"
+msgstr "Simulation"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.simulation_band
+msgid "Simulation - no real server, no call to the provider"
+msgstr "Simulation - aucun serveur réel, aucun appel au fournisseur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Simulation firm: no real server exists behind this record."
+msgstr "Cabinet de simulation : aucun serveur réel n'existe derrière cette fiche."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__size
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__size
+msgid "Size"
+msgstr "Taille"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "Size %(size)s, region %(region)s, estimated cost %(cost)s USD/month"
+msgstr "Taille %(size)s, région %(region)s, coût estimé %(cost)s USD/mois"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__slug
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__slug
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__slug
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__slug
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_destroy_wizard__step__slug
+msgid "Slug"
+msgstr "Identifiant"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__size__small
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__size__small
+msgid "Small: up to 10 users"
+msgstr "Petit : jusqu'à 10 utilisateurs"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__size__standard
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__size__standard
+msgid "Standard: up to 30 users"
+msgstr "Standard : jusqu'à 30 utilisateurs"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+msgid "Start provisioning again"
+msgstr "Relancer la mise en service"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_offboard_form
+msgid "Start the exit"
+msgstr "Lancer la sortie"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_rollout_form
+msgid "Start: canary first"
+msgstr "Lancer : le témoin d'abord"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__started_at
+msgid "Started"
+msgstr "Début"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__started_by
+msgid "Started by"
+msgstr "Lancée par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__started_at
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_job_list
+msgid "Started on"
+msgstr "Lancée le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Starting the server"
+msgstr "Démarrage du serveur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__state
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "State"
+msgstr "État"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__step
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__step
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__label
+msgid "Step"
+msgstr "Étape"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__label_source
+msgid "Step (source)"
+msgstr "Étape (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__step_ids
+msgid "Steps"
+msgstr "Étapes"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout__state__stopped
+msgid "Stopped on failure"
+msgstr "Arrêtée sur échec"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__street
+msgid "Street address"
+msgstr "Adresse postale"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__healthy
+msgid "Succeeded"
+msgstr "Réussie"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_suspend_form
+msgid "Suspend"
+msgstr "Suspendre"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_suspend_wizard
+msgid "Suspend a firm"
+msgstr "Suspendre un cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_suspend_form
+msgid "Suspend this firm"
+msgstr "Suspendre ce cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__state__suspended
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+msgid "Suspended"
+msgstr "Suspendu"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__tax_number
+msgid "Tax number (NIU)"
+msgstr "N° contribuable (NIU)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "The addresses"
+msgstr "Les adresses"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "The batch size must be at least 1."
+msgstr "La taille des lots doit être d'au moins 1."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/breakglass.py:0
+msgid "The break-glass log cannot be changed."
+msgstr "Le journal d'accès d'urgence ne se modifie pas."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/breakglass.py:0
+msgid "The break-glass log cannot be deleted."
+msgstr "Le journal d'accès d'urgence ne se supprime pas."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release.py:0
+msgid "The bundle digest must be 64 hexadecimal characters."
+msgstr "L'empreinte du paquet doit faire 64 caractères hexadécimaux."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "The canary firm is already on this release: choose another."
+msgstr "Le cabinet témoin est déjà sur cette version : choisissez-en un autre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "The canary firm is not suitable: %(reason)s."
+msgstr "Le cabinet témoin ne convient pas : %(reason)s."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_rollout_form
+msgid "The canary firm will get the release at its next heartbeat. Continue?"
+msgstr "Le cabinet témoin recevra la version à son prochain heartbeat. Continuer ?"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release.py:0
+msgid "The commit must be 12 to 40 hexadecimal characters."
+msgstr "Le commit doit faire de 12 à 40 caractères hexadécimaux."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The contact's email is invalid."
+msgstr "L'e-mail du contact est invalide."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The contact's email must belong to an allowed domain."
+msgstr "L'e-mail du contact doit appartenir à un domaine autorisé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The contact's name is required."
+msgstr "Le nom du contact est obligatoire."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__ssh_public_key
+msgid ""
+"The content of the .pub file made on your computer for this firm. The "
+"private key stays with you: never paste it here."
+msgstr "Le contenu du fichier .pub créé sur votre ordinateur pour ce cabinet. La clé privée reste chez vous : ne la collez jamais ici."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "The export has not finished on the firm's server yet."
+msgstr "L'export n'est pas encore terminé sur le serveur du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "The export has not finished on the firm's server."
+msgstr "L'export n'est pas terminé sur le serveur du cabinet."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_rollout_form
+msgid ""
+"The failed firm is back on its previous release. The following firms "
+"received nothing."
+msgstr "Le cabinet en échec a repris sa version précédente. Les cabinets suivants n'ont rien reçu."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__step__identity
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "The firm"
+msgstr "Le cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__firm_informed
+msgid "The firm has been told"
+msgstr "Le cabinet a été informé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "The firm's SSH key at the provider"
+msgstr "Clé SSH du cabinet chez le fournisseur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "The firm's address (DNS)"
+msgstr "Adresse du cabinet (DNS)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__lang
+msgid ""
+"The firm's default language. Each user can then choose French or English in "
+"their preferences."
+msgstr "La langue par défaut du cabinet. Chaque utilisateur peut ensuite choisir le français ou l'anglais dans ses préférences."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The firm's name is required."
+msgstr "Le nom du cabinet est obligatoire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "The firm's own backup storage"
+msgstr "Stockage de sauvegarde propre au cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__custom_domain
+msgid "The firm's own domain"
+msgstr "Domaine propre du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The firm's own domain cannot be under %(domain)s."
+msgstr "L'adresse propre du cabinet ne peut pas être sous %(domain)s."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__ssh_public_key
+msgid "The firm's public SSH key"
+msgstr "Clé publique SSH du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The firm's public SSH key is required."
+msgstr "La clé publique SSH du cabinet est obligatoire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "The last backup failed"
+msgstr "La dernière sauvegarde a échoué"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "The last restore test failed"
+msgstr "Le dernier test de restauration a échoué"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__first_admin_expires_at
+msgid "The link expires on"
+msgstr "Le lien expire le"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+msgid ""
+"The link shows <strong>once only</strong>, then it is erased from here. Have"
+" your way of passing it to the firm ready (a call, encrypted messaging). Do "
+"not send it with the firm's name in a plain email."
+msgstr "Le lien ne s'affiche <strong>qu'une seule fois</strong>, puis il est effacé d'ici. Préparez le moyen de le transmettre au cabinet (appel, messagerie chiffrée). Ne l'envoyez pas avec le nom du cabinet dans un e-mail ouvert."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/platform_log.py:0
+msgid "The platform log cannot be changed."
+msgstr "Le journal de la plateforme ne se modifie pas."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/platform_log.py:0
+msgid "The platform log cannot be deleted."
+msgstr "Le journal de la plateforme ne se supprime pas."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "The provider"
+msgstr "Le fournisseur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "The provider is starting the server."
+msgstr "Le fournisseur démarre le serveur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The public SSH key cannot be read."
+msgstr "La clé publique SSH est illisible."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "The retention period is at least %(days)s days."
+msgstr "La durée de conservation est d'au moins %(days)s jours."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "The retention period runs until %(date)s."
+msgstr "La durée de conservation court jusqu'au %(date)s."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__step__technical
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "The server"
+msgstr "Le serveur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "The server has gone from the provider."
+msgstr "Le serveur a disparu chez le fournisseur."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_suspend_form
+msgid ""
+"The server is stopped: the firm can no longer reach its application. Its "
+"data stays in place and it can resume."
+msgstr "Le serveur est arrêté : le cabinet n'a plus accès à son application. Ses données restent en place et il peut reprendre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid ""
+"The service has not received the token \"%(name)s\". See "
+"docs/runbook/PREREQUISITES.md."
+msgstr "Le service n'a pas reçu le jeton « %(name)s ». Voir docs/runbook/PREREQUISITES.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The slug \"%(slug)s\" has already been given, even if to an archived firm."
+msgstr "L'identifiant « %(slug)s » a déjà été attribué, même à un cabinet archivé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The slug is required."
+msgstr "L'identifiant est obligatoire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid ""
+"The slug must be 3 to 32 characters: lower case letters, digits and hyphens,"
+" starting with a letter and not ending with a hyphen."
+msgstr "L'identifiant doit faire de 3 à 32 caractères : minuscules, chiffres et tirets, commencer par une lettre et ne pas finir par un tiret."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "The slug must not hold two hyphens in a row."
+msgstr "L'identifiant ne doit pas contenir deux tirets de suite."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "The slug typed does not match: nothing was done."
+msgstr "L'identifiant tapé ne correspond pas : rien n'a été fait."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "The token file is empty."
+msgstr "Le fichier de jeton est vide."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "The token must be a regular file."
+msgstr "Le jeton doit être un fichier ordinaire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid "This SSH key already serves another firm: each firm has its own."
+msgstr "Cette clé SSH sert déjà à un autre cabinet : chaque cabinet a la sienne."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "This address must start with https://: %(url)s"
+msgstr "Cette adresse doit commencer par https:// : %(url)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__release_locked
+msgid "This firm is left out of updates while this box is ticked."
+msgstr "Ce cabinet est exclu des mises à jour tant que cette case est cochée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "This firm is no longer being provisioned."
+msgstr "Ce cabinet n'est plus en cours de mise en service."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "This firm is not leaving."
+msgstr "Ce cabinet n'est pas en sortie."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "This firm's key"
+msgstr "La clé de ce cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/validation.py:0
+msgid ""
+"This is a PRIVATE key: it must never be pasted here. Erase it and paste the "
+"content of the .pub file."
+msgstr "Ceci est une clé PRIVÉE : elle ne doit jamais être collée ici. Effacez-la et collez le contenu du fichier .pub."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid ""
+"This link is no longer available: it has already been shown or it has "
+"expired. To make a new one, open a break-glass access then run firm-first-"
+"admin-link on the firm's server."
+msgstr "Ce lien n'est plus disponible : il a déjà été affiché ou il a expiré. Pour en créer un nouveau, ouvrez un accès d'urgence puis lancez firm-first-admin-link sur le serveur du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "This provisioning run can no longer be cancelled."
+msgstr "Cette mise en service ne peut plus être annulée."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_release_sha_unique
+msgid "This release is already registered."
+msgstr "Cette version est déjà enregistrée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "This rollout has already started."
+msgstr "Cette mise à jour est déjà lancée."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_firm_slug_unique
+msgid "This slug has already been given."
+msgstr "Cet identifiant a déjà été attribué."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "Tick the confirmation to go real."
+msgstr "Cochez la confirmation pour passer au réel."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "Tick the confirmation: nothing is created without it."
+msgstr "Cochez la confirmation : rien n'est créé sans elle."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Time limit passed: %(message)s"
+msgstr "Délai dépassé : %(message)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid ""
+"Time: 20 to 45 minutes. The first administrator will get a one-time link, never a password.\n"
+"                        If it fails, everything created is removed automatically."
+msgstr "Durée : de 20 à 45 minutes. Le premier administrateur recevra un lien à usage unique, jamais de mot de passe.\n                        En cas d'échec, tout ce qui a été créé est retiré automatiquement."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__pending
+msgid "To do"
+msgstr "À faire"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "To fill in before going real:"
+msgstr "À renseigner avant de passer au réel :"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "Token file cannot be read."
+msgstr "Fichier de jeton illisible."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "Token file not found on the control server."
+msgstr "Fichier de jeton introuvable sur le serveur de contrôle."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "Token file too open: only its owner may read it."
+msgstr "Fichier de jeton trop ouvert : seul son propriétaire doit pouvoir le lire."
+
+#. module: ea_platform_admin
+#: model:ir.ui.menu,name:ea_platform_admin.menu_journal
+msgid "Tracking"
+msgstr "Suivi"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__registration_number
+msgid "Trade register no. (RCCM)"
+msgstr "RCCM"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__typed_word
+msgid "Type DESTROY in capitals"
+msgstr "Tapez DESTROY en majuscules"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_actions.py:0
+msgid "Type exactly %(word)s: nothing was done."
+msgstr "Tapez exactement %(word)s : rien n'a été fait."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_destroy_wizard__typed_slug
+msgid "Type the firm's slug"
+msgstr "Tapez l'identifiant du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__typed_slug
+msgid "Type the firm's slug to confirm"
+msgstr "Tapez l'identifiant du cabinet pour confirmer"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_job__state__waiting
+msgid "Under way"
+msgstr "En cours"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__undone
+msgid "Undone"
+msgstr "Annulé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider.py:0
+msgid "Unknown storage: %(id)s"
+msgstr "Stockage inconnu : %(id)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Update cancelled by automatic rollback"
+msgstr "Mise à jour annulée par retour arrière automatique"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Update failed, rollback not confirmed"
+msgstr "Mise à jour en échec, retour arrière non confirmé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "Update requested from the firm"
+msgstr "Mise à jour demandée au cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__update_state
+msgid "Update state"
+msgstr "État de la mise à jour"
+
+#. module: ea_platform_admin
+#: model:ir.ui.menu,name:ea_platform_admin.menu_updates
+msgid "Updates"
+msgstr "Mises à jour"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_firm_board
+msgid "Use \"New firm\" to create the first server."
+msgstr "Lancez « Nouveau cabinet » pour créer le premier serveur."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__users_active
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: ea_platform_admin
+#: model:res.groups,name:ea_platform_admin.group_platform_viewer
+msgid "Viewer"
+msgstr "Lecteur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__pending
+msgid "Waiting"
+msgstr "En attente"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__address
+msgid "Web address"
+msgstr "Adresse web"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__activated_at
+msgid "Went live on"
+msgstr "Mis en service le"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "What it reports"
+msgstr "Ce qu'il annonce"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__leftovers
+msgid "What remains at the provider"
+msgstr "Ce qui reste chez le fournisseur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__leftovers_raw
+msgid "What remains at the provider (source)"
+msgstr "Ce qui reste chez le fournisseur (source)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "What will be created"
+msgstr "Ce qui sera créé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_log__user_id
+msgid "Who"
+msgstr "Qui"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__contact_email
+msgid "Will be the first administrator's login."
+msgstr "Sera l'identifiant du premier administrateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid ""
+"You pasted a PRIVATE key. It has been erased from this form without being "
+"saved. Paste the content of the .pub file."
+msgstr "Vous avez collé une clé PRIVÉE. Elle a été effacée de ce formulaire sans être enregistrée. Collez le contenu du fichier .pub."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/rollout.py:0
+msgid "already on this release"
+msgstr "déjà sur cette version"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "audit.cabinet.cm"
+msgstr "audit.cabinet.cm"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/__init__.py:0
+msgid ""
+"ea_platform_admin does not install in a firm's database. Modules found: "
+"%(modules)s"
+msgstr "ea_platform_admin ne s'installe pas dans la base d'un cabinet. Modules trouvés : %(modules)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "example-firm"
+msgstr "cabinet-exemple"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "exemple.cm"
+msgstr "exemple.cm"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "firewall"
+msgstr "pare-feu"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/rollout.py:0
+msgid "firm not active"
+msgstr "cabinet non actif"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/rollout.py:0
+msgid "last backup failed"
+msgstr "dernière sauvegarde en échec"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "mail is open when it must be closed"
+msgstr "la messagerie est ouverte alors qu'elle doit être fermée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "no address set"
+msgstr "aucune adresse réglée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "no address set (simulation)"
+msgstr "aucune adresse réglée (simulation)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/rollout.py:0
+msgid "no backup"
+msgstr "aucune sauvegarde"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "port 80 must redirect to HTTPS"
+msgstr "le port 80 doit rediriger vers HTTPS"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/rollout.py:0
+msgid "red health"
+msgstr "santé rouge"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/rollout.py:0
+msgid "release locked for this firm"
+msgstr "version verrouillée pour ce cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "server"
+msgstr "serveur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+msgid "simulation"
+msgstr "simulation"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "ssh-ed25519 AAAA..."
+msgstr "ssh-ed25519 AAAA..."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "storage"
+msgstr "stockage"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "the HTTPS certificate is not there yet"
+msgstr "le certificat HTTPS n'est pas encore là"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "the database manager must be closed"
+msgstr "le gestionnaire de bases doit être fermé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "the login page must answer"
+msgstr "la page de connexion doit répondre"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "the server does not report the requested release"
+msgstr "le serveur n'annonce pas la version demandée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "to check at the provider"
+msgstr "à vérifier chez le fournisseur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "your public IP address"
+msgstr "votre adresse IP publique"

@@ -1,0 +1,32 @@
+{
+    "name": "AuditISA Plateforme",
+    "summary": "Control plane: every firm's dedicated server, seen from one separate Odoo. Never install in a firm's database.",
+    "version": "19.0.1.0.0",
+    "category": "Administration",
+    "license": "LGPL-3",
+    "author": "AuditISA",
+    "application": True,
+    # No ea_audit_* here, ever: this instance holds health figures only. A test checks it.
+    "depends": ["base", "web", "mail"],
+    "pre_init_hook": "refuse_firm_database",
+    "data": [
+        "security/platform_security.xml",
+        "security/ir.model.access.csv",
+        "data/platform_data.xml",
+        "views/webclient_templates.xml",
+        "views/firm_views.xml",
+        "views/job_views.xml",
+        "views/release_views.xml",
+        "views/log_views.xml",
+        "wizard/onboarding_views.xml",
+        "wizard/firm_action_views.xml",
+        "wizard/settings_views.xml",
+        "views/menus.xml",
+    ],
+    "assets": {
+        "web.assets_backend": [
+            "ea_platform_admin/static/src/scss/platform.scss",
+        ],
+    },
+    "installable": True,
+}

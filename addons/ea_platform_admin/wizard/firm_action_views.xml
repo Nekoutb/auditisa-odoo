@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_suspend_form" model="ir.ui.view">
+        <field name="name">platform.suspend.wizard.form</field>
+        <field name="model">platform.suspend.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Suspend this firm">
+                <p>The server is stopped: the firm can no longer reach its application. Its data stays in place and it can resume.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Suspend" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_breakglass_wizard_form" model="ir.ui.view">
+        <field name="name">platform.breakglass.wizard.form</field>
+        <field name="model">platform.breakglass.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Open a break-glass access">
+                <p>Fill this in BEFORE logging in. The firm's server counts each login: a login with no entry here turns the firm amber.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="reason"/>
+                    <field name="firm_informed"/>
+                    <field name="command" readonly="1" widget="CopyClipboardChar"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Record the access" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_first_admin_link_form" model="ir.ui.view">
+        <field name="name">platform.first.admin.link.form</field>
+        <field name="model">platform.first.admin.link</field>
+        <field name="arch" type="xml">
+            <form string="First administrator's link">
+                <field name="revealed" invisible="1"/>
+                <div invisible="revealed">
+                    <p>The link shows <strong>once only</strong>, then it is erased from here. Have your way of passing it to the firm ready (a call, encrypted messaging). Do not send it with the firm's name in a plain email.</p>
+                    <group><field name="firm_id"/></group>
+                </div>
+                <div invisible="not revealed">
+                    <p>Copy this link now and pass it to the firm's contact. It works once and expires on the date shown.</p>
+                    <group>
+                        <field name="link" widget="CopyClipboardChar"/>
+                        <field name="expires_at"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_reveal" type="object" string="Show the link" class="btn-primary" invisible="revealed"/>
+                    <button name="action_close" type="object" string="I have copied the link" class="btn-primary" invisible="not revealed"/>
+                    <button special="cancel" string="Cancel" invisible="revealed"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_offboard_form" model="ir.ui.view">
+        <field name="name">platform.offboard.wizard.form</field>
+        <field name="model">platform.offboard.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Firm's exit">
+                <div class="alert alert-warning" role="alert">
+                    First confirmation. Nothing is destroyed here. The server exports the firm's data at its next heartbeat;
+                    destruction only becomes possible once the export is handed over and the retention period is over.
+                </div>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="slug"/>
+                    <field name="retention_days"/>
+                    <field name="reason"/>
+                    <field name="typed_slug"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Start the exit" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_destroy_form" model="ir.ui.view">
+        <field name="name">platform.destroy.wizard.form</field>
+        <field name="model">platform.destroy.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Destroy the server">
+                <field name="step" invisible="1"/>
+                <div class="alert alert-danger" role="alert">
+                    Irreversible: the server, its disks, its backups and its address disappear. Only this record and its log remain.
+                </div>
+                <group invisible="step != 'slug'">
+                    <field name="firm_id"/>
+                    <field name="slug"/>
+                    <field name="typed_slug"/>
+                </group>
+                <group invisible="step != 'word'">
+                    <field name="firm_id"/>
+                    <field name="typed_word"/>
+                </group>
+                <footer>
+                    <button name="action_next" type="object" string="Continue" class="btn-primary" invisible="step != 'slug'"/>
+                    <button name="action_destroy" type="object" string="Destroy for good" class="btn-danger" invisible="step != 'word'"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

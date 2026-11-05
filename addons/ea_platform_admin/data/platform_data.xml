@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Simulation until the owner switches on the real provider, in Platform > Settings. -->
+        <record id="param_provider" model="ir.config_parameter">
+            <field name="key">ea_platform.provider</field>
+            <field name="value">dry_run</field>
+        </record>
+        <record id="param_base_domain" model="ir.config_parameter">
+            <field name="key">ea_platform.base_domain</field>
+            <field name="value">auditisa.com</field>
+        </record>
+    </data>
+    <record id="cron_run_jobs" model="ir.cron">
+        <field name="name">Platform: advance provisioning runs</field>
+        <field name="model_id" ref="model_platform_provision_job"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_run_jobs()</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+    </record>
+    <record id="cron_health" model="ir.cron">
+        <field name="name">Platform: firm health and orphan servers</field>
+        <field name="model_id" ref="model_platform_firm"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_watch()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+    </record>
+    <record id="cron_rollouts" model="ir.cron">
+        <field name="name">Platform: advance rollouts</field>
+        <field name="model_id" ref="model_platform_rollout"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_advance()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+    </record>
+</odoo>
