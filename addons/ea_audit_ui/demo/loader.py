@@ -16,6 +16,7 @@ state or a task's scope by hand.
   put on the file with _ea_ensure_task, which is the method a trigger uses.
 """
 import logging
+import os
 from datetime import date, timedelta
 
 from odoo import api, fields, models
@@ -152,7 +153,7 @@ class _Demo:
 
     def mission(self, client_xmlid, year, partner, complexity):
         client = self.env.ref(client_xmlid)
-        return self.env["ea.audit.engagement"].with_user(partner).create({
+        engagement = self.env["ea.audit.engagement"].with_user(partner).create({
             "client_id": client.id,
             "fiscal_year": year,
             "period_end": date(year, 12, 31),
@@ -161,6 +162,24 @@ class _Demo:
             "complexity": complexity,
             "engagement_partner_id": partner.id,
         }).sudo()
+        self.seat_tester(engagement)
+        return engagement
+
+    def seat_tester(self, engagement):
+        """EA_DEMO_TESTER_LOGIN, on a staging build only: whoever tests there is seated from the start,
+        because nobody can join an archived file afterwards. The account has no password here."""
+        login = os.environ.get("EA_DEMO_TESTER_LOGIN")
+        if not login:
+            return
+        Users = self.env["res.users"].sudo().with_context(no_reset_password=True, mail_create_nosubscribe=True)
+        user = Users.search([("login", "=", login)], limit=1) or Users.create({
+            "name": "Testeur", "login": login, "email": login, "lang": "fr_FR", "tz": "Africa/Douala",
+            "group_ids": [(4, self.env.ref("base.group_user").id), (4, self.env.ref("ea_audit_core.group_firm_admin").id)],
+        })
+        self.env["ea.audit.team.member"].sudo().create({
+            "engagement_id": engagement.id, "user_id": user.id, "team_role": "director", "state": "accepted",
+            "responded_at": fields.Datetime.now(),
+        })
 
     def seat_team(self, engagement):
         for user, role in self.team:
