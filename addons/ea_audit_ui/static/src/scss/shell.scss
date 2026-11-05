@@ -24,9 +24,24 @@ body.ea-shell {
   .o-mail-ChatHub { display: none !important; }
 
   .o_action_manager { background: var(--ea-canvas); }
-  .o_action:has(.o_ea_hub) .o_content,
-  .o_action:has(.o_ea_hub) .o_kanban_renderer,
-  .o_action:has(.o_ea_hub) .o_control_panel { background: var(--ea-canvas); border: 0; }
+  .o_view_controller:has(.o_ea_hub),
+  .o_view_controller:has(.o_ea_hub) .o_content,
+  .o_view_controller:has(.o_ea_hub) .o_kanban_renderer,
+  .o_view_controller:has(.o_ea_hub) .o_control_panel { background: var(--ea-canvas); border: 0; }
+
+  // Odoo's own forms and wizards wear the firm's emerald, not the default violet.
+  .btn-primary {
+    --btn-bg: var(--ea-green);
+    --btn-border-color: var(--ea-green);
+    --btn-hover-bg: #0b5a46;
+    --btn-hover-border-color: #0b5a46;
+    --btn-active-bg: #0b5a46;
+    --btn-active-border-color: #0b5a46;
+    background-color: var(--ea-green);
+    border-color: var(--ea-green);
+  }
+  .btn-primary:hover { background-color: #0b5a46; border-color: #0b5a46; }
+  .o_form_view .o_field_radio input:checked { background-color: var(--ea-green); border-color: var(--ea-green); }
   // Odoo's own lists and forms keep clear of the bar.
   .o_action_manager > .o_action > .o_control_panel,
   .o_action_manager > .o_view_controller > .o_control_panel { margin-top: 10px; }
