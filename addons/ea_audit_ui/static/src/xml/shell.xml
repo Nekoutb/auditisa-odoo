@@ -105,10 +105,6 @@
                 <button type="button" class="ea-lang-b" t-att-class="{on: language === 'en_US'}" t-att-aria-pressed="language === 'en_US' ? 'true' : 'false'" t-on-click="() => this.setLanguage('en_US')">EN</button>
                 <button type="button" class="ea-lang-b" t-att-class="{on: language === 'fr_FR'}" t-att-aria-pressed="language === 'fr_FR' ? 'true' : 'false'" t-on-click="() => this.setLanguage('fr_FR')">FR</button>
             </div>
-            <div class="ea-lang" role="group" aria-label="Language">
-                <button type="button" class="ea-lang-b" t-att-class="{on: language === 'en_US'}" t-att-aria-pressed="language === 'en_US' ? 'true' : 'false'" t-on-click="() => this.setLanguage('en_US')">EN</button>
-                <button type="button" class="ea-lang-b" t-att-class="{on: language === 'fr_FR'}" t-att-aria-pressed="language === 'fr_FR' ? 'true' : 'false'" t-on-click="() => this.setLanguage('fr_FR')">FR</button>
-            </div>
             <div class="ea-who"><t t-esc="shell.name"/><small t-esc="shell.role"/></div>
             <div class="ea-av" t-esc="shell.initials"/>
             <a class="ea-out" href="/web/session/logout" aria-label="Sign out">
