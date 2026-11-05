@@ -7,6 +7,7 @@ from odoo.addons.ea_audit_core.services.signoff_rules import can_partner_signoff
 from odoo.addons.ea_audit_core.services.phases import phase_still_open
 
 from ..rules import rule_error
+from ..services.lead_classes import INDEX_SECTION
 from ..services.assertions import clean_assertions
 from ..services.lead_classes import LEAD_INDEX_BY_CODE
 from ..services.risk_model import MGMT_OVERRIDE_PROCEDURE, PRESUMED_SEED, PRESUMED_TITLES, inherent_rating, risk_title
@@ -185,7 +186,28 @@ class Risk(models.Model):
                 "engagement_id": as_root.engagement_id.id, "risk_id": as_root.id,
                 "index_code": index_code, "assertion_ids": [(6, 0, tags.ids)],
             })
+        # The account's paper is where the response lives: a program generated for it finds the risk.
+        task = INDEX_SECTION.get(index_code)
+        item = self.env["ea.audit.file.item"].sudo().search(
+            [("engagement_id", "=", as_root.engagement_id.id), ("code", "=", task)], limit=1,
+        ) if task else None
+        if item:
+            Section = self.env["ea.audit.risk.section"].sudo()
+            if not Section.search_count([("risk_id", "=", as_root.id), ("file_item_id", "=", item.id)]):
+                Section.create({
+                    "engagement_id": as_root.engagement_id.id, "risk_id": as_root.id,
+                    "file_item_id": item.id, "assertion_ids": [(6, 0, tags.ids)],
+                })
         return True
+
+    def action_open_step_link(self):
+        """The planned response, picked from the file's program."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "name": self.env._("Link a program step"), "res_model": "ea.audit.risk.step.wizard",
+            "view_mode": "form", "target": "new",
+            "context": {"default_risk_id": self.id, "default_engagement_id": self.sudo().engagement_id.id},
+        }
 
     def unlink_index(self, index_code):
         self.ensure_one()
@@ -497,4 +519,18 @@ class StepWizard(models.TransientModel):
             self.step_id.mark_na(self.text)
         else:
             self.step_id.complete(self.text)
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
+
+
+class RiskStepWizard(models.TransientModel):
+    _name = "ea.audit.risk.step.wizard"
+    _description = "Link a risk to a program step"
+
+    risk_id = fields.Many2one("ea.audit.risk", required=True)
+    engagement_id = fields.Many2one("ea.audit.engagement", required=True)
+    step_id = fields.Many2one("ea.audit.program.step", string="Program step", required=True, domain="[('engagement_id', '=', engagement_id)]")
+
+    def action_link(self):
+        self.ensure_one()
+        self.risk_id.link_step(self.step_id)
         return {"type": "ir.actions.client", "tag": "soft_reload"}
