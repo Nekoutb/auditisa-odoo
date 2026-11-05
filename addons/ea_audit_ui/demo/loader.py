@@ -138,7 +138,7 @@ def _tb_csv(opening, closing):
         before = opening.get(code, 0)
         movement = closing.get(code, 0) - before
         lines.append(";".join(str(cell) for cell in (
-            code, _ACCOUNTS[code], max(before, 0), max(-before, 0), max(movement, 0), max(-movement, 0),
+            code, _d(*_ACCOUNTS[code]), max(before, 0), max(-before, 0), max(movement, 0), max(-movement, 0),
         )))
     return ("\n".join(lines) + "\n").encode("utf-8")
 
