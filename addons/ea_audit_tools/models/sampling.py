@@ -104,6 +104,8 @@ class EngagementSampling(models.Model):
         Control = self.env["ea.audit.scot.control"].sudo()
         Run = self.env["ea.audit.automation.run"].sudo()
         for engagement in self:
+            # first: the prerequisites sync the CRA, whose writes would drop a value already assigned here
+            prerequisites = engagement._ea_tool_prerequisites()
             approved = engagement._ea_approved_materiality()
             selected = Control.search([("engagement_id", "=", engagement.id), ("selected_for_testing", "=", True)])
             engagement.sampling_te_label = fcfa(approved.performance) if approved else "—"
@@ -114,7 +116,7 @@ class EngagementSampling(models.Model):
                 Markup("<span class='o_ea_chip {css} me-2'>{label}</span>").format(
                     css="o_ea_chip_good" if item["ok"] else "o_ea_chip_warn", label=item["label"],
                 )
-                for item in engagement._ea_tool_prerequisites()
+                for item in prerequisites
             )
 
     def _ea_tool_prerequisites(self):
