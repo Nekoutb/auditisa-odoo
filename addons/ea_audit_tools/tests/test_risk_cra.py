@@ -346,7 +346,7 @@ class TestCra(ToolsCase):
             ["index", "assertion", "relevant", "ir", "cr", "cr_basis"],
             ["E", "RO", "yes", "lower", "not_rely", ""],
         ]))
-        self.assertEqual(self.cell("E", "RO").level, "low")
+        self.assertEqual(self.cell("E", "RO").level, "moderate")
         self.assertCode("invalid-assertion", self.as_staff.ea_import_xlsx, "cra", "c.csv", b"index;assertion\nE;Z\n")
         self.assertCode("invalid-value", self.as_staff.ea_import_xlsx, "cra", "c.csv", b"index;assertion;ir\nE;C;maybe\n")
 

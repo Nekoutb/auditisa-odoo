@@ -174,8 +174,9 @@ def sad_workbook(view, fr):
     )
 
     def add(sheet, values):
+        # sheet[n] spans the whole sheet's width: keep to the cells of this row
         sheet.append(values)
-        return sheet[sheet.max_row]
+        return sheet[sheet.max_row][:len(values)]
 
     def band(sheet, title):
         sheet.page_setup.orientation = "landscape"
