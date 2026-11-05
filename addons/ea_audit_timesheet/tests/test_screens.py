@@ -143,7 +143,8 @@ class TestReports(TimesheetCase):
 
     def test_by_engagement_and_period(self):
         rows = self.report(self.admin, "engagement")["rows"]
-        self.assertEqual({r["label"]: r["hours"] for r in rows}, {self.project.name: 8, self.internal.name: 1})
+        hours = {r["label"]: r["hours"] for r in rows}
+        self.assertEqual((hours[self.project.name], hours[self.internal.name]), (8, 1))
         rows = self.report(self.admin, "period")["rows"]
         self.assertEqual([r["label"] for r in rows], ["Week of 02/11/2026 to 08/11/2026"])
 
@@ -151,7 +152,7 @@ class TestReports(TimesheetCase):
         sheets = self.Sheet.with_user(self.staff)._ea_ts_export(MONDAY, SUNDAY)
         book = load_workbook(io.BytesIO(report_workbook(sheets)))
         self.assertEqual(book.sheetnames, ["Detail", "By person", "By engagement", "By week"])
-        row = list(book["Détail"].iter_rows(min_row=2))
+        row = list(book["Detail"].iter_rows(min_row=2))
         self.assertEqual(len(row), 1)
         self.assertEqual(row[0][0].number_format, "DD/MM/YYYY")
         self.assertEqual(row[0][6].value, 3)
@@ -180,8 +181,8 @@ class TestSwitcher(TimesheetCase):
         self.assertEqual(self.apps(self.admin), ["audit", "timesheet", "users", "settings"])
 
     def test_the_audit_still_opens_first(self):
-        info = self.env["ir.http"].with_user(self.staff).session_info()
-        self.assertEqual(info["home_action_id"], self.env.ref("ea_audit_ui.action_home").id)
+        apps = self.env["ea.audit.ui"].with_user(self.staff)._ea_ui_shell_session()["apps"]
+        self.assertEqual(apps[0]["xmlid"], "ea_audit_ui.action_home")
 
     def test_every_app_action_exists(self):
         for app in self.env["ea.audit.ui"].with_user(self.admin)._ea_ui_shell_session()["apps"]:

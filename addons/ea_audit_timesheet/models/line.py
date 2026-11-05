@@ -36,7 +36,7 @@ class AccountAnalyticLine(models.Model):
                     raise refuse(self.env, "ts-own-lines-only")
         users._ea_ts_ensure_employee()
         lines = super().create(vals_list)
-        lines.filtered("project_id")._ea_ts_enforce()
+        lines.sudo().filtered("project_id").with_env(self.env)._ea_ts_enforce()
         return lines
 
     def write(self, vals):
@@ -46,15 +46,15 @@ class AccountAnalyticLine(models.Model):
         if "unit_amount" in vals and self.sudo().filtered("project_id"):
             self._ea_ts_check_range(vals["unit_amount"])
         before = self.sudo().filtered("project_id")
-        before._ea_ts_assert_may_change()
+        before.with_env(self.env)._ea_ts_assert_may_change()
         result = super().write(vals)
         if "project_id" in vals and before.filtered(lambda line: not line.project_id):
             raise refuse(self.env, "ts-project-required")
-        self.filtered("project_id")._ea_ts_enforce()
+        self.sudo().filtered("project_id").with_env(self.env)._ea_ts_enforce()
         return result
 
     def unlink(self):
-        self.sudo().filtered("project_id")._ea_ts_assert_may_change()
+        self.sudo().filtered("project_id").with_env(self.env)._ea_ts_assert_may_change()
         return super().unlink()
 
     # ------------------------------------------------------------------
