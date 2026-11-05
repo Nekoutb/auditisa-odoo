@@ -31,7 +31,7 @@ class TestToolBackedPapers(WiringCase):
         self.assertEqual(self.gap("S1.3"), "walkthrough-incomplete")
         from ..services.scot_forms import WALKTHROUGH_FIELDS
 
-        self.scot.write({field["key"]: "Décrit." for field in WALKTHROUGH_FIELDS})
+        self.scot.write({field["key"]: "yes" if field.get("kind") == "yn" else "Décrit." for field in WALKTHROUGH_FIELDS})
         self.assertIsNone(self.gap("S1.3"))
 
     def test_s21_and_s22_read_the_selection_and_the_design(self):

@@ -301,7 +301,10 @@ class _Demo:
         purchases = as_senior.create_scot("Achats et fournisseurs", "routine", "substantive", "Logiciel comptable", "De la commande au règlement.")
         purchases.link_index("N", ["C", "A"])
         purchases.add_wcgw("Une facture fournisseur est enregistrée deux fois.", ["E"])
-        answers = {field["key"]: "Décrit lors de l'entretien avec le directeur financier." for field in WALKTHROUGH_FIELDS}
+        answers = {
+            field["key"]: "yes" if field.get("kind") == "yn" else "Décrit lors de l'entretien avec le directeur financier."
+            for field in WALKTHROUGH_FIELDS
+        }
         (sales | purchases).write(answers)
         engagement._ea_sync_it_applications()
         for application in self.env["ea.audit.it.application"].sudo().search([("engagement_id", "=", engagement.id), ("removed", "=", False)]):
