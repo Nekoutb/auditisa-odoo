@@ -30,15 +30,15 @@ Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only t
 | A22 | Weekday, lag and matrix load every raw row into memory, in no stated order | Read in batches of 2 000 by row number | RAM. "First readable pair of a journal" is therefore in file order. |
 | A23 | No Excel export of an analytic | Extract to Excel on the analytics tab, logged like every export | The brief. |
 | A24 | Walkthrough and close-process answers are key-value rows; `invalid-key` guards the keys | Real fields on the SCOT and on `ea.audit.fscp`, the same 14 and 18 questions; a stray field is `invalid-field` | Native forms. Blank clears, as in the source. |
-| A25 | Control coverage also reads `control_test` rows until E1.2 concludes | Reads the E1.2 conclusion and the design only | `control_test` belongs to the papers. Until they feed it, an inconclusive control counts as neither effective nor failed. |
-| A26 | The S2.5 conclusion is an answer on the paper | `itgc_state` on the engagement, set by `save_itgc_conclusion` | The CRA needs it now. The papers addon should write through that method. |
+| A25 | Control coverage also reads `control_test` rows until E1.2 concludes | Same, since the second integration: `ea.audit.control.test` with `record_test`, a deviation carrying its decision and its consequence | A control with no test and no conclusion counts as neither effective nor failed. |
+| A26 | The S2.5 conclusion is an answer on the paper | The answer on the paper and `itgc_state` on the engagement are one: each writes the other, once | The CRA reads the field; the paper's history and hash read the answer. |
 | A27 | `todPreview` and `musPreview` return `{ok: false, error}` | They raise the same codes | One way of refusing. |
 | A28 | Engine worksheets are filed as a versioned document on the paper | Kept on the run and downloadable from it | The document model belongs to the papers addon. |
 | A29 | Reconcile is disabled when the E4 paper is not on the file | The method also refuses `recon-task-missing` | A disabled button is not a control. |
-| A30 | PBC upload exists only on the portal | The firm can also record a document received; `upload_pbc` is what the portal will call | The portal addon is not built. Its checks are the same. |
-| A31 | An accepted PBC becomes a document and version | An `ir.attachment` on the task | As A28. |
-| A32 | Portal contacts are user accounts with an invitation | `ea.audit.portal.contact` records who receives requests; the account and invitation wait for the portal | No mail from this addon. Requests and chases are on the trail only: nobody is notified yet. |
-| A33 | The firm's SAP percentages are on the tenant, with a settings screen | `ir.config_parameter` through `set_thresholds`, firm administrators only, **no screen yet** | One database per firm. A settings screen is to be added. |
+| A30 | PBC upload exists only on the portal | The firm can also record a document received, through the same method, and its bytes land where a contact's do | Paper originals still reach the firm. Please confirm, now the portal exists. |
+| A31 | An accepted PBC becomes a document and version | The same when `ea_audit_portal` is installed; an `ir.attachment` on the task when only the tools are | The document model is in the reports addon. |
+| A32 | Portal contacts are user accounts with an invitation | The same with `ea_audit_portal`, which extends the tools' model. The link is shown to whoever created the contact, who passes it on | No mail on staging. |
+| A33 | The firm's SAP percentages are on the tenant, with a settings screen | `ir.config_parameter` through `set_thresholds`, firm administrators only; screen under Firm settings and on the SAP board | One database per firm. |
 | A34 | The template download is a CSV of headers | An `.xlsx` of the same headers | Lists and Excel. |
 | A35 | The E3.1, ToD and ToC workbooks have a long fixed layout | Same tabs and data, condensed text and layout. E1.1 ITGC and the full E1.2 workbook are not ported: the register and samples export instead | Economy. The firm should check the condensed papers before relying on them. |
 | A36 | Eight templates, OHADA checklist and E1.1 included | The E1 and E3 blanks, the four shipped E4 papers, and a generic paper per other E4 task. The checklist and E1.1 are not offered | The checklist's 36 notes need their own port. |
@@ -85,7 +85,7 @@ Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only t
 | B34 | `musPreview` sizes at TE/3, `planTod` from the audit-risk table | Two sizes for one population. |
 | B35 | `todPreview` needs a single amount column; `todSideView` also takes a debit/credit pair (UAT B30 fixed one of them) | The preview refuses a ledger the workbook reads. |
 | B36 | ToD reads the raw rows, rejected lines included; JE selection and the analytics read the projection | The populations can differ on one ledger. |
-| B37 | **`stableStartFraction` hashes the engagement id. Ids change at migration (UUID to integer), so a migrated file draws a different ToD sample from the same ledger** | Previously drawn samples will not reproduce. Decide before migrating: keep the old UUID for the hash, or accept. |
+| B37 | **`stableStartFraction` hashes the engagement id. Ids change at migration (UUID to integer), so a migrated file draws a different ToD sample from the same ledger** | **Pending the owner's ruling.** Until then today's behaviour stays, and the migration rule is recorded below: a migrated file keeps the samples it drew. Only a new draw after migration differs. |
 | B38 | Redraw after testing goes by team rank; deletions by firm role | A firm senior seated as staff can delete a control but not redraw. |
 | B39 | A CRA not assessed is the tightest for SAP (high), and moderate for ToD | One gap, two defaults. |
 | B40 | A reconciliation difference reads red above 0.5 but raises a finding only above clearly trivial, and through route b4, not b5 | A small visible difference with no record. |
@@ -94,11 +94,23 @@ Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only t
 | B43 | A firm-wide holiday can be added by any writer | A firm setting without a firm role. |
 | B44 | Editing a walkthrough or control always voids S1.x and S2.x signatures here; the source compares content hashes | Stricter, until the papers addon brings hashes (see section C). |
 
+## Migration rule on drawn samples (B37, pending the owner's ruling)
+
+The start point of a ToD plan stays `stable_start_fraction(str(engagement id), index, ledger sha)`. The migration script must carry each file's drawn ToD and ToC samples across as data and must not redraw them, so what was tested on a migrated file stays what was tested. A plan worked out again on that file after migration starts elsewhere, because its id changed. If the owner rules that it must reproduce, the old UUID has to be stored on the engagement and read here instead of the id.
+
+## Second integration: what changed behind the ported rules
+
+- **E4 scope (F010).** `_ea_e4_out_of_scope` reads S5.5: an E4 task is left out while it holds an account nothing was designed on, is not started and has no step. Nothing is written, so a design brings it back. Lists, the Forms tile and `tasks_addressed` all read it. **Stricter than the source on the lists, looser on the gate:** the source still counted such a task as untouched at the archive, though no list showed it. Please confirm.
+- **`tasks_addressed`.** A paper its preparer signed is not untouched, even with no answer stored: P7.2 keeps its answers on its summary.
+- **Steps.** `complete` and `uncomplete` (completeStep) were missing from the first port, so a programme could never close from the screens. They are on the Programs list now. Field work is not refused before execution for `mark_na`, as in the source.
+- **No separate "close execution".** As in the source, `issue_report` moves execution to conclusion, under the completion gates, and `archive_engagement` moves conclusion to archived. A step between them would open C6.x before the report, which `phase_still_open` holds back. Both are on the engagement's form and the conclusion board.
+- **`controls_concluded`.** Open is design not evaluated, or no test recorded. An imported E1.2 grid with tested rows counts as the record of the test, which the source's rows did not, since the grid is how results arrive here (I-6).
+
 ## C. Reduced, or not built
 
 - Notifications: revisions, risk additions, SCOT assignment and PBC requests go on the chatter only. No mail from this addon.
-- SAD entries are entered on the tool until the papers addon feeds them from step results.
+- SAD entries are entered on the tool, not fed from step results.
 - GL volume on P6.2, adjusting journals, `_ea_carry_forward_from`: not built.
 - S3.1 and the SCOT papers void live signatures on any saved change; the platform compares content hashes, which arrive with the papers addon.
 - The E1.2 test grid is imported from Excel, not edited on screen (decision I-6).
-- Review notes, forms and the OHADA register tiles remain greyed: not in this milestone.
+- The hub's last three tiles are live. The review-notes tile is a list with no reply box: a note is answered on its paper.

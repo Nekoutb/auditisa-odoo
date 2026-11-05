@@ -45,8 +45,8 @@ Behaviour found while porting `lib/report.ts`, `letters.ts`, `legal.ts`, `alerte
 
 ## Depends on work elsewhere
 
-31. **`controls_concluded` reads nothing yet.** The controls register (SCOT, control tests) is not on `dev`. `_ea_open_control_rows` returns no row, so this gate is green until `feat/tools2` extends it. The file can archive without it: wire it before pilot.
-32. **FS tie-out is reduced.** `run_fs_tieout` checks the balance and the equilibrium of the closings only. The SIG cascade and the comparison with the client's statements (`clientDiffs` of `lib/fs-tieout.ts`) are not ported. If `feat/tools2` brings them, override `_ea_fs_tieout`.
+31. **`controls_concluded` is wired.** `_ea_open_control_rows` names each selected control with no design evaluation or no test. An imported E1.2 grid with tested rows counts as the test: to confirm.
+32. **FS tie-out is the source's.** `services/fs_tieout.py` ports the SIG cascade, the bilan aggregates and `clientDiffs`; the conclusion board and E6.10 show them, and E6.10's "column N agrees" is refused while differences stand. The TFT is out of scope, as in the source.
 33. **Final analytical review is reduced.** The record stores the 30 largest closings; `lib/analytics.ts` lines are not ported.
 34. **`_ea_paper_is_complete` for C4.1 and C6.2** uses the papers' completeness on the resolved definition, the same call as signing.
 35. **I-4 is still open.** The port installs database triggers on the evidence tables (`ea_audit_archive_lock`) in addition to the Python guards, as the specification recommends. A test elsewhere that writes to a row of a file it has archived by hand now fails at the database; `ea_audit_core`'s archived-file test does not, because Python refuses first.

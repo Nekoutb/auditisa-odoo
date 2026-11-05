@@ -244,6 +244,8 @@ class EngagementSampling(models.Model):
                 "thresholdFromS31": threshold is not None, "assurance": assurance,
                 "plan": plan_tod({
                     "lines": lines, "te": te_index, "threshold": threshold_index, "cra": cra or DEFAULT_CRA, "assurance": assurance,
+                    # B37, owner's ruling pending: the id changes at migration, so a migrated file keeps the
+                    # samples it drew as data, and only a plan worked out afterwards starts elsewhere.
                     "startFraction": start_fraction if start_fraction is not None else stable_start_fraction(str(self.id), code, sha),
                 }),
             })
