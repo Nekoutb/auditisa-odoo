@@ -64,16 +64,24 @@ export class EaDashboard extends Component {
         return this.ctx.openItem(id);
     }
 
+    openNotes() {
+        const ids = this.state.data.notes.note_item_ids;
+        if (ids.length === 1) {
+            return this.ctx.openItem(ids[0]);
+        }
+        return ids.length ? this.ctx.openItems(ids, "Notes de revue pour moi") : undefined;
+    }
+
+    openTool(method) {
+        return this.ctx.openTool(this.engagementId, method);
+    }
+
     openUnassigned() {
         return this.ctx.openItems(this.state.data.unassigned_ids, "Tâches sans préparateur");
     }
 
     openClient() {
         return this.ctx.openForm("ea.audit.client", this.state.data.mission.client_id);
-    }
-
-    dash(value) {
-        return value === null || value === undefined ? "—" : value;
     }
 }
 

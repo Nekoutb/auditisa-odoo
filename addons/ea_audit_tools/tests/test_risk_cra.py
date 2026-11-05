@@ -55,7 +55,7 @@ class TestSignificance(ToolsCase):
         self.assertTrue(row.unjustified)
         self.assertEqual(self.engagement.sudo().significance_unjustified, 1)
         item = self.item(self.engagement, "P6.2")
-        self.assertEqual(item._ea_paper_refusal("preparer"), "significance-unjustified")
+        self.assertEqual(item._ea_tool_gap(), "significance-unjustified")
         row.write({"justification": "Key to the covenants."})
         self.engagement.sudo().invalidate_recordset()
         self.assertFalse(item._ea_paper_refusal("preparer"))

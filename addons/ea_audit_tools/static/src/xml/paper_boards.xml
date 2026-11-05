@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.ToolBoard">
+        <div class="o_ea_board" t-if="state.board" data-eap="tool-board">
+            <dl class="o_ea_board_facts" t-if="state.board.facts.length">
+                <div t-foreach="state.board.facts" t-as="fact" t-key="fact_index">
+                    <dt t-esc="fact.label"/>
+                    <dd t-esc="fact.value"/>
+                </div>
+            </dl>
+            <table class="table table-sm o_ea_board_table" t-if="state.board.rows.length">
+                <thead><tr><th t-foreach="state.board.head" t-as="head" t-key="head_index" t-esc="head"/></tr></thead>
+                <tbody>
+                    <tr t-foreach="state.board.rows" t-as="row" t-key="row_index">
+                        <td t-foreach="row" t-as="cell" t-key="cell_index" t-esc="cell"/>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-muted" t-if="!state.board.rows.length and !state.board.facts.length" t-esc="state.board.empty"/>
+            <div class="o_ea_board_links">
+                <button t-foreach="state.board.links" t-as="link" t-key="link_index" type="button" class="btn btn-secondary btn-sm"
+                        t-on-click="() => this.open(link)" t-esc="link.label"/>
+            </div>
+        </div>
+    </t>
+</templates>

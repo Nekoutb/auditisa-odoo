@@ -1,0 +1,53 @@
+.eap-ras-tiers {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.eap-ras-tier {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1px solid #e2e6ea;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.eap-ras-section h4 {
+    margin: 14px 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.eap-ras-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px;
+    gap: 14px;
+    padding: 8px 0;
+    border-top: 1px solid #eef0f2;
+    font-size: 13px;
+}
+
+.eap-ras-text small {
+    display: block;
+    margin-top: 2px;
+}
+
+.eap-ras-answer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+@media (max-width: 768px) {
+    .eap-ras-tiers {
+        grid-template-columns: 1fr;
+    }
+
+    .eap-ras-line {
+        grid-template-columns: 1fr;
+    }
+}

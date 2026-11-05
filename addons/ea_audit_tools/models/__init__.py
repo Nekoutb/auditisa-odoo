@@ -9,3 +9,4 @@ from . import cra
 from . import finding
 from . import sad
 from . import tool_tile
+from . import paper_hooks

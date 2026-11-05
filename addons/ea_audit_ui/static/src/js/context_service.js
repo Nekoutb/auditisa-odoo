@@ -13,6 +13,7 @@ const UI_MODEL = "ea.audit.ui";
  */
 const contextService = {
     dependencies: ["orm", "action"],
+    // openItem opens the paper: the renderer of ea_audit_papers, inside this top bar.
     start(env, { orm, action }) {
         const state = reactive({
             mission: null,
@@ -78,11 +79,17 @@ const contextService = {
             },
             openItem(itemId) {
                 return action.doAction({
-                    type: "ir.actions.act_window",
-                    res_model: "ea.audit.file.item",
-                    res_id: itemId,
-                    views: [[false, "form"]],
+                    type: "ir.actions.client",
+                    tag: "ea_audit_paper",
+                    name: "Papier de travail",
+                    params: { file_item_id: itemId },
+                    context: { active_id: itemId },
                 });
+            },
+            /** A method of the engagement that returns the action of a tool. */
+            async openTool(engagementId, method) {
+                const description = await orm.call("ea.audit.engagement", method, [[engagementId]]);
+                return action.doAction(description);
             },
             openItems(itemIds, name) {
                 return action.doAction({
@@ -110,8 +117,24 @@ const contextService = {
             /** Keeps the top bar right when a form or a list opens by another road. */
             async syncFromController() {
                 const controller = action.currentController;
-                if (controller?.action?.type !== "ir.actions.act_window") {
+                const current = controller?.action;
+                const enter = async (model, id) => {
+                    const mission = await call("ea_ui_context", model, id);
+                    if (mission) {
+                        state.mission = mission;
+                        state.screen = "mission";
+                    }
+                };
+                if (current?.tag === "ea_audit_paper") {
+                    const itemId = Number(current.params?.file_item_id || current.context?.active_id);
+                    return itemId ? enter("ea.audit.file.item", itemId) : undefined;
+                }
+                if (current?.type !== "ir.actions.act_window") {
                     return;
+                }
+                const toolEngagement = current.context?.ea_engagement_id;
+                if (toolEngagement) {
+                    return enter("ea.audit.engagement", toolEngagement);
                 }
                 const { resModel, resId, type } = controller.props;
                 if (resModel === "ea.audit.engagement" && type !== "form") {

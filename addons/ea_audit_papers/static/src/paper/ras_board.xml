@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_papers.RasBoard">
+        <div class="eap-ras" t-if="state.view" data-eap="ras-board">
+            <div class="eap-ras-tiers">
+                <div class="eap-ras-tier" t-foreach="state.view.tiers" t-as="tier" t-key="tier.role" t-att-data-role="tier.role">
+                    <b t-esc="pick(tier)"/>
+                    <small t-if="tier.signature"><t t-esc="tier.signature.name"/></small>
+                    <small t-elif="tier.gaps.length" class="eap-muted"><t t-esc="fr ? 'Manque :' : 'Missing:'"/> <t t-esc="tier.gaps.slice(0, 5).join(', ')"/><t t-if="tier.gaps.length > 5">…</t></small>
+                    <button t-if="!tier.signature and tier.allowed" type="button" class="btn btn-primary btn-sm"
+                            t-att-disabled="tier.gaps.length ? true : false" t-on-click="() => this.sign(tier)" t-esc="fr ? 'Signer' : 'Sign'"/>
+                    <button t-if="tier.signature and tier.allowed" type="button" class="btn btn-secondary btn-sm"
+                            t-on-click="() => this.sign(tier, true)" t-esc="fr ? 'Retirer' : 'Withdraw'"/>
+                </div>
+            </div>
+            <section t-foreach="state.view.sections" t-as="section" t-key="section.letter" class="eap-ras-section">
+                <h4>Section <t t-esc="section.letter"/></h4>
+                <div class="eap-ras-line" t-foreach="section.items" t-as="item" t-key="item.key" t-att-data-key="item.key">
+                    <div class="eap-ras-text">
+                        <span t-esc="pick(item)"/>
+                        <small class="eap-muted" t-if="item.tasks.length">
+                            <t t-foreach="item.tasks" t-as="task" t-key="task.code"><code t-esc="task.code"/> <t t-esc="stateWord(task.state)"/><t t-if="!task_last"> · </t></t>
+                        </small>
+                    </div>
+                    <div class="eap-ras-answer">
+                        <select class="form-select form-select-sm" t-att-disabled="!section.editable"
+                                t-on-change="(ev) => this.save(item.key, ev.target.value)">
+                            <option value="" t-att-selected="!item.answer">—</option>
+                            <option value="yes" t-att-selected="item.answer === 'yes'" t-esc="fr ? 'Oui' : 'Yes'"/>
+                            <option value="no" t-att-selected="item.answer === 'no'" t-esc="fr ? 'Non' : 'No'"/>
+                            <option value="na" t-att-selected="item.answer === 'na'">N/A</option>
+                        </select>
+                        <input t-if="item.answer === 'no'" class="form-control form-control-sm" t-att-disabled="!section.editable"
+                               t-att-placeholder="fr ? 'Expliquez' : 'Explain'" t-att-value="item.why"
+                               t-on-change="(ev) => this.save(item.key + '_x', ev.target.value)"/>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </t>
+</templates>

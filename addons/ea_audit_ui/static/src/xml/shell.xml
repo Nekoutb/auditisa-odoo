@@ -68,6 +68,10 @@
                 </div>
             </div>
 
+            <button t-if="inMission" type="button" class="ea-ic" aria-label="Outils" title="Outils de la mission" t-on-click="openTools">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </button>
+
             <div class="ea-anchor" data-ea-panel="bell">
                 <button type="button" class="ea-ic" aria-label="Notifications" t-att-aria-expanded="state.open === 'bell' ? 'true' : 'false'" t-on-click="toggleBell">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
@@ -194,7 +198,7 @@
 
                 <div class="ea-strip" t-if="d.attention.length">
                     <b>À TRAITER</b>
-                    <a t-foreach="d.attention" t-as="chip" t-key="chip.id" class="ea-chip" href="#" role="button" t-att-class="{r: chip.tone === 'r'}"
+                    <a t-foreach="d.attention" t-as="chip" t-key="chip_index" class="ea-chip" href="#" role="button" t-att-class="{r: chip.tone === 'r'}"
                        t-on-click.prevent="() => this.openItem(chip.id)">
                         <code t-esc="chip.code"/><t t-esc="chip.title"/>, <t t-esc="chip.text"/>
                     </a>
@@ -211,10 +215,10 @@
                     </div>
                     <div class="ea-card ea-tile">
                         <h4>Notes de revue &amp; constats</h4>
-                        <div class="ea-tl"><span>Notes pour moi</span><b t-esc="dash(d.notes.for_me)"/></div>
-                        <div class="ea-tl"><span>Notes par moi</span><b t-esc="dash(d.notes.by_me)"/></div>
-                        <div class="ea-tl"><span>Déficiences</span><b t-esc="dash(d.notes.deficiencies)"/></div>
-                        <div class="ea-tl"><span>Anomalies</span><b t-esc="dash(d.notes.misstatements)"/></div>
+                        <a class="ea-tl" href="#" role="button" data-tile="notes-for-me" t-on-click.prevent="openNotes"><span>Notes pour moi</span><b t-esc="d.notes.for_me"/></a>
+                        <div class="ea-tl" data-tile="notes-by-me"><span>Notes par moi</span><b t-esc="d.notes.by_me"/></div>
+                        <a class="ea-tl" href="#" role="button" data-tile="deficiencies" t-on-click.prevent="() => this.openTool('action_tool_deficiencies')"><span>Déficiences</span><b t-esc="d.notes.deficiencies"/></a>
+                        <a class="ea-tl" href="#" role="button" data-tile="misstatements" t-on-click.prevent="() => this.openTool('action_tool_findings')"><span>Anomalies</span><b t-esc="d.notes.misstatements"/></a>
                     </div>
                     <div class="ea-card ea-tile">
                         <h4>Calendrier <span t-if="d.calendar.late" class="ea-pill"><t t-esc="d.calendar.late"/> en retard</span></h4>
@@ -237,7 +241,7 @@
         <span class="ea-k" t-att-class="chipClass" t-esc="chip"/>
         <span class="ea-cell">
             <t t-esc="cell.name"/>
-            <small t-if="cell.detail"><t t-esc="cell.detail"/><em t-if="cell.demo" class="ea-demo" title="Signature de démonstration écrite directement : ce papier dépend d'un outil pas encore installé"> démo</em></small>
+            <small t-if="cell.detail" t-esc="cell.detail"/>
         </span>
     </t>
 

@@ -5,7 +5,7 @@
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
-    "depends": ["ea_audit_core", "web", "mail"],
+    "depends": ["ea_audit_core", "ea_audit_papers", "ea_audit_tools", "web", "mail"],
     "data": [
         "security/ir.model.access.csv",
         "security/ea_audit_ui_rules.xml",

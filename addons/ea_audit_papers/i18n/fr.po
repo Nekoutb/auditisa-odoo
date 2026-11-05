@@ -169,3 +169,28 @@ msgstr "Reste à compléter : %(parts)s."
 #: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_form_paper
 msgid "Open paper"
 msgstr "Ouvrir la feuille"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+#, python-format
+msgid "The summary is not ready for this signature. Still missing: %(gaps)s."
+msgstr "La synthèse n'est pas prête pour cette signature. Il manque encore : %(gaps)s."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This line is not on the summary."
+msgstr "Cette ligne ne figure pas dans la synthèse."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This section is answered at a higher rank."
+msgstr "Cette section relève d'un rang supérieur."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Section C belongs to the engagement quality reviewer appointed on this file."
+msgstr "La section C revient au réviseur qualité désigné sur ce dossier."

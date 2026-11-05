@@ -30,10 +30,9 @@ from ..services.task_groups import (
     phase_label,
 )
 
-# Marks a signature the demo data had to write directly: see demo/loader.py.
-DEMO_DIRECT_HASH = "demo-direct-write"
 _RECENT_MISSIONS = 6
 _STRIP_CHIPS = 6
+_LATE_CHIPS = 3
 _MY_TASK_ROWS = 3
 _CALENDAR_ROWS = 3
 
@@ -288,6 +287,15 @@ class AuditUi(models.AbstractModel):
                     "engagement_id": engagement.id,
                     "item_ids": late.ids,
                 })
+            uncommunicated = engagement.sudo()._ea_uncommunicated_significant_count() if is_partner else 0
+            if uncommunicated:
+                rows.append({
+                    "title": "Déficience significative à communiquer",
+                    "mission": mission,
+                    "count": uncommunicated,
+                    "engagement_id": engagement.id,
+                    "tool": "action_tool_deficiencies",
+                })
         invitations = self.env["ea.audit.team.member"].search([("user_id", "=", user.id), ("state", "=", "invited")])
         for invitation in invitations:
             rows.append({
@@ -368,6 +376,62 @@ class AuditUi(models.AbstractModel):
         return rings
 
     @api.model
+    def _ea_ui_notes_tile(self, engagement):
+        """Open review notes addressed to me and raised by me, open ISA 265 deficiencies,
+        misstatements still uncorrected and above the clearly trivial."""
+        user = self.env.user
+        notes = self.env["ea.audit.review.note"].search([("engagement_id", "=", engagement.id), ("state", "=", "open")])
+        for_me = notes.filtered(lambda note: note.assignee_id == user)
+        return {
+            "for_me": len(for_me),
+            "by_me": len(notes.filtered(lambda note: note.author_id == user)),
+            "deficiencies": self.env["ea.audit.finding"].search_count([
+                ("engagement_id", "=", engagement.id), ("route", "=", "c1"), ("status", "=", "open"),
+            ]),
+            "misstatements": self.env["ea.audit.misstatement"].search_count([
+                ("engagement_id", "=", engagement.id), ("corrected", "=", False), ("trivial", "=", False),
+            ]),
+            "note_item_ids": for_me.file_item_id.ids,
+        }
+
+    @api.model
+    def _ea_ui_attention_chips(self, engagement, items, today):
+        """What the file asks for now: a late task, a significant risk with no planned
+        response, a note addressed to me, a paper waiting for its next signature."""
+        late = items.filtered(lambda item: self._ea_ui_late_days(item, today) > 0).sorted(
+            lambda item: (self._ea_ui_due(item), item.sequence)
+        )
+        chips = [{
+            "id": item.id, "code": item.code, "title": item.short_title or item.title, "tone": "r",
+            "text": "en retard de %s j" % self._ea_ui_late_days(item, today),
+        } for item in late[:_LATE_CHIPS]]
+        register = items.filtered(lambda item: item.code == "S3.1")[:1]
+        if register:
+            risks = self.env["ea.audit.risk"].search([
+                ("engagement_id", "=", engagement.id), ("significant", "=", True), ("rebutted", "=", False),
+                ("program_step_ids", "=", False),
+            ]).with_context(lang=register.env.lang)
+            chips += [{
+                "id": register.id, "code": register.code, "title": risk.title, "tone": "r", "text": "sans procédure prévue",
+            } for risk in risks[:2]]
+        notes = self.env["ea.audit.review.note"].search([
+            ("engagement_id", "=", engagement.id), ("state", "=", "open"), ("assignee_id", "=", self.env.uid),
+        ])
+        by_item = {item.id: item for item in items}
+        chips += [{
+            "id": note.file_item_id.id, "code": note.code, "title": by_item[note.file_item_id.id].short_title or by_item[note.file_item_id.id].title,
+            "tone": "g", "text": "note de revue",
+        } for note in notes if note.file_item_id.id in by_item][:3]
+        awaiting = items.filtered(
+            lambda item: not item.not_applicable and item.state in ("prepared", "reviewed") and item not in late
+        )
+        chips += [{
+            "id": item.id, "code": item.code, "title": item.short_title or item.title, "tone": "g",
+            "text": "à signer" if item.state == "reviewed" else "à réviser",
+        } for item in awaiting[:_STRIP_CHIPS]]
+        return chips[:_STRIP_CHIPS], late
+
+    @api.model
     def ea_ui_dashboard(self, engagement_id):
         engagement = self._ea_ui_visible_engagement(engagement_id)
         if not engagement:
@@ -387,17 +451,7 @@ class AuditUi(models.AbstractModel):
             lambda item: not item.preparer_id and not item.assignee_id and item.id not in done_ids
         )
 
-        late = items.filtered(lambda item: self._ea_ui_late_days(item, today) > 0).sorted(
-            lambda item: (self._ea_ui_due(item), item.sequence)
-        )
-        awaiting = items.filtered(lambda item: not item.not_applicable and item.state in ("prepared", "reviewed") and item not in late)
-        chips = [{
-            "id": item.id, "code": item.code, "title": item.title, "tone": "r",
-            "text": "en retard de %s j" % self._ea_ui_late_days(item, today),
-        } for item in late[:_STRIP_CHIPS]] + [{
-            "id": item.id, "code": item.code, "title": item.title, "tone": "g",
-            "text": "à signer" if item.state == "reviewed" else "à réviser",
-        } for item in awaiting[:max(0, _STRIP_CHIPS - len(late))]]
+        chips, late = self._ea_ui_attention_chips(engagement, items, today)
 
         mine = []
         for item in items:
@@ -431,8 +485,7 @@ class AuditUi(models.AbstractModel):
             "unassigned_ids": unassigned.ids,
             "attention": chips,
             "my_tasks": {"count": len(mine), "rows": mine[:_MY_TASK_ROWS]},
-            # Owned by addons not yet written: the screen shows a neutral dash.
-            "notes": {"for_me": None, "by_me": None, "deficiencies": None, "misstatements": None},
+            "notes": self._ea_ui_notes_tile(engagement),
             "calendar": {"late": len(late), "rows": calendar_rows},
         }
 
@@ -447,9 +500,8 @@ class AuditUi(models.AbstractModel):
                 "name": short_name(signoff.user_id.name),
                 "signed": True,
                 "detail": "Signé le %s" % fmt_date(fields.Date.context_today(self, signoff.signed_at)),
-                "demo": signoff.content_hash == DEMO_DIRECT_HASH,
             }
-        return {"name": short_name(name) if name else "Non assigné", "signed": False, "detail": waiting if name else "", "demo": False}
+        return {"name": short_name(name) if name else "Non assigné", "signed": False, "detail": waiting if name else ""}
 
     @api.model
     def _ea_ui_task_row(self, item, signoffs, partner, policy, today):
