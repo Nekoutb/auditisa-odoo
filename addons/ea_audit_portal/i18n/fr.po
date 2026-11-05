@@ -1,13 +1,15 @@
-# French translation of ea_audit_portal.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_portal
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 10:00+0000\n"
-"PO-Revision-Date: 2026-11-05 10:00+0000\n"
+"POT-Creation-Date: 2026-11-05 11:04+0000\n"
+"PO-Revision-Date: 2026-11-05 11:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -30,29 +32,9 @@ msgid "Accept and file the upload"
 msgstr "Accepter et classer le dépôt"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields.selection,name:ea_audit_portal.selection__ea_audit_pbc_item__status__accepted
-msgid "Accepted"
-msgstr "Acceptée"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__accepted_at
-msgid "Accepted At"
-msgstr "Accepté le"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__accepted_by_id
-msgid "Accepted By"
-msgstr "Accepté par"
-
-#. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
 msgid "At least 12 characters, upper and lower case, and at least one digit. Nobody at your auditor's firm knows it."
 msgstr "Au moins 12 caractères, majuscules et minuscules, et au moins un chiffre. Personne au cabinet de votre auditeur ne le connaît."
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__attachment_id
-msgid "Attachment"
-msgstr "Pièce jointe"
 
 #. module: ea_audit_portal
 #: model:ir.model,name:ea_audit_portal.model_ea_audit_client
@@ -75,16 +57,6 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__chase_count
-msgid "Chase Count"
-msgstr "Nombre de relances"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__chased_at
-msgid "Chased At"
-msgstr "Relancé le"
-
-#. module: ea_audit_portal
 #. odoo-python
 #: code:addons/ea_audit_portal/rules.py:0
 msgid "Choose the task this upload is filed under."
@@ -97,7 +69,6 @@ msgstr "Choisissez votre mot de passe"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__client_id
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__client_id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__client_id
 msgid "Client"
 msgstr "Client"
@@ -110,10 +81,9 @@ msgstr "Documents du client (PBC)"
 #. module: ea_audit_portal
 #: model:ir.model,name:ea_audit_portal.model_ea_audit_portal_contact
 msgid "Client portal contact"
-msgstr "Contact du portail client"
+msgstr "Contact du client sur le portail"
 
 #. module: ea_audit_portal
-#: model:ir.model,name:ea_audit_portal.model_ea_audit_pbc_item
 #: model:ir.model,name:ea_audit_portal.model_ea_audit_portal_pbc_wizard
 msgid "Client-provided document request"
 msgstr "Demande de document au client"
@@ -151,18 +121,14 @@ msgid "Create and get the link"
 msgstr "Créer et obtenir le lien"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__create_uid
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_uid
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__create_uid
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__create_date
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_date
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__create_date
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -170,9 +136,10 @@ msgstr "Créé le"
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__display_name
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__display_name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_res_users__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -197,10 +164,9 @@ msgstr "Télécharger"
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__email
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
 msgid "Email"
-msgstr "E-mail"
+msgstr "Courriel"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__engagement_id
 msgid "Engagement"
 msgstr "Mission"
@@ -222,11 +188,6 @@ msgid "Filed under"
 msgstr "Classé sous"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__filename
-msgid "Filename"
-msgstr "Nom du fichier"
-
-#. module: ea_audit_portal
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__fiscal_year
 msgid "Fiscal Year"
 msgstr "Exercice"
@@ -235,9 +196,10 @@ msgstr "Exercice"
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__id
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__id
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_res_users__id
 msgid "ID"
 msgstr "ID"
 
@@ -265,18 +227,14 @@ msgid "Item"
 msgstr "Demande"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__write_uid
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_uid
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__write_uid
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__write_date
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_date
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__write_date
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -291,12 +249,6 @@ msgid "Link valid until"
 msgstr "Lien valable jusqu'au"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__mime
-msgid "Mime"
-msgstr "Type de fichier"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__name
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__name
 msgid "Name"
 msgstr "Nom"
@@ -326,7 +278,6 @@ msgid "New request"
 msgstr "Nouvelle demande"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__note
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__note
 msgid "Note"
 msgstr "Note"
@@ -340,6 +291,11 @@ msgstr "Rien n'est demandé pour le moment."
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__pbc_open_count
 msgid "Open requests"
 msgstr "Demandes ouvertes"
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_pbc_item
+msgid "PBC request"
+msgstr "Demande au client"
 
 #. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_portal_contact_wizard
@@ -368,11 +324,6 @@ msgid "Reminders"
 msgstr "Relances"
 
 #. module: ea_audit_portal
-#: model:ir.model.fields.selection,name:ea_audit_portal.selection__ea_audit_pbc_item__status__requested
-msgid "Requested"
-msgstr "Demandé"
-
-#. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
 msgid "Requested on"
 msgstr "Demandé le"
@@ -392,11 +343,6 @@ msgstr "Voir ce qui est demandé et le déposer"
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
 msgid "Send a reminder"
 msgstr "Envoyer une relance"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__status
-msgid "Status"
-msgstr "Statut"
 
 #. module: ea_audit_portal
 #: model:ir.model.fields,help:ea_audit_portal.field_ea_audit_portal_contact__pending
@@ -474,30 +420,15 @@ msgid "This request is not in the right state for that."
 msgstr "Cette demande n'est pas dans le bon état pour cela."
 
 #. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__title
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__title
 msgid "Title"
 msgstr "Titre"
 
 #. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__attachment_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
 msgid "Upload"
-msgstr "Envoi"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields.selection,name:ea_audit_portal.selection__ea_audit_pbc_item__status__uploaded
-msgid "Uploaded"
-msgstr "Déposé"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__uploaded_at
-msgid "Uploaded At"
-msgstr "Déposé le"
-
-#. module: ea_audit_portal
-#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__uploaded_by_id
-msgid "Uploaded By"
-msgstr "Déposé par"
+msgstr "Pièce jointe"
 
 #. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
@@ -523,6 +454,7 @@ msgid "Use upper and lower case letters."
 msgstr "Utilisez des majuscules et des minuscules."
 
 #. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_res_users
 #: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__user_id
 msgid "User"
 msgstr "Utilisateur"
@@ -538,4 +470,3 @@ msgstr ""
 #: code:addons/ea_audit_portal/models/pbc.py:0
 msgid "ea_audit_portal.view_pbc_item_list"
 msgstr ""
-

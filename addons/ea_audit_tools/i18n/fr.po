@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 10:06+0000\n"
-"PO-Revision-Date: 2026-11-05 10:06+0000\n"
+"POT-Creation-Date: 2026-11-05 11:04+0000\n"
+"PO-Revision-Date: 2026-11-05 11:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -190,6 +190,12 @@ msgid "A description is required."
 msgstr "Une description est requise."
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A deviation needs its decision: extend the test, abandon reliance or report a deficiency."
+msgstr "Un écart appelle une décision : étendre le test, abandonner l'appui sur le contrôle ou signaler une déficience."
+
+#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
 msgid "A draft version awaits the partner's approval: until then the approved version stays in force."
 msgstr "Une version brouillon attend l'approbation de l'associé : d'ici là, la version approuvée reste en vigueur."
@@ -297,6 +303,12 @@ msgstr "Un seuil de signification spécifique doit être inférieur au seuil de 
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A step is complete only with its conclusion."
+msgstr "Une diligence n'est achevée qu'avec sa conclusion."
+
+#. module: ea_audit_tools
+#. odoo-python
 #: code:addons/ea_audit_tools/models/sap.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_sap_wizard
 msgid "A substantive analytical procedure"
@@ -362,6 +374,12 @@ msgstr "A. Le chemin critique de la clôture"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 msgid "A. Understanding the flow"
 msgstr "A. Compréhension du flux"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test__deviation_decision__abandon
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test_wizard__deviation_decision__abandon
+msgid "Abandon reliance: substantive extension"
+msgstr "Abandon de l'appui : extension substantive"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sap_procedure__evaluation__above
@@ -1306,6 +1324,7 @@ msgstr "Niveau ECR"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_link_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_test_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_deficiency_wizard
@@ -1323,10 +1342,12 @@ msgstr "Niveau ECR"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_link_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sampling_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_threshold_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_assign_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_index_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_step_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_supplier_recon_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_draw_wizard
@@ -1588,6 +1609,11 @@ msgstr "Levé le"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__cleared_by_id
 msgid "Cleared by"
 msgstr "Levé par"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_review_note_register
+msgid "Cleared on"
+msgstr "Levée le"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_reason_wizard__kind__clear
@@ -1857,6 +1883,33 @@ msgid "Compare"
 msgstr "Comparer"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_step_wizard__mode__complete
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
+msgid "Complete"
+msgstr "Achever"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_step_wizard
+msgid "Complete a program step"
+msgstr "Achever une diligence"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Complete the step"
+msgstr "Achever la diligence"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__completed_by_id
+msgid "Completed by"
+msgstr "Achevée par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__completed_at
+msgid "Completed on"
+msgstr "Achevée le"
+
+#. module: ea_audit_tools
 #: model:ea.audit.assertion,name:ea_audit_tools.assertion_C
 msgid "Completeness"
 msgstr "Exhaustivité"
@@ -1873,6 +1926,7 @@ msgstr "Conclu"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fscp__fscp_conclusion
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__conclusion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__conclusion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__conclusion
 msgid "Conclusion"
@@ -1882,6 +1936,11 @@ msgstr "Conclusion"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__wt_conclusion
 msgid "Conclusion of the walkthrough"
 msgstr "Conclusion du cheminement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__text
+msgid "Conclusion or rationale"
+msgstr "Conclusion ou justification"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__wt_design
@@ -1930,6 +1989,8 @@ msgstr "Continuer"
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_scot_control
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__control_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__control_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__control_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__control_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw_wizard__control_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_grid_wizard__control_id
@@ -2118,6 +2179,8 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__create_uid
@@ -2178,6 +2241,7 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_assign_wizard__create_uid
@@ -2186,6 +2250,7 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_index_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__create_uid
@@ -2211,6 +2276,8 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__create_date
@@ -2268,6 +2335,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_assign_wizard__create_date
@@ -2276,6 +2344,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_index_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__create_date
@@ -2475,6 +2544,8 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__account_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__description
@@ -2537,6 +2608,18 @@ msgstr "Détail"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__objective__detect
 msgid "Detect"
 msgstr "Détecter"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test__result__deviation
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test_wizard__result__deviation
+msgid "Deviation"
+msgstr "Écart"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__deviation_decision
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__deviation_decision
+msgid "Deviation Decision"
+msgstr ""
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__deviations
@@ -2605,6 +2688,8 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__display_name
@@ -2643,6 +2728,7 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_override_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_paper__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_accept_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_upload_wizard__display_name
@@ -2666,6 +2752,7 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_settings__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_assign_wizard__display_name
@@ -2674,6 +2761,7 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_index_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__display_name
@@ -2844,6 +2932,8 @@ msgid "Earlier draws"
 msgstr "Tirages précédents"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test__result__effective
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test_wizard__result__effective
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__design_eval__effective
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__operating_eval__effective
 msgid "Effective"
@@ -2875,8 +2965,14 @@ msgid "Empty: the selected accounts."
 msgstr "Vide : les comptes sélectionnés."
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__enabled_method
+msgid "Enabled Method"
+msgstr "Méthode active"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__engagement_id
@@ -3265,6 +3361,12 @@ msgid "Export to Excel"
 msgstr "Exporter vers Excel"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test__deviation_decision__extend
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test_wizard__deviation_decision__extend
+msgid "Extend the test"
+msgstr "Étendre le test"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__toc_evaluation__extend
 msgid "Extend the test to 60"
 msgstr "Étendre le test à 60"
@@ -3388,11 +3490,6 @@ msgstr "Classer un document reçu"
 #: code:addons/ea_audit_tools/models/pbc.py:0
 msgid "File the upload"
 msgstr "Classer le document reçu"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__attachment_id
-msgid "Filed document"
-msgstr "Document classé"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__file_item_id
@@ -3547,8 +3644,17 @@ msgstr "Jour férié du cabinet"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sap_threshold_label
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sap_board
 msgid "Firm thresholds"
 msgstr "Seuils du cabinet"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sap.py:0
+#: model:ir.actions.act_window,name:ea_audit_tools.action_sap_thresholds
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_sap_threshold_wizard
+msgid "Firm thresholds for substantive analytics"
+msgstr "Seuils du cabinet pour les procédures analytiques"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sap_board
@@ -3602,6 +3708,8 @@ msgid "Fixed assets analyzer"
 msgstr "Analyseur des immobilisations"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_forms
 msgid "Forms"
 msgstr "Formulaires"
@@ -3864,6 +3972,11 @@ msgid "Higher"
 msgstr "Plus élevé"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__high
+msgid "Higher risk (%)"
+msgstr "Risque élevé (%)"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__history_ids
 msgid "History"
 msgstr "Historique"
@@ -3911,6 +4024,8 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__id
@@ -3949,6 +4064,7 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_override_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_paper__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_accept_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_upload_wizard__id
@@ -3972,6 +4088,7 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_settings__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_assign_wizard__id
@@ -3980,6 +4097,7 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_index_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__id
@@ -4623,6 +4741,8 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__write_uid
@@ -4680,6 +4800,7 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_assign_wizard__write_uid
@@ -4688,6 +4809,7 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_index_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__write_uid
@@ -4713,6 +4835,8 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__write_date
@@ -4770,6 +4894,7 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_assign_wizard__write_date
@@ -4778,6 +4903,7 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_index_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__write_date
@@ -5091,6 +5217,11 @@ msgid "Lower"
 msgstr "Plus faible"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__low
+msgid "Lower risk (%)"
+msgstr "Risque faible (%)"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_console__drill_month
 msgid "MM/YYYY as in the table, or n/a for lines with no date."
 msgstr "MM/AAAA comme dans le tableau, ou n/a pour les lignes sans date."
@@ -5329,6 +5460,7 @@ msgstr "Mitigée"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_wizard__mode
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__mode
 msgid "Mode"
 msgstr "Mode"
 
@@ -5349,6 +5481,11 @@ msgstr "Modéré"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__toc_evaluation__moderate
 msgid "Moderate assurance"
 msgstr "Assurance modérée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_threshold_wizard__moderate
+msgid "Moderate risk (%)"
+msgstr "Risque modéré (%)"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__drill_weekday__1
@@ -5403,6 +5540,7 @@ msgstr "Multiple de"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_3__na
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_4__na
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_5__na
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
 msgid "N/A"
 msgstr "S.O."
 
@@ -5594,7 +5732,10 @@ msgid "Non-routine"
 msgstr "Non courant"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__na
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_step_wizard__mode__na
 msgid "Not applicable"
 msgstr "Sans objet"
 
@@ -5647,6 +5788,8 @@ msgid "Not supported"
 msgstr "Non corroborée"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__note
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_wizard__note
@@ -5920,6 +6063,17 @@ msgid "Operating subsidies"
 msgstr "Subventions d'exploitation"
 
 #. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_control_test
+msgid "Operating test of a control"
+msgstr "Test de fonctionnement d'un contrôle"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__test_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
+msgid "Operating tests"
+msgstr "Tests de fonctionnement"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio_rule__operator
 msgid "Operator"
 msgstr "Opérateur"
@@ -6050,12 +6204,14 @@ msgstr "Couple"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__paper_code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__file_item_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_forms_register
 msgid "Paper"
 msgstr "Papier"
 
@@ -6647,6 +6803,7 @@ msgstr "Remonter un risque potentiel"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__created_by_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__raised_by_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_review_note_register
 msgid "Raised by"
 msgstr "Soulevé par"
 
@@ -6660,6 +6817,11 @@ msgstr "Soulevé depuis"
 #: model:ea.audit.tool.tile,description:ea_audit_tools.tile_potential
 msgid "Raised from the papers, promoted or dismissed."
 msgstr "Remontés des papiers, promus ou écartés."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_review_note_register
+msgid "Raised on"
+msgstr "Soulevée le"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sampling_wizard__method__random
@@ -6781,6 +6943,7 @@ msgstr "Rapprocher au compte de contrôle"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__record_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_test_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_upload_wizard
 msgid "Record"
@@ -6800,6 +6963,18 @@ msgstr "Enregistrer un document reçu"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
 msgid "Record a result"
 msgstr "Enregistrer un résultat"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/control_test.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
+msgid "Record a test"
+msgstr "Enregistrer un test"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_control_test_wizard
+msgid "Record a test of a control"
+msgstr "Enregistrer un test de contrôle"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_tod_result_wizard
@@ -6846,6 +7021,7 @@ msgstr "Décision enregistrée"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__recorded_at
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tod_result_list
 msgid "Recorded on"
 msgstr "Enregistré le"
@@ -6975,6 +7151,17 @@ msgid "Removed"
 msgstr "Retiré"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
+msgid "Reopen"
+msgstr "Rouvrir"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test__deviation_decision__deficiency
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_test_wizard__deviation_decision__deficiency
+msgid "Report a control deficiency (C5.11)"
+msgstr "Signaler une déficience de contrôle (C5.11)"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__flow_reporting
 msgid "Reporting"
 msgstr "Restitution"
@@ -7038,6 +7225,12 @@ msgid "Restricted to the entries containing both accounts. The ratio is account 
 msgstr "Limité aux écritures contenant les deux comptes. Le ratio est le compte A sur le compte B, signe conservé."
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__result
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__result
+msgid "Result"
+msgstr "Résultat"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__result_html
 msgid "Result Html"
 msgstr ""
@@ -7086,6 +7279,8 @@ msgid "Revenue posted against cash"
 msgstr "Produit imputé à la trésorerie"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_review_notes
 msgid "Review notes"
 msgstr "Notes de revue"
@@ -7395,7 +7590,9 @@ msgstr "Samedi"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_link_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_deficiency_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_itgc_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_threshold_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_step_wizard
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -7765,6 +7962,7 @@ msgstr "État"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__step
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__step_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__step
 msgid "Step"
 msgstr "Étape"
@@ -7825,6 +8023,7 @@ msgstr "Analytiques substantives"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_sap_settings
+#: model:ir.ui.menu,name:ea_audit_tools.menu_sap_thresholds
 msgid "Substantive analytics thresholds"
 msgstr "Seuils des analytiques de substance"
 
@@ -7966,6 +8165,7 @@ msgstr "Systématique"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__task_code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__file_item_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_search
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_review_note_register
 msgid "Task"
 msgstr "Tâche"
 
@@ -8031,6 +8231,11 @@ msgstr "Tirage d'échantillon de test de contrôle"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__rows_tested
 msgid "Tested"
 msgstr "Testés"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__tested_by_id
+msgid "Tested by"
+msgstr "Testé par"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__testing_started
@@ -8245,6 +8450,11 @@ msgid "The mapping of the ledger needs the account and an amount, or a debit and
 msgstr "Le mappage du grand livre exige le compte et un montant, ou une colonne débit et une colonne crédit."
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_tool_tile__enabled_method
+msgid "The method, when an installed addon provides it."
+msgstr "La méthode, lorsqu'un module installé la fournit."
+
+#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "The paper this reconciliation is filed under is not on the file."
@@ -8300,6 +8510,11 @@ msgstr "La taille de l'échantillon doit être d'au moins 1."
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "The section must be an E-code (e.g. E4.1)."
 msgstr "La section doit être un code E (ex. E4.1)."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_threshold_wizard
+msgid "The share of the expectation a difference may reach, by combined risk. Only procedures saved after this change take the new figures."
+msgstr "La part de l'attente qu'un écart peut atteindre, selon le risque combiné. Seules les procédures enregistrées après ce changement prennent les nouveaux chiffres."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_scot__systems
@@ -8755,10 +8970,11 @@ msgid "Updated by"
 msgstr "Modifié par"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__attachment_id
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__step__upload
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__step__upload
 msgid "Upload"
-msgstr "Envoi"
+msgstr "Pièce jointe"
 
 #. module: ea_audit_tools
 #: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_tb
@@ -9048,6 +9264,11 @@ msgid "Work in progress (goods)"
 msgstr "Produits en cours"
 
 #. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_paper
+msgid "Working paper"
+msgstr ""
+
+#. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_wp_template
 msgid "Working-paper template"
 msgstr "Modèle de papier"
@@ -9167,6 +9388,12 @@ msgstr ""
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
+msgid "ea_audit_tools.view_forms_register"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/models/gl_console.py:0
 msgid "ea_audit_tools.view_gl_line_list"
@@ -9207,6 +9434,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/ea_audit_tools/models/design.py:0
 msgid "ea_audit_tools.view_program_step_list"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
+msgid "ea_audit_tools.view_review_note_register"
 msgstr ""
 
 #. module: ea_audit_tools
@@ -9267,6 +9500,7 @@ msgstr "se termine par"
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/models/finding.py:0
 #: code:addons/ea_audit_tools/models/sampling.py:0
+#: code:addons/ea_audit_tools/models/tool_tile.py:0
 msgid "engagement_id"
 msgstr ""
 

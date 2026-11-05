@@ -1,13 +1,15 @@
-# French translation of ea_audit_reports.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_reports
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 10:00+0000\n"
-"PO-Revision-Date: 2026-11-05 10:00+0000\n"
+"POT-Creation-Date: 2026-11-05 11:04+0000\n"
+"PO-Revision-Date: 2026-11-05 11:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -84,6 +86,7 @@ msgstr "Manifeste d'archivage"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_conclusion_button
 msgid "Archive and lock the file"
 msgstr "Archiver et verrouiller le dossier"
 
@@ -128,6 +131,11 @@ msgstr "Documents d'audit"
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_engagement
 msgid "Audit engagement"
 msgstr "Mission d'audit"
+
+#. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_file_item
+msgid "Audit file task"
+msgstr "Tâche du dossier d'audit"
 
 #. module: ea_audit_reports
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_notice
@@ -179,6 +187,21 @@ msgid "Choose a letter from those offered."
 msgstr "Choisissez une lettre parmi celles proposées."
 
 #. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__client_filename
+msgid "Client Filename"
+msgstr "Nom du fichier du client"
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__client_file
+msgid "Client's statements (CSV: ref;amount)"
+msgstr "États du client (CSV : réf;montant)"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_tieout_wizard
+msgid "Close"
+msgstr "Fermer"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__code
 msgid "Code"
 msgstr "Code"
@@ -187,6 +210,11 @@ msgstr "Code"
 #: model:ir.model,name:ea_audit_reports.model_res_company
 msgid "Companies"
 msgstr "Sociétés"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Compare with the client's statements"
+msgstr "Comparer aux états du client"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
@@ -243,6 +271,7 @@ msgstr "Contenu"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__create_uid
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__create_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -256,6 +285,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__create_date
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__create_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -289,10 +319,13 @@ msgstr "Contrôle des informations à fournir"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_file_item__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_paper__display_name
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__display_name
 msgid "Display Name"
@@ -338,6 +371,7 @@ msgstr "Télécharger le Word"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__engagement_id
 msgid "Engagement"
 msgstr "Mission"
 
@@ -357,6 +391,11 @@ msgid "Export the file"
 msgstr "Exporter le dossier"
 
 #. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__fs_tieout_html
+msgid "FS tie-out"
+msgstr "Rapprochement des états financiers"
+
+#. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
 msgid "File assembly (ISA 230)"
 msgstr "Assemblage du dossier (ISA 230)"
@@ -371,6 +410,11 @@ msgstr "Échéance d'assemblage du dossier"
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "Fill in the required fields."
 msgstr "Renseignez les champs obligatoires."
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Financial statement tie-out"
+msgstr "Rapprochement des états financiers"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
@@ -447,10 +491,13 @@ msgstr "Sous conservation légale"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_file_item__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_hold_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_paper__id
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ir_attachment__id
 #: model:ir.model.fields,field_description:ea_audit_reports.field_res_company__id
 msgid "ID"
@@ -465,6 +512,7 @@ msgstr "Émettre le rapport d'audit"
 #. odoo-python
 #: code:addons/ea_audit_reports/models/engagement.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_conclusion_button
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_issue_report_wizard
 msgid "Issue the report"
 msgstr "Émettre le rapport"
@@ -502,6 +550,7 @@ msgstr "Langue"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__write_uid
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__write_uid
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
@@ -515,6 +564,7 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_issue_report_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_legal_hold__write_date
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__write_date
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -642,6 +692,7 @@ msgstr "Notes"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_conclusion_button
 msgid "Once archived, nothing on this file can be changed. Archive it?"
 msgstr "Une fois archivé, plus rien ne peut être modifié dans ce dossier. L'archiver ?"
 
@@ -797,6 +848,11 @@ msgid "Restricted"
 msgstr "Restreint"
 
 #. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__result_html
+msgid "Result Html"
+msgstr "Résultat"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__retention_until
 msgid "Retention Until"
 msgstr "Conservation jusqu'au"
@@ -830,6 +886,11 @@ msgstr "Lancer le rapprochement des états financiers"
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
 msgid "Run the final analytical review"
 msgstr "Lancer la revue analytique finale"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_tieout_wizard
+msgid "Run the tie-out"
+msgstr "Lancer le rapprochement"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_archive_manifest__sha256
@@ -917,6 +978,11 @@ msgid "The retention period must be between 10 and 30 years."
 msgstr "La durée de conservation doit être comprise entre 10 et 30 ans."
 
 #. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_tieout_wizard
+msgid "The tie-out shows differences: nothing was recorded."
+msgstr "Le rapprochement fait apparaître des écarts : rien n'a été enregistré."
+
+#. module: ea_audit_reports
 #. odoo-python
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "These gates are not met: %(gates)s."
@@ -980,6 +1046,14 @@ msgid "Tick the confirmation that the disclosure checklist is complete."
 msgstr "Cochez la confirmation que le contrôle des informations à fournir est complet."
 
 #. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: code:addons/ea_audit_reports/wizards/conclusion_wizards.py:0
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_tieout_wizard
+msgid "Tie-out against the client's statements"
+msgstr "Rapprochement avec les états du client"
+
+#. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document__title
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_notice__title
 msgid "Title"
@@ -1029,6 +1103,7 @@ msgid "Word"
 msgstr "Word"
 
 #. module: ea_audit_reports
+#: model:ir.model,name:ea_audit_reports.model_ea_audit_paper
 #: model:ir.model.fields.selection,name:ea_audit_reports.selection__ea_audit_document__kind__workpaper
 msgid "Working paper"
 msgstr "Feuille de travail"
@@ -1049,4 +1124,3 @@ msgstr ""
 #: model:ir.actions.report,print_report_name:ea_audit_reports.action_report_document
 msgid "object.title"
 msgstr ""
-
