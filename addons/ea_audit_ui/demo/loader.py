@@ -574,6 +574,8 @@ class AuditUiDemo(models.AbstractModel):
         lang = os.environ.get("EA_AUDIT_DEMO_LANG") or env.company.partner_id.lang or "en_US"
         _Demo.french = lang.startswith("fr")
         lang = "fr_FR" if _Demo.french else "en_US"
+        # A file's report language defaults to the firm's, so a French demonstration needs a French firm.
+        env.company.partner_id.lang = lang
         xaf = env.ref("base.XAF")
         xaf.active = True
         env.ref("base.main_company").currency_id = xaf
