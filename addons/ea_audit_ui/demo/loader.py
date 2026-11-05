@@ -534,7 +534,7 @@ class _Demo:
             if code in WALK_PAPERS:
                 self.assign_by_rule(item)
             elif not code.startswith("E4.") or code == "E4.36":
-                item.with_user(self.essomba).set_not_applicable(_WALK_NA_REASON)
+                item.with_user(self.essomba).set_not_applicable(_d(*_WALK_NA_REASON))
         open_items = engagement.file_item_ids.filtered(lambda i: i.state != "signed" and not i.conditional and not i.not_applicable)
         self.due(list(open_items), 30)
         self.due([p11], 7)
