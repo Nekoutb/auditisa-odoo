@@ -4,7 +4,11 @@
         <field name="name">platform.settings.form</field>
         <field name="model">platform.settings</field>
         <field name="arch" type="xml">
-            <form string="Platform settings" class="o_ea_platform_form">
+            <form string="Platform settings" class="o_ea_platform_form" create="0" delete="0">
+                <!-- A page, not a dialog: a footer would not show. -->
+                <header>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                </header>
                 <sheet>
                     <p class="text-muted">
                         No token is saved here. The Vultr token and the DNS token are in files only root can read,
@@ -29,9 +33,6 @@
                         <field name="release_signing_public_key" nolabel="1" colspan="2" placeholder="-----BEGIN PUBLIC KEY-----"/>
                     </group>
                 </sheet>
-                <footer>
-                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
-                </footer>
             </form>
         </field>
     </record>

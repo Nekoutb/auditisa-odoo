@@ -42,6 +42,10 @@ class PlatformSettings(models.TransientModel):
     dns_zone_id = fields.Char("DNS zone (Cloudflare id)", default=lambda self: self._param("ea_platform.dns_zone_id"))
     confirm_real = fields.Boolean("I want to create real servers, billed by the provider.")
 
+    def _compute_display_name(self):
+        for settings in self:
+            settings.display_name = t(self.env, _("Settings"))
+
     @api.model
     def _param(self, key, default=False):
         return self.env["ir.config_parameter"].sudo().get_param(key, default)
