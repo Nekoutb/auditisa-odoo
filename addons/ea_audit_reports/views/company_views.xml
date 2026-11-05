@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_reports" model="ir.ui.view">
+        <field name="name">res.company.form.ea.reports</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Audit documents" name="ea_audit_documents">
+                    <group>
+                        <field name="ea_display_name"/>
+                        <field name="ea_letterhead1"/>
+                        <field name="ea_letterhead2"/>
+                        <field name="ea_letterhead_footer"/>
+                        <field name="ea_retention_years"/>
+                        <field name="ea_articles_validated"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_client_form_reports" model="ir.ui.view">
+        <field name="name">ea.audit.client.form.reports</field>
+        <field name="model">ea.audit.client</field>
+        <field name="inherit_id" ref="ea_audit_core.view_client_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='registration_number']" position="after">
+                <field name="address"/>
+                <field name="share_capital"/>
+                <field name="mandate_type"/>
+                <field name="mandate_start_year"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

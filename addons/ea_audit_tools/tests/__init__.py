@@ -3,3 +3,11 @@ from . import test_materiality
 from . import test_risk_cra
 from . import test_findings_sad
 from . import test_i18n
+from . import test_gl
+from . import test_gl_console
+from . import test_scot_sampling
+from . import test_je_selection
+from . import test_analyzers
+from . import test_design_sap
+from . import test_analysis_pbc
+from . import test_wiring

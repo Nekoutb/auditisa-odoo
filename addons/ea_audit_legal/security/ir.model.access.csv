@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_deadline_member,deadline member,model_ea_audit_legal_deadline,ea_audit_core.group_member,1,0,0,0
+access_agreement_member,agreement member,model_ea_audit_regulated_agreement,ea_audit_core.group_member,1,0,0,0
+access_alerte_member,alerte member,model_ea_audit_alerte,ea_audit_core.group_member,1,0,0,0
+access_alerte_event_member,alerte event member,model_ea_audit_alerte_event,ea_audit_core.group_member,1,0,0,0
+access_disclosure_partner,criminal disclosure partner,model_ea_audit_criminal_disclosure,ea_audit_core.group_partner,1,0,0,0
+access_legal_wizard,legal wizard,model_ea_audit_legal_wizard,ea_audit_core.group_member,1,1,1,0

@@ -4,7 +4,10 @@ from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.signoff_rules import can_partner_signoff
 
+from odoo.addons.ea_audit_core.services.phases import phase_still_open
+
 from ..rules import rule_error
+from ..services.lead_classes import INDEX_SECTION
 from ..services.assertions import clean_assertions
 from ..services.lead_classes import LEAD_INDEX_BY_CODE
 from ..services.risk_model import MGMT_OVERRIDE_PROCEDURE, PRESUMED_SEED, PRESUMED_TITLES, inherent_rating, risk_title
@@ -39,7 +42,53 @@ class ProgramStep(models.Model):
     source = fields.Char(default="manual")
     status = fields.Selection(STEP_STATUS_SELECTION, default="open", required=True, index=True)
     na_rationale = fields.Text(string="N/A rationale")
+    conclusion = fields.Text()
+    completed_by_id = fields.Many2one("res.users", string="Completed by", ondelete="set null")
+    completed_at = fields.Datetime(string="Completed on")
     risk_ids = fields.Many2many("ea.audit.risk", "ea_audit_risk_response", "program_step_id", "risk_id", string="Risks")
+
+    def complete(self, conclusion):
+        """completeStep: the conclusion, who reached it and when, together (assurance finding C7)."""
+        self.ensure_one()
+        self._ea_guard()
+        if not (conclusion or "").strip():
+            raise rule_error(self.env, "conclusion-required")
+        step = self.sudo()
+        if step.status != "open":
+            raise rule_error(self.env, "not-found")
+        still_open = phase_still_open("execution", step.engagement_id.phase, step.file_item_id.code)
+        if still_open:
+            raise rule_error(self.env, still_open)
+        step.write({"status": "done", "conclusion": conclusion.strip(), "completed_by_id": self.env.user.id, "completed_at": fields.Datetime.now()})
+        return True
+
+    def uncomplete(self):
+        """uncompleteStep: back to planned, with nothing of the earlier attribution left."""
+        self.ensure_one()
+        self._ea_guard()
+        step = self.sudo()
+        if step.status != "done":
+            raise rule_error(self.env, "not-found")
+        step.write({"status": "open", "conclusion": False, "completed_by_id": False, "completed_at": False})
+        return True
+
+    def action_open_complete(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "name": self.env._("Complete the step"), "res_model": "ea.audit.step.wizard",
+            "view_mode": "form", "target": "new", "context": {"default_step_id": self.id, "default_mode": "complete"},
+        }
+
+    def action_open_na(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "name": self.env._("Not applicable"), "res_model": "ea.audit.step.wizard",
+            "view_mode": "form", "target": "new", "context": {"default_step_id": self.id, "default_mode": "na"},
+        }
+
+    def action_uncomplete(self):
+        self.uncomplete()
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def mark_na(self, rationale):
         """markStepNa."""
@@ -137,7 +186,28 @@ class Risk(models.Model):
                 "engagement_id": as_root.engagement_id.id, "risk_id": as_root.id,
                 "index_code": index_code, "assertion_ids": [(6, 0, tags.ids)],
             })
+        # The account's paper is where the response lives: a program generated for it finds the risk.
+        task = INDEX_SECTION.get(index_code)
+        item = self.env["ea.audit.file.item"].sudo().search(
+            [("engagement_id", "=", as_root.engagement_id.id), ("code", "=", task)], limit=1,
+        ) if task else None
+        if item:
+            Section = self.env["ea.audit.risk.section"].sudo()
+            if not Section.search_count([("risk_id", "=", as_root.id), ("file_item_id", "=", item.id)]):
+                Section.create({
+                    "engagement_id": as_root.engagement_id.id, "risk_id": as_root.id,
+                    "file_item_id": item.id, "assertion_ids": [(6, 0, tags.ids)],
+                })
         return True
+
+    def action_open_step_link(self):
+        """The planned response, picked from the file's program."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "name": self.env._("Link a program step"), "res_model": "ea.audit.risk.step.wizard",
+            "view_mode": "form", "target": "new",
+            "context": {"default_risk_id": self.id, "default_engagement_id": self.sudo().engagement_id.id},
+        }
 
     def unlink_index(self, index_code):
         self.ensure_one()
@@ -433,3 +503,34 @@ class EngagementRisk(models.Model):
 
     def action_export_risks(self):
         return self._ea_export_action("risks")
+
+
+class StepWizard(models.TransientModel):
+    _name = "ea.audit.step.wizard"
+    _description = "Complete a program step"
+
+    step_id = fields.Many2one("ea.audit.program.step", required=True)
+    mode = fields.Selection([("complete", "Complete"), ("na", "Not applicable")], default="complete", required=True)
+    text = fields.Text(string="Conclusion or rationale", required=True)
+
+    def action_save(self):
+        self.ensure_one()
+        if self.mode == "na":
+            self.step_id.mark_na(self.text)
+        else:
+            self.step_id.complete(self.text)
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
+
+
+class RiskStepWizard(models.TransientModel):
+    _name = "ea.audit.risk.step.wizard"
+    _description = "Link a risk to a program step"
+
+    risk_id = fields.Many2one("ea.audit.risk", required=True)
+    engagement_id = fields.Many2one("ea.audit.engagement", required=True)
+    step_id = fields.Many2one("ea.audit.program.step", string="Program step", required=True, domain="[('engagement_id', '=', engagement_id)]")
+
+    def action_link(self):
+        self.ensure_one()
+        self.risk_id.link_step(self.step_id)
+        return {"type": "ir.actions.client", "tag": "soft_reload"}

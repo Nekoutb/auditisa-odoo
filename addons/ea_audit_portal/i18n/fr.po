@@ -1,0 +1,472 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 11:04+0000\n"
+"PO-Revision-Date: 2026-11-05 11:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_portal
+#: model:ir.model.constraint,message:ea_audit_portal.constraint_ea_audit_portal_contact_user_uniq
+msgid "A portal account belongs to one client."
+msgstr "Un compte portail appartient à un seul client."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_form
+msgid "Accept and file"
+msgstr "Accepter et classer"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+msgid "Accept and file the upload"
+msgstr "Accepter et classer le dépôt"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "At least 12 characters, upper and lower case, and at least one digit. Nobody at your auditor's firm knows it."
+msgstr "Au moins 12 caractères, majuscules et minuscules, et au moins un chiffre. Personne au cabinet de votre auditeur ne le connaît."
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_client
+msgid "Audit client"
+msgstr "Client d'audit"
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr "Mission d'audit"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_client_form_portal
+msgid "Awaiting password"
+msgstr "Mot de passe attendu"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "Choose the task this upload is filed under."
+msgstr "Choisissez la tâche sous laquelle classer ce dépôt."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "Choose your password"
+msgstr "Choisissez votre mot de passe"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__client_id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__client_id
+msgid "Client"
+msgstr "Client"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_engagement_form_pbc_button
+msgid "Client documents (PBC)"
+msgstr "Documents du client (PBC)"
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_portal_contact
+msgid "Client portal contact"
+msgstr "Contact du client sur le portail"
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_portal_pbc_wizard
+msgid "Client-provided document request"
+msgstr "Demande de document au client"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__pbc_item_ids
+msgid "Client-provided documents"
+msgstr "Documents fournis par le client"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_portal_contact_wizard
+msgid "Close"
+msgstr "Fermer"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_wizard
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "Confirm the password"
+msgstr "Confirmez le mot de passe"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__contact_id
+msgid "Contact"
+msgstr "Contact"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_portal_contact_wizard
+msgid "Create and get the link"
+msgstr "Créer et obtenir le lien"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_portal.field_res_users__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__document_id
+msgid "Document"
+msgstr "Document"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_my_home_pbc
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "Documents requested by your auditor"
+msgstr "Documents demandés par votre auditeur"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_form
+msgid "Download"
+msgstr "Télécharger"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__email
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__email
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "Email"
+msgstr "Courriel"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__engagement_id
+msgid "Engagement"
+msgstr "Mission"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "File"
+msgstr "Fichier"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_form
+msgid "File under a task"
+msgstr "Classer sous une tâche"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__filed_code
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__file_item_id
+msgid "Filed under"
+msgstr "Classé sous"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__fiscal_year
+msgid "Fiscal Year"
+msgstr "Exercice"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_portal.field_res_users__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+#: code:addons/ea_audit_portal/wizards/portal_wizards.py:0
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__invite_link
+msgid "Invitation link"
+msgstr "Lien d'invitation"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__invite_digest
+msgid "Invite Digest"
+msgstr "Empreinte de l'invitation"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__invite_expires_at
+msgid "Invite Expires At"
+msgstr "Expiration de l'invitation"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__item_id
+msgid "Item"
+msgstr "Demande"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
+msgid "Last reminder"
+msgstr "Dernière relance"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_client_form_portal
+msgid "Link valid until"
+msgstr "Lien valable jusqu'au"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact_wizard__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_engagement_form_pbc_button
+msgid "New PBC request"
+msgstr "Nouvelle demande PBC"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_client_form_portal
+msgid "New link"
+msgstr "Nouveau lien"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_portal_contact_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_client_form_portal
+msgid "New portal contact"
+msgstr "Nouveau contact du portail"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+msgid "New request"
+msgstr "Nouvelle demande"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__note
+msgid "Note"
+msgstr "Note"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "Nothing is requested at the moment."
+msgstr "Rien n'est demandé pour le moment."
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_engagement__pbc_open_count
+msgid "Open requests"
+msgstr "Demandes ouvertes"
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_ea_audit_pbc_item
+msgid "PBC request"
+msgstr "Demande au client"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_portal_contact_wizard
+msgid "Pass this link to the contact: it works once, for 14 days. They choose their own password."
+msgstr "Transmettez ce lien au contact : il ne sert qu'une fois, pendant 14 jours. Le contact choisit lui-même son mot de passe."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "Password"
+msgstr "Mot de passe"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__pending
+msgid "Pending"
+msgstr "En attente"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__portal_contact_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_client_form_portal
+msgid "Portal contacts"
+msgstr "Contacts du portail"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
+msgid "Reminders"
+msgstr "Relances"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
+msgid "Requested on"
+msgstr "Demandé le"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "Save and continue"
+msgstr "Enregistrer et continuer"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_my_home_pbc
+msgid "See what is requested and upload it"
+msgstr "Voir ce qui est demandé et le déposer"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
+msgid "Send a reminder"
+msgstr "Envoyer une relance"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,help:ea_audit_portal.field_ea_audit_portal_contact__pending
+msgid "The contact has not chosen a password yet."
+msgstr "Le contact n'a pas encore choisi de mot de passe."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "The file is empty."
+msgstr "Le fichier est vide."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "The file is larger than the 25 MB limit."
+msgstr "Le fichier dépasse la limite de 25 Mo."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "The password must not contain your email address."
+msgstr "Le mot de passe ne doit pas contenir votre adresse e-mail."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "The two passwords differ."
+msgstr "Les deux mots de passe diffèrent."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "This client has no portal contact: a reminder would reach nobody. Add a contact first."
+msgstr "Ce client n'a aucun contact sur le portail : une relance n'atteindrait personne. Ajoutez d'abord un contact."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "This contact has already chosen a password."
+msgstr "Ce contact a déjà choisi un mot de passe."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "This file cannot be accepted: its type is refused, or its content does not match its extension."
+msgstr "Ce fichier ne peut pas être accepté : son type est refusé, ou son contenu ne correspond pas à son extension."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_invite
+msgid "This invitation has expired or has already been used. Ask your auditor for a new one."
+msgstr "Cette invitation a expiré ou a déjà été utilisée. Demandez-en une nouvelle à votre auditeur."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "This page is for the client's portal contacts."
+msgstr "Cette page est réservée aux contacts du client sur le portail."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "This request belongs to another client."
+msgstr "Cette demande appartient à un autre client."
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "This request has already been accepted."
+msgstr "Cette demande a déjà été acceptée."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "This request is not in the right state for that."
+msgstr "Cette demande n'est pas dans le bon état pour cela."
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_pbc_wizard__title
+msgid "Title"
+msgstr "Titre"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_pbc_item__attachment_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "Upload"
+msgstr "Pièce jointe"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.portal_pbc_list
+msgid "Uploaded:"
+msgstr "Déposé :"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "Use at least 12 characters."
+msgstr "Utilisez au moins 12 caractères."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "Use at least one digit."
+msgstr "Utilisez au moins un chiffre."
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/rules.py:0
+msgid "Use upper and lower case letters."
+msgstr "Utilisez des majuscules et des minuscules."
+
+#. module: ea_audit_portal
+#: model:ir.model,name:ea_audit_portal.model_res_users
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_portal_contact__user_id
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+msgid "ea_audit_portal.view_pbc_item_form"
+msgstr ""
+
+#. module: ea_audit_portal
+#. odoo-python
+#: code:addons/ea_audit_portal/models/pbc.py:0
+msgid "ea_audit_portal.view_pbc_item_list"
+msgstr ""

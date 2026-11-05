@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pbc_list" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.item.list</field>
+        <field name="model">ea.audit.pbc.item</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-danger="overdue">
+                <header>
+                    <button name="action_list_add_pbc" type="object" string="Request a document" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                </header>
+                <field name="title"/>
+                <field name="note" optional="show"/>
+                <field name="status" widget="badge" decoration-success="status == 'accepted'" decoration-warning="status == 'uploaded'"/>
+                <field name="create_date" string="Requested on"/>
+                <field name="uploaded_at"/>
+                <field name="age_days"/>
+                <field name="overdue" column_invisible="1"/>
+                <field name="chase_count"/>
+                <field name="filename"/>
+                <field name="file_item_id"/>
+                <button name="action_chase" type="object" string="Chase" invisible="status != 'requested'" groups="ea_audit_core.group_writer"/>
+                <button name="action_open_upload" type="object" string="Record a document received" invisible="status == 'accepted'" groups="ea_audit_core.group_writer"/>
+                <button name="action_open_accept" type="object" string="Accept and file" invisible="status != 'uploaded'" groups="ea_audit_core.group_writer"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_fa_ratio_list" model="ir.ui.view">
+        <field name="name">ea.audit.fa.ratio.list</field>
+        <field name="model">ea.audit.fa.ratio</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" editable="bottom">
+                <field name="group" readonly="1" optional="hide"/>
+                <field name="label" readonly="1"/>
+                <field name="current" readonly="1" invisible="not has_current"/>
+                <field name="has_current" column_invisible="1"/>
+                <field name="prior" readonly="1" invisible="not has_prior"/>
+                <field name="has_prior" column_invisible="1"/>
+                <field name="variance" readonly="1" invisible="not has_variance"/>
+                <field name="has_variance" column_invisible="1"/>
+                <field name="unit" readonly="1"/>
+                <field name="commentary"/>
+                <field name="note" readonly="1" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_fa_ratio_search" model="ir.ui.view">
+        <field name="name">ea.audit.fa.ratio.search</field>
+        <field name="model">ea.audit.fa.ratio</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label"/>
+                <filter name="group_ratio" string="Group" context="{'group_by': 'group'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_engagement_analytics_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.analytics.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_tool_lead_lines" type="object" string="Lead schedules and commentary" class="btn-primary"/>
+                    <button name="action_tool_financial" type="object" string="Financial analysis"/>
+                    <button name="action_open_potential_wizard" type="object" string="Raise a potential risk" groups="ea_audit_core.group_writer"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Analytical procedures</div>
+                    <div class="o_ea_sub">A movement above performance materiality is flagged, for consideration (ISA 315, P3.2).</div>
+                    <div class="o_ea_panel">
+                        <field name="analytics_html" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_engagement_overrides_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.overrides.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_open_override_wizard" type="object" string="Add an override" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Client overrides</div>
+                    <div class="o_ea_sub">They apply to every file of this client, and move the lead schedules at once.</div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Lead index</div>
+                        <field name="lead_override_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="account_prefix"/>
+                                <field name="index_code"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Section</div>
+                        <field name="grouping_override_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="match_type"/>
+                                <field name="account_prefix"/>
+                                <field name="section_code"/>
+                                <field name="rationale"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wp_template_list" model="ir.ui.view">
+        <field name="name">ea.audit.wp.template.list</field>
+        <field name="model">ea.audit.wp.template</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="category" optional="hide"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="default_for"/>
+                <button name="action_download" type="object" string="Download"/>
+                <button name="action_open_assign" type="object" string="Assign to a task" groups="ea_audit_core.group_writer"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_wp_template_search" model="ir.ui.view">
+        <field name="name">ea.audit.wp.template.search</field>
+        <field name="model">ea.audit.wp.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_pbc_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.wizard.form</field>
+        <field name="model">ea.audit.pbc.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="title"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_add" type="object" string="Request" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_pbc_upload_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.upload.wizard.form</field>
+        <field name="model">ea.audit.pbc.upload.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="item_id" invisible="1"/>
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_upload" type="object" string="Record" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_pbc_accept_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.accept.wizard.form</field>
+        <field name="model">ea.audit.pbc.accept.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="item_id" invisible="1"/>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="file_item_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_file" type="object" string="File" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_override_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.override.wizard.form</field>
+        <field name="model">ea.audit.override.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="kind"/>
+                    <field name="account_prefix"/>
+                    <field name="index_code" invisible="kind != 'index'" required="kind == 'index'"/>
+                    <field name="match_type" invisible="kind != 'section'"/>
+                    <field name="section_code" invisible="kind != 'section'" required="kind == 'section'"/>
+                    <field name="rationale" invisible="kind != 'section'" required="kind == 'section'"/>
+                </group>
+                <footer>
+                    <button name="action_add" type="object" string="Add" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_potential_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.potential.wizard.form</field>
+        <field name="model">ea.audit.potential.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="description"/>
+                    <field name="source_code"/>
+                </group>
+                <footer>
+                    <button name="action_raise" type="object" string="Raise" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_wp_assign_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.wp.assign.wizard.form</field>
+        <field name="model">ea.audit.wp.assign.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="template_id" invisible="1"/>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="file_item_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_assign" type="object" string="Assign" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

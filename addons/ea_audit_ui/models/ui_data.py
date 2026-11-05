@@ -104,10 +104,14 @@ class AuditUi(models.AbstractModel):
     @api.model
     def _ea_ui_active_items(self, engagements):
         """The tasks on the file: a conditional task is not active until its
-        trigger is answered."""
-        return self._ea_ui_titled(self.env["ea.audit.file.item"].search([
+        trigger is answered, and an E4 task S5.5 left out is on no list (F010)."""
+        items = self.env["ea.audit.file.item"].search([
             ("engagement_id", "in", engagements.ids), ("conditional", "=", False),
-        ]))
+        ])
+        scoped_out = set()
+        for engagement in items.engagement_id:
+            scoped_out.update(engagement.sudo()._ea_e4_out_of_scope().ids)
+        return self._ea_ui_titled(items.filtered(lambda item: item.id not in scoped_out))
 
     @api.model
     def _ea_ui_live_signoffs(self, items):

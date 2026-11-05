@@ -24,10 +24,10 @@ body.ea-shell {
   .o-mail-ChatHub { display: none !important; }
 
   .o_action_manager { background: var(--ea-canvas); }
-  .o_view_controller:has(.o_ea_hub),
-  .o_view_controller:has(.o_ea_hub) .o_content,
-  .o_view_controller:has(.o_ea_hub) .o_kanban_renderer,
-  .o_view_controller:has(.o_ea_hub) .o_control_panel { background: var(--ea-canvas); border: 0; }
+  .o_view_controller.o_ea_hub,
+  .o_view_controller.o_ea_hub .o_content,
+  .o_view_controller.o_ea_hub .o_kanban_renderer,
+  .o_view_controller.o_ea_hub .o_control_panel { background: var(--ea-canvas); border: 0; }
 
   // Odoo's own forms and wizards wear the firm's emerald, not the default violet.
   .btn-primary {

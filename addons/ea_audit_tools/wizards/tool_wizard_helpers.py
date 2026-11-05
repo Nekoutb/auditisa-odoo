@@ -1,6 +1,10 @@
 from markupsafe import Markup
 
 
+def is_french_env(env):
+    return (env.lang or env.context.get("lang") or "").startswith("fr")
+
+
 def preview_html(preview, env):
     """The confirm step: the classes the file resolves to, and its first rows."""
     classes = Markup("").join(

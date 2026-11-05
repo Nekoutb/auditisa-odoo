@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_engagement_conclusion_form" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.conclusion</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">40</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_open_issue_wizard" type="object" string="Issue the report" class="btn-primary" invisible="report_date or archived_at" groups="ea_audit_core.group_partner"/>
+                    <button name="action_archive_file" type="object" string="Archive and lock the file" class="btn-primary" invisible="not report_date or archived_at" groups="ea_audit_core.group_partner"
+                            confirm="Once archived, nothing on this file can be changed. Archive it?"/>
+                    <button name="action_view_documents" type="object" string="Letters and reports"/>
+                    <button name="action_export_bundle" type="object" string="Export the file"/>
+                    <button name="action_open_hold_wizard" type="object" string="Legal hold" groups="ea_audit_core.group_manager"/>
+                    <button name="action_rollforward_next_year" type="object" string="Roll forward"/>
+                </header>
+                <sheet>
+                    <field name="phase" invisible="1"/>
+                    <field name="archived_at" invisible="1"/>
+                    <div class="alert alert-info" role="status" invisible="not archived_at">This file is archived and immutable.</div>
+                    <div class="alert alert-warning" role="status" invisible="not held">This file is under a legal hold: retention expiry is suspended.</div>
+                    <div class="alert alert-secondary" role="status" invisible="not points_from_prior">
+                        Points carried from the prior year: <field name="points_from_prior" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Opinion</div>
+                            <field name="opinion" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">Report date: <field name="report_date" readonly="1" nolabel="1"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">File assembly (ISA 230)</div>
+                            <field name="assembly_deadline" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">60 days from the report: shown, not enforced</div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Gates still blocking</div>
+                            <field name="gates_blocking_count" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">Report, completion, papers, review, assembly</div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Retention until</div>
+                            <field name="retention_until" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">Fixed when the file is archived</div>
+                        </div>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Completion gates (C4.1)</h4>
+                        <field name="completion_gates_html" readonly="1" nolabel="1"/>
+                        <button name="run_final_analytics" type="object" string="Run the final analytical review" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="run_fs_tieout" type="object" string="Run the FS tie-out" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_open_completion_wizard" type="object" string="Disclosure checklist" class="btn btn-secondary me-2" context="{'completion_key': 'disclosure_checklist'}" invisible="archived_at"/>
+                        <button name="action_open_completion_wizard" type="object" string="Subsequent events" class="btn btn-secondary me-2" context="{'completion_key': 'subsequent_events'}" invisible="archived_at"/>
+                        <button name="action_open_completion_wizard" type="object" string="Partner conclusion" class="btn btn-secondary me-2" context="{'completion_key': 'partner_conclusion'}" invisible="archived_at" groups="ea_audit_core.group_partner"/>
+                        <button name="action_open_completion_wizard" type="object" string="Points forward" class="btn btn-secondary" context="{'completion_key': 'points_forward'}"/>
+                    </div>
+                    <div class="o_ea_panel" invisible="not fs_tieout_html">
+                        <h4>Financial statement tie-out</h4>
+                        <field name="fs_tieout_html" readonly="1" nolabel="1"/>
+                        <button name="action_open_tieout_wizard" type="object" string="Compare with the client's statements" class="btn btn-secondary" invisible="archived_at"/>
+                    </div>
+                    <div class="o_ea_panel" invisible="archived_at">
+                        <h4>Letters</h4>
+                        <button name="action_generate_letter" type="object" string="Engagement letter" class="btn btn-secondary me-2" context="{'letter_kind': 'engagement'}"/>
+                        <button name="action_generate_letter" type="object" string="Planning communication" class="btn btn-secondary me-2" context="{'letter_kind': 'planning_tcwg'}"/>
+                        <button name="action_generate_letter" type="object" string="Affirmation letter" class="btn btn-secondary me-2" context="{'letter_kind': 'rep_affirmation'}"/>
+                        <button name="action_generate_letter" type="object" string="Complementary letter" class="btn btn-secondary me-2" context="{'letter_kind': 'rep_complementary'}"/>
+                        <button name="action_generate_letter" type="object" string="Management letter" class="btn btn-secondary me-2" context="{'letter_kind': 'management_letter'}"/>
+                        <button name="action_generate_letter" type="object" string="Governance report" class="btn btn-secondary" context="{'letter_kind': 'tcwg_completion'}"/>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Archive checklist (ISA 230)</h4>
+                        <field name="archive_checklist_html" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Legal holds</h4>
+                        <field name="legal_hold_ids" readonly="1" nolabel="1">
+                            <list>
+                                <field name="reason"/>
+                                <field name="placed_by_id"/>
+                                <field name="placed_at"/>
+                                <field name="released_at"/>
+                                <field name="released_by_id"/>
+                                <field name="release_reason"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_tieout_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.tieout.wizard.form</field>
+        <field name="model">ea.audit.tieout.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" readonly="1"/>
+                    <field name="client_file" filename="client_filename"/>
+                    <field name="client_filename" invisible="1"/>
+                </group>
+                <div invisible="not result_html">
+                    <div class="alert alert-warning" role="status">The tie-out shows differences: nothing was recorded.</div>
+                    <field name="result_html" nolabel="1"/>
+                </div>
+                <footer>
+                    <button name="action_run" type="object" string="Run the tie-out" class="btn-primary"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_engagement_form_conclusion_button" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.form.conclusion.button</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='phase']" position="before">
+                <button name="action_open_conclusion" type="object" string="Conclusion and archive"/>
+                <button name="action_open_issue_wizard" type="object" string="Issue the report" class="btn-primary" invisible="phase not in ('execution', 'conclusion') or report_date or archived_at" groups="ea_audit_core.group_partner"/>
+                <button name="action_archive_file" type="object" string="Archive and lock the file" class="btn-primary" invisible="not report_date or archived_at" groups="ea_audit_core.group_partner"
+                        confirm="Once archived, nothing on this file can be changed. Archive it?"/>
+                <field name="report_date" invisible="1"/>
+                <field name="archived_at" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

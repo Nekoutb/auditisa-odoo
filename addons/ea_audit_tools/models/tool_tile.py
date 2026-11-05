@@ -23,21 +23,26 @@ class ToolTile(models.Model):
     feeds = fields.Char(string="Papers", readonly=True)
     method = fields.Char(readonly=True, help="The engagement method that opens the tool. Empty: not built yet.")
     sequence = fields.Integer(default=10, readonly=True)
+    section = fields.Char(default="hub", readonly=True, index=True)
     available = fields.Boolean(compute="_compute_available")
+    enabled_method = fields.Char(compute="_compute_available", help="The method, when an installed addon provides it.")
     subtitle = fields.Char(compute="_compute_available")
 
     _code_uniq = models.Constraint("UNIQUE(code)", "A tile code is unique.")
 
     def _compute_available(self):
+        Engagement = self.env["ea.audit.engagement"]
         for tile in self:
-            tile.available = bool(tile.method)
-            tile.subtitle = tile.description if tile.method else "%s %s" % (tile.description, self.env._("(coming)"))
+            on = bool(tile.method) and hasattr(Engagement, tile.method)
+            tile.available = on
+            tile.enabled_method = tile.method if on else False
+            tile.subtitle = tile.description if on else "%s %s" % (tile.description, self.env._("(coming)"))
 
     def action_open_tool(self):
         self.ensure_one()
         engagement = self.env["ea.audit.engagement"].browse(self.env.context.get("ea_engagement_id"))
         engagement._ea_require_access()
-        if not self.method:
+        if not self.method or not hasattr(engagement, self.method):
             raise rule_error(self.env, "tool-not-available")
         if not self.method.startswith("action_tool_"):
             raise rule_error(self.env, "forbidden")
@@ -46,6 +51,25 @@ class ToolTile(models.Model):
 
 class EngagementTools(models.Model):
     _inherit = "ea.audit.engagement"
+
+    def action_tool_review_notes(self):
+        """The file's review notes: section, owner, state and turnaround."""
+        return self._ea_list(
+            "ea.audit.review.note", self.env._("Review notes"),
+            [("ea_audit_tools.view_review_note_register", "list")],
+            {"context": {"ea_engagement_id": self.id, "create": False, "group_by": ["state"]}},
+        )
+
+    def action_tool_forms(self):
+        """Every paper of the file by phase, and who it is assigned to. Opening a row opens its paper."""
+        return self._ea_list(
+            "ea.audit.file.item", self.env._("Forms"),
+            [("ea_audit_tools.view_forms_register", "list")],
+            {
+                "domain": [("engagement_id", "=", self.id), ("conditional", "=", False), ("id", "not in", self.sudo()._ea_e4_out_of_scope().ids)],
+                "context": {"ea_engagement_id": self.id, "create": False, "group_by": ["task_phase"]},
+            },
+        )
 
     def action_open_tools(self):
         """/engagements/[id]/tools."""
@@ -60,6 +84,7 @@ class EngagementTools(models.Model):
             "view_mode": "kanban",
             "views": [(self.env.ref("ea_audit_tools.view_tool_tile_kanban").id, "kanban")],
             "target": "current",
+            "domain": [("section", "=", "hub")],
             "context": {"ea_engagement_id": self.id, "create": False},
         }
 
@@ -80,12 +105,15 @@ class EngagementTools(models.Model):
         """(filename, bytes) of one workbook. Read rights: any accepted member, EQR included."""
         self.ensure_one()
         self._ea_require_access()
-        method = getattr(self, "_ea_export_%s" % kind, None) if re.fullmatch(r"[a-z_]+", kind or "") else None
+        method = self._ea_export_dynamic_method(kind) or self._ea_export_method(kind)
         if method is None:
             raise rule_error(self.env, "not-found")
         filename, content = method(is_french(self.env))
         self._ea_log("exported", "%s exported by %s" % (filename, self.env.user.name))
         return filename, content
+
+    def _ea_export_method(self, kind):
+        return getattr(self, "_ea_export_%s" % kind, None) if re.fullmatch(r"[a-z_]+", kind or "") else None
 
     def _ea_export_slug(self):
         return re.sub(r"[^\w-]+", "_", self.sudo().name or self.sudo().client_id.name or "file")[:60]
@@ -183,9 +211,15 @@ class EngagementTools(models.Model):
         except ServiceError as error:
             raise rule_error(self.env, error.code) from error
         method = {"cra": self._ea_import_cra, "significance": self._ea_import_significance, "risks": self._ea_import_risks}.get(kind)
+        if not method and kind in self._ea_extra_import_kinds():
+            method = getattr(self, "_ea_import_%s" % kind)
         if not method:
             raise rule_error(self.env, "not-found")
         return method(table)
+
+    def _ea_extra_import_kinds(self):
+        """The later tools that take a workbook back."""
+        return ("dsp", "pbc")
 
     def _ea_import_cra(self, table):
         self.sudo()._ea_sync_cra()

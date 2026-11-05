@@ -29,6 +29,7 @@
             <form create="0" delete="0">
                 <header>
                     <button name="action_open_index_link" type="object" string="Link to a lead index" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_step_link" type="object" string="Link a program step" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_rebut" type="object" string="Rebut" invisible="presumed_type != 'revenue_fraud' or rebutted" groups="ea_audit_core.group_partner"/>
                     <button name="approve_addition" type="object" string="Approve the addition" invisible="not added_after_planning or addition_approved_by_id" groups="ea_audit_core.group_partner"/>
                     <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
