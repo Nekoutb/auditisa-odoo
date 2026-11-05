@@ -1,4 +1,4 @@
-# French translation of ea_audit_core.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* ea_audit_core
 #
@@ -6,11 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 03:06+0000\n"
-"PO-Revision-Date: 2026-11-04 03:06+0000\n"
+"POT-Creation-Date: 2026-11-05 13:13+0000\n"
+"PO-Revision-Date: 2026-11-05 13:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,9 +18,7 @@ msgstr ""
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"A person holds one firm role: read-only or EQR reviewer cannot be combined "
-"with another role."
+msgid "A person holds one firm role: read-only or EQR reviewer cannot be combined with another role."
 msgstr "Une personne n'a qu'un seul rôle au cabinet : lecture seule ou réviseur qualité ne peuvent pas être cumulés avec un autre rôle."
 
 #. module: ea_audit_core
@@ -44,8 +41,7 @@ msgstr "Accepter"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Accept the engagement invitation on its dashboard before signing work on it."
+msgid "Accept the engagement invitation on its dashboard before signing work on it."
 msgstr "Acceptez l'invitation à la mission depuis son tableau de bord avant de signer des travaux."
 
 #. module: ea_audit_core
@@ -151,9 +147,7 @@ msgstr "Procédures analytiques de risque"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Approve materiality in the tool first (P6.1): this paper is fed by the "
-"approved figures."
+msgid "Approve materiality in the tool first (P6.1): this paper is fed by the approved figures."
 msgstr "Approuvez d'abord le seuil de signification dans l'outil (P6.1) : ce papier en reprend les montants approuvés."
 
 #. module: ea_audit_core
@@ -278,9 +272,7 @@ msgstr "Emprunts (Q)"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"C4.2 is the engagement quality reviewer's own record: only the quality "
-"reviewer appointed on the team completes and signs it (ISQM 2 ¶24-27)."
+msgid "C4.2 is the engagement quality reviewer's own record: only the quality reviewer appointed on the team completes and signs it (ISQM 2 ¶24-27)."
 msgstr "C4.2 est le dossier propre du réviseur qualité : seul le réviseur qualité (EQR) désigné dans l'équipe le renseigne et le signe (ISQM 2 ¶24-27)."
 
 #. module: ea_audit_core
@@ -327,16 +319,13 @@ msgstr "Choisissez un rôle d'équipe valide."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Choose the engagement partner: an engagement cannot be created without one "
-"(a partner or administrator of the firm)."
+msgid "Choose the engagement partner: an engagement cannot be created without one (a partner or administrator of the firm)."
 msgstr "Choisissez l'associé signataire : une mission ne peut pas être créée sans lui (un associé ou un administrateur du cabinet)."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Clear the open review notes on this working paper before reviewer sign-off."
+msgid "Clear the open review notes on this working paper before reviewer sign-off."
 msgstr "Traitez les notes de revue ouvertes sur cette feuille de travail avant la signature du réviseur."
 
 #. module: ea_audit_core
@@ -393,9 +382,7 @@ msgstr "Communications (ISA 260/265)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C5_11
-msgid ""
-"Communications with those charged with governance and management (ISA "
-"260/265)"
+msgid "Communications with those charged with governance and management (ISA 260/265)"
 msgstr "Communications avec la gouvernance et la direction (ISA 260/265)"
 
 #. module: ea_audit_core
@@ -573,10 +560,6 @@ msgstr "Refusée"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_29
-msgid "Depreciation & Provisions (VD2)"
-msgstr "Dotations et provisions (VD2)"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_29
 msgid "Depreciation & Provisions (VD2)"
 msgstr "Dotations amortissements et provisions (VD2)"
@@ -598,20 +581,12 @@ msgstr "Tests écritures & fraude"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_5
-msgid "Design Substantive Procedures"
-msgstr "Procédures substantives"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S5_5
 msgid "Design Substantive Procedures"
 msgstr "Concevoir les procédures substantives"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_2
-msgid "Design Tests of Controls"
-msgstr "Conception des tests de contrôles"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_2
 msgid "Design Tests of Controls"
 msgstr "Concevoir les tests de contrôles"
@@ -624,15 +599,12 @@ msgstr "Concevoir les tests d'écritures et autres procédures obligatoires de f
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Designate the engagement partner on the team page before giving a partner "
-"sign-off."
+msgid "Designate the engagement partner on the team page before giving a partner sign-off."
 msgstr "Désignez l'associé responsable de la mission sur la page Équipe avant toute signature d'associé."
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P6_1
-msgid ""
-"Determine Materiality — Overall, Performance and Clearly Trivial (ISA 320)"
+msgid "Determine Materiality — Overall, Performance and Clearly Trivial (ISA 320)"
 msgstr "Déterminer le seuil de signification — global, de travail et manifestement négligeable (ISA 320)"
 
 #. module: ea_audit_core
@@ -671,6 +643,7 @@ msgstr "Révélation des faits délictueux"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__display_name
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_company__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_lang__display_name
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_users__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
@@ -746,10 +719,6 @@ msgstr "Lettre de mission (ISA 210)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_2
-msgid "Engagement Quality Review"
-msgstr "Revue qualité de la mission"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C4_2
 msgid "Engagement Quality Review"
 msgstr "Revue de qualité de la mission"
@@ -761,10 +730,6 @@ msgstr "Détermination de la revue de qualité (ISQM 1/2)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_2
-msgid "Engagement Team Discussion"
-msgstr "Discussion de l'équipe"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P5_2
 msgid "Engagement Team Discussion"
 msgstr "Discussion de l'équipe de mission"
@@ -802,6 +767,11 @@ msgstr "Enregistrement rattaché à une mission"
 #: model:ir.ui.menu,name:ea_audit_core.menu_engagements
 msgid "Engagements"
 msgstr "Missions"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__report_language__en
+msgid "English"
+msgstr "Anglais"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -843,9 +813,7 @@ msgstr "Évaluer les ITGC"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Every control-risk \"rely\" on S3.1 rests on a control selected for testing,"
-" or on a written basis (ISA 330 ¶8)"
+msgid "Every control-risk \"rely\" on S3.1 rests on a control selected for testing, or on a written basis (ISA 330 ¶8)"
 msgstr "Chaque « appui » sur les contrôles en S3.1 repose sur un contrôle retenu pour test, ou sur un fondement écrit (ISA 330 ¶8)"
 
 #. module: ea_audit_core
@@ -857,25 +825,19 @@ msgstr "Chaque section significative dispose d'une couverture planifiée (stand-
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Every relevant IT application needs an IT strategy before S2.3 is signed off"
-" — decide the strategy of each application still at \"— decide\"."
+msgid "Every relevant IT application needs an IT strategy before S2.3 is signed off — decide the strategy of each application still at \"— decide\"."
 msgstr "Chaque application informatique pertinente doit avoir une stratégie informatique avant la signature de S2.3 — décidez la stratégie des applications encore à « — décider »."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Every required P1.1 acceptance check answered \"yes\" (predecessor contact "
-"for a new engagement)"
+msgid "Every required P1.1 acceptance check answered \"yes\" (predecessor contact for a new engagement)"
 msgstr "Chaque vérification d'acceptation requise de P1.1 répondue « oui » (contact du prédécesseur pour une nouvelle mission)"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Every significance decision that departs from the default needs its "
-"justification before P6.2 is signed off."
+msgid "Every significance decision that departs from the default needs its justification before P6.2 is signed off."
 msgstr "Chaque décision de significativité qui s'écarte de la valeur par défaut doit être justifiée avant la signature de P6.2."
 
 #. module: ea_audit_core
@@ -887,9 +849,7 @@ msgstr "Chaque risque important lié à au moins une diligence du programme"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Exactly one engagement partner designated on the team, who has accepted the "
-"engagement"
+msgid "Exactly one engagement partner designated on the team, who has accepted the engagement"
 msgstr "Un seul associé responsable désigné dans l'équipe, et qui a accepté la mission"
 
 #. module: ea_audit_core
@@ -914,9 +874,7 @@ msgstr "Exécution"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Execution is not closed yet: issue the report before recording conclusion "
-"work."
+msgid "Execution is not closed yet: issue the report before recording conclusion work."
 msgstr "L'exécution n'est pas clôturée : émettez le rapport avant d'enregistrer des travaux de conclusion."
 
 #. module: ea_audit_core
@@ -1068,6 +1026,11 @@ msgid "Fraud Risks & Responses (ISA 240)"
 msgstr "Risques de fraude & réponses (ISA 240)"
 
 #. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__report_language__fr
+msgid "French"
+msgstr "Français"
+
+#. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__gie
 msgid "GIE"
 msgstr "GIE"
@@ -1137,6 +1100,7 @@ msgstr "A un message"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__id
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_company__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_res_lang__id
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_users__id
 msgid "ID"
 msgstr "ID"
@@ -1158,10 +1122,6 @@ msgstr "Environnement & implication IT"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_1
-msgid "ITGC Testing"
-msgstr "Contrôles généraux informatiques"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E1_1
 msgid "ITGC Testing"
 msgstr "Tests des contrôles généraux informatiques"
@@ -1194,9 +1154,7 @@ msgstr "Si coché, certains messages ont une erreur de distribution."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Import a valid trial balance for the year first: this paper is fed by it "
-"(lead schedules, P6.2, C1.1)."
+msgid "Import a valid trial balance for the year first: this paper is fed by it (lead schedules, P6.2, C1.1)."
 msgstr "Importez d'abord une balance générale valide de l'exercice : ce papier en est alimenté (feuilles maîtresses, P6.2, C1.1)."
 
 #. module: ea_audit_core
@@ -1312,6 +1270,11 @@ msgstr "Écritures & fraude (ISA 240)"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__kind
 msgid "Kind"
 msgstr "Type"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_res_lang
+msgid "Languages"
+msgstr "Langues"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__write_uid
@@ -1592,16 +1555,13 @@ msgstr "Un des codes de tâche ne figure pas dans l'index du dossier d'audit."
 
 #. module: ea_audit_core
 #: model:ir.model.fields,help:ea_audit_core.field_ea_audit_signoff_policy__allowed_email_domains
-msgid ""
-"One per line. Kept by the firm administrator. Empty means no restriction."
+msgid "One per line. Kept by the firm administrator. Empty means no restriction."
 msgstr "Un par ligne. Tenue par l'administrateur du cabinet. Vide : aucune restriction."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Only a manager, partner or firm administrator on this engagement can change "
-"its team."
+msgid "Only a manager, partner or firm administrator on this engagement can change its team."
 msgstr "Seul un manager, un associé ou l'administrateur du cabinet affecté à cette mission peut modifier son équipe."
 
 #. module: ea_audit_core
@@ -1619,16 +1579,13 @@ msgstr "Seul un associé peut attribuer ou retirer le rôle d'associé de la mis
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Only a partner or firm administrator can change the firm's sign-off rules."
+msgid "Only a partner or firm administrator can change the firm's sign-off rules."
 msgstr "Seul un associé ou un administrateur du cabinet peut modifier les règles de signature du cabinet."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Only a partner or firm administrator of the firm can hold the engagement "
-"partner role."
+msgid "Only a partner or firm administrator of the firm can hold the engagement partner role."
 msgstr "Seul un associé ou un administrateur du cabinet peut tenir le rôle d'associé de la mission."
 
 #. module: ea_audit_core
@@ -1646,25 +1603,19 @@ msgstr "Seuls les membres de l'équipe de la mission ayant accepté l'invitation
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Only an accepted member of this engagement's team can sign its working "
-"papers."
+msgid "Only an accepted member of this engagement's team can sign its working papers."
 msgstr "Seul un membre de l'équipe ayant accepté la mission peut signer ses papiers de travail."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Only the engagement partner or a firm administrator can transfer the "
-"engagement partner role."
+msgid "Only the engagement partner or a firm administrator can transfer the engagement partner role."
 msgstr "Seul l'associé responsable ou un administrateur du cabinet peut transférer le rôle d'associé de la mission."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Only the engagement partner, or the partner they delegated to, can give this"
-" partner sign-off."
+msgid "Only the engagement partner, or the partner they delegated to, can give this partner sign-off."
 msgstr "Seul l'associé responsable de la mission, ou l'associé qu'il a désigné comme délégué, peut donner cette signature d'associé."
 
 #. module: ea_audit_core
@@ -1750,10 +1701,7 @@ msgstr "Liste P1.1 complète et conclusion « accepter »"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"P7.2 is approved on the Planning Review & Approval Summary: the engagement "
-"partner signs there once every confirmation and deliverable is in place. "
-"Review sign-off on the row follows that approval."
+msgid "P7.2 is approved on the Planning Review & Approval Summary: the engagement partner signs there once every confirmation and deliverable is in place. Review sign-off on the row follows that approval."
 msgstr "P7.2 s'approuve sur le récapitulatif de revue et d'approbation de la planification : l'associé responsable y signe une fois chaque confirmation et chaque livrable en place. La signature de revue sur la ligne suit cette approbation."
 
 #. module: ea_audit_core
@@ -1882,9 +1830,7 @@ msgstr "Revue et approbation de la planification"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Planning is not closed yet: pass the planning gates before recording "
-"execution or conclusion work."
+msgid "Planning is not closed yet: pass the planning gates before recording execution or conclusion work."
 msgstr "La planification n'est pas clôturée : passez les contrôles de planification avant d'enregistrer des travaux d'exécution ou de conclusion."
 
 #. module: ea_audit_core
@@ -2010,9 +1956,7 @@ msgstr "Créances clients (E)"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Record the team conclusion in the Summary of Audit Differences tool first "
-"(C1.1)."
+msgid "Record the team conclusion in the Summary of Audit Differences tool first (C1.1)."
 msgstr "Enregistrez d'abord la conclusion de l'équipe dans l'outil Récapitulatif des écarts d'audit (C1.1)."
 
 #. module: ea_audit_core
@@ -2050,13 +1994,14 @@ msgstr "Parties liées (ISA 550)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_1
-msgid "Reliance on Experts (ISA 620)"
-msgstr "Recours à un expert (ISA 620)"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S5_1
 msgid "Reliance on Experts (ISA 620)"
 msgstr "Utilisation des travaux d'un expert (ISA 620)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__report_language
+msgid "Report language"
+msgstr "Langue des rapports"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P7_1
@@ -2103,9 +2048,7 @@ msgstr "Notes de revue levées (papiers et tâches)"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Review the section conclusion (\"Reviewed (senior/manager)\") before signing"
-" the paper as reviewer."
+msgid "Review the section conclusion (\"Reviewed (senior/manager)\") before signing the paper as reviewer."
 msgstr "Revoyez la conclusion de section (« Revue (senior/manager) ») avant de signer la feuille en tant que réviseur."
 
 #. module: ea_audit_core
@@ -2171,10 +2114,6 @@ msgstr "Secteur"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_1
-msgid "Select Controls to Test"
-msgstr "Sélection des contrôles"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_1
 msgid "Select Controls to Test"
 msgstr "Sélectionner les contrôles à tester"
@@ -2353,13 +2292,9 @@ msgstr "Commissariat aux comptes"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_2
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_6
-msgid "Subsequent Events (ISA 560)"
-msgstr "Événements postérieurs (ISA 560)"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_6
 msgid "Subsequent Events (ISA 560)"
-msgstr "Événements postérieurs à la clôture (ISA 560)"
+msgstr "Événements postérieurs (ISA 560)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C2_2
@@ -2368,20 +2303,12 @@ msgstr "Revue des événements postérieurs (ISA 560)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_2
-msgid "Summary Review Memorandum"
-msgstr "Mémorandum récapitulatif"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C1_2
 msgid "Summary Review Memorandum"
 msgstr "Mémorandum récapitulatif de revue"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_1
-msgid "Summary of Audit Differences"
-msgstr "Écarts d'audit"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C1_1
 msgid "Summary of Audit Differences"
 msgstr "Récapitulatif des écarts d'audit"
@@ -2498,9 +2425,7 @@ msgstr "Le délégué doit être un associé du cabinet."
 
 #. module: ea_audit_core
 #: model:ir.model.fields,help:ea_audit_core.field_res_company__ea_allowed_email_domains
-msgid ""
-"The domains an engagement-team invitation may be sent to, one per line. "
-"Empty means no restriction."
+msgid "The domains an engagement-team invitation may be sent to, one per line. Empty means no restriction."
 msgstr "Les domaines vers lesquels une invitation à une équipe de mission peut être envoyée, un par ligne. Vide : aucune restriction."
 
 #. module: ea_audit_core
@@ -2512,57 +2437,43 @@ msgstr "La mission n'est pas dans la phase requise pour cette action."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The engagement is still in acceptance: pass the acceptance gates (P1.1 "
-"partner sign-off) before working on later phases."
+msgid "The engagement is still in acceptance: pass the acceptance gates (P1.1 partner sign-off) before working on later phases."
 msgstr "La mission est encore en acceptation : passez les contrôles d'acceptation (signature de l'associé sur P1.1) avant de travailler sur les phases suivantes."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The engagement partner cannot be removed or re-roled: transfer the role to "
-"another partner first."
+msgid "The engagement partner cannot be removed or re-roled: transfer the role to another partner first."
 msgstr "L'associé responsable ne peut pas être retiré ni changer de rôle : transférez d'abord le rôle à un autre associé."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The engagement partner signs in their own right: choose another partner as "
-"delegate."
+msgid "The engagement partner signs in their own right: choose another partner as delegate."
 msgstr "L'associé responsable signe en son nom propre : choisissez un autre associé comme délégué."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The engagement quality reviewer cannot be assigned engagement work (ISQM 2 "
-"¶18-20)."
+msgid "The engagement quality reviewer cannot be assigned engagement work (ISQM 2 ¶18-20)."
 msgstr "Le réviseur qualité de la mission (EQR) ne peut pas se voir confier les travaux de la mission (ISQM 2 ¶18-20)."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The engagement quality reviewer must be a partner of the firm or hold the "
-"firm role of EQR reviewer."
+msgid "The engagement quality reviewer must be a partner of the firm or hold the firm role of EQR reviewer."
 msgstr "Le réviseur qualité de la mission doit être associé du cabinet ou avoir le rôle de réviseur qualité (EQR) au cabinet."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The engagement quality reviewer reviews the team's work and raises notes, "
-"but does not change it. Record the review in C4.2."
+msgid "The engagement quality reviewer reviews the team's work and raises notes, but does not change it. Record the review in C4.2."
 msgstr "Le réviseur qualité (EQR) revoit les travaux de l'équipe et émet des notes, mais ne les modifie pas. Consignez la revue en C4.2."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement.py:0
-msgid ""
-"The engagement was created. Its engagement partner staffs it: you will see "
-"it once you are an accepted member of its team."
+msgid "The engagement was created. Its engagement partner staffs it: you will see it once you are an accepted member of its team."
 msgstr "La mission a été créée. Son associé responsable compose l'équipe : vous la verrez lorsque vous serez membre de l'équipe et aurez accepté l'invitation."
 
 #. module: ea_audit_core
@@ -2575,6 +2486,11 @@ msgstr "Le cabinet a une seule politique de signature."
 #: code:addons/ea_audit_core/services/errors.py:0
 msgid "The gates of this phase are not all met: %(gates)s."
 msgstr "Les contrôles de cette phase ne sont pas tous satisfaits : %(gates)s."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__report_language
+msgid "The language of the audit report, the letters, the legal documents and the exports of this engagement."
+msgstr "La langue du rapport d'audit, des lettres, des documents légaux et des exports de cette mission."
 
 #. module: ea_audit_core
 #. odoo-python
@@ -2591,17 +2507,13 @@ msgstr "Le préparateur doit signer et transmettre avant que le réviseur puisse
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The same person cannot be both preparer and approver of a task (firm sign-"
-"off policy)."
+msgid "The same person cannot be both preparer and approver of a task (firm sign-off policy)."
 msgstr "Une même personne ne peut pas être à la fois préparateur et approbateur d'une tâche (politique de signature du cabinet)."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"The working paper is incomplete — answer every procedure, evaluation and "
-"conclusion (explaining each \"No\") before signing it off."
+msgid "The working paper is incomplete — answer every procedure, evaluation and conclusion (explaining each \"No\") before signing it off."
 msgstr "La feuille de travail est incomplète — répondez à chaque procédure, évaluation et conclusion (en expliquant chaque « Non ») avant de la signer."
 
 #. module: ea_audit_core
@@ -2612,10 +2524,7 @@ msgstr "Ce contact a déjà une fiche client."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This email address is not on one of the firm's allowed domains "
-"(%(domains)s). Engagement-team invitations go only to those domains; a firm "
-"administrator can change the list in Settings."
+msgid "This email address is not on one of the firm's allowed domains (%(domains)s). Engagement-team invitations go only to those domains; a firm administrator can change the list in Settings."
 msgstr "Cette adresse n'appartient à aucun des domaines autorisés du cabinet (%(domains)s). Les invitations aux équipes de mission ne sont envoyées qu'à ces domaines ; un administrateur du cabinet peut modifier la liste dans Paramètres."
 
 #. module: ea_audit_core
@@ -2626,9 +2535,7 @@ msgstr "Cette mission a déjà son associé responsable."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This engagement already has its engagement partner. Use the transfer form to"
-" hand the role over."
+msgid "This engagement already has its engagement partner. Use the transfer form to hand the role over."
 msgstr "Cette mission a déjà son associé responsable. Utilisez le formulaire de transfert pour lui passer le rôle."
 
 #. module: ea_audit_core
@@ -2650,9 +2557,7 @@ msgstr "Cette personne fait déjà partie de l'équipe de mission."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This person is already on the engagement team. To change their role, use the"
-" team assignment on the planning page."
+msgid "This person is already on the engagement team. To change their role, use the team assignment on the planning page."
 msgstr "Cette personne fait déjà partie de l'équipe de mission. Pour changer son rôle, utilisez l'affectation de l'équipe sur la page de planification."
 
 #. module: ea_audit_core
@@ -2664,9 +2569,7 @@ msgstr "Cette personne est déjà l'associé responsable de la mission."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This person was the engagement partner of the same client within the two "
-"years before this period end: the cooling-off period applies (ISQM 2 ¶20)."
+msgid "This person was the engagement partner of the same client within the two years before this period end: the cooling-off period applies (ISQM 2 ¶20)."
 msgstr "Cette personne a été associé responsable de la mission pour le même client dans les deux ans précédant la clôture de cet exercice : la période de viduité s'applique (ISQM 2 ¶20)."
 
 #. module: ea_audit_core
@@ -2705,8 +2608,7 @@ msgstr "Cette tâche requiert au moins un manager audit de l'équipe de la missi
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This task requires at least an audit senior manager on the engagement team."
+msgid "This task requires at least an audit senior manager on the engagement team."
 msgstr "Cette tâche requiert au moins un senior manager audit de l'équipe de la mission."
 
 #. module: ea_audit_core
@@ -2718,8 +2620,7 @@ msgstr "Cette tâche requiert au moins un senior audit de l'équipe de la missio
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This task requires at least an audit staff member of the engagement team."
+msgid "This task requires at least an audit staff member of the engagement team."
 msgstr "Cette tâche requiert au moins un assistant audit de l'équipe de la mission."
 
 #. module: ea_audit_core
@@ -2737,15 +2638,13 @@ msgstr "Cette feuille de travail est déjà entièrement signée et verrouillée
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"This working paper is checked out for editing. Check it in before signing."
+msgid "This working paper is checked out for editing. Check it in before signing."
 msgstr "Cette feuille de travail est verrouillée pour édition. Enregistrez-la avant de signer."
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"Tick the objectivity declaration to appoint the engagement quality reviewer."
+msgid "Tick the objectivity declaration to appoint the engagement quality reviewer."
 msgstr "Cochez la déclaration d'objectivité pour désigner le réviseur qualité de la mission."
 
 #. module: ea_audit_core
@@ -2823,8 +2722,7 @@ msgstr "Balance générale entièrement rattachée (aucun compte inconnu)"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,help:ea_audit_core.field_ea_audit_file_item__conditional
-msgid ""
-"True while the trigger is unanswered: the task is not active on the file."
+msgid "True while the trigger is unanswered: the task is not active on the file."
 msgstr "Vrai tant que le déclencheur est sans réponse : la tâche n'est pas active au dossier."
 
 #. module: ea_audit_core
@@ -2854,9 +2752,7 @@ msgstr "Comprendre l'activité (ISA 315)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P3_1
-msgid ""
-"Understand the Business — the Entity, its Environment and the Applicable "
-"Framework (ISA 315)"
+msgid "Understand the Business — the Entity, its Environment and the Applicable Framework (ISA 315)"
 msgstr "Connaissance de l'entité, de son environnement et du référentiel comptable applicable (ISA 315)"
 
 #. module: ea_audit_core
@@ -2940,9 +2836,7 @@ msgstr "Vous avez déjà signé cette feuille de travail dans ce rôle."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid ""
-"You signed this paper as preparer: another member of the team must review "
-"it."
+msgid "You signed this paper as preparer: another member of the team must review it."
 msgstr "Vous avez signé ce papier comme préparateur : un autre membre de l'équipe doit le réviser."
 
 #. module: ea_audit_core

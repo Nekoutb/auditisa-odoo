@@ -22,7 +22,7 @@
                 <templates>
                     <t t-name="card">
                         <field name="client_id" class="fw-bold"/>
-                        <div>Exercice <field name="fiscal_year" options="{'enable_formatting': false}"/> · <field name="period_end"/></div>
+                        <div>Fiscal year <field name="fiscal_year" options="{'enable_formatting': false}"/> · <field name="period_end"/></div>
                         <field name="engagement_partner_id" class="text-muted"/>
                     </t>
                 </templates>

@@ -26,6 +26,10 @@ importer exporter generer approuver constatation constatations constats synthese
 comptable comptables echantillon sondage nouveau nouvelle""".split())
 
 
+# Unaccented French that shows up alone, as a label.
+ONE_WORD = {"exercice", "seuil", "statut", "montant", "echeance"}
+
+
 def _plain(word):
     return "".join(c for c in unicodedata.normalize("NFD", word.lower()) if not unicodedata.combining(c))
 
@@ -36,7 +40,9 @@ def looks_french(text):
     if ACCENTS.search(text):
         return True
     words = [_plain(w) for w in re.findall(r"[^\W\d_]+", text)]
-    if len(words) < 2:
+    if len(words) == 1:
+        return words[0] in ONE_WORD
+    if not words:
         return False
     weak = sum(1 for w in words if w in WEAK)
     if weak >= 2:

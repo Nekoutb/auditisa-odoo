@@ -1,0 +1,1478 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_ui
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 13:14+0000\n"
+"PO-Revision-Date: 2026-11-05 13:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "%(client)s, fiscal year %(year)s"
+msgstr "%(client)s, exercice %(year)s"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "%(count)s tasks assigned: %(client)s, %(year)s"
+msgstr "%(count)s tâches affectées : %(client)s, %(year)s"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/tool_events.py:0
+msgid "%(name)s created this version"
+msgstr "%(name)s a créé cette version"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "%(name)s named you as %(role)s"
+msgstr "%(name)s vous a désigné comme %(role)s"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/tool_events.py:0
+msgid "%(name)s raised this finding"
+msgstr "%(name)s a relevé ce constat"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "%(name)s signed as preparer"
+msgstr "%(name)s a signé comme préparateur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "%(name)s signed as reviewer"
+msgstr "%(name)s a signé comme réviseur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/tool_events.py:0
+msgid "%(name)s wrote a note"
+msgstr "%(name)s a écrit une note"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "%s d ago"
+msgstr "il y a %s j"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "%s h ago"
+msgstr "il y a %s h"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "%s min ago"
+msgstr "il y a %s min"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "%s unread"
+msgstr "%s non lues"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "+ New engagement"
+msgstr "+ Nouvelle mission"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid ", fiscal year"
+msgstr ", exercice"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "1 unread"
+msgstr "1 non lue"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "A"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "About the client →"
+msgstr "À propos du client →"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Acceptance & continuance"
+msgstr "Acceptation & maintien"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Acceptance awaiting the partner's sign-off"
+msgstr "Acceptation en attente de la signature de l'associé"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Acceptance signed"
+msgstr "Acceptation signée"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Acceptance to sign"
+msgstr "Acceptation à signer"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Administrator"
+msgstr "Administrateur"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "All engagements →"
+msgstr "Toutes les missions →"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Apps"
+msgstr "Applications"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Archived"
+msgstr "Archivée"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Archived on"
+msgstr "Archivée le"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Assign them →"
+msgstr "Les répartir →"
+
+#. module: ea_audit_ui
+#: model:ir.model,name:ea_audit_ui.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr "Mission d'audit"
+
+#. module: ea_audit_ui
+#: model:ir.model,name:ea_audit_ui.model_ea_audit_file_item
+msgid "Audit file task"
+msgstr "Tâche du dossier d'audit"
+
+#. module: ea_audit_ui
+#: model:ir.model,name:ea_audit_ui.model_ea_audit_notification
+msgid "Audit notification"
+msgstr "Notification d'audit"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Audit procedure design"
+msgstr "Conception des procédures d'audit"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Audit strategy memorandum"
+msgstr "Mémorandum de stratégie d'audit"
+
+#. module: ea_audit_ui
+#: model:ir.model,name:ea_audit_ui.model_ea_audit_ui
+msgid "AuditISA screens: read methods"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Awaiting preparer"
+msgstr "En attente du préparateur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Awaiting review"
+msgstr "En attente de révision"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Awaiting sign-off"
+msgstr "En attente de signature"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "C1.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "C2.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "C3.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "C4.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "C5.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "C6.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "COMPLETE"
+msgstr "TERMINÉE"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "COMPLETION"
+msgstr "AVANCEMENT"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Calendar"
+msgstr "Calendrier"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Clients"
+msgstr "Clients"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Combined risk assessment"
+msgstr "Évaluation combinée des risques"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Communications & statutory reports"
+msgstr "Communications & rapports légaux"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Conclusion & Reporting"
+msgstr "Conclusion & rapports"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Continue"
+msgstr "Continuer"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Control updates"
+msgstr "Mises à jour des contrôles"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Controls & IT"
+msgstr "Contrôles & informatique"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "DUE DATE"
+msgstr "ÉCHÉANCE"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/home.js:0
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+#: model:ir.actions.client,name:ea_audit_ui.action_home
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Deficiencies"
+msgstr "Déficiences"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__detail
+msgid "Detail"
+msgstr "Détail"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_file_item__display_name
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__display_name
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_ui__display_name
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ir_http__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Documentation & archiving"
+msgstr "Documentation & archivage"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "E1.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "E2.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "E3.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "E6.4"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "EN"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "ENGAGEMENTS"
+msgstr "MISSIONS"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__engagement_id
+#: model:ir.model.fields.selection,name:ea_audit_ui.selection__ea_audit_notification__kind__mission
+msgid "Engagement"
+msgstr "Mission"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/context_service.js:0
+#: code:addons/ea_audit_ui/static/src/js/dashboard.js:0
+msgid "Engagement dashboard"
+msgstr "Tableau de bord de la mission"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Engagement record"
+msgstr "Fiche de la mission"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Engagement tools"
+msgstr "Outils de la mission"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Engagements"
+msgstr "Missions"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Entity-level controls & IT"
+msgstr "Contrôles de l'entité & informatique"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Execution of substantive procedures"
+msgstr "Exécution des procédures substantives"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Execution of tests of controls"
+msgstr "Exécution des tests de contrôles"
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.view_engagement_kanban
+msgid "Fiscal year"
+msgstr "Exercice"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "FR"
+msgstr ""
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__file_item_id
+msgid "File Item"
+msgstr "Tâche du dossier"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "File index"
+msgstr "Index du dossier"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Final review of the financial statements"
+msgstr "Revue finale des états financiers"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/tool_events.py:0
+msgid "Finding %(reference)s: %(title)s"
+msgstr "Constat %(reference)s : %(title)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Fiscal year"
+msgstr "Exercice"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__user_id
+msgid "For"
+msgstr "Pour"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Fraud risks & team discussion"
+msgstr "Risques de fraude & discussion d'équipe"
+
+#. module: ea_audit_ui
+#: model:ir.model,name:ea_audit_ui.model_ir_http
+msgid "HTTP Routing"
+msgstr "Routage HTTP"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_file_item__id
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__id
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_ui__id
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ir_http__id
+msgid "ID"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "IN PROGRESS"
+msgstr "EN COURS"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "IN REVIEW"
+msgstr "EN RÉVISION"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "In progress"
+msgstr "En cours"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "In review"
+msgstr "En revue"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Independence & team"
+msgstr "Indépendance & équipe"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields.selection,name:ea_audit_ui.selection__ea_audit_notification__kind__invitation
+msgid "Invitation"
+msgstr "Invitation"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Invitation to answer"
+msgstr "Invitation à répondre"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/engagement.py:0
+msgid "Invitation: %(client)s"
+msgstr "Invitation : %(client)s"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__kind
+msgid "Kind"
+msgstr "Type"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Language"
+msgstr "Langue"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Manager"
+msgstr "Manager"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Materiality & significant accounts"
+msgstr "Seuil de signification & comptes significatifs"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/tool_events.py:0
+msgid "Materiality to approve: version %(number)s"
+msgstr "Seuil à approuver : version %(number)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Misstatements"
+msgstr "Anomalies"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "My invitations"
+msgstr "Mes invitations"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "My tasks"
+msgstr "Mes tâches"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "NOT APPLICABLE"
+msgstr "SANS OBJET"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "NOT STARTED"
+msgstr "NON COMMENCÉE"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No active tasks in this group."
+msgstr "Aucune tâche active dans ce groupe."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No engagements. You only see the engagements whose team you belong to."
+msgstr "Aucune mission. Vous ne voyez que les missions dont vous êtes membre de l'équipe."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No engagements: you are not a member of any team."
+msgstr "Aucune mission : vous n'êtes membre d'aucune équipe."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No notifications."
+msgstr "Aucune notification."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No open deadlines."
+msgstr "Aucune échéance ouverte."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No results."
+msgstr "Aucun résultat."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No tasks on this engagement."
+msgstr "Aucune tâche sur cette mission."
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Not applicable"
+msgstr "Sans objet"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Not started"
+msgstr "Non commencée"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Not started yet"
+msgstr "Non commencé"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Notes by me"
+msgstr "Notes par moi"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Notes for me"
+msgstr "Notes pour moi"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Nothing open is assigned to you on this file."
+msgstr "Rien d'ouvert ne vous est affecté sur ce dossier."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Notifications"
+msgstr "Notifications"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "OVERALL COMPLETION"
+msgstr "AVANCEMENT GLOBAL"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Open"
+msgstr "Ouvrir"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Overdue by %(days)s d"
+msgstr "En retard de %(days)s j"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Overdue tasks"
+msgstr "Tâches en retard"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P1.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P2.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P3.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P4.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P5.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P6.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "P7.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "PARTNER"
+msgstr "ASSOCIÉ"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "PREPARER"
+msgstr "PRÉPARATEUR"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Partner"
+msgstr "Associé"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Partner approval"
+msgstr "Approbation de l'associé"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Period end"
+msgstr "Date de clôture"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Planning & Risk Identification"
+msgstr "Planification & identification des risques"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Planning review & approval"
+msgstr "Revue & approbation de la planification"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Preferences"
+msgstr "Préférences"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Quality reviewer"
+msgstr "Réviseur qualité"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "REQUIRES YOUR ATTENTION"
+msgstr "À TRAITER"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "REVIEWER"
+msgstr "RÉVISEUR"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__read_at
+msgid "Read At"
+msgstr "Lu le"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Read only"
+msgstr "Lecture seule"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Recent engagements"
+msgstr "Missions récentes"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Registers, opening balances"
+msgstr "Registres, soldes d'ouverture"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Registers, opening balances & revaluation"
+msgstr "Registres, soldes d'ouverture & réévaluation"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Report due by"
+msgstr "Rapport attendu avant le"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Representations"
+msgstr "Déclarations"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Review & approval"
+msgstr "Revue & approbation"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/tool_events.py:0
+msgid "Review note: %(label)s"
+msgstr "Note de revue : %(label)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Review notes & findings"
+msgstr "Notes de revue & constats"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/dashboard.js:0
+msgid "Review notes for me"
+msgstr "Notes de revue pour moi"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "S1.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "S2.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "S3.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "S4.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "S5.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "S6.1"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "SCOTs, flows & walkthroughs"
+msgstr "SCOT, flux & cheminements"
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.staging_band
+msgid "STAGING - test data, no email"
+msgstr "STAGING - données de test, sans e-mail"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "STATUS"
+msgstr "STATUT"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Search for an engagement or a task"
+msgstr "Rechercher une mission ou une tâche"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Search…"
+msgstr "Rechercher…"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Select engagement"
+msgstr "Choisir une mission"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Senior"
+msgstr "Senior"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Settings"
+msgstr "Paramètres"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Sign-off policy"
+msgstr "Politique de signature"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Sign-off rules by task"
+msgstr "Règles de signature par tâche"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Signed"
+msgstr "Signée"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Signed on %(date)s"
+msgstr "Signé le %(date)s"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Significant deficiency to communicate"
+msgstr "Déficience significative à communiquer"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Specific procedures (E3, E6)"
+msgstr "Procédures spécifiques (E3, E6)"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Specific risk areas"
+msgstr "Zones de risque spécifiques"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Staff"
+msgstr "Collaborateur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Strategy & Risk Assessment"
+msgstr "Stratégie & évaluation des risques"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Strategy & risks"
+msgstr "Stratégie & risques"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Substantive procedures"
+msgstr "Procédures substantives"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Summary of audit differences"
+msgstr "Récapitulatif des écarts d'audit"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "TASK"
+msgstr "TÂCHE"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "TO SIGN"
+msgstr "À SIGNER"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields.selection,name:ea_audit_ui.selection__ea_audit_notification__kind__task
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "Task assigned: %(label)s"
+msgstr "Tâche affectée : %(label)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/context_service.js:0
+#: code:addons/ea_audit_ui/static/src/js/tasks.js:0
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Task list"
+msgstr "Liste des tâches"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Tasks"
+msgstr "Tâches"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/dashboard.js:0
+msgid "Tasks without a preparer"
+msgstr "Tâches sans préparateur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Tests of controls"
+msgstr "Tests de contrôles"
+
+#. module: ea_audit_ui
+#: model:ir.model.fields,field_description:ea_audit_ui.field_ea_audit_notification__title
+msgid "Title"
+msgstr "Titre"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "To do"
+msgstr "À faire"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "To prepare"
+msgstr "À préparer"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "To review"
+msgstr "À réviser"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "To review: %(label)s"
+msgstr "À réviser : %(label)s"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "To sign"
+msgstr "À signer"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "To sign: %(label)s"
+msgstr "À signer : %(label)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Tools"
+msgstr "Outils"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Unassigned"
+msgstr "Non assigné"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Understanding the business"
+msgstr "Comprendre l'activité"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Unknown language."
+msgstr "Langue inconnue."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Welcome,"
+msgstr "Bienvenue,"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/context_service.js:0
+msgid "Working paper"
+msgstr "Papier de travail"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Working papers awaiting review"
+msgstr "Feuilles de travail en attente de revue"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/engagement.py:0
+msgid "You are invited as %(role)s, fiscal year %(year)s"
+msgstr "Vous êtes invité comme %(role)s, exercice %(year)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/dashboard.js:0
+msgid "You are not a member of this engagement's team."
+msgstr "Vous n'êtes pas membre de l'équipe de cette mission."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Your engagements."
+msgstr "Vos missions."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "active task"
+msgstr "tâche active"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "active tasks"
+msgstr "tâches actives"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "agreed-upon procedures"
+msgstr "procédures convenues"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "assigned to me"
+msgstr "qui me sont affectées"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "assignee"
+msgstr "assigné"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "contractual audit"
+msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "contribution audit"
+msgstr "commissariat aux apports"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "director"
+msgstr "directeur"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "just now"
+msgstr "à l'instant"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "limited review"
+msgstr "examen limité"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "manager"
+msgstr "manager"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "no planned procedure"
+msgstr "sans procédure prévue"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "other engagement"
+msgstr "autre mission"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "overdue"
+msgstr "en retard"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "overdue by %(days)s d"
+msgstr "en retard de %(days)s j"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "partner"
+msgstr "associé"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "preparer"
+msgstr "préparateur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "quality reviewer"
+msgstr "réviseur qualité"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "review note"
+msgstr "note de revue"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/file_item.py:0
+msgid "reviewer"
+msgstr "réviseur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "section"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "senior"
+msgstr "senior"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "senior manager"
+msgstr "senior manager"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "staff member"
+msgstr "collaborateur"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "statutory audit"
+msgstr "commissariat aux comptes"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "task has no preparer."
+msgstr "tâche n'a pas de préparateur."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "tasks have no preparer."
+msgstr "tâches n'ont pas de préparateur."
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "title"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "to review"
+msgstr "à réviser"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "to sign"
+msgstr "à signer"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "yesterday"
+msgstr "hier"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "· File locked"
+msgstr "· Dossier verrouillé"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "· Phase deadline"
+msgstr "· Échéance de phase"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "← Back to dashboard"
+msgstr "← Retour au tableau de bord"

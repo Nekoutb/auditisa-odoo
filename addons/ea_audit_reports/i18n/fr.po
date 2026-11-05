@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 11:04+0000\n"
-"PO-Revision-Date: 2026-11-05 11:04+0000\n"
+"POT-Creation-Date: 2026-11-05 13:15+0000\n"
+"PO-Revision-Date: 2026-11-05 13:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -374,6 +374,12 @@ msgstr "Télécharger le Word"
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_tieout_wizard__engagement_id
 msgid "Engagement"
 msgstr "Mission"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Engagement archived"
+msgstr "Mission archivée"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
@@ -944,6 +950,12 @@ msgstr "Tâche"
 
 #. module: ea_audit_reports
 #. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "The file is frozen: no further change is possible. It remains available and can be rolled forward from the list of archived engagements."
+msgstr "Le dossier est figé : plus aucune modification n'est possible. Il reste consultable et peut être reconduit depuis la liste des missions archivées."
+
+#. module: ea_audit_reports
+#. odoo-python
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "The financial statements do not tie out to the trial balance."
 msgstr "Les états financiers ne concordent pas avec la balance."
@@ -1089,7 +1101,7 @@ msgstr "Versions"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,help:ea_audit_reports.field_res_company__ea_articles_validated
-msgid "While off, every article number printed or shown carries (à valider)."
+msgid "While off, every article number printed or shown carries (to validate)."
 msgstr "Tant que cette case est décochée, chaque numéro d'article imprimé ou affiché porte (à valider)."
 
 #. module: ea_audit_reports

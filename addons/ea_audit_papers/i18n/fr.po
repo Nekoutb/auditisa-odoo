@@ -1,53 +1,77 @@
-# French translation of ea_audit_papers.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_papers
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: fr_FR\n"
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 13:14+0000\n"
+"PO-Revision-Date: 2026-11-05 13:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid " minimum"
+msgstr " minimum"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid " on this engagement"
+msgstr " sur cette mission"
 
 #. module: ea_audit_papers
 #. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Someone else saved this record while you were editing it. Reload, merge your text with theirs, and save again: your entry has not been stored."
-msgstr "Une autre personne a enregistré ce document pendant votre saisie. Rechargez, fusionnez votre texte avec le sien et enregistrez à nouveau : votre saisie n'a pas été conservée."
+#: code:addons/ea_audit_papers/models/review_note.py:0
+msgid "%(code)s: reply to your note"
+msgstr "%(code)s : réponse à votre note"
 
 #. module: ea_audit_papers
 #. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The tie-out shows differences: explain them in the tie-out procedure before answering \"Yes\"."
-msgstr "Le pointage présente des écarts : expliquez-les dans la procédure de pointage avant de répondre « Oui »."
+#: code:addons/ea_audit_papers/models/file_item.py:0
+msgid "%(code)s: review note"
+msgstr "%(code)s : note de revue"
 
 #. module: ea_audit_papers
 #. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "C5.8 cannot state that net equity exceeds half of the share capital: the legal monitor's figures put it below half. Check the figures on the legal page, or answer No and document the article 664 procedure."
-msgstr "C5.8 ne peut pas indiquer que les capitaux propres excèdent la moitié du capital social : les chiffres du suivi juridique les situent en dessous. Vérifiez les chiffres sur la page juridique, ou répondez Non et documentez la procédure de l'article 664."
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "%(code)s: signature voided"
+msgstr "%(code)s : signature annulée"
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Write a message first."
-msgstr "Écrivez d'abord un message."
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/paper_action.xml:0
+msgid "(v"
+msgstr ""
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "A response is required."
-msgstr "Une réponse est requise."
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_signoff__content_scheme
+msgid "1: a migrated hash Odoo cannot recompute, reported rather than voided (Q3). 2: Odoo's own."
+msgstr ""
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Only the note's author or a manager who did not prepare the paper can clear it."
-msgstr "Seuls l'auteur de la note ou un manager n'ayant pas préparé la feuille peuvent la régler."
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid ": you may sign as "
+msgstr " : vous pouvez signer comme "
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The preparer of this paper cannot clear a note raised against it: reply to it and let the reviewer clear it."
-msgstr "Le préparateur de cette feuille ne peut pas régler une note émise sur son propre travail : répondez-y et laissez le réviseur la régler."
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_paper_def_current_uniq
+msgid "A code has one current definition."
+msgstr "Un code n'a qu'une définition en vigueur."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A colleague changed this field while you were typing. Your text is kept above; saving will replace theirs."
+msgstr "Un collègue a modifié ce champ pendant votre saisie. Votre texte est conservé ci-dessus ; enregistrer le remplacera."
 
 #. module: ea_audit_papers
 #. odoo-python
@@ -58,20 +82,360 @@ msgstr "Une conclusion est requise."
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Objectives cannot be marked as achieved while program steps are still open: complete them or mark them N/A first."
-msgstr "Les objectifs ne peuvent être déclarés atteints tant que des diligences restent ouvertes : terminez-les ou marquez-les S.O. d'abord."
+msgid "A file with this name already exists on this task."
+msgstr "Un fichier portant ce nom existe déjà sur cette tâche."
+
+#. module: ea_audit_papers
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_paper_answer_paper_key_uniq
+msgid "A paper holds one answer per key."
+msgstr "Une feuille ne porte qu'une réponse par clé."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A preparer can never review their own paper. Changing the paper after signing voids the review signatures."
+msgstr "Le préparateur ne peut jamais réviser son propre papier. Modifier le papier après signature annule les signatures de revue."
 
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "No procedure is retained on this section: give the rationale for concluding without procedures."
-msgstr "Aucune procédure n'est retenue sur cette section : indiquez le motif d'une conclusion sans procédure."
+msgid "A response is required."
+msgstr "Une réponse est requise."
+
+#. module: ea_audit_papers
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_paper_file_item_uniq
+msgid "A task has one paper."
+msgstr "Une tâche n'a qu'une feuille."
+
+#. module: ea_audit_papers
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_section_conclusion_file_item_uniq
+msgid "A task has one section conclusion."
+msgstr "Une tâche n'a qu'une conclusion de section."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+msgid "Absent"
+msgstr "Absent"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_needaction
+msgid "Action Needed"
+msgstr "Action requise"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_ids
+msgid "Activities"
+msgstr "Activités"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Add the note"
+msgstr "Ajouter la note"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__assignee_id
+msgid "Addressed to"
+msgstr "Destinataire"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__after
+msgid "After"
+msgstr "Après"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__answer_version
+msgid "Answer Version"
+msgstr "Version des réponses"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__history_ids
+msgid "Answer history"
+msgstr "Historique des réponses"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__answer_ids
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__answers
+msgid "Answers"
+msgstr "Réponses"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Applies as soon as chosen, with Undo."
+msgstr "S'applique dès le choix, avec Annuler."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Assignment"
+msgstr "Affectation"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Assignment saved."
+msgstr "Affectation enregistrée."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Attach a file"
+msgstr "Joindre un fichier"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Attaching a file after signing voids the signatures."
+msgstr "Joindre un fichier après signature annule les signatures."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__attachment_id
+msgid "Attachment"
+msgstr "Pièce jointe"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_engagement
+msgid "Audit engagement"
+msgstr "Mission d'audit"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_file_item
+msgid "Audit file task"
+msgstr "Tâche du dossier d'audit"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Audit staff"
+msgstr "Assistant audit"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__author_id
+msgid "Author"
+msgstr "Auteur"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Back"
+msgstr "Retour"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__before
+msgid "Before"
+msgstr "Avant"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__body
+msgid "Body"
+msgstr "Texte"
 
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The walkthroughs are incomplete: every SCOT needs all its walkthrough answers on S1.3 before the paper is signed."
-msgstr "Les cheminements sont incomplets : chaque SCOT doit porter toutes les réponses de son cheminement en S1.3 avant la signature de la feuille."
+msgid "C5.8 cannot state that net equity exceeds half of the share capital: the legal monitor's figures put it below half. Check the figures on the legal page, or answer No and document the article 664 procedure."
+msgstr "C5.8 ne peut pas indiquer que les capitaux propres excèdent la moitié du capital social : les chiffres du suivi juridique les situent en dessous. Vérifiez les chiffres sur la page juridique, ou répondez Non et documentez la procédure de l'article 664."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__carried_forward
+msgid "Carried Forward"
+msgstr "Reporté"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__changed_at
+msgid "Changed At"
+msgstr "Modifié le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__checksum
+msgid "Checksum/SHA1"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Clear"
+msgstr "Lever"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: model:ir.model.fields.selection,name:ea_audit_papers.selection__ea_audit_review_note__state__cleared
+msgid "Cleared"
+msgstr "Levée"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__cleared_at
+msgid "Cleared At"
+msgstr "Levé le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__cleared_by_id
+msgid "Cleared by"
+msgstr "Levé par"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__code
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__code
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__code
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__code
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__code
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__code
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__code
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__conclusion
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Conclusion on the objectives of this section"
+msgstr "Conclusion sur les objectifs de cette section"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_signoff__content_scheme
+msgid "Content Scheme"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__create_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__create_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__definition
+msgid "Definition"
+msgstr "Définition"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__definition_hash
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_signoff__definition_hash
+msgid "Definition Hash"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__deleted_at
+msgid "Deleted At"
+msgstr "Supprimé le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__deleted_by_id
+msgid "Deleted By"
+msgstr "Supprimé par"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Director"
+msgstr "Directeur"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_engagement__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_signoff__display_name
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Done"
+msgstr "Fait"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields.selection,name:ea_audit_papers.selection__ea_audit_paper__state__draft
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "EQR"
+msgstr "EQR"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Edition: ISA in force"
+msgstr "Édition : ISA en vigueur"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Edition: ISA revised 2026"
+msgstr "Édition : ISA révisées 2026"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__engagement_id
+msgid "Engagement"
+msgstr "Mission"
 
 #. module: ea_audit_papers
 #. odoo-python
@@ -82,20 +446,13 @@ msgstr "Chaque SCOT doit comporter au moins un WCGW (ce qui peut mal tourner) en
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The control selection is incomplete: every control selected for testing must answer a WCGW, and every SCOT on a controls strategy needs a control selected, before S2.1 is signed."
-msgstr "La sélection des contrôles est incomplète : chaque contrôle retenu pour test doit répondre à un WCGW, et chaque SCOT en stratégie de contrôles doit avoir un contrôle retenu, avant la signature de S2.1."
-
-#. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
 msgid "Every control selected for testing needs its test design on S2.2 before the paper is signed."
 msgstr "Chaque contrôle retenu pour test doit avoir sa conception de test en S2.2 avant la signature de la feuille."
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "This file has no extension, so its type cannot be checked."
-msgstr "Ce fichier n'a pas d'extension : son type ne peut pas être vérifié."
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__attachment_ids
+msgid "Evidence"
+msgstr "Pièce justificative"
 
 #. module: ea_audit_papers
 #. odoo-python
@@ -104,34 +461,234 @@ msgid "Executables, scripts and macro-enabled files cannot enter an audit file."
 msgstr "Les exécutables, les scripts et les fichiers à macros ne peuvent pas entrer dans un dossier d'audit."
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "This file type is not accepted in an audit file."
-msgstr "Ce type de fichier n'est pas accepté dans un dossier d'audit."
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Expected sources: "
+msgstr "Sources attendues : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Explain the \"No\" answer"
+msgstr "Expliquer la réponse « Non »"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__field_key
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__field_key
+msgid "Field Key"
+msgstr "Clé du champ"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Filled by "
+msgstr "Renseigné par "
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (partenaires)"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
 
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The file is empty."
-msgstr "Le fichier est vide."
+msgid "Give the reason why this task is not applicable."
+msgstr "Indiquez pourquoi cette tâche n'est pas applicable."
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The content of this file does not match its extension."
-msgstr "Le contenu de ce fichier ne correspond pas à son extension."
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Go to the conclusion"
+msgstr "Aller à la conclusion"
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "This file is not a real Office document."
-msgstr "Ce fichier n'est pas un véritable document Office."
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__is_default
+msgid "Group default"
+msgstr "Valeur du groupe"
 
 #. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The file is larger than the 25 MB limit."
-msgstr "Le fichier dépasse la limite de 25 Mo."
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_engagement__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_signoff__id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__id
+msgid "ID"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur de distribution."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+msgid "In progress"
+msgstr "En cours"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_signoff__invalidated_reason
+msgid "Invalidated Reason"
+msgstr "Motif de l'invalidation"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__is_current
+msgid "Is Current"
+msgstr "En vigueur"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_is_follower
+msgid "Is Follower"
+msgstr "Est abonné"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "It stays recoverable for 30 days. The signatures will be voided."
+msgstr "Il reste récupérable 30 jours. Les signatures seront annulées."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Key findings"
+msgstr "Constats clés"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__write_uid
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_def__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__write_date
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Leave without saving"
+msgstr "Quitter sans enregistrer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Linked tasks"
+msgstr "Tâches liées"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Linked tool: "
+msgstr "Outil lié : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Manager"
+msgstr "Manager"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Mark not applicable"
+msgstr "Marquer non applicable"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__na_at
+msgid "Marked not applicable at"
+msgstr "Marqué non applicable le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__na_by_id
+msgid "Marked not applicable by"
+msgstr "Marqué non applicable par"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur de distribution du message"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__mime
+msgid "Mime"
+msgstr "Type de fichier"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__answer_version
+msgid "Moves with every change of an answer: the optimistic lock."
+msgstr "Change à chaque modification d'une réponse : le verrou optimiste."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.xml:0
+msgid "N/A"
+msgstr "S.O."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__name
+msgid "Name"
+msgstr "Nom"
 
 #. module: ea_audit_papers
 #. odoo-python
@@ -140,10 +697,565 @@ msgid "Name is required."
 msgstr "Le nom est requis."
 
 #. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Next ›"
+msgstr "Suivant ›"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No"
+msgstr "Non"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__no_procedures_rationale
+msgid "No Procedures Rationale"
+msgstr "Motif d'une conclusion sans procédure"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No changes"
+msgstr "Aucune modification"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No files."
+msgstr "Aucune pièce."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No notes."
+msgstr "Aucune note."
+
+#. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "A file with this name already exists on this task."
-msgstr "Un fichier portant ce nom existe déjà sur cette tâche."
+msgid "No procedure is retained on this section: give the rationale for concluding without procedures."
+msgstr "Aucune procédure n'est retenue sur cette section : indiquez le motif d'une conclusion sans procédure."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+msgid "Not started"
+msgstr "Non commencé"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Not yet concluded"
+msgstr "Pas encore conclu"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Nombre de messages demandant une action"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages en erreur de distribution"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "OK"
+msgstr "OK"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__objectives_achieved
+msgid "Objectives Achieved"
+msgstr "Objectifs atteints"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Objectives achieved"
+msgstr "Objectifs atteints"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Objectives cannot be marked as achieved while program steps are still open: complete them or mark them N/A first."
+msgstr "Les objectifs ne peuvent être déclarés atteints tant que des diligences restent ouvertes : terminez-les ou marquez-les S.O. d'abord."
+
+#. module: ea_audit_papers
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_planning_ras_engagement_uniq
+msgid "One summary per engagement."
+msgstr "Un récapitulatif par mission."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Only the note's author or a manager who did not prepare the paper can clear it."
+msgstr "Seuls l'auteur de la note ou un manager n'ayant pas préparé la feuille peuvent la régler."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields.selection,name:ea_audit_papers.selection__ea_audit_review_note__state__open
+msgid "Open"
+msgstr "Ouvrir"
+
+#. module: ea_audit_papers
+#: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_form_paper
+#: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_list_paper
+msgid "Open paper"
+msgstr "Ouvrir la feuille"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__paper_ids
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__paper_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__paper_id
+msgid "Paper"
+msgstr "Papier"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Paper content changed after sign-off"
+msgstr "Contenu de la feuille modifié après la signature"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Paper status"
+msgstr "État de la feuille"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Partner"
+msgstr "Associé"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__partner_reviewed_at
+msgid "Partner Reviewed At"
+msgstr "Revue de l'associé le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__partner_reviewed_by_id
+msgid "Partner Reviewed By"
+msgstr "Revue de l'associé par"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Partner review"
+msgstr "Revue de l'associé"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Partner review by "
+msgstr "Revue de l'associé par "
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_planning_ras
+msgid "Planning review and approval summary"
+msgstr "Récapitulatif de revue et d'approbation de la planification"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Practical considerations"
+msgstr "Considérations pratiques"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+msgid "Prepared"
+msgstr "Préparé"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__prepared_at
+msgid "Prepared At"
+msgstr "Préparé le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__prepared_by_id
+msgid "Prepared By"
+msgstr "Préparé par"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Prepared by "
+msgstr "Préparée par "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Preparer"
+msgstr "Préparateur"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Quality reviewer"
+msgstr "Réviseur qualité"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Raise a review point"
+msgstr "Soulever un point de revue"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Rationale for concluding without procedures"
+msgstr "Motif d'une conclusion sans procédure"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reason (required)"
+msgstr "Motif (obligatoire)"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reason not applicable (required)"
+msgstr "Motif de la non-application (obligatoire)"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reason, and how it was resolved"
+msgstr "Motif, et suite donnée"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Record the work performed"
+msgstr "Consigner les travaux effectués"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reinstate the task"
+msgstr "Rétablir la tâche"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove"
+msgstr "Retirer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove this file?"
+msgstr "Retirer ce fichier ?"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Removed (30 days): "
+msgstr "Retirés (30 jours) : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Rename"
+msgstr "Renommer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reply"
+msgstr "Répondre"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__response
+msgid "Response"
+msgstr "Réponse"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__activity_user_id
+msgid "Responsible User"
+msgstr "Utilisateur responsable"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Restore"
+msgstr "Restaurer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Result and working-paper reference"
+msgstr "Résultat et référence du dossier"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_review_note
+msgid "Review note"
+msgstr "Note de revue"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__review_note_ids
+msgid "Review notes"
+msgstr "Notes de revue"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+msgid "Reviewed"
+msgstr "Revu"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reviewed (senior/manager)"
+msgstr "Revue (senior/manager)"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__reviewed_at
+msgid "Reviewed At"
+msgstr "Revu le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__reviewed_by_id
+msgid "Reviewed By"
+msgstr "Revu par"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reviewed by "
+msgstr "Revue par "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Reviewer"
+msgstr "Réviseur"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Save the conclusion"
+msgstr "Enregistrer la conclusion"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Save the paper"
+msgstr "Enregistrer le papier"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Saved at "
+msgstr "Enregistré à "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Saving…"
+msgstr "Enregistrement…"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.xml:0
+msgid "Section"
+msgstr "Section"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Section C belongs to the engagement quality reviewer appointed on this file."
+msgstr "La section C revient au réviseur qualité désigné sur ce dossier."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_section_conclusion
+msgid "Section conclusion"
+msgstr "Conclusion de section"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Senior"
+msgstr "Senior"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Senior manager"
+msgstr "Senior manager"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Sign as EQR"
+msgstr "Signer comme EQR"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Sign as partner"
+msgstr "Signer comme associé"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Sign as preparer"
+msgstr "Signer comme préparateur"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Sign as reviewer"
+msgstr "Signer comme réviseur"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_signoff
+msgid "Sign-off"
+msgstr "Signature"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Sign-off rule of this task"
+msgstr "Règle de signature de cette tâche"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__signoff_ids
+msgid "Sign-offs"
+msgstr "Signatures"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+msgid "Signature recorded."
+msgstr "Signature enregistrée."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_planning_ras__signatures
+msgid "Signatures"
+msgstr "Signatures"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Signatures voided by this change: "
+msgstr "Signatures annulées par cette modification : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.js:0
+#: model:ir.model.fields.selection,name:ea_audit_papers.selection__ea_audit_paper__state__signed
+msgid "Signed"
+msgstr "Signé"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Significant findings from the work performed, routed to C1.2/C1.1 where applicable"
+msgstr "Constats importants du travail effectué, repris en C1.2/C1.1 le cas échéant"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__size_bytes
+msgid "Size Bytes"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Someone else saved this record while you were editing it. Reload, merge your text with theirs, and save again: your entry has not been stored."
+msgstr "Une autre personne a enregistré ce document pendant votre saisie. Rechargez, fusionnez votre texte avec le sien et enregistrez à nouveau : votre saisie n'a pas été conservée."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__state
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__state
+msgid "State"
+msgstr "État"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Status"
+msgstr "État"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Stay"
+msgstr "Rester"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Still to complete: "
+msgstr "Reste à compléter : "
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "Still to complete: %(parts)s."
+msgstr "Reste à compléter : %(parts)s."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__file_item_id
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__file_item_id
+msgid "Task"
+msgstr "Tâche"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_task_attachment
+msgid "Task attachment"
+msgstr "Pièce jointe de la tâche"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Task not applicable"
+msgstr "Tâche non applicable"
 
 #. module: ea_audit_papers
 #. odoo-python
@@ -154,28 +1266,90 @@ msgstr "Le délai de récupération de 30 jours de ce fichier est écoulé."
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Give the reason why this task is not applicable."
-msgstr "Indiquez pourquoi cette tâche n'est pas applicable."
+msgid "The content of this file does not match its extension."
+msgstr "Le contenu de ce fichier ne correspond pas à son extension."
 
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-#, python-format
-msgid "Still to complete: %(parts)s."
-msgstr "Reste à compléter : %(parts)s."
-
-#. module: ea_audit_papers
-#: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_list_paper
-#: model_terms:ir.ui.view,arch_db:ea_audit_papers.view_file_item_form_paper
-msgid "Open paper"
-msgstr "Ouvrir la feuille"
+msgid "The control selection is incomplete: every control selected for testing must answer a WCGW, and every SCOT on a controls strategy needs a control selected, before S2.1 is signed."
+msgstr "La sélection des contrôles est incomplète : chaque contrôle retenu pour test doit répondre à un WCGW, et chaque SCOT en stratégie de contrôles doit avoir un contrôle retenu, avant la signature de S2.1."
 
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-#, python-format
+msgid "The file is empty."
+msgstr "Le fichier est vide."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The file is larger than the 25 MB limit."
+msgstr "Le fichier dépasse la limite de 25 Mo."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_signoff__definition_hash
+msgid "The paper text this signature was given over (Q1)."
+msgstr "Le texte de la feuille sur lequel cette signature a été donnée (Q1)."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The preparer of this paper cannot clear a note raised against it: reply to it and let the reviewer clear it."
+msgstr "Le préparateur de cette feuille ne peut pas régler une note émise sur son propre travail : répondez-y et laissez le réviseur la régler."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
 msgid "The summary is not ready for this signature. Still missing: %(gaps)s."
 msgstr "La synthèse n'est pas prête pour cette signature. Il manque encore : %(gaps)s."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper_def__is_default
+msgid "The task has no paper of its own."
+msgstr "La tâche n'a pas de feuille propre."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The tie-out shows differences: explain them in the tie-out procedure before answering \"Yes\"."
+msgstr "Le pointage présente des écarts : expliquez-les dans la procédure de pointage avant de répondre « Oui »."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The walkthroughs are incomplete: every SCOT needs all its walkthrough answers on S1.3 before the paper is signed."
+msgstr "Les cheminements sont incomplets : chaque SCOT doit porter toutes les réponses de son cheminement en S1.3 avant la signature de la feuille."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Their version: "
+msgstr "Sa version : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "This board comes with the tools module. The paper cannot be signed before then."
+msgstr "Ce tableau arrive avec le module des outils. La feuille ne peut pas être signée avant."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This file has no extension, so its type cannot be checked."
+msgstr "Ce fichier n'a pas d'extension : son type ne peut pas être vérifié."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This file is not a real Office document."
+msgstr "Ce fichier n'est pas un véritable document Office."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "This file type is not accepted in an audit file."
+msgstr "Ce type de fichier n'est pas accepté dans un dossier d'audit."
 
 #. module: ea_audit_papers
 #. odoo-python
@@ -184,13 +1358,269 @@ msgid "This line is not on the summary."
 msgstr "Cette ligne ne figure pas dans la synthèse."
 
 #. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "This paper has unsaved changes. Discard them and leave?"
+msgstr "Ce papier contient des modifications non enregistrées. Les abandonner et quitter ?"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "This paper records "
+msgstr "Cette feuille porte sur "
+
+#. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
 msgid "This section is answered at a higher rank."
 msgstr "Cette section relève d'un rang supérieur."
 
 #. module: ea_audit_papers
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_paper_def_code_hash_uniq
+msgid "This text is already loaded for this code."
+msgstr "Ce texte est déjà chargé pour ce code."
+
+#. module: ea_audit_papers
+#: model:ir.model.constraint,message:ea_audit_papers.constraint_ea_audit_task_attachment_item_name_version_uniq
+msgid "This version of the file already exists."
+msgstr "Cette version du fichier existe déjà."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "To approve"
+msgstr "À approuver"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "To prepare"
+msgstr "À préparer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "To review"
+msgstr "À réviser"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Unassigned"
+msgstr "Non assigné"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Undo"
+msgstr "Annuler"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Unsaved changes"
+msgstr "Modifications non enregistrées"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__uploaded_at
+msgid "Uploaded At"
+msgstr "Reçu le"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__uploaded_by_id
+msgid "Uploaded By"
+msgstr "Déposé par"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Use their version"
+msgstr "Reprendre sa version"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer_history__user_id
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper_answer__value
+msgid "Value"
+msgstr "Valeur"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__version
+msgid "Version"
+msgstr "Version"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Voided signatures"
+msgstr "Signatures annulées"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "What the standards require"
+msgstr "Ce que disent les normes"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_file_item__na_reason
+msgid "Why not applicable"
+msgstr "Motif de la non-application"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Why this item does not apply to the engagement"
+msgstr "Pourquoi cet élément ne s'applique pas à la mission"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Work"
+msgstr "Travaux"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_paper
+msgid "Working paper"
+msgstr "Feuille de travail"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_paper_answer
+msgid "Working paper answer"
+msgstr "Réponse de la feuille de travail"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_paper_answer_history
+msgid "Working paper answer history"
+msgstr "Historique des réponses de la feuille de travail"
+
+#. module: ea_audit_papers
+#: model:ir.model,name:ea_audit_papers.model_ea_audit_paper_def
+msgid "Working paper definition"
+msgstr "Définition de la feuille de travail"
+
+#. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Section C belongs to the engagement quality reviewer appointed on this file."
-msgstr "La section C revient au réviseur qualité désigné sur ce dossier."
+msgid "Write a message first."
+msgstr "Écrivez d'abord un message."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper_answer__carried_forward
+msgid "Written by roll-forward: such a write leaves no history."
+msgstr "Écrit par la reconduction : une telle écriture ne laisse pas d'historique."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Year "
+msgstr "Exercice "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Yes"
+msgstr "Oui"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "You are "
+msgstr "Vous êtes "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Your reply"
+msgstr "Votre réponse"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "answers"
+msgstr "réponses"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "not required"
+msgstr "non requis"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "not signed"
+msgstr "non signé"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "ras-incomplete"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "required"
+msgstr "requis"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "signed by non-assignee"
+msgstr "signé par un non-assigné"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the engagement record"
+msgstr "la fiche de la mission"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the journal-entry selection tool, no design recorded yet"
+msgstr "l'outil de sélection des écritures, aucune conception enregistrée"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the linked tool"
+msgstr "l'outil lié"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the materiality tool, no approved materiality yet"
+msgstr "l'outil de seuil de signification, aucun seuil approuvé"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the risk strategy tool, nothing recorded yet"
+msgstr "l'outil de stratégie des risques, rien d'enregistré"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the wording has changed since"
+msgstr "le libellé a changé depuis"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/paper_action.xml:0
+msgid "v"
+msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "‹ Previous"
+msgstr "‹ Précédent"

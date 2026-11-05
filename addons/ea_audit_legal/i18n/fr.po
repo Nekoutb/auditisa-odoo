@@ -1,13 +1,15 @@
-# French translation of ea_audit_legal.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_legal
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 10:00+0000\n"
-"PO-Revision-Date: 2026-11-05 10:00+0000\n"
+"POT-Creation-Date: 2026-11-05 13:15+0000\n"
+"PO-Revision-Date: 2026-11-05 13:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -138,8 +140,8 @@ msgstr "Qualité"
 
 #. module: ea_audit_legal
 #: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
-msgid "Certification, art. 525 (à valider)"
-msgstr "Attestation, art. 525 (à valider)"
+msgid "Certification, art. 525 (to validate)"
+msgstr "Certification, art. 525 (à valider)"
 
 #. module: ea_audit_legal
 #: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
@@ -248,6 +250,12 @@ msgstr "Date de l'événement"
 #: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_legal_deadline__days_left
 msgid "Days Left"
 msgstr "Jours restants"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+msgid "Deadline %(date)s: open the statutory calendar to clear it."
+msgstr "Échéance %(date)s : ouvrir le calendrier légal pour la lever."
 
 #. module: ea_audit_legal
 #: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__stage_deadline
@@ -376,7 +384,7 @@ msgstr "Événements"
 
 #. module: ea_audit_legal
 #: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
-msgid "Every article number stays marked (à valider) until the firm's jurist has validated the workbook."
+msgid "Every article number stays marked (to validate) until the firm's jurist has validated the workbook."
 msgstr "Chaque numéro d'article reste marqué (à valider) jusqu'à la validation du classeur par le juriste du cabinet."
 
 #. module: ea_audit_legal
@@ -658,7 +666,7 @@ msgstr "Signalement d'irrégularités"
 
 #. module: ea_audit_legal
 #: model_terms:ir.ui.view,arch_db:ea_audit_legal.view_engagement_legal_form
-msgid "Report to the board, art. 715 (à valider)"
+msgid "Report to the board, art. 715 (to validate)"
 msgstr "Rapport au conseil, art. 715 (à valider)"
 
 #. module: ea_audit_legal
@@ -768,6 +776,12 @@ msgid "Statutory deadline"
 msgstr "Échéance légale"
 
 #. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+msgid "Statutory deadline overdue: %(key)s"
+msgstr "Échéance légale dépassée : %(key)s"
+
+#. module: ea_audit_legal
 #: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_engagement__legal_deadline_ids
 msgid "Statutory deadlines"
 msgstr "Échéances légales"
@@ -851,4 +865,3 @@ msgstr "Répartition des travaux"
 #: code:addons/ea_audit_legal/models/engagement.py:0
 msgid "ea_audit_legal.view_criminal_disclosure_list"
 msgstr ""
-
