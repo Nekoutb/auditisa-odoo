@@ -19,8 +19,6 @@ import logging
 import os
 from datetime import date, timedelta
 
-import os
-
 from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.signoff_rules import team_rank
@@ -183,7 +181,7 @@ class _Demo:
             return
         Users = self.env["res.users"].sudo().with_context(no_reset_password=True, mail_create_nosubscribe=True)
         user = Users.search([("login", "=", login)], limit=1) or Users.create({
-            "name": "Testeur", "login": login, "email": login, "lang": "fr_FR", "tz": "Africa/Douala",
+            "name": _d("Tester", "Testeur"), "login": login, "email": login, "lang": "fr_FR" if _Demo.french else "en_US", "tz": "Africa/Douala",
             "group_ids": [(4, self.env.ref("base.group_user").id), (4, self.env.ref("ea_audit_core.group_firm_admin").id)],
         })
         self.env["ea.audit.team.member"].sudo().create({

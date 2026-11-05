@@ -170,17 +170,17 @@ class TestIntegration(EaAuditCase):
     def test_a_significant_deficiency_stays_on_the_partners_home_until_communicated(self):
         self.as_senior.route_finding("c1", "Pas de rapprochement", severity="significant_deficiency")
         rows = self.Ui.with_user(self.partner).ea_ui_home()["todo"]
-        row = next(r for r in rows if r["title"] == "Déficience significative à communiquer")
+        row = next(r for r in rows if r["title"] == "Significant deficiency to communicate")
         self.assertEqual((row["count"], row["tool"]), (1, "action_tool_deficiencies"))
         self.assertFalse([
-            r for r in self.Ui.with_user(self.senior).ea_ui_home()["todo"] if r["title"].startswith("Déficience")
+            r for r in self.Ui.with_user(self.senior).ea_ui_home()["todo"] if r["title"].startswith("Significant deficiency")
         ])
 
     def test_a_significant_risk_without_a_response_is_a_chip(self):
         self.set_phase(self.engagement, "planning")
         self.as_senior.add_risk("Risque de démonstration", significant=True)
         chips = self.Ui.with_user(self.partner).ea_ui_dashboard(self.engagement.id)["attention"]
-        self.assertTrue([chip for chip in chips if chip["text"] == "sans procédure prévue"])
+        self.assertTrue([chip for chip in chips if chip["text"] == "no planned procedure"])
 
     def test_the_tools_hub_and_the_mission_context(self):
         action = self.as_senior.action_open_tools()

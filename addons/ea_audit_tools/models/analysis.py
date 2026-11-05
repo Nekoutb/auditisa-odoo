@@ -149,7 +149,7 @@ class EngagementAnalysis(models.Model):
                 "engagement_id": self.id, "key": row["key"], "sequence": position, "group": row["group"],
                 "label": row["labelFr"] if fr else row["label"], "unit": row.get("unit") or False,
                 "current": current or 0, "has_current": current is not None, "prior": prior or 0, "has_prior": prior is not None,
-                "variance": (current - prior) if both else 0, "has_variance": both, "note": row.get("note") or False,
+                "variance": (current - prior) if both else 0, "has_variance": both, "note": row["note"].split(" · ")[1 if fr else 0] if row.get("note") else False,
             })
         return Ratio.create(values)
 

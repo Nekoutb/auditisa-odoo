@@ -157,7 +157,7 @@ DEFS = [
 #: The commentary keys the financial-analysis grid saves under index "FA".
 RATIO_KEYS = [d["key"] for d in DEFS]
 
-GL_NOTE = "Requires the General Ledger (last 3 months) — upload it in the GL Analyzer"
+GL_NOTE = "Requires the General Ledger (last 3 months) — upload it in the GL Analyzer · Nécessite le grand livre (3 derniers mois) — à importer dans l'analyseur de grand livre"  # i18n: term
 
 _DMY = re.compile(r"([0-9]{1,2})[/.-]([0-9]{1,2})[/.-]([0-9]{4})")
 _EQUITY = re.compile(r"1[0-5]")

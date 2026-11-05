@@ -189,8 +189,8 @@ def population_checks(aggregate):
     code_like = same_header or je_number_looks_like_journal_code(lines, entries)
     per_entry = js_round(lines / entries) if entries > 0 else 0
     if code_like and same_header:
-        detail_en = "The JE number and the journal code are mapped to the same column. Re-import with the entry-number column (JE number, entry number, voucher number) as the unique JE identifier."
-        detail_fr = "Le numéro d'écriture et le code journal sont mappés sur la même colonne. Réimporter avec la colonne du numéro d'écriture (JE number, entry number, voucher number) comme identifiant unique d'écriture."
+        detail_en = "The JE number and the journal code are mapped to the same column. Re-import with the entry-number column (JE N°, N° écriture, N° pièce) as the unique JE identifier."  # i18n: term
+        detail_fr = "Le numéro d'écriture et le code journal sont mappés sur la même colonne. Réimporter avec la colonne du numéro d'écriture (JE N°, N° écriture, N° pièce) comme identifiant unique d'écriture."  # i18n: term
     elif code_like:
         detail_en = '%s distinct JE identifiers over %s lines — about %s lines per "entry". That is a journal code, not an entry number: re-import and map the unique JE identifier (one column, or several that together identify an entry, e.g. journal + voucher number).' % (nf(entries), nf(lines), nf(per_entry))
         detail_fr = "%s identifiants d'écriture distincts pour %s lignes — environ %s lignes par « écriture ». C'est un code journal, pas un numéro d'écriture : réimporter en mappant l'identifiant unique d'écriture (une colonne, ou plusieurs qui ensemble identifient une écriture, p. ex. journal + numéro de pièce)." % (nf(entries), nf(lines), nf(per_entry))

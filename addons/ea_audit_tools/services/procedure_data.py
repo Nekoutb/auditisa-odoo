@@ -193,7 +193,7 @@ PROGRAM_LIBRARY = {'E4.20': [{'descEn': 'Agree revenue per the TB to the lead sc
            'descFr': 'Recalculer les amortissements (obligatoires même en cas de perte) et rapprocher la dotation des comptes 681/68.',
            'assertions': ['V', 'A']},
           {'descEn': 'Physically inspect a sample of assets.', 'descFr': "Inspecter physiquement un échantillon d'immobilisations.", 'assertions': ['E']}],
- 'E4.6': [{'descEn': 'Verify no capitalised charges remain (account 20 abolished; legacy 475 released ≤ 5 years).',
+ 'E4.6': [{'descEn': 'Verify no charges immobilisées remain (account 20 abolished; legacy 475 released ≤ 5 years).',  # i18n: term
            'descFr': "Vérifier l'absence de charges immobilisées (compte 20 supprimé ; 475 résorbé sur 5 ans max).",
            'assertions': ['P', 'V']},
           {'descEn': 'Test amortisation/impairment of intangibles and goodwill.',
@@ -230,7 +230,7 @@ PROGRAM_LIBRARY = {'E4.20': [{'descEn': 'Agree revenue per the TB to the lead sc
  'E4.13': [{'descEn': 'Test HAO classification (classes 8/48): AO vs HAO nature of items.',
             'descFr': 'Tester le classement HAO (classes 8/48) : caractère AO ou HAO des éléments.',
             'assertions': ['P', 'A']}],
- 'E4.14': [{'descEn': 'Tie the TFT to the underlying balance movements; control ZH = cash assets − cash liabilities.',
+ 'E4.14': [{'descEn': 'Tie the TFT to the underlying balance movements; control ZH = trésorerie actif − passif.',  # i18n: term
             'descFr': 'Rapprocher le TFT des variations de bilan ; contrôle ZH = trésorerie actif − passif.',
             'assertions': ['A', 'P']}],
  'E4.15': [{'descEn': 'Update the commitments & contingencies assessment received from S4.1; obtain legal letters.',
@@ -248,7 +248,7 @@ PROGRAM_LIBRARY = {'E4.20': [{'descEn': 'Agree revenue per the TB to the lead sc
  'E6.2': [{'descEn': 'Test completeness of the related-party register and disclosure of transactions (ISA 550).',
            'descFr': "Tester l'exhaustivité du registre des parties liées et l'information donnée (ISA 550).",
            'assertions': ['C', 'P']}],
- 'E6.3': [{'descEn': "Evaluate going concern over ≥ 12 months; link to the state of the alert procedure (ISA 570).",
+ 'E6.3': [{'descEn': "Evaluate going concern over ≥ 12 months; link to procédure d'alerte state (ISA 570).",  # i18n: term
            'descFr': "Évaluer la continuité d'exploitation sur ≥ 12 mois ; lien avec la procédure d'alerte (ISA 570).",
            'assertions': ['V', 'P']}],
  'E3.1': [{'descEn': 'Test journal entries with unpredictable selection criteria (period-end, round amounts, unusual users/accounts).',

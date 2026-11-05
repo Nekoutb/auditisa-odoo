@@ -120,12 +120,12 @@ class TestUiData(EaAuditCase):
         item.with_user(self.partner).assign_tasks(self.staff.id, "preparer")
         item.with_user(self.partner).assign_tasks(self.senior.id, "approver")
         mine = self.ui(self.staff).ea_ui_dashboard(self.engagement.id)["my_tasks"]
-        self.assertEqual((mine["count"], mine["rows"][0]["code"], mine["rows"][0]["word"]), (1, "E6.2", "À préparer"))
+        self.assertEqual((mine["count"], mine["rows"][0]["code"], mine["rows"][0]["word"]), (1, "E6.2", "To prepare"))
         self.assertEqual(self.ui(self.senior).ea_ui_dashboard(self.engagement.id)["my_tasks"]["count"], 0)
         item.with_user(self.staff).action_sign("preparer")
         self.assertEqual(self.ui(self.staff).ea_ui_dashboard(self.engagement.id)["my_tasks"]["count"], 0)
         mine = self.ui(self.senior).ea_ui_dashboard(self.engagement.id)["my_tasks"]
-        self.assertEqual((mine["count"], mine["rows"][0]["word"]), (1, "À réviser"))
+        self.assertEqual((mine["count"], mine["rows"][0]["word"]), (1, "To review"))
 
     # ------------------------------------------------------------------
     # home
@@ -138,7 +138,7 @@ class TestUiData(EaAuditCase):
         row = next(m for m in home["missions"] if m["id"] == self.engagement.id)
         self.assertEqual(row["report_due"], "30/06/2026")
         self.assertEqual(row["phase_deadline"], "31/03/2026")
-        self.assertEqual(row["phase_label"], "Exécution")
+        self.assertEqual(row["phase_label"], "Execution")
         self.assertEqual(row["partner"], "Partner")
         self.assertEqual(row["nature"], "commissariat aux comptes")
         self.assertFalse(row["acceptance_signed"])
@@ -157,7 +157,7 @@ class TestUiData(EaAuditCase):
     def test_home_todo_acceptance_is_the_partners(self):
         fresh = self.make_engagement(2026, partner=self.partner)
         titles = [t["title"] for t in self.ui(self.partner).ea_ui_home()["todo"] if t["engagement_id"] == fresh.id]
-        self.assertIn("Acceptation en attente de la signature de l'associé", titles)
+        self.assertIn("Acceptance awaiting the partner's sign-off", titles)
 
     def test_home_todo_does_not_list_the_acceptance_twice(self):
         fresh = self.make_engagement(2026, partner=self.partner)
@@ -167,13 +167,13 @@ class TestUiData(EaAuditCase):
         p11.with_user(self.manager).assign_tasks(self.partner.id, "approver")
         p11.with_user(self.manager).action_sign("preparer")
         titles = [t["title"] for t in self.ui(self.partner).ea_ui_home()["todo"] if t["engagement_id"] == fresh.id]
-        self.assertEqual(titles, ["Acceptation en attente de la signature de l'associé"])
+        self.assertEqual(titles, ["Acceptance awaiting the partner's sign-off"])
 
     def test_home_todo_shows_an_invitation_without_opening_the_file(self):
         self.engagement.with_user(self.partner)._ea_invite_user(self.outsider, "staff")
         home = self.ui(self.outsider).ea_ui_home()
         self.assertEqual(home["missions"], [])
-        self.assertEqual([t["title"] for t in home["todo"]], ["Invitation à répondre"])
+        self.assertEqual([t["title"] for t in home["todo"]], ["Invitation to answer"])
 
     # ------------------------------------------------------------------
     # the task list
@@ -190,14 +190,14 @@ class TestUiData(EaAuditCase):
         row = next(r for r in data["rows"] if r["code"] == "E6.2")
         self.assertEqual(row["preparer"]["name"], "Staff")
         self.assertTrue(row["preparer"]["signed"])
-        self.assertRegex(row["preparer"]["detail"], r"^Signé le \d\d/\d\d/\d{4}$")
+        self.assertRegex(row["preparer"]["detail"], r"^Signed on \d\d/\d\d/\d{4}$")
         self.assertEqual(row["reviewer"]["name"], "Senior")
         self.assertFalse(row["reviewer"]["signed"])
-        self.assertEqual(row["reviewer"]["detail"], "En attente de révision")
+        self.assertEqual(row["reviewer"]["detail"], "Awaiting review")
         self.assertIsNone(row["partner"])
-        self.assertEqual(row["pill"], "EN RÉVISION")
+        self.assertEqual(row["pill"], "IN REVIEW")
         unassigned = next(r for r in data["rows"] if r["code"] == "E6.1")
-        self.assertEqual(unassigned["preparer"]["name"], "Non assigné")
+        self.assertEqual(unassigned["preparer"]["name"], "Unassigned")
         # no approver: the engagement's partner reviews by default
         self.assertEqual(unassigned["reviewer"]["name"], "Partner")
 
@@ -215,7 +215,7 @@ class TestUiData(EaAuditCase):
         row = next(r for r in rows if r["code"] == "P5.2")
         self.assertTrue(row["partner"]["signed"])
         self.assertFalse(row["reviewer"]["signed"])
-        self.assertEqual(row["pill"], "TERMINÉE")
+        self.assertEqual(row["pill"], "COMPLETE")
 
     def test_an_unknown_group_is_refused(self):
         self.assertEqual(self.ui(self.partner).ea_ui_tasks(self.engagement.id, "zz"), {"denied": True})
@@ -282,7 +282,7 @@ class TestUiData(EaAuditCase):
         item.with_user(self.staff).action_sign("preparer")
         rows = self.ui(self.senior).ea_ui_notifications()
         self.assertEqual(rows["unread"], 2)
-        self.assertIn("À réviser : E6.2", rows["rows"][0]["title"])
+        self.assertIn("To review: E6.2", rows["rows"][0]["title"])
 
     def test_nobody_is_notified_of_their_own_act(self):
         item = self.item(self.engagement, "E6.2")
@@ -330,7 +330,7 @@ class TestUiData(EaAuditCase):
         self.assertEqual(shell["name"], "J.-P. Mbarga")
         self.assertEqual(shell["first_name"], "Jean-Pierre")
         self.assertEqual(shell["initials"], "JM")
-        self.assertEqual(shell["role"], "Associé")
+        self.assertEqual(shell["role"], "Partner")
         self.assertTrue(shell["can_write"])
 
     def test_someone_outside_the_firm_keeps_odoos_navbar(self):

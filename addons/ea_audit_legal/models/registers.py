@@ -2,7 +2,7 @@ from odoo import api, fields, models
 
 from odoo.addons.ea_audit_reports.services.articles import mark_articles
 from odoo.addons.ea_audit_tools.models.tool_record import french_date
-from odoo.addons.ea_audit_tools.services.alerte import flow_of
+from odoo.addons.ea_audit_tools.services.alerte import basis_text, flow_of
 
 from ..services.texts import CAPACITY_SELECTION, STAGE_SELECTION
 
@@ -92,7 +92,7 @@ class Alerte(models.Model):
         for alerte in self:
             entry = next((e for e in flow_of(alerte.variant) if e["stage"] == alerte.stage), None) if alerte.variant else None
             french = (self.env.lang or "").startswith("fr")
-            basis = (entry.get("basisFr", entry["basis"]) if french else entry["basis"]) if entry else False
+            basis = basis_text(entry, french) if entry else False
             alerte.stage_basis = mark_articles(basis, self.env.company.sudo().ea_articles_validated, french) if basis else False
 
 

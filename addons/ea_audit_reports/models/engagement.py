@@ -202,7 +202,7 @@ class Engagement(models.Model):
                 "language": language or as_root.report_language, "restricted": restricted, "created_by_id": self.env.user.id,
             })
         sealed = self._ea_seal_blocks(blocks)
-        document._ea_add_version(build_docx(sealed), DOCX_MIME, note, sealed)
+        document._ea_add_version(build_docx(sealed, "fr-FR" if self._ea_report_fr() else "en-US"), DOCX_MIME, note, sealed)
         return document
 
     # ------------------------------------------------------------------

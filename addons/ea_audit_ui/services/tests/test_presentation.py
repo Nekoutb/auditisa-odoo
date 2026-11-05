@@ -53,7 +53,7 @@ def test_every_task_of_the_file_index_has_one_group():
 
 def test_phases_map_to_the_rings():
     assert SECTION_OF_PHASE["planning"] == "strategy"
-    assert phase_label("acceptance") == "Planification"
-    assert phase_label("planning") == "Stratégie & risques"
-    assert phase_label("archived") == "Archivée"
-    assert GROUP_BY_ID["e4"]["short"] == "Procédures substantives"
+    assert phase_label("acceptance") == "Planning"
+    assert phase_label("planning") == "Strategy & risks"
+    assert phase_label("archived") == "Archived"
+    assert GROUP_BY_ID["e4"]["short"] == "Substantive procedures"

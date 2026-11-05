@@ -46,7 +46,7 @@ def _paragraph(item):
     return '<w:p>%s<w:r>%s<w:t xml:space="preserve">%s</w:t></w:r></w:p>' % (props, run, escape(text))
 
 
-def build_docx(blocks):
+def build_docx(blocks, lang="fr-FR"):
     """The bytes of the .docx. Timestamps are fixed: the same blocks give the same hash."""
     body = "".join(_paragraph(item) for item in blocks)
     document = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document %s><w:body>%s<w:sectPr/></w:body></w:document>' % (_W, body)
@@ -54,7 +54,7 @@ def build_docx(blocks):
     with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
         for name, content in (
             ("[Content_Types].xml", _CONTENT_TYPES), ("_rels/.rels", _RELS), ("word/_rels/document.xml.rels", _DOC_RELS),
-            ("word/styles.xml", _STYLES), ("word/document.xml", document),
+            ("word/styles.xml", _STYLES.replace("fr-FR", lang)), ("word/document.xml", document),
         ):
             info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED

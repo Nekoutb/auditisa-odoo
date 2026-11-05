@@ -102,6 +102,8 @@ class _Scan(ast.NodeVisitor):
         for target in node.targets:
             if isinstance(target, ast.Name) and (_is_fr_key(target.id) or target.id.startswith("_FR") or "_FR_" in target.id):
                 self._skip_tree(node.value)
+            if isinstance(target, ast.Tuple) and any(isinstance(e, ast.Name) and _is_fr_key(e.id) for e in target.elts):
+                self._skip_tree(node.value)  # status, detail_en, detail_fr = (...)
         self.generic_visit(node)
 
     def visit_If(self, node):

@@ -14,62 +14,82 @@ from .legal import add_days_iso, add_months_clamped
 
 FIRST_REPLY_DAYS = 30
 
+_FR_TO_EN = {
+    "Art. 150 — réponse du gérant dans le mois (à valider ; lecture 1997 : 15 jours)": "Art. 150 — manager's reply within one month (to validate; 1997 reading: 15 days)",
+    "Art. 151 — le CAC informe la juridiction compétente": "Art. 151 — the statutory auditor informs the competent court",
+    "Art. 152 — communication aux associés sous 8 jours (ou à la prochaine AG)": "Art. 152 — communication to the members within 8 days (or at the next general meeting)",
+    "Résultats communiqués à la juridiction si mesures insuffisantes": "Results communicated to the court if the measures are insufficient",
+    "Art. 153 — réponse du PCA/PDG ou de l'administrateur général dans le mois (à valider ; lecture 1997 : 15 jours)": "Art. 153 — reply of the chairman, the chairman and CEO or the general administrator within one month (to validate; 1997 reading: 15 days)",
+    "Art. 154 — invitation du président à faire délibérer le conseil sous 15 jours de la réponse": "Art. 154 — chairman invited to have the board deliberate within 15 days of the reply",
+    "Art. 154 — le président convoque le conseil sous 15 jours": "Art. 154 — the chairman convenes the board within 15 days",
+    "Art. 154 — extrait du PV au CAC et à la juridiction sous 1 mois": "Art. 154 — extract of the minutes to the statutory auditor and the court within 1 month",
+    "Art. 155 — rapport spécial à la prochaine AG (le CAC peut convoquer l'AG)": "Art. 155 — special report to the next general meeting (the statutory auditor may convene it)",
+    "Art. 156 — juridiction informée des résultats": "Art. 156 — court informed of the results",
+}
+
+
+def basis_text(entry, fr):
+    """The legal basis of a stage: the source's French, or its English."""
+    return entry["basis"] if fr else _FR_TO_EN.get(entry["basis"], entry["basis"])
+
+
 #: Ordered stages per variant; each entry: next-deadline days from the transition.
-FLOWS = {
+FLOWS_FR = {
     "non_sa": [
         {
             "stage": "request_sent",
             "deadlineDays": 30,
-            "basis": "Art. 150 — manager's reply within one month (to validate; 1997 reading: 15 days)", "basisFr": "Art. 150 — réponse du gérant dans le mois (à valider ; lecture 1997 : 15 jours)",
+            "basis": "Art. 150 — réponse du gérant dans le mois (à valider ; lecture 1997 : 15 jours)",
         },
         {
             "stage": "reply_recorded",
             "deadlineDays": None,
-            "basis": "Art. 151 — the statutory auditor informs the competent court", "basisFr": "Art. 151 — le CAC informe la juridiction compétente",
+            "basis": "Art. 151 — le CAC informe la juridiction compétente",
         },
         {"stage": "court_informed", "deadlineDays": None, "basis": "Art. 151"},
         {
             "stage": "rapport_special",
             "deadlineDays": 8,
-            "basis": "Art. 152 — communication to the members within 8 days (or at the next general meeting)", "basisFr": "Art. 152 — communication aux associés sous 8 jours (ou à la prochaine AG)",
+            "basis": "Art. 152 — communication aux associés sous 8 jours (ou à la prochaine AG)",
         },
         {"stage": "ag_communicated", "deadlineDays": None, "basis": "Art. 152"},
         {
             "stage": "closed",
             "deadlineDays": None,
-            "basis": "Results communicated to the court if the measures are insufficient", "basisFr": "Résultats communiqués à la juridiction si mesures insuffisantes",
+            "basis": "Résultats communiqués à la juridiction si mesures insuffisantes",
         },
     ],
     "sa": [
         {
             "stage": "request_sent",
             "deadlineDays": 30,
-            "basis": "Art. 153 — reply of the chairman, the chairman and CEO or the general administrator within one month (to validate; 1997 reading: 15 days)", "basisFr": "Art. 153 — réponse du PCA/PDG ou de l'administrateur général dans le mois (à valider ; lecture 1997 : 15 jours)",
+            "basis": "Art. 153 — réponse du PCA/PDG ou de l'administrateur général dans le mois (à valider ; lecture 1997 : 15 jours)",
         },
         {
             "stage": "reply_recorded",
             "deadlineDays": 15,
-            "basis": "Art. 154 — chairman invited to have the board deliberate within 15 days of the reply", "basisFr": "Art. 154 — invitation du président à faire délibérer le conseil sous 15 jours de la réponse",
+            "basis": "Art. 154 — invitation du président à faire délibérer le conseil sous 15 jours de la réponse",
         },
         {
             "stage": "board_invited",
             "deadlineDays": 15,
-            "basis": "Art. 154 — the chairman convenes the board within 15 days", "basisFr": "Art. 154 — le président convoque le conseil sous 15 jours",
+            "basis": "Art. 154 — le président convoque le conseil sous 15 jours",
         },
         {
             "stage": "board_deliberated",
             "deadlineDays": 30,
-            "basis": "Art. 154 — extract of the minutes to the statutory auditor and the court within 1 month", "basisFr": "Art. 154 — extrait du PV au CAC et à la juridiction sous 1 mois",
+            "basis": "Art. 154 — extrait du PV au CAC et à la juridiction sous 1 mois",
         },
         {
             "stage": "rapport_special",
             "deadlineDays": None,
-            "basis": "Art. 155 — special report to the next general meeting (the statutory auditor may convene it)", "basisFr": "Art. 155 — rapport spécial à la prochaine AG (le CAC peut convoquer l'AG)",
+            "basis": "Art. 155 — rapport spécial à la prochaine AG (le CAC peut convoquer l'AG)",
         },
         {"stage": "ag_communicated", "deadlineDays": None, "basis": "Art. 156"},
-        {"stage": "closed", "deadlineDays": None, "basis": "Art. 156 — court informed of the results", "basisFr": "Art. 156 — juridiction informée des résultats"},
+        {"stage": "closed", "deadlineDays": None, "basis": "Art. 156 — juridiction informée des résultats"},
     ],
 }
+FLOWS = FLOWS_FR
 
 _ISO_DATE = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
