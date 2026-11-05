@@ -355,7 +355,7 @@ class ScotControl(models.Model):
             sole = bool(control.selected_for_testing) and any(
                 counts.get(control.engagement_id.id, {}).get(code, 0) == 1 for code in covered
             )
-            suggestion = toc_suggested(control.control_type, control.frequency, control.toc_population or None, sole, fr)
+            suggestion = toc_suggested(control.control_type, control.frequency or None, control.toc_population or None, sole, fr)
             control.items_label = ", ".join(str(item) for item in control.toc_sample_items or [])
             control.assertion_summary = ", ".join(covered)
             control.sole_control = sole

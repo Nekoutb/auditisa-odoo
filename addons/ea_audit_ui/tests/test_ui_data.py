@@ -31,6 +31,7 @@ class TestUiData(EaAuditCase):
 
     def active_count(self, prefixes):
         items = self.engagement.sudo().file_item_ids.filtered(lambda i: not i.conditional)
+        items -= self.engagement.sudo()._ea_e4_out_of_scope()
         return len(items.filtered(lambda i: i.code.startswith(prefixes)))
 
     # ------------------------------------------------------------------
@@ -46,6 +47,7 @@ class TestUiData(EaAuditCase):
         self.assertEqual(sum(r["total"] for r in data["rings"]), data["total"])
 
     def test_conditional_tasks_do_not_count(self):
+        self.engagement.with_user(self.staff).add_dsp_osp("N", "Circulariser les fournisseurs", ["E"])
         data = self.ui(self.partner).ea_ui_dashboard(self.engagement.id)
         e4 = self.group(self.ring(data, "execution"), "e4")
         self.item(self.engagement, "E4.2").conditional = True

@@ -76,13 +76,13 @@ class TestArchiveGates(ReportsCase):
         """UAT B63."""
         untouched = self.engagement.sudo()._ea_untouched_tasks
         gate = self._gates()["tasks_addressed"]
-        self.assertIn("E4.1", [item.code for item in untouched()])
+        self.assertIn("E6.2", [item.code for item in untouched()])
         self.assertEqual(gate["pending"], len(untouched()))
         self.assertLessEqual(len(gate["codes"]), 20)
         self.env.flush_all()
-        self.env.cr.execute("UPDATE ea_audit_file_item SET na_reason = 'Sans objet' WHERE id = %s", [self.item(self.engagement, "E4.1").id])
+        self.env.cr.execute("UPDATE ea_audit_file_item SET na_reason = 'Sans objet' WHERE id = %s", [self.item(self.engagement, "E6.2").id])
         self.env.invalidate_all()
-        self.assertNotIn("E4.1", [item.code for item in untouched()])
+        self.assertNotIn("E6.2", [item.code for item in untouched()])
 
     def test_written_communication_of_significant_deficiencies(self):
         """C5.11, ISA 265 para 9, F037: without the date the file stays open."""

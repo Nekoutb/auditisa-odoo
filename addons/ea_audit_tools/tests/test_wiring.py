@@ -53,7 +53,6 @@ class TestToolBackedPapers(WiringCase):
     def test_the_refusal_stops_the_signature(self):
         item = self.item(self.engagement, "S2.1")
         self.set_phase(self.engagement, "planning")
-        self.seat(self.engagement, self.senior, "senior")
         self.patch(type(item), "_ea_paper_refusal", lambda _self, _role: _self._ea_tool_gap())
         self.assertCode("control-selection-incomplete", item.with_user(self.staff).action_sign, "preparer")
 

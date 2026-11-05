@@ -165,7 +165,9 @@ class TestGuards(ToolsCase):
         checked = 0
         for name, model in self.env.items():
             if name.startswith("ea.audit.") and not model._abstract and not model._transient and "_ea_guard" in dir(model):
-                rules = Rule.search([("model_id.model", "=", name), ("groups", "=", False)])
+                # global, or the firm's own group rule where a client contact reads the same model
+                member = self.env.ref("ea_audit_core.group_member")
+                rules = Rule.search([("model_id.model", "=", name)]).filtered(lambda r: not r.groups or member in r.groups)
                 self.assertTrue(rules.filtered(lambda r: "accepted" in r.domain_force), "%s has no team-only rule" % name)
                 checked += 1
         self.assertGreaterEqual(checked, 20)
