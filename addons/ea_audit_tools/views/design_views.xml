@@ -80,6 +80,23 @@
             </list>
         </field>
     </record>
+    <record id="view_risk_step_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.risk.step.wizard.form</field>
+        <field name="model">ea.audit.risk.step.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="risk_id" readonly="1"/>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="step_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_link" type="object" string="Link" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
     <record id="view_step_wizard" model="ir.ui.view">
         <field name="name">ea.audit.step.wizard.form</field>
         <field name="model">ea.audit.step.wizard</field>

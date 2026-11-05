@@ -104,6 +104,7 @@ The start point of a ToD plan stays `stable_start_fraction(str(engagement id), i
 - **`tasks_addressed`.** A paper its preparer signed is not untouched, even with no answer stored: P7.2 keeps its answers on its summary.
 - **Steps.** `complete` and `uncomplete` (completeStep) were missing from the first port, so a programme could never close from the screens. They are on the Programs list now. Field work is not refused before execution for `mark_na`, as in the source.
 - **No separate "close execution".** As in the source, `issue_report` moves execution to conclusion, under the completion gates, and `archive_engagement` moves conclusion to archived. A step between them would open C6.x before the report, which `phase_still_open` holds back. Both are on the engagement's form and the conclusion board.
+- **Risk to response.** The first port had no screen to map a risk to a paper or link a step, so `significant_risks_linked` could not be met from the screens. A risk linked to a lead index is now mapped to that index's E4 task, and the risk form links a step.
 - **`controls_concluded`.** Open is design not evaluated, or no test recorded. An imported E1.2 grid with tested rows counts as the record of the test, which the source's rows did not, since the grid is how results arrive here (I-6).
 
 ## C. Reduced, or not built

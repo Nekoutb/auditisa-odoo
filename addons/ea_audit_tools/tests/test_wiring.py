@@ -211,3 +211,23 @@ class TestTilesAndThresholds(ToolsCase):
         self.assertEqual(self.wizard(admin).default_get(["low", "moderate", "high"])["moderate"], 40)
         self.assertCode("sap-threshold-order", self.wizard(admin).create({"low": 10, "moderate": 40, "high": 20}).action_save)
         self.assertCode("forbidden", self.env["ea.audit.sap.settings"].with_user(self.partner).set_thresholds, 60, 40, 20)
+
+
+@tagged("post_install", "-at_install")
+class TestRiskResponse(ToolsCase):
+    def test_a_risk_on_an_account_is_mapped_to_its_paper(self):
+        risk = self.as_staff.add_risk("Créances anciennes", significant=True, index="E", assertions=["V"])
+        item = self.item(self.engagement, "E4.1")
+        self.assertEqual(risk.sudo().section_link_ids.file_item_id, item)
+        self.as_staff.generate_program("E4.1")
+        self.assertTrue(risk.sudo().program_step_ids, "the program answers the significant risk")
+
+    def test_a_step_can_be_linked_from_the_screen(self):
+        risk = self.as_staff.add_risk("Dépendance", significant=True)
+        step = self.as_staff.add_program_step(self.item(self.engagement, "E4.1"), "Revoir les contrats")
+        wizard = self.env["ea.audit.risk.step.wizard"].with_user(self.staff).create({
+            "risk_id": risk.id, "engagement_id": self.engagement.id, "step_id": step.id,
+        })
+        wizard.action_link()
+        self.assertIn(step.sudo(), risk.sudo().program_step_ids)
+        self.assertTrue(risk.action_open_step_link()["context"]["default_risk_id"])

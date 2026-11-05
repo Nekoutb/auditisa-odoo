@@ -530,6 +530,16 @@ class ScotControl(models.Model):
         engagement._ea_invalidate_signoffs("E1.2")
         return draw.with_env(self.env)
 
+    def action_open_full(self):
+        """The control's own page, where its selection, design, draw and tests are worked. A row of the
+        SCOT's list only opens a read-only dialog."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "target": "current",
+            "views": [(self.env.ref("ea_audit_tools.view_control_form").id, "form")],
+            "context": {"ea_engagement_id": self.sudo().engagement_id.id},
+        }
+
     def action_open_draw(self):
         self.ensure_one()
         return _wizard(self, "ea.audit.toc.draw.wizard", self.env._("Draw the sample"), {"default_control_id": self.id})

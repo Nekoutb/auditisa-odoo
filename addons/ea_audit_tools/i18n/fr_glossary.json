@@ -667,7 +667,7 @@
 "Only control on an assertion": "Seul contrôle sur une assertion",
 "Only last year": "Seulement l'an dernier",
 "Only this year": "Seulement cette année",
-"Open": "Ouvert",
+"Open": "Ouvrir",
 "Open findings": "Constats ouverts",
 "Open items, aging, agreement to the balance.": "Éléments ouverts, balance âgée, rapprochement à la balance.",
 "Open items, aging, supplier statements.": "Éléments ouverts, balance âgée, relevés fournisseurs.",
@@ -1116,5 +1116,8 @@
 "not communicated in writing: blocks the archive": "non communiquée(s) par écrit : bloque l'archivage",
 "not computable": "non calculable",
 "of overall materiality": "du seuil global",
-"starts with": "commence par"
+"starts with": "commence par",
+"Link a program step": "Lier une diligence du programme",
+"Link a risk to a program step": "Lier un risque à une diligence",
+"Program step": "Diligence"
 }
