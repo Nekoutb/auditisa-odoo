@@ -26,6 +26,7 @@
     "assets": {
         "web.assets_backend": [
             "ea_audit_tools/static/src/scss/tools.scss",
+            "ea_audit_tools/static/src/scss/paper_boards.scss",
             "ea_audit_tools/static/src/js/**/*",
             "ea_audit_tools/static/src/xml/**/*",
         ],

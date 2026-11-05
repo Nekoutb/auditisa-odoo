@@ -1,0 +1,29 @@
+.o_ea_board_facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    margin: 0 0 14px;
+
+    dt {
+        font-size: 12px;
+        font-weight: 500;
+        color: #6b7280;
+    }
+
+    dd {
+        margin: 2px 0 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
+}
+
+.o_ea_board_table {
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.o_ea_board_links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}

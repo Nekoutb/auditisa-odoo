@@ -175,6 +175,10 @@ class _Demo:
         for key in required_keys(definition):
             if key in options:
                 out[key] = options[key]
+            elif item.code == "P1.5" and key.startswith("q_"):
+                # a "yes" on any criterion would require a quality reviewer on the file
+                out[key] = "no"
+                out["%s_x" % key] = "Critère non rempli pour cette entité."
             elif key.startswith(("q_", "c_")):
                 out[key] = "yes"
             else:
