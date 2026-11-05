@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tb_import_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.tb.import.wizard.form</field>
+        <field name="model">ea.audit.tb.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="step" invisible="1"/>
+                <field name="engagement_id" invisible="1"/>
+                <group invisible="step != 'upload'">
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                    <field name="timing"/>
+                    <field name="header_row"/>
+                </group>
+                <div invisible="step != 'confirm'">
+                    <field name="preview_html" nolabel="1"/>
+                    <div class="alert alert-warning" invisible="not mapping_error"><field name="mapping_error"/></div>
+                    <group string="Column mapping">
+                        <group>
+                            <field name="map_account"/>
+                            <field name="map_label"/>
+                            <field name="map_openingDebit"/>
+                            <field name="map_openingCredit"/>
+                            <field name="map_opening"/>
+                        </group>
+                        <group>
+                            <field name="map_debit"/>
+                            <field name="map_credit"/>
+                            <field name="map_closingDebit"/>
+                            <field name="map_closingCredit"/>
+                            <field name="map_closing"/>
+                        </group>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_preview" type="object" string="Read the file" class="btn-primary" invisible="step != 'upload'"/>
+                    <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'confirm'"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_materiality_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.materiality.wizard.form</field>
+        <field name="model">ea.audit.materiality.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="benchmark"/>
+                        <field name="benchmark_amount"/>
+                        <field name="percentage"/>
+                    </group>
+                    <group>
+                        <field name="performance_pct"/>
+                        <field name="trivial_pct"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="justification"/>
+                    <field name="performance_justification" required="performance_pct != 75"/>
+                    <field name="override_justification"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_risk_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.risk.wizard.form</field>
+        <field name="model">ea.audit.risk.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="description"/>
+                    <field name="source"/>
+                </group>
+                <group>
+                    <group>
+                        <field name="category"/>
+                        <field name="level"/>
+                        <field name="likelihood"/>
+                        <field name="magnitude"/>
+                        <field name="significant"/>
+                    </group>
+                    <group invisible="level == 'fs'">
+                        <field name="index_code"/>
+                        <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <group invisible="level != 'fs'">
+                        <field name="fs_note"/>
+                    </group>
+                </group>
+                <group><field name="management_missed"/></group>
+                <footer>
+                    <button name="action_add" type="object" string="Add" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_risk_link_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.risk.link.wizard.form</field>
+        <field name="model">ea.audit.risk.link.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="risk_id" invisible="1"/>
+                <group>
+                    <field name="index_code"/>
+                    <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_link" type="object" string="Link" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_finding_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.finding.wizard.form</field>
+        <field name="model">ea.audit.finding.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="route" widget="radio"/>
+                    <field name="title"/>
+                    <field name="file_item_id" options="{'no_create': True}"/>
+                    <field name="detail"/>
+                </group>
+                <group invisible="route not in ('b4', 'c1')">
+                    <field name="severity" required="route == 'c1'"/>
+                    <field name="recommendation"/>
+                </group>
+                <group invisible="route != 'b5'">
+                    <field name="amount" required="route == 'b5'"/>
+                    <field name="accounts"/>
+                    <field name="mtype"/>
+                    <field name="trivial_confirmed"/>
+                </group>
+                <group invisible="route != 'revise'">
+                    <field name="significant"/>
+                </group>
+                <footer>
+                    <button name="action_route" type="object" string="Record" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_deficiency_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.deficiency.wizard.form</field>
+        <field name="model">ea.audit.deficiency.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="finding_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="likelihood"/>
+                        <field name="magnitude"/>
+                        <field name="suggested"/>
+                        <field name="grade"/>
+                    </group>
+                    <group>
+                        <field name="management_aware"/>
+                        <field name="communicated_on"/>
+                        <field name="recipient" required="communicated_on"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="accounts_assertions"/>
+                    <field name="indicators"/>
+                    <field name="related_finding_ids" widget="many2many_tags" options="{'no_create': True}"
+                           domain="[('route', '=', 'c1'), ('id', '!=', finding_id)]"/>
+                    <field name="aggregation_note"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_reason_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.reason.wizard.form</field>
+        <field name="model">ea.audit.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="kind" invisible="1"/>
+                <field name="record_id" invisible="1"/>
+                <group><field name="reason"/></group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_tool_import_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.tool.import.wizard.form</field>
+        <field name="model">ea.audit.tool.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <group>
+                    <field name="kind" readonly="1"/>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

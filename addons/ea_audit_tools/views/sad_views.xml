@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sad_entry_form" model="ir.ui.view">
+        <field name="name">ea.audit.sad.entry.form</field>
+        <field name="model">ea.audit.sad.entry</field>
+        <field name="arch" type="xml">
+            <form delete="0">
+                <header>
+                    <button name="action_post" type="object" string="Post to the C1.1 schedule" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                </header>
+                <sheet>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="register_only" invisible="1"/>
+                    <group>
+                        <field name="finding"/>
+                        <field name="file_item_id" domain="[('engagement_id', '=', engagement_id)]" options="{'no_create': True}" readonly="register_only"/>
+                        <field name="ref" readonly="register_only"/>
+                    </group>
+                    <group>
+                        <group string="Debit">
+                            <field name="dr_account" readonly="register_only"/>
+                            <field name="dr_amount" readonly="register_only"/>
+                            <field name="dr_caption"/>
+                            <field name="dr_caption_effective"/>
+                        </group>
+                        <group string="Credit">
+                            <field name="cr_account" readonly="register_only"/>
+                            <field name="cr_amount" readonly="register_only"/>
+                            <field name="cr_caption"/>
+                            <field name="cr_caption_effective"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="mtype"/>
+                            <field name="corrected"/>
+                        </group>
+                        <group>
+                            <field name="posted"/>
+                            <field name="stale"/>
+                            <field name="is_trivial"/>
+                        </group>
+                    </group>
+                    <group><field name="rationale"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_sad_meta_form" model="ir.ui.view">
+        <field name="name">ea.audit.sad.meta.form</field>
+        <field name="model">ea.audit.sad.meta</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <sheet>
+                    <group><field name="concl_text"/></group>
+                    <group>
+                        <group string="Tax and turnaround">
+                            <field name="tax_rate"/>
+                            <field name="turnaround_factual"/>
+                            <field name="turnaround_judgmental"/>
+                            <field name="income_after_tax"/>
+                        </group>
+                        <group string="Qualitative factors">
+                            <field name="tq_1"/><field name="tq_1c"/>
+                            <field name="tq_2"/><field name="tq_2c"/>
+                            <field name="tq_3"/><field name="tq_3c"/>
+                            <field name="tq_4"/><field name="tq_4c"/>
+                            <field name="tq_5"/><field name="tq_5c"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Cash flow">
+                            <field name="cf_row_ids">
+                                <list editable="bottom">
+                                    <field name="no"/>
+                                    <field name="ref"/>
+                                    <field name="line"/>
+                                    <field name="operating"/>
+                                    <field name="investing"/>
+                                    <field name="financing"/>
+                                    <field name="evaluation"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Disclosures">
+                            <field name="disc_row_ids">
+                                <list editable="bottom">
+                                    <field name="no"/>
+                                    <field name="fn"/>
+                                    <field name="description"/>
+                                    <field name="guidance"/>
+                                    <field name="evaluation"/>
+                                    <field name="corrected"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_engagement_sad_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.sad.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_export_sad" type="object" string="Export to Excel" class="btn-primary"/>
+                    <button name="action_open_sad_conclusion" type="object" string="Team conclusion and tabs"/>
+                    <button name="action_tool_findings" type="object" string="Findings"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Summary of audit differences</div>
+                    <div class="o_ea_sub">C1.1, C3.1 · ISA 450 · <field name="display_name" readonly="1"/></div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Uncorrected misstatements</div>
+                            <field name="b5_uncorrected_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="b5_uncorrected_note"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Overall materiality</div>
+                            <field name="mat_overall_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="mat_overall_note"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Nominal (clearly trivial)</div>
+                            <field name="mat_trivial_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="mat_trivial_note"/></div>
+                        </div>
+                    </div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label mb-2">Team conclusion</div>
+                        <field name="sad_concl_text" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_panel">
+                        <field name="sad_entry_ids" nolabel="1" context="{'default_engagement_id': id}">
+                            <list decoration-warning="stale" decoration-muted="is_trivial">
+                                <field name="task_code"/>
+                                <field name="finding"/>
+                                <field name="dr_account"/>
+                                <field name="dr_amount"/>
+                                <field name="dr_caption_effective" optional="show"/>
+                                <field name="cr_account"/>
+                                <field name="cr_amount"/>
+                                <field name="cr_caption_effective" optional="show"/>
+                                <field name="mtype"/>
+                                <field name="corrected"/>
+                                <field name="posted"/>
+                                <field name="stale" column_invisible="1"/>
+                                <field name="is_trivial" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_sad_entries" model="ir.actions.act_window">
+        <field name="name">Audit differences</field>
+        <field name="res_model">ea.audit.sad.entry</field>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>

@@ -1,0 +1,511 @@
+import hashlib
+import re
+
+from odoo import api, fields, models
+
+from ..rules import rule_error
+from ..services.ap_schedules import ap_lead_schedules, index_resolver
+from ..services.errors import ServiceError
+from ..services.fs_captions import asset_basis_label, bilan_totals
+from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_schedule_alerts, sub_index_for
+from ..services.tb import extract_tb_rows, infer_tb_mapping, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
+from ..tabular import parse_table
+from .tool_record import french_date, is_french
+
+TIMING_SELECTION = [
+    ("pre_audit", "Pre-audit"),
+    ("post_audit", "Post-audit"),
+    ("prior_year", "Prior year"),
+]
+_ACCOUNT_PREFIX = re.compile(r"^[0-9]{1,8}$")
+_SECTION_CODE = re.compile(r"^E[0-9]+.[0-9]+$")
+
+
+class TrialBalance(models.Model):
+    _name = "ea.audit.tb"
+    _inherit = ["ea.audit.tool.record"]
+    _description = "Trial balance"
+    _rec_name = "engagement_id"
+
+    currency = fields.Char(default="XAF", required=True)
+    period_end = fields.Date()
+    current_version_no = fields.Integer(string="Current version", default=0)
+    version_ids = fields.One2many("ea.audit.tb.version", "tb_id", string="Versions")
+
+    _engagement_uniq = models.Constraint("UNIQUE(engagement_id)", "An engagement has one trial balance.")
+
+
+class TbVersion(models.Model):
+    """Immutable: a new upload supersedes a version, never rewrites or deletes it."""
+
+    _name = "ea.audit.tb.version"
+    _inherit = ["ea.audit.tool.record"]
+    _description = "Trial balance version"
+    _order = "version_no desc"
+    _rec_name = "version_no"
+
+    tb_id = fields.Many2one("ea.audit.tb", required=True, ondelete="cascade", index=True)
+    version_no = fields.Integer(string="Version", required=True)
+    version_kind = fields.Selection([("initial", "Import"), ("adjusted", "Adjusted"), ("final", "Final")], default="initial", required=True)
+    timing = fields.Selection(TIMING_SELECTION, default="pre_audit", required=True)
+    validation_status = fields.Selection([("valid", "Valid"), ("invalid", "Invalid")], required=True)
+    source_filename = fields.Char(string="File")
+    source_sha256 = fields.Char(string="SHA-256")
+    row_count = fields.Integer(string="Rows")
+    total_debit = fields.Float(digits=(18, 2))
+    total_credit = fields.Float(digits=(18, 2))
+    validation_summary = fields.Json()
+    superseded_at = fields.Datetime()
+    line_ids = fields.One2many("ea.audit.tb.line", "version_id", string="Accounts")
+    is_current = fields.Boolean(string="Drives the file", compute="_compute_is_current", compute_sudo=True)
+    checks_text = fields.Text(string="Checks", compute="_compute_checks_text", compute_sudo=True)
+
+    _version_uniq = models.Constraint("UNIQUE(tb_id, version_no)", "A version number is used once on a trial balance.")
+
+    @api.depends("tb_id.current_version_no", "version_no")
+    def _compute_is_current(self):
+        for version in self:
+            version.is_current = version.tb_id.current_version_no == version.version_no
+
+    @api.depends("validation_summary")
+    @api.depends_context("lang")
+    def _compute_checks_text(self):
+        labels = {
+            "balanced": self.env._("Debits equal credits"),
+            "openingBalanced": self.env._("Opening balances balance"),
+            "closingEquation": self.env._("Closing equals opening plus movements"),
+            "codification": self.env._("Account codes valid"),
+        }
+        for version in self:
+            checks = (version.validation_summary or {}).get("checks") or {}
+            lines = []
+            for key, label in labels.items():
+                check = checks.get(key)
+                if check:
+                    lines.append("%s %s" % ("OK" if check.get("ok") else "KO", label))
+            if checks.get("unknownAccounts"):
+                lines.append(self.env._("Unknown accounts: %(accounts)s", accounts=", ".join(str(item) for item in checks["unknownAccounts"][:20])))
+            prior = checks.get("openingTiesToPrior") or {}
+            if prior.get("checked"):
+                lines.append(self.env._("Opening ties to prior year: %(count)s exception(s)", count=len(prior.get("exceptions") or [])))
+            version.checks_text = "\n".join(lines)
+
+
+class TbLine(models.Model):
+    _name = "ea.audit.tb.line"
+    _inherit = ["ea.audit.tool.record"]
+    _description = "Trial balance row"
+    _order = "version_id desc, row_no"
+    _rec_name = "account_code"
+
+    version_id = fields.Many2one("ea.audit.tb.version", required=True, ondelete="cascade", index=True)
+    row_no = fields.Integer()
+    account_code = fields.Char(string="Account", required=True, index=True)
+    account_name = fields.Char(string="Description")
+    opening_debit = fields.Float(digits=(18, 2))
+    opening_credit = fields.Float(digits=(18, 2))
+    debit = fields.Float(digits=(18, 2))
+    credit = fields.Float(digits=(18, 2))
+    opening = fields.Float(digits=(18, 2), compute="_compute_balances", store=True)
+    closing = fields.Float(digits=(18, 2), compute="_compute_balances", store=True)
+    raw_data = fields.Json()
+
+    @api.depends("opening_debit", "opening_credit", "debit", "credit")
+    def _compute_balances(self):
+        for line in self:
+            line.opening = line.opening_debit - line.opening_credit
+            line.closing = line.opening + line.debit - line.credit
+
+
+class GroupingRule(models.Model):
+    """syscohada_grouping_rule, the methodology seed. Reference data, no engagement."""
+
+    _name = "ea.audit.grouping.rule"
+    _description = "SYSCOHADA grouping rule"
+    _order = "account_prefix"
+    _rec_name = "account_prefix"
+
+    account_prefix = fields.Char(required=True, index=True)
+    label = fields.Char(required=True, translate=True)
+    fs_ref = fields.Char(string="FS reference")
+    section_code = fields.Char(string="Section")
+    priority = fields.Integer(default=0)
+    source = fields.Char()
+    active = fields.Boolean(default=True)
+
+
+class ClientOverrideMixin(models.AbstractModel):
+    """Client-scoped, as the platform: read by a member of one of the client's teams."""
+
+    _name = "ea.audit.client.override.mixin"
+    _description = "Client mapping override"
+
+    client_id = fields.Many2one("ea.audit.client", required=True, index=True, ondelete="cascade")
+    account_prefix = fields.Char(required=True)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if not self.env.su:
+            raise rule_error(self.env, "forbidden")
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if not self.env.su:
+            raise rule_error(self.env, "forbidden")
+        return super().write(vals)
+
+    def unlink(self):
+        if not self.env.su:
+            raise rule_error(self.env, "forbidden")
+        return super().unlink()
+
+
+class ClientGroupingOverride(models.Model):
+    _name = "ea.audit.client.grouping.override"
+    _inherit = ["ea.audit.client.override.mixin"]
+    _description = "Client grouping override"
+    _rec_name = "account_prefix"
+
+    match_type = fields.Selection([("prefix", "Prefix"), ("exact", "Exact")], default="prefix", required=True)
+    section_code = fields.Char(string="Section", required=True)
+    rationale = fields.Char(required=True)
+    active = fields.Boolean(default=True)
+
+    _client_prefix_uniq = models.Constraint(
+        "UNIQUE(client_id, match_type, account_prefix)", "This client already overrides that account.",
+    )
+
+
+class ClientLeadIndexOverride(models.Model):
+    _name = "ea.audit.lead.index.override"
+    _inherit = ["ea.audit.client.override.mixin"]
+    _description = "Client lead-index override"
+    _rec_name = "account_prefix"
+
+    index_code = fields.Char(string="Lead index", required=True)
+
+    _client_prefix_uniq = models.Constraint(
+        "UNIQUE(client_id, account_prefix)", "This client already overrides that account prefix.",
+    )
+
+
+class EngagementTb(models.Model):
+    _inherit = "ea.audit.engagement"
+
+    tb_version_ids = fields.One2many("ea.audit.tb.version", "engagement_id", string="Trial balance versions")
+    tb_current_label = fields.Char(string="Trial balance", compute="_compute_tb_card", compute_sudo=True)
+    tb_status_label = fields.Char(string="Trial balance status", compute="_compute_tb_card", compute_sudo=True)
+    bilan_fixed_assets = fields.Float(string="Fixed assets", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_inventory = fields.Float(string="Inventory", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_receivables = fields.Float(string="Receivables", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_cash_assets = fields.Float(string="Cash assets", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_total_assets = fields.Float(string="Total net assets", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_class1 = fields.Float(string="Class 1 (credit)", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_class4_credit = fields.Float(string="Class 4 in credit", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_cash_liabilities = fields.Float(string="Treasury liabilities", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_net_result = fields.Float(string="Net result", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_total_equity_liabilities = fields.Float(string="Total equity and liabilities", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
+    bilan_label = fields.Char(string="Basis", compute="_compute_bilan", compute_sudo=True)
+
+    def _compute_tb_card(self):
+        for engagement in self:
+            version = engagement._ea_current_tb_version()
+            engagement.tb_current_label = "v%d" % version.version_no if version else "—"
+            engagement.tb_status_label = (
+                "%s · %s · %d" % (version.source_filename or "", french_date(version.create_date), version.row_count)
+                if version else ""
+            )
+
+    def _compute_bilan(self):
+        for engagement in self:
+            version = engagement._ea_current_tb_version()
+            bilan = bilan_totals(engagement._ea_tb_balances())
+            engagement.bilan_fixed_assets = bilan["fixedAssets"]
+            engagement.bilan_inventory = bilan["inventory"]
+            engagement.bilan_receivables = bilan["receivables"]
+            engagement.bilan_cash_assets = bilan["cashAssets"]
+            engagement.bilan_total_assets = bilan["totalAssets"]
+            engagement.bilan_class1 = bilan["class1"]
+            engagement.bilan_class4_credit = bilan["class4Credit"]
+            engagement.bilan_cash_liabilities = bilan["cashLiabilities"]
+            engagement.bilan_net_result = bilan["netResult"]
+            engagement.bilan_total_equity_liabilities = bilan["totalLiabilitiesAndEquity"]
+            engagement.bilan_label = asset_basis_label(
+                "fr" if is_french(self.env) else "en", version.version_no if version else None,
+            )
+
+    # ------------------------------------------------------------------
+    # Reading the TB
+    # ------------------------------------------------------------------
+
+    def _ea_tb(self):
+        self.ensure_one()
+        return self.env["ea.audit.tb"].sudo().search([("engagement_id", "=", self.id)], limit=1)
+
+    def _ea_current_tb_version(self):
+        """The version that drives the file: only a valid pre-audit import sets it."""
+        tb = self._ea_tb()
+        if not tb or tb.current_version_no <= 0:
+            return self.env["ea.audit.tb.version"].sudo()
+        return self.env["ea.audit.tb.version"].sudo().search(
+            [("tb_id", "=", tb.id), ("version_no", "=", tb.current_version_no)], limit=1,
+        )
+
+    def _ea_tb_balances(self):
+        """{account, value}, closings of the current version, as the source's every query."""
+        version = self._ea_current_tb_version()
+        return [{"account": line.account_code, "value": line.closing} for line in version.line_ids]
+
+    def _ea_prior_closings_map(self):
+        """priorClosingsMap: the prior engagement's audited closings, else its current version.
+        Feeds opening-ties-to-prior only. None when there is no prior year."""
+        self.ensure_one()
+        prior = self.sudo().search([
+            ("client_id", "=", self.sudo().client_id.id), ("fiscal_year", "<", self.sudo().fiscal_year),
+        ], order="fiscal_year desc", limit=1)
+        if not prior:
+            return None
+        tb = prior._ea_tb()
+        if not tb:
+            return None
+        version = self.env["ea.audit.tb.version"].sudo().search([
+            ("tb_id", "=", tb.id), ("timing", "=", "post_audit"), ("superseded_at", "=", False),
+        ], order="version_no desc", limit=1) or prior._ea_current_tb_version()
+        if not version or not version.line_ids:
+            return None
+        return {line.account_code: line.closing for line in version.line_ids}
+
+    def _ea_prior_year_closings(self):
+        """The Lead Schedule's comparative: the latest valid prior_year upload (UAT B81)."""
+        tb = self._ea_tb()
+        if not tb:
+            return {}
+        version = self.env["ea.audit.tb.version"].sudo().search([
+            ("tb_id", "=", tb.id), ("timing", "=", "prior_year"), ("validation_status", "=", "valid"),
+        ], order="version_no desc", limit=1)
+        out = {}
+        for line in version.line_ids:
+            out[line.account_code] = out.get(line.account_code, 0) + line.closing
+        return out
+
+    def _ea_known_prefixes(self):
+        self.ensure_one()
+        client = self.sudo().client_id
+        prefixes = set(self.env["ea.audit.grouping.rule"].sudo().search([]).mapped("account_prefix"))
+        prefixes |= set(self.env["ea.audit.client.grouping.override"].sudo().search(
+            [("client_id", "=", client.id)],
+        ).mapped("account_prefix"))
+        return sorted(prefixes)
+
+    def _ea_grouping_matchers(self):
+        """The test of the tb_mapped gate: an active global rule, or a client override."""
+        self.ensure_one()
+        global_prefixes = tuple(self.env["ea.audit.grouping.rule"].sudo().search([]).mapped("account_prefix"))
+        overrides = self.env["ea.audit.client.grouping.override"].sudo().search(
+            [("client_id", "=", self.sudo().client_id.id)],
+        )
+        exact = {o.account_prefix for o in overrides if o.match_type == "exact"}
+        prefixed = tuple(o.account_prefix for o in overrides if o.match_type == "prefix")
+
+        def known(code):
+            return code.startswith(global_prefixes) or code in exact or code.startswith(prefixed)
+
+        return known
+
+    def _ea_lead_overrides(self):
+        self.ensure_one()
+        rows = self.env["ea.audit.lead.index.override"].sudo().search([("client_id", "=", self.sudo().client_id.id)])
+        return [(row.account_prefix, row.index_code) for row in rows]
+
+    # ------------------------------------------------------------------
+    # Import (3.1)
+    # ------------------------------------------------------------------
+
+    def preview_trial_balance_file(self, filename, content, mapping=None, header_row=True):
+        """The file analysed without ingesting: the confirm-and-map step."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        try:
+            table = parse_table(filename, content, header_row)
+        except ServiceError as error:
+            raise rule_error(self.env, error.code) from error
+        return preview_trial_balance(table, mapping, index_overrides=dict(self._ea_lead_overrides()))
+
+    def import_trial_balance(self, filename, content, mapping=None, timing="pre_audit", header_row=True):
+        """importTrialBalance: the next version, validated, activated only when valid and pre-audit."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        if timing not in dict(TIMING_SELECTION):
+            raise rule_error(self.env, "invalid-value")
+        try:
+            table = parse_table(filename, content, header_row)
+            mapping = mapping if mapping is not None else infer_tb_mapping(table["headers"])
+            validate_mapping(mapping)
+            rows = extract_tb_rows(table, mapping)
+        except ServiceError as error:
+            raise rule_error(self.env, error.code) from error
+
+        as_root = self.sudo()
+        summary = validate_tb_rows(
+            rows, self._ea_known_prefixes(), self._ea_prior_closings_map(), mapping, readability_of(table, mapping),
+        )
+        tb = self._ea_tb() or self.env["ea.audit.tb"].sudo().create({
+            "engagement_id": self.id, "period_end": as_root.period_end,
+        })
+        self.env.cr.execute("SELECT id FROM ea_audit_tb WHERE id = %s FOR UPDATE", [tb.id])
+        Version = self.env["ea.audit.tb.version"].sudo()
+        # One live TB per timing: a new upload supersedes, never deletes. The working
+        # TB moves only on a valid pre-audit import, so an invalid re-import is on the
+        # record and the last valid version keeps driving the lead schedules.
+        Version.search([
+            ("tb_id", "=", tb.id), ("timing", "=", timing), ("superseded_at", "=", False),
+        ]).write({"superseded_at": fields.Datetime.now()})
+        last = Version.search([("tb_id", "=", tb.id)], order="version_no desc", limit=1)
+        version_no = last.version_no + 1
+        raw = content if isinstance(content, bytes) else content.encode()
+        version = Version.create({
+            "engagement_id": self.id,
+            "tb_id": tb.id,
+            "version_no": version_no,
+            "timing": timing,
+            "validation_status": summary["status"],
+            "source_filename": filename,
+            "source_sha256": hashlib.sha256(raw).hexdigest(),
+            "row_count": len(rows),
+            "total_debit": summary["checks"]["balanced"]["totalDebit"],
+            "total_credit": summary["checks"]["balanced"]["totalCredit"],
+            "validation_summary": summary,
+        })
+        self.env["ea.audit.tb.line"].sudo().create([{
+            "engagement_id": self.id,
+            "version_id": version.id,
+            "row_no": row_no,
+            "account_code": row["account"],
+            "account_name": row["label"],
+            "opening_debit": row["openingDebit"],
+            "opening_credit": row["openingCredit"],
+            "debit": row["debit"],
+            "credit": row["credit"],
+            "raw_data": dict(row["raw"]),
+        } for row_no, row in enumerate(rows, start=1)])
+        if summary["status"] == "valid" and timing == "pre_audit":
+            tb.current_version_no = version_no
+        # The TB is the file's primary evidence: every import is on the trail (UAT B62).
+        self._ea_log("tb_imported", "Trial balance imported (%s, v%d, %s) — %s" % (timing, version_no, filename, summary["status"]))
+        if summary["status"] == "valid":
+            self._ea_rebuild_lead_schedules()
+            self._ea_sync_significance()
+        return {"versionId": version.id, "versionNo": version_no, "summary": summary}
+
+    # ------------------------------------------------------------------
+    # Lead schedules
+    # ------------------------------------------------------------------
+
+    def _ea_ap_lead_schedules(self):
+        self.ensure_one()
+        version = self._ea_current_tb_version()
+        rows = [{
+            "account": line.account_code, "name": line.account_name,
+            "opening": line.opening, "closing": line.closing,
+        } for line in version.line_ids.sorted("account_code")]
+        return ap_lead_schedules(rows, self._ea_prior_year_closings(), self._ea_lead_overrides())
+
+    def _ea_rebuild_lead_schedules(self):
+        """Derived rows: recomputed whole when the TB or the client's mapping changes."""
+        self.ensure_one()
+        Schedule = self.env["ea.audit.lead.schedule"].sudo()
+        Schedule.search([("engagement_id", "=", self.id)]).unlink()
+        for schedule in self._ea_ap_lead_schedules():
+            definition = schedule["definition"]
+            created = Schedule.create({
+                "engagement_id": self.id,
+                "index_code": schedule["index"],
+                "closing": schedule["closing"],
+                "prior": schedule["prior"],
+                "movement": schedule["movement"],
+                "variance_pct": schedule["variancePct"] or 0,
+                "has_variance_pct": schedule["variancePct"] is not None,
+                "prior_source": schedule["priorSource"],
+                "account_type": definition["accountType"],
+                "account_class": definition["accountClass"],
+                "alerts": "\n".join(alert["code"] for alert in lead_schedule_alerts(schedule["accounts"])),
+            })
+            self.env["ea.audit.lead.line"].sudo().create([{
+                "engagement_id": self.id,
+                "schedule_id": created.id,
+                "index_code": schedule["index"],
+                "sub_index": sub_index_for(account["account"]) or "%s-1" % schedule["index"],
+                "account_code": account["account"],
+                "account_name": account["name"],
+                "closing": account["closing"],
+                "prior": account["prior"],
+                "movement": account["movement"],
+                "variance_pct": account["variancePct"] or 0,
+                "has_variance_pct": account["variancePct"] is not None,
+            } for account in schedule["accounts"]])
+
+    def _ea_closings_by_index(self):
+        """Closing per lead index, with the client's overrides, as significantAccounts sums them."""
+        index_of = index_resolver(self._ea_lead_overrides())
+        out = {}
+        for balance in self._ea_tb_balances():
+            index = index_of(balance["account"])
+            if index:
+                out[index] = out.get(index, 0) + balance["value"]
+        return out
+
+    def save_lead_index_override(self, account_prefix, index_code):
+        """saveLeadIndexOverride. Refused unless the caller is on this client's file."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        if not _ACCOUNT_PREFIX.match(account_prefix or ""):
+            raise rule_error(self.env, "invalid-prefix")
+        if index_code not in LEAD_INDEX_BY_CODE:
+            raise rule_error(self.env, "invalid-index")
+        Override = self.env["ea.audit.lead.index.override"].sudo()
+        client = self.sudo().client_id
+        found = Override.search([("client_id", "=", client.id), ("account_prefix", "=", account_prefix)], limit=1)
+        if found:
+            found.index_code = index_code
+        else:
+            Override.create({"client_id": client.id, "account_prefix": account_prefix, "index_code": index_code})
+        self._ea_rebuild_lead_schedules()
+        self._ea_sync_significance()
+
+    def add_grouping_override(self, match_type, account_prefix, section_code, rationale):
+        """addOverride."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        if not _ACCOUNT_PREFIX.match(account_prefix or ""):
+            raise rule_error(self.env, "invalid-prefix")
+        if not _SECTION_CODE.match(section_code or ""):
+            raise rule_error(self.env, "invalid-section")
+        if not (rationale or "").strip():
+            raise rule_error(self.env, "rationale-required")
+        match_type = "exact" if match_type == "exact" else "prefix"
+        Override = self.env["ea.audit.client.grouping.override"].sudo().with_context(active_test=False)
+        client = self.sudo().client_id
+        found = Override.search([
+            ("client_id", "=", client.id), ("match_type", "=", match_type), ("account_prefix", "=", account_prefix),
+        ], limit=1)
+        values = {"section_code": section_code, "rationale": rationale, "active": True}
+        if found:
+            found.write(values)
+        else:
+            Override.create({"client_id": client.id, "match_type": match_type, "account_prefix": account_prefix, **values})
+
+    def action_tool_tb(self):
+        return self._ea_board("ea_audit_tools.view_engagement_tb_board", self.env._("Trial balance"))
+
+    def action_open_tb_import(self):
+        self.ensure_one()
+        self._ea_require_access()
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("Import a trial balance"),
+            "res_model": "ea.audit.tb.import.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_engagement_id": self.id},
+        }
+

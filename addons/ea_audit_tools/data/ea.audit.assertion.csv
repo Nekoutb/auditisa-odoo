@@ -1,0 +1,7 @@
+id,code,name,sequence
+assertion_C,C,Completeness,10
+assertion_E,E,"Existence, occurrence",20
+assertion_A,A,Accuracy,30
+assertion_V,V,Valuation,40
+assertion_P,P,Presentation,50
+assertion_RO,RO,Rights and obligations,60

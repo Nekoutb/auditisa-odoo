@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- F008: only an accepted member of the team reads or writes a tool record. Global
+         rules, so they bind every firm role, firm administrator and partner included. -->
+    <record id="rule_tb_team_only" model="ir.rule">
+        <field name="name">ea.audit.tb: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_tb"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_tb_version_team_only" model="ir.rule">
+        <field name="name">ea.audit.tb.version: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_tb_version"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_tb_line_team_only" model="ir.rule">
+        <field name="name">ea.audit.tb.line: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_tb_line"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_ap_comment_team_only" model="ir.rule">
+        <field name="name">ea.audit.ap.comment: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_ap_comment"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_lead_schedule_team_only" model="ir.rule">
+        <field name="name">ea.audit.lead.schedule: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_lead_schedule"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_lead_line_team_only" model="ir.rule">
+        <field name="name">ea.audit.lead.line: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_lead_line"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_materiality_team_only" model="ir.rule">
+        <field name="name">ea.audit.materiality: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_materiality"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_significance_team_only" model="ir.rule">
+        <field name="name">ea.audit.significance: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_significance"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_risk_team_only" model="ir.rule">
+        <field name="name">ea.audit.risk: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_risk"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_risk_index_team_only" model="ir.rule">
+        <field name="name">ea.audit.risk.index: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_risk_index"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_risk_section_team_only" model="ir.rule">
+        <field name="name">ea.audit.risk.section: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_risk_section"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_program_step_team_only" model="ir.rule">
+        <field name="name">ea.audit.program.step: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_program_step"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_potential_risk_team_only" model="ir.rule">
+        <field name="name">ea.audit.potential.risk: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_potential_risk"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_cra_assessment_team_only" model="ir.rule">
+        <field name="name">ea.audit.cra.assessment: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_cra_assessment"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_cra_history_team_only" model="ir.rule">
+        <field name="name">ea.audit.cra.history: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_cra_history"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_cra_row_team_only" model="ir.rule">
+        <field name="name">ea.audit.cra.row: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_cra_row"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_finding_team_only" model="ir.rule">
+        <field name="name">ea.audit.finding: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_finding"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_deficiency_evaluation_team_only" model="ir.rule">
+        <field name="name">ea.audit.deficiency.evaluation: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_deficiency_evaluation"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_misstatement_team_only" model="ir.rule">
+        <field name="name">ea.audit.misstatement: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_misstatement"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_sad_entry_team_only" model="ir.rule">
+        <field name="name">ea.audit.sad.entry: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_sad_entry"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_sad_meta_team_only" model="ir.rule">
+        <field name="name">ea.audit.sad.meta: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_sad_meta"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_sad_cf_row_team_only" model="ir.rule">
+        <field name="name">ea.audit.sad.cf.row: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_sad_cf_row"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_sad_disc_row_team_only" model="ir.rule">
+        <field name="name">ea.audit.sad.disc.row: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_sad_disc_row"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <!-- Client-scoped: a member of one of the client's teams. -->
+    <record id="rule_client_grouping_override_client_team_only" model="ir.rule">
+        <field name="name">ea.audit.client.grouping.override: on one of the client's teams</field>
+        <field name="model_id" ref="model_ea_audit_client_grouping_override"/>
+        <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_lead_index_override_client_team_only" model="ir.rule">
+        <field name="name">ea.audit.lead.index.override: on one of the client's teams</field>
+        <field name="model_id" ref="model_ea_audit_lead_index_override"/>
+        <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+</odoo>

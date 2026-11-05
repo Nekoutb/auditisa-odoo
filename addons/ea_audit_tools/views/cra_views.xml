@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cra_cell_list" model="ir.ui.view">
+        <field name="name">ea.audit.cra.assessment.list</field>
+        <field name="model">ea.audit.cra.assessment</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" editable="bottom">
+                <header>
+                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                </header>
+                <field name="index_code" readonly="1"/>
+                <field name="assertion" readonly="1"/>
+                <field name="relevant"/>
+                <field name="ir"/>
+                <field name="suggested_ir" readonly="1" optional="show"/>
+                <field name="ir_basis"/>
+                <field name="cr"/>
+                <field name="suggested_cr" readonly="1" optional="show"/>
+                <field name="cr_basis"/>
+                <field name="reason"/>
+                <field name="level" readonly="1" widget="badge" decoration-danger="level == 'high'" decoration-warning="level == 'moderate'" decoration-success="level in ('low', 'minimal')"/>
+                <field name="tod_level" readonly="1" optional="show"/>
+                <field name="risk_count" readonly="1" optional="hide"/>
+                <field name="controls_covering" readonly="1" optional="hide"/>
+                <field name="threshold_hint" readonly="1" optional="hide"/>
+                <field name="timing_hint" readonly="1" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_cra_cell_search" model="ir.ui.view">
+        <field name="name">ea.audit.cra.assessment.search</field>
+        <field name="model">ea.audit.cra.assessment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="index_code"/>
+                <field name="assertion"/>
+                <filter name="to_assess" string="To assess" domain="[('relevant', '=', True), '|', ('ir', '=', False), ('cr', '=', False)]"/>
+                <filter name="group_index" string="Lead index" context="{'group_by': 'index_code'}"/>
+                <filter name="group_assertion" string="Assertion" context="{'group_by': 'assertion'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_engagement_cra_board" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.cra.board</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_tool_cra_cells" type="object" string="Assess the cells" class="btn-primary"/>
+                    <button name="action_export_cra" type="object" string="Export to Excel"/>
+                    <button name="action_tool_significance" type="object" string="Significant accounts (P6.2)"/>
+                    <field name="cra_to_assess_count" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="o_ea_title">Combined risk assessment</div>
+                            <div class="o_ea_sub">S3.1 · Inherent and control risk, by account and assertion</div>
+                        </div>
+                        <div invisible="not cra_to_assess_count">
+                            <span class="o_ea_chip o_ea_chip_warn"><field name="cra_to_assess_label" readonly="1"/></span>
+                        </div>
+                    </div>
+                    <div class="o_ea_panel">
+                        <field name="cra_row_ids" readonly="1" nolabel="1">
+                            <list>
+                                <field name="index_code"/>
+                                <field name="cell_c" widget="badge" decoration-danger="cell_c == 'high'" decoration-warning="cell_c == 'moderate'" decoration-success="cell_c in ('low', 'minimal')"/>
+                                <field name="cell_e" widget="badge" decoration-danger="cell_e == 'high'" decoration-warning="cell_e == 'moderate'" decoration-success="cell_e in ('low', 'minimal')"/>
+                                <field name="cell_a" widget="badge" decoration-danger="cell_a == 'high'" decoration-warning="cell_a == 'moderate'" decoration-success="cell_a in ('low', 'minimal')"/>
+                                <field name="cell_v" widget="badge" decoration-danger="cell_v == 'high'" decoration-warning="cell_v == 'moderate'" decoration-success="cell_v in ('low', 'minimal')"/>
+                                <field name="cell_p" widget="badge" decoration-danger="cell_p == 'high'" decoration-warning="cell_p == 'moderate'" decoration-success="cell_p in ('low', 'minimal')"/>
+                                <field name="cell_ro" widget="badge" decoration-danger="cell_ro == 'high'" decoration-warning="cell_ro == 'moderate'" decoration-success="cell_ro in ('low', 'minimal')"/>
+                                <field name="worst_tod" optional="hide"/>
+                                <button name="action_open_cells" type="object" string="Cells" icon="fa-list"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="o_ea_legend">
+                        <b>C</b> Completeness · <b>E</b> Existence, occurrence · <b>A</b> Accuracy · <b>V</b> Valuation · <b>P</b> Presentation · <b>RO</b> Rights and obligations
+                    </div>
+                    <div class="o_ea_banner" invisible="not cra_unlinked_risk_label">
+                        Significant risks in the register linked to no account: <field name="cra_unlinked_risk_label" readonly="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

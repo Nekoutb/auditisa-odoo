@@ -1,0 +1,19 @@
+id,code,name,description,feeds,method,sequence
+tile_data_analytics,data-analytics,Data analytics,"Trial balance, general ledger, receivables, payables, inventory.","P6.1,P6.2",action_tool_tb,10
+tile_gl_console,gl-console,General ledger console,Thirty analytics and correlations between accounts.,"P6.2,E3.1",,20
+tile_lead_schedule,lead-schedule,Lead schedules,"By index, with checks and an Excel extract.","S4.1,C2.1",action_tool_lead,30
+tile_review_notes,review-notes,Review notes,"Section, owner, state and turnaround.","C4.1,C4.3",,40
+tile_forms,forms,Forms,"Every paper by phase, and who it is assigned to.","P1.1,C4.1",,50
+tile_materiality,materiality,Materiality,"Overall, performance and clearly trivial, with approval.",P6.1,action_tool_materiality,60
+tile_significance,significance,Significant accounts,"Per index: closing against threshold, decision, assertions.",P6.2,action_tool_significance,65
+tile_risk,risk,Risk register,"What can go wrong, by assertion.",S3.1,action_tool_risk,70
+tile_cra,cra,Combined risk assessment,Inherent and control risk per account.,"S3.1,E6.8",action_tool_cra,80
+tile_sad,sad,Audit differences,"Misstatements by caption, linked to the papers.","C1.1,C3.1",action_tool_sad,90
+tile_findings,findings,Findings,"The register: deficiencies, matters and misstatements.","C1.1,C5.11",action_tool_findings,95
+tile_sap,sap,Substantive analytics,"Expectation, threshold by risk, difference, conclusion.","S5.5,E4.1",,100
+tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and its reason.","E4.1,E1.2",,110
+tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,,120
+tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,,130
+tile_pbc,pbc,PBC requests,Documents requested and reminders.,"P2.2,E1.1",,140
+tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",,150
+tile_deficiencies,deficiencies,ISA 265 deficiencies,Evaluation and written communication.,C5.11,action_tool_deficiencies,160
