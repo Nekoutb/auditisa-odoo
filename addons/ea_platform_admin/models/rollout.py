@@ -5,22 +5,31 @@ from odoo.exceptions import UserError
 
 from ..services import rollout as engine
 from ..services.heartbeat import format_instant
+from ..services.messages import _, dumps_list
+from .i18n import read, t
 
 ROLLOUT_STATES = [
-    ("draft", "Brouillon"),
-    ("running", "En cours"),
-    ("stopped", "Arrêtée sur échec"),
-    ("done", "Terminée"),
+    ("draft", "Draft"),
+    ("running", "Running"),
+    ("stopped", "Stopped on failure"),
+    ("done", "Finished"),
 ]
 LINE_STATES = [
-    ("pending", "En attente"),
-    ("requested", "Demandée"),
-    ("healthy", "Réussie"),
-    ("failed", "Échec"),
-    ("rolled_back", "Retour arrière"),
-    ("timed_out", "Sans réponse"),
-    ("cancelled", "Annulée"),
+    ("pending", "Waiting"),
+    ("requested", "Requested"),
+    ("healthy", "Succeeded"),
+    ("failed", "Failed"),
+    ("rolled_back", "Rolled back"),
+    ("timed_out", "No answer"),
+    ("cancelled", "Cancelled"),
 ]
+# The same, for stored messages.
+LINE_LABELS = {
+    "healthy": _("Succeeded"),
+    "failed": _("Failed"),
+    "rolled_back": _("Rolled back"),
+    "timed_out": _("No answer"),
+}
 
 
 class PlatformRollout(models.Model):
@@ -31,21 +40,30 @@ class PlatformRollout(models.Model):
     """
 
     _name = "platform.rollout"
-    _description = "Mise à jour"
+    _description = "Rollout"
     _order = "id desc"
     _rec_name = "release_id"
 
-    release_id = fields.Many2one("platform.release", "Version", required=True, ondelete="restrict")
-    canary_firm_id = fields.Many2one("platform.firm", "Cabinet témoin", required=True, ondelete="restrict",
+    release_id = fields.Many2one("platform.release", "Release", required=True, ondelete="restrict")
+    canary_firm_id = fields.Many2one("platform.firm", "Canary firm", required=True, ondelete="restrict",
                                      domain=[("state", "=", "active")])
-    firm_ids = fields.Many2many("platform.firm", string="Cabinets", domain=[("state", "=", "active")])
-    batch_size = fields.Integer("Taille des lots", default=2, required=True)
-    state = fields.Selection(ROLLOUT_STATES, "État", default="draft", readonly=True, required=True)
-    line_ids = fields.One2many("platform.rollout.line", "rollout_id", "Déroulement", readonly=True)
-    stop_reason = fields.Char("Motif de l'arrêt", readonly=True)
-    skipped = fields.Text("Cabinets écartés", readonly=True)
-    started_at = fields.Datetime("Lancée le", readonly=True)
-    finished_at = fields.Datetime("Finie le", readonly=True)
+    firm_ids = fields.Many2many("platform.firm", string="Firms", domain=[("state", "=", "active")])
+    batch_size = fields.Integer("Batch size", default=2, required=True)
+    state = fields.Selection(ROLLOUT_STATES, "State", default="draft", readonly=True, required=True)
+    line_ids = fields.One2many("platform.rollout.line", "rollout_id", "Progress", readonly=True)
+    stop_reason_raw = fields.Text("Reason for stopping (source)", readonly=True)
+    stop_reason = fields.Char("Reason for stopping", compute="_compute_text")
+    skipped_raw = fields.Text("Firms set aside (source)", readonly=True)
+    skipped = fields.Text("Firms set aside", compute="_compute_text")
+    started_at = fields.Datetime("Started on", readonly=True)
+    finished_at = fields.Datetime("Finished on", readonly=True)
+
+    @api.depends("stop_reason_raw", "skipped_raw")
+    @api.depends_context("lang")
+    def _compute_text(self):
+        for rollout in self:
+            rollout.stop_reason = read(self.env, rollout.stop_reason_raw)
+            rollout.skipped = read(self.env, rollout.skipped_raw)
 
     def _eligibility(self, firm):
         return engine.ineligible_reason({
@@ -59,27 +77,27 @@ class PlatformRollout(models.Model):
     def action_start(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError("Cette mise à jour est déjà lancée.")
+            raise UserError(t(self.env, _("This rollout has already started.")))
         if self.batch_size < 1:
-            raise UserError("La taille des lots doit être d'au moins 1.")
+            raise UserError(t(self.env, _("The batch size must be at least 1.")))
         running = self.search([("state", "=", "running"), ("id", "!=", self.id)], limit=1)
         if running:
-            raise UserError("Une autre mise à jour est en cours : une seule à la fois.")
+            raise UserError(t(self.env, _("Another rollout is running: only one at a time.")))
         reason = self._eligibility(self.canary_firm_id)
         if reason:
-            raise UserError(f"Le cabinet témoin ne convient pas : {reason}.")
+            raise UserError(t(self.env, _("The canary firm is not suitable: %(reason)s.", reason=reason)))
         firms = (self.firm_ids | self.canary_firm_id).sudo()
         kept, skipped = [], []
         for firm in firms:
             reason = self._eligibility(firm)
             if reason:
-                skipped.append(f"{firm.name} : {reason}")
+                skipped.append(_("%(firm)s: %(reason)s", firm=firm.name, reason=reason))
             elif firm.addon_release == self.release_id.sha:
-                skipped.append(f"{firm.name} : déjà sur cette version")
+                skipped.append(_("%(firm)s: %(reason)s", firm=firm.name, reason=_("already on this release")))
             else:
                 kept.append(firm)
         if self.canary_firm_id not in kept:
-            raise UserError("Le cabinet témoin est déjà sur cette version : choisissez-en un autre.")
+            raise UserError(t(self.env, _("The canary firm is already on this release: choose another.")))
         plan = engine.plan_batches([firm.id for firm in kept], self.canary_firm_id.id, self.batch_size)
         self.env["platform.rollout.line"].sudo().create([
             {"rollout_id": self.id, "firm_id": firm_id, "batch": batch} for firm_id, batch in plan
@@ -87,11 +105,12 @@ class PlatformRollout(models.Model):
         self.sudo().write({
             "state": "running",
             "started_at": fields.Datetime.now(),
-            "skipped": "\n".join(skipped) or False,
+            "skipped_raw": dumps_list(skipped) if skipped else False,
         })
         self.env["platform.log"]._record(
-            "Mise à jour lancée", self.canary_firm_id,
-            f"Version {self.release_id.sha[:12]}, témoin {self.canary_firm_id.slug}, {len(plan)} cabinet(s)",
+            _("Rollout started"), self.canary_firm_id,
+            _("Release %(release)s, canary %(canary)s, %(count)s firm(s)",
+              release=self.release_id.sha[:12], canary=self.canary_firm_id.slug, count=len(plan)),
         )
         self._advance()
         return True
@@ -122,14 +141,14 @@ class PlatformRollout(models.Model):
             elif decision == "stopped":
                 rollout.line_ids.browse(line_ids).write({"state": "cancelled"})
                 bad = rollout.line_ids.filtered(lambda l: l.state in engine.BAD_STATES)[:1]
-                reason = f"{bad.firm_id.name} : {dict(LINE_STATES)[bad.state]}"
-                rollout.write({"state": "stopped", "stop_reason": reason, "finished_at": now})
-                self.env["platform.log"]._record("Mise à jour ARRÊTÉE sur échec", bad.firm_id, reason)
-                bad.firm_id._alert(f"Mise à jour arrêtée : {reason}")
+                reason = _("%(firm)s: %(reason)s", firm=bad.firm_id.name, reason=LINE_LABELS[bad.state])
+                rollout.write({"state": "stopped", "stop_reason_raw": dumps_list([reason]), "finished_at": now})
+                self.env["platform.log"]._record(_("Rollout STOPPED on failure"), bad.firm_id, reason)
+                bad.firm_id._alert([_("Rollout stopped: %(reason)s", reason=reason)])
             elif decision == "done":
                 rollout.write({"state": "done", "finished_at": now})
-                self.env["platform.log"]._record("Mise à jour terminée", rollout.canary_firm_id,
-                                                 f"Version {target[:12]}")
+                self.env["platform.log"]._record(_("Rollout finished"), rollout.canary_firm_id,
+                                                 _("Release %(release)s", release=target[:12]))
 
     @api.model
     def _on_firm_figures(self, firm):
@@ -151,7 +170,7 @@ class PlatformRollout(models.Model):
         for line in self.line_ids.filtered(lambda l: l.state == "requested"):
             firm = line.firm_id
             if not firm.is_simulation:
-                raise UserError("Réservé aux cabinets de simulation.")
+                raise UserError(t(self.env, _("Only for simulation firms.")))
             if firm.slug in fail:
                 firm._simulate_heartbeat(
                     release=firm.sudo().addon_release, update_state="rolled_back",
@@ -164,17 +183,17 @@ class PlatformRollout(models.Model):
 
 class PlatformRolloutLine(models.Model):
     _name = "platform.rollout.line"
-    _description = "Cabinet d'une mise à jour"
+    _description = "Firm in a rollout"
     _order = "batch, id"
     _rec_name = "firm_id"
 
     rollout_id = fields.Many2one("platform.rollout", required=True, ondelete="cascade", index=True)
-    firm_id = fields.Many2one("platform.firm", "Cabinet", required=True, ondelete="restrict", readonly=True)
-    batch = fields.Integer("Lot", readonly=True, help="Le lot 0 est le cabinet témoin.")
-    state = fields.Selection(LINE_STATES, "État", default="pending", readonly=True, required=True)
-    previous_release_id = fields.Many2one("platform.release", "Version précédente", readonly=True, ondelete="restrict")
-    requested_at = fields.Datetime("Demandée le", readonly=True)
-    closed_at = fields.Datetime("Close le", readonly=True)
+    firm_id = fields.Many2one("platform.firm", "Firm", required=True, ondelete="restrict", readonly=True)
+    batch = fields.Integer("Batch", readonly=True, help="Batch 0 is the canary firm.")
+    state = fields.Selection(LINE_STATES, "State", default="pending", readonly=True, required=True)
+    previous_release_id = fields.Many2one("platform.release", "Previous release", readonly=True, ondelete="restrict")
+    requested_at = fields.Datetime("Requested on", readonly=True)
+    closed_at = fields.Datetime("Closed on", readonly=True)
 
     def _request(self, release):
         now = fields.Datetime.now()
@@ -182,7 +201,7 @@ class PlatformRolloutLine(models.Model):
             firm = line.firm_id
             line.write({"state": "requested", "requested_at": now, "previous_release_id": firm.desired_release_id.id})
             firm.write({"desired_release_id": release.id})
-            self.env["platform.log"]._record("Mise à jour demandée au cabinet", firm, f"Version {release.sha[:12]}")
+            self.env["platform.log"]._record(_("Update requested from the firm"), firm, _("Release %(release)s", release=release.sha[:12]))
 
     def _close(self, outcome):
         self.ensure_one()
@@ -191,6 +210,6 @@ class PlatformRolloutLine(models.Model):
             # So the firm is not asked again at its next heartbeat. The firm rolled itself back.
             self.firm_id.write({"desired_release_id": self.previous_release_id.id})
         self.env["platform.log"]._record(
-            f"Mise à jour du cabinet : {dict(LINE_STATES)[outcome]}", self.firm_id,
-            f"Version {self.rollout_id.release_id.sha[:12]}",
+            _("Firm's update: %(outcome)s", outcome=LINE_LABELS[outcome]), self.firm_id,
+            _("Release %(release)s", release=self.rollout_id.release_id.sha[:12]),
         )

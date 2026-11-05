@@ -28,8 +28,8 @@ class TestSuspend(PlatformCase):
         self.assertEqual(firm.state, "active")
         self.assertEqual(provider.get_server(firm.server_id).status, "active")
         actions = firm.log_ids.mapped("action")
-        self.assertIn("Cabinet suspendu", actions)
-        self.assertIn("Reprise du cabinet", actions)
+        self.assertIn("Firm suspended", actions)
+        self.assertIn("Firm resumed", actions)
 
     def test_a_viewer_cannot_suspend(self):
         firm = self._active_firm()
@@ -38,8 +38,8 @@ class TestSuspend(PlatformCase):
 
     def test_a_provider_failure_changes_nothing(self):
         firm = self._active_firm()
-        self._outside_patched(provider=DryRunProvider(fail_on={"stop_server": ProviderError("Refusé")}))
-        with self.assertRaisesRegex(UserError, "Refusé"):
+        self._outside_patched(provider=DryRunProvider(fail_on={"stop_server": ProviderError("Refused")}))
+        with self.assertRaisesRegex(UserError, "Refused"):
             self._suspend(firm)
         self.assertEqual(firm.state, "active")
 
@@ -56,7 +56,7 @@ class TestBreakglass(PlatformCase):
         row = firm.breakglass_ids
         self.assertEqual(row.user_id, self.operator)
         self.assertEqual(row.reason, "Disque plein")
-        self.assertIn("Accès d'urgence ouvert", firm.log_ids.mapped("action"))
+        self.assertIn("Break-glass access opened", firm.log_ids.mapped("action"))
         with self.assertRaises(AccessError):
             row.sudo().write({"reason": "autre"})
         with self.assertRaises(AccessError):
@@ -66,7 +66,7 @@ class TestBreakglass(PlatformCase):
         firm = self._active_firm()
         firm._simulate_heartbeat(ssh_sessions_24h=1)
         self.assertEqual(firm.health_color, "amber")
-        self.assertIn("sans entrée au journal", firm.health_reason)
+        self.assertIn("no entry in the break-glass log", firm.health_reason)
         self._open(firm)
         firm._simulate_heartbeat(ssh_sessions_24h=1)
         self.assertEqual(firm.health_color, "green")
@@ -93,30 +93,30 @@ class TestHealthAlerts(PlatformCase):
         firm.sudo().write({"last_backup_at": fields.Datetime.now() - timedelta(days=3)})
         firm._evaluate_health()
         self.assertEqual(firm.health_color, "red")
-        self.assertIn("Sauvegarde manquée", firm.health_reason)
+        self.assertIn("Backup missed", firm.health_reason)
         self.assertTrue(firm.needs_attention)
-        self.assertIn("Alerte", firm.log_ids.mapped("action"))
-        self.assertTrue(firm.message_ids.filtered(lambda m: "Sauvegarde manquée" in (m.body or "")))
+        self.assertIn("Alert", firm.log_ids.mapped("action"))
+        self.assertTrue(firm.message_ids.filtered(lambda m: "Backup missed" in (m.body or "")))
 
     def test_a_missed_restore_test_turns_red(self):
         firm = self._active_firm()
         firm.sudo().write({"last_restore_test_at": fields.Datetime.now() - timedelta(days=20)})
         firm._evaluate_health()
-        self.assertIn("Test de restauration manqué", firm.health_reason)
+        self.assertIn("Restore test missed", firm.health_reason)
 
     def test_a_silent_server_is_caught_by_the_cron(self):
         firm = self._active_firm()
         firm.sudo().write({"last_heartbeat_at": fields.Datetime.now() - timedelta(hours=5)})
         self.env["platform.firm"]._cron_watch()
         self.assertEqual(firm.health_color, "red")
-        self.assertIn("Aucun heartbeat", firm.health_reason)
+        self.assertIn("No heartbeat", firm.health_reason)
 
     def test_an_alert_is_raised_once_per_turn_to_red(self):
         firm = self._active_firm()
         firm.sudo().write({"last_backup_at": fields.Datetime.now() - timedelta(days=3)})
         firm._evaluate_health()
         firm._evaluate_health()
-        self.assertEqual(len(firm.log_ids.filtered(lambda row: row.action == "Alerte")), 1)
+        self.assertEqual(len(firm.log_ids.filtered(lambda row: row.action == "Alert")), 1)
 
     def test_the_attention_filter_finds_it(self):
         good = self._active_firm("cabinet-a")
@@ -130,7 +130,7 @@ class TestHealthAlerts(PlatformCase):
     def test_the_key_escrow_reminder_clears_when_declared(self):
         firm, _job = self._onboard()
         self.assertEqual(firm.health_color, "amber")
-        self.assertIn("coffre", firm.health_reason)
+        self.assertIn("safe", firm.health_reason)
         firm.action_confirm_key_escrow()
         self.assertEqual(firm.health_color, "green")
         self.assertEqual(firm.backup_key_escrowed_by, self.env.user)
@@ -162,16 +162,16 @@ class TestOffboarding(PlatformCase):
         wizard = self._destroyer()
         wizard.typed_slug = self.firm.slug
         wizard.action_next()
-        wizard.typed_word = "DETRUIRE"
+        wizard.typed_word = "DESTROY"
         return wizard.action_destroy()
 
     def test_a_mistyped_slug_does_nothing(self):
-        with self.assertRaisesRegex(UserError, "ne correspond pas"):
+        with self.assertRaisesRegex(UserError, "does not match"):
             self._start(typed="cabinet-b")
         self.assertEqual(self.firm.state, "active")
 
     def test_retention_has_a_minimum(self):
-        with self.assertRaisesRegex(UserError, "au moins 30"):
+        with self.assertRaisesRegex(UserError, "at least 30"):
             self._start(days=5)
 
     def test_only_the_owner_can_start_it(self):
@@ -197,7 +197,7 @@ class TestOffboarding(PlatformCase):
         self.firm.action_simulate_export()
         wizard = self._destroyer()
         wizard.typed_slug = self.firm.slug
-        with self.assertRaisesRegex(UserError, "remise"):
+        with self.assertRaisesRegex(UserError, "Handing"):
             wizard.action_next()
 
     def test_destruction_waits_for_the_retention_period(self):
@@ -207,7 +207,7 @@ class TestOffboarding(PlatformCase):
         self.assertFalse(self.firm.can_destroy)
         wizard = self._destroyer()
         wizard.typed_slug = self.firm.slug
-        with self.assertRaisesRegex(UserError, "conservation"):
+        with self.assertRaisesRegex(UserError, "retention"):
             wizard.action_next()
 
     def test_both_confirmations_are_needed(self):
@@ -215,14 +215,14 @@ class TestOffboarding(PlatformCase):
         self.assertTrue(self.firm.can_destroy)
         wizard = self._destroyer()
         wizard.typed_slug = "autre-chose"
-        with self.assertRaisesRegex(UserError, "ne correspond pas"):
+        with self.assertRaisesRegex(UserError, "does not match"):
             wizard.action_next()
         wizard.typed_slug = self.firm.slug
-        with self.assertRaisesRegex(UserError, "confirmation de l'identifiant"):
+        with self.assertRaisesRegex(UserError, "slug confirmation"):
             wizard.action_destroy()
         wizard.action_next()
-        wizard.typed_word = "detruire"
-        with self.assertRaisesRegex(UserError, "DETRUIRE"):
+        wizard.typed_word = "destroy"
+        with self.assertRaisesRegex(UserError, "DESTROY"):
             wizard.action_destroy()
         self.assertEqual(self.firm.state, "offboarding")
 
@@ -244,14 +244,14 @@ class TestOffboarding(PlatformCase):
         self.assertFalse(provider.state["storages"])
         self.assertFalse(self.firm.sudo().heartbeat_token)
         self.assertFalse(self.firm.server_id)
-        self.assertIn("Serveur détruit, cabinet archivé", self.firm.log_ids.mapped("action"))
+        self.assertIn("Server destroyed, firm archived", self.firm.log_ids.mapped("action"))
         self.assertEqual(self.firm.health_color, "grey")
 
     def test_an_incomplete_destruction_is_flagged_and_keeps_the_firm_open(self):
         self._ready_for_destruction()
         provider = DryRunProvider(
             self.env["platform.services"]._dry_state()["provider"],
-            fail_on={"destroy_server": ProviderError("Refusé")},
+            fail_on={"destroy_server": ProviderError("Refused")},
         )
         self._outside_patched(provider=provider)
         result = self._destroy()
@@ -262,5 +262,5 @@ class TestOffboarding(PlatformCase):
         self.assertEqual(self.firm.health_color, "red")
 
     def test_a_firm_cannot_be_deleted(self):
-        with self.assertRaisesRegex(UserError, "ne se supprime pas"):
+        with self.assertRaisesRegex(UserError, "cannot be deleted"):
             self.firm.sudo().unlink()

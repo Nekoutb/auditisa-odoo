@@ -49,9 +49,9 @@ class TestSettings(PlatformCase):
     def test_real_mode_needs_a_tick_every_setting_and_the_token_files(self):
         with self.assertRaisesRegex(UserError, "confirmation"):
             self._settings(provider="vultr").action_save()
-        with self.assertRaisesRegex(UserError, "À renseigner"):
+        with self.assertRaisesRegex(UserError, "To fill in"):
             self._settings(provider="vultr", confirm_real=True).action_save()
-        with self.assertRaisesRegex(UserError, "jeton"):
+        with self.assertRaisesRegex(UserError, "token"):
             self._settings(
                 provider="vultr", confirm_real=True,
                 heartbeat_url="https://hb.example.invalid/platform/heartbeat",
@@ -62,7 +62,7 @@ class TestSettings(PlatformCase):
         self.assertEqual(self.env["ir.config_parameter"].sudo().get_param("ea_platform.provider"), "dry_run")
 
     def test_port_22_cannot_be_opened_wide(self):
-        with self.assertRaisesRegex(UserError, "trop large"):
+        with self.assertRaisesRegex(UserError, "too wide"):
             self._settings(ssh_allowlist="0.0.0.0/0").action_save()
 
     def test_addresses_must_be_https(self):
@@ -71,7 +71,7 @@ class TestSettings(PlatformCase):
 
     def test_a_change_is_logged(self):
         self._settings(base_domain="auditisa.com", ssh_allowlist="8.8.8.8").action_save()
-        self.assertTrue(self.env["platform.log"].search_count([("action", "=", "Réglages modifiés")]))
+        self.assertTrue(self.env["platform.log"].search_count([("action", "=", "Settings changed")]))
         self.assertEqual(self.env["ir.config_parameter"].sudo().get_param("ea_platform.ssh_allowlist"), "8.8.8.8")
 
     def test_the_answer_carries_the_operator_addresses(self):

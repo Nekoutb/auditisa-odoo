@@ -3,7 +3,9 @@ import secrets
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+from ..models.i18n import t
 from ..services.catalogue import LANGUAGES, REGIONS, SIZES, monthly_cost, selection
+from ..services.messages import _
 from ..services.validation import (
     flatten_errors,
     normalise_slug,
@@ -21,62 +23,67 @@ class PlatformOnboardingWizard(models.TransientModel):
     """A new client firm: three screens, then the provisioning job with its visible step log."""
 
     _name = "platform.onboarding.wizard"
-    _description = "Nouveau cabinet"
+    _description = "New firm"
 
     step = fields.Selection(
-        [("identity", "Le cabinet"), ("technical", "Le serveur"), ("preflight", "Vérification")],
+        [("identity", "The firm"), ("technical", "The server"), ("preflight", "Review")],
         default="identity", required=True,
     )
-    name = fields.Char("Nom du cabinet")
-    slug = fields.Char("Identifiant", help="Devient l'adresse : identifiant.auditisa.com. Ne change plus jamais.")
-    contact_name = fields.Char("Nom du contact")
-    contact_email = fields.Char("E-mail du contact", help="Sera l'identifiant du premier administrateur.")
-    contact_phone = fields.Char("Téléphone")
-    allowed_email_domains = fields.Text("Domaines de messagerie autorisés", help="Un par ligne, par exemple exemple.cm")
-    region = fields.Selection(selection(REGIONS), "Région", default="cdg")
-    size = fields.Selection(selection(SIZES), "Taille", default="standard")
-    lang = fields.Selection(selection(LANGUAGES), "Langue", default="fr_FR")
+    name = fields.Char("Firm name")
+    slug = fields.Char("Slug", help="Becomes the address: slug.auditisa.com. It never changes.")
+    contact_name = fields.Char("Contact name")
+    contact_email = fields.Char("Contact email", help="Will be the first administrator's login.")
+    contact_phone = fields.Char("Phone")
+    allowed_email_domains = fields.Text("Allowed email domains", help="One per line, for example exemple.cm")
+    region = fields.Selection(selection(REGIONS), "Region", default="cdg")
+    size = fields.Selection(selection(SIZES), "Size", default="standard")
+    lang = fields.Selection(
+        selection(LANGUAGES), "Default language", default="fr_FR",
+        help="The firm's default language. Each user can then choose French or English in their preferences.",
+    )
     ssh_public_key = fields.Char(
-        "Clé publique SSH du cabinet",
-        help="Le contenu du fichier .pub créé sur votre ordinateur pour ce cabinet. "
-             "La clé privée reste chez vous : ne la collez jamais ici.",
+        "The firm's public SSH key",
+        help="The content of the .pub file made on your computer for this firm. "
+             "The private key stays with you: never paste it here.",
     )
     release_id = fields.Many2one(
-        "platform.release", "Version à installer",
+        "platform.release", "Release to install",
         default=lambda self: self.env["platform.release"].search([], limit=1),
     )
-    confirmed = fields.Boolean("Je confirme la création de ce serveur et son coût mensuel estimé.")
+    confirmed = fields.Boolean("I confirm the creation of this server and its estimated monthly cost.")
 
-    preview_address = fields.Char("Adresse", compute="_compute_preview")
-    preview_server = fields.Char("Serveur", compute="_compute_preview")
-    preview_server_cost = fields.Float("Serveur (USD/mois)", compute="_compute_preview")
-    preview_storage_cost = fields.Float("Stockage de sauvegarde (USD/mois)", compute="_compute_preview")
-    preview_total_cost = fields.Float("Total estimé (USD/mois)", compute="_compute_preview")
+    preview_address = fields.Char("Address", compute="_compute_preview")
+    preview_server = fields.Char("Server", compute="_compute_preview")
+    preview_server_cost = fields.Float("Server (USD/month)", compute="_compute_preview")
+    preview_storage_cost = fields.Float("Backup storage (USD/month)", compute="_compute_preview")
+    preview_total_cost = fields.Float("Estimated total (USD/month)", compute="_compute_preview")
     preview_mode = fields.Char("Mode", compute="_compute_preview")
-    preview_allowlist = fields.Char("Port 22 ouvert à", compute="_compute_preview")
+    preview_allowlist = fields.Char("Port 22 open to", compute="_compute_preview")
 
     @api.depends("slug", "size", "region")
+    @api.depends_context("lang")
     def _compute_preview(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         base = get_param("ea_platform.base_domain", "auditisa.com")
         simulation = self.env["platform.services"]._is_simulation()
+        regions = dict(self._fields["region"]._description_selection(self.env))
         for wizard in self:
             size = SIZES.get(wizard.size)
             wizard.preview_address = f"{normalise_slug(wizard.slug)}.{base}" if wizard.slug else False
-            wizard.preview_server = (
-                f"{size['vcpu']} vCPU, {size['ram_gb']} Go de mémoire, {size['disk_gb']} Go de disque, "
-                f"{REGIONS.get(wizard.region, '')}"
-            ) if size else False
+            wizard.preview_server = t(self.env, _(
+                "%(vcpu)s vCPU, %(ram)s GB memory, %(disk)s GB disk, %(region)s",
+                vcpu=size["vcpu"], ram=size["ram_gb"], disk=size["disk_gb"], region=regions.get(wizard.region, ""),
+            )) if size else False
             server, storage, total = monthly_cost(wizard.size) if size else (0.0, 0.0, 0.0)
             wizard.preview_server_cost = server
             wizard.preview_storage_cost = storage
             wizard.preview_total_cost = total
-            wizard.preview_mode = (
-                "SIMULATION : aucun serveur ne sera créé et rien ne sera facturé."
-                if simulation else "RÉEL : un serveur sera créé et facturé par le fournisseur."
-            )
-            wizard.preview_allowlist = ", ".join(parse_allowlist(get_param("ea_platform.ssh_allowlist", ""))[0]) or (
-                "aucune adresse réglée" + (" (simulation)" if simulation else "")
+            wizard.preview_mode = t(self.env, (
+                _("SIMULATION: no server will be created and nothing will be billed.")
+                if simulation else _("REAL: a server will be created and billed by the provider.")
+            ))
+            wizard.preview_allowlist = ", ".join(parse_allowlist(get_param("ea_platform.ssh_allowlist", ""))[0]) or t(
+                self.env, _("no address set (simulation)") if simulation else _("no address set"),
             )
 
     def _data(self):
@@ -99,6 +106,9 @@ class PlatformOnboardingWizard(models.TransientModel):
             errors = {field: messages for field, messages in errors.items() if field in fields_to_check}
         return errors
 
+    def _raise_errors(self, errors):
+        raise UserError("\n".join(t(self.env, message) for message in flatten_errors(errors)))
+
     def _reopen(self):
         return {
             "type": "ir.actions.act_window",
@@ -112,7 +122,7 @@ class PlatformOnboardingWizard(models.TransientModel):
         self.ensure_one()
         errors = self._errors(STEP_FIELDS.get(self.step))
         if errors:
-            raise UserError(flatten_errors(errors))
+            self._raise_errors(errors)
         self.write({
             "slug": normalise_slug(self.slug),
             "step": {"identity": "technical", "technical": "preflight"}[self.step],
@@ -128,17 +138,17 @@ class PlatformOnboardingWizard(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
         if self.step != "preflight":
-            raise UserError("Passez d'abord par l'écran de vérification.")
+            raise UserError(t(self.env, _("Go through the review screen first.")))
         if not self.confirmed:
-            raise UserError("Cochez la confirmation : rien n'est créé sans elle.")
+            raise UserError(t(self.env, _("Tick the confirmation: nothing is created without it.")))
         errors = self._errors()
         if errors:
-            raise UserError(flatten_errors(errors))
+            self._raise_errors(errors)
         if not self.release_id:
-            raise UserError(
-                "Aucune version n'est enregistrée. Enregistrez d'abord une version signée "
-                "(Plateforme > Versions) : voir docs/runbook/UPDATING.md."
-            )
+            raise UserError(t(self.env, _(
+                "No release is registered. Register a signed release first (Platform > Releases): "
+                "see docs/runbook/UPDATING.md."
+            )))
         simulation = self.env["platform.services"]._is_simulation()
         if not simulation:
             self._check_settings()
@@ -152,8 +162,9 @@ class PlatformOnboardingWizard(models.TransientModel):
             "heartbeat_token": secrets.token_hex(32),
         })
         self.env["platform.log"]._record(
-            "Nouveau cabinet confirmé", firm,
-            f"Taille {firm.size}, région {firm.region}, coût estimé {firm.monthly_cost_usd:.2f} USD/mois",
+            _("New firm confirmed"), firm,
+            _("Size %(size)s, region %(region)s, estimated cost %(cost)s USD/month",
+              size=firm.size, region=firm.region, cost=f"{firm.monthly_cost_usd:.2f}"),
         )
         job = self.env["platform.provision.job"]._start(firm)
         job._run()
@@ -168,26 +179,27 @@ class PlatformOnboardingWizard(models.TransientModel):
     def _check_settings(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         required = {
-            "ea_platform.heartbeat_url": "Adresse de réception des heartbeats",
-            "ea_platform.release_base_url": "Adresse des versions",
-            "ea_platform.release_signing_public_key": "Clé publique de signature des versions",
-            "ea_platform.ssh_allowlist": "Adresses de l'opérateur pour le port 22",
-            "ea_platform.vultr_os_id": "Système du serveur (identifiant Vultr)",
-            "ea_platform.vultr_storage_cluster": "Grappe de stockage objet (identifiant Vultr)",
-            "ea_platform.dns_zone_id": "Zone DNS",
+            "ea_platform.heartbeat_url": _("Heartbeat receiving address"),
+            "ea_platform.release_base_url": _("Releases address"),
+            "ea_platform.release_signing_public_key": _("Release signing public key"),
+            "ea_platform.ssh_allowlist": _("Operator addresses for port 22"),
+            "ea_platform.vultr_os_id": _("Server operating system (Vultr id)"),
+            "ea_platform.vultr_storage_cluster": _("Object storage cluster (Vultr id)"),
+            "ea_platform.dns_zone_id": _("DNS zone"),
         }
-        missing = [label for key, label in required.items() if not get_param(key)]
+        missing = [t(self.env, label) for key, label in required.items() if not get_param(key)]
         if missing:
-            raise UserError("Réglages manquants (Plateforme > Réglages) :\n" + "\n".join(missing))
+            raise UserError(t(self.env, _("Missing settings (Platform > Settings):")) + "\n" + "\n".join(missing))
 
     @api.onchange("ssh_public_key")
     def _onchange_ssh_public_key(self):
         if self.ssh_public_key and "PRIVATE KEY" in self.ssh_public_key:
             self.ssh_public_key = False
             return {"warning": {
-                "title": "Clé privée effacée",
-                "message": "Vous avez collé une clé PRIVÉE. Elle a été effacée de ce formulaire sans être "
-                           "enregistrée. Collez le contenu du fichier .pub.",
+                "title": t(self.env, _("Private key erased")),
+                "message": t(self.env, _(
+                    "You pasted a PRIVATE key. It has been erased from this form without being saved. "
+                    "Paste the content of the .pub file."
+                )),
             }}
         return None
-

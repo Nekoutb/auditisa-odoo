@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="privilege_platform" model="res.groups.privilege">
-        <field name="name">Plateforme AuditISA</field>
+        <field name="name">AuditISA Platform</field>
         <field name="sequence">5</field>
     </record>
     <record id="group_platform_viewer" model="res.groups">
-        <field name="name">Lecteur</field>
+        <field name="name">Viewer</field>
         <field name="privilege_id" ref="privilege_platform"/>
         <field name="sequence">10</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
     <record id="group_platform_operator" model="res.groups">
-        <field name="name">Opérateur</field>
+        <field name="name">Operator</field>
         <field name="privilege_id" ref="privilege_platform"/>
         <field name="sequence">20</field>
         <field name="implied_ids" eval="[(4, ref('group_platform_viewer'))]"/>
     </record>
     <!-- The owner alone destroys a server, switches on the real provider and sees the settings. -->
     <record id="group_platform_owner" model="res.groups">
-        <field name="name">Propriétaire</field>
+        <field name="name">Owner</field>
         <field name="privilege_id" ref="privilege_platform"/>
         <field name="sequence">30</field>
         <field name="implied_ids" eval="[(4, ref('group_platform_operator'))]"/>

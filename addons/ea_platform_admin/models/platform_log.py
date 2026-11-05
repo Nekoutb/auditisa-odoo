@@ -2,6 +2,8 @@ from odoo import api, fields, models
 from odoo.exceptions import AccessError
 
 from ..services.loghash import GENESIS, entry_hash, first_break
+from ..services.messages import _, dumps
+from .i18n import read, t
 
 _LOCK_KEY = 7262001
 
@@ -10,17 +12,27 @@ class PlatformLog(models.Model):
     """Who did what on the platform. Append-only: refused by the model and by the database."""
 
     _name = "platform.log"
-    _description = "Journal de la plateforme"
+    _description = "Platform log"
     _order = "id desc"
     _rec_name = "action"
 
     logged_at = fields.Datetime("Date", required=True, readonly=True, default=fields.Datetime.now)
-    user_id = fields.Many2one("res.users", "Qui", readonly=True, ondelete="restrict")
-    firm_id = fields.Many2one("platform.firm", "Cabinet", readonly=True, ondelete="restrict", index=True)
-    action = fields.Char("Action", required=True, readonly=True)
-    detail = fields.Text("Détail", readonly=True)
-    previous_hash = fields.Char("Empreinte précédente", readonly=True, required=True)
-    entry_hash = fields.Char("Empreinte", readonly=True, required=True)
+    user_id = fields.Many2one("res.users", "Who", readonly=True, ondelete="restrict")
+    firm_id = fields.Many2one("platform.firm", "Firm", readonly=True, ondelete="restrict", index=True)
+    # As written, in English; shown in the reader's language by the two fields below.
+    action = fields.Char("Action (source)", required=True, readonly=True)
+    detail = fields.Text("Detail (source)", readonly=True)
+    action_text = fields.Char("Action", compute="_compute_text")
+    detail_text = fields.Text("Detail", compute="_compute_text")
+    previous_hash = fields.Char("Previous hash", readonly=True, required=True)
+    entry_hash = fields.Char("Hash", readonly=True, required=True)
+
+    @api.depends("action", "detail")
+    @api.depends_context("lang")
+    def _compute_text(self):
+        for row in self:
+            row.action_text = read(self.env, row.action)
+            row.detail_text = read(self.env, row.detail)
 
     def init(self):
         self.env.cr.execute("""
@@ -63,8 +75,8 @@ class PlatformLog(models.Model):
             "logged_at": fields.Datetime.now(),
             "user_id": (user or self.env.user).id,
             "firm_id": firm.id if firm else False,
-            "action": action,
-            "detail": detail or "",
+            "action": dumps(action),
+            "detail": dumps(detail) or "",
         }
         values["previous_hash"] = previous
         values["entry_hash"] = entry_hash(previous, self._hash_fields(values))
@@ -88,7 +100,7 @@ class PlatformLog(models.Model):
         return rows[index] if index is not None else self.browse()
 
     def write(self, vals):
-        raise AccessError("Le journal de la plateforme ne se modifie pas.")
+        raise AccessError(t(self.env, _("The platform log cannot be changed.")))
 
     def unlink(self):
-        raise AccessError("Le journal de la plateforme ne se supprime pas.")
+        raise AccessError(t(self.env, _("The platform log cannot be deleted.")))

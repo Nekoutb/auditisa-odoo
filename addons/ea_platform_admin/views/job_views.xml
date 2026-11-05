@@ -10,7 +10,7 @@
                 <field name="progress" widget="progressbar"/>
                 <field name="last_message"/>
                 <field name="started_by"/>
-                <field name="create_date" string="Lancée le"/>
+                <field name="create_date" string="Started on"/>
             </list>
         </field>
     </record>
@@ -21,28 +21,28 @@
         <field name="arch" type="xml">
             <form create="0" edit="0" delete="0" class="o_ea_platform_form">
                 <header>
-                    <button name="action_resume" type="object" string="Reprendre" class="btn-primary"
+                    <button name="action_resume" type="object" string="Resume" class="btn-primary"
                             invisible="state != 'waiting'" groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_rollback" type="object" string="Annuler et nettoyer"
+                    <button name="action_rollback" type="object" string="Cancel and clean up"
                             invisible="state != 'waiting'" groups="ea_platform_admin.group_platform_operator"
-                            confirm="Tout ce qui a été créé pour ce cabinet sera supprimé chez le fournisseur. Continuer ?"/>
-                    <button name="action_rollback" type="object" string="Relancer le nettoyage" class="btn-danger"
+                            confirm="Everything created for this firm will be deleted at the provider. Continue?"/>
+                    <button name="action_rollback" type="object" string="Run the clean-up again" class="btn-danger"
                             invisible="state != 'rollback_failed'" groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_retry" type="object" string="Relancer la mise en service" class="btn-primary"
+                    <button name="action_retry" type="object" string="Start provisioning again" class="btn-primary"
                             invisible="state != 'rolled_back'" groups="ea_platform_admin.group_platform_operator"/>
                     <field name="state" widget="statusbar" statusbar_visible="waiting,done"/>
                 </header>
                 <sheet>
                     <div class="alert alert-danger" role="alert" invisible="state != 'rollback_failed'">
-                        <strong>Le nettoyage n'a pas abouti : des ressources restent et peuvent être facturées.</strong>
+                        <strong>The clean-up did not finish: resources remain and may be billed.</strong>
                         <field name="leftovers" nolabel="1" class="d-block"/>
-                        Relancez le nettoyage, puis voir INCIDENT.md si l'échec persiste.
+                        Run the clean-up again, then see INCIDENT.md if it still fails.
                     </div>
                     <div class="alert alert-info" role="status" invisible="state != 'waiting' or not last_message">
                         <field name="last_message" nolabel="1"/>
                     </div>
                     <div class="alert alert-warning" role="alert" invisible="state != 'rolled_back'">
-                        La mise en service a échoué et tout a été retiré : aucun serveur ne reste. Le motif figure à l'étape en échec.
+                        Provisioning failed and everything was removed: no server remains. The reason is on the failed step.
                     </div>
                     <div class="oe_title">
                         <h1><field name="firm_id" readonly="1"/></h1>
@@ -53,7 +53,7 @@
                             <field name="started_by"/>
                         </group>
                         <group>
-                            <field name="create_date" string="Lancée le"/>
+                            <field name="create_date" string="Started on"/>
                             <field name="is_simulation"/>
                         </group>
                     </group>
@@ -76,7 +76,7 @@
     </record>
 
     <record id="action_jobs" model="ir.actions.act_window">
-        <field name="name">Mises en service</field>
+        <field name="name">Provisioning runs</field>
         <field name="res_model">platform.provision.job</field>
         <field name="view_mode">list,form</field>
     </record>

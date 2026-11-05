@@ -1,8 +1,8 @@
 """Checks on what the onboarding wizard is given. Pure: no Odoo, no network.
 
-Every function returns French messages for the screen, or an empty value when all is well. The
-checks run twice: on the wizard's screens, and again as the first provisioning step, because a
-job can be resumed days later.
+Every function returns messages for the screen (see messages.py), or an empty value when all is
+well. The checks run twice: on the wizard's screens, and again as the first provisioning step,
+because a job can be resumed days later.
 """
 
 import base64
@@ -13,6 +13,7 @@ import re
 import struct
 
 from .catalogue import LANGUAGES, REGIONS, SIZES
+from .messages import _
 
 SLUG_RE = re.compile(r"^[a-z][a-z0-9-]{1,30}[a-z0-9]$")
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
@@ -43,19 +44,19 @@ def slug_errors(slug, existing=()):
     """Why this address cannot be given to a new firm. `existing` holds every slug ever used."""
     slug = normalise_slug(slug)
     if not slug:
-        return ["L'identifiant est obligatoire."]
+        return [_("The slug is required.")]
     errors = []
     if not SLUG_RE.match(slug):
-        errors.append(
-            "L'identifiant doit faire de 3 à 32 caractères : minuscules, chiffres et tirets, "
-            "commencer par une lettre et ne pas finir par un tiret."
-        )
+        errors.append(_(
+            "The slug must be 3 to 32 characters: lower case letters, digits and hyphens, "
+            "starting with a letter and not ending with a hyphen."
+        ))
     if "--" in slug:
-        errors.append("L'identifiant ne doit pas contenir deux tirets de suite.")
+        errors.append(_("The slug must not hold two hyphens in a row."))
     if slug in RESERVED_SLUGS:
-        errors.append(f"« {slug} » est un nom réservé par la plateforme.")
+        errors.append(_("\"%(slug)s\" is a name reserved by the platform.", slug=slug))
     if slug in {normalise_slug(s) for s in existing}:
-        errors.append(f"L'identifiant « {slug} » a déjà été attribué, même à un cabinet archivé.")
+        errors.append(_("The slug \"%(slug)s\" has already been given, even if to an archived firm.", slug=slug))
     return errors
 
 
@@ -74,7 +75,7 @@ def parse_domain_list(text):
             continue
         domain = raw.lstrip("@").lower()
         if not DOMAIN_RE.match(domain):
-            errors.append(f"Domaine de messagerie invalide : « {raw} ».")
+            errors.append(_("Invalid email domain: \"%(domain)s\".", domain=raw))
         elif domain not in domains:
             domains.append(domain)
     return domains, errors
@@ -85,9 +86,9 @@ def custom_domain_errors(value, base_domain):
     if not value:
         return []
     if not HOSTNAME_RE.match(value):
-        return [f"Adresse propre invalide : « {value} »."]
+        return [_("Invalid custom domain: \"%(domain)s\".", domain=value)]
     if base_domain and (value == base_domain or value.endswith("." + base_domain)):
-        return [f"L'adresse propre du cabinet ne peut pas être sous {base_domain}."]
+        return [_("The firm's own domain cannot be under %(domain)s.", domain=base_domain)]
     return []
 
 
@@ -103,26 +104,26 @@ def ssh_public_key_errors(public_key, existing_fingerprints=()):
     """Only an ed25519 public key is accepted, and one that no other firm uses."""
     key = (public_key or "").strip()
     if not key:
-        return ["La clé publique SSH du cabinet est obligatoire."]
+        return [_("The firm's public SSH key is required.")]
     if "PRIVATE KEY" in key:
-        return [
-            "Ceci est une clé PRIVÉE : elle ne doit jamais être collée ici. Effacez-la et "
-            "collez le contenu du fichier .pub."
-        ]
+        return [_(
+            "This is a PRIVATE key: it must never be pasted here. Erase it and paste the content of "
+            "the .pub file."
+        )]
     parts = key.split()
     if len(parts) < 2 or parts[0] != "ssh-ed25519" or "\n" in key:
-        return ["Une seule clé publique est attendue, au format ssh-ed25519."]
+        return [_("One public key is expected, in ssh-ed25519 format.")]
     try:
         blob = base64.b64decode(parts[1], validate=True)
         length = struct.unpack(">I", blob[:4])[0]
         algorithm = blob[4:4 + length]
         key_length = struct.unpack(">I", blob[4 + length:8 + length])[0]
     except (binascii.Error, struct.error, ValueError):
-        return ["La clé publique SSH est illisible."]
+        return [_("The public SSH key cannot be read.")]
     if algorithm != b"ssh-ed25519" or key_length != 32 or len(blob) != 8 + length + key_length:
-        return ["La clé publique SSH est illisible."]
+        return [_("The public SSH key cannot be read.")]
     if ssh_key_fingerprint(key) in set(existing_fingerprints):
-        return ["Cette clé SSH sert déjà à un autre cabinet : chaque cabinet a la sienne."]
+        return [_("This SSH key already serves another firm: each firm has its own.")]
     return []
 
 
@@ -138,17 +139,17 @@ def parse_allowlist(text):
         try:
             network = ipaddress.ip_network(raw, strict=False)
         except ValueError:
-            errors.append(f"Adresse IP invalide : « {raw} ».")
+            errors.append(_("Invalid IP address: \"%(address)s\".", address=raw))
             continue
         minimum = MIN_ALLOWLIST_PREFIX_V4 if network.version == 4 else MIN_ALLOWLIST_PREFIX_V6
         if network.prefixlen < minimum:
-            errors.append(f"Plage trop large pour le port 22 : « {raw} » (minimum /{minimum}).")
+            errors.append(_("Range too wide for port 22: \"%(address)s\" (minimum /%(minimum)s).", address=raw, minimum=minimum))
         elif not network.is_global:
-            errors.append(f"Adresse non publique pour le port 22 : « {raw} ».")
+            errors.append(_("Not a public address, for port 22: \"%(address)s\".", address=raw))
         elif str(network) not in cidrs:
             cidrs.append(str(network))
     if not cidrs and not errors:
-        errors.append("Au moins une adresse IP de l'opérateur est requise pour le port 22.")
+        errors.append(_("At least one operator IP address is needed for port 22."))
     return cidrs, errors
 
 
@@ -161,31 +162,31 @@ def onboarding_errors(data, existing_slugs=(), existing_fingerprints=()):
             errors.setdefault(field, []).extend(messages)
 
     if not (data.get("name") or "").strip():
-        add("name", ["Le nom du cabinet est obligatoire."])
+        add("name", [_("The firm's name is required.")])
     add("slug", slug_errors(data.get("slug"), existing_slugs))
     if not (data.get("contact_name") or "").strip():
-        add("contact_name", ["Le nom du contact est obligatoire."])
+        add("contact_name", [_("The contact's name is required.")])
     if not is_valid_email(data.get("contact_email")):
-        add("contact_email", ["L'e-mail du contact est invalide."])
+        add("contact_email", [_("The contact's email is invalid.")])
     if data.get("region") not in REGIONS:
-        add("region", ["Choisissez une région."])
+        add("region", [_("Choose a region.")])
     if data.get("size") not in SIZES:
-        add("size", ["Choisissez une taille."])
+        add("size", [_("Choose a size.")])
     if data.get("lang") not in LANGUAGES:
-        add("lang", ["Choisissez une langue."])
+        add("lang", [_("Choose a language.")])
 
     domains, domain_errors = parse_domain_list(data.get("allowed_email_domains"))
     add("allowed_email_domains", domain_errors)
     if not domains and not domain_errors:
-        add("allowed_email_domains", ["Indiquez au moins un domaine de messagerie autorisé."])
+        add("allowed_email_domains", [_("Give at least one allowed email domain.")])
     contact = (data.get("contact_email") or "").strip().lower()
     if domains and "@" in contact and contact.rsplit("@", 1)[1] not in domains:
-        add("contact_email", ["L'e-mail du contact doit appartenir à un domaine autorisé."])
+        add("contact_email", [_("The contact's email must belong to an allowed domain.")])
 
     add("ssh_public_key", ssh_public_key_errors(data.get("ssh_public_key"), existing_fingerprints))
     return errors
 
 
 def flatten_errors(errors):
-    """One message per line, in a stable order, for a UserError."""
-    return "\n".join(message for field in sorted(errors) for message in errors[field])
+    """Every message, in a stable order."""
+    return [message for field in sorted(errors) for message in errors[field]]

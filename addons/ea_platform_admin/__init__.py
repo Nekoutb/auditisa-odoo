@@ -13,7 +13,7 @@ def refuse_firm_database(env):
     )
     found = [row[0] for row in env.cr.fetchall()]
     if found:
-        raise UserError(
-            "ea_platform_admin ne s'installe pas dans la base d'un cabinet. Modules trouvés : "
-            + ", ".join(sorted(found))
-        )
+        raise UserError(env._(
+            "ea_platform_admin does not install in a firm's database. Modules found: %(modules)s",
+            modules=", ".join(sorted(found)),
+        ))

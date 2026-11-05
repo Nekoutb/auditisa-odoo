@@ -478,7 +478,7 @@ create_database() {
   shred -u "/root/.auditisa/firms/$FIRM_DB.admin"
 
   cat <<'PY' | runuser -u odoo -- env \
-    P_URL="$HEARTBEAT_URL" P_SLUG="$FIRM_SLUG" P_HOST="$FIRM_HOST" P_HASH="$FIRST_ADMIN_TOKEN_SHA256" P_DOMAINS="$FIRM_ALLOWED_DOMAINS" \
+    P_URL="$HEARTBEAT_URL" P_SLUG="$FIRM_SLUG" P_HOST="$FIRM_HOST" P_HASH="$FIRST_ADMIN_TOKEN_SHA256" P_DOMAINS="$FIRM_ALLOWED_DOMAINS" P_LANG="$FIRM_LANG" \
     "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$FIRM_DB" --no-http --max-cron-threads=0 >/dev/null
 import datetime
 import os
@@ -496,6 +496,12 @@ company = env.company.sudo()
 if "ea_allowed_email_domains" in company._fields:
     company.ea_allowed_email_domains = "\n".join(os.environ["P_DOMAINS"].split())
 env["res.users"].sudo().with_context(active_test=False).search([("login", "in", ("demo", "portal"))]).write({"active": False})
+# French and English are both there, so each user can choose in their preferences. The firm's
+# language (new_firm.sh sets it on the company, the admin and the defaults) also serves public pages.
+for code in ("fr_FR", "en_US"):
+    env["res.lang"]._activate_lang(code)
+env["ir.module.module"].sudo().search([("state", "=", "installed")])._update_translations(["fr_FR"])
+env.ref("base.public_user").sudo().write({"lang": os.environ["P_LANG"]})
 env.cr.commit()
 PY
 }

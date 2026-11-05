@@ -8,6 +8,8 @@ figures and says what happens next: canary first, then batches, and stop at the 
 
 from datetime import timedelta
 
+from .messages import _
+
 PENDING = "pending"
 REQUESTED = "requested"
 HEALTHY = "healthy"
@@ -36,15 +38,15 @@ def plan_batches(firm_ids, canary_id, batch_size):
 def ineligible_reason(firm):
     """Why a firm cannot take part. Backups and health come first: an update needs a way back."""
     if firm.get("state") != "active":
-        return "cabinet non actif"
+        return _("firm not active")
     if firm.get("health_color") == "red":
-        return "santé rouge"
+        return _("red health")
     if firm.get("release_locked"):
-        return "version verrouillée pour ce cabinet"
+        return _("release locked for this firm")
     if not firm.get("last_backup_at"):
-        return "aucune sauvegarde"
+        return _("no backup")
     if firm.get("last_backup_ok") is False:
-        return "dernière sauvegarde en échec"
+        return _("last backup failed")
     return None
 
 

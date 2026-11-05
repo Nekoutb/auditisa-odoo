@@ -10,12 +10,18 @@ import copy
 import hashlib
 from dataclasses import asdict, dataclass, field
 
+from .messages import _
+
 
 class ProviderError(Exception):
-    """`retryable` is True when trying again may help (network, 5xx, rate limit)."""
+    """`retryable` is True when trying again may help (network, 5xx, rate limit).
+
+    `message` keeps the translatable message: str(error) gives its English text.
+    """
 
     def __init__(self, message, retryable=False):
         super().__init__(message)
+        self.message = message
         self.retryable = retryable
 
 
@@ -167,7 +173,7 @@ class DryRunProvider(ServerProvider):
         if isinstance(rule, int):
             if rule > 0:
                 self.fail_on[method] = rule - 1
-                raise ProviderError(f"{method}: panne simulée (temporaire)", retryable=True)
+                raise ProviderError(_("%(method)s: simulated fault (temporary)", method=method), retryable=True)
             return
         raise rule
 
@@ -229,7 +235,7 @@ class DryRunProvider(ServerProvider):
     def storage_credentials(self, storage_id):
         self._enter("storage_credentials", storage_id)
         if storage_id not in self.state["storages"]:
-            raise ProviderError(f"stockage inconnu : {storage_id}")
+            raise ProviderError(_("Unknown storage: %(id)s", id=storage_id))
         seed = hashlib.sha256(f"dry-run-storage-{storage_id}".encode()).hexdigest()
         return StorageCredentials(
             endpoint="dry-run.invalid",
@@ -328,7 +334,7 @@ class DryRunDns(DnsProvider):
         if isinstance(rule, int):
             if rule > 0:
                 self.fail_on[method] = rule - 1
-                raise ProviderError(f"{method}: panne simulée (temporaire)", retryable=True)
+                raise ProviderError(_("%(method)s: simulated fault (temporary)", method=method), retryable=True)
             return
         raise rule
 

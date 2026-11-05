@@ -39,7 +39,7 @@ class TestFirstAdmin(HttpCase):
     def test_a_wrong_token_shows_no_form(self):
         page = self.url_open("/ea-firm/first-admin/" + "Z" * 48)
         self.assertNotIn('name="password"', page.text)
-        self.assertIn("plus valable", page.text)
+        self.assertIn("no longer valid", page.text)
 
     def test_an_expired_link_shows_no_form(self):
         self.params.set_param(PARAM_EXPIRES, fields.Datetime.to_string(fields.Datetime.now() - timedelta(minutes=1)))
@@ -48,7 +48,7 @@ class TestFirstAdmin(HttpCase):
     def test_a_weak_password_is_refused_and_the_link_stays(self):
         answer = self._post("court")
         self.assertEqual(answer.status_code, 200)
-        self.assertIn("12 caractères", answer.text)
+        self.assertIn("12 characters", answer.text)
         self.assertTrue(self.params.get_param(PARAM_HASH))
 
     def test_the_link_works_once_and_sets_the_password(self):
@@ -64,7 +64,7 @@ class TestFirstAdmin(HttpCase):
     def test_a_used_link_changes_no_password_when_posted_again(self):
         self._post(GOOD)
         page = self.url_open(self.url)
-        self.assertIn("plus valable", page.text)
+        self.assertIn("no longer valid", page.text)
 
     def test_no_stored_hash_means_no_link_at_all(self):
         self.params.search([("key", "=", PARAM_HASH)]).unlink()

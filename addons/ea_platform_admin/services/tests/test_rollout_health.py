@@ -37,7 +37,7 @@ def reasons(**changes):
 
 
 def test_a_good_firm_is_green():
-    assert health.evaluate(good_firm(), NOW) == (health.GREEN, ["Tout est normal"])
+    assert health.evaluate(good_firm(), NOW) == (health.GREEN, ["All is normal"])
 
 
 @pytest.mark.parametrize("changes,expected", [
@@ -80,20 +80,20 @@ def test_a_new_firm_has_a_day_for_its_first_backup_and_a_week_for_its_first_rest
 
 def test_ssh_sessions_covered_by_the_log_raise_no_alert():
     assert colour(ssh_sessions_24h=2, breakglass_24h=2) == health.GREEN
-    assert "1 connexion" in reasons(ssh_sessions_24h=2, breakglass_24h=1)
+    assert "1 SSH login" in reasons(ssh_sessions_24h=2, breakglass_24h=1)
 
 
 def test_the_worst_reason_comes_first():
     _, why = health.evaluate(good_firm(disk_used_pct=85, last_backup_ok=False), NOW)
-    assert why[0] == "La dernière sauvegarde a échoué"
-    assert "Disque plein à 85 %" in why
+    assert why[0] == "The last backup failed"
+    assert "Disk 85% full" in why
 
 
 def test_an_orphan_is_red_whatever_the_state():
     for state in ("provisioning", "active", "suspended", "archived"):
         found_colour, why = health.evaluate(good_firm(state=state, orphan_flag=True, orphan_detail="srv-1"), NOW)
         assert found_colour == health.RED
-        assert "ORPHELIN" in why[0]
+        assert "ORPHAN" in why[0]
         assert "srv-1" in why[0]
 
 
@@ -205,11 +205,11 @@ def test_silence_ends_in_a_timeout():
 
 
 @pytest.mark.parametrize("firm,word", [
-    ({"state": "suspended"}, "actif"),
-    ({"state": "active", "health_color": "red"}, "rouge"),
-    ({"state": "active", "release_locked": True}, "verrouillée"),
-    ({"state": "active", "last_backup_at": None}, "sauvegarde"),
-    ({"state": "active", "last_backup_at": NOW, "last_backup_ok": False}, "sauvegarde"),
+    ({"state": "suspended"}, "active"),
+    ({"state": "active", "health_color": "red"}, "red"),
+    ({"state": "active", "release_locked": True}, "locked"),
+    ({"state": "active", "last_backup_at": None}, "backup"),
+    ({"state": "active", "last_backup_at": NOW, "last_backup_ok": False}, "backup"),
 ])
 def test_a_firm_without_a_way_back_takes_no_update(firm, word):
     assert word in rollout.ineligible_reason(firm)

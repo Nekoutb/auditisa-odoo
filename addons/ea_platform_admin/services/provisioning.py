@@ -11,6 +11,7 @@ each step, and call its hooks.
 
 from datetime import timedelta
 
+from .messages import _
 from .provider import ProviderError, ServerSpec
 
 PENDING, RUNNING, DONE, FAILED, UNDONE = "pending", "running", "done", "failed", "undone"
@@ -49,7 +50,7 @@ def label_of(slug):
 def _do_validate(ctx):
     errors = ctx.hooks["validate"]()
     if errors:
-        raise ProviderError("Contrôle refusé : " + errors)
+        raise ProviderError(_("Check refused: %(reason)s", reason=errors[0]))
     ctx.hooks["check_release"]()
 
 
@@ -133,7 +134,7 @@ def _undo_server(ctx):
         ctx.provider.destroy_server(server_id)
         # Destroying is asynchronous at some providers: an answer is not proof, so look again.
         if ctx.provider.get_server(server_id):
-            raise ProviderError(f"Le serveur {server_id} existe encore après sa destruction.")
+            raise ProviderError(_("Server %(id)s still exists after being destroyed.", id=server_id))
     ctx.resources.pop("server_id", None)
     ctx.resources.pop("server_ip", None)
 
@@ -141,9 +142,9 @@ def _undo_server(ctx):
 def _do_wait_server(ctx):
     server = ctx.provider.get_server(ctx.resources["server_id"])
     if not server:
-        raise ProviderError("Le serveur a disparu chez le fournisseur.")
+        raise ProviderError(_("The server has gone from the provider."))
     if server.status != "active" or not server.ip:
-        raise Wait("Le fournisseur démarre le serveur.")
+        raise Wait(_("The provider is starting the server."))
     ctx.resources["server_ip"] = server.ip
 
 
@@ -165,29 +166,29 @@ def _undo_dns(ctx):
 
 def _do_wait_install(ctx):
     if not ctx.hooks["heartbeat_seen"]():
-        raise Wait("Installation en cours sur le serveur : en attente du premier heartbeat.")
+        raise Wait(_("Installing on the server: waiting for the first heartbeat."))
 
 
 def _do_health_check(ctx):
     host = ctx.config["host"]
     expected = (
-        (f"http://{host}/web/login", (301, 308), "le port 80 doit rediriger vers HTTPS"),
-        (f"https://{host}/web/health", (200,), "Odoo doit répondre"),
-        (f"https://{host}/web/login", (200,), "la page de connexion doit répondre"),
+        (f"http://{host}/web/login", (301, 308), _("port 80 must redirect to HTTPS")),
+        (f"https://{host}/web/health", (200,), _("Odoo must answer")),
+        (f"https://{host}/web/login", (200,), _("the login page must answer")),
     )
     # Reachable but not 200 is what list_db = False and nginx give; an unreachable server says nothing.
-    refused = (f"https://{host}/web/database/manager", "le gestionnaire de bases doit être fermé")
+    refused = (f"https://{host}/web/database/manager", _("the database manager must be closed"))
     problems = []
     for url, codes, why in expected:
         code = ctx.probe.status_code(url)
         if code not in codes:
-            problems.append(f"{url} : {code} ({why})")
+            problems.append(_("%(url)s: %(code)s (%(why)s)", url=url, code=code, why=why))
     code = ctx.probe.status_code(refused[0])
     if code in (0, 200):
-        problems.append(f"{refused[0]} : {code} ({refused[1]})")
+        problems.append(_("%(url)s: %(code)s (%(why)s)", url=refused[0], code=code, why=refused[1]))
     problems.extend(ctx.hooks["figures_problems"]())
     if problems:
-        raise ProviderError("Contrôle de santé refusé : " + " ; ".join(problems), retryable=True)
+        raise ProviderError(_("Health check refused: %(problem)s", problem=problems[0]), retryable=True)
 
 
 def _do_activate(ctx):
@@ -205,17 +206,17 @@ class Step:
 
 
 PIPELINE = (
-    Step("validate", "Contrôle de la demande", _do_validate),
-    Step("ssh_key", "Clé SSH du cabinet chez le fournisseur", _do_ssh_key, _undo_ssh_key),
-    Step("firewall", "Pare-feu du fournisseur (22 restreint, 80, 443)", _do_firewall, _undo_firewall),
-    Step("storage", "Stockage de sauvegarde propre au cabinet", _do_storage, _undo_storage),
-    Step("first_admin", "Lien à usage unique du premier administrateur", _do_first_admin),
-    Step("server", "Création du serveur", _do_server, _undo_server),
-    Step("wait_server", "Démarrage du serveur", _do_wait_server, timeout_minutes=15),
-    Step("dns", "Adresse du cabinet (DNS)", _do_dns, _undo_dns),
-    Step("wait_install", "Installation (Odoo, PostgreSQL, HTTPS, sauvegardes)", _do_wait_install, timeout_minutes=60),
-    Step("health_check", "Contrôle de santé automatique", _do_health_check, timeout_minutes=30),
-    Step("activate", "Mise en service", _do_activate),
+    Step("validate", _("Checking the request"), _do_validate),
+    Step("ssh_key", _("The firm's SSH key at the provider"), _do_ssh_key, _undo_ssh_key),
+    Step("firewall", _("Provider firewall (22 restricted, 80, 443)"), _do_firewall, _undo_firewall),
+    Step("storage", _("The firm's own backup storage"), _do_storage, _undo_storage),
+    Step("first_admin", _("First administrator's one-time link"), _do_first_admin),
+    Step("server", _("Creating the server"), _do_server, _undo_server),
+    Step("wait_server", _("Starting the server"), _do_wait_server, timeout_minutes=15),
+    Step("dns", _("The firm's address (DNS)"), _do_dns, _undo_dns),
+    Step("wait_install", _("Install (Odoo, PostgreSQL, HTTPS, backups)"), _do_wait_install, timeout_minutes=60),
+    Step("health_check", _("Automatic health check"), _do_health_check, timeout_minutes=30),
+    Step("activate", _("Going live"), _do_activate),
 )
 STEP_CODES = tuple(step.code for step in PIPELINE)
 
@@ -250,21 +251,21 @@ def advance(steps, ctx, pipeline=PIPELINE, on_change=None, max_attempts=MAX_ATTE
         try:
             step.do(ctx)
         except Wait as wait:
-            state["message"] = str(wait)
+            state["message"] = wait.args[0]
             if step.timeout and ctx.now - state["started_at"] > step.timeout:
-                return _give_up(steps, state, ctx, pipeline, notify, f"Délai dépassé : {wait}")
+                return _give_up(steps, state, ctx, pipeline, notify, _("Time limit passed: %(message)s", message=wait.args[0]))
             notify()
             return JOB_WAITING
         except ProviderError as error:
             state["attempts"] += 1
-            state["message"] = str(error)
+            state["message"] = error.message
             within_timeout = not step.timeout or ctx.now - state["started_at"] <= step.timeout
             if error.retryable and (state["attempts"] < max_attempts or (step.timeout and within_timeout)):
                 notify()
                 return JOB_WAITING
-            return _give_up(steps, state, ctx, pipeline, notify, str(error))
+            return _give_up(steps, state, ctx, pipeline, notify, error.message)
         except Exception as error:  # noqa: BLE001  a bug in a step must still lead to a clean-up
-            return _give_up(steps, state, ctx, pipeline, notify, f"Erreur interne : {type(error).__name__}")
+            return _give_up(steps, state, ctx, pipeline, notify, _("Internal error: %(error)s", error=type(error).__name__))
         state["state"] = DONE
         state["finished_at"] = ctx.now
         state["message"] = ""
@@ -298,13 +299,13 @@ def rollback(steps, ctx, pipeline=PIPELINE, on_change=None):
             try:
                 step.undo(ctx)
             except Exception as error:  # noqa: BLE001  whatever went wrong, it is reported below
-                what = str(error) if isinstance(error, ProviderError) else type(error).__name__
-                orphans.append(f"{state['label']} : {what}")
-                state["message"] = f"Retour arrière impossible : {what}"
+                what = error.message if isinstance(error, ProviderError) else type(error).__name__
+                orphans.append(_("%(step)s: %(what)s", step=state["label"], what=what))
+                state["message"] = _("Rollback impossible: %(what)s", what=what)
                 notify()
                 continue
         state["state"] = FAILED if failed_message else UNDONE
-        state["message"] = failed_message or "Annulé"
+        state["message"] = failed_message or _("Cancelled")
         notify()
     return (JOB_ROLLBACK_FAILED if orphans else JOB_ROLLED_BACK), orphans
 
@@ -313,14 +314,14 @@ def destroy_resources(ctx):
     """Offboarding: everything the steps made, in reverse. Returns what could not be removed."""
     leftovers = []
     for undo, label in (
-        (_undo_dns, "DNS"),
-        (_undo_server, "serveur"),
-        (_undo_storage, "stockage"),
-        (_undo_firewall, "pare-feu"),
-        (_undo_ssh_key, "clé SSH"),
+        (_undo_dns, _("DNS")),
+        (_undo_server, _("server")),
+        (_undo_storage, _("storage")),
+        (_undo_firewall, _("firewall")),
+        (_undo_ssh_key, _("SSH key")),
     ):
         try:
             undo(ctx)
         except ProviderError as error:
-            leftovers.append(f"{label} : {error}")
+            leftovers.append(_("%(what)s: %(reason)s", what=label, reason=error.message))
     return leftovers

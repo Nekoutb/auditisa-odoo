@@ -1,6 +1,9 @@
 from odoo import fields, models
 from odoo.exceptions import AccessError
 
+from ..services.messages import _
+from .i18n import t
+
 
 class PlatformBreakglass(models.Model):
     """Every time the operator opens a firm's server by hand. Append-only.
@@ -11,18 +14,18 @@ class PlatformBreakglass(models.Model):
     """
 
     _name = "platform.breakglass"
-    _description = "Accès d'urgence"
+    _description = "Break-glass access"
     _order = "opened_at desc, id desc"
     _rec_name = "reason"
 
-    firm_id = fields.Many2one("platform.firm", "Cabinet", required=True, readonly=True, ondelete="restrict", index=True)
-    user_id = fields.Many2one("res.users", "Opérateur", required=True, readonly=True, ondelete="restrict")
-    opened_at = fields.Datetime("Ouvert le", required=True, readonly=True, default=fields.Datetime.now)
-    reason = fields.Text("Motif", required=True, readonly=True)
-    firm_informed = fields.Boolean("Cabinet informé", readonly=True)
+    firm_id = fields.Many2one("platform.firm", "Firm", required=True, readonly=True, ondelete="restrict", index=True)
+    user_id = fields.Many2one("res.users", "Operator", required=True, readonly=True, ondelete="restrict")
+    opened_at = fields.Datetime("Opened on", required=True, readonly=True, default=fields.Datetime.now)
+    reason = fields.Text("Reason", required=True, readonly=True)
+    firm_informed = fields.Boolean("Firm told", readonly=True)
 
     def write(self, vals):
-        raise AccessError("Le journal d'accès d'urgence ne se modifie pas.")
+        raise AccessError(t(self.env, _("The break-glass log cannot be changed.")))
 
     def unlink(self):
-        raise AccessError("Le journal d'accès d'urgence ne se supprime pas.")
+        raise AccessError(t(self.env, _("The break-glass log cannot be deleted.")))

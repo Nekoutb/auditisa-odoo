@@ -25,7 +25,7 @@ def key(seed=b"\x01"):
 
 def request(**changes):
     data = {
-        "name": "Cabinet Exemple",
+        "name": "Example Firm",
         "slug": "cabinet-exemple",
         "contact_name": "Awa Ngono",
         "contact_email": "awa@exemple.cm",
@@ -42,12 +42,12 @@ def request(**changes):
 @pytest.mark.parametrize("name", ["www", "dev", "test", "status", "admin", "mail", "hb", "api"])
 def test_reserved_names_are_refused(name):
     assert name in RESERVED_SLUGS
-    assert any("réservé" in message for message in slug_errors(name))
+    assert any("reserved" in message for message in slug_errors(name))
 
 
 @pytest.mark.parametrize("name", ["WWW", " www ", "Status"])
 def test_reserved_names_are_refused_whatever_the_case(name):
-    assert any("réservé" in message for message in slug_errors(name))
+    assert any("reserved" in message for message in slug_errors(name))
 
 
 @pytest.mark.parametrize("bad", ["", "a", "ab", "-abc", "abc-", "1abc", "a_b_c", "a.bc", "été-1", "a" * 33, "a--b", "a b c"])
@@ -61,7 +61,7 @@ def test_good_slugs_pass(good):
 
 
 def test_a_slug_is_never_given_twice():
-    assert any("déjà" in message for message in slug_errors("cabinet-a", ["Cabinet-A"]))
+    assert any("already" in message for message in slug_errors("cabinet-a", ["Cabinet-A"]))
     assert slug_errors("cabinet-b", ["cabinet-a"]) == []
 
 
@@ -79,7 +79,7 @@ def test_bad_domain_is_reported():
 
 def test_private_key_is_refused_loudly():
     errors = ssh_public_key_errors("-----BEGIN OPENSSH PRIVATE KEY-----\nabc\n-----END OPENSSH PRIVATE KEY-----")
-    assert "PRIVÉE" in errors[0]
+    assert "PRIVATE" in errors[0]
 
 
 @pytest.mark.parametrize("bad", ["", "ssh-rsa AAAAB3NzaC1yc2E=", "ssh-ed25519 pasdubase64!", "ssh-ed25519 AAAA", "hello"])
@@ -152,8 +152,7 @@ def test_custom_domain_rules():
 
 
 def test_errors_flatten_to_one_message_per_line():
-    text = flatten_errors(onboarding_errors(request(name="", region="")))
-    assert len(text.splitlines()) == 2
+    assert len(flatten_errors(onboarding_errors(request(name="", region="")))) == 2
 
 
 def test_cost_adds_server_and_storage():

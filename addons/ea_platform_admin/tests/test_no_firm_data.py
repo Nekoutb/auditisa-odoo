@@ -48,8 +48,12 @@ class TestNoFirmData(PlatformCase):
 
     def test_it_refuses_to_install_beside_an_audit_addon(self):
         refuse_firm_database(self.env)  # nothing installed: passes
-        self.env["ir.module.module"].sudo().create({"name": "ea_audit_core", "state": "installed"})
-        with self.assertRaisesRegex(Exception, "ne s'installe pas"):
+        modules = self.env["ir.module.module"].sudo()
+        # The row exists when the audit addons are on the addons path, as in CI.
+        module = modules.search([("name", "=", "ea_audit_core")]) or modules.create({"name": "ea_audit_core"})
+        module.state = "installed"
+        self.env.flush_all()
+        with self.assertRaisesRegex(Exception, "does not install"):
             refuse_firm_database(self.env)
 
     def test_no_field_could_hold_a_firms_credential_or_audit_data(self):

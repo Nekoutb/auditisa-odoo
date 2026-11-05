@@ -9,7 +9,7 @@
                 <field name="label"/>
                 <field name="bundle_sha256" optional="hide"/>
                 <field name="firm_count"/>
-                <field name="create_date" string="Enregistrée le"/>
+                <field name="create_date" string="Registered on"/>
             </list>
         </field>
     </record>
@@ -20,8 +20,8 @@
             <form class="o_ea_platform_form">
                 <sheet>
                     <p class="text-muted">
-                        Une version se construit et se signe sur votre ordinateur avec scripts/provision/build_release.sh.
-                        La clé privée de signature ne vient jamais ici : voir UPDATING.md.
+                        A release is built and signed on your computer with scripts/provision/build_release.sh.
+                        The private signing key never comes here: see UPDATING.md.
                     </p>
                     <group>
                         <group>
@@ -41,7 +41,7 @@
         </field>
     </record>
     <record id="action_releases" model="ir.actions.act_window">
-        <field name="name">Versions</field>
+        <field name="name">Releases</field>
         <field name="res_model">platform.release</field>
         <field name="view_mode">list,form</field>
     </record>
@@ -67,17 +67,17 @@
         <field name="arch" type="xml">
             <form class="o_ea_platform_form">
                 <header>
-                    <button name="action_start" type="object" string="Lancer : le témoin d'abord" class="btn-primary" invisible="state != 'draft'"
-                            confirm="Le cabinet témoin recevra la version à son prochain heartbeat. Continuer ?"/>
-                    <button name="action_simulate_answers" type="object" string="Simuler les réponses des cabinets"
+                    <button name="action_start" type="object" string="Start: canary first" class="btn-primary" invisible="state != 'draft'"
+                            confirm="The canary firm will get the release at its next heartbeat. Continue?"/>
+                    <button name="action_simulate_answers" type="object" string="Simulate the firms' answers"
                             invisible="state != 'running'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,running,done"/>
                 </header>
                 <sheet>
                     <div class="alert alert-danger" role="alert" invisible="state != 'stopped'">
-                        <strong>Mise à jour arrêtée sur le premier échec.</strong>
+                        <strong>Rollout stopped at the first failure.</strong>
                         <field name="stop_reason" nolabel="1" class="d-block"/>
-                        Le cabinet en échec a repris sa version précédente. Les cabinets suivants n'ont rien reçu.
+                        The failed firm is back on its previous release. The following firms received nothing.
                     </div>
                     <group>
                         <group>
@@ -108,7 +108,7 @@
         </field>
     </record>
     <record id="action_rollouts" model="ir.actions.act_window">
-        <field name="name">Mises à jour</field>
+        <field name="name">Rollouts</field>
         <field name="res_model">platform.rollout</field>
         <field name="view_mode">list,form</field>
     </record>

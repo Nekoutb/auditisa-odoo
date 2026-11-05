@@ -28,10 +28,10 @@ class TestOnboarding(PlatformCase):
     def test_it_is_all_in_the_log_under_the_operators_name(self):
         firm, _job = self._onboard()
         actions = firm.log_ids.mapped("action")
-        self.assertIn("Nouveau cabinet confirmé", actions)
-        self.assertIn("Mise en service lancée", actions)
-        self.assertIn("Cabinet mis en service", actions)
-        confirmed = firm.log_ids.filtered(lambda row: row.action == "Nouveau cabinet confirmé")
+        self.assertIn("New firm confirmed", actions)
+        self.assertIn("Provisioning started", actions)
+        self.assertIn("Firm went live", actions)
+        confirmed = firm.log_ids.filtered(lambda row: row.action == "New firm confirmed")
         self.assertEqual(confirmed.user_id, self.operator)
 
     def test_preflight_shows_the_cost_and_needs_confirmation(self):
@@ -49,7 +49,7 @@ class TestOnboarding(PlatformCase):
     def test_confirming_before_the_preflight_screen_is_refused(self):
         wizard = self._wizard()
         wizard.confirmed = True
-        with self.assertRaisesRegex(UserError, "vérification"):
+        with self.assertRaisesRegex(UserError, "review"):
             wizard.action_confirm()
 
     def test_changing_anything_needs_a_new_confirmation(self):
@@ -58,9 +58,9 @@ class TestOnboarding(PlatformCase):
         self.assertFalse(wizard.confirmed)
 
     def test_each_screen_checks_its_own_fields(self):
-        with self.assertRaisesRegex(UserError, "réservé"):
+        with self.assertRaisesRegex(UserError, "reserved"):
             self._wizard("www").action_next()
-        with self.assertRaisesRegex(UserError, "domaine"):
+        with self.assertRaisesRegex(UserError, "domain"):
             self._wizard("cabinet-b", allowed_email_domains="").action_next()
         wizard = self._wizard("cabinet-c", ssh_public_key="n'importe quoi")
         wizard.action_next()
@@ -69,18 +69,18 @@ class TestOnboarding(PlatformCase):
 
     def test_reserved_names_are_refused(self):
         for slug in ("www", "dev", "test", "status"):
-            with self.assertRaisesRegex(UserError, "réservé"):
+            with self.assertRaisesRegex(UserError, "reserved"):
                 self._wizard(slug).action_next()
 
     def test_a_slug_is_never_given_twice(self):
         self._onboard()
-        with self.assertRaisesRegex(UserError, "déjà"):
+        with self.assertRaisesRegex(UserError, "already"):
             self._wizard("cabinet-a").action_next()
 
     def test_a_slug_stays_taken_after_archiving(self):
         firm, _job = self._onboard()
         firm.sudo().state = "archived"
-        with self.assertRaisesRegex(UserError, "déjà"):
+        with self.assertRaisesRegex(UserError, "already"):
             self._wizard("cabinet-a").action_next()
 
     def test_slug_is_normalised(self):
@@ -93,19 +93,19 @@ class TestOnboarding(PlatformCase):
         self._onboard("cabinet-a", ssh_public_key=key)
         wizard = self._wizard("cabinet-b", ssh_public_key=key)
         wizard.action_next()
-        with self.assertRaisesRegex(UserError, "autre cabinet"):
+        with self.assertRaisesRegex(UserError, "another firm"):
             wizard.action_next()
 
     def test_a_private_key_is_wiped_from_the_form_and_refused(self):
         wizard = self._wizard(ssh_public_key="-----BEGIN OPENSSH PRIVATE KEY-----")
         warning = wizard._onchange_ssh_public_key()
-        self.assertIn("PRIVÉE", warning["warning"]["message"])
+        self.assertIn("PRIVATE", warning["warning"]["message"])
         self.assertFalse(wizard.ssh_public_key)
 
     def test_no_release_means_no_server(self):
         wizard = self._through_steps(self._wizard())
         wizard.release_id = False
-        with self.assertRaisesRegex(UserError, "version"):
+        with self.assertRaisesRegex(UserError, "release"):
             wizard.action_confirm()
 
     def test_a_viewer_cannot_start_it(self):
@@ -117,21 +117,21 @@ class TestOnboarding(PlatformCase):
 class TestProvisioningJob(PlatformCase):
     def test_a_failure_cleans_up_and_is_visible(self):
         provider, _dns, _probe = self._outside_patched(
-            provider=DryRunProvider(fail_on={"create_server": ProviderError("Refusé par le fournisseur")})
+            provider=DryRunProvider(fail_on={"create_server": ProviderError("Refused by the provider")})
         )
         firm, job = self._onboard()
         self.assertEqual(job.state, "rolled_back")
         self.assertEqual(firm.state, "provisioning")
         step = job.step_ids.filtered(lambda s: s.code == "server")
         self.assertEqual(step.state, "failed")
-        self.assertIn("Refusé", step.message)
+        self.assertIn("Refused", step.message)
         self.assertFalse(provider.state["servers"])
         self.assertFalse(provider.state["ssh_keys"])
         self.assertFalse(provider.state["firewalls"])
         self.assertFalse(provider.state["storages"])
         self.assertFalse(firm.server_id)
         self.assertEqual(firm.health_color, "red")
-        self.assertIn("Mise en service annulée, nettoyage complet", firm.log_ids.mapped("action"))
+        self.assertIn("Provisioning cancelled, full clean-up", firm.log_ids.mapped("action"))
         self.assertFalse(firm.sudo().first_admin_token)
 
     def test_a_server_that_cannot_be_destroyed_is_flagged_loudly(self):
@@ -142,10 +142,10 @@ class TestProvisioningJob(PlatformCase):
         self.assertEqual(job.state, "rollback_failed")
         self.assertTrue(firm.orphan_flag)
         self.assertEqual(firm.health_color, "red")
-        self.assertIn("ORPHELIN", firm.health_reason)
+        self.assertIn("ORPHAN", firm.health_reason)
         self.assertIn(provider.state and list(provider.state["servers"])[0], job.leftovers)
         self.assertTrue(firm.needs_attention)
-        self.assertIn("ÉCHEC DU NETTOYAGE : ressources restantes", firm.log_ids.mapped("action"))
+        self.assertIn("CLEAN-UP FAILED: resources remain", firm.log_ids.mapped("action"))
 
     def test_the_clean_up_can_be_run_again_once_the_provider_answers(self):
         provider = DryRunProvider(fail_on={"destroy_server": ProviderError("Destruction refusée")})
@@ -223,10 +223,10 @@ class TestProvisioningJob(PlatformCase):
         self.assertEqual([server.id for server in orphans], [stray.id])
         self.assertIn(stray.id, provider.state["servers"])
         self.assertFalse(firm.orphan_flag)
-        self.assertTrue(self.env["platform.log"].search_count([("action", "=", "Serveur orphelin détecté"), ("detail", "ilike", stray.id)]))
+        self.assertTrue(self.env["platform.log"].search_count([("action", "=", "Orphan server detected"), ("detail", "ilike", stray.id)]))
         self.env["platform.firm"]._find_orphan_servers()
         self.assertEqual(
-            self.env["platform.log"].search_count([("action", "=", "Serveur orphelin détecté"), ("detail", "ilike", stray.id)]), 1,
+            self.env["platform.log"].search_count([("action", "=", "Orphan server detected"), ("detail", "ilike", stray.id)]), 1,
         )
 
 
@@ -244,7 +244,7 @@ class TestFirstAdminLink(PlatformCase):
         wizard.action_close()
         self.assertFalse(wizard.link)
         again = self.env["platform.first.admin.link"].with_user(self.operator).create({"firm_id": firm.id})
-        with self.assertRaisesRegex(UserError, "plus disponible"):
+        with self.assertRaisesRegex(UserError, "no longer available"):
             again.action_reveal()
 
     def test_who_saw_the_link_is_logged_without_the_link(self):
@@ -252,7 +252,7 @@ class TestFirstAdminLink(PlatformCase):
         token = firm.sudo().first_admin_token
         wizard = self.env["platform.first.admin.link"].with_user(self.operator).create({"firm_id": firm.id})
         wizard.action_reveal()
-        row = firm.log_ids.filtered(lambda r: r.action == "Lien du premier administrateur affiché")
+        row = firm.log_ids.filtered(lambda r: r.action == "First administrator's link shown")
         self.assertEqual(row.user_id, self.operator)
         self.assertFalse(self.env["platform.log"].search_count([("detail", "ilike", token)]))
 

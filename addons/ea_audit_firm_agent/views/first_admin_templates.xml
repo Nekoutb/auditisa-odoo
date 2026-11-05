@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="first_admin_page" name="Premier administrateur">
+    <template id="first_admin_page" name="First administrator">
         <t t-call="web.login_layout">
             <t t-if="invalid">
                 <div class="alert alert-danger" role="alert">
-                    Ce lien n'est plus valable : il a déjà servi ou il a expiré. Demandez-en un nouveau à votre opérateur AuditISA.
+                    This link is no longer valid: it has been used or it has expired. Ask your AuditISA operator for a new one.
                 </div>
             </t>
             <form t-else="" method="post" autocomplete="off">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <h4>Bienvenue</h4>
-                <p>Vous êtes le premier administrateur de <strong t-out="firm_name"/>. Choisissez votre mot de passe : personne d'autre ne le connaîtra.</p>
-                <p>Identifiant : <strong t-out="login"/></p>
+                <h4>Welcome</h4>
+                <p>You are the first administrator of <strong t-out="firm_name"/>. Choose your password: nobody else will know it.</p>
+                <p>Login: <strong t-out="login"/></p>
                 <div class="mb-3">
-                    <label class="form-label" for="password">Mot de passe (12 caractères au moins)</label>
+                    <label class="form-label" for="password">Password (at least 12 characters)</label>
                     <input class="form-control" type="password" id="password" name="password" required="required" autocomplete="new-password"/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="confirmation">Répétez le mot de passe</label>
+                    <label class="form-label" for="confirmation">Repeat the password</label>
                     <input class="form-control" type="password" id="confirmation" name="confirmation" required="required" autocomplete="new-password"/>
                 </div>
                 <div t-if="error" class="alert alert-danger" role="alert" t-out="error"/>
-                <button type="submit" class="btn btn-primary w-100">Enregistrer et me connecter</button>
-                <p class="text-muted small mt-3">Ce lien ne sert qu'une fois.</p>
+                <button type="submit" class="btn btn-primary w-100">Save and log in</button>
+                <p class="text-muted small mt-3">This link works once.</p>
             </form>
         </t>
     </template>

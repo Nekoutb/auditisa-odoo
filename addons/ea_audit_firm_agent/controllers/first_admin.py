@@ -3,7 +3,7 @@ import logging
 from odoo import fields, http
 from odoo.http import request
 
-from ..services.first_admin import is_expired, password_problem, token_matches
+from ..services.first_admin import MIN_PASSWORD_LENGTH, is_expired, password_problem, token_matches
 
 _logger = logging.getLogger(__name__)
 
@@ -38,6 +38,10 @@ class FirstAdmin(http.Controller):
         type="http", auth="public", methods=["GET", "POST"], sitemap=False, readonly=False,
     )
     def first_admin(self, token, password=None, confirmation=None, **_kwargs):
+        # The firm's language, chosen at onboarding: nobody is logged in yet to have a preference.
+        lang = request.env(su=True).company.partner_id.lang
+        if lang:
+            request.update_context(lang=lang)
         if not self._link_is_valid(token):
             _logger.warning("First-administrator link refused")
             return self._render(invalid=True)
@@ -48,7 +52,11 @@ class FirstAdmin(http.Controller):
             return self._render(**values)
         problem = password_problem(password, confirmation)
         if problem:
-            return self._render(error=problem, **values)
+            message = (
+                request.env._("The password must be at least %(length)s characters.", length=MIN_PASSWORD_LENGTH)
+                if problem == "too_short" else request.env._("The two entries do not match.")
+            )
+            return self._render(error=message, **values)
         admin.write({"password": password})
         env["ir.config_parameter"].search([("key", "in", [PARAM_HASH, PARAM_EXPIRES])]).unlink()
         _logger.info("First administrator set through the one-time link")

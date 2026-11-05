@@ -28,9 +28,10 @@ class IrMailServer(models.Model):
     def send_email(self, message, *args, **kwargs):
         if self._ea_mail_gate_closed():
             raise MailDeliveryException(
-                "Messagerie fermée",
-                "La messagerie de ce cabinet n'est pas ouverte : renseignez un serveur de courrier "
-                "et réussissez le test de connexion.",
+                self.env._("Mail closed"),
+                self.env._(
+                    "This firm's mail is not open: enter a mail server and pass the connection test."
+                ),
             )
         return super().send_email(message, *args, **kwargs)
 

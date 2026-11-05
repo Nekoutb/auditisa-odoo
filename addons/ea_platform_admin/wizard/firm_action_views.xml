@@ -4,15 +4,15 @@
         <field name="name">platform.suspend.wizard.form</field>
         <field name="model">platform.suspend.wizard</field>
         <field name="arch" type="xml">
-            <form string="Suspendre ce cabinet">
-                <p>Le serveur est arrêté : le cabinet n'a plus accès à son application. Ses données restent en place et il peut reprendre.</p>
+            <form string="Suspend this firm">
+                <p>The server is stopped: the firm can no longer reach its application. Its data stays in place and it can resume.</p>
                 <group>
                     <field name="firm_id"/>
                     <field name="reason"/>
                 </group>
                 <footer>
-                    <button name="action_confirm" type="object" string="Suspendre" class="btn-primary"/>
-                    <button special="cancel" string="Annuler"/>
+                    <button name="action_confirm" type="object" string="Suspend" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
                 </footer>
             </form>
         </field>
@@ -22,8 +22,8 @@
         <field name="name">platform.breakglass.wizard.form</field>
         <field name="model">platform.breakglass.wizard</field>
         <field name="arch" type="xml">
-            <form string="Ouvrir un accès d'urgence">
-                <p>À remplir AVANT de vous connecter. Le serveur du cabinet compte chaque connexion : une connexion sans entrée ici fait passer le cabinet à l'orange.</p>
+            <form string="Open a break-glass access">
+                <p>Fill this in BEFORE logging in. The firm's server counts each login: a login with no entry here turns the firm amber.</p>
                 <group>
                     <field name="firm_id"/>
                     <field name="reason"/>
@@ -31,8 +31,8 @@
                     <field name="command" readonly="1" widget="CopyClipboardChar"/>
                 </group>
                 <footer>
-                    <button name="action_confirm" type="object" string="Enregistrer l'accès" class="btn-primary"/>
-                    <button special="cancel" string="Annuler"/>
+                    <button name="action_confirm" type="object" string="Record the access" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
                 </footer>
             </form>
         </field>
@@ -42,23 +42,23 @@
         <field name="name">platform.first.admin.link.form</field>
         <field name="model">platform.first.admin.link</field>
         <field name="arch" type="xml">
-            <form string="Lien du premier administrateur">
+            <form string="First administrator's link">
                 <field name="revealed" invisible="1"/>
                 <div invisible="revealed">
-                    <p>Le lien ne s'affiche <strong>qu'une seule fois</strong>, puis il est effacé d'ici. Préparez le moyen de le transmettre au cabinet (appel, messagerie chiffrée). Ne l'envoyez pas avec le nom du cabinet dans un e-mail ouvert.</p>
+                    <p>The link shows <strong>once only</strong>, then it is erased from here. Have your way of passing it to the firm ready (a call, encrypted messaging). Do not send it with the firm's name in a plain email.</p>
                     <group><field name="firm_id"/></group>
                 </div>
                 <div invisible="not revealed">
-                    <p>Copiez ce lien maintenant et transmettez-le au contact du cabinet. Il ne sert qu'une fois et expire à la date indiquée.</p>
+                    <p>Copy this link now and pass it to the firm's contact. It works once and expires on the date shown.</p>
                     <group>
                         <field name="link" widget="CopyClipboardChar"/>
                         <field name="expires_at"/>
                     </group>
                 </div>
                 <footer>
-                    <button name="action_reveal" type="object" string="Afficher le lien" class="btn-primary" invisible="revealed"/>
-                    <button name="action_close" type="object" string="J'ai copié le lien" class="btn-primary" invisible="not revealed"/>
-                    <button special="cancel" string="Annuler" invisible="revealed"/>
+                    <button name="action_reveal" type="object" string="Show the link" class="btn-primary" invisible="revealed"/>
+                    <button name="action_close" type="object" string="I have copied the link" class="btn-primary" invisible="not revealed"/>
+                    <button special="cancel" string="Cancel" invisible="revealed"/>
                 </footer>
             </form>
         </field>
@@ -68,10 +68,10 @@
         <field name="name">platform.offboard.wizard.form</field>
         <field name="model">platform.offboard.wizard</field>
         <field name="arch" type="xml">
-            <form string="Sortie du cabinet">
+            <form string="Firm's exit">
                 <div class="alert alert-warning" role="alert">
-                    Première confirmation. Rien n'est détruit ici. Le serveur exporte les données du cabinet à son prochain heartbeat ;
-                    la destruction ne sera possible qu'après remise de l'export et fin de la durée de conservation.
+                    First confirmation. Nothing is destroyed here. The server exports the firm's data at its next heartbeat;
+                    destruction only becomes possible once the export is handed over and the retention period is over.
                 </div>
                 <group>
                     <field name="firm_id"/>
@@ -81,8 +81,8 @@
                     <field name="typed_slug"/>
                 </group>
                 <footer>
-                    <button name="action_confirm" type="object" string="Lancer la sortie" class="btn-primary"/>
-                    <button special="cancel" string="Annuler"/>
+                    <button name="action_confirm" type="object" string="Start the exit" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
                 </footer>
             </form>
         </field>
@@ -92,10 +92,10 @@
         <field name="name">platform.destroy.wizard.form</field>
         <field name="model">platform.destroy.wizard</field>
         <field name="arch" type="xml">
-            <form string="Détruire le serveur">
+            <form string="Destroy the server">
                 <field name="step" invisible="1"/>
                 <div class="alert alert-danger" role="alert">
-                    Irréversible : le serveur, ses disques, ses sauvegardes et son adresse disparaissent. Seule cette fiche et son journal restent.
+                    Irreversible: the server, its disks, its backups and its address disappear. Only this record and its log remain.
                 </div>
                 <group invisible="step != 'slug'">
                     <field name="firm_id"/>
@@ -107,9 +107,9 @@
                     <field name="typed_word"/>
                 </group>
                 <footer>
-                    <button name="action_next" type="object" string="Continuer" class="btn-primary" invisible="step != 'slug'"/>
-                    <button name="action_destroy" type="object" string="Détruire définitivement" class="btn-danger" invisible="step != 'word'"/>
-                    <button special="cancel" string="Annuler"/>
+                    <button name="action_next" type="object" string="Continue" class="btn-primary" invisible="step != 'slug'"/>
+                    <button name="action_destroy" type="object" string="Destroy for good" class="btn-danger" invisible="step != 'word'"/>
+                    <button special="cancel" string="Cancel"/>
                 </footer>
             </form>
         </field>

@@ -16,6 +16,7 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass
 
+from .messages import _
 from .provider import DnsProvider, HealthProbe, ProviderError, Server, ServerProvider, StorageCredentials
 
 VULTR_API = "https://api.vultr.com/v2"
@@ -34,18 +35,18 @@ def read_secret_file(path):
     try:
         info = os.stat(path)
     except OSError:
-        raise ProviderError("Fichier de jeton introuvable sur le serveur de contrôle.") from None
+        raise ProviderError(_("Token file not found on the control server.")) from None
     if not stat.S_ISREG(info.st_mode):
-        raise ProviderError("Le jeton doit être un fichier ordinaire.")
+        raise ProviderError(_("The token must be a regular file."))
     if os.name == "posix" and info.st_mode & 0o077:
-        raise ProviderError("Fichier de jeton trop ouvert : seul son propriétaire doit pouvoir le lire.")
+        raise ProviderError(_("Token file too open: only its owner may read it."))
     try:
         with open(path, encoding="utf-8") as handle:
             token = handle.read().strip()
     except OSError:
-        raise ProviderError("Fichier de jeton illisible.") from None
+        raise ProviderError(_("Token file cannot be read.")) from None
     if not token:
-        raise ProviderError("Le fichier de jeton est vide.")
+        raise ProviderError(_("The token file is empty."))
     return token
 
 
@@ -66,7 +67,7 @@ class UrllibTransport:
         except urllib.error.HTTPError as error:
             return HttpResponse(error.code, error.read())
         except OSError as error:
-            raise ProviderError(f"Fournisseur injoignable ({type(error).__name__}).", retryable=True) from None
+            raise ProviderError(_("Provider out of reach (%(error)s).", error=type(error).__name__), retryable=True) from None
 
 
 class _Api:
@@ -86,16 +87,16 @@ class _Api:
         if response.status == 404 and method in ("GET", "DELETE"):
             return None
         if response.status in (429,) or response.status >= 500:
-            raise ProviderError(f"{self._service} : erreur temporaire {response.status}.", retryable=True)
+            raise ProviderError(_("%(service)s: temporary error %(status)s.", service=self._service, status=response.status), retryable=True)
         if response.status >= 400:
             # The answer is not quoted: it could repeat what was sent, and that may hold secrets.
-            raise ProviderError(f"{self._service} a refusé {method} {path.split('?')[0]} ({response.status}).")
+            raise ProviderError(_("%(service)s refused %(call)s (%(status)s).", service=self._service, call=f"{method} {path.split('?')[0]}", status=response.status))
         if not response.body:
             return {}
         try:
             return json.loads(response.body)
         except ValueError:
-            raise ProviderError(f"{self._service} : réponse illisible.", retryable=True) from None
+            raise ProviderError(_("%(service)s: unreadable answer.", service=self._service), retryable=True) from None
 
 
 class VultrProvider(ServerProvider):
@@ -174,17 +175,17 @@ class VultrProvider(ServerProvider):
 
     def create_storage(self, label, region):
         if not self._cluster:
-            raise ProviderError("Aucun cluster de stockage objet configuré (ea_platform.vultr_storage_cluster).")
+            raise ProviderError(_("No object storage cluster set (ea_platform.vultr_storage_cluster)."))
         answer = self._api.call("POST", "/object-storage", {"cluster_id": int(self._cluster), "label": label})
         return answer["object_storage"]["id"]
 
     def storage_credentials(self, storage_id):
         answer = self._api.call("GET", f"/object-storage/{storage_id}")
         if not answer:
-            raise ProviderError("Stockage objet introuvable chez Vultr.")
+            raise ProviderError(_("Object storage not found at Vultr."))
         data = answer["object_storage"]
         if not data.get("s3_access_key"):
-            raise ProviderError("Stockage objet pas encore prêt.", retryable=True)
+            raise ProviderError(_("Object storage not ready yet."), retryable=True)
         return StorageCredentials(
             endpoint=data["s3_hostname"],
             bucket=data["label"],

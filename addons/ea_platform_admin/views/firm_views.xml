@@ -4,33 +4,33 @@
         <field name="name">platform.firm.search</field>
         <field name="model">platform.firm</field>
         <field name="arch" type="xml">
-            <search string="Cabinets">
+            <search string="Firms">
                 <field name="name"/>
                 <field name="slug"/>
                 <field name="contact_name"/>
                 <field name="server_ip"/>
-                <filter name="attention" string="À surveiller" domain="[('needs_attention', '=', True)]"/>
-                <filter name="red" string="Rouge" domain="[('health_color', '=', 'red')]"/>
-                <filter name="amber" string="Orange" domain="[('health_color', '=', 'amber')]"/>
+                <filter name="attention" string="Needs attention" domain="[('needs_attention', '=', True)]"/>
+                <filter name="red" string="Red" domain="[('health_color', '=', 'red')]"/>
+                <filter name="amber" string="Amber" domain="[('health_color', '=', 'amber')]"/>
                 <separator/>
-                <filter name="no_backup" string="Sauvegarde manquée ou en échec"
-                        domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_backup_at', '=', False), ('last_backup_ok', '=', False), ('health_reason', 'ilike', 'Sauvegarde')]"/>
-                <filter name="no_restore" string="Test de restauration manqué ou en échec"
-                        domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_restore_test_at', '=', False), ('last_restore_test_ok', '=', False), ('health_reason', 'ilike', 'restauration')]"/>
-                <filter name="silent" string="Sans heartbeat" domain="[('health_reason', 'ilike', 'heartbeat')]"/>
-                <filter name="cert" string="Certificat" domain="[('health_reason', 'ilike', 'Certificat')]"/>
-                <filter name="orphan" string="Serveur orphelin" domain="[('orphan_flag', '=', True)]"/>
+                <filter name="no_backup" string="Backup missed or failed"
+                        domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_backup_at', '=', False), ('last_backup_ok', '=', False), ('health_reason_raw', 'ilike', 'backup')]"/>
+                <filter name="no_restore" string="Restore test missed or failed"
+                        domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_restore_test_at', '=', False), ('last_restore_test_ok', '=', False), ('health_reason_raw', 'ilike', 'restore')]"/>
+                <filter name="silent" string="No heartbeat" domain="[('health_reason_raw', 'ilike', 'heartbeat')]"/>
+                <filter name="cert" string="Certificate" domain="[('health_reason_raw', 'ilike', 'certificate')]"/>
+                <filter name="orphan" string="Orphan server" domain="[('orphan_flag', '=', True)]"/>
                 <separator/>
-                <filter name="state_active" string="Actifs" domain="[('state', '=', 'active')]"/>
-                <filter name="state_prov" string="En mise en service" domain="[('state', '=', 'provisioning')]"/>
-                <filter name="state_suspended" string="Suspendus" domain="[('state', '=', 'suspended')]"/>
-                <filter name="state_off" string="En sortie" domain="[('state', '=', 'offboarding')]"/>
-                <filter name="state_archived" string="Archivés" domain="[('state', '=', 'archived')]"/>
+                <filter name="state_active" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="state_prov" string="Provisioning" domain="[('state', '=', 'provisioning')]"/>
+                <filter name="state_suspended" string="Suspended" domain="[('state', '=', 'suspended')]"/>
+                <filter name="state_off" string="Leaving" domain="[('state', '=', 'offboarding')]"/>
+                <filter name="state_archived" string="Archived" domain="[('state', '=', 'archived')]"/>
                 <separator/>
-                <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
-                <filter name="group_health" string="Santé" context="{'group_by': 'health_color'}"/>
-                <filter name="group_region" string="Région" context="{'group_by': 'region'}"/>
-                <filter name="group_release" string="Version installée" context="{'group_by': 'addon_release'}"/>
+                <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                <filter name="group_health" string="Health" context="{'group_by': 'health_color'}"/>
+                <filter name="group_region" string="Region" context="{'group_by': 'region'}"/>
+                <filter name="group_release" string="Installed release" context="{'group_by': 'addon_release'}"/>
             </search>
         </field>
     </record>
@@ -44,21 +44,23 @@
                 <field name="health_color"/>
                 <field name="is_simulation"/>
                 <templates>
-                    <t t-name="card" t-attf-class="ea-firm-card ea-health-#{record.health_color.raw_value}">
-                        <div class="ea-firm-head">
-                            <span class="ea-dot" t-attf-title="Santé : #{record.health_color.value}"/>
-                            <field name="name" class="ea-firm-name"/>
-                            <span t-if="record.is_simulation.raw_value" class="ea-chip">simulation</span>
-                        </div>
-                        <field name="address" class="ea-firm-address"/>
-                        <field name="health_summary" class="ea-firm-reason"/>
-                        <div class="ea-firm-figures">
-                            <div><span>Heartbeat</span><field name="last_heartbeat_at" widget="remaining_days"/></div>
-                            <div><span>Sauvegarde</span><field name="last_backup_at" widget="remaining_days"/></div>
-                            <div><span>Disque</span><strong><field name="disk_used_pct"/> %</strong></div>
-                            <div><span>Utilisateurs</span><strong><field name="users_active"/></strong></div>
-                            <div><span>Missions</span><strong><field name="engagements_active"/></strong></div>
-                            <div><span>Version</span><field name="addon_release" class="ea-mono"/></div>
+                    <t t-name="card">
+                        <div t-attf-class="ea-firm-card ea-health-#{record.health_color.raw_value}">
+                            <div class="ea-firm-head">
+                                <span class="ea-dot" t-attf-title="Health: #{record.health_color.value}"/>
+                                <field name="name" class="ea-firm-name"/>
+                                <span t-if="record.is_simulation.raw_value" class="ea-chip">simulation</span>
+                            </div>
+                            <field name="address" class="ea-firm-address"/>
+                            <field name="health_summary" class="ea-firm-reason"/>
+                            <div class="ea-firm-figures">
+                                <div><span>Heartbeat</span><field name="last_heartbeat_at" widget="remaining_days"/></div>
+                                <div><span>Backup</span><field name="last_backup_at" widget="remaining_days"/></div>
+                                <div><span>Disk</span><strong><field name="disk_used_pct"/> %</strong></div>
+                                <div><span>Users</span><strong><field name="users_active"/></strong></div>
+                                <div><span>Engagements</span><strong><field name="engagements_active"/></strong></div>
+                                <div><span>Release</span><field name="addon_release" class="ea-mono"/></div>
+                            </div>
                         </div>
                     </t>
                 </templates>
@@ -100,63 +102,63 @@
         <field name="arch" type="xml">
             <form create="0" delete="0" class="o_ea_platform_form">
                 <header>
-                    <button name="action_open_firm_wizard" type="object" string="Afficher le lien du premier administrateur"
+                    <button name="action_open_firm_wizard" type="object" string="Show the first administrator's link"
                             class="btn-primary" context="{'firm_wizard': 'platform.first.admin.link'}"
                             invisible="not first_admin_ready" groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_confirm_key_escrow" type="object" string="Clé de sauvegarde mise au coffre"
+                    <button name="action_confirm_key_escrow" type="object" string="Backup key is in the safe"
                             invisible="backup_key_escrowed_at or state != 'active'"
                             groups="ea_platform_admin.group_platform_operator"
-                            confirm="Confirmez-vous avoir copié la clé de sauvegarde de ce cabinet dans votre coffre (voir BACKUP-RESTORE) ?"/>
-                    <button name="action_open_firm_wizard" type="object" string="Accès d'urgence"
+                            confirm="Do you confirm having copied this firm's backup key to your safe (see BACKUP-RESTORE)?"/>
+                    <button name="action_open_firm_wizard" type="object" string="Break-glass access"
                             context="{'firm_wizard': 'platform.breakglass.wizard'}"
                             invisible="state not in ('active', 'offboarding', 'suspended')"
                             groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_open_firm_wizard" type="object" string="Suspendre"
+                    <button name="action_open_firm_wizard" type="object" string="Suspend"
                             context="{'firm_wizard': 'platform.suspend.wizard'}" invisible="state != 'active'"
                             groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_resume" type="object" string="Reprendre" class="btn-primary"
+                    <button name="action_resume" type="object" string="Resume" class="btn-primary"
                             invisible="state != 'suspended'" groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_open_firm_wizard" type="object" string="Sortie du cabinet"
+                    <button name="action_open_firm_wizard" type="object" string="Firm's exit"
                             context="{'firm_wizard': 'platform.offboard.wizard'}" invisible="state not in ('active', 'suspended')"
                             groups="ea_platform_admin.group_platform_owner"/>
-                    <button name="action_confirm_export_received" type="object" string="Export remis au cabinet"
+                    <button name="action_confirm_export_received" type="object" string="Export handed to the firm"
                             invisible="state != 'offboarding' or export_state != 'done' or export_received_on"
                             groups="ea_platform_admin.group_platform_owner"/>
-                    <button name="action_open_firm_wizard" type="object" string="Détruire le serveur"
+                    <button name="action_open_firm_wizard" type="object" string="Destroy the server"
                             class="btn-danger" context="{'firm_wizard': 'platform.destroy.wizard'}"
                             invisible="not can_destroy" groups="ea_platform_admin.group_platform_owner"/>
-                    <button name="action_simulate_heartbeat" type="object" string="Simuler un heartbeat"
+                    <button name="action_simulate_heartbeat" type="object" string="Simulate a heartbeat"
                             invisible="not is_simulation or state == 'archived'" groups="ea_platform_admin.group_platform_operator"/>
-                    <button name="action_simulate_export" type="object" string="Simuler l'export"
+                    <button name="action_simulate_export" type="object" string="Simulate the export"
                             invisible="not is_simulation or state != 'offboarding' or export_state == 'done'"
                             groups="ea_platform_admin.group_platform_owner"/>
                     <field name="state" widget="statusbar" statusbar_visible="provisioning,active,suspended,offboarding,archived"/>
                 </header>
                 <sheet>
                     <div class="alert alert-danger" role="alert" invisible="not orphan_flag">
-                        <strong>SERVEUR ORPHELIN : à traiter tout de suite.</strong>
+                        <strong>ORPHAN SERVER: deal with this at once.</strong>
                         <field name="orphan_detail" nolabel="1" class="d-block"/>
                     </div>
                     <div class="alert alert-warning" role="alert" invisible="not is_simulation">
-                        Cabinet de simulation : aucun serveur réel n'existe derrière cette fiche.
+                        Simulation firm: no real server exists behind this record.
                     </div>
                     <div name="button_box" class="oe_button_box">
                         <button name="action_run_last_job" type="object" class="oe_stat_button" icon="fa-list-ol" invisible="not last_job_id">
-                            <div class="o_stat_info"><span class="o_stat_text">Mise en service</span></div>
+                            <div class="o_stat_info"><span class="o_stat_text">Provisioning</span></div>
                         </button>
                     </div>
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="Nom du cabinet"/></h1>
+                        <h1><field name="name" placeholder="Firm name"/></h1>
                         <field name="address" readonly="1" class="ea-firm-address"/>
                     </div>
                     <group class="ea-health-box">
-                        <group string="Santé">
+                        <group string="Health">
                             <field name="health_color" widget="badge"
                                    decoration-success="health_color == 'green'" decoration-warning="health_color == 'amber'"
                                    decoration-danger="health_color == 'red'"/>
                             <field name="health_reason" nolabel="1" colspan="2"/>
                         </group>
-                        <group string="Sauvegardes">
+                        <group string="Backups">
                             <field name="last_heartbeat_at"/>
                             <field name="last_backup_at"/>
                             <field name="last_backup_ok"/>
@@ -166,9 +168,9 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Serveur" name="server">
+                        <page string="Server" name="server">
                             <group>
-                                <group string="Le serveur">
+                                <group string="The server">
                                     <field name="server_id"/>
                                     <field name="server_ip"/>
                                     <field name="region"/>
@@ -177,7 +179,7 @@
                                     <field name="activated_at"/>
                                     <field name="custom_domain" placeholder="audit.cabinet.cm"/>
                                 </group>
-                                <group string="Ce qu'il annonce">
+                                <group string="What it reports">
                                     <field name="odoo_version"/>
                                     <field name="addon_release"/>
                                     <field name="desired_release_id"/>
@@ -193,9 +195,9 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Identité" name="identity">
+                        <page string="Identity" name="identity">
                             <group>
-                                <group string="Le cabinet">
+                                <group string="The firm">
                                     <field name="slug"/>
                                     <field name="legal_name"/>
                                     <field name="legal_form"/>
@@ -204,7 +206,7 @@
                                     <field name="lang"/>
                                     <field name="allowed_email_domains"/>
                                 </group>
-                                <group string="Contact et adresse">
+                                <group string="Contact and address">
                                     <field name="contact_name"/>
                                     <field name="contact_email"/>
                                     <field name="contact_phone"/>
@@ -214,9 +216,9 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Sécurité" name="security">
+                        <page string="Security" name="security">
                             <group>
-                                <group string="Clés et références">
+                                <group string="Keys and references">
                                     <field name="ssh_key_fingerprint"/>
                                     <field name="ssh_key_id"/>
                                     <field name="firewall_id"/>
@@ -225,7 +227,7 @@
                                     <field name="first_admin_revealed_at"/>
                                     <field name="first_admin_ready" invisible="1"/>
                                 </group>
-                                <group string="Accès et heartbeats">
+                                <group string="Access and heartbeats">
                                     <field name="ssh_sessions_24h"/>
                                     <field name="last_ssh_at"/>
                                     <field name="heartbeat_rejects_24h"/>
@@ -242,7 +244,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Sortie" name="offboarding" invisible="state not in ('offboarding', 'archived')">
+                        <page string="Exit" name="offboarding" invisible="state not in ('offboarding', 'archived')">
                             <group>
                                 <field name="offboard_requested_at"/>
                                 <field name="offboard_retention_days"/>
@@ -254,18 +256,18 @@
                                 <field name="can_destroy" invisible="1"/>
                             </group>
                         </page>
-                        <page string="Journal" name="log">
+                        <page string="Log" name="log">
                             <field name="log_ids" readonly="1">
                                 <list>
                                     <field name="logged_at"/>
                                     <field name="user_id"/>
-                                    <field name="action"/>
-                                    <field name="detail"/>
+                                    <field name="action_text"/>
+                                    <field name="detail_text"/>
                                 </list>
                             </field>
                         </page>
                         <page string="Notes" name="notes">
-                            <field name="note" placeholder="Notes de l'opérateur. Aucune donnée d'audit ici."/>
+                            <field name="note" placeholder="Operator notes. No audit data here."/>
                         </page>
                     </notebook>
                     <field name="is_simulation" invisible="1"/>
@@ -278,17 +280,17 @@
     </record>
 
     <record id="action_firm_board" model="ir.actions.act_window">
-        <field name="name">Cabinets</field>
+        <field name="name">Firms</field>
         <field name="res_model">platform.firm</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="view_firm_search"/>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Aucun cabinet pour l'instant</p>
-            <p>Lancez « Nouveau cabinet » pour créer le premier serveur.</p>
+            <p class="o_view_nocontent_smiling_face">No firm yet</p>
+            <p>Use "New firm" to create the first server.</p>
         </field>
     </record>
     <record id="action_firm_attention" model="ir.actions.act_window">
-        <field name="name">À surveiller</field>
+        <field name="name">Needs attention</field>
         <field name="res_model">platform.firm</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="search_view_id" ref="view_firm_search"/>

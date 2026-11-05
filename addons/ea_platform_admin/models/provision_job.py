@@ -9,42 +9,53 @@ from odoo.exceptions import UserError
 
 from ..services import provisioning as engine
 from ..services.catalogue import SIZES
+from ..services.messages import Msg, _, dumps, dumps_list, loads
 from ..services.provider import ProviderError
 from ..services.recipe import render_user_data
 from ..services.validation import flatten_errors, onboarding_errors
+from .i18n import read, t
 
 _logger = logging.getLogger(__name__)
 
 JOB_STATES = [
-    ("waiting", "En cours"),
-    ("done", "Terminée"),
-    ("rolled_back", "Annulée, rien ne reste"),
-    ("rollback_failed", "ÉCHEC DU NETTOYAGE"),
+    ("waiting", "Under way"),
+    ("done", "Finished"),
+    ("rolled_back", "Cancelled, nothing remains"),
+    ("rollback_failed", "CLEAN-UP FAILED"),
 ]
 STEP_STATES = [
-    ("pending", "À faire"),
-    ("running", "En cours"),
-    ("done", "Fait"),
-    ("failed", "Échec"),
-    ("undone", "Annulé"),
+    ("pending", "To do"),
+    ("running", "Running"),
+    ("done", "Done"),
+    ("failed", "Failed"),
+    ("undone", "Undone"),
 ]
 _RESOURCE_FIELDS = ("ssh_key_id", "firewall_id", "storage_id", "server_id", "server_ip")
 
 
 class PlatformProvisionJob(models.Model):
     _name = "platform.provision.job"
-    _description = "Mise en service"
+    _description = "Provisioning run"
     _order = "id desc"
     _rec_name = "firm_id"
 
-    firm_id = fields.Many2one("platform.firm", "Cabinet", required=True, readonly=True, ondelete="restrict", index=True)
-    state = fields.Selection(JOB_STATES, "État", required=True, default="waiting", readonly=True)
-    started_by = fields.Many2one("res.users", "Lancée par", readonly=True, default=lambda self: self.env.user)
+    firm_id = fields.Many2one("platform.firm", "Firm", required=True, readonly=True, ondelete="restrict", index=True)
+    state = fields.Selection(JOB_STATES, "State", required=True, default="waiting", readonly=True)
+    started_by = fields.Many2one("res.users", "Started by", readonly=True, default=lambda self: self.env.user)
     is_simulation = fields.Boolean("Simulation", readonly=True)
-    step_ids = fields.One2many("platform.provision.step", "job_id", "Étapes", readonly=True)
-    leftovers = fields.Text("Ce qui reste chez le fournisseur", readonly=True)
-    last_message = fields.Char("Dernier message", readonly=True)
-    progress = fields.Float("Avancement", compute="_compute_progress")
+    step_ids = fields.One2many("platform.provision.step", "job_id", "Steps", readonly=True)
+    leftovers_raw = fields.Text("What remains at the provider (source)", readonly=True)
+    leftovers = fields.Text("What remains at the provider", compute="_compute_text")
+    last_message_raw = fields.Text("Last message (source)", readonly=True)
+    last_message = fields.Char("Last message", compute="_compute_text")
+    progress = fields.Float("Progress", compute="_compute_progress")
+
+    @api.depends("leftovers_raw", "last_message_raw")
+    @api.depends_context("lang")
+    def _compute_text(self):
+        for job in self:
+            job.leftovers = read(self.env, job.leftovers_raw)
+            job.last_message = read(self.env, job.last_message_raw)
 
     @api.depends("step_ids.state")
     def _compute_progress(self):
@@ -60,10 +71,10 @@ class PlatformProvisionJob(models.Model):
             "started_by": self.env.user.id,
         })
         self.env["platform.provision.step"].sudo().create([
-            {"job_id": job.id, "sequence": index, "code": step["code"], "label": step["label"]}
+            {"job_id": job.id, "sequence": index, "code": step["code"], "label_source": dumps(step["label"])}
             for index, step in enumerate(engine.new_steps())
         ])
-        self.env["platform.log"]._record("Mise en service lancée", firm, "Simulation" if firm.is_simulation else "")
+        self.env["platform.log"]._record(_("Provisioning started"), firm, _("Simulation") if firm.is_simulation else "")
         return job
 
     # ------------------------------------------------------------------ running
@@ -71,8 +82,8 @@ class PlatformProvisionJob(models.Model):
     def _step_dicts(self):
         return [
             {
-                "code": step.code, "label": step.label, "state": step.state, "attempts": step.attempts,
-                "message": step.message or "", "started_at": step.started_at, "finished_at": step.finished_at,
+                "code": step.code, "label": Msg(step.label_source), "state": step.state, "attempts": step.attempts,
+                "message": (loads(step.message_raw) or [""])[0], "started_at": step.started_at, "finished_at": step.finished_at,
             }
             for step in self.step_ids.sorted("sequence")
         ]
@@ -84,13 +95,13 @@ class PlatformProvisionJob(models.Model):
             by_code[data["code"]].sudo().write({
                 "state": data["state"],
                 "attempts": data["attempts"],
-                "message": data["message"],
+                "message_raw": dumps(data["message"]),
                 "started_at": data["started_at"],
                 "finished_at": data["finished_at"],
             })
         self.firm_id.sudo().write({field: resources.get(field) or False for field in _RESOURCE_FIELDS})
         messages = [data["message"] for data in steps if data["message"] and data["state"] != "undone"]
-        self.sudo().last_message = messages[-1][:200] if messages else False
+        self.sudo().last_message_raw = dumps(messages[-1]) if messages else False
 
     def _commit(self):
         """A crash then costs at most the step in progress. Tests have no real commit."""
@@ -126,7 +137,7 @@ class PlatformProvisionJob(models.Model):
         if firm.is_simulation:
             return int(value or 0)
         if not value:
-            raise ProviderError("Identifiant du système (ea_platform.vultr_os_id) non configuré.")
+            raise ProviderError(_("Operating system id (ea_platform.vultr_os_id) not set."))
         return int(value)
 
     def _allowlist(self):
@@ -135,7 +146,7 @@ class PlatformProvisionJob(models.Model):
             return allowlist
         if self.firm_id.is_simulation:
             return ["198.51.100.1/32"]  # reserved for documentation: reaches nothing
-        raise ProviderError("Aucune adresse d'opérateur configurée pour le port 22.")
+        raise ProviderError(_("No operator address set for port 22."))
 
     def _validation_errors(self):
         firm = self.firm_id.sudo()
@@ -153,7 +164,7 @@ class PlatformProvisionJob(models.Model):
 
     def _check_release(self):
         if not self.firm_id.desired_release_id:
-            raise ProviderError("Aucune version signée n'a été choisie pour ce cabinet.")
+            raise ProviderError(_("No signed release has been chosen for this firm."))
 
     def _config_value(self, key, simulation_value):
         value = self.env["ir.config_parameter"].sudo().get_param(key)
@@ -161,7 +172,7 @@ class PlatformProvisionJob(models.Model):
             return value
         if self.firm_id.is_simulation:
             return simulation_value
-        raise ProviderError(f"Réglage manquant : {key}")
+        raise ProviderError(_("Missing setting: %(key)s", key=key))
 
     def _user_data(self, credentials):
         firm = self.firm_id.sudo()
@@ -203,17 +214,17 @@ class PlatformProvisionJob(models.Model):
         firm = self.firm_id.sudo()
         problems = []
         if firm.addon_release != firm.desired_release_id.sha:
-            problems.append("le serveur n'annonce pas la version demandée")
+            problems.append(_("the server does not report the requested release"))
         if firm.mail_enabled:
-            problems.append("la messagerie est ouverte alors qu'elle doit être fermée")
+            problems.append(_("mail is open when it must be closed"))
         if not firm.cert_expires_on:
-            problems.append("le certificat HTTPS n'est pas encore là")
+            problems.append(_("the HTTPS certificate is not there yet"))
         return problems
 
     def _activate(self):
         firm = self.firm_id.sudo()
         firm.write({"state": "active", "activated_at": fields.Datetime.now()})
-        self.env["platform.log"]._record("Cabinet mis en service", firm)
+        self.env["platform.log"]._record(_("Firm went live"), firm)
         firm._evaluate_health()
 
     def _resources(self):
@@ -236,7 +247,7 @@ class PlatformProvisionJob(models.Model):
         try:
             provider, dns, probe = self.env["platform.services"]._outside()
         except ProviderError as error:
-            self.sudo().last_message = str(error)[:200]
+            self.sudo().last_message_raw = dumps(error.message)
             return self.state
         resources = self._resources()
         steps = self._step_dicts()
@@ -260,21 +271,22 @@ class PlatformProvisionJob(models.Model):
             self.sudo().state = "rolled_back"
             firm.write({"first_admin_token": False, "first_admin_expires_at": False})
             failed = [s for s in steps if s["state"] == engine.FAILED]
-            detail = f"{failed[0]['label']} : {failed[0]['message']}" if failed else ""
-            self.env["platform.log"]._record("Mise en service annulée, nettoyage complet", firm, detail[:500])
+            detail = _("%(step)s: %(what)s", step=failed[0]["label"], what=failed[0]["message"]) if failed else ""
+            self.env["platform.log"]._record(_("Provisioning cancelled, full clean-up"), firm, detail)
         elif result == engine.JOB_ROLLBACK_FAILED:
             self._flag_leftovers(ctx, steps)
         firm._evaluate_health()
 
     def _flag_leftovers(self, ctx, steps):
         firm = self.firm_id.sudo()
-        lines = [s["message"] for s in steps if s["message"].startswith("Retour arrière impossible")]
+        lines = [s["message"] for s in steps if s["message"].startswith("Rollback impossible")]
         if ctx.resources.get("server_id"):
-            lines.insert(0, f"Serveur {ctx.resources['server_id']} toujours chez le fournisseur")
-        detail = "\n".join(lines) or "Ressources à vérifier chez le fournisseur"
-        self.sudo().write({"state": "rollback_failed", "leftovers": detail})
-        firm.write({"orphan_flag": True, "orphan_detail": detail})
-        self.env["platform.log"]._record("ÉCHEC DU NETTOYAGE : ressources restantes", firm, detail[:500])
+            lines.insert(0, _("Server %(id)s still at the provider", id=ctx.resources["server_id"]))
+        lines = lines or [_("Resources to check at the provider")]
+        detail = dumps_list(lines)
+        self.sudo().write({"state": "rollback_failed", "leftovers_raw": detail})
+        firm.write({"orphan_flag": True, "orphan_detail_raw": detail})
+        self.env["platform.log"]._record(_("CLEAN-UP FAILED: resources remain"), firm, lines[0])
 
     @api.model
     def _cron_run_jobs(self):
@@ -299,7 +311,7 @@ class PlatformProvisionJob(models.Model):
         """Cleans up: on a job that is stuck, and again after a clean-up that left something."""
         self.ensure_one()
         if self.state not in ("waiting", "rollback_failed"):
-            raise UserError("Cette mise en service ne peut plus être annulée.")
+            raise UserError(t(self.env, _("This provisioning run can no longer be cancelled.")))
         firm = self.firm_id.sudo()
         provider, dns, probe = self.env["platform.services"]._outside()
         resources = self._resources()
@@ -309,13 +321,13 @@ class PlatformProvisionJob(models.Model):
         self._save(steps, resources)
         self.env["platform.services"]._save_dry_state(provider, dns)
         if result == engine.JOB_ROLLED_BACK:
-            self.sudo().write({"state": "rolled_back", "leftovers": False})
+            self.sudo().write({"state": "rolled_back", "leftovers_raw": False})
             firm.write({
-                "orphan_flag": False, "orphan_detail": False,
+                "orphan_flag": False, "orphan_detail_raw": False,
                 "first_admin_token": False, "first_admin_expires_at": False,
                 "last_heartbeat_at": False, "last_heartbeat_timestamp": 0, "addon_release": False,
             })
-            self.env["platform.log"]._record("Mise en service annulée, nettoyage complet", firm)
+            self.env["platform.log"]._record(_("Provisioning cancelled, full clean-up"), firm)
         else:
             self._flag_leftovers(ctx, steps)
         firm._evaluate_health()
@@ -325,10 +337,10 @@ class PlatformProvisionJob(models.Model):
         """A new attempt for the same firm, after a clean rollback."""
         self.ensure_one()
         if self.state != "rolled_back":
-            raise UserError("Seule une mise en service annulée peut être relancée.")
+            raise UserError(t(self.env, _("Only a cancelled provisioning run can be restarted.")))
         firm = self.firm_id.sudo()
         if firm.state != "provisioning":
-            raise UserError("Ce cabinet n'est plus en cours de mise en service.")
+            raise UserError(t(self.env, _("This firm is no longer being provisioned.")))
         firm.write({"last_heartbeat_at": False, "last_heartbeat_timestamp": 0, "addon_release": False})
         job = self._start(firm)
         job._run()
@@ -337,16 +349,25 @@ class PlatformProvisionJob(models.Model):
 
 class PlatformProvisionStep(models.Model):
     _name = "platform.provision.step"
-    _description = "Étape de mise en service"
+    _description = "Provisioning step"
     _order = "sequence"
-    _rec_name = "label"
+    _rec_name = "label_source"
 
     job_id = fields.Many2one("platform.provision.job", required=True, ondelete="cascade", index=True)
     sequence = fields.Integer(readonly=True)
     code = fields.Char(readonly=True, required=True)
-    label = fields.Char("Étape", readonly=True, required=True)
-    state = fields.Selection(STEP_STATES, "État", default="pending", readonly=True, required=True)
-    attempts = fields.Integer("Tentatives", readonly=True)
-    message = fields.Char("Message", readonly=True)
-    started_at = fields.Datetime("Début", readonly=True)
-    finished_at = fields.Datetime("Fin", readonly=True)
+    label_source = fields.Char("Step (source)", readonly=True, required=True)
+    label = fields.Char("Step", compute="_compute_text")
+    state = fields.Selection(STEP_STATES, "State", default="pending", readonly=True, required=True)
+    attempts = fields.Integer("Attempts", readonly=True)
+    message_raw = fields.Text("Message (source)", readonly=True)
+    message = fields.Char("Message", compute="_compute_text")
+    started_at = fields.Datetime("Started", readonly=True)
+    finished_at = fields.Datetime("Finished", readonly=True)
+
+    @api.depends("label_source", "message_raw")
+    @api.depends_context("lang")
+    def _compute_text(self):
+        for step in self:
+            step.label = read(self.env, step.label_source)
+            step.message = read(self.env, step.message_raw)

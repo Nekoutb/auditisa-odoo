@@ -17,19 +17,19 @@ class EaFirmAccessLog(models.Model):
     """What the firm can see of the operator's logins to its server. Read-only on this side."""
 
     _name = "ea.firm.access.log"
-    _description = "Accès de l'opérateur à ce serveur"
+    _description = "Operator access to this server"
     _order = "logged_at desc, id desc"
 
     logged_at = fields.Datetime("Date", readonly=True, required=True)
-    event = fields.Char("Événement", readonly=True, required=True)
-    account = fields.Char("Compte", readonly=True)
-    source = fields.Char("Adresse d'origine", readonly=True)
+    event = fields.Char("Event", readonly=True, required=True)
+    account = fields.Char("Account", readonly=True)
+    source = fields.Char("Source address", readonly=True)
 
     def write(self, vals):
-        raise AccessError("Le journal des accès ne se modifie pas.")
+        raise AccessError(self.env._("The access log cannot be changed."))
 
     def unlink(self):
-        raise AccessError("Le journal des accès ne se supprime pas.")
+        raise AccessError(self.env._("The access log cannot be deleted."))
 
     @api.model
     def _cron_import(self):

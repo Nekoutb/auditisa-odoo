@@ -11,16 +11,16 @@ PRICES_CONFIRMED = False
 # Vultr region ids. Paris first: nearest with good links to Cameroon, to be confirmed by the owner.
 REGIONS = {
     "cdg": "Paris (France)",
-    "fra": "Francfort (Allemagne)",
-    "ams": "Amsterdam (Pays-Bas)",
-    "lhr": "Londres (Royaume-Uni)",
-    "jnb": "Johannesburg (Afrique du Sud)",
+    "fra": "Frankfurt (Germany)",
+    "ams": "Amsterdam (Netherlands)",
+    "lhr": "London (United Kingdom)",
+    "jnb": "Johannesburg (South Africa)",
 }
 
 # `standard` is the size the install log recommends for production.
 SIZES = {
     "small": {
-        "label": "Petit : jusqu'à 10 utilisateurs",
+        "label": "Small: up to 10 users",
         "plan": "vc2-2c-4gb",
         "vcpu": 2,
         "ram_gb": 4,
@@ -30,7 +30,7 @@ SIZES = {
         "limit_memory_hard_mb": 1100,
     },
     "standard": {
-        "label": "Standard : jusqu'à 30 utilisateurs",
+        "label": "Standard: up to 30 users",
         "plan": "vc2-4c-8gb",
         "vcpu": 4,
         "ram_gb": 8,
@@ -40,7 +40,7 @@ SIZES = {
         "limit_memory_hard_mb": 1400,
     },
     "large": {
-        "label": "Grand : plus de 30 utilisateurs",
+        "label": "Large: over 30 users",
         "plan": "vc2-6c-16gb",
         "vcpu": 6,
         "ram_gb": 16,
@@ -55,7 +55,7 @@ SIZES = {
 STORAGE_MONTHLY_USD = 18.0
 
 LANGUAGES = {
-    "fr_FR": "Français",
+    "fr_FR": "French",
     "en_US": "English",
 }
 

@@ -51,7 +51,7 @@ class TestRollout(PlatformCase):
         self.assertEqual(rollout.state, "done")
         self.assertEqual(set(rollout.line_ids.mapped("state")), {"healthy"})
         self.assertEqual(set(self.firms.mapped("addon_release")), {self.release2.sha})
-        self.assertIn("Mise à jour terminée", self.a.log_ids.mapped("action"))
+        self.assertIn("Rollout finished", self.a.log_ids.mapped("action"))
 
     def test_it_stops_at_a_canary_failure_and_asks_nobody_else(self):
         rollout = self._rollout()
@@ -109,7 +109,7 @@ class TestRollout(PlatformCase):
         self.b.release_locked = True
         rollout = self._rollout()
         rollout.action_start()
-        self.assertIn("verrouillée", rollout.skipped)
+        self.assertIn("locked", rollout.skipped)
         self.assertNotIn("cabinet-b", self._state_by_slug(rollout))
 
     def test_a_firm_without_a_good_backup_is_set_aside(self):
@@ -122,17 +122,17 @@ class TestRollout(PlatformCase):
     def test_a_red_canary_is_refused(self):
         self.a.sudo().write({"last_backup_ok": False})
         self.a._evaluate_health()
-        with self.assertRaisesRegex(UserError, "témoin"):
+        with self.assertRaisesRegex(UserError, "canary"):
             self._rollout().action_start()
 
     def test_a_canary_already_on_the_release_is_refused(self):
         self.a._simulate_heartbeat(release=self.release2.sha)
-        with self.assertRaisesRegex(UserError, "déjà sur cette version"):
+        with self.assertRaisesRegex(UserError, "already on this release"):
             self._rollout().action_start()
 
     def test_one_rollout_at_a_time(self):
         self._rollout().action_start()
-        with self.assertRaisesRegex(UserError, "une seule à la fois"):
+        with self.assertRaisesRegex(UserError, "only one at a time"):
             self._rollout(canary=self.b).action_start()
 
     def test_it_cannot_start_twice(self):
@@ -156,7 +156,7 @@ class TestRollout(PlatformCase):
 
     def test_every_request_is_in_the_log(self):
         self._rollout().action_start()
-        rows = self.a.log_ids.filtered(lambda r: r.action == "Mise à jour demandée au cabinet")
+        rows = self.a.log_ids.filtered(lambda r: r.action == "Update requested from the firm")
         self.assertEqual(len(rows), 1)
         self.assertIn(self.release2.sha[:12], rows.detail)
 

@@ -27,8 +27,9 @@ def is_expired(expires_at, now):
 
 
 def password_problem(password, confirmation):
+    """"too_short", "mismatch" or None. The controller words it in the reader's language."""
     if not password or len(password) < MIN_PASSWORD_LENGTH:
-        return f"Le mot de passe doit faire au moins {MIN_PASSWORD_LENGTH} caractères."
+        return "too_short"
     if password != confirmation:
-        return "Les deux saisies ne correspondent pas."
+        return "mismatch"
     return None

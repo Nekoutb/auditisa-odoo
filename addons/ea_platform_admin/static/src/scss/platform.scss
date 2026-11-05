@@ -70,6 +70,8 @@ $ea-grey: #8a929d;
 
     .ea-firm-card {
         display: block;
+        width: 100%;
+        min-width: 0;
         background: $ea-card;
         border: 1px solid $ea-line;
         border-left: 5px solid $ea-grey;

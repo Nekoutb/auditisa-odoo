@@ -29,7 +29,7 @@ def build(provider=None, dns=None, probe=None, heartbeat=True, config=None, reso
     state = {"activated": False, "first_admin": 0, "user_data": None, "seen": heartbeat}
     provider = provider if provider is not None else DryRunProvider()
     hooks = {
-        "validate": lambda: "",
+        "validate": lambda: [],
         "check_release": lambda: None,
         "prepare_first_admin": lambda: state.__setitem__("first_admin", state["first_admin"] + 1),
         "user_data": lambda credentials: render_user_data(
@@ -206,7 +206,7 @@ def test_an_open_database_manager_fails_the_health_check():
     ctx, _state = build(probe=DryRunProbe({"/web/database/manager": 200}))
     steps = p.new_steps()
     assert p.advance(steps, ctx) == p.JOB_WAITING
-    assert "gestionnaire de bases" in next(s for s in steps if s["code"] == "health_check")["message"]
+    assert "database manager" in next(s for s in steps if s["code"] == "health_check")["message"]
 
 
 def test_an_install_that_never_ends_times_out_and_rolls_back():
@@ -226,7 +226,7 @@ def test_a_server_that_cannot_be_destroyed_is_reported_as_an_orphan():
     result, orphans = p.rollback(steps, ctx)
     assert result == p.JOB_ROLLBACK_FAILED
     assert len(orphans) == 1
-    assert "Création du serveur" in orphans[0]
+    assert "Creating the server" in orphans[0]
     assert provider.state["servers"]
     # The other resources are still removed, except what the server still needs at the provider.
     assert not provider.state["ssh_keys"]
@@ -240,7 +240,7 @@ def test_a_destroy_that_answers_ok_but_leaves_the_server_is_an_orphan():
     p.advance(steps, ctx)
     result, orphans = p.rollback(steps, ctx)
     assert result == p.JOB_ROLLBACK_FAILED
-    assert "existe encore" in orphans[0]
+    assert "still exists" in orphans[0]
 
 
 def test_a_bug_in_a_step_still_cleans_up():
@@ -255,7 +255,7 @@ def test_a_bug_in_a_step_still_cleans_up():
 
 def test_refused_validation_creates_nothing():
     ctx, _state = build()
-    ctx.hooks["validate"] = lambda: "slug déjà pris"
+    ctx.hooks["validate"] = lambda: ["slug taken"]
     steps = p.new_steps()
     assert p.advance(steps, ctx) == p.JOB_ROLLED_BACK
     assert ctx.provider.calls == []
@@ -277,7 +277,7 @@ def test_offboarding_reports_what_stays():
     provider.fail_on["destroy_server"] = ProviderError("refusé")
     leftovers = p.destroy_resources(ctx)
     assert len(leftovers) == 1
-    assert leftovers[0].startswith("serveur")
+    assert leftovers[0].startswith("server")
 
 
 def test_two_firms_share_no_resource():

@@ -3,6 +3,7 @@ import os
 
 from odoo import api, models, modules
 
+from ..services.messages import _
 from ..services.provider import DryRunDns, DryRunProbe, DryRunProvider, ProviderError
 from ..services.provider_vultr import CloudflareDns, UrllibProbe, VultrProvider, read_secret_file
 
@@ -18,7 +19,7 @@ CREDENTIAL_CLOUDFLARE = "cloudflare-token"
 def _credential_path(name):
     folder = os.environ.get("CREDENTIALS_DIRECTORY")
     if not folder:
-        raise ProviderError("Aucun jeton fourni à ce service (LoadCredential manquant).")
+        raise ProviderError(_("No token given to this service (LoadCredential missing)."))
     return os.path.join(folder, name)
 
 
@@ -26,7 +27,7 @@ class PlatformServices(models.AbstractModel):
     """Which implementation of the outside services this instance uses."""
 
     _name = "platform.services"
-    _description = "Accès aux services extérieurs"
+    _description = "Access to outside services"
 
     @api.model
     def _is_simulation(self):
@@ -59,6 +60,6 @@ class PlatformServices(models.AbstractModel):
         )
         zone = get_param("ea_platform.dns_zone_id")
         if not zone:
-            raise ProviderError("Aucune zone DNS configurée.")
+            raise ProviderError(_("No DNS zone set."))
         dns = CloudflareDns(read_secret_file(_credential_path(CREDENTIAL_CLOUDFLARE)), zone)
         return provider, dns, UrllibProbe()

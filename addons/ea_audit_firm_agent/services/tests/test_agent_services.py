@@ -116,7 +116,7 @@ def test_first_admin_link_expires():
 
 
 def test_first_admin_password_rules():
-    assert password_problem("court", "court")
-    assert password_problem("un mot de passe long", "autre chose encore")
-    assert password_problem(None, None)
+    assert password_problem("court", "court") == "too_short"
+    assert password_problem("un mot de passe long", "autre chose encore") == "mismatch"
+    assert password_problem(None, None) == "too_short"
     assert password_problem("un mot de passe long", "un mot de passe long") is None

@@ -3,6 +3,9 @@ import re
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+from ..services.messages import _
+from .i18n import t
+
 _SHA = re.compile(r"^[0-9a-f]{12,40}$")
 _DIGEST = re.compile(r"^[0-9a-f]{64}$")
 
@@ -15,27 +18,27 @@ class PlatformRelease(models.Model):
     """
 
     _name = "platform.release"
-    _description = "Version"
+    _description = "Release"
     _order = "id desc"
     _rec_name = "sha"
 
     sha = fields.Char("Commit", required=True, copy=False)
-    label = fields.Char("Libellé")
-    bundle_sha256 = fields.Char("Empreinte du paquet (SHA-256)", required=True, copy=False)
-    odoo_commit = fields.Char("Commit d'Odoo", readonly=False)
+    label = fields.Char("Label")
+    bundle_sha256 = fields.Char("Bundle digest (SHA-256)", required=True, copy=False)
+    odoo_commit = fields.Char("Odoo commit", readonly=False)
     notes = fields.Text("Notes")
-    active = fields.Boolean("Disponible", default=True)
-    firm_count = fields.Integer("Cabinets sur cette version", compute="_compute_firm_count")
+    active = fields.Boolean("Available", default=True)
+    firm_count = fields.Integer("Firms on this release", compute="_compute_firm_count")
 
-    _sha_unique = models.Constraint("unique(sha)", "Cette version est déjà enregistrée.")
+    _sha_unique = models.Constraint("unique(sha)", "This release is already registered.")
 
     @api.constrains("sha", "bundle_sha256")
     def _check_format(self):
         for release in self:
             if not _SHA.match(release.sha or ""):
-                raise ValidationError("Le commit doit faire de 12 à 40 caractères hexadécimaux.")
+                raise ValidationError(t(self.env, _("The commit must be 12 to 40 hexadecimal characters.")))
             if not _DIGEST.match(release.bundle_sha256 or ""):
-                raise ValidationError("L'empreinte du paquet doit faire 64 caractères hexadécimaux.")
+                raise ValidationError(t(self.env, _("The bundle digest must be 64 hexadecimal characters.")))
 
     def _compute_firm_count(self):
         firms = self.env["platform.firm"].sudo()
