@@ -32,6 +32,7 @@ from ..services.task_groups import (
 
 _RECENT_MISSIONS = 6
 _STRIP_CHIPS = 6
+_LATE_CHIPS = 3
 _MY_TASK_ROWS = 3
 _CALENDAR_ROWS = 3
 
@@ -403,7 +404,7 @@ class AuditUi(models.AbstractModel):
         chips = [{
             "id": item.id, "code": item.code, "title": item.title, "tone": "r",
             "text": "en retard de %s j" % self._ea_ui_late_days(item, today),
-        } for item in late[:_STRIP_CHIPS]]
+        } for item in late[:_LATE_CHIPS]]
         register = items.filtered(lambda item: item.code == "S3.1")[:1]
         if register:
             risks = self.env["ea.audit.risk"].search([
