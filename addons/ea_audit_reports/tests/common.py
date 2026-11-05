@@ -49,7 +49,15 @@ class ReportsCase(ToolsCase):
             "engagement_id": (engagement or self.engagement).id, "key": key, "data": data or {}, "done_by_id": self.partner.id,
         })
 
-    def green_completion(self, engagement=None, reviewed_to="2026-03-31"):
+    def eqr_review(self, engagement=None):
+        """The appointed reviewer's own record of the review on C4.2."""
+        engagement = engagement or self.engagement
+        engagement.sudo()._ea_ensure_task("C4.2")
+        self.answer("C4.2", "q_complete", "yes", self.eqr, engagement)
+        self.answer("C4.2", "q_resolved", "yes", self.eqr, engagement)
+        self.signoff("C4.2", "eqr", self.eqr, engagement)
+
+    def green_completion(self, engagement=None, reviewed_to="2026-03-31", eqr=True):
         """Every completion gate met, the way each is met on a real file."""
         engagement = engagement or self.engagement
         self.with_materiality()
@@ -62,6 +70,8 @@ class ReportsCase(ToolsCase):
         as_partner.generate_letter("rep_affirmation", "fr")
         as_partner.generate_letter("rep_complementary", "fr")
         self.answer("C4.3", "q_none_open", "yes", engagement=engagement)
+        if eqr and engagement.sudo()._ea_eqr_required():
+            self.eqr_review(engagement)
 
     def failed(self, gates):
         return [gate["key"] for gate in gates if not gate["ok"]]

@@ -58,8 +58,8 @@ class TestArchiveGates(ReportsCase):
         """Finding C5: a task holding work and no paper does not pass because few documents exist."""
         self.answer("E4.1", "p_work", "Fait")
         gates = self._gates()
-        self.assertIn("E4.1", gates["papers_signed"]["codes"])
-        self.assertIn("E4.1", gates["reviews_complete"]["codes"])
+        self.assertEqual(gates["papers_signed"]["codes"], ["E4.1"])
+        self.assertEqual(gates["reviews_complete"]["codes"], ["E4.1"])
         self.signoff("E4.1", "preparer")
         gates = self._gates()
         self.assertNotIn("E4.1", gates["papers_signed"]["codes"])
@@ -74,12 +74,15 @@ class TestArchiveGates(ReportsCase):
 
     def test_untouched_task_needs_a_reason(self):
         """UAT B63."""
-        self.assertIn("E4.1", self._gates()["tasks_addressed"]["codes"])
-        self.assertLessEqual(len(self._gates()["tasks_addressed"]["codes"]), 20)
+        untouched = self.engagement.sudo()._ea_untouched_tasks
+        gate = self._gates()["tasks_addressed"]
+        self.assertIn("E4.1", [item.code for item in untouched()])
+        self.assertEqual(gate["pending"], len(untouched()))
+        self.assertLessEqual(len(gate["codes"]), 20)
         self.env.flush_all()
         self.env.cr.execute("UPDATE ea_audit_file_item SET na_reason = 'Sans objet' WHERE id = %s", [self.item(self.engagement, "E4.1").id])
         self.env.invalidate_all()
-        self.assertNotIn("E4.1", self._gates()["tasks_addressed"]["codes"])
+        self.assertNotIn("E4.1", [item.code for item in untouched()])
 
     def test_written_communication_of_significant_deficiencies(self):
         """C5.11, ISA 265 para 9, F037: without the date the file stays open."""

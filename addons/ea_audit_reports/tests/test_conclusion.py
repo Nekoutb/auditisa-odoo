@@ -90,7 +90,6 @@ class TestCompletionGates(ReportsCase):
         for key in ("risks_concluded", "b5_within_materiality", "final_analytical_review", "fs_tieout_passed",
                     "disclosure_checklist", "subsequent_events", "rep_letters_generated", "c43_cleared", "partner_conclusion"):
             self.assertIn(key, failed)
-        self.assertNotIn("eqr_complete", failed)
 
     def test_all_green(self):
         self.green_completion()
@@ -161,18 +160,29 @@ class TestCompletionGates(ReportsCase):
 
     def test_eqr_gate_takes_the_reviewers_own_signature_and_answers(self):
         """UAT run 3 B02: the team signing C4.2 does not turn the gate green."""
-        self.green_completion()
-        self.seat(self.engagement, self.eqr, "eqr_reviewer")
+        self.green_completion(eqr=False)
         self.engagement.sudo()._ea_ensure_task("C4.2")
         self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
-        self.signoff("C4.2", "eqr", self.partner)
+        by_partner = self.signoff("C4.2", "eqr", self.partner)
         self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
-        sign = self.env["ea.audit.signoff"].sudo().search([("code", "=", "C4.2"), ("engagement_id", "=", self.engagement.id)])
-        sign.write({"voided_at": "2026-01-01 00:00:00"})
+        by_partner.voided_at = "2026-01-01 00:00:00"
         self.signoff("C4.2", "eqr", self.eqr)
         self.answer("C4.2", "q_complete", "yes", self.eqr)
         self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
+        self.answer("C4.2", "q_resolved", "yes", self.partner)
+        self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
+        answer = self.env["ea.audit.paper.answer"].sudo().search([
+            ("engagement_id", "=", self.engagement.id), ("code", "=", "C4.2"), ("field_key", "=", "q_resolved"),
+        ])
+        answer.with_context(ea_audit_answer_door=True).unlink()
         self.answer("C4.2", "q_resolved", "yes", self.eqr)
+        self.assertNotIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
+
+    def test_no_reviewer_no_gate(self):
+        """Neither P1.5 nor the team asks for a review: the gate does not stand in the way."""
+        self.env["ea.audit.team.member"].sudo().search([
+            ("engagement_id", "=", self.engagement.id), ("team_role", "=", "eqr_reviewer"),
+        ]).unlink()
         self.assertNotIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
 
     def test_nature_waives_its_gates(self):

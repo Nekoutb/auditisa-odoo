@@ -102,6 +102,10 @@ class Engagement(models.Model):
     def write(self, vals):
         if not self.env.su and set(vals) & _REPORT_ENGINE_FIELDS:
             raise rule_error(self.env, "forbidden")
+        if vals.get("archived_at"):
+            # What is still pending reaches the database before the lock does, or the
+            # archive triggers would refuse the file's own last writes.
+            self.env.flush_all()
         return super().write(vals)
 
     def unlink(self):
@@ -422,6 +426,7 @@ class Engagement(models.Model):
         self._ea_report_guard()
         if opinion not in OPINIONS:
             raise rule_error(self.env, "invalid-value")
+        self.env.flush_all()
         self.env.cr.execute("SELECT phase, report_date FROM ea_audit_engagement WHERE id = %s FOR UPDATE", [self.id])
         phase, stamped = self.env.cr.fetchone()
         self.invalidate_recordset(["phase", "report_date"])
@@ -887,6 +892,7 @@ class Engagement(models.Model):
         if refusal:
             raise rule_error(self.env, refusal)
         as_root = self.sudo()
+        self.env.flush_all()
         self.env.cr.execute("SELECT report_date, archived_at FROM ea_audit_engagement WHERE id = %s FOR UPDATE", [self.id])
         report_date, archived_at = self.env.cr.fetchone()
         self.invalidate_recordset(["report_date", "archived_at"])
