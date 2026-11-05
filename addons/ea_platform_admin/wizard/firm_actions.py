@@ -95,6 +95,7 @@ class PlatformFirstAdminLink(models.TransientModel):
         self.env["platform.log"]._record(_("First administrator's link shown"), firm, user=self.env.user)
         return {
             "type": "ir.actions.act_window",
+            "name": self.env["ir.model"]._get(self._name).name,
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
@@ -181,6 +182,7 @@ class PlatformDestroyWizard(models.TransientModel):
         self.step = "word"
         return {
             "type": "ir.actions.act_window",
+            "name": self.env["ir.model"]._get(self._name).name,
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",

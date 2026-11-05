@@ -495,6 +495,7 @@ class PlatformFirm(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
+            "name": self.env["ir.model"]._get(self.env.context["firm_wizard"]).name,
             "res_model": self.env.context["firm_wizard"],
             "view_mode": "form",
             "target": "new",

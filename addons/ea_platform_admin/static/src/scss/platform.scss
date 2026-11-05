@@ -21,7 +21,16 @@ $ea-grey: #8a929d;
         background: $ea-green;
         border-bottom-color: $ea-green-dark;
         .o_menu_brand, .dropdown-toggle, a, button { color: #fff; }
+        // Odoo paints the menu sections in its own violet.
+        .o_menu_sections, .o_menu_sections .dropdown-toggle, .o_menu_sections .o_nav_entry { background: transparent; }
+        .o_menu_sections .dropdown-toggle:hover, .o_menu_sections .o_nav_entry:hover,
+        .o_menu_sections .show > .dropdown-toggle { background: $ea-green-dark; }
     }
+    .o_control_panel_breadcrumbs, .o_control_panel_breadcrumbs * { background-color: transparent; }
+    .o_searchview { border-color: $ea-line !important; }
+    .o_cp_switch_buttons .btn.active { color: $ea-green; border-color: $ea-green; background: $ea-greenbg; }
+    .o_control_panel .btn-secondary, .o_control_panel .btn-outline-primary { color: $ea-green; border-color: $ea-line; }
+    .o_field_widget a, .o_form_view h1 a { color: $ea-green; }
     .o_action_manager, .o_content, .o_control_panel { background: $ea-canvas; }
 
     .btn-primary {
@@ -106,10 +115,11 @@ $ea-grey: #8a929d;
         border-top: 1px solid $ea-line;
         span:first-child { display: block; color: $ea-muted; font-size: 11px; }
         strong { font-weight: 600; }
+        strong > * { display: inline; }
         > div { min-width: 0; overflow: hidden; }
     }
     .ea-mono { font-family: Consolas, "Liberation Mono", Menlo, monospace; font-size: 12px; display: block; overflow: hidden; text-overflow: ellipsis; }
 }
 
 .o_ea_platform_form .ea-firm-address { color: $ea-muted; }
-.o_ea_platform_form .ea-health-box { background: $ea-greenbg; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+.o_ea_platform_form .ea-health-box { background: #f4f6f8; border: 1px solid $ea-line; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }

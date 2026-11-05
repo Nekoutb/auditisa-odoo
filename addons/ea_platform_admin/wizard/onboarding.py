@@ -112,6 +112,7 @@ class PlatformOnboardingWizard(models.TransientModel):
     def _reopen(self):
         return {
             "type": "ir.actions.act_window",
+            "name": self.env["ir.model"]._get(self._name).name,
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
