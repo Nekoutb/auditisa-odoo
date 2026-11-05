@@ -57,7 +57,7 @@ class TestSettings(PlatformCase):
                 heartbeat_url="https://hb.example.invalid/platform/heartbeat",
                 release_base_url="https://releases.example.invalid/x",
                 release_signing_public_key="-----BEGIN PUBLIC KEY-----",
-                ssh_allowlist="198.51.100.7", vultr_os_id="1", vultr_storage_cluster="2", dns_zone_id="z",
+                ssh_allowlist="8.8.8.8", vultr_os_id="1", vultr_storage_cluster="2", dns_zone_id="z",
             ).action_save()
         self.assertEqual(self.env["ir.config_parameter"].sudo().get_param("ea_platform.provider"), "dry_run")
 

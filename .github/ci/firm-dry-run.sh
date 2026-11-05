@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# Rehearses the firm server's recipe without a server: every script in dry-run mode, the rendered
+# files checked one by one, the isolation test on two rendered firms, the release signature.
+# Writes under a temporary folder only. Contacts nothing.
+set -euo pipefail
+
+WORK=$(mktemp -d)
+trap 'rm -rf "$WORK"' EXIT
+A=$WORK/firm-a
+B=$WORK/firm-b
+
+fail() { printf 'FAILED: %s\n' "$*" >&2; exit 1; }
+has() { grep -q -- "$2" "$1" || fail "$1 does not have: $2"; }
+lacks() { if grep -q -- "$2" "$1"; then fail "$1 should not have: $2"; fi; }
+
+sed -e "s/cabinet-exemple/cabinet-b/g" -e "s/0001/0002/g" -e "s/Q2FiaW5ldCBFeGVtcGxl/Q2FiaW5ldCBC/" deploy/firm/sample.env > "$WORK/b.env"
+
+echo "== install-firm-server.sh --dry-run, two firms"
+bash deploy/firm/install-firm-server.sh --env deploy/firm/sample.env --dry-run --root "$A" > "$WORK/a.log"
+bash deploy/firm/install-firm-server.sh --env "$WORK/b.env" --dry-run --root "$B" > "$WORK/b.log"
+tail -n 1 "$WORK/a.log"
+
+echo "== a second run changes nothing"
+find "$A" -type f -print0 | sort -z | xargs -0 sha256sum > "$WORK/before"
+bash deploy/firm/install-firm-server.sh --env deploy/firm/sample.env --dry-run --root "$A" > "$WORK/a2.log"
+find "$A" -type f -print0 | sort -z | xargs -0 sha256sum > "$WORK/after"
+diff <(grep -v firm-install-state "$WORK/before") <(grep -v firm-install-state "$WORK/after") || fail "the second run changed files"
+
+echo "== no secret is printed"
+for secret in heartbeat.token db.password master.password restic.key; do
+  value=$(cat "$A/etc/auditisa-firm/secrets/$secret")
+  if grep -qF -- "$value" "$WORK/a.log"; then fail "$secret was printed"; fi
+done
+lacks "$WORK/a.log" "DRYRUNACCESSKEY"
+lacks "$WORK/a.log" "dry-run-storage-secret"
+
+echo "== guardrails in the rendered files"
+SSHD=$A/etc/ssh/sshd_config.d/00-ea-hardening.conf
+has "$SSHD" '^PasswordAuthentication no'
+has "$SSHD" '^KbdInteractiveAuthentication no'
+has "$SSHD" '^PermitRootLogin prohibit-password'
+has "$WORK/a.log" 'passwd --lock root'
+[ "$(grep -c . "$A/root/.ssh/authorized_keys")" = 1 ] || fail "more than one SSH key"
+[ "$(cat "$A/root/.ssh/authorized_keys")" != "$(cat "$B/root/.ssh/authorized_keys")" ] || fail "two firms share an SSH key"
+
+has "$WORK/a.log" 'ufw default deny incoming'
+has "$WORK/a.log" 'ufw allow from 8.8.8.8/32 to any port 22 proto tcp'
+lacks "$WORK/a.log" 'ufw allow 22'
+has "$WORK/a.log" 'ufw allow 80/tcp'
+has "$WORK/a.log" 'ufw allow 443/tcp'
+has "$A/etc/fail2ban/jail.d/auditisa.local" '^\[sshd\]'
+has "$A/etc/apt/apt.conf.d/20auto-upgrades" 'Unattended-Upgrade "1"'
+
+CONF=$A/etc/odoo/odoo.conf
+has "$CONF" '^list_db = False'
+has "$CONF" '^dbfilter = ^firm_cabinet_exemple\$$'
+has "$CONF" '^http_interface = 127.0.0.1'
+has "$CONF" '^proxy_mode = True'
+lacks "$CONF" '^smtp_server'
+lacks "$CONF" 'ea_platform'
+[ "$(sed -n 's/^admin_passwd = //p' "$CONF")" != "$(sed -n 's/^admin_passwd = //p' "$B/etc/odoo/odoo.conf")" ] || fail "two firms share a master password"
+[ "$(sed -n 's/^db_password = //p' "$CONF")" != "$(sed -n 's/^db_password = //p' "$B/etc/odoo/odoo.conf")" ] || fail "two firms share a database password"
+[ "$(wc -c < "$A/etc/auditisa-firm/secrets/restic.key")" -ge 64 ] || fail "backup key too short"
+cmp -s "$A/etc/auditisa-firm/secrets/restic.key" "$B/etc/auditisa-firm/secrets/restic.key" && fail "two firms share a backup key"
+[ "$(stat -c %a "$A/etc/auditisa-firm/secrets/restic.key")" = 600 ] || fail "backup key is not private"
+has "$(find "$A/etc/postgresql" -name auditisa.conf)" "^listen_addresses = 'localhost'"
+
+SITE=$A/etc/nginx/sites-available/firm-https.conf
+has "$SITE" 'location ~ ^/web/database { return 404; }'
+has "$SITE" 'Strict-Transport-Security'
+has "$SITE" 'access_log off'
+has "$SITE" 'server_name cabinet-exemple.auditisa.example'
+has "$A/etc/nginx/sites-available/firm-http.conf" 'return 301 https://'
+
+for unit in firm-backup firm-restore-test firm-status firm-apply-desired firm-cert; do
+  [ -f "$A/etc/systemd/system/$unit.timer" ] || fail "no timer for $unit"
+done
+has "$A/etc/systemd/system/firm-backup.timer" 'Persistent=true'
+has "$A/etc/systemd/system/odoo.service" 'NoNewPrivileges=yes'
+has "$A/usr/local/sbin/firm-metadata-block" '169.254.169.254'
+has "$A/etc/ssh/sshrc" 'break-glass.log'
+
+echo "== the other scripts, dry run"
+for script in firm-backup firm-restore-test firm-export firm-apply-desired; do
+  FIRM_PREFIX=$A bash "deploy/firm/$script.sh" --dry-run > "$WORK/$script.log"
+done
+FIRM_PREFIX=$A bash deploy/firm/firm-update.sh "abcdef123456" "$(printf 'a%.0s' {1..64})" --dry-run > "$WORK/update.log"
+has "$WORK/update.log" 'firm-backup --tag pre-update'
+has "$WORK/firm-backup.log" 'keep-daily 14'
+if FIRM_PREFIX=$A bash deploy/firm/firm-update.sh 'x;reboot' abc --dry-run >/dev/null 2>&1; then fail "firm-update took a bad release"; fi
+
+echo "== the isolation test finds every planted fault"
+bash scripts/provision/verify_firm_isolation.sh --rehearse "$A" "$B"
+
+echo "== control plane, dry run"
+CP=$WORK/control-plane
+bash deploy/control-plane/install-control-plane.sh --env deploy/control-plane/sample.env --dry-run --root "$CP" > "$WORK/cp.log"
+SITE=$CP/etc/nginx/sites-available/control-plane.conf
+has "$SITE" 'location = /platform/heartbeat'
+has "$SITE" 'limit_except POST { deny all; }'
+has "$SITE" 'location / { return 404; }'
+has "$SITE" 'deny all;'
+has "$SITE" 'allow 8.8.8.8;'
+has "$CP/etc/odoo/odoo.conf" '^list_db = False'
+lacks "$CP/etc/odoo/odoo.conf" 'token'
+has "$CP/etc/systemd/system/odoo.service" 'LoadCredential=vultr-token:/etc/auditisa-platform/vultr.token'
+
+echo "== a release is signed, verified, and refused once changed"
+KEYS=$WORK/keys
+mkdir -p "$KEYS"
+bash scripts/provision/build_release.sh --new-key "$KEYS/signing.pem" > "$WORK/key.log"
+sed -n '/BEGIN PUBLIC KEY/,/END PUBLIC KEY/p' "$WORK/key.log" > "$KEYS/signing.pub"
+if bash scripts/provision/build_release.sh --new-key "$KEYS/signing.pem" >/dev/null 2>&1; then fail "the signing key was overwritten"; fi
+SHA=$(git rev-parse HEAD)
+bash scripts/provision/build_release.sh HEAD --key "$KEYS/signing.pem" --out "$WORK/out" > "$WORK/build.log"
+BUNDLE=$WORK/out/$SHA.tar.gz
+bash scripts/provision/build_release.sh --verify "$BUNDLE" --pub "$KEYS/signing.pub" >/dev/null
+tar -tzf "$BUNDLE" > "$WORK/list"
+has "$WORK/list" '^deploy/firm/install-firm-server.sh'
+has "$WORK/list" '^scripts/provision/new_firm.sh'
+has "$WORK/list" '^addons/ea_audit_firm_agent/'
+lacks "$WORK/list" 'ea_platform'
+lacks "$WORK/list" '^deploy/control-plane'
+cp "$BUNDLE" "$WORK/tampered.tar.gz"
+cp "$BUNDLE.sig" "$WORK/tampered.tar.gz.sig"
+printf 'x' >> "$WORK/tampered.tar.gz"
+if bash scripts/provision/build_release.sh --verify "$WORK/tampered.tar.gz" --pub "$KEYS/signing.pub" >/dev/null 2>&1; then fail "a changed bundle passed"; fi
+
+echo "firm-dry-run: all good"

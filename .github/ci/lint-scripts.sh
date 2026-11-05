@@ -13,3 +13,6 @@ if bash scripts/provision/new_firm.sh --dry-run --db ea_audit_odoo_staging --nam
   echo "new_firm.sh accepted the staging database" >&2
   exit 1
 fi
+
+# The firm server's recipe, the isolation test and the release signature, without a server.
+bash .github/ci/firm-dry-run.sh

@@ -68,7 +68,7 @@ class EaFirmAgent(models.AbstractModel):
         if not (url and slug and token):
             return False
         if not url.startswith("https://"):
-            _logger.error("Heartbeat refused: the address is not https")
+            _logger.warning("Heartbeat refused: the address is not https")
             return False
         figures = self._build_figures()
         if "release" not in figures:

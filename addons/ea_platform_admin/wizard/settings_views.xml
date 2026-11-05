@@ -22,7 +22,7 @@
                             <field name="base_domain"/>
                             <field name="heartbeat_url"/>
                             <field name="release_base_url"/>
-                            <field name="ssh_allowlist" placeholder="198.51.100.7"/>
+                            <field name="ssh_allowlist" placeholder="votre adresse IP publique"/>
                         </group>
                     </group>
                     <group string="Signature des versions">

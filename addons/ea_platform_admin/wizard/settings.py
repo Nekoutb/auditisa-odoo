@@ -78,7 +78,8 @@ class PlatformSettings(models.TransientModel):
             raise UserError("À renseigner avant de passer au réel :\n" + "\n".join(missing))
         folder = os.environ.get("CREDENTIALS_DIRECTORY")
         for name in (CREDENTIAL_VULTR, CREDENTIAL_CLOUDFLARE):
-            if not folder or not os.path.isfile(os.path.join(folder, name)):
+            path = os.path.join(folder, name) if folder else ""
+            if not path or not os.path.isfile(path) or not os.path.getsize(path):
                 raise UserError(
                     f"Le service n'a pas reçu le jeton « {name} ». Voir docs/runbook/PREREQUISITES.md."
                 )
