@@ -19,6 +19,8 @@ Behaviour found while porting `lib/report.ts`, `letters.ts`, `legal.ts`, `alerte
 10. **EQR's answers: "last written by" reads the answer history**, not `write_uid`, which moves with any later flush of the row.
 11. **Document bytes after archive.** A generated document's attachment and the manifest's attachment refuse write and delete once the file is archived, sudo included. The source's bytes were in a row under the same triggers.
 
+12a. **First password: Odoo's security email is suppressed.** Setting a password makes Odoo queue a "password changed" email. For the password chosen from the invitation the port skips it, for that write only, so the portal flow queues no mail. Later changes keep Odoo's alert, which will queue a mail on any server: to review when mail is turned on.
+
 ## Kept, but questionable
 
 12. **Invalidated signatures count for the archive paper gates.** `paperGapsTx` tests `voided_at` only, so a signature invalidated by a changed input still counts as prepared or reviewed, while the EQR gate excludes both. Should an invalidated signature block the archive?

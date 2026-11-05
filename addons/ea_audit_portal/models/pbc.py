@@ -119,8 +119,19 @@ class PortalContact(models.Model):
         if not self.env.cr.rowcount:
             raise rule_error(self.env, "invalid-or-expired")
         contact.invalidate_recordset()
-        contact.user_id.sudo().write({"password": password})
+        contact.user_id.sudo().with_context(ea_portal_first_password=True).write({"password": password})
         return contact
+
+
+class ResUsers(models.Model):
+    _inherit = "res.users"
+
+    def _notify_security_setting_update(self, subject, content, mail_values=None, **kwargs):
+        """Choosing the first password from the invitation is no change to warn about, and nothing
+        goes out by email from here. Later changes of password keep Odoo's alert."""
+        if self.env.context.get("ea_portal_first_password"):
+            return None
+        return super()._notify_security_setting_update(subject, content, mail_values=mail_values, **kwargs)
 
 
 class Client(models.Model):

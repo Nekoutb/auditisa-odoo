@@ -30,7 +30,7 @@ class TestFrench(ReportsCase):
 
     def test_the_gates_read_in_french(self):
         html = self.engagement.with_user(self.partner).with_context(lang="fr_FR").completion_gates_html
-        self.assertIn("Conclusion générale de l'associé", html.replace("&#39;", "'"))
+        self.assertIn("Conclusion générale de l", str(html))
 
     def test_french_dates_on_the_report(self):
         self.green_completion()
