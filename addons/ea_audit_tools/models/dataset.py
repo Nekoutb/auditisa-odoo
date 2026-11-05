@@ -367,7 +367,7 @@ class EngagementDataset(models.Model):
     # ------------------------------------------------------------------
 
     def action_tool_gl(self):
-        """The ledgers of the file. The console (C.7.5) opens from a ledger."""
+        """The ledgers of the file. The console (C.7.5) opens from a ledger's form."""
         return self._ea_list(
             "ea.audit.dataset", self.env._("General ledger"),
             [("ea_audit_tools.view_dataset_list", "list"), ("ea_audit_tools.view_dataset_form", "form")],

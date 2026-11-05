@@ -51,6 +51,12 @@ MESSAGES = {
     "mapping-incomplete": _lt("The column mapping is incomplete: the required columns must be mapped."),
     "file-too-large": _lt("The file is too large (limit: 60 MB)."),
     "fields-required": _lt("Choose a file and a kind of dataset."),
+    "unknown-analytic": _lt("That analytic is not one of the catalogue's thirty."),
+    "invalid-accounts": _lt("Choose valid account codes: letters, digits, dot, dash or underscore, within the number allowed."),
+    "same-account": _lt("Choose two different accounts."),
+    "invalid-month": _lt("Enter a month as MM/YYYY, or n/a for lines with no date."),
+    "invalid-weekday": _lt("Choose a weekday from Monday to Sunday, or n/a for lines with no date."),
+    "invalid-amount": _lt("Enter an amount of zero or more."),
     "tool-not-available": _lt("This tool is not available yet on this version."),
 }
 

@@ -21,6 +21,7 @@
         "views/finding_views.xml",
         "views/sad_views.xml",
         "views/dataset_views.xml",
+        "views/gl_console_views.xml",
         "views/wizard_views.xml",
         "views/tool_hub_views.xml",
     ],

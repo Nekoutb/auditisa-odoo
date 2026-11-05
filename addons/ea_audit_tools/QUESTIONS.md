@@ -21,6 +21,14 @@ Source: platform at commit 8725e6a. Only the owner rules (`docs/decisions.md`). 
 | A13 | A b5 finding exists only as a misstatement | Also a line in the findings register, with the misstatement linked | m14 lists both in one table. Gates read by route, so nothing moves. |
 | A14 | Hub: 14 tiles | m7's 16, plus Significant accounts and Findings as tiles: 18. Feeds follow m7 where they differ (Sampling E4.1, E1.2 against E4.1, E4.2, E4.4) | Mock-up. P6.2 and the findings had no tile. Unbuilt tools are greyed. |
 | A15 | Program steps belong to the paper screens | A minimal `ea.audit.program.step` lives here | The presumed risks, `significant_risks_linked` and `material_sections_covered` need it. The papers addon should reuse it, not add its own. |
+| A16 | Drill: an overlay panel, one page of 100 at a time, capped at 500 a page | `gl_drill_down` keeps that shape and cap; the screen opens Odoo's list on a domain made of the same filter (`drill_filter`, a search-only field running the same WHERE), 100 lines a page, with its search and pivot | Native screens only. The list can page through everything the filter matches, as the panel could. |
+| A17 | Every figure on screen is a clickable cell | Results are server-rendered tables; a cell is drilled by typing its account and month into the fields under the table, then Open the lines | No OWL. Same filters as the source's cells. |
+| A18 | A lead-schedule figure arrives selected and already drilled (UAT B140) | It arrives selected with the reconciliation on the page; one click on Lines behind the figure opens the list | A wizard cannot open two screens at once. The reconciliation (B68) is shown without that click. |
+| A19 | Entry, correlation, drill and picker only check the dataset's team (`requireChildRead`) | All answer `no-dataset` unless it is a ledger of this file | Same reads, one rule. A file's non-ledger dataset gave empty tables there. |
+| A20 | An impossible date in the drill (31/02) passes the JS check, then fails in Postgres: `analytics-failed` | `invalid-date` | The cause is the user's input, and the code exists. |
+| A21 | Insights live on the analyzer page (GlInsightsBoard) and always read the CY ledger | They are the console's fourth tab, and still read the CY ledger whichever ledger the console has open | The brief's tabs. The source's choice of ledger is kept. |
+| A22 | Weekday, lag and matrix load every raw row into memory, in no stated order | Read in batches of 2 000 by row number | RAM. "First readable pair of a journal" is therefore in file order. |
+| A23 | No Excel export of an analytic | Extract to Excel on the analytics tab, logged like every export | The brief. |
 
 ## B. Ported as they are: please rule
 
@@ -47,6 +55,16 @@ Source: platform at commit 8725e6a. Only the owner rules (`docs/decisions.md`). 
 | B19 | The deviation reason is appended to `performance_justification` with " — " | Two judgements in one field. Kept for F.1 data parity. |
 | B20 | If E3.1 or E4.20 is out of scope for the complexity, the presumed risk has no section and no step | `significant_risks_linked` can then never pass on that file. Only through the step tools. |
 | B21 | Comment says revenue fraud maps to E4.1; code uses E4.20 | Comment drift. Code followed. |
+| B22 | Analytic 16's exception text says class 5 is a debit account; its SQL leaves class 5 out (UAT B69) | The catalogue contradicts the note beside it. Text and SQL both kept. |
+| B23 | `pairMax` is a knob of analytic 17, but the route's `readParams` drops it and no screen offers it | Always 3. Kept: the port drops it at the same place. |
+| B24 | The spec says analytic 24 tests preparer = reviewer; the code tests preparer = approver | Code followed. |
+| B25 | Analytic 22's exception reads "value posted by a preparer with no identity", but `exceptions` counts lines | The count is not the value the text announces. |
+| B26 | Analytic 18's exceptions count field gaps over a population of lines, and no-account or no-JE can never fire: the projection rejected those rows | The share can pass 100 %, and two columns are always nil. |
+| B27 | Analytic 25 needs `jeDate` though it can never run: unmapped, it blames the mapping | Mapping the column only changes the reason. |
+| B28 | Insights have their own date reader: dd/mm always, and 31/02 or 03/25/2025 roll over; the projection refuses those and reads mm/dd. Excel serials become year 45000 | On such files the weekday and lag insights disagree with analytics 7 and 8. |
+| B29 | Insights read the raw rows, rejected lines included, and count a negative lag in the same-day bucket; analytic 8 flags it as an exception | Two answers to one question on one screen. |
+| B30 | Two Pearson functions: analytics need 3 points, insights 2 | Two months correlate at ±1 in one place and not at all in the other. |
+| B31 | Lead-figure links keep digit-only accounts and the first 50, silently; a selection above 25 is then refused by the entry analysis | An alphanumeric account or a wide schedule shows a gap that is not in the ledger. |
 
 ## C. Not in this milestone, so reduced
 
