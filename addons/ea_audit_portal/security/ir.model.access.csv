@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pbc_item_member,pbc item member,model_ea_audit_pbc_item,ea_audit_core.group_member,1,0,0,0
+access_pbc_item_portal,pbc item portal,model_ea_audit_pbc_item,base.group_portal,1,0,0,0
+access_portal_contact_member,portal contact member,model_ea_audit_portal_contact,ea_audit_core.group_member,1,0,0,0
+access_portal_contact_wizard,portal contact wizard,model_ea_audit_portal_contact_wizard,ea_audit_core.group_member,1,1,1,0
+access_pbc_wizard,pbc wizard,model_ea_audit_pbc_wizard,ea_audit_core.group_member,1,1,1,0

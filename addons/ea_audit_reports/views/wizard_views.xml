@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_issue_report_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.issue.report.wizard.form</field>
+        <field name="model">ea.audit.issue.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="listed" invisible="1"/>
+                    <field name="material_misstatement"/>
+                    <field name="pervasive"/>
+                    <field name="scope_limitation"/>
+                    <field name="going_concern_uncertainty"/>
+                    <field name="opinion" readonly="1"/>
+                    <field name="report_date" required="1"/>
+                    <field name="basis" invisible="opinion == 'unmodified'" required="opinion != 'unmodified'"/>
+                    <field name="kam" invisible="not listed or kam_none"/>
+                    <field name="kam_none" invisible="not listed"/>
+                    <field name="kam_none_reason" invisible="not kam_none"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Issue the report" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_completion_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.completion.wizard.form</field>
+        <field name="model">ea.audit.completion.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="base_version" invisible="1"/>
+                    <field name="key" readonly="1"/>
+                    <field name="all_complete" invisible="key != 'disclosure_checklist'"/>
+                    <field name="reviewed_to" invisible="key != 'subsequent_events'" required="key == 'subsequent_events'"/>
+                    <field name="text"/>
+                </group>
+                <footer>
+                    <button name="action_save" type="object" string="Save" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_hold_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.hold.wizard.form</field>
+        <field name="model">ea.audit.hold.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="mode" readonly="1"/>
+                    <field name="reason" required="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

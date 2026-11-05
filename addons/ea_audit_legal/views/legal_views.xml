@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_engagement_legal_form" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.legal</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">41</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_view_documents" type="object" string="Letters and reports"/>
+                    <button name="action_view_faits" type="object" string="Criminal facts (partners)" groups="ea_audit_core.group_partner"/>
+                </header>
+                <sheet>
+                    <field name="archived_at" invisible="1"/>
+                    <field name="legal_titres_available" invisible="1"/>
+                    <div class="alert alert-info" role="status">
+                        Every article number stays marked (à valider) until the firm's jurist has validated the workbook.
+                    </div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Legal form</div>
+                            <field name="legal_form_name" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note"><field name="legal_board_name" readonly="1" nolabel="1"/> · <field name="legal_meeting_name" readonly="1" nolabel="1"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Overdue deadlines</div>
+                            <field name="legal_overdue_count" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">General meeting: <field name="agm_date" readonly="1" nolabel="1"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Alert procedure</div>
+                            <field name="legal_alerte_stage" class="o_ea_card_value" readonly="1"/>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Net equity (C5.8)</div>
+                            <field name="legal_equity_label" class="o_ea_card_value" readonly="1"/>
+                            <div class="o_ea_card_note">Half of the capital: <field name="legal_half_capital_label" readonly="1" nolabel="1"/> · <field name="legal_equity_conclusion" readonly="1" nolabel="1"/></div>
+                        </div>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Statutory deadlines (C5.2)</h4>
+                        <button name="action_generate_deadlines" type="object" string="Generate the calendar" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Meeting dates" class="btn btn-secondary" context="{'legal_mode': 'dates'}" invisible="archived_at"/>
+                        <field name="legal_deadline_ids" readonly="1" nolabel="1">
+                            <list create="0" delete="0" edit="0" decoration-danger="not done and days_left &lt; 0">
+                                <field name="key"/>
+                                <field name="due_date"/>
+                                <field name="days_left"/>
+                                <field name="basis"/>
+                                <field name="done"/>
+                                <button name="action_mark_done" type="object" string="Done" invisible="done"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Regulated agreements (C5.3)</h4>
+                        <button name="action_open_legal_wizard" type="object" string="Add an agreement" class="btn btn-secondary me-2" context="{'legal_mode': 'convention'}" invisible="archived_at"/>
+                        <button name="action_generate_rapport_special" type="object" string="Special report" class="btn btn-secondary" invisible="archived_at"/>
+                        <field name="regulated_agreement_ids" readonly="1" nolabel="1">
+                            <list create="0" delete="0" edit="0" decoration-danger="unauthorized">
+                                <field name="nature"/>
+                                <field name="parties"/>
+                                <field name="interested"/>
+                                <field name="capacity"/>
+                                <field name="amounts_period"/>
+                                <field name="continuing"/>
+                                <field name="board_auth_ref"/>
+                                <field name="unauthorized"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Reports and attestations</h4>
+                        <button name="action_generate_article_715" type="object" string="Report to the board, art. 715 (à valider)" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_generate_art525" type="object" string="Certification, art. 525 (à valider)" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Securities attestation" class="btn btn-secondary me-2" context="{'legal_mode': 'titres'}" invisible="archived_at or not legal_titres_available"/>
+                        <button name="action_open_legal_wizard" type="object" string="Joint auditor file" class="btn btn-secondary" context="{'legal_mode': 'joint'}" invisible="archived_at"/>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Alert procedure (C5.5)</h4>
+                        <button name="action_open_legal_wizard" type="object" string="Start" class="btn btn-secondary me-2" context="{'legal_mode': 'alerte_start'}" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Next stage" class="btn btn-secondary me-2" context="{'legal_mode': 'alerte_advance'}" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Resume" class="btn btn-secondary" context="{'legal_mode': 'alerte_resume'}" invisible="archived_at"/>
+                        <field name="alerte_ids" readonly="1" nolabel="1">
+                            <list create="0" delete="0" edit="0">
+                                <field name="variant"/>
+                                <field name="stage"/>
+                                <field name="stage_deadline"/>
+                                <field name="stage_basis"/>
+                                <field name="discontinued_at"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="o_ea_panel">
+                        <h4>Equity and irregularities (C5.6, C5.8)</h4>
+                        <button name="action_equity_check" type="object" string="Check equity against half of the capital" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Share capital" class="btn btn-secondary me-2" context="{'legal_mode': 'capital'}" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Report irregularities" class="btn btn-secondary me-2" context="{'legal_mode': 'irregularities'}" invisible="archived_at"/>
+                        <button name="action_open_legal_wizard" type="object" string="Disclose criminal facts" class="btn btn-secondary" context="{'legal_mode': 'fait'}" invisible="archived_at" groups="ea_audit_core.group_partner"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_criminal_disclosure_list" model="ir.ui.view">
+        <field name="name">ea.audit.criminal.disclosure.list</field>
+        <field name="model">ea.audit.criminal.disclosure</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="revealed_at"/>
+                <field name="description"/>
+                <field name="document_id"/>
+                <field name="created_by_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_engagement_form_legal_button" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.form.legal.button</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='phase']" position="before">
+                <button name="action_open_legal" type="object" string="OHADA legal register"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

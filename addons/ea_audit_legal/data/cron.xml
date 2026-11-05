@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="cron_legal_deadlines" model="ir.cron">
+        <field name="name">AuditISA: escalate overdue statutory deadlines</field>
+        <field name="model_id" ref="ea_audit_core.model_ea_audit_engagement"/>
+        <field name="state">code</field>
+        <field name="code">model._ea_cron_legal_deadlines()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

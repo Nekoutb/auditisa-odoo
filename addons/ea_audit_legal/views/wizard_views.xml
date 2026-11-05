@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_legal_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.legal.wizard.form</field>
+        <field name="model">ea.audit.legal.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="mode" readonly="1"/>
+                    <field name="agm_date" invisible="mode != 'dates'"/>
+                    <field name="board_date" invisible="mode != 'dates'"/>
+                    <field name="parties" invisible="mode != 'convention'" required="mode == 'convention'"/>
+                    <field name="interested" invisible="mode != 'convention'" required="mode == 'convention'"/>
+                    <field name="capacity" invisible="mode != 'convention'" required="mode == 'convention'"/>
+                    <field name="nature" invisible="mode != 'convention'" required="mode == 'convention'"/>
+                    <field name="terms" invisible="mode != 'convention'"/>
+                    <field name="continuing" invisible="mode != 'convention'"/>
+                    <field name="amounts_period" invisible="mode != 'convention' or not continuing"/>
+                    <field name="board_auth_ref" invisible="mode != 'convention'"/>
+                    <field name="notified_at" invisible="mode != 'convention'"/>
+                    <field name="to_stage" invisible="mode != 'alerte_advance'" required="mode == 'alerte_advance'"/>
+                    <field name="satisfactory" invisible="to_stage != 'reply_recorded'"/>
+                    <field name="event_date" invisible="mode not in ('alerte_start', 'alerte_advance')"/>
+                    <field name="target" invisible="mode != 'irregularities'" required="mode == 'irregularities'"/>
+                    <field name="joint_key" invisible="mode != 'joint'" required="mode == 'joint'"/>
+                    <field name="note" invisible="mode in ('dates', 'convention', 'titres', 'capital')"/>
+                    <field name="confirmed" invisible="mode != 'joint'"/>
+                    <field name="inspection_date" invisible="mode != 'titres'" required="mode == 'titres'"/>
+                    <field name="securities_count" invisible="mode != 'titres'" required="mode == 'titres'"/>
+                    <field name="held_by_intermediary" invisible="mode != 'titres'"/>
+                    <field name="intermediary_name" invisible="not held_by_intermediary"/>
+                    <field name="share_capital" invisible="mode != 'capital'" required="mode == 'capital'"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
