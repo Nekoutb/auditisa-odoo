@@ -69,6 +69,19 @@ def test_every_message_in_the_code_is_in_fr_po(addon):
 
 
 @pytest.mark.parametrize("addon", BOTH)
+def test_messages_in_the_code_are_marked_as_python_in_fr_po(addon):
+    """Odoo loads a code translation only from an entry marked odoo-python, even if the msgid exists."""
+    text = (ADDONS / addon / "i18n" / "fr.po").read_text(encoding="utf-8")
+    marked = set()
+    for block in text.split("\n\n"):
+        if "#. odoo-python" in block:
+            found = re.search(r'^msgid (".*"(?:\n".*")*)', block, re.M)
+            marked.add("".join(ast.literal_eval(part) for part in found.group(1).split("\n")))
+    missing =[(name, source) for name, source in underscore_literals(addon) if source not in marked]
+    assert missing == []
+
+
+@pytest.mark.parametrize("addon", BOTH)
 def test_no_french_is_hard_coded(addon):
     """English sources are ASCII, and every accented letter belongs in fr.po."""
     wrong = []

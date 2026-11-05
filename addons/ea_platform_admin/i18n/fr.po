@@ -2279,6 +2279,8 @@ msgid "Server operating system (Vultr id)"
 msgstr "Système du serveur (identifiant Vultr)"
 
 #. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
 #: model:ir.actions.act_window,name:ea_platform_admin.action_settings
 #: model:ir.ui.menu,name:ea_platform_admin.menu_settings
 msgid "Settings"
