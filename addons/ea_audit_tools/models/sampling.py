@@ -103,9 +103,11 @@ class EngagementSampling(models.Model):
     def _compute_sampling_board(self):
         Control = self.env["ea.audit.scot.control"].sudo()
         Run = self.env["ea.audit.automation.run"].sudo()
+        # first, for all of them: the prerequisites sync the CRA, whose writes would drop a value already
+        # assigned here, including one assigned to another engagement of this batch
+        prerequisites_of = {engagement.id: engagement._ea_tool_prerequisites() for engagement in self}
         for engagement in self:
-            # first: the prerequisites sync the CRA, whose writes would drop a value already assigned here
-            prerequisites = engagement._ea_tool_prerequisites()
+            prerequisites = prerequisites_of[engagement.id]
             approved = engagement._ea_approved_materiality()
             selected = Control.search([("engagement_id", "=", engagement.id), ("selected_for_testing", "=", True)])
             engagement.sampling_te_label = fcfa(approved.performance) if approved else "—"

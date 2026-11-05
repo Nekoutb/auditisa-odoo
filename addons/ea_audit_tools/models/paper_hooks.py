@@ -230,9 +230,7 @@ class Paper(models.Model):
         engagement = paper.engagement_id
         code = paper.code
         if code == "P1.3":
-            values["framework"] = dict(
-                engagement._fields["framework"]._description_selection(self.env)
-            ).get(engagement.framework) or ""
+            values["framework"] = engagement.framework or ""
         elif code in ("P6.1", "S6.1"):
             text = self._ea_materiality_text(engagement)
             if text:
