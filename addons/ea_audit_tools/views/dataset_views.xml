@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dataset_list" model="ir.ui.view">
+        <field name="name">ea.audit.dataset.list</field>
+        <field name="model">ea.audit.dataset</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                </header>
+                <field name="kind"/>
+                <field name="timing"/>
+                <field name="source_filename"/>
+                <field name="row_count"/>
+                <field name="total_amount"/>
+                <field name="gl_line_count" optional="show"/>
+                <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" optional="show"/>
+                <field name="create_uid" string="Imported by"/>
+                <field name="create_date" string="Imported on"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_dataset_form" model="ir.ui.view">
+        <field name="name">ea.audit.dataset.form</field>
+        <field name="model">ea.audit.dataset</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="kind != 'journal_entries' or gl_built_at" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_lines" type="object" string="Ledger lines" invisible="not gl_built_at"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title"><field name="name" readonly="1"/></div>
+                    <div class="o_ea_cards">
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Rows</div>
+                            <field name="row_count" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="source_filename"/></div>
+                        </div>
+                        <div class="o_ea_card" invisible="kind != 'journal_entries'">
+                            <div class="o_ea_card_label">Projected lines</div>
+                            <field name="gl_line_count" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note">Rejected lines: <field name="gl_rejected"/></div>
+                        </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Total amount</div>
+                            <field name="total_amount" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="amount_column"/></div>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="kind"/>
+                            <field name="timing"/>
+                        </group>
+                        <group>
+                            <field name="source_sha256"/>
+                            <field name="gl_built_at" invisible="kind != 'journal_entries'"/>
+                        </group>
+                    </group>
+                    <div class="o_ea_panel" invisible="not gl_built_at">
+                        <div class="o_ea_card_label">Population checks</div>
+                        <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'"/>
+                        <field name="population_html" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gl_line_list" model="ir.ui.view">
+        <field name="name">ea.audit.gl.line.list</field>
+        <field name="model">ea.audit.gl.line</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="line_no"/>
+                <field name="account"/>
+                <field name="account_name" optional="show"/>
+                <field name="je_number"/>
+                <field name="journal_code" optional="show"/>
+                <field name="journal_date"/>
+                <field name="entry_date" optional="hide"/>
+                <field name="je_description" optional="show"/>
+                <field name="line_description" optional="hide"/>
+                <field name="debit" sum="Debit"/>
+                <field name="credit" sum="Credit"/>
+                <field name="signed" sum="Signed" optional="hide"/>
+                <field name="reference" optional="show"/>
+                <field name="third_party_name" optional="hide"/>
+                <field name="preparer" optional="hide"/>
+                <field name="reviewer" optional="hide"/>
+                <field name="approver" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_gl_line_pivot" model="ir.ui.view">
+        <field name="name">ea.audit.gl.line.pivot</field>
+        <field name="model">ea.audit.gl.line</field>
+        <field name="arch" type="xml">
+            <pivot disable_linking="1">
+                <field name="account" type="row"/>
+                <field name="journal_date" interval="month" type="col"/>
+                <field name="signed" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_gl_line_search" model="ir.ui.view">
+        <field name="name">ea.audit.gl.line.search</field>
+        <field name="model">ea.audit.gl.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="account"/>
+                <field name="je_number"/>
+                <field name="journal_code"/>
+                <field name="je_description"/>
+                <field name="preparer"/>
+                <field name="reviewer"/>
+                <field name="approver"/>
+                <filter name="missing_reference" string="Missing reference" domain="[('reference', '=', False)]"/>
+                <separator/>
+                <filter name="group_account" string="Account" context="{'group_by': 'account'}"/>
+                <filter name="group_journal" string="Journal" context="{'group_by': 'journal_code'}"/>
+                <filter name="group_entry" string="Entry" context="{'group_by': 'je_number'}"/>
+                <filter name="group_month" string="Month" context="{'group_by': 'journal_date:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_dataset_import_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.dataset.import.wizard.form</field>
+        <field name="model">ea.audit.dataset.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="step" invisible="1"/>
+                <field name="engagement_id" invisible="1"/>
+                <group invisible="step != 'upload'">
+                    <field name="kind"/>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                    <field name="timing"/>
+                    <field name="header_row"/>
+                </group>
+                <div invisible="step != 'confirm'">
+                    <field name="map_ids" nolabel="1">
+                        <list create="0" delete="0" editable="bottom">
+                            <field name="label"/>
+                            <field name="required_column"/>
+                            <field name="header"/>
+                            <field name="sample"/>
+                        </list>
+                    </field>
+                    <group invisible="kind != 'journal_entries'">
+                        <field name="je_key_columns"/>
+                    </group>
+                    <field name="preview_html" nolabel="1"/>
+                </div>
+                <footer>
+                    <button name="action_preview" type="object" string="Continue" class="btn-primary" invisible="step != 'upload'"/>
+                    <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'confirm'"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

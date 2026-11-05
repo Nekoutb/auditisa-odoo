@@ -1,6 +1,6 @@
 id,code,name,description,feeds,method,sequence
 tile_data_analytics,data-analytics,Data analytics,"Trial balance, general ledger, receivables, payables, inventory.","P6.1,P6.2",action_tool_tb,10
-tile_gl_console,gl-console,General ledger console,Thirty analytics and correlations between accounts.,"P6.2,E3.1",,20
+tile_gl_console,gl-console,General ledger console,Thirty analytics and correlations between accounts.,"P6.2,E3.1",action_tool_gl,20
 tile_lead_schedule,lead-schedule,Lead schedules,"By index, with checks and an Excel extract.","S4.1,C2.1",action_tool_lead,30
 tile_review_notes,review-notes,Review notes,"Section, owner, state and turnaround.","C4.1,C4.3",,40
 tile_forms,forms,Forms,"Every paper by phase, and who it is assigned to.","P1.1,C4.1",,50

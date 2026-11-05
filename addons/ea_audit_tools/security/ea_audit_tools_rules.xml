@@ -128,4 +128,19 @@
         <field name="model_id" ref="model_ea_audit_lead_index_override"/>
         <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_dataset_team_only" model="ir.rule">
+        <field name="name">ea.audit.dataset: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_dataset"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_dataset_row_team_only" model="ir.rule">
+        <field name="name">ea.audit.dataset.row: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_dataset_row"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_gl_line_team_only" model="ir.rule">
+        <field name="name">ea.audit.gl.line: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_gl_line"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>

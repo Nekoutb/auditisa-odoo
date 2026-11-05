@@ -20,6 +20,7 @@
         "views/cra_views.xml",
         "views/finding_views.xml",
         "views/sad_views.xml",
+        "views/dataset_views.xml",
         "views/wizard_views.xml",
         "views/tool_hub_views.xml",
     ],

@@ -47,6 +47,10 @@ MESSAGES = {
     "missing-account-column": _lt("No account-number column was recognised in the file."),
     "missing-amount-columns": _lt("The file needs movement (debit/credit) or closing-balance columns."),
     "unreadable-file": _lt("The file could not be read. Check that it is a valid .xlsx or .csv export, not renamed, corrupt or password-protected."),
+    "no-dataset": _lt("No ledger of that kind has been imported on this file."),
+    "mapping-incomplete": _lt("The column mapping is incomplete: the required columns must be mapped."),
+    "file-too-large": _lt("The file is too large (limit: 60 MB)."),
+    "fields-required": _lt("Choose a file and a kind of dataset."),
     "tool-not-available": _lt("This tool is not available yet on this version."),
 }
 
