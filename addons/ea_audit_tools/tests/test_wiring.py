@@ -54,7 +54,7 @@ class TestToolBackedPapers(WiringCase):
         item = self.item(self.engagement, "S2.1")
         self.set_phase(self.engagement, "planning")
         self.patch(type(item), "_ea_paper_refusal", lambda _self, _role: _self._ea_tool_gap())
-        self.assertCode("control-selection-incomplete", item.with_user(self.staff).action_sign, "preparer")
+        self.assertCode("control-selection-incomplete", item.with_user(self.senior).action_sign, "preparer")
 
 
 @tagged("post_install", "-at_install")
