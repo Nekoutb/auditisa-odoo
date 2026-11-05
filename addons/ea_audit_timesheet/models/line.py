@@ -40,9 +40,12 @@ class AccountAnalyticLine(models.Model):
         return lines
 
     def write(self, vals):
-        if not _GUARDED & set(vals):
+        # Odoo's own bookkeeping runs as superuser; a person's write is guarded whatever the field
+        if self.env.su and not _GUARDED & set(vals):
             return super().write(vals)
         vals = {key: value for key, value in vals.items() if key != "ea_phase"}
+        if not vals:
+            return True
         if "unit_amount" in vals and self.sudo().filtered("project_id"):
             self._ea_ts_check_range(vals["unit_amount"])
         before = self.sudo().filtered("project_id")

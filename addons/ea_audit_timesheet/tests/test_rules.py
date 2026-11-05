@@ -81,6 +81,16 @@ class TestDeadline(TimesheetCase):
         line.sudo().write({"amount": -10.0})
         self.assertEqual(line.sudo().amount, -10.0)
 
+    def test_no_field_of_a_locked_line_is_open_to_its_owner(self):
+        line = self.charge(self.staff)
+        phase = line.sudo().ea_phase
+        self.at(AT_LOCK)
+        as_staff = line.with_user(self.staff)
+        self.assertCode("ts-week-locked", as_staff.write, {"amount": -99.0})
+        self.assertCode("ts-week-locked", as_staff.write, {"ref": "x", "ea_phase": "conclusion"})
+        as_staff.write({"ea_phase": "conclusion"})
+        self.assertEqual(line.sudo().ea_phase, phase)
+
     def test_context_does_not_relax_it(self):
         self.at(AT_LOCK)
         loud = self.Line.with_user(self.staff).with_context(install_mode=True, ea_ts_bypass=True, force_lock=True)
