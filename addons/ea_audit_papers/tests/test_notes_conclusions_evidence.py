@@ -288,6 +288,12 @@ class TestTaskHeader(PaperCase):
         self.assertEqual(payload["tool_links"][0]["fr"], "Feuilles maîtresses")
         self.assertLessEqual(len(payload["linked_tasks"]), 6)
 
+    def test_not_applicable_has_no_side_door(self):
+        item = self.item(self.engagement, "P3.1")
+        self.assertCode("forbidden", item.with_user(self.manager).write, {"not_applicable": True})
+        self.assertCode("forbidden", item.with_user(self.staff).write, {"na_reason": "forged"})
+        self.assertFalse(item.not_applicable)
+
     def test_not_applicable_needs_a_reason(self):
         item = self.item(self.engagement, "P3.1")
         self.assertCode("rationale-required", item.with_user(self.senior).set_not_applicable, " ")

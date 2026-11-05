@@ -29,6 +29,9 @@ _TOOL_GAPS = {
 }
 
 
+_NA_FIELDS = {"not_applicable", "na_reason", "na_by_id", "na_at"}
+
+
 class FileItem(models.Model):
     _inherit = "ea.audit.file.item"
 
@@ -44,6 +47,14 @@ class FileItem(models.Model):
         items = super().create(vals_list)
         items._ea_ensure_papers()
         return items
+
+    def write(self, vals):
+        # Not applicable carries a rank and a reason: set_not_applicable is the way in.
+        if not self.env.su and set(vals) & _NA_FIELDS:
+            self.env["ea.audit.engagement"]._ea_require_write()
+            self.sudo().engagement_id.with_env(self.env)._ea_require_access()
+            raise paper_error(self.env, "forbidden")
+        return super().write(vals)
 
     def _ea_ensure_papers(self):
         """A paper exists from the moment its task does, so no reader has to create one."""
