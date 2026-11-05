@@ -9,6 +9,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/ea_audit_reports_rules.xml",
+        "data/ea.audit.tool.tile.csv",
         "report/document_report.xml",
         "views/document_views.xml",
         "views/wizard_views.xml",

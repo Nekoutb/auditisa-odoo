@@ -1223,6 +1223,9 @@ class Engagement(models.Model):
     # Screens
     # ------------------------------------------------------------------
 
+    def action_tool_conclusion(self):
+        return self.action_open_conclusion()
+
     def action_open_conclusion(self):
         self.ensure_one()
         return self._ea_board("ea_audit_reports.view_engagement_conclusion_form", self.env._("Conclusion and archive"))

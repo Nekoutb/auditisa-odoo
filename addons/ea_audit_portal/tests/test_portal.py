@@ -282,3 +282,10 @@ class TestInviteOverHttp(HttpCase):
         self.authenticate("par@flow.example.com", GOOD_PASSWORD)
         response = self.url_open("/my/pbc", allow_redirects=False)
         self.assertEqual(response.status_code, 303)
+
+@tagged("post_install", "-at_install")
+class TestNoPublicSignup(HttpCase):
+    def test_nobody_signs_up_uninvited(self):
+        scope = self.env["ir.config_parameter"].sudo().get_param("auth_signup.invitation_scope")
+        self.assertEqual(scope, "b2b")
+        self.assertEqual(self.url_open("/web/signup", allow_redirects=False).status_code, 404)

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- auth_signup installs itself with public sign-up open. Accounts here are by invitation only:
+         a firm's people through the Users screen, a client's contacts through a portal link. -->
+    <function model="ir.config_parameter" name="set_param">
+        <value>auth_signup.invitation_scope</value>
+        <value>b2b</value>
+    </function>
+</odoo>

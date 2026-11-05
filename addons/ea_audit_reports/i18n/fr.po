@@ -1514,3 +1514,13 @@ msgstr ""
 #: model:ir.actions.report,print_report_name:ea_audit_reports.action_report_document
 msgid "object.title"
 msgstr ""
+
+#. module: ea_audit_reports
+#: model:ea.audit.tool.tile,name:ea_audit_reports.tile_conclusion
+msgid "Conclusion and report"
+msgstr "Conclusion et rapport"
+
+#. module: ea_audit_reports
+#: model:ea.audit.tool.tile,description:ea_audit_reports.tile_conclusion
+msgid "Final review, letters, the audit report and the archive."
+msgstr "Revue finale, lettres, rapport d'audit et archivage."

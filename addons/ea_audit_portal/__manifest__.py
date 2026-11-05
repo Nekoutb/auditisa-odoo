@@ -9,6 +9,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/ea_audit_portal_rules.xml",
+        "data/auth_signup.xml",
         "views/pbc_views.xml",
         "views/portal_templates.xml",
     ],
