@@ -15,7 +15,7 @@ from ..services.errors import EngineError, ServiceError
 from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, lead_index_label
 from ..services.sampling_params import attribute_plan, evaluate_attribute, mus_plan
 from ..services.tod_plan import TOD_ASSURANCES, TOD_CRAS, plan_tod, stable_start_fraction
-from ..workbooks import toc_sample_workbook, tod_workbook
+from ..workbooks import CRA_LABEL, toc_sample_workbook, tod_workbook
 from .tool_record import fcfa, french_date, is_french
 
 DEFAULT_CRA = "moderate"
@@ -275,7 +275,7 @@ class EngagementSampling(models.Model):
                 "<td>{g}</td><td class='text-end'>{h}</td><td class='text-end'>{i}</td><td class='text-end'>{j}</td></tr>"
             ).format(
                 a=sheet["indexCode"], b=sheet["labelFr" if fr else "labelEn"], c=fcfa(plan["populationValue"]),
-                d=len(plan["keyItems"]), e=fcfa(plan["keyItemValue"]), f=fcfa(plan["te"]), g=sheet["cra"],
+                d=len(plan["keyItems"]), e=fcfa(plan["keyItemValue"]), f=fcfa(plan["te"]), g=CRA_LABEL[view["locale"]].get(sheet["cra"], sheet["cra"]),
                 h=plan["factor"] if plan["factor"] is not None else "—", i=plan["sampleSize"],
                 j=fcfa(plan["interval"]) if plan["interval"] is not None else "—",
             ))

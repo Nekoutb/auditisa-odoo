@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- A firm without a logo reads its own name, not Odoo's "Your logo" placeholder. -->
+    <template id="portal_brand" inherit_id="portal.frontend_layout" name="AuditISA portal brand">
+        <xpath expr="//a[hasclass('navbar-brand')]/img" position="attributes">
+            <attribute name="t-if">not res_company.uses_default_logo</attribute>
+        </xpath>
+        <xpath expr="//a[hasclass('navbar-brand')]/img" position="after">
+            <span t-else="" t-esc="res_company.ea_display_name or res_company.name"/>
+        </xpath>
+    </template>
+
+    <!-- Nobody who signs in here manages databases. -->
+    <template id="login_no_database_manager" inherit_id="web.login_layout" name="AuditISA login footer">
+        <xpath expr="//t[@t-if='not disable_database_manager']" position="replace"/>
+        <xpath expr="//div[hasclass('border-bottom')]/img" position="attributes">
+            <attribute name="t-if">not (request.db and request.env.company.sudo().uses_default_logo)</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('border-bottom')]/img" position="after">
+            <b t-else="" t-esc="request.env.company.sudo().ea_display_name or request.env.company.sudo().name"/>
+        </xpath>
+    </template>
+
     <template id="portal_my_home_pbc" inherit_id="portal.portal_my_home" name="Client-provided documents">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">

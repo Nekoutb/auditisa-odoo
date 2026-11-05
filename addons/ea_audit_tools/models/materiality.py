@@ -95,6 +95,7 @@ class EngagementMateriality(models.Model):
 
     materiality_ids = fields.One2many("ea.audit.materiality", "engagement_id", string="Materiality versions")
     mat_overall_label = fields.Char(string="Overall materiality", compute="_compute_mat_cards", compute_sudo=True)
+    mat_basis_label = fields.Char(compute="_compute_mat_cards", compute_sudo=True)
     mat_overall_note = fields.Char(compute="_compute_mat_cards", compute_sudo=True)
     mat_performance_label = fields.Char(string="Performance materiality", compute="_compute_mat_cards", compute_sudo=True)
     mat_performance_note = fields.Char(compute="_compute_mat_cards", compute_sudo=True)
@@ -140,10 +141,15 @@ class EngagementMateriality(models.Model):
             engagement.mat_justification = shown.justification if shown else False
             if not shown:
                 engagement.mat_overall_note = engagement.mat_performance_note = engagement.mat_trivial_note = ""
+                engagement.mat_basis_label = ""
                 engagement.mat_status_label = self.env._("No version yet")
                 engagement.mat_version_label = ""
                 continue
             of_overall = self.env._("of overall materiality")
+            # the base actually chosen: the total-assets label only beside a total-assets base (F013)
+            engagement.mat_basis_label = (
+                engagement.bilan_label if shown.benchmark == "total_assets" else benchmark_label(shown.benchmark, fr)
+            )
             engagement.mat_overall_note = "%s %% %s" % (
                 ("%g" % shown.percentage), benchmark_label(shown.benchmark, fr),
             )

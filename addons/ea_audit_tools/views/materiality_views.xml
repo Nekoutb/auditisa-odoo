@@ -51,7 +51,7 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <div class="o_ea_title">Materiality</div>
-                            <div class="o_ea_sub">P6.1 · ISA 320, ISA 450 · <field name="bilan_label" readonly="1"/></div>
+                            <div class="o_ea_sub">P6.1 · ISA 320, ISA 450 · <field name="mat_basis_label" readonly="1"/></div>
                         </div>
                         <div>
                             <span class="o_ea_chip o_ea_chip_good me-2"><field name="mat_status_label" readonly="1"/></span>
