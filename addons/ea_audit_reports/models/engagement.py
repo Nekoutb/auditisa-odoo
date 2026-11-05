@@ -165,7 +165,7 @@ class Engagement(models.Model):
         validated = self.env.company.sudo().ea_articles_validated
         return [block(item["t"], mark_articles(item["s"], validated)) for item in head + blocks + foot]
 
-    def _ea_file_under_code(self, code, title, kind, blocks, note, language="fr"):
+    def _ea_file_under_code(self, code, title, kind, blocks, note, language="fr", restricted=False):
         """fileUnderCode: a generated .docx filed as the next version of the document of that
         title on that task. A very-simple file may lack the task: the OHADA procedures are
         required whatever the tier, so it is added from the template (UAT B34)."""
@@ -183,7 +183,7 @@ class Engagement(models.Model):
         if not document:
             document = Document.create({
                 "engagement_id": self.id, "file_item_id": item.id, "title": title, "kind": kind,
-                "language": language, "created_by_id": self.env.user.id,
+                "language": language, "restricted": restricted, "created_by_id": self.env.user.id,
             })
         sealed = self._ea_seal_blocks(blocks)
         document._ea_add_version(build_docx(sealed), DOCX_MIME, note, sealed)
@@ -338,16 +338,22 @@ class Engagement(models.Model):
             ("engagement_id", "=", self.id), ("code", "=", "C4.2"), ("kind", "=", "workpaper"), ("role", "=", "eqr"),
             ("voided_at", "=", False), ("invalidated_at", "=", False),
         ])
-        answers = self.env["ea.audit.paper.answer"].sudo().search([
-            ("engagement_id", "=", self.id), ("code", "=", "C4.2"), ("field_key", "in", ["q_complete", "q_resolved"]),
-        ])
+        answers = self._ea_paper_values("C4.2")
+        confirmed = all((answers.get(key) or "").strip() == "yes" for key in ("q_complete", "q_resolved"))
+        if not confirmed:
+            return False
         for signoff in signoffs:
-            if not self._ea_is_appointed_eqr(signoff.user_id):
-                continue
-            own = answers.filtered(lambda a: (a.value or "").strip() == "yes" and a.write_uid == signoff.user_id)
-            if len(own) == 2:
+            if self._ea_is_appointed_eqr(signoff.user_id) and all(
+                self._ea_last_writer("C4.2", key) == signoff.user_id for key in ("q_complete", "q_resolved")
+            ):
                 return True
         return False
+
+    def _ea_last_writer(self, code, key):
+        """Who last wrote an answer, from its history: write_uid moves with any later flush of the row."""
+        return self.env["ea.audit.paper.answer.history"].sudo().search([
+            ("engagement_id", "=", self.id), ("code", "=", code), ("field_key", "=", key),
+        ], limit=1).user_id
 
     def _ea_open_note_count(self):
         return self.env["ea.audit.review.note"].sudo().search_count([("engagement_id", "=", self.id), ("state", "=", "open")])
@@ -836,7 +842,7 @@ class Engagement(models.Model):
                 "preparer": who(item.preparer_id), "assignee": who(item.assignee_id),
             } for item in items],
             "workingPapers": [{
-                "code": a.code, "field": a.field_key, "value": a.value, "updatedAt": stamp(a.write_date), "updatedBy": who(a.write_uid),
+                "code": a.code, "field": a.field_key, "value": a.value, "updatedAt": stamp(a.write_date), "updatedBy": who(self._ea_last_writer(a.code, a.field_key)),
             } for a in answers],
             "sectionConclusions": [{
                 "code": c.code, "conclusion": c.conclusion, "objectivesAchieved": c.objectives_achieved,
@@ -1112,14 +1118,16 @@ class Engagement(models.Model):
                 })
             for attachment in self.env["ea.audit.task.attachment"].sudo().search([("engagement_id", "=", self.id), ("deleted_at", "=", False)]):
                 put("10-working-papers/%s/_attachments/v%d %s" % (attachment.code, attachment.version, attachment.name), attachment.attachment_id.raw or b"")
-            for document in as_root.document_ids.sorted("id"):
+            for document in as_root.document_ids.sorted("id").filtered(
+                lambda d: not d.restricted or can_partner_signoff(self.env.user._ea_firm_role())
+            ):
                 folder = "20-documents/%s/%d" % (document.code, document.id)
                 put_json("%s/versions.json" % folder, [
                     {"version": v.version_no, "sha256": v.sha256, "note": v.note, "bytes": v.byte_size}
                     for v in document.version_ids.sorted("version_no")
                 ])
                 for version in document.version_ids.sorted("version_no"):
-                    extension = "docx" if version.mime == DOCX_MIME else "bin"
+                    extension = (version.attachment_id.name or "x.bin").rsplit(".", 1)[-1]
                     put("%s/v%d.%s" % (folder, version.version_no, extension), version.attachment_id.raw or b"")
             for section, rows in as_root._ea_bundle_conclusion().items():
                 put_json("60-conclusion/%s.json" % section, rows)

@@ -12,6 +12,31 @@
         <field name="model_id" ref="model_ea_audit_document_version"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <!-- A restricted document (disclosure of criminal facts) is for partners. -->
+    <record id="rule_document_open_to_members" model="ir.rule">
+        <field name="name">ea.audit.document: members read what is not restricted</field>
+        <field name="model_id" ref="model_ea_audit_document"/>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+        <field name="domain_force">[('restricted', '=', False)]</field>
+    </record>
+    <record id="rule_document_all_to_partners" model="ir.rule">
+        <field name="name">ea.audit.document: partners read all</field>
+        <field name="model_id" ref="model_ea_audit_document"/>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_partner'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+    <record id="rule_version_open_to_members" model="ir.rule">
+        <field name="name">ea.audit.document.version: members read what is not restricted</field>
+        <field name="model_id" ref="model_ea_audit_document_version"/>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
+        <field name="domain_force">[('restricted', '=', False)]</field>
+    </record>
+    <record id="rule_version_all_to_partners" model="ir.rule">
+        <field name="name">ea.audit.document.version: partners read all</field>
+        <field name="model_id" ref="model_ea_audit_document_version"/>
+        <field name="groups" eval="[(4, ref('ea_audit_core.group_partner'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
     <record id="rule_completion_record_team_only" model="ir.rule">
         <field name="name">ea.audit.completion.record: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_completion_record"/>

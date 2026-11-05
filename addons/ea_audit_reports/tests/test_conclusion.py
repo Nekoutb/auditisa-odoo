@@ -166,15 +166,12 @@ class TestCompletionGates(ReportsCase):
         by_partner = self.signoff("C4.2", "eqr", self.partner)
         self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
         by_partner.voided_at = "2026-01-01 00:00:00"
+        self.env.flush_all()
         self.signoff("C4.2", "eqr", self.eqr)
         self.answer("C4.2", "q_complete", "yes", self.eqr)
         self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
         self.answer("C4.2", "q_resolved", "yes", self.partner)
         self.assertIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
-        answer = self.env["ea.audit.paper.answer"].sudo().search([
-            ("engagement_id", "=", self.engagement.id), ("code", "=", "C4.2"), ("field_key", "=", "q_resolved"),
-        ])
-        answer.with_context(ea_audit_answer_door=True).unlink()
         self.answer("C4.2", "q_resolved", "yes", self.eqr)
         self.assertNotIn("eqr_complete", self.failed(self.as_partner.completion_gates()))
 

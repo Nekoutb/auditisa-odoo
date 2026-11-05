@@ -26,9 +26,17 @@ class ReportsCase(ToolsCase):
         if not paper:
             self.item(engagement, code)._ea_ensure_papers()
             paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", engagement.id), ("code", "=", code)], limit=1)
-        env = self.env(user=user.id if user else self.env.uid, su=True)
-        Answer = env["ea.audit.paper.answer"].with_context(ea_audit_answer_door=True)
-        return Answer.create({"paper_id": paper.id, "field_key": key, "value": value})
+        writer = user or self.env.user
+        Answer = self.env["ea.audit.paper.answer"].sudo().with_context(ea_audit_answer_door=True)
+        row = Answer.search([("paper_id", "=", paper.id), ("field_key", "=", key)], limit=1)
+        if row:
+            row.value = value
+        else:
+            row = Answer.create({"paper_id": paper.id, "field_key": key, "value": value})
+        self.env["ea.audit.paper.answer.history"].sudo().create({
+            "paper_id": paper.id, "field_key": key, "after": value, "user_id": writer.id,
+        })
+        return row
 
     def signoff(self, code, role, user=None, engagement=None):
         item = self.item(engagement or self.engagement, code)
@@ -84,10 +92,11 @@ class ReportsCase(ToolsCase):
         self.env.flush_all()
         self.env.cr.execute("UPDATE ea_audit_file_item SET na_reason = 'Not used', not_applicable = TRUE WHERE id IN %s", [tuple(items.ids)])
         self.env.invalidate_all()
-        worked = {answer.code for answer in self.env["ea.audit.paper.answer"].sudo().search([("engagement_id", "=", engagement.id)])}
-        for code in worked:
-            self.signoff(code, "preparer", self.staff, engagement)
-            self.signoff(code, "reviewer", self.senior, engagement)
+        for row in engagement.sudo()._ea_item_activity():
+            if row["worked"] and not row["prepared"]:
+                self.signoff(row["item"].code, "preparer", self.staff, engagement)
+            if row["worked"] and not row["reviewed"]:
+                self.signoff(row["item"].code, "reviewer", self.senior, engagement)
 
     def issued(self, engagement=None, report_date=date(2026, 3, 31)):
         """A file with its report issued."""

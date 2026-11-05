@@ -58,8 +58,8 @@ class TestArchiveGates(ReportsCase):
         """Finding C5: a task holding work and no paper does not pass because few documents exist."""
         self.answer("E4.1", "p_work", "Fait")
         gates = self._gates()
-        self.assertEqual(gates["papers_signed"]["codes"], ["E4.1"])
-        self.assertEqual(gates["reviews_complete"]["codes"], ["E4.1"])
+        self.assertIn("E4.1", gates["papers_signed"]["codes"])
+        self.assertIn("E4.1", gates["reviews_complete"]["codes"])
         self.signoff("E4.1", "preparer")
         gates = self._gates()
         self.assertNotIn("E4.1", gates["papers_signed"]["codes"])

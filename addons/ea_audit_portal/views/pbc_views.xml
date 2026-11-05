@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pbc_item_list" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.item.list</field>
+        <field name="model">ea.audit.pbc.item</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-warning="status == 'uploaded'" decoration-muted="status == 'accepted'">
+                <header>
+                    <button name="action_chase" type="object" string="Send a reminder"/>
+                </header>
+                <field name="title"/>
+                <field name="status" widget="badge"/>
+                <field name="create_date" string="Requested on" widget="date"/>
+                <field name="chased_at" string="Last reminder" widget="date" optional="show"/>
+                <field name="chase_count" string="Reminders" optional="show"/>
+                <field name="filename"/>
+                <field name="uploaded_at" widget="date"/>
+                <field name="filed_code"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_pbc_item_form" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.item.form</field>
+        <field name="model">ea.audit.pbc.item</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_open_accept" type="object" string="Accept and file" class="btn-primary" invisible="status != 'uploaded'" groups="ea_audit_core.group_senior"/>
+                    <button name="action_open_accept" type="object" string="File under a task" invisible="status != 'accepted' or document_id" groups="ea_audit_core.group_senior"/>
+                    <button name="action_chase" type="object" string="Send a reminder" invisible="status != 'requested'"/>
+                    <button name="action_download" type="object" string="Download" invisible="not attachment_id"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="title"/>
+                        <field name="note"/>
+                        <field name="attachment_id" invisible="1"/>
+                        <field name="document_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="filename"/>
+                            <field name="uploaded_by_id"/>
+                            <field name="uploaded_at"/>
+                        </group>
+                        <group>
+                            <field name="accepted_by_id"/>
+                            <field name="accepted_at"/>
+                            <field name="chased_at"/>
+                            <field name="chase_count"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_pbc_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.pbc.wizard.form</field>
+        <field name="model">ea.audit.pbc.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="item_id" invisible="1"/>
+                    <field name="title" invisible="item_id" required="not item_id"/>
+                    <field name="note" invisible="item_id"/>
+                    <field name="file_item_id" invisible="not item_id" required="item_id"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_portal_contact_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.portal.contact.wizard.form</field>
+        <field name="model">ea.audit.portal.contact.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="client_id" invisible="1"/>
+                    <field name="contact_id" invisible="1"/>
+                    <field name="name" invisible="invite_link" required="not invite_link"/>
+                    <field name="email" invisible="invite_link" required="not invite_link"/>
+                    <field name="invite_link" invisible="not invite_link" widget="CopyClipboardChar"/>
+                </group>
+                <p class="text-muted" invisible="not invite_link">Pass this link to the contact: it works once, for 14 days. They choose their own password.</p>
+                <footer>
+                    <button name="action_invite" type="object" string="Create and get the link" class="btn-primary" invisible="invite_link"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_client_form_portal" model="ir.ui.view">
+        <field name="name">ea.audit.client.form.portal</field>
+        <field name="model">ea.audit.client</field>
+        <field name="inherit_id" ref="ea_audit_core.view_client_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="o_ea_panel">
+                    <h4>Portal contacts</h4>
+                    <button name="action_add_portal_contact" type="object" string="New portal contact" class="btn btn-secondary" groups="ea_audit_core.group_senior"/>
+                    <field name="portal_contact_ids" readonly="1" nolabel="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="email"/>
+                            <field name="pending" string="Awaiting password"/>
+                            <field name="invite_expires_at" string="Link valid until"/>
+                            <button name="action_new_link" type="object" string="New link" invisible="not pending" groups="ea_audit_core.group_senior"/>
+                        </list>
+                    </field>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_engagement_form_pbc_button" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.form.pbc.button</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='phase']" position="before">
+                <button name="action_view_pbc" type="object" string="Client documents (PBC)"/>
+                <button name="action_open_pbc_request" type="object" string="New PBC request" invisible="archived_at"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
