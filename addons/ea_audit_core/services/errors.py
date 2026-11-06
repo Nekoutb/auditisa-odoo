@@ -49,7 +49,7 @@ MESSAGES = {
     "eqr-on-team": _lt("The EQR reviewer must be independent of the engagement team."),
     "eqr-cooling-off": _lt("This person was the engagement partner of the same client within the two years before this period end: the cooling-off period applies (ISQM 2 ¶20)."),
     "eqr-declaration-required": _lt("Tick the objectivity declaration to appoint the engagement quality reviewer."),
-    "preparer-equals-approver": _lt("The same person cannot be both preparer and approver of a task (firm sign-off policy)."),
+    "preparer-equals-approver": _lt("The same person cannot be both preparer and reviewer of a task (firm sign-off policy)."),
     "email-domain-not-allowed": _lt("This email address is not on one of the firm's allowed domains (%(domains)s). Engagement-team invitations go only to those domains; a firm administrator can change the list in Settings."),
     "invalid-email-domain": _lt("One of the entries is not a valid email domain (e.g. eca.com)."),
     "engagement-partner-required": _lt("Choose the engagement partner: an engagement cannot be created without one (a partner or administrator of the firm)."),

@@ -8,8 +8,8 @@
   "tasks_on_default_paper": 24
  },
  "marks": {
-  "[Projet]": 95,
-  "[Draft]": 95,
+  "[Projet]": 91,
+  "[Draft]": 91,
   "(à valider)": 86
  },
  "papers": {
@@ -43,7 +43,7 @@
   },
   "C4.2": {
    "source": "lib/papers/conclusion.ts",
-   "definition_hash": "7f22b267ba3c7875aa44177e7351901d7238991a9c8f7585ea71d0b00d089343"
+   "definition_hash": "a36d8b5434d976005b84e94647452ab0420c11325cc941d8af70778e0085df45"
   },
   "C4.3": {
    "source": "lib/papers/conclusion.ts",
@@ -383,7 +383,7 @@
   },
   "S6.1": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "38bec1c8578f0f139fabce2dad9785b3aa0f049f4b1a1d4f2e716ff589f4fa89"
+   "definition_hash": "a45ab22ebbd959a3ff9d86e736b018e569c4c7acbd07735b79961b82da9e0b9b"
   },
   "S6.2": {
    "source": "lib/papers/strategy.ts",

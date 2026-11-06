@@ -141,8 +141,11 @@ class EngagementDesign(models.Model):
     dsp_gap_label = fields.Char(string="Accounts with nothing designed", compute="_compute_dsp_gaps", compute_sudo=True)
 
     def _compute_dsp_gaps(self):
+        # first, for all of them: reading the gaps syncs S5.5, whose writes would drop a value already
+        # assigned here, including one assigned to another engagement of this batch
+        gaps_of = {engagement.id: engagement._ea_dsp_gaps() for engagement in self}
         for engagement in self:
-            engagement.dsp_gap_label = ", ".join(engagement._ea_dsp_gaps()) or "—"
+            engagement.dsp_gap_label = ", ".join(gaps_of[engagement.id]) or "—"
 
     def _ea_sync_dsp(self):
         """dspView's rows: a cell relevant only by the no-selection fallback asks for no procedures."""

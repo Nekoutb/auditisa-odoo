@@ -1233,7 +1233,7 @@ msgstr "Sous le seuil (%(umt)s)"
 #. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "Below the trivial threshold — tick the confirmation to log it as trivial."
-msgstr "Sous le seuil négligeable — cochez la confirmation pour la consigner comme négligeable."
+msgstr "Sous le seuil des anomalies manifestement négligeables : cochez la confirmation pour la consigner comme telle."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__benchmark
@@ -1466,7 +1466,7 @@ msgstr "Relancé le"
 #. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "Check the materiality figures: amount > 0, percentage 0–100, performance 60–85 %, trivial 3–5 %."
-msgstr "Vérifiez les montants : montant > 0, pourcentage 0–100, seuil de travail 60–85 %, négligeable 3–5 %."
+msgstr "Vérifiez les montants : montant > 0, pourcentage 0–100, seuil de travail 60–85 %, anomalies manifestement négligeables 3–5 %."
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -1626,13 +1626,13 @@ msgstr "Levée"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__trivial
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__is_trivial
 msgid "Clearly trivial"
-msgstr "Manifestement négligeable"
+msgstr "Anomalies manifestement négligeables"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__trivial_pct
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__trivial_pct
 msgid "Clearly trivial %"
-msgstr "% négligeable"
+msgstr "% manifestement négligeable"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
@@ -1642,7 +1642,7 @@ msgstr "Anomalies manifestement négligeables"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__trivial
 msgid "Clearly trivial threshold"
-msgstr "Seuil de négligeabilité"
+msgstr "Seuil des anomalies manifestement négligeables"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__client_id
@@ -6171,7 +6171,7 @@ msgstr "Seuil global"
 #. module: ea_audit_tools
 #: model:ea.audit.tool.tile,description:ea_audit_tools.tile_materiality
 msgid "Overall, performance and clearly trivial, with approval."
-msgstr "Global, de travail, négligeable, avec approbation."
+msgstr "Global, de travail, manifestement négligeable, avec approbation."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__overdue
@@ -9655,3 +9655,18 @@ msgstr "du seuil global"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__operator__startswith
 msgid "starts with"
 msgstr "commence par"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "<span class=\"o_ea_chip\">Not assessable yet</span>"
+msgstr "<span class=\"o_ea_chip\">Pas encore évaluable</span>"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_basis_label
+msgid "Mat Basis Label"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "No significant account on this file: conclude on the significant accounts (P6.2) and the board fills in. Nothing here is a result."
+msgstr "Aucun compte significatif sur ce dossier : concluez sur les comptes significatifs (P6.2) et le tableau se remplira. Rien ici n'est un résultat."

@@ -59,8 +59,18 @@ export class EaTopBar extends Component {
         return Boolean(this.ctxState.mission);
     }
 
+    /** On a paper or a group, its own phase; on the dashboard, the ring that is open. */
     get currentSection() {
-        return this.ctxState.openSection || this.ctxState.mission?.section;
+        if (this.ctxState.onAllTasks) {
+            return null;
+        }
+        const ring = this.ctxState.onDashboard ? this.ctxState.openSection : null;
+        return this.ctxState.pageSection || ring || this.ctxState.mission?.section;
+    }
+
+    goAllTasks() {
+        this.state.open = null;
+        return this.ctx.openAllTasks(this.ctxState.mission.id);
     }
 
     get selectorLabel() {
@@ -105,8 +115,15 @@ export class EaTopBar extends Component {
         items.push({ label: _t("My invitations"), run: () => this.ctx.openXmlid("ea_audit_core.action_my_invitations") });
         if (this.shell.is_partner) {
             items.push({ label: _t("Sign-off policy"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_policy_open") });
+            items.push({ label: _t("Sign-off matrix"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_matrix") });
             items.push({ label: _t("Sign-off rules by task"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_task_rule") });
             items.push({ label: _t("File index"), run: () => this.ctx.openXmlid("ea_audit_core.action_task_template") });
+        }
+        if (this.shell.is_firm_admin) {
+            items.push({ label: _t("Audit log"), run: () => this.ctx.openXmlid("ea_audit_core.action_firm_audit_log") });
+            if (this.shell.has_operator_log) {
+                items.push({ label: _t("Operator access"), run: () => this.ctx.openXmlid("ea_audit_firm_agent.action_ea_firm_access_log") });
+            }
         }
         if (this.shell.is_system) {
             items.push({ label: _t("Users"), run: () => this.ctx.openXmlid("base.action_res_users") });

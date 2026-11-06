@@ -10,6 +10,8 @@ def _lt(text):
     return text
 
 
+E3_MERGED_NOTE = _lt("Group E3 was merged into group E5: E3.1 sits there under its original code.")
+
 SECTION_ORDER = ("acceptance", "strategy", "execution", "conclusion")
 
 SECTION_LABELS = {

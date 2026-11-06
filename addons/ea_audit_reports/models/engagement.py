@@ -259,7 +259,7 @@ class Engagement(models.Model):
             record = self.env["ea.audit.completion.record"].sudo().create({"engagement_id": self.id, "key": key, **vals})
         self._ea_log(
             "completion_record_updated" if record.version > 1 else "completion_record_recorded",
-            "Completion record %s %s" % (key, "updated" if record.version > 1 else "recorded"),
+            ("Completion record %s updated" if record.version > 1 else "Completion record %s recorded") % key,
         )
         return record
 

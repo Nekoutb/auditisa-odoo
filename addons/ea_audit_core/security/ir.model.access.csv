@@ -10,11 +10,13 @@ access_file_item_member,file item member,model_ea_audit_file_item,group_member,1
 access_file_item_writer,file item writer,model_ea_audit_file_item,group_writer,1,1,0,0
 access_signoff_member,signoff member,model_ea_audit_signoff,group_member,1,0,0,0
 access_signoff_policy_member,policy member,model_ea_audit_signoff_policy,group_member,1,0,0,0
-access_signoff_policy_writer,policy writer,model_ea_audit_signoff_policy,group_writer,1,1,1,0
+access_signoff_policy_writer,policy writer,model_ea_audit_signoff_policy,group_partner,1,1,1,0
 access_signoff_task_rule_member,task rule member,model_ea_audit_signoff_task_rule,group_member,1,0,0,0
-access_signoff_task_rule_writer,task rule writer,model_ea_audit_signoff_task_rule,group_writer,1,1,1,1
+access_signoff_task_rule_writer,task rule writer,model_ea_audit_signoff_task_rule,group_partner,1,1,1,1
 access_planning_snapshot_member,planning snapshot member,model_ea_audit_planning_snapshot,group_member,1,0,0,0
 access_engagement_create_wizard,create wizard,model_ea_audit_engagement_create_wizard,group_writer,1,1,1,1
 access_team_invite_wizard,invite wizard,model_ea_audit_team_invite_wizard,group_writer,1,1,1,1
 access_partner_transfer_wizard,transfer wizard,model_ea_audit_partner_transfer_wizard,group_writer,1,1,1,1
 access_team_decline_wizard,decline wizard,model_ea_audit_team_decline_wizard,group_member,1,1,1,1
+access_activity_firm_admin,firm audit log,model_ea_audit_activity,group_firm_admin,1,0,0,0
+access_signoff_matrix_import,matrix import wizard,model_ea_audit_signoff_matrix_import,group_partner,1,1,1,1

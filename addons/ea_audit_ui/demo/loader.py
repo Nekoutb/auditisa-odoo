@@ -45,6 +45,12 @@ _SELECT_ANSWERS = {
     "auditor_change": "no",
     "rating": "moderate",
     "itgc_state": "support",
+    # S6.1, the conditional tasks: none on the demonstration files until someone says so
+    "uses_expert": "no",
+    "uses_service_org": "no",
+    "has_internal_audit": "no",
+    "assess_control_env": "no",
+    "assess_it_env": "no",
 }
 _DONE_TEXT = ("Done, see the working paper.", "Effectué, voir la feuille de travail.")
 

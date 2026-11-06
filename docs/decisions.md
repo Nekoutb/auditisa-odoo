@@ -25,6 +25,7 @@ Applied in `ea_audit_papers` so that the build can proceed. Each is provisional,
 | Q5 `value` type | `Text`. | Departs from spec D.12's `Json`; the tool families (`sad`, `itapps`, `psp:`, `dsp`) become real models in `ea_audit_tools`. |
 | Q6 Names | Follow D.12: `ea.audit.paper.def`, `ea.audit.paper`, `ea.audit.paper.answer`. | Spec C.6.7's `ea.audit.paper.response` is not used. |
 | Q8 Shadowed C6.2 | Use the `gam.ts` C6.2 text. | The `conclusion.ts` version stays in `data/papers_shadowed/` as source material; it is not loaded. I-9's row on C6.2 still awaits the technical desk's comparison. |
+| I-5 Audit log | Applied as `ea.audit.activity`, a bespoke append-only table, because the ruling of 2026-10-27 on F027 asks for a firm-wide log with the full text before and after of an answer, read by the firm administrator alone. | OCA `auditlog` is not installed. Provisional until the owner closes I-5. |
 
 ## Open decisions from the specification
 

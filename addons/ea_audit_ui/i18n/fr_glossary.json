@@ -189,5 +189,21 @@
 "yesterday": "hier",
 "· File locked": "· Dossier verrouillé",
 "· Phase deadline": "· Échéance de phase",
-"← Back to dashboard": "← Retour au tableau de bord"
+"← Back to dashboard": "← Retour au tableau de bord",
+"Operator access": "Accès de l'opérateur",
+"Logins of the operator to this server": "Connexions de l'opérateur à ce serveur",
+"%(designed)s of %(total)s designed": "%(designed)s sur %(total)s conçus",
+"Group E3 was merged into group E5: E3.1 sits there under its original code.": "Le groupe E3 a été fusionné dans le groupe E5 : E3.1 y figure sous son code d'origine.",
+"Sign-off matrix": "Matrice de signature",
+"Audit log": "Journal d'audit",
+"open and mine": "ouvertes et à moi",
+"Substantive procedures:": "Procédures substantives :",
+"Conditional papers": "Feuilles conditionnelles",
+"Not counted: they come onto the file when their trigger answers yes.": "Non comptées : elles entrent au dossier lorsque leur déclencheur répond oui.",
+"TRIGGER": "DÉCLENCHEUR",
+"Filter the tasks": "Filtrer les tâches",
+"Mine (": "À moi (",
+"All (": "Toutes (",
+"Open (": "Ouvertes (",
+"No tasks under this filter.": "Aucune tâche avec ce filtre."
 }

@@ -12,3 +12,15 @@ class EngagementMixin(models.AbstractModel):
     engagement_id = fields.Many2one(
         "ea.audit.engagement", string="Engagement", required=True, index=True, ondelete="cascade",
     )
+
+
+class Base(models.AbstractModel):
+    _inherit = "base"
+
+    def _compute_display_name(self):
+        """A record of ours with no name field reads as what it is, not as "ea.audit.je.studio,5"."""
+        if self._rec_name or not self._name.startswith("ea."):
+            return super()._compute_display_name()
+        label = self.env["ir.model"].sudo()._get(self._name).name
+        for record in self:
+            record.display_name = label

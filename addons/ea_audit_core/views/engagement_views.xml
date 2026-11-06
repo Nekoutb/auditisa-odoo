@@ -7,7 +7,7 @@
             <list create="0" delete="0">
                 <field name="client_id"/>
                 <field name="display_name" string="Engagement"/>
-                <field name="fiscal_year"/>
+                <field name="fiscal_year" options="{'enable_formatting': false}"/>
                 <field name="period_end"/>
                 <field name="phase"/>
                 <field name="engagement_partner_id" optional="show"/>
@@ -37,7 +37,7 @@
                         <group>
                             <field name="name"/>
                             <field name="client_id" readonly="1"/>
-                            <field name="fiscal_year" readonly="1"/>
+                            <field name="fiscal_year" readonly="1" options="{'enable_formatting': false}"/>
                             <field name="period_end" readonly="1"/>
                             <field name="duration_months" readonly="1"/>
                         </group>

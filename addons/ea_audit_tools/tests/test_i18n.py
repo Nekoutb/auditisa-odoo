@@ -36,7 +36,7 @@ class TestFrench(ToolsCase):
     def test_the_hub_reads_as_m7(self):
         tile = self.env.ref("ea_audit_tools.tile_materiality").with_env(self.fr)
         self.assertEqual(tile.name, "Seuil de signification")
-        self.assertEqual(tile.description, "Global, de travail, négligeable, avec approbation.")
+        self.assertEqual(tile.description, "Global, de travail, manifestement négligeable, avec approbation.")
         self.assertEqual(self.env.ref("ea_audit_tools.tile_sad").with_env(self.fr).name, "Écarts d'audit")
 
     def test_field_labels_and_choices(self):

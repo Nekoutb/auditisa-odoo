@@ -63,7 +63,11 @@
                             <span class="o_ea_chip o_ea_chip_warn"><field name="cra_to_assess_label" readonly="1"/></span>
                         </div>
                     </div>
-                    <div class="o_ea_panel">
+                    <div class="o_ea_panel" invisible="cra_row_ids" data-ea="cra-not-assessable">
+                        <div><span class="o_ea_chip">Not assessable yet</span></div>
+                        <div class="o_ea_sub">No significant account on this file: conclude on the significant accounts (P6.2) and the board fills in. Nothing here is a result.</div>
+                    </div>
+                    <div class="o_ea_panel" invisible="not cra_row_ids">
                         <field name="cra_row_ids" readonly="1" nolabel="1">
                             <list>
                                 <field name="index_code"/>

@@ -66,7 +66,7 @@ class EngagementTools(models.Model):
             "ea.audit.file.item", self.env._("Forms"),
             [("ea_audit_tools.view_forms_register", "list")],
             {
-                "domain": [("engagement_id", "=", self.id), ("conditional", "=", False), ("id", "not in", self.sudo()._ea_e4_out_of_scope().ids)],
+                "domain": [("engagement_id", "=", self.id), ("id", "not in", self.sudo()._ea_e4_out_of_scope().ids)],
                 "context": {"ea_engagement_id": self.id, "create": False, "group_by": ["task_phase"]},
             },
         )
@@ -148,7 +148,7 @@ class EngagementTools(models.Model):
                 version.approved_by_id.name or "", french_date(version.approved_at),
             ])
         head = (
-            ["Version", "État", "Base", "Montant", "%", "Seuil global", "% travail", "Seuil de travail", "% négligeable", "Négligeable", "Justification", "Justification du seuil de travail", "Approuvé par", "Approuvé le"]
+            ["Version", "État", "Base", "Montant", "%", "Seuil global", "% travail", "Seuil de travail", "% manifestement négligeable", "Manifestement négligeable", "Justification", "Justification du seuil de travail", "Approuvé par", "Approuvé le"]
             if fr else
             ["Version", "Status", "Benchmark", "Amount", "%", "Overall", "Performance %", "Performance", "Trivial %", "Trivial", "Justification", "Performance justification", "Approved by", "Approved on"]
         )

@@ -307,6 +307,16 @@ body.ea-shell .ea-page {
   .ea-back { display: inline-block; margin-top: 12px; color: var(--ea-green); font-size: 13px; font-weight: 600; }
   .ea-title-tasks { margin-top: 6px; }
   .ea-task-card { margin-top: 14px; overflow: hidden; }
+  .ea-note-line { margin-top: 8px; color: var(--ea-muted); font-size: 12.5px; }
+  .ea-designed { color: var(--ea-muted); font-weight: 400; }
+  .ea-muted { color: var(--ea-muted); }
+  .ea-table-plain tbody tr { cursor: default; }
+  .ea-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .ea-filter {
+    border: 1px solid var(--ea-line); background: var(--ea-card); border-radius: 20px; padding: 4px 12px; font-size: 13px;
+    &.on { background: var(--ea-greenbg); border-color: var(--ea-green); color: var(--ea-green); font-weight: 600; }
+  }
+  .o_list_table .o_ea_clip { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ea-table-wrap { overflow-x: auto; }
   .ea-table {
     width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--ea-card);

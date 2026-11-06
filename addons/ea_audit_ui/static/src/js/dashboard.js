@@ -77,6 +77,10 @@ export class EaDashboard extends Component {
         return this.ctx.openTool(this.engagementId, method);
     }
 
+    openAllTasks() {
+        return this.ctx.openAllTasks(this.engagementId);
+    }
+
     openUnassigned() {
         return this.ctx.openItems(this.state.data.unassigned_ids, _t("Tasks without a preparer"));
     }

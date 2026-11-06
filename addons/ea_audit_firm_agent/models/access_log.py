@@ -25,6 +25,13 @@ class EaFirmAccessLog(models.Model):
     account = fields.Char("Account", readonly=True)
     source = fields.Char("Source address", readonly=True)
 
+    def _check_access(self, operation):
+        """The firm's administrator reads this log. By group name, as here: this addon deliberately
+        depends on no ea_audit_* addon, so its access file cannot name their group."""
+        if operation == "read" and self.env.user.has_group("ea_audit_core.group_firm_admin"):
+            return None
+        return super()._check_access(operation)
+
     def write(self, vals):
         raise AccessError(self.env._("The access log cannot be changed."))
 

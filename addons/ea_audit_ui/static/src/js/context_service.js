@@ -19,6 +19,8 @@ const contextService = {
         const state = reactive({
             mission: null,
             openSection: null,
+            // what the bar shows on a screen that belongs to one phase: a paper, a group
+            pageSection: null,
             screen: "home",
             recent: [],
             unread: 0,
@@ -48,6 +50,7 @@ const contextService = {
                     state.openSection = null;
                 }
                 state.mission = mission;
+                state.pageSection = null;
                 state.screen = "mission";
             },
             openHome() {
@@ -77,6 +80,9 @@ const contextService = {
                 return action.doAction(
                     clientAction("ea_audit_ui.tasks", _t("Task list"), { resId: engagementId, group })
                 );
+            },
+            openAllTasks(engagementId) {
+                return action.doAction(clientAction("ea_audit_ui.all_tasks", _t("Tasks"), { resId: engagementId }));
             },
             openItem(itemId) {
                 return action.doAction({
@@ -123,9 +129,16 @@ const contextService = {
                     const mission = await call("ea_ui_context", model, id);
                     if (mission) {
                         state.mission = mission;
+                        state.pageSection = mission.item_section || null;
                         state.screen = "mission";
                     }
                 };
+                // a group's page keeps the phase it set; every other screen starts clean
+                if (current?.tag !== "ea_audit_ui.tasks") {
+                    state.pageSection = null;
+                }
+                state.onDashboard = current?.tag === "ea_audit_ui.dashboard";
+                state.onAllTasks = current?.tag === "ea_audit_ui.all_tasks";
                 if (current?.tag === "ea_audit_paper") {
                     const itemId = Number(current.params?.file_item_id || current.context?.active_id);
                     return itemId ? enter("ea.audit.file.item", itemId) : undefined;

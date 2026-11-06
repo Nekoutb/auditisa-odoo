@@ -1288,12 +1288,6 @@ msgid "agreed-upon procedures"
 msgstr "procédures convenues"
 
 #. module: ea_audit_ui
-#. odoo-javascript
-#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
-msgid "assigned to me"
-msgstr "qui me sont affectées"
-
-#. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/models/file_item.py:0
 msgid "assignee"
@@ -1484,3 +1478,118 @@ msgstr "Audit"
 #: code:addons/ea_audit_ui/models/ui_data.py:0
 msgid "Engagements and files"
 msgstr "Missions et dossiers"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "%(designed)s of %(total)s designed"
+msgstr "%(designed)s sur %(total)s conçus"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "(S5.5)"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "All ("
+msgstr "Toutes ("
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Apps"
+msgstr "Applications"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Audit log"
+msgstr "Journal d'audit"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Conditional papers"
+msgstr "Feuilles conditionnelles"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Filter the tasks"
+msgstr "Filtrer les tâches"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Group E3 was merged into group E5: E3.1 sits there under its original code."
+msgstr "Le groupe E3 a été fusionné dans le groupe E5 : E3.1 y figure sous son code d'origine."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/rule_error_dialog.js:0
+msgid "Invalid Operation"
+msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Mine ("
+msgstr "À moi ("
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "No tasks under this filter."
+msgstr "Aucune tâche avec ce filtre."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Not counted: they come onto the file when their trigger answers yes."
+msgstr "Non comptées : elles entrent au dossier lorsque leur déclencheur répond oui."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Open ("
+msgstr "Ouvertes ("
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Operator access"
+msgstr "Accès de l'opérateur"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+msgid "Sign-off matrix"
+msgstr "Matrice de signature"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Substantive procedures:"
+msgstr "Procédures substantives :"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "TRIGGER"
+msgstr "DÉCLENCHEUR"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/context_service.js:0
+#: code:addons/ea_audit_ui/static/src/js/tasks.js:0
+msgid "Tasks"
+msgstr "Tâches"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "open and mine"
+msgstr "ouvertes et à moi"

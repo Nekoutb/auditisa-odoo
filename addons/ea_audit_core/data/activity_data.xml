@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <function model="ea.audit.activity" name="_ea_backfill_trail"/>
+    <!-- F007, F023: "Reviewer", the retitled C2.2 and the refusal read in French on a running firm too. -->
+    <function model="res.lang" name="_ea_refresh_french" eval="['ea_audit_core', 'findings-2026-11-06']"/>
+</odoo>

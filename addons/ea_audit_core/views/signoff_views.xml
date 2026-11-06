@@ -53,6 +53,7 @@
                         <field name="require_distinct_preparer_approver"/>
                         <field name="allow_sole_practitioner" readonly="1"/>
                         <field name="allowed_email_domains"/>
+                        <field name="firm_language"/>
                         <field name="require_partner_on_ids" widget="many2many_tags"/>
                     </group>
                 </sheet>
@@ -75,6 +76,126 @@
         <field name="name">Sign-off rules per task</field>
         <field name="res_model">ea.audit.signoff.task.rule</field>
         <field name="view_mode">list</field>
+    </record>
+    <!-- The default matrix, listed whole, with the firm's own rules applied (F002). -->
+    <record id="view_signoff_matrix_list" model="ir.ui.view">
+        <field name="name">ea.audit.task.template.signoff.matrix</field>
+        <field name="model">ea.audit.task.template</field>
+        <field name="priority">40</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" default_order="matrix_order" decoration-info="matrix_firm_rule">
+                <header>
+                    <button name="action_matrix_export" type="object" string="Export to Excel" display="always" groups="ea_audit_core.group_partner"/>
+                    <button name="action_matrix_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_partner"/>
+                </header>
+                <field name="code"/>
+                <field name="title"/>
+                <field name="phase"/>
+                <field name="matrix_min_preparer"/>
+                <field name="matrix_min_reviewer"/>
+                <field name="matrix_partner"/>
+                <field name="matrix_firm_rule"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_signoff_matrix" model="ir.actions.act_window">
+        <field name="name">Sign-off matrix</field>
+        <field name="res_model">ea.audit.task.template</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_signoff_matrix_list"/>
+    </record>
+    <record id="view_signoff_matrix_import" model="ir.ui.view">
+        <field name="name">ea.audit.signoff.matrix.import.form</field>
+        <field name="model">ea.audit.signoff.matrix.import</field>
+        <field name="arch" type="xml">
+            <form>
+                <p class="text-muted">Export the matrix, fill in columns I, J and K, and import the file back. A blank cell applies the firm default. Nothing is saved if a row is wrong.</p>
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_signoff_matrix_import" model="ir.actions.act_window">
+        <field name="name">Import the sign-off matrix</field>
+        <field name="res_model">ea.audit.signoff.matrix.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- The firm's audit log (F027): firm administrator only. -->
+    <record id="view_activity_list" model="ir.ui.view">
+        <field name="name">ea.audit.activity.list</field>
+        <field name="model">ea.audit.activity</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="at"/>
+                <field name="user_id"/>
+                <field name="engagement_label"/>
+                <field name="code" optional="show"/>
+                <field name="summary_display"/>
+                <field name="field_key" optional="hide"/>
+                <field name="before" class="o_ea_clip"/>
+                <field name="after" class="o_ea_clip"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_activity_form" model="ir.ui.view">
+        <field name="name">ea.audit.activity.form</field>
+        <field name="model">ea.audit.activity</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="at"/>
+                            <field name="user_id" options="{'no_open': true}"/>
+                            <field name="engagement_label"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="field_key"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="summary_display"/>
+                        <field name="before"/>
+                        <field name="after"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_activity_search" model="ir.ui.view">
+        <field name="name">ea.audit.activity.search</field>
+        <field name="model">ea.audit.activity</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="summary"/>
+                <field name="user_id"/>
+                <field name="engagement_label"/>
+                <field name="code"/>
+                <field name="before"/>
+                <field name="after"/>
+                <filter name="answers" string="Answer changes" domain="[('field_key', '!=', False)]"/>
+                <filter name="firm_level" string="Firm settings" domain="[('engagement_label', '=', False)]"/>
+                <separator/>
+                <filter name="filter_at" string="Date" date="at"/>
+                <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+                <filter name="group_engagement" string="Engagement" context="{'group_by': 'engagement_label'}"/>
+                <filter name="group_code" string="Task" context="{'group_by': 'code'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_firm_audit_log" model="ir.actions.act_window">
+        <field name="name">Audit log</field>
+        <field name="res_model">ea.audit.activity</field>
+        <field name="view_mode">list,form</field>
     </record>
     <record id="action_signoff_policy_open" model="ir.actions.server">
         <field name="name">Sign-off policy</field>

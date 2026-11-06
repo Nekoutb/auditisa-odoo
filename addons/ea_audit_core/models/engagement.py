@@ -189,6 +189,8 @@ class Engagement(models.Model):
                 author_id=user.partner_id.id,
                 email_from=user.email_formatted or user.name,
             )
+            # the firm's audit log (F027), which outlives the file and does not depend on the team
+            self.env["ea.audit.activity"]._ea_record(engagement, action, summary)
 
     # ------------------------------------------------------------------
     # Extension points of the later addons. A hook that reads output a later
@@ -330,6 +332,23 @@ class Engagement(models.Model):
             return False
         Item.create({"engagement_id": self.id, "template_id": template.id, "conditional": False})
         return True
+
+    def _ea_task_holds_work(self, item):
+        """Extension point of ea_audit_papers: answers, evidence or a conclusion on the task."""
+        return bool(item.signoff_ids)
+
+    def _ea_set_task_active(self, code, active):
+        """A conditional task comes onto the file when its trigger answers yes, and leaves it
+        again when the answer changes, unless it already holds work."""
+        self.ensure_one()
+        if active:
+            self._ea_ensure_task(code)
+            return
+        item = self.env["ea.audit.file.item"].sudo().search(
+            [("engagement_id", "=", self.id), ("code", "=", code), ("conditional", "=", False)], limit=1,
+        )
+        if item and not self._ea_task_holds_work(item):
+            item.conditional = True
 
     def apply_complexity(self, complexity, first_audit=False):
         """Port of applyComplexity: record the classification, add what it brings."""

@@ -34,6 +34,9 @@ def _fixture(name):
         return json.load(fh)
 
 
+# Deliberate departures from the recorded TypeScript: C4.2 holds the quality review alone, its
+# communications being on C5.11 (F005), and S6.1 asks what brings a conditional task onto the file (F031).
+DEPARTS = {"C4.2", "S6.1"}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")
@@ -96,7 +99,7 @@ def test_every_definition_is_covered():
     assert RESOLVED["combinations"] == len(subjects) * len(RESOLVED["editions"]) * len(RESOLVED["forms"])
 
 
-@pytest.mark.parametrize("subject_id", sorted(RESOLVED["subjects"]))
+@pytest.mark.parametrize("subject_id", sorted(set(RESOLVED["subjects"]) - DEPARTS))
 def test_resolved_output_and_keys(subject_id):
     subject = RESOLVED["subjects"][subject_id]
     keysets = RESOLVED["keysets"]
@@ -113,7 +116,7 @@ def test_resolved_output_and_keys(subject_id):
         assert digest(resolve_definition(unresolved, "current", odd)) == other
 
 
-@pytest.mark.parametrize("subject_id", sorted(COMPLETENESS["results"]))
+@pytest.mark.parametrize("subject_id", sorted(set(COMPLETENESS["results"]) - DEPARTS))
 def test_completeness_on_answer_sets(subject_id):
     kind = RESOLVED["subjects"][subject_id]["kind"]
     unresolved = _definition(subject_id, kind)

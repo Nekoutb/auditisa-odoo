@@ -7,6 +7,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.http import request
 
+from odoo.addons.ea_audit_core.services.firm_time import FIRM_TZ, FIRM_TZ_LABEL
 from odoo.addons.ea_audit_core.services.phases import phase_of_task
 
 from ..services.presentation import (
@@ -23,6 +24,7 @@ from ..services.presentation import (
     short_name,
 )
 from ..services.task_groups import (
+    E3_MERGED_NOTE,
     GROUP_BY_ID,
     SECTION_LABELS,
     SECTION_OF_PHASE,
@@ -65,6 +67,11 @@ class AuditUi(models.AbstractModel):
             "can_write": role != "read_only",
             "is_partner": user.has_group("ea_audit_core.group_partner"),
             "is_system": user.has_group("base.group_system"),
+            "is_firm_admin": role == "firm_admin",
+            # meant to be visible to the firm: ea_audit_firm_agent, where the server has it
+            "has_operator_log": "ea.firm.access.log" in self.env,
+            "tz": FIRM_TZ,
+            "tz_label": FIRM_TZ_LABEL,
             "apps": self._ea_ui_apps(),
             "mission_items": self._ea_ui_mission_items(),
         }
@@ -95,6 +102,11 @@ class AuditUi(models.AbstractModel):
     # ------------------------------------------------------------------
 
     @api.model
+    def _ea_ui_today(self):
+        """Today on the firm's clock, whatever the user's own zone says (F029)."""
+        return fields.Date.context_today(self.with_context(tz=FIRM_TZ))
+
+    @api.model
     def _ea_ui_titled(self, records):
         """Task titles read in the caller's language."""
         return records
@@ -123,6 +135,21 @@ class AuditUi(models.AbstractModel):
         for engagement in items.engagement_id:
             scoped_out.update(engagement.sudo()._ea_e4_out_of_scope().ids)
         return self._ea_ui_titled(items.filtered(lambda item: item.id not in scoped_out))
+
+    @api.model
+    def _ea_ui_e4_designed(self, engagement):
+        """F010: the one count of E4 tasks that every screen shows. ``total`` is every E4 paper of
+        the file, ``designed`` those S5.5 brought into scope: the ones the group lists."""
+        total = self.env["ea.audit.file.item"].search_count([
+            ("engagement_id", "=", engagement.id), ("code", "=like", "E4.%"), ("conditional", "=", False),
+        ])
+        out = len(engagement.sudo()._ea_e4_out_of_scope())
+        designed = total - out
+        return {
+            "designed": designed,
+            "total": total,
+            "text": self.env._("%(designed)s of %(total)s designed", designed=designed, total=total),
+        }
 
     @api.model
     def _ea_ui_live_signoffs(self, items):
@@ -184,6 +211,13 @@ class AuditUi(models.AbstractModel):
         return None
 
     @api.model
+    def _ea_ui_is_mine(self, item, user, is_partner, policy):
+        """Assigned to me in any role, or waiting for my signature."""
+        return user in (item.preparer_id, item.assignee_id, item.approver_id) or bool(
+            self._ea_ui_my_word(item, user, is_partner, policy)
+        )
+
+    @api.model
     def _ea_ui_word(self, word):
         return {
             "to_sign": self.env._("To sign"),
@@ -216,7 +250,12 @@ class AuditUi(models.AbstractModel):
         if model == "ea.audit.engagement":
             engagement = engagement.search([("id", "=", res_id)], limit=1)
         elif model == "ea.audit.file.item":
-            engagement = self.env["ea.audit.file.item"].search([("id", "=", res_id)], limit=1).engagement_id
+            item = self.env["ea.audit.file.item"].search([("id", "=", res_id)], limit=1)
+            engagement = item.engagement_id
+            if item:
+                # the bar shows the phase of the paper one is on, not the ring last opened
+                group = group_of_code(item.code)
+                return {**self._ea_ui_mission(engagement), "item_section": group["section"] if group else False}
         return self._ea_ui_mission(engagement) if engagement else False
 
     @api.model
@@ -348,7 +387,7 @@ class AuditUi(models.AbstractModel):
 
     @api.model
     def ea_ui_home(self):
-        today = fields.Date.context_today(self)
+        today = self._ea_ui_today()
         engagements = self.env["ea.audit.engagement"].search([], order="fiscal_year desc, id")
         engagements = engagements.sorted(lambda e: bool(e.archived_at or e.phase == "archived"))
         items = self._ea_ui_active_items(engagements)
@@ -384,7 +423,7 @@ class AuditUi(models.AbstractModel):
         return self.env["ea.audit.engagement"].search([("id", "=", engagement_id)], limit=1)
 
     @api.model
-    def _ea_ui_rings(self, items, done_ids):
+    def _ea_ui_rings(self, items, done_ids, e4=None):
         by_group = {}
         for item in items:
             by_group.setdefault(group_of_code(item.code)["id"], []).append(item)
@@ -399,6 +438,7 @@ class AuditUi(models.AbstractModel):
                     "label": self.env._(group.get("short") or group["title"]),
                     "done": len([item for item in members if item.id in done_ids]),
                     "total": len(members),
+                    "designed": e4["text"] if e4 and group["id"] == "e4" else False,
                 })
             done = sum(group["done"] for group in groups)
             total = sum(group["total"] for group in groups)
@@ -412,6 +452,7 @@ class AuditUi(models.AbstractModel):
                 "pct": percent(done, total),
                 "current_group": current,
                 "groups": [group for group in groups if group["total"]],
+                "note": self.env._(E3_MERGED_NOTE) if section == "execution" else False,
             })
         return rings
 
@@ -476,11 +517,12 @@ class AuditUi(models.AbstractModel):
         engagement = self._ea_ui_visible_engagement(engagement_id)
         if not engagement:
             return {"denied": True}
-        today = fields.Date.context_today(self)
+        today = self._ea_ui_today()
         user = self.env.user
         items = self._ea_ui_active_items(engagement)
         done_ids = self._ea_ui_done_ids(items)
-        rings = self._ea_ui_rings(items, done_ids)
+        e4 = self._ea_ui_e4_designed(engagement)
+        rings = self._ea_ui_rings(items, done_ids, e4)
         archived = bool(engagement.archived_at or engagement.phase == "archived")
         policy = self.env["ea.audit.signoff.policy"]._ea_policy()
         is_partner = user == engagement.engagement_partner_id or user == engagement.partner_delegate_id
@@ -493,11 +535,15 @@ class AuditUi(models.AbstractModel):
 
         chips, late = self._ea_ui_attention_chips(engagement, items, today)
 
+        # F021: the tile counts what the Tasks page calls Mine and Open
         mine = []
         for item in items:
-            word = self._ea_ui_my_word(item, user, is_partner, policy)
-            if word:
-                mine.append({"id": item.id, "code": item.code, "title": item.short_title or item.title, "word": self._ea_ui_word(word)})
+            if self._ea_ui_is_mine(item, user, is_partner, policy) and self._ea_ui_is_open(item):
+                word = self._ea_ui_my_word(item, user, is_partner, policy)
+                mine.append({
+                    "id": item.id, "code": item.code, "title": item.short_title or item.title,
+                    "word": self._ea_ui_word(word) if word else self.env._(STATUS_WORDS[self._ea_ui_status(item)]),
+                })
 
         upcoming = items.filtered(
             lambda item: self._ea_ui_is_open(item) and not archived and self._ea_ui_due(item)
@@ -525,7 +571,7 @@ class AuditUi(models.AbstractModel):
             "rings": rings,
             "unassigned_ids": unassigned.ids,
             "attention": chips,
-            "my_tasks": {"count": len(mine), "rows": mine[:_MY_TASK_ROWS]},
+            "my_tasks": {"count": len(mine), "rows": mine[:_MY_TASK_ROWS], "e4": e4},
             "notes": self._ea_ui_notes_tile(engagement),
             "calendar": {"late": len(late), "rows": calendar_rows},
         }
@@ -540,7 +586,7 @@ class AuditUi(models.AbstractModel):
             return {
                 "name": short_name(signoff.user_id.name),
                 "signed": True,
-                "detail": self.env._("Signed on %(date)s", date=fmt_date(fields.Date.context_today(self, signoff.signed_at))),
+                "detail": self.env._("Signed on %(date)s", date=fmt_date(fields.Date.context_today(self.with_context(tz=FIRM_TZ), signoff.signed_at))),
             }
         return {"name": short_name(name) if name else self.env._("Unassigned"), "signed": False, "detail": waiting if name else ""}
 
@@ -584,14 +630,23 @@ class AuditUi(models.AbstractModel):
         group = GROUP_BY_ID.get(group_id)
         if not engagement or not group:
             return {"denied": True}
-        today = fields.Date.context_today(self)
+        today = self._ea_ui_today()
         items = self._ea_ui_active_items(engagement).filtered(lambda item: group_of_code(item.code)["id"] == group_id)
         signoffs = self._ea_ui_live_signoffs(items)
         done_ids = self._ea_ui_done_ids(items, signoffs)
         policy = self.env["ea.audit.signoff.policy"]._ea_policy()
         partner = engagement.engagement_partner_id
+        conditional = self.env["ea.audit.file.item"].search([
+            ("engagement_id", "=", engagement.id), ("conditional", "=", True),
+        ]).filtered(lambda item: group_of_code(item.code)["id"] == group_id)
         return {
             "mission": self._ea_ui_mission(engagement),
+            "designed": self._ea_ui_e4_designed(engagement)["text"] if group_id == "e4" else False,
+            "note": self.env._(E3_MERGED_NOTE) if group_id == "e5" else False,
+            # F031: not on the file, and why, rather than silently absent
+            "conditional": [{
+                "id": item.id, "code": item.code, "title": item.title, "trigger": item.conditional_trigger or "",
+            } for item in conditional],
             "group": {
                 "id": group["id"],
                 "code": group["code"],
@@ -602,4 +657,30 @@ class AuditUi(models.AbstractModel):
             "done": len(done_ids & set(items.ids)),
             "total": len(items),
             "rows": [self._ea_ui_task_row(item, signoffs, partner, policy, today) for item in items],
+        }
+
+    @api.model
+    def ea_ui_all_tasks(self, engagement_id):
+        """The Tasks page of a mission (F021): every active task, each saying whether it is mine
+        and whether it is open. The page filters on Mine first, and shows what Open counts."""
+        engagement = self._ea_ui_visible_engagement(engagement_id)
+        if not engagement:
+            return {"denied": True}
+        today = self._ea_ui_today()
+        user = self.env.user
+        items = self._ea_ui_active_items(engagement)
+        signoffs = self._ea_ui_live_signoffs(items)
+        policy = self.env["ea.audit.signoff.policy"]._ea_policy()
+        partner = engagement.engagement_partner_id
+        is_partner = user == partner or user == engagement.partner_delegate_id
+        rows = []
+        for item in items:
+            row = self._ea_ui_task_row(item, signoffs, partner, policy, today)
+            row["mine"] = self._ea_ui_is_mine(item, user, is_partner, policy)
+            row["open"] = self._ea_ui_is_open(item)
+            rows.append(row)
+        return {
+            "mission": self._ea_ui_mission(engagement),
+            "designed": self._ea_ui_e4_designed(engagement)["text"],
+            "rows": rows,
         }

@@ -496,6 +496,13 @@ export class PaperAction extends Component {
         return option.name;
     }
 
+    async setDeadline(value) {
+        const done = await this.guarded(() => this.callItem("set_due_date", [value || false]));
+        if (done.ok) {
+            await this.refresh();
+        }
+    }
+
     async assign(role, value) {
         const field = role === "approver" ? "approver_id" : "preparer_id";
         const previous = this.state.payload.assignment[field];
