@@ -162,7 +162,7 @@ class TestSadHeader(ToolsCase):
 @tagged("post_install", "-at_install")
 class TestLedgerRecord(GlCase):
     def test_m10_a_debit_credit_ledger_shows_its_debits(self):
-        # 1 000 + 1 000 + 50 of debits; debit - credit over the same rows nets to 50 only because a line has no JE
+        # 1 000 + 1 000 + 50 of debits across the file; debit - credit over the same rows nets to the 50 of the line with no entry number
         dataset_id = self.built()
         dataset = self.env["ea.audit.dataset"].sudo().browse(dataset_id)
         self.assertEqual(dataset.display_total, 2050)
@@ -186,8 +186,8 @@ class TestLedgerRecord(GlCase):
     def test_m12_the_checks_group_as_the_language(self):
         dataset_id = self.built()
         html = self.env["ea.audit.dataset"].with_user(self.staff).with_context(lang="fr_FR").browse(dataset_id).population_html
-        self.assertRegex(str(html), r"Débits 2\s050 contre crédits")
-        self.assertNotIn("2,050", str(html))
+        self.assertRegex(str(html), r"Débits 2\s000 contre crédits")
+        self.assertNotIn("2,000", str(html))
 
 
 @tagged("post_install", "-at_install")

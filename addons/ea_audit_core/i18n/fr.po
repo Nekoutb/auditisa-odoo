@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-06 05:55+0000\n"
-"PO-Revision-Date: 2026-11-06 05:55+0000\n"
+"POT-Creation-Date: 2026-11-05 13:43+0000\n"
+"PO-Revision-Date: 2026-11-05 13:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,16 +32,6 @@ msgstr "Un motif est requis."
 #: code:addons/ea_audit_core/services/errors.py:0
 msgid "A user with this email already exists."
 msgstr "Un utilisateur avec cet email existe déjà."
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__arsel
-msgid "ARSEL (electricity)"
-msgstr "ARSEL (électricité)"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__art
-msgid "ART (telecoms)"
-msgstr "ART (télécommunications)"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_member_form
@@ -274,21 +264,6 @@ msgid "AuditISA firm role"
 msgstr "Rôle au cabinet AuditISA"
 
 #. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__beac
-msgid "BEAC"
-msgstr "BEAC"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__ca_dg
-msgid "Board with a chair and a CEO (PCA + DG)"
-msgstr "Conseil d'administration avec PCA et DG"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__ca_pdg
-msgid "Board with chair and CEO (PDG)"
-msgstr "Conseil d'administration avec PDG"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_8
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_8
 msgid "Borrowings (Q)"
@@ -299,26 +274,6 @@ msgstr "Emprunts (Q)"
 #: code:addons/ea_audit_core/services/errors.py:0
 msgid "C4.2 is the engagement quality reviewer's own record: only the quality reviewer appointed on the team completes and signs it (ISQM 2 ¶24-27)."
 msgstr "C4.2 est le dossier propre du réviseur qualité : seul le réviseur qualité (EQR) désigné dans l'équipe le renseigne et le signe (ISQM 2 ¶24-27)."
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__cima
-msgid "CIMA (insurance)"
-msgstr "CIMA (assurance)"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__cobac
-msgid "COBAC (banking)"
-msgstr "COBAC (banque)"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__cosumaf
-msgid "COSUMAF (capital markets)"
-msgstr "COSUMAF (marché financier)"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__crca
-msgid "CRCA (cooperatives)"
-msgstr "CRCA (coopératives)"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
@@ -605,6 +560,10 @@ msgstr "Refusée"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_29
+msgid "Depreciation & Provisions (VD2)"
+msgstr "Dotations et provisions (VD2)"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_29
 msgid "Depreciation & Provisions (VD2)"
 msgstr "Dotations amortissements et provisions (VD2)"
@@ -626,12 +585,20 @@ msgstr "Tests écritures & fraude"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_5
+msgid "Design Substantive Procedures"
+msgstr "Procédures substantives"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S5_5
 msgid "Design Substantive Procedures"
 msgstr "Concevoir les procédures substantives"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_2
+msgid "Design Tests of Controls"
+msgstr "Conception des tests de contrôles"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_2
 msgid "Design Tests of Controls"
 msgstr "Concevoir les tests de contrôles"
@@ -764,6 +731,10 @@ msgstr "Lettre de mission (ISA 210)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_2
+msgid "Engagement Quality Review"
+msgstr "Revue qualité de la mission"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C4_2
 msgid "Engagement Quality Review"
 msgstr "Revue de qualité de la mission"
@@ -775,6 +746,10 @@ msgstr "Détermination de la revue de qualité (ISQM 1/2)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_2
+msgid "Engagement Team Discussion"
+msgstr "Discussion de l'équipe"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P5_2
 msgid "Engagement Team Discussion"
 msgstr "Discussion de l'équipe de mission"
@@ -823,12 +798,6 @@ msgstr "Anglais"
 #: code:addons/ea_audit_core/services/errors.py:0
 msgid "Enter a valid email address."
 msgstr "Saisissez une adresse e-mail valide."
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/services/errors.py:0
-msgid "Enter the fiscal year of the file."
-msgstr "Indiquez l'exercice du dossier."
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P4_1
@@ -1066,6 +1035,12 @@ msgid "Followers (Partners)"
 msgstr "Abonnés (partenaires)"
 
 #. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__framework
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__framework
+msgid "Framework"
+msgstr "Référentiel"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_1
 msgid "Fraud Risks & Responses (ISA 240)"
 msgstr "Risques de fraude & réponses (ISA 240)"
@@ -1107,11 +1082,6 @@ msgstr "Continuité — préliminaire (ISA 570)"
 #: model:ea.audit.task.template,title:ea_audit_core.task_S4_2
 msgid "Going Concern — Preliminary (ISA 570)"
 msgstr "Continuité d'exploitation — préliminaire (ISA 570)"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__governance_mode
-msgid "Governance Mode"
-msgstr "Mode d'administration"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_17
@@ -1172,6 +1142,10 @@ msgstr "Environnement & implication IT"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_1
+msgid "ITGC Testing"
+msgstr "Contrôles généraux informatiques"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E1_1
 msgid "ITGC Testing"
 msgstr "Tests des contrôles généraux informatiques"
@@ -1419,11 +1393,6 @@ msgid "Management Representation Letter(s) (ISA 580)"
 msgstr "Lettre(s) d'affirmation de la direction (ISA 580)"
 
 #. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__gerance
-msgid "Management by gérant(s)"
-msgstr "Gérance"
-
-#. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__manager
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__manager
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__manager
@@ -1504,11 +1473,6 @@ msgid "My invitations"
 msgstr "Mes invitations"
 
 #. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_search
-msgid "My portfolio (as engagement partner)"
-msgstr "Mon portefeuille (comme associé signataire)"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__niu
 msgid "NIU"
 msgstr "NIU"
@@ -1519,11 +1483,6 @@ msgstr "NIU"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__display_name_typed
 msgid "Name"
 msgstr "Nom"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__name_preview
-msgid "Name of the file"
-msgstr "Nom du dossier"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__nature
@@ -1716,10 +1675,10 @@ msgstr "Opinion et rapport d'audit (ISA 700 à 706)"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__legal_form__other
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__other
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__sector__other
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__other
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__other
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__other
 msgid "Other"
 msgstr "Autre"
 
@@ -1876,16 +1835,6 @@ msgstr "Planifier les procédures générales d'audit"
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_6
 msgid "Plan General Procedures"
 msgstr "Procédures générales"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__planned_report_date
-msgid "Planned Report Date"
-msgstr "Date prévue du rapport"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__planned_agm_date
-msgid "Planned general meeting"
-msgstr "Assemblée générale prévue"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__planning
@@ -2061,11 +2010,6 @@ msgid "Regulated Agreements Register & Special Report"
 msgstr "Registre des conventions réglementées et rapport spécial"
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__regulator
-msgid "Regulator"
-msgstr "Régulateur"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_2
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_3
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_2
@@ -2075,14 +2019,13 @@ msgstr "Parties liées (ISA 550)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_1
+msgid "Reliance on Experts (ISA 620)"
+msgstr "Recours à un expert (ISA 620)"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S5_1
 msgid "Reliance on Experts (ISA 620)"
 msgstr "Utilisation des travaux d'un expert (ISA 620)"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
-msgid "Report and file dates"
-msgstr "Dates du rapport et du dossier"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__report_language
@@ -2093,12 +2036,6 @@ msgstr "Langue des rapports"
 #: model:ea.audit.task.template,title:ea_audit_core.task_P7_1
 msgid "Report to Those Charged with Governance - Audit Planning"
 msgstr "Rapport aux responsables de la gouvernance - planification de l'audit"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__framework
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__framework
-msgid "Reporting framework"
-msgstr "Référentiel comptable"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__require_distinct_preparer_approver
@@ -2154,12 +2091,6 @@ msgid "Reviewer"
 msgstr "Réviseur"
 
 #. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__framework__syscohada
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__framework__syscohada
-msgid "Revised SYSCOHADA, normal system"
-msgstr "SYSCOHADA révisé, système normal"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__role
 msgid "Role"
 msgstr "Rôle"
@@ -2212,6 +2143,10 @@ msgstr "Secteur"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_1
+msgid "Select Controls to Test"
+msgstr "Sélection des contrôles"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_1
 msgid "Select Controls to Test"
 msgstr "Sélectionner les contrôles à tester"
@@ -2345,11 +2280,6 @@ msgid "Social Liabilities (P2)"
 msgstr "Dettes sociales (P2)"
 
 #. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__administrateur_general
-msgid "Sole director (administrateur général)"
-msgstr "Administrateur général"
-
-#. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_partner_transfer_wizard__outgoing_role__staff
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__min_reviewer_role__staff
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__min_preparer__staff
@@ -2395,6 +2325,10 @@ msgstr "Commissariat aux comptes"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_2
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_6
+msgid "Subsequent Events (ISA 560)"
+msgstr "Événements postérieurs (ISA 560)"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_6
 msgid "Subsequent Events (ISA 560)"
 msgstr "Événements postérieurs à la clôture (ISA 560)"
@@ -2406,12 +2340,20 @@ msgstr "Revue des événements postérieurs (ISA 560)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_2
+msgid "Summary Review Memorandum"
+msgstr "Mémorandum récapitulatif"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C1_2
 msgid "Summary Review Memorandum"
 msgstr "Mémorandum récapitulatif de revue"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C1_1
+msgid "Summary of Audit Differences"
+msgstr "Écarts d'audit"
+
+#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C1_1
 msgid "Summary of Audit Differences"
 msgstr "Récapitulatif des écarts d'audit"
@@ -2947,3 +2889,111 @@ msgstr "Vous avez signé ce papier comme préparateur : un autre membre de l'éq
 #: code:addons/ea_audit_core/services/errors.py:0
 msgid "Your role can view this file but not change it."
 msgstr "Votre rôle permet de consulter ce dossier mais pas de le modifier."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__arsel
+msgid "ARSEL (electricity)"
+msgstr "ARSEL (électricité)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__art
+msgid "ART (telecoms)"
+msgstr "ART (télécommunications)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__beac
+msgid "BEAC"
+msgstr "BEAC"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__ca_dg
+msgid "Board with a chair and a CEO (PCA + DG)"
+msgstr "Conseil d'administration avec PCA et DG"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__ca_pdg
+msgid "Board with chair and CEO (PDG)"
+msgstr "Conseil d'administration avec PDG"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__cima
+msgid "CIMA (insurance)"
+msgstr "CIMA (assurance)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__cobac
+msgid "COBAC (banking)"
+msgstr "COBAC (banque)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__cosumaf
+msgid "COSUMAF (capital markets)"
+msgstr "COSUMAF (marché financier)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__regulator__crca
+msgid "CRCA (cooperatives)"
+msgstr "CRCA (coopératives)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Enter the fiscal year of the file."
+msgstr "Indiquez l'exercice du dossier."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__governance_mode
+msgid "Governance Mode"
+msgstr "Mode d'administration"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__gerance
+msgid "Management by gérant(s)"
+msgstr "Gérance"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_search
+msgid "My portfolio (as engagement partner)"
+msgstr "Mon portefeuille (comme associé signataire)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__name_preview
+msgid "Name of the file"
+msgstr "Nom du dossier"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__planned_report_date
+msgid "Planned Report Date"
+msgstr "Date prévue du rapport"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__planned_agm_date
+msgid "Planned general meeting"
+msgstr "Assemblée générale prévue"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__regulator
+msgid "Regulator"
+msgstr "Régulateur"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Report and file dates"
+msgstr "Dates du rapport et du dossier"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_client__framework
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__framework
+msgid "Reporting framework"
+msgstr "Référentiel comptable"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__framework__syscohada
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__framework__syscohada
+msgid "Revised SYSCOHADA, normal system"
+msgstr "SYSCOHADA révisé, système normal"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__administrateur_general
+msgid "Sole director (administrateur général)"
+msgstr "Administrateur général"
