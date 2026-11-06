@@ -67,6 +67,3 @@ a.o_ea_chip_warn { color: $ea-amber; }
     }
     &.o_ea_tile_off { opacity: .55; }
 }
-
-// a list with several header buttons keeps each on one line
-.o_control_panel_main_buttons .btn { white-space: nowrap; }

@@ -10048,3 +10048,13 @@ msgstr "Pourquoi le dernier import est invalide"
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "ea_audit_tools.view_gl_dataset_list"
 msgstr ""
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_risk_heatmap
+msgid "Risk heat map"
+msgstr "Carte de chaleur des risques"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_risk_heatmap
+msgid "Likelihood against magnitude, with its scale and legend."
+msgstr "Probabilité contre ampleur, avec l'échelle et la légende."

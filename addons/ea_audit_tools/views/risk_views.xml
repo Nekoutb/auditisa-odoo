@@ -9,7 +9,6 @@
                     <button name="action_list_add_risk" type="object" string="Add a risk" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
                     <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
-                    <button name="action_list_heatmap" type="object" string="Heat map" display="always"/>
                 </header>
                 <field name="title"/>
                 <field name="category"/>

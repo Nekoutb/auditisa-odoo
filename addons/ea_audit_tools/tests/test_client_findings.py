@@ -342,7 +342,10 @@ class TestRisksAndDesign(ToolsCase):
         french = str(self.as_staff.with_context(lang="fr_FR").risk_heatmap_html)
         for word in ("Probabilité", "Ampleur", "Élevé"):
             self.assertIn(word, french)
-        self.assertIn("action_list_heatmap", self.env.ref("ea_audit_tools.view_risk_list").arch)
+        tile = self.env.ref("ea_audit_tools.tile_risk_heatmap").with_user(self.staff)
+        self.assertTrue(tile.available)
+        action = tile.with_context(ea_engagement_id=self.engagement.id).action_open_tool()
+        self.assertEqual(action["res_id"], self.engagement.id)
 
     def test_f041_a_picker_reads_in_words(self):
         assertion = self.env.ref("ea_audit_tools.assertion_RO")

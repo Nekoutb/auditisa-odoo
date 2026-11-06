@@ -148,9 +148,6 @@ class Risk(models.Model):
         for risk in self:
             risk.inherent_rating = inherent_rating(risk.likelihood or "medium", risk.magnitude or "medium")
 
-    def action_list_heatmap(self):
-        return self._ea_context_engagement().action_tool_risk_heatmap()
-
     @api.depends("program_step_ids", "index_link_ids.index_code", "index_link_ids.assertion_ids")
     def _compute_links(self):
         for risk in self:

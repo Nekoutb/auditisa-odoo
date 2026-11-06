@@ -1413,7 +1413,7 @@ msgstr "senior manager"
 #. odoo-python
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "staff member"
-msgstr "collaborateur"
+msgstr "assistant audit"
 
 #. module: ea_audit_ui
 #. odoo-python
