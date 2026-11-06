@@ -37,18 +37,24 @@
                         <group>
                             <field name="name"/>
                             <field name="client_id" readonly="1"/>
-                            <field name="fiscal_year" readonly="1"/>
+                            <field name="fiscal_year" readonly="1" options="{'enable_formatting': false}"/>
                             <field name="period_end" readonly="1"/>
                             <field name="duration_months" readonly="1"/>
                         </group>
                         <group>
                             <field name="nature" readonly="1"/>
                             <field name="complexity" readonly="1"/>
-                            <field name="framework" readonly="1"/>
+                            <field name="framework"/>
                             <field name="report_language"/>
                             <field name="standards_edition" readonly="1"/>
                             <field name="engagement_partner_id" readonly="1"/>
                             <field name="partner_delegate_id"/>
+                        </group>
+                    </group>
+                    <group name="dates" string="Report and file dates">
+                        <group name="planned">
+                            <field name="planned_report_date"/>
+                            <field name="planned_agm_date"/>
                         </group>
                     </group>
                     <group string="Gates of this phase" invisible="not gate_summary">
@@ -82,6 +88,9 @@
                 <field name="name"/>
                 <field name="client_id"/>
                 <field name="fiscal_year"/>
+                <field name="engagement_partner_id"/>
+                <filter name="my_portfolio" string="My portfolio (as engagement partner)" domain="[('engagement_partner_id', '=', uid)]"/>
+                <separator/>
                 <filter name="group_phase" string="Phase" context="{'group_by': 'phase'}"/>
             </search>
         </field>

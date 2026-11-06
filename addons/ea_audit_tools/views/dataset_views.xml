@@ -13,12 +13,42 @@
                 <field name="timing"/>
                 <field name="source_filename"/>
                 <field name="row_count"/>
-                <field name="total_amount"/>
+                <field name="display_total"/>
                 <field name="gl_line_count" optional="show"/>
                 <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" optional="show"/>
                 <field name="create_uid" string="Imported by"/>
                 <field name="create_date" string="Imported on"/>
             </list>
+        </field>
+    </record>
+    <record id="view_gl_dataset_list" model="ir.ui.view">
+        <field name="name">ea.audit.dataset.list.gl</field>
+        <field name="model">ea.audit.dataset</field>
+        <field name="inherit_id" ref="view_dataset_list"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_list_gl_catalogue" type="object" string="The thirty analytics" display="always"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_engagement_gl_catalogue" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.gl.catalogue</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_tool_gl" type="object" string="The ledgers" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">The thirty analytics of the ledger</div>
+                    <div class="o_ea_sub">For reading: running one needs an imported ledger. Results are exceptions and risk indicators requiring audit consideration.</div>
+                    <div class="o_ea_panel">
+                        <field name="gl_catalogue_html" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
         </field>
     </record>
     <record id="view_dataset_form" model="ir.ui.view">
@@ -49,8 +79,8 @@
                         </div>
                         <div class="o_ea_card">
                             <div class="o_ea_card_label">Total amount</div>
-                            <field name="total_amount" class="o_ea_card_value"/>
-                            <div class="o_ea_card_note"><field name="amount_column"/></div>
+                            <field name="display_total" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="display_total_note"/></div>
                         </div>
                     </div>
                     <group>
@@ -169,7 +199,8 @@
                     <field name="preview_html" nolabel="1"/>
                 </div>
                 <footer>
-                    <button name="action_preview" type="object" string="Continue" class="btn-primary" invisible="step != 'upload'"/>
+                    <button name="action_preview" type="object" string="Continue" class="btn-primary" invisible="step != 'upload' or not file"/>
+                    <span class="btn btn-primary disabled" aria-disabled="true" title="Choose a file first" invisible="step != 'upload' or file">Continue</span>
                     <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'confirm'"/>
                     <button special="cancel" string="Cancel"/>
                 </footer>

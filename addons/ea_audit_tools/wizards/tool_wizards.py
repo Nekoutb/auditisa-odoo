@@ -69,12 +69,28 @@ class TbImportWizard(models.TransientModel):
             "view_mode": "form", "target": "new", "name": self.env._("Confirm the column mapping"),
         }
 
-    def action_import(self):
+    def action_template(self):
         self.ensure_one()
-        self.engagement_id.import_trial_balance(
+        return self.engagement_id.action_export_tb_template()
+
+    def action_import(self):
+        """F016, F018: what went wrong, or what is missing, is said here and stays on the board."""
+        self.ensure_one()
+        engagement = self.engagement_id
+        result = engagement.import_trial_balance(
             self.filename, self._content(), mapping=self._mapping(), timing=self.timing, header_row=self.header_row,
         )
-        return _RELOAD
+        if result["summary"]["status"] == "invalid":
+            as_root = engagement.sudo().with_context(lang=self.env.lang)
+            return self._ea_notify(self.env._("Import refused"), " ".join(as_root._ea_tb_invalid_reasons() or [self.env._("The file is invalid.")]), "danger")
+        warning = engagement.sudo().with_context(lang=self.env.lang)._ea_tb_openings_warning()
+        return self._ea_notify(self.env._("Opening balances"), warning, "warning") if warning else _RELOAD
+
+    def _ea_notify(self, title, message, kind):
+        return {
+            "type": "ir.actions.client", "tag": "display_notification",
+            "params": {"title": title, "message": message, "type": kind, "sticky": True, "next": _RELOAD},
+        }
 
 
 class MaterialityWizard(models.TransientModel):

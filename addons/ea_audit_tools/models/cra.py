@@ -239,6 +239,10 @@ class EngagementCra(models.Model):
     cra_to_assess_label = fields.Char(string="Cells to assess", compute="_compute_cra_cards", compute_sudo=True)
     cra_to_assess_count = fields.Integer(compute="_compute_cra_cards", compute_sudo=True)
     cra_unlinked_risk_label = fields.Text(string="Significant risks with no account", compute="_compute_cra_cards", compute_sudo=True)
+    cra_missing = fields.Selection(
+        [("tb", "Trial balance"), ("materiality", "Materiality"), ("significance", "Significant accounts")],
+        string="What the grid is waiting for", compute="_compute_cra_cards", compute_sudo=True,
+    )
 
     def _compute_cra_cards(self):
         fr = is_french(self.env)
@@ -251,6 +255,18 @@ class EngagementCra(models.Model):
                 ("level", "=", "assertion"), ("index_link_ids", "=", False),
             ])
             engagement.cra_unlinked_risk_label = ", ".join(risks.mapped("title")) or False
+            engagement.cra_missing = engagement._ea_cra_missing()
+
+    def _ea_cra_missing(self):
+        """F068: an empty grid says which step upstream is the one still open, the first in order."""
+        self.ensure_one()
+        if self.cra_row_ids:
+            return False
+        if not self._ea_current_tb_version():
+            return "tb"
+        if not self._ea_approved_materiality():
+            return "materiality"
+        return "significance"
 
     def _ea_cra_to_assess(self):
         self.ensure_one()

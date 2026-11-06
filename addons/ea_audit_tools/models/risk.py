@@ -1,5 +1,7 @@
 import re
 
+from markupsafe import Markup
+
 from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.signoff_rules import can_partner_signoff
@@ -145,6 +147,9 @@ class Risk(models.Model):
     def _compute_rating(self):
         for risk in self:
             risk.inherent_rating = inherent_rating(risk.likelihood or "medium", risk.magnitude or "medium")
+
+    def action_list_heatmap(self):
+        return self._ea_context_engagement().action_tool_risk_heatmap()
 
     @api.depends("program_step_ids", "index_link_ids.index_code", "index_link_ids.assertion_ids")
     def _compute_links(self):
@@ -386,6 +391,49 @@ class PotentialRisk(models.Model):
 
 class EngagementRisk(models.Model):
     _inherit = "ea.audit.engagement"
+
+    risk_heatmap_html = fields.Html(string="Risk heat map", compute="_compute_risk_heatmap", sanitize=False, compute_sudo=True)
+
+    @api.depends_context("lang")
+    def _compute_risk_heatmap(self):
+        """F067: likelihood against magnitude, with its ticks and its legend, in the reader's language."""
+        labels = dict(self.env["ea.audit.risk"]._fields["likelihood"]._description_selection(self.env))
+        shades = {"low": "#e3f2ec", "medium": "#f7ecd7", "high": "#f6d5dc"}
+        levels = [code for code, _label in RATING_SELECTION]
+        for engagement in self:
+            risks = self.env["ea.audit.risk"].sudo().search([("engagement_id", "=", engagement.id)])
+            rows = Markup("")
+            for magnitude in reversed(levels):
+                cells = Markup("")
+                for likelihood in levels:
+                    here = risks.filtered(lambda r: r.likelihood == likelihood and r.magnitude == magnitude)
+                    significant = len(here.filtered("significant"))
+                    cells += Markup(
+                        "<td class='text-center' data-ea-cell='{l}-{m}' title='{titles}' style='background:{bg};width:120px;height:64px;border:1px solid #fff;'><b>{n}</b>{sig}</td>"
+                    ).format(
+                        l=likelihood, m=magnitude, titles=" | ".join(here.mapped("title")), bg=shades[inherent_rating(likelihood, magnitude)],
+                        n=len(here) or "", sig=Markup("<div class='small'>{}</div>").format(self.env._("%(count)s significant", count=significant)) if significant else "",
+                    )
+                rows += Markup("<tr><th class='text-end pe-2 fw-normal'>{}</th>{}</tr>").format(labels[magnitude], cells)
+            ticks = Markup("").join(Markup("<th class='text-center fw-normal'>{}</th>").format(labels[level]) for level in levels)
+            legend = Markup(" ").join(
+                Markup("<span class='me-3'><span style='display:inline-block;width:12px;height:12px;background:{};margin-right:4px;'></span>{}</span>").format(shades[level], labels[level])
+                for level in levels
+            )
+            engagement.risk_heatmap_html = Markup(
+                "<table class='o_ea_heatmap' role='img' aria-label='{aria}'><tbody>"
+                "<tr><th class='text-end pe-2'>{mag} &#8593;</th><th colspan='3'></th></tr>{rows}"
+                "<tr><th></th>{ticks}</tr><tr><th></th><th colspan='3' class='text-center'>{lik} &#8594;</th></tr>"
+                "</tbody></table><p class='o_ea_legend mt-3'><b>{rating}</b> {legend}</p><p class='o_ea_legend'>{how}</p>"
+            ).format(
+                aria=self.env._("Risk heat map: %(count)s risks by likelihood and magnitude", count=len(risks)),
+                mag=self.env._("Magnitude"), lik=self.env._("Likelihood"), rows=rows, ticks=ticks,
+                rating=self.env._("Inherent rating:"), legend=legend,
+                how=self.env._("Each cell counts the risks of the register at that likelihood and magnitude. Inherent rating = likelihood x magnitude."),
+            )
+
+    def action_tool_risk_heatmap(self):
+        return self._ea_board("ea_audit_tools.view_engagement_risk_heatmap", self.env._("Risk heat map"))
 
     risk_ids = fields.One2many("ea.audit.risk", "engagement_id", string="Risks")
     potential_risk_ids = fields.One2many("ea.audit.potential.risk", "engagement_id", string="Potential risks")

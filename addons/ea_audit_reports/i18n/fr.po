@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 13:44+0000\n"
-"PO-Revision-Date: 2026-11-05 13:44+0000\n"
+"POT-Creation-Date: 2026-11-06 05:55+0000\n"
+"PO-Revision-Date: 2026-11-06 05:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -312,6 +312,11 @@ msgid "Conclusion and archive"
 msgstr "Conclusion et archivage"
 
 #. module: ea_audit_reports
+#: model:ea.audit.tool.tile,name:ea_audit_reports.tile_conclusion
+msgid "Conclusion and report"
+msgstr "Conclusion et rapport"
+
+#. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_hold_wizard
 msgid "Confirm"
 msgstr "Confirmer"
@@ -512,6 +517,11 @@ msgstr "Échéance d'assemblage du dossier"
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "Fill in the required fields."
 msgstr "Renseignez les champs obligatoires."
+
+#. module: ea_audit_reports
+#: model:ea.audit.tool.tile,description:ea_audit_reports.tile_conclusion
+msgid "Final review, letters, the audit report and the archive."
+msgstr "Revue finale, lettres, rapport d'audit et archivage."
 
 #. module: ea_audit_reports
 #. odoo-python
@@ -787,6 +797,17 @@ msgid "Listed"
 msgstr "Cotée"
 
 #. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__lock_status
+msgid "Lock status"
+msgstr "Verrouillage"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Locked: archived"
+msgstr "Verrouillé : archivé"
+
+#. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.report_document
 msgid "Logo"
 msgstr "Logo"
@@ -923,6 +944,17 @@ msgstr "Seul un manager ou un rang supérieur peut le faire."
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "Only a partner can archive the file."
 msgstr "Seul un associé peut archiver le dossier."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Open"
+msgstr "Ouvert"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_report_dates
+msgid "Open the conclusion"
+msgstr "Ouvrir la conclusion"
 
 #. module: ea_audit_reports
 #. odoo-python
@@ -1514,13 +1546,3 @@ msgstr ""
 #: model:ir.actions.report,print_report_name:ea_audit_reports.action_report_document
 msgid "object.title"
 msgstr ""
-
-#. module: ea_audit_reports
-#: model:ea.audit.tool.tile,name:ea_audit_reports.tile_conclusion
-msgid "Conclusion and report"
-msgstr "Conclusion et rapport"
-
-#. module: ea_audit_reports
-#: model:ea.audit.tool.tile,description:ea_audit_reports.tile_conclusion
-msgid "Final review, letters, the audit report and the archive."
-msgstr "Revue finale, lettres, rapport d'audit et archivage."

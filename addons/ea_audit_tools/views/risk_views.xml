@@ -9,6 +9,7 @@
                     <button name="action_list_add_risk" type="object" string="Add a risk" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
                     <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_heatmap" type="object" string="Heat map" display="always"/>
                 </header>
                 <field name="title"/>
                 <field name="category"/>
@@ -83,6 +84,25 @@
                             </field>
                         </page>
                     </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_engagement_risk_heatmap" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.risk.heatmap</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_tool_risk" type="object" string="Risk register" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="o_ea_title">Risk heat map</div>
+                    <div class="o_ea_sub"><field name="display_name" readonly="1"/></div>
+                    <div class="o_ea_panel">
+                        <field name="risk_heatmap_html" nolabel="1"/>
+                    </div>
                 </sheet>
             </form>
         </field>

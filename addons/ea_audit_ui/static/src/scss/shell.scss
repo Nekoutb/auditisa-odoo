@@ -400,3 +400,22 @@ body.ea-shell .ea-page {
     .ea-table { min-width: 860px; }
   }
 }
+
+// F080: the wait shows at the top of the screen, and Odoo's own indicator sits above the staging band.
+.ea-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 1070; overflow: hidden;
+  opacity: 0; pointer-events: none; transition: opacity .12s;
+  &.is-on { opacity: 1; }
+  &::before {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 40%; background: #0b6b4f;
+    animation: ea-progress-slide 1.1s ease-in-out infinite;
+  }
+}
+@keyframes ea-progress-slide {
+  from { left: -40%; }
+  to { left: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ea-progress::before { animation: none; left: 0; width: 100%; }
+}
+body.ea-shell .o_loading_indicator { bottom: 24px; }

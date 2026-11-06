@@ -72,6 +72,7 @@ MESSAGES = {
     "email-taken": _lt("A user with this email already exists."),
     "reason-required": _lt("A reason is required."),
     "invalid-year": _lt("The new fiscal year must be after the current one."),
+    "fiscal-year-required": _lt("Enter the fiscal year of the file."),
     "wrong-phase": _lt("The engagement is not in the right phase for this action."),
     "not-a-firm-member": _lt("That person is not a member of this firm."),
     "invalid-standards-edition": _lt("Choose a valid standards edition."),

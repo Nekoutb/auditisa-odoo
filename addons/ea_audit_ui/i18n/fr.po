@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 13:44+0000\n"
-"PO-Revision-Date: 2026-11-05 13:44+0000\n"
+"POT-Creation-Date: 2026-11-06 05:55+0000\n"
+"PO-Revision-Date: 2026-11-06 05:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -156,6 +156,7 @@ msgstr "Toutes les missions →"
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Apps"
 msgstr "Applications"
 
@@ -178,6 +179,12 @@ msgstr "Archivée le"
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Assign them →"
 msgstr "Les répartir →"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Audit"
+msgstr "Audit"
 
 #. module: ea_audit_ui
 #: model:ir.model,name:ea_audit_ui.model_ea_audit_engagement
@@ -358,6 +365,11 @@ msgid "Dashboard"
 msgstr "Tableau de bord"
 
 #. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.view_notification_list
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Deficiencies"
@@ -449,6 +461,12 @@ msgstr "Outils de la mission"
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Engagements"
 msgstr "Missions"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "Engagements and files"
+msgstr "Missions et dossiers"
 
 #. module: ea_audit_ui
 #. odoo-python
@@ -563,10 +581,28 @@ msgid "In review"
 msgstr "En revue"
 
 #. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "In the answers"
+msgstr "Dans les réponses"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "In the methodology"
+msgstr "Dans la méthodologie"
+
+#. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
 msgid "Independence & team"
 msgstr "Indépendance & équipe"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/rule_error_dialog.js:0
+msgid "Invalid Operation"
+msgstr ""
 
 #. module: ea_audit_ui
 #: model:ir.model.fields.selection,name:ea_audit_ui.selection__ea_audit_notification__kind__invitation
@@ -741,6 +777,7 @@ msgstr "Rien d'ouvert ne vous est affecté sur ce dossier."
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+#: model:ir.actions.act_window,name:ea_audit_ui.action_notifications
 msgid "Notifications"
 msgstr "Notifications"
 
@@ -1005,14 +1042,20 @@ msgstr "STATUT"
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
-msgid "Search for an engagement or a task"
-msgstr "Rechercher une mission ou une tâche"
+msgid "Search engagements, tasks, the methodology and the answers"
+msgstr "Rechercher dans les missions, les tâches, la méthodologie et les réponses"
 
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Search…"
 msgstr "Rechercher…"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "See all notifications ("
+msgstr "Voir toutes les notifications ("
 
 #. module: ea_audit_ui
 #. odoo-javascript
@@ -1084,7 +1127,7 @@ msgstr "Zones de risque spécifiques"
 #. odoo-python
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "Staff"
-msgstr "Collaborateur"
+msgstr "Assistant audit"
 
 #. module: ea_audit_ui
 #. odoo-python
@@ -1472,15 +1515,3 @@ msgstr "· Échéance de phase"
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "← Back to dashboard"
 msgstr "← Retour au tableau de bord"
-
-#. module: ea_audit_ui
-#. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Audit"
-msgstr "Audit"
-
-#. module: ea_audit_ui
-#. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Engagements and files"
-msgstr "Missions et dossiers"

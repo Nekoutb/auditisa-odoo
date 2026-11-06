@@ -869,7 +869,7 @@ msgstr "Afficher"
 #. odoo-python
 #: code:addons/ea_audit_timesheet/models/common.py:0
 msgid "Staff"
-msgstr "Collaborateur"
+msgstr "Assistant audit"
 
 #. module: ea_audit_timesheet
 #. odoo-javascript

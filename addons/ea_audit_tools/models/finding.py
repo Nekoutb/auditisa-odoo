@@ -259,6 +259,7 @@ class EngagementFinding(models.Model):
     b5_uncorrected_label = fields.Char(string="Uncorrected misstatements", compute="_compute_finding_cards", compute_sudo=True)
     b5_uncorrected_note = fields.Char(compute="_compute_finding_cards", compute_sudo=True)
     b5_exceeds = fields.Boolean(compute="_compute_finding_cards", compute_sudo=True)
+    b5_threshold_note = fields.Char(string="How the threshold is set", compute="_compute_finding_cards", compute_sudo=True)
     finding_significant_count = fields.Integer(string="Significant deficiencies", compute="_compute_finding_cards", compute_sudo=True)
     finding_uncommunicated_count = fields.Integer(compute="_compute_finding_cards", compute_sudo=True)
     finding_open_count = fields.Integer(string="Open findings", compute="_compute_finding_cards", compute_sudo=True)
@@ -285,6 +286,11 @@ class EngagementFinding(models.Model):
             result = engagement._ea_evaluate_b5()
             engagement.b5_uncorrected_label = fcfa(result["uncorrectedTotal"])
             engagement.b5_exceeds = bool(result["exceedsMateriality"])
+            materiality = engagement._ea_materiality_dict()
+            engagement.b5_threshold_note = self.env._(
+                "Threshold for uncorrected misstatements = overall materiality - performance materiality: %(overall)s - %(performance)s = %(threshold)s (ISA 450).",
+                overall=fcfa(materiality["overall"]), performance=fcfa(materiality["performance"]), threshold=fcfa(result["finalMateriality"]),
+            ) if materiality else False
             if result["finalMateriality"] is None:
                 engagement.b5_uncorrected_note = self.env._("Not evaluable: materiality is not approved")
             elif result["exceedsMateriality"]:

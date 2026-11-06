@@ -140,7 +140,7 @@ class EngagementMateriality(models.Model):
             )) if shown else "—"
             engagement.mat_justification = shown.justification if shown else False
             if not shown:
-                engagement.mat_overall_note = engagement.mat_performance_note = engagement.mat_trivial_note = ""
+                engagement.mat_overall_note = engagement.mat_performance_note = engagement.mat_trivial_note = self.env._("No materiality set yet (P6.1)")
                 engagement.mat_basis_label = ""
                 engagement.mat_status_label = self.env._("No version yet")
                 engagement.mat_version_label = ""

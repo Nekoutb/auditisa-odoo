@@ -40,6 +40,7 @@ class JeStudio(models.TransientModel):
     result_html = fields.Html(sanitize=False, readonly=True)
     result_truncated = fields.Boolean(readonly=True)
     designs_count = fields.Integer(string="Designs recorded", compute="_compute_designs_count")
+    prerequisites_html = fields.Html(string="Prerequisites", compute="_compute_prerequisites_html", sanitize=False, compute_sudo=True)
 
     for _criterion in JE_CRITERIA:
         if _criterion["key"] != "user-defined":
@@ -47,6 +48,12 @@ class JeStudio(models.TransientModel):
     for _pairing in PAIRINGS:
         locals()[_pair_name(_pairing["key"])] = fields.Boolean(string=_pairing["labelEn"], default=True)
     del _criterion, _pairing
+
+    @api.depends("engagement_id")
+    @api.depends_context("lang")
+    def _compute_prerequisites_html(self):
+        for studio in self:
+            studio.prerequisites_html = studio.engagement_id._ea_prerequisites_html()
 
     @api.depends("engagement_id")
     def _compute_designs_count(self):

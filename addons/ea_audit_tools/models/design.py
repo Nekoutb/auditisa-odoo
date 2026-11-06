@@ -5,7 +5,7 @@ import re
 from odoo import api, fields, models
 
 from ..rules import rule_error
-from ..services.assertions import ASSERTIONS
+from ..services.assertions import ASSERTIONS, assertion_label
 from ..services.design_procedures_model import NATURE_OPTIONS, NATURE_VALUES, OSP_EXTENT_MAX, OSP_MAX, OSP_TEXT_MAX, TIMING_OPTIONS, TIMING_VALUES, cra_level_of, timing_allowed
 from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES
 from ..services.procedure_data import GENERIC, PLATFORM_OF_CANONICAL, PROCEDURE_LIBRARY, PROGRAM_LIBRARY, PSP_CATALOG, SIGNIFICANT_RISK_EXTENSIONS
@@ -42,6 +42,8 @@ class DspDesign(models.Model):
     timing = fields.Selection(TIMING_SELECTION)
     extent = fields.Char()
     tod_level = fields.Char(string="Combined assessment", readonly=True)
+    tod_level_label = fields.Char(string="Combined assessment", compute="_compute_labels", compute_sudo=True)
+    assertion_label = fields.Char(string="Assertion", compute="_compute_labels", compute_sudo=True)
     significant = fields.Boolean(readonly=True)
     not_rely = fields.Boolean(string="No reliance on controls", readonly=True)
     active_row = fields.Boolean(string="On the board", default=True, readonly=True)
@@ -50,6 +52,16 @@ class DspDesign(models.Model):
     selected_positions = fields.Char(string="Positions", compute="_compute_selected", compute_sudo=True)
 
     _uniq = models.Constraint("UNIQUE(engagement_id, index_code, assertion)", "One design per account and assertion.")
+
+    @api.depends("tod_level", "assertion")
+    @api.depends_context("lang")
+    def _compute_labels(self):
+        """F041, M-05: the words, not the stored codes."""
+        levels = dict(self.env["ea.audit.cra.assessment"]._fields["tod_level"]._description_selection(self.env))
+        locale = "fr" if is_french(self.env) else "en"
+        for design in self:
+            design.tod_level_label = levels.get(design.tod_level, design.tod_level) or False
+            design.assertion_label = assertion_label(design.assertion, locale)
 
     @api.depends("choice_ids.selected")
     def _compute_selected(self):
@@ -465,7 +477,7 @@ class EngagementDesign(models.Model):
         from ..exports import simple_workbook
 
         rows = [[
-            design.index_code, design.assertion, design.tod_level or "", "yes" if design.significant else "no", design.nature or "",
+            design.index_code, design.assertion, design.tod_level_label or "", "yes" if design.significant else "no", design.nature or "",
             design.timing or "", design.extent or "", design.selected_positions or "",
         ] for design in self.sudo()._ea_sync_dsp()]
         return "s5-5-%s.xlsx" % self._ea_export_slug(), simple_workbook("S5.5", DSP_HEAD, rows)

@@ -45,7 +45,7 @@
             </div>
 
             <div class="ea-anchor ea-search-wrap" data-ea-panel="search">
-                <input class="ea-search" type="search" placeholder="Search…" aria-label="Search for an engagement or a task"
+                <input class="ea-search" type="search" placeholder="Search…" aria-label="Search engagements, tasks, the methodology and the answers"
                        t-att-value="state.query" t-on-input="onSearchInput" t-on-focus="onSearchFocus"/>
                 <div t-if="state.open === 'search' and state.results" class="ea-pop ea-pop-search">
                     <t t-if="state.results.missions.length">
@@ -64,7 +64,25 @@
                             <small t-esc="task.mission"/>
                         </a>
                     </t>
-                    <div t-if="!state.results.missions.length and !state.results.tasks.length" class="ea-pop-empty">No results.</div>
+                    <t t-if="state.results.methodology.length">
+                        <div class="ea-pop-h">In the methodology</div>
+                        <a t-foreach="state.results.methodology" t-as="task" t-key="task.id" class="ea-pop-row" href="#" role="button"
+                           t-on-click.prevent="() => this.pickTask(task)">
+                            <b><code t-esc="task.code"/> <t t-esc="task.title"/></b>
+                            <small t-esc="task.snippet"/>
+                            <small t-esc="task.mission"/>
+                        </a>
+                    </t>
+                    <t t-if="state.results.answers.length">
+                        <div class="ea-pop-h">In the answers</div>
+                        <a t-foreach="state.results.answers" t-as="task" t-key="task_index" class="ea-pop-row" href="#" role="button"
+                           t-on-click.prevent="() => this.pickTask(task)">
+                            <b><code t-esc="task.code"/> <t t-esc="task.title"/></b>
+                            <small t-esc="task.snippet"/>
+                            <small t-esc="task.mission"/>
+                        </a>
+                    </t>
+                    <div t-if="!state.results.missions.length and !state.results.tasks.length and !state.results.methodology.length and !state.results.answers.length" class="ea-pop-empty">No results.</div>
                 </div>
             </div>
 
@@ -98,13 +116,16 @@
                 <div t-if="state.open === 'bell'" class="ea-pop ea-pop-bell">
                     <div class="ea-pop-h">Notifications<t t-if="ctxState.unread">, <t t-esc="unreadLabel"/></t></div>
                     <div class="ea-pop-scroll">
-                        <a t-foreach="state.notifications" t-as="row" t-key="row.id" class="ea-pop-row ea-note" href="#" role="button"
-                           t-att-class="{unread: row.unread}" t-on-click.prevent="() => this.openNotification(row)">
+                        <a t-foreach="state.notifications" t-as="row" t-key="row.id" class="ea-pop-row ea-note" t-att-href="row.url"
+                           t-att-class="{unread: row.unread}" t-on-click="(ev) => this.onNotificationClick(ev, row)">
                             <b t-esc="row.title"/>
                             <small><t t-esc="row.detail"/> · <t t-esc="timeAgo(row.created)"/></small>
                         </a>
                         <div t-if="!state.notifications.length" class="ea-pop-empty">No notifications.</div>
                     </div>
+                    <a t-if="state.notifications.length" class="ea-pop-foot" href="/odoo/action-ea_audit_ui.action_notifications" t-on-click.prevent="openAllNotifications">
+                        See all notifications (<t t-esc="state.notifications.length"/> / <t t-esc="state.notificationTotal"/>)
+                    </a>
                 </div>
             </div>
 

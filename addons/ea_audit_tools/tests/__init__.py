@@ -12,3 +12,4 @@ from . import test_design_sap
 from . import test_analysis_pbc
 from . import test_wiring
 from . import test_every_paper_opens
+from . import test_client_findings

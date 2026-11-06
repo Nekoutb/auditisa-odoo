@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261103\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 13:44+0000\n"
-"PO-Revision-Date: 2026-11-05 13:44+0000\n"
+"POT-Creation-Date: 2026-11-06 05:55+0000\n"
+"PO-Revision-Date: 2026-11-06 05:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,12 @@ msgstr ""
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_je_studio__use_incomplete_description
 msgid "\"Divers\", \"OD\" and \"regularisation\" are descriptions in form only: a reviewer learns nothing from them, so in substance the entry went unreviewed."
 msgstr "« Divers », « OD » ou « régularisation » ne sont des libellés que par la forme : le réviseur n'en apprend rien, l'écriture est donc en substance non revue."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "%(count)s account(s) on no lead index: %(accounts)s"
+msgstr "%(count)s compte(s) sans indice : %(accounts)s"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -37,6 +43,12 @@ msgstr "%(count)s comptes : les %(shown)s premiers sont listés, affinez la rech
 #: code:addons/ea_audit_tools/models/cra.py:0
 msgid "%(count)s cells to assess"
 msgstr "%(count)s cellules à évaluer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "%(count)s indexes with no balance on this trial balance are not shown: %(codes)s"
+msgstr "%(count)s indices sans solde dans cette balance ne sont pas affichés : %(codes)s"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -62,6 +74,12 @@ msgstr "%(count)s autres comptes de contrepartie ne sont pas affichés"
 #: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 msgid "%(count)s rows read"
 msgstr "%(count)s lignes lues"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "%(count)s significant"
+msgstr "%(count)s significatif(s)"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -143,8 +161,25 @@ msgstr "8 à 30 jours"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_wizard
 msgid "<b>C</b> Completeness · <b>E</b> Existence, occurrence · <b>A</b> Accuracy · <b>V</b> Valuation · <b>P</b> Presentation · <b>RO</b> Rights and obligations"
 msgstr "<b>C</b> Exhaustivité · <b>E</b> Existence, réalité · <b>A</b> Exactitude · <b>V</b> Valorisation · <b>P</b> Présentation · <b>RO</b> Droits et obligations"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+msgid "<b>The last import is invalid and does not drive the file:</b>"
+msgstr "<b>Le dernier import est invalide et ne pilote pas le dossier :</b>"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_import_wizard
+msgid "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choose a file first\" invisible=\"step != 'upload' or file\">Continue</span>"
+msgstr "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choisissez d'abord un fichier\" invisible=\"step != 'upload' or file\">Continuer</span>"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+msgid "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choose a file first\" invisible=\"step != 'upload' or file\">Read the file</span>"
+msgstr "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choisissez d'abord un fichier\" invisible=\"step != 'upload' or file\">Lire le fichier</span>"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
@@ -423,6 +458,11 @@ msgid "Accepted by"
 msgstr "Accepté par"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+msgid "Accepted: a .csv or .xlsx file with one line per account. Required: the account number, then a debit and a credit column (movements), or a closing balance."
+msgstr "Accepté : un fichier .csv ou .xlsx, une ligne par compte. Obligatoire : le numéro de compte, puis une colonne débit et une colonne crédit (mouvements), ou un solde de clôture."
+
+#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__account
@@ -575,6 +615,11 @@ msgstr "Exactitude"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__active
 msgid "Active"
 msgstr "Actif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fa_ratio__group__activity
+msgid "Activity"
+msgstr "Activité"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__actual_source
@@ -808,6 +853,7 @@ msgstr "Analyser les écritures"
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_key
 msgid "Analytic"
@@ -949,6 +995,7 @@ msgstr "Les exigences quantitatives et qualitatives des annexes sont-elles ident
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__assertion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__assertion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__assertion
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__assertion_label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__assertion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__assertion
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__level__assertion
@@ -959,6 +1006,7 @@ msgstr "Assertion"
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_choice__assertions_label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_osp__assertion_ids
@@ -993,6 +1041,12 @@ msgid "Assets"
 msgstr "Actif"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Assets = equity and liabilities: %(amount)s"
+msgstr "Actif = passif : %(amount)s"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__current_asset
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption_effective__current_asset
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption__current_asset
@@ -1007,6 +1061,12 @@ msgstr "Actif courant"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__dr_caption_effective__non_current_asset
 msgid "Assets Non-current"
 msgstr "Actif non courant"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Assets differ from equity and liabilities by %(amount)s"
+msgstr "Écart entre l'actif et le passif : %(amount)s"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_assign_wizard
@@ -1421,6 +1481,11 @@ msgid "Cells to assess"
 msgstr "Cellules à évaluer"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__variance
+msgid "Change"
+msgstr "Variation"
+
+#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Change in lines"
@@ -1475,7 +1540,9 @@ msgid "Check the procedure: wording up to 800 characters, values from the option
 msgstr "Vérifiez la procédure : libellé de 800 caractères au plus, valeurs parmi les options proposées, 20 par compte au plus."
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__lead_checks_html
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__checks_text
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
 msgid "Checks"
 msgstr "Contrôles"
 
@@ -1774,6 +1841,7 @@ msgstr "Colonnes : ref, date, desc, puis une colonne par attribut avec pass, fai
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__tod_level
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__tod_level_label
 msgid "Combined assessment"
 msgstr "Évaluation combinée"
 
@@ -1947,6 +2015,12 @@ msgstr "Conclusion ou justification"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__wt_design
 msgid "Conclusion — the controls over this SCOT are effectively DESIGNED"
 msgstr "Conclusion — les contrôles de ce SCOT sont efficacement CONÇUS"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/engagement.py:0
+msgid "Conditional paper: nothing on this file calls for it yet"
+msgstr "Papier conditionnel : rien sur ce dossier ne l'appelle pour l'instant"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__confidence
@@ -2793,6 +2867,11 @@ msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__display_total_note
+msgid "Display Total Note"
+msgstr ""
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__itgc_state__not_support
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_itgc_wizard__state__not_support
 msgid "Do not support reliance"
@@ -2820,6 +2899,8 @@ msgstr "Télécharger"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
 msgid "Download the template"
 msgstr "Télécharger le modèle"
 
@@ -2930,6 +3011,12 @@ msgstr "E1.2 Tests des contrôles"
 #: model:ea.audit.wp.template,name:ea_audit_tools.wp_je_testing
 msgid "E3.1 Journal entries"
 msgstr "E3.1 Écritures de journal"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Each cell counts the risks of the register at that likelihood and magnitude. Inherent rating = likelihood x magnitude."
+msgstr "Chaque case compte les risques du registre à cette probabilité et cette ampleur. Risque inhérent = probabilité x ampleur."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_scot__wt_trace
@@ -3111,6 +3198,12 @@ msgstr "Saisissez des montants valides."
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
+msgid "Entered by the team; the trial balance reads %(amount)s"
+msgstr "Saisi par l'équipe ; la balance donne %(amount)s"
+
+#. module: ea_audit_tools
+#. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__entries
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__entry_rank__entries
@@ -3256,6 +3349,12 @@ msgid "Every SCOT needs at least one thing that can go wrong before signing."
 msgstr "Chaque SCOT doit porter au moins un risque d'anomalie avant la signature."
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Every account is on a lead index"
+msgstr "Chaque compte est affecté à un indice"
+
+#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 msgid "Every line carries the stated criterion that chose it. Nothing here is drawn at random (ISA 240 ¶32)."
 msgstr "Chaque ligne porte le critère énoncé qui l'a retenue. Rien n'est tiré au hasard ici (ISA 240 ¶32)."
@@ -3289,6 +3388,7 @@ msgstr "Dépasse le seuil de travail"
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Exception"
 msgstr "Exception"
@@ -3719,11 +3819,21 @@ msgid "Fixed assets analyzer"
 msgstr "Analyseur des immobilisations"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_gl_catalogue
+msgid "For reading: running one needs an imported ledger. Results are exceptions and risk indicators requiring audit consideration."
+msgstr "En lecture : pour en exécuter une, il faut un grand livre importé. Les résultats sont des exceptions et des indicateurs de risque à examiner."
+
+#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/tool_tile.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_forms
 msgid "Forms"
 msgstr "Formulaires"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__formula
+msgid "Formula"
+msgstr "Formule"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__fraud
@@ -3747,6 +3857,12 @@ msgstr "Vendredi"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_date_from
 msgid "From"
 msgstr "Du"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
+msgid "From the trial balance, income tax (89) deducted"
+msgstr "Selon la balance, impôt sur le résultat (89) déduit"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_it_application__strategy__substantive_only
@@ -3946,6 +4062,11 @@ msgid "Head Html"
 msgstr ""
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+msgid "Heat map"
+msgstr "Carte de chaleur"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__high
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__tod_level__high
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__high
@@ -4017,6 +4138,11 @@ msgstr "Comment elle atteint le grand livre et les états financiers, y compris 
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__top_entries
 msgid "How many entries"
 msgstr "Nombre d'écritures"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__b5_threshold_note
+msgid "How the threshold is set"
+msgstr "Mode de calcul du seuil"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fscp__fs_preparation
@@ -4338,6 +4464,18 @@ msgstr "Importer depuis Excel"
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Import one to run the analytics. The thirty analytics can be read without it: use the button above."
+msgstr "Importez-en un pour exécuter les analyses. Les trente analyses se consultent sans grand livre : utilisez le bouton ci-dessus."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+msgid "Import refused"
+msgstr "Import refusé"
+
+#. module: ea_audit_tools
+#. odoo-python
 #: code:addons/ea_audit_tools/models/scot.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_toc_grid_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
@@ -4372,9 +4510,25 @@ msgid "Imprest accounts and internal transfers"
 msgstr "Régies d'avances, accréditifs et virements internes"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__income_after_tax
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fa_ratio__variance
+msgid "In the ratio's own unit: percentage points for a percentage, never a relative %."
+msgstr "Dans l'unité du ratio : en points pour un pourcentage, jamais en % relatif."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_income_label
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
 msgid "Income after tax"
 msgstr "Résultat après impôt"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__income_after_tax
+msgid "Income after tax (override)"
+msgstr "Résultat après impôt (saisie manuelle)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__income_after_tax_tb
+msgid "Income after tax, from the trial balance"
+msgstr "Résultat après impôt, selon la balance"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tod_wizard__side__is
@@ -4425,6 +4579,11 @@ msgid "Indexes"
 msgstr "Indices"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__lead_hidden_note
+msgid "Indexes not shown"
+msgstr "Indices non affichés"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__design_eval__ineffective
 msgid "Ineffective"
 msgstr "Inefficace"
@@ -4438,6 +4597,12 @@ msgstr "Cotation inhérente"
 #: model:ea.audit.tool.tile,description:ea_audit_tools.tile_cra
 msgid "Inherent and control risk per account."
 msgstr "Risque inhérent et de contrôle par compte."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Inherent rating:"
+msgstr "Risque inhérent :"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__ir
@@ -4544,6 +4709,11 @@ msgstr "Investigation"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__investing
 msgid "Investing"
 msgstr "Investissement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fa_ratio__group__investment
+msgid "Investment"
+msgstr "Rentabilité des investissements"
 
 #. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_14
@@ -5059,6 +5229,11 @@ msgid "Lead-schedule figure:"
 msgstr "Montant de la feuille maîtresse :"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_sad_meta__income_after_tax
+msgid "Leave at 0 to use the result of the trial balance. Enter a figure only when the file's result differs."
+msgstr "Laisser à 0 pour reprendre le résultat de la balance. Ne saisir un montant que si le résultat retenu en diffère."
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__dataset_id
 msgid "Ledger"
@@ -5083,6 +5258,11 @@ msgstr "Du grand livre à la balance"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__level
 msgid "Level"
 msgstr "Niveau"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fa_ratio__group__leverage
+msgid "Leverage"
+msgstr "Structure financière"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__cr_caption__current_liability
@@ -5111,6 +5291,8 @@ msgid "Library procedures: what is ticked goes to the E4 paper"
 msgstr "Procédures de la bibliothèque : ce qui est coché va au papier E4"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__likelihood
@@ -5209,6 +5391,11 @@ msgid "Link to a lead index"
 msgstr "Lier à un indice"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fa_ratio__group__liquidity
+msgid "Liquidity"
+msgstr "Liquidité"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tod_wizard__assurance__little
 msgid "Little"
 msgstr "Faible"
@@ -5261,6 +5448,8 @@ msgid "MUS and attributes, with every draw kept and its reason."
 msgstr "MUS et attributs, tirages conservés avec motif."
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__magnitude
@@ -5311,6 +5500,11 @@ msgid "Marketable securities"
 msgstr "Titres de placement"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_basis_label
+msgid "Mat Basis Label"
+msgstr ""
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_draft_pending
 msgid "Mat Draft Pending"
 msgstr ""
@@ -5351,6 +5545,7 @@ msgstr "Significative"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/materiality.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_materiality
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__cra_missing__materiality
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
 msgid "Materiality"
 msgstr "Seuil de signification"
@@ -5706,9 +5901,33 @@ msgstr "Aucun grand livre n'a été importé sur ce dossier."
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "No general ledger on this file yet."
+msgstr "Aucun grand livre sur ce dossier pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "No ledger of that kind has been imported on this file."
 msgstr "Aucun grand livre de ce type n'a été importé sur ce dossier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/materiality.py:0
+msgid "No materiality set yet (P6.1)"
+msgstr "Seuil de signification pas encore fixé (P6.1)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "No opening balances and no prior-year trial balance on this file: the prior-year column reads 0. Import a trial balance with its opening balances, or a prior-year one."
+msgstr "Ni soldes d'ouverture ni balance N-1 sur ce dossier : la colonne N-1 affiche 0. Importez une balance avec ses soldes d'ouverture, ou une balance N-1."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/engagement.py:0
+msgid "No procedure designed on its accounts in S5.5"
+msgstr "Aucune procédure conçue sur ses comptes en S5.5"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_missing_reference
@@ -5736,6 +5955,18 @@ msgstr "Aucune colonne fournisseur n'a été reconnue dans le fichier."
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "No trial balance has been imported for this engagement yet."
 msgstr "Aucune balance générale n'a encore été importée pour cette mission."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
+msgid "No trial balance imported yet"
+msgstr "Aucune balance importée pour l'instant"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "No trial balance in force"
+msgstr "Aucune balance en vigueur"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -5843,6 +6074,7 @@ msgstr "Registre légal OHADA"
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__objective
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__objective
@@ -6003,6 +6235,16 @@ msgid "Open items, aging, supplier statements."
 msgstr "Éléments ouverts, balance âgée, relevés fournisseurs."
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Open materiality"
+msgstr "Ouvrir le seuil de signification"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Open significant accounts"
+msgstr "Ouvrir les comptes significatifs"
+
+#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
 msgid "Open the console"
 msgstr "Ouvrir la console"
@@ -6017,6 +6259,11 @@ msgstr "Voir les écritures du grand livre"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "Open the lines"
 msgstr "Ouvrir les lignes"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Open the trial balance"
+msgstr "Ouvrir la balance"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -6047,6 +6294,9 @@ msgid "Opening balance (TB)"
 msgstr "Solde d'ouverture (balance)"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_openings_warning
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__opening
 msgid "Opening balances"
 msgstr "Soldes d'ouverture"
@@ -6120,6 +6370,11 @@ msgid "Optional, for a ledger whose entry is identified by several columns (for 
 msgstr "Facultatif, pour un grand livre dont l'écriture est identifiée par plusieurs colonnes (par exemple journal, pièce) : en-têtes séparés par des virgules."
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+msgid "Optional: the label, and the opening balances (opening debit and opening credit, or one signed column). Without opening balances or a prior-year trial balance, the prior-year column reads 0."
+msgstr "Facultatif : le libellé et les soldes d'ouverture (débit et crédit d'ouverture, ou une colonne signée). Sans soldes d'ouverture ni balance N-1, la colonne N-1 affiche 0."
+
+#. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_27
 msgid "Other financial assets"
 msgstr "Autres immobilisations financières"
@@ -6148,6 +6403,12 @@ msgstr "Autres approvisionnements"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
 msgid "Out of"
 msgstr "Sur"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/engagement.py:0
+msgid "Out of scope"
+msgstr "Hors périmètre"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -6385,6 +6646,7 @@ msgstr "Seuil de travail"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sampling_te_label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__performance
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
 msgid "Performance materiality"
 msgstr "Seuil de travail"
@@ -6603,7 +6865,9 @@ msgstr "Préparation de la balance et des consolidations éventuelles"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sampling_prerequisites_html
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__prerequisites_html
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 msgid "Prerequisites"
 msgstr "Prérequis"
 
@@ -6654,13 +6918,19 @@ msgstr "Exercice N-1"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/lead.py:0
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "Prior year: the closing balances of the %(year)s file"
+msgstr "Exercice N-1 : les soldes de clôture du dossier %(year)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
 msgid "Prior year: the current trial balance's opening balances"
 msgstr "Exercice N-1 : les soldes d'ouverture de la balance"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/lead.py:0
+#: code:addons/ea_audit_tools/models/tb.py:0
 msgid "Prior year: the valid prior-year trial balance"
 msgstr "Exercice N-1 : la balance N-1 valide"
 
@@ -6678,6 +6948,11 @@ msgstr "Retournement N-1 : de jugement"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__prior_year_tb
 msgid "Prior-year TB"
 msgstr "Balance N-1"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__prior_file
+msgid "Prior-year file"
+msgstr "Dossier N-1"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -6730,6 +7005,11 @@ msgstr "Traitement"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__pbt
 msgid "Profit before tax"
 msgstr "Résultat avant impôt"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fa_ratio__group__profitability
+msgid "Profitability"
+msgstr "Rentabilité d'exploitation"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__program_step_id
@@ -7360,6 +7640,20 @@ msgid "Risk assertions"
 msgstr "Assertions du risque"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__risk_heatmap_html
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_risk_heatmap
+msgid "Risk heat map"
+msgstr "Carte de chaleur des risques"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Risk heat map: %(count)s risks by likelihood and magnitude"
+msgstr "Carte de chaleur des risques : %(count)s risques par probabilité et ampleur"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__has_risk
 msgid "Risk linked"
 msgstr "Risque lié"
@@ -7368,6 +7662,7 @@ msgstr "Risque lié"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_risk
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_risk_heatmap
 msgid "Risk register"
 msgstr "Registre des risques"
 
@@ -7551,6 +7846,11 @@ msgid "SYSCOHADA grouping rule"
 msgstr "Règle de regroupement SYSCOHADA"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_income_note
+msgid "Sad Income Note"
+msgstr ""
+
+#. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_70
 msgid "Sales"
 msgstr "Ventes"
@@ -7649,6 +7949,11 @@ msgstr "Enregistrer une procédure"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__schedule_id
 msgid "Schedule"
 msgstr "Feuille"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__scope_chip
+msgid "Scope"
+msgstr "Périmètre"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__scot_id
@@ -7858,6 +8163,7 @@ msgstr "Décision sur compte significatif"
 #: code:addons/ea_audit_tools/static/src/js/paper_boards.js:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_significance
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_ids
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__cra_missing__significance
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__significance
 msgid "Significant accounts"
 msgstr "Comptes significatifs"
@@ -8458,6 +8764,12 @@ msgstr "Le fichier est vide."
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+msgid "The file is invalid."
+msgstr "Le fichier est invalide."
+
+#. module: ea_audit_tools
+#. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "The file is too large (limit: 60 MB)."
 msgstr "Le fichier est trop volumineux (limite : 60 Mo)."
@@ -8474,6 +8786,11 @@ msgid "The financial statement close process."
 msgstr "Le processus de clôture des états financiers."
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "The grid is empty because no valid trial balance drives this file: import one first."
+msgstr "La grille est vide car aucune balance valide ne pilote ce dossier : importez-en une d'abord."
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__wt_implemented
 msgid "The identified controls are implemented"
 msgstr "Les contrôles identifiés sont mis en œuvre"
@@ -8485,6 +8802,7 @@ msgid "The key-item threshold must be an amount above zero."
 msgstr "Le seuil des éléments clés doit être un montant supérieur à zéro."
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_gl_catalogue
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 msgid "The ledgers"
 msgstr "Les grands livres"
@@ -8568,9 +8886,27 @@ msgid "The systems the flow passes through and any manual hand-offs between them
 msgstr "Les systèmes traversés par le flux et les transferts manuels entre eux."
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__gl_catalogue_html
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_dataset_list
+msgid "The thirty analytics"
+msgstr "Les trente analyses"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_gl_catalogue
+msgid "The thirty analytics of the ledger"
+msgstr "Les trente analyses du grand livre"
+
+#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "The thirty analytics, against this ledger"
 msgstr "Les trente analyses, pour ce grand livre"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "The trial balance is in. The grid is empty because materiality is not approved (P6.1)."
+msgstr "La balance est importée. La grille est vide car le seuil de signification n'est pas approuvé (P6.1)."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fscp__estimate_changes
@@ -8718,6 +9054,12 @@ msgid "Threshold Override Reason"
 msgstr "Motif de la dérogation au seuil"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding.py:0
+msgid "Threshold for uncorrected misstatements = overall materiality - performance materiality: %(overall)s - %(performance)s = %(threshold)s (ISA 450)."
+msgstr "Seuil des anomalies non corrigées = seuil de signification global - seuil de travail : %(overall)s - %(performance)s = %(threshold)s (ISA 450)."
+
+#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__drill_weekday__4
 msgid "Thursday"
 msgstr "Jeudi"
@@ -8809,6 +9151,7 @@ msgid "Total Debit"
 msgstr "Total débit"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__display_total
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
 msgid "Total amount"
 msgstr "Montant total"
@@ -8841,6 +9184,12 @@ msgstr "Total probable"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
 msgid "Total net assets"
 msgstr "Total actif net"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Total of the debits"
+msgstr "Total des débits"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__wt_trace
@@ -8898,6 +9247,7 @@ msgstr "Trésorerie-passif"
 #: code:addons/ea_audit_tools/models/tb.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_tb
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_current_label
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__cra_missing__tb
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sap_procedure__actual_source__tb
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
@@ -8910,9 +9260,26 @@ msgid "Trial balance analyzer"
 msgstr "Analyseur de balance générale"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+msgid "Trial balance and materiality are in. The grid is empty because no account is marked significant (P6.2)."
+msgstr "La balance et le seuil sont en place. La grille est vide car aucun compte n'est marqué significatif (P6.2)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Trial balance balances: debits %(amount)s"
+msgstr "Balance équilibrée : débits %(amount)s"
+
+#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
 msgid "Trial balance bases"
 msgstr "Bases de la balance"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/lead.py:0
+msgid "Trial balance does not balance: debits %(debit)s, credits %(credit)s"
+msgstr "Balance déséquilibrée : débits %(debit)s, crédits %(credit)s"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_tb_line
@@ -9097,11 +9464,6 @@ msgid "Value"
 msgstr "Valeur"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__variance
-msgid "Variance"
-msgstr "Variation"
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__variance_pct
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__variance_pct
 msgid "Variance %"
@@ -9250,6 +9612,11 @@ msgid "What it answers"
 msgstr "Ce à quoi il répond"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_missing
+msgid "What the grid is waiting for"
+msgstr "Ce que la grille attend"
+
+#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fscp__disclosure_sources
 msgid "Where disclosure information comes from"
 msgstr "Origine de l'information des annexes"
@@ -9275,6 +9642,7 @@ msgid "Who performs each step, and the segregation between initiation, approval,
 msgstr "Qui exécute chaque étape, et la séparation entre initiation, approbation, enregistrement et garde."
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__scope_reason
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_wizard__override_reason
 msgid "Why"
 msgstr "Pourquoi"
@@ -9288,6 +9656,11 @@ msgstr "Pourquoi elle s'écarte de la fourchette ou de la base de la balance"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__management_missed
 msgid "Why management's process did not identify it"
 msgstr "Pourquoi le processus de la direction ne l'a pas identifié"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_invalid_reason
+msgid "Why the last import is invalid"
+msgstr "Pourquoi le dernier import est invalide"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__override_rationale
@@ -9398,12 +9771,6 @@ msgstr ""
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/dataset.py:0
-msgid "ea_audit_tools.view_dataset_list"
-msgstr ""
-
-#. module: ea_audit_tools
-#. odoo-python
 #: code:addons/ea_audit_tools/models/design.py:0
 msgid "ea_audit_tools.view_dsp_design_form"
 msgstr ""
@@ -9436,6 +9803,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/ea_audit_tools/models/tool_tile.py:0
 msgid "ea_audit_tools.view_forms_register"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "ea_audit_tools.view_gl_dataset_list"
 msgstr ""
 
 #. module: ea_audit_tools
