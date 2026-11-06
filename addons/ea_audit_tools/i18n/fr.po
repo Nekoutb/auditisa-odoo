@@ -2827,8 +2827,9 @@ msgstr "Télécharger"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
 msgid "Download the template"
 msgstr "Télécharger le modèle"
 
@@ -5127,6 +5128,7 @@ msgstr "Procédures de la bibliothèque : ce qui est coché va au papier E4"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__likelihood
+#. odoo-python
 #: code:addons/ea_audit_tools/models/risk.py:0
 msgid "Likelihood"
 msgstr "Probabilité"
@@ -5278,6 +5280,7 @@ msgstr "MUS et attributs, tirages conservés avec motif."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__magnitude
+#. odoo-python
 #: code:addons/ea_audit_tools/models/risk.py:0
 msgid "Magnitude"
 msgstr "Ampleur"
@@ -6064,6 +6067,7 @@ msgstr "Solde d'ouverture (balance)"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__opening
+#. odoo-python
 #: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_openings_warning
 msgid "Opening balances"
@@ -9965,6 +9969,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__scope_chip
 msgid "Scope"
 msgstr "Périmètre"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__template_html
+msgid "Template Html"
+msgstr ""
 
 #. module: ea_audit_tools
 #. odoo-python
