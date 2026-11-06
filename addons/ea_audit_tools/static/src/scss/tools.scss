@@ -38,8 +38,8 @@ $ea-red: #a11d44;
 }
 // a chip that is a link keeps its colours, and shows it leads somewhere
 a.o_ea_chip { text-decoration: underline; }
-a.o_ea_chip_good { color: $ea-green; }
-a.o_ea_chip_warn { color: $ea-amber; }
+a.o_ea_chip_good { color: $ea-green !important; }
+a.o_ea_chip_warn { color: $ea-amber !important; }
 .o_ea_banner { background: $ea-amber-soft; color: $ea-amber; border: 1px solid #e8d6ae; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; }
 .o_ea_legend { font-size: .8rem; color: #5b6470; margin: 6px 0 12px; }
 .o_ea_table th { font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; color: #5b6470; }

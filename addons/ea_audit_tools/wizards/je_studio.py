@@ -49,6 +49,12 @@ class JeStudio(models.TransientModel):
         locals()[_pair_name(_pairing["key"])] = fields.Boolean(string=_pairing["labelEn"], default=True)
     del _criterion, _pairing
 
+    @api.depends_context("lang")
+    def _compute_display_name(self):
+        """A title for the breadcrumb, not the record's technical id."""
+        for studio in self:
+            studio.display_name = self.env._("Journal entries")
+
     @api.depends("engagement_id")
     @api.depends_context("lang")
     def _compute_prerequisites_html(self):
