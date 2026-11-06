@@ -271,7 +271,9 @@ class TestOpeningsWarning(ToolsCase):
     def test_f016_the_dialog_states_the_columns(self):
         arch = self.env.ref("ea_audit_tools.view_tb_import_wizard").arch
         self.assertIn("Accepted: a .csv or .xlsx file", arch)
-        self.assertIn("action_template", arch)
+        self.assertIn("template_html", arch)
+        wizard = self.env["ea.audit.tb.import.wizard"].with_user(self.staff).new({"engagement_id": self.engagement.id})
+        self.assertIn("/ea_audit_tools/export/tb_template/%d" % self.engagement.id, str(wizard.template_html))
 
 
 @tagged("post_install", "-at_install")

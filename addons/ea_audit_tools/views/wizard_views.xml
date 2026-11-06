@@ -10,7 +10,7 @@
                 <div class="o_ea_legend mb-2" invisible="step != 'upload'">
                     <p class="mb-1">Accepted: a .csv or .xlsx file with one line per account. Required: the account number, then a debit and a credit column (movements), or a closing balance.</p>
                     <p class="mb-1">Optional: the label, and the opening balances (opening debit and opening credit, or one signed column). Without opening balances or a prior-year trial balance, the prior-year column reads 0.</p>
-                    <button name="action_template" type="object" string="Download the template" class="btn btn-link p-0"/>
+                    <field name="template_html" nolabel="1"/>
                 </div>
                 <group invisible="step != 'upload'">
                     <field name="file" filename="filename"/>

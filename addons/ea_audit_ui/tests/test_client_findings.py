@@ -29,6 +29,14 @@ class TestSearchReachesContent(EaAuditCase):
         self.assertLessEqual(len(row["snippet"]), 180)
         self.assertEqual(row["id"], self.item(self.engagement, "E6.10").id)
 
+    def test_f079_one_row_per_paper_on_the_open_mission(self):
+        newer = self.make_engagement(2026, partner=self.partner, nature="statutory_audit")
+        self.seat(newer, self.staff, "staff")
+        rows = [row for row in self.ui.ea_ui_search("DSF")["methodology"] if row["code"] == "E6.10"]
+        self.assertEqual([row["id"] for row in rows], [self.item(newer, "E6.10").id])
+        rows = [row for row in self.ui.ea_ui_search("DSF", self.engagement.id)["methodology"] if row["code"] == "E6.10"]
+        self.assertEqual([row["id"] for row in rows], [self.item(self.engagement, "E6.10").id])
+
     def test_f079_whole_words_not_parts(self):
         self.assertFalse(self.codes("DSFX"))
 

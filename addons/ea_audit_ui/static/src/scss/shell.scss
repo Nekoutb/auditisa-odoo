@@ -419,3 +419,6 @@ body.ea-shell .ea-page {
   .ea-progress::before { animation: none; left: 0; width: 100%; }
 }
 body.ea-shell .o_loading_indicator { bottom: 24px; }
+
+// F079: a long answer scrolls, clear of the staging band.
+.ea-pop-search { max-height: calc(100vh - 110px); overflow-y: auto; }

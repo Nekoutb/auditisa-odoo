@@ -257,7 +257,7 @@ export class EaTopBar extends Component {
             }
             return;
         }
-        this.state.results = await this.ctx.call("ea_ui_search", term);
+        this.state.results = await this.ctx.call("ea_ui_search", term, this.ctxState.mission?.id || false);
         this.state.open = "search";
     }
 

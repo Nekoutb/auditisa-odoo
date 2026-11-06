@@ -238,7 +238,7 @@ class AuditUi(models.AbstractModel):
         )
 
     @api.model
-    def ea_ui_search(self, term):
+    def ea_ui_search(self, term, mission_id=None):
         """Missions by client, name or year, tasks by code or title, the papers' own text and
         what the team wrote in them, in the files the caller can open: every search below runs
         under the caller's rules."""
@@ -264,10 +264,17 @@ class AuditUi(models.AbstractModel):
             }
 
         matched = methodology_matches(term, self._ea_ui_methodology_index(self.env.lang or "en_US"))
-        in_methodology = self._ea_ui_titled(Item).search(
+        # What a paper says is the same on every file: one row per paper, on the open mission, else the latest file.
+        candidates = self._ea_ui_titled(Item).search(
             [("conditional", "=", False), ("code", "in", list(matched)), ("id", "not in", items.ids)],
-            limit=12,
-        ) if matched else Item
+        ).sorted(lambda item: (item.engagement_id.id != mission_id, -item.engagement_id.fiscal_year, item.sequence, item.code)) if matched else Item
+        in_methodology = Item.browse()
+        seen_codes = set()
+        for item in candidates:
+            if item.code not in seen_codes:
+                seen_codes.add(item.code)
+                in_methodology |= item
+        in_methodology = in_methodology[:12]
         # below three characters, "no" and "yes" would match every answer
         written = self.env["ea.audit.paper.answer"].search([("value", "ilike", term)], limit=6) if len(term) >= 3 else self.env["ea.audit.paper.answer"]
         written_items = Item.search([

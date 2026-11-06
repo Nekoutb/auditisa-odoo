@@ -1,5 +1,7 @@
 import base64
 
+from markupsafe import Markup
+
 from odoo import api, fields, models
 
 from ..models.finding import LIKELIHOOD_SELECTION, MAGNITUDE_SELECTION, MTYPE_SELECTION, SEVERITY_SELECTION
@@ -30,6 +32,7 @@ class TbImportWizard(models.TransientModel):
     header_row = fields.Boolean(string="First line is a header", default=True)
     step = fields.Selection([("upload", "Upload"), ("confirm", "Confirm")], default="upload")
     preview_html = fields.Html(sanitize=False, readonly=True)
+    template_html = fields.Html(compute="_compute_template_html", sanitize=False)
     mapping_error = fields.Char(readonly=True)
     map_account = fields.Char(string="Account")
     map_label = fields.Char(string="Description")
@@ -69,9 +72,14 @@ class TbImportWizard(models.TransientModel):
             "view_mode": "form", "target": "new", "name": self.env._("Confirm the column mapping"),
         }
 
-    def action_template(self):
-        self.ensure_one()
-        return self.engagement_id.action_export_tb_template()
+    @api.depends("engagement_id")
+    @api.depends_context("lang")
+    def _compute_template_html(self):
+        """F016. A link, not a button: a button would save the wizard, and the file is still missing."""
+        for wizard in self:
+            wizard.template_html = Markup("<a href='/ea_audit_tools/export/tb_template/{id}' data-ea-template='1'>{label}</a>").format(
+                id=wizard.engagement_id.id, label=self.env._("Download the template"),
+            )
 
     def action_import(self):
         """F016, F018: what went wrong, or what is missing, is said here and stays on the board."""
