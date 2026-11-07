@@ -168,7 +168,12 @@ HARVEST_IGNORE = [
     "France", "example.com", "odoo.com",
     # Odoo's own sample partners, quoted in its view and mail templates. They are on a demo database only.
     "Brandon Freeman", "Lumber Inc", "Audrey Peterson", "Acme Corporation", "info@yourcompany.com",
-    "mark.brown23@example.com", "Renovations", "Rénovations", "Pleasant Hill", "Brisbane",
+    "mark.brown23@example.com", "Renovations", "Rénovations", "Pleasant Hill", "Brisbane", "Reserve",
+]
+# External ids of our addons on these models are removed: they can spell a person's or a client's name.
+XMLID_SCRUB_MODELS = [
+    "res.partner", "res.users", "hr.employee", "resource.resource", "res.company", "ea.audit.client", "ea.audit.engagement",
+    "ea.audit.team.member", "ea.audit.portal.contact", "project.project", "project.task",
 ]
 # Tokens free text may keep: the answers a paper records.
 SAFE_WORDS = [
@@ -202,7 +207,7 @@ ALLOWED_DOMAINS = [
     "anon.invalid", "example.com", "example.org", "odoo.com", "yourcompany.com", "yourcompany.example.com",
     "domain.com", "email.com", "company.com", "gmail.com", "outlook.com", "microsoft.com",
     # In the authors' lines and examples of the modules Odoo ships.
-    "26house.com", "osbzr.com",
+    "26house.com", "osbzr.com", "e-mail.com",
 ]
 
 
@@ -266,6 +271,7 @@ def main(columns_tsv, selections_tsv, models_txt, output):
         "harvest_also": HARVEST_ALSO,
         "harvest_purged": HARVEST_PURGED,
         "harvest_ignore": HARVEST_IGNORE,
+        "xmlid_scrub_models": XMLID_SCRUB_MODELS,
         "safe_words": SAFE_WORDS,
         "json_key_words": JSON_KEY_WORDS,
         "config_keep": CONFIG_KEEP,

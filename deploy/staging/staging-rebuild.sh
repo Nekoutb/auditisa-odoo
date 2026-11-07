@@ -139,7 +139,7 @@ fi
 
 # 1. The file
 [ "$(sha256sum "$DUMP" | cut -d' ' -f1)" = "$DIGEST" ] || die "the file's digest is not the one on the Pipeline screen"
-MEMBERS=$(tar -tf "$DUMP" | sort | tr '\n' ' ')
+MEMBERS=$(tar -tf "$DUMP" | LC_ALL=C sort | tr '\n' ' ')
 [ "$MEMBERS" = "ANON-REPORT.json SHA256SUMS db.dump " ] || die "unexpected members in the file: this is not an anonymised export"
 WORK=$(mktemp -d "${TMPDIR:-/var/tmp}/staging-rebuild.XXXXXX")
 trap cleanup_work EXIT

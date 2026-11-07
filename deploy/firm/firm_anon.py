@@ -532,6 +532,12 @@ def scrub(connection, manifest, salt):
         if not any(re.fullmatch(pattern, key) for pattern in keep):
             cursor.execute("DELETE FROM ir_config_parameter WHERE id = %s", [row_id])
 
+    # An external id can spell a person's name (demo_user_<name>): our addons' ids for people and clients go.
+    cursor.execute(
+        "DELETE FROM ir_model_data WHERE module LIKE 'ea\\_%%' AND model = ANY(%s)",
+        [manifest.get("xmlid_scrub_models", [])],
+    )
+
     deleted_by_reference = repair_references(cursor, purged)
 
     for table, entry in sorted(manifest["tables"].items()):

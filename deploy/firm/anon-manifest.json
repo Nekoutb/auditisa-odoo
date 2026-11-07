@@ -52,7 +52,8 @@
   "Renovations",
   "Rénovations",
   "Pleasant Hill",
-  "Brisbane"
+  "Brisbane",
+  "Reserve"
  ],
  "harvest_purged": {
   "ea_audit_firm_log": [
@@ -646,7 +647,8 @@
    "outlook.com",
    "microsoft.com",
    "26house.com",
-   "osbzr.com"
+   "osbzr.com",
+   "e-mail.com"
   ],
   "ignore": {},
   "patterns": {
@@ -3239,5 +3241,18 @@
   "wizard_ir_model_menu_create": {
    "class": "purge"
   }
- }
+ },
+ "xmlid_scrub_models": [
+  "res.partner",
+  "res.users",
+  "hr.employee",
+  "resource.resource",
+  "res.company",
+  "ea.audit.client",
+  "ea.audit.engagement",
+  "ea.audit.team.member",
+  "ea.audit.portal.contact",
+  "project.project",
+  "project.task"
+ ]
 }

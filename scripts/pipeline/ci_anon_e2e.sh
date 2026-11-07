@@ -71,7 +71,13 @@ runuser -u postgres -- pg_dump --format=custom --no-owner --no-acl "$SOURCE" | r
 AMOUNTS="SELECT (SELECT count(*) FROM ea_audit_gl_line), (SELECT coalesce(sum(debit),0) FROM ea_audit_gl_line), (SELECT coalesce(sum(credit),0) FROM ea_audit_gl_line), (SELECT count(*) FROM ea_audit_tb_line), (SELECT coalesce(sum(closing),0) FROM ea_audit_tb_line), (SELECT count(*) FROM ea_audit_dataset_row), (SELECT count(*) FROM ea_audit_engagement)"
 if ! q "$SRC" "$AMOUNTS" > "$PREFIX/figures.before"; then bad "the figures query did not run"; fi
 
-runuser -u postgres -- "$PY" -I "$TOOL/scripts/pipeline/anon_plant.py" --db "$SRC" --manifest "$TOOL/deploy/firm/anon-manifest.json" | tee "$PREFIX/planted.json"
+if runuser -u postgres -- "$PY" -I "$TOOL/scripts/pipeline/anon_plant.py" --db "$SRC" --manifest "$TOOL/deploy/firm/anon-manifest.json" > "$PREFIX/planted.json"; then
+  cut -c1-400 "$PREFIX/planted.json"
+else
+  bad "planting failed: the checks below would prove nothing"
+  printf 'TOTAL: %s passed, %s failed\n' "$PASS" "$FAIL"
+  exit 1
+fi
 
 echo "== a firm that has not allowed it"
 env_file "$SRC" 0
@@ -89,7 +95,7 @@ else
 fi
 TAR=$OUT/anon-$REF.tar
 if [ -f "$TAR" ]; then
-  LISTING=$(tar -tf "$TAR" | sort | tr '\n' ' ')
+  LISTING=$(tar -tf "$TAR" | LC_ALL=C sort | tr '\n' ' ')
   [ "$LISTING" = "ANON-REPORT.json SHA256SUMS db.dump " ] && ok "the file holds db.dump, the report and digests, no filestore" || bad "listing: $LISTING"
   [ "$(status anon_export_state)" = done ] && ok "reports done" || bad "reports $(status anon_export_state)"
   [ "$(status anon_export_sha256)" = "$(sha256sum "$TAR" | cut -d' ' -f1)" ] && ok "reports the file's digest" || bad "digest"

@@ -122,6 +122,31 @@ def main():
                         cursor.execute("ROLLBACK TO one")
                         skipped.append(f"{table}.{piece.split()[0]}")
             tables += 1
+    # A row added above points its foreign keys at id 1, which may not exist; a restore would refuse it.
+    cursor.execute("""
+        SELECT c.conrelid::regclass::text, a.attname, a.attnotnull, c.confrelid::regclass::text, fa.attname
+          FROM pg_constraint c
+          JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = c.conkey[1]
+          JOIN pg_attribute fa ON fa.attrelid = c.confrelid AND fa.attnum = c.confkey[1]
+         WHERE c.contype = 'f' AND array_length(c.conkey, 1) = 1 AND c.connamespace = 'public'::regnamespace
+    """)
+    foreign_keys = [tuple(str(x).strip('"') if isinstance(x, str) else x for x in row) for row in cursor.fetchall()]
+    removed = 0
+    while True:
+        changed = 0
+        for table, column, required, target, target_column in foreign_keys:
+            missing = f"""t."{column}" IS NOT NULL AND NOT EXISTS (SELECT 1 FROM "{target}" x WHERE x."{target_column}" = t."{column}")"""
+            cursor.execute(f"""UPDATE "{table}" t SET "{column}" = (SELECT min("{target_column}") FROM "{target}") WHERE {missing}
+                               AND EXISTS (SELECT 1 FROM "{target}")""")
+            changed += cursor.rowcount
+            if required:
+                cursor.execute(f"""DELETE FROM "{table}" t WHERE {missing}""")
+                removed += cursor.rowcount
+            else:
+                cursor.execute(f"""UPDATE "{table}" t SET "{column}" = NULL WHERE {missing}""")
+            changed += cursor.rowcount
+        if not changed:
+            break
     # The places that matter most, on several rows and not only the first.
     for sql, params in [
         ("UPDATE res_partner SET name = %s, email = %s, vat = %s, phone = %s, street = %s, company_registry = %s "
@@ -130,7 +155,7 @@ def main():
         ("UPDATE ea_audit_engagement SET name = %s", [f"{CLIENT} 2024"]),
         ("UPDATE ea_audit_paper_answer SET value = %s WHERE id IN (SELECT id FROM ea_audit_paper_answer ORDER BY id DESC LIMIT 50)", [LINE]),
         ("UPDATE ea_audit_paper_answer_history SET before = %s, after = %s WHERE id IN (SELECT id FROM ea_audit_paper_answer_history ORDER BY id DESC LIMIT 50)", [LINE, LINE]),
-        ("UPDATE mail_message SET body = %s, subject = %s, email_from = %s, record_name = %s WHERE id IN (SELECT id FROM mail_message ORDER BY id DESC LIMIT 50)", [f"<p>{LINE}</p>", LINE, EMAIL, CLIENT]),
+        ("UPDATE mail_message SET body = %s, subject = %s, email_from = %s WHERE id IN (SELECT id FROM mail_message ORDER BY id DESC LIMIT 50)", [f"<p>{LINE}</p>", LINE, EMAIL]),
         ("UPDATE ir_attachment SET name = %s, description = %s, index_content = %s, db_datas = %s", [f"{CLIENT}.pdf", LINE, LINE, LINE.encode()]),
         ("UPDATE ea_audit_firm_log SET actor_name = %s, target_name = %s, detail = %s, ip_address = %s", [NAME, CLIENT, LINE, "203.0.113.9"]),
         ("UPDATE ea_audit_dataset_row SET data = data || %s::jsonb WHERE id IN (SELECT id FROM ea_audit_dataset_row ORDER BY id LIMIT 20)",
@@ -146,7 +171,7 @@ def main():
         cursor.execute(sql, params)
     connection.commit()
     connection.close()
-    print(json.dumps({"tables_planted": tables, "columns_planted": columns_planted - len(skipped), "rows_added": rows_added, "refused_by_a_check_constraint": skipped}))
+    print(json.dumps({"tables_planted": tables, "columns_planted": columns_planted - len(skipped), "rows_added": rows_added, "added_rows_removed_for_lack_of_a_parent": removed, "refused_by_a_check_constraint": skipped}))
 
 
 if __name__ == "__main__":
