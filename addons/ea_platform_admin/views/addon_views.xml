@@ -20,13 +20,13 @@
         <field name="model">platform.addon</field>
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0">
-                <field name="name_text"/>
-                <field name="code" class="ea-mono"/>
+                <field name="name_text" width="240px"/>
+                <field name="code" class="ea-mono" width="190px"/>
                 <field name="summary_text"/>
-                <field name="version"/>
-                <field name="kind" widget="badge" decoration-success="kind == 'base'"
+                <field name="version" width="90px"/>
+                <field name="kind" widget="badge" width="140px" decoration-success="kind == 'base'"
                        decoration-info="kind == 'optional'" decoration-warning="kind == 'sample'"/>
-                <field name="firm_count"/>
+                <field name="firm_count" width="60px"/>
             </list>
         </field>
     </record>
@@ -163,16 +163,16 @@
                     <field name="addon_line_ids" readonly="1">
                         <list decoration-warning="status in ('differs_on', 'differs_off', 'not_in_release')" decoration-info="status in ('switching_on', 'switching_off')">
                             <field name="addon_id"/>
-                            <field name="code" class="ea-mono"/>
-                            <field name="summary_text" optional="show"/>
+                            <field name="code" class="ea-mono" optional="hide"/>
+                            <field name="summary_text" optional="hide"/>
                             <field name="version" optional="hide"/>
-                            <field name="desired" widget="boolean" string="Asked on"/>
-                            <field name="reported" widget="boolean" string="Firm says on"/>
-                            <field name="status" widget="badge" decoration-success="status == 'on'"
+                            <field name="desired" widget="boolean" string="Asked on" width="80px"/>
+                            <field name="reported" widget="boolean" string="Firm says on" width="90px"/>
+                            <field name="status" widget="badge" width="180px" decoration-success="status == 'on'"
                                    decoration-warning="status in ('differs_on', 'differs_off', 'not_in_release')"
                                    decoration-info="status in ('switching_on', 'switching_off')"/>
-                            <field name="changed_at" optional="show"/>
-                            <field name="changed_by" optional="show"/>
+                            <field name="changed_at" optional="show" width="120px"/>
+                            <field name="changed_by" optional="hide"/>
                             <button name="action_switch_on" type="object" string="Switch on" class="btn-link" icon="fa-toggle-off"
                                     invisible="desired" groups="ea_platform_admin.group_platform_operator"/>
                             <button name="action_switch_off" type="object" string="Switch off" class="btn-link" icon="fa-toggle-on"

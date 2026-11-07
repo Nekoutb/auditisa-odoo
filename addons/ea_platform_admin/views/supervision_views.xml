@@ -114,14 +114,14 @@
                             </div>
                             <div class="ea-sup-col">
                                 <div class="ea-sup-title">Watch</div>
-                                <div class="ea-sup-pair"><span>Heartbeat</span><field name="last_heartbeat_at" widget="remaining_days"/></div>
+                                <div class="ea-sup-pair"><span>Heartbeat</span><field name="last_heartbeat_at"/></div>
                                 <div class="ea-sup-pair">
                                     <span>Backup</span>
                                     <div t-attf-class="ea-sup-backup-#{record.backup_state.raw_value}"><field name="backup_state"/></div>
                                 </div>
-                                <div class="ea-sup-pair"><span>Last backup</span><field name="last_backup_at" widget="remaining_days"/></div>
+                                <div class="ea-sup-pair"><span>Last backup</span><field name="last_backup_at"/></div>
                                 <div class="ea-sup-pair"><span>Restore test</span><field name="restore_state"/></div>
-                                <div class="ea-sup-pair"><span>Certificate</span><field name="cert_expires_on" widget="remaining_days"/></div>
+                                <div class="ea-sup-pair"><span>Certificate</span><field name="cert_expires_on"/></div>
                             </div>
                         </div>
                     </t>
@@ -139,26 +139,26 @@
                 <header>
                     <button name="action_export_supervision" type="object" string="Export to Excel" display="always" class="btn-secondary"/>
                 </header>
-                <field name="name"/>
-                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-info="state == 'provisioning'"
+                <field name="name" width="130px"/>
+                <field name="state" widget="badge" optional="hide" decoration-success="state == 'active'" decoration-info="state == 'provisioning'"
                        decoration-warning="state in ('suspended', 'offboarding')"/>
                 <field name="health_color" widget="badge" decoration-success="health_color == 'green'"
                        decoration-warning="health_color == 'amber'" decoration-danger="health_color == 'red'"/>
                 <field name="health_summary"/>
-                <field name="platform_host"/>
-                <field name="custom_domain" optional="show"/>
+                <field name="platform_host" width="190px"/>
+                <field name="custom_domain" optional="show" width="150px"/>
                 <field name="provider_label" optional="hide"/>
-                <field name="server_id" optional="show"/>
-                <field name="server_ip" optional="show"/>
+                <field name="server_id" optional="hide"/>
+                <field name="server_ip" optional="show" width="100px"/>
                 <field name="region" optional="hide"/>
                 <field name="size" optional="hide"/>
                 <field name="ssh_key_id" optional="hide"/>
                 <field name="firewall_id" optional="hide"/>
                 <field name="storage_id" optional="hide"/>
-                <field name="addon_release" optional="show"/>
+                <field name="addon_release" optional="hide"/>
                 <field name="addons_on_summary" optional="show"/>
-                <field name="last_heartbeat_at" optional="show"/>
-                <field name="backup_state" optional="show"/>
+                <field name="last_heartbeat_at" optional="show" width="110px"/>
+                <field name="backup_state" optional="show" width="80px"/>
                 <field name="restore_state" optional="hide"/>
             </list>
         </field>
