@@ -16,10 +16,13 @@
   "ea_audit_client.address",
   "res_partner.street",
   "res_partner.street2",
-  "res_partner.city",
-  "project_project.name",
+  "hr_employee.name",
   "hr_employee.private_street",
-  "ea_audit_gl_line.account_name"
+  "resource_resource.name",
+  "ea_audit_portal_contact.name",
+  "ea_audit_gl_line.preparer",
+  "ea_audit_gl_line.reviewer",
+  "ea_audit_gl_line.approver"
  ],
  "harvest_ignore": [
   "OdooBot",
@@ -38,9 +41,18 @@
   "Cameroon",
   "Cameroun",
   "France",
-  "Cameroun",
   "example.com",
-  "odoo.com"
+  "odoo.com",
+  "Brandon Freeman",
+  "Lumber Inc",
+  "Audrey Peterson",
+  "Acme Corporation",
+  "info@yourcompany.com",
+  "mark.brown23@example.com",
+  "Renovations",
+  "Rénovations",
+  "Pleasant Hill",
+  "Brisbane"
  ],
  "harvest_purged": {
   "ea_audit_firm_log": [
@@ -632,7 +644,9 @@
    "company.com",
    "gmail.com",
    "outlook.com",
-   "microsoft.com"
+   "microsoft.com",
+   "26house.com",
+   "osbzr.com"
   ],
   "ignore": {},
   "patterns": {

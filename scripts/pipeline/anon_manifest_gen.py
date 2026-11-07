@@ -152,7 +152,8 @@ EXACT = {
 # Searched for, though its rule is `text`: these name the client without being a person or company rule.
 HARVEST_ALSO = [
     "ea_audit_engagement.name", "ea_audit_client.address", "res_partner.street", "res_partner.street2",
-    "res_partner.city", "project_project.name", "hr_employee.private_street", "ea_audit_gl_line.account_name",
+    "hr_employee.name", "hr_employee.private_street", "resource_resource.name", "ea_audit_portal_contact.name",
+    "ea_audit_gl_line.preparer", "ea_audit_gl_line.reviewer", "ea_audit_gl_line.approver",
 ]
 # Rows that go, but whose names may have been copied somewhere that is kept.
 HARVEST_PURGED = {
@@ -164,7 +165,10 @@ HARVEST_PURGED = {
 HARVEST_IGNORE = [
     "OdooBot", "Administrator", "Public user", "Default User Template", "Portal User Template", "Mitchell Admin",
     "Marc Demo", "Joel Willis", "My Company", "YourCompany", "Paris", "Douala", "Yaoundé", "Cameroon", "Cameroun",
-    "France", "Cameroun", "example.com", "odoo.com",
+    "France", "example.com", "odoo.com",
+    # Odoo's own sample partners, quoted in its view and mail templates. They are on a demo database only.
+    "Brandon Freeman", "Lumber Inc", "Audrey Peterson", "Acme Corporation", "info@yourcompany.com",
+    "mark.brown23@example.com", "Renovations", "Rénovations", "Pleasant Hill", "Brisbane",
 ]
 # Tokens free text may keep: the answers a paper records.
 SAFE_WORDS = [
@@ -197,6 +201,8 @@ SCAN = {
 ALLOWED_DOMAINS = [
     "anon.invalid", "example.com", "example.org", "odoo.com", "yourcompany.com", "yourcompany.example.com",
     "domain.com", "email.com", "company.com", "gmail.com", "outlook.com", "microsoft.com",
+    # In the authors' lines and examples of the modules Odoo ships.
+    "26house.com", "osbzr.com",
 ]
 
 

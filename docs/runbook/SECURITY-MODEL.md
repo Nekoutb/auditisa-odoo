@@ -25,6 +25,7 @@
 **Uniquement** ces chiffres : version, disque, mémoire, nombre d'utilisateurs et de missions, dates et résultats de sauvegarde et de test de restauration, expiration du certificat, messagerie ouverte ou non, état de la mise à jour et de l'export, nombre de connexions SSH.
 
 - Toute autre donnée dans un heartbeat fait rejeter le tout, et aucun champ n'accepte de texte libre.
+- Un serveur de cabinet peut aussi dire qu'il a fait une copie anonymisée : un état, une référence, une date, une empreinte. La copie elle-même reste chez lui (PIPELINE.md).
 - Pas de mot de passe de base, pas de clé de sauvegarde, pas de clé de stockage, pas de clé SSH privée. Le code ne contient ni client SSH, ni connexion à une base distante, ni appel RPC. Un test vérifie tout cela.
 - Il refuse de s'installer dans la base d'un cabinet, et n'est pas dans le paquet livré aux cabinets.
 
@@ -92,6 +93,7 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 **Only** these figures: release, disk, memory, numbers of users and engagements, dates and results of backup and restore test, certificate expiry, whether mail is open, update and export state, number of SSH logins.
 
 - Anything else in a heartbeat gets it all rejected, and no field accepts free text.
+- A firm's server can also say it has made an anonymised copy: a state, a reference, a date and a digest. The copy itself stays there (PIPELINE.md).
 - No database password, no backup key, no storage key, no private SSH key. The code holds no SSH client, no remote database connection, no RPC call. A test checks all of this.
 - It refuses to install in a firm's database, and is not in the bundle firms receive.
 

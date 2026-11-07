@@ -4,6 +4,8 @@
 
 ## Français
 
+**Le passage par étapes, du staging aux cabinets, se fait depuis l'écran Pipeline : voir PIPELINE.md. Cette page reste valable pour le déploiement lui-même.**
+
 Chaque cabinet a sa version, inscrite sur sa fiche. Une mise à jour part d'abord vers **un cabinet témoin**, puis par lots, et s'arrête au premier échec. Le contrôle ne se connecte jamais aux cabinets : il nomme la version dans la réponse au heartbeat, et chaque serveur fait le reste lui-même.
 
 **Ce mécanisme n'a tourné qu'en simulation côté cabinet.** `firm-update.sh` n'a jamais mis à jour un vrai serveur : essayez-le d'abord sur un cabinet fictif.
@@ -54,6 +56,8 @@ La mise à jour s'arrête et une alerte part. Le cabinet en échec est de nouvea
 Cochez « Version verrouillée » sur sa fiche.
 
 ## English
+
+**The staged path, from staging to the firms, runs from the Pipeline screen: see PIPELINE.md. This page still holds for the rollout itself.**
 
 Each firm has its own release, shown on its page. An update goes first to **one canary firm**, then in batches, and stops at the first failure. The control plane never logs in to a firm: it names the release in the heartbeat answer, and each server does the rest itself.
 

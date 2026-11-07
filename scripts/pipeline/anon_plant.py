@@ -79,6 +79,7 @@ def main():
     for table, column, data_type, nullable, size, default in cursor.fetchall():
         columns.setdefault(table, []).append((column, data_type, nullable, size, default))
     tables = columns_planted = rows_added = 0
+    skipped = []
     for table, entry in sorted(manifest["tables"].items()):
         if entry["class"] not in ("firm", "purge") or table not in columns:
             continue
@@ -86,13 +87,18 @@ def main():
         names = [c[0] for c in columns[table]]
         if cursor.fetchone()[0] == 0:
             required = [c for c in columns[table] if not c[2] and c[4] is None]
-            if required:
-                sql = f"""INSERT INTO "{table}" ({', '.join(f'"{c[0]}"' for c in required)})
-                          VALUES ({', '.join(['%s'] * len(required))})"""
-                cursor.execute(sql, [filler(c[1]) for c in required])
-            else:
-                cursor.execute(f'INSERT INTO "{table}" DEFAULT VALUES')
-            rows_added += 1
+            cursor.execute("SAVEPOINT add_row")
+            try:
+                if required:
+                    sql = f"""INSERT INTO "{table}" ({', '.join(f'"{c[0]}"' for c in required)})
+                              VALUES ({', '.join(['%s'] * len(required))})"""
+                    cursor.execute(sql, [filler(c[1]) for c in required])
+                else:
+                    cursor.execute(f'INSERT INTO "{table}" DEFAULT VALUES')
+                rows_added += 1
+            except psycopg2.Error:
+                cursor.execute("ROLLBACK TO add_row")
+                skipped.append(f"{table}: no row could be added")
         selector = "id = (SELECT min(id) FROM \"%s\")" % table if "id" in names else \
             "ctid = (SELECT min(ctid) FROM \"%s\")" % table
         sets, values = [], []
@@ -102,7 +108,19 @@ def main():
                 values.append(value_for(data_type, size))
                 columns_planted += 1
         if sets:
-            cursor.execute(f'UPDATE "{table}" SET {", ".join(sets)} WHERE {selector}', values)
+            cursor.execute("SAVEPOINT plant")
+            try:
+                cursor.execute(f'UPDATE "{table}" SET {", ".join(sets)} WHERE {selector}', values)
+            except psycopg2.Error:
+                # A CHECK constraint (replica mode only lifts triggers and foreign keys): column by column.
+                cursor.execute("ROLLBACK TO plant")
+                for piece, value in zip(sets, values):
+                    cursor.execute("SAVEPOINT one")
+                    try:
+                        cursor.execute(f'UPDATE "{table}" SET {piece} WHERE {selector}', [value])
+                    except psycopg2.Error:
+                        cursor.execute("ROLLBACK TO one")
+                        skipped.append(f"{table}.{piece.split()[0]}")
             tables += 1
     # The places that matter most, on several rows and not only the first.
     for sql, params in [
@@ -128,7 +146,7 @@ def main():
         cursor.execute(sql, params)
     connection.commit()
     connection.close()
-    print(json.dumps({"tables_planted": tables, "columns_planted": columns_planted, "rows_added": rows_added}))
+    print(json.dumps({"tables_planted": tables, "columns_planted": columns_planted - len(skipped), "rows_added": rows_added, "refused_by_a_check_constraint": skipped}))
 
 
 if __name__ == "__main__":

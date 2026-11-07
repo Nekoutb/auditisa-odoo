@@ -45,8 +45,10 @@ RULES = {
     "text", "html", "person", "company", "party", "email", "phone", "idnum", "hash", "null",
     "sel", "login", "answer", "emptydict", "json",
 }
-# These feed the search list: what they replace is what must never be seen again.
-HARVEST_RULES = {"person", "company", "party", "email", "phone", "idnum", "login"}
+# These feed the search list: what they replace is what must never be seen again. `person` is not one of
+# them: a control's owner is often "Le gérant", found in every definition. The columns that hold real
+# people's names are named one by one in the manifest's `harvest_also`.
+HARVEST_RULES = {"company", "party", "email", "phone", "idnum", "login"}
 MIN_HARVEST_LENGTH = 5
 SYSTEM_LOGINS = ("__system__", "default", "public", "portal", "admin")
 COPY_PREFIXES = ("anon_", "ci_pipeline_")

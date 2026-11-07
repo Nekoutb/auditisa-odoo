@@ -136,7 +136,7 @@ copy_of ci_pipeline_n1 'CREATE TABLE x_unlisted (id serial PRIMARY KEY, note tex
 must_stop "a table not on the list" unlisted-table ci_pipeline_n1
 copy_of ci_pipeline_n2 'ALTER TABLE ea_audit_client ADD COLUMN x_note text'
 must_stop "a text column not on the list" unlisted-column ci_pipeline_n2
-copy_of ci_pipeline_n3 "INSERT INTO ir_model (model, name, state) VALUES ('x.unlisted', '{\"en_US\": \"x\"}', 'manual')"
+copy_of ci_pipeline_n3 "INSERT INTO ir_model (model, name, state, \"order\") VALUES ('x.unlisted', '{\"en_US\": \"x\"}', 'manual', 'id')"
 must_stop "a model not on the list" unlisted-model ci_pipeline_n3
 copy_of ci_pipeline_n4 'CREATE MATERIALIZED VIEW x_copy AS SELECT name FROM ea_audit_client'
 must_stop "a materialised view" unlisted-relation ci_pipeline_n4
