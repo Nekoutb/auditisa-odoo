@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 ADDONS = Path(__file__).parents[3]
-BOTH = ["ea_platform_admin", "ea_audit_firm_agent"]
+BOTH = ["ea_platform_admin", "ea_audit_firm_agent", "ea_audit_addons", "ea_client_addon_sample"]
 
 
 def read_po(addon):

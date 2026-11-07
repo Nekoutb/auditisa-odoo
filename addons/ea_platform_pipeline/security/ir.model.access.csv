@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stage_viewer,platform.pipeline.stage viewer,model_platform_pipeline_stage,ea_platform_admin.group_platform_viewer,1,0,0,0
+access_test_run_viewer,platform.pipeline.test.run viewer,model_platform_pipeline_test_run,ea_platform_admin.group_platform_viewer,1,0,0,0
+access_test_run_owner,platform.pipeline.test.run owner,model_platform_pipeline_test_run,ea_platform_admin.group_platform_owner,1,0,1,0
+access_promotion_viewer,platform.pipeline.promotion viewer,model_platform_pipeline_promotion,ea_platform_admin.group_platform_viewer,1,0,0,0
+access_promotion_owner,platform.pipeline.promotion owner,model_platform_pipeline_promotion,ea_platform_admin.group_platform_owner,1,1,1,0
+access_rebuild_viewer,platform.pipeline.rebuild viewer,model_platform_pipeline_rebuild,ea_platform_admin.group_platform_viewer,1,0,0,0
+access_rebuild_owner,platform.pipeline.rebuild owner,model_platform_pipeline_rebuild,ea_platform_admin.group_platform_owner,1,1,1,0
+access_confirm_owner,platform.pipeline.confirm owner,model_platform_pipeline_confirm,ea_platform_admin.group_platform_owner,1,1,1,1

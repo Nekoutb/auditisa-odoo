@@ -4,6 +4,8 @@
 
 ## Français
 
+**Le passage par étapes, du staging aux cabinets, se fait depuis l'écran Pipeline : voir PIPELINE.md. Cette page reste valable pour le déploiement lui-même.**
+
 Chaque cabinet a sa version, inscrite sur sa fiche. Une mise à jour part d'abord vers **un cabinet témoin**, puis par lots, et s'arrête au premier échec. Le contrôle ne se connecte jamais aux cabinets : il nomme la version dans la réponse au heartbeat, et chaque serveur fait le reste lui-même.
 
 **Ce mécanisme n'a tourné qu'en simulation côté cabinet.** `firm-update.sh` n'a jamais mis à jour un vrai serveur : essayez-le d'abord sur un cabinet fictif.
@@ -19,7 +21,7 @@ La commande affiche le commit et l'empreinte `sha256`. Déposez les deux fichier
 
 ### 2. L'enregistrer
 
-Plateforme > Mises à jour > Versions > Nouveau : collez le commit et l'empreinte.
+Plateforme > Mises à jour > Versions > Nouveau : collez le commit et l'empreinte. Puis **Charger le fichier du catalogue** : `<commit>.catalogue.json` et sa signature, écrits à côté du paquet. Sans cela, l'écran « Modules » n'a rien à proposer pour cette version et aucune demande de module ne part (CLIENT-ADDONS.md).
 
 ### 3. Lancer
 
@@ -55,6 +57,8 @@ Cochez « Version verrouillée » sur sa fiche.
 
 ## English
 
+**The staged path, from staging to the firms, runs from the Pipeline screen: see PIPELINE.md. This page still holds for the rollout itself.**
+
 Each firm has its own release, shown on its page. An update goes first to **one canary firm**, then in batches, and stops at the first failure. The control plane never logs in to a firm: it names the release in the heartbeat answer, and each server does the rest itself.
 
 **This has only run as a simulation on the firm's side.** `firm-update.sh` has never updated a real server: try it first on a made-up firm.
@@ -70,7 +74,7 @@ It prints the commit and the `sha256`. Upload both files (`<commit>.tar.gz` and 
 
 ### 2. Register it
 
-Platform > Updates > Releases > New: paste the commit and the digest.
+Platform > Updates > Releases > New: paste the commit and the digest. Then **Load the catalogue file**: `<commit>.catalogue.json` and its signature, written beside the bundle. Without it the "Add-ons" screen has nothing to offer for this release, and no add-on request goes out (CLIENT-ADDONS.md).
 
 ### 3. Start it
 

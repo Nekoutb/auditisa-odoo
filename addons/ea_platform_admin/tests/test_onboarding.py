@@ -38,6 +38,8 @@ class TestOnboarding(PlatformCase):
         wizard = self._wizard()
         wizard.action_next()
         wizard.action_next()
+        self.assertEqual(wizard.step, "addons")
+        wizard.action_next()
         self.assertEqual(wizard.step, "preflight")
         self.assertEqual(wizard.preview_total_cost, 58.0)
         self.assertIn("SIMULATION", wizard.preview_mode)

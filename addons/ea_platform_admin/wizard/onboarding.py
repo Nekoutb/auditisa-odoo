@@ -126,14 +126,14 @@ class PlatformOnboardingWizard(models.TransientModel):
             self._raise_errors(errors)
         self.write({
             "slug": normalise_slug(self.slug),
-            "step": {"identity": "technical", "technical": "preflight"}[self.step],
+            "step": {"identity": "technical", "technical": "addons", "addons": "preflight"}[self.step],
             "confirmed": False,
         })
         return self._reopen()
 
     def action_back(self):
         self.ensure_one()
-        self.write({"step": {"preflight": "technical", "technical": "identity"}[self.step], "confirmed": False})
+        self.write({"step": {"preflight": "addons", "addons": "technical", "technical": "identity"}[self.step], "confirmed": False})
         return self._reopen()
 
     def action_confirm(self):
@@ -167,6 +167,7 @@ class PlatformOnboardingWizard(models.TransientModel):
             _("Size %(size)s, region %(region)s, estimated cost %(cost)s USD/month",
               size=firm.size, region=firm.region, cost=f"{firm.monthly_cost_usd:.2f}"),
         )
+        self._after_firm_created(firm)
         job = self.env["platform.provision.job"]._start(firm)
         job._run()
         return {
@@ -176,6 +177,9 @@ class PlatformOnboardingWizard(models.TransientModel):
             "view_mode": "form",
             "target": "current",
         }
+
+    def _after_firm_created(self, firm):
+        """wizard/addons.py records the add-ons chosen, before the job starts."""
 
     def _check_settings(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param

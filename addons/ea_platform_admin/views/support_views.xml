@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reported problems -->
+    <record id="view_ticket_search" model="ir.ui.view">
+        <field name="name">platform.ticket.search</field>
+        <field name="model">platform.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Reported problems">
+                <field name="subject"/>
+                <field name="firm_id"/>
+                <field name="ref"/>
+                <filter name="not_closed" string="Not closed" domain="[('state', '!=', 'closed')]"/>
+                <filter name="group_firm" string="Firm" context="{'group_by': 'firm_id'}"/>
+                <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_ticket_list" model="ir.ui.view">
+        <field name="name">platform.ticket.list</field>
+        <field name="model">platform.ticket</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" decoration-muted="state == 'closed'">
+                <field name="received_at"/>
+                <field name="firm_id"/>
+                <field name="subject"/>
+                <field name="screen" optional="hide"/>
+                <field name="state" widget="badge" decoration-warning="state == 'open'" decoration-info="state == 'in_progress'" decoration-success="state == 'closed'"/>
+                <field name="replied_at" optional="show"/>
+                <field name="replied_by" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ticket_form" model="ir.ui.view">
+        <field name="name">platform.ticket.form</field>
+        <field name="model">platform.ticket</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" class="o_ea_platform_form">
+                <header>
+                    <button name="action_in_progress" type="object" string="In progress" invisible="state != 'open'" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_close" type="object" string="Close" class="btn-primary" invisible="state == 'closed'" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_reopen" type="object" string="Reopen" invisible="state != 'closed'" groups="ea_platform_admin.group_platform_operator"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,in_progress,closed"/>
+                </header>
+                <sheet>
+                    <div class="text-muted mb-2">
+                        Written by a user of the firm, who was warned not to give client details. The reply goes back to that user, at their next check.
+                    </div>
+                    <div class="oe_title"><h1><field name="subject"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="firm_id"/>
+                            <field name="received_at"/>
+                            <field name="screen"/>
+                        </group>
+                        <group>
+                            <field name="ref"/>
+                            <field name="replied_at"/>
+                            <field name="replied_by"/>
+                        </group>
+                    </group>
+                    <group string="Message">
+                        <field name="message" nolabel="1" colspan="2"/>
+                    </group>
+                    <group string="Reply to the user">
+                        <field name="reply" nolabel="1" colspan="2" placeholder="Visible to the user who reported it. No other firm's details."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_tickets" model="ir.actions.act_window">
+        <field name="name">Reported problems</field>
+        <field name="res_model">platform.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ticket_search"/>
+        <field name="context">{'search_default_not_closed': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No reported problem</p>
+            <p>A firm's user sends one with "Report a problem" in their user menu.</p>
+        </field>
+    </record>
+
+    <!-- Technical errors -->
+    <record id="view_error_list" model="ir.ui.view">
+        <field name="name">platform.firm.error.list</field>
+        <field name="model">platform.firm.error</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="last_at"/>
+                <field name="firm_id"/>
+                <field name="module" class="ea-mono"/>
+                <field name="model_name" class="ea-mono"/>
+                <field name="kind" class="ea-mono"/>
+                <field name="count" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_error_search" model="ir.ui.view">
+        <field name="name">platform.firm.error.search</field>
+        <field name="model">platform.firm.error</field>
+        <field name="arch" type="xml">
+            <search string="Technical errors">
+                <field name="firm_id"/>
+                <field name="module"/>
+                <field name="model_name"/>
+                <field name="kind"/>
+                <filter name="last_day" string="Last 24 hours" domain="[('last_at', '&gt;=', (context_today() - relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="group_firm" string="Firm" context="{'group_by': 'firm_id'}"/>
+                <filter name="group_module" string="Addon" context="{'group_by': 'module'}"/>
+                <filter name="group_kind" string="Error type" context="{'group_by': 'kind'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_errors" model="ir.actions.act_window">
+        <field name="name">Technical errors</field>
+        <field name="res_model">platform.firm.error</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_error_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No technical error reported</p>
+            <p>A firm's server reports its errors as codes in its heartbeat: addon, screen, error type, count. Never a message or a value.</p>
+        </field>
+    </record>
+
+    <!-- Support visits -->
+    <record id="view_visit_list" model="ir.ui.view">
+        <field name="name">platform.support.visit.list</field>
+        <field name="model">platform.support.visit</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" decoration-warning="state in ('requested', 'open')">
+                <field name="id" string="Number"/>
+                <field name="requested_at"/>
+                <field name="firm_id"/>
+                <field name="requested_by"/>
+                <field name="reason"/>
+                <field name="minutes"/>
+                <field name="state" widget="badge" decoration-warning="state in ('requested', 'open')" decoration-success="state == 'ended'"/>
+                <field name="expected_end"/>
+                <field name="release" optional="hide"/>
+                <button name="action_end" type="object" string="End now" class="btn-link" invisible="state not in ('requested', 'open') or end_requested"
+                        groups="ea_platform_admin.group_platform_operator"/>
+                <field name="end_requested" invisible="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_visit_form" model="ir.ui.view">
+        <field name="name">platform.support.visit.form</field>
+        <field name="model">platform.support.visit</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0" class="o_ea_platform_form">
+                <header>
+                    <button name="action_end" type="object" string="End now" class="btn-danger"
+                            invisible="state not in ('requested', 'open') or end_requested" groups="ea_platform_admin.group_platform_operator"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="text-muted mb-2">A support visit's record is never changed or deleted. Read-only: the support account could change nothing.</div>
+                    <div class="oe_title"><h1><field name="display_name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="firm_id"/>
+                            <field name="requested_by" string="Operator"/>
+                            <field name="reason"/>
+                            <field name="release"/>
+                        </group>
+                        <group>
+                            <field name="requested_at"/>
+                            <field name="reported_at"/>
+                            <field name="minutes"/>
+                            <field name="expected_end"/>
+                            <field name="end_requested"/>
+                        </group>
+                    </group>
+                    <separator string="Screens and records opened (identifiers only)"/>
+                    <field name="trace_ids">
+                        <list>
+                            <field name="opened_at"/>
+                            <field name="model_name"/>
+                            <field name="method"/>
+                            <field name="res_ids"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_visits" model="ir.actions.act_window">
+        <field name="name">Support visits</field>
+        <field name="res_model">platform.support.visit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_visit_wizard_form" model="ir.ui.view">
+        <field name="name">platform.support.visit.wizard.form</field>
+        <field name="model">platform.support.visit.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Start a support visit">
+                <field name="started" invisible="1"/>
+                <div invisible="started">
+                    <div class="alert alert-warning" role="status">
+                        You will sign in to this firm's own Odoo as "AuditISA support (operator, not a firm user)", which can read every
+                        screen and change nothing: no create, change, delete, signature, upload, export or sending. The visit is numbered and
+                        kept for good with its reason and the screens opened, here and on the firm's side. The firm's administrator is told
+                        on screen and can end it.
+                    </div>
+                    <group>
+                        <field name="firm_id"/>
+                        <field name="reason" placeholder="What you need to see, and who asked."/>
+                        <field name="minutes"/>
+                    </group>
+                </div>
+                <div invisible="not started">
+                    <p>Copy this link now: it shows once and is not kept here. It works once the firm's server has opened the visit (after its next heartbeat), until the visit ends.</p>
+                    <group><field name="link" widget="CopyClipboardChar"/></group>
+                </div>
+                <footer>
+                    <button name="action_confirm" type="object" string="Ask for the visit" class="btn-primary" invisible="started"/>
+                    <button special="cancel" string="Cancel" invisible="started"/>
+                    <button name="action_close" type="object" string="I have copied the link" class="btn-primary" invisible="not started"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- On the firm's page -->
+    <record id="view_firm_form_support" model="ir.ui.view">
+        <field name="name">platform.firm.form.support</field>
+        <field name="model">platform.firm</field>
+        <field name="inherit_id" ref="view_firm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_simulate_heartbeat']" position="before">
+                <button name="action_support_visit" type="object" string="Support visit" invisible="state != 'active' or visit_state"
+                        groups="ea_platform_admin.group_platform_operator"/>
+                <button name="action_end_support_visit" type="object" string="End the support visit" class="btn-danger"
+                        invisible="not visit_state" groups="ea_platform_admin.group_platform_operator"/>
+            </xpath>
+            <xpath expr="//page[@name='addons']" position="after">
+                <page string="Support" name="support">
+                    <group>
+                        <group string="Now">
+                            <field name="visit_state"/>
+                            <field name="errors_24h"/>
+                            <field name="tickets_open"/>
+                        </group>
+                    </group>
+                    <separator string="Support visits"/>
+                    <field name="support_visit_ids" readonly="1">
+                        <list decoration-warning="state in ('requested', 'open')">
+                            <field name="id" string="Number"/>
+                            <field name="requested_at"/>
+                            <field name="requested_by"/>
+                            <field name="reason"/>
+                            <field name="minutes"/>
+                            <field name="state"/>
+                            <field name="expected_end"/>
+                        </list>
+                    </field>
+                    <separator string="Reported problems"/>
+                    <field name="ticket_ids" readonly="1">
+                        <list>
+                            <field name="received_at"/>
+                            <field name="subject"/>
+                            <field name="state"/>
+                            <field name="replied_at"/>
+                        </list>
+                    </field>
+                    <separator string="Technical errors (codes only)"/>
+                    <field name="error_ids" readonly="1">
+                        <list limit="20">
+                            <field name="last_at"/>
+                            <field name="module"/>
+                            <field name="model_name"/>
+                            <field name="kind"/>
+                            <field name="count"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

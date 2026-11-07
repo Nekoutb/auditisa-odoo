@@ -5,6 +5,9 @@
 #   build_release.sh --new-key PRIVATE.pem      makes the signing key, once, and prints the public one
 #   build_release.sh --verify BUNDLE --pub PUBLIC.pem
 #
+# Beside the bundle it writes <sha>.catalogue.json and its signature: the list of what the release
+# carries, read from the manifests of that commit, for Platform > Updates > Releases.
+#
 # The bundle holds what a firm needs and nothing of the control plane: every addon except
 # ea_platform_*, deploy/firm, new_firm.sh and backup_firm.sh. It is a `git archive` of a commit, so
 # no local file can slip in. The signature is ed25519 over the file. The private key stays with the
@@ -76,7 +79,17 @@ openssl pkeyutl -sign -inkey "$KEY" -rawin -in "$OUT/$BUNDLE_NAME" -out "$OUT/$B
 DIGEST=$(sha256sum "$OUT/$BUNDLE_NAME" | cut -d' ' -f1)
 if tar -tzf "$OUT/$BUNDLE_NAME" | grep -q '^addons/ea_platform_'; then die "the bundle holds the control plane's addon"; fi
 
+WORK=$(mktemp -d)
+tar -xzf "$OUT/$BUNDLE_NAME" -C "$WORK" addons
+PYTHON=$(command -v python3 || command -v python) || die "python is needed to read the manifests"
+HERE=$(cd "$(dirname "$0")" && pwd)
+"$PYTHON" -I "$HERE/build_catalogue.py" "$WORK/addons" "$SHA" > "$OUT/$SHA.catalogue.json" \
+  || { rm -rf "$WORK"; die "a manifest of this commit cannot be read"; }
+rm -rf "$WORK"
+openssl pkeyutl -sign -inkey "$KEY" -rawin -in "$OUT/$SHA.catalogue.json" -out "$OUT/$SHA.catalogue.json.sig"
+
 log "bundle: $OUT/$BUNDLE_NAME"
 log "signature: $OUT/$BUNDLE_NAME.sig"
+log "catalogue: $OUT/$SHA.catalogue.json, signature: $OUT/$SHA.catalogue.json.sig"
 printf 'commit  %s\n' "$SHA"
 printf 'sha256  %s\n' "$DIGEST"

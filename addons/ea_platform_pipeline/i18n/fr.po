@@ -1,0 +1,1454 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_platform_pipeline
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/recorded_run.py:0
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(commit)s, %(suite)s: %(passed)s passed, %(failed)s failed"
+msgstr "%(commit)s, %(suite)s : %(passed)s réussis, %(failed)s échoués"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(count)s applied, %(pending)s waiting"
+msgstr "%(count)s appliquées, %(pending)s en attente"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(count)s commit(s) ahead of %(stage)s"
+msgstr "%(count)s commit(s) d'avance sur %(stage)s"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(count)s commit(s) on main not yet running"
+msgstr "%(count)s commit(s) sur main pas encore en service"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(count)s firm server(s)"
+msgstr "%(count)s serveur(s) de cabinet"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(count)s firm(s) red"
+msgstr "%(count)s cabinet(s) en rouge"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "%(mark)s %(detail)s"
+msgstr "%(mark)s %(detail)s"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "%(on)s of %(all)s on this release"
+msgstr "%(on)s sur %(all)s sur cette version"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Backups: </span>"
+msgstr "<span class=\"text-muted\">Sauvegardes : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Branch </span>"
+msgstr "<span class=\"text-muted\">Branche </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Deployments:</span>"
+msgstr "<span class=\"text-muted\">Déploiements :</span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">GitHub: </span>"
+msgstr "<span class=\"text-muted\">GitHub : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Health: </span>"
+msgstr "<span class=\"text-muted\">Santé : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Last release: </span>"
+msgstr "<span class=\"text-muted\">Dernière publication : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Migrations: </span>"
+msgstr "<span class=\"text-muted\">Migrations : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Running: </span>"
+msgstr "<span class=\"text-muted\">En service : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Tests: </span>"
+msgstr "<span class=\"text-muted\">Tests : </span>"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "<span class=\"text-muted\">Where: </span>"
+msgstr "<span class=\"text-muted\">Où : </span>"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/recorded_run.py:0
+msgid "A count cannot be negative."
+msgstr "Un nombre ne peut pas être négatif."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_firm__pipeline_role__firm
+msgid "A firm"
+msgstr "Un cabinet"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "A pre-check does not pass: nothing was started."
+msgstr "Un contrôle ne passe pas : rien n'a démarré."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "A rebuild is already open: finish or cancel it first."
+msgstr "Une reconstruction est déjà ouverte : terminez-la ou annulez-la d'abord."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/recorded_run.py:0
+msgid "A recorded test run cannot be changed."
+msgstr "Un essai noté ne peut pas être modifié."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/recorded_run.py:0
+msgid "A recorded test run cannot be deleted."
+msgstr "Un essai noté ne peut pas être supprimé."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__action
+msgid "Action"
+msgstr "Action"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__matches
+msgid "Against GitHub"
+msgstr "Par rapport à GitHub"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Agents' throwaway databases; no server of its own"
+msgstr "Bases jetables des agents ; pas de serveur à lui"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__color__amber
+msgid "Amber"
+msgstr "Orange"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Anonymised copy failed at the firm"
+msgstr "Échec de la copie anonymisée chez le cabinet"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Anonymised copy ready at the firm"
+msgstr "Copie anonymisée prête chez le cabinet"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__anon_export_state
+msgid "Anonymised export"
+msgstr "Export anonymisé"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__anon_export_sha256
+msgid "Anonymised export: digest"
+msgstr "Export anonymisé : empreinte"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__anon_export_ref
+msgid "Anonymised export: reference"
+msgstr "Export anonymisé : référence"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__anon_export_at
+msgid "Anonymised export: when"
+msgstr "Export anonymisé : date"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Another rollout is running: only one at a time."
+msgstr "Un autre déploiement est en cours : un seul à la fois."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__requested_by_id
+msgid "Asked by"
+msgstr "Demandée par"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__requested
+msgid "Asked of the firm"
+msgstr "Demandée au cabinet"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__requested_at
+msgid "Asked on"
+msgstr "Demandée le"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/confirm.py:0
+msgid ""
+"Asks the firms to go back to this earlier release, in the same order. Code "
+"only: an update that changed the database cannot be undone this way."
+msgstr "Demande aux cabinets de revenir à cette version antérieure, dans le même ordre. Le code seulement : une mise à jour qui a changé la base ne se défait pas ainsi."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/confirm.py:0
+msgid ""
+"Asks the test firm to take this signed release now, then the other firms in "
+"batches. Each firm is cut off during its update."
+msgstr "Demande au cabinet témoin de prendre maintenant cette version signée, puis aux autres cabinets par lots. Chaque cabinet est coupé pendant sa mise à jour."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/confirm.py:0
+msgid ""
+"Asks this firm's server to make an anonymised copy, which stays there. "
+"Nothing changes on staging until you carry it there and run the script."
+msgstr "Demande au serveur de ce cabinet de faire une copie anonymisée, qui reste chez lui. Rien ne change sur le staging tant que vous ne l'y portez pas et ne lancez pas le script."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__github_author
+msgid "Author"
+msgstr "Auteur"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__backups
+msgid "Backups"
+msgstr "Sauvegardes"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__batch_size
+msgid "Batch size"
+msgstr "Taille des lots"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__branch
+msgid "Branch"
+msgstr "Branche "
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__can_promote
+msgid "Can Promote"
+msgstr "Peut promouvoir"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__can_rebuild
+msgid "Can Rebuild"
+msgstr "Peut reconstruire"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_confirm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_rebuild_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_rebuild_form
+msgid ""
+"Cancel this rebuild? A copy the firm has made stays on its server until the "
+"next one."
+msgstr "Annuler cette reconstruction ? Une copie déjà faite par le cabinet reste sur son serveur jusqu'à la suivante."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__cancelled
+msgid "Cancelled"
+msgstr "Annulée"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__matches__unknown
+msgid "Cannot compare"
+msgstr "Comparaison impossible"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__checks_at
+msgid "Checked on"
+msgstr "Contrôlé le"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/confirm.py:0
+msgid "Choose the source firm."
+msgstr "Choisissez le cabinet source."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__color
+msgid "Colour"
+msgstr "Couleur"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__commit_sha
+msgid "Commit"
+msgstr "Commit"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__github_at
+msgid "Committed"
+msgstr "Date du commit"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_confirm_form
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_pipeline_confirm
+msgid "Confirm a pipeline action"
+msgstr "Confirmer une action de la pipeline"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_confirm__action__main
+msgid "Confirm main moved"
+msgstr "Confirmer main déplacé"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "Confirm main moved..."
+msgstr "Confirmer main déplacé..."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__typed
+msgid "Confirmation"
+msgstr "Confirmation"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__create_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__create_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__create_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__create_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__create_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__create_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__create_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__create_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__deploys
+msgid "Deployments"
+msgstr "Déploiements"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__detail
+msgid "Detail"
+msgstr "Détail"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__code__development
+#: model:platform.pipeline.stage,name:ea_platform_pipeline.stage_next_development
+#: model:platform.pipeline.stage,name:ea_platform_pipeline.stage_odoo_development
+msgid "Development"
+msgstr "Développement"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__matches__no
+msgid "Differs from GitHub"
+msgstr "Différent de GitHub"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__export_sha256
+msgid "Digest of the anonymised copy"
+msgstr "Empreinte de la copie anonymisée"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_log__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_guard__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_release__display_name
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_rollout__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_firm__anon_export_state__done
+msgid "Done"
+msgstr "Fait"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Every firm has a good backup from the last 26 hours."
+msgstr "Chaque cabinet a une bonne sauvegarde de moins de 26 heures."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid ""
+"Every firm runs this release. On your computer: git push origin "
+"%(sha)s:refs/heads/main, then Confirm main moved."
+msgstr "Tous les cabinets tournent sur cette version. Sur votre ordinateur : git push origin %(sha)s:refs/heads/main, puis Confirmer main déplacé."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__checks_ok
+msgid "Every pre-check passed"
+msgstr "Tous les contrôles passés"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__failed
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_firm__anon_export_state__failed
+msgid "Failed"
+msgstr "Échoués"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__failed
+msgid "Failed at the firm"
+msgstr "Échec chez le cabinet"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__state__done
+msgid "Finished"
+msgstr "Terminé"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_firm
+msgid "Firm"
+msgstr "Cabinet"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Firm is making the anonymised copy"
+msgstr "Le cabinet fait la copie anonymisée"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__running
+msgid "Firm is working"
+msgstr "Le cabinet travaille"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Firm refused the anonymised copy"
+msgstr "Le cabinet a refusé la copie anonymisée"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__firm_ids
+msgid "Firms"
+msgstr "Cabinets"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,help:ea_platform_pipeline.field_platform_pipeline_test_run__suite
+msgid "For example: odoo, pure, anonymiser."
+msgstr "Par exemple : odoo, pure, anonymiser."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "From %(new)s back to %(old)s"
+msgstr "De %(new)s vers %(old)s"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_release_form_attestation
+msgid "From scripts/pipeline/sign_promotion.sh"
+msgstr "De scripts/pipeline/sign_promotion.sh"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid ""
+"GitHub access is not set up for this private repository: see PIPELINE.md, "
+"section 2."
+msgstr "L'accès GitHub n'est pas en place pour ce dépôt privé : voir PIPELINE.md, section 2."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "GitHub did not answer at the last reading."
+msgstr "GitHub n'a pas répondu à la dernière lecture."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Give a reason of at least %(count)s characters."
+msgstr "Donnez un motif d'au moins %(count)s caractères."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__color__green
+msgid "Green"
+msgstr "Vert"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Green on this commit: %(suites)s."
+msgstr "Verts sur ce commit : %(suites)s."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__color__grey
+msgid "Grey"
+msgstr "Gris"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__health
+msgid "Health"
+msgstr "Santé"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_log__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_guard__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_release__id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_rollout__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,help:ea_platform_pipeline.field_platform_pipeline_confirm__source_firm_id
+msgid ""
+"Its server makes the anonymised copy. Nothing identifiable leaves it, and it"
+" must have allowed exports."
+msgstr "Son serveur fait la copie anonymisée. Rien d'identifiable n'en sort, et il doit avoir autorisé ces exports."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__kind
+msgid "Kind"
+msgstr "Type"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__write_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__write_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__write_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__write_uid
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__write_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__write_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__write_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__write_date
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Last nightly %(when)s, %(size)s"
+msgstr "Dernière de nuit %(when)s, %(size)s"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__last_change
+msgid "Last release"
+msgstr "Dernière publication"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__ahead
+msgid "Lead on the next stage"
+msgstr "Avance sur l'étape suivante"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Level with %(stage)s"
+msgstr "Au même point que %(stage)s"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__matches__yes
+msgid "Matches GitHub"
+msgstr "Conforme à GitHub"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__migrations
+msgid "Migrations"
+msgstr "Migrations"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__state__awaiting_main
+msgid "Move main"
+msgstr "Déplacer main"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "New promotion"
+msgstr "Nouvelle promotion"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__tool__next
+msgid "Next.js tool"
+msgstr "Outil Next.js"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "No firm is selected."
+msgstr "Aucun cabinet n'est choisi."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "No firm server yet"
+msgstr "Aucun serveur de cabinet pour l'instant"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "No good backup in the last 26 hours: %(firms)s."
+msgstr "Pas de bonne sauvegarde depuis 26 heures : %(firms)s."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "No other rollout is running."
+msgstr "Aucun autre déploiement en cours."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "No server is marked as staging: its health is unknown."
+msgstr "Aucun serveur n'est déclaré comme staging : sa santé est inconnue."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "No server of its own: dev.auditisa.com is its staging"
+msgstr "Pas de serveur à lui : dev.auditisa.com sert de staging"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "No staging branch yet: staging follows dev."
+msgstr "Pas encore de branche staging : le staging suit dev."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "No test run is recorded for this commit."
+msgstr "Aucun essai n'est noté pour ce commit."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid ""
+"No valid offline attestation for this release: run sign_promotion.sh on your"
+" computer."
+msgstr "Pas d'attestation hors ligne valable pour cette version : lancez sign_promotion.sh sur votre ordinateur."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Not answering"
+msgstr "Ne répond pas"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Not green: %(suites)s."
+msgstr "Pas verts : %(suites)s."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Not published by the current tool's status file"
+msgstr "Non publiés par le fichier d'état de l'outil actuel"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid ""
+"Nothing left the firm. Its log says why. A refusal means the firm has not "
+"allowed exports: see docs/runbook/PIPELINE.md."
+msgstr "Rien n'est sorti du cabinet. Son journal dit pourquoi. Un refus veut dire que le cabinet n'a pas autorisé ces exports : voir docs/runbook/PIPELINE.md."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__matches__none
+msgid "Nothing runs"
+msgstr "Rien ne tourne"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__tool__odoo
+msgid "Odoo tool"
+msgstr "Outil Odoo"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_release__attestation
+msgid "Offline attestation"
+msgstr "Attestation hors ligne"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Old reading: the collector last wrote at %(time)s UTC."
+msgstr "Lecture ancienne : le collecteur a écrit pour la dernière fois à %(time)s UTC."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__github_commit
+msgid "On GitHub"
+msgstr "Sur GitHub"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid ""
+"On your computer: scripts/pipeline/relay_anon_dump.sh <firm's address> "
+"%(ref)s %(digest)s root@108.61.209.30. On staging: staging-rebuild --dump "
+"/var/lib/auditisa-staging/incoming/anon-%(ref)s.tar --sha256 %(digest)s. "
+"Read the dry run, then add --apply. Then Record staging rebuilt."
+msgstr "Sur votre ordinateur : scripts/pipeline/relay_anon_dump.sh <adresse du cabinet> %(ref)s %(digest)s root@108.61.209.30. Sur le staging : staging-rebuild --dump /var/lib/auditisa-staging/incoming/anon-%(ref)s.tar --sha256 %(digest)s. Lisez l'essai à blanc, puis ajoutez --apply. Ensuite, Noter le staging reconstruit."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.constraint,message:ea_platform_pipeline.constraint_platform_pipeline_stage_stage_unique
+msgid "One row per tool and stage."
+msgstr "Une ligne par outil et par étape."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Only an active firm can be the source."
+msgstr "Seul un cabinet actif peut être la source."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Only the owner can do this."
+msgstr "Seul le propriétaire peut faire cela."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__passed
+msgid "Passed"
+msgstr "Réussis"
+
+#. module: ea_platform_pipeline
+#: model:ir.ui.menu,name:ea_platform_pipeline.menu_pipeline
+msgid "Pipeline"
+msgstr "Pipeline"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_pipeline_stage
+msgid "Pipeline stage"
+msgstr "Étape de la pipeline"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_log
+msgid "Platform log"
+msgstr "Journal de la plateforme"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__checks_text
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "Pre-checks"
+msgstr "Contrôles"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__checks_raw
+msgid "Pre-checks (source)"
+msgstr "Contrôles (source)"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "Prepare a rollback..."
+msgstr "Préparer un retour..."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,help:ea_platform_pipeline.field_platform_release__attestation
+msgid ""
+"Printed by scripts/pipeline/sign_promotion.sh, on your computer. Base64 of "
+"an ed25519 signature over this commit and this digest. It holds nothing "
+"secret."
+msgstr "Affichée par scripts/pipeline/sign_promotion.sh, sur votre ordinateur. Base64 d'une signature ed25519 de ce commit et de cette empreinte. Elle ne contient rien de secret."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__code__production
+#: model:platform.pipeline.stage,name:ea_platform_pipeline.stage_next_production
+#: model:platform.pipeline.stage,name:ea_platform_pipeline.stage_odoo_production
+msgid "Production"
+msgstr "Production"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_confirm__action__promote
+msgid "Promote"
+msgstr "Promouvoir"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "Promote staging to production..."
+msgstr "Promouvoir le staging en production..."
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_pipeline_promotion
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__promotion_id
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__kind__promote
+msgid "Promotion"
+msgstr "Promotion"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Promotion pre-checks: not passed"
+msgstr "Contrôles de la promotion : non passés"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Promotion pre-checks: passed"
+msgstr "Contrôles de la promotion : passés"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Promotion started"
+msgstr "Promotion lancée"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Promotion stopped"
+msgstr "Promotion arrêtée"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Promotion: every firm is through"
+msgstr "Promotion : tous les cabinets sont passés"
+
+#. module: ea_platform_pipeline
+#: model:ir.actions.act_window,name:ea_platform_pipeline.action_promotions
+#: model:ir.ui.menu,name:ea_platform_pipeline.menu_pipeline_promotions
+msgid "Promotions"
+msgstr "Promotions"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid ""
+"Read at %(time)s UTC, at most a minute behind GitHub. Reload to read again."
+msgstr "Lu à %(time)s UTC, au plus une minute de retard sur GitHub. Rechargez pour relire."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__reading
+msgid "Reading"
+msgstr "Lecture"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__exported_at
+msgid "Ready on"
+msgstr "Prête le"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__exported
+msgid "Ready: carry it to staging"
+msgstr "Prête : à porter sur le staging"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__reason
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__reason
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__reason
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_rebuild_form
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__rebuild_id
+msgid "Rebuild"
+msgstr "Reconstruction"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_confirm__action__rebuild
+msgid "Rebuild staging"
+msgstr "Reconstruire le staging"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "Rebuild staging from a firm..."
+msgstr "Reconstruire le staging depuis un cabinet..."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Rebuild: %(state)s, %(date)s"
+msgstr "Reconstruction : %(state)s, %(date)s"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_confirm__action__rebuilt
+msgid "Record staging rebuilt"
+msgstr "Noter le staging reconstruit"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_rebuild_form
+msgid "Record staging rebuilt..."
+msgstr "Noter le staging reconstruit..."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__recorded_by_id
+msgid "Recorded by"
+msgstr "Noté par"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_test_run_list
+msgid "Recorded on"
+msgstr "Noté le"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/confirm.py:0
+msgid "Records that you have moved main yourself. It moves nothing."
+msgstr "Note que vous avez déplacé main vous-même. Cela ne déplace rien."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/confirm.py:0
+msgid "Records that you have rebuilt staging. It changes nothing."
+msgstr "Note que vous avez reconstruit le staging. Cela ne change rien."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__color__red
+msgid "Red"
+msgstr "Rouge"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__request_ref
+msgid "Reference"
+msgstr "Référence"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Reference %(ref)s"
+msgstr "Référence %(ref)s"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Reference %(ref)s, digest %(digest)s, note: %(reason)s"
+msgstr "Référence %(ref)s, empreinte %(digest)s, note : %(reason)s"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Reference %(ref)s, reason: %(reason)s"
+msgstr "Référence %(ref)s, motif : %(reason)s"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_firm__anon_export_state__refused
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__refused
+msgid "Refused by the firm"
+msgstr "Refusée par le cabinet"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_release
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__release_id
+msgid "Release"
+msgstr "Version"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Release %(release)s"
+msgstr "Version %(release)s"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Release %(release)s, reason: %(reason)s"
+msgstr "Version %(release)s, motif : %(reason)s"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__previous_release_id
+msgid "Release before it"
+msgstr "Version d'avant"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_firm__pipeline_role
+msgid "Role in the pipeline"
+msgstr "Rôle dans la pipeline"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_confirm__action__rollback
+msgid "Roll back"
+msgstr "Revenir en arrière"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__kind__rollback
+msgid "Rollback"
+msgstr "Retour arrière"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Rollback prepared"
+msgstr "Retour arrière préparé"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Rollback started"
+msgstr "Retour arrière lancé"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__state__rolling
+msgid "Rolling out"
+msgstr "En déploiement"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_rollout
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__rollout_id
+msgid "Rollout"
+msgstr "Déploiement"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__rollout_state
+msgid "Rollout state"
+msgstr "État du déploiement"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Rollout: %(done)s of %(total)s through"
+msgstr "Déploiement : %(done)s sur %(total)s passés"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "Run the pre-checks"
+msgstr "Lancer les contrôles"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__running_commit
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_firm__anon_export_state__running
+msgid "Running"
+msgstr "En cours"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_stage_kanban
+msgid "SAMPLE DATA"
+msgstr "DONNÉES D'EXEMPLE"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid ""
+"SAMPLE DATA: the collector is not connected yet, so GitHub and the current "
+"tool's figures here are made up. See PIPELINE.md, section 2."
+msgstr "DONNÉES D'EXEMPLE : le collecteur n'est pas encore branché, donc GitHub et les chiffres de l'outil actuel sont inventés ici. Voir PIPELINE.md, section 2."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__is_sample
+msgid "Sample data"
+msgstr "Données d'exemple"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_release__attestation_ok
+msgid "Signed offline"
+msgstr "Signée hors ligne"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "Signed offline: the attestation holds for this commit and digest."
+msgstr "Signée hors ligne : l'attestation vaut pour ce commit et cette empreinte."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__source_firm_id
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__source_firm_id
+msgid "Source firm"
+msgstr "Cabinet source"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__code
+msgid "Stage"
+msgstr "Étape"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_stage__code__staging
+#: model:platform.pipeline.stage,name:ea_platform_pipeline.stage_next_staging
+#: model:platform.pipeline.stage,name:ea_platform_pipeline.stage_odoo_staging
+msgid "Staging"
+msgstr "Staging"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Staging has not reported recently."
+msgstr "Le staging n'a pas rendu compte récemment."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Staging is not running this commit."
+msgstr "Le staging ne tourne pas sur ce commit."
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_pipeline_rebuild
+msgid "Staging rebuild"
+msgstr "Reconstruction du staging"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Staging rebuild asked of the firm"
+msgstr "Reconstruction du staging demandée au cabinet"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Staging rebuild cancelled"
+msgstr "Reconstruction du staging annulée"
+
+#. module: ea_platform_pipeline
+#: model:ir.actions.act_window,name:ea_platform_pipeline.action_rebuilds
+#: model:ir.ui.menu,name:ea_platform_pipeline.menu_pipeline_rebuilds
+msgid "Staging rebuilds"
+msgstr "Reconstructions du staging"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_rebuild__state__rebuilt
+msgid "Staging rebuilt"
+msgstr "Staging reconstruit"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "Staging rebuilt from the anonymised copy"
+msgstr "Staging reconstruit depuis la copie anonymisée"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__rebuilt_at
+msgid "Staging rebuilt on"
+msgstr "Staging reconstruit le"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Staging reports that mail is on."
+msgstr "Le staging signale que le courriel est ouvert."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Staging runs this commit and is healthy."
+msgstr "Le staging tourne sur ce commit et répond."
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "Start..."
+msgstr "Démarrer..."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__started_by_id
+msgid "Started by"
+msgstr "Lancé par"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__started_at
+msgid "Started on"
+msgstr "Lancé le"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__state
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__state
+msgid "State"
+msgstr "État"
+
+#. module: ea_platform_pipeline
+#: model:ir.actions.act_window,name:ea_platform_pipeline.action_pipeline_board
+#: model:ir.ui.menu,name:ea_platform_pipeline.menu_status
+msgid "Status"
+msgstr "Statut"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__state__stopped
+msgid "Stopped on failure"
+msgstr "Arrêté sur un échec"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__suite
+msgid "Suite"
+msgstr "Suite"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__target
+msgid "Target"
+msgstr "Cible"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__canary_firm_id
+msgid "Test firm"
+msgstr "Cabinet témoin"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_pipeline_test_run
+msgid "Test run"
+msgstr "Essai"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/recorded_run.py:0
+msgid "Test run recorded"
+msgstr "Essai noté"
+
+#. module: ea_platform_pipeline
+#: model:ir.actions.act_window,name:ea_platform_pipeline.action_test_runs
+#: model:ir.ui.menu,name:ea_platform_pipeline.menu_pipeline_tests
+msgid "Test runs"
+msgstr "Essais"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__tests
+msgid "Tests"
+msgstr "Tests"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.actions.act_window,help:ea_platform_pipeline.action_pipeline_board
+msgid ""
+"The Promote and Rebuild buttons control the Odoo tool only. The Next.js tool"
+" has its own releases, and nothing here reaches it."
+msgstr "Les boutons Promouvoir et Reconstruire ne pilotent que l'outil Odoo. L'outil Next.js a ses propres versions, et rien ici ne l'atteint."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/recorded_run.py:0
+msgid "The commit must be 7 to 40 hexadecimal characters."
+msgstr "Le commit doit compter de 7 à 40 caractères hexadécimaux."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,help:ea_platform_pipeline.field_platform_pipeline_promotion__canary_firm_id
+msgid "The firm that goes first, alone. The others wait for its result."
+msgstr "Le cabinet qui passe en premier, seul. Les autres attendent son résultat."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid ""
+"The firm's server picks this up at its next heartbeat, in 15 minutes at "
+"most."
+msgstr "Le serveur du cabinet prend cela à son prochain heartbeat, dans 15 minutes au plus."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid ""
+"The rollout stopped. The failed firm put itself back. main has not moved. "
+"See docs/runbook/PIPELINE.md."
+msgstr "Le déploiement s'est arrêté. Le cabinet en échec est revenu en arrière seul. main n'a pas bougé. Voir docs/runbook/PIPELINE.md."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_firm__pipeline_role__staging
+msgid "The staging server"
+msgstr "Le serveur de staging"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,help:ea_platform_pipeline.field_platform_firm__pipeline_role
+msgid ""
+"The staging server reports like a firm, so its health is known here. It "
+"never takes part in a rollout and is never a source for a rebuild."
+msgstr "Le serveur de staging rend compte comme un cabinet : sa santé est connue ici. Il ne participe jamais à un déploiement et n'est jamais la source d'une reconstruction."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "The test firm can go first."
+msgstr "Le cabinet témoin peut passer en premier."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "The test firm is the staging server, or already on this release."
+msgstr "Le cabinet témoin est le serveur de staging, ou déjà sur cette version."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "There is no anonymised copy ready yet."
+msgstr "Aucune copie anonymisée n'est encore prête."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "There is no earlier release to go back to."
+msgstr "Il n'y a pas de version antérieure à laquelle revenir."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "This address is not one of the owner's: nothing was done."
+msgstr "Cette adresse n'est pas une de celles du propriétaire : rien n'a été fait."
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid ""
+"This controls the Odoo tool only. A release is built and signed on your computer: the signing key never\n"
+"                        comes here. Then main moves last, by your own hand. See docs/runbook/PIPELINE.md."
+msgstr "Ceci ne pilote que l'outil Odoo. Une version se construit et se signe sur votre ordinateur : la clé de signature ne vient jamais ici. Puis main bouge en dernier, de votre main. Voir docs/runbook/PIPELINE.md."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "This promotion has already started."
+msgstr "Cette promotion a déjà démarré."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/rebuild.py:0
+msgid "This rebuild is closed."
+msgstr "Cette reconstruction est close."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.constraint,message:ea_platform_pipeline.constraint_platform_pipeline_rebuild_ref_unique
+msgid "This reference is already used."
+msgstr "Cette référence est déjà utilisée."
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_rebuild_form
+msgid ""
+"This screen asks and logs. The firm's server makes the anonymised copy and "
+"keeps it. No data of a firm comes here."
+msgstr "Cet écran demande et note. Le serveur du cabinet fait la copie anonymisée et la garde. Aucune donnée d'un cabinet n'arrive ici."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__state__draft
+msgid "To check"
+msgstr "À contrôler"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__tool
+msgid "Tool"
+msgstr "Outil"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__tool_sequence
+msgid "Tool Sequence"
+msgstr "Ordre de l'outil"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/services/pipeline.py:0
+msgid "Type exactly: %(phrase)s"
+msgstr "Tapez exactement : %(phrase)s"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_confirm_form
+msgid "Type the line above, exactly"
+msgstr "Tapez la ligne ci-dessus, exactement"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__expected
+msgid "Type this"
+msgstr "Tapez ceci"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "Up"
+msgstr "En ligne"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_confirm__warning
+msgid "What this does"
+msgstr "Ce que cela fait"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__next_step
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_rebuild__next_step
+msgid "What you do now"
+msgstr "Ce que vous faites maintenant"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_test_run__note
+msgid "Where it ran"
+msgstr "Où il a tourné"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_stage__where
+msgid "Where it runs"
+msgstr "Où cela tourne"
+
+#. module: ea_platform_pipeline
+#: model:ir.model,name:ea_platform_pipeline.model_platform_pipeline_guard
+msgid "Who may act on the pipeline, and from where"
+msgstr "Qui peut agir sur la pipeline, et d'où"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "check mail and band"
+msgstr "vérifier courriel et bandeau"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/stage.py:0
+msgid "mail off, band on"
+msgstr "courriel coupé, bandeau affiché"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_pipeline_promotion__main_moved_at
+msgid "main moved on"
+msgstr "main déplacé le"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "main moved, by the owner's hand"
+msgstr "main déplacé, de la main du propriétaire"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/promotion.py:0
+msgid "main moves once every firm runs the release."
+msgstr "main bouge une fois tous les cabinets sur la version."

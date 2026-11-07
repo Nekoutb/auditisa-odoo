@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_confirm_form" model="ir.ui.view">
+        <field name="name">platform.pipeline.confirm.form</field>
+        <field name="model">platform.pipeline.confirm</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="alert alert-warning" role="status"><field name="warning" nolabel="1" readonly="1"/></div>
+                <group>
+                    <field name="action" invisible="1"/>
+                    <field name="source_firm_id" invisible="action != 'rebuild'" required="action == 'rebuild'" options="{'no_create': True}"/>
+                    <field name="target" invisible="not target"/>
+                    <field name="expected" class="font-monospace" readonly="1"/>
+                    <field name="typed" required="1" class="font-monospace" placeholder="Type the line above, exactly"/>
+                    <field name="reason" required="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button special="cancel" string="Cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

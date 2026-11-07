@@ -184,7 +184,7 @@ ReadWritePaths=/var/lib/odoo /var/log/odoo
 WantedBy=multi-user.target
 EOF
 if [ "$DRY_RUN" = 1 ]; then
-  printf '+ odoo-bin -i ea_platform_admin --without-demo=True --load-language=fr_FR --stop-after-init\n'
+  printf '+ odoo-bin -i ea_platform_admin,ea_platform_pipeline --without-demo=True --load-language=fr_FR --stop-after-init\n'
 else
   for token in vultr.token cloudflare.token; do
     # An empty placeholder keeps the service starting in simulation mode, before the owner has any.
@@ -193,7 +193,7 @@ else
   runuser -u postgres -- psql -XAtc "SELECT 1 FROM pg_database WHERE datname = '$DB'" | grep -q 1 \
     || runuser -u postgres -- createdb -O odoo -E UTF8 -T template0 --lc-collate=C --lc-ctype=C.UTF-8 "$DB"
   runuser -u odoo -- /opt/odoo19/venv/bin/python /opt/odoo19/src/odoo-bin -c /etc/odoo/odoo.conf -d "$DB" \
-    -i ea_platform_admin --without-demo=True --load-language=fr_FR --no-http --max-cron-threads=0 --workers=0 --stop-after-init
+    -i ea_platform_admin,ea_platform_pipeline --without-demo=True --load-language=fr_FR --no-http --max-cron-threads=0 --workers=0 --stop-after-init
   # No default admin: Odoo's admin/admin never exists on a reachable server. Root reads the password
   # once from this file, keeps it in the owner's safe and deletes the file.
   if [ ! -e /etc/auditisa-platform/admin.password ]; then
@@ -212,12 +212,23 @@ log "nginx"
   cat <<'EOF'
 server_tokens off;
 limit_req_zone $binary_remote_addr zone=heartbeat:10m rate=6r/m;
+limit_req_zone $binary_remote_addr zone=support:10m rate=6r/m;
 
 EOF
   printf '# The one door a firm has: POST /platform/heartbeat. Everything else answers 404.\n'
   printf 'server {\n    listen 80;\n    server_name %s;\n' "$HEARTBEAT_HOST"
   cat <<'EOF'
-    client_max_body_size 4k;
+    client_max_body_size 16k;
+    # A problem a firm's user reports, and its replies: signed like the heartbeat, its own prefix.
+    location ~ ^/platform/support/(ticket|sync|trace)$ {
+        limit_except POST { deny all; }
+        limit_req zone=support burst=6 nodelay;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:8069;
+    }
     location = /platform/heartbeat {
         limit_except POST { deny all; }
         limit_req zone=heartbeat burst=6 nodelay;
@@ -244,6 +255,7 @@ EOF
     proxy_set_header X-Forwarded-Proto $scheme;
     location ~ ^/web/database { return 404; }
     location = /platform/heartbeat { return 404; }
+    location /platform/support/ { return 404; }
     location /websocket {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;

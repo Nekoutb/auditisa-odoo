@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The board: both tools side by side, three stages each, and the two buttons on the Odoo tool only. -->
+    <record id="view_stage_kanban" model="ir.ui.view">
+        <field name="name">platform.pipeline.stage.kanban</field>
+        <field name="model">platform.pipeline.stage</field>
+        <field name="arch" type="xml">
+            <kanban create="0" delete="0" edit="0" records_draggable="0" group_create="0" group_delete="0" group_edit="0"
+                    quick_create="0" default_group_by="tool" class="ea_pipeline_board">
+                <field name="color"/>
+                <field name="matches"/>
+                <field name="can_promote"/>
+                <field name="can_rebuild"/>
+                <field name="is_sample"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="ea-pipeline-stage ea-pipeline-#{record.color.raw_value}">
+                            <div class="d-flex justify-content-between align-items-baseline gap-2 flex-wrap">
+                                <strong class="fs-5"><field name="name"/></strong>
+                                <span t-if="record.is_sample.raw_value" class="badge text-bg-warning">SAMPLE DATA</span>
+                                <field name="matches" widget="badge" decoration-success="matches == 'yes'"
+                                       decoration-warning="matches == 'no'" decoration-muted="matches in ('unknown', 'none')"/>
+                            </div>
+                            <div><span class="text-muted">Branch </span><span class="font-monospace"><field name="branch"/></span></div>
+                            <div><span class="text-muted">GitHub: </span><span class="font-monospace"><field name="github_commit"/></span>
+                                <span> </span><field name="github_author"/><span class="text-muted"> <field name="github_at"/></span></div>
+                            <div><span class="text-muted">Running: </span><span class="font-monospace"><field name="running_commit"/></span></div>
+                            <div><span class="text-muted">Where: </span><field name="where"/></div>
+                            <div><span class="text-muted">Health: </span><field name="health"/></div>
+                            <div><span class="text-muted">Last release: </span><field name="last_change"/></div>
+                            <div t-if="record.deploys.raw_value"><span class="text-muted">Deployments:</span>
+                                <pre class="mb-0 small"><field name="deploys"/></pre></div>
+                            <div t-if="record.backups.raw_value"><span class="text-muted">Backups: </span><field name="backups"/></div>
+                            <div t-if="record.migrations.raw_value"><span class="text-muted">Migrations: </span><field name="migrations"/></div>
+                            <div t-if="record.tests.raw_value"><span class="text-muted">Tests: </span><field name="tests"/></div>
+                            <div class="fw-bold"><field name="ahead"/></div>
+                            <div class="text-muted"><field name="detail"/></div>
+                            <div class="mt-2" t-if="record.can_rebuild.raw_value">
+                                <button name="action_new_rebuild" type="object" class="btn btn-secondary btn-sm"
+                                        groups="ea_platform_admin.group_platform_owner">Rebuild staging from a firm...</button>
+                            </div>
+                            <div class="mt-2" t-if="record.can_promote.raw_value">
+                                <button name="action_new_promotion" type="object" class="btn btn-primary btn-sm"
+                                        groups="ea_platform_admin.group_platform_owner">Promote staging to production...</button>
+                            </div>
+                            <div class="text-muted small mt-2"><field name="reading"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_pipeline_board" model="ir.actions.act_window">
+        <field name="name">Status</field>
+        <field name="res_model">platform.pipeline.stage</field>
+        <field name="view_mode">kanban</field>
+        <field name="path">status</field>
+        <field name="help" type="html">
+            <p>The Promote and Rebuild buttons control the Odoo tool only. The Next.js tool has its own releases, and nothing here reaches it.</p>
+        </field>
+    </record>
+
+    <!-- Promotions -->
+    <record id="view_promotion_list" model="ir.ui.view">
+        <field name="name">platform.pipeline.promotion.list</field>
+        <field name="model">platform.pipeline.promotion</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="kind"/>
+                <field name="release_id"/>
+                <field name="canary_firm_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'rolling'"
+                       decoration-warning="state == 'awaiting_main'" decoration-danger="state == 'stopped'"/>
+                <field name="started_by_id"/>
+                <field name="started_at"/>
+                <field name="main_moved_at" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_promotion_form" model="ir.ui.view">
+        <field name="name">platform.pipeline.promotion.form</field>
+        <field name="model">platform.pipeline.promotion</field>
+        <field name="arch" type="xml">
+            <form delete="0">
+                <header>
+                    <button name="action_run_checks" type="object" string="Run the pre-checks" class="btn-secondary"
+                            invisible="state != 'draft' or not id"/>
+                    <button name="action_open_confirm" type="object" string="Start..." class="btn-primary"
+                            invisible="state != 'draft' or not checks_ok"/>
+                    <button name="action_open_confirm_main" type="object" string="Confirm main moved..." class="btn-primary"
+                            invisible="state != 'awaiting_main'"/>
+                    <button name="action_prepare_rollback" type="object" string="Prepare a rollback..."
+                            invisible="state not in ('awaiting_main', 'done', 'stopped') or not previous_release_id or kind == 'rollback'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,rolling,awaiting_main,done"/>
+                </header>
+                <sheet>
+                    <p class="text-muted">
+                        This controls the Odoo tool only. A release is built and signed on your computer: the signing key never
+                        comes here. Then main moves last, by your own hand. See docs/runbook/PIPELINE.md.
+                    </p>
+                    <div class="alert alert-warning" role="status" invisible="not next_step">
+                        <field name="next_step" nolabel="1" readonly="1"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="kind" invisible="kind == 'promote'"/>
+                            <field name="release_id" readonly="state != 'draft' or kind == 'rollback'" options="{'no_create': True}"/>
+                            <field name="canary_firm_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="firm_ids" widget="many2many_tags" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="batch_size" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="rollout_id" invisible="not rollout_id"/>
+                            <field name="rollout_state" invisible="not rollout_id"/>
+                            <field name="started_by_id" invisible="not started_by_id"/>
+                            <field name="started_at" invisible="not started_at"/>
+                            <field name="previous_release_id" invisible="not previous_release_id"/>
+                            <field name="main_moved_at" invisible="not main_moved_at"/>
+                        </group>
+                    </group>
+                    <group string="Pre-checks" invisible="not checks_at">
+                        <field name="checks_at"/>
+                        <field name="checks_ok" widget="boolean"/>
+                        <field name="checks_text" nolabel="1" colspan="2"/>
+                    </group>
+                    <group string="Reason" invisible="not reason">
+                        <field name="reason" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_promotions" model="ir.actions.act_window">
+        <field name="name">Promotions</field>
+        <field name="res_model">platform.pipeline.promotion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Rebuilds -->
+    <record id="view_rebuild_list" model="ir.ui.view">
+        <field name="name">platform.pipeline.rebuild.list</field>
+        <field name="model">platform.pipeline.rebuild</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="request_ref"/>
+                <field name="source_firm_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'rebuilt'" decoration-info="state in ('requested', 'running')"
+                       decoration-warning="state == 'exported'" decoration-danger="state in ('failed', 'refused')"/>
+                <field name="requested_by_id"/>
+                <field name="requested_at"/>
+                <field name="rebuilt_at" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_rebuild_form" model="ir.ui.view">
+        <field name="name">platform.pipeline.rebuild.form</field>
+        <field name="model">platform.pipeline.rebuild</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_open_confirm_rebuilt" type="object" string="Record staging rebuilt..." class="btn-primary"
+                            invisible="state != 'exported'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state not in ('requested', 'running', 'exported')"
+                            confirm="Cancel this rebuild? A copy the firm has made stays on its server until the next one."/>
+                    <field name="state" widget="statusbar" statusbar_visible="requested,running,exported,rebuilt"/>
+                </header>
+                <sheet>
+                    <p class="text-muted">
+                        This screen asks and logs. The firm's server makes the anonymised copy and keeps it. No data of a firm comes here.
+                    </p>
+                    <div class="alert alert-warning" role="status" invisible="not next_step">
+                        <field name="next_step" nolabel="1" readonly="1" class="font-monospace"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="source_firm_id"/>
+                            <field name="request_ref"/>
+                            <field name="requested_by_id"/>
+                            <field name="requested_at"/>
+                        </group>
+                        <group>
+                            <field name="export_sha256" invisible="not export_sha256"/>
+                            <field name="exported_at" invisible="not exported_at"/>
+                            <field name="rebuilt_at" invisible="not rebuilt_at"/>
+                        </group>
+                    </group>
+                    <group string="Reason"><field name="reason" nolabel="1" colspan="2"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_rebuilds" model="ir.actions.act_window">
+        <field name="name">Staging rebuilds</field>
+        <field name="res_model">platform.pipeline.rebuild</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Test runs -->
+    <record id="view_test_run_list" model="ir.ui.view">
+        <field name="name">platform.pipeline.test.run.list</field>
+        <field name="model">platform.pipeline.test.run</field>
+        <field name="arch" type="xml">
+            <list editable="top" edit="0" delete="0" decoration-danger="failed &gt; 0">
+                <field name="commit_sha"/>
+                <field name="suite"/>
+                <field name="passed"/>
+                <field name="failed"/>
+                <field name="note"/>
+                <field name="recorded_by_id"/>
+                <field name="create_date" string="Recorded on"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_test_runs" model="ir.actions.act_window">
+        <field name="name">Test runs</field>
+        <field name="res_model">platform.pipeline.test.run</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

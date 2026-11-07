@@ -31,6 +31,7 @@ msgstr "%(count)s connexion(s) SSH sans entrée au journal d'accès d'urgence"
 #. odoo-python
 #: code:addons/ea_platform_admin/services/health.py:0
 #: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+#: code:addons/ea_platform_admin/tests/test_languages.py:0
 msgid "%(count)s days"
 msgstr "%(count)s jours"
 
@@ -131,6 +132,7 @@ msgstr "<span class=\"o_stat_text\">Mise en service</span>"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "<span>Backup</span>"
 msgstr "<span>Sauvegarde</span>"
 
@@ -146,11 +148,13 @@ msgstr "<span>Missions</span>"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "<span>Heartbeat</span>"
 msgstr "<span>Heartbeat</span>"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "<span>Release</span>"
 msgstr "<span>Version</span>"
 
@@ -213,6 +217,7 @@ msgstr "Action (source)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_needaction
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_needaction
 msgid "Action Needed"
 msgstr "Action requise"
 
@@ -243,6 +248,7 @@ msgstr "Alerte : %(reasons)s"
 #. odoo-python
 #: code:addons/ea_platform_admin/services/health.py:0
 #: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+#: code:addons/ea_platform_admin/tests/test_languages.py:0
 msgid "All is normal"
 msgstr "Tout est normal"
 
@@ -286,6 +292,7 @@ msgstr "Au moins une adresse IP de l'opérateur est requise pour le port 22."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_attachment_count
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_attachment_count
 msgid "Attachment Count"
 msgstr "Nombre de pièces jointes"
 
@@ -350,6 +357,7 @@ msgstr "Sauvegarde en retard : la dernière date de %(age)s"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Backup missed or failed"
 msgstr "Sauvegarde manquée ou en échec"
 
@@ -361,6 +369,8 @@ msgstr "Sauvegarde manquée : la dernière date de %(age)s"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__storage_id
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Backup storage"
 msgstr "Stockage de sauvegarde"
 
@@ -430,6 +440,7 @@ msgstr "Empreinte du paquet (SHA-256)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__backup_key_escrowed_by
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__changed_by
 msgid "By"
 msgstr "Par"
 
@@ -466,6 +477,9 @@ msgstr "Cabinet témoin"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_offboard_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_suspend_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_catalogue_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -488,11 +502,14 @@ msgstr "Annulée, rien ne reste"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Certificate"
 msgstr "Certificat"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__cert_expires_on
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Certificate expiry"
 msgstr "Expiration du certificat"
 
@@ -538,6 +555,9 @@ msgstr "Close le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__code
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__code
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__code
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__code
 msgid "Code"
 msgstr "Code"
 
@@ -611,6 +631,17 @@ msgstr "Créer le serveur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__create_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__create_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -630,6 +661,17 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__create_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__create_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -751,6 +793,17 @@ msgstr "Disque utilisé (%)"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_services__display_name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__display_name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -871,6 +924,8 @@ msgstr "Export réalisé le"
 #: code:addons/ea_platform_admin/models/rollout.py:0
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__failed
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__failed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__backup_state__failed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__restore_state__failed
 msgid "Failed"
 msgstr "Échec"
 
@@ -900,6 +955,8 @@ msgstr "Finie le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__firewall_id
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Firewall at the provider"
 msgstr "Pare-feu chez le fournisseur"
 
@@ -916,6 +973,17 @@ msgstr "Pare-feu chez le fournisseur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__firm_id
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_log_search
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__firm_id
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__firm_id
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
 msgid "Firm"
 msgstr "Cabinet"
 
@@ -978,6 +1046,7 @@ msgstr "Mise à jour du cabinet : %(outcome)s"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__firm_ids
 #: model:ir.ui.menu,name:ea_platform_admin.menu_firms
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__firm_count
 msgid "Firms"
 msgstr "Cabinets"
 
@@ -1029,11 +1098,13 @@ msgstr "Première confirmation. Rien n'est détruit ici. Le serveur exporte les 
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_follower_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_follower_ids
 msgid "Followers"
 msgstr "Abonnés"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_partner_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Abonnés (partenaires)"
 
@@ -1109,6 +1180,7 @@ msgstr "La remise de l'export au cabinet n'a pas été confirmée."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__has_message
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__has_message
 msgid "Has Message"
 msgstr "A un message"
 
@@ -1121,6 +1193,9 @@ msgstr "Empreinte"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_color
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Health"
 msgstr "Santé"
 
@@ -1159,6 +1234,7 @@ msgstr "Je confirme la création de ce serveur et son coût mensuel estimé."
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
 msgid "I have copied the link"
 msgstr "J'ai copié le lien"
 
@@ -1184,11 +1260,24 @@ msgstr "Je veux créer de vrais serveurs, facturés par le fournisseur."
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_services__id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__id
 msgid "ID"
 msgstr "ID"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__server_ip
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "IP address"
 msgstr "Adresse IP"
 
@@ -1199,11 +1288,13 @@ msgstr "Identité"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_needaction
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_ticket__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Si coché, de nouveaux messages demandent votre attention."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_has_error
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_ticket__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si coché, certains messages ont une erreur d'envoi."
 
@@ -1216,6 +1307,9 @@ msgstr "Installation (Odoo, PostgreSQL, HTTPS, sauvegardes)"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addon_release
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Installed release"
 msgstr "Version installée"
 
@@ -1258,6 +1352,7 @@ msgstr "Irréversible : le serveur, ses disques, ses sauvegardes et son adresse 
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_is_follower
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_is_follower
 msgid "Is Follower"
 msgstr "Est abonné"
 
@@ -1314,6 +1409,17 @@ msgstr "Dernière connexion SSH"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__write_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__write_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
@@ -1333,16 +1439,31 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__write_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__write_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_backup_at
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Last backup"
 msgstr "Dernière sauvegarde"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_heartbeat_at
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Last heartbeat"
 msgstr "Dernier heartbeat"
 
@@ -1378,6 +1499,8 @@ msgstr "Motif du dernier rejet"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_restore_test_at
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Last restore test"
 msgstr "Dernier test de restauration"
 
@@ -1433,6 +1556,8 @@ msgstr "Messagerie ouverte"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_summary
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Main reason"
 msgstr "Motif principal"
 
@@ -1449,6 +1574,8 @@ msgstr "Mémoire : %(pct)s %% disponible"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__message
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
 msgid "Message"
 msgstr "Message"
 
@@ -1459,11 +1586,13 @@ msgstr "Message (source)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_has_error
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_has_error
 msgid "Message Delivery error"
 msgstr "Erreur d'envoi du message"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_ids
 msgid "Messages"
 msgstr "Messages"
 
@@ -1489,6 +1618,7 @@ msgstr "Mode"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__needs_attention
 #: model:ir.ui.menu,name:ea_platform_admin.menu_attention
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Needs attention"
 msgstr "À surveiller"
 
@@ -1532,6 +1662,7 @@ msgstr "Aucun cabinet pour l'instant"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "No heartbeat"
 msgstr "Sans heartbeat"
 
@@ -1539,6 +1670,7 @@ msgstr "Sans heartbeat"
 #. odoo-python
 #: code:addons/ea_platform_admin/services/health.py:0
 #: code:addons/ea_platform_admin/services/tests/test_messages.py:0
+#: code:addons/ea_platform_admin/tests/test_languages.py:0
 msgid "No heartbeat for %(age)s"
 msgstr "Aucun heartbeat depuis %(age)s"
 
@@ -1607,21 +1739,25 @@ msgstr "Notes"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_needaction_counter
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Nombre d'actions"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_has_error_counter
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__message_has_error_counter
 msgid "Number of errors"
 msgstr "Nombre d'erreurs"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_needaction_counter
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_ticket__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr "Nombre de messages demandant une action"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__message_has_error_counter
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_ticket__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Nombre de messages avec une erreur d'envoi"
 
@@ -1728,6 +1864,7 @@ msgstr "Ouvrir un accès d'urgence"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__opened_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__opened_at
 msgid "Opened on"
 msgstr "Ouvert le"
 
@@ -1740,6 +1877,7 @@ msgstr "Identifiant du système (ea_platform.vultr_os_id) non configuré."
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__user_id
 #: model:res.groups,name:ea_platform_admin.group_platform_operator
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_form
 msgid "Operator"
 msgstr "Opérateur"
 
@@ -1773,6 +1911,7 @@ msgstr "Détail de l'orphelin (source)"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__orphan_flag
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Orphan server"
 msgstr "Serveur orphelin"
 
@@ -1806,6 +1945,8 @@ msgstr "Plateforme"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__platform_host
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Platform address"
 msgstr "Adresse plateforme"
 
@@ -1864,6 +2005,9 @@ msgstr "Avancement"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__provider
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__provider_label
 msgid "Provider"
 msgstr "Fournisseur"
 
@@ -1967,6 +2111,8 @@ msgstr "Réel : Vultr et Cloudflare"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_reason
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__reason
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__reason
 msgid "Reason"
 msgstr "Motif"
 
@@ -2000,6 +2146,9 @@ msgstr "Rouge"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__region
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__region
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Region"
 msgstr "Région"
 
@@ -2011,6 +2160,9 @@ msgstr "Enregistrée le"
 #. module: ea_platform_admin
 #: model:ir.model,name:ea_platform_admin.model_platform_release
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__release_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__release_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__release_id
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Release"
 msgstr "Version"
 
@@ -2068,6 +2220,7 @@ msgstr "Demandée"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__requested_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_at
 msgid "Requested on"
 msgstr "Demandée le"
 
@@ -2090,6 +2243,7 @@ msgstr "Test de restauration en retard : le dernier date de %(age)s"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Restore test missed or failed"
 msgstr "Test de restauration manqué ou en échec"
 
@@ -2209,11 +2363,15 @@ msgstr "clé SSH"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_key_id
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "SSH key at the provider"
 msgstr "Clé SSH chez le fournisseur"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_key_fingerprint
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "SSH key fingerprint"
 msgstr "Empreinte de la clé SSH"
 
@@ -2240,6 +2398,8 @@ msgstr "Séquence"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_server
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Server"
 msgstr "Serveur"
 
@@ -2268,6 +2428,8 @@ msgstr "Serveur détruit, cabinet archivé"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__server_id
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Server id"
 msgstr "Identifiant du serveur"
 
@@ -2323,6 +2485,9 @@ msgstr "Simuler les réponses des cabinets"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__is_simulation
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__is_simulation
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__provider__dry_run
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "Simulation"
 msgstr "Simulation"
 
@@ -2339,6 +2504,8 @@ msgstr "Cabinet de simulation : aucun serveur réel n'existe derrière cette fic
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__size
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__size
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "Size"
 msgstr "Taille"
 
@@ -2386,6 +2553,7 @@ msgstr "Lancer : le témoin d'abord"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_step__started_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__started
 msgid "Started"
 msgstr "Début"
 
@@ -2414,6 +2582,13 @@ msgstr "Démarrage du serveur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout__state
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_rollout_line__state
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__status
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__state
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
 msgid "State"
 msgstr "État"
 
@@ -2621,6 +2796,8 @@ msgstr "Stockage de sauvegarde propre au cabinet"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__custom_domain
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
 msgid "The firm's own domain"
 msgstr "Domaine propre du cabinet"
 
@@ -3146,6 +3323,7 @@ msgstr "serveur"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "simulation"
 msgstr "simulation"
 
@@ -3194,3 +3372,1487 @@ msgstr "à vérifier chez le fournisseur"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
 msgid "your public IP address"
 msgstr "votre adresse IP publique"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "%(code)s is a base feature: it is always on, for every firm."
+msgstr "%(code)s est une fonction de base : elle est toujours active, pour tous les cabinets."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "%(code)s is not in the release this firm runs: it can be asked for after an update to a release that carries it."
+msgstr "%(code)s n'est pas dans la version de ce cabinet : on pourra le demander après une mise à jour vers une version qui le contient."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "%(code)s. Reason: %(reason)s"
+msgstr "%(code)s. Motif : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+msgid "%(count)s firms"
+msgstr "%(count)s cabinets"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span> · </span>"
+msgstr "<span> · </span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Add-ons on</span>"
+msgstr "<span>Modules allumés</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Asked</span>"
+msgstr "<span>Demandé</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Certificate</span>"
+msgstr "<span>Certificat</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Firewall</span>"
+msgstr "<span>Pare-feu</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>IP</span>"
+msgstr "<span>IP</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Id</span>"
+msgstr "<span>Identifiant</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Last backup</span>"
+msgstr "<span>Dernière</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Own</span>"
+msgstr "<span>Propre</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Platform</span>"
+msgstr "<span>Plateforme</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Provider</span>"
+msgstr "<span>Hébergeur</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Region, size</span>"
+msgstr "<span>Région, taille</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Restore test</span>"
+msgstr "<span>Restauration</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>SSH key</span>"
+msgstr "<span>Clé SSH</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Storage</span>"
+msgstr "<span>Stockage</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_form
+msgid "A base feature is on for every firm. It has no switch."
+msgstr "Une fonction de base est active pour tous les cabinets. Elle n'a pas d'interrupteur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "A release may carry %(count)s optional add-ons at most."
+msgstr "Une version contient au plus %(count)s modules facultatifs."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_form
+msgid "A sample, to prove the path. Not a product feature."
+msgstr "Un exemple, pour prouver le chemin. Pas une fonction du produit."
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_addon
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__addon_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__addon_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__addon_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__addon_id
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Add-on"
+msgstr "Module"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "Add-on catalogue loaded"
+msgstr "Catalogue des modules chargé"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_release_addon
+msgid "Add-on in a release"
+msgstr "Module dans une version"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_refused_count
+msgid "Add-on requests refused by the server"
+msgstr "Demandes de modules refusées par le serveur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "Add-on switched off (hidden, data kept)"
+msgstr "Module coupé (masqué, données gardées)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "Add-on switched on"
+msgstr "Module allumé"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_addons
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__step__addons
+#: model:ir.ui.menu,name:ea_platform_admin.menu_addons
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+msgid "Add-ons"
+msgstr "Modules"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_asked_summary
+msgid "Add-ons asked"
+msgstr "Modules demandés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__addon_line_ids
+msgid "Add-ons in this release"
+msgstr "Modules de cette version"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_reported_at
+msgid "Add-ons last reported on"
+msgstr "Modules signalés pour la dernière fois le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "Add-ons no longer change on a firm that is leaving or archived."
+msgstr "Les modules ne changent plus sur un cabinet qui part ou qui est archivé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_differ_count
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Add-ons not as asked"
+msgstr "Modules pas comme demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_on_summary
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_addons
+msgid "Add-ons on"
+msgstr "Modules allumés"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Add-ons: %(count)s not as asked"
+msgstr "Modules : %(count)s pas comme demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Add-ons: the firm reports %(count)s code(s) outside the catalogue"
+msgstr "Modules : le cabinet signale %(count)s code(s) hors catalogue"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "Add-ons: the firm's server refused %(count)s request(s)"
+msgstr "Modules : le serveur du cabinet a refusé %(count)s demande(s)"
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_firm_addon_once
+msgid "An add-on is listed once per firm."
+msgstr "Un module figure une seule fois par cabinet."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_release_addon_once
+msgid "An add-on is listed once per release."
+msgstr "Un module figure une seule fois par version."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__differs_off
+msgid "Asked off, firm says on"
+msgstr "Demandé coupé, le cabinet dit allumé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__desired
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_at
+msgid "Asked on"
+msgstr "Demandé allumé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__differs_on
+msgid "Asked on, firm says off"
+msgstr "Demandé allumé, le cabinet dit coupé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Client Add-on Switches"
+msgstr "AuditISA Interrupteurs des modules clients"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Client Portal"
+msgstr "AuditISA Portail client"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Core"
+msgstr "AuditISA Socle"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Firm Agent"
+msgstr "AuditISA Agent du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA OHADA Legal Register"
+msgstr "AuditISA Registre légal OHADA"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Reports"
+msgstr "AuditISA Rapports"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Screens"
+msgstr "AuditISA Écrans"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Time and Firm Administration"
+msgstr "AuditISA Temps et administration du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Tools"
+msgstr "AuditISA Outils"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "AuditISA Working Papers"
+msgstr "AuditISA Papiers de travail"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__backup_state
+msgid "Backup"
+msgstr "Sauvegarde"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__base_feature_count
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_search
+msgid "Base features"
+msgstr "Fonctions de base"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__base_addon_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__base_addon_ids
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+msgid "Base features, always on"
+msgstr "Fonctions de base, toujours actives"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_addons
+msgid "Base features, always on, for every firm"
+msgstr "Fonctions de base, toujours actives, pour tous les cabinets"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_addon__kind__base
+msgid "Base, always on"
+msgstr "Base, toujours active"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__catalogue_file
+msgid "Catalogue (<commit>.catalogue.json)"
+msgstr "Catalogue (<commit>.catalogue.json)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__catalogue_digest
+msgid "Catalogue digest"
+msgstr "Empreinte du catalogue"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__catalogue_name
+msgid "Catalogue file name"
+msgstr "Nom du fichier du catalogue"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__catalogue_loaded_at
+msgid "Catalogue loaded on"
+msgstr "Catalogue chargé le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__catalogue_signed
+msgid "Catalogue signature verified"
+msgstr "Signature du catalogue vérifiée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_addons
+msgid ""
+"Choose what this firm gets beyond the shared codebase. This can change later, on the firm's page.\n"
+"                        Off hides an add-on and keeps its data."
+msgstr ""
+"Choisissez ce que ce cabinet reçoit en plus du code commun. Cela peut changer plus tard, sur sa fiche.\n"
+"                        Coupé, un module est masqué et ses données sont gardées."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Completion gates, opinion and auditor's report, letters, archive, retention and legal hold, export bundle"
+msgstr "Jalons de fin de mission, opinion et rapport du commissaire, lettres, archivage, conservation et gel légal, export du dossier"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__summary_text
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__summary_text
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__summary_text
+msgid "Description"
+msgstr "Description"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__summary
+msgid "Description (source)"
+msgstr "Description (source)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Domain"
+msgstr "Domaine"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "Domains"
+msgstr "Domaines"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_list
+msgid "Export to Excel"
+msgstr "Exporter vers Excel"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Feuille de temps on hr_timesheet with the firm's weekly deadline; the firm administrator's users and mail screens"
+msgstr "Feuille de temps sur hr_timesheet avec l'échéance hebdomadaire du cabinet ; les écrans d'utilisateurs et de messagerie de l'administrateur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Firm roles, engagements, teams, file index, sign-off governance and gates"
+msgstr "Rôles du cabinet, missions, équipes, index du dossier, gouvernance des signatures et jalons"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__reported
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+msgid "Firm says on"
+msgstr "Le cabinet dit allumé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__firm_ids
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_form
+msgid "Firms that have it"
+msgstr "Cabinets qui l'ont"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__addons_reason
+msgid "Goes in the platform log with your name and the date."
+msgstr "Va au journal de la plateforme, avec votre nom et la date."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Heartbeat of a firm's server, its first administrator's one-time link, mail gate"
+msgstr "Heartbeat du serveur du cabinet, lien à usage unique du premier administrateur, verrou de la messagerie"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+msgid "If this is the first time for this firm, its server installs the add-on: backup, then Odoo stops for a few minutes. Warn the firm."
+msgstr "Si c'est la première fois pour ce cabinet, son serveur installe le module : sauvegarde, puis Odoo s'arrête quelques minutes. Prévenez le cabinet."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__release_line_ids
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_form
+msgid "In the releases"
+msgstr "Dans les versions"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__proof_file
+msgid "Its signature (<commit>.catalogue.json.sig)"
+msgstr "Sa signature (<commit>.catalogue.json.sig)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__kind
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__method
+msgid "Kind"
+msgstr "Type"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__changed_at
+msgid "Last changed on"
+msgstr "Dernier changement le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__backup_state__late
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__restore_state__late
+msgid "Late"
+msgstr "En retard"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_catalogue_wizard_form
+msgid "Load"
+msgstr "Charger"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_catalogue_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_catalogue_wizard_form
+msgid "Load a release's add-on catalogue"
+msgstr "Charger le catalogue des modules d'une version"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_form_catalogue
+msgid "Load the catalogue file"
+msgstr "Charger le fichier du catalogue"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__backup_state__missed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__restore_state__missed
+msgid "Missed"
+msgstr "Manquée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__name_text
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__name
+msgid "Name (source)"
+msgstr "Nom (source)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+msgid "No"
+msgstr "Non"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__catalogue_missing
+msgid "No catalogue for this release"
+msgstr "Pas de catalogue pour cette version"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_supervision
+msgid "No client yet"
+msgstr "Pas encore de client"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "No real site: a simulation has no server."
+msgstr "Pas de vrai site : une simulation n'a pas de serveur."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__backup_state__none
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__restore_state__none
+msgid "None yet"
+msgstr "Aucune encore"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/addons.py:0
+msgid "None: base features only"
+msgstr "Aucun : les fonctions de base seulement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "Not as asked"
+msgstr "Pas comme demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/addons.py:0
+msgid "Not in the chosen release: %(codes)s. Go back to the add-ons screen."
+msgstr "Absents de la version choisie : %(codes)s. Revenez à l'écran des modules."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__not_in_release
+msgid "Not in the firm's release"
+msgstr "Absent de la version du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_addon_toggle_wizard__target__off
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__off
+msgid "Off"
+msgstr "Coupé"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+msgid ""
+"Off hides an add-on and keeps its data; on again restores everything. Nothing is ever uninstalled.\n"
+"                        The firm's server applies a change after its next heartbeat. The first time an add-on goes on,\n"
+"                        the server installs it: backup, then Odoo stops for a few minutes."
+msgstr ""
+"Coupé, un module est masqué et ses données sont gardées ; rallumé, tout revient. Rien n'est jamais désinstallé.\n"
+"                        Le serveur du cabinet applique un changement après son prochain heartbeat. La première fois qu'un module est allumé,\n"
+"                        le serveur l'installe : sauvegarde, puis Odoo s'arrête quelques minutes."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+msgid "Off hides this add-on for the firm and keeps its data. Nothing is uninstalled, and on again restores everything."
+msgstr "Coupé, ce module est masqué pour le cabinet et ses données sont gardées. Rien n'est désinstallé, et rallumé, tout revient."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__enabled
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_addon_toggle_wizard__target__on
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__on
+msgid "On"
+msgstr "Allumé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "On a real platform a catalogue comes from a signed file only."
+msgstr "Sur la vraie plateforme, un catalogue ne vient que d'un fichier signé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+msgid "Only platform users export this list."
+msgstr "Seuls les utilisateurs de la plateforme exportent cette liste."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "Only the owner loads a catalogue."
+msgstr "Seul le propriétaire charge un catalogue."
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_addons
+msgid "Open a release under Updates &gt; Releases and load its catalogue: it lists what the release carries."
+msgstr "Ouvrez une version dans Mises à jour &gt; Versions et chargez son catalogue : il liste ce que la version contient."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__is_optional
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__is_optional
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_addon__kind__optional
+msgid "Optional"
+msgstr "Facultatif"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_onboarding_addon
+msgid "Optional add-on chosen at onboarding"
+msgstr "Module facultatif choisi à la mise en service"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_firm_addon
+msgid "Optional add-on of a firm"
+msgstr "Module facultatif d'un cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addon_line_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__addon_line_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__optional_addon_count
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_addon_search
+msgid "Optional add-ons"
+msgstr "Modules facultatifs"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "PBC request list and uploads for client contacts, invited by a one-time link"
+msgstr "Liste des demandes de documents et dépôts pour les contacts du client, invités par un lien à usage unique"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Paper definitions, answers and history, review notes, conclusions, evidence and the paper renderer"
+msgstr "Définitions des papiers, réponses et historique, notes de revue, conclusions, preuves et affichage des papiers"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_form_catalogue
+msgid "Read it from this server's code (simulation)"
+msgstr "Le lire dans le code de ce serveur (simulation)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Real servers"
+msgstr "Vrais serveurs"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "Release %(sha)s: %(count)s add-ons, %(optional)s optional"
+msgstr "Version %(sha)s : %(count)s modules, dont %(optional)s facultatifs"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_unknown_count
+msgid "Reported codes outside the catalogue"
+msgstr "Codes signalés hors catalogue"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__restore_state
+msgid "Restore test"
+msgstr "Test de restauration"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "SAMPLE: Client notes"
+msgstr "EXEMPLE : Notes client"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__is_sample
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__is_sample
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_addon__kind__sample
+msgid "Sample"
+msgstr "Exemple"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Sample client add-on, to prove the path: a small notes screen. Not a product feature."
+msgstr "Module client d'exemple, pour prouver le chemin : un petit écran de notes. Pas une fonction du produit."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/addons.py:0
+msgid "Say why these add-ons: the reason goes in the platform log."
+msgstr "Dites pourquoi ces modules : le motif va au journal de la plateforme."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Say why: the reason goes in the platform log."
+msgstr "Dites pourquoi : le motif va au journal de la plateforme."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__proof_name
+msgid "Signature file name"
+msgstr "Nom du fichier de signature"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__own_site_url
+msgid "Site on the firm's own domain"
+msgstr "Site sur le domaine propre du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__site_url
+msgid "Site on the platform address"
+msgstr "Site à l'adresse de la plateforme"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "Software"
+msgstr "Logiciel"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Statutory deadlines, regulated agreements, art. 715 report, alert procedure, criminal facts, securities attestation, equity monitoring, joint auditor file, art. 525 certification"
+msgstr "Échéances légales, conventions réglementées, rapport art. 715, procédure d'alerte, faits délictueux, attestation sur les titres, suivi des capitaux propres, dossier du co-commissaire, certification art. 525"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.actions.act_window,name:ea_platform_admin.action_supervision
+#: model:ir.ui.menu,name:ea_platform_admin.menu_supervision
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Supervision"
+msgstr "Supervision"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+msgid "Supervision list exported"
+msgstr "Liste de supervision exportée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__target
+msgid "Switch"
+msgstr "Bascule"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_addon_toggle_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+msgid "Switch an add-on"
+msgstr "Basculer un module"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+msgid "Switch off"
+msgstr "Couper"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+msgid "Switch on"
+msgstr "Allumer"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__switching_off
+msgid "Switching off"
+msgstr "En cours de coupure"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__switching_on
+msgid "Switching on"
+msgstr "En cours d'allumage"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "The catalogue has a text that is too long or not a text."
+msgstr "Le catalogue contient un texte trop long, ou qui n'est pas un texte."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "The catalogue has an entry of the wrong form."
+msgstr "Le catalogue contient une entrée mal formée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "The catalogue has an invalid add-on code."
+msgstr "Le catalogue contient un code de module invalide."
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_addons
+msgid "The catalogue is empty"
+msgstr "Le catalogue est vide"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "The catalogue is empty or lists an add-on twice."
+msgstr "Le catalogue est vide ou cite un module deux fois."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "The catalogue lists the control plane's own addon."
+msgstr "Le catalogue contient le module du contrôle lui-même."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "The catalogue needs its signature file and the release signing public key (Platform > Settings)."
+msgstr "Le catalogue exige son fichier de signature et la clé publique de signature des versions (Plateforme > Réglages)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "The catalogue's signature does not hold: nothing was loaded."
+msgstr "La signature du catalogue ne correspond pas : rien n'a été chargé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "The firm's top bar, home, engagement dashboard and task lists, on the core models"
+msgstr "La barre du cabinet, l'accueil, le tableau de bord de mission et les listes de tâches, sur les modèles du socle"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "The per-firm switch of optional client add-ons: off hides them and keeps their data"
+msgstr "L'interrupteur par cabinet des modules clients facultatifs : coupé, le module est masqué et ses données sont gardées"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+msgid "The shared codebase, on every firm. They have no switch: reports are one of them."
+msgstr "Le code commun, sur tous les cabinets. Elles n'ont pas d'interrupteur : les rapports en font partie."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_addon_code_unique
+msgid "This add-on is already in the catalogue."
+msgstr "Ce module est déjà au catalogue."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "This catalogue was made for another release."
+msgstr "Ce catalogue a été fait pour une autre version."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addons.py:0
+msgid "This file is not a catalogue."
+msgstr "Ce fichier n'est pas un catalogue."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "This release already has another catalogue: a release does not change."
+msgstr "Cette version a déjà un autre catalogue : une version ne change pas."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_addons
+msgid "This release has no catalogue yet, so there is nothing to choose. Load it under Updates &gt; Releases, or carry on with the base features."
+msgstr "Cette version n'a pas encore de catalogue : il n'y a rien à choisir. Chargez-le dans Mises à jour &gt; Versions, ou continuez avec les fonctions de base."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/addon_texts.py:0
+msgid "Trial balance, lead schedules, materiality, risks, CRA, findings, SAD and the tools hub"
+msgstr "Balance, feuilles maîtresses, seuil de signification, risques, CRA, constats, SAD et le portail des outils"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__backup_state__ok
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__restore_state__ok
+msgid "Up to date"
+msgstr "À jour"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_supervision
+msgid "Use \"New firm\" to onboard the first one. Every client then shows here, with its server and its health."
+msgstr "Utilisez « Nouveau cabinet » pour mettre le premier en service. Chaque client s'affiche alors ici, avec son serveur et sa santé."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__version
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__version
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__version
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__version
+msgid "Version"
+msgstr "Version"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
+msgid "Vultr"
+msgstr "Vultr"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "Watch"
+msgstr "Surveillance"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+msgid "What the firm reports"
+msgstr "Ce que le cabinet signale"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_form_catalogue
+msgid "What this release carries"
+msgstr "Ce que contient cette version"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_addons
+msgid "Who asked for these and why."
+msgstr "Qui les a demandés et pourquoi."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
+msgid "Who asked for this and why. No audit data here."
+msgstr "Qui l'a demandé et pourquoi. Pas de données d'audit ici."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__reason
+msgid "Why"
+msgstr "Pourquoi"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__addons_reason
+msgid "Why these add-ons"
+msgstr "Pourquoi ces modules"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__wizard_id
+msgid "Wizard"
+msgstr "Assistant"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+msgid "Yes"
+msgstr "Oui"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_catalogue_wizard_form
+msgid "build_release.sh writes these two files beside the bundle. On a real platform the signature is required and checked."
+msgstr "build_release.sh écrit ces deux fichiers à côté du paquet. Sur la vraie plateforme, la signature est exigée et vérifiée."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "none"
+msgstr "aucun"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "%(count)s reported problem(s) not closed"
+msgstr "%(count)s problème(s) signalé(s) non fermé(s)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "%(count)s technical error(s) in 24 hours"
+msgstr "%(count)s erreur(s) technique(s) en 24 heures"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Errors 24 h</span>"
+msgstr "<span>Erreurs 24 h</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Problems</span>"
+msgstr "<span>Problèmes</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "<span>Support</span>"
+msgstr "<span>Support</span>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_errors
+msgid "A firm's server reports its errors as codes in its heartbeat: addon, screen, error type, count. Never a message or a value."
+msgstr "Le serveur d'un cabinet signale ses erreurs en codes dans son heartbeat : module, écran, type d'erreur, nombre. Jamais un message ni une valeur."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_ticket_ref_unique
+msgid "A firm's ticket arrives once."
+msgstr "Le signalement d'un cabinet n'arrive qu'une fois."
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_tickets
+msgid "A firm's user sends one with \"Report a problem\" in their user menu."
+msgstr "Un utilisateur d'un cabinet en envoie un avec « Signaler un problème » dans son menu utilisateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A support visit is for a firm that is live."
+msgstr "Une visite de support concerne un cabinet en service."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/health.py:0
+msgid "A support visit is open"
+msgstr "Une visite de support est ouverte"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A support visit's record cannot be changed."
+msgstr "La fiche d'une visite de support ne peut pas être modifiée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A support visit's record cannot be deleted."
+msgstr "La fiche d'une visite de support ne peut pas être supprimée."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_form
+msgid "A support visit's record is never changed or deleted. Read-only: the support account could change nothing."
+msgstr "La fiche d'une visite de support n'est jamais modifiée ni supprimée. Lecture seule : le compte de support ne pouvait rien modifier."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A support visit's trail cannot be changed."
+msgstr "La trace d'une visite de support ne peut pas être modifiée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A support visit's trail cannot be deleted."
+msgstr "La trace d'une visite de support ne peut pas être supprimée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A visit is already under way for this firm: end it first."
+msgstr "Une visite est déjà en cours pour ce cabinet : terminez-la d'abord."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "A visit lasts from 1 to %(max)s minutes."
+msgstr "Une visite dure de 1 à %(max)s minutes."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__module
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_search
+msgid "Addon"
+msgstr "Module"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+msgid "Ask for the visit"
+msgstr "Demander la visite"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_by
+msgid "Asked by"
+msgstr "Demandée par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_support_visit__state__requested
+msgid "Asked, waiting for the firm's server"
+msgstr "Demandée, en attente du serveur du cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+msgid "Close"
+msgstr "Fermer"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_ticket__state__closed
+msgid "Closed"
+msgstr "Fermé"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+msgid "Copy this link now: it shows once and is not kept here. It works once the firm's server has opened the visit (after its next heartbeat), until the visit ends."
+msgstr "Copiez ce lien maintenant : il s'affiche une fois et n'est pas gardé ici. Il fonctionne dès que le serveur du cabinet a ouvert la visite (après son prochain heartbeat), jusqu'à la fin de la visite."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__count
+msgid "Count"
+msgstr "Nombre"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__end_requested
+msgid "End asked"
+msgstr "Fin demandée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_list
+msgid "End now"
+msgstr "Terminer maintenant"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+msgid "End the support visit"
+msgstr "Terminer la visite de support"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_support_visit__state__ended
+msgid "Ended"
+msgstr "Terminée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__expected_end
+msgid "Ends at the latest"
+msgstr "Se termine au plus tard"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__kind
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_search
+msgid "Error type"
+msgstr "Type d'erreur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_support_visit_wizard__reason
+msgid "Goes in the platform log and is the visit's record."
+msgstr "Va au journal de la plateforme et dans la fiche de la visite."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_ticket__state__in_progress
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+msgid "In progress"
+msgstr "En cours"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_search
+msgid "Last 24 hours"
+msgstr "Dernières 24 heures"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__last_at
+msgid "Last seen"
+msgstr "Vue pour la dernière fois"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__reported_at
+msgid "Last state from the firm"
+msgstr "Dernier état venu du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_support_timestamp
+msgid "Last support message timestamp"
+msgstr "Horodatage du dernier message de support"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__minutes
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__minutes
+msgid "Length (minutes)"
+msgstr "Durée (minutes)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__link_fingerprint
+msgid "Link fingerprint"
+msgstr "Empreinte du lien"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_tickets
+msgid "No reported problem"
+msgstr "Aucun problème signalé"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_errors
+msgid "No technical error reported"
+msgstr "Aucune erreur technique signalée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
+msgid "Not closed"
+msgstr "Non fermés"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+msgid "Now"
+msgstr "Maintenant"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_list
+msgid "Number"
+msgstr "Numéro"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_support_visit__state__open
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_ticket__state__open
+msgid "Open"
+msgstr "Ouvert"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__tickets_open
+msgid "Open problems"
+msgstr "Problèmes ouverts"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Problem reported"
+msgstr "Problème signalé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__received_at
+msgid "Received on"
+msgstr "Reçu le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__res_ids
+msgid "Record ids"
+msgstr "Identifiants des fiches"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__ref
+msgid "Reference"
+msgstr "Référence"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__release
+msgid "Release in use"
+msgstr "Version en service"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+msgid "Reopen"
+msgstr "Rouvrir"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__replied_by
+msgid "Replied by"
+msgstr "Répondu par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__replied_at
+msgid "Replied on"
+msgstr "Répondu le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__reply
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+msgid "Reply to the user"
+msgstr "Réponse à l'utilisateur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__received_at
+msgid "Reported on"
+msgstr "Signalé le"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_ticket
+msgid "Reported problem"
+msgstr "Problème signalé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Reported problem answered"
+msgstr "Problème signalé : réponse donnée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Reported problem moved on"
+msgstr "Problème signalé : état changé"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_tickets
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ticket_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_tickets
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
+msgid "Reported problems"
+msgstr "Problèmes signalés"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Reported problems not closed"
+msgstr "Problèmes signalés non fermés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__screen
+msgid "Screen"
+msgstr "Écran"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__model_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__model_name
+msgid "Screen (model)"
+msgstr "Écran (modèle)"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_support_trace
+msgid "Screen opened during a support visit"
+msgstr "Écran ouvert pendant une visite de support"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__trace_ids
+msgid "Screens and records opened"
+msgstr "Écrans et fiches ouverts"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_form
+msgid "Screens and records opened (identifiers only)"
+msgstr "Écrans et fiches ouverts (identifiants seulement)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__link
+msgid "Sign-in link, shown once"
+msgstr "Lien de connexion, affiché une fois"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_support_visit_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+msgid "Start a support visit"
+msgstr "Commencer une visite de support"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__state_rank
+msgid "State Rank"
+msgstr "Rang de l'état"
+
+#. module: ea_platform_admin
+#: model:ir.ui.menu,name:ea_platform_admin.menu_status
+msgid "Status"
+msgstr "Statut"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__subject
+msgid "Subject"
+msgstr "Sujet"
+
+#. module: ea_platform_admin
+#: model:ir.ui.menu,name:ea_platform_admin.menu_support
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+msgid "Support"
+msgstr "Support"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model,name:ea_platform_admin.model_platform_support_visit
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__visit_state
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+msgid "Support visit"
+msgstr "Visite de support"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Support visit asked"
+msgstr "Visite de support demandée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Support visit under way"
+msgstr "Visite de support en cours"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Support visit: end asked"
+msgstr "Visite de support : fin demandée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Support visit: the firm's server says %(state)s"
+msgstr "Visite de support : le serveur du cabinet indique %(state)s"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_visits
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__support_visit_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_visits
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+msgid "Support visits"
+msgstr "Visites de support"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_firm_error
+msgid "Technical error of a firm"
+msgstr "Erreur technique d'un cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_errors
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__error_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_errors
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_search
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+msgid "Technical errors"
+msgstr "Erreurs techniques"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__errors_24h
+msgid "Technical errors (24 h)"
+msgstr "Erreurs techniques (24 h)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+msgid "Technical errors (codes only)"
+msgstr "Erreurs techniques (codes seulement)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Ticket %(ref)s"
+msgstr "Signalement %(ref)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Ticket %(ref)s: %(state)s"
+msgstr "Signalement %(ref)s : %(state)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_support_visit__state__expired
+msgid "Time is up"
+msgstr "Durée écoulée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_list
+msgid "Total"
+msgstr "Total"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+msgid "Visible to the user who reported it. No other firm's details."
+msgstr "Visible par l'utilisateur qui l'a signalé. Aucun détail d'un autre cabinet."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_trace__visit_id
+msgid "Visit"
+msgstr "Visite"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Visit %(id)s"
+msgstr "Visite %(id)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/support.py:0
+msgid "Visit %(id)s, %(minutes)s minutes. Reason: %(reason)s"
+msgstr "Visite %(id)s, %(minutes)s minutes. Motif : %(reason)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+msgid "What you need to see, and who asked."
+msgstr "Ce que vous devez voir, et qui l'a demandé."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+msgid "Written by a user of the firm, who was warned not to give client details. The reply goes back to that user, at their next check."
+msgstr "Écrit par un utilisateur du cabinet, averti de ne pas donner de détails de clients. La réponse lui revient à sa prochaine vérification."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+msgid ""
+"You will sign in to this firm's own Odoo as \"AuditISA support (operator, not a firm user)\", which can read every\n"
+"                        screen and change nothing: no create, change, delete, signature, upload, export or sending. The visit is numbered and\n"
+"                        kept for good with its reason and the screens opened, here and on the firm's side. The firm's administrator is told\n"
+"                        on screen and can end it."
+msgstr ""
+"Vous vous connecterez à l'Odoo du cabinet sous le compte « AuditISA support (operator, not a firm user) », qui peut lire tous\n"
+"                        les écrans et ne rien modifier : ni création, ni modification, ni suppression, ni signature, ni dépôt, ni export, ni envoi. La visite est numérotée et\n"
+"                        conservée avec son motif et les écrans ouverts, ici et chez le cabinet. L'administrateur du cabinet est prévenu\n"
+"                        à l'écran et peut y mettre fin."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
+msgid "open"
+msgstr "ouverts"

@@ -6,6 +6,8 @@
 
 **Décision du propriétaire :** un serveur dédié par cabinet, et un Odoo d'administration séparé qui les voit tous.
 
+**Ce qui a changé le 2026-11-07 (décision du propriétaire) :** la salle de contrôle a désormais un **accès prévu** aux cabinets, en trois moyens décrits dans SUPPORT.md : les erreurs techniques (des codes, dans le heartbeat), « Signaler un problème » (un texte qu'un utilisateur choisit d'envoyer, par un canal à part) et la **visite de support** (une connexion limitée dans le temps, en lecture seule, sous un compte nommé, numérotée et conservée, sans approbation du cabinet). Le contrôle n'a toujours **aucun mot de passe** d'un cabinet : la visite passe par un lien à usage limité dont il ne garde que l'empreinte.
+
 **Le contrôle automatique couvre la conception, pas encore la réalité :** les tests prouvent les règles du contrôle et les fichiers produits par la recette. Aucun vrai serveur n'a été construit : la preuve réelle sera `verify_firm_isolation.sh` entre deux vrais cabinets (PREREQUISITES, étape 8).
 
 ### Ce qui est séparé, par cabinet
@@ -22,13 +24,22 @@
 
 ### Ce que voit le contrôle
 
-**Uniquement** ces chiffres : version, disque, mémoire, nombre d'utilisateurs et de missions, dates et résultats de sauvegarde et de test de restauration, expiration du certificat, messagerie ouverte ou non, état de la mise à jour et de l'export, nombre de connexions SSH.
+**Uniquement** ces chiffres : version, disque, mémoire, nombre d'utilisateurs et de missions, dates et résultats de sauvegarde et de test de restauration, expiration du certificat, messagerie ouverte ou non, état de la mise à jour et de l'export, nombre de connexions SSH, et les codes des modules clients allumés avec le nombre de demandes refusées.
 
+- Un code de module qui n'est pas au catalogue est compté, jamais conservé : ce canal ne peut pas transporter de texte.
+- Les erreurs techniques arrivent aussi en codes : module, écran (modèle), type d'erreur, heure, nombre. Jamais un message ni une trace.
+- **Une exception, voulue :** les problèmes signalés contiennent le texte qu'un utilisateur du cabinet a écrit, après un avertissement de ne pas y mettre de détails de clients. Ils arrivent par un canal signé à part, pas par le heartbeat, et sont la seule donnée en texte libre venue d'un cabinet.
+- L'écran de supervision et son export Excel n'affichent que ces chiffres, l'identité technique du serveur et ses références chez l'hébergeur. Aucune donnée d'audit, aucun jeton.
 - Toute autre donnée dans un heartbeat fait rejeter le tout, et aucun champ n'accepte de texte libre.
+- Un serveur de cabinet peut aussi dire qu'il a fait une copie anonymisée : un état, une référence, une date, une empreinte. La copie elle-même reste chez lui (PIPELINE.md).
 - Pas de mot de passe de base, pas de clé de sauvegarde, pas de clé de stockage, pas de clé SSH privée. Le code ne contient ni client SSH, ni connexion à une base distante, ni appel RPC. Un test vérifie tout cela.
 - Il refuse de s'installer dans la base d'un cabinet, et n'est pas dans le paquet livré aux cabinets.
 
 **Un cabinet n'a accès au contrôle que pour son heartbeat :** une seule adresse, un seul chemin, en POST signé. Les écrans ne répondent qu'aux adresses de l'opérateur.
+
+**La visite de support.** Sur demande motivée de l'opérateur, la réponse signée au heartbeat donne au serveur du cabinet le numéro, la durée, l'empreinte du lien, le nom de l'opérateur et le motif ; le script root revérifie tout et ouvre la visite. Le compte « AuditISA support (operator, not a firm user) » lit tous les écrans et ne peut rien écrire : le serveur refuse toute création, modification et suppression sous ce compte, même en superutilisateur, et lui ferme export, téléchargement, impression et dépôt. L'administrateur du cabinet est prévenu à l'écran et peut y mettre fin. Chaque visite reste, numérotée et non modifiable, des deux côtés, avec les écrans et fiches ouverts (identifiants). **Risque connu :** une intrusion sur le contrôle peut demander une visite et obtenir un lien, donc lire les données d'un cabinet pendant la durée de la visite, sans rien pouvoir modifier ; l'administrateur du cabinet la voit et peut l'arrêter. C'était déjà possible par l'accès d'urgence SSH de l'opérateur (voir plus bas).
+
+**Le contrôle peut demander des modules clients, sans les imposer :** la réponse au heartbeat donne une liste de codes, et le script root du cabinet la refuse entière si un seul code n'est pas un module optionnel de la version signée en service. Une intrusion sur le contrôle peut donc allumer ou couper un module que cette version contient, avec au plus une installation et son arrêt de quelques minutes ; elle ne peut ni ajouter du code, ni toucher une fonction de base, ni rien désinstaller. Voir CLIENT-ADDONS.md.
 
 ### Les deux secrets que garde le contrôle
 
@@ -73,6 +84,8 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 
 **The owner's decision:** one dedicated server per firm, and one separate admin Odoo that sees them all.
 
+**What changed on 2026-11-07 (owner's decision):** the control room now has **provisioned access** to the firms, by three means described in SUPPORT.md: technical errors (codes, in the heartbeat), "Report a problem" (text a user chooses to send, on a separate channel) and the **support visit** (a time-limited, read-only sign-in as a named account, numbered and kept, with no approval from the firm). The control plane still holds **no password** of any firm: a visit goes through a time-limited link of which it keeps only the fingerprint.
+
 **Automated checks cover the design, not yet reality:** the tests prove the control plane's rules and the files the recipe produces. No real server has been built: the real proof will be `verify_firm_isolation.sh` between two real firms (PREREQUISITES, step 8).
 
 ### What is separate, per firm
@@ -89,13 +102,22 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 
 ### What the control plane sees
 
-**Only** these figures: release, disk, memory, numbers of users and engagements, dates and results of backup and restore test, certificate expiry, whether mail is open, update and export state, number of SSH logins.
+**Only** these figures: release, disk, memory, numbers of users and engagements, dates and results of backup and restore test, certificate expiry, whether mail is open, update and export state, number of SSH logins, and the codes of the client add-ons that are on with the number of refused requests.
 
+- An add-on code outside the catalogue is counted and never kept: this channel cannot carry text.
+- Technical errors arrive as codes too: addon, screen (model), error type, time, count. Never a message or a traceback.
+- **One deliberate exception:** reported problems hold the text a firm's user wrote, after a warning not to put client details in it. They arrive on a separate signed channel, not in the heartbeat, and are the only free text that comes from a firm.
+- The supervision page and its Excel export show only these figures, the server's technical identity and its references at the provider. No audit data and no token.
 - Anything else in a heartbeat gets it all rejected, and no field accepts free text.
+- A firm's server can also say it has made an anonymised copy: a state, a reference, a date and a digest. The copy itself stays there (PIPELINE.md).
 - No database password, no backup key, no storage key, no private SSH key. The code holds no SSH client, no remote database connection, no RPC call. A test checks all of this.
 - It refuses to install in a firm's database, and is not in the bundle firms receive.
 
 **A firm reaches the control plane for its heartbeat only:** one address, one path, a signed POST. The screens answer the operator's addresses only.
+
+**The support visit.** On the operator's stated reason, the signed heartbeat answer gives the firm's server the visit's number, its length, the link's fingerprint, the operator's name and the reason; the root script checks it all again and opens the visit. The account "AuditISA support (operator, not a firm user)" reads every screen and can write nothing: the server refuses every create, change and delete under that account, even as superuser, and closes export, download, print and upload to it. The firm's administrator is told on screen and can end it. Every visit stays, numbered and unchangeable, on both sides, with the screens and records opened (identifiers). **Known risk:** an intrusion on the control plane can ask for a visit and get a link, and so read a firm's data for the length of the visit, without being able to change anything; the firm's administrator sees it and can stop it. This was already possible through the operator's SSH break-glass access (see below).
+
+**The control plane can ask for client add-ons, not impose them:** the heartbeat answer gives a list of codes, and the firm's root script refuses all of it if a single code is not an optional add-on of the signed release in use. An intrusion on the control plane can therefore switch on or off an add-on that release carries, at most causing an install and its outage of a few minutes; it cannot add code, touch a base feature or uninstall anything. See CLIENT-ADDONS.md.
 
 ### The two secrets the control plane keeps
 

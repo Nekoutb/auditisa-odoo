@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The switch: every internal user holds this group while the add-on is on for the firm. -->
+    <record id="group_feature" model="res.groups">
+        <field name="name">SAMPLE: Client notes is on</field>
+    </record>
+</odoo>

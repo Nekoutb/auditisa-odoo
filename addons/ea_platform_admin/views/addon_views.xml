@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The catalogue -->
+    <record id="view_addon_search" model="ir.ui.view">
+        <field name="name">platform.addon.search</field>
+        <field name="model">platform.addon</field>
+        <field name="arch" type="xml">
+            <search string="Add-ons">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="summary"/>
+                <filter name="base" string="Base features" domain="[('is_optional', '=', False)]"/>
+                <filter name="optional" string="Optional add-ons" domain="[('is_optional', '=', True)]"/>
+                <filter name="group_kind" string="Kind" context="{'group_by': 'kind'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_addon_list" model="ir.ui.view">
+        <field name="name">platform.addon.list</field>
+        <field name="model">platform.addon</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="name_text" width="240px"/>
+                <field name="code" class="ea-mono" width="190px"/>
+                <field name="summary_text"/>
+                <field name="version" width="90px"/>
+                <field name="kind" widget="badge" width="140px" decoration-success="kind == 'base'"
+                       decoration-info="kind == 'optional'" decoration-warning="kind == 'sample'"/>
+                <field name="firm_count" width="60px"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_addon_form" model="ir.ui.view">
+        <field name="name">platform.addon.form</field>
+        <field name="model">platform.addon</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0" class="o_ea_platform_form">
+                <sheet>
+                    <div class="alert alert-warning" role="status" invisible="not is_sample">
+                        A sample, to prove the path. Not a product feature.
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name_text" readonly="1"/></h1>
+                        <field name="code" readonly="1" class="ea-mono"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="summary_text"/>
+                            <field name="version"/>
+                            <field name="kind"/>
+                        </group>
+                        <group>
+                            <field name="firm_count"/>
+                            <field name="is_sample" invisible="1"/>
+                            <field name="is_optional" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Firms that have it" name="firms">
+                            <div class="text-muted mb-2" invisible="is_optional">A base feature is on for every firm. It has no switch.</div>
+                            <field name="firm_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="platform_host"/>
+                                    <field name="state"/>
+                                    <field name="health_color" widget="badge" decoration-success="health_color == 'green'"
+                                           decoration-warning="health_color == 'amber'" decoration-danger="health_color == 'red'"/>
+                                    <field name="addon_release"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="In the releases" name="releases">
+                            <field name="release_line_ids" readonly="1">
+                                <list>
+                                    <field name="release_id"/>
+                                    <field name="version"/>
+                                    <field name="is_optional"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_addons" model="ir.actions.act_window">
+        <field name="name">Add-ons</field>
+        <field name="res_model">platform.addon</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_addon_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">The catalogue is empty</p>
+            <p>Open a release under Updates > Releases and load its catalogue: it lists what the release carries.</p>
+        </field>
+    </record>
+
+    <!-- A release's catalogue -->
+    <record id="view_release_form_catalogue" model="ir.ui.view">
+        <field name="name">platform.release.form.catalogue</field>
+        <field name="model">platform.release</field>
+        <field name="inherit_id" ref="view_release_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_open_catalogue_wizard" type="object" string="Load the catalogue file"
+                            class="btn-primary" invisible="catalogue_loaded_at or not id" groups="ea_platform_admin.group_platform_owner"/>
+                    <button name="action_read_catalogue_here" type="object" string="Read it from this server's code (simulation)"
+                            invisible="catalogue_loaded_at or not id" groups="ea_platform_admin.group_platform_owner"/>
+                </header>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="What this release carries">
+                    <field name="catalogue_loaded_at"/>
+                    <field name="catalogue_signed"/>
+                    <field name="catalogue_digest"/>
+                    <field name="optional_addon_count"/>
+                </group>
+                <field name="addon_line_ids" readonly="1">
+                    <list>
+                        <field name="addon_id"/>
+                        <field name="code" class="ea-mono"/>
+                        <field name="version"/>
+                        <field name="is_optional"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_catalogue_wizard_form" model="ir.ui.view">
+        <field name="name">platform.catalogue.wizard.form</field>
+        <field name="model">platform.catalogue.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Load a release's add-on catalogue">
+                <p>build_release.sh writes these two files beside the bundle. On a real platform the signature is required and checked.</p>
+                <group>
+                    <field name="release_id"/>
+                    <field name="catalogue_file" filename="catalogue_name"/>
+                    <field name="catalogue_name" invisible="1"/>
+                    <field name="proof_file" filename="proof_name"/>
+                    <field name="proof_name" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Load" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- The switch, on the firm's page -->
+    <record id="view_firm_form_addons" model="ir.ui.view">
+        <field name="name">platform.firm.form.addons</field>
+        <field name="model">platform.firm</field>
+        <field name="inherit_id" ref="view_firm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='server']" position="after">
+                <page string="Add-ons" name="addons">
+                    <p class="text-muted">
+                        Off hides an add-on and keeps its data; on again restores everything. Nothing is ever uninstalled.
+                        The firm's server applies a change after its next heartbeat. The first time an add-on goes on,
+                        the server installs it: backup, then Odoo stops for a few minutes.
+                    </p>
+                    <field name="addon_line_ids" readonly="1">
+                        <list decoration-warning="status in ('differs_on', 'differs_off', 'not_in_release')" decoration-info="status in ('switching_on', 'switching_off')">
+                            <field name="addon_id"/>
+                            <field name="code" class="ea-mono" optional="hide"/>
+                            <field name="summary_text" optional="hide"/>
+                            <field name="version" optional="hide"/>
+                            <field name="desired" widget="boolean" string="Asked on" width="80px"/>
+                            <field name="reported" widget="boolean" string="Firm says on" width="90px"/>
+                            <field name="status" widget="badge" width="180px" decoration-success="status == 'on'"
+                                   decoration-warning="status in ('differs_on', 'differs_off', 'not_in_release')"
+                                   decoration-info="status in ('switching_on', 'switching_off')"/>
+                            <field name="changed_at" optional="show" width="120px"/>
+                            <field name="changed_by" optional="hide"/>
+                            <button name="action_switch_on" type="object" string="Switch on" class="btn-link" icon="fa-toggle-off"
+                                    invisible="desired" groups="ea_platform_admin.group_platform_operator"/>
+                            <button name="action_switch_off" type="object" string="Switch off" class="btn-link" icon="fa-toggle-on"
+                                    invisible="not desired" groups="ea_platform_admin.group_platform_operator"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group string="What the firm reports">
+                            <field name="addons_reported_at"/>
+                            <field name="addons_refused_count"/>
+                            <field name="addons_unknown_count"/>
+                        </group>
+                    </group>
+                    <separator string="Base features, always on"/>
+                    <p class="text-muted">The shared codebase, on every firm. They have no switch: reports are one of them.</p>
+                    <field name="base_addon_ids" readonly="1">
+                        <list>
+                            <field name="name_text"/>
+                            <field name="code" class="ea-mono"/>
+                            <field name="version"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='firewall_id']" position="before">
+                <field name="provider_label"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_toggle_form" model="ir.ui.view">
+        <field name="name">platform.addon.toggle.wizard.form</field>
+        <field name="model">platform.addon.toggle.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Switch an add-on">
+                <field name="target" invisible="1"/>
+                <div class="alert alert-info" role="status" invisible="target != 'off'">
+                    Off hides this add-on for the firm and keeps its data. Nothing is uninstalled, and on again restores everything.
+                </div>
+                <div class="alert alert-warning" role="status" invisible="target != 'on'">
+                    If this is the first time for this firm, its server installs the add-on: backup, then Odoo stops for a few minutes. Warn the firm.
+                </div>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="addon_id"/>
+                    <field name="reason" placeholder="Who asked for this and why. No audit data here."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Switch on" class="btn-primary" invisible="target != 'on'"/>
+                    <button name="action_confirm" type="object" string="Switch off" class="btn-primary" invisible="target != 'off'"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- The wizard's screen -->
+    <record id="view_onboarding_form_addons" model="ir.ui.view">
+        <field name="name">platform.onboarding.wizard.form.addons</field>
+        <field name="model">platform.onboarding.wizard</field>
+        <field name="inherit_id" ref="view_onboarding_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='step']" position="attributes">
+                <attribute name="statusbar_visible">identity,technical,addons,preflight</attribute>
+            </xpath>
+            <xpath expr="//div[@invisible=&quot;step != 'preflight'&quot;]" position="before">
+                <div invisible="step != 'addons'">
+                    <div class="alert alert-warning" role="status" invisible="not catalogue_missing">
+                        This release has no catalogue yet, so there is nothing to choose. Load it under Updates > Releases, or carry on with the base features.
+                    </div>
+                    <p>
+                        Choose what this firm gets beyond the shared codebase. This can change later, on the firm's page.
+                        Off hides an add-on and keeps its data.
+                    </p>
+                    <field name="catalogue_missing" invisible="1"/>
+                    <field name="addon_line_ids" nolabel="1">
+                        <list editable="bottom" create="0" delete="0" no_open="1">
+                            <field name="addon_id" readonly="1"/>
+                            <field name="summary_text"/>
+                            <field name="version" optional="hide"/>
+                            <field name="enabled" widget="boolean_toggle"/>
+                        </list>
+                    </field>
+                    <group>
+                        <field name="addons_reason" placeholder="Who asked for these and why."/>
+                    </group>
+                    <details class="mt-2">
+                        <summary class="text-muted">Base features, always on, for every firm</summary>
+                        <field name="base_addon_ids" nolabel="1" readonly="1" widget="many2many_tags"/>
+                    </details>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='release_id'][@readonly='1']" position="after">
+                <field name="preview_addons"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -37,11 +37,17 @@ msgstr "AuditISA : import du journal des accès opérateur"
 
 #. module: ea_audit_firm_agent
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__create_uid
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__create_uid
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__create_uid
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: ea_audit_firm_agent
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__create_date
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__create_date
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__create_date
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -54,6 +60,12 @@ msgstr "Date"
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__display_name
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_agent__display_name
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ir_mail_server__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_error_capture__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ir_http__display_name
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_res_users__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -71,16 +83,28 @@ msgstr "Heartbeat du serveur de ce cabinet"
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__id
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_agent__id
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ir_mail_server__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_error_capture__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ir_http__id
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_res_users__id
 msgid "ID"
 msgstr "ID"
 
 #. module: ea_audit_firm_agent
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__write_uid
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__write_uid
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__write_uid
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: ea_audit_firm_agent
 #: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_access_log__write_date
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__write_date
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__write_date
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -184,3 +208,368 @@ msgstr "Bienvenue"
 #: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.first_admin_page
 msgid "You are the first administrator of"
 msgstr "Vous êtes le premier administrateur de"
+
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "A support visit reads only: nothing can be created, changed, deleted or sent."
+msgstr "Une visite de support ne fait que lire : rien ne peut être créé, modifié, supprimé ni envoyé."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "A support visit's record cannot be changed."
+msgstr "La fiche d'une visite de support ne peut pas être modifiée."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "A support visit's record cannot be deleted."
+msgstr "La fiche d'une visite de support ne peut pas être supprimée."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "A support visit's trail cannot be changed."
+msgstr "La trace d'une visite de support ne peut pas être modifiée."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "A support visit's trail cannot be deleted."
+msgstr "La trace d'une visite de support ne peut pas être supprimée."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.constraint,message:ea_audit_firm_agent.constraint_ea_firm_support_ticket_ref_unique
+msgid "A ticket has one reference."
+msgstr "Un signalement a une seule référence."
+
+#. module: ea_audit_firm_agent
+#: model:ir.actions.server,name:ea_audit_firm_agent.cron_support_expire_ir_actions_server
+msgid "AuditISA: end support visits whose time is up"
+msgstr "AuditISA : terminer les visites de support arrivées à leur fin"
+
+#. module: ea_audit_firm_agent
+#: model:ir.actions.server,name:ea_audit_firm_agent.cron_support_sync_ir_actions_server
+msgid "AuditISA: send reported problems and fetch replies"
+msgstr "AuditISA : envoyer les problèmes signalés et chercher les réponses"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_base
+msgid "Base"
+msgstr "Base"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_form
+msgid "Check for a reply"
+msgstr "Vérifier la réponse"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_ticket__state__closed
+msgid "Closed"
+msgstr "Fermé"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_form
+msgid "Do not write client details: no client name, no amount, no document content. Describe the screen and what you did."
+msgstr "N'écrivez pas de détails de clients : pas de nom de client, pas de montant, pas de contenu de document. Décrivez l'écran et ce que vous avez fait."
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_visit_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_visit_list
+msgid "End now"
+msgstr "Terminer maintenant"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_visit__state__ended
+msgid "Ended"
+msgstr "Terminée"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__ended_by
+msgid "Ended by"
+msgstr "Terminée par"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__ended_at
+msgid "Ended on"
+msgstr "Terminée le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__ends_at
+msgid "Ends on"
+msgstr "Se termine le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_visit__state__expired
+msgid "Expired"
+msgstr "Expirée"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ir_http
+msgid "HTTP Routing"
+msgstr "Routage HTTP"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_ticket__state__in_progress
+msgid "In progress"
+msgstr "En cours"
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "Keep the subject under 200 characters and the message under 4000."
+msgstr "Gardez le sujet sous 200 caractères et le message sous 4000."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__method
+msgid "Kind"
+msgstr "Type"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__minutes
+msgid "Length (minutes)"
+msgstr "Durée (minutes)"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__token_hash
+msgid "Link fingerprint"
+msgstr "Empreinte du lien"
+
+#. module: ea_audit_firm_agent
+#. odoo-javascript
+#: code:addons/ea_audit_firm_agent/static/src/js/report_problem.js:0
+#: model:ir.actions.act_window,name:ea_audit_firm_agent.action_support_tickets
+msgid "My reported problems"
+msgstr "Mes problèmes signalés"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.actions.act_window,help:ea_audit_firm_agent.action_support_visits
+msgid "No support visit yet."
+msgstr "Aucune visite de support pour l'instant."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_ticket__state__queued
+msgid "Not sent yet"
+msgstr "Pas encore envoyé"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.constraint,message:ea_audit_firm_agent.constraint_ea_firm_support_visit_ref_unique
+msgid "One record per visit."
+msgstr "Une fiche par visite."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "Only the firm's administrator ends a support visit from here."
+msgstr "Seul l'administrateur du cabinet met fin à une visite de support ici."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_ticket__state__open
+#: model:ir.model.fields.selection,name:ea_audit_firm_agent.selection__ea_firm_support_visit__state__open
+msgid "Open"
+msgstr "Ouvert"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__opened_at
+msgid "Opened on"
+msgstr "Ouvert le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__operator
+msgid "Operator"
+msgstr "Opérateur"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_support_ticket
+msgid "Problem reported to the operator"
+msgstr "Problème signalé à l'opérateur"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__reason
+msgid "Reason"
+msgstr "Motif"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__res_ids
+msgid "Record ids"
+msgstr "Identifiants des fiches"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__ref
+msgid "Reference"
+msgstr "Référence"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__release
+msgid "Release in use"
+msgstr "Version en service"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__replied_at
+msgid "Replied on"
+msgstr "Répondu le"
+
+#. module: ea_audit_firm_agent
+#. odoo-javascript
+#: code:addons/ea_audit_firm_agent/static/src/js/report_problem.js:0
+#: model:ir.actions.act_window,name:ea_audit_firm_agent.action_support_ticket_new
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_form
+msgid "Report a problem"
+msgstr "Signaler un problème"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__user_id
+msgid "Reported by"
+msgstr "Signalé par"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_list
+msgid "Reported on"
+msgstr "Signalé le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__screen
+msgid "Screen"
+msgstr "Écran"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__model
+msgid "Screen (model)"
+msgstr "Écran (modèle)"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_support_trace
+msgid "Screen opened during a support visit"
+msgstr "Écran ouvert pendant une visite de support"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__trace_ids
+msgid "Screens and records opened"
+msgstr "Écrans et fiches ouverts"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__sent_at
+msgid "Sent on"
+msgstr "Envoyé le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__logins
+msgid "Sign-ins"
+msgstr "Connexions"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__opened_at
+msgid "Started on"
+msgstr "Commencée le"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__state
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__state
+msgid "State"
+msgstr "État"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__subject
+msgid "Subject"
+msgstr "Sujet"
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "Support visit"
+msgstr "Visite de support"
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/models/support.py:0
+msgid "Support visit %(number)s is open until %(end)s UTC: %(operator)s may read your screens as \"%(name)s\", and can change nothing. Reason: %(reason)s. You can end it at any time in Settings > Support visits."
+msgstr "La visite de support %(number)s est ouverte jusqu'à %(end)s UTC : %(operator)s peut lire vos écrans sous le compte « %(name)s », et ne peut rien modifier. Motif : %(reason)s. Vous pouvez y mettre fin à tout moment dans Configuration > Visites de support."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_support_visit
+msgid "Support visit by the operator"
+msgstr "Visite de support de l'opérateur"
+
+#. module: ea_audit_firm_agent
+#: model:ir.actions.act_window,name:ea_audit_firm_agent.action_support_visits
+#: model:ir.ui.menu,name:ea_audit_firm_agent.menu_support_visits
+msgid "Support visits"
+msgstr "Visites de support"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_error_capture
+msgid "Technical errors of this server, as codes"
+msgstr "Erreurs techniques de ce serveur, en codes"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_visit_form
+msgid ""
+"The operator reads as \"AuditISA support (operator, not a firm user)\" and can change nothing.\n"
+"                        This record cannot be edited or deleted."
+msgstr ""
+"L'opérateur lit sous le compte « AuditISA support (operator, not a firm user) » et ne peut rien modifier.\n"
+"                        Cette fiche ne peut être ni modifiée ni supprimée."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__reply
+msgid "The operator's reply"
+msgstr "La réponse de l'opérateur"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_form
+msgid "The screen and the problem, in a few words"
+msgstr "L'écran et le problème, en quelques mots"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,help:ea_audit_firm_agent.field_ea_firm_support_ticket__screen
+msgid "The technical name of the screen, if known."
+msgstr "Le nom technique de l'écran, s'il est connu."
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_form
+msgid "This goes to the operator of AuditISA, the company that runs this software, not to your firm."
+msgstr "Ceci part chez l'opérateur d'AuditISA, la société qui fait fonctionner ce logiciel, et non chez votre cabinet."
+
+#. module: ea_audit_firm_agent
+#. odoo-python
+#: code:addons/ea_audit_firm_agent/controllers/support.py:0
+msgid "This support link is not valid, or the visit is not open."
+msgstr "Ce lien de support n'est pas valable, ou la visite n'est pas ouverte."
+
+#. module: ea_audit_firm_agent
+#: model:ir.model,name:ea_audit_firm_agent.model_res_users
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_trace__visit_id
+msgid "Visit"
+msgstr "Visite"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_visit__platform_ref
+msgid "Visit number"
+msgstr "Numéro de la visite"
+
+#. module: ea_audit_firm_agent
+#: model:ir.model.fields,field_description:ea_audit_firm_agent.field_ea_firm_support_ticket__message
+msgid "What happened"
+msgstr "Ce qui s'est passé"
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.ui.view,arch_db:ea_audit_firm_agent.view_support_ticket_form
+msgid "What you did, what you expected, what happened."
+msgstr "Ce que vous avez fait, ce que vous attendiez, ce qui s'est passé."
+
+#. module: ea_audit_firm_agent
+#: model_terms:ir.actions.act_window,help:ea_audit_firm_agent.action_support_visits
+msgid ""
+"When the operator needs to see your firm's screens, a numbered visit shows here, with the screens opened.\n"
+"               The operator then reads as \"AuditISA support (operator, not a firm user)\" until the visit ends, and can change nothing.\n"
+"               You can end it at any time."
+msgstr ""
+"Quand l'opérateur doit voir les écrans de votre cabinet, une visite numérotée s'affiche ici, avec les écrans ouverts.\n"
+"               L'opérateur lit alors sous le compte « AuditISA support (operator, not a firm user) » jusqu'à la fin de la visite, et ne peut rien modifier.\n"
+"               Vous pouvez y mettre fin à tout moment."

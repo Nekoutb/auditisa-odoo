@@ -1,0 +1,3269 @@
+{
+ "config_keep": [
+  "analytic\\.project_plan",
+  "auth_signup\\.(invitation_scope|reset_password)",
+  "base\\.default_max_email_size",
+  "base\\.login_cooldown_(after|duration)",
+  "base_setup\\.show_effect",
+  "base\\.template_portal_user_id",
+  "database\\.create_date",
+  "digest\\.default_digest_(emails|id)",
+  "mail\\.activity\\.gc\\.delete_overdue_years",
+  "mail\\.restrict\\.template\\.rendering"
+ ],
+ "harvest_also": [
+  "ea_audit_engagement.name",
+  "ea_audit_client.address",
+  "res_partner.street",
+  "res_partner.street2",
+  "hr_employee.name",
+  "hr_employee.private_street",
+  "resource_resource.name",
+  "ea_audit_portal_contact.name",
+  "ea_audit_gl_line.preparer",
+  "ea_audit_gl_line.reviewer",
+  "ea_audit_gl_line.approver"
+ ],
+ "harvest_ignore": [
+  "OdooBot",
+  "Administrator",
+  "Public user",
+  "Default User Template",
+  "Portal User Template",
+  "Mitchell Admin",
+  "Marc Demo",
+  "Joel Willis",
+  "My Company",
+  "YourCompany",
+  "Paris",
+  "Douala",
+  "Yaoundé",
+  "Cameroon",
+  "Cameroun",
+  "France",
+  "example.com",
+  "odoo.com",
+  "Brandon Freeman",
+  "Lumber Inc",
+  "Audrey Peterson",
+  "Acme Corporation",
+  "info@yourcompany.com",
+  "mark.brown23@example.com",
+  "Renovations",
+  "Rénovations",
+  "Pleasant Hill",
+  "Brisbane",
+  "Reserve"
+ ],
+ "harvest_purged": {
+  "ea_audit_firm_log": [
+   "actor_name",
+   "target_name"
+  ],
+  "mail_mail": [
+   "email_to"
+  ],
+  "mail_message": [
+   "email_from",
+   "author_guest_name"
+  ]
+ },
+ "json_key_words": [
+  "Date",
+  "Compte",
+  "Débit",
+  "Crédit",
+  "Journal",
+  "Libellé",
+  "Approuvé",
+  "Intitulé",
+  "Préparé",
+  "Référence",
+  "N° écriture",
+  "Mouvement débit",
+  "Mouvement crédit",
+  "Solde ouverture débit",
+  "Solde ouverture crédit",
+  "Solde clôture débit",
+  "Solde clôture crédit",
+  "Tiers",
+  "Montant",
+  "Centre de coût",
+  "Pièce",
+  "Lettrage",
+  "Solde",
+  "Account",
+  "Debit",
+  "Credit",
+  "Description",
+  "Reference",
+  "Amount",
+  "Balance",
+  "Name"
+ ],
+ "models": [
+  "account.analytic.account",
+  "account.analytic.applicability",
+  "account.analytic.distribution.model",
+  "account.analytic.line",
+  "account.analytic.line.calendar.employee",
+  "account.analytic.plan",
+  "analytic.mixin",
+  "analytic.plan.fields.mixin",
+  "auth.passkey.key",
+  "auth.passkey.key.create",
+  "auth_totp.device",
+  "auth.totp.rate.limit.log",
+  "auth_totp.wizard",
+  "avatar.mixin",
+  "base",
+  "base.document.layout",
+  "base.enable.profiling.wizard",
+  "base_import.import",
+  "base_import.mapping",
+  "base.import.module",
+  "base.language.export",
+  "base.language.import",
+  "base.language.install",
+  "base.module.install.request",
+  "base.module.install.review",
+  "base.module.uninstall",
+  "base.module.update",
+  "base.module.upgrade",
+  "base.partner.merge.automatic.wizard",
+  "base.partner.merge.line",
+  "bus.bus",
+  "bus.listener.mixin",
+  "change.password.own",
+  "change.password.user",
+  "change.password.wizard",
+  "decimal.precision",
+  "digest.digest",
+  "digest.tip",
+  "discuss.call.history",
+  "discuss.channel",
+  "discuss.channel.member",
+  "discuss.channel.rtc.session",
+  "discuss.gif.favorite",
+  "discuss.voice.metadata",
+  "ea.audit.activity",
+  "ea.audit.alerte",
+  "ea.audit.alerte.event",
+  "ea.audit.ap.comment",
+  "ea.audit.archive.manifest",
+  "ea.audit.assertion",
+  "ea.audit.automation.run",
+  "ea.audit.client",
+  "ea.audit.client.grouping.override",
+  "ea.audit.client.override.mixin",
+  "ea.audit.completion.record",
+  "ea.audit.completion.wizard",
+  "ea.audit.control.link.wizard",
+  "ea.audit.control.test",
+  "ea.audit.control.test.wizard",
+  "ea.audit.control.wizard",
+  "ea.audit.cra.assessment",
+  "ea.audit.cra.history",
+  "ea.audit.cra.row",
+  "ea.audit.criminal.disclosure",
+  "ea.audit.dataset",
+  "ea.audit.dataset.import.map",
+  "ea.audit.dataset.import.wizard",
+  "ea.audit.dataset.row",
+  "ea.audit.deficiency.evaluation",
+  "ea.audit.deficiency.wizard",
+  "ea.audit.document",
+  "ea.audit.document.version",
+  "ea.audit.dsp.choice",
+  "ea.audit.dsp.design",
+  "ea.audit.dsp.osp",
+  "ea.audit.engagement",
+  "ea.audit.engagement.create.wizard",
+  "ea.audit.engagement.mixin",
+  "ea.audit.fa.ratio",
+  "ea.audit.file.item",
+  "ea.audit.finding",
+  "ea.audit.finding.wizard",
+  "ea.audit.firm.admin",
+  "ea.audit.firm.holiday",
+  "ea.audit.firm.log",
+  "ea.audit.fscp",
+  "ea.audit.gl.console",
+  "ea.audit.gl.console.account",
+  "ea.audit.gl.line",
+  "ea.audit.grouping.rule",
+  "ea.audit.hold.wizard",
+  "ea.audit.issue.report.wizard",
+  "ea.audit.it.application",
+  "ea.audit.itgc.wizard",
+  "ea.audit.je.design",
+  "ea.audit.je.studio",
+  "ea.audit.je.studio.rule",
+  "ea.audit.lead.comment.mixin",
+  "ea.audit.lead.index.override",
+  "ea.audit.lead.line",
+  "ea.audit.lead.schedule",
+  "ea.audit.legal.deadline",
+  "ea.audit.legal.hold",
+  "ea.audit.legal.wizard",
+  "ea.audit.materiality",
+  "ea.audit.materiality.wizard",
+  "ea.audit.misstatement",
+  "ea.audit.notice",
+  "ea.audit.notification",
+  "ea.audit.osp.wizard",
+  "ea.audit.override.wizard",
+  "ea.audit.paper",
+  "ea.audit.paper.answer",
+  "ea.audit.paper.answer.history",
+  "ea.audit.paper.def",
+  "ea.audit.partner.transfer.wizard",
+  "ea.audit.pbc.accept.wizard",
+  "ea.audit.pbc.item",
+  "ea.audit.pbc.upload.wizard",
+  "ea.audit.pbc.wizard",
+  "ea.audit.planning.ras",
+  "ea.audit.planning.snapshot",
+  "ea.audit.portal.contact",
+  "ea.audit.portal.contact.wizard",
+  "ea.audit.portal.pbc.wizard",
+  "ea.audit.potential.risk",
+  "ea.audit.potential.wizard",
+  "ea.audit.program.step",
+  "ea.audit.program.wizard",
+  "ea.audit.public.holiday",
+  "ea.audit.reason.wizard",
+  "ea.audit.regulated.agreement",
+  "ea.audit.review.note",
+  "ea.audit.risk",
+  "ea.audit.risk.index",
+  "ea.audit.risk.link.wizard",
+  "ea.audit.risk.section",
+  "ea.audit.risk.step.wizard",
+  "ea.audit.risk.wizard",
+  "ea.audit.sad.cf.row",
+  "ea.audit.sad.disc.row",
+  "ea.audit.sad.entry",
+  "ea.audit.sad.meta",
+  "ea.audit.sampling.wizard",
+  "ea.audit.sap.procedure",
+  "ea.audit.sap.settings",
+  "ea.audit.sap.threshold.wizard",
+  "ea.audit.sap.wizard",
+  "ea.audit.scot",
+  "ea.audit.scot.assign.wizard",
+  "ea.audit.scot.control",
+  "ea.audit.scot.index",
+  "ea.audit.scot.index.wizard",
+  "ea.audit.scot.wizard",
+  "ea.audit.section.conclusion",
+  "ea.audit.significance",
+  "ea.audit.signoff",
+  "ea.audit.signoff.matrix.import",
+  "ea.audit.signoff.policy",
+  "ea.audit.signoff.task.rule",
+  "ea.audit.step.wizard",
+  "ea.audit.supplier.recon.wizard",
+  "ea.audit.task.attachment",
+  "ea.audit.task.template",
+  "ea.audit.tb",
+  "ea.audit.tb.import.wizard",
+  "ea.audit.tb.line",
+  "ea.audit.tb.version",
+  "ea.audit.team.budget",
+  "ea.audit.team.decline.wizard",
+  "ea.audit.team.invite.wizard",
+  "ea.audit.team.member",
+  "ea.audit.tieout.wizard",
+  "ea.audit.timesheet.reopen",
+  "ea.audit.timesheet.sheet",
+  "ea.audit.timesheet.week",
+  "ea.audit.toc.draw",
+  "ea.audit.toc.draw.wizard",
+  "ea.audit.toc.grid.wizard",
+  "ea.audit.tod.result.wizard",
+  "ea.audit.tod.wizard",
+  "ea.audit.tool.import.wizard",
+  "ea.audit.tool.record",
+  "ea.audit.tool.tile",
+  "ea.audit.ui",
+  "ea.audit.wcgw",
+  "ea.audit.wcgw.wizard",
+  "ea.audit.wp.assign.wizard",
+  "ea.audit.wp.template",
+  "ea.firm.access.log",
+  "ea.firm.agent",
+  "fetchmail.server",
+  "format.address.mixin",
+  "format.vat.label.mixin",
+  "google.gmail.mixin",
+  "hr.bank.account.allocation.wizard",
+  "hr.bank.account.allocation.wizard.line",
+  "hr.contract.type",
+  "hr.department",
+  "hr.departure.reason",
+  "hr.departure.wizard",
+  "hr.employee",
+  "hr.employee.category",
+  "hr.employee.certification.report",
+  "hr.employee.cv.wizard",
+  "hr.employee.delete.wizard",
+  "hr.employee.location",
+  "hr.employee.public",
+  "hr.employee.skill",
+  "hr.employee.skill.history.report",
+  "hr.employee.skill.report",
+  "hr.individual.skill.mixin",
+  "hr.job",
+  "hr.job.skill",
+  "hr.manager.department.report",
+  "hr.mixin",
+  "hr.payroll.structure.type",
+  "hr.resume.line",
+  "hr.resume.line.type",
+  "hr.skill",
+  "hr.skill.level",
+  "hr.skill.type",
+  "hr.version",
+  "hr.version.wizard",
+  "hr.work.location",
+  "html_editor.converter.test",
+  "html_editor.converter.test.sub",
+  "html.field.history.mixin",
+  "iap.account",
+  "iap.autocomplete.api",
+  "iap.enrich.api",
+  "iap.service",
+  "image.mixin",
+  "ir.actions.actions",
+  "ir.actions.act_url",
+  "ir.actions.act_window",
+  "ir.actions.act_window_close",
+  "ir.actions.act_window.view",
+  "ir.actions.client",
+  "ir.actions.report",
+  "ir.actions.server",
+  "ir.actions.server.history",
+  "ir.actions.todo",
+  "ir.asset",
+  "ir.attachment",
+  "ir.autovacuum",
+  "ir.binary",
+  "ir.config_parameter",
+  "ir.cron",
+  "ir.cron.progress",
+  "ir.cron.trigger",
+  "ir.default",
+  "ir.demo",
+  "ir.demo_failure",
+  "ir.demo_failure.wizard",
+  "ir.embedded.actions",
+  "ir.exports",
+  "ir.exports.line",
+  "ir.fields.converter",
+  "ir.filters",
+  "ir.http",
+  "ir.logging",
+  "ir.mail_server",
+  "ir.model",
+  "ir.model.access",
+  "ir.model.constraint",
+  "ir.model.data",
+  "ir.model.fields",
+  "ir.model.fields.selection",
+  "ir.model.inherit",
+  "ir.model.relation",
+  "ir.module.category",
+  "ir.module.module",
+  "ir.module.module.dependency",
+  "ir.module.module.exclusion",
+  "ir.profile",
+  "ir.qweb",
+  "ir.qweb.field",
+  "ir.qweb.field.barcode",
+  "ir.qweb.field.contact",
+  "ir.qweb.field.date",
+  "ir.qweb.field.datetime",
+  "ir.qweb.field.duration",
+  "ir.qweb.field.float",
+  "ir.qweb.field.float_time",
+  "ir.qweb.field.html",
+  "ir.qweb.field.image",
+  "ir.qweb.field.image_url",
+  "ir.qweb.field.integer",
+  "ir.qweb.field.many2many",
+  "ir.qweb.field.many2one",
+  "ir.qweb.field.monetary",
+  "ir.qweb.field.one2many",
+  "ir.qweb.field.qweb",
+  "ir.qweb.field.relative",
+  "ir.qweb.field.selection",
+  "ir.qweb.field.text",
+  "ir.qweb.field.time",
+  "ir.rule",
+  "ir.sequence",
+  "ir.sequence.date_range",
+  "ir.ui.menu",
+  "ir.ui.view",
+  "ir.ui.view.custom",
+  "ir.websocket",
+  "kpi.provider",
+  "mail.activity",
+  "mail.activity.mixin",
+  "mail.activity.plan",
+  "mail.activity.plan.template",
+  "mail.activity.schedule",
+  "mail.activity.schedule.line",
+  "mail.activity.todo.create",
+  "mail.activity.type",
+  "mail.alias",
+  "mail.alias.domain",
+  "mail.alias.mixin",
+  "mail.alias.mixin.optional",
+  "mail.blacklist",
+  "mail.blacklist.remove",
+  "mail.bot",
+  "mail.canned.response",
+  "mail.compose.message",
+  "mail.composer.mixin",
+  "mail.followers",
+  "mail.followers.edit",
+  "mail.gateway.allowed",
+  "mail.guest",
+  "mail.ice.server",
+  "mail.link.preview",
+  "mail.mail",
+  "mail.message",
+  "mail.message.link.preview",
+  "mail.message.reaction",
+  "mail.message.schedule",
+  "mail.message.subtype",
+  "mail.message.translation",
+  "mail.notification",
+  "mail.presence",
+  "mail.push",
+  "mail.push.device",
+  "mail.render.mixin",
+  "mail.scheduled.message",
+  "mail.template",
+  "mail.template.preview",
+  "mail.template.reset",
+  "mail.thread",
+  "mail.thread.blacklist",
+  "mail.thread.cc",
+  "mail.thread.main.attachment",
+  "mail.thread.phone",
+  "mail.tracking.duration.mixin",
+  "mail.tracking.value",
+  "microsoft.outlook.mixin",
+  "phone.blacklist",
+  "phone.blacklist.remove",
+  "portal.mixin",
+  "portal.share",
+  "portal.wizard",
+  "portal.wizard.user",
+  "privacy.log",
+  "privacy.lookup.wizard",
+  "privacy.lookup.wizard.line",
+  "project.collaborator",
+  "project.milestone",
+  "project.project",
+  "project.project.stage",
+  "project.project.stage.delete.wizard",
+  "project.role",
+  "project.share.collaborator.wizard",
+  "project.share.wizard",
+  "project.tags",
+  "project.task",
+  "project.task.burndown.chart.report",
+  "project.task.recurrence",
+  "project.task.stage.personal",
+  "project.task.type",
+  "project.task.type.delete.wizard",
+  "project.template.create.wizard",
+  "project.template.role.to.users.map",
+  "project.update",
+  "properties.base.definition",
+  "properties.base.definition.mixin",
+  "publisher_warranty.contract",
+  "rating.mixin",
+  "rating.parent.mixin",
+  "rating.rating",
+  "report.base.report_irmodulereference",
+  "report.hr_skills.report_employee_cv",
+  "report.layout",
+  "report.paperformat",
+  "report.project.task.user",
+  "res.bank",
+  "res.company",
+  "res.config",
+  "res.config.settings",
+  "res.country",
+  "res.country.group",
+  "res.country.state",
+  "res.currency",
+  "res.currency.rate",
+  "res.device",
+  "res.device.log",
+  "reset.view.arch.wizard",
+  "res.groups",
+  "res.groups.privilege",
+  "res.lang",
+  "resource.calendar",
+  "resource.calendar.attendance",
+  "resource.calendar.leaves",
+  "resource.mixin",
+  "resource.resource",
+  "res.partner",
+  "res.partner.bank",
+  "res.partner.category",
+  "res.partner.industry",
+  "res.role",
+  "res.users",
+  "res.users.apikeys",
+  "res.users.apikeys.description",
+  "res.users.apikeys.show",
+  "res.users.deletion",
+  "res.users.identitycheck",
+  "res.users.log",
+  "res.users.settings",
+  "res.users.settings.embedded.action",
+  "res.users.settings.volumes",
+  "server.action.history.wizard",
+  "sms.account.code",
+  "sms.account.phone",
+  "sms.account.sender",
+  "sms.composer",
+  "sms.sms",
+  "sms.template",
+  "sms.template.preview",
+  "sms.template.reset",
+  "sms.tracker",
+  "snailmail.letter",
+  "spreadsheet.dashboard",
+  "spreadsheet.dashboard.group",
+  "spreadsheet.dashboard.share",
+  "spreadsheet.mixin",
+  "task.share.wizard",
+  "template.reset.mixin",
+  "timesheets.analysis.report",
+  "_unknown",
+  "uom.uom",
+  "web_tour.tour",
+  "web_tour.tour.step",
+  "wizard.ir.model.menu.create"
+ ],
+ "patterns": {
+  "ACCOUNT": {
+   "else": "digits",
+   "re": "^[0-9][0-9.\\-]{0,31}$"
+  },
+  "CODE": {
+   "re": "^[A-Z]{1,4}[0-9]{0,4}([._\\-][A-Za-z0-9]{1,12}){0,4}$"
+  },
+  "COLOR": {
+   "else": "blank",
+   "re": "^#[0-9a-fA-F]{3,8}$"
+  },
+  "COUNTRY": {
+   "else": "blank",
+   "re": "^[A-Z]{2}$"
+  },
+  "CURRENCY": {
+   "else": "blank",
+   "re": "^[A-Z]{3}$"
+  },
+  "FIELD_KEY": {
+   "re": "^([a-zA-Z][a-zA-Z0-9]{0,6}(_[A-Za-z0-9]{1,24}){1,6}|[a-z][0-9]{1,3})$"
+  },
+  "HEX": {
+   "else": "blank",
+   "re": "^[0-9a-f]{16,64}$"
+  },
+  "LANG": {
+   "else": "blank",
+   "re": "^[a-z]{2,3}(_[A-Z]{2})?(@[a-z]+)?$"
+  },
+  "MIME": {
+   "else": "blank",
+   "re": "^[a-z]+/[a-z0-9.+\\-]{1,80}$"
+  },
+  "MODEL": {
+   "else": "blank",
+   "re": "^[a-z][a-z0-9_.]{0,63}(,[0-9]{1,12})?$"
+  },
+  "TOKEN": {
+   "else": "blank",
+   "re": "^[A-Za-z0-9_.:/+\\-]{1,64}$"
+  },
+  "TREE_PATH": {
+   "else": "blank",
+   "re": "^([0-9]{1,12}/){1,64}$"
+  },
+  "TZ": {
+   "else": "blank",
+   "re": "^[A-Za-z_]+(/[A-Za-z_\\-]+){0,2}$"
+  },
+  "WORD": {
+   "re": "^[a-z][a-z0-9_\\-]{0,47}$"
+  }
+ },
+ "safe_words": [
+  "yes",
+  "no",
+  "na",
+  "n/a",
+  "oui",
+  "non",
+  "true",
+  "false",
+  "none",
+  "low",
+  "medium",
+  "moderate",
+  "high",
+  "effective",
+  "ineffective",
+  "support",
+  "recurring",
+  "passed",
+  "failed",
+  "warning",
+  "ok",
+  "ko",
+  "done",
+  "open"
+ ],
+ "scan": {
+  "email_domains_allowed": [
+   "anon.invalid",
+   "example.com",
+   "example.org",
+   "odoo.com",
+   "yourcompany.com",
+   "yourcompany.example.com",
+   "domain.com",
+   "email.com",
+   "company.com",
+   "gmail.com",
+   "outlook.com",
+   "microsoft.com",
+   "26house.com",
+   "osbzr.com",
+   "e-mail.com"
+  ],
+  "ignore": {},
+  "patterns": {
+   "bank-account": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9 ]{14,30}[0-9]\\b",
+   "cameroon-phone": "(?<![0-9])\\+?237[ .\\-]?[26][0-9]([ .\\-]?[0-9]){7}(?![0-9])",
+   "tax-number": "\\b[MPAS][0-9]{12}[A-Z]\\b",
+   "trade-register": "\\bRC/[A-Z]{3}/[0-9]{4}/[A-Z]/[0-9]+\\b"
+  }
+ },
+ "schema": 1,
+ "tables": {
+  "account_analytic_account": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "name": "json"
+   }
+  },
+  "account_analytic_applicability": {
+   "class": "reference",
+   "columns": {
+    "applicability": "keep",
+    "business_domain": "keep"
+   }
+  },
+  "account_analytic_distribution_model": {
+   "class": "purge"
+  },
+  "account_analytic_line": {
+   "class": "firm",
+   "columns": {
+    "category": "sel",
+    "ea_phase": "sel",
+    "name": "text"
+   }
+  },
+  "account_analytic_line_calendar_employee": {
+   "class": "relation"
+  },
+  "account_analytic_plan": {
+   "class": "reference",
+   "columns": {
+    "complete_name": "keep",
+    "default_applicability": "keep",
+    "description": "keep",
+    "name": "keep",
+    "parent_path": "keep"
+   }
+  },
+  "activity_attachment_rel": {
+   "class": "relation"
+  },
+  "auth_passkey_key": {
+   "class": "purge"
+  },
+  "auth_passkey_key_create": {
+   "class": "purge"
+  },
+  "auth_totp_device": {
+   "class": "purge"
+  },
+  "auth_totp_rate_limit_log": {
+   "class": "purge"
+  },
+  "auth_totp_wizard": {
+   "class": "purge"
+  },
+  "base_document_layout": {
+   "class": "purge"
+  },
+  "base_enable_profiling_wizard": {
+   "class": "purge"
+  },
+  "base_import_import": {
+   "class": "purge"
+  },
+  "base_import_mapping": {
+   "class": "purge"
+  },
+  "base_import_module": {
+   "class": "purge"
+  },
+  "base_language_export": {
+   "class": "purge"
+  },
+  "base_language_import": {
+   "class": "purge"
+  },
+  "base_language_install": {
+   "class": "purge"
+  },
+  "base_module_install_request": {
+   "class": "purge"
+  },
+  "base_module_install_review": {
+   "class": "purge"
+  },
+  "base_module_uninstall": {
+   "class": "purge"
+  },
+  "base_module_uninstall_ir_module_module_rel": {
+   "class": "relation"
+  },
+  "base_module_update": {
+   "class": "purge"
+  },
+  "base_module_upgrade": {
+   "class": "purge"
+  },
+  "base_partner_merge_automatic_wizard": {
+   "class": "purge"
+  },
+  "base_partner_merge_automatic_wizard_res_partner_rel": {
+   "class": "relation"
+  },
+  "base_partner_merge_line": {
+   "class": "purge"
+  },
+  "bus_bus": {
+   "class": "purge"
+  },
+  "change_password_own": {
+   "class": "purge"
+  },
+  "change_password_user": {
+   "class": "purge"
+  },
+  "change_password_wizard": {
+   "class": "purge"
+  },
+  "decimal_precision": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "digest_digest": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "periodicity": "keep",
+    "state": "keep"
+   }
+  },
+  "digest_digest_res_users_rel": {
+   "class": "relation"
+  },
+  "digest_tip": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "tip_description": "keep"
+   }
+  },
+  "digest_tip_res_users_rel": {
+   "class": "relation"
+  },
+  "discuss_call_history": {
+   "class": "purge"
+  },
+  "discuss_channel": {
+   "class": "purge"
+  },
+  "discuss_channel_hr_department_rel": {
+   "class": "relation"
+  },
+  "discuss_channel_member": {
+   "class": "purge"
+  },
+  "discuss_channel_res_groups_rel": {
+   "class": "relation"
+  },
+  "discuss_channel_rtc_session": {
+   "class": "purge"
+  },
+  "discuss_gif_favorite": {
+   "class": "purge"
+  },
+  "discuss_voice_metadata": {
+   "class": "purge"
+  },
+  "ea_audit_activity": {
+   "class": "purge"
+  },
+  "ea_audit_alerte": {
+   "class": "firm",
+   "columns": {
+    "stage": "sel",
+    "variant": "sel"
+   }
+  },
+  "ea_audit_alerte_event": {
+   "class": "firm",
+   "columns": {
+    "note": "text",
+    "stage": "keep:WORD"
+   }
+  },
+  "ea_audit_ap_comment": {
+   "class": "firm",
+   "columns": {
+    "account": "keep:ACCOUNT",
+    "body": "text",
+    "index_code": "keep:CODE"
+   }
+  },
+  "ea_audit_archive_manifest": {
+   "class": "firm",
+   "columns": {
+    "content": "text",
+    "sha256": "hash"
+   }
+  },
+  "ea_audit_assertion": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "name": "keep"
+   }
+  },
+  "ea_audit_assertion_ea_audit_dsp_osp_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_osp_wizard_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_program_step_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_program_wizard_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_risk_index_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_risk_link_wizard_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_risk_section_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_risk_wizard_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_scot_index_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_scot_index_wizard_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_significance_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_wcgw_rel": {
+   "class": "relation"
+  },
+  "ea_audit_assertion_ea_audit_wcgw_wizard_rel": {
+   "class": "relation"
+  },
+  "ea_audit_automation_run": {
+   "class": "firm",
+   "columns": {
+    "engine": "keep:WORD",
+    "index_code": "keep:CODE",
+    "method": "keep:WORD",
+    "params": "json",
+    "sheet_header": "json",
+    "sheet_rows": "json",
+    "summary": "json",
+    "title": "text"
+   }
+  },
+  "ea_audit_client": {
+   "class": "firm",
+   "columns": {
+    "address": "text",
+    "framework": "sel",
+    "governance_mode": "sel",
+    "legal_form": "sel",
+    "mandate_type": "sel",
+    "name": "company",
+    "niu": "idnum",
+    "registration_number": "idnum",
+    "regulator": "sel",
+    "sector": "sel"
+   }
+  },
+  "ea_audit_client_grouping_override": {
+   "class": "firm",
+   "columns": {
+    "account_prefix": "keep:ACCOUNT",
+    "match_type": "sel",
+    "rationale": "text",
+    "section_code": "keep:CODE"
+   }
+  },
+  "ea_audit_completion_record": {
+   "class": "firm",
+   "columns": {
+    "data": "json",
+    "key": "keep:FIELD_KEY"
+   }
+  },
+  "ea_audit_completion_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_control_link_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_control_link_wizard_ea_audit_wcgw_rel": {
+   "class": "relation"
+  },
+  "ea_audit_control_test": {
+   "class": "firm",
+   "columns": {
+    "description": "text",
+    "deviation_decision": "sel",
+    "note": "text",
+    "result": "sel"
+   }
+  },
+  "ea_audit_control_test_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_control_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_control_wizard_ea_audit_wcgw_rel": {
+   "class": "relation"
+  },
+  "ea_audit_cra_assessment": {
+   "class": "firm",
+   "columns": {
+    "assertion": "sel",
+    "cr": "sel",
+    "cr_basis": "keep:WORD",
+    "index_code": "keep:TOKEN",
+    "ir": "sel",
+    "ir_basis": "keep:WORD"
+   }
+  },
+  "ea_audit_cra_history": {
+   "class": "firm",
+   "columns": {
+    "assertion": "keep:WORD",
+    "cr": "sel",
+    "cr_basis": "keep:WORD",
+    "index_code": "keep:CODE",
+    "ir": "sel",
+    "ir_basis": "keep:WORD",
+    "new_cr": "sel",
+    "new_ir": "sel",
+    "reason": "text"
+   }
+  },
+  "ea_audit_cra_row": {
+   "class": "firm",
+   "columns": {
+    "index_code": "keep:TOKEN"
+   }
+  },
+  "ea_audit_criminal_disclosure": {
+   "class": "firm",
+   "columns": {
+    "description": "text"
+   }
+  },
+  "ea_audit_dataset": {
+   "class": "firm",
+   "columns": {
+    "amount_column": "text",
+    "kind": "sel",
+    "mapping": "json",
+    "name": "text",
+    "source_filename": "text",
+    "source_sha256": "hash",
+    "timing": "sel",
+    "validation": "json",
+    "validation_status": "sel"
+   }
+  },
+  "ea_audit_dataset_import_map": {
+   "class": "purge"
+  },
+  "ea_audit_dataset_import_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_dataset_row": {
+   "class": "firm",
+   "columns": {
+    "data": "json"
+   }
+  },
+  "ea_audit_deficiency_evaluation": {
+   "class": "firm",
+   "columns": {
+    "accounts_assertions": "text",
+    "aggregation_note": "text",
+    "grade": "sel",
+    "indicators": "text",
+    "likelihood": "sel",
+    "magnitude": "sel",
+    "recipient": "person"
+   }
+  },
+  "ea_audit_deficiency_related": {
+   "class": "relation"
+  },
+  "ea_audit_deficiency_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_deficiency_wizard_ea_audit_finding_rel": {
+   "class": "relation"
+  },
+  "ea_audit_document": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "kind": "sel",
+    "language": "sel",
+    "title": "text"
+   }
+  },
+  "ea_audit_document_version": {
+   "class": "firm",
+   "columns": {
+    "blocks": "json",
+    "mime": "keep:MIME",
+    "note": "text",
+    "sha256": "hash"
+   }
+  },
+  "ea_audit_dsp_choice": {
+   "class": "relation"
+  },
+  "ea_audit_dsp_design": {
+   "class": "firm",
+   "columns": {
+    "assertion": "keep:WORD",
+    "extent": "keep:WORD",
+    "index_code": "keep:CODE",
+    "nature": "sel",
+    "timing": "sel",
+    "tod_level": "keep:WORD"
+   }
+  },
+  "ea_audit_dsp_osp": {
+   "class": "firm",
+   "columns": {
+    "extent": "keep:WORD",
+    "index_code": "keep:CODE",
+    "nature": "sel",
+    "text": "text",
+    "timing": "sel"
+   }
+  },
+  "ea_audit_engagement": {
+   "class": "firm",
+   "columns": {
+    "complexity": "sel",
+    "edition_reason": "text",
+    "framework": "sel",
+    "itgc_state": "sel",
+    "name": "text",
+    "nature": "sel",
+    "opinion": "sel",
+    "phase": "sel",
+    "report_basis": "text",
+    "report_kam": "text",
+    "report_kam_none_reason": "text",
+    "report_language": "sel",
+    "standards_edition": "sel"
+   }
+  },
+  "ea_audit_engagement_create_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_fa_ratio": {
+   "class": "firm",
+   "columns": {
+    "formula": "text",
+    "group": "sel",
+    "key": "keep:FIELD_KEY",
+    "label": "text",
+    "note": "text",
+    "unit": "keep:WORD"
+   }
+  },
+  "ea_audit_file_item": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "na_reason": "text",
+    "section": "keep:TOKEN",
+    "state": "sel"
+   }
+  },
+  "ea_audit_finding": {
+   "class": "firm",
+   "columns": {
+    "detail": "text",
+    "management_response": "text",
+    "recommendation": "text",
+    "response": "text",
+    "route": "sel",
+    "severity": "sel",
+    "status": "sel",
+    "title": "text"
+   }
+  },
+  "ea_audit_finding_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_firm_holiday": {
+   "class": "firm",
+   "columns": {
+    "country": "keep:COUNTRY",
+    "label_en": "text",
+    "label_fr": "text"
+   }
+  },
+  "ea_audit_firm_log": {
+   "class": "purge"
+  },
+  "ea_audit_fscp": {
+   "class": "firm",
+   "columns": {
+    "disclosure_sources": "text",
+    "error_corrections": "text",
+    "estimate_changes": "text",
+    "fs_preparation": "text",
+    "fscp_conclusion": "text",
+    "fscp_strategy": "sel",
+    "fscp_walkthrough": "text",
+    "je_controls_design": "sel",
+    "je_controls_implemented": "sel",
+    "je_process": "text",
+    "override_risk": "text",
+    "policies_it": "text",
+    "policy_changes": "text",
+    "tb_preparation": "text",
+    "tcwg_comms": "text",
+    "wcgw_disclosures": "text",
+    "wcgw_je": "text",
+    "wcgw_tb": "text"
+   }
+  },
+  "ea_audit_gl_console": {
+   "class": "purge"
+  },
+  "ea_audit_gl_console_account": {
+   "class": "purge"
+  },
+  "ea_audit_gl_line": {
+   "class": "firm",
+   "columns": {
+    "account": "keep:ACCOUNT",
+    "account_name": "text",
+    "approver": "person",
+    "cost_center": "text",
+    "je_description": "text",
+    "je_number": "text",
+    "journal_code": "keep:CODE",
+    "line_description": "text",
+    "preparer": "person",
+    "reference": "text",
+    "reviewer": "person",
+    "third_party_code": "idnum",
+    "third_party_name": "company"
+   }
+  },
+  "ea_audit_grouping_rule": {
+   "class": "reference",
+   "columns": {
+    "account_prefix": "keep",
+    "fs_ref": "keep",
+    "label": "keep",
+    "section_code": "keep",
+    "source": "keep"
+   }
+  },
+  "ea_audit_hold_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_issue_report_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_it_application": {
+   "class": "firm",
+   "columns": {
+    "itgc_note": "text",
+    "key": "keep:FIELD_KEY",
+    "layers": "keep:WORD",
+    "name": "text",
+    "scot_names": "text",
+    "strategy": "sel"
+   }
+  },
+  "ea_audit_itgc_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_je_design": {
+   "class": "firm",
+   "columns": {
+    "design": "json"
+   }
+  },
+  "ea_audit_je_studio": {
+   "class": "purge"
+  },
+  "ea_audit_je_studio_rule": {
+   "class": "purge"
+  },
+  "ea_audit_lead_index_override": {
+   "class": "firm",
+   "columns": {
+    "account_prefix": "keep:ACCOUNT",
+    "index_code": "keep:CODE"
+   }
+  },
+  "ea_audit_lead_line": {
+   "class": "firm",
+   "columns": {
+    "account_code": "keep:ACCOUNT",
+    "account_name": "text",
+    "index_code": "keep:TOKEN",
+    "sub_index": "keep:CODE"
+   }
+  },
+  "ea_audit_lead_schedule": {
+   "class": "firm",
+   "columns": {
+    "account_class": "keep:WORD",
+    "account_type": "keep:WORD",
+    "alerts": "text",
+    "index_code": "keep:TOKEN",
+    "prior_source": "sel"
+   }
+  },
+  "ea_audit_legal_deadline": {
+   "class": "firm",
+   "columns": {
+    "basis": "text",
+    "key": "keep:FIELD_KEY"
+   }
+  },
+  "ea_audit_legal_hold": {
+   "class": "firm",
+   "columns": {
+    "reason": "text",
+    "release_reason": "text"
+   }
+  },
+  "ea_audit_legal_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_materiality": {
+   "class": "firm",
+   "columns": {
+    "benchmark": "sel",
+    "justification": "text",
+    "performance_justification": "text",
+    "state": "sel"
+   }
+  },
+  "ea_audit_materiality_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_misstatement": {
+   "class": "firm",
+   "columns": {
+    "accounts": "text",
+    "description": "text",
+    "mtype": "sel"
+   }
+  },
+  "ea_audit_notice": {
+   "class": "purge"
+  },
+  "ea_audit_notification": {
+   "class": "purge"
+  },
+  "ea_audit_osp_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_override_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_paper": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "state": "sel"
+   }
+  },
+  "ea_audit_paper_answer": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "field_key": "keep:FIELD_KEY",
+    "value": "answer"
+   }
+  },
+  "ea_audit_paper_answer_history": {
+   "class": "firm",
+   "columns": {
+    "after": "answer",
+    "before": "answer",
+    "code": "keep:CODE",
+    "field_key": "keep:FIELD_KEY"
+   }
+  },
+  "ea_audit_paper_def": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "definition": "keep",
+    "definition_hash": "keep"
+   }
+  },
+  "ea_audit_partner_transfer_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_pbc_accept_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_pbc_item": {
+   "class": "firm",
+   "columns": {
+    "filename": "text",
+    "mime": "keep:MIME",
+    "note": "text",
+    "status": "sel",
+    "title": "text"
+   }
+  },
+  "ea_audit_pbc_upload_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_pbc_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_planning_ras": {
+   "class": "firm",
+   "columns": {
+    "answers": "json",
+    "signatures": "json"
+   }
+  },
+  "ea_audit_planning_snapshot": {
+   "class": "firm",
+   "columns": {
+    "data": "json"
+   }
+  },
+  "ea_audit_portal_contact": {
+   "class": "firm",
+   "columns": {
+    "account_prefix": "keep:ACCOUNT",
+    "email": "email",
+    "invite_digest": "null",
+    "name": "person"
+   }
+  },
+  "ea_audit_portal_contact_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_portal_pbc_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_potential_risk": {
+   "class": "firm",
+   "columns": {
+    "description": "text",
+    "dismissal_rationale": "text",
+    "source_code": "keep:CODE",
+    "status": "sel"
+   }
+  },
+  "ea_audit_potential_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_program_step": {
+   "class": "firm",
+   "columns": {
+    "conclusion": "text",
+    "description": "text",
+    "na_rationale": "text",
+    "source": "keep:WORD",
+    "status": "sel"
+   }
+  },
+  "ea_audit_program_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_public_holiday": {
+   "class": "reference",
+   "columns": {
+    "country": "keep",
+    "label_en": "keep",
+    "label_fr": "keep",
+    "source": "keep"
+   }
+  },
+  "ea_audit_reason_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_regulated_agreement": {
+   "class": "firm",
+   "columns": {
+    "board_auth_ref": "text",
+    "capacity": "sel",
+    "interested": "person",
+    "nature": "text",
+    "parties": "person",
+    "terms": "text"
+   }
+  },
+  "ea_audit_review_note": {
+   "class": "firm",
+   "columns": {
+    "body": "text",
+    "code": "keep:CODE",
+    "response": "text",
+    "state": "sel"
+   }
+  },
+  "ea_audit_risk": {
+   "class": "firm",
+   "columns": {
+    "category": "sel",
+    "description": "text",
+    "fs_note": "text",
+    "inherent_factors": "text",
+    "inherent_rating": "sel",
+    "level": "sel",
+    "likelihood": "sel",
+    "magnitude": "sel",
+    "presumed_type": "sel",
+    "rebuttal_justification": "text",
+    "source": "keep:WORD",
+    "status": "sel"
+   }
+  },
+  "ea_audit_risk_index": {
+   "class": "firm",
+   "columns": {
+    "index_code": "keep:TOKEN"
+   }
+  },
+  "ea_audit_risk_link_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_risk_response": {
+   "class": "relation"
+  },
+  "ea_audit_risk_section": {
+   "class": "relation"
+  },
+  "ea_audit_risk_step_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_risk_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_sad_cf_row": {
+   "class": "firm",
+   "columns": {
+    "evaluation": "text",
+    "line": "text",
+    "no": "text",
+    "ref": "keep:CODE"
+   }
+  },
+  "ea_audit_sad_disc_row": {
+   "class": "firm",
+   "columns": {
+    "description": "text",
+    "evaluation": "text",
+    "fn": "keep:CODE",
+    "guidance": "text",
+    "no": "text"
+   }
+  },
+  "ea_audit_sad_entry": {
+   "class": "firm",
+   "columns": {
+    "cr_account": "keep:ACCOUNT",
+    "cr_caption": "sel",
+    "dr_account": "keep:ACCOUNT",
+    "dr_caption": "sel",
+    "finding": "text",
+    "mtype": "sel",
+    "rationale": "text",
+    "ref": "keep:CODE"
+   }
+  },
+  "ea_audit_sad_meta": {
+   "class": "firm",
+   "columns": {
+    "concl_text": "text",
+    "tq_1": "sel",
+    "tq_1c": "text",
+    "tq_2": "sel",
+    "tq_2c": "text",
+    "tq_3": "sel",
+    "tq_3c": "text",
+    "tq_4": "sel",
+    "tq_4c": "text",
+    "tq_5": "sel",
+    "tq_5c": "text"
+   }
+  },
+  "ea_audit_sampling_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_sap_procedure": {
+   "class": "firm",
+   "columns": {
+    "actual_source": "sel",
+    "assertion": "sel",
+    "conclusion": "sel",
+    "corroboration": "text",
+    "cra_level": "keep:WORD",
+    "data_reliability": "text",
+    "expectation_model": "text",
+    "index_code": "keep:TOKEN",
+    "inputs": "text",
+    "investigation": "text",
+    "threshold_override_reason": "text"
+   }
+  },
+  "ea_audit_sap_threshold_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_sap_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_scot": {
+   "class": "firm",
+   "columns": {
+    "applications": "text",
+    "description": "text",
+    "documents": "text",
+    "flow_initiation": "text",
+    "flow_processing": "text",
+    "flow_recording": "text",
+    "flow_reporting": "text",
+    "name": "text",
+    "people": "text",
+    "strategy": "sel",
+    "systems": "text",
+    "transaction_type": "sel",
+    "wt_conclusion": "text",
+    "wt_design": "sel",
+    "wt_evidence": "text",
+    "wt_exceptions": "text",
+    "wt_implemented": "sel",
+    "wt_item": "text",
+    "wt_trace": "text"
+   }
+  },
+  "ea_audit_scot_assign_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_scot_control": {
+   "class": "firm",
+   "columns": {
+    "control_type": "sel",
+    "design_eval": "sel",
+    "frequency": "text",
+    "implemented": "sel",
+    "name": "text",
+    "objective": "sel",
+    "operating_eval": "sel",
+    "operating_notes": "text",
+    "owner": "person",
+    "sample_note": "text",
+    "test_design": "text",
+    "toc_grid": "json",
+    "toc_sample_items": "json"
+   }
+  },
+  "ea_audit_scot_index": {
+   "class": "firm",
+   "columns": {
+    "index_code": "keep:CODE"
+   }
+  },
+  "ea_audit_scot_index_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_scot_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_section_conclusion": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "conclusion": "text",
+    "no_procedures_rationale": "text"
+   }
+  },
+  "ea_audit_significance": {
+   "class": "firm",
+   "columns": {
+    "decision": "sel",
+    "index_code": "keep:TOKEN",
+    "justification": "text"
+   }
+  },
+  "ea_audit_signoff": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "content_hash": "hash",
+    "definition_hash": "keep:HEX",
+    "invalidated_reason": "text",
+    "kind": "sel",
+    "role": "sel",
+    "void_reason": "text"
+   }
+  },
+  "ea_audit_signoff_matrix_import": {
+   "class": "purge"
+  },
+  "ea_audit_signoff_policy": {
+   "class": "reference",
+   "columns": {
+    "min_reviewer_role": "keep"
+   }
+  },
+  "ea_audit_signoff_policy_ea_audit_task_template_rel": {
+   "class": "relation"
+  },
+  "ea_audit_signoff_task_rule": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "min_preparer": "keep",
+    "min_reviewer": "keep",
+    "partner_required": "keep"
+   }
+  },
+  "ea_audit_step_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_supplier_recon_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_task_attachment": {
+   "class": "firm",
+   "columns": {
+    "code": "keep:CODE",
+    "mime": "keep:MIME",
+    "name": "text"
+   }
+  },
+  "ea_audit_task_template": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "phase": "keep",
+    "section": "keep",
+    "short_title": "keep",
+    "tier": "keep",
+    "title": "keep"
+   }
+  },
+  "ea_audit_tb": {
+   "class": "firm",
+   "columns": {
+    "currency": "keep:CURRENCY"
+   }
+  },
+  "ea_audit_tb_import_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_tb_line": {
+   "class": "firm",
+   "columns": {
+    "account_code": "keep:ACCOUNT",
+    "account_name": "text",
+    "raw_data": "json"
+   }
+  },
+  "ea_audit_tb_version": {
+   "class": "firm",
+   "columns": {
+    "source_filename": "text",
+    "source_sha256": "hash",
+    "timing": "sel",
+    "validation_status": "sel",
+    "validation_summary": "json",
+    "version_kind": "sel"
+   }
+  },
+  "ea_audit_team_budget": {
+   "class": "firm",
+   "columns": {
+    "phase": "sel"
+   }
+  },
+  "ea_audit_team_decline_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_team_invite_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_team_member": {
+   "class": "firm",
+   "columns": {
+    "decline_reason": "text",
+    "state": "sel",
+    "team_role": "sel"
+   }
+  },
+  "ea_audit_tieout_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_timesheet_reopen": {
+   "class": "firm",
+   "columns": {
+    "reason": "text"
+   }
+  },
+  "ea_audit_timesheet_week": {
+   "class": "firm",
+   "columns": {
+    "state": "sel"
+   }
+  },
+  "ea_audit_toc_draw": {
+   "class": "firm",
+   "columns": {
+    "items": "json",
+    "reason": "text",
+    "rule": "keep:WORD",
+    "seed": "keep:WORD"
+   }
+  },
+  "ea_audit_toc_draw_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_toc_grid_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_tod_result_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_tod_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_tool_import_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_tool_tile": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "description": "keep",
+    "feeds": "keep",
+    "method": "keep",
+    "name": "keep",
+    "section": "keep"
+   }
+  },
+  "ea_audit_wcgw": {
+   "class": "firm",
+   "columns": {
+    "description": "text"
+   }
+  },
+  "ea_audit_wcgw_control_rel": {
+   "class": "relation"
+  },
+  "ea_audit_wcgw_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_wp_assign_wizard": {
+   "class": "purge"
+  },
+  "ea_audit_wp_template": {
+   "class": "reference",
+   "columns": {
+    "category": "keep",
+    "default_for": "keep",
+    "description": "keep",
+    "filename": "keep",
+    "key": "keep",
+    "name": "keep",
+    "shipped_file": "keep"
+   }
+  },
+  "ea_firm_access_log": {
+   "class": "purge"
+  },
+  "email_template_attachment_rel": {
+   "class": "relation"
+  },
+  "employee_bank_account_rel": {
+   "class": "relation"
+  },
+  "employee_category_rel": {
+   "class": "relation"
+  },
+  "fetchmail_server": {
+   "class": "purge"
+  },
+  "hr_bank_account_allocation_wizard": {
+   "class": "purge"
+  },
+  "hr_bank_account_allocation_wizard_line": {
+   "class": "purge"
+  },
+  "hr_contract_type": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "name": "keep"
+   }
+  },
+  "hr_department": {
+   "class": "firm",
+   "columns": {
+    "name": "json",
+    "note": "text",
+    "parent_path": "keep:TREE_PATH"
+   }
+  },
+  "hr_departure_reason": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "hr_departure_wizard": {
+   "class": "purge"
+  },
+  "hr_departure_wizard_hr_employee_rel": {
+   "class": "relation"
+  },
+  "hr_employee": {
+   "class": "firm",
+   "columns": {
+    "barcode": "idnum",
+    "certificate": "keep:TOKEN",
+    "emergency_contact": "person",
+    "emergency_phone": "phone",
+    "employee_properties": "json",
+    "lang": "keep:TOKEN",
+    "legal_name": "text",
+    "mobile_phone": "phone",
+    "name": "person",
+    "permit_no": "idnum",
+    "pin": "idnum",
+    "place_of_birth": "text",
+    "private_car_plate": "text",
+    "private_email": "email",
+    "private_phone": "phone",
+    "salary_distribution": "json",
+    "study_field": "text",
+    "study_school": "text",
+    "today_location_name": "text",
+    "visa_no": "idnum",
+    "work_email": "email",
+    "work_phone": "phone"
+   }
+  },
+  "hr_employee_category": {
+   "class": "firm",
+   "columns": {
+    "name": "text"
+   }
+  },
+  "hr_employee_cv_wizard": {
+   "class": "purge"
+  },
+  "hr_employee_delete_wizard": {
+   "class": "purge"
+  },
+  "hr_employee_hr_employee_cv_wizard_rel": {
+   "class": "relation"
+  },
+  "hr_employee_hr_employee_delete_wizard_rel": {
+   "class": "relation"
+  },
+  "hr_employee_hr_skill_rel": {
+   "class": "relation"
+  },
+  "hr_employee_location": {
+   "class": "relation"
+  },
+  "hr_employee_skill": {
+   "class": "relation"
+  },
+  "hr_job": {
+   "class": "firm",
+   "columns": {
+    "description": "html",
+    "name": "json",
+    "requirements": "text"
+   }
+  },
+  "hr_job_hr_skill_rel": {
+   "class": "relation"
+  },
+  "hr_job_skill": {
+   "class": "relation"
+  },
+  "hr_payroll_structure_type": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "hr_resume_line": {
+   "class": "firm",
+   "columns": {
+    "certificate_filename": "text",
+    "course_type": "sel",
+    "description": "json",
+    "external_url": "null",
+    "name": "json",
+    "resume_line_properties": "json"
+   }
+  },
+  "hr_resume_line_type": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "resume_line_type_properties_definition": "keep"
+   }
+  },
+  "hr_skill": {
+   "class": "firm",
+   "columns": {
+    "name": "json"
+   }
+  },
+  "hr_skill_level": {
+   "class": "firm",
+   "columns": {
+    "name": "text"
+   }
+  },
+  "hr_skill_type": {
+   "class": "firm",
+   "columns": {
+    "name": "json"
+   }
+  },
+  "hr_version": {
+   "class": "firm",
+   "columns": {
+    "additional_note": "text",
+    "departure_description": "html",
+    "distance_home_work_unit": "sel",
+    "employee_type": "sel",
+    "identification_id": "idnum",
+    "job_title": "text",
+    "marital": "keep:TOKEN",
+    "name": "text",
+    "passport_id": "idnum",
+    "private_city": "text",
+    "private_street": "text",
+    "private_street2": "text",
+    "private_zip": "text",
+    "sex": "sel",
+    "spouse_complete_name": "text",
+    "ssnid": "idnum"
+   }
+  },
+  "hr_version_wizard": {
+   "class": "purge"
+  },
+  "hr_work_location": {
+   "class": "firm",
+   "columns": {
+    "location_number": "text",
+    "location_type": "sel",
+    "name": "text"
+   }
+  },
+  "html_editor_converter_test": {
+   "class": "purge"
+  },
+  "html_editor_converter_test_sub": {
+   "class": "purge"
+  },
+  "iap_account": {
+   "class": "purge"
+  },
+  "iap_account_res_company_rel": {
+   "class": "relation"
+  },
+  "iap_account_res_users_rel": {
+   "class": "relation"
+  },
+  "iap_service": {
+   "class": "reference",
+   "columns": {
+    "description": "keep",
+    "name": "keep",
+    "technical_name": "keep",
+    "unit_name": "keep"
+   }
+  },
+  "ir_act_client": {
+   "class": "reference",
+   "columns": {
+    "binding_type": "keep",
+    "binding_view_types": "keep",
+    "context": "keep",
+    "help": "keep",
+    "name": "keep",
+    "params_store": "keep",
+    "path": "keep",
+    "res_model": "keep",
+    "tag": "keep",
+    "target": "keep",
+    "type": "keep"
+   }
+  },
+  "ir_act_report_xml": {
+   "class": "reference",
+   "columns": {
+    "attachment": "keep",
+    "binding_type": "keep",
+    "binding_view_types": "keep",
+    "domain": "keep",
+    "help": "keep",
+    "model": "keep",
+    "name": "keep",
+    "path": "keep",
+    "print_report_name": "keep",
+    "report_file": "keep",
+    "report_name": "keep",
+    "report_type": "keep",
+    "type": "keep"
+   }
+  },
+  "ir_act_server": {
+   "class": "reference",
+   "columns": {
+    "activity_date_deadline_range_type": "keep",
+    "activity_note": "keep",
+    "activity_summary": "keep",
+    "activity_user_field_name": "keep",
+    "activity_user_type": "keep",
+    "automated_name": "keep",
+    "binding_type": "keep",
+    "binding_view_types": "keep",
+    "code": "keep",
+    "evaluation_type": "keep",
+    "followers_partner_field_name": "keep",
+    "followers_type": "keep",
+    "help": "keep",
+    "html_value": "keep",
+    "mail_post_method": "keep",
+    "name": "keep",
+    "path": "keep",
+    "resource_ref": "keep",
+    "sms_method": "keep",
+    "state": "keep",
+    "type": "keep",
+    "update_boolean_value": "keep",
+    "update_m2m_operation": "keep",
+    "update_path": "keep",
+    "usage": "keep",
+    "value": "keep",
+    "webhook_url": "keep"
+   }
+  },
+  "ir_act_server_group_rel": {
+   "class": "relation"
+  },
+  "ir_act_server_res_partner_rel": {
+   "class": "relation"
+  },
+  "ir_act_server_webhook_field_rel": {
+   "class": "relation"
+  },
+  "ir_act_url": {
+   "class": "reference",
+   "columns": {
+    "binding_type": "keep",
+    "binding_view_types": "keep",
+    "help": "keep",
+    "name": "keep",
+    "path": "keep",
+    "target": "keep",
+    "type": "keep",
+    "url": "keep"
+   }
+  },
+  "ir_act_window": {
+   "class": "reference",
+   "columns": {
+    "binding_type": "keep",
+    "binding_view_types": "keep",
+    "context": "keep",
+    "domain": "keep",
+    "help": "keep",
+    "mobile_view_mode": "keep",
+    "name": "keep",
+    "path": "keep",
+    "res_model": "keep",
+    "target": "keep",
+    "type": "keep",
+    "usage": "keep",
+    "view_mode": "keep"
+   }
+  },
+  "ir_act_window_group_rel": {
+   "class": "relation"
+  },
+  "ir_act_window_view": {
+   "class": "reference",
+   "columns": {
+    "view_mode": "keep"
+   }
+  },
+  "ir_actions": {
+   "class": "reference",
+   "columns": {
+    "binding_type": "keep",
+    "binding_view_types": "keep",
+    "help": "keep",
+    "name": "keep",
+    "path": "keep",
+    "type": "keep"
+   }
+  },
+  "ir_actions_server_history": {
+   "class": "purge"
+  },
+  "ir_actions_todo": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "state": "keep"
+   }
+  },
+  "ir_asset": {
+   "class": "reference",
+   "columns": {
+    "bundle": "keep",
+    "directive": "keep",
+    "name": "keep",
+    "path": "keep",
+    "target": "keep"
+   }
+  },
+  "ir_attachment": {
+   "class": "purge"
+  },
+  "ir_config_parameter": {
+   "class": "reference",
+   "columns": {
+    "key": "keep",
+    "value": "keep"
+   }
+  },
+  "ir_cron": {
+   "class": "reference",
+   "columns": {
+    "cron_name": "keep",
+    "interval_type": "keep"
+   }
+  },
+  "ir_cron_progress": {
+   "class": "purge"
+  },
+  "ir_cron_trigger": {
+   "class": "purge"
+  },
+  "ir_default": {
+   "class": "purge"
+  },
+  "ir_demo": {
+   "class": "purge"
+  },
+  "ir_demo_failure": {
+   "class": "purge"
+  },
+  "ir_demo_failure_wizard": {
+   "class": "purge"
+  },
+  "ir_embedded_actions": {
+   "class": "reference",
+   "columns": {
+    "context": "keep",
+    "default_view_mode": "keep",
+    "domain": "keep",
+    "name": "keep",
+    "parent_res_model": "keep",
+    "python_method": "keep"
+   }
+  },
+  "ir_embedded_actions_res_groups_rel": {
+   "class": "relation"
+  },
+  "ir_exports": {
+   "class": "purge"
+  },
+  "ir_exports_line": {
+   "class": "purge"
+  },
+  "ir_filters": {
+   "class": "purge"
+  },
+  "ir_filters_res_users_rel": {
+   "class": "relation"
+  },
+  "ir_logging": {
+   "class": "purge"
+  },
+  "ir_mail_server": {
+   "class": "purge"
+  },
+  "ir_model": {
+   "class": "reference",
+   "columns": {
+    "fold_name": "keep",
+    "info": "keep",
+    "model": "keep",
+    "name": "keep",
+    "order": "keep",
+    "state": "keep"
+   }
+  },
+  "ir_model_access": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "ir_model_constraint": {
+   "class": "reference",
+   "columns": {
+    "definition": "keep",
+    "message": "keep",
+    "name": "keep",
+    "type": "keep"
+   }
+  },
+  "ir_model_data": {
+   "class": "reference",
+   "columns": {
+    "model": "keep",
+    "module": "keep",
+    "name": "keep"
+   }
+  },
+  "ir_model_fields": {
+   "class": "reference",
+   "columns": {
+    "column1": "keep",
+    "column2": "keep",
+    "compute": "keep",
+    "currency_field": "keep",
+    "depends": "keep",
+    "domain": "keep",
+    "field_description": "keep",
+    "help": "keep",
+    "model": "keep",
+    "name": "keep",
+    "on_delete": "keep",
+    "related": "keep",
+    "relation": "keep",
+    "relation_field": "keep",
+    "relation_table": "keep",
+    "state": "keep",
+    "translate": "keep",
+    "ttype": "keep"
+   }
+  },
+  "ir_model_fields_group_rel": {
+   "class": "relation"
+  },
+  "ir_model_fields_selection": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "value": "keep"
+   }
+  },
+  "ir_model_inherit": {
+   "class": "relation"
+  },
+  "ir_model_relation": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "ir_model_spreadsheet_dashboard_rel": {
+   "class": "relation"
+  },
+  "ir_module_category": {
+   "class": "reference",
+   "columns": {
+    "description": "keep",
+    "name": "keep"
+   }
+  },
+  "ir_module_module": {
+   "class": "reference",
+   "columns": {
+    "author": "keep",
+    "contributors": "keep",
+    "description": "keep",
+    "icon": "keep",
+    "latest_version": "keep",
+    "license": "keep",
+    "maintainer": "keep",
+    "menus_by_module": "keep",
+    "module_type": "keep",
+    "name": "keep",
+    "published_version": "keep",
+    "reports_by_module": "keep",
+    "shortdesc": "keep",
+    "state": "keep",
+    "summary": "keep",
+    "url": "keep",
+    "views_by_module": "keep",
+    "website": "keep"
+   }
+  },
+  "ir_module_module_dependency": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "ir_module_module_exclusion": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "ir_profile": {
+   "class": "purge"
+  },
+  "ir_rule": {
+   "class": "reference",
+   "columns": {
+    "domain_force": "keep",
+    "name": "keep"
+   }
+  },
+  "ir_sequence": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "implementation": "keep",
+    "name": "keep",
+    "prefix": "keep",
+    "suffix": "keep"
+   }
+  },
+  "ir_sequence_date_range": {
+   "class": "purge"
+  },
+  "ir_ui_menu": {
+   "class": "reference",
+   "columns": {
+    "action": "keep",
+    "name": "keep",
+    "parent_path": "keep",
+    "web_icon": "keep"
+   }
+  },
+  "ir_ui_menu_group_rel": {
+   "class": "relation"
+  },
+  "ir_ui_view": {
+   "class": "reference",
+   "columns": {
+    "arch_db": "keep",
+    "arch_fs": "keep",
+    "arch_prev": "keep",
+    "key": "keep",
+    "mode": "keep",
+    "model": "keep",
+    "name": "keep",
+    "type": "keep"
+   }
+  },
+  "ir_ui_view_custom": {
+   "class": "purge"
+  },
+  "ir_ui_view_group_rel": {
+   "class": "relation"
+  },
+  "mail_activity": {
+   "class": "purge"
+  },
+  "mail_activity_plan": {
+   "class": "firm",
+   "columns": {
+    "name": "text",
+    "res_model": "keep:TOKEN"
+   }
+  },
+  "mail_activity_plan_mail_activity_schedule_rel": {
+   "class": "relation"
+  },
+  "mail_activity_plan_template": {
+   "class": "firm",
+   "columns": {
+    "delay_from": "sel",
+    "delay_unit": "sel",
+    "note": "html",
+    "responsible_type": "sel",
+    "summary": "text"
+   }
+  },
+  "mail_activity_plan_template_mail_activity_type_rel": {
+   "class": "relation"
+  },
+  "mail_activity_rel": {
+   "class": "relation"
+  },
+  "mail_activity_schedule": {
+   "class": "purge"
+  },
+  "mail_activity_schedule_line": {
+   "class": "purge"
+  },
+  "mail_activity_todo_create": {
+   "class": "purge"
+  },
+  "mail_activity_type": {
+   "class": "reference",
+   "columns": {
+    "category": "keep",
+    "chaining_type": "keep",
+    "decoration_type": "keep",
+    "default_note": "keep",
+    "delay_from": "keep",
+    "delay_unit": "keep",
+    "icon": "keep",
+    "name": "keep",
+    "res_model": "keep",
+    "summary": "keep"
+   }
+  },
+  "mail_activity_type_mail_template_rel": {
+   "class": "relation"
+  },
+  "mail_alias": {
+   "class": "firm",
+   "columns": {
+    "alias_bounced_content": "json",
+    "alias_contact": "sel",
+    "alias_defaults": "emptydict",
+    "alias_full_name": "null",
+    "alias_name": "null",
+    "alias_status": "sel"
+   }
+  },
+  "mail_alias_domain": {
+   "class": "purge"
+  },
+  "mail_blacklist": {
+   "class": "purge"
+  },
+  "mail_blacklist_remove": {
+   "class": "purge"
+  },
+  "mail_canned_response": {
+   "class": "purge"
+  },
+  "mail_canned_response_res_groups_rel": {
+   "class": "relation"
+  },
+  "mail_compose_message": {
+   "class": "purge"
+  },
+  "mail_compose_message_ir_attachments_rel": {
+   "class": "relation"
+  },
+  "mail_compose_message_res_partner_rel": {
+   "class": "relation"
+  },
+  "mail_followers": {
+   "class": "purge"
+  },
+  "mail_followers_edit": {
+   "class": "purge"
+  },
+  "mail_followers_edit_res_partner_rel": {
+   "class": "relation"
+  },
+  "mail_followers_mail_message_subtype_rel": {
+   "class": "relation"
+  },
+  "mail_gateway_allowed": {
+   "class": "purge"
+  },
+  "mail_guest": {
+   "class": "purge"
+  },
+  "mail_ice_server": {
+   "class": "purge"
+  },
+  "mail_link_preview": {
+   "class": "purge"
+  },
+  "mail_mail": {
+   "class": "purge"
+  },
+  "mail_mail_res_partner_rel": {
+   "class": "relation"
+  },
+  "mail_message": {
+   "class": "purge"
+  },
+  "mail_message_link_preview": {
+   "class": "purge"
+  },
+  "mail_message_reaction": {
+   "class": "purge"
+  },
+  "mail_message_res_partner_rel": {
+   "class": "relation"
+  },
+  "mail_message_res_partner_starred_rel": {
+   "class": "relation"
+  },
+  "mail_message_schedule": {
+   "class": "purge"
+  },
+  "mail_message_subtype": {
+   "class": "reference",
+   "columns": {
+    "description": "keep",
+    "name": "keep",
+    "relation_field": "keep",
+    "res_model": "keep"
+   }
+  },
+  "mail_message_translation": {
+   "class": "purge"
+  },
+  "mail_notification": {
+   "class": "purge"
+  },
+  "mail_presence": {
+   "class": "purge"
+  },
+  "mail_push": {
+   "class": "purge"
+  },
+  "mail_push_device": {
+   "class": "purge"
+  },
+  "mail_scheduled_message": {
+   "class": "purge"
+  },
+  "mail_scheduled_message_res_partner_rel": {
+   "class": "relation"
+  },
+  "mail_template": {
+   "class": "reference",
+   "columns": {
+    "body_html": "keep",
+    "description": "keep",
+    "email_cc": "keep",
+    "email_from": "keep",
+    "email_layout_xmlid": "keep",
+    "email_to": "keep",
+    "lang": "keep",
+    "model": "keep",
+    "name": "keep",
+    "partner_to": "keep",
+    "reply_to": "keep",
+    "scheduled_date": "keep",
+    "subject": "keep",
+    "template_fs": "keep"
+   }
+  },
+  "mail_template_ir_actions_report_rel": {
+   "class": "relation"
+  },
+  "mail_template_mail_template_reset_rel": {
+   "class": "relation"
+  },
+  "mail_template_preview": {
+   "class": "purge"
+  },
+  "mail_template_reset": {
+   "class": "purge"
+  },
+  "mail_tracking_value": {
+   "class": "purge"
+  },
+  "message_attachment_rel": {
+   "class": "relation"
+  },
+  "module_country": {
+   "class": "relation"
+  },
+  "orm_signaling_assets": {
+   "class": "relation"
+  },
+  "orm_signaling_default": {
+   "class": "relation"
+  },
+  "orm_signaling_groups": {
+   "class": "relation"
+  },
+  "orm_signaling_registry": {
+   "class": "relation"
+  },
+  "orm_signaling_routing": {
+   "class": "relation"
+  },
+  "orm_signaling_stable": {
+   "class": "relation"
+  },
+  "orm_signaling_templates": {
+   "class": "relation"
+  },
+  "phone_blacklist": {
+   "class": "purge"
+  },
+  "phone_blacklist_remove": {
+   "class": "purge"
+  },
+  "portal_share": {
+   "class": "purge"
+  },
+  "portal_share_res_partner_rel": {
+   "class": "relation"
+  },
+  "portal_wizard": {
+   "class": "purge"
+  },
+  "portal_wizard_res_partner_rel": {
+   "class": "relation"
+  },
+  "portal_wizard_user": {
+   "class": "purge"
+  },
+  "privacy_log": {
+   "class": "purge"
+  },
+  "privacy_lookup_wizard": {
+   "class": "purge"
+  },
+  "privacy_lookup_wizard_line": {
+   "class": "purge"
+  },
+  "project_collaborator": {
+   "class": "relation"
+  },
+  "project_favorite_user_rel": {
+   "class": "relation"
+  },
+  "project_milestone": {
+   "class": "firm",
+   "columns": {
+    "name": "text"
+   }
+  },
+  "project_project": {
+   "class": "firm",
+   "columns": {
+    "access_token": "null",
+    "description": "html",
+    "label_tasks": "json",
+    "last_update_status": "sel",
+    "name": "json",
+    "privacy_visibility": "sel",
+    "task_properties_definition": "json"
+   }
+  },
+  "project_project_project_tags_rel": {
+   "class": "relation"
+  },
+  "project_project_project_task_type_delete_wizard_rel": {
+   "class": "relation"
+  },
+  "project_project_stage": {
+   "class": "firm",
+   "columns": {
+    "name": "json"
+   }
+  },
+  "project_project_stage_delete_wizard": {
+   "class": "purge"
+  },
+  "project_project_stage_project_project_stage_delete_wizard_rel": {
+   "class": "relation"
+  },
+  "project_role": {
+   "class": "firm",
+   "columns": {
+    "name": "json"
+   }
+  },
+  "project_role_project_task_rel": {
+   "class": "relation"
+  },
+  "project_share_collaborator_wizard": {
+   "class": "purge"
+  },
+  "project_share_wizard": {
+   "class": "purge"
+  },
+  "project_share_wizard_res_partner_rel": {
+   "class": "relation"
+  },
+  "project_tags": {
+   "class": "firm",
+   "columns": {
+    "name": "json"
+   }
+  },
+  "project_tags_project_task_rel": {
+   "class": "relation"
+  },
+  "project_task": {
+   "class": "firm",
+   "columns": {
+    "access_token": "null",
+    "description": "html",
+    "ea_phase": "sel",
+    "email_cc": "email",
+    "email_from": "email",
+    "html_field_history": "json",
+    "name": "text",
+    "partner_phone": "phone",
+    "priority": "sel",
+    "state": "sel",
+    "task_properties": "json"
+   }
+  },
+  "project_task_recurrence": {
+   "class": "firm",
+   "columns": {
+    "repeat_type": "sel",
+    "repeat_unit": "sel"
+   }
+  },
+  "project_task_type": {
+   "class": "firm",
+   "columns": {
+    "name": "json",
+    "rating_status": "sel",
+    "rating_status_period": "sel"
+   }
+  },
+  "project_task_type_delete_wizard": {
+   "class": "purge"
+  },
+  "project_task_type_project_task_type_delete_wizard_rel": {
+   "class": "relation"
+  },
+  "project_task_type_rel": {
+   "class": "relation"
+  },
+  "project_task_user_rel": {
+   "class": "relation"
+  },
+  "project_template_create_wizard": {
+   "class": "purge"
+  },
+  "project_template_role_to_users_map": {
+   "class": "purge"
+  },
+  "project_template_role_to_users_map_res_users_rel": {
+   "class": "relation"
+  },
+  "project_update": {
+   "class": "firm",
+   "columns": {
+    "description": "html",
+    "email_cc": "email",
+    "name": "text",
+    "status": "sel"
+   }
+  },
+  "properties_base_definition": {
+   "class": "reference",
+   "columns": {
+    "properties_definition": "keep"
+   }
+  },
+  "rating_rating": {
+   "class": "purge"
+  },
+  "rel_modules_langexport": {
+   "class": "relation"
+  },
+  "report_layout": {
+   "class": "reference",
+   "columns": {
+    "image": "keep",
+    "name": "keep",
+    "pdf": "keep"
+   }
+  },
+  "report_paperformat": {
+   "class": "reference",
+   "columns": {
+    "format": "keep",
+    "name": "keep",
+    "orientation": "keep"
+   }
+  },
+  "res_bank": {
+   "class": "firm",
+   "columns": {
+    "bic": "idnum",
+    "city": "text",
+    "email": "email",
+    "name": "company",
+    "phone": "phone",
+    "street": "text",
+    "street2": "text",
+    "zip": "text"
+   }
+  },
+  "res_company": {
+   "class": "firm",
+   "columns": {
+    "company_details": "json",
+    "ea_allowed_email_domains": "text",
+    "ea_display_name": "text",
+    "ea_letterhead1": "text",
+    "ea_letterhead2": "text",
+    "ea_letterhead_footer": "text",
+    "email": "email",
+    "email_primary_color": "keep:COLOR",
+    "email_secondary_color": "keep:COLOR",
+    "employee_properties_definition": "json",
+    "font": "sel",
+    "hr_presence_control_ip_list": "text",
+    "layout_background": "sel",
+    "logo_web": "null",
+    "name": "company",
+    "parent_path": "keep:TREE_PATH",
+    "phone": "phone",
+    "primary_color": "keep:COLOR",
+    "report_footer": "json",
+    "report_header": "json",
+    "secondary_color": "keep:COLOR"
+   }
+  },
+  "res_company_spreadsheet_dashboard_rel": {
+   "class": "relation"
+  },
+  "res_company_users_rel": {
+   "class": "relation"
+  },
+  "res_config": {
+   "class": "purge"
+  },
+  "res_config_settings": {
+   "class": "purge"
+  },
+  "res_country": {
+   "class": "reference",
+   "columns": {
+    "address_format": "keep",
+    "code": "keep",
+    "name": "keep",
+    "name_position": "keep",
+    "vat_label": "keep"
+   }
+  },
+  "res_country_group": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "name": "keep"
+   }
+  },
+  "res_country_res_country_group_rel": {
+   "class": "relation"
+  },
+  "res_country_state": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "name": "keep"
+   }
+  },
+  "res_currency": {
+   "class": "reference",
+   "columns": {
+    "currency_subunit_label": "keep",
+    "currency_unit_label": "keep",
+    "full_name": "keep",
+    "name": "keep",
+    "position": "keep",
+    "symbol": "keep"
+   }
+  },
+  "res_currency_rate": {
+   "class": "relation"
+  },
+  "res_device_log": {
+   "class": "purge"
+  },
+  "res_groups": {
+   "class": "reference",
+   "columns": {
+    "comment": "keep",
+    "name": "keep"
+   }
+  },
+  "res_groups_implied_rel": {
+   "class": "relation"
+  },
+  "res_groups_privilege": {
+   "class": "reference",
+   "columns": {
+    "description": "keep",
+    "name": "keep",
+    "placeholder": "keep"
+   }
+  },
+  "res_groups_report_rel": {
+   "class": "relation"
+  },
+  "res_groups_spreadsheet_dashboard_rel": {
+   "class": "relation"
+  },
+  "res_groups_users_rel": {
+   "class": "relation"
+  },
+  "res_lang": {
+   "class": "reference",
+   "columns": {
+    "code": "keep",
+    "date_format": "keep",
+    "decimal_point": "keep",
+    "direction": "keep",
+    "grouping": "keep",
+    "iso_code": "keep",
+    "name": "keep",
+    "thousands_sep": "keep",
+    "time_format": "keep",
+    "url_code": "keep",
+    "week_start": "keep"
+   }
+  },
+  "res_lang_install_rel": {
+   "class": "relation"
+  },
+  "res_partner": {
+   "class": "firm",
+   "columns": {
+    "barcode": "json",
+    "city": "text",
+    "comment": "html",
+    "commercial_company_name": "company",
+    "company_name": "company",
+    "company_registry": "idnum",
+    "complete_name": "party",
+    "email": "email",
+    "email_normalized": "email",
+    "function": "text",
+    "lang": "keep:TOKEN",
+    "name": "party",
+    "phone": "phone",
+    "phone_sanitized": "phone",
+    "properties": "json",
+    "ref": "keep:CODE",
+    "signup_type": "null",
+    "street": "text",
+    "street2": "text",
+    "type": "sel",
+    "tz": "sel",
+    "vat": "idnum",
+    "website": "null",
+    "zip": "text"
+   }
+  },
+  "res_partner_bank": {
+   "class": "firm",
+   "columns": {
+    "acc_holder_name": "idnum",
+    "acc_number": "idnum",
+    "clearing_number": "text",
+    "note": "text",
+    "sanitized_acc_number": "idnum"
+   }
+  },
+  "res_partner_category": {
+   "class": "firm",
+   "columns": {
+    "name": "json",
+    "parent_path": "keep:TREE_PATH"
+   }
+  },
+  "res_partner_industry": {
+   "class": "reference",
+   "columns": {
+    "full_name": "keep",
+    "name": "keep"
+   }
+  },
+  "res_partner_res_partner_category_rel": {
+   "class": "relation"
+  },
+  "res_partner_task_share_wizard_rel": {
+   "class": "relation"
+  },
+  "res_role": {
+   "class": "firm",
+   "columns": {
+    "name": "text"
+   }
+  },
+  "res_role_res_users_rel": {
+   "class": "relation"
+  },
+  "res_users": {
+   "class": "firm",
+   "columns": {
+    "login": "login",
+    "manual_im_status": "sel",
+    "notification_type": "sel",
+    "odoobot_state": "sel",
+    "out_of_office_message": "html",
+    "password": "null",
+    "signature": "html",
+    "totp_secret": "null"
+   }
+  },
+  "res_users_apikeys": {
+   "class": "purge"
+  },
+  "res_users_apikeys_description": {
+   "class": "purge"
+  },
+  "res_users_deletion": {
+   "class": "purge"
+  },
+  "res_users_identitycheck": {
+   "class": "purge"
+  },
+  "res_users_log": {
+   "class": "purge"
+  },
+  "res_users_settings": {
+   "class": "purge"
+  },
+  "res_users_settings_embedded_action": {
+   "class": "purge"
+  },
+  "res_users_settings_volumes": {
+   "class": "purge"
+  },
+  "res_users_spreadsheet_dashboard_rel": {
+   "class": "relation"
+  },
+  "res_users_web_tour_tour_rel": {
+   "class": "relation"
+  },
+  "reset_view_arch_wizard": {
+   "class": "purge"
+  },
+  "resource_calendar": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "schedule_type": "keep",
+    "tz": "keep"
+   }
+  },
+  "resource_calendar_attendance": {
+   "class": "reference",
+   "columns": {
+    "day_period": "keep",
+    "dayofweek": "keep",
+    "display_type": "keep",
+    "name": "keep",
+    "week_type": "keep"
+   }
+  },
+  "resource_calendar_leaves": {
+   "class": "firm",
+   "columns": {
+    "name": "text",
+    "time_type": "sel"
+   }
+  },
+  "resource_resource": {
+   "class": "firm",
+   "columns": {
+    "name": "person",
+    "resource_type": "sel",
+    "tz": "keep:TOKEN"
+   }
+  },
+  "rule_group_rel": {
+   "class": "relation"
+  },
+  "scheduled_message_attachment_rel": {
+   "class": "relation"
+  },
+  "server_action_history_wizard": {
+   "class": "purge"
+  },
+  "sms_account_code": {
+   "class": "purge"
+  },
+  "sms_account_phone": {
+   "class": "purge"
+  },
+  "sms_account_sender": {
+   "class": "purge"
+  },
+  "sms_composer": {
+   "class": "purge"
+  },
+  "sms_sms": {
+   "class": "purge"
+  },
+  "sms_template": {
+   "class": "reference",
+   "columns": {
+    "body": "keep",
+    "lang": "keep",
+    "model": "keep",
+    "name": "keep",
+    "template_fs": "keep"
+   }
+  },
+  "sms_template_preview": {
+   "class": "purge"
+  },
+  "sms_template_reset": {
+   "class": "purge"
+  },
+  "sms_template_sms_template_reset_rel": {
+   "class": "relation"
+  },
+  "sms_tracker": {
+   "class": "purge"
+  },
+  "snailmail_letter": {
+   "class": "purge"
+  },
+  "spreadsheet_dashboard": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "sample_dashboard_file_path": "keep"
+   }
+  },
+  "spreadsheet_dashboard_group": {
+   "class": "reference",
+   "columns": {
+    "name": "keep"
+   }
+  },
+  "spreadsheet_dashboard_share": {
+   "class": "purge"
+  },
+  "task_dependencies_rel": {
+   "class": "relation"
+  },
+  "task_share_wizard": {
+   "class": "purge"
+  },
+  "uom_uom": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "parent_path": "keep",
+    "timesheet_widget": "keep"
+   }
+  },
+  "web_tour_tour": {
+   "class": "reference",
+   "columns": {
+    "name": "keep",
+    "rainbow_man_message": "keep",
+    "url": "keep"
+   }
+  },
+  "web_tour_tour_step": {
+   "class": "reference",
+   "columns": {
+    "content": "keep",
+    "run": "keep",
+    "tooltip_position": "keep",
+    "trigger": "keep"
+   }
+  },
+  "wizard_ir_model_menu_create": {
+   "class": "purge"
+  }
+ },
+ "xmlid_scrub_models": [
+  "res.partner",
+  "res.users",
+  "hr.employee",
+  "resource.resource",
+  "res.company",
+  "ea.audit.client",
+  "ea.audit.engagement",
+  "ea.audit.team.member",
+  "ea.audit.portal.contact",
+  "project.project",
+  "project.task"
+ ]
+}
