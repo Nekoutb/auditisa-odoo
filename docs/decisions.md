@@ -13,6 +13,8 @@ Decisions of the firm owner on the AuditISA rebuild on Odoo 19 Community. Number
 | I-6 Grids | **Lists plus Excel import and export first.** Custom grids come later, only where needed. | The specification recommended OWL components. Its phase 4 range (36–53 pw) assumes those grids, so it should come down once the first tool has been built and timed. Risk R2 changes from build effort to user acceptance of the console-style tools. |
 | I-12 Governing plan | **`Screen-transfer-specification.md` governs over `Migration-plan-Odoo19.md`**, with a budget of **129–190 person-weeks**. | Six addons (`ea_audit_core`, `_papers`, `_tools`, `_reports`, `_portal`, `_legal`, and optional `_uat`) and the `ea.audit.*` model prefix. The `ea_audit` module installed on staging follows the other plan: see O-3. |
 
+- **One prior year for a file (F012, 2026-11-06).** Lead schedules, analytical review and financial analysis read the same N-1: a prior-year trial balance uploaded on the file, else the closing trial balance of the client's prior file, else the current openings, and the screen says which. On a prior file, equity reads before last year's result is carried (Négoce 2025: -58M in class 1, 22M still in classes 6-7), which the financial analysis adds back to read 80M.
+
 ## Provisional: working papers, owner to confirm
 
 Applied in `ea_audit_papers` so that the build can proceed. Each is provisional, owner to confirm. Q numbers are those of `addons/ea_audit_papers/DESIGN.md`, section 8.
