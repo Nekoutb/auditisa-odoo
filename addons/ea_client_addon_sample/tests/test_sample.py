@@ -40,7 +40,7 @@ class TestOffHidesAndKeeps(TransactionCase):
         self.assertFalse(self._visible())
         with self.assertRaises(AccessError):
             note.with_user(self.user).read(["name"])
-        with self.assertRaises(AccessError):
+        with self.assertRaises(UserError):
             self.env["ea.client.sample.note"].with_user(self.user).create({"name": "No"})
 
     def test_off_refuses_even_code_that_runs_as_superuser_but_keeps_reads(self):

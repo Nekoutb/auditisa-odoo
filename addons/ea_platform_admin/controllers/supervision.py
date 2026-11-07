@@ -71,7 +71,7 @@ def _cell(firm, name):
     if field.type == "boolean":
         return t(firm.env, _("Yes") if value else _("No"))
     if field.type in ("datetime", "date"):
-        return value.isoformat(" ") if value else ""
+        return str(value) if value else ""
     return value if value not in (False, None) else ""
 
 
