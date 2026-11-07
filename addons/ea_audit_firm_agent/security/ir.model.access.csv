@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_ea_firm_access_log_admin,ea.firm.access.log admin,model_ea_firm_access_log,base.group_system,1,0,0,0
+access_ea_firm_support_ticket_user,ea.firm.support.ticket user,model_ea_firm_support_ticket,base.group_user,1,0,1,0
+access_ea_firm_support_visit_admin,ea.firm.support.visit admin,model_ea_firm_support_visit,base.group_system,1,0,0,0

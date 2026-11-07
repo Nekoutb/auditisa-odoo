@@ -341,7 +341,7 @@ install_scripts_from() {
   local source=$1 script
   mkdir -p "$BIN_DIR" "$PROVISION_DIR"
   for script in firm-lib.sh firm-backup.sh firm-restore-test.sh firm-update.sh firm-export.sh \
-                firm-apply-desired.sh firm-addons.sh firm-status.sh firm-cert.sh firm-first-admin-link.sh firm-add-domain.sh \
+                firm-apply-desired.sh firm-addons.sh firm-support-visit.sh firm-status.sh firm-cert.sh firm-first-admin-link.sh firm-add-domain.sh \
                 firm-isolation.sh recipe.env; do
     cp -f "$source/deploy/firm/$script" "$BIN_DIR/$script"
     chmod 700 "$BIN_DIR/$script"

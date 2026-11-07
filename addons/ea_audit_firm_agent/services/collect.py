@@ -99,7 +99,8 @@ def disk_figures(path="/"):
     }
 
 
-def build_figures(status, memory, disk, users_active, engagements_active, mail_enabled, addons_on=()):
+def build_figures(status, memory, disk, users_active, engagements_active, mail_enabled, addons_on=(),
+                  errors=None, support_visit=None):
     """The whole body. `release` is left out if unknown, which the receiver rejects, on purpose.
 
     `addons_on` holds technical names and nothing else. Past the cap they are not sent at all, since
@@ -118,6 +119,10 @@ def build_figures(status, memory, disk, users_active, engagements_active, mail_e
     codes = sorted(code for code in set(addons_on) if _ADDON_CODE.match(code))
     if len(codes) <= MAX_ADDON_CODES:
         figures["addons_on"] = codes
+    if errors is not None:
+        figures["errors"] = errors
+    if support_visit is not None:
+        figures["support_visit"] = support_visit
     return figures
 
 
@@ -150,4 +155,15 @@ def parse_desired(body):
         and all(isinstance(code, str) and _ADDON_CODE.match(code) for code in addons)
     ):
         desired["addons"] = sorted(set(addons))
+    visit = data.get("support_visit")
+    if (
+        isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256"}
+        and type(visit["id"]) is int and 0 < visit["id"] < 10 ** 9
+        and type(visit["minutes"]) is int and 1 <= visit["minutes"] <= 240
+        and isinstance(visit["token_sha256"], str) and _SHA256.match(visit["token_sha256"])
+    ):
+        desired["support_visit"] = visit
+    ended = data.get("support_visit_end")
+    if type(ended) is int and 0 < ended < 10 ** 9:
+        desired["support_visit_end"] = ended
     return desired

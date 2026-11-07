@@ -13,6 +13,12 @@
         "data/ir_cron.xml",
         "views/first_admin_templates.xml",
         "views/access_log_views.xml",
+        "views/support_views.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "ea_audit_firm_agent/static/src/js/report_problem.js",
+        ],
+    },
     "installable": True,
 }

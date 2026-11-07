@@ -47,11 +47,21 @@ addons_good = (
     and all(isinstance(c, str) and re.fullmatch(r"[a-z][a-z0-9_]{2,39}", c) for c in addons)
 )
 print(" ".join(addons) if addons_good else "")
+visit = data.get("support_visit")
+visit_good = (
+    isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256"}
+    and type(visit["id"]) is int and 0 < visit["id"] < 10 ** 9
+    and type(visit["minutes"]) is int and 1 <= visit["minutes"] <= 240
+    and isinstance(visit["token_sha256"], str) and re.fullmatch(r"[0-9a-f]{64}", visit["token_sha256"])
+)
+print(f'{visit["id"]} {visit["minutes"]} {visit["token_sha256"]}' if visit_good else "")
+ended = data.get("support_visit_end")
+print(ended if type(ended) is int and 0 < ended < 10 ** 9 else "")
 # Last, and never empty: $(...) drops trailing newlines, and `read` fails on a missing line.
 print("none" if addons is None else "asked" if addons_good else "bad")
 PY
 ) || fl_die "the spool file cannot be read"
-{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r ADDONS_STATE; } <<<"$parsed"
+{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r VISIT; read -r VISIT_END; read -r ADDONS_STATE; } <<<"$parsed"
 
 apply_allowlist() {
   [ -n "$ALLOW" ] || return 0
@@ -99,6 +109,22 @@ if [ -n "$RELEASE" ] && [ "$RELEASE" != "$(get_status release)" ]; then
     fl_log "DRY RUN: would run firm-update $RELEASE"
   else
     "$BIN_DIR/firm-update.sh" "$RELEASE" "$DIGEST" || fl_warn "update of $RELEASE did not succeed"
+  fi
+fi
+
+if [ -n "$VISIT" ]; then
+  read -r -a VISIT_ARGS <<<"$VISIT"
+  if [ "$DRY_RUN" = 1 ]; then
+    fl_log "DRY RUN: would open support visit ${VISIT_ARGS[0]} for ${VISIT_ARGS[1]} minutes"
+  else
+    "$HERE/firm-support-visit.sh" open "${VISIT_ARGS[@]}" || fl_warn "the support visit was not opened"
+  fi
+fi
+if [ -n "$VISIT_END" ]; then
+  if [ "$DRY_RUN" = 1 ]; then
+    fl_log "DRY RUN: would end support visit $VISIT_END"
+  else
+    "$HERE/firm-support-visit.sh" end "$VISIT_END" || fl_warn "the support visit was not ended"
   fi
 fi
 

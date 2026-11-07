@@ -8,7 +8,7 @@ import requests
 
 from odoo import api, models
 
-from ..services import collect, signing
+from ..services import collect, errors, signing
 
 _logger = logging.getLogger(__name__)
 
@@ -50,6 +50,17 @@ class EaFirmAgent(models.AbstractModel):
         return model.search_count(domain)
 
     @api.model
+    def _error_figures(self):
+        """Codes and counts since the last delivered heartbeat. See services/errors.py."""
+        lines, sending = self.env["ea.firm.error.capture"]._take()
+        self.env.context.get("ea_error_files", []).append(sending)
+        return [
+            {**{key: item[key] for key in ("module", "model", "kind", "count")},
+             "last_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(item["last"]))}
+            for item in errors.aggregate(lines)
+        ]
+
+    @api.model
     def _build_figures(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         return collect.build_figures(
@@ -60,6 +71,8 @@ class EaFirmAgent(models.AbstractModel):
             self._count_engagements(),
             get_param(PARAM_MAIL_TESTED) == "1",
             self.env["ea.addon.switch"]._codes_on(),
+            self._error_figures(),
+            self.env["ea.firm.support.visit"]._current_figure(),
         )
 
     @api.model
@@ -71,11 +84,16 @@ class EaFirmAgent(models.AbstractModel):
         if not url.startswith("https://"):
             _logger.warning("Heartbeat refused: the address is not https")
             return False
-        figures = self._build_figures()
+        files = []
+        figures = self.with_context(ea_error_files=files)._build_figures()
         if "release" not in figures:
             _logger.warning("Heartbeat not sent: this server does not know its release yet")
             return False
-        return self._post(url, slug, token, figures)
+        sent = self._post(url, slug, token, figures)
+        if sent:
+            for path in files:
+                self.env["ea.firm.error.capture"]._delivered(path)
+        return sent
 
     @api.model
     def _post(self, url, slug, token, figures):
