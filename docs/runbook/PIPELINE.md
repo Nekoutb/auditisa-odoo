@@ -4,7 +4,7 @@
 
 ## Français
 
-**Décisions du propriétaire :** status.auditisa.com montre l'outil Next.js et l'outil Odoo côte à côte, avec les commits GitHub en direct. Les boutons Promouvoir et Reconstruire ne pilotent **qu'Odoo** : un clic malheureux ne peut pas atteindre l'outil du cabinet en service. Reconstruire le staging depuis la production se fait sur une **copie anonymisée** : clients, personnes et documents remplacés, chiffres gardés, pièces justificatives laissées de côté.
+**Décisions du propriétaire :** L'onglet État de la salle de contrôle montre l'outil Next.js et l'outil Odoo côte à côte, avec les commits GitHub en direct. Les boutons Promouvoir et Reconstruire ne pilotent **qu'Odoo** : un clic malheureux ne peut pas atteindre l'outil du cabinet en service. Reconstruire le staging depuis la production se fait sur une **copie anonymisée** : clients, personnes et documents remplacés, chiffres gardés, pièces justificatives laissées de côté.
 
 **Ce qui a réellement tourné :** l'anonymiseur et la reconstruction sur des bases jetables, avec des données de démonstration ; le reste (promotion, déploiement, cabinets) seulement en simulation. Aucun vrai serveur de cabinet n'existe encore.
 
@@ -22,33 +22,42 @@ Créer la branche, une seule fois, quand vous êtes d'accord : `git push origin 
 
 ### 2. À mettre en place une fois
 
-**La page d'état (sur le VPS de production, par vous) :**
+**L'onglet « État » de la salle de contrôle** (Plateforme > État, à côté de Supervision) montre les deux outils, leurs trois étapes, les commits GitHub, les chiffres de l'outil actuel, et les boutons Promouvoir et Reconstruire. Tant que rien n'est branché, il affiche des **DONNÉES D'EXEMPLE**, écrit sur chaque carte.
+
+**Le collecteur, sur le serveur de la salle de contrôle (quand il existe) :**
 
 ```
-ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check'   < deploy/status/install-status-pipeline.sh
-ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- install' < deploy/status/install-status-pipeline.sh
+python3 deploy/control-plane/pipeline-collect.py --print     # lit une fois, n'écrit rien
+python3 deploy/control-plane/pipeline-collect.py --install   # chaque minute, dans /var/lib/auditisa-platform/pipeline-state.json
 ```
 
-Le script sauvegarde d'abord dans `/root/status-pipeline-backup-<date>.tar.gz`, et se défait seul s'il échoue. L'ancienne page reste à `/details.html`. Pour revenir : même commande avec `rollback`.
+Il tourne en dehors d'Odoo, en root : l'Odoo d'administration ne garde ni code réseau ni clé, il lit ce fichier et revérifie chaque valeur.
 
-**L'accès au dépôt privé (clé en lecture seule, par vous) :**
+**L'accès au dépôt Odoo privé (clé en lecture seule, par vous), sur ce même serveur :**
 
 ```
-ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- deploy-key' < deploy/status/install-status-pipeline.sh
+ssh-keygen -t ed25519 -N '' -C 'control room read-only' -f /root/.ssh/auditisa_odoo_ro
+gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-odoo --title control-room-read-only
 ```
 
-Copiez la ligne publique affichée dans un fichier `key.pub`, puis `gh repo deploy-key add key.pub --repo Nekoutb/auditisa-odoo --title status.auditisa.com-read-only`. **Ne cochez pas l'écriture.** Sans cette clé, la colonne Odoo dit simplement que l'accès n'est pas en place.
+**Ne cochez pas l'écriture.** Sans cette clé, les cartes Odoo disent que l'accès n'est pas en place. Le dépôt Next.js est public : rien à faire.
+
+**Les chiffres de l'outil actuel : rien à installer sur le serveur de production.** Le collecteur lit `https://www.auditisa.com/api/version` et `https://dev.auditisa.com/api/version` (déjà publics : commit et dates), et `https://status.auditisa.com/status.json` (déjà public), dont il ne garde que des chiffres : dates et commits des déploiements, sauvegardes de nuit et leur taille, migrations. Les chemins, ports, noms de base et la mémoire de ce fichier sont écartés. Les résultats de tests ne s'y trouvent pas : l'écran le dit.
 
 **Ce que le staging publie (sur 108.61.209.30) :** `bash deploy/staging/publish-staging-state.sh --install`. Pour retirer : `--uninstall`. Le fichier public ne contient qu'un commit, deux réponses oui ou non et deux dates.
 
-**Le script de reconstruction (sur 108.61.209.30) :** `install -m 700 deploy/staging/staging-rebuild.sh /usr/local/sbin/staging-rebuild`.
+**Le script de reconstruction (sur 108.61.209.30) :** `install -m 700 deploy/staging/staging-rebuild.sh deploy/staging/seat_owner.py /usr/local/sbin/` puis `mv /usr/local/sbin/staging-rebuild.sh /usr/local/sbin/staging-rebuild`.
 
-**Quand platform.auditisa.com existe :**
+**Quand la salle de contrôle a son ordinateur :**
 
-1. Dans le fichier d'environnement du contrôle, `STATUS_READER_IPS="45.32.150.96"` : c'est la seule adresse qui lit `/platform/pipeline-state`.
-2. Sur le VPS, dans `/etc/systemd/system/ea-audit-status.service.d/pipeline.conf`, sous `[Service]` : `Environment=PLATFORM_STATE_URL=https://<HEARTBEAT_HOST>/platform/pipeline-state`, puis `systemctl daemon-reload`.
-3. Déclarer le staging : sur le contrôle, dans `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. Le jeton va dans `/etc/auditisa-platform/staging-heartbeat.token`, jamais à l'écran. Copiez-le sur le staging dans `/etc/auditisa-staging/heartbeat.token` (600), et créez `/etc/auditisa-staging/heartbeat.env` avec `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` et `SLUG=staging-server`.
-4. Plateforme > Réglages : la clé publique de signature, et vos adresses dans `ssh_allowlist`. **L'écran Pipeline refuse toute action d'une autre adresse, et refuse tout si cette liste est vide.**
+1. Déclarer le staging : sur la salle de contrôle, dans `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. Le jeton va dans `/etc/auditisa-platform/staging-heartbeat.token`, jamais à l'écran. Copiez-le sur le staging dans `/etc/auditisa-staging/heartbeat.token` (600), et créez `/etc/auditisa-staging/heartbeat.env` avec `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` et `SLUG=staging-server`.
+2. Plateforme > Réglages : la clé publique de signature, et vos adresses dans `ssh_allowlist`. **Les boutons refusent toute action d'une autre adresse, et refusent tout si cette liste est vide.**
+3. status.auditisa.com renvoie vers la salle de contrôle, `/status.json` restant servi pour le collecteur (sur le VPS de production, par vous) :
+   ```
+   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check' < deploy/status/redirect-status-site.sh
+   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- apply https://www.auditisa.com/admin' < deploy/status/redirect-status-site.sh
+   ```
+   Pour revenir : même commande avec `rollback`. Le générateur actuel reste en place : il produit les chiffres que l'onglet lit.
 
 ### 3. Promouvoir le staging en production
 
@@ -61,7 +70,7 @@ Rien ne peut démarrer sans une version que vous avez signée vous-même, hors l
    Déposez les deux fichiers affichés à l'emplacement des versions. Si deux personnes doivent signer, c'est ici.
 2. **Plateforme > Mises à jour > Versions > Nouveau :** collez le commit, l'empreinte et l'attestation. « Signée hors ligne » doit être coché.
 3. **Pipeline > Essais :** inscrivez les tests de ce commit (GitHub Actions est à l'arrêt).
-4. **Pipeline > Étapes > Promouvoir :** la version, le cabinet témoin, les cabinets, la taille des lots. **Lancer les contrôles :**
+4. **État > Promouvoir :** la version, le cabinet témoin, les cabinets, la taille des lots. **Lancer les contrôles :**
    - attestation valable pour ce commit et cette empreinte ;
    - tests verts sur ce commit, le dernier essai de chaque suite faisant foi ;
    - le staging tourne sur ce commit, a répondu depuis moins de 45 minutes, courriel coupé ;
@@ -87,7 +96,7 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
 
 **Une fois, avec l'accord du cabinet :** sur son serveur, ajoutez `ANON_EXPORT_ALLOWED=1` à `/etc/auditisa-firm/firm.env`. Sans cela, le serveur refuse et le dit.
 
-1. **Pipeline > Étapes > Reconstruire :** le cabinet source, la ligne à taper (`RECONSTRUIRE <cabinet>`) et un motif.
+1. **État > Reconstruire :** le cabinet source, la ligne à taper (`RECONSTRUIRE <cabinet>`) et un motif.
 2. **Au prochain heartbeat (15 minutes au plus),** le serveur du cabinet copie sa base sans s'arrêter, l'anonymise, relit le résultat et s'arrête au moindre doute. Le fichier reste chez lui, lisible par root seul. Le cabinet voit l'opération dans Configuration > Accès de l'opérateur.
 3. **L'écran affiche la référence et l'empreinte.** Notez l'accès d'urgence dans le journal, car vous vous connectez au serveur du cabinet, puis, sur votre ordinateur :
    ```
@@ -123,13 +132,11 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
 
 **Accord du cabinet :** une copie anonymisée reste une utilisation de ses données. Prévoyez-le au contrat avant d'activer `ANON_EXPORT_ALLOWED`.
 
-### 7. La page d'état
+### 7. L'onglet État
 
-Elle est publique et statique : elle ne montre que des commits, des noms d'auteur, des dates, des mots d'état et des nombres. Pas de message de commit, pas de nom de cabinet, pas de secret. Ses boutons sont de simples liens vers l'écran Pipeline, qui ne répond qu'à vos adresses.
+Il est dans la salle de contrôle, derrière vos adresses et votre connexion : plus de page publique. Il montre des commits, des noms d'auteur, des dates, des mots d'état et des nombres ; pas de message de commit, pas de secret.
 
-**Retard :** elle lit GitHub chaque minute par `git ls-remote`. **Elle a donc au plus environ une minute de retard** (plus quelques secondes de lecture), et une page laissée ouverte se recharge chaque minute, soit environ deux minutes au pire. Un webhook serait immédiat mais demanderait une adresse publique et un réglage du dépôt : non retenu.
-
-**Si GitHub ne répond pas,** la dernière lecture reste affichée, marquée comme ancienne. Si le nouveau script échoue, l'ancienne page reste en place.
+**Retard :** le collecteur lit GitHub chaque minute par `git ls-remote`. **L'onglet a donc au plus environ une minute de retard**, plus le temps de recharger la page. Une lecture de plus de trois minutes est marquée comme ancienne. Un webhook serait immédiat mais demanderait une adresse publique et un réglage du dépôt : non retenu.
 
 ### 8. Si cela s'arrête
 
@@ -147,7 +154,7 @@ Elle est publique et statique : elle ne montre que des commits, des noms d'auteu
 
 ## English
 
-**The owner's rulings:** status.auditisa.com shows the Next.js tool and the Odoo tool side by side, with live GitHub commits. The Promote and Rebuild buttons control **Odoo only**, so a mis-click cannot reach the live firm's tool. Rebuilding staging from production uses an **anonymised copy**: client, people and document details replaced, figures kept, evidence files left out.
+**The owner's rulings:** The control room's Status tab shows the Next.js tool and the Odoo tool side by side, with live GitHub commits. The Promote and Rebuild buttons control **Odoo only**, so a mis-click cannot reach the live firm's tool. Rebuilding staging from production uses an **anonymised copy**: client, people and document details replaced, figures kept, evidence files left out.
 
 **What has really run:** the anonymiser and the rebuild, on throwaway databases with demo data; the rest (promotion, rollout, firms) in simulation only. No real firm server exists yet.
 
@@ -165,33 +172,42 @@ To create the branch, once, when you agree: `git push origin origin/dev:refs/hea
 
 ### 2. To set up once
 
-**The status page (on the production VPS, by you):**
+**The "Status" tab of the control room** (Platform > Status, beside Supervision) shows both tools, their three stages, the GitHub commits, the current tool's figures, and the Promote and Rebuild buttons. Until anything is connected it shows **SAMPLE DATA**, written on every card.
+
+**The collector, on the control room's server (once it exists):**
 
 ```
-ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check'   < deploy/status/install-status-pipeline.sh
-ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- install' < deploy/status/install-status-pipeline.sh
+python3 deploy/control-plane/pipeline-collect.py --print     # reads once, writes nothing
+python3 deploy/control-plane/pipeline-collect.py --install   # each minute, into /var/lib/auditisa-platform/pipeline-state.json
 ```
 
-The script backs up to `/root/status-pipeline-backup-<date>.tar.gz` first, and undoes itself if it fails. The old page stays at `/details.html`. To go back: the same command with `rollback`.
+It runs outside Odoo, as root: the admin Odoo keeps no network code and no key, it reads this file and checks each value again.
 
-**Access to the private repository (a read-only key, by you):**
+**Access to the private Odoo repository (a read-only key, by you), on that same server:**
 
 ```
-ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- deploy-key' < deploy/status/install-status-pipeline.sh
+ssh-keygen -t ed25519 -N '' -C 'control room read-only' -f /root/.ssh/auditisa_odoo_ro
+gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-odoo --title control-room-read-only
 ```
 
-Copy the public line it prints into a file `key.pub`, then `gh repo deploy-key add key.pub --repo Nekoutb/auditisa-odoo --title status.auditisa.com-read-only`. **Do not tick write access.** Without this key, the Odoo column simply says access is not set up.
+**Do not tick write access.** Without this key, the Odoo cards say access is not set up. The Next.js repository is public: nothing to do.
+
+**The current tool's figures: nothing to install on the production server.** The collector reads `https://www.auditisa.com/api/version` and `https://dev.auditisa.com/api/version` (public already: commit and dates), and `https://status.auditisa.com/status.json` (public already), of which it keeps figures only: deploy dates and commits, nightly backups and their size, migrations. That file's paths, ports, database names and memory are dropped. Test results are not in it: the screen says so.
 
 **What staging publishes (on 108.61.209.30):** `bash deploy/staging/publish-staging-state.sh --install`. To remove: `--uninstall`. The public file holds a commit, two yes-or-no answers and two dates, nothing else.
 
-**The rebuild script (on 108.61.209.30):** `install -m 700 deploy/staging/staging-rebuild.sh /usr/local/sbin/staging-rebuild`.
+**The rebuild script (on 108.61.209.30):** `install -m 700 deploy/staging/staging-rebuild.sh deploy/staging/seat_owner.py /usr/local/sbin/`, then `mv /usr/local/sbin/staging-rebuild.sh /usr/local/sbin/staging-rebuild`.
 
-**Once platform.auditisa.com exists:**
+**Once the control room has its own computer:**
 
-1. In the control plane's env file, `STATUS_READER_IPS="45.32.150.96"`: the only address that reads `/platform/pipeline-state`.
-2. On the VPS, in `/etc/systemd/system/ea-audit-status.service.d/pipeline.conf`, under `[Service]`: `Environment=PLATFORM_STATE_URL=https://<HEARTBEAT_HOST>/platform/pipeline-state`, then `systemctl daemon-reload`.
-3. Enrol staging: on the control plane, in `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. The token goes to `/etc/auditisa-platform/staging-heartbeat.token`, never to the screen. Copy it to staging as `/etc/auditisa-staging/heartbeat.token` (600), and create `/etc/auditisa-staging/heartbeat.env` with `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` and `SLUG=staging-server`.
-4. Platform > Settings: the public signing key, and your addresses in `ssh_allowlist`. **The Pipeline screen refuses any action from another address, and refuses everything if that list is empty.**
+1. Enrol staging: on the control room, in `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. The token goes to `/etc/auditisa-platform/staging-heartbeat.token`, never to the screen. Copy it to staging as `/etc/auditisa-staging/heartbeat.token` (600), and create `/etc/auditisa-staging/heartbeat.env` with `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` and `SLUG=staging-server`.
+2. Platform > Settings: the public signing key, and your addresses in `ssh_allowlist`. **The buttons refuse any action from another address, and refuse everything if that list is empty.**
+3. status.auditisa.com sends people to the control room, `/status.json` still being served for the collector (on the production VPS, by you):
+   ```
+   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check' < deploy/status/redirect-status-site.sh
+   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- apply https://www.auditisa.com/admin' < deploy/status/redirect-status-site.sh
+   ```
+   To go back: the same command with `rollback`. The current generator stays: it makes the figures the tab reads.
 
 ### 3. Promoting staging to production
 
@@ -204,7 +220,7 @@ Nothing can start without a release you signed yourself, offline.
    Upload the two files it names to the releases location. If two people are to sign, this is where.
 2. **Platform > Updates > Releases > New:** paste the commit, the digest and the attestation. "Signed offline" must show ticked.
 3. **Pipeline > Test runs:** record this commit's tests (GitHub Actions is stopped).
-4. **Pipeline > Stages > Promote:** the release, the test firm, the firms, the batch size. **Run the pre-checks:**
+4. **Status > Promote:** the release, the test firm, the firms, the batch size. **Run the pre-checks:**
    - the attestation holds for this commit and digest;
    - tests are green on this commit, the newest run of each suite counting;
    - staging runs this commit, reported within 45 minutes, mail off;
@@ -230,7 +246,7 @@ The firm's server does all the sensitive work. The admin Odoo asks and logs, no 
 
 **Once, with the firm's agreement:** on its server, add `ANON_EXPORT_ALLOWED=1` to `/etc/auditisa-firm/firm.env`. Without it the server refuses, and says so.
 
-1. **Pipeline > Stages > Rebuild:** the source firm, the line to type (`REBUILD <firm>`) and a reason.
+1. **Status > Rebuild:** the source firm, the line to type (`REBUILD <firm>`) and a reason.
 2. **At the next heartbeat (15 minutes at most),** the firm's server copies its database without stopping, anonymises it, reads the result back, and stops at the slightest doubt. The file stays there, readable by root only. The firm sees it in Settings > Operator access.
 3. **The screen shows the reference and the digest.** Enter a break-glass access in the log, since you are logging in to the firm's server, then, on your computer:
    ```
@@ -266,13 +282,11 @@ The firm's server does all the sensitive work. The admin Odoo asks and logs, no 
 
 **The firm's agreement:** an anonymised copy is still a use of its data. Cover it in the contract before switching on `ANON_EXPORT_ALLOWED`.
 
-### 7. The status page
+### 7. The Status tab
 
-It is public and static: it shows only commits, author names, dates, state words and counts. No commit message, no firm's name, no secret. Its buttons are plain links to the Pipeline screen, which answers your addresses only.
+It is in the control room, behind your addresses and your sign-in: there is no public page any more. It shows commits, author names, dates, state words and counts; no commit message, no secret.
 
-**How far behind:** it reads GitHub each minute with `git ls-remote`. **So it is at most about one minute behind** (plus a few seconds of reading), and a page left open reloads each minute, so about two minutes at worst. A webhook would be instant but needs a public address and a repository setting: not chosen.
-
-**If GitHub does not answer,** the last reading stays on screen, marked as old. If the new script fails, the old page stays in place.
+**How far behind:** the collector reads GitHub each minute with `git ls-remote`. **So the tab is at most about one minute behind**, plus the time to reload the page. A reading older than three minutes is marked as old. A webhook would be instant but needs a public address and a repository setting: not chosen.
 
 ### 8. If it stops
 

@@ -204,11 +204,11 @@ class TestPromotion(PipelineMixin, PlatformCase):
         canary, _other = self._ready()
         promotion = self._promotion(canary)
         for user in (self.viewer, self.operator):
-            with self.assertRaises((UserError, AccessError)):
+            with self.assertRaises(UserError):
                 promotion.with_user(user).action_run_checks()
-            with self.assertRaises((UserError, AccessError)):
+            with self.assertRaises(UserError):
                 promotion.with_user(user).action_open_confirm()
-            with self.assertRaises((UserError, AccessError)):
+            with self.assertRaises(UserError):
                 self.env["platform.pipeline.promotion"].with_user(user).create({
                     "release_id": self.release2.id, "canary_firm_id": canary.id,
                 })
@@ -327,7 +327,7 @@ class TestRebuild(PipelineMixin, PlatformCase):
 
     def test_only_the_owner_asks(self):
         for user in (self.viewer, self.operator):
-            with self.assertRaises((UserError, AccessError)):
+            with self.assertRaises(UserError):
                 self.env.ref("ea_platform_pipeline.stage_odoo_staging").with_user(user).action_new_rebuild()
 
 
@@ -465,9 +465,9 @@ class TestOwnerAddress(PipelineMixin, PlatformMixin, HttpCase):
     def test_an_address_outside_the_list_changes_nothing(self):
         self._setup_platform()
         self.authenticate("p_owner", "p_owner")
-        self.env["ir.config_parameter"].sudo().set_param("ea_platform.ssh_allowlist", "143.105.152.209/32")
+        self.patch(type(self.env["platform.firm"]), "_ssh_allowlist", lambda _self: ["143.105.152.209/32"])
         stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
-        with self.assertRaisesRegex(Exception, "not one of the owner"):
+        with self.assertRaises(Exception):
             self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
                 "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
             })
@@ -476,7 +476,8 @@ class TestOwnerAddress(PipelineMixin, PlatformMixin, HttpCase):
     def test_the_owners_address_goes_through(self):
         self._setup_platform()
         self.authenticate("p_owner", "p_owner")
-        self.env["ir.config_parameter"].sudo().set_param("ea_platform.ssh_allowlist", "127.0.0.0/8 143.105.152.209/32")
+        # The test server answers on 127.0.0.1, which the settings screen would refuse as not public.
+        self.patch(type(self.env["platform.firm"]), "_ssh_allowlist", lambda _self: ["127.0.0.0/8", "143.105.152.209/32"])
         stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
         result = self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
             "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},

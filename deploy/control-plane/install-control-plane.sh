@@ -227,17 +227,6 @@ EOF
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_pass http://127.0.0.1:8069;
     }
-EOF
-  # The one thing status.auditisa.com reads: counts, commits, dates. Nothing a firm's name can be in.
-  printf '    location = /platform/pipeline-state {\n'
-  for addr in ${STATUS_READER_IPS:-}; do printf '        allow %s;\n' "$addr"; done
-  cat <<'EOF'
-        deny all;
-        limit_except GET { deny all; }
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_pass http://127.0.0.1:8069;
-    }
     location / { return 404; }
 }
 
