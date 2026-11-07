@@ -104,9 +104,12 @@
                     <group>
                         <group>
                             <field name="kind" invisible="kind == 'promote'"/>
-                            <field name="release_id" readonly="state != 'draft' or kind == 'rollback'" options="{'no_create': True}"/>
-                            <field name="canary_firm_id" readonly="state != 'draft'" options="{'no_create': True}"/>
-                            <field name="firm_ids" widget="many2many_tags" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="release_id" readonly="state != 'draft' or kind == 'rollback'" options="{'no_create': True}"
+                                   placeholder="Choose a release signed on your computer"/>
+                            <field name="canary_firm_id" readonly="state != 'draft'" options="{'no_create': True}"
+                                   placeholder="The firm that goes first, alone"/>
+                            <field name="firm_ids" widget="many2many_tags" readonly="state != 'draft'" options="{'no_create': True}"
+                                   placeholder="The firms that follow, in batches (empty: the test firm only)"/>
                             <field name="batch_size" readonly="state != 'draft'"/>
                         </group>
                         <group>

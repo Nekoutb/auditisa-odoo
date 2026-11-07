@@ -27,8 +27,13 @@ class PlatformPipelineMixin(models.AbstractModel):
         if not request:
             return  # Odoo shell and tests have no address to check.
         cidrs = self.env["platform.firm"].sudo()._ssh_allowlist()
-        if not pipeline.address_allowed(request.httprequest.remote_addr, cidrs):
-            raise UserError(t(self.env, _("This address is not one of the owner's: nothing was done.")))
+        address = request.httprequest.remote_addr
+        if not pipeline.address_allowed(address, cidrs):
+            raise UserError(t(self.env, _(
+                "This address (%(address)s) is not one of the owner's: nothing was done. "
+                "The owner's addresses are set in Platform > Settings.",
+                address=address or "?",
+            )))
 
 
 class PlatformPipelinePromotion(models.Model):

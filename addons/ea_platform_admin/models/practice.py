@@ -224,6 +224,7 @@ class PlatformPracticeSpace(models.Model):
     first_login_revealed_at = fields.Datetime("Link shown on", readonly=True, copy=False)
     first_login_ready = fields.Boolean("Link ready to show", compute="_compute_first_login_ready")
     link_set = fields.Boolean("Link in place on the space", readonly=True)
+    computer_simulated = fields.Boolean(related="computer_id.is_simulation", string="Simulated practice computer")
 
     _firm_unique = models.Constraint("unique(firm_id)", "A firm has one practice space.")
 

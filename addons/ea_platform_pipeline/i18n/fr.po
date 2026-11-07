@@ -1278,7 +1278,7 @@ msgstr "Le cabinet qui passe en premier, seul. Les autres attendent son résulta
 msgid ""
 "The firm's server picks this up at its next heartbeat, in 15 minutes at "
 "most."
-msgstr "Le serveur du cabinet prend cela à son prochain heartbeat, dans 15 minutes au plus."
+msgstr "Le serveur du cabinet prend cela à son prochain signal de vie, dans 15 minutes au plus."
 
 #. module: ea_platform_pipeline
 #. odoo-python
@@ -1327,8 +1327,12 @@ msgstr "Il n'y a pas de version antérieure à laquelle revenir."
 #. module: ea_platform_pipeline
 #. odoo-python
 #: code:addons/ea_platform_pipeline/models/promotion.py:0
-msgid "This address is not one of the owner's: nothing was done."
-msgstr "Cette adresse n'est pas une de celles du propriétaire : rien n'a été fait."
+msgid ""
+"This address (%(address)s) is not one of the owner's: nothing was done. "
+"The owner's addresses are set in Platform > Settings."
+msgstr ""
+"Cette adresse (%(address)s) n'est pas une de celles du propriétaire : rien n'a été fait. "
+"Les adresses du propriétaire se règlent dans Plateforme > Réglages."
 
 #. module: ea_platform_pipeline
 #: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
@@ -1452,3 +1456,18 @@ msgstr "main déplacé, de la main du propriétaire"
 #: code:addons/ea_platform_pipeline/models/promotion.py:0
 msgid "main moves once every firm runs the release."
 msgstr "main bouge une fois tous les cabinets sur la version."
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "Choose a release signed on your computer"
+msgstr "Choisissez une version signée sur votre ordinateur"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "The firm that goes first, alone"
+msgstr "Le cabinet qui passe en premier, seul"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form
+msgid "The firms that follow, in batches (empty: the test firm only)"
+msgstr "Les cabinets qui suivent, par lots (vide : le cabinet témoin seul)"

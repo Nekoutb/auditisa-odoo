@@ -13,6 +13,7 @@ class PlatformPracticeResetWizard(models.TransientModel):
 
     space_id = fields.Many2one("platform.practice.space", "Practice space", required=True, readonly=True)
     slug = fields.Char(related="space_id.slug")
+    computer_simulated = fields.Boolean(related="space_id.computer_simulated")
     typed = fields.Char("Type the firm's slug to confirm")
     reason = fields.Text("Why")
 
@@ -34,6 +35,7 @@ class PlatformPracticeFirstLogin(models.TransientModel):
     address = fields.Char(related="space_id.address")
     login = fields.Char(related="space_id.admin_login", string="Login")
     ready = fields.Boolean(related="space_id.first_login_ready")
+    computer_simulated = fields.Boolean(related="space_id.computer_simulated")
     revealed = fields.Boolean(readonly=True)
     link = fields.Char("One-time link", readonly=True)
     expires_at = fields.Datetime("Expires on", readonly=True)

@@ -45,7 +45,7 @@ msgstr "%(count)s h"
 #. odoo-python
 #: code:addons/ea_platform_admin/services/health.py:0
 msgid "%(count)s heartbeat(s) rejected in 24 hours"
-msgstr "%(count)s heartbeat(s) rejeté(s) en 24 h"
+msgstr "%(count)s signal(aux) de vie rejeté(s) en 24 h"
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -150,7 +150,7 @@ msgstr "<span>Missions</span>"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "<span>Heartbeat</span>"
-msgstr "<span>Heartbeat</span>"
+msgstr "<span>Signal de vie</span>"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_kanban
@@ -198,7 +198,7 @@ msgstr "Une version se construit et se signe sur votre ordinateur avec scripts/p
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
 msgid "Access and heartbeats"
-msgstr "Accès et heartbeats"
+msgstr "Accès et signaux de vie"
 
 #. module: ea_platform_admin
 #: model:ir.model,name:ea_platform_admin.model_platform_services
@@ -1119,7 +1119,7 @@ msgstr "Lien à usage unique du premier administrateur"
 msgid ""
 "First confirmation. Nothing is destroyed here. The server exports the firm's data at its next heartbeat;\n"
 "                    destruction only becomes possible once the export is handed over and the retention period is over."
-msgstr "Première confirmation. Rien n'est détruit ici. Le serveur exporte les données du cabinet à son prochain heartbeat ;\n                    la destruction ne sera possible qu'après remise de l'export et fin de la durée de conservation."
+msgstr "Première confirmation. Rien n'est détruit ici. Le serveur exporte les données du cabinet à son prochain signal de vie ;\n                    la destruction ne sera possible qu'après remise de l'export et fin de la durée de conservation."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__message_follower_ids
@@ -1240,18 +1240,18 @@ msgstr "Santé : {{0}}"
 #: code:addons/ea_platform_admin/wizard/onboarding.py:0
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__heartbeat_url
 msgid "Heartbeat receiving address"
-msgstr "Adresse de réception des heartbeats"
+msgstr "Adresse de réception des signaux de vie"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__heartbeat_token
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__heartbeat_token
 msgid "Heartbeat token"
-msgstr "Jeton de heartbeat"
+msgstr "Jeton du signal de vie"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__heartbeat_rejects_24h
 msgid "Heartbeats rejected (24 h)"
-msgstr "Heartbeats rejetés (24 h)"
+msgstr "Signaux de vie rejetés (24 h)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__confirmed
@@ -1349,7 +1349,7 @@ msgstr "Version installée"
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
 msgid "Installing on the server: waiting for the first heartbeat."
-msgstr "Installation en cours sur le serveur : en attente du premier heartbeat."
+msgstr "Installation en cours sur le serveur : en attente du premier signal de vie."
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -1509,12 +1509,12 @@ msgstr "Dernière sauvegarde"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__last_heartbeat_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__last_heartbeat_at
 msgid "Last heartbeat"
-msgstr "Dernier heartbeat"
+msgstr "Dernier signal de vie"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_heartbeat_timestamp
 msgid "Last heartbeat timestamp"
-msgstr "Horodatage du dernier heartbeat"
+msgstr "Horodatage du dernier signal de vie"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__last_message
@@ -1709,7 +1709,7 @@ msgstr "Aucun cabinet pour l'instant"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 msgid "No heartbeat"
-msgstr "Sans heartbeat"
+msgstr "Sans signal de vie"
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -1717,13 +1717,13 @@ msgstr "Sans heartbeat"
 #: code:addons/ea_platform_admin/services/tests/test_messages.py:0
 #: code:addons/ea_platform_admin/tests/test_languages.py:0
 msgid "No heartbeat for %(age)s"
-msgstr "Aucun heartbeat depuis %(age)s"
+msgstr "Aucun signal de vie depuis %(age)s"
 
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/health.py:0
 msgid "No heartbeat received"
-msgstr "Aucun heartbeat reçu"
+msgstr "Aucun signal de vie reçu"
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -2517,7 +2517,7 @@ msgstr "Afficher le lien"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_computer_form
 msgid "Simulate a heartbeat"
-msgstr "Simuler un heartbeat"
+msgstr "Simuler un signal de vie"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
@@ -2753,7 +2753,7 @@ msgstr "Le cabinet témoin ne convient pas : %(reason)s."
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_rollout_form
 msgid "The canary firm will get the release at its next heartbeat. Continue?"
-msgstr "Le cabinet témoin recevra la version à son prochain heartbeat. Continuer ?"
+msgstr "Le cabinet témoin recevra la version à son prochain signal de vie. Continuer ?"
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -3669,7 +3669,6 @@ msgstr "Demandé coupé, le cabinet dit allumé"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__desired
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
-#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_at
 msgid "Asked on"
 msgstr "Demandé allumé"
 
@@ -3870,7 +3869,7 @@ msgstr "Va au journal de la plateforme, avec votre nom et la date."
 #. odoo-python
 #: code:addons/ea_platform_admin/services/addon_texts.py:0
 msgid "Heartbeat of a firm's server, its first administrator's one-time link, mail gate"
-msgstr "Heartbeat du serveur du cabinet, lien à usage unique du premier administrateur, verrou de la messagerie"
+msgstr "Signal de vie du serveur du cabinet, lien à usage unique du premier administrateur, verrou de la messagerie"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
@@ -4002,7 +4001,7 @@ msgid ""
 "                        the server installs it: backup, then Odoo stops for a few minutes."
 msgstr ""
 "Coupé, un module est masqué et ses données sont gardées ; rallumé, tout revient. Rien n'est jamais désinstallé.\n"
-"                        Le serveur du cabinet applique un changement après son prochain heartbeat. La première fois qu'un module est allumé,\n"
+"                        Le serveur du cabinet applique un changement après son prochain signal de vie. La première fois qu'un module est allumé,\n"
 "                        le serveur l'installe : sauvegarde, puis Odoo s'arrête quelques minutes."
 
 #. module: ea_platform_admin
@@ -4423,7 +4422,7 @@ msgstr "<span>Support</span>"
 #. module: ea_platform_admin
 #: model_terms:ir.actions.act_window,help:ea_platform_admin.action_errors
 msgid "A firm's server reports its errors as codes in its heartbeat: addon, screen, error type, count. Never a message or a value."
-msgstr "Le serveur d'un cabinet signale ses erreurs en codes dans son heartbeat : module, écran, type d'erreur, nombre. Jamais un message ni une valeur."
+msgstr "Le serveur d'un cabinet signale ses erreurs en codes dans son signal de vie : module, écran, type d'erreur, nombre. Jamais un message ni une valeur."
 
 #. module: ea_platform_admin
 #: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_ticket_ref_unique
@@ -4522,7 +4521,7 @@ msgstr "Fermé"
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
 msgid "Copy this link now: it shows once and is not kept here. It works once the firm's server has opened the visit (after its next heartbeat), until the visit ends."
-msgstr "Copiez ce lien maintenant : il s'affiche une fois et n'est pas gardé ici. Il fonctionne dès que le serveur du cabinet a ouvert la visite (après son prochain heartbeat), jusqu'à la fin de la visite."
+msgstr "Copiez ce lien maintenant : il s'affiche une fois et n'est pas gardé ici. Il fonctionne dès que le serveur du cabinet a ouvert la visite (après son prochain signal de vie), jusqu'à la fin de la visite."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_error__count
@@ -4919,7 +4918,7 @@ msgstr ""
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "open"
-msgstr "ouverts"
+msgstr "ouvert(s)"
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -5057,7 +5056,7 @@ msgstr "Délai d'attente levé par le propriétaire pour cette version."
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__last_heartbeat_timestamp
 msgid "Last Heartbeat Timestamp"
-msgstr "Horodatage du dernier heartbeat"
+msgstr "Horodatage du dernier signal de vie"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__last_login_on
@@ -5373,7 +5372,7 @@ msgstr "Le lien donné avant cessera de fonctionner. En faire un nouveau ?"
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
 msgid "The practice computer deletes this space and its logins at its next heartbeat. Remove it?"
-msgstr "L'ordinateur d'entraînement supprimera cet espace et ses identifiants à son prochain heartbeat. Le supprimer ?"
+msgstr "L'ordinateur d'entraînement supprimera cet espace et ses identifiants à son prochain signal de vie. Le supprimer ?"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_release_form
@@ -5381,7 +5380,7 @@ msgid ""
 "The practice computer installs it at its next heartbeat (the release must be signed). From the day it\n"
 "                    runs there, the firms wait the release's holding period before they are offered it."
 msgstr ""
-"L'ordinateur d'entraînement l'installe à son prochain heartbeat (la version doit être signée). À partir du jour où elle\n"
+"L'ordinateur d'entraînement l'installe à son prochain signal de vie (la version doit être signée). À partir du jour où elle\n"
 "                    y tourne, les cabinets attendent le délai d'attente de la version avant qu'on la leur propose."
 
 #. module: ea_platform_admin
@@ -5447,7 +5446,7 @@ msgid ""
 msgstr ""
 "Tout ce que le cabinet a saisi dans son espace d'entraînement est effacé et les données de démonstration fictives\n"
 "                    reviennent. Le premier administrateur garde le même identifiant et le même mot de passe. L'ordinateur d'entraînement le fait à son\n"
-"                    prochain heartbeat, dans un quart d'heure environ."
+"                    prochain signal de vie, dans un quart d'heure environ."
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_computer_form
@@ -5480,3 +5479,22 @@ msgstr ""
 #: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_practice_computer_name_unique
 msgid "This practice computer is already registered."
 msgstr "Cet ordinateur d'entraînement est déjà enregistré."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_computer_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_reset_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
+msgid ""
+"Simulation: what is asked here (a reset, a first-login link, a release) reaches no practice computer. "
+"Nothing is reset, and a link shown here does not work."
+msgstr ""
+"Simulation : ce qui est demandé ici (une remise à zéro, un lien de première connexion, une version) "
+"n'atteint aucun ordinateur d'entraînement. Rien n'est remis à zéro, et un lien affiché ici ne fonctionne pas."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__computer_simulated
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__computer_simulated
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__computer_simulated
+msgid "Simulated practice computer"
+msgstr "Ordinateur d'entraînement simulé"

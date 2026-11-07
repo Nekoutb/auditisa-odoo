@@ -39,6 +39,10 @@
                     <field name="state" widget="statusbar" statusbar_visible="requested,ready,resetting"/>
                 </header>
                 <sheet>
+                    <field name="computer_simulated" invisible="1"/>
+                    <div class="alert alert-warning" role="status" invisible="not computer_simulated">
+                        Simulation: what is asked here (a reset, a first-login link, a release) reaches no practice computer. Nothing is reset, and a link shown here does not work.
+                    </div>
                     <p class="text-muted">
                         The firm's own space on the shared practice computer: made-up data only, the same add-ons as its
                         real system, its own logins. No other firm sees it. Real client data never goes there.
@@ -111,6 +115,9 @@
                             invisible="not is_simulation" groups="ea_platform_admin.group_platform_operator"/>
                 </header>
                 <sheet>
+                    <div class="alert alert-warning" role="status" invisible="not is_simulation">
+                        Simulation: what is asked here (a reset, a first-login link, a release) reaches no practice computer. Nothing is reset, and a link shown here does not work.
+                    </div>
                     <p class="text-muted">
                         New releases come here first. A firm's own server is offered a release only after it has run here
                         for its holding period (7 days unless you set another number on the release).
@@ -214,6 +221,10 @@
         <field name="model">platform.practice.reset.wizard</field>
         <field name="arch" type="xml">
             <form string="Reset to fresh demo data">
+                <field name="computer_simulated" invisible="1"/>
+                <div class="alert alert-warning" role="status" invisible="not computer_simulated">
+                    Simulation: what is asked here (a reset, a first-login link, a release) reaches no practice computer. Nothing is reset, and a link shown here does not work.
+                </div>
                 <div class="alert alert-warning" role="alert">
                     Everything the firm has typed in its practice space is deleted and the made-up demonstration data comes
                     back. The first administrator keeps the same login and password. The practice computer does it at its
@@ -239,6 +250,10 @@
         <field name="arch" type="xml">
             <form string="First login of a practice space">
                 <field name="revealed" invisible="1"/>
+                <field name="computer_simulated" invisible="1"/>
+                <div class="alert alert-warning" role="status" invisible="not computer_simulated">
+                    Simulation: what is asked here (a reset, a first-login link, a release) reaches no practice computer. Nothing is reset, and a link shown here does not work.
+                </div>
                 <group>
                     <field name="space_id"/>
                     <field name="address" widget="url"/>
