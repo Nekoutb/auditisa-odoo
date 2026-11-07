@@ -47,7 +47,8 @@ class TaskTemplate(models.Model):
     sequence = fields.Integer(default=10)
 
     # The firm's matrix (F002): what applies to this task today, the firm's own rules included.
-    matrix_order = fields.Integer(compute="_compute_matrix_order", store=True, index=True)
+    # "min": a list grouped by phase or section orders its groups by their first task, not by a sum
+    matrix_order = fields.Integer(compute="_compute_matrix_order", store=True, index=True, aggregator="min")
     matrix_min_preparer = fields.Selection(selection="_ladder_selection", string="Minimum preparer", compute="_compute_matrix")
     matrix_min_reviewer = fields.Selection(selection="_ladder_selection", string="Minimum reviewer", compute="_compute_matrix")
     matrix_partner = fields.Boolean(string="Partner sign-off", compute="_compute_matrix")
@@ -68,7 +69,7 @@ class TaskTemplate(models.Model):
 
     # The file index in the order of the audit, acceptance to conclusion (owner, 2026-11-07).
     phase_step = fields.Selection(PHASE_STEP_SELECTION, string="Phase", compute="_compute_phase_step", store=True)
-    chrono_no = fields.Integer(string="Order", readonly=True, copy=False, help="Position in the audit, from acceptance to conclusion.")
+    chrono_no = fields.Integer(string="Order", readonly=True, copy=False, aggregator="min", help="Position in the audit, from acceptance to conclusion.")
 
     _code_uniq = models.Constraint("UNIQUE(code)", "This task code already exists.")
 

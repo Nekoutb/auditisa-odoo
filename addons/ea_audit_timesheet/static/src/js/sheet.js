@@ -16,7 +16,8 @@ export class EaTimesheet extends Component {
         // an app opened by its address leaves any mission, and no audit tab is lit
         const shell = useService("ea_audit_context").state;
         // opened from an engagement (its gear, its form, the top bar): that engagement comes chosen
-        this.fromEngagement = this.props.action?.params?.resId || shell.fromMission || null;
+        const from = this.props.action?.params?.resId || this.props.action?.context?.active_id || shell.fromMission;
+        this.fromEngagement = from ? Number(from) : null;
         shell.fromMission = null;
         shell.mission = null;
         shell.openSection = null;

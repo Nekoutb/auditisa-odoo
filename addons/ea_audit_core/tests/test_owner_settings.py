@@ -100,6 +100,12 @@ class TestFileIndexOrder(EaAuditCase):
         self.assertIn('name="chrono_no"', arch)
         groups = Template.formatted_read_group([], ["phase_step"], ["__count"])
         self.assertEqual([g["phase_step"] for g in groups], PHASES)
+        # as the list asks for them: its own order, with the Order column's figure per group
+        groups = Template.web_read_group([], ["phase_step"], ["chrono_no:min"], order="matrix_order")["groups"]
+        self.assertEqual([g["phase_step"] for g in groups], PHASES)
+        self.assertEqual(groups[0]["chrono_no:min"], 1)
+        groups = Template.web_read_group([], ["section"], ["chrono_no:min"], order="matrix_order")["groups"]
+        self.assertEqual(groups[0]["section"], "D")
         # sorting the Phase column is chronological too, unlike the plain phase
         self.assertEqual(Template.search([], order="phase_step, chrono_no").mapped("phase_step")[0], PHASES[0])
         self.assertEqual(Template.search([], order="phase_step desc, chrono_no")[:1].phase, "conclusion")
