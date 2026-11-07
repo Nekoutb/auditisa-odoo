@@ -11,7 +11,7 @@ from odoo.tools import file_open
 from ..rules import rule_error
 from ..services.financial_analysis import financial_analysis
 from ..workbooks import substantive_workbook
-from .tool_record import fcfa, is_french
+from .tool_record import decimal_label, fcfa, is_french
 
 _WP_KIND = re.compile(r"^wp_(\d+)$")
 
@@ -27,14 +27,19 @@ class FaRatio(models.Model):
 
     key = fields.Char(required=True)
     sequence = fields.Integer()
-    group = fields.Char(required=True)
+    group = fields.Selection([
+        ("Liquidity", "Liquidity"), ("Activity", "Activity"), ("Profitability", "Profitability"),
+        ("Leverage", "Leverage"), ("Investment", "Investment"),
+    ], required=True)
     label = fields.Char(required=True)
+    formula = fields.Char()
     unit = fields.Char()
-    current = fields.Float(digits=(18, 2))
+    # Ratios and amounts do not add up: no total on a group's row (F064).
+    current = fields.Float(digits=(18, 2), aggregator=None)
     has_current = fields.Boolean()
-    prior = fields.Float(digits=(18, 2))
+    prior = fields.Float(digits=(18, 2), aggregator=None)
     has_prior = fields.Boolean()
-    variance = fields.Float(digits=(18, 2))
+    variance = fields.Float(string="Change", digits=(18, 2), aggregator=None, help="In the ratio's own unit: percentage points for a percentage, never a relative %.")
     has_variance = fields.Boolean()
     note = fields.Char()
 
@@ -106,11 +111,7 @@ class EngagementAnalysis(models.Model):
             engagement.analytics_html = engagement._ea_analytics_html()
 
     def _ea_fa_note(self, engagement):
-        fr = is_french(self.env)
-        tb = engagement._ea_prior_year_closings()
-        if tb:
-            return "Base : balance N-1" if fr else "Basis: prior-year trial balance"
-        return "Base : soldes d'ouverture" if fr else "Basis: opening balances"
+        return engagement._ea_comparative_label()
 
     # ------------------------------------------------------------------
     # Financial analysis
@@ -125,8 +126,8 @@ class EngagementAnalysis(models.Model):
         if not version:
             return None
         rows = [{"account_code": line.account_code, "opening": line.opening, "closing": line.closing} for line in version.line_ids]
-        prior = as_root._ea_prior_year_closings()
-        prior_rows = [{"account_code": code, "closing": closing} for code, closing in prior.items()] or None
+        source, prior = as_root._ea_comparatives()
+        prior_rows = None if source == "opening" else [{"account_code": code, "closing": closing} for code, closing in prior.items()]
         ledger = as_root._ea_ledger()
         gl_rows = [row["data"] for row in as_root._ea_dataset_rows(ledger)] if ledger else ()
         return financial_analysis(
@@ -141,15 +142,17 @@ class EngagementAnalysis(models.Model):
         if not view:
             return Ratio
         fr = is_french(self.env)
+        units = {"days": "jours"} if fr else {}
         values = []
         for position, row in enumerate(view["rows"]):
             current, prior = row.get("current"), row.get("prior")
             both = current is not None and prior is not None
             values.append({
                 "engagement_id": self.id, "key": row["key"], "sequence": position, "group": row["group"],
-                "label": row["labelFr"] if fr else row["label"], "unit": row.get("unit") or False,
+                "label": row["labelFr"] if fr else row["label"], "formula": row["formulaFr"] if fr else row["formula"],
+                "unit": units.get(row.get("unit"), row.get("unit")) or False,
                 "current": current or 0, "has_current": current is not None, "prior": prior or 0, "has_prior": prior is not None,
-                "variance": (current - prior) if both else 0, "has_variance": both, "note": row["note"].split(" · ")[1 if fr else 0] if row.get("note") else False,
+                "variance": (current - prior) if both else 0, "has_variance": both, "note": " ".join(filter(None, (row.get("blankFr" if fr else "blank"), row.get("noteFr" if fr else "note")))) or False,
             })
         return Ratio.create(values)
 
@@ -166,8 +169,9 @@ class EngagementAnalysis(models.Model):
         from ..exports import simple_workbook
 
         rows = []
+        groups = dict(self.env["ea.audit.fa.ratio"]._fields["group"]._description_selection(self.env))
         for ratio in self.sudo()._ea_sync_fa():
-            rows.append([ratio.group, ratio.label, ratio.current if ratio.has_current else "", ratio.prior if ratio.has_prior else "", ratio.variance if ratio.has_variance else "", ratio.unit or "", ratio.commentary or "", ratio.note or ""])
+            rows.append([groups[ratio.group], ratio.label, ratio.current if ratio.has_current else "", ratio.prior if ratio.has_prior else "", ratio.variance if ratio.has_variance else "", ratio.unit or "", ratio.commentary or "", ratio.note or ""])
         head = ["Groupe", "Ratio", "N", "N-1", "Variation", "Unité", "Commentaire", "Note"] if fr else ["Group", "Ratio", "Current", "Prior", "Variance", "Unit", "Commentary", "Note"]
         return "financial-analysis-%s.xlsx" % self._ea_export_slug(), simple_workbook("Ratios", head, rows)
 
@@ -204,10 +208,9 @@ class EngagementAnalysis(models.Model):
         self._ea_require_access()
         as_root = self.sudo()
         current = as_root._ea_tb_balances()
-        prior_engagement = as_root.search([
-            ("client_id", "=", as_root.client_id.id), ("fiscal_year", "<", as_root.fiscal_year),
-        ], order="fiscal_year desc", limit=1)
-        prior = prior_engagement._ea_tb_balances() if prior_engagement else []
+        # The lead schedules' comparative, so the two screens cannot disagree (F012).
+        source, closings = as_root._ea_comparatives()
+        prior = [{"account": code, "value": value} for code, value in closings.items()]
         approved = as_root._ea_approved_materiality()
         performance = approved.performance if approved else None
         resolve = as_root._ea_section_resolver()
@@ -244,7 +247,7 @@ class EngagementAnalysis(models.Model):
 
         now, then = ratios(current), ratios(prior)
         return {
-            "hasTb": bool(current), "hasPrior": bool(prior), "performanceMateriality": performance, "lines": lines,
+            "hasTb": bool(current), "hasPrior": source != "opening", "priorSource": source, "performanceMateriality": performance, "lines": lines,
             "ratios": [{"key": key, "current": now[key], "prior": then[key]} for key in now],
         }
 
@@ -256,13 +259,13 @@ class EngagementAnalysis(models.Model):
         lines = Markup("").join(
             Markup("<tr class='{css}'><td>{s}</td><td class='text-end'>{c}</td><td class='text-end'>{p}</td><td class='text-end'>{m}</td><td class='text-end'>{v}</td></tr>").format(
                 css="table-warning" if line["flagged"] else "", s=line["sectionCode"], c=fcfa(line["closing"]), p=fcfa(line["prior"]), m=fcfa(line["movement"]),
-                v="%.1f %%" % line["variancePct"] if line["variancePct"] is not None else "—",
+                v="%s %%" % decimal_label(round(line["variancePct"], 1), "fr" if fr else "en") if line["variancePct"] is not None else "—",
             ) for line in review["lines"]
         )
         titles = {"revenue": ("Chiffre d'affaires", "Revenue"), "payroll_to_revenue": ("Paie / CA %", "Payroll to revenue %"), "finance_to_revenue": ("Charges financières / CA %", "Finance costs to revenue %"), "purchases_to_revenue": ("Achats / CA %", "Purchases to revenue %")}
 
         def show(value, key):
-            return "—" if value is None else fcfa(value) if key == "revenue" else "%.1f" % value
+            return "—" if value is None else fcfa(value) if key == "revenue" else decimal_label(round(value, 1), "fr" if fr else "en")
 
         ratios = Markup("").join(
             Markup("<tr><td>{a}</td><td class='text-end'>{b}</td><td class='text-end'>{c}</td></tr>").format(
@@ -275,6 +278,9 @@ class EngagementAnalysis(models.Model):
         ).format(a="Section", b="Mouvement" if fr else "Movement", lines=lines, ratios=ratios)
 
     def action_tool_analytics(self):
+        self.ensure_one()
+        self._ea_require_access()
+        self.sudo()._ea_refresh_lead_schedules()
         return self._ea_board("ea_audit_tools.view_engagement_analytics_board", self.env._("Analytical procedures"))
 
     # ------------------------------------------------------------------

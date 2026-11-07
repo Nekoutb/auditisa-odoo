@@ -191,8 +191,9 @@ class TestTilesAndThresholds(ToolsCase):
             self.assertEqual(action["res_model"], model)
             self.env[model].with_user(self.staff).search(action["domain"], limit=1)
         forms = self.env.ref("ea_audit_tools.tile_forms").with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
-        codes = self.env["ea.audit.file.item"].sudo().search(forms["domain"]).mapped("code")
-        self.assertNotIn("E4.1", codes, "S5.5 scopes the Forms list too")
+        items = self.env["ea.audit.file.item"].sudo().search(forms["domain"])
+        # F083: what S5.5 leaves out stays on the list, and says so
+        self.assertEqual(items.filtered(lambda item: item.code == "E4.1").scope_chip, "Out of scope")
 
     def test_a_method_no_addon_provides_is_coming(self):
         tile = self.env.ref("ea_audit_tools.tile_forms").sudo()

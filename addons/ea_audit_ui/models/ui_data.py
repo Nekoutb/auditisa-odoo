@@ -6,10 +6,12 @@ own notification rows."""
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.http import request
+from odoo.tools import ormcache
 
 from odoo.addons.ea_audit_core.services.firm_time import FIRM_TZ, FIRM_TZ_LABEL
 from odoo.addons.ea_audit_core.services.phases import phase_of_task
 
+from ..services.methodology import answer_snippet, methodology_entry, methodology_matches
 from ..services.presentation import (
     FIRM_ROLE_LABELS,
     NATURE_LABELS,
@@ -259,12 +261,29 @@ class AuditUi(models.AbstractModel):
         return self._ea_ui_mission(engagement) if engagement else False
 
     @api.model
-    def ea_ui_search(self, term):
-        """Missions by client, name or year, tasks by code or title, in the files
-        the caller can open."""
+    @ormcache("lang")
+    def _ea_ui_methodology_index(self, lang):
+        """F079: what the papers say, built once per language in each process: the standards,
+        requirements and procedures live in the definitions, where a title search cannot see."""
+        Definition = self.env["ea.audit.paper.def"].sudo()
+        titles = {
+            template.code: template.title
+            for template in self.env["ea.audit.task.template"].sudo().with_context(lang=lang).search([])
+        }
+        fr = (lang or "").startswith("fr")
+        return tuple(
+            methodology_entry(definition.code, titles.get(definition.code, ""), definition.definition, fr)
+            for definition in Definition.search([("is_current", "=", True)])
+        )
+
+    @api.model
+    def ea_ui_search(self, term, mission_id=None):
+        """Missions by client, name or year, tasks by code or title, the papers' own text and
+        what the team wrote in them, in the files the caller can open: every search below runs
+        under the caller's rules."""
         term = (term or "").strip()
         if len(term) < 2:
-            return {"missions": [], "tasks": []}
+            return {"missions": [], "tasks": [], "methodology": [], "answers": []}
         domain = ["|", ("client_id.name", "ilike", term), ("name", "ilike", term)]
         if term.isdigit():
             domain = ["|", ("fiscal_year", "=", int(term))] + domain
@@ -274,14 +293,43 @@ class AuditUi(models.AbstractModel):
             [("conditional", "=", False), "|", ("code", "=ilike", "%s%%" % term), ("template_id.title", "ilike", term)],
             limit=8,
         )
-        return {
-            "missions": [self._ea_ui_mission(engagement) for engagement in engagements],
-            "tasks": [{
+        def row(item, snippet=""):
+            return {
                 "id": item.id,
                 "code": item.code,
                 "title": item.title,
+                "snippet": snippet,
                 "mission": "%s, %s" % (item.engagement_id.client_id.name, item.engagement_id.fiscal_year),
-            } for item in items],
+            }
+
+        matched = methodology_matches(term, self._ea_ui_methodology_index(self.env.lang or "en_US"))
+        # What a paper says is the same on every file: one row per paper, on the open mission, else the latest file.
+        candidates = self._ea_ui_titled(Item).search(
+            [("conditional", "=", False), ("code", "in", list(matched)), ("id", "not in", items.ids)],
+        ).sorted(lambda item: (item.engagement_id.id != mission_id, -item.engagement_id.fiscal_year, item.sequence, item.code)) if matched else Item
+        in_methodology = Item.browse()
+        seen_codes = set()
+        for item in candidates:
+            if item.code not in seen_codes:
+                seen_codes.add(item.code)
+                in_methodology |= item
+        in_methodology = in_methodology[:12]
+        # below three characters, "no" and "yes" would match every answer
+        written = self.env["ea.audit.paper.answer"].search([("value", "ilike", term)], limit=6) if len(term) >= 3 else self.env["ea.audit.paper.answer"]
+        written_items = Item.search([
+            ("engagement_id", "in", written.engagement_id.ids), ("code", "in", written.mapped("code")),
+        ])
+        by_key = {(item.engagement_id.id, item.code): item for item in written_items}
+        answers = []
+        for answer in written:
+            item = by_key.get((answer.engagement_id.id, answer.code))
+            if item:
+                answers.append(row(self._ea_ui_titled(item), answer_snippet(answer.value, term)))
+        return {
+            "missions": [self._ea_ui_mission(engagement) for engagement in engagements],
+            "tasks": [row(item) for item in items],
+            "methodology": [row(item, matched[item.code]) for item in in_methodology],
+            "answers": answers,
         }
 
     # ------------------------------------------------------------------
@@ -293,6 +341,7 @@ class AuditUi(models.AbstractModel):
         rows = self.env["ea.audit.notification"]._ea_ui_visible()
         return {
             "unread": len(rows.filtered(lambda row: not row.read_at)),
+            "total": len(rows),
             "rows": [{
                 "id": row.id,
                 "kind": row.kind,
@@ -300,6 +349,7 @@ class AuditUi(models.AbstractModel):
                 "detail": row.detail or "",
                 "unread": not row.read_at,
                 "created": fields.Datetime.to_string(row.create_date),
+                "url": row._ea_ui_url(),
             } for row in rows[:20]],
         }
 

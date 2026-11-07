@@ -82,9 +82,12 @@ class TestTeamOnly(EaAuditCase):
 
     def test_clients_stay_firm_level(self):
         self.assertTrue(self.client.with_user(self.reader).read(["name"]))
-        self.assertTrue(self.client.with_user(self.outsider).write({"sector": "trade"}))
-        with self.assertRaises(AccessError):
-            self.client.with_user(self.reader).write({"sector": "trade"})
+        self.assertTrue(self.client.with_user(self.outsider).read(["name"]))
+        # F074: a partner's or firm administrator's edit, on the team or not
+        self.assertTrue(self.client.with_user(self.partner2).write({"sector": "trade"}))
+        for user in (self.reader, self.outsider):
+            with self.assertRaises(AccessError):
+                self.client.with_user(user).write({"sector": "trade"})
 
     def test_read_only_sees_the_file_it_is_on_and_changes_nothing(self):
         self.seat(self.assigned, self.reader, "staff")

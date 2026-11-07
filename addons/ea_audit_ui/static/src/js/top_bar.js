@@ -41,7 +41,7 @@ export class EaTopBar extends Component {
         this.action = useService("action");
         this.orm = useService("orm");
         this.ctxState = useState(this.ctx.state);
-        this.state = useState({ open: null, query: "", results: null, notifications: [] });
+        this.state = useState({ open: null, query: "", results: null, notifications: [], notificationTotal: 0 });
         this.search = debounce(this.search.bind(this), 250);
 
         // One panel at a time. Bell, selector, gear and search open on a click
@@ -191,6 +191,7 @@ export class EaTopBar extends Component {
         if (this.state.open === "bell") {
             const data = await this.ctx.call("ea_ui_notifications");
             this.state.notifications = data.rows;
+            this.state.notificationTotal = data.total;
             this.ctxState.unread = data.unread;
         }
     }
@@ -229,6 +230,20 @@ export class EaTopBar extends Component {
         return item.run();
     }
 
+    onNotificationClick(ev, row) {
+        // A modified click keeps its own meaning: a new tab, a new window.
+        if (ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.button) {
+            return;
+        }
+        ev.preventDefault();
+        return this.openNotification(row);
+    }
+
+    openAllNotifications() {
+        this.state.open = null;
+        return this.ctx.openXmlid("ea_audit_ui.action_notifications");
+    }
+
     async openNotification(row) {
         this.state.open = null;
         const link = await this.ctx.call("ea_ui_notification_open", row.id);
@@ -259,7 +274,7 @@ export class EaTopBar extends Component {
             }
             return;
         }
-        this.state.results = await this.ctx.call("ea_ui_search", term);
+        this.state.results = await this.ctx.call("ea_ui_search", term, this.ctxState.mission?.id || false);
         this.state.open = "search";
     }
 

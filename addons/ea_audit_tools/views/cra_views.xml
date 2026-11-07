@@ -63,9 +63,22 @@
                             <span class="o_ea_chip o_ea_chip_warn"><field name="cra_to_assess_label" readonly="1"/></span>
                         </div>
                     </div>
+                    <field name="cra_missing" invisible="1"/>
                     <div class="o_ea_panel" invisible="cra_row_ids" data-ea="cra-not-assessable">
                         <div><span class="o_ea_chip">Not assessable yet</span></div>
-                        <div class="o_ea_sub">No significant account on this file: conclude on the significant accounts (P6.2) and the board fills in. Nothing here is a result.</div>
+                        <div class="o_ea_sub" invisible="cra_missing">No significant account on this file: conclude on the significant accounts (P6.2) and the board fills in. Nothing here is a result.</div>
+                    </div>
+                    <div class="o_ea_banner" invisible="cra_missing != 'tb'">
+                        <p class="mb-2">The grid is empty because no valid trial balance drives this file: import one first.</p>
+                        <button name="action_tool_tb" type="object" string="Open the trial balance" class="btn btn-secondary"/>
+                    </div>
+                    <div class="o_ea_banner" invisible="cra_missing != 'materiality'">
+                        <p class="mb-2">The trial balance is in. The grid is empty because materiality is not approved (P6.1).</p>
+                        <button name="action_tool_materiality" type="object" string="Open materiality" class="btn btn-secondary"/>
+                    </div>
+                    <div class="o_ea_banner" invisible="cra_missing != 'significance'">
+                        <p class="mb-2">Trial balance and materiality are in. The grid is empty because no account is marked significant (P6.2).</p>
+                        <button name="action_tool_significance" type="object" string="Open significant accounts" class="btn btn-secondary"/>
                     </div>
                     <div class="o_ea_panel" invisible="not cra_row_ids">
                         <field name="cra_row_ids" readonly="1" nolabel="1">

@@ -156,6 +156,7 @@ msgstr "Toutes les missions →"
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Apps"
 msgstr "Applications"
 
@@ -741,6 +742,7 @@ msgstr "Rien d'ouvert ne vous est affecté sur ce dossier."
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+#: model:ir.actions.act_window,name:ea_audit_ui.action_notifications
 msgid "Notifications"
 msgstr "Notifications"
 
@@ -1084,7 +1086,7 @@ msgstr "Zones de risque spécifiques"
 #. odoo-python
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "Staff"
-msgstr "Collaborateur"
+msgstr "Assistant audit"
 
 #. module: ea_audit_ui
 #. odoo-python
@@ -1405,7 +1407,7 @@ msgstr "senior manager"
 #. odoo-python
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "staff member"
-msgstr "collaborateur"
+msgstr "assistant audit"
 
 #. module: ea_audit_ui
 #. odoo-python
@@ -1486,10 +1488,21 @@ msgid "%(designed)s of %(total)s designed"
 msgstr "%(designed)s sur %(total)s conçus"
 
 #. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.view_notification_list
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "(S5.5)"
 msgstr ""
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "In the answers"
+msgstr "Dans les réponses"
 
 #. module: ea_audit_ui
 #. odoo-javascript
@@ -1529,6 +1542,12 @@ msgstr "Le groupe E3 a été fusionné dans le groupe E5 : E3.1 y figure sous so
 
 #. module: ea_audit_ui
 #. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "In the methodology"
+msgstr "Dans la méthodologie"
+
+#. module: ea_audit_ui
+#. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/js/rule_error_dialog.js:0
 msgid "Invalid Operation"
 msgstr ""
@@ -1538,6 +1557,12 @@ msgstr ""
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Mine ("
 msgstr "À moi ("
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Search engagements, tasks, the methodology and the answers"
+msgstr "Rechercher dans les missions, les tâches, la méthodologie et les réponses"
 
 #. module: ea_audit_ui
 #. odoo-javascript
@@ -1593,3 +1618,9 @@ msgstr "Tâches"
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "open and mine"
 msgstr "ouvertes et à moi"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "See all notifications ("
+msgstr "Voir toutes les notifications ("

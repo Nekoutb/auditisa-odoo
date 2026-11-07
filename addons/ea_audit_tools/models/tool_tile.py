@@ -66,7 +66,7 @@ class EngagementTools(models.Model):
             "ea.audit.file.item", self.env._("Forms"),
             [("ea_audit_tools.view_forms_register", "list")],
             {
-                "domain": [("engagement_id", "=", self.id), ("id", "not in", self.sudo()._ea_e4_out_of_scope().ids)],
+                "domain": [("engagement_id", "=", self.id)],
                 "context": {"ea_engagement_id": self.id, "create": False, "group_by": ["task_phase"]},
             },
         )

@@ -8,9 +8,10 @@
                 <group>
                     <group>
                         <field name="client_id"/>
-                        <field name="fiscal_year" options="{'enable_formatting': false}"/>
                         <field name="period_end"/>
+                        <field name="fiscal_year" options="{'enable_formatting': false}"/>
                         <field name="duration_months"/>
+                        <field name="name_preview"/>
                     </group>
                     <group>
                         <field name="engagement_partner_id"/>

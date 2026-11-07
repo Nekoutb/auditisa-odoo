@@ -1,6 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_client_member,client member,model_ea_audit_client,group_member,1,0,0,0
-access_client_writer,client writer,model_ea_audit_client,group_writer,1,1,1,0
+access_client_writer,client writer,model_ea_audit_client,group_writer,1,0,1,0
+access_client_partner,client partner,model_ea_audit_client,group_partner,1,1,1,0
 access_engagement_member,engagement member,model_ea_audit_engagement,group_member,1,0,0,0
 access_engagement_writer,engagement writer,model_ea_audit_engagement,group_writer,1,1,1,0
 access_team_member_member,team member,model_ea_audit_team_member,group_member,1,0,0,0

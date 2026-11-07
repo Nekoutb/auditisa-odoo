@@ -10,6 +10,7 @@ import re
 from ._js import date_utc, is_number, js_date_parse, js_round, js_str, js_trim, to_iso_date
 from .amount import parse_amount
 from .dataset_mapping import je_identity, je_key_columns, je_number_looks_like_journal_code
+from ._js import format_fr as nf_fr
 from .errors import ServiceError
 
 BATCH = 2000
@@ -174,14 +175,14 @@ def population_checks(aggregate):
         "account-populated", "Account populated on every line", "Compte renseigné sur chaque ligne",
         "passed" if not no_account else "failed",
         "All %s lines carry an account." % nf(lines) if not no_account else "%s lines carry no account." % nf(no_account),
-        "Les %s lignes portent un compte." % nf(lines) if not no_account else "%s lignes sans compte." % nf(no_account),
+        "Les %s lignes portent un compte." % nf_fr(lines) if not no_account else "%s lignes sans compte." % nf_fr(no_account),
     )
     no_je = a["no_je"]
     push(
         "je-populated", "JE number populated on every line", "Numéro d'écriture renseigné sur chaque ligne",
         "passed" if not no_je else "failed",
         "All lines belong to one of %s journal entries." % nf(entries) if not no_je else "%s lines carry no JE number." % nf(no_je),
-        "Toutes les lignes appartiennent à l'une des %s écritures." % nf(entries) if not no_je else "%s lignes sans numéro d'écriture." % nf(no_je),
+        "Toutes les lignes appartiennent à l'une des %s écritures." % nf_fr(entries) if not no_je else "%s lignes sans numéro d'écriture." % nf_fr(no_je),
     )
     key_cols = je_key_columns(mapping)
     identity = key_cols if key_cols else [h for h in [mapping.get("jeNumber")] if isinstance(h, str)]
@@ -193,24 +194,24 @@ def population_checks(aggregate):
         detail_fr = "Le numéro d'écriture et le code journal sont mappés sur la même colonne. Réimporter avec la colonne du numéro d'écriture (JE N°, N° écriture, N° pièce) comme identifiant unique d'écriture."  # i18n: term
     elif code_like:
         detail_en = '%s distinct JE identifiers over %s lines — about %s lines per "entry". That is a journal code, not an entry number: re-import and map the unique JE identifier (one column, or several that together identify an entry, e.g. journal + voucher number).' % (nf(entries), nf(lines), nf(per_entry))
-        detail_fr = "%s identifiants d'écriture distincts pour %s lignes — environ %s lignes par « écriture ». C'est un code journal, pas un numéro d'écriture : réimporter en mappant l'identifiant unique d'écriture (une colonne, ou plusieurs qui ensemble identifient une écriture, p. ex. journal + numéro de pièce)." % (nf(entries), nf(lines), nf(per_entry))
+        detail_fr = "%s identifiants d'écriture distincts pour %s lignes — environ %s lignes par « écriture ». C'est un code journal, pas un numéro d'écriture : réimporter en mappant l'identifiant unique d'écriture (une colonne, ou plusieurs qui ensemble identifient une écriture, p. ex. journal + numéro de pièce)." % (nf_fr(entries), nf_fr(lines), nf_fr(per_entry))
     else:
         detail_en = "%s entries, about %s lines each." % (nf(entries), nf(per_entry))
-        detail_fr = "%s écritures, environ %s lignes chacune." % (nf(entries), nf(per_entry))
+        detail_fr = "%s écritures, environ %s lignes chacune." % (nf_fr(entries), nf_fr(per_entry))
     push("je-distinguishes", "JE number distinguishes entries", "Le numéro d'écriture distingue les écritures", "failed" if code_like else "passed", detail_en, detail_fr)
     no_date = a["no_date"]
     push(
         "dates-parsed", "Journal dates readable", "Dates du journal lisibles",
         "passed" if not no_date else "warning" if no_date < lines * 0.01 else "failed",
         "Every journal date parsed." if not no_date else "%s lines have an unreadable journal date and are grouped separately." % nf(no_date),
-        "Toutes les dates du journal ont été lues." if not no_date else "%s lignes ont une date du journal illisible et sont regroupées à part." % nf(no_date),
+        "Toutes les dates du journal ont été lues." if not no_date else "%s lignes ont une date du journal illisible et sont regroupées à part." % nf_fr(no_date),
     )
     zero = a["zero_amount"]
     push(
         "amounts-numeric", "Amounts read as numbers", "Montants lus comme des nombres",
         "passed" if not zero else "warning",
         "Every line carries a numeric debit or credit." if not zero else "%s lines carry neither a debit nor a credit (nil amount or an unreadable value)." % nf(zero),
-        "Chaque ligne porte un débit ou un crédit numérique." if not zero else "%s lignes ne portent ni débit ni crédit (montant nul ou valeur illisible)." % nf(zero),
+        "Chaque ligne porte un débit ou un crédit numérique." if not zero else "%s lignes ne portent ni débit ni crédit (montant nul ou valeur illisible)." % nf_fr(zero),
     )
     debit, credit = a["total_debit"], a["total_credit"]
     diff = debit - credit
@@ -218,14 +219,14 @@ def population_checks(aggregate):
         "debit-credit-reconcile", "Total debits equal total credits", "Total des débits égal au total des crédits",
         "passed" if abs(diff) <= TOLERANCE else "failed",
         "Debits %s vs credits %s; difference %s." % (nf(debit), nf(credit), nf(diff)),
-        "Débits %s contre crédits %s ; différence %s." % (nf(debit), nf(credit), nf(diff)),
+        "Débits %s contre crédits %s ; différence %s." % (nf_fr(debit), nf_fr(credit), nf_fr(diff)),
     )
     unbalanced = a["unbalanced"]
     push(
         "entries-balance", "Every journal entry balances", "Chaque écriture est équilibrée",
         "passed" if not unbalanced else "failed",
         "All %s journal entries net to nil." % nf(entries) if not unbalanced else "%s of %s journal entries do not net to nil." % (nf(unbalanced), nf(entries)),
-        "Les %s écritures se soldent à zéro." % nf(entries) if not unbalanced else "%s écritures sur %s ne se soldent pas à zéro." % (nf(unbalanced), nf(entries)),
+        "Les %s écritures se soldent à zéro." % nf_fr(entries) if not unbalanced else "%s écritures sur %s ne se soldent pas à zéro." % (nf_fr(unbalanced), nf_fr(entries)),
     )
     start, end, out = a["period_start"], a["period_end"], a["out_of_period"]
     if start is None:
@@ -241,7 +242,7 @@ def population_checks(aggregate):
     else:
         status, detail_en, detail_fr = (
             "warning", "%s lines fall outside %s to %s — an exception requiring audit consideration." % (nf(out), start, end),
-            "%s lignes se situent hors de la période du %s au %s — exception à examiner." % (nf(out), start, end),
+            "%s lignes se situent hors de la période du %s au %s — exception à examiner." % (nf_fr(out), start, end),
         )
     push("dates-in-period", "Journal dates within the engagement period", "Dates du journal dans la période de la mission", status, detail_en, detail_fr)
     groups, extra = a["dup_groups"], a["dup_extra"]
@@ -249,7 +250,7 @@ def population_checks(aggregate):
         "duplicate-rows", "No identical source rows", "Aucune ligne source identique",
         "passed" if not groups else "warning",
         "No two lines share account, JE number, date, reference, amount and description." if not groups else "%s lines repeat one of %s identical combinations — an exception requiring audit consideration." % (nf(extra), nf(groups)),
-        "Aucune ligne ne partage compte, numéro d'écriture, date, référence, montant et libellé." if not groups else "%s lignes répètent l'une des %s combinaisons identiques — exception à examiner." % (nf(extra), nf(groups)),
+        "Aucune ligne ne partage compte, numéro d'écriture, date, référence, montant et libellé." if not groups else "%s lignes répètent l'une des %s combinaisons identiques — exception à examiner." % (nf_fr(extra), nf_fr(groups)),
     )
     source = a["source_rows"]
     gap = source - lines
@@ -257,7 +258,7 @@ def population_checks(aggregate):
         "row-count", "Imported line count complete", "Nombre de lignes importées complet",
         "passed" if not gap else "warning",
         "%s of %s source rows projected." % (nf(lines), nf(source)) if not gap else "%s of %s source rows projected; %s were skipped for a missing account or JE number." % (nf(lines), nf(source), nf(gap)),
-        "%s lignes source sur %s projetées." % (nf(lines), nf(source)) if not gap else "%s lignes source sur %s projetées ; %s écartées faute de compte ou de numéro d'écriture." % (nf(lines), nf(source), nf(gap)),
+        "%s lignes source sur %s projetées." % (nf_fr(lines), nf_fr(source)) if not gap else "%s lignes source sur %s projetées ; %s écartées faute de compte ou de numéro d'écriture." % (nf_fr(lines), nf_fr(source), nf_fr(gap)),
     )
     failed = len([check for check in checks if check["status"] == "failed"])
     warnings = len([check for check in checks if check["status"] == "warning"])

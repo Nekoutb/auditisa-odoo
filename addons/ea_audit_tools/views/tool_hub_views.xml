@@ -47,10 +47,11 @@
         <field name="priority">40</field>
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0" default_order="sequence, code" action="action_open_paper" type="object"
-                  decoration-danger="preparer_id and preparer_id == approver_id" decoration-muted="conditional">
-                <field name="conditional" column_invisible="1"/>
+                  decoration-danger="preparer_id and preparer_id == approver_id" decoration-muted="scope_chip">
                 <field name="code"/>
                 <field name="short_title" string="Paper"/>
+                <field name="scope_chip" widget="badge" decoration-warning="scope_chip" width="120px"/>
+                <field name="scope_reason" optional="show"/>
                 <field name="task_phase"/>
                 <field name="preparer_id"/>
                 <field name="approver_id"/>
