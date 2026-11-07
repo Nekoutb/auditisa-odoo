@@ -470,7 +470,7 @@ def test_an_old_reading_is_marked():
 
 
 @pytest.mark.parametrize("bad", [b"", b"not json", b"[]", json.dumps({"schema": 2}).encode(),
-                                 json.dumps({**GOOD, "generated": "yesterday"}).encode(), b"x" * 70000])
+                                 json.dumps({**GOOD, "generated": "yesterday"}).encode(), b"x" * 70000], ids=range(6))
 def test_a_bad_file_is_no_reading(bad):
     assert collected.read_state(bad, NOW) is None
 

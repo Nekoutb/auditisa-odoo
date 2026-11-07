@@ -146,6 +146,7 @@
   "discuss.channel.rtc.session",
   "discuss.gif.favorite",
   "discuss.voice.metadata",
+  "ea.audit.activity",
   "ea.audit.alerte",
   "ea.audit.alerte.event",
   "ea.audit.ap.comment",
@@ -258,6 +259,7 @@
   "ea.audit.section.conclusion",
   "ea.audit.significance",
   "ea.audit.signoff",
+  "ea.audit.signoff.matrix.import",
   "ea.audit.signoff.policy",
   "ea.audit.signoff.task.rule",
   "ea.audit.step.wizard",
@@ -830,6 +832,9 @@
   "discuss_voice_metadata": {
    "class": "purge"
   },
+  "ea_audit_activity": {
+   "class": "purge"
+  },
   "ea_audit_alerte": {
    "class": "firm",
    "columns": {
@@ -922,12 +927,14 @@
    "class": "firm",
    "columns": {
     "address": "text",
-    "framework": "keep:WORD",
+    "framework": "sel",
+    "governance_mode": "sel",
     "legal_form": "sel",
     "mandate_type": "sel",
     "name": "company",
     "niu": "idnum",
     "registration_number": "idnum",
+    "regulator": "sel",
     "sector": "sel"
    }
   },
@@ -1105,7 +1112,7 @@
    "columns": {
     "complexity": "sel",
     "edition_reason": "text",
-    "framework": "keep:WORD",
+    "framework": "sel",
     "itgc_state": "sel",
     "name": "text",
     "nature": "sel",
@@ -1124,7 +1131,8 @@
   "ea_audit_fa_ratio": {
    "class": "firm",
    "columns": {
-    "group": "keep:WORD",
+    "formula": "text",
+    "group": "sel",
     "key": "keep:FIELD_KEY",
     "label": "text",
     "note": "text",
@@ -1665,6 +1673,9 @@
     "role": "sel",
     "void_reason": "text"
    }
+  },
+  "ea_audit_signoff_matrix_import": {
+   "class": "purge"
   },
   "ea_audit_signoff_policy": {
    "class": "reference",
