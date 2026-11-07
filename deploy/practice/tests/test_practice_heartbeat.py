@@ -18,7 +18,16 @@ TOKEN = "t" * 64
 def test_space_figures_keep_figures_only():
     space = hb.space_figures("demo-akwa", True, "2026-11-07T10:00:00Z", 6, "2026-11-06")
     assert space == {"slug": "demo-akwa", "state": "ready", "last_reset_at": "2026-11-07T10:00:00Z",
-                     "users": 6, "last_login_on": "2026-11-06"}
+                     "users": 6, "last_login_on": "2026-11-06", "reset_generation": 0, "addons_on": [],
+                     "link_set": False}
+
+
+def test_generation_addons_and_link():
+    space = hb.space_figures("demo-akwa", True, None, 1, None, 3, ["ea_client_addon_sample", "Bad Name", "x"], True)
+    assert space["reset_generation"] == 3
+    assert space["addons_on"] == ["ea_client_addon_sample"]
+    assert space["link_set"] is True
+    assert hb.space_figures("demo-akwa", True, None, 1, None, -1, (), "yes")["reset_generation"] == 0
 
 
 @pytest.mark.parametrize("reset_at, users, last", [

@@ -105,7 +105,7 @@ load_practice_env() {
   : "${PRACTICE_NAME:?}" "${PRACTICE_DOMAIN:?}" "${PRACTICE_PORT:?}" "${PRACTICE_SERVICE:?}" "${PRACTICE_CONF:?}"
   : "${PRACTICE_DATA_DIR:?}" "${PRACTICE_PUBLIC_URL:?}"
   : "${PRACTICE_PREVIEW:=0}" "${PRACTICE_STRICT_CLUSTER:=1}" "${PRACTICE_HOLD_DAYS:=7}" "${PRACTICE_LANG:=fr_FR}"
-  : "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_UPDATE_MEM:=1400M}"
+  : "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_UPDATE_MEM:=1400M}" "${PRACTICE_RELEASE_BASE_URL:=}"
   : "${PRACTICE_ENTRY_URL:=$PRACTICE_PUBLIC_URL/web/login}"
   ODOO_CONF=$PRACTICE_PREFIX$PRACTICE_CONF
   # Written by the odoo-practice user: its own folder, not root's.
@@ -131,7 +131,7 @@ load_space() {
   file=$(space_file "$slug")
   [ -r "$file" ] || pl_die "no practice space '$slug'"
   SPACE_NAME_B64="" SPACE_ADMIN_LOGIN="" SPACE_ADDONS="" SPACE_LANG="" SPACE_CREATED_AT="" SPACE_RESET_AT=""
-  SPACE_TEMPLATE_ID=""
+  SPACE_TEMPLATE_ID="" SPACE_RESET_GEN=0 SPACE_FIRST_ADMIN_HASH=""
   local key value
   while IFS='=' read -r key value; do
     value=${value#\'}
@@ -144,6 +144,8 @@ load_space() {
       CREATED_AT) [[ $value =~ ^[0-9TZ:-]{20}$ ]] && SPACE_CREATED_AT=$value ;;
       RESET_AT) [[ $value =~ ^[0-9TZ:-]{20}$ ]] && SPACE_RESET_AT=$value ;;
       TEMPLATE_ID) [[ $value =~ ^[0-9a-f]{32}$ ]] && SPACE_TEMPLATE_ID=$value ;;
+      RESET_GEN) [[ $value =~ ^[0-9]{1,9}$ ]] && SPACE_RESET_GEN=$value ;;
+      FIRST_ADMIN_HASH) [[ $value =~ ^[0-9a-f]{64}$ ]] && SPACE_FIRST_ADMIN_HASH=$value ;;
     esac
   done < "$file"
   [ -n "$SPACE_ADMIN_LOGIN" ] && [ -n "$SPACE_TEMPLATE_ID" ] || pl_die "the record of space '$slug' is damaged: $file"
@@ -158,6 +160,7 @@ write_space() {
     printf "SLUG='%s'\nNAME_B64='%s'\nADMIN_LOGIN='%s'\nADDONS='%s'\nLANG='%s'\n" \
       "$slug" "$SPACE_NAME_B64" "$SPACE_ADMIN_LOGIN" "$SPACE_ADDONS" "$SPACE_LANG"
     printf "CREATED_AT='%s'\nRESET_AT='%s'\nTEMPLATE_ID='%s'\n" "$SPACE_CREATED_AT" "$SPACE_RESET_AT" "$SPACE_TEMPLATE_ID"
+    printf "RESET_GEN='%s'\nFIRST_ADMIN_HASH='%s'\n" "${SPACE_RESET_GEN:-0}" "${SPACE_FIRST_ADMIN_HASH:-}"
   } > "$tmp"
   chmod 640 "$tmp"
   mv -f "$tmp" "$file"
@@ -227,6 +230,22 @@ for manifest in sorted(pathlib.Path(sys.argv[1]).glob("*/__manifest__.py")):
 PY
 }
 
+# The optional client add-ons of a release: what a firm can switch on, and so a space too.
+optional_addons() {
+  "$ODOO_PY" -I - "$1" <<'PY'
+import ast
+import pathlib
+import sys
+
+for manifest in sorted(pathlib.Path(sys.argv[1]).glob("*/__manifest__.py")):
+    data = ast.literal_eval(manifest.read_text(encoding="utf-8"))
+    name = manifest.parent.name
+    if (data.get("ea_client_addon") is True and data.get("installable", True)
+            and (manifest.parent / "__init__.py").is_file() and not name.startswith("ea_platform_")):
+        print(name)
+PY
+}
+
 # The firm addons every space has, from the template: base, web, mail and each ea_audit_* addon.
 base_addons() {
   local addons=base,web,mail name
@@ -252,6 +271,11 @@ service_healthy() {
   done
   pl_warn "the practice service does not answer on port $PRACTICE_PORT (last: ${code:-none})"
   return 1
+}
+
+# Tells the running service that a space's settings changed under it (its caches reload).
+signal_space() {
+  psql_q "INSERT INTO orm_signaling_registry DEFAULT VALUES" "$(space_db "$1")" >/dev/null
 }
 
 audit_line() {

@@ -9,3 +9,4 @@ from . import test_addons
 from . import test_supervision
 from . import test_languages
 from . import test_support
+from . import test_practice

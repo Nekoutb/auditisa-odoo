@@ -36,6 +36,15 @@ Le **premier administrateur** de chaque espace : son identifiant, son mot de pas
 
 Après une **remise à zéro**, tout ce que le cabinet a saisi disparaît, y compris les mots de passe donnés aux collaborateurs de démonstration ; le premier administrateur garde son accès.
 
+### Dans la salle de contrôle
+
+- **Nouveau cabinet :** le dernier écran a l'interrupteur « Créer aussi son espace d'entraînement », **allumé par défaut**. L'espace a les mêmes modules complémentaires que le cabinet ; quand vous allumez ou éteignez un module sur le cabinet, son espace suit.
+- **Plateforme > Espaces d'entraînement :** chaque espace avec son adresse, son état, sa version, sa dernière remise à zéro, ses utilisateurs et son dernier heartbeat.
+- **Afficher la première connexion :** l'adresse, l'identifiant et un lien à usage unique (72 heures) avec lequel l'administrateur du cabinet choisit son mot de passe. Il s'affiche **une seule fois**. Perdu ou expiré : « Nouveau lien de première connexion ».
+- **Remettre les données de démonstration :** tapez l'identifiant du cabinet et un motif. L'ordinateur d'entraînement le fait à son prochain passage (un quart d'heure environ).
+- **Ordre des versions :** Plateforme > Espaces d'entraînement > Ordinateur d'entraînement > **Envoyer une version**. Les cabinets ne se voient proposer une version qu'après **7 jours** sur l'ordinateur d'entraînement (changeable sur la version, 0 pour ne pas attendre : vous seul). Promouvoir et les déploiements refusent avant ce délai. Tant qu'aucun ordinateur d'entraînement n'est enregistré, la règle ne s'applique pas, et l'écran le dit.
+- **Enregistrer l'ordinateur d'entraînement, une fois :** sur la salle de contrôle, dans `odoo shell`, `env["platform.practice.computer"]._enrol("practice-1"); env.cr.commit()`. Le jeton va dans `/etc/auditisa-platform/practice-heartbeat.token`, jamais à l'écran : copiez-le dans `/etc/auditisa-practice/secrets/heartbeat.token` (600) sur l'ordinateur d'entraînement, et mettez `PRACTICE_HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/practice-heartbeat` dans son `practice.env`.
+
 ### Si le gardien trouve une base
 
 Le service s'arrête et la base est fermée aux connexions. Regardez ce que c'est (`/var/log/auditisa-practice/actions.log`), supprimez-la à la main (`DROP DATABASE`), puis `systemctl start odoo-practice`.
@@ -71,11 +80,20 @@ New releases reach the practice computer **first**; a firm's real server is offe
 
 - `install-practice-server --env FILE --release DIR [--preview]`: sets the computer up (`deploy/practice/sample.env`). Outgoing traffic is denied except DNS, NTP, 80 and 443; mail ports 25, 465, 587, 2525 are rejected by name.
 - `practice-template build`: the demo template on the current release.
-- `practice-space create|reset|delete|addons|list`: see the header of `practice-space.sh`. Every command refuses a name that is not `practice_<valid slug>` before it touches anything.
-- **Reset keeps the first administrator's login and password**, so the firm is not locked out; `--new-password` draws a new one into the same root-only file. Everything else typed in the space is gone, including passwords given to the demonstration people. Each create or reset draws new `database.secret` and `database.uuid`, so a session from before is worth nothing.
+- `practice-space create|reset|delete|addons|first-admin|list`: see the header of `practice-space.sh`. Every command refuses a name that is not `practice_<valid slug>` before it touches anything.
+- **Reset keeps the first administrator's login and password** (the root file's, or the one the firm chose through its link), so the firm is not locked out; `--new-password` draws a new one into the root-only file instead. Everything else typed in the space is gone, including passwords given to the demonstration people. Each create or reset draws new `database.secret` and `database.uuid`, so a session from before is worth nothing.
 - `practice-update --bundle FILE --digest SHA256`: all spaces to a signed release, all or nothing, then the template again.
 - `practice-heartbeat` (timer): figures only (release, template release, guard verdict, and per space: state, last reset, active internal users, day of last login), signed with the practice prefix, sent when `PRACTICE_HEARTBEAT_URL` and `secrets/heartbeat.token` exist.
 - `practice_isolation_test.py A B [--preview-url URL]`: proves against the running service that A's login does not open B by any route (host, `?db=`, header, session cookie), that there is no database list or manager, and that the practice role cannot read the other databases.
+
+### In the control room
+
+- **New firm:** the last screen has the switch "Also create its practice space", **on by default**. The space has the firm's optional add-ons; switching one on or off on the firm does the same in its space.
+- **Platform > Practice spaces:** each space with its address, state, version, last reset, users, last login and last heartbeat.
+- **Show the first login:** the address, the login and a one-time link (72 hours) with which the firm's administrator chooses a password. Shown **once**; only its hash leaves the control room. Lost or expired: "New first-login link".
+- **Reset to fresh demo data:** type the firm's slug and a reason. The practice computer does it on its next pass (`practice-apply-desired`, every five minutes after the heartbeat).
+- **Release order:** Practice computer > **Send a release**. A firm is offered a release only after it has run on the practice computer for the release's holding period (**7 days**; the owner alone changes it per release, 0 = do not wait). Promote shows it as a pre-check and the rollout refuses to start before it; a rollback to an earlier release does not wait. While no practice computer is registered the rule does not apply, and the release says so.
+- **Register the practice computer, once:** on the control room, in `odoo shell`, `env["platform.practice.computer"]._enrol("practice-1"); env.cr.commit()`. The token goes to `/etc/auditisa-platform/practice-heartbeat.token`, never on screen: copy it to the practice computer's `/etc/auditisa-practice/secrets/heartbeat.token` (600) and set `PRACTICE_HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/practice-heartbeat` in its `practice.env`. Its heartbeat answer can ask only for a signed release, each firm's space (name, first administrator's login, language, add-ons, a reset number, a link's hash) and removals; `practice-apply-desired` checks every value again and acts only through `practice-space` and `practice-update`.
 
 ### Later step: the wildcard certificate
 

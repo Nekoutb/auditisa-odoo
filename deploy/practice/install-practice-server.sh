@@ -59,7 +59,7 @@ grep -Evq "^([A-Z0-9_]+='[A-Za-z0-9 ._:@/%+=,-]*'|#.*|)$" "$ENV_FILE" && pl_die 
 : "${PRACTICE_SERVICE:=odoo-practice}" "${PRACTICE_CONF:=/etc/odoo/practice.conf}" "${PRACTICE_DATA_DIR:=/var/lib/odoo-practice}"
 : "${PRACTICE_ENTRY_URL:=$PRACTICE_PUBLIC_URL/web/login}"
 : "${PRACTICE_WORKERS:=2}" "${PRACTICE_MEMORY:=2400M}" "${PRACTICE_LANG:=fr_FR}" "${PRACTICE_HOLD_DAYS:=7}"
-: "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_SSH_ALLOWLIST:=}" "${PRACTICE_UPDATE_MEM:=1400M}"
+: "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_SSH_ALLOWLIST:=}" "${PRACTICE_UPDATE_MEM:=1400M}" "${PRACTICE_RELEASE_BASE_URL:=}"
 : "${PREVIEW_PORT:=}" "${PREVIEW_HOST:=}" "${PREVIEW_CERT:=}"
 [ "$PREVIEW" = 1 ] || [ "${PRACTICE_PREVIEW:-0}" = 0 ] || pl_die "$ENV_FILE is a preview's: add --preview"
 [[ $PRACTICE_NAME =~ ^[a-z][a-z0-9-]{1,30}$ ]] || pl_die "invalid PRACTICE_NAME"
@@ -69,6 +69,7 @@ grep -Evq "^([A-Z0-9_]+='[A-Za-z0-9 ._:@/%+=,-]*'|#.*|)$" "$ENV_FILE" && pl_die 
 [[ $PRACTICE_SERVICE =~ ^[a-z][a-z0-9-]+$ ]] || pl_die "invalid PRACTICE_SERVICE"
 [[ $PRACTICE_PUBLIC_URL == https://* ]] || pl_die "PRACTICE_PUBLIC_URL must be https"
 [[ $PRACTICE_HEARTBEAT_URL == "" || $PRACTICE_HEARTBEAT_URL == https://* ]] || pl_die "PRACTICE_HEARTBEAT_URL must be https"
+[[ $PRACTICE_RELEASE_BASE_URL == "" || $PRACTICE_RELEASE_BASE_URL == https://* ]] || pl_die "PRACTICE_RELEASE_BASE_URL must be https"
 if [ "$PREVIEW" = 1 ]; then
   [[ $PREVIEW_PORT =~ ^[0-9]{4,5}$ ]] || pl_die "a preview needs PREVIEW_PORT"
   [[ $PREVIEW_HOST =~ ^[a-z0-9.-]+$ ]] || pl_die "a preview needs PREVIEW_HOST"
@@ -155,6 +156,7 @@ PRACTICE_STRICT_CLUSTER='$((1 - PREVIEW))'
 PRACTICE_LANG='$PRACTICE_LANG'
 PRACTICE_HOLD_DAYS='$PRACTICE_HOLD_DAYS'
 PRACTICE_HEARTBEAT_URL='$PRACTICE_HEARTBEAT_URL'
+PRACTICE_RELEASE_BASE_URL='$PRACTICE_RELEASE_BASE_URL'
 PRACTICE_UPDATE_MEM='$PRACTICE_UPDATE_MEM'
 EOF
 }
@@ -305,7 +307,7 @@ install_release() {
   fi
   local script link
   for script in practice-lib.sh practice-space.sh practice-template.sh practice-update.sh practice-guard.sh \
-                practice-cert.sh practice_heartbeat.py practice_isolation_test.py; do
+                practice-cert.sh practice-apply-desired.sh practice_heartbeat.py practice_isolation_test.py; do
     cp -f "$source/deploy/practice/$script" "$PRACTICE_BIN/$script"
     chmod 700 "$PRACTICE_BIN/$script"
     case "$script" in
@@ -431,6 +433,12 @@ EOF
         limit_req zone=practice_login burst=20 nodelay;
         proxy_pass http://practice_odoo;
     }
+    # The first administrator's one-time link: its token stays out of the access log.
+    location /ea-firm/first-admin/ {
+        access_log off;
+        limit_req zone=practice_login burst=10 nodelay;
+        proxy_pass http://practice_odoo;
+    }
     location /websocket {
         proxy_http_version 1.1;
 EOF
@@ -538,6 +546,12 @@ server {
         add_header Set-Cookie "ea_practice_space=\$practice_pick; Path=/; Secure; HttpOnly; SameSite=Lax" always;
         return 302 /web/login;
     }
+    # A first administrator's one-time link: chooses the space, then opens the link. Not logged.
+    location ~ "^/practice/(?<practice_pick>[a-z][a-z0-9-]{1,30}[a-z0-9])/first-admin/(?<practice_token>[A-Za-z0-9_-]{20,64})\$" {
+        access_log off;
+        add_header Set-Cookie "ea_practice_space=\$practice_pick; Path=/; Secure; HttpOnly; SameSite=Lax" always;
+        return 302 /ea-firm/first-admin/\$practice_token;
+    }
     location = /practice { return 404; }
 
     # Without a chosen space nothing reaches Odoo. Server-level rewrites run before the locations,
@@ -596,6 +610,7 @@ configure_timers() {
   # The guard's timer runs `practice-guard`, which checks and stops the service on a finding.
   timer practice-guard '*:0/10' "Practice spaces: only copies of the demo template are served"
   timer practice-heartbeat '*:3/10' "Practice spaces: figures for the control room"
+  timer practice-apply-desired '*:1/5' "Practice spaces: what the control room asked"
   if [ "$PREVIEW" = 0 ]; then
     secret /etc/auditisa-practice/secrets/heartbeat.token 600
   fi

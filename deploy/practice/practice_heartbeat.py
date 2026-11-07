@@ -40,6 +40,7 @@ _RELEASE = re.compile(r"^[0-9a-f]{7,40}$")
 _INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 _DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _NAME = re.compile(r"^[a-z][a-z0-9-]{1,30}$")
+_ADDON = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
 
 
 # ---------------------------------------------------------------------------- pure
@@ -71,8 +72,13 @@ def _clean(value, pattern):
     return value if isinstance(value, str) and pattern.match(value) else None
 
 
-def space_figures(slug, exists, reset_at, users, last_login_on):
-    """One space, every value checked against a closed pattern: a figure or nothing."""
+def space_figures(slug, exists, reset_at, users, last_login_on, generation=0, addons=(), link_set=False):
+    """One space, every value checked against a closed pattern: a figure or nothing.
+
+    `generation` is the number of the last reset the control room asked for and this computer did;
+    `addons` the optional add-ons on (technical names of the release, nothing typed by anyone);
+    `link_set` whether the first administrator's one-time link the control room sent is in place.
+    """
     if not _SLUG.match(slug or ""):
         raise ValueError("bad slug")
     return {
@@ -81,6 +87,9 @@ def space_figures(slug, exists, reset_at, users, last_login_on):
         "last_reset_at": _clean(reset_at, _INSTANT),
         "users": users if type(users) is int and 0 <= users < 100000 else None,
         "last_login_on": _clean(last_login_on, _DAY),
+        "reset_generation": generation if type(generation) is int and 0 <= generation < 10 ** 9 else 0,
+        "addons_on": sorted({code for code in addons if isinstance(code, str) and _ADDON.match(code)}),
+        "link_set": link_set is True,
     }
 
 
@@ -147,7 +156,13 @@ def collect():
             count = _psql("SELECT count(*) FROM res_users WHERE active AND NOT share AND login <> '__system__'", database)
             users = int(count) if count and count.isdigit() else None
             last = _psql("SELECT to_char(max(create_date), 'YYYY-MM-DD') FROM res_users_log", database) or None
-        spaces.append(space_figures(slug, exists, record.get("RESET_AT"), users, last))
+        generation = record.get("RESET_GEN", "0")
+        spaces.append(space_figures(
+            slug, exists, record.get("RESET_AT"), users, last,
+            int(generation) if generation.isdigit() else 0,
+            [code for code in record.get("ADDONS", "").split(",") if code],
+            bool(re.match(r"^[0-9a-f]{64}$", record.get("FIRST_ADMIN_HASH", ""))),
+        ))
     release = (_read(os.path.join(VAR, "status", "release")).split() or [""])[0]
     return env, build_figures(env.get("PRACTICE_NAME", ""), release, template.get("RELEASE"), guard, spaces)
 

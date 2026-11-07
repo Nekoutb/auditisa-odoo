@@ -29,3 +29,9 @@ access_ticket_operator,platform.ticket operator,model_platform_ticket,group_plat
 access_visit_viewer,platform.support.visit viewer,model_platform_support_visit,group_platform_viewer,1,0,0,0
 access_trace_viewer,platform.support.trace viewer,model_platform_support_trace,group_platform_viewer,1,0,0,0
 access_visit_wizard_operator,platform.support.visit.wizard operator,model_platform_support_visit_wizard,group_platform_operator,1,1,1,1
+access_practice_computer_viewer,platform.practice.computer viewer,model_platform_practice_computer,group_platform_viewer,1,0,0,0
+access_practice_computer_owner,platform.practice.computer owner,model_platform_practice_computer,group_platform_owner,1,1,0,0
+access_practice_space_viewer,platform.practice.space viewer,model_platform_practice_space,group_platform_viewer,1,0,0,0
+access_practice_reset_operator,platform.practice.reset.wizard operator,model_platform_practice_reset_wizard,group_platform_operator,1,1,1,1
+access_practice_first_login_operator,platform.practice.first.login operator,model_platform_practice_first_login,group_platform_operator,1,1,1,1
+access_practice_release_owner,platform.practice.release.wizard owner,model_platform_practice_release_wizard,group_platform_owner,1,1,1,1

@@ -107,6 +107,9 @@ class PlatformPipelinePromotion(models.Model):
             else _("No valid offline attestation for this release: run sign_promotion.sh on your computer."),
         ))
         if self.kind == "promote":
+            # The release order: the practice computer first, the firms after its holding period.
+            hold_ok, _until, hold_message = release.sudo()._practice_hold(now)
+            checks.append(pipeline.check("practice", hold_ok, hold_message))
             runs = self.env["platform.pipeline.test.run"].sudo().search([("commit_sha", "=like", release.sha[:7] + "%")])
             matching = [
                 {"suite": run.suite, "passed": run.passed, "failed": run.failed}
@@ -171,7 +174,8 @@ class PlatformPipelinePromotion(models.Model):
             "firm_ids": [(6, 0, firms.ids)],
             "batch_size": self.batch_size,
         })
-        rollout.action_start()
+        # A rollback goes back to a release the firms already ran: no holding period again.
+        rollout.with_context(ea_practice_hold_skip=self.kind == "rollback").action_start()
         self.write({
             "state": "rolling",
             "reason": reason,

@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # practice-space.sh: a firm's practice space on the practice computer.
 #
-#   practice-space create --slug SLUG --name "FIRM" --admin-login LOGIN [--addons a,b] [--lang fr_FR]
-#   practice-space reset --slug SLUG [--new-password]
+#   practice-space create --slug SLUG --name "FIRM" --admin-login LOGIN [--addons a,b] [--lang fr_FR] [--generation N]
+#   practice-space reset --slug SLUG [--new-password] [--generation N]
 #   practice-space delete --slug SLUG --yes
 #   practice-space addons --slug SLUG --set a,b       the add-ons switched on, as on the firm's real system
+#   practice-space first-admin --slug SLUG --hash SHA256 --expires YYYY-MM-DDTHH:MM:SSZ
 #   practice-space list
 #
 # A space is the database practice_<slug>, copied from the demo template (practice-template.sh),
@@ -17,11 +18,18 @@
 #
 # Reset puts the space back to fresh demonstration data: the database is dropped and copied again
 # from the template, with the same add-ons. The first administrator KEEPS the same login and
-# password, so the firm is not locked out; --new-password draws a new one into the same file. All
-# else typed in the space is gone, including passwords given to the demonstration people.
+# password (the one in the root file, or the one the firm chose through its link), so the firm is
+# not locked out; --new-password draws a new one into the root file instead. All else typed in the
+# space is gone, including passwords given to the demonstration people.
 #
-# Add-ons beyond the base ones must be add-ons of the release in use (never ea_platform_*). One the
-# space no longer lists stays installed until the next reset, which installs only the listed ones.
+# Add-ons are the optional client add-ons of the release in use (manifest key ea_client_addon), as
+# the control room lists them for the firm. Off hides an add-on and keeps its tables (ea_audit_addons),
+# as on the firm's real system; the next reset installs only the listed ones.
+#
+# first-admin: the control room's one-time link for the firm's first administrator. Only its hash
+# comes here; the firm opens the link and chooses its own password (ea_audit_firm_agent).
+#
+# --generation: the control room numbers its reset requests; the space keeps the last one done.
 
 set -euo pipefail
 umask 077
@@ -31,6 +39,7 @@ HERE=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)
 . "$HERE/practice-lib.sh"
 
 SLUG="" NAME="" ADMIN_LOGIN="" ADDONS="" LANG_CODE="" NEW_PASSWORD=0 YES=0 SET_ADDONS="" HAS_SET=0
+GENERATION="" LINK_HASH="" LINK_EXPIRES=""
 
 parse() {
   while [ $# -gt 0 ]; do
@@ -43,25 +52,29 @@ parse() {
       --lang) LANG_CODE=${2:?--lang needs a value}; shift ;;
       --new-password) NEW_PASSWORD=1 ;;
       --yes) YES=1 ;;
+      --generation) GENERATION=${2:?--generation needs a value}; shift ;;
+      --hash) LINK_HASH=${2:?--hash needs a value}; shift ;;
+      --expires) LINK_EXPIRES=${2:?--expires needs a value}; shift ;;
       *) pl_die "unknown option $1 (see --help)" ;;
     esac
     shift
   done
   [ -n "$SLUG" ] || pl_die "--slug is required"
+  [ -z "$GENERATION" ] || [[ $GENERATION =~ ^[0-9]{1,9}$ ]] || pl_die "invalid --generation"
   valid_slug "$SLUG" || pl_die "refused: '$SLUG' is not a valid practice space name"
   require_space_db "$(space_db "$SLUG")"
 }
 
-# Checks a comma list of add-ons against the release in use.
+# Checks a comma list of add-ons against the optional add-ons of the release in use.
 checked_addons() {
   local list=$1 allowed name out=""
   [ -n "$list" ] || return 0
   [[ $list =~ ^[a-z][a-z0-9_]*(,[a-z][a-z0-9_]*)*$ ]] || pl_die "invalid add-on list"
-  allowed=$(release_addons "$PRACTICE_CURRENT/addons") || pl_die "the release's manifests cannot be read"
+  allowed=$(optional_addons "$PRACTICE_CURRENT/addons") || pl_die "the release's manifests cannot be read"
   IFS=, read -ra names <<<"$list"
   for name in "${names[@]}"; do
     valid_addon "$name" || pl_die "refused add-on '$name'"
-    grep -qxF -- "$name" <<<"$allowed" || pl_die "'$name' is not an add-on of release $(current_release)"
+    grep -qxF -- "$name" <<<"$allowed" || pl_die "'$name' is not an optional add-on of release $(current_release)"
     [[ ,$out, == *,$name,* ]] || out=${out:+$out,}$name
   done
   printf '%s' "$out"
@@ -115,10 +128,41 @@ copy_template() {
     pl_log "installing the add-ons $addons (log: $log)"
     odoo_run "$db" "$log" -i "$addons" --without-demo=True 7>&- || { show_errors "$log"; pl_die "add-ons failed, see $log"; }
     if log_has_errors "$log"; then show_errors "$log"; pl_die "add-ons logged errors, see $log"; fi
+    switch_addons "$slug" "$addons"
   fi
 }
 
 new_password() { openssl rand -base64 18 | tr '+/' '-_' | tr -d '=\n'; }
+
+# Switches the space's optional add-ons as listed: on shows, off hides and keeps (ea_audit_addons).
+switch_addons() {
+  local slug=$1 list=$2 log result
+  log=$ODOO_LOGS/space-$slug-switch-$(date -u +%Y%m%dT%H%M%SZ).log
+  result=$(cat <<'PY' | odoo_shell "$(space_db "$slug")" "$log" P_CODES="$list" 7>&-
+import os
+
+codes = [code for code in os.environ["P_CODES"].split(",") if code]
+if "ea.addon.switch" in env:
+    env["ea.addon.switch"]._sync(codes)
+    env.cr.commit()
+print("PRACTICE_SWITCHED")
+PY
+  ) || true
+  [[ $result == *PRACTICE_SWITCHED* ]] || { show_errors "$log"; pl_die "switching the add-ons failed, see $log"; }
+}
+
+# The first administrator's password as stored (a hash), so a reset can put it back.
+admin_password_hash() {
+  psql_q "SELECT u.password FROM res_users u JOIN ir_model_data d ON d.res_id = u.id AND d.model = 'res.users'
+          AND d.module = 'base' AND d.name = 'user_admin'" "$(space_db "$1")" 2>/dev/null || true
+}
+
+restore_admin_password_hash() {
+  local slug=$1 hash=$2
+  # On stdin with a psql variable: the hash is neither on a command line nor in a log.
+  printf '%s\n' "UPDATE res_users SET password = :'h' WHERE id = (SELECT res_id FROM ir_model_data WHERE model = 'res.users' AND module = 'base' AND name = 'user_admin');" \
+    | runuser -u postgres -- psql -X -q -v ON_ERROR_STOP=1 -v "h=$hash" -d "$(space_db "$slug")" >/dev/null
+}
 
 write_login() {
   local slug=$1 login=$2 password=$3 file
@@ -218,6 +262,8 @@ cmd_create() {
   SPACE_RESET_AT=$SPACE_CREATED_AT
   SPACE_TEMPLATE_ID=$TEMPLATE_ID
 
+  SPACE_RESET_GEN=${GENERATION:-0}
+  SPACE_FIRST_ADMIN_HASH=""
   local password
   password=$(new_password)
   write_login "$SLUG" "$ADMIN_LOGIN" "$password"
@@ -238,8 +284,11 @@ cmd_reset() {
   take_lock
   require_template
   load_space "$SLUG"
-  local password=""
-  if [ "$NEW_PASSWORD" = 0 ]; then password=$(read_password "$SLUG"); fi
+  local password="" kept_hash=""
+  if [ "$NEW_PASSWORD" = 0 ]; then
+    password=$(read_password "$SLUG")
+    kept_hash=$(admin_password_hash "$SLUG")
+  fi
   if [ -z "$password" ]; then
     password=$(new_password)
     write_login "$SLUG" "$SPACE_ADMIN_LOGIN" "$password"
@@ -247,11 +296,19 @@ cmd_reset() {
   fi
   SPACE_RESET_AT=$(now_utc)
   SPACE_TEMPLATE_ID=$TEMPLATE_ID
+  [ -z "$GENERATION" ] || SPACE_RESET_GEN=$GENERATION
+  SPACE_FIRST_ADMIN_HASH=""
   write_space "$SLUG"
   pl_log "putting $SLUG back to fresh demonstration data"
   drop_space "$SLUG"
   build_space "$SLUG" "$password"
   unset password
+  # The password the administrator had (possibly one the firm chose) is the one it keeps.
+  if [[ $kept_hash == "\$pbkdf2"* ]]; then
+    restore_admin_password_hash "$SLUG" "$kept_hash"
+    signal_space "$SLUG"
+  fi
+  unset kept_hash
   audit_line "reset slug=$SLUG new_password=$NEW_PASSWORD"
   pl_log "space reset: $(space_entry_url "$SLUG")"
 }
@@ -291,13 +348,39 @@ cmd_addons() {
     pl_log "installing ${new[*]} on $SLUG (log: $log)"
     odoo_run "$db" "$log" -i "$(IFS=,; echo "${new[*]}")" --without-demo=True 7>&- || { show_errors "$log"; pl_die "add-ons failed, see $log"; }
     if log_has_errors "$log"; then show_errors "$log"; pl_die "add-ons logged errors, see $log"; fi
-    # The running service learns of new modules through the registry number.
-    psql_q "INSERT INTO orm_signaling_registry DEFAULT VALUES" "$db" >/dev/null
   fi
+  switch_addons "$SLUG" "$wanted"
+  # The running service learns of new modules and switches through the registry number.
+  signal_space "$SLUG"
   SPACE_ADDONS=$wanted
   write_space "$SLUG"
   audit_line "addons slug=$SLUG set=${wanted:-none}"
   pl_log "add-ons of $SLUG: ${wanted:-none}"
+}
+
+cmd_first_admin() {
+  parse "$@"
+  [[ $LINK_HASH =~ ^[0-9a-f]{64}$ ]] || pl_die "--hash must be a sha256"
+  [[ $LINK_EXPIRES =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$ ]] || pl_die "--expires must be YYYY-MM-DDTHH:MM:SSZ"
+  load_practice_env
+  [ "$(id -u)" = 0 ] || pl_die "run as root"
+  cd /
+  take_lock
+  load_space "$SLUG"
+  local expires=${LINK_EXPIRES/T/ }
+  expires=${expires%Z}
+  # Values through psql variables, on stdin.
+  cat <<'SQL' | runuser -u postgres -- psql -X -q -v ON_ERROR_STOP=1 -v "h=$LINK_HASH" -v "e=$expires" -d "$(space_db "$SLUG")" >/dev/null
+INSERT INTO ir_config_parameter (key, value, create_date, write_date) VALUES ('ea_firm_agent.first_admin_hash', :'h', now(), now())
+  ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_date = now();
+INSERT INTO ir_config_parameter (key, value, create_date, write_date) VALUES ('ea_firm_agent.first_admin_expires', :'e', now(), now())
+  ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_date = now();
+SQL
+  signal_space "$SLUG"
+  SPACE_FIRST_ADMIN_HASH=$LINK_HASH
+  write_space "$SLUG"
+  audit_line "first-admin link slug=$SLUG"
+  pl_log "the first administrator's link of $SLUG is set (valid until $LINK_EXPIRES)"
 }
 
 cmd_list() {
@@ -315,6 +398,7 @@ case "${1:-}" in
   reset) shift; cmd_reset "$@" ;;
   delete) shift; cmd_delete "$@" ;;
   addons) shift; cmd_addons "$@" ;;
+  first-admin) shift; cmd_first_admin "$@" ;;
   list) cmd_list ;;
-  *) sed -n '2,25p' "$0"; exit 64 ;;
+  *) sed -n '2,34p' "$0"; exit 64 ;;
 esac

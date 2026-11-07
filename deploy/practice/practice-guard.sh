@@ -25,8 +25,9 @@ HERE=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)
 # shellcheck source=deploy/practice/practice-lib.sh
 . "$HERE/practice-lib.sh"
 
-# Keys that only a firm's database or an anonymised copy has.
-readonly FOREIGN_KEYS="'ea_firm_agent.slug','ea_firm_agent.heartbeat_url','ea_firm_agent.first_admin_hash','ea_audit.anonymised'"
+# Keys that only a firm's database or an anonymised copy has. (A space may hold a first-administrator
+# link's hash: the control room asks for one, as for a firm.)
+readonly FOREIGN_KEYS="'ea_firm_agent.slug','ea_firm_agent.heartbeat_url','ea_audit.anonymised'"
 
 # judge <db> <strict 0|1> <registered 0|1> <space mark> <template mark> <expected template> <foreign marks>
 # Prints "ok" or the finding. Pure: the tests call it directly.
