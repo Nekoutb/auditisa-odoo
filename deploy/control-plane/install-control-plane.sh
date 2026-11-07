@@ -184,7 +184,7 @@ ReadWritePaths=/var/lib/odoo /var/log/odoo
 WantedBy=multi-user.target
 EOF
 if [ "$DRY_RUN" = 1 ]; then
-  printf '+ odoo-bin -i ea_platform_admin --without-demo=True --load-language=fr_FR --stop-after-init\n'
+  printf '+ odoo-bin -i ea_platform_admin,ea_platform_pipeline --without-demo=True --load-language=fr_FR --stop-after-init\n'
 else
   for token in vultr.token cloudflare.token; do
     # An empty placeholder keeps the service starting in simulation mode, before the owner has any.
@@ -193,7 +193,7 @@ else
   runuser -u postgres -- psql -XAtc "SELECT 1 FROM pg_database WHERE datname = '$DB'" | grep -q 1 \
     || runuser -u postgres -- createdb -O odoo -E UTF8 -T template0 --lc-collate=C --lc-ctype=C.UTF-8 "$DB"
   runuser -u odoo -- /opt/odoo19/venv/bin/python /opt/odoo19/src/odoo-bin -c /etc/odoo/odoo.conf -d "$DB" \
-    -i ea_platform_admin --without-demo=True --load-language=fr_FR --no-http --max-cron-threads=0 --workers=0 --stop-after-init
+    -i ea_platform_admin,ea_platform_pipeline --without-demo=True --load-language=fr_FR --no-http --max-cron-threads=0 --workers=0 --stop-after-init
   # No default admin: Odoo's admin/admin never exists on a reachable server. Root reads the password
   # once from this file, keeps it in the owner's safe and deletes the file.
   if [ ! -e /etc/auditisa-platform/admin.password ]; then
@@ -224,6 +224,17 @@ EOF
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:8069;
+    }
+EOF
+  # The one thing status.auditisa.com reads: counts, commits, dates. Nothing a firm's name can be in.
+  printf '    location = /platform/pipeline-state {\n'
+  for addr in ${STATUS_READER_IPS:-}; do printf '        allow %s;\n' "$addr"; done
+  cat <<'EOF'
+        deny all;
+        limit_except GET { deny all; }
+        proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_pass http://127.0.0.1:8069;
     }

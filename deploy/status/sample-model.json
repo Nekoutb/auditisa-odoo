@@ -1,0 +1,47 @@
+{
+ "schema": 1,
+ "generated": "2026-12-15T09:30:04.000Z",
+ "tools": [
+  {
+   "key": "next",
+   "read_at": "2026-12-15T09:30:04.000Z",
+   "github_ok": true,
+   "stages": [
+    {"key": "development", "branch": "dev",
+     "head": {"sha": "9f8e7d6c5b4a39281706f5e4d3c2b1a098765432", "short": "9f8e7d6", "author": "Sample Author", "at": "2026-12-15T08:12:00.000Z"},
+     "running": null, "ahead_of_next": 2},
+    {"key": "staging", "branch": "dev",
+     "head": {"sha": "9f8e7d6c5b4a39281706f5e4d3c2b1a098765432", "short": "9f8e7d6", "author": "Sample Author", "at": "2026-12-15T08:12:00.000Z"},
+     "running": {"sha": "1234567c5b4a39281706f5e4d3c2b1a098765432", "short": "1234567", "author": "Sample Author", "at": "2026-12-14T16:00:00.000Z"},
+     "site": "dev.auditisa.com", "health": "ok", "matches": false,
+     "last_promotion": {"at": "2026-12-14T16:10:00Z", "sha": "1234567c5b4a39281706f5e4d3c2b1a098765432"}, "ahead_of_next": 12},
+    {"key": "production", "branch": "main",
+     "head": {"sha": "abcdef0c5b4a39281706f5e4d3c2b1a098765432", "short": "abcdef0", "author": "Sample Author", "at": "2026-12-01T10:00:00.000Z"},
+     "running": {"sha": "abcdef0c5b4a39281706f5e4d3c2b1a098765432", "short": "abcdef0", "author": "Sample Author", "at": "2026-12-01T10:00:00.000Z"},
+     "site": "www.auditisa.com", "health": "ok", "matches": true, "behind_github": 0,
+     "last_promotion": {"at": "2026-12-01T10:30:00Z", "sha": "abcdef0c5b4a39281706f5e4d3c2b1a098765432"}}
+   ]
+  },
+  {
+   "key": "odoo",
+   "read_at": "2026-12-15T09:30:04.000Z",
+   "github_ok": true,
+   "stages": [
+    {"key": "development", "branch": "dev",
+     "head": {"sha": "fedcba9c5b4a39281706f5e4d3c2b1a098765432", "short": "fedcba9", "author": "Sample Author", "at": "2026-12-15T09:01:00.000Z"},
+     "running": null, "ahead_of_next": 3},
+    {"key": "staging", "branch": "staging",
+     "head": {"sha": "7654321c5b4a39281706f5e4d3c2b1a098765432", "short": "7654321", "author": "Sample Author", "at": "2026-12-13T11:00:00.000Z"},
+     "running": {"sha": "7654321c5b4a39281706f5e4d3c2b1a098765432", "short": "7654321", "author": "Sample Author", "at": "2026-12-13T11:00:00.000Z"},
+     "site": "test.auditisa.com", "health": "ok", "matches": true, "mail_off": true, "band_on": true,
+     "last_rebuild": {"at": "2026-12-10T07:30:00Z", "state": "rebuilt"}, "ahead_of_next": 5, "action": "rebuild"},
+    {"key": "production", "branch": "main",
+     "head": {"sha": "0a1b2c3c5b4a39281706f5e4d3c2b1a098765432", "short": "0a1b2c3", "author": "Sample Author", "at": "2026-12-05T10:00:00.000Z"},
+     "running": {"sha": "0a1b2c3c5b4a39281706f5e4d3c2b1a098765432", "short": "0a1b2c3", "author": "Sample Author", "at": "2026-12-05T10:00:00.000Z"},
+     "firms_total": 4, "firms_on_target": 4, "matches": true,
+     "rollout": {"state": "done", "done": 4, "total": 4},
+     "last_promotion": {"at": "2026-12-05T12:00:00Z", "sha": "0a1b2c3c5b4a39281706f5e4d3c2b1a098765432"}, "action": "promote"}
+   ]
+  }
+ ]
+}
