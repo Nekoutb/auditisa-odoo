@@ -34,7 +34,7 @@
 #        mail off, band on, every password reset, every cron off, web.base.url frozen,
 #        no heartbeat to a control plane under a firm's name
 #   6. stops Odoo, swaps the names (the old one stays as <db>_before_<stamp>, with its filestore), updates
-#      the addons, re-seats the owner's login with add_contact_user.py and starts Odoo
+#      the addons, re-seats the owner's login (seat_owner.py, as /root/add_contact_user.py but past archived files) and starts Odoo
 #   7. checks Odoo answers. If not: the old database and filestore go back, and Odoo restarts on them
 #
 # No outside mail, no call to any firm or control plane. Prints no password, none is passed on a command line.
@@ -54,7 +54,7 @@ usage() { sed -n '2,40p' "$0"; exit 64; }
 : "${ODOO_USER:=odoo}"
 : "${SERVICE:=odoo}"
 : "${HOST_URL:=https://test.auditisa.com}"
-: "${CONTACT_SCRIPT:=/root/add_contact_user.py}"
+: "${SEAT_SCRIPT:=$(dirname "$(readlink -f "$0")")/seat_owner.py}"
 : "${CONTACT_PW_FILE:=/root/.contact-cm-ea.pw}"
 : "${BACKUP_DIR:=/var/backups/odoo/before-rebuild}"
 : "${HEALTH_PORT:=8069}"
@@ -345,13 +345,11 @@ log "addons updated: safeguards still hold"
 
 # Every password has been reset to nothing, so nobody signs in until this is done. Its own output only
 # gives ids and counts; RESULT lines prove it ran.
-[ -r "$CONTACT_SCRIPT" ] || die "$CONTACT_SCRIPT is missing"
+[ -r "$SEAT_SCRIPT" ] || die "$SEAT_SCRIPT is missing"
 [ -r "$CONTACT_PW_FILE" ] || die "$CONTACT_PW_FILE is missing"
-# The password file is root's: Odoo, which runs as another user, gets it as an open file, never on a command line.
-grep -qF "open(\"$CONTACT_PW_FILE\")" "$CONTACT_SCRIPT" || die "$CONTACT_SCRIPT no longer reads $CONTACT_PW_FILE: check it"
-SEATED=$(sed "s#open(\"$CONTACT_PW_FILE\")#open(\"/dev/fd/3\")#" "$CONTACT_SCRIPT" \
-  | runuser -u "$ODOO_USER" -- "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$DB" --no-http --logfile=/dev/null 9>&- 3<"$CONTACT_PW_FILE" \
-  2>/dev/null | grep '^RESULT' || true)
+# The password file is root's: Odoo, which runs as another user, gets it as an open descriptor, never as a path
+# or on a command line.
+SEATED=$(runuser -u "$ODOO_USER" -- "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$DB" --no-http --logfile=/dev/null 9>&-   3<"$CONTACT_PW_FILE" < "$SEAT_SCRIPT"   2>/dev/null | grep '^RESULT' || true)
 printf '%s\n' "$SEATED" | grep -E '^RESULT visible [1-9]' >/dev/null || die "the owner's login was not re-seated on any engagement"
 log "owner's login re-seated: $(printf '%s' "$SEATED" | tr '\n' ' ' | cut -c1-120)"
 # Setting a password makes Odoo try a "password changed" mail. With no server it goes nowhere: its row goes too.
