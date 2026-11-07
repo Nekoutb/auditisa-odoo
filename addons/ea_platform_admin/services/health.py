@@ -51,6 +51,8 @@ def evaluate(firm, now):
         _certificate(firm, now, add)
         _resources(firm, add)
         _update(firm, add)
+        _addons(firm, add)
+        _support(firm, add)
     if not firm.get("backup_key_escrowed") and state == "active":
         add(AMBER, _("Backup key not yet confirmed as stored in the safe"))
     unlogged = (firm.get("ssh_sessions_24h") or 0) - (firm.get("breakglass_24h") or 0)
@@ -147,6 +149,37 @@ def _update(firm, add):
         add(RED, _("Update failed, rollback not confirmed"))
     elif firm.get("update_state") == "rolled_back":
         add(AMBER, _("Update cancelled by automatic rollback"))
+
+
+def _addons(firm, add):
+    if firm.get("addons_differ"):
+        add(AMBER, _("Add-ons: %(count)s not as asked", count=firm["addons_differ"]))
+    if firm.get("addons_refused"):
+        add(AMBER, _("Add-ons: the firm's server refused %(count)s request(s)", count=firm["addons_refused"]))
+    if firm.get("addons_unknown"):
+        add(AMBER, _("Add-ons: the firm reports %(count)s code(s) outside the catalogue", count=firm["addons_unknown"]))
+
+
+def _support(firm, add):
+    if firm.get("errors_24h"):
+        add(AMBER, _("%(count)s technical error(s) in 24 hours", count=firm["errors_24h"]))
+    if firm.get("tickets_open"):
+        add(AMBER, _("%(count)s reported problem(s) not closed", count=firm["tickets_open"]))
+    if firm.get("visit_open"):
+        add(AMBER, _("A support visit is open"))
+
+
+def backup_state(last, succeeded, now):
+    """none, failed, late, missed or ok, by the same limits as the health reasons."""
+    if not last:
+        return "none"
+    if succeeded is False:
+        return "failed"
+    if now - last > BACKUP_RED:
+        return "missed"
+    if now - last > BACKUP_AMBER:
+        return "late"
+    return "ok"
 
 
 def _age(delta):

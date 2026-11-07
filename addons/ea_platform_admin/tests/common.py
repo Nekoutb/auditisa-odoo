@@ -55,6 +55,7 @@ class PlatformMixin:
     def _through_steps(self, wizard):
         wizard.action_next()
         wizard.action_next()
+        wizard.action_next()
         wizard.confirmed = True
         return wizard
 

@@ -16,6 +16,9 @@ _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _ODOO_VERSION = re.compile(r"^\d{2}\.\d$")
 _CIDR = re.compile(r"^[0-9a-fA-F:.]+/\d{1,3}$")
 _ANON_REF = re.compile(r"^[0-9a-f]{16}$")
+_ADDON_CODE = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
+_OPERATOR = re.compile(r"^[\w .'-]{1,64}$")
+MAX_ADDON_CODES = 24
 
 
 def _text(pattern):
@@ -59,9 +62,12 @@ STATUS_FILES = {
     "anon_export_sha256": _text(_SHA256),
     "ssh_sessions_24h": _count,
     "last_ssh_at": _text(_INSTANT),
+    "addons_refused": _count,
 }
 
-DEFAULTS = {"update_state": "idle", "export_state": "none", "ssh_sessions_24h": 0, "odoo_version": "19.0"}
+DEFAULTS = {
+    "update_state": "idle", "export_state": "none", "ssh_sessions_24h": 0, "odoo_version": "19.0", "addons_refused": 0,
+}
 
 
 def read_status(folder):
@@ -101,8 +107,13 @@ def disk_figures(path="/"):
     }
 
 
-def build_figures(status, memory, disk, users_active, engagements_active, mail_enabled):
-    """The whole body. `release` is left out if unknown, which the receiver rejects, on purpose."""
+def build_figures(status, memory, disk, users_active, engagements_active, mail_enabled, addons_on=(),
+                  errors=None, support_visit=None):
+    """The whole body. `release` is left out if unknown, which the receiver rejects, on purpose.
+
+    `addons_on` holds technical names and nothing else. Past the cap they are not sent at all, since
+    the receiver would refuse the whole heartbeat.
+    """
     figures = {"schema": 1}
     figures.update(DEFAULTS)
     figures.update(status)
@@ -113,6 +124,13 @@ def build_figures(status, memory, disk, users_active, engagements_active, mail_e
         "engagements_active": engagements_active,
         "mail_enabled": bool(mail_enabled),
     })
+    codes = sorted(code for code in set(addons_on) if _ADDON_CODE.match(code))
+    if len(codes) <= MAX_ADDON_CODES:
+        figures["addons_on"] = codes
+    if errors is not None:
+        figures["errors"] = errors
+    if support_visit is not None:
+        figures["support_visit"] = support_visit
     return figures
 
 
@@ -141,4 +159,24 @@ def parse_desired(body):
     allowlist = data.get("ssh_allowlist")
     if isinstance(allowlist, list) and all(isinstance(c, str) and _CIDR.match(c) for c in allowlist):
         desired["ssh_allowlist"] = allowlist
+    # Absent means no request. Root's firm-addons checks the codes against the signed release.
+    addons = data.get("desired_addons")
+    if (
+        isinstance(addons, list) and len(addons) <= MAX_ADDON_CODES
+        and all(isinstance(code, str) and _ADDON_CODE.match(code) for code in addons)
+    ):
+        desired["addons"] = sorted(set(addons))
+    visit = data.get("support_visit")
+    if (
+        isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256", "operator", "reason"}
+        and type(visit["id"]) is int and 0 < visit["id"] < 10 ** 9
+        and type(visit["minutes"]) is int and 1 <= visit["minutes"] <= 240
+        and isinstance(visit["token_sha256"], str) and _SHA256.match(visit["token_sha256"])
+        and isinstance(visit["operator"], str) and _OPERATOR.match(visit["operator"])
+        and isinstance(visit["reason"], str) and 0 < len(visit["reason"]) <= 500
+    ):
+        desired["support_visit"] = visit
+    ended = data.get("support_visit_end")
+    if type(ended) is int and 0 < ended < 10 ** 9:
+        desired["support_visit_end"] = ended
     return desired

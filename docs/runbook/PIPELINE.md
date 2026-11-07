@@ -4,7 +4,7 @@
 
 ## Français
 
-**Décisions du propriétaire :** L'onglet État de la salle de contrôle montre l'outil Next.js et l'outil Odoo côte à côte, avec les commits GitHub en direct. Les boutons Promouvoir et Reconstruire ne pilotent **qu'Odoo** : un clic malheureux ne peut pas atteindre l'outil du cabinet en service. Reconstruire le staging depuis la production se fait sur une **copie anonymisée** : clients, personnes et documents remplacés, chiffres gardés, pièces justificatives laissées de côté.
+**Décisions du propriétaire :** L'onglet Statut de la salle de contrôle montre l'outil Next.js et l'outil Odoo côte à côte, avec les commits GitHub en direct. Les boutons Promouvoir et Reconstruire ne pilotent **qu'Odoo** : un clic malheureux ne peut pas atteindre l'outil du cabinet en service. Reconstruire le staging depuis la production se fait sur une **copie anonymisée** : clients, personnes et documents remplacés, chiffres gardés, pièces justificatives laissées de côté.
 
 **Ce qui a réellement tourné :** l'anonymiseur et la reconstruction sur des bases jetables, avec des données de démonstration ; le reste (promotion, déploiement, cabinets) seulement en simulation. Aucun vrai serveur de cabinet n'existe encore.
 
@@ -22,7 +22,7 @@ Créer la branche, une seule fois, quand vous êtes d'accord : `git push origin 
 
 ### 2. À mettre en place une fois
 
-**L'onglet « État » de la salle de contrôle** (Plateforme > État, à côté de Supervision) montre les deux outils, leurs trois étapes, les commits GitHub, les chiffres de l'outil actuel, et les boutons Promouvoir et Reconstruire. Tant que rien n'est branché, il affiche des **DONNÉES D'EXEMPLE**, écrit sur chaque carte.
+**L'onglet « État » de la salle de contrôle** (Plateforme > Statut, à côté de Supervision) montre les deux outils, leurs trois étapes, les commits GitHub, les chiffres de l'outil actuel, et les boutons Promouvoir et Reconstruire. Tant que rien n'est branché, il affiche des **DONNÉES D'EXEMPLE**, écrit sur chaque carte.
 
 **Le collecteur, sur le serveur de la salle de contrôle (quand il existe) :**
 
@@ -70,7 +70,7 @@ Rien ne peut démarrer sans une version que vous avez signée vous-même, hors l
    Déposez les deux fichiers affichés à l'emplacement des versions. Si deux personnes doivent signer, c'est ici.
 2. **Plateforme > Mises à jour > Versions > Nouveau :** collez le commit, l'empreinte et l'attestation. « Signée hors ligne » doit être coché.
 3. **Pipeline > Essais :** inscrivez les tests de ce commit (GitHub Actions est à l'arrêt).
-4. **État > Promouvoir :** la version, le cabinet témoin, les cabinets, la taille des lots. **Lancer les contrôles :**
+4. **Statut > Promouvoir :** la version, le cabinet témoin, les cabinets, la taille des lots. **Lancer les contrôles :**
    - attestation valable pour ce commit et cette empreinte ;
    - tests verts sur ce commit, le dernier essai de chaque suite faisant foi ;
    - le staging tourne sur ce commit, a répondu depuis moins de 45 minutes, courriel coupé ;
@@ -96,7 +96,7 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
 
 **Une fois, avec l'accord du cabinet :** sur son serveur, ajoutez `ANON_EXPORT_ALLOWED=1` à `/etc/auditisa-firm/firm.env`. Sans cela, le serveur refuse et le dit.
 
-1. **État > Reconstruire :** le cabinet source, la ligne à taper (`RECONSTRUIRE <cabinet>`) et un motif.
+1. **Statut > Reconstruire :** le cabinet source, la ligne à taper (`RECONSTRUIRE <cabinet>`) et un motif.
 2. **Au prochain heartbeat (15 minutes au plus),** le serveur du cabinet copie sa base sans s'arrêter, l'anonymise, relit le résultat et s'arrête au moindre doute. Le fichier reste chez lui, lisible par root seul. Le cabinet voit l'opération dans Configuration > Accès de l'opérateur.
 3. **L'écran affiche la référence et l'empreinte.** Notez l'accès d'urgence dans le journal, car vous vous connectez au serveur du cabinet, puis, sur votre ordinateur :
    ```
@@ -132,7 +132,7 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
 
 **Accord du cabinet :** une copie anonymisée reste une utilisation de ses données. Prévoyez-le au contrat avant d'activer `ANON_EXPORT_ALLOWED`.
 
-### 7. L'onglet État
+### 7. L'onglet Statut
 
 Il est dans la salle de contrôle, derrière vos adresses et votre connexion : plus de page publique. Il montre des commits, des noms d'auteur, des dates, des mots d'état et des nombres ; pas de message de commit, pas de secret.
 

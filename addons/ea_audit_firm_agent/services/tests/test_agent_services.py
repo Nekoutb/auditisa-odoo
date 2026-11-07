@@ -61,9 +61,17 @@ def test_body_holds_figures_only():
     assert figures["update_state"] == "idle"
     allowed = set(STATUS_FILES) | {
         "schema", "mem_total_mb", "mem_available_mb", "disk_total_gb", "disk_used_pct",
-        "users_active", "engagements_active", "mail_enabled",
+        "users_active", "engagements_active", "mail_enabled", "addons_on",
     }
     assert set(figures) <= allowed
+    assert figures["addons_on"] == []
+    assert figures["addons_refused"] == 0
+
+
+def test_add_on_codes_are_technical_names_and_too_many_are_not_sent():
+    args = ({"release": "abcdef1"}, {}, {}, 1, 0, False)
+    assert build_figures(*args, ["ea_client_b", "ea_client_a", "Rapport Agro SA"])["addons_on"] == ["ea_client_a", "ea_client_b"]
+    assert "addons_on" not in build_figures(*args, [f"ea_client_{n}" for n in range(25)])
 
 
 def test_memory_reads_proc_format(tmp_path):

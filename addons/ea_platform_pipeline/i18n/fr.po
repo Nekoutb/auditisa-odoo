@@ -1210,7 +1210,7 @@ msgstr "État"
 #: model:ir.actions.act_window,name:ea_platform_pipeline.action_pipeline_board
 #: model:ir.ui.menu,name:ea_platform_pipeline.menu_status
 msgid "Status"
-msgstr "État"
+msgstr "Statut"
 
 #. module: ea_platform_pipeline
 #: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_pipeline_promotion__state__stopped

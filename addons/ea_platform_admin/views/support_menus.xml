@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_support" name="Support" parent="menu_root" sequence="27"/>
+    <menuitem id="menu_tickets" name="Reported problems" parent="menu_support" action="action_tickets" sequence="10"/>
+    <menuitem id="menu_errors" name="Technical errors" parent="menu_support" action="action_errors" sequence="20"/>
+    <menuitem id="menu_visits" name="Support visits" parent="menu_support" action="action_visits" sequence="30"/>
+</odoo>

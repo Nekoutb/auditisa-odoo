@@ -89,6 +89,20 @@ has "$WORK/update.log" 'firm-backup --tag pre-update'
 has "$WORK/firm-backup.log" 'keep-daily 14'
 if FIRM_PREFIX=$A bash deploy/firm/firm-update.sh 'x;reboot' abc --dry-run >/dev/null 2>&1; then fail "firm-update took a bad release"; fi
 
+echo "== the add-ons asked are checked against the release, dry run"
+mkdir -p "$A/opt/auditisa-odoo/releases/dry"
+cp -r addons "$A/opt/auditisa-odoo/releases/dry/addons"
+ln -sfn "$A/opt/auditisa-odoo/releases/dry" "$A/opt/auditisa-odoo/current"
+PYTHON=$(command -v python3)
+FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-addons.sh apply --dry-run -- ea_client_addon_sample > "$WORK/addons.log"
+has "$WORK/addons.log" 'would switch on: ea_client_addon_sample'
+for refused in ea_audit_reports ea_audit_core ea_platform_admin base nothing_like_this; do
+  if FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-addons.sh apply --dry-run -- "$refused" >/dev/null 2>&1; then fail "firm-addons took $refused"; fi
+done
+if FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-addons.sh apply --dry-run -- 'x;reboot' >/dev/null 2>&1; then fail "firm-addons took a bad code"; fi
+has "$A/etc/systemd/system/odoo.service" 'ReadWritePaths=/var/lib/odoo /var/log/odoo /var/lib/auditisa-firm/spool$'
+lacks "$A/etc/systemd/system/odoo.service" 'ReadWritePaths=.*auditisa-firm/addons'
+
 echo "== the isolation test finds every planted fault"
 bash scripts/provision/verify_firm_isolation.sh --rehearse "$A" "$B"
 
@@ -115,6 +129,10 @@ SHA=$(git rev-parse HEAD)
 bash scripts/provision/build_release.sh HEAD --key "$KEYS/signing.pem" --out "$WORK/out" > "$WORK/build.log"
 BUNDLE=$WORK/out/$SHA.tar.gz
 bash scripts/provision/build_release.sh --verify "$BUNDLE" --pub "$KEYS/signing.pub" >/dev/null
+[ -s "$WORK/out/$SHA.catalogue.json" ] || fail "no catalogue beside the bundle"
+openssl pkeyutl -verify -pubin -inkey "$KEYS/signing.pub" -rawin -in "$WORK/out/$SHA.catalogue.json" -sigfile "$WORK/out/$SHA.catalogue.json.sig" >/dev/null || fail "the catalogue's signature does not hold"
+has "$WORK/out/$SHA.catalogue.json" '"code": "ea_audit_reports"'
+lacks "$WORK/out/$SHA.catalogue.json" 'ea_platform'
 tar -tzf "$BUNDLE" > "$WORK/list"
 has "$WORK/list" '^deploy/firm/install-firm-server.sh'
 has "$WORK/list" '^scripts/provision/new_firm.sh'

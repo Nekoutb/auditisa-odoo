@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Beside Supervision (sequence 5 on feat/tenants): what status.auditisa.com showed, and the two buttons. -->
-    <menuitem id="menu_status" name="Status" parent="ea_platform_admin.menu_root" action="action_pipeline_board" sequence="6"/>
+    <!-- ea_platform_admin's Status tab, beside Supervision, opens this screen: one Status entry, not two. -->
+    <record id="ea_platform_admin.menu_status" model="ir.ui.menu">
+        <field name="action" ref="action_pipeline_board"/>
+    </record>
     <menuitem id="menu_pipeline" name="Pipeline" parent="ea_platform_admin.menu_root" sequence="26"/>
     <menuitem id="menu_pipeline_promotions" name="Promotions" parent="menu_pipeline" action="action_promotions" sequence="20"/>
     <menuitem id="menu_pipeline_rebuilds" name="Staging rebuilds" parent="menu_pipeline" action="action_rebuilds" sequence="30"/>

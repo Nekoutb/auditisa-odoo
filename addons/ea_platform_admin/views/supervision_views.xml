@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_supervision_search" model="ir.ui.view">
+        <field name="name">platform.firm.supervision.search</field>
+        <field name="model">platform.firm</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <search string="Supervision">
+                <field name="name" string="Firm" filter_domain="['|', '|', ('name', 'ilike', self), ('slug', 'ilike', self), ('legal_name', 'ilike', self)]"/>
+                <field name="platform_host" string="Domain" filter_domain="['|', ('platform_host', 'ilike', self), ('custom_domain', 'ilike', self)]"/>
+                <field name="server_ip" string="Server" filter_domain="['|', '|', '|', '|', ('server_ip', 'ilike', self), ('server_id', 'ilike', self), ('ssh_key_id', 'ilike', self), ('firewall_id', 'ilike', self), ('storage_id', 'ilike', self)]"/>
+                <field name="addon_release" string="Release"/>
+                <field name="addon_line_ids" string="Add-on" filter_domain="[('addon_line_ids.desired', '=', True), ('addon_line_ids.code', 'ilike', self)]"/>
+                <filter name="attention" string="Needs attention" domain="[('needs_attention', '=', True)]"/>
+                <separator/>
+                <filter name="no_backup" string="Backup missed or failed"
+                        domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_backup_at', '=', False), ('last_backup_ok', '=', False), ('health_reason_raw', 'ilike', 'backup')]"/>
+                <filter name="no_restore" string="Restore test missed or failed"
+                        domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_restore_test_at', '=', False), ('last_restore_test_ok', '=', False), ('health_reason_raw', 'ilike', 'restore')]"/>
+                <filter name="silent" string="No heartbeat" domain="[('health_reason_raw', 'ilike', 'heartbeat')]"/>
+                <filter name="cert" string="Certificate" domain="[('health_reason_raw', 'ilike', 'certificate')]"/>
+                <filter name="errors" string="Technical errors" domain="[('error_ids.last_at', '&gt;=', (context_today() - relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="tickets" string="Reported problems not closed" domain="[('ticket_ids.state', 'in', ('open', 'in_progress'))]"/>
+                <filter name="visits" string="Support visit under way" domain="[('support_visit_ids.state', 'in', ('requested', 'open'))]"/>
+                <filter name="addon_problem" string="Add-ons not as asked" domain="['|', '|', ('addons_differ_count', '>', 0), ('addons_refused_count', '>', 0), ('addons_unknown_count', '>', 0)]"/>
+                <filter name="orphan" string="Orphan server" domain="[('orphan_flag', '=', True)]"/>
+                <separator/>
+                <filter name="simulation" string="Simulation" domain="[('is_simulation', '=', True)]"/>
+                <filter name="real" string="Real servers" domain="[('is_simulation', '=', False)]"/>
+                <separator/>
+                <filter name="group_region" string="Region" context="{'group_by': 'region'}"/>
+                <filter name="group_release" string="Installed release" context="{'group_by': 'addon_release'}"/>
+                <searchpanel>
+                    <field name="health_color" string="Health" enable_counters="1" icon="fa-heartbeat" select="multi"/>
+                    <field name="state" string="State" enable_counters="1" icon="fa-server" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_supervision_kanban" model="ir.ui.view">
+        <field name="name">platform.firm.supervision.kanban</field>
+        <field name="model">platform.firm</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <kanban class="o_ea_supervision" create="0" records_draggable="0" group_create="0" quick_create="0"
+                    action="action_open_firm" type="object">
+                <header>
+                    <button name="action_export_supervision" type="object" string="Export to Excel" display="always" class="btn-secondary"/>
+                </header>
+                <field name="id"/>
+                <field name="health_color"/>
+                <field name="is_simulation"/>
+                <field name="site_url"/>
+                <field name="own_site_url"/>
+                <field name="custom_domain"/>
+                <field name="platform_host"/>
+                <field name="addons_differ_count"/>
+                <field name="backup_state"/>
+                <field name="errors_24h"/>
+                <field name="tickets_open"/>
+                <field name="visit_state"/>
+                <field name="addons_asked_summary"/>
+                <field name="addons_on_summary"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="ea-sup-row ea-health-#{record.health_color.raw_value}">
+                            <div class="ea-sup-who">
+                                <div class="ea-sup-name">
+                                    <span class="ea-dot" t-attf-title="#{record.health_color.value}"/>
+                                    <field name="name"/>
+                                    <span t-if="record.is_simulation.raw_value" class="ea-chip">simulation</span>
+                                </div>
+                                <div class="ea-sup-state">
+                                    <field name="state"/>
+                                    <span> · </span>
+                                    <field name="health_color"/>
+                                </div>
+                                <field name="health_summary" class="ea-sup-reason"/>
+                            </div>
+                            <div class="ea-sup-col">
+                                <div class="ea-sup-title">Domains</div>
+                                <div class="ea-sup-pair">
+                                    <span>Platform</span>
+                                    <a t-if="record.site_url.raw_value" t-att-href="record.site_url.raw_value" target="_blank" rel="noopener"><field name="platform_host"/></a>
+                                    <t t-else=""><field name="platform_host"/></t>
+                                </div>
+                                <div class="ea-sup-pair">
+                                    <span>Own</span>
+                                    <a t-if="record.own_site_url.raw_value" t-att-href="record.own_site_url.raw_value" target="_blank" rel="noopener"><field name="custom_domain"/></a>
+                                    <t t-elif="record.custom_domain.raw_value"><field name="custom_domain"/></t>
+                                    <em t-else="">none</em>
+                                </div>
+                                <div t-if="record.is_simulation.raw_value" class="ea-sup-note">No real site: a simulation has no server.</div>
+                            </div>
+                            <div class="ea-sup-col ea-sup-server">
+                                <div class="ea-sup-title">Server</div>
+                                <div class="ea-sup-pair"><span>Provider</span><field name="provider_label"/></div>
+                                <div class="ea-sup-pair"><span>Id</span><field name="server_id" class="ea-mono"/></div>
+                                <div class="ea-sup-pair"><span>IP</span><field name="server_ip" class="ea-mono"/></div>
+                                <div class="ea-sup-pair"><span>Region, size</span><div><field name="region"/>, <field name="size"/></div></div>
+                                <div class="ea-sup-pair"><span>SSH key</span><field name="ssh_key_id" class="ea-mono"/></div>
+                                <div class="ea-sup-pair"><span>Firewall</span><field name="firewall_id" class="ea-mono"/></div>
+                                <div class="ea-sup-pair"><span>Storage</span><field name="storage_id" class="ea-mono"/></div>
+                            </div>
+                            <div class="ea-sup-col">
+                                <div class="ea-sup-title">Software</div>
+                                <div class="ea-sup-pair"><span>Release</span><field name="addon_release" class="ea-mono"/></div>
+                                <div class="ea-sup-pair">
+                                    <span>Add-ons on</span>
+                                    <div t-if="record.addons_on_summary.raw_value"><field name="addons_on_summary"/></div>
+                                    <em t-else="">none</em>
+                                </div>
+                                <div class="ea-sup-pair" t-if="record.addons_asked_summary.raw_value !== record.addons_on_summary.raw_value">
+                                    <span>Asked</span>
+                                    <div t-if="record.addons_asked_summary.raw_value"><field name="addons_asked_summary"/></div>
+                                    <em t-else="">none</em>
+                                </div>
+                                <div t-if="record.addons_differ_count.raw_value" class="ea-sup-bad">Not as asked</div>
+                            </div>
+                            <div class="ea-sup-col">
+                                <div class="ea-sup-title">Watch</div>
+                                <div class="ea-sup-pair"><span>Heartbeat</span><field name="last_heartbeat_at"/></div>
+                                <div class="ea-sup-pair">
+                                    <span>Backup</span>
+                                    <div t-attf-class="ea-sup-backup-#{record.backup_state.raw_value}"><field name="backup_state"/></div>
+                                </div>
+                                <div class="ea-sup-pair"><span>Last backup</span><field name="last_backup_at"/></div>
+                                <div class="ea-sup-pair"><span>Restore test</span><field name="restore_state"/></div>
+                                <div class="ea-sup-pair"><span>Certificate</span><field name="cert_expires_on"/></div>
+                                <div class="ea-sup-pair"><span>Errors 24 h</span>
+                                    <div t-attf-class="#{record.errors_24h.raw_value ? 'ea-sup-bad' : ''}"><field name="errors_24h"/></div></div>
+                                <div class="ea-sup-pair"><span>Problems</span>
+                                    <div t-attf-class="#{record.tickets_open.raw_value ? 'ea-sup-bad' : ''}"><field name="tickets_open"/> open</div></div>
+                                <div class="ea-sup-pair" t-if="record.visit_state.raw_value"><span>Support</span>
+                                    <div class="ea-sup-bad"><field name="visit_state"/></div></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_supervision_list" model="ir.ui.view">
+        <field name="name">platform.firm.supervision.list</field>
+        <field name="model">platform.firm</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" decoration-danger="health_color == 'red'" decoration-warning="health_color == 'amber'">
+                <header>
+                    <button name="action_export_supervision" type="object" string="Export to Excel" display="always" class="btn-secondary"/>
+                </header>
+                <field name="name" width="130px"/>
+                <field name="state" widget="badge" optional="hide" decoration-success="state == 'active'" decoration-info="state == 'provisioning'"
+                       decoration-warning="state in ('suspended', 'offboarding')"/>
+                <field name="health_color" widget="badge" decoration-success="health_color == 'green'"
+                       decoration-warning="health_color == 'amber'" decoration-danger="health_color == 'red'"/>
+                <field name="health_summary"/>
+                <field name="platform_host" width="190px"/>
+                <field name="custom_domain" optional="show" width="150px"/>
+                <field name="provider_label" optional="hide"/>
+                <field name="server_id" optional="hide"/>
+                <field name="server_ip" optional="show" width="100px"/>
+                <field name="region" optional="hide"/>
+                <field name="size" optional="hide"/>
+                <field name="ssh_key_id" optional="hide"/>
+                <field name="firewall_id" optional="hide"/>
+                <field name="storage_id" optional="hide"/>
+                <field name="addon_release" optional="hide"/>
+                <field name="addons_on_summary" optional="show"/>
+                <field name="last_heartbeat_at" optional="show" width="110px"/>
+                <field name="backup_state" optional="show" width="80px"/>
+                <field name="restore_state" optional="hide"/>
+                <field name="errors_24h" optional="show" width="70px"/>
+                <field name="tickets_open" optional="show" width="70px"/>
+                <field name="visit_state" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_supervision" model="ir.actions.act_window">
+        <field name="name">Supervision</field>
+        <field name="res_model">platform.firm</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_supervision_search"/>
+        <field name="domain">[]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_supervision_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_supervision_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_firm_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No client yet</p>
+            <p>Use "New firm" to onboard the first one. Every client then shows here, with its server and its health.</p>
+        </field>
+    </record>
+</odoo>

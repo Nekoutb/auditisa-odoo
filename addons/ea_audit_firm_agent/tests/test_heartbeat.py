@@ -63,11 +63,14 @@ class TestHeartbeat(TransactionCase):
         self.assertGreaterEqual(figures["users_active"], 1)
         self.assertFalse(figures["mail_enabled"])
         for key, value in figures.items():
+            if key in ("addons_on", "errors"):
+                self.assertTrue(all(isinstance(code, str) for code in value))
+                continue
             self.assertIsInstance(value, (int, str, bool, type(None)), key)
         allowed = {
             "schema", "release", "odoo_version", "update_state", "export_state", "ssh_sessions_24h",
             "mem_total_mb", "mem_available_mb", "disk_total_gb", "disk_used_pct",
-            "users_active", "engagements_active", "mail_enabled",
+            "users_active", "engagements_active", "mail_enabled", "addons_on", "addons_refused", "errors",
         }
         self.assertEqual(set(figures), allowed)
 
@@ -133,6 +136,33 @@ class TestHeartbeat(TransactionCase):
             self.assertTrue(self.agent._cron_send_heartbeat())
         with open(self.spool, encoding="ascii") as handle:
             self.assertEqual(json.load(handle), {"export_requested": True})
+
+    def _signed_answer(self, answer):
+        import hashlib
+        import hmac
+
+        body = json.dumps(answer).encode()
+        message = b"\n".join([
+            b"ea-heartbeat-response-v1", SLUG.encode(), b"1800000000", hashlib.sha256(body).hexdigest().encode(),
+        ])
+        signature = hmac.new(TOKEN.encode(), message, hashlib.sha256).hexdigest()
+        with patch.object(firm_agent.time, "time", return_value=1800000000), \
+                patch.object(firm_agent.requests, "post", return_value=Answer(content=body, signature=signature)):
+            self.assertTrue(self.agent._cron_send_heartbeat())
+        with open(self.spool, encoding="ascii") as handle:
+            return json.load(handle)
+
+    def test_the_add_ons_asked_reach_the_spool(self):
+        spool = self._signed_answer({"desired_addons": ["ea_client_b", "ea_client_a"]})
+        self.assertEqual(spool["addons"], ["ea_client_a", "ea_client_b"])
+
+    def test_an_empty_add_on_list_is_a_request_and_an_absent_one_is_not(self):
+        self.assertEqual(self._signed_answer({"desired_addons": []})["addons"], [])
+        self.assertNotIn("addons", self._signed_answer({"export_requested": False}))
+
+    def test_add_on_names_of_the_wrong_shape_are_dropped_before_the_spool(self):
+        for bad in (["Bad Name"], ["x;reboot"], "ea_client_a", [1], ["a" * 41]):
+            self.assertNotIn("addons", self._signed_answer({"desired_addons": bad}))
 
     def test_a_refusal_changes_nothing(self):
         _sent, patcher = self._capture(Answer(status=403))

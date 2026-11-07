@@ -212,12 +212,23 @@ log "nginx"
   cat <<'EOF'
 server_tokens off;
 limit_req_zone $binary_remote_addr zone=heartbeat:10m rate=6r/m;
+limit_req_zone $binary_remote_addr zone=support:10m rate=6r/m;
 
 EOF
   printf '# The one door a firm has: POST /platform/heartbeat. Everything else answers 404.\n'
   printf 'server {\n    listen 80;\n    server_name %s;\n' "$HEARTBEAT_HOST"
   cat <<'EOF'
-    client_max_body_size 4k;
+    client_max_body_size 16k;
+    # A problem a firm's user reports, and its replies: signed like the heartbeat, its own prefix.
+    location ~ ^/platform/support/(ticket|sync|trace)$ {
+        limit_except POST { deny all; }
+        limit_req zone=support burst=6 nodelay;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:8069;
+    }
     location = /platform/heartbeat {
         limit_except POST { deny all; }
         limit_req zone=heartbeat burst=6 nodelay;
@@ -244,6 +255,7 @@ EOF
     proxy_set_header X-Forwarded-Proto $scheme;
     location ~ ^/web/database { return 404; }
     location = /platform/heartbeat { return 404; }
+    location /platform/support/ { return 404; }
     location /websocket {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;

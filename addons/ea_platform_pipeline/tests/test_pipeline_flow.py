@@ -359,6 +359,12 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
                      "sites": {"staging": {"up": True, "mail_off": True, "band_on": True}}, **odoo},
         }
 
+    def test_the_one_status_tab_opens_this_screen(self):
+        menus = self.env["ir.ui.menu"].search([("parent_id", "=", self.env.ref("ea_platform_admin.menu_root").id)]).sorted("sequence")
+        self.assertEqual(menus[:2].mapped("name"), ["Supervision", "Status"])
+        self.assertEqual(self.env.ref("ea_platform_admin.menu_status").action, self.env.ref("ea_platform_pipeline.action_pipeline_board"))
+        self.assertEqual(len(menus.filtered(lambda m: m.name == "Status")), 1)
+
     def test_both_tools_three_stages_each(self):
         stages = self.env["platform.pipeline.stage"].with_user(self.viewer).search([])
         self.assertEqual(stages.mapped("tool"), ["next"] * 3 + ["odoo"] * 3)
