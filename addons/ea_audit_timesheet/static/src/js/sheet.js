@@ -15,6 +15,9 @@ export class EaTimesheet extends Component {
         this.orm = useService("orm");
         // an app opened by its address leaves any mission, and no audit tab is lit
         const shell = useService("ea_audit_context").state;
+        // opened from an engagement (its gear, its form, the top bar): that engagement comes chosen
+        this.fromEngagement = this.props.action?.params?.resId || shell.fromMission || null;
+        shell.fromMission = null;
         shell.mission = null;
         shell.openSection = null;
         shell.screen = "timesheet";
@@ -42,6 +45,10 @@ export class EaTimesheet extends Component {
 
     get missions() {
         return this.data.projects.filter((p) => p.kind === "mission");
+    }
+
+    get firmEngagements() {
+        return this.data.projects.filter((p) => p.kind === "firm");
     }
 
     get internal() {
@@ -78,6 +85,14 @@ export class EaTimesheet extends Component {
         const days = this.selectableDays.map((d) => d.date);
         if (!days.includes(form.day)) {
             form.day = days.includes(this.data.today) ? this.data.today : days[days.length - 1] || "";
+        }
+        if (this.fromEngagement) {
+            const project = this.data.projects.find((p) => p.engagement_id === this.fromEngagement);
+            if (project) {
+                form.project = String(project.id);
+                form.task = "";
+            }
+            this.fromEngagement = null;
         }
     }
 

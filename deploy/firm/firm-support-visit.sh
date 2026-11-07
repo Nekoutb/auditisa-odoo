@@ -9,8 +9,8 @@
 # password: the operator signs in with a one-time link whose fingerprint alone reaches this server,
 # as the named account "auditisa-support", only while the visit is open, and that account reads
 # only. The firm's administrator is told on screen, sees the numbered record of the visit with every
-# screen opened, and can end it. The access log the firm reads (Settings > Operator access) records
-# each step.
+# screen opened, and can end it. The server's access log (collected, no longer a screen of the
+# firm's) records each step.
 
 set -euo pipefail
 SCRIPT_NAME=firm-support-visit

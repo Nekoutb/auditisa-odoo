@@ -43,6 +43,8 @@ MESSAGES = {
     "fm-none": _lt("Save the server first."),
     "fm-untested": _lt("Test the connection before enabling sending."),
     "fm-staging-policy": _lt("Sending email stays off on the test environment, by policy."),
+    "fm-onboarding-only": _lt("The outgoing mail server is set up by AuditISA when the firm is put into service. Ask AuditISA to change it."),
+    "ts-not-firm-member": _lt("Only a member of the firm can charge hours to an engagement."),
 }
 
 

@@ -56,3 +56,12 @@ class TestAccessLog(TransactionCase):
             row.write({"event": "x"})
         with self.assertRaises(AccessError):
             row.unlink()
+
+    def test_kept_and_collected_but_not_a_screen_of_the_firm(self):
+        """Owner, 2026-11-07: no action or menu shows the log to the firm; the collection goes on."""
+        self.assertFalse(self.env.ref("ea_audit_firm_agent.action_ea_firm_access_log", raise_if_not_found=False))
+        self.assertFalse(self.env.ref("ea_audit_firm_agent.menu_ea_firm_access_log", raise_if_not_found=False))
+        self.assertFalse(self.env["ir.actions.act_window"].search([("res_model", "=", "ea.firm.access.log")]))
+        self.assertTrue(self.env.ref("ea_audit_firm_agent.cron_access_log").active)
+        self._append("2026-11-05T12:00:00Z ssh-login root 198.51.100.7\n")
+        self.assertEqual(self.model._cron_import(), 1)

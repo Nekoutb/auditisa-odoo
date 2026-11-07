@@ -1,7 +1,7 @@
 import ipaddress
 import socket
 
-from odoo import api, fields, models
+from odoo import SUPERUSER_ID, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import LazyTranslate
 
@@ -244,7 +244,10 @@ class FirmAdmin(models.AbstractModel):
         return True
 
     # ------------------------------------------------------------------
-    # Mail. The server stays off until a test of the settings as saved has passed.
+    # Mail. Set by root at the firm's onboarding (deploy/firm/firm-mail-server.sh), never from a
+    # screen: no firm user, the firm administrator and the technical account included, reaches the
+    # outgoing mail server (owner, 2026-11-07). The server stays off until a test of the settings as
+    # saved has passed, and on staging it never goes on.
     # ------------------------------------------------------------------
 
     @api.model
@@ -256,25 +259,57 @@ class FirmAdmin(models.AbstractModel):
         return self.env.company.sudo().ea_mail_server_id.with_context(active_test=False)
 
     @api.model
+    def _ea_fm_state(self):
+        server = self._ea_fm_server()
+        if not server:
+            return "none"
+        if server.active:
+            return "on"
+        return "tested" if self.env.company.sudo().ea_mail_tested_at else "untested"
+
+    @api.model
     def ea_fm_get(self):
+        """What the firm administrator's Settings screen says: sending on or off, nothing more."""
         self._ea_fa_require()
+        return {"on": self._ea_fm_state() == "on", "staging": self._ea_fm_staging()}
+
+    @api.model
+    def ea_fm_save(self, vals):
+        raise refuse(self.env, "fm-onboarding-only")
+
+    @api.model
+    def ea_fm_test(self):
+        raise refuse(self.env, "fm-onboarding-only")
+
+    @api.model
+    def ea_fm_enable(self):
+        raise refuse(self.env, "fm-onboarding-only")
+
+    @api.model
+    def ea_fm_disable(self):
+        raise refuse(self.env, "fm-onboarding-only")
+
+    @api.model
+    def _ea_fm_require_root(self):
+        """The superuser only, that is root's Odoo shell. A private method is not callable over RPC;
+        this also refuses one reached through sudo() from a person's request."""
+        if not self.env.su or self.env.uid != SUPERUSER_ID:
+            raise refuse(self.env, "fm-onboarding-only")
+
+    @api.model
+    def _ea_fm_root_get(self):
+        self._ea_fm_require_root()
         server = self._ea_fm_server()
         company = self.env.company.sudo()
-        if not server:
-            state = "none"
-        elif server.active:
-            state = "on"
-        else:
-            state = "tested" if company.ea_mail_tested_at else "untested"
         return {
             "host": server.smtp_host or "",
             "port": server.smtp_port or 587,
             "encryption": server.smtp_encryption or "starttls",
             "user": server.smtp_user or "",
             "from_filter": server.from_filter or "",
-            # the password never leaves the server: the screen learns only that one is set
+            # the password never leaves the server: the caller learns only that one is set
             "has_password": bool(server.smtp_pass),
-            "state": state,
+            "state": self._ea_fm_state(),
             "tested_at": deadlines.instant_label(company.ea_mail_tested_at) if company.ea_mail_tested_at else "",
             "staging": self._ea_fm_staging(),
         }
@@ -287,8 +322,8 @@ class FirmAdmin(models.AbstractModel):
             return False
 
     @api.model
-    def ea_fm_save(self, vals):
-        self._ea_fa_require()
+    def _ea_fm_root_save(self, vals):
+        self._ea_fm_require_root()
         host = (vals.get("host") or "").strip()
         if not host or " " in host or self._ea_fm_address_refused(host) or host.lower() == "localhost":
             raise refuse(self.env, "fm-host")
@@ -325,7 +360,7 @@ class FirmAdmin(models.AbstractModel):
             company.ea_mail_server_id = server
         company.ea_mail_tested_at = False
         self.env["ea.audit.firm.log"]._ea_append("mail_saved", detail="%s:%s" % (host, port))
-        return self.ea_fm_get()
+        return self._ea_fm_root_get()
 
     @api.model
     def _ea_fm_assert_public_host(self, server):
@@ -340,8 +375,8 @@ class FirmAdmin(models.AbstractModel):
         server.test_smtp_connection()
 
     @api.model
-    def ea_fm_test(self):
-        self._ea_fa_require()
+    def _ea_fm_root_test(self):
+        self._ea_fm_require_root()
         if self._ea_fm_staging():
             raise refuse(self.env, "fm-staging-policy")
         server = self._ea_fm_server()
@@ -354,14 +389,14 @@ class FirmAdmin(models.AbstractModel):
             company.ea_mail_tested_at = False
             server.active = False
             self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail=self.env._("Failed"))
-            return {"ok": False, "message": str(error)[:400], "state": self.ea_fm_get()}
+            return {"ok": False, "message": str(error)[:400], "state": self._ea_fm_root_get()}
         company.ea_mail_tested_at = fields.Datetime.now()
         self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail=self.env._("Passed"))
-        return {"ok": True, "message": self.env._("Connection passed. No message was sent."), "state": self.ea_fm_get()}
+        return {"ok": True, "message": self.env._("Connection passed. No message was sent."), "state": self._ea_fm_root_get()}
 
     @api.model
-    def ea_fm_enable(self):
-        self._ea_fa_require()
+    def _ea_fm_root_enable(self):
+        self._ea_fm_require_root()
         if self._ea_fm_staging():
             raise refuse(self.env, "fm-staging-policy")
         server = self._ea_fm_server()
@@ -371,13 +406,27 @@ class FirmAdmin(models.AbstractModel):
             raise refuse(self.env, "fm-untested")
         server.active = True
         self.env["ea.audit.firm.log"]._ea_append("mail_enabled")
-        return self.ea_fm_get()
+        return self._ea_fm_root_get()
 
     @api.model
-    def ea_fm_disable(self):
-        self._ea_fa_require()
+    def _ea_fm_root_disable(self):
+        self._ea_fm_require_root()
         server = self._ea_fm_server()
         if server:
             server.active = False
             self.env["ea.audit.firm.log"]._ea_append("mail_disabled")
-        return self.ea_fm_get()
+        return self._ea_fm_root_get()
+
+    @api.model
+    def _ea_fm_root_configure(self, vals):
+        """What firm-mail-server.sh runs: save, test, and switch sending on only if the test passed.
+        Returns the state and the test's message, never the password. On staging it saves and stops."""
+        self._ea_fm_require_root()
+        self._ea_fm_root_save(vals)
+        if self._ea_fm_staging():
+            return {"ok": False, "message": self.env._("Sending email stays off on the test environment, by policy."),
+                    "state": self._ea_fm_root_get()}
+        result = self._ea_fm_root_test()
+        if result["ok"]:
+            result["state"] = self._ea_fm_root_enable()
+        return result

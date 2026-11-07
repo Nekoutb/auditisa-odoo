@@ -79,29 +79,30 @@
             </list>
         </field>
     </record>
-    <record id="action_signoff_task_rule" model="ir.actions.act_window">
-        <field name="name">Sign-off rules per task</field>
-        <field name="res_model">ea.audit.signoff.task.rule</field>
-        <field name="view_mode">list</field>
-    </record>
-    <!-- The default matrix, listed whole, with the firm's own rules applied (F002). -->
+    <!-- The per-task rules are edited on the sign-off matrix below (owner, 2026-11-07): no screen of their own. -->
+    <!-- The default matrix, listed whole, with the firm's own rules applied (F002). A partner edits
+         the firm's own columns here, on screen, or through Excel; both save through save_task_rules.
+         edit="1": the right to edit comes from the sign-off rules, not from a right on the file index. -->
     <record id="view_signoff_matrix_list" model="ir.ui.view">
         <field name="name">ea.audit.task.template.signoff.matrix</field>
         <field name="model">ea.audit.task.template</field>
         <field name="priority">40</field>
         <field name="arch" type="xml">
-            <list create="0" edit="0" delete="0" default_order="matrix_order" decoration-info="matrix_firm_rule">
+            <list create="0" edit="1" delete="0" editable="bottom" default_order="matrix_order" decoration-info="matrix_firm_rule">
                 <header>
                     <button name="action_matrix_export" type="object" string="Export to Excel" display="always" groups="ea_audit_core.group_partner"/>
                     <button name="action_matrix_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_partner"/>
                 </header>
-                <field name="code"/>
-                <field name="title"/>
-                <field name="phase"/>
+                <field name="code" readonly="1"/>
+                <field name="title" readonly="1"/>
+                <field name="phase_step" readonly="1"/>
                 <field name="matrix_min_preparer"/>
                 <field name="matrix_min_reviewer"/>
                 <field name="matrix_partner"/>
-                <field name="matrix_firm_rule"/>
+                <field name="firm_min_preparer" placeholder="Firm default"/>
+                <field name="firm_min_reviewer" placeholder="Firm default"/>
+                <field name="firm_partner_required"/>
+                <field name="matrix_firm_rule" optional="hide"/>
             </list>
         </field>
     </record>

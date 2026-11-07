@@ -2230,12 +2230,6 @@ msgid "Sign-off policy"
 msgstr "Politique de signature"
 
 #. module: ea_audit_core
-#: model:ir.actions.act_window,name:ea_audit_core.action_signoff_task_rule
-#: model:ir.ui.menu,name:ea_audit_core.menu_signoff_rules
-msgid "Sign-off rules per task"
-msgstr "Règles de signature par tâche"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__signoff_ids
 msgid "Sign-offs"
 msgstr "Signatures"
@@ -4043,3 +4037,96 @@ msgstr "SYSCOHADA révisé, système normal"
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__administrateur_general
 msgid "Sole director (administrateur général)"
 msgstr "Administrateur général"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__firm_min_preparer
+msgid "Firm's minimum preparer"
+msgstr "Préparateur minimum du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__firm_min_reviewer
+msgid "Firm's minimum reviewer"
+msgstr "Réviseur minimum du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__firm_partner_required
+msgid "Firm's partner sign-off"
+msgstr "Signature de l'associé, règle du cabinet"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_task_template__firm_min_preparer
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_task_template__firm_min_reviewer
+msgid "Blank: the firm default applies."
+msgstr "Vide : la règle du cabinet s'applique."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__phase_step
+msgid "Phase"
+msgstr "Phase"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__1_acceptance
+msgid "Acceptance"
+msgstr "Acceptation"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__2_planning
+msgid "Planning"
+msgstr "Planification"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__3_execution
+msgid "Execution"
+msgstr "Exécution"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__4_conclusion
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__chrono_no
+msgid "Order"
+msgstr "Ordre"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_task_template__chrono_no
+msgid "Position in the audit, from acceptance to conclusion."
+msgstr "Position dans l'audit, de l'acceptation à la conclusion."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
+msgid "Firm default"
+msgstr "Règle du cabinet"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
+msgid "Core"
+msgstr "Socle"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
+msgid "Conditional"
+msgstr "Conditionnelle"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
+msgid "Phase"
+msgstr "Phase"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
+msgid "Section"
+msgstr "Section"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/task_template.py:0
+msgid "Choose Firm default, Yes or No."
+msgstr "Choisissez Règle du cabinet, Oui ou Non."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/apikeys.py:0
+msgid "API keys are disabled on this firm's server, for every user."
+msgstr "Les clés API sont désactivées sur le serveur du cabinet, pour tous les utilisateurs."

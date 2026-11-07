@@ -19,30 +19,17 @@ export class EaFirmSettings extends Component {
         shell.openSection = null;
         shell.screen = "settings";
         this.state = useState({
-            mail: null, form: {}, projects: [], newProject: "", error: null, notice: null,
+            mail: null, projects: [], newProject: "", error: null, notice: null,
         });
         onWillStart(() => this.load());
     }
 
+    /** Sending on or off: the firm's mail is set by AuditISA at onboarding, never on this screen. */
     get stateLabel() {
-        return {
-            none: _t("No server"),
-            untested: _t("Off, not tested"),
-            tested: _t("Off, test passed"),
-            on: _t("Sending on"),
-        }[this.state.mail.state];
-    }
-
-    get testedLine() {
-        return _t("Test passed on %(at)s", { at: this.state.mail.tested_at });
-    }
-
-    apply(mail) {
-        this.state.mail = mail;
-        this.state.form = {
-            host: mail.host, port: mail.port, encryption: mail.encryption,
-            user: mail.user, from_filter: mail.from_filter, password: "",
-        };
+        if (this.state.mail.staging) {
+            return _t("Off on the test environment");
+        }
+        return this.state.mail.on ? _t("Sending on") : _t("Sending off");
     }
 
     async load() {
@@ -50,7 +37,7 @@ export class EaFirmSettings extends Component {
             this.orm.call(MODEL, "ea_fm_get", []),
             this.orm.call(MODEL, "ea_fa_projects", []),
         ]);
-        this.apply(mail);
+        this.state.mail = mail;
         this.state.projects = projects;
     }
 
@@ -62,33 +49,6 @@ export class EaFirmSettings extends Component {
         } catch (error) {
             this.state.error = refusal(error);
         }
-    }
-
-    save() {
-        return this.run(async () => {
-            this.apply(await this.orm.call(MODEL, "ea_fm_save", [this.state.form]));
-            this.state.notice = _t("Server saved. Sending stays off until a test passes.");
-        });
-    }
-
-    test() {
-        return this.run(async () => {
-            const result = await this.orm.call(MODEL, "ea_fm_test", []);
-            this.apply(result.state);
-            if (result.ok) {
-                this.state.notice = result.message;
-            } else {
-                this.state.error = result.message;
-            }
-        });
-    }
-
-    enable() {
-        return this.run(async () => this.apply(await this.orm.call(MODEL, "ea_fm_enable", [])));
-    }
-
-    disable() {
-        return this.run(async () => this.apply(await this.orm.call(MODEL, "ea_fm_disable", [])));
     }
 
     addProject() {

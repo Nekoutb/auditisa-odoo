@@ -57,7 +57,27 @@ Copiez la valeur dans votre coffre, puis cliquez **Clé de sauvegarde mise au co
 
 **9. Transmettez le lien du premier administrateur.** Sur la fiche, **Afficher le lien du premier administrateur**. Il ne s'affiche **qu'une fois**. Donnez-le au contact par un canal privé (appel, messagerie chiffrée). Il expire après 72 heures et ne sert qu'une fois. Le contact y choisit lui-même son mot de passe : **personne ne reçoit de mot de passe par e-mail, et vous ne le connaissez pas.**
 
-**10. Le cabinet règle sa messagerie.** Elle reste fermée jusqu'à ce que son administrateur renseigne un serveur de courrier et réussisse le test de connexion (Configuration > Technique > Serveurs de courrier sortant).
+**10. Réglez la messagerie sortante du cabinet.** C'est une étape de la mise en service, faite par vous : aucun utilisateur du cabinet, même son administrateur, ne voit ni ne change ce réglage (décision du propriétaire, 7 novembre 2026). Demandez au contact les réglages de son fournisseur de messagerie : serveur, port, chiffrement (STARTTLS ou SSL), identifiant, mot de passe, adresse ou domaine d'expédition. Après un accès d'urgence enregistré, écrivez-les dans un fichier que seul root peut lire, puis lancez le script :
+
+```
+ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com
+install -m 600 /dev/null /etc/auditisa-firm/secrets/mail.env
+nano /etc/auditisa-firm/secrets/mail.env
+firm-mail-server
+```
+
+Le fichier contient une ligne par réglage :
+
+```
+MAIL_HOST=smtp.fournisseur.cm
+MAIL_PORT=587
+MAIL_ENCRYPTION=starttls
+MAIL_USER=cabinet@exemple.cm
+MAIL_PASSWORD=...
+MAIL_FROM=cabinet@exemple.cm
+```
+
+Le script enregistre le serveur coupé, teste la connexion (sans envoyer de message) et n'ouvre l'envoi que si le test réussit. Il n'affiche jamais le mot de passe. S'il répond « sending stays off », corrigez le fichier et relancez-le. `firm-mail-server --dry-run` vérifie le fichier sans rien changer. L'écran Paramètres du cabinet dit seulement « Envoi activé » ou « Envoi désactivé ». L'environnement de test (test.auditisa.com) n'envoie jamais de courrier : le script y est refusé.
 
 ### Vérifier
 
@@ -83,6 +103,7 @@ Copiez la valeur dans votre coffre, puis cliquez **Clé de sauvegarde mise au co
 | Lien du premier administrateur | Le contact du cabinet, par vous, une fois |
 | Mot de passe de l'administrateur | Le contact seul |
 | Mot de passe PostgreSQL, mot de passe maître d'Odoo | Le serveur du cabinet seul. Personne ne les reçoit. |
+| Mot de passe de la messagerie sortante | Le contact vous le donne ; il reste sur le serveur du cabinet (fichier lisible par root seul, et Odoo). Aucun utilisateur du cabinet ne le voit. |
 | Facture Vultr | Vous |
 
 ### Le domaine propre du cabinet (facultatif)
@@ -144,7 +165,27 @@ Copy the value to your safe, then click **Backup key is in the safe**. The firm 
 
 **9. Pass on the first administrator's link.** On the firm's page, **Show the first administrator's link**. It shows **once only**. Give it to the contact over a private channel (a call, encrypted messaging). It expires after 72 hours and works once. The contact chooses their own password there: **nobody receives a password by email, and you do not know it.**
 
-**10. The firm sets up its mail.** Mail stays closed until its administrator enters a mail server and passes the connection test (Settings > Technical > Outgoing Mail Servers).
+**10. Set up the firm's outgoing mail.** This is an onboarding step, done by you: no firm user, not even its administrator, sees or changes this setting (owner's ruling, 7 November 2026). Ask the contact for their mail provider's settings: server, port, encryption (STARTTLS or SSL), username, password, sender address or domain. After recording a break-glass access, write them to a file only root can read, then run the script:
+
+```
+ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com
+install -m 600 /dev/null /etc/auditisa-firm/secrets/mail.env
+nano /etc/auditisa-firm/secrets/mail.env
+firm-mail-server
+```
+
+The file holds one setting per line:
+
+```
+MAIL_HOST=smtp.provider.cm
+MAIL_PORT=587
+MAIL_ENCRYPTION=starttls
+MAIL_USER=cabinet@exemple.cm
+MAIL_PASSWORD=...
+MAIL_FROM=cabinet@exemple.cm
+```
+
+The script saves the server switched off, tests the connection (no message is sent) and opens sending only if the test passes. It never prints the password. If it answers "sending stays off", correct the file and run it again. `firm-mail-server --dry-run` checks the file and changes nothing. The firm's Settings screen only says "Sending on" or "Sending off". The test environment (test.auditisa.com) never sends email: the script is refused there.
 
 ### How to verify
 
@@ -170,6 +211,7 @@ Copy the value to your safe, then click **Backup key is in the safe**. The firm 
 | First administrator's link | The firm's contact, from you, once |
 | Administrator's password | The contact alone |
 | PostgreSQL password, Odoo master password | The firm's server alone. Nobody receives them. |
+| Outgoing mail password | The contact gives it to you; it stays on the firm's server (a root-only file, and Odoo). No firm user sees it. |
 | Vultr invoice | You |
 
 ### The firm's own domain (optional)

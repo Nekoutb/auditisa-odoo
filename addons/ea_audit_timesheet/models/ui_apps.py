@@ -25,5 +25,6 @@ class AuditUi(models.AbstractModel):
     @api.model
     def _ea_ui_mission_items(self):
         items = super()._ea_ui_mission_items()
+        items.append({"label": self.env._("Log time on this engagement"), "tag": "ea_audit_timesheet.sheet"})
         items.append({"label": self.env._("Budget and actual"), "tag": "ea_audit_timesheet.budget"})
         return items

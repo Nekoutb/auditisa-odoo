@@ -499,17 +499,19 @@ class TestGovFindings(ToolsCase):
             self.assertTrue(self.env[model].with_user(self.admin).has_access("write"), model)
         self.assertCode("signoff-policy-partner-only", self.env["ea.audit.signoff.policy"].with_user(self.staff).save_policy, "senior", [], True)
 
-    def test_the_firm_admin_reads_the_operator_log_and_no_one_else(self):
+    def test_the_operator_log_is_kept_but_shown_to_no_firm_user(self):
+        """Owner, 2026-11-07: the operator's access log leaves the firm's screens. The record stays."""
+        self.assertNotIn("has_operator_log", self.ui(self.admin)._ea_ui_shell_session())
         if "ea.firm.access.log" not in self.env:
             return
+        self.assertFalse(self.env.ref("ea_audit_firm_agent.action_ea_firm_access_log", raise_if_not_found=False))
+        self.assertFalse(self.env.ref("ea_audit_firm_agent.menu_ea_firm_access_log", raise_if_not_found=False))
         Log = self.env["ea.firm.access.log"].sudo()
         Log.create({"logged_at": "2026-11-06 10:00:00", "event": "login", "account": "root", "source": "192.0.2.1"})
-        self.assertTrue(self.env["ea.firm.access.log"].with_user(self.admin).search_read([], ["event"]))
-        with mute_logger("odoo.addons.base.models.ir_model", "odoo.models"), self.assertRaises(AccessError):
-            self.env["ea.firm.access.log"].with_user(self.partner).search([])
-        self.assertTrue(self.ui(self.admin)._ea_ui_shell_session()["has_operator_log"])
-        with self.assertRaises(AccessError):
-            self.env["ea.firm.access.log"].with_user(self.admin).search([], limit=1).write({"event": "x"})
+        self.assertTrue(Log.search_count([]))
+        for user in (self.admin, self.partner):
+            with mute_logger("odoo.addons.base.models.ir_model", "odoo.models"), self.assertRaises(AccessError):
+                self.env["ea.firm.access.log"].with_user(user).search([])
 
     def test_dsp_gap_label_reads_on_several_engagements(self):
         other = self.make_engagement(year=2024)

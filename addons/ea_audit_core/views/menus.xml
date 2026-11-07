@@ -8,7 +8,6 @@
     <menuitem id="menu_clients" name="Clients" parent="menu_root" action="action_client" sequence="30"/>
     <menuitem id="menu_settings" name="Firm settings" parent="menu_root" sequence="90" groups="ea_audit_core.group_partner"/>
     <menuitem id="menu_signoff_policy" name="Sign-off policy" parent="menu_settings" action="action_signoff_policy_open" sequence="10"/>
-    <menuitem id="menu_signoff_rules" name="Sign-off rules per task" parent="menu_settings" action="action_signoff_task_rule" sequence="20"/>
     <menuitem id="menu_signoff_matrix" name="Sign-off matrix" parent="menu_settings" action="action_signoff_matrix" sequence="15"/>
     <menuitem id="menu_firm_audit_log" name="Audit log" parent="menu_settings" action="action_firm_audit_log" sequence="40" groups="ea_audit_core.group_firm_admin"/>
     <menuitem id="menu_task_templates" name="Audit file index" parent="menu_settings" action="action_task_template" sequence="30"/>

@@ -232,18 +232,26 @@ class TestWhoChargesWhat(TimesheetCase):
             sorted(self.project.task_ids.mapped("ea_phase")), ["acceptance", "conclusion", "execution", "strategy"],
         )
 
-    def test_accepted_member_charges_and_others_do_not(self):
+    def test_every_firm_member_charges_any_open_engagement(self):
+        """Owner, 2026-11-07: time on any engagement of the firm, on its team or not."""
         self.assertEqual(self.charge(self.staff).project_id, self.project)
-        self.assertCode("ts-not-on-team", self.charge, self.outsider)
-        # the firm's own administrator and an unseated partner are not on the team either
-        self.assertCode("ts-not-on-team", self.charge, self.admin)
-        self.assertCode("ts-not-on-team", self.charge, self.partner2)
+        for user in (self.outsider, self.admin, self.partner2, self.reader, self.eqr):
+            self.assertEqual(self.charge(user).project_id, self.project)
 
-    def test_invited_and_declined_do_not_charge(self):
+    def test_invited_and_declined_charge_as_any_member_of_the_firm(self):
         member = self.seat(self.engagement, self.outsider, "staff", state="invited")
-        self.assertCode("ts-not-on-team", self.charge, self.outsider)
+        self.assertEqual(self.charge(self.outsider).project_id, self.project)
         member.sudo().state = "declined"
-        self.assertCode("ts-not-on-team", self.charge, self.outsider)
+        self.assertEqual(self.charge(self.outsider, MONDAY).project_id, self.project)
+
+    def test_a_portal_user_charges_nothing(self):
+        portal = self.env["res.users"].sudo().with_context(no_reset_password=True).create({
+            "name": "Client", "login": "client@ailleurs.example.org",
+            "group_ids": [(6, 0, [self.env.ref("base.group_portal").id])],
+        })
+        self.assertEqual(
+            self.Line._ea_ts_chargeable_refusal(self.project, portal), "ts-not-firm-member",
+        )
 
     def test_internal_projects_are_open_to_every_firm_role(self):
         for user in (self.outsider, self.admin, self.reader, self.eqr):
@@ -252,11 +260,15 @@ class TestWhoChargesWhat(TimesheetCase):
     def test_other_projects_are_refused(self):
         self.assertCode("ts-project-not-chargeable", self.charge, self.staff, project=self.other_user_project)
 
-    def test_a_line_cannot_be_moved_to_a_file_one_is_not_on(self):
+    def test_a_line_moves_to_another_open_engagement_but_not_an_archived_one(self):
         other = self.make_engagement(2024, partner=self.partner2, nature="statutory_audit")
         line = self.charge(self.staff, project=self.internal)
+        line.with_user(self.staff).write({"project_id": other._ea_ts_project().id})
+        self.assertEqual(line.sudo().project_id, other._ea_ts_project())
+        closed = self.make_engagement(2023, partner=self.partner2, nature="statutory_audit")
+        self.set_phase(closed, "archived")
         self.assertCode(
-            "ts-not-on-team", line.with_user(self.staff).write, {"project_id": other._ea_ts_project().id},
+            "ts-archived", line.with_user(self.staff).write, {"project_id": closed._ea_ts_project().id},
         )
 
     def test_nobody_charges_for_someone_else(self):
@@ -349,24 +361,24 @@ class TestReach(TimesheetCase):
         with self.assertRaises(AccessError):
             self.senior_line.with_user(self.staff).read(["unit_amount"])
 
-    def test_partner_and_manager_seats_see_their_engagement_s_lines(self):
-        for lead in (self.partner, self.manager):
-            self.assertEqual(self.visible(lead), self.staff_line | self.senior_line)
+    def test_manager_and_above_see_every_line_of_the_firm(self):
+        """Owner, 2026-11-07: the firm's time report, for manager, partner and firm administrator."""
+        everyone = self.staff_line | self.senior_line | self.training
+        for lead in (self.partner, self.manager, self.partner2, self.admin):
+            self.assertEqual(self.visible(lead), everyone)
 
-    def test_a_senior_seat_does_not(self):
+    def test_staff_senior_eqr_and_read_only_see_their_own(self):
         self.assertEqual(self.visible(self.senior), self.senior_line)
+        self.assertEqual(self.visible(self.outsider), self.training)
+        for user in (self.eqr, self.reader):
+            self.assertFalse(self.visible(user))
 
-    def test_an_unseated_partner_sees_no_lines_of_the_file(self):
-        self.assertFalse(self.visible(self.partner2))
-
-    def test_a_lead_s_reach_stops_at_their_files(self):
+    def test_a_manager_s_reach_crosses_files_they_are_not_on(self):
         other = self.make_engagement(2024, partner=self.partner2, nature="statutory_audit")
-        self.seat(other, self.staff, "staff")
         far = self.charge(self.staff, MONDAY, project=other._ea_ts_project())
-        self.assertNotIn(far, self.visible(self.partner))
-
-    def test_firm_admin_sees_all_lines_for_reporting(self):
-        self.assertLessEqual(self.staff_line | self.senior_line | self.training, self.visible(self.admin))
+        for lead in (self.partner, self.manager):
+            self.assertIn(far, self.visible(lead))
+        self.assertNotIn(far, self.visible(self.senior))
 
     def test_firm_admin_gets_no_audit_file_through_it(self):
         Engagement = self.env["ea.audit.engagement"].with_user(self.admin)
@@ -394,6 +406,6 @@ class TestReach(TimesheetCase):
             with self.assertRaises(AccessError):
                 self.env["project.project"].with_user(actor).create({"name": "Non", "ea_is_internal": True})
 
-    def test_a_person_taken_off_the_team_can_no_longer_charge(self):
+    def test_a_person_taken_off_the_team_still_charges_as_a_member_of_the_firm(self):
         self.engagement.with_user(self.partner).remove_team_member(self.senior.id)
-        self.assertCode("ts-not-on-team", self.charge, self.senior, MONDAY)
+        self.assertEqual(self.charge(self.senior, MONDAY).project_id, self.project)

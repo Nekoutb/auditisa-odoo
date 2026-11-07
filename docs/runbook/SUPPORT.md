@@ -32,7 +32,7 @@ Sur la fiche du cabinet : **Visite de support**. Un motif (obligatoire), une dur
 
 **En lecture seule.** Le compte de support ouvre tous les écrans que voient les utilisateurs du cabinet, et **ne peut rien créer, modifier, supprimer, signer, déposer, exporter ni envoyer**. C'est le serveur qui le refuse, pour tout modèle et même dans le code qui passe en superutilisateur, et les adresses d'export, de téléchargement, d'impression et de dépôt lui sont fermées. Un test essaie chaque sorte d'écriture sous ce compte.
 
-**Numérotée et conservée.** Chaque visite est une fiche numérotée qui ne se modifie ni ne se supprime : son numéro, l'opérateur, le motif, le début et la fin, la version du cabinet, et la liste des écrans et des fiches ouverts (identifiants seulement, aucun contenu). L'opérateur la lit dans Plateforme > Support > Visites de support ; l'administrateur du cabinet la lit dans son outil. Le journal d'accès du cabinet (Configuration > Accès de l'opérateur) et le journal de la plateforme l'enregistrent aussi.
+**Numérotée et conservée.** Chaque visite est une fiche numérotée qui ne se modifie ni ne se supprime : son numéro, l'opérateur, le motif, le début et la fin, la version du cabinet, et la liste des écrans et des fiches ouverts (identifiants seulement, aucun contenu). L'opérateur la lit dans Plateforme > Support > Visites de support ; l'administrateur du cabinet la lit dans son outil. Le journal d'accès du serveur et le journal de la plateforme l'enregistrent aussi. Ce journal d'accès n'est plus un écran du cabinet depuis le 7 novembre 2026 (décision du propriétaire) : il reste collecté sur le serveur, pour la salle de contrôle et la trace du support.
 
 ### Ce qui est prouvé, ce qui ne l'est pas
 
@@ -72,7 +72,7 @@ On the firm's page: **Support visit**. A reason (required) and a length (60 minu
 
 **Read-only.** The support account opens every screen the firm's users see, and **cannot create, change, delete, sign, upload, export or send anything**. The server refuses it, for every model and even in code that runs as superuser, and the export, download, print and upload addresses are closed to it. A test tries each kind of write as that account.
 
-**Numbered and kept.** Each visit is a numbered record that cannot be edited or deleted: its number, the operator, the reason, start and end, the firm's release, and the list of screens and records opened (identifiers only, no content). The operator reads it in Platform > Support > Support visits; the firm's administrator reads it in their tool. The firm's access log (Settings > Operator access) and the platform log record it too.
+**Numbered and kept.** Each visit is a numbered record that cannot be edited or deleted: its number, the operator, the reason, start and end, the firm's release, and the list of screens and records opened (identifiers only, no content). The operator reads it in Platform > Support > Support visits; the firm's administrator reads it in their tool. The server's access log and the platform log record it too. Since 7 November 2026 (owner's ruling) that access log is no longer a screen of the firm's: it is still collected on the server, for the control room and the support trail.
 
 ### What is proved, what is not
 

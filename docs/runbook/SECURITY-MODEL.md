@@ -61,7 +61,7 @@ Et, hors d'Odoo, en fichiers lisibles par root seul : le jeton Vultr et le jeton
 
 ### Limites du journal d'accès
 
-Le serveur inscrit chaque connexion SSH dans un fichier en ajout seul, et le cabinet le voit dans son Odoo (Configuration > Accès de l'opérateur). Mais **root peut tout effacer** : ce journal décourage et révèle les oublis, il n'arrête pas un opérateur décidé. Le journal de la plateforme, lui, est en ajout seul jusque dans la base, et chaîné par empreintes : une modification se voit.
+Le serveur inscrit chaque connexion SSH dans un fichier en ajout seul, recopié dans son Odoo pour la salle de contrôle et la trace du support. Le cabinet ne le voit plus à l'écran depuis le 7 novembre 2026 (décision du propriétaire). Mais **root peut tout effacer** : ce journal décourage et révèle les oublis, il n'arrête pas un opérateur décidé. Le journal de la plateforme, lui, est en ajout seul jusque dans la base, et chaîné par empreintes : une modification se voit.
 
 ### Question ouverte : protéger les cabinets de l'opérateur ?
 
@@ -139,7 +139,7 @@ And, outside Odoo, in root-only files: the Vultr token and the DNS token.
 
 ### Limits of the access log
 
-The server writes each SSH login to an append-only file, and the firm sees it in its Odoo (Settings > Operator access). But **root can erase anything**: this log deters and reveals omissions, it does not stop a determined operator. The platform's own log is append-only down to the database and hash-chained: a change shows.
+The server writes each SSH login to an append-only file, copied into its Odoo for the control room and the support trail. Since 7 November 2026 (owner's ruling) the firm no longer sees it on screen. But **root can erase anything**: this log deters and reveals omissions, it does not stop a determined operator. The platform's own log is append-only down to the database and hash-chained: a change shows.
 
 ### Open question: protect firms from the operator?
 

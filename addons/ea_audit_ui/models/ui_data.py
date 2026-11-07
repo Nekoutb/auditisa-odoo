@@ -70,8 +70,6 @@ class AuditUi(models.AbstractModel):
             "is_partner": user.has_group("ea_audit_core.group_partner"),
             "is_system": user.has_group("base.group_system"),
             "is_firm_admin": role == "firm_admin",
-            # meant to be visible to the firm: ea_audit_firm_agent, where the server has it
-            "has_operator_log": "ea.firm.access.log" in self.env,
             "tz": FIRM_TZ,
             "tz_label": FIRM_TZ_LABEL,
             "apps": self._ea_ui_apps(),

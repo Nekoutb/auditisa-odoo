@@ -52,6 +52,16 @@ class Engagement(models.Model):
                 for key, label in BUDGET_PHASES
             ])
 
+    def action_open_ea_timesheet(self):
+        """The timesheet, this engagement chosen: anyone who can open the engagement may log time on it."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.client",
+            "tag": "ea_audit_timesheet.sheet",
+            "name": self.env._("Timesheet"),
+            "params": {"resId": self.id},
+        }
+
     def action_open_ea_budget(self):
         self.ensure_one()
         self._ea_require_access()

@@ -85,10 +85,8 @@ class AccountAnalyticLine(models.Model):
         if engagement:
             if engagement._ea_is_archived() or not project.active:
                 return "ts-archived"
-            seat = self.env["ea.audit.team.member"].sudo().search_count([
-                ("engagement_id", "=", engagement.id), ("user_id", "=", user.id), ("state", "=", "accepted"),
-            ])
-            return None if seat else "ts-not-on-team"
+            # every member of the firm, on the team or not (owner, 2026-11-07); a portal user is not one
+            return None if user._ea_firm_role() else "ts-not-firm-member"
         if project.ea_is_internal and project.active:
             return None
         return "ts-project-not-chargeable"

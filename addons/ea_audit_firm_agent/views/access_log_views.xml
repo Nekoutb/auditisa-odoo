@@ -12,12 +12,6 @@
             </list>
         </field>
     </record>
-    <record id="action_ea_firm_access_log" model="ir.actions.act_window">
-        <field name="name">Operator access to this server</field>
-        <field name="res_model">ea.firm.access.log</field>
-        <field name="view_mode">list</field>
-    </record>
-    <menuitem id="menu_ea_firm_access_log" name="Operator access"
-              parent="base.menu_administration" action="action_ea_firm_access_log" sequence="90"
-              groups="base.group_system"/>
+    <!-- Owner, 2026-11-07: the log stays, collected for the control room and the support trail, and
+         is no longer a screen of the firm's: no action, no menu. -->
 </odoo>

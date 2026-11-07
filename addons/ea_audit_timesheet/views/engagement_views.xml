@@ -6,6 +6,7 @@
         <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='team']/field[@name='team_member_ids']" position="before">
+                <button name="action_open_ea_timesheet" type="object" string="Log time on this engagement" class="btn btn-secondary mb-2 me-2"/>
                 <button name="action_open_ea_budget" type="object" string="Budget and actual" class="btn btn-secondary mb-2"/>
             </xpath>
         </field>

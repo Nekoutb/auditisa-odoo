@@ -106,9 +106,9 @@ class TestEscalation(FirmAdminCase):
             self.assertCode("fa-forbidden", fa.ea_fa_set_active, self.staff.id, False)
             self.assertCode("fa-forbidden", fa.ea_fa_set_domains, "example.com")
             self.assertCode("fa-forbidden", fa.ea_fm_get)
-            self.assertCode("fa-forbidden", fa.ea_fm_save, MAIL)
-            self.assertCode("fa-forbidden", fa.ea_fm_test)
-            self.assertCode("fa-forbidden", fa.ea_fm_enable)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_save, MAIL)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_test)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_enable)
             self.assertCode("fa-forbidden", fa.ea_fa_project_add, "Non")
 
     def test_firm_admin_is_not_a_system_administrator(self):
@@ -226,80 +226,132 @@ class TestMail(FirmAdminCase):
     def server(self):
         return self.env.company.sudo().ea_mail_server_id.with_context(active_test=False)
 
+    def root(self):
+        """What deploy/firm/firm-mail-server.sh reaches: Odoo's shell, as the superuser."""
+        return self.env["ea.audit.firm.admin"]
+
+    def test_no_firm_user_reaches_the_outgoing_mail_server(self):
+        """Owner, 2026-11-07: set at onboarding by root, never from a screen, even the firm
+        administrator's or the technical account's."""
+        technical = self.env.ref("base.user_admin")
+        self.assertTrue(technical.has_group("base.group_system"))
+        for user in (self.admin, technical, self.partner):
+            fa = self.FirmAdmin.with_user(user)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_save, MAIL)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_test)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_enable)
+            self.assertCode("fm-onboarding-only", fa.ea_fm_disable)
+            # sudo() from a person's request is not root either
+            for method in ("_ea_fm_root_get", "_ea_fm_root_test", "_ea_fm_root_enable", "_ea_fm_root_disable"):
+                self.assertCode("fm-onboarding-only", getattr(fa.sudo(), method))
+            self.assertCode("fm-onboarding-only", fa.sudo()._ea_fm_root_save, MAIL)
+            self.assertCode("fm-onboarding-only", fa.sudo()._ea_fm_root_configure, MAIL)
+        self.assertFalse(self.server())
+        with self.assertRaises(AccessError):
+            self.env["ir.mail_server"].with_user(self.admin).search([])
+
+    def test_the_settings_screen_only_says_on_or_off(self):
+        self.assertEqual(self.fa().ea_fm_get(), {"on": False, "staging": False})
+        self.root()._ea_fm_root_save(MAIL)
+        with self.probe_ok():
+            self.root()._ea_fm_root_test()
+        self.root()._ea_fm_root_enable()
+        self.assertEqual(self.fa().ea_fm_get(), {"on": True, "staging": False})
+
+    def test_root_s_one_step_configuration(self):
+        with self.probe_ok():
+            result = self.root()._ea_fm_root_configure(MAIL)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["state"]["state"], "on")
+        self.assertNotIn(MAIL["password"], str(result))
+        self.assertTrue(self.server().active)
+        with self.probe_fails():
+            result = self.root()._ea_fm_root_configure({**MAIL, "host": "smtp3.example.com"})
+        self.assertFalse(result["ok"])
+        self.assertFalse(self.server().active)
+
+    def test_root_s_configuration_on_staging_saves_and_stays_off(self):
+        self.env["ir.config_parameter"].sudo().set_param("ea_audit.staging_band", "1")
+        with self.probe_ok():
+            result = self.root()._ea_fm_root_configure(MAIL)
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["state"]["state"], "untested")
+        self.assertFalse(self.server().active)
+
     def test_a_saved_server_stays_off(self):
-        state = self.fa().ea_fm_save(MAIL)
+        state = self.root()._ea_fm_root_save(MAIL)
         self.assertEqual(state["state"], "untested")
         self.assertFalse(self.server().active)
 
     def test_it_cannot_be_enabled_before_a_test_passes(self):
-        self.assertCode("fm-none", self.fa().ea_fm_enable)
-        self.fa().ea_fm_save(MAIL)
-        self.assertCode("fm-untested", self.fa().ea_fm_enable)
+        self.assertCode("fm-none", self.root()._ea_fm_root_enable)
+        self.root()._ea_fm_root_save(MAIL)
+        self.assertCode("fm-untested", self.root()._ea_fm_root_enable)
         with self.probe_fails():
-            result = self.fa().ea_fm_test()
+            result = self.root()._ea_fm_root_test()
         self.assertFalse(result["ok"])
-        self.assertCode("fm-untested", self.fa().ea_fm_enable)
+        self.assertCode("fm-untested", self.root()._ea_fm_root_enable)
         self.assertFalse(self.server().active)
         with self.probe_ok():
-            self.assertTrue(self.fa().ea_fm_test()["ok"])
-        self.assertEqual(self.fa().ea_fm_enable()["state"], "on")
+            self.assertTrue(self.root()._ea_fm_root_test()["ok"])
+        self.assertEqual(self.root()._ea_fm_root_enable()["state"], "on")
         self.assertTrue(self.server().active)
 
     def test_any_change_turns_it_off_again(self):
-        self.fa().ea_fm_save(MAIL)
+        self.root()._ea_fm_root_save(MAIL)
         with self.probe_ok():
-            self.fa().ea_fm_test()
-        self.fa().ea_fm_enable()
-        state = self.fa().ea_fm_save({**MAIL, "host": "smtp2.example.com"})
+            self.root()._ea_fm_root_test()
+        self.root()._ea_fm_root_enable()
+        state = self.root()._ea_fm_root_save({**MAIL, "host": "smtp2.example.com"})
         self.assertEqual(state["state"], "untested")
         self.assertFalse(self.server().active)
-        self.assertCode("fm-untested", self.fa().ea_fm_enable)
+        self.assertCode("fm-untested", self.root()._ea_fm_root_enable)
 
     def test_a_failed_test_turns_it_off(self):
-        self.fa().ea_fm_save(MAIL)
+        self.root()._ea_fm_root_save(MAIL)
         with self.probe_ok():
-            self.fa().ea_fm_test()
-        self.fa().ea_fm_enable()
+            self.root()._ea_fm_root_test()
+        self.root()._ea_fm_root_enable()
         with self.probe_fails():
-            self.fa().ea_fm_test()
+            self.root()._ea_fm_root_test()
         self.assertFalse(self.server().active)
 
     def test_off_on_staging_by_policy(self):
-        self.fa().ea_fm_save(MAIL)
+        self.root()._ea_fm_root_save(MAIL)
         with self.probe_ok():
-            self.fa().ea_fm_test()
+            self.root()._ea_fm_root_test()
         self.env["ir.config_parameter"].sudo().set_param("ea_audit.staging_band", "1")
-        self.assertTrue(self.fa().ea_fm_get()["staging"])
-        self.assertCode("fm-staging-policy", self.fa().ea_fm_test)
-        self.assertCode("fm-staging-policy", self.fa().ea_fm_enable)
+        self.assertTrue(self.root()._ea_fm_root_get()["staging"])
+        self.assertCode("fm-staging-policy", self.root()._ea_fm_root_test)
+        self.assertCode("fm-staging-policy", self.root()._ea_fm_root_enable)
         self.assertFalse(self.server().active)
 
     def test_the_password_never_comes_back(self):
-        self.fa().ea_fm_save(MAIL)
-        state = self.fa().ea_fm_get()
+        self.root()._ea_fm_root_save(MAIL)
+        state = self.root()._ea_fm_root_get()
         self.assertTrue(state["has_password"])
         self.assertNotIn(MAIL["password"], str(state))
         self.assertEqual(self.server().smtp_pass, MAIL["password"])
         # saving without one keeps it
-        self.fa().ea_fm_save({**MAIL, "password": ""})
+        self.root()._ea_fm_root_save({**MAIL, "password": ""})
         self.assertEqual(self.server().smtp_pass, MAIL["password"])
         log = self.Log.search([("kind", "=", "mail_saved")])
         self.assertNotIn(MAIL["password"], " ".join(log.mapped("detail")))
 
     def test_bad_servers_are_refused(self):
         for host in ("", "localhost", "127.0.0.1", "10.0.0.5", "169.254.169.254", "192.168.1.1", "::1"):
-            self.assertCode("fm-host", self.fa().ea_fm_save, {**MAIL, "host": host})
-        self.assertCode("fm-port", self.fa().ea_fm_save, {**MAIL, "port": 22})
-        self.assertCode("fm-port", self.fa().ea_fm_save, {**MAIL, "port": "abc"})
-        self.assertCode("fm-encryption", self.fa().ea_fm_save, {**MAIL, "encryption": "rot13"})
-        self.assertCode("fm-plaintext-password", self.fa().ea_fm_save, {**MAIL, "encryption": "none"})
+            self.assertCode("fm-host", self.root()._ea_fm_root_save, {**MAIL, "host": host})
+        self.assertCode("fm-port", self.root()._ea_fm_root_save, {**MAIL, "port": 22})
+        self.assertCode("fm-port", self.root()._ea_fm_root_save, {**MAIL, "port": "abc"})
+        self.assertCode("fm-encryption", self.root()._ea_fm_root_save, {**MAIL, "encryption": "rot13"})
+        self.assertCode("fm-plaintext-password", self.root()._ea_fm_root_save, {**MAIL, "encryption": "none"})
 
     def test_a_name_that_resolves_to_a_private_address_is_refused_at_test_time(self):
-        self.fa().ea_fm_save(MAIL)
+        self.root()._ea_fm_root_save(MAIL)
         answer = [(2, 1, 6, "", ("10.1.2.3", 587))]
         with patch("socket.getaddrinfo", lambda *_a, **_k: answer):
-            self.assertFalse(self.fa().ea_fm_test()["ok"])
-        self.assertCode("fm-untested", self.fa().ea_fm_enable)
+            self.assertFalse(self.root()._ea_fm_root_test()["ok"])
+        self.assertCode("fm-untested", self.root()._ea_fm_root_enable)
 
     def test_internal_projects(self):
         project_id = self.fa().ea_fa_project_add("Leave test")

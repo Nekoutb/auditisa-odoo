@@ -101,6 +101,22 @@ for refused in ea_audit_reports ea_audit_core ea_platform_admin base nothing_lik
 done
 if FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-addons.sh apply --dry-run -- 'x;reboot' >/dev/null 2>&1; then fail "firm-addons took a bad code"; fi
 has "$A/etc/systemd/system/odoo.service" 'ReadWritePaths=/var/lib/odoo /var/log/odoo /var/lib/auditisa-firm/spool$'
+
+echo "== the firm's outgoing mail, set by root at onboarding, dry run"
+MAIL_PW="dry-run-mail-secret-$RANDOM"
+MAIL_FILE=$A/etc/auditisa-firm/secrets/mail.env
+printf 'MAIL_HOST=smtp.example.cm\nMAIL_PORT=587\nMAIL_ENCRYPTION=starttls\nMAIL_USER=cabinet@example.cm\nMAIL_PASSWORD=%s\nMAIL_FROM=cabinet@example.cm\n' "$MAIL_PW" > "$MAIL_FILE"
+chmod 600 "$MAIL_FILE"
+FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-mail-server.sh --dry-run > "$WORK/mail.log" 2>&1
+has "$WORK/mail.log" 'smtp.example.cm:587 STARTTLS'
+lacks "$WORK/mail.log" "$MAIL_PW"
+chmod 644 "$MAIL_FILE"
+if FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-mail-server.sh --dry-run > "$WORK/mail-loose.log" 2>&1; then fail "firm-mail-server took a file others can read"; fi
+lacks "$WORK/mail-loose.log" "$MAIL_PW"
+chmod 600 "$MAIL_FILE"
+sed -i 's/^MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=none/' "$MAIL_FILE"
+if FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-mail-server.sh --dry-run >/dev/null 2>&1; then fail "firm-mail-server took an unencrypted password"; fi
+rm -f "$MAIL_FILE"
 lacks "$A/etc/systemd/system/odoo.service" 'ReadWritePaths=.*auditisa-firm/addons'
 
 echo "== the isolation test finds every planted fault"

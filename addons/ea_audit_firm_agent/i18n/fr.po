@@ -125,12 +125,6 @@ msgid "Mail closed"
 msgstr "Messagerie fermée"
 
 #. module: ea_audit_firm_agent
-#: model:ir.ui.menu,name:ea_audit_firm_agent.menu_ea_firm_access_log
-msgid "Operator access"
-msgstr "Accès de l'opérateur"
-
-#. module: ea_audit_firm_agent
-#: model:ir.actions.act_window,name:ea_audit_firm_agent.action_ea_firm_access_log
 #: model:ir.model,name:ea_audit_firm_agent.model_ea_firm_access_log
 msgid "Operator access to this server"
 msgstr "Accès de l'opérateur à ce serveur"

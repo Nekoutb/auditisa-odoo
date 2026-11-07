@@ -33,9 +33,12 @@ class TestSheet(TimesheetCase):
         self.assertIn(self.project.id, offered)
         self.assertIn(self.internal.id, offered)
         self.assertNotIn(self.other_user_project.id, offered)
-        outsider = {p["id"] for p in self.sheet(self.outsider).ea_ts_sheet()["projects"]}
-        self.assertNotIn(self.project.id, outsider)
-        self.assertIn(self.internal.id, outsider)
+        kinds = {p["id"]: p["kind"] for p in data["projects"]}
+        self.assertEqual(kinds[self.project.id], "mission")
+        # every open engagement of the firm, listed apart for someone not on its team
+        outsider = {p["id"]: p["kind"] for p in self.sheet(self.outsider).ea_ts_sheet()["projects"]}
+        self.assertEqual(outsider[self.project.id], "firm")
+        self.assertEqual(outsider[self.internal.id], "internal")
 
     def test_a_cell_sets_the_day_s_figure(self):
         sheet = self.sheet(self.staff)
@@ -135,11 +138,13 @@ class TestReports(TimesheetCase):
         return self.sheet(user).ea_ts_report(*self.period, group_by)
 
     def test_by_person_follows_the_reach_of_the_caller(self):
-        self.assertEqual(self.report(self.admin)["total"], 9)
-        self.assertEqual(self.report(self.partner)["total"], 8)
+        for lead in (self.admin, self.partner, self.partner2, self.manager):
+            self.assertEqual(self.report(lead)["total"], 9)
+            self.assertEqual(self.report(lead)["reach"], "The whole firm")
         self.assertEqual(self.report(self.staff)["total"], 3)
         self.assertEqual([r["label"] for r in self.report(self.staff)["rows"]], [self.staff.name])
-        self.assertEqual(self.report(self.partner2)["total"], 0)
+        self.assertEqual(self.report(self.senior)["total"], 5)
+        self.assertEqual(self.report(self.eqr)["total"], 0)
 
     def test_by_engagement_and_period(self):
         rows = self.report(self.admin, "engagement")["rows"]

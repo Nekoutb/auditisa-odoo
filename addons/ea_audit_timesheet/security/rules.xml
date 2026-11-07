@@ -24,11 +24,14 @@
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
     </record>
+    <!-- Manager and above (manager, partner, firm administrator: each implies the one before) read
+         everyone's hours, for the firm's time report (owner, 2026-11-07). Staff, senior, EQR reviewer
+         and read-only read their own. -->
     <record id="rule_line_firm_admin" model="ir.rule">
-        <field name="name">Time: the firm administrator reads all lines, for reporting</field>
+        <field name="name">Time: manager and above read all lines, for reporting</field>
         <field name="model_id" ref="analytic.model_account_analytic_line"/>
         <field name="domain_force">[('project_id', '!=', False)]</field>
-        <field name="groups" eval="[(4, ref('ea_audit_core.group_firm_admin'))]"/>
+        <field name="groups" eval="[(6, 0, [ref('ea_audit_core.group_manager')])]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
@@ -47,10 +50,10 @@
         <field name="perm_unlink" eval="False"/>
     </record>
     <record id="rule_project_firm_admin" model="ir.rule">
-        <field name="name">Project: the firm administrator reads project names, for reporting</field>
+        <field name="name">Project: manager and above read project names, for reporting</field>
         <field name="model_id" ref="project.model_project_project"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('ea_audit_core.group_firm_admin'))]"/>
+        <field name="groups" eval="[(6, 0, [ref('ea_audit_core.group_manager')])]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>

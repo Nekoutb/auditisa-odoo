@@ -116,14 +116,10 @@ export class EaTopBar extends Component {
         if (this.shell.is_partner) {
             items.push({ label: _t("Sign-off policy"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_policy_open") });
             items.push({ label: _t("Sign-off matrix"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_matrix") });
-            items.push({ label: _t("Sign-off rules by task"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_task_rule") });
             items.push({ label: _t("File index"), run: () => this.ctx.openXmlid("ea_audit_core.action_task_template") });
         }
         if (this.shell.is_firm_admin) {
             items.push({ label: _t("Audit log"), run: () => this.ctx.openXmlid("ea_audit_core.action_firm_audit_log") });
-            if (this.shell.has_operator_log) {
-                items.push({ label: _t("Operator access"), run: () => this.ctx.openXmlid("ea_audit_firm_agent.action_ea_firm_access_log") });
-            }
         }
         if (this.shell.is_system) {
             items.push({ label: _t("Users"), run: () => this.ctx.openXmlid("base.action_res_users") });
@@ -150,6 +146,8 @@ export class EaTopBar extends Component {
         if (app.key === "audit") {
             return this.ctx.openHome();
         }
+        // an app may start from the engagement it was opened on (the timesheet: that engagement chosen)
+        this.ctxState.fromMission = this.ctxState.mission ? this.ctxState.mission.id : null;
         this.ctxState.mission = null;
         this.ctxState.openSection = null;
         this.ctxState.screen = app.key;

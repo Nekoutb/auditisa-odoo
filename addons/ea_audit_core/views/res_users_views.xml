@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- No API keys on a firm's server (owner, 2026-11-07): models/apikeys.py refuses them, and the
+         preferences and the user form no longer offer them. -->
+    <record id="view_users_form_simple_modif_no_apikeys" model="ir.ui.view">
+        <field name="name">res.users.preferences.no.apikeys</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='api_keys']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_users_form_no_apikeys" model="ir.ui.view">
+        <field name="name">res.users.form.no.apikeys</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='api_keys']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

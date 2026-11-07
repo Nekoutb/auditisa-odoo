@@ -19,6 +19,7 @@
         "views/file_item_views.xml",
         "views/signoff_views.xml",
         "views/menus.xml",
+        "views/res_users_views.xml",
         "data/activity_data.xml",
     ],
     "application": True,

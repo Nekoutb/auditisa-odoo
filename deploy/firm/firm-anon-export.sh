@@ -111,7 +111,7 @@ DIGEST=$(sha256sum "$FILE" | cut -d' ' -f1)
 
 set_status anon_export_sha256 "$DIGEST"
 report "done"
-# The firm sees this in Settings > Operator access, like an export or a login.
+# Recorded in the server's access log, like an export or a login (no longer a screen of the firm's).
 printf '%s anon-export %s %s\n' "$(now_utc)" "$(id -un)" "$REF" >> "$BREAK_GLASS_LOG"
 fl_log "anonymised export ready: $FILE"
 fl_log "sha256 $DIGEST"

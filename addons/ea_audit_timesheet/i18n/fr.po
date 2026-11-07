@@ -1438,3 +1438,64 @@ msgstr "Budget et réalisé"
 #: model:ir.model.fields,field_description:ea_audit_timesheet.field_account_analytic_line__ea_phase
 msgid "Phase"
 msgstr "Phase"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "My engagements"
+msgstr "Mes missions"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Other engagements of the firm"
+msgstr "Autres missions du cabinet"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Outgoing mail"
+msgstr "Messagerie sortante"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "The firm's internal projects."
+msgstr "Les projets internes du cabinet."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "AuditISA sets up the firm's outgoing mail when the firm is put into service. To change it, ask AuditISA."
+msgstr "AuditISA règle la messagerie sortante du cabinet lors de sa mise en service. Pour la modifier, adressez-vous à AuditISA."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/js/settings.js:0
+msgid "Off on the test environment"
+msgstr "Désactivé sur l'environnement de test"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/js/settings.js:0
+msgid "Sending off"
+msgstr "Envoi désactivé"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "The outgoing mail server is set up by AuditISA when the firm is put into service. Ask AuditISA to change it."
+msgstr "Le serveur de messagerie sortante est réglé par AuditISA lors de la mise en service du cabinet. Adressez-vous à AuditISA pour le modifier."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Only a member of the firm can charge hours to an engagement."
+msgstr "Seul un membre du cabinet peut imputer des heures à une mission."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/ui_apps.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_engagement_form_budget
+msgid "Log time on this engagement"
+msgstr "Saisir du temps sur cette mission"

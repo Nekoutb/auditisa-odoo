@@ -34,8 +34,11 @@
                 <label class="ea-ts-grow"><small>Engagement or project</small>
                     <select t-model="state.form.project" t-on-change="onProject">
                         <option value="">Choose…</option>
-                        <optgroup t-if="missions.length" label="Engagements">
+                        <optgroup t-if="missions.length" label="My engagements">
                             <option t-foreach="missions" t-as="project" t-key="project.id" t-att-value="project.id" t-esc="project.label"/>
+                        </optgroup>
+                        <optgroup t-if="firmEngagements.length" label="Other engagements of the firm">
+                            <option t-foreach="firmEngagements" t-as="project" t-key="project.id" t-att-value="project.id" t-esc="project.label"/>
                         </optgroup>
                         <optgroup t-if="internal.length" label="Internal projects">
                             <option t-foreach="internal" t-as="project" t-key="project.id" t-att-value="project.id" t-esc="project.label"/>
@@ -312,43 +315,17 @@
             <div class="ea-head ea-ts-head">
                 <div>
                     <h1>Settings</h1>
-                    <div class="ea-sub">The firm's outgoing mail and internal projects.</div>
+                    <div class="ea-sub">The firm's internal projects.</div>
                 </div>
             </div>
             <div t-if="state.error" class="ea-ts-alert ea-ts-alert-rose" role="alert" t-esc="state.error"/>
             <div t-if="state.notice" class="ea-ts-alert ea-ts-alert-green" role="status" t-esc="state.notice"/>
-            <div t-if="state.mail.staging" class="ea-ts-alert ea-ts-alert-gold">This is the test environment: sending email stays off here, by policy. The server can be saved, not tested or enabled.</div>
             <div class="ea-card ea-ts-section">
                 <div class="ea-cardh">
-                    <span>Outgoing mail server</span>
-                    <span><span class="ea-ts-pill" t-att-class="state.mail.state === 'on' ? 'ea-ts-open' : 'ea-ts-locked_submitted'" t-esc="stateLabel"/></span>
+                    <span>Outgoing mail</span>
+                    <span><span class="ea-ts-pill" t-att-class="state.mail.on ? 'ea-ts-open' : 'ea-ts-locked_submitted'" t-esc="stateLabel"/></span>
                 </div>
-                <div class="ea-ts-entry ea-ts-inset">
-                    <label class="ea-ts-grow"><small>Server</small><input type="text" t-model="state.form.host"/></label>
-                    <label class="ea-ts-hours"><small>Port</small><input type="text" inputmode="numeric" t-model="state.form.port"/></label>
-                    <label><small>Encryption</small>
-                        <select t-model="state.form.encryption">
-                            <option value="starttls">STARTTLS</option>
-                            <option value="ssl">SSL/TLS</option>
-                            <option value="none">None</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="ea-ts-entry ea-ts-inset">
-                    <label class="ea-ts-grow"><small>Username</small><input type="text" autocomplete="off" t-model="state.form.user"/></label>
-                    <label class="ea-ts-grow"><small>Password</small>
-                        <input type="password" autocomplete="new-password" t-att-placeholder="state.mail.has_password ? '••••••••' : ''" t-model="state.form.password"/>
-                    </label>
-                    <label class="ea-ts-grow"><small>Sender address or domain</small><input type="text" t-model="state.form.from_filter"/></label>
-                </div>
-                <div class="ea-ts-foot">
-                    <span class="ea-muted" t-if="state.mail.tested_at" t-esc="testedLine"/>
-                    <span class="ea-sp-grow"/>
-                    <button type="button" class="ea-ts-ghost" t-on-click="save">Save</button>
-                    <button type="button" class="ea-ts-ghost" t-att-disabled="state.mail.state === 'none' or state.mail.staging" t-on-click="test">Test the connection</button>
-                    <button type="button" class="ea-btn" t-if="state.mail.state !== 'on'" t-att-disabled="state.mail.state !== 'tested' or state.mail.staging" t-on-click="enable">Enable sending</button>
-                    <button type="button" class="ea-ts-ghost" t-else="" t-on-click="disable">Disable sending</button>
-                </div>
+                <div class="ea-ts-inset ea-muted">AuditISA sets up the firm's outgoing mail when the firm is put into service. To change it, ask AuditISA.</div>
             </div>
             <div class="ea-card ea-ts-section">
                 <div class="ea-cardh">Internal projects</div>
