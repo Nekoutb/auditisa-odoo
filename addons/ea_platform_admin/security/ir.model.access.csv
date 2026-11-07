@@ -27,4 +27,5 @@ access_firm_error_viewer,platform.firm.error viewer,model_platform_firm_error,gr
 access_ticket_viewer,platform.ticket viewer,model_platform_ticket,group_platform_viewer,1,0,0,0
 access_ticket_operator,platform.ticket operator,model_platform_ticket,group_platform_operator,1,1,0,0
 access_visit_viewer,platform.support.visit viewer,model_platform_support_visit,group_platform_viewer,1,0,0,0
+access_trace_viewer,platform.support.trace viewer,model_platform_support_trace,group_platform_viewer,1,0,0,0
 access_visit_wizard_operator,platform.support.visit.wizard operator,model_platform_support_visit_wizard,group_platform_operator,1,1,1,1

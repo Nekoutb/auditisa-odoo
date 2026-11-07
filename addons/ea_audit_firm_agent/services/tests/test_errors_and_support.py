@@ -36,7 +36,7 @@ def test_an_exception_is_kept_as_its_class_name_only():
 
     assert errors.kind_code(ValueError) == "ValueError"
     assert errors.kind_code(ValueErrorWithClientData) == "ValueErrorWithClientData"
-    assert errors.kind_code(type("x", (), {"__name__": "Agro SA, awa@agro.cm"})) == "Error"
+    assert errors.kind_code(type("Agro SA, awa@agro.cm", (Exception,), {})) == "Error"
 
 
 def test_lines_are_counted_and_anything_else_is_dropped():
@@ -69,11 +69,11 @@ def test_the_heartbeat_carries_the_errors_and_the_visit_as_given():
 
 
 def test_a_visit_request_must_have_its_exact_form():
-    good = {"id": 7, "minutes": 60, "token_sha256": "a" * 64}
+    good = {"id": 7, "minutes": 60, "token_sha256": "a" * 64, "operator": "Awa Operator", "reason": "A screen fails"}
     assert parse_desired(json.dumps({"support_visit": good}).encode())["support_visit"] == good
     for bad in (
         {**good, "minutes": 241}, {**good, "minutes": 0}, {**good, "id": "7"}, {**good, "token_sha256": "x" * 64},
-        {**good, "password": "secret"}, {"id": 7, "minutes": 60},
+        {**good, "password": "secret"}, {"id": 7, "minutes": 60}, {**good, "operator": "<b>x</b>"}, {**good, "reason": "r" * 501},
     ):
         assert "support_visit" not in parse_desired(json.dumps({"support_visit": bad}).encode())
     assert parse_desired(b'{"support_visit_end": 7}')["support_visit_end"] == 7

@@ -3,6 +3,7 @@
     <menuitem id="menu_root" name="Platform" sequence="1" web_icon="ea_platform_admin,static/description/icon.png"
               groups="group_platform_viewer"/>
     <menuitem id="menu_supervision" name="Supervision" parent="menu_root" action="action_supervision" sequence="5"/>
+    <menuitem id="menu_status" name="Status" parent="menu_root" action="action_status" sequence="6"/>
     <menuitem id="menu_firms" name="Firms" parent="menu_root" action="action_firm_board" sequence="10"/>
     <menuitem id="menu_attention" name="Needs attention" parent="menu_root" action="action_firm_attention" sequence="15"/>
     <menuitem id="menu_new_firm" name="New firm" parent="menu_root" action="action_onboarding" sequence="20"

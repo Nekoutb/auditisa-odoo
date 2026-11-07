@@ -220,7 +220,7 @@ EOF
   cat <<'EOF'
     client_max_body_size 16k;
     # A problem a firm's user reports, and its replies: signed like the heartbeat, its own prefix.
-    location ~ ^/platform/support/(ticket|sync)$ {
+    location ~ ^/platform/support/(ticket|sync|trace)$ {
         limit_except POST { deny all; }
         limit_req zone=support burst=6 nodelay;
         proxy_set_header Host $host;

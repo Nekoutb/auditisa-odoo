@@ -14,13 +14,11 @@ from .i18n import t
 TICKET_STATES = [("open", "Open"), ("in_progress", "In progress"), ("closed", "Closed")]
 VISIT_STATES = [
     ("requested", "Asked, waiting for the firm's server"),
-    ("waiting", "Waiting for the firm's approval"),
     ("open", "Open"),
     ("ended", "Ended"),
-    ("refused", "Refused by the firm"),
     ("expired", "Time is up"),
 ]
-LIVE_VISIT = ("requested", "waiting", "open")
+LIVE_VISIT = ("requested", "open")
 MAX_VISIT_MINUTES = 240
 DEFAULT_VISIT_MINUTES = 60
 
@@ -100,16 +98,19 @@ class PlatformTicket(models.Model):
 
 
 class PlatformSupportVisit(models.Model):
-    """A time-limited sign-in into a firm's Odoo, as its named support account, for a stated reason.
+    """A numbered, time-limited, read-only sign-in into a firm's Odoo, as its named support account.
 
     The platform keeps the reason and the link's fingerprint, never the link: it is shown once to the
     operator who asked. The firm's server learns the fingerprint from the signed heartbeat answer; its
-    root script opens the visit, and its administrator sees it, may have to approve it, and can end it.
+    root script opens the visit; its administrator is told on screen and can end it. The record is
+    never edited nor deleted once made: only its state follows what the firm's server reports, and
+    the screens opened are added to it as they arrive.
     """
 
     _name = "platform.support.visit"
     _description = "Support visit"
     _order = "id desc"
+    _rec_name = "id"
 
     firm_id = fields.Many2one("platform.firm", "Firm", required=True, readonly=True, ondelete="restrict", index=True)
     reason = fields.Text("Reason", required=True, readonly=True)
@@ -121,6 +122,23 @@ class PlatformSupportVisit(models.Model):
     end_requested = fields.Boolean("End asked", readonly=True)
     reported_at = fields.Datetime("Last state from the firm", readonly=True)
     expected_end = fields.Datetime("Ends at the latest", compute="_compute_end")
+    release = fields.Char("Release in use", readonly=True)
+    trace_ids = fields.One2many("platform.support.trace", "visit_id", "Screens and records opened")
+
+    _IMMUTABLE = frozenset({"firm_id", "reason", "minutes", "link_fingerprint", "requested_by", "requested_at"})
+
+    def write(self, vals):
+        if self._IMMUTABLE & set(vals) or not self.env.context.get("ea_visit_internal"):
+            raise UserError(t(self.env, _("A support visit's record cannot be changed.")))
+        return super().write(vals)
+
+    def unlink(self):
+        raise UserError(t(self.env, _("A support visit's record cannot be deleted.")))
+
+    @api.depends("firm_id")
+    def _compute_display_name(self):
+        for visit in self:
+            visit.display_name = t(self.env, _("Visit %(id)s", id=visit.id)) if visit.id else ""
 
     @api.depends("reported_at", "requested_at", "minutes", "state")
     def _compute_end(self):
@@ -134,15 +152,46 @@ class PlatformSupportVisit(models.Model):
         if self.end_requested and self.state in LIVE_VISIT:
             return {"support_visit_end": self.id}
         if self.state == "requested":
-            return {"support_visit": {"id": self.id, "minutes": self.minutes, "token_sha256": self.link_fingerprint}}
+            return {"support_visit": {
+                "id": self.id, "minutes": self.minutes, "token_sha256": self.link_fingerprint,
+                "operator": _operator_name(self.requested_by), "reason": (self.reason or "")[:500],
+            }}
         return {}
 
     def action_end(self):
         self.firm_id.check_access("write")
         for visit in self.sudo().filtered(lambda v: v.state in LIVE_VISIT):
-            visit.write({"end_requested": True})
+            visit.with_context(ea_visit_internal=True).write({"end_requested": True})
             self.env["platform.log"]._record(_("Support visit: end asked"), visit.firm_id, _("Visit %(id)s", id=visit.id))
         return True
+
+
+class PlatformSupportTrace(models.Model):
+    """One screen or record a support visit opened: model, kind, ids. Never content. Append-only."""
+
+    _name = "platform.support.trace"
+    _description = "Screen opened during a support visit"
+    _order = "opened_at, id"
+
+    visit_id = fields.Many2one("platform.support.visit", "Visit", required=True, readonly=True, ondelete="restrict", index=True)
+    opened_at = fields.Datetime("Opened on", readonly=True)
+    model_name = fields.Char("Screen (model)", readonly=True)
+    method = fields.Char("Kind", readonly=True)
+    res_ids = fields.Char("Record ids", readonly=True)
+
+    def write(self, vals):
+        raise UserError(t(self.env, _("A support visit's trail cannot be changed.")))
+
+    def unlink(self):
+        raise UserError(t(self.env, _("A support visit's trail cannot be deleted.")))
+
+
+def _operator_name(user):
+    """The operator's name, in the shape the firm's root script accepts."""
+    import re
+
+    name = re.sub(r"[^\w .'-]", "", user.name or "") .strip()[:64]
+    return name or "Operator"
 
 
 class PlatformSupportVisitWizard(models.TransientModel):
@@ -168,9 +217,9 @@ class PlatformSupportVisitWizard(models.TransientModel):
             raise UserError(t(self.env, _("A visit is already under way for this firm: end it first.")))
         token = secrets.token_urlsafe(32)
         visit = self.env["platform.support.visit"].sudo().create({
-            "firm_id": firm.id, "reason": self.reason.strip(), "minutes": self.minutes,
+            "firm_id": firm.id, "reason": self.reason.strip()[:500], "minutes": self.minutes,
             "link_fingerprint": hashlib.sha256(token.encode("ascii")).hexdigest(),
-            "requested_by": self.env.user.id, "requested_at": fields.Datetime.now(),
+            "requested_by": self.env.user.id, "requested_at": fields.Datetime.now(), "release": firm.addon_release,
         })
         self.env["platform.log"]._record(
             _("Support visit asked"), firm,
@@ -241,7 +290,7 @@ class PlatformFirmSupport(models.Model):
         if reported:
             visit = firm.support_visit_ids.filtered(lambda v: v.id == reported["id"])
             if visit and visit.state != reported["state"]:
-                visit.write({"state": reported["state"], "reported_at": now})
+                visit.with_context(ea_visit_internal=True).write({"state": reported["state"], "reported_at": now})
                 self.env["platform.log"]._record(_("Support visit: the firm's server says %(state)s", state=reported["state"]), firm, _("Visit %(id)s", id=visit.id))
         return super()._apply_figures(figures, timestamp)
 
@@ -283,6 +332,18 @@ class PlatformFirmSupport(models.Model):
                 })
                 self.env["platform.log"]._record(_("Problem reported"), firm, _("Ticket %(ref)s", ref=ticket.ref[:8]))
                 firm._evaluate_health()
+            answer = {"ok": True}
+        elif prefix == support.PREFIX_TRACE:
+            data = support.parse_trace(body)
+            visit = firm.support_visit_ids.filtered(lambda v: v.id == data["visit"])
+            if not visit:
+                raise heartbeat.HeartbeatRejected("unknown_visit")
+            self.env["platform.support.trace"].sudo().create([{
+                "visit_id": visit.id, "opened_at": heartbeat.parse_instant(entry["at"]), "model_name": entry["model"],
+                "method": entry["method"], "res_ids": ",".join(str(i) for i in entry["ids"]),
+            } for entry in data["entries"]])
+            if data["release"] and not visit.release:
+                visit.with_context(ea_visit_internal=True).write({"release": data["release"]})
             answer = {"ok": True}
         else:
             refs = support.parse_sync(body)

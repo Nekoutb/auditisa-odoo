@@ -25,6 +25,11 @@ class SupportController(http.Controller):
     def sync(self, **_kwargs):
         return self._handle(support.PREFIX_SYNC)
 
+    @http.route("/platform/support/trace", type="http", auth="none", methods=["POST"], csrf=False,
+                sitemap=False, save_session=False, readonly=False)
+    def trace(self, **_kwargs):
+        return self._handle(support.PREFIX_TRACE)
+
     def _handle(self, prefix):
         body = request.httprequest.get_data(cache=False)
         if request.httprequest.mimetype != "application/json":

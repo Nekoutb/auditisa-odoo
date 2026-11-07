@@ -101,7 +101,7 @@ _ERROR_MODULE = re.compile(r"^([a-z][a-z0-9_]{1,63}|-)$")
 _ERROR_MODEL = re.compile(r"^([a-z][a-z0-9_]*(\.[a-z0-9_]+){0,6}|-)$")
 _ERROR_KIND = re.compile(r"^[A-Za-z_][A-Za-z0-9_]{0,63}$")
 MAX_ERROR_GROUPS = 8
-VISIT_STATES = ("waiting", "open", "ended", "refused", "expired")
+VISIT_STATES = ("open", "ended", "expired")
 
 
 def _errors(value):

@@ -21,7 +21,7 @@
                 <filter name="cert" string="Certificate" domain="[('health_reason_raw', 'ilike', 'certificate')]"/>
                 <filter name="errors" string="Technical errors" domain="[('error_ids.last_at', '&gt;=', (context_today() - relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
                 <filter name="tickets" string="Reported problems not closed" domain="[('ticket_ids.state', 'in', ('open', 'in_progress'))]"/>
-                <filter name="visits" string="Support visit under way" domain="[('support_visit_ids.state', 'in', ('requested', 'waiting', 'open'))]"/>
+                <filter name="visits" string="Support visit under way" domain="[('support_visit_ids.state', 'in', ('requested', 'open'))]"/>
                 <filter name="addon_problem" string="Add-ons not as asked" domain="['|', '|', ('addons_differ_count', '>', 0), ('addons_refused_count', '>', 0), ('addons_unknown_count', '>', 0)]"/>
                 <filter name="orphan" string="Orphan server" domain="[('orphan_flag', '=', True)]"/>
                 <separator/>
@@ -176,6 +176,35 @@
                 <field name="tickets_open" optional="show" width="70px"/>
                 <field name="visit_state" optional="hide"/>
             </list>
+        </field>
+    </record>
+
+    <!-- The Status tab. A placeholder until the status screen replaces this action: point
+         menu_status at the new action, or overwrite action_status, and nothing else changes. -->
+    <record id="view_status_list" model="ir.ui.view">
+        <field name="name">platform.firm.status.list</field>
+        <field name="model">platform.firm</field>
+        <field name="priority">40</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-danger="health_color == 'red'" decoration-warning="health_color == 'amber'">
+                <field name="name"/>
+                <field name="state" widget="badge"/>
+                <field name="health_color" widget="badge" decoration-success="health_color == 'green'"
+                       decoration-warning="health_color == 'amber'" decoration-danger="health_color == 'red'"/>
+                <field name="health_summary"/>
+                <field name="last_heartbeat_at"/>
+                <field name="addon_release"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_status" model="ir.actions.act_window">
+        <field name="name">Status</field>
+        <field name="res_model">platform.firm</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_status_list"/>
+        <field name="domain">[('state', '!=', 'archived')]</field>
+        <field name="help" type="html">
+            <p>The status screen comes here. For now: each firm's state and health.</p>
         </field>
     </record>
 
