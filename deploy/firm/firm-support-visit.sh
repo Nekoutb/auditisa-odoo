@@ -36,7 +36,8 @@ case "$ACTION" in
   *) fl_die "usage: firm-support-visit open|end ..." ;;
 esac
 
-printf '%s support-visit-%s %s -\n' "$(now_utc)" "$ACTION" "$REF" >> "$BREAK_GLASS_LOG" || true
+# Root's own line in the append-only file, beside the ones Odoo writes when the visit moves on.
+printf '%s support-asked-%s %s \n' "$(now_utc)" "$ACTION" "$REF" >> "$BREAK_GLASS_LOG" || true
 printf '%s\n' "$CODE" | runuser -u "$ODOO_USER" -- "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$FIRM_DB" \
   --no-http --logfile=/dev/null >/dev/null 2>&1 || fl_die "Odoo did not take the request"
 fl_log "support visit $REF: $ACTION done"

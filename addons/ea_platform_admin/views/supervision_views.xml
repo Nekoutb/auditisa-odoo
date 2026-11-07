@@ -19,6 +19,9 @@
                         domain="[('state', 'in', ('active', 'offboarding')), '|', '|', ('last_restore_test_at', '=', False), ('last_restore_test_ok', '=', False), ('health_reason_raw', 'ilike', 'restore')]"/>
                 <filter name="silent" string="No heartbeat" domain="[('health_reason_raw', 'ilike', 'heartbeat')]"/>
                 <filter name="cert" string="Certificate" domain="[('health_reason_raw', 'ilike', 'certificate')]"/>
+                <filter name="errors" string="Technical errors" domain="[('error_ids.last_at', '&gt;=', (context_today() - relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="tickets" string="Reported problems not closed" domain="[('ticket_ids.state', 'in', ('open', 'in_progress'))]"/>
+                <filter name="visits" string="Support visit under way" domain="[('support_visit_ids.state', 'in', ('requested', 'waiting', 'open'))]"/>
                 <filter name="addon_problem" string="Add-ons not as asked" domain="['|', '|', ('addons_differ_count', '>', 0), ('addons_refused_count', '>', 0), ('addons_unknown_count', '>', 0)]"/>
                 <filter name="orphan" string="Orphan server" domain="[('orphan_flag', '=', True)]"/>
                 <separator/>
@@ -54,6 +57,9 @@
                 <field name="platform_host"/>
                 <field name="addons_differ_count"/>
                 <field name="backup_state"/>
+                <field name="errors_24h"/>
+                <field name="tickets_open"/>
+                <field name="visit_state"/>
                 <field name="addons_asked_summary"/>
                 <field name="addons_on_summary"/>
                 <templates>
@@ -122,6 +128,12 @@
                                 <div class="ea-sup-pair"><span>Last backup</span><field name="last_backup_at"/></div>
                                 <div class="ea-sup-pair"><span>Restore test</span><field name="restore_state"/></div>
                                 <div class="ea-sup-pair"><span>Certificate</span><field name="cert_expires_on"/></div>
+                                <div class="ea-sup-pair"><span>Errors 24 h</span>
+                                    <div t-attf-class="#{record.errors_24h.raw_value ? 'ea-sup-bad' : ''}"><field name="errors_24h"/></div></div>
+                                <div class="ea-sup-pair"><span>Problems</span>
+                                    <div t-attf-class="#{record.tickets_open.raw_value ? 'ea-sup-bad' : ''}"><field name="tickets_open"/> open</div></div>
+                                <div class="ea-sup-pair" t-if="record.visit_state.raw_value"><span>Support</span>
+                                    <div class="ea-sup-bad"><field name="visit_state"/></div></div>
                             </div>
                         </div>
                     </t>
@@ -160,6 +172,9 @@
                 <field name="last_heartbeat_at" optional="show" width="110px"/>
                 <field name="backup_state" optional="show" width="80px"/>
                 <field name="restore_state" optional="hide"/>
+                <field name="errors_24h" optional="show" width="70px"/>
+                <field name="tickets_open" optional="show" width="70px"/>
+                <field name="visit_state" optional="hide"/>
             </list>
         </field>
     </record>

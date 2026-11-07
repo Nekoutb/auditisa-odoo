@@ -23,6 +23,8 @@
         "wizard/settings_views.xml",
         "views/addon_views.xml",
         "views/supervision_views.xml",
+        "views/support_views.xml",
+        "views/support_menus.xml",
         "views/menus.xml",
     ],
     "assets": {

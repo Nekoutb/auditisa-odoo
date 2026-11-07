@@ -20,7 +20,7 @@ import re
 from datetime import date, datetime, timezone
 
 SCHEMA_VERSION = 1
-MAX_BODY_BYTES = 2048
+MAX_BODY_BYTES = 4096
 MAX_CLOCK_SKEW_SECONDS = 300
 
 HEADER_FIRM = "X-EA-Firm"
@@ -97,6 +97,34 @@ def _addon_codes(value):
     )
 
 
+_ERROR_MODULE = re.compile(r"^([a-z][a-z0-9_]{1,63}|-)$")
+_ERROR_MODEL = re.compile(r"^([a-z][a-z0-9_]*(\.[a-z0-9_]+){0,6}|-)$")
+_ERROR_KIND = re.compile(r"^[A-Za-z_][A-Za-z0-9_]{0,63}$")
+MAX_ERROR_GROUPS = 8
+VISIT_STATES = ("waiting", "open", "ended", "refused", "expired")
+
+
+def _errors(value):
+    """Technical errors as codes: addon, model, exception class, count, last time. No message."""
+    if type(value) is not list or len(value) > MAX_ERROR_GROUPS:
+        return False
+    for item in value:
+        if type(item) is not dict or set(item) != {"module", "model", "kind", "count", "last_at"}:
+            return False
+        if not (_pattern(_ERROR_MODULE, 64)(item["module"]) and _pattern(_ERROR_MODEL, 80)(item["model"])
+                and _pattern(_ERROR_KIND, 64)(item["kind"]) and _integer(1, 100000)(item["count"])
+                and _timestamp(item["last_at"])):
+            return False
+    return True
+
+
+def _support_visit(value):
+    return (
+        type(value) is dict and set(value) == {"id", "state"} and _integer(1, 10 ** 9 - 1)(value["id"])
+        and type(value["state"]) is str and value["state"] in VISIT_STATES
+    )
+
+
 def _optional(check):
     def inner(value):
         return value is None or check(value)
@@ -132,6 +160,8 @@ FIGURES = {
     "last_ssh_at": _optional(_timestamp),
     "addons_on": _addon_codes,
     "addons_refused": _integer(0, 1000),
+    "errors": _errors,
+    "support_visit": _support_visit,
 }
 
 REQUIRED = frozenset({
@@ -164,6 +194,27 @@ def response_message(slug, timestamp, body):
 
 def sign_response(token, slug, timestamp, body):
     return hmac.new(token.encode("utf-8"), response_message(slug, timestamp, body), hashlib.sha256).hexdigest()
+
+
+def sign_kind(prefix, token, slug, timestamp, body):
+    """The support channel's signature: its own prefix, so no other message can pass for it."""
+    message = b"\n".join([prefix, slug.encode("ascii"), str(timestamp).encode("ascii"), hashlib.sha256(body).hexdigest().encode("ascii")])
+    return hmac.new(token.encode("utf-8"), message, hashlib.sha256).hexdigest()
+
+
+def accept_kind(prefix, headers, body, find_firm, now_seconds, max_bytes):
+    """As `accept`, for the support channel. Returns (slug, timestamp); the caller parses the body."""
+    slug, timestamp, signature = parse_headers(headers)
+    if len(body) > max_bytes:
+        raise HeartbeatRejected("body_too_large")
+    found = find_firm(slug)
+    if not found or not found[0]:
+        raise HeartbeatRejected("unknown_firm")
+    token, last_timestamp = found
+    if not hmac.compare_digest(sign_kind(prefix, token, slug, timestamp, body), signature):
+        raise HeartbeatRejected("bad_signature")
+    check_freshness(timestamp, last_timestamp, now_seconds)
+    return slug, timestamp
 
 
 def parse_headers(headers):

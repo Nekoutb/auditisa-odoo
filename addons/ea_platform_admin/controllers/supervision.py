@@ -39,6 +39,9 @@ COLUMNS = (
     ("restore_state", _("Restore test")),
     ("last_restore_test_at", _("Last restore test")),
     ("cert_expires_on", _("Certificate expiry")),
+    ("errors_24h", _("Technical errors (24 h)")),
+    ("tickets_open", _("Open problems")),
+    ("visit_state", _("Support visit")),
     ("is_simulation", _("Simulation")),
 )
 

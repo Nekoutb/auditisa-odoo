@@ -52,6 +52,7 @@ def evaluate(firm, now):
         _resources(firm, add)
         _update(firm, add)
         _addons(firm, add)
+        _support(firm, add)
     if not firm.get("backup_key_escrowed") and state == "active":
         add(AMBER, _("Backup key not yet confirmed as stored in the safe"))
     unlogged = (firm.get("ssh_sessions_24h") or 0) - (firm.get("breakglass_24h") or 0)
@@ -157,6 +158,15 @@ def _addons(firm, add):
         add(AMBER, _("Add-ons: the firm's server refused %(count)s request(s)", count=firm["addons_refused"]))
     if firm.get("addons_unknown"):
         add(AMBER, _("Add-ons: the firm reports %(count)s code(s) outside the catalogue", count=firm["addons_unknown"]))
+
+
+def _support(firm, add):
+    if firm.get("errors_24h"):
+        add(AMBER, _("%(count)s technical error(s) in 24 hours", count=firm["errors_24h"]))
+    if firm.get("tickets_open"):
+        add(AMBER, _("%(count)s reported problem(s) not closed", count=firm["tickets_open"]))
+    if firm.get("visit_open"):
+        add(AMBER, _("A support visit is open"))
 
 
 def backup_state(last, succeeded, now):

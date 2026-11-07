@@ -23,3 +23,8 @@ access_firm_addon_viewer,platform.firm.addon viewer,model_platform_firm_addon,gr
 access_toggle_operator,platform.addon.toggle.wizard operator,model_platform_addon_toggle_wizard,group_platform_operator,1,1,1,1
 access_onboarding_addon_operator,platform.onboarding.addon operator,model_platform_onboarding_addon,group_platform_operator,1,1,1,1
 access_catalogue_owner,platform.catalogue.wizard owner,model_platform_catalogue_wizard,group_platform_owner,1,1,1,1
+access_firm_error_viewer,platform.firm.error viewer,model_platform_firm_error,group_platform_viewer,1,0,0,0
+access_ticket_viewer,platform.ticket viewer,model_platform_ticket,group_platform_viewer,1,0,0,0
+access_ticket_operator,platform.ticket operator,model_platform_ticket,group_platform_operator,1,1,0,0
+access_visit_viewer,platform.support.visit viewer,model_platform_support_visit,group_platform_viewer,1,0,0,0
+access_visit_wizard_operator,platform.support.visit.wizard operator,model_platform_support_visit_wizard,group_platform_operator,1,1,1,1
