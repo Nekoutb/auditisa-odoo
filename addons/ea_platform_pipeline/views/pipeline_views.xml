@@ -11,11 +11,13 @@
                 <field name="matches"/>
                 <field name="can_promote"/>
                 <field name="can_rebuild"/>
+                <field name="is_sample"/>
                 <templates>
                     <t t-name="card">
                         <div t-attf-class="ea-pipeline-stage ea-pipeline-#{record.color.raw_value}">
                             <div class="d-flex justify-content-between align-items-baseline gap-2 flex-wrap">
                                 <strong class="fs-5"><field name="name"/></strong>
+                                <span t-if="record.is_sample.raw_value" class="badge text-bg-warning">SAMPLE DATA</span>
                                 <field name="matches" widget="badge" decoration-success="matches == 'yes'"
                                        decoration-warning="matches == 'no'" decoration-muted="matches in ('unknown', 'none')"/>
                             </div>
@@ -26,6 +28,11 @@
                             <div><span class="text-muted">Where: </span><field name="where"/></div>
                             <div><span class="text-muted">Health: </span><field name="health"/></div>
                             <div><span class="text-muted">Last release: </span><field name="last_change"/></div>
+                            <div t-if="record.deploys.raw_value"><span class="text-muted">Deployments:</span>
+                                <pre class="mb-0 small"><field name="deploys"/></pre></div>
+                            <div t-if="record.backups.raw_value"><span class="text-muted">Backups: </span><field name="backups"/></div>
+                            <div t-if="record.migrations.raw_value"><span class="text-muted">Migrations: </span><field name="migrations"/></div>
+                            <div t-if="record.tests.raw_value"><span class="text-muted">Tests: </span><field name="tests"/></div>
                             <div class="fw-bold"><field name="ahead"/></div>
                             <div class="text-muted"><field name="detail"/></div>
                             <div class="mt-2" t-if="record.can_rebuild.raw_value">
@@ -44,10 +51,10 @@
         </field>
     </record>
     <record id="action_pipeline_board" model="ir.actions.act_window">
-        <field name="name">Pipeline</field>
+        <field name="name">Status</field>
         <field name="res_model">platform.pipeline.stage</field>
         <field name="view_mode">kanban</field>
-        <field name="path">pipeline</field>
+        <field name="path">status</field>
         <field name="help" type="html">
             <p>The Promote and Rebuild buttons control the Odoo tool only. The Next.js tool has its own releases, and nothing here reaches it.</p>
         </field>

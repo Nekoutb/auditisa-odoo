@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 SHA = re.compile(r"^[0-9a-f]{7,40}$")
 INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$")
 AUTHOR = re.compile(r"^[^\x00-\x1f<>]{1,40}$")
+SIZE = re.compile(r"^[0-9]{1,6}(\.[0-9])? (B|KB|MB|GB)$")
 GITHUB_STATES = ("ok", "no_key", "unreachable")
 FRESH = timedelta(minutes=3)
 MAX_BYTES = 65536
@@ -51,6 +52,21 @@ def _site(value):
     }
 
 
+def _figures(value):
+    """Deploys, backups and migrations of one site of the current tool."""
+    if not isinstance(value, dict):
+        return None
+    deploys = [
+        {"sha": row["sha"], "at": row["at"]} for row in (value.get("deploys") or [])[:5]
+        if isinstance(row, dict) and _sha(row.get("sha")) and _instant(row.get("at"))
+    ]
+    backups = [
+        {"at": row["at"], "size": row.get("size") if isinstance(row.get("size"), str) and SIZE.match(row["size"]) else None}
+        for row in (value.get("backups") or [])[:3] if isinstance(row, dict) and _instant(row.get("at"))
+    ]
+    return {"deploys": deploys, "backups": backups, "migrations": _count(value.get("migrations")), "pending": _count(value.get("pending"))}
+
+
 def _tool(value, branches, stages, counts):
     value = value if isinstance(value, dict) else {}
     github = value.get("github") if value.get("github") in GITHUB_STATES else "unreachable"
@@ -61,6 +77,7 @@ def _tool(value, branches, stages, counts):
         "running": read("running", stages, _commit),
         "ahead": read("ahead", counts, _count),
         "sites": read("sites", stages, _site),
+        "figures": read("figures", stages, _figures),
     }
 
 
@@ -84,6 +101,7 @@ def read_state(raw, now):
     return {
         "generated": when,
         "stale": now - when > FRESH,
+        "sample": False,
         "next": _tool(data.get("next"), ("dev", "main"), ("staging", "production"),
                       ("development_over_staging", "staging_over_production", "main_over_production")),
         "odoo": _tool(data.get("odoo"), ("dev", "staging", "main"), ("staging",),

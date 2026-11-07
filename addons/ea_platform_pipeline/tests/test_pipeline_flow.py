@@ -390,10 +390,29 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
             self.assertFalse(stage.action_new_promotion())
             self.assertFalse(stage.action_new_rebuild())
 
-    def test_no_file_and_a_missing_key_are_said_plainly(self):
+    def test_no_file_shows_sample_data_and_says_so(self):
         self.env["ir.config_parameter"].sudo().set_param("ea_platform_pipeline.state_file", "/nonexistent/state.json")
-        stage = self.env["platform.pipeline.stage"].with_user(self.viewer).search([], limit=1)
-        self.assertIn("No reading yet", stage.reading)
+        stages = self.env["platform.pipeline.stage"].with_user(self.viewer).search([])
+        for stage in stages:
+            self.assertTrue(stage.is_sample)
+            self.assertIn("SAMPLE DATA", stage.reading)
+        production = stages.filtered(lambda s: s.tool == "next" and s.code == "production")
+        self.assertTrue(production.github_commit)
+        self.assertIn("10.1 MB", production.backups)
+
+    def test_the_current_tools_figures_show(self):
+        state = self._state()
+        state["next"]["figures"] = {"production": {"deploys": [{"sha": "2" * 40, "at": "2026-09-23T07:08:13Z"}],
+                                                   "backups": [{"at": "2026-11-07T02:17:08Z", "size": "10.1 MB"}],
+                                                   "migrations": 85, "pending": 0}}
+        self._write_state(state)
+        production = self.env.ref("ea_platform_pipeline.stage_next_production").with_user(self.viewer)
+        self.assertFalse(production.is_sample)
+        self.assertIn("2222222  2026-09-23 07:08", production.deploys)
+        self.assertIn("10.1 MB", production.backups)
+        self.assertIn("85", production.migrations)
+
+    def test_a_missing_key_is_said_plainly(self):
         self._write_state(self._state(github="no_key", branches={}))
         odoo = self.env["platform.pipeline.stage"].with_user(self.viewer).search([("tool", "=", "odoo"), ("code", "=", "development")])
         self.assertIn("not set up", odoo.detail)

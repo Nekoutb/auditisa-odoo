@@ -1,7 +1,7 @@
 from odoo import api, fields, models
 
 from odoo.addons.ea_platform_admin.services.messages import _
-from ..services import collected, pipeline
+from ..services import collected, pipeline, sample
 from .i18n import t
 
 STATE_FILE_PARAM = "ea_platform_pipeline.state_file"
@@ -46,6 +46,11 @@ class PlatformPipelineStage(models.Model):
         [("green", "Green"), ("amber", "Amber"), ("red", "Red"), ("grey", "Grey")], "Colour", compute="_compute_state",
     )
     reading = fields.Char("Reading", compute="_compute_state")
+    is_sample = fields.Boolean("Sample data", compute="_compute_state")
+    deploys = fields.Text("Deployments", compute="_compute_state")
+    backups = fields.Char("Backups", compute="_compute_state")
+    migrations = fields.Char("Migrations", compute="_compute_state")
+    tests = fields.Char("Tests", compute="_compute_state")
     can_promote = fields.Boolean(compute="_compute_state")
     can_rebuild = fields.Boolean(compute="_compute_state")
 
@@ -60,8 +65,8 @@ class PlatformPipelineStage(models.Model):
             with open(path, "rb") as handle:
                 raw = handle.read(collected.MAX_BYTES + 1)
         except OSError:
-            return None
-        return collected.read_state(raw, fields.Datetime.now())
+            return sample.sample_state(fields.Datetime.now())
+        return collected.read_state(raw, fields.Datetime.now()) or sample.sample_state(fields.Datetime.now())
 
     def _production_firms(self):
         return self.env["platform.firm"].sudo().search([("pipeline_role", "=", "firm"), ("state", "=", "active")])
@@ -78,10 +83,11 @@ class PlatformPipelineStage(models.Model):
         for stage in self:
             values = dict.fromkeys(
                 ("branch", "github_commit", "github_author", "github_at", "running_commit", "where", "ahead",
-                 "last_change", "health", "detail"), False)
-            values.update({"matches": "unknown", "color": "grey", "can_promote": False, "can_rebuild": False})
-            if not state:
-                values["reading"] = t(env, _("No reading yet: is pipeline-collect running? See PIPELINE.md, section 2."))
+                 "last_change", "health", "detail", "deploys", "backups", "migrations", "tests"), False)
+            values.update({"matches": "unknown", "color": "grey", "can_promote": False, "can_rebuild": False,
+                           "is_sample": bool(state and state.get("sample"))})
+            if values["is_sample"]:
+                values["reading"] = t(env, _("SAMPLE DATA: the collector is not connected yet, so GitHub and the current tool's figures here are made up. See PIPELINE.md, section 2."))
             elif state["stale"]:
                 values["reading"] = t(env, _("Old reading: the collector last wrote at %(time)s UTC.",
                                              time=state["generated"].strftime("%H:%M")))
@@ -145,6 +151,15 @@ class PlatformPipelineStage(models.Model):
         elif ahead.get("main_over_production"):
             values["detail"] = t(env, _("%(count)s commit(s) on main not yet running", count=ahead["main_over_production"]))
         values["color"] = "red" if not figures.get("up") else ("green" if values["matches"] == "yes" else "amber")
+        today = (tool.get("figures") or {}).get(site) or {}
+        if today.get("deploys"):
+            values["deploys"] = "\n".join(f"{row['sha'][:7]}  {row['at'][:16].replace('T', ' ')}" for row in today["deploys"][:3])
+        if today.get("backups"):
+            last = today["backups"][0]
+            values["backups"] = t(env, _("Last nightly %(when)s, %(size)s", when=last["at"][:16].replace("T", " "), size=last["size"] or "?"))
+        if today.get("migrations") is not None:
+            values["migrations"] = t(env, _("%(count)s applied, %(pending)s waiting", count=today["migrations"], pending=today.get("pending") or 0))
+        values["tests"] = t(env, _("Not published by the current tool's status file"))
 
     def _fill_odoo(self, values, tool):
         getattr(self, f"_fill_odoo_{self.code}")(values, tool)
@@ -157,8 +172,8 @@ class PlatformPipelineStage(models.Model):
         values["ahead"] = self._lead((tool.get("ahead") or {}).get("development_over_staging"), t(env, _("Staging")))
         run = env["platform.pipeline.test.run"].sudo().search([], limit=1)
         if run:
-            values["detail"] = t(env, _("Last test run: %(commit)s, %(suite)s, %(passed)s passed, %(failed)s failed",
-                                        commit=run.commit_sha[:12], suite=run.suite, passed=run.passed, failed=run.failed))
+            values["tests"] = t(env, _("%(commit)s, %(suite)s: %(passed)s passed, %(failed)s failed",
+                                       commit=run.commit_sha[:12], suite=run.suite, passed=run.passed, failed=run.failed))
         values["color"] = ("red" if run and run.failed else "green") if tool.get("github") == "ok" else "grey"
 
     def _fill_odoo_staging(self, values, tool):

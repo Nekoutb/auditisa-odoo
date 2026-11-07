@@ -55,6 +55,7 @@ usage() { sed -n '2,40p' "$0"; exit 64; }
 : "${SERVICE:=odoo}"
 : "${HOST_URL:=https://test.auditisa.com}"
 : "${CONTACT_SCRIPT:=/root/add_contact_user.py}"
+: "${CONTACT_PW_FILE:=/root/.contact-cm-ea.pw}"
 : "${BACKUP_DIR:=/var/backups/odoo/before-rebuild}"
 : "${HEALTH_PORT:=8069}"
 : "${HEALTH_ATTEMPTS:=60}"
@@ -203,9 +204,9 @@ new_records() {
   fi
   log "clients and engagements among them, with who entered them (20 at most):"
   q "SELECT '  ' || left(c.name, 60) || ' | ' || u.login || ' | ' || c.create_date::date FROM ea_audit_client c JOIN res_users u ON u.id = c.create_uid
-      WHERE c.create_uid <> 1 AND c.create_date > '$since' ORDER BY c.create_date DESC LIMIT 20" "$DB"
+      WHERE c.create_uid <> 1 AND c.create_date > '$since' ORDER BY c.create_date DESC LIMIT 20" "$DB" | grep . || true
   q "SELECT '  ' || left(e.name, 60) || ' | ' || u.login || ' | ' || e.create_date::date FROM ea_audit_engagement e JOIN res_users u ON u.id = e.create_uid
-      WHERE e.create_uid <> 1 AND e.create_date > '$since' ORDER BY e.create_date DESC LIMIT 20" "$DB"
+      WHERE e.create_uid <> 1 AND e.create_date > '$since' ORDER BY e.create_date DESC LIMIT 20" "$DB" | grep . || true
   warn "THE REBUILD REPLACES THESE $LOSS RECORDS. They stay only in the database kept aside. To go ahead: --apply --accept-loss $LOSS"
 }
 new_records
@@ -253,7 +254,6 @@ trap on_exit EXIT
 install -d -m 700 "$BACKUP_DIR"
 BACKUP=$BACKUP_DIR/$DB-$STAMP.dump
 runuser -u postgres -- pg_dump --format=custom --no-owner --no-acl "$DB" > "$BACKUP"
-runuser -u postgres -- pg_restore --list "$BACKUP" >/dev/null < /dev/null || true
 pg_restore --list "$BACKUP" >/dev/null
 log "backup: $BACKUP"
 
@@ -346,8 +346,12 @@ log "addons updated: safeguards still hold"
 # Every password has been reset to nothing, so nobody signs in until this is done. Its own output only
 # gives ids and counts; RESULT lines prove it ran.
 [ -r "$CONTACT_SCRIPT" ] || die "$CONTACT_SCRIPT is missing"
-SEATED=$(runuser -u "$ODOO_USER" -- "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$DB" --no-http --logfile=/dev/null 9>&- \
-  < <(cat "$CONTACT_SCRIPT") 2>/dev/null | grep '^RESULT' || true)
+[ -r "$CONTACT_PW_FILE" ] || die "$CONTACT_PW_FILE is missing"
+# The password file is root's: Odoo, which runs as another user, gets it as an open file, never on a command line.
+grep -qF "open(\"$CONTACT_PW_FILE\")" "$CONTACT_SCRIPT" || die "$CONTACT_SCRIPT no longer reads $CONTACT_PW_FILE: check it"
+SEATED=$(sed "s#open(\"$CONTACT_PW_FILE\")#open(\"/dev/fd/3\")#" "$CONTACT_SCRIPT" \
+  | runuser -u "$ODOO_USER" -- "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$DB" --no-http --logfile=/dev/null 9>&- 3<"$CONTACT_PW_FILE" \
+  2>/dev/null | grep '^RESULT' || true)
 printf '%s\n' "$SEATED" | grep -E '^RESULT visible [1-9]' >/dev/null || die "the owner's login was not re-seated on any engagement"
 log "owner's login re-seated: $(printf '%s' "$SEATED" | tr '\n' ' ' | cut -c1-120)"
 # Setting a password makes Odoo try a "password changed" mail. With no server it goes nowhere: its row goes too.

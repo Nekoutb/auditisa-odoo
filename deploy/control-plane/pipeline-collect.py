@@ -13,7 +13,10 @@ reads this file, and checks every value again. What it reads, all read-only:
                 when a branch has moved. The Odoo repository is private: a read-only deploy key, at
                 /root/.ssh/auditisa_odoo_ro (see docs/runbook/PIPELINE.md). Without it the screen says so.
   Next.js tool  https://www.auditisa.com/api/version and https://dev.auditisa.com/api/version: public already,
-                commit and dates only. Nothing to install on the production server.
+                commit and dates only. And the production server's status file (STATUS_JSON_URL, today
+                https://status.auditisa.com/status.json, public already), of which only figures are kept:
+                deploy times and commits, nightly backups with their size, migration counts. Its paths, ports,
+                database names and memory are dropped here. Nothing to install on the production server.
   Odoo staging  https://test.auditisa.com/web/health, and the figures publish-staging-state.sh puts beside it.
 
 The file holds commits, author names, dates, counts and yes-or-no answers. No commit message, no secret.
@@ -38,6 +41,8 @@ NEXT_PROD_URL = os.environ.get("NEXT_PROD_URL", "https://www.auditisa.com/api/ve
 NEXT_DEV_URL = os.environ.get("NEXT_DEV_URL", "https://dev.auditisa.com/api/version")
 STAGING_HEALTH_URL = os.environ.get("STAGING_HEALTH_URL", "https://test.auditisa.com/web/health")
 STAGING_STATE_URL = os.environ.get("STAGING_STATE_URL", "https://test.auditisa.com/manual/staging-state.json")
+STATUS_JSON_URL = os.environ.get("STATUS_JSON_URL", "https://status.auditisa.com/status.json")
+SIZE = re.compile(r"^[0-9]{1,6}(\.[0-9])? (B|KB|MB|GB)$")
 TIMEOUT = 20
 
 SHA = re.compile(r"^[0-9a-f]{7,40}$")
@@ -121,7 +126,7 @@ def fetch(url):
     try:
         request = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "auditisa-pipeline"})
         with urllib.request.urlopen(request, timeout=TIMEOUT) as response:  # noqa: S310 fixed https addresses
-            return response.status, response.read(4096)
+            return (response.status or 200), response.read(262144)
     except Exception:  # noqa: BLE001 a site that does not answer is a state, not an error
         return None, b""
 
@@ -141,6 +146,39 @@ def version(url):
         "sha": sha if isinstance(sha, str) and FULL_SHA.match(sha) else None,
         "started_at": started if isinstance(started, str) and INSTANT.match(started) else None,
     }
+
+
+def figures():
+    """Today's figures of the current tool, per site, from its status file. Allowlisted: figures only."""
+    status, body = fetch(STATUS_JSON_URL)
+    if status != 200:
+        return {}
+    try:
+        data = json.loads(body)
+    except ValueError:
+        return {}
+    out = {}
+    for env in data.get("envs", []) if isinstance(data, dict) else []:
+        if not isinstance(env, dict) or env.get("key") not in ("prod", "dev"):
+            continue
+        deploys = []
+        for row in (env.get("log") or [])[:5]:
+            if isinstance(row, dict) and row.get("kind") == "deploy" and isinstance(row.get("sha"), str) \
+                    and FULL_SHA.match(row["sha"]) and isinstance(row.get("when"), str) and INSTANT.match(row["when"]):
+                deploys.append({"sha": row["sha"], "at": row["when"]})
+        backups = []
+        for row in (env.get("backups") or [])[:3]:
+            if isinstance(row, dict) and isinstance(row.get("when"), str) and INSTANT.match(row["when"]):
+                size = row.get("size")
+                backups.append({"at": row["when"], "size": size if isinstance(size, str) and SIZE.match(size) else None})
+        count = env.get("migCount")
+        out["production" if env["key"] == "prod" else "staging"] = {
+            "deploys": deploys,
+            "backups": backups,
+            "migrations": int(count) if isinstance(count, (int, str)) and str(count).isdigit() else None,
+            "pending": len(env["pending"]) if isinstance(env.get("pending"), list) else None,
+        }
+    return out
 
 
 def staging():
@@ -182,6 +220,7 @@ def tool(name, remote, running):
 
 def collect():
     prod, dev = version(NEXT_PROD_URL), version(NEXT_DEV_URL)
+    today = figures()
     stage = staging()
     next_tool = tool("next", NEXT_REMOTE, {"staging": dev.get("sha"), "production": prod.get("sha")})
     odoo_tool = tool("odoo", ODOO_REMOTE, {"staging": stage.get("release")})
@@ -209,7 +248,8 @@ def collect():
         "schema": 1,
         "generated": now(),
         "next": next_tool | {"sites": {"staging": {"up": dev["up"], "started_at": dev.get("started_at")},
-                                        "production": {"up": prod["up"], "started_at": prod.get("started_at")}}},
+                                        "production": {"up": prod["up"], "started_at": prod.get("started_at")}},
+                             "figures": today},
         "odoo": odoo_tool | {"sites": {"staging": {k: v for k, v in stage.items() if k != "release"}}},
     }
 

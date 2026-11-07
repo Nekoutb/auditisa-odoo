@@ -57,8 +57,9 @@ fresh_target() {
   runuser -u postgres -- pg_dump --format=custom --no-owner --no-acl "$SOURCE" | runuser -u postgres -- pg_restore --no-owner --role=odoo -d "$TARGET" >/dev/null 2>&1
   q "$TARGET" "UPDATE res_partner SET name = 'Marqueur avant reconstruction' WHERE id = (SELECT min(id) FROM res_partner)" >/dev/null
   # What a person enters on staging: this is what must be warned about.
-  q "$TARGET" "INSERT INTO ea_audit_client (name, create_uid, write_uid, create_date, write_date, company_id, active)
-    SELECT 'CLIENT SAISI SARL', 2, 2, now() at time zone 'utc', now() at time zone 'utc', (SELECT min(id) FROM res_company), true" >/dev/null
+  q "$TARGET" "INSERT INTO ea_audit_client (name, partner_id, legal_form, framework, create_uid, write_uid, create_date, write_date)
+    SELECT 'CLIENT SAISI SARL', (SELECT min(id) FROM res_partner), legal_form, framework, 2, 2, now() at time zone 'utc', now() at time zone 'utc'
+      FROM ea_audit_client LIMIT 1" >/dev/null
 }
 accept_count() { sed -n 's/.*--accept-loss \([0-9]*\)\..*/\1/p; s/.*--accept-loss \([0-9]*\)$/\1/p' "$1" | head -n 1; }
 mark() { q "$TARGET" "SELECT count(*) FROM res_partner WHERE name = 'Marqueur avant reconstruction'"; }
