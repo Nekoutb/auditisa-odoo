@@ -425,6 +425,10 @@ def test_what_the_owners_script_prints_is_what_the_screen_accepts(tmp_path):
     for tool in ("bash", "openssl", "git"):
         if not shutil.which(tool):
             pytest.skip(f"needs {tool}")
+    try:  # build_release.sh may call python3, which some Windows machines only alias to the Store.
+        subprocess.run(["python3", "--version"], capture_output=True, check=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        pytest.skip("needs a working python3")
 
     def run(*args):
         return subprocess.run([shutil.which("bash"), *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout
