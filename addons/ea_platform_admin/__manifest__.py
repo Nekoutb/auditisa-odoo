@@ -24,8 +24,8 @@
         "views/addon_views.xml",
         "views/supervision_views.xml",
         "views/support_views.xml",
-        "views/support_menus.xml",
         "views/menus.xml",
+        "views/support_menus.xml",
     ],
     "assets": {
         "web.assets_backend": [
