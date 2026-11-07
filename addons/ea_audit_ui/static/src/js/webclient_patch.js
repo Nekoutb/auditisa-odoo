@@ -1,11 +1,45 @@
 import { patch } from "@web/core/utils/patch";
 import { registry } from "@web/core/registry";
-import "@web/views/fields/datetime/datetime_field";
+import { DateTimeField } from "@web/views/fields/datetime/datetime_field";
+import { Message } from "@mail/core/common/message_model";
 import { WebClient } from "@web/webclient/webclient";
 import { shellSession } from "./context_service";
 import { EaTopBar } from "./top_bar";
 
 WebClient.components = { ...WebClient.components, EaTopBar };
+
+// F029: the firm reads its times on its own clock, with the zone said, whatever the browser's.
+if (shellSession?.tz) {
+    luxon.Settings.defaultZone = shellSession.tz;
+    const label = shellSession.tz_label;
+    const formatters = registry.category("formatters");
+    const formatDate = formatters.get("date");
+    const formatDatetime = formatters.get("datetime");
+    // A list column reads through these, a form and a widget through the field below: DD/MM/YYYY on both.
+    const numericDate = (value, options = {}) => formatDate(value, { ...options, numeric: true });
+    numericDate.extractOptions = formatDate.extractOptions;
+    formatters.add("date", numericDate, { force: true });
+    const numericDatetime = (value, options = {}) => {
+        const text = formatDatetime(value, { ...options, numeric: true });
+        return text && options.showTime !== false ? `${text} ${label}` : text;
+    };
+    numericDatetime.extractOptions = formatDatetime.extractOptions;
+    formatters.add("datetime", numericDatetime, { force: true });
+    patch(DateTimeField.prototype, {
+        getFormattedValue(valueIndex) {
+            const text = super.getFormattedValue(valueIndex, true);
+            return text && this.field.type === "datetime" && this.props.showTime !== false ? `${text} ${label}` : text;
+        },
+    });
+    patch(Message.prototype, {
+        get dateSimple() {
+            return `${super.dateSimple} ${label}`;
+        },
+        get dateSimpleWithDay() {
+            return `${super.dateSimpleWithDay} ${label}`;
+        },
+    });
+}
 
 // The firm reads DD/MM/YYYY everywhere: Odoo's date fields default to a short month name
 // in lists and forms. A view that sets the option itself keeps its choice.

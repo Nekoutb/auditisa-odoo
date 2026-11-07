@@ -13,6 +13,9 @@
                     <span><t t-esc="t('fiscalYear')"/><t t-esc="p.fiscal_year"/></span>
                     <span t-if="def.std" t-esc="def.std"/>
                     <span t-esc="t('edition_' + p.edition)"/>
+                    <span t-if="p.deadline and p.deadline.date" data-eap="deadline-head" t-att-class="{'eap-late': p.deadline.late_text}">
+                        <t t-esc="t('deadline')"/><t t-esc="p.deadline.date"/><t t-if="p.deadline.late_text"> (<t t-esc="p.deadline.late_text"/>)</t>
+                    </span>
                 </div>
             </div>
             <div class="eap-chips" t-if="state.tab !== 'conclusion'">
@@ -317,7 +320,7 @@
             <label class="eap-assign"><t t-esc="t('preparer')"/>
                 <select data-assign="preparer" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.assign('preparer', ev.target.value)">
                     <option value="" t-att-selected="!p.assignment.preparer_id" t-esc="t('unassigned')"/>
-                    <t t-foreach="p.assignment.options" t-as="o" t-key="o.id">
+                    <t t-foreach="p.assignment.preparer_options" t-as="o" t-key="o.id">
                         <option t-att-value="o.id" t-att-selected="o.id === p.assignment.preparer_id" t-esc="o.name"/>
                     </t>
                 </select>
@@ -325,11 +328,15 @@
             <label class="eap-assign"><t t-esc="t('reviewer')"/>
                 <select data-assign="approver" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.assign('approver', ev.target.value)">
                     <option value="" t-att-selected="!p.assignment.approver_id" t-esc="t('unassigned')"/>
-                    <t t-foreach="p.assignment.options" t-as="o" t-key="o.id">
+                    <t t-foreach="p.assignment.approver_options" t-as="o" t-key="o.id">
                         <option t-att-value="o.id" t-att-selected="o.id === p.assignment.approver_id" t-esc="o.name"/>
                     </t>
                 </select>
             </label>
+            <label class="eap-assign" t-if="p.deadline" data-eap="deadline"><t t-esc="t('deadlineLabel')"/>
+                <input type="date" data-assign="due" t-att-value="p.deadline.own" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.setDeadline(ev.target.value)"/>
+            </label>
+            <p class="eap-muted eap-small" t-if="p.deadline and p.deadline.date and !p.deadline.own" t-esc="t('deadlineFromPhase')"/>
             <p class="eap-muted" t-if="!state.undo" t-esc="t('assignHint')"/>
             <p class="eap-muted" t-else="" data-eap="undo-line">
                 <t t-esc="t('assigned')"/>

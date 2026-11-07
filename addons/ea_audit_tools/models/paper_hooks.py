@@ -116,7 +116,7 @@ class FileItem(models.Model):
             "facts": [
                 {"label": _words(self.env, "Seuil global", "Overall"), "value": fcfa(version.overall)},
                 {"label": _words(self.env, "Seuil de travail", "Performance"), "value": fcfa(version.performance)},
-                {"label": _words(self.env, "Clairement négligeable", "Clearly trivial"), "value": fcfa(version.trivial)},
+                {"label": _words(self.env, "Anomalies manifestement négligeables", "Clearly trivial"), "value": fcfa(version.trivial)},
                 {"label": _words(self.env, "Version", "Version"), "value": "v%d" % version.version_no},
                 {
                     "label": _words(self.env, "État", "Status"),
@@ -249,7 +249,7 @@ class Paper(models.Model):
         benchmark = _BENCHMARK_WORDS[lang].get(version.benchmark, version.benchmark)
         template = (
             "%(benchmark)s : %(amount)s à %(pct)s %% ; seuil global %(overall)s, seuil de travail %(perf)s, "
-            "clairement négligeable %(trivial)s. Version %(version)s approuvée par %(who)s le %(on)s."
+            "anomalies manifestement négligeables %(trivial)s. Version %(version)s approuvée par %(who)s le %(on)s."
             if lang == "fr" else
             "%(benchmark)s: %(amount)s at %(pct)s%%; overall %(overall)s, performance %(perf)s, "
             "clearly trivial %(trivial)s. Version %(version)s approved by %(who)s on %(on)s."

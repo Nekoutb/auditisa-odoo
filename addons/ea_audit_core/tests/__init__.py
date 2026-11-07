@@ -6,3 +6,5 @@ from . import test_engagement_access
 from . import test_email_domains
 from . import test_gates
 from . import test_i18n
+from . import test_activity_summaries
+from . import test_client_findings

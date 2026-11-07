@@ -11,8 +11,8 @@
                     <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
                 </header>
                 <field name="index_code" readonly="1"/>
-                <field name="assertion" readonly="1"/>
-                <field name="tod_level"/>
+                <field name="assertion_label"/>
+                <field name="tod_level_label"/>
                 <field name="significant"/>
                 <field name="not_rely" optional="show"/>
                 <field name="nature"/>
@@ -32,8 +32,8 @@
                     <group>
                         <group>
                             <field name="index_code" readonly="1"/>
-                            <field name="assertion" readonly="1"/>
-                            <field name="tod_level"/>
+                            <field name="assertion_label"/>
+                            <field name="tod_level_label"/>
                             <field name="significant"/>
                         </group>
                         <group>

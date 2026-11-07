@@ -16,7 +16,7 @@ from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, lead_index_labe
 from ..services.sampling_params import attribute_plan, evaluate_attribute, mus_plan
 from ..services.tod_plan import TOD_ASSURANCES, TOD_CRAS, plan_tod, stable_start_fraction
 from ..workbooks import CRA_LABEL, toc_sample_workbook, tod_workbook
-from .tool_record import fcfa, french_date, is_french
+from .tool_record import decimal_label, fcfa, french_date, is_french
 
 DEFAULT_CRA = "moderate"
 _TOD_KIND = re.compile(r"^tod_(bs|is)_(little|some|corroborative|persuasive)$")
@@ -114,12 +114,19 @@ class EngagementSampling(models.Model):
             engagement.sampling_selected_count = len(selected)
             engagement.sampling_drawn_count = len(selected.filtered("toc_sample_drawn_at"))
             engagement.sampling_result_count = Run.search_count([("engagement_id", "=", engagement.id), ("method", "=", "tod-mus")])
-            engagement.sampling_prerequisites_html = Markup("").join(
-                Markup("<span class='o_ea_chip {css} me-2'>{label}</span>").format(
-                    css="o_ea_chip_good" if item["ok"] else "o_ea_chip_warn", label=item["label"],
-                )
-                for item in prerequisites
-            )
+            engagement.sampling_prerequisites_html = engagement._ea_prerequisites_html(prerequisites)
+
+    def _ea_prerequisites_html(self, prerequisites=None):
+        """The strip of the sampling board and of the journal-entry studio. A paper's chip is its link."""
+        self.ensure_one()
+        chips = []
+        for item in self._ea_tool_prerequisites() if prerequisites is None else prerequisites:
+            css = "o_ea_chip_good" if item["ok"] else "o_ea_chip_warn"
+            if item.get("href"):
+                chips.append(Markup("<a href='{href}' class='o_ea_chip {css} me-2'>{label}</a>").format(href=item["href"], css=css, label=item["label"]))
+            else:
+                chips.append(Markup("<span class='o_ea_chip {css} me-2'>{label}</span>").format(css=css, label=item["label"]))
+        return Markup("").join(chips)
 
     def _ea_tool_prerequisites(self):
         """toolPrerequisites (F063): what the sampling and journal-entry tools lean on."""
@@ -135,9 +142,12 @@ class EngagementSampling(models.Model):
         dataset = self.env["ea.audit.dataset"].sudo().search([
             ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"),
         ], limit=1)
+        papers = {item.code: "/odoo/%d/ea_audit_paper" % item.id for item in self.env["ea.audit.file.item"].sudo().search([
+            ("engagement_id", "=", self.id), ("code", "in", ("S2.1", "S3.1")),
+        ])}
         return [
-            {"key": "controls", "ok": controls, "label": "S2.1 : contrôles sélectionnés" if fr else "S2.1: controls selected"},
-            {"key": "cra", "ok": cra, "label": "S3.1 : évaluation combinée complète" if fr else "S3.1: combined assessment complete"},
+            {"key": "controls", "ok": controls, "label": "S2.1 : contrôles sélectionnés" if fr else "S2.1: controls selected", "href": papers.get("S2.1")},
+            {"key": "cra", "ok": cra, "label": "S3.1 : évaluation combinée complète" if fr else "S3.1: combined assessment complete", "href": papers.get("S3.1")},
             {"key": "gl", "ok": bool(dataset.mapping), "label": "Grand livre importé et mappé" if fr else "General ledger imported and mapped"},
         ]
 
@@ -278,7 +288,7 @@ class EngagementSampling(models.Model):
             ).format(
                 a=sheet["indexCode"], b=sheet["labelFr" if fr else "labelEn"], c=fcfa(plan["populationValue"]),
                 d=len(plan["keyItems"]), e=fcfa(plan["keyItemValue"]), f=fcfa(plan["te"]), g=CRA_LABEL[view["locale"]].get(sheet["cra"], sheet["cra"]),
-                h=plan["factor"] if plan["factor"] is not None else "—", i=plan["sampleSize"],
+                h=decimal_label(plan["factor"], view["locale"]) if plan["factor"] is not None else "—", i=plan["sampleSize"],
                 j=fcfa(plan["interval"]) if plan["interval"] is not None else "—",
             ))
         empty = ", ".join(item["indexCode"] for item in view["emptyIndexes"])

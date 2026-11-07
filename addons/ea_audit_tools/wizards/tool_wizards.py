@@ -1,5 +1,7 @@
 import base64
 
+from markupsafe import Markup
+
 from odoo import api, fields, models
 
 from ..models.finding import LIKELIHOOD_SELECTION, MAGNITUDE_SELECTION, MTYPE_SELECTION, SEVERITY_SELECTION
@@ -30,6 +32,7 @@ class TbImportWizard(models.TransientModel):
     header_row = fields.Boolean(string="First line is a header", default=True)
     step = fields.Selection([("upload", "Upload"), ("confirm", "Confirm")], default="upload")
     preview_html = fields.Html(sanitize=False, readonly=True)
+    template_html = fields.Html(compute="_compute_template_html", sanitize=False)
     mapping_error = fields.Char(readonly=True)
     map_account = fields.Char(string="Account")
     map_label = fields.Char(string="Description")
@@ -69,12 +72,33 @@ class TbImportWizard(models.TransientModel):
             "view_mode": "form", "target": "new", "name": self.env._("Confirm the column mapping"),
         }
 
+    @api.depends("engagement_id")
+    @api.depends_context("lang")
+    def _compute_template_html(self):
+        """F016. A link, not a button: a button would save the wizard, and the file is still missing."""
+        for wizard in self:
+            wizard.template_html = Markup("<a href='/ea_audit_tools/export/tb_template/{id}' data-ea-template='1'>{label}</a>").format(
+                id=wizard.engagement_id.id, label=self.env._("Download the template"),
+            )
+
     def action_import(self):
+        """F016, F018: what went wrong, or what is missing, is said here and stays on the board."""
         self.ensure_one()
-        self.engagement_id.import_trial_balance(
+        engagement = self.engagement_id
+        result = engagement.import_trial_balance(
             self.filename, self._content(), mapping=self._mapping(), timing=self.timing, header_row=self.header_row,
         )
-        return _RELOAD
+        if result["summary"]["status"] == "invalid":
+            as_root = engagement.sudo().with_context(lang=self.env.lang)
+            return self._ea_notify(self.env._("Import refused"), " ".join(as_root._ea_tb_invalid_reasons() or [self.env._("The file is invalid.")]), "danger")
+        warning = engagement.sudo().with_context(lang=self.env.lang)._ea_tb_openings_warning()
+        return self._ea_notify(self.env._("Opening balances"), warning, "warning") if warning else _RELOAD
+
+    def _ea_notify(self, title, message, kind):
+        return {
+            "type": "ir.actions.client", "tag": "display_notification",
+            "params": {"title": title, "message": message, "type": kind, "sticky": True, "next": _RELOAD},
+        }
 
 
 class MaterialityWizard(models.TransientModel):

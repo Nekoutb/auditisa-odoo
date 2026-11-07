@@ -111,6 +111,21 @@
             </form>
         </field>
     </record>
+    <record id="view_engagement_form_report_dates" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.form.report.dates</field>
+        <field name="model">ea.audit.engagement</field>
+        <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='planned']" position="after">
+                <group name="from_conclusion">
+                    <field name="report_date" readonly="1"/>
+                    <field name="assembly_deadline" readonly="1"/>
+                    <field name="lock_status" readonly="1"/>
+                    <button name="action_tool_conclusion" type="object" string="Open the conclusion" class="btn btn-link p-0" colspan="2"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
     <record id="view_engagement_form_conclusion_button" model="ir.ui.view">
         <field name="name">ea.audit.engagement.form.conclusion.button</field>
         <field name="model">ea.audit.engagement</field>

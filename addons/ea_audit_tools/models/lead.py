@@ -1,6 +1,11 @@
+from markupsafe import Markup
+
 from odoo import api, fields, models
 
-from ..services.lead_classes import INDEX_SECTION, account_class_label, account_type_label, lead_schedule_alerts
+from ..services.ap_schedules import index_resolver
+from ..services.fs_captions import bilan_totals
+from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, account_class_label, account_type_label, lead_schedule_alerts
+from .tool_record import fcfa
 
 
 class ApComment(models.Model):
@@ -73,7 +78,7 @@ class LeadSchedule(models.Model):
     movement = fields.Float(digits=(18, 0))
     variance_pct = fields.Float(string="Variance %", digits=(16, 1))
     has_variance_pct = fields.Boolean()
-    prior_source = fields.Selection([("prior_year_tb", "Prior-year TB"), ("opening", "Opening balances")], string="Comparative")
+    prior_source = fields.Selection([("prior_year_tb", "Prior-year TB"), ("prior_file", "Prior-year file"), ("opening", "Opening balances")], string="Comparative")
     account_type = fields.Char()
     account_class = fields.Char()
     account_type_label = fields.Char(string="Account type", compute="_compute_labels")
@@ -129,21 +134,57 @@ class EngagementLead(models.Model):
 
     lead_schedule_ids = fields.One2many("ea.audit.lead.schedule", "engagement_id", string="Lead schedules")
     lead_prior_label = fields.Char(string="Comparative", compute="_compute_lead_prior_label", compute_sudo=True)
+    lead_checks_html = fields.Html(string="Checks", compute="_compute_lead_checks", sanitize=False, compute_sudo=True)
+    lead_hidden_note = fields.Char(string="Indexes not shown", compute="_compute_lead_checks", compute_sudo=True)
+
+    @api.depends_context("lang")
+    def _compute_lead_checks(self):
+        """F018: does the balance balance, do assets equal liabilities, is every account placed,
+        and which indexes have nothing to show."""
+        for engagement in self:
+            version = engagement._ea_current_tb_version()
+            if not version:
+                engagement.lead_checks_html = Markup("<span class='o_ea_chip o_ea_chip_warn me-2'>{}</span>").format(self.env._("No trial balance in force"))
+                engagement.lead_hidden_note = False
+                continue
+            checks = (version.validation_summary or {}).get("checks") or {}
+            balanced = checks.get("balanced") or {}
+            bilan = bilan_totals(engagement._ea_tb_balances())
+            gap = bilan["totalAssets"] - bilan["totalLiabilitiesAndEquity"]
+            index_of = index_resolver(engagement._ea_lead_overrides())
+            unplaced = [line.account_code for line in version.line_ids if not index_of(line.account_code)]
+            shown = set(engagement.lead_schedule_ids.mapped("index_code"))
+            hidden = [d["code"] for d in LEAD_INDEXES if d["code"] not in shown]
+            items = [
+                (balanced.get("ok", False), self.env._("Trial balance balances: debits %(amount)s", amount=fcfa(balanced.get("totalDebit", 0)))
+                    if balanced.get("ok") else self.env._("Trial balance does not balance: debits %(debit)s, credits %(credit)s", debit=fcfa(balanced.get("totalDebit", 0)), credit=fcfa(balanced.get("totalCredit", 0)))),
+                (abs(gap) < 1, self.env._("Assets = equity and liabilities: %(amount)s", amount=fcfa(bilan["totalAssets"]))
+                    if abs(gap) < 1 else self.env._("Assets differ from equity and liabilities by %(amount)s", amount=fcfa(gap))),
+                (not unplaced, self.env._("Every account is on a lead index")
+                    if not unplaced else self.env._("%(count)s account(s) on no lead index: %(accounts)s", count=len(unplaced), accounts=", ".join(unplaced[:8]))),
+            ]
+            engagement.lead_checks_html = Markup("").join(
+                Markup("<span class='o_ea_chip {css} me-2'>{label}</span>").format(css="o_ea_chip_good" if ok else "o_ea_chip_bad", label=label)
+                for ok, label in items
+            )
+            engagement.lead_hidden_note = self.env._(
+                "%(count)s indexes with no balance on this trial balance are not shown: %(codes)s", count=len(hidden), codes=", ".join(hidden),
+            ) if hidden else False
 
     def _compute_lead_prior_label(self):
         for engagement in self:
-            source = engagement.lead_schedule_ids[:1].prior_source
-            if not source:
-                engagement.lead_prior_label = ""
-            elif source == "prior_year_tb":
-                engagement.lead_prior_label = self.env._("Prior year: the valid prior-year trial balance")
-            else:
-                engagement.lead_prior_label = self.env._("Prior year: the current trial balance's opening balances")
+            engagement.lead_prior_label = engagement._ea_comparative_label() if engagement.lead_schedule_ids else ""
 
     def action_tool_lead(self):
+        self.ensure_one()
+        self._ea_require_access()
+        self.sudo()._ea_refresh_lead_schedules()
         return self._ea_board("ea_audit_tools.view_engagement_lead_board", self.env._("Lead schedules"))
 
     def action_tool_lead_lines(self):
+        self.ensure_one()
+        self._ea_require_access()
+        self.sudo()._ea_refresh_lead_schedules()
         return self._ea_list(
             "ea.audit.lead.line", self.env._("Lead schedules by account"),
             [("ea_audit_tools.view_lead_line_list", "list")],

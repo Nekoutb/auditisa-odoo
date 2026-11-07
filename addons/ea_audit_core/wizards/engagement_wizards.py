@@ -1,8 +1,9 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 from ..models.engagement import COMPLEXITY_SELECTION, NATURE_SELECTION
 from ..models.signoff_policy import LADDER_SELECTION
 from ..models.team_member import TEAM_ROLE_SELECTION
+from ..services.errors import rule_error
 
 
 class EngagementCreateWizard(models.TransientModel):
@@ -14,8 +15,9 @@ class EngagementCreateWizard(models.TransientModel):
     _description = "New engagement"
 
     client_id = fields.Many2one("ea.audit.client", string="Client", required=True)
-    fiscal_year = fields.Integer(required=True)
+    fiscal_year = fields.Integer(required=True, default=lambda self: fields.Date.context_today(self).year - 1)
     period_end = fields.Date(required=True)
+    name_preview = fields.Char(string="Name of the file", compute="_compute_name_preview")
     duration_months = fields.Integer(string="Duration (months)", default=12)
     nature = fields.Selection(NATURE_SELECTION, default="statutory_audit")
     complexity = fields.Selection(COMPLEXITY_SELECTION, default="complex")
@@ -25,8 +27,21 @@ class EngagementCreateWizard(models.TransientModel):
         domain=lambda self: [("all_group_ids", "in", self.env.ref("ea_audit_core.group_partner").ids)],
     )
 
+    @api.depends("client_id", "fiscal_year")
+    def _compute_name_preview(self):
+        """F075: as the file will read; a dash until the client is chosen."""
+        for wizard in self:
+            wizard.name_preview = "%s %s" % (wizard.client_id.name, wizard.fiscal_year) if wizard.client_id else "—"
+
+    @api.onchange("period_end")
+    def _onchange_period_end(self):
+        if self.period_end:
+            self.fiscal_year = self.period_end.year
+
     def action_create(self):
         self.ensure_one()
+        if self.fiscal_year < 1900:
+            raise rule_error(self.env, "fiscal-year-required")
         engagement = self.env["ea.audit.engagement"].create({
             "client_id": self.client_id.id,
             "fiscal_year": self.fiscal_year,

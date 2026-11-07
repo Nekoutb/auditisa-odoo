@@ -1630,3 +1630,26 @@ msgstr ""
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "‹ Previous"
 msgstr "‹ Précédent"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Deadline"
+msgstr "Échéance"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Deadline: "
+msgstr "Échéance : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No date set for this task: the deadline of its phase applies."
+msgstr "Aucune date fixée pour cette tâche : l'échéance de sa phase s'applique."
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__rating_ids
+msgid "Ratings"
+msgstr ""

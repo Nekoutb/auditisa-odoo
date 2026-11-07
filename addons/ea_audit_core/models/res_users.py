@@ -19,6 +19,15 @@ _APART_GROUPS = (
 class ResUsers(models.Model):
     _inherit = "res.users"
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        """F086: a new account reads in the firm's language; the person changes it afterwards."""
+        firm_lang = self.env.company.sudo().partner_id.lang
+        for vals in vals_list:
+            if firm_lang and not vals.get("lang"):
+                vals["lang"] = firm_lang
+        return super().create(vals_list)
+
     def _ea_firm_role(self):
         """The firm role (membership.role of the current application), False
         when the user is not a member of the firm."""

@@ -17,6 +17,18 @@ from services import (
 )
 from services.errors import ServiceError
 
+def _financial_analysis_as_source(rows, end, prior, overrides, mapping, gl):
+    """What the source returns: the formula and the reason for a blank with a ledger (F064) are this port's."""
+    view = financial_analysis.financial_analysis(rows, end, prior, overrides, mapping, gl)
+    if view:
+        for row in view["rows"]:
+            row.pop("formula")
+            row.pop("formulaFr")
+            row.pop("blank", None)
+            row.pop("blankFr", None)
+    return view
+
+
 FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 TODAY = "2026-11-04"
 
@@ -297,7 +309,7 @@ ADAPTERS = {
     "financial_analysis": {
         "RATIO_KEYS": constant(financial_analysis.RATIO_KEYS),
         "DEFS": constant(financial_analysis.DEFS),
-        "financialAnalysis": lambda rows, end, prior, overrides, mapping, gl: financial_analysis.financial_analysis(rows, end, prior, overrides, mapping, gl),
+        "financialAnalysis": _financial_analysis_as_source,
         "aggregate": financial_analysis.aggregate,
         "ratioSet": financial_analysis.ratio_set,
     },

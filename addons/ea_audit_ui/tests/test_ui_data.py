@@ -121,9 +121,12 @@ class TestUiData(EaAuditCase):
         item.with_user(self.partner).assign_tasks(self.senior.id, "approver")
         mine = self.ui(self.staff).ea_ui_dashboard(self.engagement.id)["my_tasks"]
         self.assertEqual((mine["count"], mine["rows"][0]["code"], mine["rows"][0]["word"]), (1, "E6.2", "To prepare"))
-        self.assertEqual(self.ui(self.senior).ea_ui_dashboard(self.engagement.id)["my_tasks"]["count"], 0)
+        # F021: the tile counts what is open and mine, as the Tasks page does: the reviewer's too
+        mine = self.ui(self.senior).ea_ui_dashboard(self.engagement.id)["my_tasks"]
+        self.assertEqual((mine["count"], mine["rows"][0]["word"]), (1, "Not started"))
         item.with_user(self.staff).action_sign("preparer")
-        self.assertEqual(self.ui(self.staff).ea_ui_dashboard(self.engagement.id)["my_tasks"]["count"], 0)
+        mine = self.ui(self.staff).ea_ui_dashboard(self.engagement.id)["my_tasks"]
+        self.assertEqual((mine["count"], mine["rows"][0]["word"]), (1, "In review"))
         mine = self.ui(self.senior).ea_ui_dashboard(self.engagement.id)["my_tasks"]
         self.assertEqual((mine["count"], mine["rows"][0]["word"]), (1, "To review"))
 

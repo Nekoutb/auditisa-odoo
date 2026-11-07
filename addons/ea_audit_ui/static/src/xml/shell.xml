@@ -19,6 +19,7 @@
                     <a t-foreach="phases" t-as="phase" t-key="phase.key" href="#" role="button"
                        t-att-class="{on: currentSection === phase.key}"
                        t-on-click.prevent="() => this.goPhase(phase.key)" t-esc="phase.label"/>
+                    <a href="#" role="button" data-ea="tasks-link" t-att-class="{on: ctxState.onAllTasks}" t-on-click.prevent="goAllTasks">Tasks</a>
                 </t>
                 <t t-else="">
                     <a href="#" role="button" t-att-class="{on: ctxState.screen === 'home'}" t-on-click.prevent="goHome">Dashboard</a>
@@ -45,7 +46,7 @@
             </div>
 
             <div class="ea-anchor ea-search-wrap" data-ea-panel="search">
-                <input class="ea-search" type="search" placeholder="Search…" aria-label="Search for an engagement or a task"
+                <input class="ea-search" type="search" placeholder="Search…" aria-label="Search engagements, tasks, the methodology and the answers"
                        t-att-value="state.query" t-on-input="onSearchInput" t-on-focus="onSearchFocus"/>
                 <div t-if="state.open === 'search' and state.results" class="ea-pop ea-pop-search">
                     <t t-if="state.results.missions.length">
@@ -64,7 +65,25 @@
                             <small t-esc="task.mission"/>
                         </a>
                     </t>
-                    <div t-if="!state.results.missions.length and !state.results.tasks.length" class="ea-pop-empty">No results.</div>
+                    <t t-if="state.results.methodology.length">
+                        <div class="ea-pop-h">In the methodology</div>
+                        <a t-foreach="state.results.methodology" t-as="task" t-key="task.id" class="ea-pop-row" href="#" role="button"
+                           t-on-click.prevent="() => this.pickTask(task)">
+                            <b><code t-esc="task.code"/> <t t-esc="task.title"/></b>
+                            <small t-esc="task.snippet"/>
+                            <small t-esc="task.mission"/>
+                        </a>
+                    </t>
+                    <t t-if="state.results.answers.length">
+                        <div class="ea-pop-h">In the answers</div>
+                        <a t-foreach="state.results.answers" t-as="task" t-key="task_index" class="ea-pop-row" href="#" role="button"
+                           t-on-click.prevent="() => this.pickTask(task)">
+                            <b><code t-esc="task.code"/> <t t-esc="task.title"/></b>
+                            <small t-esc="task.snippet"/>
+                            <small t-esc="task.mission"/>
+                        </a>
+                    </t>
+                    <div t-if="!state.results.missions.length and !state.results.tasks.length and !state.results.methodology.length and !state.results.answers.length" class="ea-pop-empty">No results.</div>
                 </div>
             </div>
 
@@ -98,13 +117,16 @@
                 <div t-if="state.open === 'bell'" class="ea-pop ea-pop-bell">
                     <div class="ea-pop-h">Notifications<t t-if="ctxState.unread">, <t t-esc="unreadLabel"/></t></div>
                     <div class="ea-pop-scroll">
-                        <a t-foreach="state.notifications" t-as="row" t-key="row.id" class="ea-pop-row ea-note" href="#" role="button"
-                           t-att-class="{unread: row.unread}" t-on-click.prevent="() => this.openNotification(row)">
+                        <a t-foreach="state.notifications" t-as="row" t-key="row.id" class="ea-pop-row ea-note" t-att-href="row.url"
+                           t-att-class="{unread: row.unread}" t-on-click="(ev) => this.onNotificationClick(ev, row)">
                             <b t-esc="row.title"/>
                             <small><t t-esc="row.detail"/> · <t t-esc="timeAgo(row.created)"/></small>
                         </a>
                         <div t-if="!state.notifications.length" class="ea-pop-empty">No notifications.</div>
                     </div>
+                    <a t-if="state.notifications.length" class="ea-pop-foot" href="/odoo/action-ea_audit_ui.action_notifications" t-on-click.prevent="openAllNotifications">
+                        See all notifications (<t t-esc="state.notifications.length"/> / <t t-esc="state.notificationTotal"/>)
+                    </a>
                 </div>
             </div>
 
@@ -207,9 +229,10 @@
                             <a t-foreach="ring.groups" t-as="group" t-key="group.id" href="#" role="button"
                                t-att-class="{cur: ring.current_group === group.id}" t-on-click.prevent="() => this.openGroup(group)">
                                 <b t-esc="group.label"/>
-                                <span><t t-esc="group.done"/>/<t t-esc="group.total"/></span>
+                                <span><t t-esc="group.done"/>/<t t-esc="group.total"/><small t-if="group.designed" class="ea-designed" data-ea="e4-designed"> (<t t-esc="group.designed"/>)</small></span>
                             </a>
                             <div t-if="!ring.groups.length" class="ea-empty">No tasks on this engagement.</div>
+                            <div t-if="ring.note" class="ea-note-line" data-ea="e3-note" t-esc="ring.note"/>
                         </div>
                     </t>
                 </div>
@@ -228,12 +251,13 @@
 
                 <div class="ea-tiles">
                     <div class="ea-card ea-tile">
-                        <h4>My tasks <small>assigned to me</small> <span t-esc="d.my_tasks.count"/></h4>
+                        <h4><a href="#" role="button" data-ea="my-tasks-link" t-on-click.prevent="openAllTasks">My tasks</a> <small>open and mine</small> <span t-esc="d.my_tasks.count"/></h4>
                         <a t-foreach="d.my_tasks.rows" t-as="row" t-key="row.id" class="ea-tl" href="#" role="button" t-on-click.prevent="() => this.openItem(row.id)">
                             <span><t t-esc="row.code"/> <t t-esc="row.title"/></span>
                             <span class="ea-tl-r" t-esc="row.word"/>
                         </a>
                         <div t-if="!d.my_tasks.rows.length" class="ea-empty">Nothing open is assigned to you on this file.</div>
+                        <div class="ea-note-line" data-ea="my-tasks-e4">Substantive procedures: <t t-esc="d.my_tasks.e4.text"/> (S5.5)</div>
                     </div>
                     <div class="ea-card ea-tile">
                         <h4>Review notes &amp; findings</h4>
@@ -279,7 +303,9 @@
                             <span t-esc="d.group.section_label"/>
                             <span t-esc="d.mission.client"/>
                             <span>Fiscal year <t t-esc="d.mission.fiscal_year"/></span>
+                            <span t-if="d.designed" data-ea="e4-designed"><t t-esc="d.designed"/> (S5.5)</span>
                         </div>
+                        <div t-if="d.note" class="ea-note-line" data-ea="e3-note" t-esc="d.note"/>
                     </div>
                     <div class="ea-big">
                         <small>COMPLETION</small>
@@ -309,6 +335,70 @@
                                     <td><span class="ea-st" t-att-class="row.tone" t-esc="row.pill"/></td>
                                 </tr>
                                 <tr t-if="!d.rows.length" class="ea-norow"><td colspan="6" class="ea-empty">No active tasks in this group.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ea-card ea-task-card" t-if="d.conditional.length" data-ea="conditional">
+                    <div class="ea-cardh">Conditional papers <span class="ea-sub">Not counted: they come onto the file when their trigger answers yes.</span></div>
+                    <div class="ea-table-wrap">
+                        <table class="ea-table ea-table-plain">
+                            <thead><tr><th>TASK</th><th>TRIGGER</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="d.conditional" t-as="row" t-key="row.id" t-att-data-conditional="row.code">
+                                    <td class="ea-task-cell ea-muted"><code t-esc="row.code"/><t t-esc="row.title"/></td>
+                                    <td class="ea-muted" t-esc="row.trigger"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_ui.AllTasks">
+        <div class="ea-page">
+            <t t-if="state.data">
+                <t t-set="d" t-value="state.data"/>
+                <a class="ea-back" href="#" role="button" t-on-click.prevent="back">&#8592; Back to dashboard</a>
+                <div class="ea-title ea-title-tasks">
+                    <div>
+                        <h1>Tasks</h1>
+                        <div class="ea-sub ea-dots">
+                            <span t-esc="d.mission.client"/>
+                            <span>Fiscal year <t t-esc="d.mission.fiscal_year"/></span>
+                            <span data-ea="e4-designed">Substantive procedures: <t t-esc="d.designed"/> (S5.5)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ea-filters" role="group" aria-label="Filter the tasks">
+                    <button type="button" class="ea-filter" data-ea="filter-mine" t-att-class="{on: state.scope === 'mine'}" t-on-click="() => { state.scope = 'mine'; }">Mine (<t t-esc="mineCount"/>)</button>
+                    <button type="button" class="ea-filter" data-ea="filter-all" t-att-class="{on: state.scope === 'all'}" t-on-click="() => { state.scope = 'all'; }">All (<t t-esc="d.rows.length"/>)</button>
+                    <button type="button" class="ea-filter" data-ea="filter-open" t-att-class="{on: state.openOnly}" t-att-aria-pressed="state.openOnly ? 'true' : 'false'" t-on-click="() => { state.openOnly = !state.openOnly; }">Open (<t t-esc="openCount"/>)</button>
+                </div>
+                <div class="ea-card ea-task-card">
+                    <div class="ea-table-wrap">
+                        <table class="ea-table">
+                            <thead>
+                                <tr><th>TASK</th><th>PREPARER</th><th>REVIEWER</th><th>PARTNER</th><th>DUE DATE</th><th>STATUS</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="rows" t-as="row" t-key="row.id" t-on-click="() => this.openRow(row)">
+                                    <td class="ea-task-cell"><code t-esc="row.code"/><t t-esc="row.title"/></td>
+                                    <td><t t-call="ea_audit_ui.SignerCell"><t t-set="cell" t-value="row.preparer"/><t t-set="chip" t-value="'P'"/><t t-set="chipClass" t-value="row.preparer.signed ? '' : 'n'"/></t></td>
+                                    <td><t t-call="ea_audit_ui.SignerCell"><t t-set="cell" t-value="row.reviewer"/><t t-set="chip" t-value="'R'"/><t t-set="chipClass" t-value="row.reviewer.signed ? 'b' : 'n'"/></t></td>
+                                    <td>
+                                        <t t-if="row.partner"><t t-call="ea_audit_ui.SignerCell"><t t-set="cell" t-value="row.partner"/><t t-set="chip" t-value="'A'"/><t t-set="chipClass" t-value="'a'"/></t></t>
+                                        <t t-else="">—</t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="row.due"/>
+                                        <span t-if="row.late_days" class="ea-late"><br/><t t-esc="row.late_text"/></span>
+                                    </td>
+                                    <td><span class="ea-st" t-att-class="row.tone" t-esc="row.pill"/></td>
+                                </tr>
+                                <tr t-if="!rows.length" class="ea-norow"><td colspan="6" class="ea-empty">No tasks under this filter.</td></tr>
                             </tbody>
                         </table>
                     </div>

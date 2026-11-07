@@ -140,6 +140,103 @@
       "labelFr": "Modifications de la stratégie en cours de mission et leur motif"
      }
     ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part D — Conditional planning tasks",
+    "titleFr": "Partie D — Tâches de planification conditionnelles",
+    "fields": [
+     {
+      "key": "uses_expert",
+      "kind": "select",
+      "labelEn": "Expert used (brings S5.1 onto the file)",
+      "labelFr": "Recours à un expert (ajoute S5.1 au dossier)",
+      "options": [
+       {
+        "value": "yes",
+        "en": "Yes",
+        "fr": "Oui"
+       },
+       {
+        "value": "no",
+        "en": "No",
+        "fr": "Non"
+       }
+      ]
+     },
+     {
+      "key": "uses_service_org",
+      "kind": "select",
+      "labelEn": "Service organisation used (brings S5.2 onto the file)",
+      "labelFr": "Recours à une société de services (ajoute S5.2 au dossier)",
+      "options": [
+       {
+        "value": "yes",
+        "en": "Yes",
+        "fr": "Oui"
+       },
+       {
+        "value": "no",
+        "en": "No",
+        "fr": "Non"
+       }
+      ]
+     },
+     {
+      "key": "has_internal_audit",
+      "kind": "select",
+      "labelEn": "Internal audit function (brings S5.3 onto the file)",
+      "labelFr": "Fonction d'audit interne (ajoute S5.3 au dossier)",
+      "options": [
+       {
+        "value": "yes",
+        "en": "Yes",
+        "fr": "Oui"
+       },
+       {
+        "value": "no",
+        "en": "No",
+        "fr": "Non"
+       }
+      ]
+     },
+     {
+      "key": "assess_control_env",
+      "kind": "select",
+      "labelEn": "Detailed control-environment assessment (brings P4.2 onto the file)",
+      "labelFr": "Évaluation détaillée de l'environnement de contrôle (ajoute P4.2 au dossier)",
+      "options": [
+       {
+        "value": "yes",
+        "en": "Yes",
+        "fr": "Oui"
+       },
+       {
+        "value": "no",
+        "en": "No",
+        "fr": "Non"
+       }
+      ]
+     },
+     {
+      "key": "assess_it_env",
+      "kind": "select",
+      "labelEn": "IT environment assessment (brings P4.3 onto the file)",
+      "labelFr": "Évaluation de l'environnement informatique (ajoute P4.3 au dossier)",
+      "options": [
+       {
+        "value": "yes",
+        "en": "Yes",
+        "fr": "Oui"
+       },
+       {
+        "value": "no",
+        "en": "No",
+        "fr": "Non"
+       }
+      ]
+     }
+    ]
    }
   ]
  }

@@ -2,4 +2,5 @@
 <odoo>
     <!-- Runs on install and on every upgrade: a changed text adds a row and retires the old one. -->
     <function model="ea.audit.paper.def" name="_ea_load_definitions"/>
+    <function model="ea.audit.paper.answer.history" name="_ea_backfill_audit_log"/>
 </odoo>

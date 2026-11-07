@@ -2,9 +2,9 @@ from odoo import api, fields, models
 
 from ..rules import rule_error
 from ..services.sad_model import SAD_CAPTION_LABELS, SAD_CAPTIONS, suggest_caption
-from ..services.sad_view import fs_caption_amounts
+from ..services.sad_view import effective_income_after_tax, fs_caption_amounts
 from .finding import MTYPE_SELECTION
-from .tool_record import is_french
+from .tool_record import fcfa, is_french
 
 CAPTION_SELECTION = [(code, SAD_CAPTION_LABELS[code]["en"]) for code in SAD_CAPTIONS]
 ANSWER_SELECTION = [("yes", "Yes"), ("no", "No"), ("na", "N/A")]
@@ -165,7 +165,11 @@ class SadMeta(models.Model):
     tax_rate = fields.Float(string="Tax rate %", default=33, digits=(5, 2))
     turnaround_factual = fields.Float(string="Prior-period turnaround: factual and projected", digits=(18, 2))
     turnaround_judgmental = fields.Float(string="Prior-period turnaround: judgmental", digits=(18, 2))
-    income_after_tax = fields.Float(string="Income after tax", digits=(18, 2))
+    income_after_tax = fields.Float(
+        string="Income after tax (override)", digits=(18, 2),
+        help="Leave at 0 to use the result of the trial balance. Enter a figure only when the file's result differs.",
+    )
+    income_after_tax_tb = fields.Float(string="Income after tax, from the trial balance", digits=(18, 2), compute="_compute_income_after_tax_tb", compute_sudo=True)
     tq_1 = fields.Selection(ANSWER_SELECTION, string="1. Misstatements sensitive in the entity's circumstances")
     tq_1c = fields.Char(string="Comment 1")
     tq_2 = fields.Selection(ANSWER_SELECTION, string="2. Misstatements masking a change in earnings or other trends")
@@ -180,6 +184,11 @@ class SadMeta(models.Model):
     disc_row_ids = fields.One2many("ea.audit.sad.disc.row", "meta_id", string="Disclosure misstatements")
 
     _uniq = models.Constraint("UNIQUE(engagement_id)", "An engagement has one SAD conclusion.")
+
+    def _compute_income_after_tax_tb(self):
+        for meta in self:
+            fs = fs_caption_amounts(meta.engagement_id._ea_tb_balances())
+            meta.income_after_tax_tb = fs["netResultAfterTax"] if fs else 0
 
     def _ea_user_write(self, vals):
         """saveSadMeta. The child lists save themselves, through their own guard."""
@@ -240,6 +249,23 @@ class EngagementSad(models.Model):
     sad_entry_ids = fields.One2many("ea.audit.sad.entry", "engagement_id", string="Audit differences")
     sad_meta_id = fields.Many2one("ea.audit.sad.meta", string="SAD conclusion", compute="_compute_sad_meta", compute_sudo=True)
     sad_concl_text = fields.Text(string="Team conclusion", related="sad_meta_id.concl_text")
+    sad_income_label = fields.Char(string="Income after tax", compute="_compute_sad_income", compute_sudo=True)
+    sad_income_note = fields.Char(compute="_compute_sad_income", compute_sudo=True)
+
+    @api.depends_context("lang")
+    def _compute_sad_income(self):
+        for engagement in self:
+            fs = fs_caption_amounts(engagement._ea_tb_balances())
+            from_tb = fs["netResultAfterTax"] if fs else None
+            override = engagement._ea_sad_meta(create=False).income_after_tax
+            value = effective_income_after_tax(override, from_tb)
+            engagement.sad_income_label = fcfa(value)
+            if override:
+                engagement.sad_income_note = self.env._("Entered by the team; the trial balance reads %(amount)s", amount=fcfa(from_tb))
+            elif fs:
+                engagement.sad_income_note = self.env._("From the trial balance, income tax (89) deducted")
+            else:
+                engagement.sad_income_note = self.env._("No trial balance imported yet")
 
     def _compute_sad_meta(self):
         for engagement in self:
@@ -293,7 +319,7 @@ class EngagementSad(models.Model):
                 "tax_rate": meta.tax_rate if meta else 33,
                 "turnaround_factual": meta.turnaround_factual if meta else 0,
                 "turnaround_judgmental": meta.turnaround_judgmental if meta else 0,
-                "income_after_tax": meta.income_after_tax if meta else 0,
+                "income_after_tax": effective_income_after_tax(meta.income_after_tax if meta else 0, fs["netResultAfterTax"] if fs else 0),
                 "concl_text": meta.concl_text or "" if meta else "",
                 **{"tq_%d" % i: (meta["tq_%d" % i] or "") if meta else "" for i in range(1, 6)},
                 **{"tq_%dc" % i: (meta["tq_%dc" % i] or "") if meta else "" for i in range(1, 6)},

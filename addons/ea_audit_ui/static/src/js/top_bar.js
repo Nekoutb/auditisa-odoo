@@ -41,7 +41,7 @@ export class EaTopBar extends Component {
         this.action = useService("action");
         this.orm = useService("orm");
         this.ctxState = useState(this.ctx.state);
-        this.state = useState({ open: null, query: "", results: null, notifications: [] });
+        this.state = useState({ open: null, query: "", results: null, notifications: [], notificationTotal: 0 });
         this.search = debounce(this.search.bind(this), 250);
 
         // One panel at a time. Bell, selector, gear and search open on a click
@@ -59,8 +59,18 @@ export class EaTopBar extends Component {
         return Boolean(this.ctxState.mission);
     }
 
+    /** On a paper or a group, its own phase; on the dashboard, the ring that is open. */
     get currentSection() {
-        return this.ctxState.openSection || this.ctxState.mission?.section;
+        if (this.ctxState.onAllTasks) {
+            return null;
+        }
+        const ring = this.ctxState.onDashboard ? this.ctxState.openSection : null;
+        return this.ctxState.pageSection || ring || this.ctxState.mission?.section;
+    }
+
+    goAllTasks() {
+        this.state.open = null;
+        return this.ctx.openAllTasks(this.ctxState.mission.id);
     }
 
     get selectorLabel() {
@@ -105,8 +115,15 @@ export class EaTopBar extends Component {
         items.push({ label: _t("My invitations"), run: () => this.ctx.openXmlid("ea_audit_core.action_my_invitations") });
         if (this.shell.is_partner) {
             items.push({ label: _t("Sign-off policy"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_policy_open") });
+            items.push({ label: _t("Sign-off matrix"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_matrix") });
             items.push({ label: _t("Sign-off rules by task"), run: () => this.ctx.openXmlid("ea_audit_core.action_signoff_task_rule") });
             items.push({ label: _t("File index"), run: () => this.ctx.openXmlid("ea_audit_core.action_task_template") });
+        }
+        if (this.shell.is_firm_admin) {
+            items.push({ label: _t("Audit log"), run: () => this.ctx.openXmlid("ea_audit_core.action_firm_audit_log") });
+            if (this.shell.has_operator_log) {
+                items.push({ label: _t("Operator access"), run: () => this.ctx.openXmlid("ea_audit_firm_agent.action_ea_firm_access_log") });
+            }
         }
         if (this.shell.is_system) {
             items.push({ label: _t("Users"), run: () => this.ctx.openXmlid("base.action_res_users") });
@@ -174,6 +191,7 @@ export class EaTopBar extends Component {
         if (this.state.open === "bell") {
             const data = await this.ctx.call("ea_ui_notifications");
             this.state.notifications = data.rows;
+            this.state.notificationTotal = data.total;
             this.ctxState.unread = data.unread;
         }
     }
@@ -212,6 +230,20 @@ export class EaTopBar extends Component {
         return item.run();
     }
 
+    onNotificationClick(ev, row) {
+        // A modified click keeps its own meaning: a new tab, a new window.
+        if (ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.button) {
+            return;
+        }
+        ev.preventDefault();
+        return this.openNotification(row);
+    }
+
+    openAllNotifications() {
+        this.state.open = null;
+        return this.ctx.openXmlid("ea_audit_ui.action_notifications");
+    }
+
     async openNotification(row) {
         this.state.open = null;
         const link = await this.ctx.call("ea_ui_notification_open", row.id);
@@ -242,7 +274,7 @@ export class EaTopBar extends Component {
             }
             return;
         }
-        this.state.results = await this.ctx.call("ea_ui_search", term);
+        this.state.results = await this.ctx.call("ea_ui_search", term, this.ctxState.mission?.id || false);
         this.state.open = "search";
     }
 

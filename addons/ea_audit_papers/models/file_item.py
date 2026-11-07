@@ -144,14 +144,25 @@ class FileItem(models.Model):
             # an assignee off the team is still shown (UAT run 2 B04)
             if current and current.id not in {o["id"] for o in options}:
                 options.append({"id": current.id, "name": current.name, "role": False})
+        # F006: each list leaves out the other role's person, where the firm wants them distinct;
+        # the one already chosen stays listed, so that a legacy row still reads as it is.
+        distinct = self.env["ea.audit.signoff.policy"]._ea_policy()["require_distinct_preparer_approver"]
+        taken_for_preparer = {item.approver_id.id} if distinct else set()
+        taken_for_reviewer = {item.preparer_id.id, item.assignee_id.id} if distinct else set()
         return {
             "preparer_id": item.preparer_id.id,
             "approver_id": item.approver_id.id,
             "options": options,
+            "preparer_options": [o for o in options if o["id"] not in taken_for_preparer or o["id"] == item.preparer_id.id],
+            "approver_options": [o for o in options if o["id"] not in taken_for_reviewer or o["id"] == item.approver_id.id],
             "can_assign": bool(
                 can_review(firm_role) and not engagement._ea_acts_as_eqr(self.env.user) and not engagement._ea_is_archived()
             ),
         }
+
+    def _ea_deadline_payload(self):
+        """ea_audit_ui: the screens hold the deadline rule, which the phase dates depend on."""
+        return False
 
     def _ea_na_payload(self):
         self.ensure_one()

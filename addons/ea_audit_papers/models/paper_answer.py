@@ -63,3 +63,24 @@ class PaperAnswerHistory(models.Model):
 
     def unlink(self):
         raise paper_error(self.env, "forbidden")
+
+    @api.model
+    def _ea_backfill_audit_log(self):
+        """Once, on the update that brings the firm's audit log: the answers already changed."""
+        params = self.env["ir.config_parameter"].sudo()
+        if params.get_param("ea_audit_papers.history_backfilled"):
+            return
+        params.set_param("ea_audit_papers.history_backfilled", "1")
+        Activity = self.env["ea.audit.activity"].sudo()
+        rows = []
+        for row in self.sudo().search([], order="id"):
+            action = "changed" if row.after else "cleared"
+            rows.append({
+                **Activity._ea_vals(
+                    row.engagement_id, "answer_%s" % action, "%s: answer %s" % (row.code, action),
+                    code=row.code, field_key=row.field_key, before=row.before, after=row.after,
+                ),
+                "at": row.changed_at, "user_id": row.user_id.id,
+            })
+        if rows:
+            Activity.create(rows)

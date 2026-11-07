@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.FormulaLabelField">
+        <span t-att-data-tooltip="formula" t-att-title="formula" data-ea-formula="1"><t t-esc="label"/> <i t-if="formula" class="fa fa-info-circle text-muted small" aria-hidden="true"/></span>
+    </t>
+</templates>

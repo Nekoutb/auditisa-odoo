@@ -6,7 +6,7 @@ task_C1_3,C1.3,B,Consultation Record,Consultation Record,standard,False,conclusi
 task_C1_2,C1.2,B,Summary Review Memorandum,Summary Review Memorandum,core,False,conclusion,50
 task_C1_1,C1.1,B,Summary of Audit Differences,Summary of Audit Differences,core,False,conclusion,60
 task_C4_3,C4.3,B,Points Outstanding,Points Outstanding,core,False,conclusion,70
-task_C2_2,C2.2,B,Subsequent Events Review (ISA 560),Subsequent Events (ISA 560),core,False,conclusion,80
+task_C2_2,C2.2,B,Subsequent Events and Going Concern Review (ISA 560 / ISA 570),Subsequent Events & Going Concern,core,False,conclusion,80
 task_C3_1,C3.1,B,Management Representation Letter(s) (ISA 580),Management Rep. Letters (ISA 580),core,False,conclusion,90
 task_C6_1,C6.1,B,Archive Checklist — Gates and Open Items,Archive Checklist,core,False,conclusion,100
 task_C6_2,C6.2,B,Complete Documentation and Archive Engagement,Documentation & Archive,core,False,conclusion,110

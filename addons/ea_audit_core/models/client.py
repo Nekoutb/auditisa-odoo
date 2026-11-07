@@ -24,6 +24,26 @@ SECTOR_SELECTION = [
 ]
 
 
+GOVERNANCE_SELECTION = [
+    ("ca_pdg", "Board with chair and CEO (PDG)"),
+    ("ca_dg", "Board with a chair and a CEO (PCA + DG)"),
+    ("administrateur_general", "Sole director (administrateur général)"),
+    ("gerance", "Management by gérant(s)"),
+]
+REGULATOR_SELECTION = [
+    ("COBAC", "COBAC (banking)"),
+    ("CIMA", "CIMA (insurance)"),
+    ("COSUMAF", "COSUMAF (capital markets)"),
+    ("CRCA", "CRCA (cooperatives)"),
+    ("BEAC", "BEAC"),
+    ("ARSEL", "ARSEL (electricity)"),
+    ("ART", "ART (telecoms)"),
+    ("OTHER", "Other"),
+]
+#: F073: the one framework on offer; the stored key is what the column already holds.
+FRAMEWORK_SELECTION = [("SYSCOHADA", "Revised SYSCOHADA, normal system")]
+
+
 class AuditClient(models.Model):
     """The firm's client entity. Clients are firm-level records: any firm role
     reads them; only their engagements are team-only."""
@@ -44,10 +64,16 @@ class AuditClient(models.Model):
     pie = fields.Boolean(string="Public interest entity")
     niu = fields.Char(string="NIU")
     registration_number = fields.Char()
-    framework = fields.Char(default="SYSCOHADA")
+    framework = fields.Selection(FRAMEWORK_SELECTION, string="Reporting framework", required=True, default="SYSCOHADA")
+    governance_mode = fields.Selection(GOVERNANCE_SELECTION)
+    regulator = fields.Selection(REGULATOR_SELECTION)
     engagement_ids = fields.One2many("ea.audit.engagement", "client_id", string="Engagements")
 
     _partner_uniq = models.Constraint("UNIQUE(partner_id)", "This contact already has a client record.")
+
+    def init(self):
+        # F074: a client saved before the framework was required, or with free text, takes the only one on offer.
+        self.env.cr.execute("UPDATE ea_audit_client SET framework = 'SYSCOHADA' WHERE framework IS DISTINCT FROM 'SYSCOHADA'")
 
     @api.model_create_multi
     def create(self, vals_list):

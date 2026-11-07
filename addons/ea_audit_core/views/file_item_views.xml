@@ -15,6 +15,7 @@
                 <field name="due_date" optional="hide"/>
                 <field name="not_applicable" optional="hide"/>
                 <field name="conditional" optional="hide"/>
+                <field name="conditional_trigger" optional="hide"/>
             </list>
         </field>
     </record>
@@ -43,9 +44,10 @@
                             <field name="task_phase"/>
                         </group>
                         <group>
-                            <field name="preparer_id"/>
-                            <field name="approver_id"/>
-                            <field name="assignee_id"/>
+                            <field name="team_user_ids" invisible="1"/>
+                            <field name="preparer_id" options="{'no_create': true}" domain="[('id', 'in', team_user_ids), ('id', '!=', approver_id)]"/>
+                            <field name="approver_id" options="{'no_create': true}" domain="[('id', 'in', team_user_ids), ('id', '!=', preparer_id), ('id', '!=', assignee_id)]"/>
+                            <field name="assignee_id" options="{'no_create': true}" domain="[('id', 'in', team_user_ids), ('id', '!=', approver_id)]"/>
                             <field name="due_date"/>
                             <field name="not_applicable"/>
                             <field name="material" invisible="section != 'E'"/>

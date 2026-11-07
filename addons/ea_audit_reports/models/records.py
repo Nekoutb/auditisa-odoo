@@ -9,6 +9,8 @@ from ..rules import rule_error
 ARCHIVE_EXEMPT = (
     "ea_audit_completion_record", "ea_audit_legal_hold", "ea_audit_archive_manifest",
     "ea_audit_notice", "ea_audit_notification",
+    # the firm's audit log records what happens to an archived file too: an export, a hold
+    "ea_audit_activity",
     # the state of a screen, one row a person: reading an archived ledger still needs it
     "ea_audit_gl_console",
 )

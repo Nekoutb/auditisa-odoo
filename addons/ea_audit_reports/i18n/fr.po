@@ -1524,3 +1524,25 @@ msgstr "Conclusion et rapport"
 #: model:ea.audit.tool.tile,description:ea_audit_reports.tile_conclusion
 msgid "Final review, letters, the audit report and the archive."
 msgstr "Revue finale, lettres, rapport d'audit et archivage."
+
+#. module: ea_audit_reports
+#: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__lock_status
+msgid "Lock status"
+msgstr "Verrouillage"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Locked: archived"
+msgstr "Verrouillé : archivé"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Open"
+msgstr "Ouvert"
+
+#. module: ea_audit_reports
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_report_dates
+msgid "Open the conclusion"
+msgstr "Ouvrir la conclusion"

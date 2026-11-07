@@ -6,6 +6,9 @@ import { _t } from "@web/core/l10n/translation";
  */
 export const LABELS = {
     status: _t("Status"),
+    deadline: _t("Deadline: "),
+    deadlineLabel: _t("Deadline"),
+    deadlineFromPhase: _t("No date set for this task: the deadline of its phase applies."),
     statusTitle: _t("Paper status"),
     conclusion: _t("Conclusion"),
     keyFindings: _t("Key findings"),
