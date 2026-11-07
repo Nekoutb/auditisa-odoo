@@ -134,14 +134,14 @@
         <field name="model">ea.audit.activity</field>
         <field name="arch" type="xml">
             <list create="0" edit="0" delete="0">
-                <field name="at"/>
-                <field name="user_id"/>
-                <field name="engagement_label"/>
-                <field name="code" optional="show"/>
+                <field name="at" width="170px"/>
+                <field name="user_id" width="130px"/>
+                <field name="engagement_label" width="190px"/>
+                <field name="code" optional="show" width="60px"/>
                 <field name="summary_display"/>
                 <field name="field_key" optional="hide"/>
-                <field name="before" class="o_ea_clip"/>
-                <field name="after" class="o_ea_clip"/>
+                <field name="before" class="o_ea_clip" width="220px"/>
+                <field name="after" class="o_ea_clip" width="220px"/>
             </list>
         </field>
     </record>

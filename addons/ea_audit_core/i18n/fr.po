@@ -3782,7 +3782,7 @@ msgstr "Votre réviseur minimum"
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "assignee"
-msgstr "affecté"
+msgstr "responsable"
 
 #. module: ea_audit_core
 #. odoo-python

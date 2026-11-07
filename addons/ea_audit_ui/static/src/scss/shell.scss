@@ -316,7 +316,7 @@ body.ea-shell .ea-page {
     border: 1px solid var(--ea-line); background: var(--ea-card); border-radius: 20px; padding: 4px 12px; font-size: 13px;
     &.on { background: var(--ea-greenbg); border-color: var(--ea-green); color: var(--ea-green); font-weight: 600; }
   }
-  .o_list_table .o_ea_clip { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .o_list_table td.o_ea_clip { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap !important; }
   .ea-table-wrap { overflow-x: auto; }
   .ea-table {
     width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--ea-card);
