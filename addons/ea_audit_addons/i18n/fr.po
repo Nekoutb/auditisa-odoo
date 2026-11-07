@@ -1,0 +1,89 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ea_audit_addons
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261103\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-07 08:23+0000\n"
+"PO-Revision-Date: 2026-11-07 08:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__code
+msgid "Add-on"
+msgstr "Module"
+
+#. module: ea_audit_addons
+#: model:ir.actions.server,name:ea_audit_addons.cron_apply_switches_ir_actions_server
+msgid "Add-ons: apply the list root approved"
+msgstr "Modules : appliquer la liste approuvée par root"
+
+#. module: ea_audit_addons
+#: model:ir.model.constraint,message:ea_audit_addons.constraint_ea_addon_switch_code_unique
+msgid "An add-on has one switch."
+msgstr "Un module a un seul interrupteur."
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__changed_at
+msgid "Changed on"
+msgstr "Modifié le"
+
+#. module: ea_audit_addons
+#: model:ir.model,name:ea_audit_addons.model_ea_addon_switch
+msgid "Client add-on switch"
+msgstr "Interrupteur de module client"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__display_name
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_client_addon_mixin__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__id
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_client_addon_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ea_audit_addons
+#: model:ir.model,name:ea_audit_addons.model_ea_client_addon_mixin
+msgid "Model of an optional client add-on"
+msgstr "Modèle d'un module client facultatif"
+
+#. module: ea_audit_addons
+#: model:ir.model.fields,field_description:ea_audit_addons.field_ea_addon_switch__enabled
+msgid "On"
+msgstr "Allumé"
+
+#. module: ea_audit_addons
+#. odoo-python
+#: code:addons/ea_audit_addons/models/addon_switch.py:0
+msgid "This add-on is switched off for this firm. Its data is kept, and switching it on again restores it."
+msgstr "Ce module est coupé pour ce cabinet. Ses données sont gardées, et le rallumer les rend."
