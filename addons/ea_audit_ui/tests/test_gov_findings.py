@@ -430,6 +430,40 @@ class TestGovFindings(ToolsCase):
         self.assertIn("continuité", item.with_context(lang="fr_FR").title.lower())
         self.assertIn("continuité", item.with_context(lang="fr_FR").short_title.lower())
 
+    # ---- an update on a firm with an archived file ---------------------------------------
+
+    def test_an_unchanged_index_row_leaves_an_archived_file_alone(self):
+        self.set_phase(self.engagement, "execution")
+        self.sign(self.staff, self.engagement, "E6.2", "preparer")
+        self.env.flush_all()
+        self.cr.execute("UPDATE ea_audit_engagement SET archived_at = now() WHERE id = %s", [self.engagement.id])
+        self.env.invalidate_all()
+        template = self.item("E6.2").template_id
+        # what the data file of a module update does
+        template.write({"code": template.code, "section": template.section, "sequence": template.sequence, "tier": template.tier})
+        self.env.flush_all()
+        self.assertEqual(template.code, "E6.2")
+
+    def test_f027_an_existing_firm_gets_its_trail_and_answers_in_the_log(self):
+        self.paper("E6.2").with_user(self.staff).save_answers({"key_findings": "Un texte"})
+        self.env.flush_all()
+        Log = self.env["ea.audit.activity"].sudo()
+        before = Log.search_count([("engagement_id", "=", self.engagement.id)])
+        self.assertGreater(before, 1)
+        self.cr.execute("DELETE FROM ea_audit_activity")
+        self.env.invalidate_all()
+        params = self.env["ir.config_parameter"].sudo()
+        params.set_param("ea_audit_core.activity_backfilled", "")
+        params.set_param("ea_audit_papers.history_backfilled", "")
+        Log._ea_backfill_trail()
+        self.env["ea.audit.paper.answer.history"]._ea_backfill_audit_log()
+        answer = Log.search([("field_key", "=", "key_findings"), ("code", "=", "E6.2")])
+        self.assertEqual((answer.after, answer.user_id), ("Un texte", self.staff))
+        self.assertTrue(Log.search_count([("action", "=", "paper_saved"), ("code", "=", "E6.2")]))
+        # once only
+        Log._ea_backfill_trail()
+        self.assertEqual(Log.search_count([("action", "=", "paper_saved"), ("code", "=", "E6.2")]), 1)
+
     # ---- the extra defects --------------------------------------------------------------
 
     def test_a_year_is_not_an_amount(self):

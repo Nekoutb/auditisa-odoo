@@ -48,6 +48,19 @@ class TaskTemplate(models.Model):
 
     _code_uniq = models.Constraint("UNIQUE(code)", "This task code already exists.")
 
+    def write(self, vals):
+        """A module update rewrites every column of every row of the index. An unchanged code or
+        section must not recompute what is stored from it on the files: an archived file refuses
+        that, and the update would fail on any firm with one (the database's archive lock)."""
+        related = {"code", "section", "phase", "sequence"} & set(vals)
+        if not related:
+            return super().write(vals)
+        for template in self:
+            kept = {key: value for key, value in vals.items() if key not in related or template[key] != value}
+            if kept:
+                super(TaskTemplate, template).write(kept)
+        return True
+
     @api.model
     def _ladder_selection(self):
         return self.env["ea.audit.signoff.task.rule"]._fields["min_preparer"]._description_selection(self.env)
