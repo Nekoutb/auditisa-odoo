@@ -136,7 +136,6 @@ def test_staging_healthy_on_this_commit_passes():
 @pytest.mark.parametrize("change", [
     {"last_heartbeat_at": NOW - timedelta(hours=2)},
     {"last_heartbeat_at": None},
-    {"health_color": "red"},
     {"release": "0" * 12},
     {"mail_enabled": True},
 ])

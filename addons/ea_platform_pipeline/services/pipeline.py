@@ -117,14 +117,16 @@ def test_check(runs):
 
 
 def staging_check(staging, sha, now):
-    """`staging`: the figures of the firm row that stands for the staging server, or None."""
+    """`staging`: the figures of the firm row that stands for the staging server, or None.
+
+    Its reporter (deploy/staging/publish-staging-state.sh) only sends a heartbeat when Odoo answers, so a
+    fresh heartbeat means Odoo is up. A firm's health colour does not apply: staging has no backup duty.
+    """
     if not staging:
         return check("staging", False, _("No server is marked as staging: its health is unknown."))
     heartbeat = staging.get("last_heartbeat_at")
     if not heartbeat or now - heartbeat > HEARTBEAT_FRESH:
         return check("staging", False, _("Staging has not reported recently."))
-    if staging.get("health_color") == "red":
-        return check("staging", False, _("Staging is red."))
     if not same_commit(staging.get("release"), sha):
         return check("staging", False, _("Staging is not running this commit."))
     if staging.get("mail_enabled"):

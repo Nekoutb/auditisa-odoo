@@ -8,6 +8,10 @@
 #
 # The file holds a commit, two yes-or-no answers read from the database and two dates. It is public, like
 # the rest of the status page, so it holds nothing else.
+#
+# If /etc/auditisa-staging/heartbeat.env (HEARTBEAT_URL, SLUG) and heartbeat.token exist beside it, it also sends
+# the control plane a signed heartbeat every 15 minutes, while Odoo answers. Done here and not by Odoo's own
+# agent because staging's crons are off. The answer is ignored: staging takes no order from the control plane.
 
 set -euo pipefail
 : "${ODOO_CONF:=/etc/odoo/odoo.conf}"
@@ -79,3 +83,30 @@ tmp=$(mktemp "$OUT_FILE.XXXXXX")
 state > "$tmp"
 chmod 644 "$tmp"
 mv -f "$tmp" "$OUT_FILE"
+
+HB_ENV=/etc/auditisa-staging/heartbeat.env
+HB_TOKEN=/etc/auditisa-staging/heartbeat.token
+HB_STAMP=/var/lib/auditisa-staging/last-heartbeat
+if [ -r "$HB_ENV" ] && [ -r "$HB_TOKEN" ]; then
+  mkdir -p "$(dirname "$HB_STAMP")"
+  if [ -z "$(find "$HB_STAMP" -mmin -14 2>/dev/null)" ] \
+    && [ "$(curl -s --max-time 10 -o /dev/null -w '%{http_code}' http://127.0.0.1:8069/web/health)" = 200 ]; then
+    # shellcheck disable=SC1090
+    . "$HB_ENV"
+    release=$(sed -n 's/.*"release":"\([0-9a-f]*\)".*/\1/p' "$OUT_FILE")
+    mail=$(sed -n 's/.*"mail_off":\(true\|false\).*/\1/p' "$OUT_FILE")
+    used=$(df --output=pcent / | tail -n 1 | tr -dc 0-9)
+    total=$(awk '/^MemTotal:/ {print int($2 / 1024)}' /proc/meminfo)
+    available=$(awk '/^MemAvailable:/ {print int($2 / 1024)}' /proc/meminfo)
+    body=$(printf '{"schema":1,"odoo_version":"19.0","release":"%s","disk_used_pct":%s,"mem_total_mb":%s,"mem_available_mb":%s,"users_active":0,"engagements_active":0,"update_state":"idle","export_state":"none","mail_enabled":%s}' \
+      "$release" "$used" "$total" "$available" "$([ "$mail" = true ] && echo false || echo true)")
+    timestamp=$(date +%s)
+    digest=$(printf '%s' "$body" | sha256sum | cut -d' ' -f1)
+    signature=$(printf 'ea-heartbeat-v1\n%s\n%s\n%s' "$SLUG" "$timestamp" "$digest" \
+      | openssl dgst -sha256 -hmac "$(cat "$HB_TOKEN")" -r | cut -d' ' -f1)
+    if curl -fsS --max-time 20 -o /dev/null -H 'Content-Type: application/json' -H "X-EA-Firm: $SLUG" \
+      -H "X-EA-Timestamp: $timestamp" -H "X-EA-Signature: $signature" --data-binary "$body" "$HEARTBEAT_URL"; then
+      touch "$HB_STAMP"
+    fi
+  fi
+fi

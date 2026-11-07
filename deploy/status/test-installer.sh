@@ -40,7 +40,7 @@ if [ "\$1" = start ] && [ "\$2" = ea-audit-status.service ]; then
   if [ -f "\$conf" ]; then
     command=\$(sed -n 's/^ExecStartPost=-//p' "\$conf")
     # Quoted for the spaces of a test folder: the real path has none.
-    node_bin=\${command%% *}; script=\${command#* }
+    node_bin=\${command% *}; script=\${command##* }
     STATUS_WWW="$WWW" STATUS_STATE="$ROOT/pipeline" NEXT_REMOTE="$SANDBOX/next-remote.git" ODOO_DEPLOY_KEY="$STATUS_PREFIX/root/.ssh/absent" \
       STAGING_STATE_URL="file:///nonexistent" STAGING_HEALTH_URL="file:///nonexistent" "\$node_bin" "\$script" || true
   fi
@@ -98,9 +98,20 @@ cat > "$SANDBOX/fake-old-gen.sh" <<EOF
 #!/usr/bin/env bash
 echo '<html>the old page</html>' > "$WWW/index.html"
 EOF
-sed -i 's/"\\$node_bin" "\\$script" || true/false/' "$SANDBOX/bin/systemctl"
+cat > "$SANDBOX/bin/systemctl" <<EOF
+#!/usr/bin/env bash
+if [ "\$1" = start ]; then bash "$SANDBOX/fake-old-gen.sh"; fi
+EOF
 if bash "$INSTALLER" install > "$SANDBOX/out" 2>&1; then bad "install claimed success with no new page"; else ok "install refuses when the new page does not appear"; fi
-[ ! -e "$ROOT/gen-pipeline.js" ] && ok "and undoes itself" || bad "it stayed"
+[ ! -e "$ROOT/gen-pipeline.js" ] && [ ! -e "$UNITS/ea-audit-status.service.d/pipeline.conf" ] && ok "and undoes itself" || bad "it stayed"
+
+# systemctl itself failing half way: nothing of it stays either.
+cat > "$SANDBOX/bin/systemctl" <<EOF
+#!/usr/bin/env bash
+case "\$1" in daemon-reload) [ -e "$SANDBOX/reloaded-once" ] && exit 0; touch "$SANDBOX/reloaded-once"; exit 1 ;; esac
+EOF
+if bash "$INSTALLER" install > "$SANDBOX/out" 2>&1; then bad "install claimed success when systemctl failed"; else ok "install stops when systemctl fails"; fi
+[ ! -e "$ROOT/gen-pipeline.js" ] && [ ! -e "$UNITS/ea-audit-status.service.d/pipeline.conf" ] && ok "and undoes itself there too" || bad "it stayed after systemctl failed"
 
 printf 'TOTAL: %s passed, %s failed\n' "$PASS" "$FAIL"
 [ "$FAIL" = 0 ]

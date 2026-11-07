@@ -503,9 +503,19 @@ remove_all() {
   rmdir "$UNITS/$SERVICE.d" "$UNITS/$TIMER.d" 2>/dev/null || true
   rm -f "$GEN" "$WWW/en.html" "$WWW/details.html" "$WWW/pipeline.json"
   rm -rf "$ROOT/pipeline"
-  systemctl daemon-reload
-  systemctl restart "$TIMER"
+  systemctl daemon-reload || log "WARNING: systemctl daemon-reload failed"
+  systemctl restart "$TIMER" || log "WARNING: the timer did not restart"
   systemctl start "$SERVICE" || true
+}
+
+undo_on_failure() {
+  local rc=$?
+  trap - EXIT
+  if [ "$rc" != 0 ]; then
+    log "stopped half way: undoing"
+    remove_all
+  fi
+  exit "$rc"
 }
 
 case "$COMMAND" in
@@ -521,6 +531,7 @@ case "$COMMAND" in
     need_root
     preflight
     backup
+    trap undo_on_failure EXIT
     write_generator
     mkdir -p "$UNITS/$SERVICE.d" "$UNITS/$TIMER.d" "$ROOT/pipeline"
     chmod 700 "$ROOT/pipeline"
@@ -538,14 +549,10 @@ EOF
     systemctl restart "$TIMER"
     systemctl start "$SERVICE" || true
     if ! grep -qF "$MARKER" "$WWW/index.html" || [ ! -s "$WWW/details.html" ] || [ ! -s "$WWW/en.html" ]; then
-      log "the new page did not appear: undoing"
-      remove_all
-      die "not installed; the page is as it was"
+      die "the new page did not appear: not installed; the page goes back as it was"
     fi
     if grep -qiE 'password|secret|BEGIN [A-Z ]*PRIVATE' "$WWW/index.html" "$WWW/en.html" "$WWW/pipeline.json"; then
-      log "the new page holds a word it must not hold: undoing"
-      remove_all
-      die "not installed; the page is as it was"
+      die "the new page holds a word it must not hold: not installed; the page goes back as it was"
     fi
     log "installed. Open https://status.auditisa.com/ and https://status.auditisa.com/details.html"
     log "to go back: bash $0 rollback"

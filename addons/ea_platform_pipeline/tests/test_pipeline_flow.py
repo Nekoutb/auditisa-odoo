@@ -3,7 +3,10 @@
 import ast
 import base64
 import json
-from datetime import datetime, timedelta
+import os
+import stat
+import tempfile
+from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -342,7 +345,7 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
         self.assertEqual(len(stages.mapped("health")), 3)
 
     def test_public_state_names_no_firm_person_or_reason(self):
-        canary = self._firm_on("cabinet-secret-name", contact_name="Personne Secrete") if False else self._firm_on("cabinet-secret-name")
+        canary = self._firm_on("cabinet-secret-name")
         self._staging()
         self._green()
         promotion = self._promotion(canary)
@@ -354,8 +357,27 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
         for word in ("cabinet-secret-name", "Cabinet", canary.contact_email, "stay inside", self.owner.login):
             self.assertNotIn(word, text)
         self.assertEqual(state["firms_total"], 1)
-        self.assertEqual(state["staging_health"], "green" if state["staging_health"] == "green" else state["staging_health"])
+        self.assertEqual(state["staging_health"], "ok")
         self.assertEqual(state["target_release"], self.release2.sha)
+
+    def test_enrolling_staging_keeps_the_token_in_a_root_only_file(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = os.path.join(folder, "token")
+            firm = self.env["platform.firm"]._pipeline_enrol_staging(path)
+            self.assertEqual(firm.pipeline_role, "staging")
+            self.assertEqual(firm.state, "active")
+            self.assertEqual(stat.S_IMODE(os.stat(path).st_mode), 0o600)
+            with open(path, encoding="ascii") as handle:
+                self.assertEqual(handle.read().strip(), firm.sudo().heartbeat_token)
+            self.assertEqual(self.env["platform.firm"]._pipeline_enrol_staging(path), firm)
+        rows = self.env["platform.log"].search([("firm_id", "=", firm.id)])
+        self.assertFalse([row for row in rows if firm.sudo().heartbeat_token in (row.detail or "")])
+
+    def test_a_staging_alert_is_silent(self):
+        staging = self._staging()
+        count = self.env["mail.message"].sudo().search_count([("model", "=", "platform.firm"), ("res_id", "=", staging.id)])
+        staging._alert(["anything"])
+        self.assertEqual(self.env["mail.message"].sudo().search_count([("model", "=", "platform.firm"), ("res_id", "=", staging.id)]), count)
 
     def test_the_addon_has_no_way_to_reach_a_firm_or_github(self):
         forbidden = {"paramiko", "fabric", "xmlrpc", "odoorpc", "asyncssh", "subprocess", "socket", "ftplib", "smtplib", "telnetlib", "requests", "urllib"}
@@ -387,10 +409,21 @@ class TestPublicStateRoute(PipelineMixin, PlatformMixin, HttpCase):
 
     def test_an_address_outside_the_list_changes_nothing(self):
         self._setup_platform()
-        self.authenticate("admin", "admin")
+        self.authenticate("p_owner", "p_owner")
         self.env["ir.config_parameter"].sudo().set_param("ea_platform.ssh_allowlist", "143.105.152.209/32")
-        response = self.make_jsonrpc_request("/web/dataset/call_kw", {
-            "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [[]], "kwargs": {},
-        }) if False else None
-        self.assertIsNone(response)
-        self.assertFalse(pipeline.address_allowed("127.0.0.1", ["143.105.152.209/32"]))
+        stage = self.env["platform.pipeline.stage"].search([], limit=1)
+        with self.assertRaisesRegex(Exception, "not one of the owner"):
+            self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
+                "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
+            })
+        self.assertFalse(self.env["platform.pipeline.rebuild"].search_count([]))
+
+    def test_the_owners_address_goes_through(self):
+        self._setup_platform()
+        self.authenticate("p_owner", "p_owner")
+        self.env["ir.config_parameter"].sudo().set_param("ea_platform.ssh_allowlist", "127.0.0.0/8 143.105.152.209/32")
+        stage = self.env["platform.pipeline.stage"].search([], limit=1)
+        result = self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
+            "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
+        })
+        self.assertEqual(result["res_model"], "platform.pipeline.confirm")

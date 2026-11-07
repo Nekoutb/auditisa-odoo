@@ -69,8 +69,11 @@ class PlatformPipelineStage(models.Model):
                 stage.where = firm.name if firm else "test.auditisa.com"
                 if firm:
                     stage.commit = (firm.addon_release or "")[:12] or False
-                    stage.health = firm.health_summary
-                    stage.color = firm.health_color
+                    word = firm._staging_health_word()
+                    stage.health = {
+                        "ok": t(env, _("Reporting")), "down": t(env, _("Not reporting")), "unknown": t(env, _("Never reported")),
+                    }[word]
+                    stage.color = {"ok": "green", "down": "red", "unknown": "grey"}[word]
                     stage.detail = t(env, _("Mail is on!")) if firm.mail_enabled else t(env, _("Mail is off"))
                 else:
                     stage.health = t(env, _("Not reporting here yet"))
@@ -128,5 +131,5 @@ class PlatformPipelineStage(models.Model):
             "last_rebuild_at": _instant(rebuild.rebuilt_at or rebuild.requested_at) if rebuild else None,
             "last_rebuild_state": rebuild.state if rebuild else None,
             "staging_release": staging.addon_release if staging else None,
-            "staging_health": staging.health_color if staging else None,
+            "staging_health": staging._staging_health_word() if staging else None,
         })

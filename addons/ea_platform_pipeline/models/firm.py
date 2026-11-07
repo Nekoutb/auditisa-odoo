@@ -1,6 +1,13 @@
-from odoo import fields, models
+import base64
+import os
+import secrets
+import struct
+
+from odoo import api, fields, models
 
 from odoo.addons.ea_platform_admin.services import heartbeat
+
+from ..services import pipeline
 
 
 class PlatformFirm(models.Model):
@@ -39,6 +46,51 @@ class PlatformFirm(models.Model):
         if rebuild and self.state == "active":
             answer["anon_export_ref"] = rebuild.request_ref
         return answer
+
+    def _alert(self, reasons):
+        # Staging keeps no backups and tests no restore: that is no alarm.
+        self.ensure_one()
+        if self.pipeline_role == "staging":
+            return None
+        return super()._alert(reasons)
+
+    @api.model
+    def _pipeline_enrol_staging(self, token_path="/etc/auditisa-platform/staging-heartbeat.token"):
+        """Adds the row that stands for the staging server. From `odoo shell` on the control plane, once.
+
+        The token goes to a root-only file and is never printed. The owner copies that file to staging.
+        The SSH key is a random public one with no private half: this row is never provisioned or logged in to.
+        """
+        existing = self.sudo().search([("pipeline_role", "=", "staging"), ("state", "!=", "archived")], limit=1)
+        if existing:
+            return existing
+        token = secrets.token_hex(32)
+        algorithm = b"ssh-ed25519"
+        blob = struct.pack(">I", len(algorithm)) + algorithm + struct.pack(">I", 32) + secrets.token_bytes(32)
+        firm = self.sudo().create({
+            "name": "Staging (test.auditisa.com)",
+            "slug": "staging-server",
+            "contact_name": "Operator",
+            "contact_email": "operator@auditisa.invalid",
+            "allowed_email_domains": "auditisa.invalid",
+            "region": "cdg",
+            "size": "standard",
+            "state": "active",
+            "pipeline_role": "staging",
+            "ssh_public_key": "ssh-ed25519 " + base64.b64encode(blob).decode("ascii") + " no-private-half",
+            "heartbeat_token": token,
+        })
+        descriptor = os.open(token_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(descriptor, "w", encoding="ascii") as handle:
+            handle.write(token + "\n")
+        return firm
+
+    def _staging_health_word(self):
+        """ok, down or unknown, from how recent its last heartbeat is. Only sent while Odoo answers."""
+        self.ensure_one()
+        if not self.last_heartbeat_at:
+            return "unknown"
+        return "ok" if fields.Datetime.now() - self.last_heartbeat_at <= pipeline.HEARTBEAT_FRESH else "down"
 
     def _staging_figures(self):
         firm = self.sudo().search([("pipeline_role", "=", "staging"), ("state", "!=", "archived")], limit=1)
