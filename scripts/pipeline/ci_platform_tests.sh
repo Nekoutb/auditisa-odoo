@@ -3,8 +3,8 @@
 #
 #   ci_platform_tests.sh TOOL_DIR [--keep]
 #
-# Installs ea_platform_admin and ea_platform_pipeline in ci_pipeline_cp and runs their tests. Writes the French
-# template to TOOL_DIR/pipeline.pot. No audit addon is on its addons path, as on the real control plane.
+# Installs ea_platform_admin and ea_platform_pipeline in ci_pipeline_cp and runs their tests. The audit addons are
+# on the path, as in CI, and none is installed.
 # --keep leaves the database for a look through a tunnel; otherwise it goes.
 
 set -uo pipefail
@@ -20,7 +20,8 @@ q "DROP DATABASE IF EXISTS $DB WITH (FORCE)" >/dev/null
 q "CREATE DATABASE $DB OWNER odoo" >/dev/null
 ADDONS=/tmp/ci_pipeline_cp_addons
 rm -rf "$ADDONS"; mkdir -p "$ADDONS"
-cp -r "$TOOL/addons/ea_platform_admin" "$TOOL/addons/ea_platform_pipeline" "$ADDONS/"
+# Every addon on the path, as in CI: the catalogue test reads the audit addons beside it. Only two are installed.
+cp -r "$TOOL/addons/." "$ADDONS/"
 chmod -R a+rX "$ADDONS"
 CONF=$(mktemp /tmp/ci_pipeline_cp.XXXXXX.conf)
 sed -e "s#^addons_path *=.*#addons_path = $ADDONS,/opt/odoo19/src/odoo/addons#" \
