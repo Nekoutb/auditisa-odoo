@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stage_development" model="platform.pipeline.stage">
+        <field name="code">development</field>
+        <field name="name">Development</field>
+        <field name="sequence">10</field>
+        <field name="branch">dev</field>
+    </record>
+    <record id="stage_staging" model="platform.pipeline.stage">
+        <field name="code">staging</field>
+        <field name="name">Staging</field>
+        <field name="sequence">20</field>
+        <field name="branch">staging</field>
+    </record>
+    <record id="stage_production" model="platform.pipeline.stage">
+        <field name="code">production</field>
+        <field name="name">Production</field>
+        <field name="sequence">30</field>
+        <field name="branch">main</field>
+    </record>
+</odoo>

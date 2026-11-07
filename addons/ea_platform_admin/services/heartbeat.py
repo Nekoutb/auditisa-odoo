@@ -94,6 +94,8 @@ def _optional(check):
 
 UPDATE_STATES = ("idle", "updating", "ok", "failed", "rolled_back")
 EXPORT_STATES = ("none", "running", "done", "failed")
+ANON_EXPORT_STATES = ("running", "done", "failed", "refused")
+_ANON_REF = re.compile(r"^[0-9a-f]{16}$")
 
 # The complete list of what a firm may tell the control plane.
 FIGURES = {
@@ -117,6 +119,11 @@ FIGURES = {
     "export_state": _choice(*EXPORT_STATES),
     "export_at": _optional(_timestamp),
     "export_sha256": _optional(_pattern(_SHA256, 64)),
+    # An anonymised copy made for staging: it stays at the firm. See ea_platform_pipeline.
+    "anon_export_state": _optional(_choice(*ANON_EXPORT_STATES)),
+    "anon_export_ref": _optional(_pattern(_ANON_REF, 16)),
+    "anon_export_at": _optional(_timestamp),
+    "anon_export_sha256": _optional(_pattern(_SHA256, 64)),
     "ssh_sessions_24h": _integer(0, 1000000),
     "last_ssh_at": _optional(_timestamp),
 }
