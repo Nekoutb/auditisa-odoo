@@ -9,7 +9,8 @@
 # output, that a loose file or a bad value is refused, and that a test environment is refused.
 set -euo pipefail
 
-DB= CONF=
+DB=''
+CONF=''
 while [ $# -gt 0 ]; do
   case "$1" in
     --db) DB=$2; shift 2 ;;

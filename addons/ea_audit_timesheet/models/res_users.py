@@ -1,5 +1,9 @@
 from odoo import models
 
+# ea_audit_firm_agent's support account (models/support.py SUPPORT_LOGIN), named here so that
+# this addon does not depend on the agent.
+SUPPORT_VISIT_LOGIN = "auditisa-support"
+
 
 class ResUsers(models.Model):
     _inherit = "res.users"
@@ -17,7 +21,8 @@ class ResUsers(models.Model):
 
     def _update_last_login(self):
         result = super()._update_last_login()
-        # Support's use of a firm is the firm's to read.
-        if self.has_group("base.group_system"):
+        # Support's use of a firm is the firm's to read. The read-only support account of a visit
+        # (ea_audit_firm_agent) writes nothing here: its visit keeps its own numbered record and trail.
+        if self.has_group("base.group_system") and self.login != SUPPORT_VISIT_LOGIN:
             self.env["ea.audit.firm.log"]._ea_append("support_login", actor=self)
         return result

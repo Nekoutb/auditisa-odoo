@@ -207,6 +207,17 @@ class TestEscalation(FirmAdminCase):
         self.assertEqual(row.actor_id, self.technical)
         self.assertTrue(any(r["support"] for r in self.fa().ea_fa_users()["log"]))
 
+    def test_the_support_visit_account_s_login_writes_nothing_here(self):
+        """Its visit has its own record; and a read-only visit refuses this write (firm agent)."""
+        support = self.env["res.users"].sudo().with_context(no_reset_password=True).create({
+            "name": "AuditISA support", "login": "auditisa-support",
+            "group_ids": [(6, 0, self.technical.group_ids.ids)],
+        })
+        self.assertTrue(support.has_group("base.group_system"))
+        before = self.Log.search_count([])
+        support.with_user(support)._update_last_login()
+        self.assertEqual(self.Log.search_count([]), before)
+
     def test_an_ordinary_login_is_not_support(self):
         before = self.Log.search_count([("kind", "=", "support_login")])
         self.staff.with_user(self.staff)._update_last_login()
