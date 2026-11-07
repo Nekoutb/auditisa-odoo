@@ -29,6 +29,7 @@ class TaskTemplate(models.Model):
     _description = "Audit file index entry"
     _order = "sequence, id"
     _rec_name = "code"
+    _rec_names_search = ["code", "title"]
 
     code = fields.Char(required=True, index=True)
     section = fields.Selection(SECTION_SELECTION, required=True)
@@ -60,6 +61,18 @@ class TaskTemplate(models.Model):
             if kept:
                 super(TaskTemplate, template).write(kept)
         return True
+
+    @api.depends("code", "title")
+    @api.depends_context("lang", "ea_task_with_title")
+    def _compute_display_name(self):
+        """The code alone, as everywhere else; with the task's description where
+        the context asks for it (the sign-off policy screens)."""
+        with_title = self.env.context.get("ea_task_with_title")
+        for template in self:
+            if with_title and template.title:
+                template.display_name = "%s - %s" % (template.code, template.title)
+            else:
+                template.display_name = template.code or ""
 
     @api.model
     def _ladder_selection(self):

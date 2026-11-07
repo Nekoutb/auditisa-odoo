@@ -1788,6 +1788,7 @@ msgstr "Signature de l'associé sur S3.1"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__require_partner_on_ids
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_policy_form
 msgid "Partner sign-off required on"
 msgstr "Signature de l'associé requise sur"
 
