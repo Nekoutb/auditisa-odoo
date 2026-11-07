@@ -69,7 +69,8 @@ class TaskTemplate(models.Model):
 
     # The file index in the order of the audit, acceptance to conclusion (owner, 2026-11-07).
     phase_step = fields.Selection(PHASE_STEP_SELECTION, string="Phase", compute="_compute_phase_step", store=True)
-    chrono_no = fields.Integer(string="Order", readonly=True, copy=False, aggregator="min", help="Position in the audit, from acceptance to conclusion.")
+    # no figure on a group's line: the group keeps the width of its name
+    chrono_no = fields.Integer(string="Order", readonly=True, copy=False, aggregator=False, help="Position in the audit, from acceptance to conclusion.")
 
     _code_uniq = models.Constraint("UNIQUE(code)", "This task code already exists.")
 
