@@ -3,6 +3,7 @@ import logging
 from odoo import http
 from odoo.exceptions import AccessDenied
 from odoo.http import request
+from odoo.addons.web.controllers.dataset import DataSet
 
 from ..models.support import SUPPORT_LOGIN
 
@@ -30,3 +31,22 @@ class SupportVisit(http.Controller):
                 headers=[("Content-Type", "text/plain; charset=utf-8"), ("Cache-Control", "no-store")], status=403,
             )
         return request.redirect("/odoo", local=True)
+
+
+def _support_session():
+    return request.session.get("login") == SUPPORT_LOGIN
+
+
+class SupportDataSet(DataSet):
+    """For the support account only, screens are read on a cursor that can also write its trail.
+
+    Everything else it might write is refused by the guard on `base` (models/support.py).
+    """
+
+    def _support_readonly(self, rule, args):
+        return False if _support_session() else DataSet._call_kw_readonly(self, rule, args)
+
+    @http.route(["/web/dataset/call_kw", "/web/dataset/call_kw/<path:path>"], type="jsonrpc", auth="user",
+                readonly=_support_readonly)
+    def call_kw(self, model, method, args, kwargs, path=None):
+        return super().call_kw(model, method, args, kwargs, path=path)

@@ -299,15 +299,23 @@ class EaFirmSupportTrace(models.Model):
         if not (isinstance(model, str) and _MODEL.match(model)):
             return
         ids = ",".join(str(i) for i in list(ids or [])[:MAX_TRACE_IDS] if isinstance(i, int))
-        with self.env.registry.cursor() as cr:
-            cr.execute("SELECT id FROM ea_firm_support_visit WHERE state = 'open' ORDER BY id DESC LIMIT 1")
-            row = cr.fetchone()
-            if row:
-                cr.execute(
-                    "INSERT INTO ea_firm_support_trace (visit_id, opened_at, model, method, res_ids, create_uid, create_date, write_uid, write_date)"
-                    " VALUES (%s, now() at time zone 'utc', %s, %s, %s, %s, now() at time zone 'utc', %s, now() at time zone 'utc')",
-                    [row[0], model, method, ids, self.env.uid, self.env.uid],
-                )
+        self.env["ea.firm.support.visit"].flush_model()
+        if self.env.cr.readonly:
+            # Screens are read on read-only cursors: the trail goes through a cursor of its own.
+            with self.env.registry.cursor() as cr:
+                self._insert_trace(cr, model, method, ids)
+        else:
+            self._insert_trace(self.env.cr, model, method, ids)
+
+    def _insert_trace(self, cr, model, method, ids):
+        cr.execute("SELECT id FROM ea_firm_support_visit WHERE state = 'open' ORDER BY id DESC LIMIT 1")
+        row = cr.fetchone()
+        if row:
+            cr.execute(
+                "INSERT INTO ea_firm_support_trace (visit_id, opened_at, model, method, res_ids, create_uid, create_date, write_uid, write_date)"
+                " VALUES (%s, now() at time zone 'utc', %s, %s, %s, %s, now() at time zone 'utc', %s, now() at time zone 'utc')",
+                [row[0], model, method, ids, self.env.uid, self.env.uid],
+            )
 
     @api.model
     def _send_pending(self):
@@ -370,7 +378,9 @@ class Base(models.AbstractModel):
     @api.model
     @api.readonly
     def web_search_read(self, domain, specification, offset=0, limit=None, order=None, count_limit=None):
-        result = super().web_search_read(domain, specification, offset=offset, limit=limit, order=order, count_limit=count_limit)
+        # A list reads its rows through web_read: one line in the trail, not two.
+        quiet = self.with_context(ea_support_no_trace=True)
+        result = super(Base, quiet).web_search_read(domain, specification, offset=offset, limit=limit, order=order, count_limit=count_limit)
         if self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
             self.env["ea.firm.support.trace"]._record(self._name, "list", [r.get("id") for r in result.get("records", [])])
         return result
@@ -378,7 +388,7 @@ class Base(models.AbstractModel):
     @api.readonly
     def web_read(self, specification):
         result = super().web_read(specification)
-        if self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
+        if not self.env.context.get("ea_support_no_trace") and self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
             self.env["ea.firm.support.trace"]._record(self._name, "form", self.ids)
         return result
 

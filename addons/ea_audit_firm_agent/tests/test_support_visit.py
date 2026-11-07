@@ -92,6 +92,7 @@ class TestSupportVisit(SupportCase):
         partner = self.env["res.partner"].create({"name": "Client Agro SA"})
         support_env["res.partner"].browse(partner.id).web_read({"name": {}})
         support_env["res.partner"].web_search_read([("id", "=", partner.id)], {"name": {}})
+        visit.invalidate_recordset(["trace_ids"])
         trace = visit.trace_ids
         self.assertEqual(trace.mapped("model"), ["res.partner", "res.partner"])
         self.assertEqual(trace.mapped("method"), ["form", "list"])
@@ -114,7 +115,7 @@ class TestSupportVisit(SupportCase):
     def test_the_administrator_ends_it_and_support_cannot(self):
         visit = self._open(16)
         support_user = self.visits._support_user()
-        with self.assertRaises((UserError, AccessError)):
+        with self.assertRaises(UserError):
             visit.with_user(support_user).action_end()
         visit.with_user(self.admin).action_end()
         self.assertEqual(visit.state, "ended")
@@ -154,9 +155,16 @@ class TestSupportLink(HttpCase):
         self.assertIn(response.status_code, (302, 303))
         info = self.url_open("/web/session/get_session_info", data="{}", headers={"Content-Type": "application/json"}).json()
         self.assertEqual(info["result"]["username"], support.SUPPORT_LOGIN)
+        partner = self.env["res.partner"].search([], limit=1)
+        read = self.url_open("/web/dataset/call_kw/res.partner/web_search_read", headers={"Content-Type": "application/json"},
+                             data=json.dumps({"params": {"model": "res.partner", "method": "web_search_read", "args": [],
+                                                          "kwargs": {"domain": [("id", "=", partner.id)], "specification": {"name": {}}}}}))
+        self.assertIn("result", read.json())
+        visit.invalidate_recordset(["trace_ids"])
+        self.assertEqual(visit.trace_ids.mapped("model"), ["res.partner"])
         for path in ("/web/export/xlsx", "/web/content/1", "/report/pdf/base.report_irmodulereference/1"):
             self.assertEqual(self.url_open(path, allow_redirects=False).status_code, 403, path)
         visit._close("ended")
         self.env.flush_all()
         info = self.url_open("/web/session/get_session_info", data="{}", headers={"Content-Type": "application/json"}).json()
-        self.assertNotEqual((info.get("result") or {}).get("username"), support.SUPPORT_LOGIN)
+        self.assertIsNone((info.get("result") or {}).get("uid"))
