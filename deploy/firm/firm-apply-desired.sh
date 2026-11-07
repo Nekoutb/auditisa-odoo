@@ -5,8 +5,9 @@
 #
 # The agent, running as the odoo user, leaves the answer in the spool folder. That makes the file
 # untrusted here: every value is checked again. All it can ask for is a release (which must still
-# carry a signature made outside the control plane), an export, and the operator's addresses on
-# port 22 (which still need this firm's SSH key). It cannot run anything.
+# carry a signature made outside the control plane), an export, an anonymised copy (which stays on this
+# server, and only if this firm allows it), and the operator's addresses on port 22 (which still need
+# this firm's SSH key). It cannot run anything.
 
 set -euo pipefail
 SCRIPT_NAME=firm-apply-desired
@@ -39,9 +40,11 @@ print(release if good else "")
 print(digest if good else "")
 print("1" if data.get("export_requested") is True else "0")
 print(" ".join(allow) if isinstance(allow, list) and all(isinstance(c, str) and re.fullmatch(r"[0-9a-fA-F:./]+", c) for c in allow) else "")
+ref = data.get("anon_export_ref", "")
+print(ref if isinstance(ref, str) and re.fullmatch(r"[0-9a-f]{16}", ref) else "")
 PY
 ) || fl_die "the spool file cannot be read"
-{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; } <<<"$parsed"
+{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; read -r ANON_REF; } <<<"$parsed"
 
 apply_allowlist() {
   [ -n "$ALLOW" ] || return 0
@@ -79,6 +82,15 @@ if [ "$EXPORT" = 1 ]; then
         "$BIN_DIR/firm-export.sh" || fl_warn "export failed"
       fi ;;
   esac
+fi
+
+# Once per reference, whatever the result: asking again takes a new request on the control plane.
+if [ -n "$ANON_REF" ] && [ "$ANON_REF" != "$(get_status anon_export_ref)" ]; then
+  if [ "$DRY_RUN" = 1 ]; then
+    fl_log "DRY RUN: would run firm-anon-export $ANON_REF"
+  else
+    "$BIN_DIR/firm-anon-export.sh" "$ANON_REF" || fl_warn "anonymised export did not finish"
+  fi
 fi
 
 if [ -n "$RELEASE" ] && [ "$RELEASE" != "$(get_status release)" ]; then

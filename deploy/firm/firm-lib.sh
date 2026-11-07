@@ -68,6 +68,7 @@ db_exists() { [ -n "$(psql_q "SELECT 1 FROM pg_database WHERE datname = '$1'")" 
 
 valid_release() { [[ $1 =~ ^[0-9a-f]{12,40}$ ]]; }
 valid_digest() { [[ $1 =~ ^[0-9a-f]{64}$ ]]; }
+valid_anon_ref() { [[ $1 =~ ^[0-9a-f]{16}$ ]]; }
 
 # Checked again here though the control plane checked it: the spool file is writable by odoo.
 valid_cidr() {

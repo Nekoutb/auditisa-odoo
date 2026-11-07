@@ -15,6 +15,7 @@ _RELEASE = re.compile(r"^[0-9a-f]{7,40}$")
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _ODOO_VERSION = re.compile(r"^\d{2}\.\d$")
 _CIDR = re.compile(r"^[0-9a-fA-F:.]+/\d{1,3}$")
+_ANON_REF = re.compile(r"^[0-9a-f]{16}$")
 
 
 def _text(pattern):
@@ -50,6 +51,12 @@ STATUS_FILES = {
     "export_state": _word("none", "running", "done", "failed"),
     "export_at": _text(_INSTANT),
     "export_sha256": _text(_SHA256),
+    # Absent until this firm is first asked for an anonymised copy, so an older control plane, which
+    # refuses a figure it does not know, keeps working.
+    "anon_export_state": _word("running", "done", "failed", "refused"),
+    "anon_export_ref": _text(_ANON_REF),
+    "anon_export_at": _text(_INSTANT),
+    "anon_export_sha256": _text(_SHA256),
     "ssh_sessions_24h": _count,
     "last_ssh_at": _text(_INSTANT),
 }
@@ -128,6 +135,9 @@ def parse_desired(body):
         desired["release"] = release
         desired["bundle_sha256"] = digest
     desired["export_requested"] = data.get("export_requested") is True
+    anon_ref = data.get("anon_export_ref")
+    if isinstance(anon_ref, str) and _ANON_REF.match(anon_ref):
+        desired["anon_export_ref"] = anon_ref
     allowlist = data.get("ssh_allowlist")
     if isinstance(allowlist, list) and all(isinstance(c, str) and _CIDR.match(c) for c in allowlist):
         desired["ssh_allowlist"] = allowlist
