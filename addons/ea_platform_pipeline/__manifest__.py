@@ -16,5 +16,10 @@
         "wizard/confirm_views.xml",
         "views/menus.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "ea_platform_pipeline/static/src/scss/pipeline.scss",
+        ],
+    },
     "installable": True,
 }

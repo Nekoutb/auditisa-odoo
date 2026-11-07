@@ -161,15 +161,3 @@ def rebuild_transition(state, figures, ref):
             return "failed" if reported == "failed" else "refused"
     return None
 
-
-# The whole public document. status.auditisa.com is public: anything outside these keys is dropped by
-# the generator as well, and no key names a firm, a person or a reason.
-PUBLIC_KEYS = (
-    "schema", "generated_at", "firms_total", "firms_on_target", "target_release", "rollout_state",
-    "rollout_done", "rollout_total", "last_promotion_at", "last_promotion_release", "last_rebuild_at",
-    "last_rebuild_state", "staging_release", "staging_health",
-)
-
-
-def public_state(values):
-    return {name: values.get(name) for name in PUBLIC_KEYS}

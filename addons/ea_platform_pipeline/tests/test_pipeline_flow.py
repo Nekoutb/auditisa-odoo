@@ -241,7 +241,7 @@ class TestRebuild(PipelineMixin, PlatformCase):
         cls._setup_pipeline()
 
     def _ask(self, firm):
-        action = self.env["platform.pipeline.stage"].with_user(self.owner).search([], limit=1).action_new_rebuild()
+        action = self.env.ref("ea_platform_pipeline.stage_odoo_staging").with_user(self.owner).action_new_rebuild()
         wizard = self.env["platform.pipeline.confirm"].with_user(self.owner).browse(action["res_id"])
         wizard.source_firm_id = firm
         wizard.write({"typed": wizard.expected, "reason": REASON})
@@ -317,7 +317,7 @@ class TestRebuild(PipelineMixin, PlatformCase):
 
     def test_the_wrong_phrase_asks_nothing(self):
         firm = self._firm_on("cabinet-a")
-        action = self.env["platform.pipeline.stage"].with_user(self.owner).search([], limit=1).action_new_rebuild()
+        action = self.env.ref("ea_platform_pipeline.stage_odoo_staging").with_user(self.owner).action_new_rebuild()
         wizard = self.env["platform.pipeline.confirm"].with_user(self.owner).browse(action["res_id"])
         wizard.source_firm_id = firm
         wizard.write({"typed": "REBUILD another-firm", "reason": REASON})
@@ -328,7 +328,7 @@ class TestRebuild(PipelineMixin, PlatformCase):
     def test_only_the_owner_asks(self):
         for user in (self.viewer, self.operator):
             with self.assertRaises((UserError, AccessError)):
-                self.env["platform.pipeline.stage"].with_user(user).search([], limit=1).action_new_rebuild()
+                self.env.ref("ea_platform_pipeline.stage_odoo_staging").with_user(user).action_new_rebuild()
 
 
 @tagged("post_install", "-at_install")
@@ -338,27 +338,71 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
         super().setUpClass()
         cls._setup_pipeline()
 
-    def test_three_stages_in_order(self):
-        stages = self.env["platform.pipeline.stage"].with_user(self.viewer).search([])
-        self.assertEqual(stages.mapped("code"), ["development", "staging", "production"])
-        self.assertEqual(stages.mapped("branch"), ["dev", "staging", "main"])
-        self.assertEqual(len(stages.mapped("health")), 3)
+    def _write_state(self, data):
+        handle = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+        json.dump(data, handle)
+        handle.close()
+        self.addCleanup(os.unlink, handle.name)
+        self.env["ir.config_parameter"].sudo().set_param("ea_platform_pipeline.state_file", handle.name)
 
-    def test_public_state_names_no_firm_person_or_reason(self):
-        canary = self._firm_on("cabinet-secret-name")
-        self._staging()
-        self._green()
-        promotion = self._promotion(canary)
-        promotion.action_run_checks()
-        self._confirm(promotion.action_open_confirm(), reason="A reason that must stay inside.")
-        state = self.env["platform.pipeline.stage"]._public_state()
-        text = json.dumps(state)
-        self.assertEqual(set(state), set(pipeline.PUBLIC_KEYS))
-        for word in ("cabinet-secret-name", "Cabinet", canary.contact_email, "stay inside", self.owner.login):
-            self.assertNotIn(word, text)
-        self.assertEqual(state["firms_total"], 1)
-        self.assertEqual(state["staging_health"], "ok")
-        self.assertEqual(state["target_release"], self.release2.sha)
+    def _state(self, **odoo):
+        now = datetime.utcnow().replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
+        commit = lambda sha: {"sha": sha, "author": "Nekoutb", "at": now}  # noqa: E731
+        return {
+            "schema": 1, "generated": now,
+            "next": {"github": "ok", "branches": {"dev": commit("1" * 40), "main": commit("2" * 40)},
+                     "running": {"staging": commit("1" * 40), "production": commit("2" * 40)},
+                     "ahead": {"development_over_staging": 0, "staging_over_production": 36, "main_over_production": 0},
+                     "sites": {"staging": {"up": True, "started_at": now}, "production": {"up": True, "started_at": now}}},
+            "odoo": {"github": "ok", "branches": {"dev": commit("3" * 40), "main": commit(self.release.sha + "0" * 28)},
+                     "running": {"staging": commit("3" * 40)}, "ahead": {"development_over_staging": 0, "staging_over_main": 5},
+                     "sites": {"staging": {"up": True, "mail_off": True, "band_on": True}}, **odoo},
+        }
+
+    def test_both_tools_three_stages_each(self):
+        stages = self.env["platform.pipeline.stage"].with_user(self.viewer).search([])
+        self.assertEqual(stages.mapped("tool"), ["next"] * 3 + ["odoo"] * 3)
+        self.assertEqual(stages.mapped("code"), ["development", "staging", "production"] * 2)
+
+    def test_the_board_reads_github_and_the_sites(self):
+        self._write_state(self._state())
+        stages = {(s.tool, s.code): s for s in self.env["platform.pipeline.stage"].with_user(self.viewer).search([])}
+        nxt = stages[("next", "staging")]
+        self.assertEqual(nxt.github_commit, "1" * 12)
+        self.assertEqual(nxt.running_commit, "1" * 12)
+        self.assertEqual(nxt.matches, "yes")
+        self.assertIn("36", nxt.ahead)
+        self.assertEqual(nxt.github_author, "Nekoutb")
+        self.assertEqual(stages[("odoo", "staging")].matches, "yes")
+        self.assertIn("5", stages[("odoo", "staging")].ahead)
+        self.assertIn("No staging branch yet", stages[("odoo", "staging")].detail)
+        self.assertIn("No firm server", stages[("odoo", "production")].where)
+        self.assertIn("at most a minute", nxt.reading)
+
+    def test_the_buttons_are_on_the_odoo_tool_only(self):
+        self._write_state(self._state())
+        stages = self.env["platform.pipeline.stage"].with_user(self.owner).search([])
+        self.assertEqual(
+            {(s.tool, s.code) for s in stages if s.can_promote or s.can_rebuild},
+            {("odoo", "staging"), ("odoo", "production")},
+        )
+        for stage in stages.filtered(lambda s: s.tool == "next"):
+            self.assertFalse(stage.action_new_promotion())
+            self.assertFalse(stage.action_new_rebuild())
+
+    def test_no_file_and_a_missing_key_are_said_plainly(self):
+        self.env["ir.config_parameter"].sudo().set_param("ea_platform_pipeline.state_file", "/nonexistent/state.json")
+        stage = self.env["platform.pipeline.stage"].with_user(self.viewer).search([], limit=1)
+        self.assertIn("No reading yet", stage.reading)
+        self._write_state(self._state(github="no_key", branches={}))
+        odoo = self.env["platform.pipeline.stage"].with_user(self.viewer).search([("tool", "=", "odoo"), ("code", "=", "development")])
+        self.assertIn("not set up", odoo.detail)
+
+    def test_mail_on_at_staging_turns_it_red(self):
+        self._write_state(self._state(sites={"staging": {"up": True, "mail_off": False, "band_on": True}}))
+        odoo = self.env["platform.pipeline.stage"].with_user(self.viewer).search([("tool", "=", "odoo"), ("code", "=", "staging")])
+        self.assertEqual(odoo.color, "red")
+        self.assertIn("check mail", odoo.health)
 
     def test_enrolling_staging_keeps_the_token_in_a_root_only_file(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -398,20 +442,12 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
 
 
 @tagged("post_install", "-at_install")
-class TestPublicStateRoute(PipelineMixin, PlatformMixin, HttpCase):
-    def test_the_route_answers_json_without_a_session_and_accepts_nothing(self):
-        response = self.url_open("/platform/pipeline-state")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.headers["Content-Type"].split(";")[0], "application/json")
-        self.assertEqual(set(response.json()), set(pipeline.PUBLIC_KEYS))
-        self.assertEqual(response.headers["Cache-Control"], "no-store")
-        self.assertIn(self.url_open("/platform/pipeline-state", data={"x": "1"}).status_code, (404, 405))
-
+class TestOwnerAddress(PipelineMixin, PlatformMixin, HttpCase):
     def test_an_address_outside_the_list_changes_nothing(self):
         self._setup_platform()
         self.authenticate("p_owner", "p_owner")
         self.env["ir.config_parameter"].sudo().set_param("ea_platform.ssh_allowlist", "143.105.152.209/32")
-        stage = self.env["platform.pipeline.stage"].search([], limit=1)
+        stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
         with self.assertRaisesRegex(Exception, "not one of the owner"):
             self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
                 "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
@@ -422,7 +458,7 @@ class TestPublicStateRoute(PipelineMixin, PlatformMixin, HttpCase):
         self._setup_platform()
         self.authenticate("p_owner", "p_owner")
         self.env["ir.config_parameter"].sudo().set_param("ea_platform.ssh_allowlist", "127.0.0.0/8 143.105.152.209/32")
-        stage = self.env["platform.pipeline.stage"].search([], limit=1)
+        stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
         result = self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
             "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
         })

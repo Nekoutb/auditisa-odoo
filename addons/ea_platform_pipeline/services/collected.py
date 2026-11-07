@@ -1,0 +1,91 @@
+"""Reads what deploy/control-plane/pipeline-collect.py wrote, and keeps only what passes. Pure.
+
+The file is written by root on this server, but it carries text that came from GitHub and from three web
+sites. So nothing is trusted: each value goes through a closed pattern or is dropped, and the screen escapes
+what is left. A firm's name cannot be in it: the collector reads no firm.
+"""
+
+import json
+import re
+from datetime import datetime, timedelta
+
+SHA = re.compile(r"^[0-9a-f]{7,40}$")
+INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$")
+AUTHOR = re.compile(r"^[^\x00-\x1f<>]{1,40}$")
+GITHUB_STATES = ("ok", "no_key", "unreachable")
+FRESH = timedelta(minutes=3)
+MAX_BYTES = 65536
+
+
+def _sha(value):
+    return value if isinstance(value, str) and SHA.match(value) else None
+
+
+def _instant(value):
+    return value if isinstance(value, str) and INSTANT.match(value) else None
+
+
+def _count(value):
+    return value if isinstance(value, int) and not isinstance(value, bool) and 0 <= value < 1000000 else None
+
+
+def _commit(value):
+    if not isinstance(value, dict) or not _sha(value.get("sha")):
+        return None
+    author = value.get("author")
+    return {
+        "sha": value["sha"],
+        "author": author if isinstance(author, str) and AUTHOR.match(author) else None,
+        "at": _instant(value.get("at")),
+    }
+
+
+def _site(value):
+    if not isinstance(value, dict):
+        return None
+    return {
+        "up": value.get("up") is True,
+        "started_at": _instant(value.get("started_at")),
+        "mail_off": value.get("mail_off") is True if "mail_off" in value else None,
+        "band_on": value.get("band_on") is True if "band_on" in value else None,
+    }
+
+
+def _tool(value, branches, stages, counts):
+    value = value if isinstance(value, dict) else {}
+    github = value.get("github") if value.get("github") in GITHUB_STATES else "unreachable"
+    read = lambda key, names, check: {name: check((value.get(key) or {}).get(name)) for name in names}  # noqa: E731
+    return {
+        "github": github,
+        "branches": read("branches", branches, _commit),
+        "running": read("running", stages, _commit),
+        "ahead": read("ahead", counts, _count),
+        "sites": read("sites", stages, _site),
+    }
+
+
+def read_state(raw, now):
+    """The checked state, or None if the file is missing, too big or not what the collector writes.
+
+    `now` is a naive UTC datetime. `stale` says the collector has not written for a while.
+    """
+    if not raw or len(raw) > MAX_BYTES:
+        return None
+    try:
+        data = json.loads(raw)
+    except (ValueError, UnicodeDecodeError):
+        return None
+    if not isinstance(data, dict) or data.get("schema") != 1:
+        return None
+    generated = _instant(data.get("generated"))
+    if not generated:
+        return None
+    when = datetime.strptime(generated[:19], "%Y-%m-%dT%H:%M:%S")
+    return {
+        "generated": when,
+        "stale": now - when > FRESH,
+        "next": _tool(data.get("next"), ("dev", "main"), ("staging", "production"),
+                      ("development_over_staging", "staging_over_production", "main_over_production")),
+        "odoo": _tool(data.get("odoo"), ("dev", "staging", "main"), ("staging",),
+                      ("development_over_staging", "staging_over_main")),
+    }

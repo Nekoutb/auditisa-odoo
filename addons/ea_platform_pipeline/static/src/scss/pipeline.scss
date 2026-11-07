@@ -1,0 +1,16 @@
+// The Pipeline board: two columns, one per tool, cards that read as stages.
+.ea_pipeline_board {
+    .o_kanban_group {
+        flex: 1 1 0;
+        min-width: 300px;
+        max-width: none;
+    }
+    .ea-pipeline-stage {
+        border-left: 4px solid var(--bs-gray-400);
+        padding-left: 10px;
+        line-height: 1.6;
+    }
+    .ea-pipeline-green { border-left-color: var(--bs-success); }
+    .ea-pipeline-amber { border-left-color: var(--bs-warning); }
+    .ea-pipeline-red { border-left-color: var(--bs-danger); }
+}

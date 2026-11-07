@@ -212,18 +212,6 @@ def test_rebuild_ignores_another_reference():
     assert pipeline.rebuild_transition("requested", figures, "1" * 16) is None
 
 
-def test_public_state_keeps_only_the_listed_keys():
-    result = pipeline.public_state({"firms_total": 3, "firm_name": "Cabinet A", "reason": "x"})
-    assert set(result) == set(pipeline.PUBLIC_KEYS)
-    assert "Cabinet A" not in json.dumps(result)
-
-
-def test_public_keys_name_no_firm_person_or_reason():
-    joined = " ".join(pipeline.PUBLIC_KEYS)
-    for word in ("name", "reason", "email", "slug", "user", "by"):
-        assert not re.search(rf"\b{word}\b|_{word}\b", joined), word
-
-
 def test_new_figures_carry_no_free_text():
     from ea_platform_admin.services.heartbeat import FIGURES
 
@@ -452,3 +440,51 @@ def test_what_the_owners_script_prints_is_what_the_screen_accepts(tmp_path):
     assert not pipeline.attestation_holds(public, "0" * 40, digest, attestation)
     assert not pipeline.attestation_holds(public, sha, "b" * 64, attestation)
     assert "PRIVATE" not in printed
+
+
+# ------------------------------------------------------------------ what the collector wrote
+
+
+from ea_platform_pipeline.services import collected  # noqa: E402
+
+GOOD = {
+    "schema": 1, "generated": "2026-11-07T12:00:00Z",
+    "next": {"github": "ok", "branches": {"dev": {"sha": "a" * 40, "author": "Nekoutb", "at": "2026-11-04T09:43:00Z"}},
+             "running": {"staging": {"sha": "a" * 40}}, "ahead": {"staging_over_production": 36},
+             "sites": {"staging": {"up": True, "started_at": "2026-11-04T09:53:26.366Z"}}},
+    "odoo": {"github": "no_key", "branches": {}, "running": {}, "ahead": {}, "sites": {"staging": {"up": True, "mail_off": True, "band_on": True}}},
+}
+
+
+def test_the_collected_state_reads():
+    state = collected.read_state(json.dumps(GOOD).encode(), NOW)
+    assert state["next"]["branches"]["dev"]["author"] == "Nekoutb"
+    assert state["next"]["ahead"]["staging_over_production"] == 36
+    assert state["odoo"]["github"] == "no_key"
+    assert state["odoo"]["sites"]["staging"]["mail_off"] is True
+    assert not state["stale"]
+
+
+def test_an_old_reading_is_marked():
+    assert collected.read_state(json.dumps(GOOD).encode(), NOW + timedelta(minutes=10))["stale"]
+
+
+@pytest.mark.parametrize("bad", [b"", b"not json", b"[]", json.dumps({"schema": 2}).encode(),
+                                 json.dumps({**GOOD, "generated": "yesterday"}).encode(), b"x" * 70000])
+def test_a_bad_file_is_no_reading(bad):
+    assert collected.read_state(bad, NOW) is None
+
+
+def test_what_comes_from_outside_is_checked():
+    hostile = json.loads(json.dumps(GOOD))
+    hostile["next"]["branches"]["dev"]["author"] = "<script>alert(1)</script>"
+    hostile["next"]["branches"]["main"] = {"sha": "not a sha"}
+    hostile["next"]["ahead"]["staging_over_production"] = "many"
+    hostile["next"]["github"] = "whatever"
+    hostile["next"]["extra"] = "Cabinet Agro"
+    state = collected.read_state(json.dumps(hostile).encode(), NOW)
+    assert state["next"]["branches"]["dev"]["author"] is None
+    assert state["next"]["branches"]["main"] is None
+    assert state["next"]["ahead"]["staging_over_production"] is None
+    assert state["next"]["github"] == "unreachable"
+    assert "Agro" not in json.dumps(state, default=str)
