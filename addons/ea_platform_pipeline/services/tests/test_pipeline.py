@@ -3,7 +3,10 @@
 import base64
 import importlib.util
 import json
+import os
 import re
+import shutil
+import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -424,3 +427,28 @@ def test_the_export_never_touches_the_filestore():
 def test_the_bundle_leaves_this_addon_out():
     source = (ROOT / "scripts/provision/build_release.sh").read_text(encoding="utf-8")
     assert "grep -v '^addons/ea_platform_'" in source
+
+
+# ------------------------------------------------------------------ the owner's signing
+
+
+def test_what_the_owners_script_prints_is_what_the_screen_accepts(tmp_path):
+    pytest.importorskip("cryptography")
+    for tool in ("bash", "openssl", "git"):
+        if not shutil.which(tool):
+            pytest.skip(f"needs {tool}")
+
+    def run(*args):
+        return subprocess.run([shutil.which("bash"), *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+
+    relative = os.path.relpath(tmp_path, ROOT).replace(os.sep, "/")
+    created = run("scripts/provision/build_release.sh", "--new-key", f"{relative}/key.pem")
+    public = created[created.index("-----BEGIN"):]
+    printed = run("scripts/pipeline/sign_promotion.sh", "HEAD", "--key", f"{relative}/key.pem", "--out", f"{relative}/out")
+    sha = re.search(r"^commit +(\S+)", printed, re.M).group(1)
+    digest = re.search(r"^sha256 +(\S+)", printed, re.M).group(1)
+    attestation = re.search(r"^attestation +(\S+)", printed, re.M).group(1)
+    assert pipeline.attestation_holds(public, sha, digest, attestation)
+    assert not pipeline.attestation_holds(public, "0" * 40, digest, attestation)
+    assert not pipeline.attestation_holds(public, sha, "b" * 64, attestation)
+    assert "PRIVATE" not in printed
