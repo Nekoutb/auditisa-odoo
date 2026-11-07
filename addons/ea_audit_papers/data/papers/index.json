@@ -227,7 +227,7 @@
   },
   "E6.10": {
    "source": "lib/papers/financial-statements.ts",
-   "definition_hash": "bb5ab2d69a639d6b7d996784e715b7ccda18957a31ee08150e2f68ce4bcd60b8"
+   "definition_hash": "1f983b22b1343fbe0630def9d3d426a944e128521369d6f992a10f65725efbe9"
   },
   "P1.1": {
    "source": "lib/papers/acceptance.ts",
