@@ -23,7 +23,7 @@ class TestLanguages(PlatformCase):
     def test_parameters_and_nested_messages_are_translated(self):
         message = _("No heartbeat for %(age)s", age=_("%(count)s days", count=3))
         self.assertEqual(t(self.en, message), "No heartbeat for 3 days")
-        self.assertEqual(t(self.fr, message), "Aucun heartbeat depuis 3 jours")
+        self.assertEqual(t(self.fr, message), "Aucun signal de vie depuis 3 jours")
 
     def test_one_stored_reason_reads_in_both_languages(self):
         firm = self._active_firm()
