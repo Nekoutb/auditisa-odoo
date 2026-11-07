@@ -59,6 +59,7 @@ class EaFirmAgent(models.AbstractModel):
             self._count_users(),
             self._count_engagements(),
             get_param(PARAM_MAIL_TESTED) == "1",
+            self.env["ea.addon.switch"]._codes_on(),
         )
 
     @api.model

@@ -194,7 +194,8 @@ import sys
 for manifest in sorted(pathlib.Path(sys.argv[1]).glob("*/__manifest__.py")):
     data = ast.literal_eval(manifest.read_text(encoding="utf-8"))
     # The control plane's addon never goes in a firm's or staging's database.
-    if manifest.parent.name.startswith("ea_platform_"):
+    # A client add-on is a firm's choice: firm-addons.sh installs it where it is asked for.
+    if manifest.parent.name.startswith("ea_platform_") or data.get("ea_client_addon") is True:
         continue
     if data.get("installable", True) and (manifest.parent / "__init__.py").is_file():
         print(manifest.parent.name)

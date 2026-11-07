@@ -166,12 +166,23 @@ import sys
 for manifest in sorted(pathlib.Path(sys.argv[1]).glob("*/__manifest__.py")):
     data = ast.literal_eval(manifest.read_text(encoding="utf-8"))
     if data.get("installable", True) and (manifest.parent / "__init__.py").is_file():
-        print(manifest.parent.name)
+        print(("client:" if data.get("ea_client_addon") is True else "") + manifest.parent.name)
 PY
   ) || fl_die "a manifest of this release cannot be read"
-  mapfile -t MODULES <<<"$names"
+  # An optional client add-on is updated where it was once installed, even if switched off, so its
+  # data follows the code. It is installed only by firm-addons, when this firm first asks for it.
+  local all_names installed m
+  mapfile -t all_names <<<"$names"
+  installed=$(psql_q "SELECT name FROM ir_module_module WHERE state = 'installed'" "$FIRM_DB")
+  MODULES=()
+  for m in "${all_names[@]}"; do
+    if [[ $m == client:* ]]; then
+      if grep -qx "${m#client:}" <<<"$installed"; then MODULES+=("${m#client:}"); fi
+    elif [ -n "$m" ]; then
+      MODULES+=("$m")
+    fi
+  done
   [ -n "${MODULES[0]:-}" ] || fl_die "this release has no addon"
-  local m
   for m in "${MODULES[@]}"; do
     [[ $m =~ ^[a-z][a-z0-9_]*$ ]] || fl_die "invalid addon name '$m'"
     # Never on a firm's server, whatever a bundle holds.

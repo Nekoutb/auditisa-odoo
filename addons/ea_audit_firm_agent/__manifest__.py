@@ -5,8 +5,9 @@
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
-    # Deliberately no ea_audit_* dependency: the agent only counts, and reads no audit record.
-    "depends": ["base", "web"],
+    # No audit addon here: the agent only counts, and reads no audit record. ea_audit_addons is the
+    # switch of optional add-ons, whose list of codes the heartbeat reports.
+    "depends": ["base", "web", "ea_audit_addons"],
     "data": [
         "security/ir.model.access.csv",
         "data/ir_cron.xml",

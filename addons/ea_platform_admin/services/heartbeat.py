@@ -33,6 +33,8 @@ _SIGNATURE = re.compile(r"^[0-9a-f]{64}$")
 _RELEASE = re.compile(r"^[0-9a-f]{7,40}$")
 _ODOO_VERSION = re.compile(r"^\d{2}\.\d$")
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_ADDON_CODE = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
+MAX_ADDON_CODES = 24
 
 
 class HeartbeatRejected(Exception):
@@ -86,6 +88,15 @@ def _day(value):
     return True
 
 
+def _addon_codes(value):
+    """A short list of technical names. A code outside the catalogue is counted, never stored."""
+    return (
+        type(value) is list and len(value) <= MAX_ADDON_CODES
+        and all(type(code) is str and _ADDON_CODE.match(code) for code in value)
+        and len(set(value)) == len(value)
+    )
+
+
 def _optional(check):
     def inner(value):
         return value is None or check(value)
@@ -119,6 +130,8 @@ FIGURES = {
     "export_sha256": _optional(_pattern(_SHA256, 64)),
     "ssh_sessions_24h": _integer(0, 1000000),
     "last_ssh_at": _optional(_timestamp),
+    "addons_on": _addon_codes,
+    "addons_refused": _integer(0, 1000),
 }
 
 REQUIRED = frozenset({
