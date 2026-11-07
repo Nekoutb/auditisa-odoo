@@ -70,7 +70,7 @@ BUNDLE_NAME=$SHA.tar.gz
 
 mapfile -t ADDONS < <(git ls-tree -d --name-only "$SHA" addons/ | grep -v '^addons/ea_platform_')
 [ "${#ADDONS[@]}" -ge 1 ] || die "no addon at $SHA"
-PATHS=("${ADDONS[@]}" deploy/firm scripts/provision/new_firm.sh scripts/provision/backup_firm.sh)
+PATHS=("${ADDONS[@]}" deploy/firm deploy/practice scripts/provision/new_firm.sh scripts/provision/backup_firm.sh)
 if git cat-file -e "$SHA:requirements.txt" 2>/dev/null; then PATHS+=(requirements.txt); fi
 
 mkdir -p "$OUT"

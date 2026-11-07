@@ -224,11 +224,15 @@ msgstr "Action requise"
 #. module: ea_platform_admin
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__state__active
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__active
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__active
 msgid "Active"
 msgstr "Actif"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_address
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__address
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__address
 msgid "Address"
 msgstr "Adresse"
 
@@ -480,6 +484,9 @@ msgstr "Cabinet témoin"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_catalogue_wizard_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_release_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_reset_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -642,6 +649,11 @@ msgstr "Créer le serveur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__create_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -672,6 +684,11 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__create_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__create_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -804,6 +821,11 @@ msgstr "Disque utilisé (%)"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__display_name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__display_name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -880,6 +902,7 @@ msgstr "Sortie demandée le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__expires_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__expires_at
 msgid "Expires on"
 msgstr "Expire le"
 
@@ -984,6 +1007,7 @@ msgstr "Pare-feu chez le fournisseur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__firm_id
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_error_search
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__firm_id
 msgid "Firm"
 msgstr "Cabinet"
 
@@ -996,6 +1020,7 @@ msgstr "Cabinet d'une mise à jour"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__name
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__firm_name
 msgid "Firm name"
 msgstr "Nom du cabinet"
 
@@ -1219,6 +1244,7 @@ msgstr "Adresse de réception des heartbeats"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__heartbeat_token
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__heartbeat_token
 msgid "Heartbeat token"
 msgstr "Jeton de heartbeat"
 
@@ -1235,6 +1261,7 @@ msgstr "Je confirme la création de ce serveur et son coût mensuel estimé."
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
 msgid "I have copied the link"
 msgstr "J'ai copié le lien"
 
@@ -1271,6 +1298,11 @@ msgstr "Je veux créer de vrais serveurs, facturés par le fournisseur."
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__id
 msgid "ID"
 msgstr "ID"
 
@@ -1420,6 +1452,11 @@ msgstr "Dernière connexion SSH"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__write_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
@@ -1450,6 +1487,11 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__write_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__write_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -1464,6 +1506,8 @@ msgstr "Dernière sauvegarde"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__last_heartbeat_at
 #. odoo-python
 #: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__last_heartbeat_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__last_heartbeat_at
 msgid "Last heartbeat"
 msgstr "Dernier heartbeat"
 
@@ -1532,6 +1576,7 @@ msgstr "Lien disponible"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__first_admin_revealed_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__first_login_revealed_at
 msgid "Link shown on"
 msgstr "Lien affiché le"
 
@@ -1822,6 +1867,7 @@ msgstr "Une seule clé publique est attendue, au format ssh-ed25519."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__link
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__link
 msgid "One-time link"
 msgstr "Lien à usage unique"
 
@@ -2163,6 +2209,7 @@ msgstr "Enregistrée le"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_catalogue_wizard__release_id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__release_id
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__release_id
 msgid "Release"
 msgstr "Version"
 
@@ -2276,6 +2323,7 @@ msgstr "Durée de conservation après l'export (jours)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__revealed
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__revealed
 msgid "Revealed"
 msgstr "Affiché"
 
@@ -2461,11 +2509,13 @@ msgstr "Afficher le lien du premier administrateur"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
 msgid "Show the link"
 msgstr "Afficher le lien"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_computer_form
 msgid "Simulate a heartbeat"
 msgstr "Simuler un heartbeat"
 
@@ -2488,6 +2538,7 @@ msgstr "Simuler les réponses des cabinets"
 #: code:addons/ea_platform_admin/controllers/supervision.py:0
 #: code:addons/ea_platform_admin/models/firm_addons.py:0
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__is_simulation
 msgid "Simulation"
 msgstr "Simulation"
 
@@ -2521,6 +2572,8 @@ msgstr "Taille %(size)s, région %(region)s, coût estimé %(cost)s USD/mois"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__slug
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__slug
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_destroy_wizard__step__slug
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__slug
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__slug
 msgid "Slug"
 msgstr "Identifiant"
 
@@ -2589,6 +2642,7 @@ msgstr "Démarrage du serveur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__state
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__state
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__state
 msgid "State"
 msgstr "État"
 
@@ -2832,6 +2886,7 @@ msgstr "Le dernier test de restauration a échoué"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__first_admin_expires_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__first_login_expires_at
 msgid "The link expires on"
 msgstr "Le lien expire le"
 
@@ -3111,6 +3166,7 @@ msgstr "Tapez l'identifiant du cabinet"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_offboard_wizard__typed_slug
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__typed
 msgid "Type the firm's slug to confirm"
 msgstr "Tapez l'identifiant du cabinet pour confirmer"
 
@@ -3165,6 +3221,7 @@ msgstr "Lancez « Nouveau cabinet » pour créer le premier serveur."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__users_active
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__users_count
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -3539,6 +3596,7 @@ msgstr "Modules"
 #. odoo-python
 #: code:addons/ea_platform_admin/controllers/supervision.py:0
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_asked_summary
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__addons_asked
 msgid "Add-ons asked"
 msgstr "Modules demandés"
 
@@ -3571,6 +3629,7 @@ msgstr "Modules pas comme demandé"
 #: code:addons/ea_platform_admin/controllers/supervision.py:0
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__addons_on_summary
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_addons
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__addons_reported
 msgid "Add-ons on"
 msgstr "Modules allumés"
 
@@ -3763,6 +3822,7 @@ msgstr "Description (source)"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__domain
 msgid "Domain"
 msgstr "Domaine"
 
@@ -3870,6 +3930,7 @@ msgstr "Manquée"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__name_text
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__name
 msgid "Name"
 msgstr "Nom"
 
@@ -4073,6 +4134,7 @@ msgstr "Dites pourquoi ces modules : le motif va au journal de la plateforme."
 #. odoo-python
 #: code:addons/ea_platform_admin/models/firm_addons.py:0
 #: code:addons/ea_platform_admin/models/support.py:0
+#: code:addons/ea_platform_admin/models/practice.py:0
 msgid "Say why: the reason goes in the platform log."
 msgstr "Dites pourquoi : le motif va au journal de la plateforme."
 
@@ -4264,6 +4326,7 @@ msgstr "Utilisez « Nouveau cabinet » pour mettre le premier en service. Chaque
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__version
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_addon__version
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_addon__version
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__version
 msgid "Version"
 msgstr "Version"
 
@@ -4300,6 +4363,7 @@ msgstr "Qui l'a demandé et pourquoi. Pas de données d'audit ici."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__reason
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__reason
 msgid "Why"
 msgstr "Pourquoi"
 
@@ -4856,3 +4920,563 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "open"
 msgstr "ouverts"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "%(slug)s. Reason: %(reason)s"
+msgstr "%(slug)s. Motif : %(reason)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_practice_computer__entry_url
+msgid "%s stands for the firm's slug. On the preview: https://test.auditisa.com:8443/practice/%s"
+msgstr "%s représente l'identifiant du cabinet. Sur l'aperçu : https://test.auditisa.com:8443/practice/%s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_practice_computer__first_login_url
+msgid "%s stands for the slug, %t for the one-time token. On the preview: https://test.auditisa.com:8443/practice/%s/first-admin/%t"
+msgstr "%s représente l'identifiant, %t le jeton à usage unique. Sur l'aperçu : https://test.auditisa.com:8443/practice/%s/first-admin/%t"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "A practice space is removed with its button, so that the practice computer removes it too."
+msgstr "Un espace d'entraînement se supprime avec son bouton, pour que l'ordinateur d'entraînement le supprime aussi."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__practice_space
+msgid "A separate space on the shared practice computer, with made-up data and the same add-ons, where the firm can try new versions before its own server gets them."
+msgstr "Un espace à part sur l'ordinateur d'entraînement commun, avec des données fictives et les mêmes modules, où le cabinet peut essayer les nouvelles versions avant son propre serveur."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__entry_url
+msgid "Address of a space"
+msgstr "Adresse d'un espace"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__practice_space
+msgid "Also create its practice space"
+msgstr "Créer aussi son espace d'entraînement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_space__state__requested
+msgid "Being created"
+msgstr "En création"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_space__state__removing
+msgid "Being removed"
+msgstr "En suppression"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_computer__guard_state__ok
+msgid "Clean"
+msgstr "Propre"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
+msgid ""
+"Copy this link now and pass it to the firm's contact with the address and the login. It works once\n"
+"                        and expires on the date shown."
+msgstr ""
+"Copiez ce lien maintenant et transmettez-le au contact du cabinet avec l'adresse et l'identifiant. Il fonctionne une fois\n"
+"                        et expire à la date affichée."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_practice
+msgid "Create its practice space"
+msgstr "Créer son espace d'entraînement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__hold_days
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__practice_hold_days
+msgid "Days on the practice computer before the firms"
+msgstr "Jours sur l'ordinateur d'entraînement avant les cabinets"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__template_release
+msgid "Demo template's release"
+msgstr "Version du modèle de démonstration"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_practice_spaces
+msgid "Each new firm gets its practice space when it is created (a switch on the last screen of New firm)."
+msgstr "Chaque nouveau cabinet reçoit son espace d'entraînement à sa création (un interrupteur sur le dernier écran de Nouveau cabinet)."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_practice_release_wizard__hold_days
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_release__practice_hold_days
+msgid "Firms are offered this release only once the practice computer has run it this long. 0: do not wait."
+msgstr "Les cabinets ne se voient proposer cette version qu'une fois qu'elle a tourné aussi longtemps sur l'ordinateur d'entraînement. 0 : ne pas attendre."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__practice_hold_ok
+msgid "Firms may have it"
+msgstr "Les cabinets peuvent l'avoir"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__admin_login
+msgid "First administrator's login"
+msgstr "Identifiant du premier administrateur"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "First login"
+msgstr "Première connexion"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__first_login_url
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__first_login_token
+msgid "First login link"
+msgstr "Lien de première connexion"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_practice_first_login
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
+msgid "First login of a practice space"
+msgstr "Première connexion d'un espace d'entraînement"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/practice.py:0
+msgid "First login of a practice space shown"
+msgstr "Première connexion d'un espace d'entraînement affichée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Holding period on the practice computer changed"
+msgstr "Délai d'attente sur l'ordinateur d'entraînement modifié"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/practice.py:0
+msgid "Holding period waived by the owner for this release."
+msgstr "Délai d'attente levé par le propriétaire pour cette version."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__last_heartbeat_timestamp
+msgid "Last Heartbeat Timestamp"
+msgstr "Horodatage du dernier heartbeat"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__last_login_on
+msgid "Last login"
+msgstr "Dernière connexion"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__last_reset_at
+msgid "Last reset"
+msgstr "Dernière remise à zéro"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__link_set
+msgid "Link in place on the space"
+msgstr "Lien en place sur l'espace"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__ready
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__first_login_ready
+msgid "Link ready to show"
+msgstr "Lien prêt à afficher"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__login
+msgid "Login"
+msgstr "Identifiant"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_space__state__missing
+msgid "Missing"
+msgstr "Absent"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "New first-login link"
+msgstr "Nouveau lien de première connexion"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "New first-login link for a practice space"
+msgstr "Nouveau lien de première connexion pour un espace d'entraînement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_practice_computer
+msgid "No practice computer is registered yet. See docs/runbook/PRACTICE-SPACES.md."
+msgstr "Aucun ordinateur d'entraînement n'est encore enregistré. Voir docs/runbook/PRACTICE-SPACES.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "No practice computer yet: the release order does not apply."
+msgstr "Pas encore d'ordinateur d'entraînement : l'ordre des versions ne s'applique pas."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Not yet for the firms: %(why)s"
+msgstr "Pas encore pour les cabinets : %(why)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/practice.py:0
+msgid "Not yet on the practice computer: firms are offered a release after %(days)s days there."
+msgstr "Pas encore sur l'ordinateur d'entraînement : une version n'est proposée aux cabinets qu'après %(days)s jours là-bas."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/practice.py:0
+msgid "On the practice computer for %(days)s days or more: firms may have it."
+msgstr "Sur l'ordinateur d'entraînement depuis %(days)s jours ou plus : les cabinets peuvent l'avoir."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__practice_since
+msgid "On the practice computer since"
+msgstr "Sur l'ordinateur d'entraînement depuis"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/practice.py:0
+msgid "On the practice computer since %(since)s: firms may have it from %(until)s."
+msgstr "Sur l'ordinateur d'entraînement depuis le %(since)s : les cabinets pourront l'avoir à partir du %(until)s."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Only an operator or the owner can do this."
+msgstr "Seul un opérateur ou le propriétaire peut le faire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Only for a simulated practice computer."
+msgstr "Seulement pour un ordinateur d'entraînement simulé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Only the owner can change a release's holding period."
+msgstr "Seul le propriétaire peut changer le délai d'attente d'une version."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Only the owner can remove a practice space."
+msgstr "Seul le propriétaire peut supprimer un espace d'entraînement."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/practice.py:0
+msgid "Only the owner can send a release."
+msgstr "Seul le propriétaire peut envoyer une version."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_practice_computer__name
+msgid "PRACTICE_NAME on the computer, for example practice-1."
+msgstr "PRACTICE_NAME sur l'ordinateur, par exemple practice-1."
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_practice_computer
+#: model:ir.model,name:ea_platform_admin.model_platform_practice_computer
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_release_wizard__computer_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__computer_id
+#: model:ir.ui.menu,name:ea_platform_admin.menu_practice_computer
+msgid "Practice computer"
+msgstr "Ordinateur d'entraînement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_form_practice
+msgid "Practice computer first"
+msgstr "L'ordinateur d'entraînement d'abord"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice computer on a new release"
+msgstr "Ordinateur d'entraînement sur une nouvelle version"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice computer registered"
+msgstr "Ordinateur d'entraînement enregistré"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_practice_space
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__practice_space_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__practice_space_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__space_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__space_id
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_practice
+msgid "Practice space"
+msgstr "Espace d'entraînement"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice space asked"
+msgstr "Espace d'entraînement demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice space removal asked"
+msgstr "Suppression de l'espace d'entraînement demandée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice space removed"
+msgstr "Espace d'entraînement supprimé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice space reset to fresh demo data asked"
+msgstr "Remise à zéro de l'espace d'entraînement demandée"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_practice_spaces
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__space_ids
+#: model:ir.ui.menu,name:ea_platform_admin.menu_practice
+#: model:ir.ui.menu,name:ea_platform_admin.menu_practice_spaces
+msgid "Practice spaces"
+msgstr "Espaces d'entraînement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_space__state__ready
+msgid "Ready"
+msgstr "Prêt"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__guard_state
+msgid "Real-data guard"
+msgstr "Gardien contre les vraies données"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_computer__guard_state__refused
+msgid "Refused a database"
+msgstr "A refusé une base"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Release %(release)s: %(days)s day(s)"
+msgstr "Version %(release)s : %(days)s jour(s)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/practice.py:0
+msgid "Release %(release)s; firms after %(days)s day(s) there"
+msgstr "Version %(release)s ; les cabinets après %(days)s jour(s) là-bas"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__desired_release_id
+msgid "Release asked"
+msgstr "Version demandée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__practice_hold_text
+msgid "Release order"
+msgstr "Ordre des versions"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__release
+msgid "Release running"
+msgstr "Version en service"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/practice.py:0
+msgid "Release sent to the practice computer"
+msgstr "Version envoyée à l'ordinateur d'entraînement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "Remove the practice space"
+msgstr "Supprimer l'espace d'entraînement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_reset_form
+msgid "Reset"
+msgstr "Remettre à zéro"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_practice_reset_wizard
+msgid "Reset a practice space"
+msgstr "Remettre à zéro un espace d'entraînement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_space__state__resetting
+msgid "Reset asked"
+msgstr "Remise à zéro demandée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_reset_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "Reset to fresh demo data"
+msgstr "Remettre les données de démonstration"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__reset_generation
+msgid "Resets asked"
+msgstr "Remises à zéro demandées"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__reset_done_generation
+msgid "Resets done"
+msgstr "Remises à zéro faites"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__release_since
+msgid "Running it since"
+msgstr "En service depuis"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_release_form
+msgid "Send"
+msgstr "Envoyer"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_computer_form
+msgid "Send a release"
+msgstr "Envoyer une version"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_practice_release_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_release_form
+msgid "Send a release to the practice computer"
+msgstr "Envoyer une version à l'ordinateur d'entraînement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "Show the first login"
+msgstr "Afficher la première connexion"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__space_count
+msgid "Spaces"
+msgstr "Espaces"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "The holding period is a number of days, 0 or more."
+msgstr "Le délai d'attente est un nombre de jours, 0 ou plus."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "The link given before stops working. Make a new one?"
+msgstr "Le lien donné avant cessera de fonctionner. En faire un nouveau ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "The practice computer deletes this space and its logins at its next heartbeat. Remove it?"
+msgstr "L'ordinateur d'entraînement supprimera cet espace et ses identifiants à son prochain heartbeat. Le supprimer ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_release_form
+msgid ""
+"The practice computer installs it at its next heartbeat (the release must be signed). From the day it\n"
+"                    runs there, the firms wait the release's holding period before they are offered it."
+msgstr ""
+"L'ordinateur d'entraînement l'installe à son prochain heartbeat (la version doit être signée). À partir du jour où elle\n"
+"                    y tourne, les cabinets attendent le délai d'attente de la version avant qu'on la leur propose."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "The space"
+msgstr "L'espace"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "This firm already has a practice space."
+msgstr "Ce cabinet a déjà un espace d'entraînement."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_practice
+msgid "This firm has no practice space."
+msgstr "Ce cabinet n'a pas d'espace d'entraînement."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/practice.py:0
+msgid "This link is not available: it has already been shown, it has expired, or the practice computer has not received it yet. Make a new one with the button on the practice space."
+msgstr "Ce lien n'est pas disponible : il a déjà été affiché, il a expiré, ou l'ordinateur d'entraînement ne l'a pas encore reçu. Faites-en un nouveau avec le bouton de l'espace d'entraînement."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "This practice space is not ready yet: nothing to reset."
+msgstr "Cet espace d'entraînement n'est pas encore prêt : rien à remettre à zéro."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/practice.py:0
+msgid "Type the slug exactly as shown: nothing was reset."
+msgstr "Tapez l'identifiant exactement comme affiché : rien n'a été remis à zéro."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_computer__guard_state__unknown
+msgid "Unknown"
+msgstr "Inconnu"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_practice_space__state__waiting
+msgid "Waiting for the practice computer"
+msgstr "En attente de l'ordinateur d'entraînement"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid "What the practice computer says"
+msgstr "Ce que dit l'ordinateur d'entraînement"
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_practice_space_firm_unique
+msgid "A firm has one practice space."
+msgstr "Un cabinet a un seul espace d'entraînement."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_reset_form
+msgid ""
+"Everything the firm has typed in its practice space is deleted and the made-up demonstration data comes\n"
+"                    back. The first administrator keeps the same login and password. The practice computer does it at its\n"
+"                    next heartbeat, within about fifteen minutes."
+msgstr ""
+"Tout ce que le cabinet a saisi dans son espace d'entraînement est effacé et les données de démonstration fictives\n"
+"                    reviennent. Le premier administrateur garde le même identifiant et le même mot de passe. L'ordinateur d'entraînement le fait à son\n"
+"                    prochain heartbeat, dans un quart d'heure environ."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_computer_form
+msgid ""
+"New releases come here first. A firm's own server is offered a release only after it has run here\n"
+"                        for its holding period (7 days unless you set another number on the release)."
+msgstr ""
+"Les nouvelles versions arrivent d'abord ici. Le serveur d'un cabinet ne se voit proposer une version qu'après qu'elle a tourné ici\n"
+"                        pendant son délai d'attente (7 jours, sauf si vous mettez un autre nombre sur la version)."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_space_form
+msgid ""
+"The firm's own space on the shared practice computer: made-up data only, the same add-ons as its\n"
+"                        real system, its own logins. No other firm sees it. Real client data never goes there."
+msgstr ""
+"L'espace du cabinet sur l'ordinateur d'entraînement commun : des données fictives seulement, les mêmes modules que son\n"
+"                        vrai système, ses propres identifiants. Aucun autre cabinet ne le voit. Les vraies données clients n'y vont jamais."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
+msgid ""
+"The one-time link shows <strong>once only</strong>, then it is erased from here. With it the firm's\n"
+"                        administrator chooses a password; nobody else ever knows it."
+msgstr ""
+"Le lien à usage unique s'affiche <strong>une seule fois</strong>, puis il est effacé d'ici. Avec lui, l'administrateur du\n"
+"                        cabinet choisit un mot de passe ; personne d'autre ne le connaît jamais."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_practice_computer_name_unique
+msgid "This practice computer is already registered."
+msgstr "Cet ordinateur d'entraînement est déjà enregistré."

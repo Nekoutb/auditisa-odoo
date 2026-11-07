@@ -21,6 +21,8 @@ FORBIDDEN_FIELD_WORDS = re.compile(
 )
 # The only two secrets on the platform, both listed in SECURITY-MODEL.md. Neither opens a firm's database.
 ALLOWED_SECRET_FIELDS = {"heartbeat_token", "first_admin_token"}
+# The practice computer's: its heartbeat token, and a practice space's one-time first-login link.
+PRACTICE_SECRET_FIELDS = {"platform.practice.computer": {"heartbeat_token"}, "platform.practice.space": {"first_login_token"}}
 SECRET_WORDS = re.compile(r"token|secret|key(?!_id|_fingerprint|_escrowed)")
 
 FORBIDDEN_IMPORTS = {"paramiko", "fabric", "xmlrpc", "odoorpc", "asyncssh", "subprocess", "socket", "ftplib", "smtplib", "telnetlib"}
@@ -79,17 +81,21 @@ class TestNoFirmData(PlatformCase):
                 name for name in self.env[model]._fields
                 if SECRET_WORDS.search(name) and name not in ("ssh_public_key", "confirm_real",
                                                               "release_signing_public_key", "previous_hash")
+                and name not in PRACTICE_SECRET_FIELDS.get(model, ())
             ]
             self.assertEqual(wrong, [], model)
 
     def test_the_secrets_are_hidden_from_everyone_but_odoo_administrators(self):
         for name in ALLOWED_SECRET_FIELDS:
             self.assertEqual(self.env["platform.firm"]._fields[name].groups, "base.group_system")
+        for model, names in PRACTICE_SECRET_FIELDS.items():
+            for name in names:
+                self.assertEqual(self.env[model]._fields[name].groups, "base.group_system")
 
     def test_no_view_shows_a_secret(self):
         views = self.env["ir.ui.view"].sudo().search([("model", "like", "platform.%")])
         for view in views:
-            for name in ALLOWED_SECRET_FIELDS:
+            for name in ALLOWED_SECRET_FIELDS | {"first_login_token"}:
                 self.assertNotIn(f'name="{name}"', view.arch_db, view.name)
 
     def test_the_code_has_no_way_to_reach_a_firm(self):

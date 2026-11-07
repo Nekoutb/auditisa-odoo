@@ -229,6 +229,17 @@ EOF
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_pass http://127.0.0.1:8069;
     }
+    # The practice computer's heartbeat: one for all its spaces, so a larger body.
+    location = /platform/practice-heartbeat {
+        limit_except POST { deny all; }
+        limit_req zone=heartbeat burst=6 nodelay;
+        client_max_body_size 128k;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:8069;
+    }
     location = /platform/heartbeat {
         limit_except POST { deny all; }
         limit_req zone=heartbeat burst=6 nodelay;
@@ -255,6 +266,7 @@ EOF
     proxy_set_header X-Forwarded-Proto $scheme;
     location ~ ^/web/database { return 404; }
     location = /platform/heartbeat { return 404; }
+    location = /platform/practice-heartbeat { return 404; }
     location /platform/support/ { return 404; }
     location /websocket {
         proxy_http_version 1.1;

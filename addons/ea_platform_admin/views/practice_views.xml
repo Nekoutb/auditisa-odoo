@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Practice spaces -->
+    <record id="view_practice_space_list" model="ir.ui.view">
+        <field name="name">platform.practice.space.list</field>
+        <field name="model">platform.practice.space</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" decoration-warning="state in ('missing', 'resetting')" decoration-muted="state in ('waiting', 'removing')">
+                <field name="firm_name"/>
+                <field name="slug"/>
+                <field name="address" widget="url"/>
+                <field name="state"/>
+                <field name="version"/>
+                <field name="last_reset_at"/>
+                <field name="users_count"/>
+                <field name="last_login_on"/>
+                <field name="addons_reported"/>
+                <field name="last_heartbeat_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_practice_space_form" model="ir.ui.view">
+        <field name="name">platform.practice.space.form</field>
+        <field name="model">platform.practice.space</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" class="o_ea_platform_form">
+                <header>
+                    <button name="action_open_first_login" type="object" string="Show the first login" class="btn-primary"
+                            invisible="not first_login_ready" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_new_first_login" type="object" string="New first-login link"
+                            invisible="state != 'ready' or first_login_ready" groups="ea_platform_admin.group_platform_operator"
+                            confirm="The link given before stops working. Make a new one?"/>
+                    <button name="action_open_reset" type="object" string="Reset to fresh demo data"
+                            invisible="state not in ('ready', 'missing', 'resetting')" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_remove" type="object" string="Remove the practice space" class="btn-danger"
+                            invisible="state in ('removing', 'waiting')" groups="ea_platform_admin.group_platform_owner"
+                            confirm="The practice computer deletes this space and its logins at its next heartbeat. Remove it?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="requested,ready,resetting"/>
+                </header>
+                <sheet>
+                    <p class="text-muted">
+                        The firm's own space on the shared practice computer: made-up data only, the same add-ons as its
+                        real system, its own logins. No other firm sees it. Real client data never goes there.
+                    </p>
+                    <group>
+                        <group string="The space">
+                            <field name="firm_id"/>
+                            <field name="address" widget="url"/>
+                            <field name="admin_login"/>
+                            <field name="computer_id"/>
+                            <field name="addons_asked"/>
+                            <field name="addons_reported"/>
+                        </group>
+                        <group string="What the practice computer says">
+                            <field name="version"/>
+                            <field name="last_reset_at"/>
+                            <field name="users_count"/>
+                            <field name="last_login_on"/>
+                            <field name="last_heartbeat_at"/>
+                            <field name="reset_generation"/>
+                            <field name="reset_done_generation"/>
+                        </group>
+                        <group string="First login">
+                            <field name="first_login_ready" invisible="1"/>
+                            <field name="link_set"/>
+                            <field name="first_login_expires_at"/>
+                            <field name="first_login_revealed_at"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_practice_spaces" model="ir.actions.act_window">
+        <field name="name">Practice spaces</field>
+        <field name="res_model">platform.practice.space</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Each new firm gets its practice space when it is created (a switch on the last screen of New firm).</p>
+        </field>
+    </record>
+
+    <!-- The practice computer -->
+    <record id="view_practice_computer_list" model="ir.ui.view">
+        <field name="name">platform.practice.computer.list</field>
+        <field name="model">platform.practice.computer</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0">
+                <field name="name"/>
+                <field name="release"/>
+                <field name="release_since"/>
+                <field name="desired_release_id"/>
+                <field name="guard_state"/>
+                <field name="space_count"/>
+                <field name="last_heartbeat_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_practice_computer_form" model="ir.ui.view">
+        <field name="name">platform.practice.computer.form</field>
+        <field name="model">platform.practice.computer</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" class="o_ea_platform_form">
+                <header>
+                    <button name="action_send_release" type="object" string="Send a release" class="btn-primary"
+                            groups="ea_platform_admin.group_platform_owner"/>
+                    <button name="action_simulate_heartbeat" type="object" string="Simulate a heartbeat"
+                            invisible="not is_simulation" groups="ea_platform_admin.group_platform_operator"/>
+                </header>
+                <sheet>
+                    <p class="text-muted">
+                        New releases come here first. A firm's own server is offered a release only after it has run here
+                        for its holding period (7 days unless you set another number on the release).
+                    </p>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="is_simulation" invisible="not is_simulation"/>
+                            <field name="domain"/>
+                            <field name="entry_url"/>
+                            <field name="first_login_url"/>
+                        </group>
+                        <group>
+                            <field name="release"/>
+                            <field name="release_since"/>
+                            <field name="desired_release_id"/>
+                            <field name="template_release"/>
+                            <field name="guard_state"/>
+                            <field name="last_heartbeat_at"/>
+                        </group>
+                    </group>
+                    <field name="space_ids" readonly="1">
+                        <list>
+                            <field name="firm_name"/>
+                            <field name="address" widget="url"/>
+                            <field name="state"/>
+                            <field name="version"/>
+                            <field name="last_reset_at"/>
+                            <field name="users_count"/>
+                            <field name="last_login_on"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_practice_computer" model="ir.actions.act_window">
+        <field name="name">Practice computer</field>
+        <field name="res_model">platform.practice.computer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>No practice computer is registered yet. See docs/runbook/PRACTICE-SPACES.md.</p>
+        </field>
+    </record>
+
+    <!-- On a firm -->
+    <record id="view_firm_form_practice" model="ir.ui.view">
+        <field name="name">platform.firm.form.practice</field>
+        <field name="model">platform.firm</field>
+        <field name="inherit_id" ref="view_firm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='server']" position="after">
+                <page string="Practice space" name="practice">
+                    <field name="practice_space_ids" invisible="1"/>
+                    <div invisible="practice_space_ids">
+                        <p>This firm has no practice space.</p>
+                        <button name="action_create_practice_space" type="object" string="Create its practice space"
+                                class="btn-primary" groups="ea_platform_admin.group_platform_operator"/>
+                    </div>
+                    <group invisible="not practice_space_ids">
+                        <field name="practice_space_id"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- On a release: the order, practice computer first -->
+    <record id="view_release_form_practice" model="ir.ui.view">
+        <field name="name">platform.release.form.practice</field>
+        <field name="model">platform.release</field>
+        <field name="inherit_id" ref="view_release_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Practice computer first">
+                    <field name="practice_hold_days"/>
+                    <field name="practice_since"/>
+                    <field name="practice_hold_text"/>
+                    <field name="practice_hold_ok" invisible="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- New firm: the switch, on by default -->
+    <record id="view_onboarding_form_practice" model="ir.ui.view">
+        <field name="name">platform.onboarding.wizard.form.practice</field>
+        <field name="model">platform.onboarding.wizard</field>
+        <field name="inherit_id" ref="view_onboarding_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='confirmed']" position="before">
+                <field name="practice_space"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- The wizards -->
+    <record id="view_practice_reset_form" model="ir.ui.view">
+        <field name="name">platform.practice.reset.wizard.form</field>
+        <field name="model">platform.practice.reset.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reset to fresh demo data">
+                <div class="alert alert-warning" role="alert">
+                    Everything the firm has typed in its practice space is deleted and the made-up demonstration data comes
+                    back. The first administrator keeps the same login and password. The practice computer does it at its
+                    next heartbeat, within about fifteen minutes.
+                </div>
+                <group>
+                    <field name="space_id"/>
+                    <field name="slug"/>
+                    <field name="typed"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Reset" class="btn-danger"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_practice_first_login_form" model="ir.ui.view">
+        <field name="name">platform.practice.first.login.form</field>
+        <field name="model">platform.practice.first.login</field>
+        <field name="arch" type="xml">
+            <form string="First login of a practice space">
+                <field name="revealed" invisible="1"/>
+                <group>
+                    <field name="space_id"/>
+                    <field name="address" widget="url"/>
+                    <field name="login"/>
+                </group>
+                <div invisible="revealed">
+                    <p>The one-time link shows <strong>once only</strong>, then it is erased from here. With it the firm's
+                        administrator chooses a password; nobody else ever knows it.</p>
+                </div>
+                <div invisible="not revealed">
+                    <p>Copy this link now and pass it to the firm's contact with the address and the login. It works once
+                        and expires on the date shown.</p>
+                    <group>
+                        <field name="link" widget="CopyClipboardChar"/>
+                        <field name="expires_at"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_reveal" type="object" string="Show the link" class="btn-primary" invisible="revealed"/>
+                    <button name="action_close" type="object" string="I have copied the link" class="btn-primary" invisible="not revealed"/>
+                    <button special="cancel" string="Cancel" invisible="revealed"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_practice_release_form" model="ir.ui.view">
+        <field name="name">platform.practice.release.wizard.form</field>
+        <field name="model">platform.practice.release.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send a release to the practice computer">
+                <p>The practice computer installs it at its next heartbeat (the release must be signed). From the day it
+                    runs there, the firms wait the release's holding period before they are offered it.</p>
+                <group>
+                    <field name="computer_id"/>
+                    <field name="release_id"/>
+                    <field name="hold_days"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Send" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_practice" name="Practice spaces" parent="menu_root" sequence="27"/>
+    <menuitem id="menu_practice_spaces" name="Practice spaces" parent="menu_practice" action="action_practice_spaces" sequence="10"/>
+    <menuitem id="menu_practice_computer" name="Practice computer" parent="menu_practice" action="action_practice_computer" sequence="20"/>
+</odoo>

@@ -48,6 +48,8 @@
 
 Et, hors d'Odoo, en fichiers lisibles par root seul : le jeton Vultr et le jeton DNS.
 
+Pour l'ordinateur d'entraînement (PRACTICE-SPACES.md), de la même façon : son jeton de heartbeat, et le lien de première connexion de chaque espace d'entraînement jusqu'à son affichage. Ils n'ouvrent que des espaces aux données fictives, jamais un serveur de cabinet.
+
 ### Ce qui reste partagé
 
 | Partagé | Conséquence | Comment durcir |
@@ -125,6 +127,8 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 - **The first administrator's link**, only between its creation and its display (72 hours at most). **Known risk:** an intrusion on the control plane in that window could take the administrator account of a brand-new, still empty firm. To rule it out: generate the link on the server (`firm-first-admin-link`).
 
 And, outside Odoo, in root-only files: the Vultr token and the DNS token.
+
+For the practice computer (PRACTICE-SPACES.md), the same two kinds: its heartbeat token, and each practice space's first-login link until it is shown. They open only spaces of made-up data, never a firm's server.
 
 ### What is still shared
 

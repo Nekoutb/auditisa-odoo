@@ -26,6 +26,7 @@
         "views/support_views.xml",
         "views/menus.xml",
         "views/support_menus.xml",
+        "views/practice_views.xml",
     ],
     "assets": {
         "web.assets_backend": [

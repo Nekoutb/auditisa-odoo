@@ -16,3 +16,6 @@ fi
 
 # The firm server's recipe, the isolation test and the release signature, without a server.
 bash .github/ci/firm-dry-run.sh
+
+# The practice computer: name gate, guard, refusals, rendered configuration.
+bash deploy/practice/tests/test_safety.sh
