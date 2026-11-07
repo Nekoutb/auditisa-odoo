@@ -174,9 +174,9 @@ class TestSupportVisit(PlatformCase):
         firm._simulate_heartbeat()
         visit = firm.support_visit_ids
         for user in (self.operator, self.owner):
-            with self.assertRaises((UserError, AccessError)):
+            with self.assertRaises(UserError):
                 visit.with_user(user).write({"reason": "Other"})
-            with self.assertRaises((UserError, AccessError)):
+            with self.assertRaises(UserError):
                 visit.with_user(user).unlink()
         with self.assertRaises(UserError):
             visit.sudo().with_context(ea_visit_internal=True).write({"reason": "Other"})

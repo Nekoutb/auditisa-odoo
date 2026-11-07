@@ -250,6 +250,7 @@ class PlatformFirmSupport(models.Model):
     tickets_open = fields.Integer("Open problems", compute="_compute_support_figures")
     visit_state = fields.Char("Support visit", compute="_compute_support_figures")
 
+    @api.depends("error_ids.count", "error_ids.last_at", "ticket_ids.state", "support_visit_ids.state")
     @api.depends_context("lang")
     def _compute_support_figures(self):
         since = fields.Datetime.now() - timedelta(hours=24)
