@@ -19,7 +19,7 @@ La commande affiche le commit et l'empreinte `sha256`. Déposez les deux fichier
 
 ### 2. L'enregistrer
 
-Plateforme > Mises à jour > Versions > Nouveau : collez le commit et l'empreinte.
+Plateforme > Mises à jour > Versions > Nouveau : collez le commit et l'empreinte. Puis **Charger le fichier du catalogue** : `<commit>.catalogue.json` et sa signature, écrits à côté du paquet. Sans cela, l'écran « Modules » n'a rien à proposer pour cette version et aucune demande de module ne part (CLIENT-ADDONS.md).
 
 ### 3. Lancer
 
@@ -70,7 +70,7 @@ It prints the commit and the `sha256`. Upload both files (`<commit>.tar.gz` and 
 
 ### 2. Register it
 
-Platform > Updates > Releases > New: paste the commit and the digest.
+Platform > Updates > Releases > New: paste the commit and the digest. Then **Load the catalogue file**: `<commit>.catalogue.json` and its signature, written beside the bundle. Without it the "Add-ons" screen has nothing to offer for this release, and no add-on request goes out (CLIENT-ADDONS.md).
 
 ### 3. Start it
 

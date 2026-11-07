@@ -22,13 +22,17 @@
 
 ### Ce que voit le contrôle
 
-**Uniquement** ces chiffres : version, disque, mémoire, nombre d'utilisateurs et de missions, dates et résultats de sauvegarde et de test de restauration, expiration du certificat, messagerie ouverte ou non, état de la mise à jour et de l'export, nombre de connexions SSH.
+**Uniquement** ces chiffres : version, disque, mémoire, nombre d'utilisateurs et de missions, dates et résultats de sauvegarde et de test de restauration, expiration du certificat, messagerie ouverte ou non, état de la mise à jour et de l'export, nombre de connexions SSH, et les codes des modules clients allumés avec le nombre de demandes refusées.
 
+- Un code de module qui n'est pas au catalogue est compté, jamais conservé : ce canal ne peut pas transporter de texte.
+- L'écran de supervision et son export Excel n'affichent que ces chiffres, l'identité technique du serveur et ses références chez l'hébergeur. Aucune donnée d'audit, aucun jeton.
 - Toute autre donnée dans un heartbeat fait rejeter le tout, et aucun champ n'accepte de texte libre.
 - Pas de mot de passe de base, pas de clé de sauvegarde, pas de clé de stockage, pas de clé SSH privée. Le code ne contient ni client SSH, ni connexion à une base distante, ni appel RPC. Un test vérifie tout cela.
 - Il refuse de s'installer dans la base d'un cabinet, et n'est pas dans le paquet livré aux cabinets.
 
 **Un cabinet n'a accès au contrôle que pour son heartbeat :** une seule adresse, un seul chemin, en POST signé. Les écrans ne répondent qu'aux adresses de l'opérateur.
+
+**Le contrôle peut demander des modules clients, sans les imposer :** la réponse au heartbeat donne une liste de codes, et le script root du cabinet la refuse entière si un seul code n'est pas un module optionnel de la version signée en service. Une intrusion sur le contrôle peut donc allumer ou couper un module que cette version contient, avec au plus une installation et son arrêt de quelques minutes ; elle ne peut ni ajouter du code, ni toucher une fonction de base, ni rien désinstaller. Voir CLIENT-ADDONS.md.
 
 ### Les deux secrets que garde le contrôle
 
@@ -89,13 +93,17 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 
 ### What the control plane sees
 
-**Only** these figures: release, disk, memory, numbers of users and engagements, dates and results of backup and restore test, certificate expiry, whether mail is open, update and export state, number of SSH logins.
+**Only** these figures: release, disk, memory, numbers of users and engagements, dates and results of backup and restore test, certificate expiry, whether mail is open, update and export state, number of SSH logins, and the codes of the client add-ons that are on with the number of refused requests.
 
+- An add-on code outside the catalogue is counted and never kept: this channel cannot carry text.
+- The supervision page and its Excel export show only these figures, the server's technical identity and its references at the provider. No audit data and no token.
 - Anything else in a heartbeat gets it all rejected, and no field accepts free text.
 - No database password, no backup key, no storage key, no private SSH key. The code holds no SSH client, no remote database connection, no RPC call. A test checks all of this.
 - It refuses to install in a firm's database, and is not in the bundle firms receive.
 
 **A firm reaches the control plane for its heartbeat only:** one address, one path, a signed POST. The screens answer the operator's addresses only.
+
+**The control plane can ask for client add-ons, not impose them:** the heartbeat answer gives a list of codes, and the firm's root script refuses all of it if a single code is not an optional add-on of the signed release in use. An intrusion on the control plane can therefore switch on or off an add-on that release carries, at most causing an install and its outage of a few minutes; it cannot add code, touch a base feature or uninstall anything. See CLIENT-ADDONS.md.
 
 ### The two secrets the control plane keeps
 

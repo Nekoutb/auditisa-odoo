@@ -29,9 +29,11 @@ Mettez un mot de passe dessus, copiez le fichier sans extension dans votre coffr
 
 **3. Écran « Le serveur ».** Région, taille, langue, version, et collez le contenu du `.pub`. **Continuer**. Si vous collez la clé privée par erreur, elle est effacée du formulaire et refusée.
 
-**4. Écran « Vérification ».** Relisez : l'adresse, le serveur, les adresses autorisées sur le port 22, le coût mensuel estimé. Le bandeau dit SIMULATION ou RÉEL. Cochez la confirmation, puis **Créer le serveur**. Rien n'est créé avant.
+**4. Écran « Modules ».** Allumez les modules propres à ce client, s'il en a, et dites pourquoi : le motif va au journal. Rien à choisir sinon : le code commun est toujours là, et cela peut changer plus tard. Voir CLIENT-ADDONS.md.
 
-**5. Le journal des étapes s'affiche.** Onze lignes, de « À faire » à « Fait » :
+**5. Écran « Vérification ».** Relisez : l'adresse, le serveur, les modules, les adresses autorisées sur le port 22, le coût mensuel estimé. Le bandeau dit SIMULATION ou RÉEL. Cochez la confirmation, puis **Créer le serveur**. Rien n'est créé avant.
+
+**6. Le journal des étapes s'affiche.** Onze lignes, de « À faire » à « Fait » :
 
 | Étape | Durée estimée |
 |---|---|
@@ -43,9 +45,9 @@ Mettez un mot de passe dessus, copiez le fichier sans extension dans votre coffr
 
 Vous pouvez fermer la page : tout avance seul, toutes les deux minutes. Pour y revenir : Suivi > Mises en service.
 
-**6. Quand tout est « Fait »,** le cabinet passe à « Actif » sur le tableau, en orange avec le motif « Clé de sauvegarde pas encore confirmée au coffre ». C'est normal.
+**7. Quand tout est « Fait »,** le cabinet passe à « Actif » sur le tableau, en orange avec le motif « Clé de sauvegarde pas encore confirmée au coffre ». C'est normal.
 
-**7. Mettez la clé de sauvegarde au coffre.** Elle n'existe que sur le serveur du cabinet. Sans elle, si le serveur disparaît, **les sauvegardes sont illisibles**. Sur la fiche, cliquez **Accès d'urgence**, indiquez le motif « clé de sauvegarde », puis :
+**8. Mettez la clé de sauvegarde au coffre.** Elle n'existe que sur le serveur du cabinet. Sans elle, si le serveur disparaît, **les sauvegardes sont illisibles**. Sur la fiche, cliquez **Accès d'urgence**, indiquez le motif « clé de sauvegarde », puis :
 
 ```
 ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com cat /etc/auditisa-firm/secrets/restic.key
@@ -53,9 +55,9 @@ ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com cat /et
 
 Copiez la valeur dans votre coffre, puis cliquez **Clé de sauvegarde mise au coffre** sur la fiche. Le cabinet passe au vert.
 
-**8. Transmettez le lien du premier administrateur.** Sur la fiche, **Afficher le lien du premier administrateur**. Il ne s'affiche **qu'une fois**. Donnez-le au contact par un canal privé (appel, messagerie chiffrée). Il expire après 72 heures et ne sert qu'une fois. Le contact y choisit lui-même son mot de passe : **personne ne reçoit de mot de passe par e-mail, et vous ne le connaissez pas.**
+**9. Transmettez le lien du premier administrateur.** Sur la fiche, **Afficher le lien du premier administrateur**. Il ne s'affiche **qu'une fois**. Donnez-le au contact par un canal privé (appel, messagerie chiffrée). Il expire après 72 heures et ne sert qu'une fois. Le contact y choisit lui-même son mot de passe : **personne ne reçoit de mot de passe par e-mail, et vous ne le connaissez pas.**
 
-**9. Le cabinet règle sa messagerie.** Elle reste fermée jusqu'à ce que son administrateur renseigne un serveur de courrier et réussisse le test de connexion (Configuration > Technique > Serveurs de courrier sortant).
+**10. Le cabinet règle sa messagerie.** Elle reste fermée jusqu'à ce que son administrateur renseigne un serveur de courrier et réussisse le test de connexion (Configuration > Technique > Serveurs de courrier sortant).
 
 ### Vérifier
 
@@ -114,9 +116,11 @@ Give it a passphrase and copy the file without an extension to your safe. The `.
 
 **3. Screen "The server".** Region, size, language, release, and paste the content of the `.pub` file. **Continue**. If you paste the private key by mistake, it is wiped from the form and refused.
 
-**4. Screen "Review".** Read it through: address, server, addresses allowed on port 22, estimated monthly cost. The band says SIMULATION or REAL. Tick the confirmation, then **Create the server**. Nothing is created before that.
+**4. Screen "Add-ons".** Switch on any add-ons of this client's own and say why: the reason goes in the log. Otherwise there is nothing to choose: the shared code is always there, and this can change later. See CLIENT-ADDONS.md.
 
-**5. The step log appears.** Eleven lines going from "To do" to "Done":
+**5. Screen "Review".** Read it through: address, server, add-ons, addresses allowed on port 22, estimated monthly cost. The band says SIMULATION or REAL. Tick the confirmation, then **Create the server**. Nothing is created before that.
+
+**6. The step log appears.** Eleven lines going from "To do" to "Done":
 
 | Step | Estimated time |
 |---|---|
@@ -128,9 +132,9 @@ Give it a passphrase and copy the file without an extension to your safe. The `.
 
 You may close the page: it moves on by itself every two minutes. To come back: Tracking > Provisioning runs.
 
-**6. When all say "Done",** the firm shows "Active" on the board, orange with the reason "Backup key not yet confirmed as stored in the safe". That is expected.
+**7. When all say "Done",** the firm shows "Active" on the board, orange with the reason "Backup key not yet confirmed as stored in the safe". That is expected.
 
-**7. Put the backup key in the safe.** It exists only on the firm's server. Without it, if the server is lost, **the backups cannot be read**. On the firm's page click **Break-glass access**, give the reason "backup key", then:
+**8. Put the backup key in the safe.** It exists only on the firm's server. Without it, if the server is lost, **the backups cannot be read**. On the firm's page click **Break-glass access**, give the reason "backup key", then:
 
 ```
 ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com cat /etc/auditisa-firm/secrets/restic.key
@@ -138,9 +142,9 @@ ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com cat /et
 
 Copy the value to your safe, then click **Backup key is in the safe**. The firm turns green.
 
-**8. Pass on the first administrator's link.** On the firm's page, **Show the first administrator's link**. It shows **once only**. Give it to the contact over a private channel (a call, encrypted messaging). It expires after 72 hours and works once. The contact chooses their own password there: **nobody receives a password by email, and you do not know it.**
+**9. Pass on the first administrator's link.** On the firm's page, **Show the first administrator's link**. It shows **once only**. Give it to the contact over a private channel (a call, encrypted messaging). It expires after 72 hours and works once. The contact chooses their own password there: **nobody receives a password by email, and you do not know it.**
 
-**9. The firm sets up its mail.** Mail stays closed until its administrator enters a mail server and passes the connection test (Settings > Technical > Outgoing Mail Servers).
+**10. The firm sets up its mail.** Mail stays closed until its administrator enters a mail server and passes the connection test (Settings > Technical > Outgoing Mail Servers).
 
 ### How to verify
 
