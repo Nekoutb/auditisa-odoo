@@ -388,7 +388,7 @@ class Base(models.AbstractModel):
     @api.readonly
     def web_read(self, specification):
         result = super().web_read(specification)
-        if not self.env.context.get("ea_support_no_trace") and self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
+        if self.ids and not self.env.context.get("ea_support_no_trace") and self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
             self.env["ea.firm.support.trace"]._record(self._name, "form", self.ids)
         return result
 

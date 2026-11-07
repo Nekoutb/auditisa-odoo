@@ -118,7 +118,7 @@ class PlatformSupportVisit(models.Model):
     state = fields.Selection(VISIT_STATES, "State", readonly=True, default="requested", index=True)
     link_fingerprint = fields.Char("Link fingerprint", readonly=True, copy=False)
     requested_by = fields.Many2one("res.users", "Asked by", readonly=True)
-    requested_at = fields.Datetime("Asked on", readonly=True)
+    requested_at = fields.Datetime("Requested on", readonly=True)
     end_requested = fields.Boolean("End asked", readonly=True)
     reported_at = fields.Datetime("Last state from the firm", readonly=True)
     expected_end = fields.Datetime("Ends at the latest", compute="_compute_end")

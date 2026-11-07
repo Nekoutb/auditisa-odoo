@@ -4861,3 +4861,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 msgid "open"
 msgstr "ouverts"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_at
+msgid "Requested on"
+msgstr "Demandée le"
