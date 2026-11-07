@@ -63,14 +63,14 @@ class TestHeartbeat(TransactionCase):
         self.assertGreaterEqual(figures["users_active"], 1)
         self.assertFalse(figures["mail_enabled"])
         for key, value in figures.items():
-            if key == "addons_on":
+            if key in ("addons_on", "errors"):
                 self.assertTrue(all(isinstance(code, str) for code in value))
                 continue
             self.assertIsInstance(value, (int, str, bool, type(None)), key)
         allowed = {
             "schema", "release", "odoo_version", "update_state", "export_state", "ssh_sessions_24h",
             "mem_total_mb", "mem_available_mb", "disk_total_gb", "disk_used_pct",
-            "users_active", "engagements_active", "mail_enabled", "addons_on", "addons_refused",
+            "users_active", "engagements_active", "mail_enabled", "addons_on", "addons_refused", "errors",
         }
         self.assertEqual(set(figures), allowed)
 

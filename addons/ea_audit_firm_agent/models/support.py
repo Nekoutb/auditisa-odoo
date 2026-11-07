@@ -180,9 +180,10 @@ class EaFirmSupportVisit(models.Model):
         if not user:
             admin = self.env.ref("base.user_admin")
             user = users.create({
-                "name": SUPPORT_NAME, "login": SUPPORT_LOGIN, "active": False, "tz": "UTC",
+                "name": SUPPORT_NAME, "login": SUPPORT_LOGIN, "tz": "UTC",
                 "password": secrets.token_urlsafe(48), "group_ids": [(6, 0, admin.group_ids.ids)],
             })
+            user.write({"active": False})
             self.env.registry.clear_cache()
         return user
 
