@@ -27,6 +27,8 @@
                             <field name="legal_form"/>
                             <field name="sector"/>
                             <field name="framework"/>
+                            <field name="governance_mode"/>
+                            <field name="regulator"/>
                         </group>
                         <group>
                             <field name="registration_number"/>

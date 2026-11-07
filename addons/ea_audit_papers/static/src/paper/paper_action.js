@@ -10,6 +10,17 @@ import { AUTO_SOURCES, CHIP_LETTER, LABELS } from "./labels";
 const NA = "na";
 const SAVED_AT_WINDOW_MS = 10 * 60 * 1000;
 const PART_TITLE = /^(?:Partie|Part)\s+(\S+)\s+—\s+(.*)$/;
+const PAPER_CODE = /^[A-Z]\d+(?:\.\d+)+$/;
+
+/** A tab's short name: the part's letter and first word. Several sections of one part open
+ *  with the same paper code (E6.10.1 Checklist A, B...): the words after it tell them apart. */
+function partLabel(letter, rest) {
+    const words = rest.split(/\s+/);
+    if (PAPER_CODE.test(words[0]) && words.length > 2) {
+        return `${letter} ${words[1]} ${words[2].replace(/:$/, "")}`;
+    }
+    return `${letter} ${words[0]}`;
+}
 
 const norm = (text) => (text ?? "").replace(/\r\n/g, "\n");
 const filled = (text) => Boolean((text ?? "").trim());
@@ -176,7 +187,7 @@ export class PaperAction extends Component {
             const title = this.pick(section, "title");
             const match = PART_TITLE.exec(title);
             const letter = match ? match[1] : "";
-            const label = match ? `${letter} ${match[2].split(/\s+/)[0]}` : title;
+            const label = match ? partLabel(letter, match[2]) : title;
             const prefix = letter ? `${letter}.` : "";
             let items = [];
             if (section.kind === "proc") {
@@ -494,6 +505,13 @@ export class PaperAction extends Component {
 
     optionLabel(option) {
         return option.name;
+    }
+
+    async setDeadline(value) {
+        const done = await this.guarded(() => this.callItem("set_due_date", [value || false]));
+        if (done.ok) {
+            await this.refresh();
+        }
     }
 
     async assign(role, value) {

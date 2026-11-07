@@ -8,6 +8,7 @@ from ..services.ap_schedules import ap_lead_schedules, index_resolver
 from ..services.errors import ServiceError
 from ..services.fs_captions import asset_basis_label, bilan_totals
 from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_schedule_alerts, sub_index_for
+from ..services.tb_reasons import explain_tb_summary
 from ..services.tb import extract_tb_rows, infer_tb_mapping, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
 from ..tabular import parse_table
 from .tool_record import french_date, is_french
@@ -208,6 +209,8 @@ class EngagementTb(models.Model):
     bilan_net_result = fields.Float(string="Net result", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
     bilan_total_equity_liabilities = fields.Float(string="Total equity and liabilities", digits=(18, 0), compute="_compute_bilan", compute_sudo=True)
     bilan_label = fields.Char(string="Basis", compute="_compute_bilan", compute_sudo=True)
+    tb_invalid_reason = fields.Text(string="Why the last import is invalid", compute="_compute_tb_alerts", compute_sudo=True)
+    tb_openings_warning = fields.Char(string="Opening balances", compute="_compute_tb_alerts", compute_sudo=True)
 
     def _compute_client_overrides(self):
         for engagement in self:
@@ -223,6 +226,46 @@ class EngagementTb(models.Model):
                 "%s · %s · %d" % (version.source_filename or "", french_date(version.create_date), version.row_count)
                 if version else ""
             )
+
+    @api.depends_context("lang")
+    def _compute_tb_alerts(self):
+        for engagement in self:
+            engagement.tb_invalid_reason = "\n".join(engagement._ea_tb_invalid_reasons()) or False
+            engagement.tb_openings_warning = engagement._ea_tb_openings_warning()
+
+    def _ea_tb_invalid_reasons(self):
+        """F018: the newest import, when it was refused: why, in lines a person can act on."""
+        self.ensure_one()
+        version = self.env["ea.audit.tb.version"].sudo().search([
+            ("engagement_id", "=", self.id), ("timing", "=", "pre_audit"),
+        ], order="version_no desc", limit=1)
+        if version.validation_status != "invalid":
+            return []
+        locale = "fr" if is_french(self.env) else "en"
+        return [line["text"] for line in explain_tb_summary(version.validation_summary, locale) if line["blocking"]]
+
+    def _ea_tb_openings_warning(self):
+        """F016: nothing stands behind the prior-year column, and the reader should know."""
+        self.ensure_one()
+        version = self._ea_current_tb_version()
+        if not version or self._ea_comparatives()[0] != "opening" or any(line.opening for line in version.line_ids):
+            return False
+        return self.env._(
+            "No opening balances and no prior-year trial balance on this file: the prior-year column reads 0. Import a trial balance with its opening balances, or a prior-year one.",
+        )
+
+    def action_export_tb_template(self):
+        return self._ea_export_action("tb_template")
+
+    def _ea_export_tb_template(self, fr):
+        """F016: the columns the import reads by itself."""
+        from ..exports import simple_workbook
+
+        head = (
+            ["Compte", "Libellé", "Solde ouverture débit", "Solde ouverture crédit", "Mouvement débit", "Mouvement crédit"]
+            if fr else ["Account", "Label", "Opening debit", "Opening credit", "Debit", "Credit"]
+        )
+        return "tb_%s.xlsx" % ("modele" if fr else "template"), simple_workbook("Modèle" if fr else "Template", head, [])
 
     def _compute_bilan(self):
         for engagement in self:
@@ -295,6 +338,35 @@ class EngagementTb(models.Model):
         for line in version.line_ids:
             out[line.account_code] = out.get(line.account_code, 0) + line.closing
         return out
+
+    def _ea_comparatives(self):
+        """The one N-1 of the file (F012): (source, {account: balance}). The lead schedules, the
+        analytical review and the financial analysis all read it. A prior-year TB uploaded here
+        first, else the closing TB of the client's prior file, the only ones that hold last
+        year's income statement; the current TB's openings only when neither exists."""
+        self.ensure_one()
+        uploaded = self._ea_prior_year_closings()
+        if uploaded:
+            return "prior_year_tb", uploaded
+        prior_file = self._ea_prior_closings_map()
+        if prior_file:
+            return "prior_file", prior_file
+        out = {}
+        for line in self._ea_current_tb_version().line_ids:
+            out[line.account_code] = out.get(line.account_code, 0) + line.opening
+        return "opening", out
+
+    def _ea_comparative_label(self):
+        self.ensure_one()
+        source, _closings = self.sudo()._ea_comparatives()
+        if source == "prior_year_tb":
+            return self.env._("Prior year: the valid prior-year trial balance")
+        if source == "prior_file":
+            year = self.sudo().search([
+                ("client_id", "=", self.sudo().client_id.id), ("fiscal_year", "<", self.sudo().fiscal_year),
+            ], order="fiscal_year desc", limit=1).fiscal_year
+            return self.env._("Prior year: the closing balances of the %(year)s file", year=year)
+        return self.env._("Prior year: the current trial balance's opening balances")
 
     def _ea_known_prefixes(self):
         self.ensure_one()
@@ -416,7 +488,27 @@ class EngagementTb(models.Model):
             "account": line.account_code, "name": line.account_name,
             "opening": line.opening, "closing": line.closing,
         } for line in version.line_ids.sorted("account_code")]
-        return ap_lead_schedules(rows, self._ea_prior_year_closings(), self._ea_lead_overrides())
+        source, closings = self._ea_comparatives()
+        if source == "opening":
+            closings = {}
+        # An account closed since last year still has its comparative.
+        seen = {row["account"] for row in rows}
+        rows += [{"account": code, "name": "", "opening": 0, "closing": 0} for code in closings if code not in seen]
+        return ap_lead_schedules(sorted(rows, key=lambda row: row["account"]), closings, self._ea_lead_overrides(), source)
+
+    def _ea_refresh_lead_schedules(self):
+        """The comparative can move after the import: the prior file's TB is replaced, or
+        schedules were built before this rule. Rebuilt on opening, only when it differs."""
+        self.ensure_one()
+        if self._ea_is_archived() or not self._ea_current_tb_version():
+            return
+        wanted = {s["index"]: (s["prior"], s["priorSource"]) for s in self._ea_ap_lead_schedules()}
+        stored = {
+            row.index_code: (row.prior, row.prior_source)
+            for row in self.env["ea.audit.lead.schedule"].sudo().search([("engagement_id", "=", self.id)])
+        }
+        if wanted != stored:
+            self._ea_rebuild_lead_schedules()
 
     def _ea_rebuild_lead_schedules(self):
         """Derived rows: recomputed whole when the TB or the client's mapping changes."""

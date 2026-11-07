@@ -77,6 +77,7 @@ class Engagement(models.Model):
     agm_date = fields.Date(string="General meeting", readonly=True, copy=False)
     board_date = fields.Date(string="Board meeting closing the accounts", readonly=True, copy=False)
     assembly_deadline = fields.Date(string="File assembly deadline", compute="_compute_conclusion_cards")
+    lock_status = fields.Char(string="Lock status", compute="_compute_lock_status", compute_sudo=True)
     document_ids = fields.One2many("ea.audit.document", "engagement_id", string="Documents")
     completion_record_ids = fields.One2many("ea.audit.completion.record", "engagement_id", string="Completion records")
     legal_hold_ids = fields.One2many("ea.audit.legal.hold", "engagement_id", string="Legal holds")
@@ -87,6 +88,13 @@ class Engagement(models.Model):
     archive_checklist_html = fields.Html(compute="_compute_conclusion_cards", sanitize=False)
     gates_blocking_count = fields.Integer(compute="_compute_conclusion_cards")
     points_from_prior = fields.Text(compute="_compute_conclusion_cards", compute_sudo=True)
+
+    @api.depends("phase", "archived_at")
+    @api.depends_context("lang")
+    def _compute_lock_status(self):
+        """F073: the settings page says whether the file still takes changes."""
+        for engagement in self:
+            engagement.lock_status = self.env._("Locked: archived") if engagement._ea_is_archived() else self.env._("Open")
 
     @api.depends_context("lang")
     def _compute_conclusion_cards(self):
@@ -259,7 +267,7 @@ class Engagement(models.Model):
             record = self.env["ea.audit.completion.record"].sudo().create({"engagement_id": self.id, "key": key, **vals})
         self._ea_log(
             "completion_record_updated" if record.version > 1 else "completion_record_recorded",
-            "Completion record %s %s" % (key, "updated" if record.version > 1 else "recorded"),
+            ("Completion record %s updated" if record.version > 1 else "Completion record %s recorded") % key,
         )
         return record
 

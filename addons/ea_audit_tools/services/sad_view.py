@@ -28,6 +28,11 @@ def fs_caption_amounts(balances):
     }
 
 
+def effective_income_after_tax(override, from_tb):
+    """F019: the team's figure when one is entered, else the trial balance's. None with neither."""
+    return override or from_tb
+
+
 def entry_amount(entry):
     return max(abs(entry["drAmount"]), abs(entry["crAmount"]))
 

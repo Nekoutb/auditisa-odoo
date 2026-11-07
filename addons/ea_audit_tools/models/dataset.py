@@ -50,6 +50,8 @@ class Dataset(models.Model):
     row_count = fields.Integer(string="Rows")
     total_amount = fields.Float(digits=(18, 2))
     has_total = fields.Boolean()
+    display_total = fields.Float(string="Total amount", digits=(18, 2), compute="_compute_display_total", compute_sudo=True)
+    display_total_note = fields.Char(compute="_compute_display_total", compute_sudo=True)
     amount_column = fields.Char()
     mapping = fields.Json()
     gl_line_count = fields.Integer(string="Projected lines")
@@ -61,6 +63,24 @@ class Dataset(models.Model):
     )
     population_html = fields.Html(string="Population checks", compute="_compute_population_html", sanitize=False, compute_sudo=True)
 
+    @api.depends("total_amount", "mapping", "amount_column")
+    @api.depends_context("lang")
+    def _compute_display_total(self):
+        """M-10: a ledger stated as a debit/credit pair nets to nil by construction, so its total
+        is the sum of its debits. Every other file keeps the sum of its amount column."""
+        for dataset in self:
+            mapping = dataset.mapping or {}
+            if mapping.get("debit") and mapping.get("credit") and not mapping.get("amount"):
+                self.env.cr.execute(
+                    "SELECT coalesce(sum(amount) FILTER (WHERE amount > 0), 0) FROM ea_audit_dataset_row WHERE dataset_id = %s",
+                    [dataset.id],
+                )
+                dataset.display_total = self.env.cr.fetchone()[0]
+                dataset.display_total_note = self.env._("Total of the debits")
+            else:
+                dataset.display_total = dataset.total_amount
+                dataset.display_total_note = dataset.amount_column or False
+
     @api.depends("validation")
     @api.depends_context("lang")
     def _compute_population_html(self):
@@ -71,12 +91,16 @@ class Dataset(models.Model):
             "failed": ("o_ea_chip o_ea_chip_bad", self.env._("Failed")),
         }
         for dataset in self:
+            # read afresh, so a ledger built before a wording change shows the current text
+            validation = dataset.validation
+            if validation and dataset.gl_built_at and dataset.engagement_id._ea_member(self.env.user).state == "accepted":
+                validation = dataset.engagement_id.gl_validate_population(dataset.id)
             rows = Markup("").join(
                 Markup("<tr><td>{label}</td><td><span class='{css}'>{status}</span></td><td>{detail}</td></tr>").format(
                     label=check["labelFr" if french else "labelEn"], css=chips[check["status"]][0],
                     status=chips[check["status"]][1], detail=check["detailFr" if french else "detailEn"],
                 )
-                for check in (dataset.validation or {}).get("checks", [])
+                for check in (validation or {}).get("checks", [])
             )
             dataset.population_html = rows and Markup("<table class='table table-sm o_ea_table'><tbody>{}</tbody></table>").format(rows)
 
@@ -92,6 +116,9 @@ class Dataset(models.Model):
             [("ea_audit_tools.view_gl_line_list", "list"), ("ea_audit_tools.view_gl_line_pivot", "pivot")],
             {"domain": [("dataset_id", "=", self.id)], "search_view_id": self.env.ref("ea_audit_tools.view_gl_line_search").id},
         )
+
+    def action_list_gl_catalogue(self):
+        return self._ea_context_engagement().action_tool_gl_catalogue()
 
     def action_list_import_dataset(self):
         engagement = self._ea_context_engagement()
@@ -370,12 +397,35 @@ class EngagementDataset(models.Model):
         """The ledgers of the file. The console (C.7.5) opens from a ledger's form."""
         return self._ea_list(
             "ea.audit.dataset", self.env._("General ledger"),
-            [("ea_audit_tools.view_dataset_list", "list"), ("ea_audit_tools.view_dataset_form", "form")],
+            [("ea_audit_tools.view_gl_dataset_list", "list"), ("ea_audit_tools.view_dataset_form", "form")],
             {
                 "domain": [("engagement_id", "=", self.id), ("kind", "=", "journal_entries")],
                 "context": {"ea_engagement_id": self.id, "ea_dataset_kind": "journal_entries", "create": False},
+                "help": Markup("<p>{}</p><p>{}</p>").format(
+                    self.env._("No general ledger on this file yet."),
+                    self.env._("Import one to run the analytics. The thirty analytics can be read without it: use the button above."),
+                ),
             },
         )
+
+    gl_catalogue_html = fields.Html(string="The thirty analytics", compute="_compute_gl_catalogue_html", sanitize=False, compute_sudo=True)
+
+    @api.depends_context("lang")
+    def _compute_gl_catalogue_html(self):
+        """F065: what each analytic looks for, with no dataset behind it: nothing here reads the file."""
+        from ..services.gl_analytics import catalogue
+        from ..wizards.gl_console_wizard import table
+
+        rows = [
+            [entry["id"], entry["title"], entry["objective"], ", ".join(entry["assertions"]), entry["exception"]]
+            for entry in catalogue({}, "fr" if is_french(self.env) else "en")
+        ]
+        html = table(["#", self.env._("Analytic"), self.env._("Objective"), self.env._("Assertions"), self.env._("Exception")], rows, numeric_from=99)
+        for engagement in self:
+            engagement.gl_catalogue_html = html
+
+    def action_tool_gl_catalogue(self):
+        return self._ea_board("ea_audit_tools.view_engagement_gl_catalogue", self.env._("The thirty analytics"))
 
     def _ea_export_gl_population(self, fr):
         from ..exports import simple_workbook

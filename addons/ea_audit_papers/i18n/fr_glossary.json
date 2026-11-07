@@ -129,5 +129,8 @@
 "the materiality tool, no approved materiality yet": "l'outil de seuil de signification, aucun seuil approuvé",
 "the risk strategy tool, nothing recorded yet": "l'outil de stratégie des risques, rien d'enregistré",
 "the wording has changed since": "le libellé a changé depuis",
-"‹ Previous": "‹ Précédent"
+"‹ Previous": "‹ Précédent",
+"Deadline: ": "Échéance : ",
+"Deadline": "Échéance",
+"No date set for this task: the deadline of its phase applies.": "Aucune date fixée pour cette tâche : l'échéance de sa phase s'applique."
 }

@@ -92,14 +92,14 @@ class TestWhoMaySave(PaperCase):
         reviewer = {k: v for k, v in values.items() if k in EQR_C42_KEYS}
         self.assertCode("eqr-own-paper", self.save, self.manager, "C4.2", {"q_complete": "yes"}, engagement=engagement)
         self.save(self.manager, "C4.2", team, engagement=engagement)
-        self.assertCode("eqr-read-only", self.save, self.senior, "C4.2", {"q_planning": "no"}, engagement=engagement)
+        self.assertCode("eqr-read-only", self.save, self.senior, "C4.2", {"p_scope": "Provided."}, engagement=engagement)
         self.save(self.senior, "C4.2", reviewer, engagement=engagement)
         # a field posted back unchanged by whoever does not own it is simply not written
         self.save(self.manager, "C4.2", {**team, **reviewer}, engagement=engagement)
         self.assertEqual(self.stored("C4.2", engagement)["q_complete"], "yes")
         locked = self.paper("C4.2", engagement).with_user(self.manager)._ea_locked_keys()
         self.assertIn("q_complete", locked)
-        self.assertNotIn("q_planning", locked)
+        self.assertNotIn("p_scope", locked)
 
     def test_the_team_writes_all_of_c42_where_no_review_is_required(self):
         self.engagement.sudo()._ea_ensure_task("C4.2")

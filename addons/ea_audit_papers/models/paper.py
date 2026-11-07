@@ -28,6 +28,8 @@ from ..services import (
     same_answer,
 )
 from ..services.completeness import EMBED_ONLY_PAPERS
+from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
+
 from .engagement import _EQR_DETERMINATION
 from .errors import paper_error
 from .paper_answer import ANSWER_DOOR
@@ -327,6 +329,10 @@ class Paper(models.Model):
             )
         if self.code == "P1.5" and any(values.get(key) == "yes" for key in _EQR_DETERMINATION):
             engagement._ea_ensure_task(EQR_PAPER)
+        if self.code == "S6.1":
+            for key, code in S61_TRIGGERS.items():
+                if key in values:
+                    engagement._ea_set_task_active(code, values[key] == "yes")
 
     def save_answers(self, values, base_version=None, base_digests=None):
         """The port of savePaper; see DESIGN section 2 for the order. Returns what was
@@ -387,6 +393,15 @@ class Paper(models.Model):
             })
         if history:
             env["ea.audit.paper.answer.history"].sudo().create(history)
+            # the firm's audit log (F027) keeps the same full text, whoever reads it
+            env["ea.audit.activity"].sudo().create([
+                env["ea.audit.activity"]._ea_vals(
+                    engagement, "answer_changed" if row["after"] else "answer_cleared",
+                    "%s: answer %s" % (paper.code, "changed" if row["after"] else "cleared"),
+                    code=paper.code, field_key=row["field_key"], before=row["before"], after=row["after"],
+                )
+                for row in history
+            ])
             paper.answer_version += 1
             if paper.file_item_id.state == "not_started":
                 paper.file_item_id.state = "in_progress"
@@ -555,6 +570,7 @@ class Paper(models.Model):
             "tool_links": paper._ea_tool_links(),
             "linked_tasks": self.with_env(env)._ea_linked_tasks(),
             "assignment": item.with_env(env)._ea_assignment_payload(),
+            "deadline": item.with_env(env)._ea_deadline_payload(),
             "not_applicable": item.with_env(env)._ea_na_payload(),
             "notes": env["ea.audit.review.note"]._ea_payload(item),
             "attachments": env["ea.audit.task.attachment"]._ea_payload(item),

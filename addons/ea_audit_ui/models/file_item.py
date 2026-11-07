@@ -1,6 +1,6 @@
-from odoo import models
+from odoo import fields, models
 
-from ..services.presentation import short_name
+from ..services.presentation import fmt_date, short_name
 
 
 def _lt(text):
@@ -12,6 +12,19 @@ _ROLE_WORDS = {"preparer": _lt("preparer"), "approver": _lt("reviewer"), "assign
 
 class FileItem(models.Model):
     _inherit = "ea.audit.file.item"
+
+    def _ea_deadline_payload(self):
+        """F011: the one date the group, the dashboard and the paper read."""
+        self.ensure_one()
+        item = self.sudo()
+        Ui = self.env["ea.audit.ui"]
+        due = Ui._ea_ui_due(item)
+        days = Ui._ea_ui_late_days(item, Ui._ea_ui_today())
+        return {
+            "date": fmt_date(due),
+            "own": fields.Date.to_string(item.due_date) if item.due_date else "",
+            "late_text": Ui._ea_ui_late_text(days),
+        }
 
     def _ea_ui_label(self):
         self.ensure_one()

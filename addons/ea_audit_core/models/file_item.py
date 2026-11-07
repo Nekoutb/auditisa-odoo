@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 
+from ..services.conditional_triggers import trigger_text
 from ..services.errors import rule_error
 from ..services.phases import phase_still_open
 from ..services.signoff_rules import (
@@ -50,13 +51,18 @@ class FileItem(models.Model):
     not_applicable = fields.Boolean(string="Not applicable")
     material = fields.Boolean(help="Material E-section: planning cannot close without planned coverage.")
     preparer_id = fields.Many2one("res.users", string="Preparer", index=True, ondelete="restrict")
-    approver_id = fields.Many2one("res.users", string="Approver", index=True, ondelete="restrict")
+    approver_id = fields.Many2one("res.users", string="Reviewer", index=True, ondelete="restrict")
     assignee_id = fields.Many2one("res.users", string="Assignee", index=True, ondelete="restrict")
     due_date = fields.Date()
     signoff_ids = fields.One2many("ea.audit.signoff", "file_item_id", string="Sign-offs")
     tool_outputs_missing = fields.Char(
         string="Missing tool output", compute="_compute_tool_outputs_missing", compute_sudo=True,
     )
+    team_user_ids = fields.Many2many(
+        "res.users", string="Team members", compute="_compute_team_user_ids", compute_sudo=True,
+        help="Who a task can go to: the accepted members of the team, the quality reviewer apart.",
+    )
+    conditional_trigger = fields.Char(string="Comes onto the file when", compute="_compute_conditional_trigger")
 
     _engagement_template_uniq = models.Constraint(
         "UNIQUE(engagement_id, template_id)", "This task is already on the file.",
@@ -66,6 +72,19 @@ class FileItem(models.Model):
     def _compute_tool_outputs_missing(self):
         for item in self:
             item.tool_outputs_missing = item._ea_tool_output_missing() or False
+
+    @api.depends("engagement_id")
+    def _compute_team_user_ids(self):
+        for item in self:
+            item.team_user_ids = item.engagement_id.team_member_ids.filtered(
+                lambda member: member.state == "accepted" and member.team_role != EQR_ROLE
+            ).user_id
+
+    @api.depends_context("lang")
+    @api.depends("code", "conditional")
+    def _compute_conditional_trigger(self):
+        for item in self:
+            item.conditional_trigger = trigger_text(item.code, self.env.lang) if item.conditional else False
 
     # ------------------------------------------------------------------
     # Extension points of the later addons. Until they are installed, the
@@ -168,9 +187,33 @@ class FileItem(models.Model):
             codes = items.filtered(lambda i: i.engagement_id == engagement).mapped("code")
             engagement._ea_log(
                 "tasks_assigned" if user else "tasks_unassigned",
-                "%s task(s) %s as %s: %s" % (len(codes), "assigned" if user else "unassigned", role, ", ".join(codes[:12])),
+                ("%d task(s) assigned as %s: %s" if user else "%d task(s) unassigned as %s: %s") % (len(codes), role, ", ".join(codes[:12])),
             )
         return len(items)
+
+    def set_due_date(self, due_date):
+        """The task's own deadline (F011), whoever may hand out its work may set it. Empty goes
+        back to the deadline of its phase."""
+        self.ensure_one()
+        Engagement = self.env["ea.audit.engagement"]
+        Engagement._ea_require_write()
+        item = self.sudo()
+        engagement = item.engagement_id.with_env(self.env)
+        engagement._ea_require_access()
+        engagement._ea_assert_mutable()
+        if engagement.sudo()._ea_acts_as_eqr(self.env.user):
+            raise rule_error(self.env, "eqr-read-only")
+        if not can_review(self.env.user._ea_firm_role()):
+            raise rule_error(self.env, "requires-senior")
+        value = fields.Date.to_date(due_date) if due_date else False
+        if value == item.due_date:
+            return True
+        item.due_date = value
+        item.engagement_id._ea_log(
+            "due_date_set" if value else "due_date_cleared",
+            "%s due date set to %s" % (item.code, value.strftime("%d/%m/%Y")) if value else "%s due date cleared" % item.code,
+        )
+        return True
 
     def action_sign(self, requested):
         """Port of signDocument: the refusals in the same order, each its code.

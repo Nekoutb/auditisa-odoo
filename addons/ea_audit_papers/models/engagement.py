@@ -59,19 +59,12 @@ class Engagement(models.Model):
         """setPredecessorTaskActiveTx: P1.2 follows P1.1's profile. A task that holds work
         stays active."""
         self.ensure_one()
-        if active:
-            self._ea_ensure_task("P1.2")
-            return
-        item = self.env["ea.audit.file.item"].sudo().search(
-            [("engagement_id", "=", self.id), ("code", "=", "P1.2"), ("conditional", "=", False)], limit=1,
-        )
-        if not item:
-            return
-        holds_work = (
+        self._ea_set_task_active("P1.2", active)
+
+    def _ea_task_holds_work(self, item):
+        return bool(
             item.signoff_ids
             or any(not is_blank(v) for v in item._ea_paper()._ea_values().values())
             or self.env["ea.audit.task.attachment"].sudo().search_count([("file_item_id", "=", item.id)])
             or self.env["ea.audit.section.conclusion"].sudo().search_count([("file_item_id", "=", item.id)])
         )
-        if not holds_work:
-            item.conditional = True

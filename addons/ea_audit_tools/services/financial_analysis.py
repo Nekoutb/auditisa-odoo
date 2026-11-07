@@ -10,6 +10,7 @@ import re
 
 from ._js import add_utc, cell_str, date_utc, js_date_parse, js_round, js_trim
 from .amount import amount_or
+from .fs_captions import bilan_totals, income_from_tb
 
 DEFS = [
     {
@@ -133,22 +134,22 @@ DEFS = [
     },
     {
         "key": "roa",
-        "label": "Return on assets",
-        "labelFr": "Rentabilité de l'actif",
+        "label": "Return on assets (after tax)",
+        "labelFr": "Rentabilité de l'actif (après impôt)",
         "group": "Investment",
         "unit": "%",
     },
     {
         "key": "roe",
-        "label": "Return on equity",
-        "labelFr": "Rentabilité des capitaux propres",
+        "label": "Return on equity (after tax)",
+        "labelFr": "Rentabilité des capitaux propres (après impôt)",
         "group": "Investment",
         "unit": "%",
     },
     {
         "key": "roce",
-        "label": "Return on capital employed",
-        "labelFr": "Rentabilité des capitaux engagés",
+        "label": "Return on capital employed (after tax)",
+        "labelFr": "Rentabilité des capitaux engagés (après impôt)",
         "group": "Investment",
         "unit": "%",
     },
@@ -157,7 +158,39 @@ DEFS = [
 #: The commentary keys the financial-analysis grid saves under index "FA".
 RATIO_KEYS = [d["key"] for d in DEFS]
 
-GL_NOTE = "Requires the General Ledger (last 3 months) — upload it in the GL Analyzer · Nécessite le grand livre (3 derniers mois) — à importer dans l'analyseur de grand livre"  # i18n: term
+#: What each ratio divides by what, for the tooltip (F064): key -> (English, French).
+FORMULAS = {
+    "current": ("Current assets / current liabilities", "Actif circulant et trésorerie-actif / passif circulant et trésorerie-passif"),
+    "quick": ("(Current assets - inventory) / current liabilities", "(Actif circulant et trésorerie-actif - stocks) / passif circulant et trésorerie-passif"),
+    "cash": ("Cash (class 5, debit balance) / current liabilities", "Trésorerie-actif (classe 5 débitrice) / passif circulant et trésorerie-passif"),
+    "wc": ("Current assets - current liabilities", "Actif circulant et trésorerie-actif - passif circulant et trésorerie-passif"),
+    "dso": ("Trade receivables (41) / sales of the last 3 months (70, from the ledger) x 90", "Créances clients (41) / ventes des 3 derniers mois (70, au grand livre) x 90"),
+    "dpo": ("Trade payables (40) / purchases of the last 3 months (60-62, from the ledger) x 90", "Dettes fournisseurs (40) / achats des 3 derniers mois (60-62, au grand livre) x 90"),
+    "inv_turn": ("Cost of sales (60) / inventory (3)", "Coût des ventes (60) / stocks (3)"),
+    "rec_turn": ("Revenue (class 7) / trade receivables (41)", "Produits (classe 7) / créances clients (41)"),
+    "pay_turn": ("Cost of sales (60) / trade payables (40)", "Coût des ventes (60) / dettes fournisseurs (40)"),
+    "asset_turn": ("Revenue (class 7) / total net assets", "Produits (classe 7) / total actif net"),
+    "gross": ("(Revenue - cost of sales) / revenue", "(Produits - coût des ventes) / produits"),
+    "ebitda": ("(Result before tax + 67 + 68 and 69) / revenue", "(Résultat avant impôt + 67 + 68 et 69) / produits"),
+    "net": ("Result before tax (class 7 - class 6) / revenue", "Résultat avant impôt (classe 7 - classe 6) / produits"),
+    "gearing": ("Financial debt (16-18) / (financial debt + equity)", "Dettes financières (16-18) / (dettes financières + capitaux propres)"),
+    "dte": ("Financial debt (16-18) / equity", "Dettes financières (16-18) / capitaux propres"),
+    "equity_ratio": ("Equity / total net assets", "Capitaux propres / total actif net"),
+    "int_cover": ("(Result before tax + finance costs 67) / finance costs 67", "(Résultat avant impôt + charges financières 67) / charges financières 67"),
+    "roa": ("Net result after tax (89 deducted) / total net assets", "Résultat net après impôt (89 déduit) / total actif net"),
+    "roe": ("Net result after tax (89 deducted) / equity", "Résultat net après impôt (89 déduit) / capitaux propres"),
+    "roce": ("(Net result after tax + finance costs 67) / (equity + financial debt)", "(Résultat net après impôt + charges financières 67) / (capitaux propres + dettes financières)"),
+}
+
+GL_NOTE = "Requires the General Ledger (last 3 months): upload it in the GL Analyzer."  # i18n: term
+GL_NOTE_FR = "Nécessite le grand livre (3 derniers mois) : à importer dans l'analyseur de grand livre."
+PRIOR_NOTE = "Prior year: blank because the prior-year General Ledger is not imported."  # i18n: term
+PRIOR_NOTE_FR = "Exercice précédent : vide car le grand livre N-1 n'est pas importé."
+# A ledger with nothing to divide by leaves a blank too; the source does not say why (F064).
+NO_SALES_NOTE = "No sales (70) in the ledger's last 3 months: nothing to divide by."  # i18n: term
+NO_SALES_NOTE_FR = "Aucune vente (70) dans les 3 derniers mois du grand livre : rien à diviser."
+NO_PURCHASES_NOTE = "No purchases (60-62) in the ledger's last 3 months: nothing to divide by."  # i18n: term
+NO_PURCHASES_NOTE_FR = "Aucun achat (60-62) dans les 3 derniers mois du grand livre : rien à diviser."
 
 _DMY = re.compile(r"([0-9]{1,2})[/.-]([0-9]{1,2})[/.-]([0-9]{4})")
 _EQUITY = re.compile(r"1[0-5]")
@@ -189,34 +222,36 @@ def aggregate(rows, override_of=None):
 
     inventory = total(bucket(starts("3"), lambda c: c == "F"))
     cash = total(bucket(lambda r: r["account"].startswith("5") and not r["account"].startswith("59"), lambda c: c == "C"))
-    class4_debit = total(lambda r: r["account"].startswith("4") and r["value"] > 0)
-    class4_credit = -total(lambda r: r["account"].startswith("4") and r["value"] < 0)
+    bilan = bilan_totals(rows)
     revenue = -total(starts("7"))
     expenses = total(starts("6"))
     cogs = total(bucket(starts("60"), lambda c: c.startswith("VA")))
     finance_costs = total(starts("67"))
     depreciation = total(starts("68", "69"))
     pbt = revenue - expenses
-    # A pre-closing TB carries the year's result in classes 6/7, not in a 13x account:
-    # equity then includes that result, or every equity ratio is misstated.
+    # Net of income tax (89), as the SAD reads it. A pre-closing TB carries the year's result
+    # in classes 6/7, not in a 13x account: equity then includes that result, or every equity
+    # ratio is misstated.
+    net_result = income_from_tb(rows)["netResult"]
     has_result_account = any(r["account"].startswith("13") and r["value"] != 0 for r in rows)
     payables_bucket = bucket(starts("40"), lambda c: c == "N")
     return {
         "inventory": inventory,
         "receivables": total(bucket(starts("41"), lambda c: c == "E")),
         "cash": cash,
-        "currentAssets": inventory + class4_debit + max(cash, 0),
-        "currentLiabilities": class4_credit + max(-cash, 0),
+        "currentAssets": bilan["currentAssets"],
+        "currentLiabilities": bilan["currentLiabilities"],
         "payables": -total(lambda r: r["value"] < 0 and payables_bucket(r)),
-        "equity": -total(lambda r: _EQUITY.match(r["account"]) is not None) + (0 if has_result_account else pbt),
+        "equity": -total(lambda r: _EQUITY.match(r["account"]) is not None) + (0 if has_result_account else net_result),
         "financialDebt": -total(lambda r: _DEBT.match(r["account"]) is not None),
-        "totalAssets": total(starts("2")) + inventory + class4_debit + max(cash, 0),
+        "totalAssets": bilan["totalAssets"],
         "revenue": revenue,
         "expenses": expenses,
         "cogs": cogs,
         "financeCosts": finance_costs,
         "depreciation": depreciation,
         "pbt": pbt,
+        "netResult": net_result,
         "ebitda": pbt + finance_costs + depreciation,
     }
 
@@ -252,9 +287,9 @@ def ratio_set(b):
         "dte": _div(b["financialDebt"], b["equity"]),
         "equity_ratio": _pct(b["equity"], b["totalAssets"]),
         "int_cover": None if no_pl else _div(b["pbt"] + b["financeCosts"], b["financeCosts"]),
-        "roa": None if no_pl else _pct(b["pbt"], b["totalAssets"]),
-        "roe": None if no_pl else _pct(b["pbt"], b["equity"]),
-        "roce": None if no_pl else _pct(b["pbt"] + b["financeCosts"], b["equity"] + b["financialDebt"]),
+        "roa": None if no_pl else _pct(b["netResult"], b["totalAssets"]),
+        "roe": None if no_pl else _pct(b["netResult"], b["equity"]),
+        "roce": None if no_pl else _pct(b["netResult"] + b["financeCosts"], b["equity"] + b["financialDebt"]),
     }
 
 
@@ -332,7 +367,12 @@ def financial_analysis(tb_rows, period_end, prior_rows=None, overrides=(), gl_ma
         row = dict(definition)
         row["current"] = cur.get(definition["key"])
         row["prior"] = pri.get(definition["key"])
-        if definition["key"] in ("dso", "dpo") and sales_3m is None:
-            row["note"] = GL_NOTE
+        row["formula"], row["formulaFr"] = FORMULAS[definition["key"]]
+        if definition["key"] in ("dso", "dpo"):
+            # A blank here is always explained (F064).
+            row["note"] = "%s%s" % ("%s " % GL_NOTE if sales_3m is None else "", PRIOR_NOTE)
+            row["noteFr"] = "%s%s" % ("%s " % GL_NOTE_FR if sales_3m is None else "", PRIOR_NOTE_FR)
+            if sales_3m is not None and row["current"] is None:
+                row["blank"], row["blankFr"] = (NO_SALES_NOTE, NO_SALES_NOTE_FR) if definition["key"] == "dso" else (NO_PURCHASES_NOTE, NO_PURCHASES_NOTE_FR)
         rows.append(row)
-    return {"rows": rows, "glAvailable": sales_3m is not None, "periodEnd": period_end}
+    return {"rows": rows, "glAvailable": sales_3m is not None, "periodEnd": period_end, "totalAssets": js_round(current_b["totalAssets"])}

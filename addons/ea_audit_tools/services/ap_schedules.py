@@ -20,10 +20,11 @@ def index_resolver(overrides):
     return index_of
 
 
-def ap_lead_schedules(rows, prior_closings, overrides=()):
+def ap_lead_schedules(rows, prior_closings, overrides=(), source=None):
     """``rows``: {account, name, opening, closing} sorted by account; ``prior_closings``:
-    {account: closing} of a valid prior-year TB. An empty map means the current TB's
-    opening balances stand in (UAT B81). Accounts with no index are left out."""
+    {account: closing} of the prior year. An empty map means the current TB's opening
+    balances stand in (UAT B81). Accounts with no index are left out. ``source`` names
+    where the prior year comes from (F012)."""
     index_of = index_resolver(overrides)
     use_prior_tb = bool(prior_closings)
     by_index = {}
@@ -60,6 +61,6 @@ def ap_lead_schedules(rows, prior_closings, overrides=()):
             "prior": prior,
             "movement": closing - prior,
             "variancePct": _pct(closing - prior, prior),
-            "priorSource": "prior_year_tb" if use_prior_tb else "opening",
+            "priorSource": source or ("prior_year_tb" if use_prior_tb else "opening"),
         })
     return out

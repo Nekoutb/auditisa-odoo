@@ -65,10 +65,16 @@
                 <header>
                     <button name="action_open_tb_import" type="object" string="Import a trial balance" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_tool_lead" type="object" string="Lead schedules"/>
+                    <button name="action_export_tb_template" type="object" string="Download the template"/>
                 </header>
                 <sheet>
                     <div class="o_ea_title">Trial balance</div>
                     <div class="o_ea_sub"><field name="display_name" readonly="1"/></div>
+                    <div class="o_ea_banner" invisible="not tb_invalid_reason">
+                        <b>The last import is invalid and does not drive the file:</b>
+                        <field name="tb_invalid_reason" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_banner" invisible="not tb_openings_warning"><field name="tb_openings_warning" readonly="1" nolabel="1"/></div>
                     <div class="o_ea_cards">
                         <div class="o_ea_card">
                             <div class="o_ea_card_label">Version in force</div>

@@ -132,7 +132,7 @@ class Engagement(models.Model):
         ras.signatures = signatures
         self._ea_log(
             "ras_signature_cleared" if clear else "ras_signed",
-            "P7.2 summary: %s %s by %s" % (role, "withdrawn" if clear else "signed", user.name),
+            ("P7.2 summary: %s withdrawn by %s" if clear else "P7.2 summary: %s signed by %s") % (role, user.name),
         )
         as_root._ea_ras_touch_paper()
         return self.ea_ras_view()

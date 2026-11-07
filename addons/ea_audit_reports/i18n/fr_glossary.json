@@ -1,5 +1,9 @@
 {
 "Engagement archived": "Mission archivée",
+"Lock status": "Verrouillage",
+"Locked: archived": "Verrouillé : archivé",
+"Open": "Ouvert",
+"Open the conclusion": "Ouvrir la conclusion",
 "The file is frozen: no further change is possible. It remains available and can be rolled forward from the list of archived engagements.": "Le dossier est figé : plus aucune modification n'est possible. Il reste consultable et peut être reconduit depuis la liste des missions archivées.",
 "While off, every article number printed or shown carries (to validate).": "Tant que cette option est désactivée, chaque numéro d'article imprimé ou affiché porte la mention (à valider)."
 }

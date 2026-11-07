@@ -7,6 +7,7 @@
     "author": "AuditISA",
     "depends": ["ea_audit_core", "ea_audit_papers", "web"],
     "data": [
+        "data/french_refresh.xml",
         "security/ir.model.access.csv",
         "security/ea_audit_tools_rules.xml",
         "data/ea.audit.assertion.csv",

@@ -16,6 +16,10 @@
                     <div class="o_ea_title">Journal entries: risk-directed selection</div>
                     <div class="o_ea_sub">Every line carries the stated criterion that chose it. Nothing here is drawn at random (ISA 240 ¶32).</div>
                     <field name="engagement_id" invisible="1"/>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label">Prerequisites</div>
+                        <field name="prerequisites_html" nolabel="1"/>
+                    </div>
                     <group>
                         <group>
                             <field name="dataset_id" options="{'no_create': True, 'no_open': True}"/>

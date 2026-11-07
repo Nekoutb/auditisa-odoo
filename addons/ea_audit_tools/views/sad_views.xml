@@ -58,6 +58,7 @@
                             <field name="tax_rate"/>
                             <field name="turnaround_factual"/>
                             <field name="turnaround_judgmental"/>
+                            <field name="income_after_tax_tb"/>
                             <field name="income_after_tax"/>
                         </group>
                         <group string="Qualitative factors">
@@ -125,11 +126,22 @@
                             <div class="o_ea_card_note"><field name="mat_overall_note"/></div>
                         </div>
                         <div class="o_ea_card">
+                            <div class="o_ea_card_label">Performance materiality</div>
+                            <field name="mat_performance_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="mat_performance_note"/></div>
+                        </div>
+                        <div class="o_ea_card">
                             <div class="o_ea_card_label">Nominal (clearly trivial)</div>
                             <field name="mat_trivial_label" class="o_ea_card_value"/>
                             <div class="o_ea_card_note"><field name="mat_trivial_note"/></div>
                         </div>
+                        <div class="o_ea_card">
+                            <div class="o_ea_card_label">Income after tax</div>
+                            <field name="sad_income_label" class="o_ea_card_value"/>
+                            <div class="o_ea_card_note"><field name="sad_income_note"/></div>
+                        </div>
                     </div>
+                    <p class="o_ea_legend" invisible="not b5_threshold_note"><field name="b5_threshold_note" readonly="1"/></p>
                     <div class="o_ea_panel">
                         <div class="o_ea_card_label mb-2">Team conclusion</div>
                         <field name="sad_concl_text" readonly="1" nolabel="1"/>

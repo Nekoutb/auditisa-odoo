@@ -33,7 +33,7 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" editable="bottom">
                 <field name="group" readonly="1" optional="hide"/>
-                <field name="label" readonly="1"/>
+                <field name="label" readonly="1" widget="ea_formula_label"/>
                 <field name="current" readonly="1" invisible="not has_current"/>
                 <field name="has_current" column_invisible="1"/>
                 <field name="prior" readonly="1" invisible="not has_prior"/>
@@ -43,6 +43,7 @@
                 <field name="unit" readonly="1"/>
                 <field name="commentary"/>
                 <field name="note" readonly="1" optional="show"/>
+                <field name="formula" readonly="1" optional="hide"/>
             </list>
         </field>
     </record>

@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.errors import rule_error as core_rule_error
 
@@ -181,6 +181,24 @@ class FileItem(models.Model):
     """The core's hooks on a task: tool-fed outputs, and the P6.2 refusal."""
 
     _inherit = "ea.audit.file.item"
+
+    scope_chip = fields.Char(string="Scope", compute="_compute_scope_chip", compute_sudo=True)
+    scope_reason = fields.Char(string="Why", compute="_compute_scope_chip", compute_sudo=True)
+
+    @api.depends_context("lang")
+    def _compute_scope_chip(self):
+        """F083: a form left out of this file says so, and why."""
+        chip = self.env._("Out of scope")
+        scoped_out = {}
+        for engagement in self.engagement_id:
+            scoped_out[engagement.id] = engagement._ea_e4_out_of_scope()
+        for item in self:
+            if item.conditional:
+                item.scope_chip, item.scope_reason = chip, self.env._("Conditional paper: nothing on this file calls for it yet")
+            elif item in scoped_out.get(item.engagement_id.id, ()):
+                item.scope_chip, item.scope_reason = chip, self.env._("No procedure designed on its accounts in S5.5")
+            else:
+                item.scope_chip = item.scope_reason = False
 
     def _ea_tool_output_present(self, output):
         self.ensure_one()

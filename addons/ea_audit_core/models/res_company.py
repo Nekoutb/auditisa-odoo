@@ -18,6 +18,19 @@ class ResCompany(models.Model):
         return (self.env.company.sudo().ea_allowed_email_domains or "").split()
 
     @api.model
+    def ea_set_firm_language(self, code):
+        """The language of the firm: new accounts take it (firm administrator)."""
+        if self.env.user._ea_firm_role() != "firm_admin":
+            raise rule_error(self.env, "forbidden")
+        if code not in ("fr_FR", "en_US"):
+            raise rule_error(self.env, "forbidden")
+        partner = self.env.company.sudo().partner_id
+        if partner.lang != code:
+            partner.lang = code
+            self.env["ea.audit.activity"]._ea_record(False, "firm_language_set", "Firm language set to %s" % code)
+        return code
+
+    @api.model
     def ea_set_allowed_domains(self, raw):
         """Replace the firm's list (firm administrator). An empty input clears it."""
         if self.env.user._ea_firm_role() != "firm_admin":

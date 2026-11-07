@@ -26,10 +26,18 @@ def fcfa(amount, lang=None):
     """formatFCFA: no decimals, grouped as the language groups."""
     if amount is None or amount is False:
         return "—"
-    negative = amount < 0
+    negative = round(amount) < 0  # -0.4 reads 0, never -0 (F019)
     if lang is None:
         lang = _get_lang(inspect.currentframe().f_back)
     return "%s%s FCFA" % ("-" if negative else "", grouped(abs(amount), lang))
+
+
+def decimal_label(value, lang=None):
+    """A number with its decimal mark as the language writes it: 0,3 in French, 0.3 in English."""
+    if lang is None:
+        lang = _get_lang(inspect.currentframe().f_back)
+    text = str(value)
+    return text.replace(".", ",") if (lang or "").startswith("fr") else text
 
 
 def french_date(value):
@@ -105,6 +113,13 @@ class Assertion(models.Model):
     sequence = fields.Integer(default=10, readonly=True)
 
     _code_uniq = models.Constraint("UNIQUE(code)", "An assertion code is unique.")
+
+    @api.depends("code", "name")
+    @api.depends_context("lang")
+    def _compute_display_name(self):
+        """F041: a picker and a tag read "C — Completeness", never the bare letter."""
+        for assertion in self:
+            assertion.display_name = "%s — %s" % (assertion.code, assertion.name)
 
     @api.model
     def _ea_from_codes(self, codes):

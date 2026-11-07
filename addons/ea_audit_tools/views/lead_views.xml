@@ -93,6 +93,16 @@
                 <sheet>
                     <div class="o_ea_title">Lead schedules</div>
                     <div class="o_ea_sub"><field name="display_name" readonly="1"/> · <field name="lead_prior_label" readonly="1"/></div>
+                    <div class="o_ea_banner" invisible="not tb_invalid_reason">
+                        <b>The last import is invalid and does not drive the file:</b>
+                        <field name="tb_invalid_reason" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="o_ea_banner" invisible="not tb_openings_warning"><field name="tb_openings_warning" readonly="1" nolabel="1"/></div>
+                    <div class="o_ea_panel">
+                        <div class="o_ea_card_label mb-1">Checks</div>
+                        <field name="lead_checks_html" nolabel="1"/>
+                        <div class="o_ea_legend mt-1" invisible="not lead_hidden_note"><field name="lead_hidden_note" readonly="1" nolabel="1"/></div>
+                    </div>
                     <div class="o_ea_panel">
                         <field name="lead_schedule_ids" readonly="1" nolabel="1">
                             <list decoration-warning="alerts">

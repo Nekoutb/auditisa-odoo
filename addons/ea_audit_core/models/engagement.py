@@ -2,6 +2,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 
+from .client import FRAMEWORK_SELECTION
 from ..services.email_domains import email_domain_allowed, is_valid_email
 from ..services.errors import rule_error, gate_label
 from ..services.file_scope import code_in_scope, nature_has_audit_programme
@@ -37,7 +38,7 @@ EDITION_SELECTION = [("current", "ISA in force"), ("revised_2026", "ISA revised 
 _ENGINE_FIELDS = {
     "phase", "standards_edition", "edition_reason", "archived_at", "complexity",
     # set at creation; the period and set-up screen (F073) brings their own rules
-    "client_id", "fiscal_year", "period_end", "duration_months", "nature", "framework", "first_year",
+    "client_id", "fiscal_year", "period_end", "duration_months", "nature", "first_year",
 }
 _CREATOR_SEAT = {"manager": "manager", "senior": "senior", "staff": "staff"}
 
@@ -70,7 +71,9 @@ class Engagement(models.Model):
     period_end = fields.Date(required=True, tracking=True)
     duration_months = fields.Integer(string="Duration (months)")
     nature = fields.Selection(NATURE_SELECTION, tracking=True)
-    framework = fields.Char(tracking=True)
+    framework = fields.Selection(FRAMEWORK_SELECTION, string="Reporting framework", tracking=True)
+    planned_report_date = fields.Date(tracking=True)
+    planned_agm_date = fields.Date(string="Planned general meeting", tracking=True)
     report_language = fields.Selection(
         REPORT_LANGUAGE_SELECTION, string="Report language", required=True, default=lambda self: self._ea_firm_language(),
         tracking=True, help="The language of the audit report, the letters, the legal documents and the exports of this engagement.",
@@ -85,6 +88,7 @@ class Engagement(models.Model):
     file_item_ids = fields.One2many("ea.audit.file.item", "engagement_id", string="File index")
     engagement_partner_id = fields.Many2one(
         "res.users", string="Engagement partner", compute="_compute_engagement_partner", compute_sudo=True,
+        search="_search_engagement_partner",
     )
     partner_delegate_id = fields.Many2one(
         "res.users", string="Partner delegate", ondelete="set null", tracking=True, index="btree_not_null",
@@ -102,6 +106,14 @@ class Engagement(models.Model):
             seats = engagement.team_member_ids.filtered(lambda m: m.team_role == "partner" and m.state != "declined")
             accepted = seats.filtered(lambda m: m.state == "accepted")
             engagement.engagement_partner_id = (accepted or seats)[:1].user_id
+
+    def _search_engagement_partner(self, operator, value):
+        """F076: the partner's portfolio. Same seat as the compute, in the files the reader can open."""
+        return [("team_member_ids", "any", [("team_role", "=", "partner"), ("state", "!=", "declined"), ("user_id", operator, value)])]
+
+    def init(self):
+        # F073: free text from before the list; the same value, so the export and the letters read the same.
+        self.env.cr.execute("UPDATE ea_audit_engagement SET framework = 'SYSCOHADA' WHERE framework IS DISTINCT FROM 'SYSCOHADA'")
 
     @api.depends("phase")
     @api.depends_context("lang")
@@ -189,6 +201,8 @@ class Engagement(models.Model):
                 author_id=user.partner_id.id,
                 email_from=user.email_formatted or user.name,
             )
+            # the firm's audit log (F027), which outlives the file and does not depend on the team
+            self.env["ea.audit.activity"]._ea_record(engagement, action, summary)
 
     # ------------------------------------------------------------------
     # Extension points of the later addons. A hook that reads output a later
@@ -330,6 +344,23 @@ class Engagement(models.Model):
             return False
         Item.create({"engagement_id": self.id, "template_id": template.id, "conditional": False})
         return True
+
+    def _ea_task_holds_work(self, item):
+        """Extension point of ea_audit_papers: answers, evidence or a conclusion on the task."""
+        return bool(item.signoff_ids)
+
+    def _ea_set_task_active(self, code, active):
+        """A conditional task comes onto the file when its trigger answers yes, and leaves it
+        again when the answer changes, unless it already holds work."""
+        self.ensure_one()
+        if active:
+            self._ea_ensure_task(code)
+            return
+        item = self.env["ea.audit.file.item"].sudo().search(
+            [("engagement_id", "=", self.id), ("code", "=", code), ("conditional", "=", False)], limit=1,
+        )
+        if item and not self._ea_task_holds_work(item):
+            item.conditional = True
 
     def apply_complexity(self, complexity, first_audit=False):
         """Port of applyComplexity: record the classification, add what it brings."""
