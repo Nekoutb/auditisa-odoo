@@ -5,3 +5,5 @@ from . import breakglass
 from . import release
 from . import provision_job
 from . import rollout
+from . import addon
+from . import firm_addons

@@ -21,11 +21,14 @@
         "wizard/onboarding_views.xml",
         "wizard/firm_action_views.xml",
         "wizard/settings_views.xml",
+        "views/addon_views.xml",
+        "views/supervision_views.xml",
         "views/menus.xml",
     ],
     "assets": {
         "web.assets_backend": [
             "ea_platform_admin/static/src/scss/platform.scss",
+            "ea_platform_admin/static/src/scss/supervision.scss",
         ],
     },
     "installable": True,

@@ -17,3 +17,9 @@ access_link_operator,platform.first.admin.link operator,model_platform_first_adm
 access_offboard_owner,platform.offboard.wizard owner,model_platform_offboard_wizard,group_platform_owner,1,1,1,1
 access_destroy_owner,platform.destroy.wizard owner,model_platform_destroy_wizard,group_platform_owner,1,1,1,1
 access_settings_owner,platform.settings owner,model_platform_settings,group_platform_owner,1,1,1,1
+access_addon_viewer,platform.addon viewer,model_platform_addon,group_platform_viewer,1,0,0,0
+access_release_addon_viewer,platform.release.addon viewer,model_platform_release_addon,group_platform_viewer,1,0,0,0
+access_firm_addon_viewer,platform.firm.addon viewer,model_platform_firm_addon,group_platform_viewer,1,0,0,0
+access_toggle_operator,platform.addon.toggle.wizard operator,model_platform_addon_toggle_wizard,group_platform_operator,1,1,1,1
+access_onboarding_addon_operator,platform.onboarding.addon operator,model_platform_onboarding_addon,group_platform_operator,1,1,1,1
+access_catalogue_owner,platform.catalogue.wizard owner,model_platform_catalogue_wizard,group_platform_owner,1,1,1,1

@@ -31,6 +31,7 @@ HEARTBEAT_FIELDS = {
     "engagements_active", "last_backup_at", "last_backup_ok", "last_restore_test_at", "last_restore_test_ok",
     "cert_expires_on", "mail_enabled", "update_state", "update_release", "export_state", "export_at",
     "export_sha256", "ssh_sessions_24h", "last_ssh_at", "odoo_version",
+    "addons_reported_at", "addons_refused_count", "addons_unknown_count",
 }
 
 
