@@ -129,7 +129,7 @@ def test_free_text_as_an_add_on_rejects_the_heartbeat(value):
 
 
 def test_every_add_on_a_release_may_carry_fits_in_a_heartbeat():
-    codes = [f"ea_client_{n:02d}_{'x' * 26}" for n in range(addons.MAX_OPTIONAL)]
+    codes = [f"ea_client_{n:02d}_{'x' * 27}" for n in range(addons.MAX_OPTIONAL)]
     assert all(addons.CODE.match(code) and len(code) == 40 for code in codes)
     body = json.dumps(figures(
         addons_on=codes, addons_refused=1000, export_sha256="a" * 64, update_release="a" * 40, release="a" * 40,
