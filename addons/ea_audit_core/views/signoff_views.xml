@@ -54,8 +54,15 @@
                         <field name="allow_sole_practitioner" readonly="1"/>
                         <field name="allowed_email_domains"/>
                         <field name="firm_language"/>
-                        <field name="require_partner_on_ids" widget="many2many_tags"/>
                     </group>
+                    <separator string="Partner sign-off required on"/>
+                    <field name="require_partner_on_ids" nolabel="1" context="{'ea_task_with_title': True}" options="{'no_create': True}">
+                        <list default_order="matrix_order">
+                            <field name="code"/>
+                            <field name="title"/>
+                            <field name="phase"/>
+                        </list>
+                    </field>
                 </sheet>
             </form>
         </field>
@@ -65,7 +72,7 @@
         <field name="model">ea.audit.signoff.task.rule</field>
         <field name="arch" type="xml">
             <list editable="bottom">
-                <field name="template_id"/>
+                <field name="template_id" context="{'ea_task_with_title': True}" options="{'no_create': True}"/>
                 <field name="min_preparer"/>
                 <field name="min_reviewer"/>
                 <field name="partner_required"/>
