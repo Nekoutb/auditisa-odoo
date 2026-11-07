@@ -98,12 +98,14 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
    ```
    staging-rebuild --dump /var/lib/auditisa-staging/incoming/anon-<réf>.tar --sha256 <empreinte>
    ```
-   Lisez, puis ajoutez `--apply`. **Prévenez d'abord quiconque teste : leur base est mise de côté.**
+   **Lisez ce qu'elle affiche d'abord : ce qui a été saisi sur le staging depuis la dernière reconstruction, avec les noms des clients et des missions. La reconstruction le remplace** (ces saisies ne restent que dans la base mise de côté). Puis ajoutez `--apply`, et `--accept-loss <nombre>` s'il y a des saisies : le nombre est celui affiché, et s'il a changé, le script s'arrête de nouveau. Prévenez quiconque teste.
 5. **Pipeline > Noter le staging reconstruit.**
 
 **Ce que fait `--apply`, dans l'ordre :** vérifie le fichier ; sauvegarde la base en service dans `/var/backups/odoo/before-rebuild/` ; restaure sous un autre nom ; vérifie que la copie est bien anonymisée ; applique les protections et les relit une à une (courriel coupé, bandeau affiché, mots de passe effacés, tâches planifiées coupées, `web.base.url` figé, pas de heartbeat au nom d'un cabinet). **Si une seule ne tient pas, la copie est supprimée et rien d'autre n'a changé.** Puis il échange les noms, met les modules à jour, replace votre connexion par `/root/add_contact_user.py` et démarre Odoo. Si Odoo ne répond pas, l'ancienne base revient seule.
 
 **Revenir à la base d'avant :** `staging-rebuild --rollback <date> --apply`. La date est affichée à la fin de la reconstruction. L'ancienne base, ses fichiers et la sauvegarde restent jusqu'à ce que vous les supprimiez.
+
+**Avec les déploiements :** ce script n'utilise jamais `ea_audit_staging_prev` ni `ea_audit_staging_new`. Il s'arrête si `ea_audit_staging_new` existe (déploiement en cours), et prévient si `ea_audit_staging_prev` existe, car `fd_switch.sh` s'arrête alors.
 
 ### 6. Ce que garantit l'anonymiseur, et ce qu'il ne garantit pas
 
@@ -239,12 +241,14 @@ The firm's server does all the sensitive work. The admin Odoo asks and logs, no 
    ```
    staging-rebuild --dump /var/lib/auditisa-staging/incoming/anon-<ref>.tar --sha256 <digest>
    ```
-   Read it, then add `--apply`. **First tell anyone who is testing: their database is set aside.**
+   **Read what it shows first: what has been entered on staging since the last rebuild, with the names of clients and engagements. The rebuild replaces it** (those records stay only in the database kept aside). Then add `--apply`, and `--accept-loss <count>` if there are any: the count is the one shown, and if it has changed the script stops again. Tell anyone who is testing.
 5. **Pipeline > Record staging rebuilt.**
 
 **What `--apply` does, in order:** checks the file; backs up the database in service to `/var/backups/odoo/before-rebuild/`; restores under another name; checks the copy really is anonymised; applies the safeguards and reads each back (mail off, band on, passwords cleared, crons off, `web.base.url` frozen, no heartbeat in a firm's name). **If one does not hold, the copy is dropped and nothing else has changed.** Then it swaps the names, updates the addons, re-seats your login with `/root/add_contact_user.py` and starts Odoo. If Odoo does not answer, the old database comes back by itself.
 
 **Back to the previous database:** `staging-rebuild --rollback <date> --apply`. The date is printed at the end of the rebuild. The old database, its files and the backup stay until you remove them.
+
+**With deployments:** this script never uses `ea_audit_staging_prev` or `ea_audit_staging_new`. It stops if `ea_audit_staging_new` exists (a deployment is under way), and warns if `ea_audit_staging_prev` exists, as `fd_switch.sh` then stops.
 
 ### 6. What the anonymiser guarantees, and what it does not
 

@@ -67,7 +67,7 @@ PURGE = {
     "res_users_settings_embedded_action", "res_users_settings_volumes", "sms_sms", "sms_tracker", "snailmail_letter",
     "spreadsheet_dashboard_share",
     # The firm's own logs and alerts name people and addresses.
-    "ea_audit_firm_log", "ea_firm_access_log", "ea_audit_notification", "ea_audit_notice",
+    "ea_audit_firm_log", "ea_firm_access_log", "ea_audit_notification", "ea_audit_notice", "ea_audit_activity",
 }
 
 # Column rules in firm tables, first match wins. The default is `text`: replaced.

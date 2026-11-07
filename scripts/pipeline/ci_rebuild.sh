@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ci_rebuild.sh: proves staging-rebuild.sh on throwaway databases. On a server, as root.
 #
-#   ci_rebuild.sh DUMP TOOL_DIR
+#   [SOURCE_DB=name] ci_rebuild.sh DUMP TOOL_DIR
 #
 # DUMP is a file made by firm-anon-export. The target is ci_pipeline_stg, a copy of SOURCE_DB (default
 # uat_copy, read only), in a configuration of its own, on a port of its own. The live staging is not touched.
@@ -22,6 +22,8 @@ q() { runuser -u postgres -- psql -X -At -v ON_ERROR_STOP=1 -d "$1" -c "$2"; }
 trap 'rm -rf "$WORK"' EXIT
 
 ADDONS=$(sed -n 's/^addons_path *= *//p' /etc/odoo/uat_copy.conf)
+# The release under test, when given: otherwise the copy's own.
+ADDONS=${ADDONS_OVERRIDE:-$ADDONS}
 cat > "$WORK/odoo.conf" <<EOF
 [options]
 db_host = False
@@ -54,7 +56,11 @@ fresh_target() {
   q postgres "CREATE DATABASE $TARGET OWNER odoo" >/dev/null
   runuser -u postgres -- pg_dump --format=custom --no-owner --no-acl "$SOURCE" | runuser -u postgres -- pg_restore --no-owner --role=odoo -d "$TARGET" >/dev/null 2>&1
   q "$TARGET" "UPDATE res_partner SET name = 'Marqueur avant reconstruction' WHERE id = (SELECT min(id) FROM res_partner)" >/dev/null
+  # What a person enters on staging: this is what must be warned about.
+  q "$TARGET" "INSERT INTO ea_audit_client (name, create_uid, write_uid, create_date, write_date, company_id, active)
+    SELECT 'CLIENT SAISI SARL', 2, 2, now() at time zone 'utc', now() at time zone 'utc', (SELECT min(id) FROM res_company), true" >/dev/null
 }
+accept_count() { sed -n 's/.*--accept-loss \([0-9]*\)\..*/\1/p; s/.*--accept-loss \([0-9]*\)$/\1/p' "$1" | head -n 1; }
 mark() { q "$TARGET" "SELECT count(*) FROM res_partner WHERE name = 'Marqueur avant reconstruction'"; }
 
 DIGEST=$(sha256sum "$DUMP" | cut -d' ' -f1)
@@ -73,6 +79,17 @@ fresh_target
 BEFORE=$(q "$TARGET" "SELECT md5(string_agg(id::text || name, ',' ORDER BY id)) FROM res_partner")
 if RUN --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/dry" 2>&1; then ok "the dry run passes"; else bad "the dry run failed"; cut -c1-160 "$WORK/dry"; fi
 grep -q 'DRY RUN' "$WORK/dry" && ok "it says it is a dry run" || bad "no mention of a dry run"
+grep -q 'CLIENT SAISI SARL' "$WORK/dry" && ok "it names the client entered on staging" || bad "the client entered on staging is not named"
+grep -q 'REPLACES THESE' "$WORK/dry" && ok "it warns about what would be replaced" || bad "no warning"
+grep -q 'ea_audit_staging_prev\|staging_prev' "$WORK/dry" && ok "it says the earlier deployment's database stops the next switch" || ok "no earlier deployment's database here"
+LOSS=$(accept_count "$WORK/dry")
+[ -n "$LOSS" ] && ok "it gives the count to accept: $LOSS" || bad "no count to accept"
+if RUN --apply --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/noaccept" 2>&1; then bad "--apply went through without accepting the loss"; else ok "--apply alone is refused"; fi
+if RUN --apply --accept-loss 1 --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/wrongaccept" 2>&1; then bad "--apply went through with the wrong count"; else ok "--apply with the wrong count is refused"; fi
+[ "$(mark)" = 1 ] && ok "and staging is untouched" || bad "staging changed"
+q postgres "CREATE DATABASE ${DEPLOY_NEW_DB_TEST:=ci_pipeline_fake_new}" >/dev/null
+if DEPLOY_NEW_DB=$DEPLOY_NEW_DB_TEST RUN --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/deploying" 2>&1; then bad "went on during a deployment"; else ok "it stops while a deployment's new database exists"; fi
+q postgres "DROP DATABASE $DEPLOY_NEW_DB_TEST" >/dev/null
 [ "$BEFORE" = "$(q "$TARGET" "SELECT md5(string_agg(id::text || name, ',' ORDER BY id)) FROM res_partner")" ] && ok "the dry run changes nothing" || bad "the dry run changed the database"
 
 echo "== a copy that is not anonymised is refused, and staging stays"
@@ -81,19 +98,19 @@ runuser -u postgres -- pg_dump --format=custom --no-owner --no-acl "$SOURCE" > "
 echo '{"anonymised":true,"survivors":0,"figures_unchanged":true,"files_included":false}' > "$FAKE/ANON-REPORT.json"
 (cd "$FAKE" && sha256sum db.dump ANON-REPORT.json > SHA256SUMS)
 tar -cf "$WORK/fake.tar" -C "$FAKE" db.dump ANON-REPORT.json SHA256SUMS
-if RUN --apply --dump "$WORK/fake.tar" --sha256 "$(sha256sum "$WORK/fake.tar" | cut -d' ' -f1)" > "$WORK/fake.out" 2>&1; then bad "a real dump with a forged report went through"; else ok "a real dump with a forged report is refused: $(grep -m1 ERROR "$WORK/fake.out" | cut -c1-90)"; fi
+if RUN --apply --accept-loss "$LOSS" --dump "$WORK/fake.tar" --sha256 "$(sha256sum "$WORK/fake.tar" | cut -d' ' -f1)" > "$WORK/fake.out" 2>&1; then bad "a real dump with a forged report went through"; else ok "a real dump with a forged report is refused: $(grep -m1 ERROR "$WORK/fake.out" | cut -c1-90)"; fi
 [ "$(mark)" = 1 ] && ok "staging is untouched" || bad "staging changed"
 [ -z "$(q postgres "SELECT 1 FROM pg_database WHERE datname LIKE '${TARGET}\_new\_%'")" ] && ok "the new database is gone" || bad "the new database stayed"
 
 echo "== a safeguard that does not hold: the copy goes, staging stays"
 sed 's/^UPDATE ir_cron SET active = false;$/UPDATE ir_cron SET active = true;/' "$SCRIPT" > "$WORK/broken.sh"
-if bash "$WORK/broken.sh" --db "$TARGET" --no-service --apply --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/broken.out" 2>&1; then bad "a failed safeguard went through"; else ok "$(grep -m1 ERROR "$WORK/broken.out" | cut -c1-90)"; fi
+if bash "$WORK/broken.sh" --db "$TARGET" --no-service --apply --accept-loss "$LOSS" --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/broken.out" 2>&1; then bad "a failed safeguard went through"; else ok "$(grep -m1 ERROR "$WORK/broken.out" | cut -c1-90)"; fi
 [ "$(mark)" = 1 ] && ok "staging is untouched" || bad "staging changed"
 [ -z "$(q postgres "SELECT 1 FROM pg_database WHERE datname LIKE '${TARGET}\_new\_%'")" ] && ok "the new database is gone" || bad "the new database stayed"
 
 echo "== for real, on the throwaway database"
 free -m | sed -n 2p
-if RUN --apply --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/apply" 2>&1; then ok "the rebuild finished"; else bad "the rebuild failed"; fi
+if RUN --apply --accept-loss "$LOSS" --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/apply" 2>&1; then ok "the rebuild finished"; else bad "the rebuild failed"; fi
 cut -c1-150 "$WORK/apply"
 [ "$(mark)" = 0 ] && ok "the database is the anonymised copy" || bad "the old database is still there"
 STAMP=$(sed -n 's/.*--rollback \([0-9]\{14\}\) --apply.*/\1/p' "$WORK/apply" | tail -n 1)
@@ -112,7 +129,15 @@ n=$(q "$TARGET" "SELECT count(*) FROM ea_audit_team_member m JOIN res_users u ON
 [ "$n" -gt 0 ] && ok "the owner is seated on $n engagements" || bad "the owner is on no engagement"
 n=$(q "$TARGET" "SELECT count(*) FROM ea_audit_engagement")
 [ "$n" -gt 0 ] && ok "$n engagements came through" || bad "no engagement"
+expect "public sign-up closed" "SELECT value FROM ir_config_parameter WHERE key = 'auth_signup.invitation_scope'" b2b
+expect "demo and portal logins off" "SELECT count(*) FROM res_users WHERE active AND login IN ('demo', 'portal')" 0
+expect "no alias domain" "SELECT count(*) FROM mail_alias_domain" 0
+expect "the client entered before is not in the copy" "SELECT count(*) FROM ea_audit_client WHERE name = 'CLIENT SAISI SARL'" 0
 if grep -qiE 'password *=|admin_passwd|db_password' "$WORK/apply"; then bad "the output mentions a password"; else ok "the output holds no password"; fi
+RUN --dump "$DUMP" --sha256 "$DIGEST" > "$WORK/dry2" 2>&1
+grep -q 'since the last rebuild' "$WORK/dry2" && grep -q '^\[staging-rebuild\]   none' "$WORK/dry2" && ok "just after a rebuild, nothing new to warn about" || { bad "the count after a rebuild"; cut -c1-120 "$WORK/dry2" | head -n 12; }
+BEFORE_DB=$(q postgres "SELECT datname FROM pg_database WHERE datname LIKE '${TARGET}\_before\_%' LIMIT 1")
+[ "$(q "$BEFORE_DB" "SELECT count(*) FROM ea_audit_client WHERE name = 'CLIENT SAISI SARL'")" = 1 ] && ok "the client entered before stays in the database kept aside" || bad "kept-aside database"
 
 echo "== rollback"
 if [ -n "$STAMP" ] && RUN --rollback "$STAMP" --apply > "$WORK/rollback" 2>&1; then ok "rollback runs"; else bad "rollback"; cut -c1-150 "$WORK/rollback" 2>/dev/null; fi

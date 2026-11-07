@@ -21,7 +21,7 @@ bad() { FAIL=$((FAIL + 1)); printf 'FAIL  %s\n' "$*"; }
 pg() { runuser -u postgres -- psql -X -q -v ON_ERROR_STOP=1 "$@"; }
 q() { runuser -u postgres -- psql -X -At -v ON_ERROR_STOP=1 -d "$1" -c "$2"; }
 cleanup() {
-  for db in $(q postgres "SELECT datname FROM pg_database WHERE datname LIKE 'ci\_pipeline\_%' AND datname <> 'ci_pipeline_cp' AND datname <> 'ci_pipeline_stg'"); do
+  for db in $(q postgres "SELECT datname FROM pg_database WHERE datname LIKE 'ci\_pipeline\_%' AND datname NOT IN ('ci_pipeline_cp', 'ci_pipeline_stg', 'ci_pipeline_base')"); do
     q postgres "DROP DATABASE \"$db\" WITH (FORCE)" >/dev/null
   done
   rm -rf "$PREFIX"

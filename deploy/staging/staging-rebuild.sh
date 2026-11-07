@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # staging-rebuild.sh: rebuilds the staging database from a firm's anonymised copy. On the staging server.
 #
-#   staging-rebuild --dump FILE --sha256 DIGEST [--db NAME] [--apply] [--no-service]
+#   staging-rebuild --dump FILE --sha256 DIGEST [--db NAME] [--apply [--accept-loss N]] [--no-service]
 #   staging-rebuild --rollback STAMP [--db NAME] [--apply] [--no-service]
 #   staging-rebuild --help
 #
@@ -9,11 +9,20 @@
 #   --sha256 DIGEST   the digest the Pipeline screen shows
 #   --db NAME         the database to replace (default: the db_name of /etc/odoo/odoo.conf)
 #   --apply           really do it. Without it, this only checks the file and says what would happen
+#   --accept-loss N   needed by --apply when people have entered records on staging since the last rebuild.
+#                     N is the count the dry run shows: the rebuild replaces those records. A different count
+#                     means more was entered since you read it, and it stops again
 #   --no-service      leave the Odoo service alone: for a throwaway database only (names ci_pipeline_*)
 #   --rollback STAMP  puts back the database this script kept aside as <db>_before_<STAMP>
 #
 # Refuses to run on a firm's server, on a file whose digest differs, on a file that holds anything but the
 # three expected members or that does not read as anonymised, and on a database another agent uses.
+#
+# Before anything else, dry run or not, it lists on screen what people have entered on staging since the
+# last rebuild, because a rebuild replaces it. They stay in the database kept aside, not in the new one.
+#
+# It never uses the names a deployment uses (fd_switch.sh stops while ea_audit_staging_prev exists): what it
+# keeps aside is <db>_before_<stamp>. It stops if a deployment's ea_audit_staging_new exists.
 #
 # In order, and the database in service is not touched until step 6:
 #   1. checks the file: digest, members, inner digests, the anonymiser's report
@@ -37,7 +46,7 @@ cd /
 log() { printf '[staging-rebuild] %s\n' "$*"; }
 warn() { printf '[staging-rebuild] WARNING: %s\n' "$*" >&2; }
 die() { printf '[staging-rebuild] ERROR: %s\n' "$*" >&2; exit 1; }
-usage() { sed -n '2,31p' "$0"; exit 64; }
+usage() { sed -n '2,40p' "$0"; exit 64; }
 
 : "${ODOO_CONF:=/etc/odoo/odoo.conf}"
 : "${ODOO_PY:=/opt/odoo19/venv/bin/python}"
@@ -50,14 +59,17 @@ usage() { sed -n '2,31p' "$0"; exit 64; }
 : "${HEALTH_PORT:=8069}"
 : "${HEALTH_ATTEMPTS:=60}"
 : "${LOCK_FILE:=/run/lock/staging-rebuild.lock}"
+: "${DEPLOY_NEW_DB:=ea_audit_staging_new}"
+: "${DEPLOY_PREV_DB:=ea_audit_staging_prev}"
 
-DUMP="" DIGEST="" DB="" APPLY=0 NO_SERVICE=0 ROLLBACK=""
+DUMP="" DIGEST="" DB="" APPLY=0 NO_SERVICE=0 ROLLBACK="" ACCEPT_LOSS=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --dump) DUMP=${2:?}; shift ;;
     --sha256) DIGEST=${2:?}; shift ;;
     --db) DB=${2:?}; shift ;;
     --apply) APPLY=1 ;;
+    --accept-loss) ACCEPT_LOSS=${2:?}; shift ;;
     --no-service) NO_SERVICE=1 ;;
     --rollback) ROLLBACK=${2:?}; shift ;;
     -h|--help) usage ;;
@@ -156,6 +168,48 @@ if not (report.get("anonymised") is True and report.get("survivors") == 0
 PY
 log "file checked: digest, members, inner digests, report"
 
+db_exists "$DB" || die "there is no database $DB to replace"
+if db_exists "$DEPLOY_NEW_DB"; then die "$DEPLOY_NEW_DB exists: a deployment is under way. Finish it first"; fi
+if db_exists "$DEPLOY_PREV_DB"; then
+  warn "$DEPLOY_PREV_DB exists, from an earlier deployment: the next fd_switch.sh stops until it is removed. This script neither uses nor removes it"
+fi
+
+# What a rebuild replaces. Rows made by a person: Odoo's own loading and the demo script's shell run as user 1.
+new_records() {
+  local since models table n
+  since=$(q "SELECT value FROM ir_config_parameter WHERE key = 'ea_audit.rebuilt_at'" "$DB")
+  if [ -n "$since" ]; then
+    log "records entered on $DB since the last rebuild, $since UTC:"
+  else
+    since=1970-01-01
+    log "records entered on $DB, which has never been rebuilt by this script (the demonstration's own users count):"
+  fi
+  LOSS=0
+  models=$(q "SELECT t.table_name FROM ir_model m JOIN information_schema.tables t ON t.table_schema = 'public' AND t.table_name = replace(m.model, '.', '_')
+               WHERE NOT m.transient AND (m.model LIKE 'ea.audit.%' OR m.model IN ('res.partner', 'res.users'))
+                 AND EXISTS (SELECT 1 FROM information_schema.columns c WHERE c.table_schema = 'public' AND c.table_name = t.table_name AND c.column_name = 'create_uid')
+                 AND EXISTS (SELECT 1 FROM information_schema.columns c WHERE c.table_schema = 'public' AND c.table_name = t.table_name AND c.column_name = 'create_date')
+               ORDER BY 1" "$DB")
+  for table in $models; do
+    n=$(q "SELECT count(*) FROM \"$table\" WHERE create_uid IS NOT NULL AND create_uid <> 1 AND create_date > '$since'" "$DB")
+    if [ "$n" != 0 ]; then
+      LOSS=$((LOSS + n))
+      printf '  %8s  %s\n' "$n" "$table"
+    fi
+  done
+  if [ "$LOSS" = 0 ]; then
+    log "  none"
+    return 0
+  fi
+  log "clients and engagements among them, with who entered them (20 at most):"
+  q "SELECT '  ' || left(c.name, 60) || ' | ' || u.login || ' | ' || c.create_date::date FROM ea_audit_client c JOIN res_users u ON u.id = c.create_uid
+      WHERE c.create_uid <> 1 AND c.create_date > '$since' ORDER BY c.create_date DESC LIMIT 20" "$DB"
+  q "SELECT '  ' || left(e.name, 60) || ' | ' || u.login || ' | ' || e.create_date::date FROM ea_audit_engagement e JOIN res_users u ON u.id = e.create_uid
+      WHERE e.create_uid <> 1 AND e.create_date > '$since' ORDER BY e.create_date DESC LIMIT 20" "$DB"
+  warn "THE REBUILD REPLACES THESE $LOSS RECORDS. They stay only in the database kept aside. To go ahead: --apply --accept-loss $LOSS"
+}
+new_records
+
 if [ "$APPLY" != 1 ]; then
   log "DRY RUN: nothing has changed. With --apply:"
   log "  back up $DB to $BACKUP_DIR"
@@ -165,9 +219,11 @@ if [ "$APPLY" != 1 ]; then
   exit 0
 fi
 
+if [ "$LOSS" != 0 ] && [ "$ACCEPT_LOSS" != "$LOSS" ]; then
+  die "$LOSS records would be replaced and --accept-loss says '${ACCEPT_LOSS:-nothing}': nothing has changed"
+fi
 exec 9>"$LOCK_FILE"
 flock -n 9 || die "another rebuild is running"
-db_exists "$DB" || die "there is no database $DB to replace"
 
 # From here on, a failure before the swap only has to remove the new database.
 PHASE=restoring
@@ -229,16 +285,21 @@ INSERT INTO ir_config_parameter (key, value) VALUES
     ('web.base.url', :'base_url'),
     ('web.base.url.freeze', 'True'),
     ('database.secret', :'secret'),
-    ('database.uuid', :'uuid')
+    ('database.uuid', :'uuid'),
+    ('auth_signup.invitation_scope', 'b2b'),
+    ('ea_audit.rebuilt_at', :'rebuilt_at')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
-DELETE FROM ir_config_parameter WHERE key IN ('mail.catchall.domain', 'mail.catchall.alias', 'mail.bounce.alias', 'mail.default.from', 'ea_firm_agent.heartbeat_url', 'ea_firm_agent.slug', 'ea_firm_agent.mail_tested');
+DELETE FROM ir_config_parameter WHERE key IN ('mail.catchall.domain', 'mail.catchall.alias', 'mail.bounce.alias', 'mail.default.from', 'ea_firm_agent.heartbeat_url', 'ea_firm_agent.slug', 'ea_firm_agent.mail_tested', 'ea_firm_agent.first_admin_hash', 'ea_firm_agent.first_admin_expires', 'ea_firm_agent.mail_gate');
+DELETE FROM mail_alias_domain;
+UPDATE res_users SET active = false WHERE login IN ('demo', 'portal');
 DELETE FROM auth_totp_device;
 DELETE FROM res_users_apikeys;
 UPDATE res_users SET password = NULL, totp_secret = NULL;
 SQL
 )
 printf '%s\n' "$SAFEGUARDS" | runuser -u postgres -- psql -X -q -v ON_ERROR_STOP=1 -d "$NEW_DB" \
-  -v base_url="$HOST_URL" -v secret="$(openssl rand -hex 32)" -v uuid="$(cat /proc/sys/kernel/random/uuid)"
+  -v base_url="$HOST_URL" -v secret="$(openssl rand -hex 32)" -v uuid="$(cat /proc/sys/kernel/random/uuid)" \
+  -v rebuilt_at="$(date -u '+%Y-%m-%d %H:%M:%S')"
 
 verify_safeguards() { # database: every safeguard read back. Exits on the first that does not hold.
   local db=$1 n
@@ -251,6 +312,9 @@ verify_safeguards() { # database: every safeguard read back. Exits on the first 
   [ "$(q "SELECT value FROM ir_config_parameter WHERE key = 'web.base.url.freeze'" "$db")" = True ] || die "safeguard: web.base.url is not frozen"
   n=$(q "SELECT count(*) FROM ir_config_parameter WHERE key IN ('ea_firm_agent.heartbeat_url', 'ea_firm_agent.slug')" "$db"); [ "$n" = 0 ] || die "safeguard: a heartbeat setting remains"
   n=$(q "SELECT count(*) FROM auth_totp_device" "$db"); [ "$n" = 0 ] || die "safeguard: a two-factor device remains"
+  n=$(q "SELECT count(*) FROM mail_alias_domain" "$db"); [ "$n" = 0 ] || die "safeguard: a mail alias domain remains"
+  n=$(q "SELECT count(*) FROM res_users WHERE active AND login IN ('demo', 'portal')" "$db"); [ "$n" = 0 ] || die "safeguard: a demo or portal login is on"
+  [ "$(q "SELECT value FROM ir_config_parameter WHERE key = 'auth_signup.invitation_scope'" "$db")" = b2b ] || die "safeguard: public sign-up is open"
   n=$(q "SELECT count(*) FROM res_users_apikeys" "$db"); [ "$n" = 0 ] || die "safeguard: an API key remains"
 }
 verify_safeguards "$NEW_DB"
@@ -286,6 +350,8 @@ SEATED=$(runuser -u "$ODOO_USER" -- "$ODOO_PY" "$ODOO_BIN" shell -c "$ODOO_CONF"
   < <(cat "$CONTACT_SCRIPT") 2>/dev/null | grep '^RESULT' || true)
 printf '%s\n' "$SEATED" | grep -E '^RESULT visible [1-9]' >/dev/null || die "the owner's login was not re-seated on any engagement"
 log "owner's login re-seated: $(printf '%s' "$SEATED" | tr '\n' ' ' | cut -c1-120)"
+# Setting a password makes Odoo try a "password changed" mail. With no server it goes nowhere: its row goes too.
+q "DELETE FROM mail_mail" "$DB" >/dev/null
 verify_safeguards "$DB"
 n=$(q "SELECT count(*) FROM res_users WHERE password IS NOT NULL AND login <> 'contact@cm-ea.com'" "$DB")
 [ "$n" = 0 ] || die "safeguard: $n passwords other than the owner's"
