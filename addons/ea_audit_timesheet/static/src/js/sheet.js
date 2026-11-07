@@ -48,6 +48,11 @@ export class EaTimesheet extends Component {
         return this.data.projects.filter((p) => p.kind === "mission");
     }
 
+    /** The select's own value is set before its options exist: each option says whether it is the one. */
+    isChosen(project) {
+        return String(project.id) === this.state.form.project;
+    }
+
     get firmEngagements() {
         return this.data.projects.filter((p) => p.kind === "firm");
     }

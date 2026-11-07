@@ -35,13 +35,13 @@
                     <select t-model="state.form.project" t-on-change="onProject">
                         <option value="">Choose…</option>
                         <optgroup t-if="missions.length" label="My engagements">
-                            <option t-foreach="missions" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="String(project.id) === state.form.project" t-esc="project.label"/>
+                            <option t-foreach="missions" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="isChosen(project)" t-esc="project.label"/>
                         </optgroup>
                         <optgroup t-if="firmEngagements.length" label="Other engagements of the firm">
-                            <option t-foreach="firmEngagements" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="String(project.id) === state.form.project" t-esc="project.label"/>
+                            <option t-foreach="firmEngagements" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="isChosen(project)" t-esc="project.label"/>
                         </optgroup>
                         <optgroup t-if="internal.length" label="Internal projects">
-                            <option t-foreach="internal" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="String(project.id) === state.form.project" t-esc="project.label"/>
+                            <option t-foreach="internal" t-as="project" t-key="project.id" t-att-value="project.id" t-att-selected="isChosen(project)" t-esc="project.label"/>
                         </optgroup>
                     </select>
                 </label>
