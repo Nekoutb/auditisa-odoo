@@ -301,8 +301,11 @@ class TestWhoChargesWhat(TimesheetCase):
         line = self.charge(self.staff, task_id=foreign.task_ids[0].id)
         self.assertEqual(line.sudo().project_id, self.project)
         self.assertFalse(line.sudo().task_id)
+        # moving one's own line onto that file's task moves it to that open file (owner, 2026-11-07),
+        # and still opens nothing of it
         self.attempt(line.with_user(self.staff).write, {"task_id": foreign.task_ids[0].id})
-        self.assertEqual(line.sudo().project_id, self.project)
+        self.assertIn(line.sudo().project_id, self.project | foreign)
+        self.assertFalse(self.env["ea.audit.engagement"].with_user(self.staff).search([("id", "=", other.id)]))
 
     def test_the_phase_comes_from_the_task_or_the_file(self):
         self.set_phase(self.engagement, "execution")

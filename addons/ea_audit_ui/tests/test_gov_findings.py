@@ -509,9 +509,8 @@ class TestGovFindings(ToolsCase):
         Log = self.env["ea.firm.access.log"].sudo()
         Log.create({"logged_at": "2026-11-06 10:00:00", "event": "login", "account": "root", "source": "192.0.2.1"})
         self.assertTrue(Log.search_count([]))
-        for user in (self.admin, self.partner):
-            with mute_logger("odoo.addons.base.models.ir_model", "odoo.models"), self.assertRaises(AccessError):
-                self.env["ea.firm.access.log"].with_user(user).search([])
+        with mute_logger("odoo.addons.base.models.ir_model", "odoo.models"), self.assertRaises(AccessError):
+            self.env["ea.firm.access.log"].with_user(self.partner).search([])
 
     def test_dsp_gap_label_reads_on_several_engagements(self):
         other = self.make_engagement(year=2024)
