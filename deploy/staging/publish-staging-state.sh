@@ -102,8 +102,11 @@ if [ -r "$HB_ENV" ] && [ -r "$HB_TOKEN" ]; then
       "$release" "$used" "$total" "$available" "$([ "$mail" = true ] && echo false || echo true)")
     timestamp=$(date +%s)
     digest=$(printf '%s' "$body" | sha256sum | cut -d' ' -f1)
-    signature=$(printf 'ea-heartbeat-v1\n%s\n%s\n%s' "$SLUG" "$timestamp" "$digest" \
-      | openssl dgst -sha256 -hmac "$(cat "$HB_TOKEN")" -r | cut -d' ' -f1)
+    # Python, because a key passed to openssl would sit on a command line, where `ps` shows it.
+    signature=$(printf 'ea-heartbeat-v1\n%s\n%s\n%s' "$SLUG" "$timestamp" "$digest" | /opt/odoo19/venv/bin/python -I -c '
+import hashlib, hmac, sys
+token = open(sys.argv[1], encoding="ascii").read().strip().encode()
+print(hmac.new(token, sys.stdin.buffer.read(), hashlib.sha256).hexdigest())' "$HB_TOKEN")
     if curl -fsS --max-time 20 -o /dev/null -H 'Content-Type: application/json' -H "X-EA-Firm: $SLUG" \
       -H "X-EA-Timestamp: $timestamp" -H "X-EA-Signature: $signature" --data-binary "$body" "$HEARTBEAT_URL"; then
       touch "$HB_STAMP"
