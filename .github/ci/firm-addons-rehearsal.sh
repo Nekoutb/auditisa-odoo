@@ -277,4 +277,46 @@ ask "{\"addons\":[\"$SAMPLE\",\"ea_client_addon_dormant\"]}"
 ok "an add-on new in the release installs on request, once the release is signed in"
 ask "{\"addons\":[\"$SAMPLE\"]}"
 
+
+echo "== a support visit, from the spool to the named read-only account, through root's script"
+HASH=$(printf 'rehearsal-link-token-000000000000000000000' | sha256sum | cut -d' ' -f1)
+ask "{\"support_visit\":{\"id\":41,\"minutes\":30,\"token_sha256\":\"$HASH\",\"operator\":\"Rehearsal Operator\",\"reason\":\"Check the lead schedule'); import os; ('\"}}"
+cat "$WORK/last.log"
+[ "$(as_db "SELECT state FROM ea_firm_support_visit WHERE platform_ref = 41" "$DB")" = open ] || fail "the visit did not open"
+ok "root's script opened the visit asked in the signed answer"
+[ "$(as_db "SELECT reason FROM ea_firm_support_visit WHERE platform_ref = 41" "$DB")" = "Check the lead schedule'); import os; ('" ] || fail "the reason was not kept as text"
+ok "the reason stays text: nothing in it runs"
+[ "$(as_db "SELECT active FROM res_users WHERE login = 'auditisa-support'" "$DB")" = t ] || fail "the support account is not on"
+ok "the named support account is on"
+grep -q "support-asked-open" "$ROOT/var/log/auditisa-firm/break-glass.log" || fail "root wrote nothing in the access log"
+[ "$(as_db "SELECT count(*) FROM ea_firm_access_log WHERE event = 'support-visit-open'" "$DB")" = 1 ] || fail "Odoo's access log has no entry"
+ok "the visit is in the firm's access log"
+result=$(odoo_shell <<'PY'
+from odoo.exceptions import AccessError
+support = env["res.users"].search([("login", "=", "auditisa-support")])
+senv = env(user=support)
+partner = env["res.partner"].sudo().search([], limit=1)
+senv["res.partner"].browse(partner.id).web_read({"name": {}})
+try:
+    senv["res.partner"].sudo().browse(partner.id).write({"name": "changed"})
+    print("RESULT write allowed")
+except AccessError:
+    print("RESULT write refused")
+visit = env["ea.firm.support.visit"].search([("platform_ref", "=", 41)])
+print("RESULT trace", visit.trace_ids.mapped("model"))
+env.cr.rollback()
+PY
+)
+printf '%s\n' "$result"
+grep -q "RESULT write refused" <<<"$result" || fail "the support account could write"
+grep -q "RESULT trace \['res.partner'\]" <<<"$result" || fail "the screen opened was not traced"
+ok "the support account reads, cannot write, and what it opens is traced"
+ask '{"support_visit":{"id":42,"minutes":999,"token_sha256":"00","operator":"x","reason":"y"}}'
+[ -z "$(as_db "SELECT 1 FROM ea_firm_support_visit WHERE platform_ref = 42" "$DB")" ] || fail "a malformed visit was opened"
+ok "a malformed visit request opens nothing"
+ask '{"support_visit_end":41}'
+[ "$(as_db "SELECT state FROM ea_firm_support_visit WHERE platform_ref = 41" "$DB")" = ended ] || fail "the visit did not end"
+[ "$(as_db "SELECT active FROM res_users WHERE login = 'auditisa-support'" "$DB")" = f ] || fail "the support account is still on"
+ok "the platform ends the visit and the account goes off"
+
 echo "firm-addons-rehearsal: $passed checks passed. The folder $WORK stays for the caller, with the database."
