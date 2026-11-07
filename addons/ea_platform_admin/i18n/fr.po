@@ -3372,6 +3372,9 @@ msgstr "à vérifier chez le fournisseur"
 msgid "your public IP address"
 msgstr "votre adresse IP publique"
 
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_addons.py:0
 msgid "%(code)s is a base feature: it is always on, for every firm."
 msgstr "%(code)s est une fonction de base : elle est toujours active, pour tous les cabinets."
 
