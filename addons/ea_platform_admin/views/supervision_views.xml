@@ -76,14 +76,12 @@
                                 <div class="ea-sup-title">Domains</div>
                                 <div class="ea-sup-pair">
                                     <span>Platform</span>
-                                    <a t-if="record.site_url.raw_value" t-att-href="record.site_url.raw_value" target="_blank" rel="noopener"
-                                       t-on-click.stop=""><field name="platform_host"/></a>
-                                    <field t-else="" name="platform_host"/>
+                                    <a t-if="record.site_url.raw_value" t-att-href="record.site_url.raw_value" target="_blank" rel="noopener"><field name="platform_host"/></a>
+                                    <t t-else=""><field name="platform_host"/></t>
                                 </div>
                                 <div class="ea-sup-pair">
                                     <span>Own</span>
-                                    <a t-if="record.own_site_url.raw_value" t-att-href="record.own_site_url.raw_value" target="_blank" rel="noopener"
-                                       t-on-click.stop=""><field name="custom_domain"/></a>
+                                    <a t-if="record.own_site_url.raw_value" t-att-href="record.own_site_url.raw_value" target="_blank" rel="noopener"><field name="custom_domain"/></a>
                                     <t t-elif="record.custom_domain.raw_value"><field name="custom_domain"/></t>
                                     <em t-else="">none</em>
                                 </div>
@@ -104,12 +102,12 @@
                                 <div class="ea-sup-pair"><span>Release</span><field name="addon_release" class="ea-mono"/></div>
                                 <div class="ea-sup-pair">
                                     <span>Add-ons on</span>
-                                    <field t-if="record.addons_on_summary.raw_value" name="addons_on_summary"/>
+                                    <div t-if="record.addons_on_summary.raw_value"><field name="addons_on_summary"/></div>
                                     <em t-else="">none</em>
                                 </div>
                                 <div class="ea-sup-pair" t-if="record.addons_asked_summary.raw_value !== record.addons_on_summary.raw_value">
                                     <span>Asked</span>
-                                    <field t-if="record.addons_asked_summary.raw_value" name="addons_asked_summary"/>
+                                    <div t-if="record.addons_asked_summary.raw_value"><field name="addons_asked_summary"/></div>
                                     <em t-else="">none</em>
                                 </div>
                                 <div t-if="record.addons_differ_count.raw_value" class="ea-sup-bad">Not as asked</div>
@@ -119,7 +117,7 @@
                                 <div class="ea-sup-pair"><span>Heartbeat</span><field name="last_heartbeat_at" widget="remaining_days"/></div>
                                 <div class="ea-sup-pair">
                                     <span>Backup</span>
-                                    <field name="backup_state" t-attf-class="ea-sup-backup-#{record.backup_state.raw_value}"/>
+                                    <div t-attf-class="ea-sup-backup-#{record.backup_state.raw_value}"><field name="backup_state"/></div>
                                 </div>
                                 <div class="ea-sup-pair"><span>Last backup</span><field name="last_backup_at" widget="remaining_days"/></div>
                                 <div class="ea-sup-pair"><span>Restore test</span><field name="restore_state"/></div>

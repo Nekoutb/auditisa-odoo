@@ -34,7 +34,6 @@ class PlatformFirm(models.Model):
     provider_label = fields.Char("Provider", compute="_compute_supervision")
     site_url = fields.Char("Site on the platform address", compute="_compute_supervision")
     own_site_url = fields.Char("Site on the firm's own domain", compute="_compute_supervision")
-    server_plan = fields.Char("Server plan", compute="_compute_supervision")
     backup_state = fields.Selection(BACKUP_STATES, "Backup", compute="_compute_supervision")
     restore_state = fields.Selection(BACKUP_STATES, "Restore test", compute="_compute_supervision")
 
@@ -62,7 +61,6 @@ class PlatformFirm(models.Model):
             # A simulation firm has no server behind it: its address leads nowhere.
             firm.site_url = f"https://{firm.platform_host}" if firm.platform_host and not firm.is_simulation else False
             firm.own_site_url = f"https://{firm.custom_domain}" if firm.custom_domain and not firm.is_simulation else False
-            firm.server_plan = firm.size
             firm.backup_state = health.backup_state(
                 firm.last_backup_at, firm.last_backup_ok if firm.last_backup_at else None, now,
             )
@@ -188,7 +186,6 @@ class PlatformFirm(models.Model):
 
     # ------------------------------------------------------------------ supervision
 
-    @api.model
     def action_export_supervision(self):
         """Selected firms, or all that the current search shows, as an Excel file."""
         firms = self
@@ -204,9 +201,6 @@ class PlatformFirm(models.Model):
             "type": "ir.actions.act_window", "res_model": "platform.firm", "res_id": self.id,
             "view_mode": "form", "views": [(False, "form")], "target": "current",
         }
-
-    def action_open_addon_page(self):
-        return self.action_open_firm()
 
 
 def _restore_state(firm, now):

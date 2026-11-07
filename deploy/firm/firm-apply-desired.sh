@@ -46,11 +46,12 @@ addons_good = (
     isinstance(addons, list) and len(addons) <= 24
     and all(isinstance(c, str) and re.fullmatch(r"[a-z][a-z0-9_]{2,39}", c) for c in addons)
 )
-print("none" if addons is None else "asked" if addons_good else "bad")
 print(" ".join(addons) if addons_good else "")
+# Last, and never empty: $(...) drops trailing newlines, and `read` fails on a missing line.
+print("none" if addons is None else "asked" if addons_good else "bad")
 PY
 ) || fl_die "the spool file cannot be read"
-{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; read -r ADDONS_STATE; read -r ADDONS; } <<<"$parsed"
+{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r ADDONS_STATE; } <<<"$parsed"
 
 apply_allowlist() {
   [ -n "$ALLOW" ] || return 0

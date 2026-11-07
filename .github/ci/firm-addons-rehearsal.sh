@@ -2,22 +2,16 @@
 # Rehearses the firm's side of the client add-ons with the real scripts, a real Odoo and a real
 # throwaway database, as root on a machine that has both. Not part of CI: it needs root and PostgreSQL.
 #
-#   firm-addons-rehearsal.sh SOURCE_DIR [HEARTBEAT_URL ADMIN_TOKEN_FILE SLUG]
+#   firm-addons-rehearsal.sh SOURCE_DIR
 #
 # SOURCE_DIR holds addons/ and deploy/. The database must be named ci_tenants*. What is real: the
 # scripts, firm-apply-desired, firm-addons, firm-update, odoo-bin, module installs, database copies
 # and renames. What is replaced, by small shims listed below: systemctl and curl for the local Odoo,
 # because no service may be touched on the machine this runs on, and firm-backup, which needs
 # storage. No real firm server, nginx, systemd unit, restic or provider is involved.
-#
-# With a heartbeat address, it also sends real signed heartbeats to a running admin Odoo and follows
-# its answers all the way down.
 set -euo pipefail
 
 SOURCE=${1:?source folder}
-HEARTBEAT_URL=${2:-}
-TOKEN_FILE=${3:-}
-SLUG=${4:-}
 DB=${CI_FIRM_DB:-ci_tenants_firm}
 [[ $DB == ci_tenants* ]] || { echo "refusing: $DB is not a ci_tenants database" >&2; exit 2; }
 WORK=/tmp/ci_tenants_rehearsal
@@ -50,8 +44,11 @@ export ODOO_CONF=$WORK/odoo.conf
 
 mkdir -p "$ROOT/etc/auditisa-firm/secrets" "$ROOT/var/lib/auditisa-firm/status" "$ROOT/var/lib/auditisa-firm/spool" \
   "$ROOT/var/log/auditisa-firm" "$ROOT/opt/auditisa-firm/bin" "$ROOT/opt/auditisa-odoo/releases/rel-one"
-cp -r "$SOURCE/addons" "$ROOT/opt/auditisa-odoo/releases/rel-one/addons"
-rm -rf "$ROOT/opt/auditisa-odoo/releases/rel-one/addons/ea_platform_admin"
+# A release holds base addons too, so a request can name one. The test never installs those.
+mkdir -p "$ROOT/opt/auditisa-odoo/releases/rel-one/addons"
+for addon in ea_audit_addons ea_audit_firm_agent ea_client_addon_sample ea_audit_reports; do
+  cp -r "$SOURCE/addons/$addon" "$ROOT/opt/auditisa-odoo/releases/rel-one/addons/"
+done
 ln -sfn "$ROOT/opt/auditisa-odoo/releases/rel-one" "$ROOT/opt/auditisa-odoo/current"
 cp "$SOURCE/deploy/firm/"*.sh "$SOURCE/deploy/firm/recipe.env" "$ROOT/opt/auditisa-firm/bin/"
 stub_backup() {
@@ -91,8 +88,8 @@ odoo_shell() {
 from odoo.addons.ea_audit_addons.models import addon_switch
 addon_switch.APPROVED_FILE = "$ROOT/var/lib/auditisa-firm/addons/approved.json"
 EOF
-    cat; } | runuser -u odoo -- "$PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$DB" --no-http --logfile=/dev/null 2>&1 \
-    | grep -E '^(RESULT|ERROR) ' || true
+    cat; } | runuser -u odoo -- "$PY" "$ODOO_BIN" shell -c "$ODOO_CONF" -d "$DB" --no-http --logfile=/dev/null > "$WORK/shell.log" 2>&1 || true
+  grep -E '^(RESULT|ERROR) ' "$WORK/shell.log" || { tail -n 20 "$WORK/shell.log"; true; }
 }
 
 echo "== a new firm: the agent and the switches, no client add-on"
@@ -247,7 +244,10 @@ rm -rf "$RELEASE_ADDONS/ea_client_addon_broken"
 
 echo "== an update through firm-update.sh: dormant add-ons stay out, an installed one follows"
 mkdir -p "$WORK/published" "$WORK/bundle/addons" "$WORK/bundle/deploy"
-cp -r "$RELEASE_ADDONS/." "$WORK/bundle/addons/"
+for addon in ea_audit_addons ea_audit_firm_agent ea_client_addon_sample; do
+  cp -r "$SOURCE/addons/$addon" "$WORK/bundle/addons/"
+done
+sed -i 's/"version": "19.0.1.0.0"/"version": "19.0.1.0.1"/' "$WORK/bundle/addons/$SAMPLE/__manifest__.py"
 cp -r "$SOURCE/deploy/firm" "$WORK/bundle/deploy/firm"
 mkdir -p "$WORK/bundle/addons/ea_client_addon_dormant"
 printf '' > "$WORK/bundle/addons/ea_client_addon_dormant/__init__.py"
@@ -261,7 +261,6 @@ openssl genpkey -algorithm ed25519 -out "$WORK/signing.pem" 2>/dev/null
 openssl pkey -in "$WORK/signing.pem" -pubout -out "$ROOT/etc/auditisa-firm/release-signing.pub"
 openssl pkeyutl -sign -inkey "$WORK/signing.pem" -rawin -in "$WORK/published/$SHA.tar.gz" -out "$WORK/published/$SHA.tar.gz.sig"
 DIGEST=$(sha256sum "$WORK/published/$SHA.tar.gz" | cut -d' ' -f1)
-sed -i -E "s#^addons_path.*#addons_path = $ROOT/opt/auditisa-odoo/releases/$SHA/addons,$ROOT/opt/auditisa-odoo/releases/rel-one/addons,$ODOO_SRC/odoo/addons#" "$ODOO_CONF"
 "$BIN/firm-update.sh" "$SHA" "$DIGEST" > "$WORK/update.log" 2>&1 || { cat "$WORK/update.log"; fail "firm-update failed"; }
 stub_backup
 tail -n 1 "$WORK/update.log"
@@ -269,42 +268,13 @@ tail -n 1 "$WORK/update.log"
 [ "$(module_state ea_client_addon_dormant)" != installed ] || fail "the update installed an add-on nobody asked for"
 ok "the update did not install an add-on nobody asked for"
 [ "$(module_state $SAMPLE)" = installed ] || fail "the update lost the installed add-on"
-grep -q "\-u .*$SAMPLE\|$SAMPLE" "$(ls -t "$WORK"/log/update-*.log | head -1)" || fail "the installed add-on was not updated"
+[ "$(as_db "SELECT latest_version FROM ir_module_module WHERE name = '$SAMPLE'" "$DB")" = 19.0.1.0.1 ] || fail "the installed add-on was not updated"
 ok "the update carried the add-on that is installed"
+[ "$(as_db 'SELECT count(*) FROM ea_client_sample_note' "$DB")" = 1 ] || fail "the update lost data"
+ok "its data came through the update"
 ask "{\"addons\":[\"$SAMPLE\",\"ea_client_addon_dormant\"]}"
 [ "$(module_state ea_client_addon_dormant)" = installed ] || fail "the dormant add-on did not install on request"
 ok "an add-on new in the release installs on request, once the release is signed in"
 ask "{\"addons\":[\"$SAMPLE\"]}"
 
-if [ -n "$HEARTBEAT_URL" ]; then
-  echo "== all the way: real signed heartbeats to a running admin Odoo"
-  chmod 750 "$WORK"
-  chgrp odoo "$WORK"
-  install -m 640 -o root -g odoo "$TOKEN_FILE" "$WORK/token"
-  printf '%s\n' "$SHA" > "$ROOT/var/lib/auditisa-firm/status/release"
-  chown odoo "$ROOT/var/lib/auditisa-firm/spool"
-  beat() {
-    odoo_shell <<PY
-from odoo.addons.ea_audit_firm_agent.models import firm_agent
-firm_agent.STATUS_DIR = "$ROOT/var/lib/auditisa-firm/status"
-firm_agent.SPOOL_FILE = "$ROOT/var/lib/auditisa-firm/spool/desired.json"
-env["ea.addon.switch"]._cron_apply()
-env.cr.commit()
-agent = env["ea.firm.agent"]
-token = open("$WORK/token").read().strip()
-print("RESULT sent", agent._post("$HEARTBEAT_URL", "$SLUG", token, agent._build_figures()))
-print("RESULT on", agent._build_figures()["addons_on"])
-env.cr.commit()
-PY
-  }
-  beat_and_apply() {
-    beat
-    "$BIN/firm-apply-desired.sh" 2>&1 | sed -n '1,3p' || true
-    cat "$ROOT/var/lib/auditisa-firm/spool/desired.json"; echo
-    beat
-  }
-  beat_and_apply
-  ok "the heartbeat round completed; the caller reads the admin side"
-fi
-
-echo "firm-addons-rehearsal: $passed checks passed"
+echo "firm-addons-rehearsal: $passed checks passed. The folder $WORK stays for the caller, with the database."
