@@ -434,7 +434,7 @@ class TestGovFindings(ToolsCase):
 
     def test_an_unchanged_index_row_leaves_an_archived_file_alone(self):
         self.set_phase(self.engagement, "execution")
-        self.sign(self.staff, self.engagement, "E6.2", "preparer")
+        self.item("E6.2").with_user(self.staff).action_sign("preparer")
         self.env.flush_all()
         self.cr.execute("UPDATE ea_audit_engagement SET archived_at = now() WHERE id = %s", [self.engagement.id])
         self.env.invalidate_all()
