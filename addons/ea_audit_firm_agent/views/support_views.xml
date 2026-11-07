@@ -64,66 +64,79 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <!-- Support visits -->
+    <!-- Support visits: numbered, read-only, never edited -->
     <record id="view_support_visit_list" model="ir.ui.view">
         <field name="name">ea.firm.support.visit.list</field>
         <field name="model">ea.firm.support.visit</field>
         <field name="arch" type="xml">
-            <list create="0" edit="0" delete="0" decoration-warning="state in ('waiting', 'open')">
+            <list create="0" edit="0" delete="0" decoration-warning="state == 'open'">
                 <field name="platform_ref"/>
-                <field name="state" widget="badge" decoration-warning="state in ('waiting', 'open')"/>
-                <field name="minutes"/>
-                <field name="requested_at"/>
+                <field name="operator"/>
+                <field name="reason"/>
+                <field name="state" widget="badge" decoration-warning="state == 'open'"/>
                 <field name="opened_at"/>
                 <field name="ends_at"/>
                 <field name="ended_at"/>
-                <field name="ended_by"/>
+                <field name="release" optional="hide"/>
                 <field name="logins"/>
-                <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'waiting'"/>
-                <button name="action_refuse" type="object" string="Refuse" invisible="state != 'waiting'"/>
                 <button name="action_end" type="object" string="End now" class="btn-danger" invisible="state != 'open'"/>
             </list>
+        </field>
+    </record>
+    <record id="view_support_visit_form" model="ir.ui.view">
+        <field name="name">ea.firm.support.visit.form</field>
+        <field name="model">ea.firm.support.visit</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_end" type="object" string="End now" class="btn-danger" invisible="state != 'open'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="status">
+                        The operator reads as "AuditISA support (operator, not a firm user)" and can change nothing.
+                        This record cannot be edited or deleted.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="platform_ref"/>
+                            <field name="operator"/>
+                            <field name="reason"/>
+                            <field name="release"/>
+                        </group>
+                        <group>
+                            <field name="opened_at"/>
+                            <field name="ends_at"/>
+                            <field name="ended_at"/>
+                            <field name="ended_by"/>
+                            <field name="logins"/>
+                        </group>
+                    </group>
+                    <field name="trace_ids">
+                        <list>
+                            <field name="opened_at"/>
+                            <field name="model"/>
+                            <field name="method"/>
+                            <field name="res_ids"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
         </field>
     </record>
     <record id="action_support_visits" model="ir.actions.act_window">
         <field name="name">Support visits</field>
         <field name="res_model">ea.firm.support.visit</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p>No support visit yet.</p>
-            <p>When the operator needs to see your firm's screens, a visit shows here. The operator then signs in as
-               "AuditISA support (operator, not a firm user)" until the visit ends. You can end it at any time.</p>
+            <p>When the operator needs to see your firm's screens, a numbered visit shows here, with the screens opened.
+               The operator then reads as "AuditISA support (operator, not a firm user)" until the visit ends, and can change nothing.
+               You can end it at any time.</p>
         </field>
-    </record>
-    <record id="view_support_settings_form" model="ir.ui.view">
-        <field name="name">res.config.settings.support.visit</field>
-        <field name="model">res.config.settings</field>
-        <field name="priority">90</field>
-        <field name="arch" type="xml">
-            <form string="Support visits" class="oe_form_configuration">
-                <sheet>
-                    <group>
-                        <field name="support_visit_requires_approval"/>
-                    </group>
-                </sheet>
-                <footer>
-                    <button string="Save" type="object" name="execute" class="btn-primary"/>
-                    <button string="Cancel" special="cancel"/>
-                </footer>
-            </form>
-        </field>
-    </record>
-    <record id="action_support_settings" model="ir.actions.act_window">
-        <field name="name">Support visit approval</field>
-        <field name="res_model">res.config.settings</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="view_support_settings_form"/>
-        <field name="target">new</field>
     </record>
     <menuitem id="menu_support_visits" name="Support visits" parent="base.menu_administration"
               action="action_support_visits" sequence="91" groups="base.group_system"/>
-    <menuitem id="menu_support_settings" name="Support visit approval" parent="base.menu_administration"
-              action="action_support_settings" sequence="92" groups="base.group_system"/>
 
     <record id="cron_support_expire" model="ir.cron">
         <field name="name">AuditISA: end support visits whose time is up</field>

@@ -38,6 +38,7 @@ def response_is_authentic(token, slug, timestamp, body, signature):
 # signature made for one kind of message never passes for another.
 PREFIX_TICKET = b"ea-support-ticket-v1"
 PREFIX_SYNC = b"ea-support-sync-v1"
+PREFIX_TRACE = b"ea-support-trace-v1"
 
 
 def sign_kind(prefix, token, slug, timestamp, body):

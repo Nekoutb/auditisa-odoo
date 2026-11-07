@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # firm-support-visit.sh: opens or ends a support visit by the operator, on this firm's server.
 #
-#   firm-support-visit open <request number> <minutes> <link fingerprint (sha256)>
-#   firm-support-visit end <request number>
+#   firm-support-visit open <base64 of the JSON request: id, minutes, token_sha256, operator, reason>
+#   firm-support-visit end <visit number>
 #
 # Started by firm-apply-desired with what the control plane's signed answer asked. Every value is
 # checked again here: the spool file is writable by the odoo user. Nothing here holds or makes a
 # password: the operator signs in with a one-time link whose fingerprint alone reaches this server,
-# as the named account "auditisa-support", only while the visit is open. The firm's administrator
-# sees the visit and can end it; with the firm's setting on, it waits for their approval first.
-# The access log the firm reads (Settings > Operator access) records each step.
+# as the named account "auditisa-support", only while the visit is open, and that account reads
+# only. The firm's administrator is told on screen, sees the numbered record of the visit with every
+# screen opened, and can end it. The access log the firm reads (Settings > Operator access) records
+# each step.
 
 set -euo pipefail
 SCRIPT_NAME=firm-support-visit
@@ -20,17 +21,17 @@ load_firm_env
 : "${ODOO_USER:=odoo}"
 
 ACTION=${1:-}
-REF=${2:-}
-[[ $REF =~ ^[1-9][0-9]{0,8}$ ]] || fl_die "invalid request number"
+ARG=${2:-}
 case "$ACTION" in
   open)
-    MINUTES=${3:-}
-    HASH=${4:-}
-    [[ $MINUTES =~ ^[1-9][0-9]{0,2}$ ]] && [ "$MINUTES" -le 240 ] || fl_die "invalid length"
-    [[ $HASH =~ ^[0-9a-f]{64}$ ]] || fl_die "invalid fingerprint"
-    CODE="env['ea.firm.support.visit']._root_request($REF, $MINUTES, '$HASH'); env.cr.commit()"
+    # Only base64 characters reach the Python below; the module decodes and checks every field.
+    [[ $ARG =~ ^[A-Za-z0-9+/=]{1,2000}$ ]] || fl_die "invalid request"
+    REF=$("$ODOO_PY" -I -c 'import base64, json, sys; print(int(json.loads(base64.b64decode(sys.argv[1]))["id"]))' "$ARG") || fl_die "invalid request"
+    CODE="from odoo.addons.ea_audit_firm_agent.models.support import decode_request; env['ea.firm.support.visit']._root_request(*decode_request('$ARG')); env.cr.commit()"
     ;;
   end)
+    [[ $ARG =~ ^[1-9][0-9]{0,8}$ ]] || fl_die "invalid visit number"
+    REF=$ARG
     CODE="env['ea.firm.support.visit']._end_from_platform($REF); env.cr.commit()"
     ;;
   *) fl_die "usage: firm-support-visit open|end ..." ;;

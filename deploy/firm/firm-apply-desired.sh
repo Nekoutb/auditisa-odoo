@@ -23,6 +23,7 @@ SPOOL=$FIRM_SPOOL/desired.json
 
 # One value per line, in a fixed order; anything unexpected comes out empty.
 parsed=$("$ODOO_PY" -I - "$SPOOL" <<'PY'
+import base64
 import json
 import re
 import sys
@@ -49,12 +50,15 @@ addons_good = (
 print(" ".join(addons) if addons_good else "")
 visit = data.get("support_visit")
 visit_good = (
-    isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256"}
+    isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256", "operator", "reason"}
     and type(visit["id"]) is int and 0 < visit["id"] < 10 ** 9
     and type(visit["minutes"]) is int and 1 <= visit["minutes"] <= 240
     and isinstance(visit["token_sha256"], str) and re.fullmatch(r"[0-9a-f]{64}", visit["token_sha256"])
+    and isinstance(visit["operator"], str) and re.fullmatch(r"[\w .'-]{1,64}", visit["operator"])
+    and isinstance(visit["reason"], str) and 0 < len(visit["reason"]) <= 500
 )
-print(f'{visit["id"]} {visit["minutes"]} {visit["token_sha256"]}' if visit_good else "")
+# Handed on as base64 of JSON: the operator's name and the reason are text, never code.
+print(base64.b64encode(json.dumps(visit, sort_keys=True).encode()).decode() if visit_good else "")
 ended = data.get("support_visit_end")
 print(ended if type(ended) is int and 0 < ended < 10 ** 9 else "")
 # Last, and never empty: $(...) drops trailing newlines, and `read` fails on a missing line.
@@ -113,11 +117,10 @@ if [ -n "$RELEASE" ] && [ "$RELEASE" != "$(get_status release)" ]; then
 fi
 
 if [ -n "$VISIT" ]; then
-  read -r -a VISIT_ARGS <<<"$VISIT"
   if [ "$DRY_RUN" = 1 ]; then
-    fl_log "DRY RUN: would open support visit ${VISIT_ARGS[0]} for ${VISIT_ARGS[1]} minutes"
+    fl_log "DRY RUN: would open the support visit asked"
   else
-    "$HERE/firm-support-visit.sh" open "${VISIT_ARGS[@]}" || fl_warn "the support visit was not opened"
+    "$HERE/firm-support-visit.sh" open "$VISIT" || fl_warn "the support visit was not opened"
   fi
 fi
 if [ -n "$VISIT_END" ]; then

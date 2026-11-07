@@ -1,3 +1,4 @@
+import base64
 import json
 import logging
 import re
@@ -7,30 +8,35 @@ import uuid
 from datetime import timedelta
 
 import requests
+import werkzeug.exceptions
 
-from odoo import api, fields, models
-from odoo.exceptions import AccessDenied, UserError
+from odoo import api, fields, models, tools
+from odoo.exceptions import AccessDenied, AccessError, UserError
 from odoo.http import request
 
-from ..services import signing
+from ..services import collect, signing
 from ..services.first_admin import token_matches
 
 _logger = logging.getLogger(__name__)
 
 SUPPORT_LOGIN = "auditisa-support"
 SUPPORT_NAME = "AuditISA support (operator, not a firm user)"
-PARAM_APPROVAL = "ea_firm_agent.support_visit_requires_approval"
 MAX_MINUTES = 240
-_REF = re.compile(r"^[0-9a-f]{32}$")
+MAX_TRACE_IDS = 20
 _HASH = re.compile(r"^[0-9a-f]{64}$")
+_MODEL = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z0-9_]+){0,6}$")
+_OPERATOR = re.compile(r"^[\w .'-]{1,64}$")
 TICKET_STATES = [("queued", "Not sent yet"), ("open", "Open"), ("in_progress", "In progress"), ("closed", "Closed")]
-VISIT_STATES = [
-    ("waiting", "Waiting for your approval"),
-    ("open", "Open"),
-    ("ended", "Ended"),
-    ("refused", "Refused"),
-    ("expired", "Expired"),
-]
+VISIT_STATES = [("open", "Open"), ("ended", "Ended"), ("expired", "Expired")]
+
+# What the support account's own requests may still write: its sign-in record, the visit's trail,
+# and Odoo's own bookkeeping of a session. Nothing that belongs to the firm.
+SUPPORT_WRITABLE = frozenset({
+    "ea.firm.support.visit", "ea.firm.support.trace", "ea.firm.access.log", "res.users.log",
+    "res.users.settings", "res.users.settings.volumes", "bus.presence", "mail.presence", "res.device", "res.device.log",
+})
+# Routes that hand content out or take files in, closed to the support account.
+SUPPORT_CLOSED_ROUTES = re.compile(r"^/(web/export/|web/content|web/binary/upload|report/|mail/attachment/upload|html_editor/attachment)")
 
 
 def _support_url(heartbeat_url, path):
@@ -41,7 +47,7 @@ class EaFirmSupportTicket(models.Model):
     """'Report a problem': a message a user chooses to send to the operator, and the reply.
 
     This is a separate channel from the heartbeat, which carries no free text. The form warns the
-    user not to write client details. The operator sees the text and a ticket number, not who wrote it.
+    user not to write client details. The operator sees the text and a reference, not who wrote it.
     """
 
     _name = "ea.firm.support.ticket"
@@ -70,9 +76,8 @@ class EaFirmSupportTicket(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            vals.pop("user_id", None)
-            vals.pop("state", None)
-            vals.pop("reply", None)
+            for key in ("user_id", "state", "reply", "replied_at", "sent_at"):
+                vals.pop(key, None)
         tickets = super().create(vals_list)
         tickets.sudo()._send()
         return tickets
@@ -83,8 +88,8 @@ class EaFirmSupportTicket(models.Model):
         if not target:
             return False
         for ticket in self.filtered(lambda t: t.state == "queued"):
-            body = {"ref": ticket.ref, "subject": ticket.subject or "", "message": ticket.message or "",
-                    "screen": ticket.screen if ticket.screen and re.match(r"^[a-z][a-z0-9_.]{0,79}$", ticket.screen) else ""}
+            screen = ticket.screen if ticket.screen and _MODEL.match(ticket.screen) else ""
+            body = {"ref": ticket.ref, "subject": ticket.subject or "", "message": ticket.message or "", "screen": screen}
             answer = agent._post_support(target, signing.PREFIX_TICKET, body)
             if answer is not None and answer.get("ok") is True:
                 ticket.write({"state": "open", "sent_at": fields.Datetime.now()})
@@ -92,9 +97,10 @@ class EaFirmSupportTicket(models.Model):
 
     @api.model
     def _cron_sync(self):
-        """Sends what is queued, then fetches states and replies for the tickets still open."""
+        """Sends what is queued, fetches states and replies, then hands over the visits' trails."""
         tickets = self.sudo().search([("state", "!=", "closed")], limit=50)
         tickets._send()
+        self.env["ea.firm.support.trace"]._send_pending()
         agent = self.env["ea.firm.agent"].sudo()
         target = agent._support_target("/platform/support/sync")
         sent = tickets.filtered(lambda t: t.state != "queued")
@@ -118,109 +124,110 @@ class EaFirmSupportTicket(models.Model):
         return True
 
     def action_refresh(self):
-        self._cron_sync()
+        self.sudo()._cron_sync()
         return True
 
 
 class EaFirmSupportVisit(models.Model):
-    """A support visit: the operator signs in to this firm's Odoo, for a limited time, as a named
-    support account. Asked by the control plane, opened by this server's root script, visible to
-    the firm's administrator, who can approve it (if the setting asks for that) and end it at once.
+    """One support visit: numbered, never edited, never deleted.
+
+    The operator signs in to this firm's Odoo for a limited time as the named support account, which
+    can read every screen and change nothing (see `base` below). Asked by the control plane, opened
+    by this server's root script, shown to the firm's administrator, who can end it at once.
     """
 
     _name = "ea.firm.support.visit"
     _description = "Support visit by the operator"
     _order = "id desc"
+    _rec_name = "platform_ref"
 
-    platform_ref = fields.Integer("Request number", readonly=True, index=True)
+    platform_ref = fields.Integer("Visit number", readonly=True, index=True)
+    operator = fields.Char("Operator", readonly=True)
+    reason = fields.Text("Reason", readonly=True)
+    release = fields.Char("Release in use", readonly=True)
     minutes = fields.Integer("Length (minutes)", readonly=True)
     token_hash = fields.Char("Link fingerprint", readonly=True, groups="base.group_no_one")
-    state = fields.Selection(VISIT_STATES, "State", readonly=True, default="waiting")
-    requested_at = fields.Datetime("Asked on", readonly=True)
-    opened_at = fields.Datetime("Opened on", readonly=True)
+    state = fields.Selection(VISIT_STATES, "State", readonly=True, default="open")
+    opened_at = fields.Datetime("Started on", readonly=True)
     ends_at = fields.Datetime("Ends on", readonly=True)
     ended_at = fields.Datetime("Ended on", readonly=True)
     ended_by = fields.Many2one("res.users", "Ended by", readonly=True)
     logins = fields.Integer("Sign-ins", readonly=True)
+    trace_ids = fields.One2many("ea.firm.support.trace", "visit_id", "Screens and records opened")
 
-    _ref_unique = models.Constraint("unique(platform_ref)", "One visit per request.")
+    _ref_unique = models.Constraint("unique(platform_ref)", "One record per visit.")
+
+    def write(self, vals):
+        if not self.env.context.get("ea_support_visit_internal"):
+            raise AccessError(self.env._("A support visit's record cannot be changed."))
+        return super().write(vals)
+
+    def unlink(self):
+        raise AccessError(self.env._("A support visit's record cannot be deleted."))
+
+    def _internal(self):
+        return self.sudo().with_context(ea_support_visit_internal=True)
 
     @api.model
     def _support_user(self):
-        """The named account. Created once; no password anyone knows; inactive outside a visit."""
+        """The named account. Created once; no password anyone knows; inactive outside a visit.
+
+        It holds the groups of the firm's administrator so that every screen opens; the read-only
+        guard on `base` refuses every change it might attempt.
+        """
         users = self.env["res.users"].sudo().with_context(active_test=False, no_reset_password=True)
         user = users.search([("login", "=", SUPPORT_LOGIN)], limit=1)
-        groups = [self.env.ref("base.group_user").id, self.env.ref("base.group_system").id]
-        firm_admin = self.env.ref("ea_audit_core.group_firm_admin", raise_if_not_found=False)
-        if firm_admin:
-            groups.append(firm_admin.id)
         if not user:
+            admin = self.env.ref("base.user_admin")
             user = users.create({
-                "name": SUPPORT_NAME, "login": SUPPORT_LOGIN, "active": False,
-                "password": secrets.token_urlsafe(48), "group_ids": [(6, 0, groups)],
+                "name": SUPPORT_NAME, "login": SUPPORT_LOGIN, "active": False, "tz": "UTC",
+                "password": secrets.token_urlsafe(48), "group_ids": [(6, 0, admin.group_ids.ids)],
             })
+            self.env.registry.clear_cache()
         return user
 
     @api.model
-    def _root_request(self, ref, minutes, token_hash):
+    def _root_request(self, ref, minutes, token_hash, operator, reason):
         """Called by deploy/firm/firm-support-visit.sh, as root through the Odoo shell, only."""
-        if not (isinstance(ref, int) and ref > 0 and isinstance(minutes, int) and 1 <= minutes <= MAX_MINUTES
-                and isinstance(token_hash, str) and _HASH.match(token_hash)):
+        if not (isinstance(ref, int) and 0 < ref < 10 ** 9 and isinstance(minutes, int) and 1 <= minutes <= MAX_MINUTES
+                and isinstance(token_hash, str) and _HASH.match(token_hash)
+                and isinstance(operator, str) and _OPERATOR.match(operator)
+                and isinstance(reason, str) and 0 < len(reason) <= 500):
             raise UserError("refused")
         visit = self.sudo().search([("platform_ref", "=", ref)], limit=1)
         if visit:
             return visit
-        self._support_user()
-        approval = self.env["ir.config_parameter"].sudo().get_param(PARAM_APPROVAL) in ("1", "True")
-        visit = self.sudo().create({
-            "platform_ref": ref, "minutes": minutes, "token_hash": token_hash, "requested_at": fields.Datetime.now(),
-        })
-        self._log("support-visit-requested")
-        if approval:
-            self._notify_admins(self.env._("The operator asks for a support visit. Approve or refuse it in Settings > Support visits."))
-        else:
-            visit._open()
-        return visit
+        user = self._support_user()
+        from .firm_agent import STATUS_DIR
 
-    def _open(self):
-        self.ensure_one()
         now = fields.Datetime.now()
-        self.write({"state": "open", "opened_at": now, "ends_at": now + timedelta(minutes=self.minutes)})
-        self._support_user().write({"active": True})
+        visit = self.sudo().create({
+            "platform_ref": ref, "minutes": minutes, "token_hash": token_hash, "operator": operator,
+            "reason": reason, "release": collect.read_status(STATUS_DIR).get("release") or False,
+            "opened_at": now, "ends_at": now + timedelta(minutes=minutes),
+        })
+        user.write({"active": True})
         self._log("support-visit-open")
         self._notify_admins(self.env._(
-            "A support visit is open until %(end)s UTC. The operator signs in as \"%(name)s\". "
-            "You can end it at any time in Settings > Support visits.",
-            end=self.ends_at.strftime("%H:%M"), name=SUPPORT_NAME,
+            "Support visit %(number)s is open until %(end)s UTC: %(operator)s may read your screens as \"%(name)s\", "
+            "and can change nothing. Reason: %(reason)s. You can end it at any time in Settings > Support visits.",
+            number=ref, end=visit.ends_at.strftime("%H:%M"), operator=operator, name=SUPPORT_NAME, reason=reason,
         ))
+        return visit
 
     def _close(self, state, user=None):
-        for visit in self.filtered(lambda v: v.state in ("waiting", "open")):
-            visit.write({"state": state, "ended_at": fields.Datetime.now(), "ended_by": user.id if user else False})
+        for visit in self.filtered(lambda v: v.state == "open"):
+            visit._internal().write({"state": state, "ended_at": fields.Datetime.now(), "ended_by": user.id if user else False})
             self._log(f"support-visit-{state}")
-        if not self.search_count([("state", "=", "open")]):
+        if not self.sudo().search_count([("state", "=", "open")]):
             # A new random password also ends every session the account had.
             self._support_user().write({"active": False, "password": secrets.token_urlsafe(48)})
 
-    def action_approve(self):
-        self._check_admin()
-        for visit in self.filtered(lambda v: v.state == "waiting"):
-            visit._open()
-        return True
-
-    def action_refuse(self):
-        self._check_admin()
-        self.filtered(lambda v: v.state == "waiting")._close("refused", self.env.user)
-        return True
-
     def action_end(self):
-        self._check_admin()
+        if self.env.user.login == SUPPORT_LOGIN or not self.env.user.has_group("base.group_system"):
+            raise UserError(self.env._("Only the firm's administrator ends a support visit from here."))
         self._close("ended", self.env.user)
         return True
-
-    def _check_admin(self):
-        if self.env.user.login == SUPPORT_LOGIN or not self.env.user.has_group("base.group_system"):
-            raise UserError(self.env._("Only the firm's administrator decides on a support visit."))
 
     @api.model
     def _end_from_platform(self, ref):
@@ -245,16 +252,134 @@ class EaFirmSupportVisit(models.Model):
     @api.model
     def _notify_admins(self, text):
         admins = self.env.ref("base.group_system").sudo().all_user_ids.filtered(lambda u: u.login != SUPPORT_LOGIN and u.active)
-        partners = admins.partner_id
-        if hasattr(partners, "_bus_send"):
-            for partner in partners:
-                partner._bus_send("simple_notification", {"type": "warning", "sticky": True, "title": self.env._("Support visit"), "message": text})
-        _logger.info("Support visit: administrators told on screen")
+        for partner in admins.partner_id:
+            if hasattr(partner, "_bus_send"):
+                partner._bus_send("simple_notification", {
+                    "type": "warning", "sticky": True, "title": self.env._("Support visit"), "message": text,
+                })
 
     @api.model
     def _open_visit_for(self, token):
         visit = self.sudo().search([("state", "=", "open"), ("ends_at", ">", fields.Datetime.now())])
         return visit.filtered(lambda v: token_matches(token, v.token_hash))[:1]
+
+
+class EaFirmSupportTrace(models.Model):
+    """Which screens and records the support account opened: model, method, ids. Never content."""
+
+    _name = "ea.firm.support.trace"
+    _description = "Screen opened during a support visit"
+    _order = "id"
+
+    visit_id = fields.Many2one("ea.firm.support.visit", "Visit", readonly=True, index=True, ondelete="restrict")
+    opened_at = fields.Datetime("Opened on", readonly=True)
+    model = fields.Char("Screen (model)", readonly=True)
+    method = fields.Char("Kind", readonly=True)
+    res_ids = fields.Char("Record ids", readonly=True)
+
+    def init(self):
+        self.env.cr.execute("""
+            CREATE OR REPLACE FUNCTION ea_support_trace_refuse_change() RETURNS trigger AS $$
+            BEGIN RAISE EXCEPTION 'ea_firm_support_trace is append-only'; END; $$ LANGUAGE plpgsql;
+            DROP TRIGGER IF EXISTS ea_support_trace_append_only ON ea_firm_support_trace;
+            CREATE TRIGGER ea_support_trace_append_only BEFORE UPDATE OR DELETE ON ea_firm_support_trace
+                FOR EACH ROW EXECUTE FUNCTION ea_support_trace_refuse_change();
+        """)
+
+    def write(self, vals):
+        raise AccessError(self.env._("A support visit's trail cannot be changed."))
+
+    def unlink(self):
+        raise AccessError(self.env._("A support visit's trail cannot be deleted."))
+
+    @api.model
+    def _record(self, model, method, ids):
+        """Its own cursor: screens are read on read-only cursors, and the trail must stay anyway."""
+        if not (isinstance(model, str) and _MODEL.match(model)):
+            return
+        ids = ",".join(str(i) for i in list(ids or [])[:MAX_TRACE_IDS] if isinstance(i, int))
+        with self.env.registry.cursor() as cr:
+            cr.execute("SELECT id FROM ea_firm_support_visit WHERE state = 'open' ORDER BY id DESC LIMIT 1")
+            row = cr.fetchone()
+            if row:
+                cr.execute(
+                    "INSERT INTO ea_firm_support_trace (visit_id, opened_at, model, method, res_ids, create_uid, create_date, write_uid, write_date)"
+                    " VALUES (%s, now() at time zone 'utc', %s, %s, %s, %s, now() at time zone 'utc', %s, now() at time zone 'utc')",
+                    [row[0], model, method, ids, self.env.uid, self.env.uid],
+                )
+
+    @api.model
+    def _send_pending(self):
+        """Hands the trail to the control plane, visit by visit. Identifiers only."""
+        params = self.env["ir.config_parameter"].sudo()
+        last = int(params.get_param("ea_firm_agent.trace_sent_id") or 0)
+        rows = self.sudo().search([("id", ">", last)], limit=200)
+        agent = self.env["ea.firm.agent"].sudo()
+        target = agent._support_target("/platform/support/trace")
+        if not rows or not target:
+            return False
+        for visit in rows.visit_id:
+            mine = rows.filtered(lambda r: r.visit_id == visit)
+            body = {"visit": visit.platform_ref, "release": visit.release or "", "entries": [{
+                "at": r.opened_at.strftime("%Y-%m-%dT%H:%M:%SZ"), "model": r.model, "method": r.method,
+                "ids": [int(i) for i in (r.res_ids or "").split(",") if i],
+            } for r in mine]}
+            answer = agent._post_support(target, signing.PREFIX_TRACE, body)
+            if not answer or answer.get("ok") is not True:
+                return False
+            params.set_param("ea_firm_agent.trace_sent_id", str(max(mine.ids)))
+        return True
+
+
+class Base(models.AbstractModel):
+    """The support account reads and never writes: refused here, for every model, even under sudo."""
+
+    _inherit = "base"
+
+    @api.model
+    @tools.ormcache()
+    def _ea_support_uid(self):
+        self.env.cr.execute("SELECT id FROM res_users WHERE login = %s", [SUPPORT_LOGIN])
+        row = self.env.cr.fetchone()
+        return row[0] if row else 0
+
+    def _ea_support_refuses(self, vals_list=None):
+        uid = self.env.uid
+        if not uid or uid != self.env["base"]._ea_support_uid() or self._name in SUPPORT_WRITABLE:
+            return
+        if self._name == "ir.attachment" and vals_list is not None and all(
+            str(vals.get("url") or "").startswith("/web/assets/") and not vals.get("res_model") for vals in vals_list
+        ):
+            return  # the web client's own style and script bundles
+        raise AccessError(self.env._("A support visit reads only: nothing can be created, changed, deleted or sent."))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        self._ea_support_refuses(vals_list)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        self._ea_support_refuses()
+        return super().write(vals)
+
+    def unlink(self):
+        self._ea_support_refuses()
+        return super().unlink()
+
+    @api.model
+    @api.readonly
+    def web_search_read(self, domain, specification, offset=0, limit=None, order=None, count_limit=None):
+        result = super().web_search_read(domain, specification, offset=offset, limit=limit, order=order, count_limit=count_limit)
+        if self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
+            self.env["ea.firm.support.trace"]._record(self._name, "list", [r.get("id") for r in result.get("records", [])])
+        return result
+
+    @api.readonly
+    def web_read(self, specification):
+        result = super().web_read(specification)
+        if self.env.uid and self.env.uid == self.env["base"]._ea_support_uid():
+            self.env["ea.firm.support.trace"]._record(self._name, "form", self.ids)
+        return result
 
 
 class EaFirmAgentSupport(models.AbstractModel):
@@ -310,7 +435,7 @@ class ResUsersSupport(models.Model):
             visit = self.env["ea.firm.support.visit"]._open_visit_for(credential.get("token"))
             if not visit:
                 raise AccessDenied()
-            visit.sudo().write({"logins": visit.logins + 1})
+            visit._internal().write({"logins": visit.logins + 1})
             self.env["ea.firm.support.visit"]._log("support-login")
             return {"uid": self.env.user.id, "auth_method": "ea_support_visit", "mfa": "skip"}
         if self.env.user.login == SUPPORT_LOGIN:
@@ -323,19 +448,21 @@ class IrHttpSupport(models.AbstractModel):
 
     @classmethod
     def _authenticate(cls, endpoint):
-        """Outside an open visit, a support session ends at its next request."""
+        """Outside an open visit a support session ends; inside one, no route hands content out."""
         session = request.session
-        if request.db and session.uid and session.get("login") == SUPPORT_LOGIN:
+        support = bool(request.db and session.uid and session.get("login") == SUPPORT_LOGIN)
+        if support:
             env = request.env(su=True)
             if not env["ea.firm.support.visit"].search_count([("state", "=", "open"), ("ends_at", ">", fields.Datetime.now())]):
                 session.logout(keep_db=True)
-        return super()._authenticate(endpoint)
+                support = False
+        result = super()._authenticate(endpoint)
+        if support and SUPPORT_CLOSED_ROUTES.match(request.httprequest.path):
+            raise werkzeug.exceptions.Forbidden()
+        return result
 
 
-class ResConfigSettingsSupport(models.TransientModel):
-    _inherit = "res.config.settings"
-
-    support_visit_requires_approval = fields.Boolean(
-        "A support visit waits for my approval", config_parameter=PARAM_APPROVAL,
-        help="When ticked, the operator cannot sign in until the firm's administrator approves the visit.",
-    )
+def decode_request(encoded):
+    """What firm-support-visit.sh hands over: base64 of a JSON object, so no value is ever code."""
+    data = json.loads(base64.b64decode(encoded, validate=True).decode("utf-8"))
+    return data["id"], data["minutes"], data["token_sha256"], data["operator"], data["reason"]

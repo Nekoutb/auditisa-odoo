@@ -16,6 +16,7 @@ _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _ODOO_VERSION = re.compile(r"^\d{2}\.\d$")
 _CIDR = re.compile(r"^[0-9a-fA-F:.]+/\d{1,3}$")
 _ADDON_CODE = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
+_OPERATOR = re.compile(r"^[\w .'-]{1,64}$")
 MAX_ADDON_CODES = 24
 
 
@@ -157,10 +158,12 @@ def parse_desired(body):
         desired["addons"] = sorted(set(addons))
     visit = data.get("support_visit")
     if (
-        isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256"}
+        isinstance(visit, dict) and set(visit) == {"id", "minutes", "token_sha256", "operator", "reason"}
         and type(visit["id"]) is int and 0 < visit["id"] < 10 ** 9
         and type(visit["minutes"]) is int and 1 <= visit["minutes"] <= 240
         and isinstance(visit["token_sha256"], str) and _SHA256.match(visit["token_sha256"])
+        and isinstance(visit["operator"], str) and _OPERATOR.match(visit["operator"])
+        and isinstance(visit["reason"], str) and 0 < len(visit["reason"]) <= 500
     ):
         desired["support_visit"] = visit
     ended = data.get("support_visit_end")
