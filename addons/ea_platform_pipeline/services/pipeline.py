@@ -82,6 +82,20 @@ def confirmation_errors(expected, typed, reason):
     return errors
 
 
+def owner_addresses(text):
+    """The owner's address list for Promote and Rebuild, as written in the system parameter."""
+    return [part for part in re.split(r"[\s,;]+", (text or "").strip()) if part]
+
+
+def owner_address_ok(remote_address, cidrs):
+    """No list is the owner's choice: no address check (ruling of 2026-11-08, the control room opens
+    from anywhere; sign-in, two-factor, the typed line, the reason and the signed release stay).
+    A list, once written, refuses every other address, and one that holds no valid range refuses all."""
+    if not cidrs:
+        return True
+    return address_allowed(remote_address, cidrs)
+
+
 def address_allowed(remote_address, cidrs):
     """Second lock behind nginx. No list, or an address that cannot be read, refuses."""
     if not remote_address or not cidrs:

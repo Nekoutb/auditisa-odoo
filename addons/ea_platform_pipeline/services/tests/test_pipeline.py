@@ -190,6 +190,23 @@ def test_address(address, cidrs, allowed):
     assert pipeline.address_allowed(address, cidrs) is allowed
 
 
+@pytest.mark.parametrize("address, text, allowed", [
+    # No list: the owner's choice, no address check (ruling of 2026-11-08).
+    ("8.8.8.8", "", True),
+    ("8.8.8.8", None, True),
+    (None, "", True),
+    # A list, once written, binds.
+    ("143.105.152.209", "143.105.152.209/32", True),
+    ("8.8.8.8", "143.105.152.209/32, 2001:db8::/48", False),
+    ("2001:db8::1", "143.105.152.209/32, 2001:db8::/48", True),
+    (None, "143.105.152.209/32", False),
+    # A list that holds no valid range refuses everything rather than opening up.
+    ("8.8.8.8", "not-an-address", False),
+])
+def test_owner_address(address, text, allowed):
+    assert pipeline.owner_address_ok(address, pipeline.owner_addresses(text)) is allowed
+
+
 # ------------------------------------------------------------------ rebuild and heartbeat
 
 

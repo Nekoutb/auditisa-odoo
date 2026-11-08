@@ -1329,10 +1329,10 @@ msgstr "Il n'y a pas de version antérieure à laquelle revenir."
 #: code:addons/ea_platform_pipeline/models/promotion.py:0
 msgid ""
 "This address (%(address)s) is not one of the owner's: nothing was done. "
-"The owner's addresses are set in Platform > Settings."
+"The owner's addresses are the system parameter ea_platform_pipeline.owner_addresses."
 msgstr ""
 "Cette adresse (%(address)s) n'est pas une de celles du propriétaire : rien n'a été fait. "
-"Les adresses du propriétaire se règlent dans Plateforme > Réglages."
+"Les adresses du propriétaire sont le paramètre système ea_platform_pipeline.owner_addresses."
 
 #. module: ea_platform_pipeline
 #: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_promotion_form

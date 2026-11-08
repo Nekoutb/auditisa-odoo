@@ -468,24 +468,52 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
 
 @tagged("post_install", "-at_install")
 class TestOwnerAddress(PipelineMixin, PlatformMixin, HttpCase):
+    """The owner's address list for Promote and Rebuild: optional, and binding once written."""
+
+    def _ask_rebuild(self):
+        stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
+        return self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
+            "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
+        })
+
+    def _owner_addresses(self, value):
+        self.env["ir.config_parameter"].sudo().set_param("ea_platform_pipeline.owner_addresses", value)
+
     def test_an_address_outside_the_list_changes_nothing(self):
         self._setup_platform()
         self.authenticate("p_owner", "p_owner")
-        self.patch(type(self.env["platform.firm"]), "_ssh_allowlist", lambda _self: ["143.105.152.209/32"])
-        stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
+        self._owner_addresses("143.105.152.209/32")
         with self.assertRaises(Exception):
-            self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
-                "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
-            })
+            self._ask_rebuild()
         self.assertFalse(self.env["platform.pipeline.rebuild"].search_count([]))
+
+    def test_a_list_with_no_valid_range_refuses_everything(self):
+        self._setup_platform()
+        self.authenticate("p_owner", "p_owner")
+        self._owner_addresses("not-an-address")
+        with self.assertRaises(Exception):
+            self._ask_rebuild()
 
     def test_the_owners_address_goes_through(self):
         self._setup_platform()
         self.authenticate("p_owner", "p_owner")
-        # The test server answers on 127.0.0.1, which the settings screen would refuse as not public.
-        self.patch(type(self.env["platform.firm"]), "_ssh_allowlist", lambda _self: ["127.0.0.0/8", "143.105.152.209/32"])
-        stage = self.env.ref("ea_platform_pipeline.stage_odoo_staging")
-        result = self.make_jsonrpc_request("/web/dataset/call_kw/platform.pipeline.stage/action_new_rebuild", {
-            "model": "platform.pipeline.stage", "method": "action_new_rebuild", "args": [stage.ids], "kwargs": {},
-        })
-        self.assertEqual(result["res_model"], "platform.pipeline.confirm")
+        # The test server answers on 127.0.0.1.
+        self._owner_addresses("127.0.0.0/8 143.105.152.209/32")
+        self.assertEqual(self._ask_rebuild()["res_model"], "platform.pipeline.confirm")
+
+    def test_no_list_means_no_address_check(self):
+        """The owner's ruling of 2026-11-08: the control room opens from anywhere. Sign-in still counts."""
+        self._setup_platform()
+        self._owner_addresses(False)
+        # The firm servers' port-22 list is another matter, and no longer gates these buttons.
+        self.patch(type(self.env["platform.firm"]), "_ssh_allowlist", lambda _self: ["143.105.152.209/32"])
+        self.authenticate("p_owner", "p_owner")
+        self.assertEqual(self._ask_rebuild()["res_model"], "platform.pipeline.confirm")
+
+    def test_no_list_still_needs_the_owner(self):
+        self._setup_platform()
+        self._owner_addresses(False)
+        self.authenticate("p_operator", "p_operator")
+        with self.assertRaises(Exception):
+            self._ask_rebuild()
+        self.assertFalse(self.env["platform.pipeline.rebuild"].search_count([]))

@@ -122,18 +122,74 @@ lacks "$A/etc/systemd/system/odoo.service" 'ReadWritePaths=.*auditisa-firm/addon
 echo "== the isolation test finds every planted fault"
 bash scripts/provision/verify_firm_isolation.sh --rehearse "$A" "$B"
 
-echo "== control plane, dry run"
+echo "== control plane, dry run: open to all (OPERATOR_IPS=any, the owner's ruling)"
 CP=$WORK/control-plane
 bash deploy/control-plane/install-control-plane.sh --env deploy/control-plane/sample.env --dry-run --root "$CP" > "$WORK/cp.log"
 SITE=$CP/etc/nginx/sites-available/control-plane.conf
 has "$SITE" 'location = /platform/heartbeat'
 has "$SITE" 'limit_except POST { deny all; }'
 has "$SITE" 'location / { return 404; }'
-has "$SITE" 'deny all;'
-has "$SITE" 'allow 8.8.8.8;'
+has "$SITE" 'location ~ ^/web/database { return 404; }'
+has "$SITE" 'location ~ ^/web/signup { return 404; }'
+has "$SITE" 'location = /web/session/authenticate'
+has "$SITE" 'limit_req zone=odoo_login'
+has "$SITE" 'Strict-Transport-Security'
+has "$SITE" 'ssl_reject_handshake on;'
+lacks "$SITE" 'allow '
+lacks "$SITE" 'deny all;$'
+# The heartbeat address has the heartbeat only, unless FIRM_DOORS says otherwise.
+lacks "$SITE" 'location ~ ^/platform/support/(ticket|sync|trace)'
+lacks "$SITE" 'location = /platform/practice-heartbeat {$'
+has "$CP/etc/nginx/sites-available/control-plane-http.conf" 'return 301 https://'
 has "$CP/etc/odoo/odoo.conf" '^list_db = False'
+has "$CP/etc/odoo/odoo.conf" '^smtp_server = False'
+has "$CP/etc/odoo/odoo.conf" '^workers = 2'
 lacks "$CP/etc/odoo/odoo.conf" 'token'
 has "$CP/etc/systemd/system/odoo.service" 'LoadCredential=vultr-token:/etc/auditisa-platform/vultr.token'
+has "$CP/etc/fail2ban/jail.d/auditisa.local" '^\[odoo-login\]'
+has "$CP/etc/fail2ban/jail.d/auditisa.local" '^\[sshd\]'
+has "$CP/etc/ssh/sshd_config.d/00-ea-hardening.conf" '^PasswordAuthentication no'
+has "$CP/etc/ssh/sshd_config.d/00-ea-hardening.conf" '^PermitRootLogin prohibit-password'
+has "$WORK/cp.log" 'ufw allow 22/tcp'
+has "$WORK/cp.log" 'auth_totp'
+has "$CP/usr/local/sbin/console-backup" '^KEEP_DAYS=14$'
+bash -n "$CP/usr/local/sbin/console-backup" "$CP/usr/local/sbin/console-restore-test"
+# fail2ban's filter catches Odoo's line for a failed sign-in, and not a successful one.
+FILTER=$(sed -n 's/^failregex = //p' "$CP/etc/fail2ban/filter.d/odoo-login.conf" | sed 's/<HOST>/(?P<host>[0-9.]+)/')
+python3 - "$FILTER" <<'PY'
+import re, sys
+pattern = re.compile(sys.argv[1])
+failed = " 1234 INFO auditisa_platform odoo.addons.base.models.res_users: Login failed for login:x from 203.0.113.9"
+passed = " 1234 INFO auditisa_platform odoo.addons.base.models.res_users: Login successful for login:x from 203.0.113.9"
+assert pattern.match(failed).group("host") == "203.0.113.9"
+assert not pattern.match(passed)
+PY
+
+echo "== control plane, dry run: a list of addresses, and the two extra doors"
+sed -e 's/^OPERATOR_IPS=.*/OPERATOR_IPS="8.8.8.8 2001:db8::\/48"/' -e 's/^FIRM_DOORS=.*/FIRM_DOORS="heartbeat support practice"/' \
+  deploy/control-plane/sample.env > "$WORK/cp-list.env"
+CPL=$WORK/control-plane-list
+bash deploy/control-plane/install-control-plane.sh --env "$WORK/cp-list.env" --dry-run --root "$CPL" > "$WORK/cpl.log"
+SITE=$CPL/etc/nginx/sites-available/control-plane.conf
+has "$SITE" 'allow 8.8.8.8;'
+has "$SITE" 'allow 2001:db8::/48;'
+has "$SITE" '    deny all;$'
+has "$SITE" 'location ~ ^/platform/support/(ticket|sync|trace)\$'
+has "$SITE" 'location = /platform/practice-heartbeat {$'
+has "$WORK/cpl.log" 'ufw allow from 8.8.8.8 to any port 22'
+lacks "$WORK/cpl.log" 'ufw allow 22/tcp'
+
+echo "== control plane: what is refused"
+refused() {
+  if bash deploy/control-plane/install-control-plane.sh --env "$1" --dry-run --root "$WORK/refused" >/dev/null 2>&1; then
+    fail "install-control-plane.sh accepted $2"
+  fi
+}
+for bad in 'OPERATOR_IPS=0.0.0.0/0' 'OPERATOR_IPS=::/0' 'OPERATOR_IPS="any 8.8.8.8"' 'OPERATOR_IPS="8.8.8.8;reboot"' \
+           'FIRM_DOORS=everything' 'FIRM_DOORS=support' 'ADMIN_HOST=hb.auditisa.com'; do
+  { cat deploy/control-plane/sample.env; printf '%s\n' "$bad"; } > "$WORK/bad.env"
+  refused "$WORK/bad.env" "$bad"
+done
 
 echo "== a release is signed, verified, and refused once changed"
 KEYS=$WORK/keys

@@ -14,6 +14,7 @@ STATES = [
     ("stopped", "Stopped on failure"),
 ]
 KINDS = [("promote", "Promotion"), ("rollback", "Rollback")]
+OWNER_ADDRESSES_PARAM = "ea_platform_pipeline.owner_addresses"
 
 
 class PlatformPipelineMixin(models.AbstractModel):
@@ -21,17 +22,21 @@ class PlatformPipelineMixin(models.AbstractModel):
     _description = "Who may act on the pipeline, and from where"
 
     def _require_owner(self):
-        """The owner, signed in, from one of the owner's addresses. nginx checks the address first."""
+        """The owner, signed in. And, if the owner keeps a list of addresses, from one of them.
+
+        The list is the system parameter ea_platform_pipeline.owner_addresses. Empty, the default, means
+        no address check: the owner's ruling of 2026-11-08 (the control room opens from anywhere).
+        """
         if not self.env.user.has_group("ea_platform_admin.group_platform_owner"):
             raise UserError(t(self.env, _("Only the owner can do this.")))
         if not request:
             return  # Odoo shell and tests have no address to check.
-        cidrs = self.env["platform.firm"].sudo()._ssh_allowlist()
+        cidrs = pipeline.owner_addresses(self.env["ir.config_parameter"].sudo().get_param(OWNER_ADDRESSES_PARAM, ""))
         address = request.httprequest.remote_addr
-        if not pipeline.address_allowed(address, cidrs):
+        if not pipeline.owner_address_ok(address, cidrs):
             raise UserError(t(self.env, _(
                 "This address (%(address)s) is not one of the owner's: nothing was done. "
-                "The owner's addresses are set in Platform > Settings.",
+                "The owner's addresses are the system parameter ea_platform_pipeline.owner_addresses.",
                 address=address or "?",
             )))
 
