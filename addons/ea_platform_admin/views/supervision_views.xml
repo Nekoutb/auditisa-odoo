@@ -192,6 +192,7 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">No client yet</p>
             <p>Use "New firm" to onboard the first one. Every client then shows here, with its server and its health.</p>
+            <p>While the band at the bottom of the page says Simulation, firm creation is not connected yet: "New firm" only rehearses the steps, and no real server is created.</p>
         </field>
     </record>
 </odoo>

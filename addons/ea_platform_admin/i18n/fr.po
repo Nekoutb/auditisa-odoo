@@ -2544,8 +2544,8 @@ msgstr "Simulation"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.simulation_band
-msgid "Simulation - no real server, no call to the provider"
-msgstr "Simulation - aucun serveur réel, aucun appel au fournisseur"
+msgid "Simulation - firm creation is not connected yet: no real server, no call to the provider"
+msgstr "Simulation - la création de cabinets n'est pas encore branchée : aucun serveur réel, aucun appel au fournisseur"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
@@ -4314,6 +4314,11 @@ msgstr "Balance, feuilles maîtresses, seuil de signification, risques, CRA, con
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__restore_state__ok
 msgid "Up to date"
 msgstr "À jour"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_supervision
+msgid "While the band at the bottom of the page says Simulation, firm creation is not connected yet: \"New firm\" only rehearses the steps, and no real server is created."
+msgstr "Tant que le bandeau en bas de la page indique Simulation, la création de cabinets n'est pas encore branchée : « Nouveau cabinet » ne fait que répéter les étapes, et aucun serveur réel n'est créé."
 
 #. module: ea_platform_admin
 #: model_terms:ir.actions.act_window,help:ea_platform_admin.action_supervision
