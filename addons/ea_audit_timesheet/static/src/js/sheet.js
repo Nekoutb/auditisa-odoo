@@ -53,10 +53,6 @@ export class EaTimesheet extends Component {
         return String(project.id) === this.state.form.project;
     }
 
-    get firmEngagements() {
-        return this.data.projects.filter((p) => p.kind === "firm");
-    }
-
     get internal() {
         return this.data.projects.filter((p) => p.kind === "internal");
     }

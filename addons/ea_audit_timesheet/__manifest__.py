@@ -9,6 +9,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/rules.xml",
+        "data/auth_signup.xml",
         "views/actions.xml",
         "views/report_views.xml",
         "views/engagement_views.xml",

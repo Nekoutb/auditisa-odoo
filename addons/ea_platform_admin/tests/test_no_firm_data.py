@@ -47,7 +47,7 @@ class TestNoFirmData(PlatformCase):
 
     def test_the_manifest_depends_on_no_audit_addon(self):
         manifest = ast.literal_eval((ADDON / "__manifest__.py").read_text(encoding="utf-8"))
-        self.assertEqual(sorted(manifest["depends"]), ["base", "mail", "web"])
+        self.assertEqual(sorted(manifest["depends"]), ["auth_signup", "base", "mail", "web"])
 
     def test_it_refuses_to_install_beside_an_audit_addon(self):
         refuse_firm_database(self.env)  # nothing installed: passes

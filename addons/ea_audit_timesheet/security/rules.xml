@@ -14,10 +14,12 @@
         <field name="domain_force">[('project_id', '!=', False), ('user_id', '=', user.id)]</field>
         <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
     </record>
+    <!-- The quality reviewer (EQR) seat reads the team's lines on that engagement (owner, 2026-11-08).
+         Manager and above read the whole firm (rule below); staff, senior and read-only their own. -->
     <record id="rule_line_engagement_lead" model="ir.rule">
-        <field name="name">Time: partner or manager seat reads the engagement's lines</field>
+        <field name="name">Time: the quality reviewer's seat reads the engagement's lines</field>
         <field name="model_id" ref="analytic.model_account_analytic_line"/>
-        <field name="domain_force">[('project_id.ea_engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted'), ('team_role', 'in', ['partner', 'manager'])])]</field>
+        <field name="domain_force">[('project_id.ea_engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted'), ('team_role', '=', 'eqr_reviewer')])]</field>
         <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="False"/>

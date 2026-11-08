@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- No public sign-up on the control room: accounts are made by its administrator. auth_signup
+         installs itself with sign-up open (b2c); this sets it back on every install and update. -->
+    <function model="ir.config_parameter" name="set_param">
+        <value>auth_signup.invitation_scope</value>
+        <value>b2b</value>
+    </function>
+</odoo>

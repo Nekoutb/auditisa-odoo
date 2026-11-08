@@ -35,9 +35,10 @@ class TestSheet(TimesheetCase):
         self.assertNotIn(self.other_user_project.id, offered)
         kinds = {p["id"]: p["kind"] for p in data["projects"]}
         self.assertEqual(kinds[self.project.id], "mission")
-        # every open engagement of the firm, listed apart for someone not on its team
+        self.assertEqual({p["kind"] for p in data["projects"]}, {"mission", "internal"})
+        # someone not on the team is offered the internal projects only
         outsider = {p["id"]: p["kind"] for p in self.sheet(self.outsider).ea_ts_sheet()["projects"]}
-        self.assertEqual(outsider[self.project.id], "firm")
+        self.assertNotIn(self.project.id, outsider)
         self.assertEqual(outsider[self.internal.id], "internal")
 
     def test_a_cell_sets_the_day_s_figure(self):

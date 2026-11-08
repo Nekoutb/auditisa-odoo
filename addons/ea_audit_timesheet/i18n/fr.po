@@ -1448,12 +1448,6 @@ msgstr "Mes missions"
 #. module: ea_audit_timesheet
 #. odoo-javascript
 #: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
-msgid "Other engagements of the firm"
-msgstr "Autres missions du cabinet"
-
-#. module: ea_audit_timesheet
-#. odoo-javascript
-#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
 msgid "Outgoing mail"
 msgstr "Messagerie sortante"
 
@@ -1489,13 +1483,13 @@ msgstr "Le serveur de messagerie sortante est réglé par AuditISA lors de la mi
 
 #. module: ea_audit_timesheet
 #. odoo-python
-#: code:addons/ea_audit_timesheet/models/common.py:0
-msgid "Only a member of the firm can charge hours to an engagement."
-msgstr "Seul un membre du cabinet peut imputer des heures à une mission."
-
-#. module: ea_audit_timesheet
-#. odoo-python
 #: code:addons/ea_audit_timesheet/models/ui_apps.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_timesheet.view_engagement_form_budget
 msgid "Log time on this engagement"
 msgstr "Saisir du temps sur cette mission"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/sheet.py:0
+msgid "Your hours and the team's on the engagements where you are the quality reviewer"
+msgstr "Vos heures et celles de l'équipe sur les missions dont vous êtes le réviseur qualité"

@@ -32,31 +32,24 @@ class TimesheetSheet(models.AbstractModel):
 
     @api.model
     def _ea_ts_chargeable(self, user):
-        """What the picker lists. Every open engagement of the firm takes anyone's hours (owner,
-        2026-11-07): the person's own first, then the others. Read as superuser, and only what the
-        choice needs: the engagement's name (client, year, nature) and its phases. Nothing here opens
-        an engagement: its record, papers, documents and team stay under their own rules."""
+        """What the picker lists: the open engagements the person is on (invited and accepted, any
+        team role, the EQR's included), then the firm's internal projects (owner, 2026-11-08: time
+        goes on an engagement if and only if the person is on it)."""
+        Team = self.env["ea.audit.team.member"].sudo()
+        seats = Team.search([("user_id", "=", user.id), ("state", "=", "accepted")])
+        files = seats.engagement_id.filtered(lambda e: not e._ea_is_archived())
         Project = self.env["project.project"].sudo()
+        missions = Project.search([("ea_engagement_id", "in", files.ids), ("allow_timesheets", "=", True)], order="name")
         internal = Project.search([("ea_is_internal", "=", True), ("allow_timesheets", "=", True)], order="name")
-        engagement_projects = Project.browse()
-        if user._ea_firm_role():
-            engagement_projects = Project.search(
-                [("ea_engagement_id", "!=", False), ("allow_timesheets", "=", True)], order="name",
-            ).filtered(lambda p: not p.ea_engagement_id._ea_is_archived())
-        seats = self.env["ea.audit.team.member"].sudo().search([("user_id", "=", user.id), ("state", "=", "accepted")])
-        mine = set(seats.engagement_id.ids)
         tasks = defaultdict(list)
         phases = dict(labels.phase_labels(self.env))
         for task in self.env["project.task"].sudo().search(
-            [("project_id", "in", (engagement_projects | internal).ids), ("state", "not in", ["1_canceled", "1_done"])], order="id",
+            [("project_id", "in", (missions | internal).ids), ("state", "not in", ["1_canceled", "1_done"])], order="id",
         ):
             tasks[task.project_id.id].append({"id": task.id, "name": phases.get(task.ea_phase) or task.name})
         return [
-            {
-                "id": p.id, "label": p.name, "kind": "mission" if p.ea_engagement_id.id in mine else "firm",
-                "engagement_id": p.ea_engagement_id.id, "tasks": tasks[p.id],
-            }
-            for p in engagement_projects
+            {"id": p.id, "label": p.name, "kind": "mission", "engagement_id": p.ea_engagement_id.id, "tasks": tasks[p.id]}
+            for p in missions
         ] + [
             {"id": p.id, "label": p.name, "kind": "internal", "engagement_id": False, "tasks": tasks[p.id]} for p in internal
         ]
@@ -291,10 +284,12 @@ class TimesheetSheet(models.AbstractModel):
         user = self.env.user
         if user._ea_firm_role() in FIRM_WIDE_REPORT_ROLES:
             return self.env._("The whole firm")
-        leads = self.env["ea.audit.team.member"].sudo().search_count([
-            ("user_id", "=", user.id), ("state", "=", "accepted"), ("team_role", "in", ["partner", "manager"]),
+        reviews = self.env["ea.audit.team.member"].sudo().search_count([
+            ("user_id", "=", user.id), ("state", "=", "accepted"), ("team_role", "=", "eqr_reviewer"),
         ])
-        return self.env._("Your hours and those of the engagements you lead") if leads else self.env._("Your hours")
+        if reviews:
+            return self.env._("Your hours and the team's on the engagements where you are the quality reviewer")
+        return self.env._("Your hours")
 
     @api.model
     def ea_ts_report(self, date_from=None, date_to=None, group_by="person"):

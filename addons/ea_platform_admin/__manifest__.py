@@ -7,12 +7,15 @@
     "author": "AuditISA",
     "application": True,
     # No ea_audit_* here, ever: this instance holds health figures only. A test checks it.
-    "depends": ["base", "web", "mail"],
+    # auth_signup: so that this addon's closing of public sign-up always comes after auth_signup's
+    # own default (open), on install and on every update.
+    "depends": ["base", "web", "mail", "auth_signup"],
     "pre_init_hook": "refuse_firm_database",
     "data": [
         "security/platform_security.xml",
         "security/ir.model.access.csv",
         "data/platform_data.xml",
+        "data/auth_signup.xml",
         "views/webclient_templates.xml",
         "views/firm_views.xml",
         "views/job_views.xml",
