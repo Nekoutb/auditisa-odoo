@@ -49,6 +49,12 @@ bash "$S" apply https://www.auditisa.com/admin > /dev/null 2>&1
 bash "$S" rollback > "$SANDBOX/out" 2>&1 && ok "rollback runs" || { bad "rollback"; cat "$SANDBOX/out"; }
 cmp -s "$SITES/status.auditisa.com.conf" "$SANDBOX/original.conf" && ok "the vhost is as it was" || bad "not restored"
 
+bash "$S" apply > "$SANDBOX/out" 2>&1 && ok "apply without an address runs" || { bad "apply without an address"; cat "$SANDBOX/out"; }
+grep -q 'RedirectMatch 302 \^/(?!status\\\.json\$) https://console.auditisa.com/odoo/status$' "$SITES/status.auditisa.com.conf" \
+  && ok "the default target is the console's Status tab" || { bad "default target"; cat "$SITES/status.auditisa.com.conf"; }
+bash "$S" rollback > /dev/null 2>&1
+cmp -s "$SITES/status.auditisa.com.conf" "$SANDBOX/original.conf" && ok "and it rolls back too" || bad "not restored after the default"
+
 touch "$SANDBOX/refuse"
 if bash "$S" apply https://www.auditisa.com/admin > /dev/null 2>&1; then bad "went on though Apache refused"; else ok "stops when Apache refuses the configuration"; fi
 cmp -s "$SITES/status.auditisa.com.conf" "$SANDBOX/original.conf" && ok "and the vhost is as it was" || bad "left changed"

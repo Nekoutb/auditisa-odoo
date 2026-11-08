@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # redirect-status-site.sh: status.auditisa.com sends people to the control room. For the owner, on the production
-# VPS, once the admin Odoo has its own computer. Until then, do not run it: the old page stays.
+# VPS, when the owner chooses. The admin Odoo has its own computer since 2026-11-08 (console.auditisa.com).
 #
 #   bash redirect-status-site.sh check                   what would change; changes nothing (the default)
-#   bash redirect-status-site.sh apply  TARGET_URL        backs up, redirects, tests, undoes itself on failure
+#   bash redirect-status-site.sh apply  [TARGET_URL]      backs up, redirects, tests, undoes itself on failure
 #   bash redirect-status-site.sh rollback                 the vhost as it was
 #
-# TARGET_URL is where people go, for example https://www.auditisa.com/admin. It must answer before anything changes.
+# TARGET_URL is where people go: by default the console's Status tab, https://console.auditisa.com/odoo/status.
+# It must answer before anything changes.
 #
 # What changes: the Apache vhost(s) of status.auditisa.com get one RedirectMatch, for every address but one.
 # /status.json keeps being served, unchanged, because the control room reads the current tool's figures from it
@@ -27,7 +28,8 @@ log() { printf '[status-redirect] %s\n' "$*"; }
 die() { printf '[status-redirect] ERROR: %s\n' "$*" >&2; exit 1; }
 
 COMMAND=${1:-check}
-TARGET=${2:-}
+DEFAULT_TARGET=https://console.auditisa.com/odoo/status
+TARGET=${2:-$DEFAULT_TARGET}
 
 restore() {
   local copy original
