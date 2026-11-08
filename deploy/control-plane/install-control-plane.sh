@@ -107,8 +107,9 @@ ODOO_BIN=/opt/odoo19/src/odoo-bin
 LIVE=/etc/letsencrypt/live/$ADMIN_HOST
 log() { printf '[%s] %s\n' "$SCRIPT_NAME" "$*"; }
 run() { if [ "$DRY_RUN" = 1 ]; then printf '+ %s\n' "$*"; else "$@"; fi; }
-# As the odoo user, with its own home: root's is not readable to it, and uv and git look there.
-as_odoo() { runuser -u odoo -- env HOME=/opt/odoo19 "$@"; }
+# As the odoo user, from its own home: root's home and folder are not readable to it, and uv and git
+# look in both (uv reads a uv.toml in the current folder).
+as_odoo() { (cd /opt/odoo19 && runuser -u odoo -- env HOME=/opt/odoo19 UV_NO_CONFIG=1 "$@"); }
 render() {
   local path=$R$1 mode=$2 owner=$3
   mkdir -p "$(dirname "$path")"
@@ -137,6 +138,7 @@ if [ -d "$ADDONS_DIR" ] && find "$ADDONS_DIR" -mindepth 1 -maxdepth 1 ! -name 'e
 fi
 
 log "packages"
+export DEBIAN_FRONTEND=noninteractive
 run apt-get update -qq
 # gcc and python3-dev: python-ldap, in Odoo's requirements, has no wheel and is compiled.
 run apt-get install -y -qq --no-install-recommends "${APT_PACKAGES[@]}" gcc python3-dev

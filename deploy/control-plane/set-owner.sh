@@ -63,7 +63,7 @@ env.cr.commit()
 missing = wanted - user[groups_field]
 print("SET-OWNER-RESULT", user.id, "groups-ok" if not missing else "groups-missing")
 PY
-} | runuser -u odoo -- env HOME=/opt/odoo19 P_LOGIN="$LOGIN" P_NAME="$NAME" P_LANG="$LANG_CODE" P_TZ="$TZ_NAME" \
+} | (cd /opt/odoo19 && runuser -u odoo -- env HOME=/opt/odoo19 P_LOGIN="$LOGIN" P_NAME="$NAME" P_LANG="$LANG_CODE" P_TZ="$TZ_NAME" \
     /opt/odoo19/venv/bin/python /opt/odoo19/src/odoo-bin shell -c /etc/odoo/odoo.conf -d auditisa_platform \
-    --no-http --max-cron-threads=0 --workers=0 | grep '^SET-OWNER-RESULT' || die "Odoo did not confirm"
+    --no-http --max-cron-threads=0 --workers=0) | grep '^SET-OWNER-RESULT' || die "Odoo did not confirm"
 unset PASSWORD

@@ -24,7 +24,7 @@ Créer la branche, une seule fois, quand vous êtes d'accord : `git push origin 
 
 **L'onglet « État » de la salle de contrôle** (Plateforme > Statut, à côté de Supervision) montre les deux outils, leurs trois étapes, les commits GitHub, les chiffres de l'outil actuel, et les boutons Promouvoir et Reconstruire. Tant que rien n'est branché, il affiche des **DONNÉES D'EXEMPLE**, écrit sur chaque carte.
 
-**Le collecteur, sur le serveur de la salle de contrôle (quand il existe) :**
+**Le collecteur, sur le serveur de la salle de contrôle (console.auditisa.com) :** installé le 8 novembre 2026, avec les seules sources publiques. `install-control-plane.sh` le pose lui-même :
 
 ```
 python3 deploy/control-plane/pipeline-collect.py --print     # lit une fois, n'écrit rien
@@ -48,16 +48,16 @@ gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-o
 
 **Le script de reconstruction (sur 108.61.209.30) :** `install -m 700 deploy/staging/staging-rebuild.sh deploy/staging/seat_owner.py /usr/local/sbin/` puis `mv /usr/local/sbin/staging-rebuild.sh /usr/local/sbin/staging-rebuild`.
 
-**Quand la salle de contrôle a son ordinateur :**
+**Maintenant que la salle de contrôle a son ordinateur (console.auditisa.com, depuis le 8 novembre 2026) :**
 
 1. Déclarer le staging : sur la salle de contrôle, dans `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. Le jeton va dans `/etc/auditisa-platform/staging-heartbeat.token`, jamais à l'écran. Copiez-le sur le staging dans `/etc/auditisa-staging/heartbeat.token` (600), et créez `/etc/auditisa-staging/heartbeat.env` avec `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` et `SLUG=staging-server`.
-2. Plateforme > Réglages : la clé publique de signature, et vos adresses dans `ssh_allowlist`. **Les boutons refusent toute action d'une autre adresse, et refusent tout si cette liste est vide.**
+2. Plateforme > Réglages : la clé publique de signature. **Les boutons Promouvoir et Reconstruire ne vérifient pas l'adresse** (décision du propriétaire du 8 novembre 2026 : la console s'ouvre de partout) ; ils gardent la connexion du propriétaire, le motif, la ligne à recopier et la version signée. Pour les limiter à certaines adresses, écrivez-les dans le paramètre système `ea_platform_pipeline.owner_addresses` (Réglages > Technique > Paramètres système) : dès qu'il est rempli, toute autre adresse est refusée.
 3. status.auditisa.com renvoie vers la salle de contrôle, `/status.json` restant servi pour le collecteur (sur le VPS de production, par vous) :
    ```
    ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check' < deploy/status/redirect-status-site.sh
-   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- apply https://www.auditisa.com/admin' < deploy/status/redirect-status-site.sh
+   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- apply' < deploy/status/redirect-status-site.sh
    ```
-   Pour revenir : même commande avec `rollback`. Le générateur actuel reste en place : il produit les chiffres que l'onglet lit.
+   Sans adresse, `apply` renvoie vers l'onglet Statut de la console, https://console.auditisa.com/odoo/status. Pour revenir : même commande avec `rollback`. Le générateur actuel reste en place : il produit les chiffres que l'onglet lit.
 
 ### 3. Promouvoir le staging en production
 
@@ -134,7 +134,7 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
 
 ### 7. L'onglet Statut
 
-Il est dans la salle de contrôle, derrière vos adresses et votre connexion : plus de page publique. Il montre des commits, des noms d'auteur, des dates, des mots d'état et des nombres ; pas de message de commit, pas de secret.
+Il est dans la salle de contrôle (https://console.auditisa.com/odoo/status), derrière votre connexion : plus de page publique. Il montre des commits, des noms d'auteur, des dates, des mots d'état et des nombres ; pas de message de commit, pas de secret.
 
 **Retard :** le collecteur lit GitHub chaque minute par `git ls-remote`. **L'onglet a donc au plus environ une minute de retard**, plus le temps de recharger la page. Une lecture de plus de trois minutes est marquée comme ancienne. Un webhook serait immédiat mais demanderait une adresse publique et un réglage du dépôt : non retenu.
 
@@ -143,7 +143,7 @@ Il est dans la salle de contrôle, derrière vos adresses et votre connexion : p
 | Ce que vous voyez | Ce que cela veut dire | Que faire |
 |---|---|---|
 | Contrôles : `NO` | Une condition manque | Le motif est écrit. Rien n'a démarré |
-| « This address is not one of the owner's » | Vous n'êtes pas sur une de vos adresses, ou la liste est vide | Plateforme > Réglages |
+| « This address is not one of the owner's » | Le paramètre `ea_platform_pipeline.owner_addresses` est rempli et vous n'êtes pas sur une de ces adresses | Videz-le ou ajoutez l'adresse (Réglages > Technique > Paramètres système) |
 | Déploiement arrêté | Un cabinet a échoué et est revenu seul | UPDATING.md, « Si cela s'arrête » |
 | Reconstruction : Refusée | Le cabinet n'a pas `ANON_EXPORT_ALLOWED=1` | Section 5 |
 | Reconstruction : Échec | L'anonymiseur s'est arrêté. Rien n'est sorti | Sur le serveur du cabinet, `firm-anon-export <réf>` à la main dit pourquoi. Refaites le manifeste si une version a ajouté un champ |
@@ -174,7 +174,7 @@ To create the branch, once, when you agree: `git push origin origin/dev:refs/hea
 
 **The "Status" tab of the control room** (Platform > Status, beside Supervision) shows both tools, their three stages, the GitHub commits, the current tool's figures, and the Promote and Rebuild buttons. Until anything is connected it shows **SAMPLE DATA**, written on every card.
 
-**The collector, on the control room's server (once it exists):**
+**The collector, on the control room's server (console.auditisa.com):** installed on 8 November 2026, with the public sources only. `install-control-plane.sh` puts it in place itself:
 
 ```
 python3 deploy/control-plane/pipeline-collect.py --print     # reads once, writes nothing
@@ -198,16 +198,16 @@ gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-o
 
 **The rebuild script (on 108.61.209.30):** `install -m 700 deploy/staging/staging-rebuild.sh deploy/staging/seat_owner.py /usr/local/sbin/`, then `mv /usr/local/sbin/staging-rebuild.sh /usr/local/sbin/staging-rebuild`.
 
-**Once the control room has its own computer:**
+**Now that the control room has its own computer (console.auditisa.com, since 8 November 2026):**
 
 1. Enrol staging: on the control room, in `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. The token goes to `/etc/auditisa-platform/staging-heartbeat.token`, never to the screen. Copy it to staging as `/etc/auditisa-staging/heartbeat.token` (600), and create `/etc/auditisa-staging/heartbeat.env` with `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` and `SLUG=staging-server`.
-2. Platform > Settings: the public signing key, and your addresses in `ssh_allowlist`. **The buttons refuse any action from another address, and refuse everything if that list is empty.**
+2. Platform > Settings: the public signing key. **The Promote and Rebuild buttons do not check the address** (the owner's ruling of 8 November 2026: the console opens from anywhere); they keep the owner's sign-in, the reason, the line to type and the signed release. To limit them to some addresses, write those in the system parameter `ea_platform_pipeline.owner_addresses` (Settings > Technical > System Parameters): once it holds anything, every other address is refused.
 3. status.auditisa.com sends people to the control room, `/status.json` still being served for the collector (on the production VPS, by you):
    ```
    ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check' < deploy/status/redirect-status-site.sh
-   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- apply https://www.auditisa.com/admin' < deploy/status/redirect-status-site.sh
+   ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- apply' < deploy/status/redirect-status-site.sh
    ```
-   To go back: the same command with `rollback`. The current generator stays: it makes the figures the tab reads.
+   Without an address, `apply` sends people to the console's Status tab, https://console.auditisa.com/odoo/status. To go back: the same command with `rollback`. The current generator stays: it makes the figures the tab reads.
 
 ### 3. Promoting staging to production
 
@@ -284,7 +284,7 @@ The firm's server does all the sensitive work. The admin Odoo asks and logs, no 
 
 ### 7. The Status tab
 
-It is in the control room, behind your addresses and your sign-in: there is no public page any more. It shows commits, author names, dates, state words and counts; no commit message, no secret.
+It is in the control room (https://console.auditisa.com/odoo/status), behind your sign-in: there is no public page any more. It shows commits, author names, dates, state words and counts; no commit message, no secret.
 
 **How far behind:** the collector reads GitHub each minute with `git ls-remote`. **So the tab is at most about one minute behind**, plus the time to reload the page. A reading older than three minutes is marked as old. A webhook would be instant but needs a public address and a repository setting: not chosen.
 
@@ -293,7 +293,7 @@ It is in the control room, behind your addresses and your sign-in: there is no p
 | What you see | What it means | What to do |
 |---|---|---|
 | Pre-checks: `NO` | A condition is missing | The reason is written there. Nothing started |
-| "This address is not one of the owner's" | You are not on one of your addresses, or the list is empty | Platform > Settings |
+| "This address is not one of the owner's" | The parameter `ea_platform_pipeline.owner_addresses` holds addresses and you are not on one | Empty it or add the address (Settings > Technical > System Parameters) |
 | Rollout stopped | A firm failed and went back by itself | UPDATING.md, "If it stops" |
 | Rebuild: Refused | The firm does not have `ANON_EXPORT_ALLOWED=1` | Section 5 |
 | Rebuild: Failed | The anonymiser stopped. Nothing left the firm | On the firm's server, `firm-anon-export <ref>` by hand says why. Rebuild the manifest if a release added a field |
