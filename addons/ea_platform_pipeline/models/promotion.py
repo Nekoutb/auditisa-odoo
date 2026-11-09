@@ -4,7 +4,7 @@ from odoo.http import request
 
 from odoo.addons.ea_platform_admin.services.messages import _, dumps_list
 from ..services import pipeline
-from .i18n import read, t
+from .i18n import read_any, t, t_any
 
 STATES = [
     ("draft", "To check"),
@@ -96,7 +96,7 @@ class PlatformPipelinePromotion(models.Model):
                 continue
             ok, message = promotion._hold_check()
             promotion.hold_ok = ok
-            promotion.hold_text = t(self.env, message)
+            promotion.hold_text = t_any(self.env, message)
 
     def _hold_check(self):
         """(ok, message): the release's holding period on the practice computer, or the owner's exception."""
@@ -110,7 +110,7 @@ class PlatformPipelinePromotion(models.Model):
     @api.depends_context("lang")
     def _compute_checks_text(self):
         for promotion in self:
-            promotion.checks_text = read(self.env, promotion.checks_raw)
+            promotion.checks_text = read_any(self.env, promotion.checks_raw)
 
     @api.depends("state", "release_id")
     @api.depends_context("lang")

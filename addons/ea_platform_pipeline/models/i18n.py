@@ -12,6 +12,16 @@ def t(env, message):
     return render(message, lambda source: env._(source))
 
 
+def t_any(env, message):
+    """A message of either addon: this addon's French, or ea_platform_admin's (the practice wait's, for one)."""
+
+    def translate(source):
+        mine = env._(source)
+        return mine if mine != source else admin_t(env, Msg(source))
+
+    return render(message, translate)
+
+
 def read(env, raw):
     return "\n".join(t(env, message) for message in loads(raw))
 

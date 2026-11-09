@@ -345,6 +345,7 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         wizard = self.env["platform.environment.promote"].with_user(self.owner).browse(action["res_id"])
         self.assertIn("This version is not signed yet. Sign it on your computer first.", wizard.overview_html)
         self.assertIn("build_release.sh --sign", wizard.overview_html)
+        self.assertIn("--unsigned", wizard.overview_html)
         self.assertIn("3" * 12, wizard.overview_html)
         self.assertIn("Step 1. Staging → Practice", wizard.overview_html)
         self.assertIn("Step 2. Practice → Production", wizard.overview_html)

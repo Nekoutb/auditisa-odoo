@@ -87,8 +87,8 @@
                                                 <field name="login"/>
                                                 <field name="role"/>
                                                 <field name="last_login"/>
-                                                <field name="online" widget="boolean"/>
-                                                <field name="active" widget="boolean"/>
+                                                <field name="online" widget="boolean" width="110px"/>
+                                                <field name="active" widget="boolean" width="80px"/>
                                                 <field name="protected" column_invisible="1"/>
                                                 <field name="pending" column_invisible="1"/>
                                                 <button name="action_reset_password" type="object" string="New password..." icon="fa-key"
@@ -115,7 +115,7 @@
                                         <field name="firm_ids" nolabel="1" readonly="1">
                                             <list create="0" delete="0">
                                                 <field name="name"/>
-                                                <field name="users_active" string="Accounts (count)"/>
+                                                <field name="users_active" string="Accounts (count)" width="160px"/>
                                                 <field name="last_heartbeat_at"/>
                                                 <field name="health_color" widget="badge" decoration-success="health_color == 'green'"
                                                        decoration-warning="health_color == 'amber'" decoration-danger="health_color == 'red'"/>

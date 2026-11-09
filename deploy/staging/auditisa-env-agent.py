@@ -316,7 +316,7 @@ def account(raw):
         conf, user, db, protected = PRACTICE_CONF, "odoo-practice", f"practice_{slug}", space_admin_login(slug) or ""
     if not DBNAME.match(db) or not db_exists(db):
         return {"id": data["id"], "state": "failed", "code": "unknown_space"}
-    env = {"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8", "HOME": "/tmp",
+    env = {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LANG": "C.UTF-8", "HOME": "/tmp",
            "EA_ENV_REQUEST": json.dumps(data), "EA_ENV_PROTECTED": protected}
     result = subprocess.run(
         ["runuser", "-u", user, "--", PYTHON, ODOO_BIN, "shell", "-c", conf, "-d", db, "--no-http",

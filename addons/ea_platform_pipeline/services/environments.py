@@ -245,12 +245,17 @@ def changes_between(log, old, new):
     return log[start:end]
 
 
-def sign_commands(sha):
-    """What the owner runs on the computer that holds the signing key. From console-live/first-release.md."""
+def sign_commands(sha, full=None):
+    """What the owner runs on the computer that holds the signing key. From console-live/first-release.md.
+
+    The bundle is named by the full commit: when only a short one is known, the second line says so.
+    """
     sha = sha if sha and SHA.match(sha) else "<commit>"
+    full = full if full and len(full) == 40 and SHA.match(full) and same_commit(full, sha) else None
+    bundle = f"{full}.tar.gz" if full else "<the .tar.gz file the first line made>"
     return [
-        f"bash scripts/provision/build_release.sh {sha} --unsigned --out <release folder>",
-        f"bash scripts/provision/build_release.sh --sign <release folder>/{sha}.tar.gz "
+        f"bash scripts/provision/build_release.sh {full or sha} --unsigned --out <release folder>",
+        f"bash scripts/provision/build_release.sh --sign <release folder>/{bundle} "
         "--key <your signing key>.pem --pub <your signing key>.pub",
     ]
 

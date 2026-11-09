@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.ea_platform_admin.services.messages import _
 from ..models.environment import _code, _note, _table, _when
-from ..models.i18n import t
+from ..models.i18n import t, t_any
 from ..services import environments as envs
 from ..services import pipeline
 
@@ -122,8 +122,10 @@ class PlatformEnvironmentPromote(models.TransientModel):
         practice = environments.filtered(lambda e: e.code == "practice")[:1]
         computer = env["platform.practice.computer"]._current()
         firms = env["platform.environment"]._production_firms()
+        running = (((env["platform.environment"]._pipeline_state() or {}).get("odoo") or {}).get("running") or {}).get("staging")
         for wizard in self:
             sha = staging.revision
+            full_sha = running["sha"] if running and envs.same_commit(running["sha"], sha or "") else None
             signed = staging._signed_release(sha) if staging else env["platform.release"]
             practice_sha = (computer.release if computer else False) or practice.revision
             practice_release = practice._signed_release(practice_sha) if practice else env["platform.release"]
@@ -139,7 +141,7 @@ class PlatformEnvironmentPromote(models.TransientModel):
                 step1.append(_note(Markup("<b>%s</b><br/>%s%s") % (
                     t(env, _("This version is not signed yet. Sign it on your computer first.")),
                     t(env, _("On the computer that holds your signing key, in the auditisa-odoo folder:")),
-                    _code(envs.sign_commands(sha))
+                    _code(envs.sign_commands(sha, full_sha))
                     + Markup("<p>%s</p>") % t(env, _(
                         "Then upload it and register it in Platform > Updates > Releases, as in console-live/first-release.md. "
                         "The console never signs: the key stays on your computer."))), "warning"))
@@ -151,7 +153,7 @@ class PlatformEnvironmentPromote(models.TransientModel):
                 t(env, _("Step 1. Staging → Practice: the client practice spaces get it first")), Markup("").join(step1)))
             step2 = [Markup("<p>%s <code>%s</code></p>") % (t(env, _("Practice runs")), practice_sha or "?")]
             if practice_release:
-                step2.append(Markup("<p>%s</p>") % t(env, practice_release._practice_hold()[2]))
+                step2.append(Markup("<p>%s</p>") % t_any(env, practice_release._practice_hold()[2]))
             else:
                 step2.append(Markup("<p>%s</p>") % t(env, _("No signed release is registered for what practice runs.")))
             step2.append(Markup("<p>%s</p>") % (t(env, _("%(count)s client firm(s) would get it.", count=len(firms)))
