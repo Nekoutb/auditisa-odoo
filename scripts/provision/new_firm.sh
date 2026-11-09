@@ -176,6 +176,12 @@ email = os.environ["FIRM_ADMIN_EMAIL"]
 lang = os.environ["FIRM_LANG"]
 tz = os.environ["FIRM_TZ"]
 
+if os.environ["FIRM_MAIL_OFF"] == "1" and "_notify_security_setting_update" in dir(env["res.users"]):
+    # A brand-new database has nobody to tell that its admin's login and password were set, and
+    # mail is off: Odoo 19 would still try to send both notices at once, to localhost:25 (seen on
+    # the test firms, 2026-11-09). Skipped for this script only.
+    type(env["res.users"])._notify_security_setting_update = lambda *args, **kwargs: None
+
 company = env.ref("base.main_company")
 company.write({"name": firm, "email": email})
 company.partner_id.write({"lang": lang, "tz": tz})
