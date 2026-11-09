@@ -10,6 +10,8 @@ _SMTP_FIELDS = frozenset({
     "from_filter", "active",
 })
 _MAIL_CRONS = ("mail.ir_cron_mail_scheduler_action", "mail.ir_cron_mail_gateway_action")
+# "Forgot your password?" sends a mail: offered only while mail is open (test-firm run, 2026-11-09).
+PARAM_RESET_PASSWORD = "auth_signup.reset_password"
 
 
 class IrMailServer(models.Model):
@@ -52,6 +54,7 @@ class IrMailServer(models.Model):
         params = self.env["ir.config_parameter"].sudo()
         if params.get_param(PARAM_MAIL_GATE) == "1" and params.get_param(PARAM_MAIL_TESTED) != "1":
             params.set_param(PARAM_MAIL_TESTED, "1")
+            params.set_param(PARAM_RESET_PASSWORD, "True")
             for xmlid in _MAIL_CRONS:
                 cron = self.env.ref(xmlid, raise_if_not_found=False)
                 if cron:
@@ -64,4 +67,5 @@ class IrMailServer(models.Model):
             params = self.env["ir.config_parameter"].sudo()
             if params.get_param(PARAM_MAIL_GATE) == "1" and params.get_param(PARAM_MAIL_TESTED) == "1":
                 params.set_param(PARAM_MAIL_TESTED, "0")
+                params.set_param(PARAM_RESET_PASSWORD, "False")
         return result

@@ -516,6 +516,9 @@ params = env["ir.config_parameter"].sudo()
 params.set_param("ea_firm_agent.heartbeat_url", os.environ["P_URL"])
 params.set_param("ea_firm_agent.slug", os.environ["P_SLUG"])
 params.set_param("ea_firm_agent.mail_gate", "1")
+# No "Forgot your password?" while mail is closed: it could not send anything. The agent turns it
+# on when the firm's mail passes its connection test (test-firm run, 2026-11-09).
+params.set_param("auth_signup.reset_password", "False")
 params.set_param("web.base.url", "https://" + os.environ["P_HOST"])
 params.set_param("web.base.url.freeze", "True")
 params.set_param("ea_firm_agent.first_admin_hash", os.environ["P_HASH"])

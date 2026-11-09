@@ -5,7 +5,7 @@ from odoo.addons.base.models.ir_mail_server import IrMail_Server, MailDeliveryEx
 from odoo.tests import TransactionCase, tagged
 
 from ..models.firm_agent import PARAM_MAIL_TESTED
-from ..models.ir_mail_server import PARAM_MAIL_GATE
+from ..models.ir_mail_server import PARAM_MAIL_GATE, PARAM_RESET_PASSWORD
 
 
 @tagged("post_install", "-at_install")
@@ -44,6 +44,7 @@ class TestMailGate(TransactionCase):
             self.server.test_smtp_connection()
         self.assertEqual(self.params.get_param(PARAM_MAIL_TESTED), "1")
         self.assertFalse(self.server._ea_mail_gate_closed())
+        self.assertEqual(self.params.get_param(PARAM_RESET_PASSWORD), "True")
 
     def test_a_failed_test_keeps_it_closed(self):
         self.params.set_param(PARAM_MAIL_GATE, "1")
@@ -55,8 +56,10 @@ class TestMailGate(TransactionCase):
     def test_changing_the_settings_closes_it_again(self):
         self.params.set_param(PARAM_MAIL_GATE, "1")
         self.params.set_param(PARAM_MAIL_TESTED, "1")
+        self.params.set_param(PARAM_RESET_PASSWORD, "True")
         self.server.write({"smtp_host": "other.example.invalid"})
         self.assertTrue(self.server._ea_mail_gate_closed())
+        self.assertEqual(self.params.get_param(PARAM_RESET_PASSWORD), "False")
 
     def test_changing_the_name_keeps_it_open(self):
         self.params.set_param(PARAM_MAIL_GATE, "1")
