@@ -104,6 +104,11 @@ class TestCatalogue(AddonCase):
             })
 
     def test_reading_it_from_the_code_finds_the_real_addons(self):
+        from odoo.modules.module import get_module_path
+        if not get_module_path("ea_audit_core", display_warning=False):
+            # The console's own addons path holds the platform's addons only, by design: there is no
+            # firm code here to read. CI, with the whole repository on the path, runs this test.
+            self.skipTest("no ea_audit_* addon on this addons path (the console)")
         self.release2.with_user(self.owner).action_read_catalogue_here()
         codes = self.release2.addon_line_ids.mapped("code")
         self.assertIn("ea_audit_reports", codes)
