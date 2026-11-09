@@ -210,6 +210,22 @@ class TestProvisioningJob(PlatformCase):
         self.assertEqual(firm.state, "active")
         self.assertEqual(len(provider.state["servers"]), 1)
 
+    def test_a_real_run_is_never_carried_on_or_cleaned_up_in_simulation(self):
+        """2026-11-09: a worker still in simulation "cleaned up" a real job and left its server."""
+        provider = DryRunProvider(boot_polls=9)
+        self._outside_patched(provider=provider)
+        _firm, job = self._onboard()
+        self.assertEqual(job.state, "waiting")
+        job.sudo().is_simulation = False  # as if the run had started in real mode
+        steps = job.step_ids.mapped(lambda s: (s.code, s.state))
+        self.env["platform.provision.job"]._cron_run_jobs()
+        self.assertEqual(job.state, "waiting")
+        self.assertEqual(job.step_ids.mapped(lambda s: (s.code, s.state)), steps)
+        self.assertIn("simulation", job.with_context(lang="en_US").last_message)
+        with self.assertRaises(UserError):
+            job.action_rollback()
+        self.assertEqual(len(provider.state["servers"]), 1)
+
     def test_a_job_can_be_cancelled_while_waiting(self):
         provider = DryRunProvider(boot_polls=9)
         self._outside_patched(provider=provider)

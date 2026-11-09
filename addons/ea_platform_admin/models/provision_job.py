@@ -280,7 +280,19 @@ class PlatformProvisionJob(models.Model):
         finally:
             self._unlock()
 
+    def _mode_changed(self):
+        """A real run must never be carried on, nor cleaned up, with the simulated services, and
+        the reverse. On 2026-11-09 a worker that still believed in simulation "cleaned up" a real
+        job: it removed nothing real, said nothing remained, and left a billed server behind."""
+        return bool(self.is_simulation) != bool(self.env["platform.services"]._is_simulation())
+
+    def _mode_message(self):
+        return _("The platform's mode (simulation or real) is not the one this run started in: nothing done.")
+
     def _run_locked(self):
+        if self._mode_changed():
+            self.sudo().last_message_raw = dumps(self._mode_message())
+            return self.state
         try:
             provider, dns, probe = self.env["platform.services"]._outside()
         except ProviderError as error:
@@ -357,6 +369,8 @@ class PlatformProvisionJob(models.Model):
             self._unlock()
 
     def _rollback_locked(self):
+        if self._mode_changed():
+            raise UserError(t(self.env, self._mode_message()))
         firm = self.firm_id.sudo()
         provider, dns, probe = self.env["platform.services"]._outside()
         resources = self._resources()
