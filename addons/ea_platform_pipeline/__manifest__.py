@@ -11,14 +11,17 @@
     "data": [
         "security/ir.model.access.csv",
         "data/pipeline_data.xml",
+        "data/environment_data.xml",
         "views/pipeline_views.xml",
         "views/firm_views.xml",
         "wizard/confirm_views.xml",
+        "views/environment_views.xml",
         "views/menus.xml",
     ],
     "assets": {
         "web.assets_backend": [
             "ea_platform_pipeline/static/src/scss/pipeline.scss",
+            "ea_platform_pipeline/static/src/scss/environments.scss",
         ],
     },
     "installable": True,

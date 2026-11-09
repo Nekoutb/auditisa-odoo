@@ -78,6 +78,33 @@ class PlatformPipelinePromotion(models.Model):
     rollout_state = fields.Selection(related="rollout_id.state", string="Rollout state")
     main_moved_at = fields.Datetime("main moved on", readonly=True, copy=False)
     next_step = fields.Text("What you do now", compute="_compute_next_step")
+    rollout_line_ids = fields.One2many(related="rollout_id.line_ids", string="Result, firm by firm")
+    # The practice-first rule: 7 days on the practice computer, or the owner's written, logged exception.
+    hold_override = fields.Boolean("Practice wait skipped", readonly=True, copy=False)
+    hold_override_reason = fields.Text("Why the wait was skipped", readonly=True, copy=False)
+    hold_override_by_id = fields.Many2one("res.users", "Skipped by", readonly=True, copy=False)
+    hold_override_at = fields.Datetime("Skipped on", readonly=True, copy=False)
+    hold_ok = fields.Boolean("Practice wait respected", compute="_compute_hold")
+    hold_text = fields.Char("Practice wait", compute="_compute_hold")
+
+    @api.depends("release_id", "hold_override")
+    @api.depends_context("lang")
+    def _compute_hold(self):
+        for promotion in self:
+            if not promotion.release_id:
+                promotion.hold_ok, promotion.hold_text = False, False
+                continue
+            ok, message = promotion._hold_check()
+            promotion.hold_ok = ok
+            promotion.hold_text = t(self.env, message)
+
+    def _hold_check(self):
+        """(ok, message): the release's holding period on the practice computer, or the owner's exception."""
+        self.ensure_one()
+        if self.hold_override:
+            return True, _("Practice wait skipped by the owner: %(reason)s", reason=self.hold_override_reason or "")
+        ok, _until, message = self.release_id.sudo()._practice_hold(fields.Datetime.now())
+        return ok, message
 
     @api.depends("checks_raw")
     @api.depends_context("lang")
@@ -118,7 +145,7 @@ class PlatformPipelinePromotion(models.Model):
         ))
         if self.kind == "promote":
             # The release order: the practice computer first, the firms after its holding period.
-            hold_ok, _until, hold_message = release.sudo()._practice_hold(now)
+            hold_ok, hold_message = self._hold_check()
             checks.append(pipeline.check("practice", hold_ok, hold_message))
             runs = self.env["platform.pipeline.test.run"].sudo().search([("commit_sha", "=like", release.sha[:7] + "%")])
             matching = [
@@ -185,7 +212,7 @@ class PlatformPipelinePromotion(models.Model):
             "batch_size": self.batch_size,
         })
         # A rollback goes back to a release the firms already ran: no holding period again.
-        rollout.with_context(ea_practice_hold_skip=self.kind == "rollback").action_start()
+        rollout.with_context(ea_practice_hold_skip=self.kind == "rollback" or self.hold_override).action_start()
         self.write({
             "state": "rolling",
             "reason": reason,
@@ -215,6 +242,57 @@ class PlatformPipelinePromotion(models.Model):
                 self.env["platform.log"]._record(
                     _("Promotion stopped"), promotion.canary_firm_id, _("Release %(release)s", release=promotion.release_id.sha[:12]),
                 )
+
+    def _change_summary(self):
+        """Exactly what will change, for the confirmation screen: from, to, which firms, the list of changes."""
+        self.ensure_one()
+        from markupsafe import Markup
+
+        from ..services import environments as envs
+        from ..wizard.environment import _changes
+        from .environment import _table
+
+        env = self.env
+        firms = self._target_firms()
+        installed = sorted({firm.addon_release[:12] for firm in firms if firm.addon_release})
+        canary = self.canary_firm_id.sudo()
+        others = (firms - canary).mapped("name")
+        rows = [
+            [t(env, _("From")), ", ".join(installed) or "?"],
+            [t(env, _("To")), Markup("<code>%s</code>") % self.release_id.display_name],
+            [t(env, _("Test firm, alone first")), canary.name or ""],
+            [t(env, _("Then, in batches of %(size)s", size=self.batch_size)), ", ".join(others) or t(env, _("no other firm"))],
+            [t(env, _("Practice wait")), self.hold_text or ""],
+            [t(env, _("Backup")), t(env, _("Each firm's server backs itself up just before it updates. Without that fresh backup the update counts as failed and the rollout stops."))],
+        ]
+        log = (((env["platform.environment"]._pipeline_state() or {}).get("odoo") or {}).get("log") or {})
+        old = installed[0] if len(installed) == 1 else None
+        changes = None
+        for branch in ("main", "staging", "dev"):
+            changes = envs.changes_between(log.get(branch), old, self.release_id.sha)
+            if changes:
+                break
+        return _table([t(env, _("What")), t(env, _("Value"))], rows, "") + _changes(env, changes, self.release_id)
+
+    def action_open_confirm_override(self):
+        """The owner's exception to the 7 days on practice: a typed word and a written reason, both logged."""
+        self.ensure_one()
+        self._require_owner()
+        if self.state != "draft" or self.kind != "promote":
+            raise UserError(t(self.env, _("The practice wait can be skipped only before a promotion starts.")))
+        if self.hold_override:
+            raise UserError(t(self.env, _("The practice wait is already skipped for this promotion.")))
+        return self.env["platform.pipeline.confirm"]._open(self, "override", self.release_id.sha[:12])
+
+    def _confirmed_override(self, reason):
+        self.ensure_one()
+        self._require_owner()
+        self.write({"hold_override": True, "hold_override_reason": reason, "hold_override_by_id": self.env.user.id,
+                    "hold_override_at": fields.Datetime.now(), "checks_ok": False})
+        self.env["platform.log"]._record(
+            _("Practice wait skipped by the owner"), None,
+            _("Release %(release)s, reason: %(reason)s", release=self.release_id.sha[:12], reason=reason),
+        )
 
     def action_open_confirm_main(self):
         self.ensure_one()

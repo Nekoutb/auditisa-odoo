@@ -362,7 +362,7 @@ class TestBoardAndPublicState(PipelineMixin, PlatformCase):
     def test_the_one_status_tab_opens_this_screen(self):
         menus = self.env["ir.ui.menu"].search([("parent_id", "=", self.env.ref("ea_platform_admin.menu_root").id)]).sorted("sequence")
         self.assertEqual(menus[:2].mapped("name"), ["Supervision", "Status"])
-        self.assertEqual(self.env.ref("ea_platform_admin.menu_status").action, self.env.ref("ea_platform_pipeline.action_pipeline_board"))
+        self.assertEqual(self.env.ref("ea_platform_admin.menu_status").action, self.env.ref("ea_platform_pipeline.action_environments"))
         self.assertEqual(len(menus.filtered(lambda m: m.name == "Status")), 1)
 
     def test_both_tools_three_stages_each(self):

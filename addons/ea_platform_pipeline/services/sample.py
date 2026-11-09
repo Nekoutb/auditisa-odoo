@@ -34,6 +34,11 @@ def sample_state(now):
             "running": {"staging": _commit("c3" * 20, "Sample author", at(2))},
             "ahead": {"development_over_staging": 0, "staging_over_main": 7},
             "sites": {"staging": {"up": True, "mail_off": True, "band_on": True}},
+            "log": {
+                "dev": [{"sha": "c3" * 20, "author": "Sample author", "at": at(2), "subject": "Sample commit: not a real change"},
+                        {"sha": "e5" * 20, "author": "Sample author", "at": at(30), "subject": "Sample commit: not a real change"}],
+                "main": [{"sha": "d4" * 20, "author": "Sample author", "at": at(90), "subject": "Sample commit: not a real change"}],
+            },
         },
     }
     import json

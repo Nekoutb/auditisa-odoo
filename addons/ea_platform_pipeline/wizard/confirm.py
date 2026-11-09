@@ -11,6 +11,7 @@ ACTIONS = [
     ("main", "Confirm main moved"),
     ("rebuild", "Rebuild staging"),
     ("rebuilt", "Record staging rebuilt"),
+    ("override", "Skip the 7 days on practice"),
 ]
 
 
@@ -33,6 +34,7 @@ class PlatformPipelineConfirm(models.TransientModel):
     typed = fields.Char("Confirmation")
     reason = fields.Text("Reason")
     warning = fields.Text("What this does", compute="_compute_expected")
+    summary_html = fields.Html("What will change", compute="_compute_summary", sanitize=False)
 
     @api.depends("action", "target", "source_firm_id")
     @api.depends_context("lang")
@@ -46,7 +48,18 @@ class PlatformPipelineConfirm(models.TransientModel):
                 "main": _("Records that you have moved main yourself. It moves nothing."),
                 "rebuild": _("Asks this firm's server to make an anonymised copy, which stays there. Nothing changes on staging until you carry it there and run the script."),
                 "rebuilt": _("Records that you have rebuilt staging. It changes nothing."),
+                "override": _("Lets the client firms get this release before it has run 7 days on practice. Your reason is kept in the platform log. Use it only for an urgent fix."),
             }[wizard.action]) if wizard.action else False
+
+    @api.depends("action", "promotion_id")
+    @api.depends_context("lang")
+    def _compute_summary(self):
+        for wizard in self:
+            promotion = wizard.promotion_id
+            if wizard.action in ("promote", "rollback") and promotion:
+                wizard.summary_html = promotion._change_summary()
+            else:
+                wizard.summary_html = False
 
     @api.model
     def _open(self, record, action, target):
@@ -88,4 +101,6 @@ class PlatformPipelineConfirm(models.TransientModel):
             }
         elif self.action == "rebuilt":
             self.rebuild_id._confirmed_rebuilt(reason)
+        elif self.action == "override":
+            self.promotion_id._confirmed_override(reason)
         return {"type": "ir.actions.act_window_close"}

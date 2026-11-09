@@ -19,7 +19,9 @@ reads this file, and checks every value again. What it reads, all read-only:
                 database names and memory are dropped here. Nothing to install on the production server.
   Odoo staging  https://test.auditisa.com/web/health, and the figures publish-staging-state.sh puts beside it.
 
-The file holds commits, author names, dates, counts and yes-or-no answers. No commit message, no secret.
+The file holds commits, author names, dates, counts, yes-or-no answers and, for the Odoo tool, the subject line
+of the last commits on each branch (the Status page's "Commits on the branch"; the page is behind sign-in). No
+secret, no commit body.
 Standard library only.
 """
 
@@ -113,6 +115,21 @@ def commit(folder, sha):
     author, at = git(["-C", folder, "log", "-1", "--format=%an%x00%cI", sha]).split("\0")
     when = datetime.fromisoformat(at).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     return {"sha": sha, "author": author[:40], "at": when}
+
+
+def history(folder, sha, count=20):
+    """The last commits up to `sha`, newest first: commit, author, date, subject line only."""
+    if not folder or not sha or not has(folder, sha):
+        return []
+    rows = []
+    for line in git(["-C", folder, "log", f"-{count}", "--format=%H%x1f%an%x1f%cI%x1f%s", sha]).splitlines():
+        parts = line.split("\x1f")
+        if len(parts) != 4 or not FULL_SHA.match(parts[0]):
+            continue
+        when = datetime.fromisoformat(parts[2]).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        subject = "".join(ch for ch in parts[3] if ch.isprintable())[:160]
+        rows.append({"sha": parts[0], "author": parts[1][:40], "at": when, "subject": subject})
+    return rows
 
 
 def ahead(folder, base, tip):
@@ -212,6 +229,8 @@ def tool(name, remote, running):
         return out
     for branch, sha in found.items():
         out["branches"][branch] = commit(folder, sha)
+    if name == "odoo":
+        out["log"] = {branch: history(folder, sha) for branch, sha in found.items()}
     for stage, sha in running.items():
         sha = full(folder, sha)
         out["running"][stage] = commit(folder, sha)

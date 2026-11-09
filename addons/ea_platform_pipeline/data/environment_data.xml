@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The Status page's four environments of the Odoo tool. Their figures are read, never kept: see environment.py. -->
+    <record id="environment_production" model="platform.environment">
+        <field name="code">production</field><field name="name">Client firms</field><field name="sequence">10</field>
+        <field name="stage_id" ref="stage_odoo_production"/>
+    </record>
+    <record id="environment_practice" model="platform.environment">
+        <field name="code">practice</field><field name="name">Practice spaces</field><field name="sequence">20</field>
+    </record>
+    <record id="environment_staging" model="platform.environment">
+        <field name="code">staging</field><field name="name">Staging (test.auditisa.com)</field><field name="sequence">30</field>
+        <field name="stage_id" ref="stage_odoo_staging"/>
+    </record>
+    <record id="environment_development" model="platform.environment">
+        <field name="code">development</field><field name="name">Development (dev)</field><field name="sequence">40</field>
+        <field name="stage_id" ref="stage_odoo_development"/>
+    </record>
+
+    <!-- env-sync.py writes a file each minute; this reads the accounts and the outcomes of account requests from it. -->
+    <record id="cron_environment_sync" model="ir.cron">
+        <field name="name">Platform: read staging's and the practice spaces' accounts</field>
+        <field name="model_id" ref="model_platform_environment"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_sync()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+    </record>
+</odoo>

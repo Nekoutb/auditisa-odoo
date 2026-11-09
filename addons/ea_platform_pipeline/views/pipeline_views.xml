@@ -51,10 +51,10 @@
         </field>
     </record>
     <record id="action_pipeline_board" model="ir.actions.act_window">
-        <field name="name">Status</field>
+        <field name="name">Both tools side by side</field>
         <field name="res_model">platform.pipeline.stage</field>
         <field name="view_mode">kanban</field>
-        <field name="path">status</field>
+        <field name="path">status-board</field>
         <field name="help" type="html">
             <p>The Promote and Rebuild buttons control the Odoo tool only. The Next.js tool has its own releases, and nothing here reaches it.</p>
         </field>

@@ -52,6 +52,8 @@ Et, hors d'Odoo, en fichiers lisibles par root seul : le jeton Vultr, le jeton D
 
 Pour l'ordinateur d'entraînement (PRACTICE-SPACES.md), de la même façon : son jeton de heartbeat, et le lien de première connexion de chaque espace d'entraînement jusqu'à son affichage. Ils n'ouvrent que des espaces aux données fictives, jamais un serveur de cabinet.
 
+Pour le staging (ENVIRONMENTS.md) : la clé SSH restreinte `/root/.ssh/auditisa_env_agent`, en fichier root sur la console, hors d'Odoo. Sur le staging elle ne peut lancer que `auditisa-env-agent` (lire les chiffres et les comptes, créer, désactiver ou changer le mot de passe d'un compte de test sur le staging ou un espace d'entraînement). Le mot de passe d'un compte de test est montré une fois à l'écran puis effacé ; seul son hash part au staging. Jamais un serveur de cabinet.
+
 ### Ce qui reste partagé
 
 | Partagé | Conséquence | Comment durcir |
@@ -134,6 +136,8 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 And, outside Odoo, in root-only files: the Vultr token, the DNS token, and the Wasabi key and secret of the user `auditisa-console`. That Wasabi key touches only the `auditisa-*` buckets and the `auditisa-firm-*` users, cannot write a policy on any user and reads no backup (WASABI.md). Each firm's storage key is kept nowhere on the control plane.
 
 For the practice computer (PRACTICE-SPACES.md), the same two kinds: its heartbeat token, and each practice space's first-login link until it is shown. They open only spaces of made-up data, never a firm's server.
+
+For staging (ENVIRONMENTS.md): the restricted SSH key `/root/.ssh/auditisa_env_agent`, a root file on the console, outside Odoo. On staging it can run `auditisa-env-agent` only (read figures and accounts; create, disable or give a new password to a test account on staging or in a practice space). A test account's password is shown once on screen, then blanked; only its hash goes to staging. Never a firm's server.
 
 ### What is still shared
 

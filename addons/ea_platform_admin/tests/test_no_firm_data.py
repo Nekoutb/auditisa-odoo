@@ -24,6 +24,10 @@ ALLOWED_SECRET_FIELDS = {"heartbeat_token", "first_admin_token"}
 # The practice computer's: its heartbeat token, and a practice space's one-time first-login link.
 PRACTICE_SECRET_FIELDS = {"platform.practice.computer": {"heartbeat_token"}, "platform.practice.space": {"first_login_token"}}
 SECRET_WORDS = re.compile(r"token|secret|key(?!_id|_fingerprint|_escrowed)")
+# The one exception, by name: the one-time password of a TEST account on staging or a practice space, on a
+# transient wizard, shown once and blanked on close. Never a firm's credential; only its hash leaves the
+# console (docs/runbook/ENVIRONMENTS.md).
+SHOWN_ONCE_FIELDS = {"platform.environment.account.wizard.password"}
 
 FORBIDDEN_IMPORTS = {"paramiko", "fabric", "xmlrpc", "odoorpc", "asyncssh", "subprocess", "socket", "ftplib", "smtplib", "telnetlib"}
 FORBIDDEN_CALLS = re.compile(r"psycopg2\.connect|db_connect|sql_db\.|os\.system|os\.popen")
@@ -63,7 +67,7 @@ class TestNoFirmData(PlatformCase):
         wrong = []
         for model in self._platform_models():
             for name in self.env[model]._fields:
-                if FORBIDDEN_FIELD_WORDS.search(name):
+                if FORBIDDEN_FIELD_WORDS.search(name) and f"{model}.{name}" not in SHOWN_ONCE_FIELDS:
                     wrong.append(f"{model}.{name}")
         self.assertEqual(wrong, [])
 

@@ -134,7 +134,7 @@ Le serveur du cabinet fait tout le travail sensible. L'Odoo d'administration dem
 
 ### 7. L'onglet Statut
 
-Il est dans la salle de contrôle (https://console.auditisa.com/odoo/status), derrière votre connexion : plus de page publique. Il montre des commits, des noms d'auteur, des dates, des mots d'état et des nombres ; pas de message de commit, pas de secret.
+Il est dans la salle de contrôle (https://console.auditisa.com/odoo/status), derrière votre connexion : plus de page publique. Il montre des commits, des noms d'auteur, des dates, des mots d'état, des nombres et la ligne de titre des derniers commits de chaque branche (onglet Historique) ; pas de corps de commit, pas de secret. Depuis novembre 2026 c'est la page des environnements : voir ENVIRONMENTS.md. L'ancien tableau est à `/odoo/status-board`.
 
 **Retard :** le collecteur lit GitHub chaque minute par `git ls-remote`. **L'onglet a donc au plus environ une minute de retard**, plus le temps de recharger la page. Une lecture de plus de trois minutes est marquée comme ancienne. Un webhook serait immédiat mais demanderait une adresse publique et un réglage du dépôt : non retenu.
 
@@ -284,7 +284,7 @@ The firm's server does all the sensitive work. The admin Odoo asks and logs, no 
 
 ### 7. The Status tab
 
-It is in the control room (https://console.auditisa.com/odoo/status), behind your sign-in: there is no public page any more. It shows commits, author names, dates, state words and counts; no commit message, no secret.
+It is in the control room (https://console.auditisa.com/odoo/status), behind your sign-in: there is no public page any more. It shows commits, author names, dates, state words, counts and the subject line of each branch's last commits (History tab); no commit body, no secret. Since November 2026 it is the environments page: see ENVIRONMENTS.md. The previous board is at `/odoo/status-board`.
 
 **How far behind:** the collector reads GitHub each minute with `git ls-remote`. **So the tab is at most about one minute behind**, plus the time to reload the page. A reading older than three minutes is marked as old. A webhook would be instant but needs a public address and a repository setting: not chosen.
 

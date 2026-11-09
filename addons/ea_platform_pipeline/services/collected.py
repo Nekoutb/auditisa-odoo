@@ -9,13 +9,15 @@ import json
 import re
 from datetime import datetime, timedelta
 
+from .environments import commit_log
+
 SHA = re.compile(r"^[0-9a-f]{7,40}$")
 INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$")
 AUTHOR = re.compile(r"^[^\x00-\x1f<>]{1,40}$")
 SIZE = re.compile(r"^[0-9]{1,6}(\.[0-9])? (B|KB|MB|GB)$")
 GITHUB_STATES = ("ok", "no_key", "unreachable")
 FRESH = timedelta(minutes=3)
-MAX_BYTES = 65536
+MAX_BYTES = 262144
 
 
 def _sha(value):
@@ -78,6 +80,7 @@ def _tool(value, branches, stages, counts):
         "ahead": read("ahead", counts, _count),
         "sites": read("sites", stages, _site),
         "figures": read("figures", stages, _figures),
+        "log": {name: commit_log(value["log"].get(name) if isinstance(value.get("log"), dict) else None) for name in branches},
     }
 
 

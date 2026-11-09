@@ -69,6 +69,8 @@ def phrase(kind, target, lang=None):
         "rebuild": "RECONSTRUIRE" if french else "REBUILD",
         "main": "MAIN",
         "rebuilt": "RECONSTRUIT" if french else "REBUILT",
+        "practice": "ENTRAINEMENT" if french else "PRACTICE",
+        "override": "SANS-ATTENTE" if french else "NO-WAIT",
     }[kind]
     return f"{word} {target}"
 
