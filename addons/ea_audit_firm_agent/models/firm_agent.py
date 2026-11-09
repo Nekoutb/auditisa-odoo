@@ -77,6 +77,7 @@ class EaFirmAgent(models.AbstractModel):
 
     @api.model
     def _cron_send_heartbeat(self):
+        self.env["ir.mail_server"]._ea_keep_reset_closed()
         get_param = self.env["ir.config_parameter"].sudo().get_param
         url, slug, token = get_param(PARAM_URL), get_param(PARAM_SLUG), self._read_token()
         if not (url and slug and token):
