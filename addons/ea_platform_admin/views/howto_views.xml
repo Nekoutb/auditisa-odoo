@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The page of one guide. It holds no text of its own: every word comes from services/howto.py,
+         already in the reader's language (models/howto.py). -->
+    <template id="howto_page" name="Platform: how-to guide page">
+        <div class="o_ea_howto">
+            <header class="o_ea_howto_head">
+                <h1 t-out="title"/>
+                <p class="o_ea_howto_summary" t-out="summary"/>
+            </header>
+            <div class="o_ea_howto_intro">
+                <p t-foreach="intro" t-as="paragraph" t-out="paragraph"/>
+            </div>
+            <nav class="o_ea_howto_toc">
+                <h2 t-out="labels['steps']"/>
+                <ol>
+                    <li t-foreach="steps" t-as="step" t-out="step['heading']"/>
+                </ol>
+            </nav>
+            <section t-foreach="steps" t-as="step" class="o_ea_howto_step" t-att-id="step['anchor']">
+                <div class="o_ea_howto_step_head">
+                    <span class="o_ea_howto_number" t-out="step['number']"/>
+                    <div>
+                        <div class="o_ea_howto_step_label" t-out="step['label']"/>
+                        <h2 t-out="step['heading']"/>
+                    </div>
+                </div>
+                <div class="o_ea_howto_figures">
+                    <figure t-foreach="step['images']" t-as="image" class="o_ea_howto_figure">
+                        <a t-att-href="image['src']" target="_blank" rel="noopener" t-att-title="labels['open']">
+                            <img t-att-src="image['src']" t-att-alt="image['alt']" loading="lazy"/>
+                        </a>
+                        <figcaption t-out="image['caption']"/>
+                    </figure>
+                </div>
+                <div class="o_ea_howto_block o_ea_howto_do">
+                    <h3 t-out="labels['do']"/>
+                    <ul>
+                        <li t-foreach="step['do']" t-as="line" t-out="line"/>
+                    </ul>
+                    <t t-if="step['list_title']">
+                        <p class="o_ea_howto_list_title" t-out="step['list_title']"/>
+                        <ul>
+                            <li t-foreach="step['list']" t-as="line" t-out="line"/>
+                        </ul>
+                    </t>
+                    <div t-if="step['table']" class="o_ea_howto_table_wrap">
+                        <table class="o_ea_howto_table">
+                            <thead>
+                                <tr><th t-foreach="step['table']['head']" t-as="cell" t-out="cell"/></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="step['table']['rows']" t-as="row">
+                                    <td t-foreach="row" t-as="cell" t-out="cell"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p t-if="step['after_table']" class="o_ea_howto_after" t-out="step['after_table']"/>
+                    <div t-if="step['note']" class="o_ea_howto_note" role="note" t-out="step['note']"/>
+                </div>
+                <div class="o_ea_howto_pair">
+                    <div t-if="step['why']" class="o_ea_howto_block o_ea_howto_why">
+                        <h3 t-out="labels['why']"/>
+                        <p t-out="step['why']"/>
+                    </div>
+                    <div t-if="step['next']" class="o_ea_howto_block o_ea_howto_next">
+                        <h3 t-out="labels['next']"/>
+                        <p t-out="step['next']"/>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <record id="view_howto_list" model="ir.ui.view">
+        <field name="name">platform.howto.list</field>
+        <field name="model">platform.howto</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="sequence" column_invisible="1"/>
+                <field name="name"/>
+                <field name="summary"/>
+                <field name="step_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_howto_form" model="ir.ui.view">
+        <field name="name">platform.howto.form</field>
+        <field name="model">platform.howto</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0" class="o_ea_platform_form o_ea_howto_form">
+                <sheet>
+                    <field name="body" nolabel="1" readonly="1" class="o_ea_howto_body"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_howto" model="ir.actions.act_window">
+        <field name="name">All guides</field>
+        <field name="res_model">platform.howto</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_howto_new_firm" model="ir.actions.act_window">
+        <field name="name">Provision a new firm</field>
+        <field name="res_model">platform.howto</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="howto_new_firm"/>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Console menu bar: How to > one entry per guide, then the list of all guides. -->
+    <menuitem id="menu_howto" name="How to" parent="menu_root" sequence="95"
+              groups="group_platform_operator"/>
+    <menuitem id="menu_howto_new_firm" name="Provision a new firm" parent="menu_howto"
+              action="action_howto_new_firm" sequence="10"/>
+    <menuitem id="menu_howto_all" name="All guides" parent="menu_howto" action="action_howto" sequence="90"/>
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- One record per guide of services/howto.py: its texts and pictures live there. -->
+    <record id="howto_new_firm" model="platform.howto">
+        <field name="code">new_firm</field>
+        <field name="sequence">10</field>
+    </record>
+</odoo>

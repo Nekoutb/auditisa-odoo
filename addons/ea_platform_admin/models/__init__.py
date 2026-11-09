@@ -9,3 +9,4 @@ from . import addon
 from . import firm_addons
 from . import support
 from . import practice
+from . import howto

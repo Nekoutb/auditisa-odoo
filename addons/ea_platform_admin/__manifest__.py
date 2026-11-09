@@ -30,11 +30,14 @@
         "views/menus.xml",
         "views/support_menus.xml",
         "views/practice_views.xml",
+        "data/howto_data.xml",
+        "views/howto_views.xml",
     ],
     "assets": {
         "web.assets_backend": [
             "ea_platform_admin/static/src/scss/platform.scss",
             "ea_platform_admin/static/src/scss/supervision.scss",
+            "ea_platform_admin/static/src/scss/howto.scss",
         ],
     },
     "installable": True,

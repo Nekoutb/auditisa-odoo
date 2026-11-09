@@ -313,6 +313,7 @@ msgstr "Plateforme AuditISA"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Automatic health check"
 msgstr "Contrôle de santé automatique"
 
@@ -389,7 +390,9 @@ msgid "Backup succeeded"
 msgstr "Sauvegarde réussie"
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Backups"
 msgstr "Sauvegardes"
 
@@ -529,6 +532,7 @@ msgstr "Contrôle refusé : %(reason)s"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Checking the request"
 msgstr "Contrôle de la demande"
 
@@ -695,6 +699,7 @@ msgstr "Créé le"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Creating the server"
 msgstr "Création du serveur"
 
@@ -1111,6 +1116,7 @@ msgstr "Lien du premier administrateur affiché"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "First administrator's one-time link"
 msgstr "Lien à usage unique du premier administrateur"
 
@@ -1166,16 +1172,21 @@ msgstr "Passez d'abord par la confirmation de l'identifiant."
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Going live"
 msgstr "Mise en service"
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__green
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Green"
 msgstr "Vert"
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__grey
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Grey"
 msgstr "Gris"
 
@@ -1333,6 +1344,7 @@ msgstr "Si coché, certains messages ont une erreur d'envoi."
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Install (Odoo, PostgreSQL, HTTPS, backups)"
 msgstr "Installation (Odoo, PostgreSQL, HTTPS, sauvegardes)"
 
@@ -2008,6 +2020,7 @@ msgstr "Version précédente"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Private key erased"
 msgstr "Clé privée effacée"
 
@@ -2028,6 +2041,7 @@ msgstr "Fournisseur"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Provider firewall (22 restricted, 80, 443)"
 msgstr "Pare-feu du fournisseur (22 restreint, 80, 443)"
 
@@ -2146,8 +2160,10 @@ msgid "Record the access"
 msgstr "Enregistrer l'accès"
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__health_color__red
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Red"
 msgstr "Rouge"
 
@@ -2400,10 +2416,12 @@ msgid "Sequence"
 msgstr "Séquence"
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_server
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_kanban
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Server"
 msgstr "Serveur"
 
@@ -2513,6 +2531,7 @@ msgstr "Cabinet de simulation : aucun serveur réel n'existe derrière cette fic
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__size
 #. odoo-python
 #: code:addons/ea_platform_admin/controllers/supervision.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Size"
 msgstr "Taille"
 
@@ -2581,6 +2600,7 @@ msgstr "Lancée le"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Starting the server"
 msgstr "Démarrage du serveur"
 
@@ -2616,6 +2636,7 @@ msgstr "Étape (source)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_provision_job__step_ids
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_howto__step_count
 msgid "Steps"
 msgstr "Étapes"
 
@@ -2776,12 +2797,14 @@ msgstr "Le cabinet a été informé"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "The firm's SSH key at the provider"
 msgstr "Clé SSH du cabinet chez le fournisseur"
 
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "The firm's address (DNS)"
 msgstr "Adresse du cabinet (DNS)"
 
@@ -2801,6 +2824,7 @@ msgstr "Le nom du cabinet est obligatoire."
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provisioning.py:0
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "The firm's own backup storage"
 msgstr "Stockage de sauvegarde propre au cabinet"
 
@@ -3182,8 +3206,10 @@ msgid "Use \"New firm\" to create the first server."
 msgstr "Lancez « Nouveau cabinet » pour créer le premier serveur."
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__users_active
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_space__users_count
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -4328,8 +4354,10 @@ msgid "Who asked for this and why. No audit data here."
 msgstr "Qui l'a demandé et pourquoi. Pas de données d'audit ici."
 
 #. module: ea_platform_admin
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon_toggle_wizard__reason
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_reset_wizard__reason
+#: code:addons/ea_platform_admin/services/howto.py:0
 msgid "Why"
 msgstr "Pourquoi"
 
@@ -5603,3 +5631,1308 @@ msgid ""
 msgstr ""
 "Aucun jeton ni aucune clé ne s'enregistre ici. Le jeton Vultr, le jeton DNS et la clé et le secret Wasabi\n"
 "                        sont dans des fichiers lisibles par root seul, sur ce serveur : voir PREREQUISITES.md et WASABI.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: model:ir.actions.act_window,name:ea_platform_admin.action_howto_new_firm
+#: model:ir.ui.menu,name:ea_platform_admin.menu_howto_new_firm
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Provision a new firm"
+msgstr "Mettre en service un nouveau cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "From the client's first details to a working firm, then how to close one. About 15 minutes of your time, then about half an hour of waiting."
+msgstr "Des premières informations du client à un cabinet qui fonctionne, puis comment en fermer un. Environ 15 minutes de votre temps, puis environ une demi-heure d'attente."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "This guide follows the console's screens in order. Each step shows the screen, says what to do, why, and what you should see next."
+msgstr "Ce guide suit les écrans de la console dans l'ordre. Chaque étape montre l'écran, dit quoi faire, pourquoi, et ce que vous devez voir ensuite."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A word you will meet often: the **heartbeat**. It is a short \"I am fine\" message that each firm's server sends to the console every 15 minutes. It carries figures only (disk, backups, version), never the firm's audit files."
+msgstr "Un mot que vous croiserez souvent : le **signal de vie**. C'est un court message « tout va bien » que le serveur de chaque cabinet envoie à la console toutes les 15 minutes. Il ne contient que des chiffres (disque, sauvegardes, version), jamais les dossiers d'audit du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "While the brown band at the bottom of the screen says SIMULATION, nothing real is created and nothing is billed. You can practise freely."
+msgstr "Tant que le bandeau brun en bas de l'écran dit SIMULATION, rien de réel n'est créé et rien n'est facturé. Vous pouvez vous exercer librement."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The pictures come from a practice copy of the console with made-up firms. Links and keys in them are hidden."
+msgstr "Les images viennent d'une copie d'essai de la console, avec des cabinets fictifs. Les liens et les clés y sont masqués."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Before you start: what to collect from the client"
+msgstr "Avant de commencer : ce qu'il faut demander au client"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The empty New firm form. Its four screens are shown at the top."
+msgstr "Le formulaire Nouveau cabinet, vide. Ses quatre écrans sont indiqués en haut."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**The firm's name**, as it should appear on screen. Example: Cabinet Exemple Conseil."
+msgstr "**Le nom du cabinet**, tel qu'il doit apparaître à l'écran. Exemple : Cabinet Exemple Conseil."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Its web address.** You choose a short name for it, called the slug. The firm's address becomes slug.auditisa.com. Use small letters, digits and hyphens: 3 to 32 characters, starting with a letter. The slug never changes and is never given to another firm."
+msgstr "**Son adresse web.** Vous choisissez un nom court, appelé l'identifiant. L'adresse du cabinet devient identifiant.auditisa.com. Utilisez des minuscules, des chiffres et des tirets : 3 à 32 caractères, en commençant par une lettre. L'identifiant ne change jamais et n'est jamais donné à un autre cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Where the firm is.** You will choose the nearest data centre (a building where servers are rented). Paris is the default and suits Cameroon."
+msgstr "**Où se trouve le cabinet.** Vous choisirez le centre de données le plus proche (un bâtiment où l'on loue des serveurs). Paris est proposé par défaut et convient au Cameroun."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Its size:** how many people will use AuditISA. Small is up to 10 users, Standard up to 30, Large more than 30."
+msgstr "**Sa taille :** combien de personnes utiliseront AuditISA. Petit : jusqu'à 10 utilisateurs, Standard : jusqu'à 30, Grand : plus de 30."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Its language:** French or English. Each user can change it later for themselves."
+msgstr "**Sa langue :** français ou anglais. Chaque utilisateur pourra ensuite choisir la sienne."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**The first administrator:** full name, email and phone. That email becomes their login. Note the firm's email domain too: the part after @, for example exemple.cm."
+msgstr "**Le premier administrateur :** nom complet, e-mail et téléphone. Cet e-mail devient son identifiant de connexion. Notez aussi le domaine de messagerie du cabinet : la partie après @, par exemple exemple.cm."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Add-ons:** any extra module the client asked for and agreed to pay for. Most firms have none."
+msgstr "**Les modules en plus :** ceux que le client a demandés et accepté de payer. La plupart des cabinets n'en ont aucun."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**The client's agreement on the monthly cost.** Step 3 shows the amounts."
+msgstr "**L'accord du client sur le coût mensuel.** L'étape 3 donne les montants."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "From your technician: **the firm's SSH key**, a small file ending in .pub. An SSH key is like a physical key to the server's maintenance door. Each firm has its own. Its private half stays in your safe; only the public half, the .pub file, goes on screen."
+msgstr "De votre technicien : **la clé SSH du cabinet**, un petit fichier qui finit par .pub. Une clé SSH est comme la clé de la porte de maintenance du serveur. Chaque cabinet a la sienne. Sa moitié privée reste dans votre coffre ; seule la moitié publique, le fichier .pub, va à l'écran."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The console asks for all of this in one go. Some answers can never change afterwards (the slug), and the email decides who receives the first login link."
+msgstr "La console demande tout cela d'un coup. Certaines réponses ne pourront plus changer (l'identifiant), et l'e-mail décide qui recevra le lien de première connexion."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Open **Platform > New firm**. The form opens on its first screen, \"The firm\"."
+msgstr "Ouvrez **Plateforme > Nouveau cabinet**. Le formulaire s'ouvre sur son premier écran, « Le cabinet »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Open \"New firm\" and fill in each field"
+msgstr "Ouvrir « Nouveau cabinet » et remplir chaque champ"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen \"The firm\", filled in for a made-up firm."
+msgstr "Écran « Le cabinet », rempli pour un cabinet fictif."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen \"The server\": region, size, language, release and the firm's key."
+msgstr "Écran « Le serveur » : région, taille, langue, version et clé du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen \"Add-ons\": every switch off, the usual case."
+msgstr "Écran « Modules » : tout est coupé, le cas habituel."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen **The firm**: type the **Firm name** and the **Slug**. In **Allowed email domains**, type the firm's email domain, one per line. Then the contact's name, email and phone. Click **Continue**."
+msgstr "Écran **Le cabinet** : tapez le **Nom du cabinet** et l'**Identifiant**. Dans **Domaines de messagerie autorisés**, tapez le domaine de messagerie du cabinet, un par ligne. Puis le nom, l'e-mail et le téléphone du contact. Cliquez sur **Continuer**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen **The server**. **Region**: where the server lives; keep Paris unless told otherwise. **Size**: from step 1. **Default language**: the firm's language. **Release to install**: the software version; keep the one proposed. Then paste the firm's public SSH key and click **Continue**."
+msgstr "Écran **Le serveur**. **Région** : où se trouve le serveur ; gardez Paris sauf avis contraire. **Taille** : selon l'étape 1. **Langue par défaut** : la langue du cabinet. **Version à installer** : la version du logiciel ; gardez celle proposée. Collez ensuite la clé SSH publique du cabinet et cliquez sur **Continuer**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen **Add-ons**: leave every switch off unless the client asked for an add-on. If you switch one on, say who asked for it and why in **Why these add-ons**. This can be changed later on the firm's page."
+msgstr "Écran **Modules** : laissez tout coupé, sauf si le client a demandé un module. Si vous en allumez un, dites qui l'a demandé et pourquoi dans **Pourquoi ces modules**. Cela pourra changer plus tard, sur la fiche du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "If a red message appears, read it: it names the field to correct. Nothing has been created yet."
+msgstr "Si un message d'erreur s'affiche, lisez-le : il indique le champ à corriger. Rien n'a encore été créé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Each screen checks its own fields before you move on, so mistakes are caught before anything is rented."
+msgstr "Chaque écran vérifie ses champs avant de passer au suivant : les erreurs sont repérées avant que quoi que ce soit ne soit loué."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "After the Add-ons screen comes **Review**, the last screen."
+msgstr "Après l'écran Modules vient **Vérification**, le dernier écran."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "If you paste a key that contains the words PRIVATE KEY, the screen erases it at once and refuses it. A private key must never leave your safe: ask your technician for the .pub file instead."
+msgstr "Si vous collez une clé qui contient les mots PRIVATE KEY, l'écran l'efface aussitôt et la refuse. Une clé privée ne doit jamais sortir de votre coffre : demandez plutôt le fichier .pub à votre technicien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Creating the server: what the console does, and what it costs"
+msgstr "Créer le serveur : ce que fait la console, et ce que cela coûte"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen \"Review\": what will be created and the estimated monthly cost."
+msgstr "Écran « Vérification » : ce qui sera créé et le coût mensuel estimé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "On **Review**, read the band at the top first. **SIMULATION** means nothing real will be made. **REAL** means a server will be rented and billed."
+msgstr "Sur **Vérification**, lisez d'abord le bandeau du haut. **SIMULATION** : rien de réel ne sera fait. **RÉEL** : un serveur sera loué et facturé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Check the address, the server size, the first administrator's email and the estimated monthly cost."
+msgstr "Vérifiez l'adresse, la taille du serveur, l'e-mail du premier administrateur et le coût mensuel estimé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Leave **Also create its practice space** ticked (see step 6)."
+msgstr "Laissez **Créer aussi son espace d'entraînement** coché (voir l'étape 6)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Tick **I confirm the creation of this server and its estimated monthly cost**, then click **Create the server**. Nothing is created before this click."
+msgstr "Cochez **Je confirme la création de ce serveur et son coût mensuel estimé**, puis cliquez sur **Créer le serveur**. Rien n'est créé avant ce clic."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "It rents the server at Vultr, the company that hosts our servers, and switches it on."
+msgstr "Elle loue le serveur chez Vultr, l'entreprise qui héberge nos serveurs, et le met en marche."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "It gives the server its web address, slug.auditisa.com. (This is called DNS: the internet's address book.)"
+msgstr "Elle donne au serveur son adresse web, identifiant.auditisa.com. (C'est le DNS : l'annuaire d'Internet.)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "It opens the firm's own backup space at Wasabi, the company that keeps our backups, with a key that no other firm can use."
+msgstr "Elle ouvre l'espace de sauvegarde propre au cabinet chez Wasabi, l'entreprise qui garde nos sauvegardes, avec une clé qu'aucun autre cabinet ne peut utiliser."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "It sets the server's firewall, its locked doors: the maintenance door opens only to the console, the web doors are open to the firm's users."
+msgstr "Elle règle le pare-feu du serveur, ses portes verrouillées : la porte de maintenance ne s'ouvre qu'à la console, les portes web sont ouvertes aux utilisateurs du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "It registers the firm's SSH key and prepares the first administrator's one-time link."
+msgstr "Elle enregistre la clé SSH du cabinet et prépare le lien à usage unique du premier administrateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "If anything fails on the way, it removes everything it made, so nothing is left to pay for."
+msgstr "Si quelque chose échoue en route, elle retire tout ce qu'elle a fait : il ne reste rien à payer."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Review is your last chance to catch a typing mistake in the address, which never changes."
+msgstr "La vérification est votre dernière chance de repérer une faute de frappe dans l'adresse, qui ne change jamais."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The page becomes the firm's **provisioning run**: a list of 11 steps that turn from \"To do\" to \"Done\"."
+msgstr "La page devient la **mise en service** du cabinet : une liste de 11 étapes qui passent de « À faire » à « Fait »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Then the console does all of this by itself:"
+msgstr "Ensuite la console fait tout cela seule :"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "These are estimates from the providers' public prices. Billing starts as soon as the server is rented and stops only when it is destroyed (step 8). A firm built and destroyed on the same day costs a few cents: the two test firms of 9 November 2026 cost less than USD 0.20 in all."
+msgstr "Ce sont des estimations d'après les tarifs publics des fournisseurs. La facturation commence dès que le serveur est loué et ne s'arrête qu'à sa destruction (étape 8). Un cabinet créé puis détruit le même jour coûte quelques centimes : les deux cabinets de test du 9 novembre 2026 ont coûté moins de 0,20 USD en tout."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Total per month"
+msgstr "Total par mois"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Small"
+msgstr "Petit"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "up to 10"
+msgstr "jusqu'à 10"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "USD 20"
+msgstr "20 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "about USD 1"
+msgstr "environ 1 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "USD 21"
+msgstr "21 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Standard"
+msgstr "Standard"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "up to 30"
+msgstr "jusqu'à 30"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "USD 40"
+msgstr "40 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "USD 41"
+msgstr "41 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Large"
+msgstr "Grand"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "over 30"
+msgstr "plus de 30"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "USD 80"
+msgstr "80 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "USD 81"
+msgstr "81 USD"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Waiting for the install"
+msgstr "Attendre l'installation"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A run a few minutes in: the server is being switched on."
+msgstr "Une mise en service après quelques minutes : le serveur démarre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The long wait: \"Install\" is Running. The blue band says what the server is doing."
+msgstr "La longue attente : « Installation » est En cours. Le bandeau bleu dit ce que fait le serveur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "All 11 steps are Done: the run is Finished."
+msgstr "Les 11 étapes sont Faites : la mise en service est Terminée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Nothing to do but wait. You may close the page: the console moves the run forward by itself every 2 minutes. To come back to it: **Tracking > Provisioning runs**."
+msgstr "Il n'y a qu'à attendre. Vous pouvez fermer la page : la console fait avancer la mise en service seule, toutes les 2 minutes. Pour y revenir : **Suivi > Mises en service**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The table below gives each step's name as the screen shows it, and its normal time."
+msgstr "Le tableau ci-dessous donne le nom de chaque étape tel que l'écran l'affiche, et sa durée normale."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The install is long because the server builds everything from scratch, and first checks the owner's signature (a digital stamp) on the software it downloads."
+msgstr "L'installation est longue parce que le serveur construit tout à partir de rien, et vérifie d'abord la signature du propriétaire (un tampon numérique) sur le logiciel qu'il télécharge."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "When all 11 lines say **Done**, the run shows **Finished** at the top right and the firm appears as **Active** on the Firms board."
+msgstr "Quand les 11 lignes disent **Fait**, la mise en service affiche **Terminée** en haut à droite et le cabinet apparaît **Actif** sur le tableau des cabinets."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "On 9 November 2026 the first real firms took 32 and 40 minutes from start to Active, including hand repairs that are now fixed. The install itself took 20 to 25 minutes, about 7 of them to create the firm's database. The server retries its padlock every 5 minutes, so the health check can wait one or two rounds."
+msgstr "Le 9 novembre 2026, les premiers vrais cabinets ont mis 32 et 40 minutes du début à Actif, y compris des réparations à la main aujourd'hui corrigées. L'installation seule a pris 20 à 25 minutes, dont environ 7 pour créer la base de données du cabinet. Le serveur retente son cadenas toutes les 5 minutes : le contrôle de santé peut attendre un ou deux tours."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Step on the screen"
+msgstr "Étape à l'écran"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "What it means"
+msgstr "Ce que cela veut dire"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Normal time"
+msgstr "Durée normale"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The console checks the form once more."
+msgstr "La console vérifie le formulaire une dernière fois."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "seconds"
+msgstr "quelques secondes"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The maintenance door key is handed to Vultr."
+msgstr "La clé de la porte de maintenance est remise à Vultr."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The server's doors are set: 22 is the maintenance door, 80 and 443 are the web doors."
+msgstr "Les portes du serveur sont réglées : 22 est la porte de maintenance, 80 et 443 sont les portes web."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The firm's private backup space is opened at Wasabi."
+msgstr "L'espace de sauvegarde privé du cabinet est ouvert chez Wasabi."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "under 10 seconds"
+msgstr "moins de 10 secondes"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The link of step 6 is prepared."
+msgstr "Le lien de l'étape 6 est préparé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The server is rented at Vultr. Billing starts here."
+msgstr "Le serveur est loué chez Vultr. La facturation commence ici."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "under a minute"
+msgstr "moins d'une minute"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Vultr switches the server on."
+msgstr "Vultr met le serveur en marche."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "2 to 5 minutes"
+msgstr "2 à 5 minutes"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "slug.auditisa.com is pointed at the new server."
+msgstr "identifiant.auditisa.com est dirigé vers le nouveau serveur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The server installs AuditISA and its database, its padlock (HTTPS) and its backups, then sends its first heartbeat. Odoo is the software AuditISA is built on; PostgreSQL is its database."
+msgstr "Le serveur installe AuditISA et sa base de données, son cadenas (HTTPS) et ses sauvegardes, puis envoie son premier signal de vie. Odoo est le logiciel sur lequel AuditISA est construit ; PostgreSQL est sa base de données."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "20 to 25 minutes (the console allows up to 60)"
+msgstr "20 à 25 minutes (la console accepte jusqu'à 60)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The console visits the new address and checks the padlock and the login page."
+msgstr "La console visite la nouvelle adresse et vérifie le cadenas et la page de connexion."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The firm becomes Active."
+msgstr "Le cabinet devient Actif."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Checking the firm is healthy"
+msgstr "Vérifier que le cabinet est en bonne santé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Platform > Firms: one card per firm, with its coloured dot and its reason."
+msgstr "Plateforme > Cabinets : une carte par cabinet, avec sa pastille de couleur et son motif."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A new firm's page: amber, because its backup key is not yet in the safe."
+msgstr "La fiche d'un nouveau cabinet : orange, parce que sa clé de sauvegarde n'est pas encore au coffre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Break-glass access: filled in before anyone opens the server's maintenance door."
+msgstr "Accès d'urgence : rempli avant que quiconque n'ouvre la porte de maintenance du serveur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "After \"Backup key is in the safe\": green, all is normal."
+msgstr "Après « Clé de sauvegarde mise au coffre » : vert, tout est normal."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Platform > Supervision: every firm and all its figures on one page."
+msgstr "Plateforme > Supervision : tous les cabinets et tous leurs chiffres sur une seule page."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Open **Platform > Firms**. Each firm is a card with a coloured dot and a reason in plain words."
+msgstr "Ouvrez **Plateforme > Cabinets**. Chaque cabinet est une carte avec une pastille de couleur et un motif en mots simples."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A new firm is amber at first, with the reason \"Backup key not yet confirmed as stored in the safe\". That is expected."
+msgstr "Un nouveau cabinet est d'abord orange, avec le motif « Clé de sauvegarde pas encore confirmée au coffre ». C'est normal."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**The backup key.** The firm's backups are locked with a key that exists only on its server. If the server is lost and nobody has a copy, the backups cannot be read. Ask your technician to copy the key into your safe. Before opening the server they click **Break-glass access** on the firm's page and give the reason \"backup key\"."
+msgstr "**La clé de sauvegarde.** Les sauvegardes du cabinet sont verrouillées par une clé qui n'existe que sur son serveur. Si le serveur est perdu et que personne n'en a de copie, les sauvegardes sont illisibles. Demandez à votre technicien de copier la clé dans votre coffre. Avant d'ouvrir le serveur, il clique sur **Accès d'urgence** sur la fiche du cabinet et indique le motif « clé de sauvegarde »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "When the copy is in the safe, click **Backup key is in the safe** and confirm. The firm turns green at its next check."
+msgstr "Quand la copie est au coffre, cliquez sur **Clé de sauvegarde mise au coffre** et confirmez. Le cabinet passe au vert à son prochain contrôle."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Backups.** Each night the server makes an encrypted backup, and each Sunday it checks that a backup can really be restored. The morning after go-live, \"Last backup\" shows a date. After a week, \"Last restore test\" shows one too."
+msgstr "**Les sauvegardes.** Chaque nuit, le serveur fait une sauvegarde chiffrée, et chaque dimanche il vérifie qu'une sauvegarde peut vraiment être restaurée. Le matin qui suit la mise en service, « Dernière sauvegarde » affiche une date. Au bout d'une semaine, « Dernier test de restauration » en affiche une aussi."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Heartbeat.** \"Last heartbeat\" should never be much older than 15 minutes. After 45 minutes of silence the firm turns amber; after 2 hours, red."
+msgstr "**Le signal de vie.** « Dernier signal de vie » ne doit jamais dater de beaucoup plus de 15 minutes. Après 45 minutes de silence, le cabinet passe à l'orange ; après 2 heures, au rouge."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Platform > Supervision** shows every firm on one page with all its figures. Use it for a weekly look, or click **Export to Excel**."
+msgstr "**Plateforme > Supervision** montre tous les cabinets sur une page, avec tous leurs chiffres. Servez-vous-en pour un coup d'œil chaque semaine, ou cliquez sur **Exporter vers Excel**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The colours show trouble at a glance, without technical knowledge. Amber and red always come with a reason in plain words."
+msgstr "Les couleurs montrent un problème d'un coup d'œil, sans connaissances techniques. L'orange et le rouge viennent toujours avec un motif en mots simples."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A green dot, a recent heartbeat and the reason \"All is normal\"."
+msgstr "Une pastille verte, un signal de vie récent et le motif « Tout est normal »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Break-glass access** is a written record made before anyone opens a firm's maintenance door. The server counts every login: a login with no record turns the firm amber."
+msgstr "L'**accès d'urgence** est une trace écrite faite avant que quiconque n'ouvre la porte de maintenance d'un cabinet. Le serveur compte chaque connexion : une connexion sans trace fait passer le cabinet à l'orange."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Colour"
+msgstr "Couleur"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "What to do"
+msgstr "Ce qu'il faut faire"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "All is normal."
+msgstr "Tout est normal."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Nothing."
+msgstr "Rien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Amber (orange)"
+msgstr "Orange"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Something needs a look soon: the reason is written on the card."
+msgstr "Quelque chose est à regarder bientôt : le motif est écrit sur la carte."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Read the reason. See step 7 if it is not clear."
+msgstr "Lisez le motif. Voir l'étape 7 s'il n'est pas clair."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Act today: the server is silent, a backup failed, or a server may be left over."
+msgstr "À traiter aujourd'hui : le serveur se tait, une sauvegarde a échoué, ou un serveur est peut-être resté."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Call your technician the same day."
+msgstr "Appelez votre technicien le jour même."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Not running: being built, suspended or archived."
+msgstr "Pas en marche : en construction, suspendu ou archivé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Handing over to the client"
+msgstr "Remettre le cabinet au client"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Before the link shows: a warning that it shows once only."
+msgstr "Avant l'affichage du lien : un avertissement, il ne s'affiche qu'une fois."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The one-time link (hidden in this picture) and its expiry date."
+msgstr "Le lien à usage unique (masqué sur cette image) et sa date d'expiration."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Platform > Practice spaces: each firm's practice copy."
+msgstr "Plateforme > Espaces d'entraînement : la copie d'entraînement de chaque cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "On the firm's page click **Show the first administrator's link**. A window warns that the link shows once only."
+msgstr "Sur la fiche du cabinet, cliquez sur **Afficher le lien du premier administrateur**. Une fenêtre prévient que le lien ne s'affiche qu'une fois."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Get your way of sending it ready first: a phone call, or an encrypted messaging app such as Signal or WhatsApp. Do not send the link in a plain email that also names the firm."
+msgstr "Préparez d'abord votre moyen de l'envoyer : un appel, ou une messagerie chiffrée comme Signal ou WhatsApp. N'envoyez pas le lien dans un simple e-mail qui nomme aussi le cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Click **Show the link**, copy it, send it to the contact, then click **I have copied the link**. The console then erases it."
+msgstr "Cliquez sur **Afficher le lien**, copiez-le, envoyez-le au contact, puis cliquez sur **J'ai copié le lien**. La console l'efface alors."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The link works once and expires after 72 hours: the date is on screen. The contact opens it, chooses their own password and signs in. Nobody else ever knows that password, neither you nor the console."
+msgstr "Le lien sert une seule fois et expire au bout de 72 heures : la date est à l'écran. Le contact l'ouvre, choisit lui-même son mot de passe et se connecte. Personne d'autre ne connaît jamais ce mot de passe, ni vous ni la console."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**The practice space.** The firm also gets a practice copy at slug.practice.auditisa.com, full of made-up data, to train without risk. It is listed under **Platform > Practice spaces**, where **Show the first login** gives its own one-time link. Until the practice computer is set up, spaces show \"Waiting for the practice computer\"."
+msgstr "**L'espace d'entraînement.** Le cabinet reçoit aussi une copie d'entraînement à identifiant.practice.auditisa.com, remplie de données fictives, pour s'exercer sans risque. Elle figure sous **Plateforme > Espaces d'entraînement**, où **Afficher la première connexion** donne son propre lien à usage unique. Tant que l'ordinateur d'entraînement n'est pas installé, les espaces affichent « En attente de l'ordinateur d'entraînement »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Their address: slug.auditisa.com."
+msgstr "Son adresse : identifiant.auditisa.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "That the link works once, for 72 hours, and that they choose their own password."
+msgstr "Que le lien sert une seule fois, pendant 72 heures, et qu'il choisit lui-même son mot de passe."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "That, as administrator, they add their colleagues themselves."
+msgstr "Qu'en tant qu'administrateur, il ajoute lui-même ses collègues."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "That emails from AuditISA start once their mail settings are in place: you will ask for their mail provider's settings and your technician sets them up."
+msgstr "Que les e-mails d'AuditISA partiront une fois sa messagerie réglée : vous lui demanderez les réglages de son fournisseur de messagerie et votre technicien les installera."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Who to call for help."
+msgstr "Qui appeler en cas de besoin."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "At the start, the link is the only way in. Showing it once, and never sending a password, keeps the firm's data private from day one."
+msgstr "Au départ, le lien est la seule porte d'entrée. L'afficher une seule fois, et ne jamais envoyer de mot de passe, protège les données du cabinet dès le premier jour."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The contact signs in at their own address and sees an empty AuditISA, ready for a first engagement. If the link is lost or has expired, see step 7."
+msgstr "Le contact se connecte à sa propre adresse et voit un AuditISA vide, prêt pour une première mission. Si le lien est perdu ou a expiré, voir l'étape 7."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "What to tell the client:"
+msgstr "Ce qu'il faut dire au client :"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "If something goes wrong"
+msgstr "Si quelque chose ne va pas"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A refusal on the New firm form: the message names the problem."
+msgstr "Un refus sur le formulaire Nouveau cabinet : le message nomme le problème."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A run that failed for good: the red line gives the reason, and nothing remains."
+msgstr "Une mise en service en échec définitif : la ligne rouge donne le motif, et rien ne reste."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A red firm: no heartbeat for 3 hours."
+msgstr "Un cabinet rouge : aucun signal de vie depuis 3 heures."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The first administrator's link was already shown."
+msgstr "Le lien du premier administrateur a déjà été affiché."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Most messages say what to do. Find yours in the table below."
+msgstr "La plupart des messages disent quoi faire. Cherchez le vôtre dans le tableau ci-dessous."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "When the advice says \"technician\", send them the firm's name and a picture of the message."
+msgstr "Quand le conseil dit « technicien », envoyez-lui le nom du cabinet et une capture du message."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Nothing the console makes is left behind in silence: every failure either retries by itself, or removes what it made and says so."
+msgstr "Rien de ce que fait la console n'est laissé de côté en silence : chaque échec soit réessaie seul, soit retire ce qui a été fait et le dit."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "After a fix, the run carries on from its first unfinished step, or starts again. Nothing is created twice."
+msgstr "Après une correction, la mise en service reprend à sa première étape non finie, ou recommence. Rien n'est créé deux fois."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**Error codes** are the numbers in brackets. They come from the provider: 400 means the request was refused; 401 or 403, the access key was refused; 404, not found; 429, too many requests, so wait; 500 to 504, trouble on the provider's side, so wait."
+msgstr "Les **codes d'erreur** sont les nombres entre parenthèses. Ils viennent du fournisseur : 400 veut dire que la demande a été refusée ; 401 ou 403, que la clé d'accès a été refusée ; 404, introuvable ; 429, trop de demandes, il faut attendre ; 500 à 504, un souci chez le fournisseur, il faut attendre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Message or code"
+msgstr "Message ou code"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "... is a name reserved by the platform"
+msgstr "... est un nom réservé par la plateforme"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The slug is kept for the platform's own use (www, dev, test, status...)."
+msgstr "L'identifiant est gardé pour l'usage de la plateforme (www, dev, test, status...)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Choose another slug."
+msgstr "Choisissez un autre identifiant."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The slug ... has already been given, even if to an archived firm"
+msgstr "L'identifiant ... a déjà été attribué, même à un cabinet archivé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Each slug is used once, for ever."
+msgstr "Chaque identifiant ne sert qu'une fois, pour toujours."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Choose another slug, for example with the town's name."
+msgstr "Choisissez un autre identifiant, par exemple avec le nom de la ville."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The contact's email must belong to an allowed domain"
+msgstr "L'e-mail du contact doit appartenir à un domaine autorisé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The email does not end with one of the domains you typed."
+msgstr "L'e-mail ne finit pas par l'un des domaines que vous avez tapés."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Correct the email, or add its domain."
+msgstr "Corrigez l'e-mail, ou ajoutez son domaine."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A private key was pasted. It was erased and not kept."
+msgstr "Une clé privée a été collée. Elle a été effacée sans être gardée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Paste the content of the .pub file instead."
+msgstr "Collez plutôt le contenu du fichier .pub."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "This SSH key already serves another firm"
+msgstr "Cette clé SSH sert déjà à un autre cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Each firm needs its own key."
+msgstr "Chaque cabinet a besoin de sa propre clé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Ask your technician for a new key for this firm."
+msgstr "Demandez à votre technicien une nouvelle clé pour ce cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A step shows a message and its Attempts number goes up"
+msgstr "Une étape affiche un message et son nombre de Tentatives augmente"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A passing fault: a provider was slow or busy."
+msgstr "Une panne passagère : un fournisseur était lent ou occupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Nothing: the step tries again by itself every 2 minutes."
+msgstr "Rien : l'étape réessaie seule toutes les 2 minutes."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Provisioning failed and everything was removed: no server remains."
+msgstr "La mise en service a échoué et tout a été retiré : aucun serveur ne reste."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A step failed for good. The console removed everything it had made, so nothing is billed."
+msgstr "Une étape a échoué pour de bon. La console a retiré tout ce qu'elle avait fait : rien n'est facturé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Read the message on the red line, have the cause fixed, then click **Start provisioning again**."
+msgstr "Lisez le message de la ligne rouge, faites corriger la cause, puis cliquez sur **Relancer la mise en service**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Vultr refused ... (400)"
+msgstr "Vultr a refusé ... (400)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Vultr refused the request. On 9 November 2026 the likely cause was the limit on the number of servers per account."
+msgstr "Vultr a refusé la demande. Le 9 novembre 2026, la cause probable était la limite du nombre de serveurs par compte."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Ask Vultr to raise the account's server limit, or tell your technician."
+msgstr "Demandez à Vultr de relever la limite de serveurs du compte, ou prévenez votre technicien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "... refused ... (401) or (403)"
+msgstr "... a refusé ... (401) ou (403)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The provider did not accept the console's access key."
+msgstr "Le fournisseur n'a pas accepté la clé d'accès de la console."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The owner checks the keys with the technician (Platform > Settings)."
+msgstr "Le propriétaire vérifie les clés avec le technicien (Plateforme > Réglages)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "temporary error 429, or 500 to 504"
+msgstr "erreur temporaire 429, ou 500 à 504"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The provider is busy or has trouble on its side."
+msgstr "Le fournisseur est occupé ou a un souci de son côté."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Nothing: the step retries. If it lasts more than an hour, tell your technician."
+msgstr "Rien : l'étape réessaie. Si cela dure plus d'une heure, prévenez votre technicien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Time limit passed: Installing on the server..."
+msgstr "Délai dépassé : Installation en cours sur le serveur..."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The install ran past 60 minutes. Everything was removed."
+msgstr "L'installation a dépassé 60 minutes. Tout a été retiré."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Tell your technician: the usual cause is the software download or its signature."
+msgstr "Prévenez votre technicien : la cause habituelle est le téléchargement du logiciel ou sa signature."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Health check refused: ... (port 80 must redirect to HTTPS) or (the login page must answer)"
+msgstr "Contrôle de santé refusé : ... (le port 80 doit rediriger vers HTTPS) ou (la page de connexion doit répondre)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The server is installed but its padlock or login page is not ready yet."
+msgstr "Le serveur est installé mais son cadenas ou sa page de connexion n'est pas encore prêt."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Wait: it keeps trying for 30 minutes."
+msgstr "Attendez : il réessaie pendant 30 minutes."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The clean-up did not finish: resources remain and may be billed."
+msgstr "Le nettoyage n'a pas abouti : des ressources restent et peuvent être facturées."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Something could not be removed at a provider."
+msgstr "Quelque chose n'a pas pu être retiré chez un fournisseur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Click **Run the clean-up again**. If it fails again, call your technician at once."
+msgstr "Cliquez sur **Relancer le nettoyage**. S'il échoue encore, appelez tout de suite votre technicien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "This link is no longer available"
+msgstr "Ce lien n'est plus disponible"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The first administrator's link was already shown, or 72 hours have passed."
+msgstr "Le lien du premier administrateur a déjà été affiché, ou 72 heures sont passées."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Your technician makes a new one on the firm's server."
+msgstr "Votre technicien en crée un nouveau sur le serveur du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "No heartbeat for ..."
+msgstr "Aucun signal de vie depuis ..."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The server has stopped sending its \"I am fine\" message: it may be stopped or out of reach."
+msgstr "Le serveur n'envoie plus son message « tout va bien » : il est peut-être arrêté ou injoignable."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Open the firm's address. If it does not answer, call your technician."
+msgstr "Ouvrez l'adresse du cabinet. Si elle ne répond pas, appelez votre technicien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Backup missed, or The last backup failed"
+msgstr "Sauvegarde manquée, ou La dernière sauvegarde a échoué"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The nightly backup did not run, or it failed."
+msgstr "La sauvegarde de la nuit n'a pas eu lieu, ou elle a échoué."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Tell your technician the same day."
+msgstr "Prévenez votre technicien le jour même."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "ORPHAN SERVER"
+msgstr "SERVEUR ORPHELIN"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "A server may still be running, and billed, with no firm behind it."
+msgstr "Un serveur tourne peut-être encore, et est facturé, sans cabinet derrière."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Call your technician at once."
+msgstr "Appelez tout de suite votre technicien."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Closing a firm"
+msgstr "Fermer un cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Firm's exit: the reason, the retention period and the slug typed again."
+msgstr "Sortie du cabinet : le motif, la durée de conservation et l'identifiant tapé à nouveau."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The Exit tab: the export is done, with its digest and the date from which the server can be destroyed."
+msgstr "L'onglet Sortie : l'export est fait, avec son empreinte et la date à partir de laquelle le serveur peut être détruit."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Once that date has passed, the Destroy the server button appears."
+msgstr "Une fois cette date passée, le bouton Détruire le serveur apparaît."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The last confirmation: DESTROY typed in capitals."
+msgstr "La dernière confirmation : DESTROY tapé en majuscules."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The firm is Archived: its record and its log remain."
+msgstr "Le cabinet est Archivé : sa fiche et son journal restent."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Only the owner can close a firm. There are three stages: the export, a waiting period, then the destruction. Each stage asks you to type the slug."
+msgstr "Seul le propriétaire peut fermer un cabinet. Il y a trois temps : l'export, une période d'attente, puis la destruction. Chaque étape vous demande de taper l'identifiant."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**1. The export.** On the firm's page click **Firm's exit**. Give the reason and the retention period: at least 30 days (the screen proposes 90). Type the slug and click **Start the exit**. Nothing is destroyed. The firm shows **Leaving**."
+msgstr "**1. L'export.** Sur la fiche du cabinet, cliquez sur **Sortie du cabinet**. Donnez le motif et la durée de conservation : au moins 30 jours (l'écran propose 90). Tapez l'identifiant et cliquez sur **Lancer la sortie**. Rien n'est détruit. Le cabinet affiche **Sortie en cours**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Within about 20 minutes, at its next heartbeat, the server packs all the firm's data into one file. The **Exit** tab then shows \"done\" and a digest: a fingerprint of the file, used to check that a copy is complete."
+msgstr "Dans les 20 minutes environ, à son prochain signal de vie, le serveur rassemble toutes les données du cabinet dans un seul fichier. L'onglet **Sortie** affiche alors « done » (fait) et une empreinte : un code unique du fichier, qui permet de vérifier qu'une copie est complète."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Your technician fetches the file and checks its fingerprint against the Exit tab. Hand the file to the firm by a safe means, then click **Export handed to the firm**."
+msgstr "Votre technicien récupère le fichier et compare son empreinte à l'onglet Sortie. Remettez le fichier au cabinet par un moyen sûr, puis cliquez sur **Export remis au cabinet**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**2. The wait.** The server keeps running, and keeps being billed, until the date in **Can be destroyed from**: the export date plus the retention period."
+msgstr "**2. L'attente.** Le serveur continue de tourner, et d'être facturé, jusqu'à la date de **Destruction possible à partir du** : la date de l'export plus la durée de conservation."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**3. The destruction.** After that date the **Destroy the server** button appears. Click it, type the slug, click **Continue**, type DESTROY in capitals, then click **Destroy for good**. It takes less than 20 seconds."
+msgstr "**3. La destruction.** Après cette date, le bouton **Détruire le serveur** apparaît. Cliquez dessus, tapez l'identifiant, cliquez sur **Continuer**, tapez DESTROY en majuscules, puis cliquez sur **Détruire définitivement**. Cela prend moins de 20 secondes."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Removed for good: the server and its disks, all its backups, its storage key and its web address. The firm's record and its log stay, and the slug is never given again. Wasabi still bills deleted backups for up to 90 days."
+msgstr "Retirés pour de bon : le serveur et ses disques, toutes ses sauvegardes, sa clé de stockage et son adresse web. La fiche du cabinet et son journal restent, et l'identifiant n'est plus jamais attribué. Wasabi facture encore les sauvegardes effacées jusqu'à 90 jours."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Afterwards, erase this firm's SSH key and backup key from your safe, and the export file from your computer."
+msgstr "Ensuite, effacez de votre coffre la clé SSH et la clé de sauvegarde de ce cabinet, et le fichier d'export de votre ordinateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The stages and the typed confirmations protect against closing the wrong firm. The wait gives the firm time to check its export before its backups disappear."
+msgstr "Les étapes et les confirmations tapées évitent de fermer le mauvais cabinet. L'attente laisse au cabinet le temps de vérifier son export avant que ses sauvegardes ne disparaissent."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The firm shows **Archived**, in grey. Its slug stays reserved."
+msgstr "Le cabinet affiche **Archivé**, en gris. Son identifiant reste réservé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "In this guide"
+msgstr "Dans ce guide"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "What you should see next"
+msgstr "Ce que vous devez voir ensuite"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Open the picture full size"
+msgstr "Ouvrir l'image en grand"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/howto.py:0
+msgid "Step %(number)s"
+msgstr "Étape %(number)s"
+
+#. module: ea_platform_admin
+#: model:ir.ui.menu,name:ea_platform_admin.menu_howto
+msgid "How to"
+msgstr "Guides"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_howto
+#: model:ir.ui.menu,name:ea_platform_admin.menu_howto_all
+msgid "All guides"
+msgstr "Tous les guides"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_howto
+msgid "How-to guide"
+msgstr "Guide pratique"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_howto__name
+msgid "Guide"
+msgstr "Guide"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_howto__summary
+msgid "What it is for"
+msgstr "À quoi il sert"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_howto__body
+msgid "Content"
+msgstr "Contenu"
