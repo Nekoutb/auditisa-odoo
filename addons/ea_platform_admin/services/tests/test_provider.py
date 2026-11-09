@@ -294,6 +294,29 @@ def test_token_file_that_others_can_read_is_refused(tmp_path, mode):
     assert "value" not in str(caught.value)
 
 
+@pytest.mark.skipif(os.name != "posix", reason="file modes are POSIX")
+def test_systemd_credential_copy_is_accepted(tmp_path, monkeypatch):
+    """LoadCredential gives the service root:root 0440 with an ACL: that copy must be readable."""
+    path = tmp_path / "token"
+    path.write_text("value\n")
+    real_stat = os.stat
+
+    def as_systemd(name, mode):
+        def fake(target, *args, **kwargs):
+            info = list(real_stat(target, *args, **kwargs))
+            if str(target) == str(path):
+                info[0], info[4], info[5] = 0o100000 | mode, 0, 0
+            return os.stat_result(info)
+        return fake
+
+    monkeypatch.setattr(os, "stat", as_systemd("token", 0o440))
+    assert read_secret_file(str(path)) == "value"
+    for mode in (0o444, 0o460, 0o470):  # others may read, or the group may write: still refused
+        monkeypatch.setattr(os, "stat", as_systemd("token", mode))
+        with pytest.raises(ProviderError):
+            read_secret_file(str(path))
+
+
 def test_missing_or_empty_token_file_is_refused(tmp_path):
     with pytest.raises(ProviderError):
         read_secret_file(str(tmp_path / "none"))

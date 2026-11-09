@@ -29,6 +29,17 @@ TIMEOUT_SECONDS = 30
 _SERVER_STATUS = {"pending": "pending", "active": "active", "suspended": "stopped", "resizing": "pending"}
 
 
+def _too_open(info):
+    """Anything beyond its owner reading it, with one exception: systemd's credential copy.
+
+    LoadCredential hands the service a copy owned by root:root, mode 0440, which the service's
+    user reads through an access-control entry. Group read is accepted only there (root's group).
+    """
+    if info.st_mode & 0o037:
+        return True
+    return bool(info.st_mode & 0o040) and not (info.st_uid == 0 and info.st_gid == 0)
+
+
 def read_secret_file(path):
     """The content of a file nobody but its owner can read. Anything else is refused.
 
@@ -41,7 +52,7 @@ def read_secret_file(path):
         raise ProviderError(_("Token file not found on the control server.")) from None
     if not stat.S_ISREG(info.st_mode):
         raise ProviderError(_("The token must be a regular file."))
-    if os.name == "posix" and info.st_mode & 0o077:
+    if os.name == "posix" and _too_open(info):
         raise ProviderError(_("Token file too open: only its owner may read it."))
     try:
         with open(path, encoding="utf-8") as handle:
