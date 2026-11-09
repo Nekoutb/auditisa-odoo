@@ -40,6 +40,14 @@ if [ "$DRY_RUN" = 1 ]; then
   # Everything below writes under this folder.
   export FIRM_PREFIX=$DRY_ROOT
 fi
+# cloud-init starts this from /root, which the odoo user cannot read: uv then fails on
+# /root/uv.toml (seen on the first real firm, 2026-11-09). Work from / and ignore uv config files.
+export UV_NO_CONFIG=1
+if [ "$DRY_RUN" = 0 ]; then
+  [ -z "$ENV_FILE" ] || ENV_FILE=$(readlink -f "$ENV_FILE")
+  [ -z "$BUNDLE" ] || BUNDLE=$(readlink -f "$BUNDLE")
+  cd /
+fi
 # shellcheck source=deploy/firm/firm-lib.sh
 . "$HERE/firm-lib.sh"
 # shellcheck source=deploy/firm/recipe.env
@@ -180,6 +188,12 @@ EOF
 }
 
 install_packages() {
+  # On first boot Ubuntu's own unattended-upgrades holds the dpkg lock for minutes: wait for it
+  # rather than fail (seen on the first real firm, 2026-11-09). Every later apt call waits too.
+  render /etc/apt/apt.conf.d/90auditisa-lock-wait 644 root:root <<'EOF'
+DPkg::Lock::Timeout "900";
+EOF
+  export DEBIAN_FRONTEND=noninteractive
   run apt-get update -qq
   run apt-get install -y -qq --no-install-recommends "${APT_PACKAGES[@]}"
   # Optional or renamed packages: wkhtmltopdf's fonts and X libraries.
@@ -302,7 +316,10 @@ EOF
 }
 
 install_odoo() {
-  run useradd --system --home-dir /opt/odoo19 --no-create-home --shell /usr/sbin/nologin odoo
+  # A re-run after a stop finds the user already there.
+  if [ "$DRY_RUN" = 1 ] || ! id -u odoo >/dev/null 2>&1; then
+    run useradd --system --home-dir /opt/odoo19 --no-create-home --shell /usr/sbin/nologin odoo
+  fi
   run install -d -o odoo -g odoo -m 750 /opt/odoo19 /var/lib/odoo /var/log/odoo
   # uv from its pinned release, checked by digest.
   run curl -fsSL -o /tmp/uv.tar.gz "$UV_URL"
@@ -436,6 +453,10 @@ ProtectControlGroups=yes
 [Install]
 WantedBy=multi-user.target
 EOF
+  # render makes missing folders under umask 077: Odoo must be able to open its own folder
+  # (seen on the first real firm, 2026-11-09: the database step failed on an unreadable config).
+  chmod 750 "$R/etc/odoo"
+  if [ "$DRY_RUN" = 0 ]; then chown root:odoo /etc/odoo; fi
   render /etc/logrotate.d/odoo 644 root:root <<'EOF'
 /var/log/odoo/*.log {
     weekly
