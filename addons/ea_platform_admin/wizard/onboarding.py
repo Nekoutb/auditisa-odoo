@@ -185,11 +185,10 @@ class PlatformOnboardingWizard(models.TransientModel):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         required = {
             "ea_platform.heartbeat_url": _("Heartbeat receiving address"),
-            "ea_platform.release_base_url": _("Releases address"),
+            "ea_platform.releases_bucket": _("Releases bucket (Wasabi)"),
             "ea_platform.release_signing_public_key": _("Release signing public key"),
             "ea_platform.ssh_allowlist": _("Operator addresses for port 22"),
             "ea_platform.vultr_os_id": _("Server operating system (Vultr id)"),
-            "ea_platform.vultr_storage_cluster": _("Object storage cluster (Vultr id)"),
             "ea_platform.dns_zone_id": _("DNS zone"),
         }
         missing = [t(self.env, label) for key, label in required.items() if not get_param(key)]

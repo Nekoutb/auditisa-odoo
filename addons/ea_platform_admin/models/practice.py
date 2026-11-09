@@ -11,6 +11,7 @@ from ..services import practice
 from ..services.heartbeat import HeartbeatRejected
 from ..services.messages import _
 from .i18n import t
+from .platform_services import RELEASE_URL_SECONDS_HEARTBEAT
 
 FIRST_LOGIN_LINK_HOURS = 72
 DEFAULT_ENTRY_URL = "https://%s.practice.auditisa.com/web/login"
@@ -144,6 +145,9 @@ class PlatformPracticeComputer(models.Model):
         release = self.desired_release_id
         if release:
             answer["release"] = {"sha": release.sha, "bundle_sha256": release.bundle_sha256}
+            urls = self.env["platform.services"]._release_urls(release, RELEASE_URL_SECONDS_HEARTBEAT)
+            if urls:
+                answer["release"]["bundle_url"], answer["release"]["signature_url"] = urls
         for space in self.space_ids.with_context(active_test=False):
             if space.state == "removing":
                 answer["remove"].append(space.slug)

@@ -4,7 +4,15 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..models.i18n import t
-from ..models.platform_services import CREDENTIAL_CLOUDFLARE, CREDENTIAL_VULTR, PARAM_PROVIDER
+from ..models.platform_services import (
+    CREDENTIALS,
+    DEFAULT_WASABI_REGION,
+    PARAM_PROVIDER,
+    PARAM_RELEASES_BUCKET,
+    PARAM_WASABI_ENDPOINT,
+    PARAM_WASABI_REGION,
+)
+from ..services import wasabi_policy
 from ..services.messages import _
 from ..services.validation import parse_allowlist
 
@@ -12,12 +20,13 @@ from ..services.validation import parse_allowlist
 PARAMS = {
     "base_domain": "ea_platform.base_domain",
     "heartbeat_url": "ea_platform.heartbeat_url",
-    "release_base_url": "ea_platform.release_base_url",
     "release_signing_public_key": "ea_platform.release_signing_public_key",
     "ssh_allowlist": "ea_platform.ssh_allowlist",
     "vultr_os_id": "ea_platform.vultr_os_id",
-    "vultr_storage_cluster": "ea_platform.vultr_storage_cluster",
     "dns_zone_id": "ea_platform.dns_zone_id",
+    "wasabi_region": PARAM_WASABI_REGION,
+    "wasabi_endpoint": PARAM_WASABI_ENDPOINT,
+    "releases_bucket": PARAM_RELEASES_BUCKET,
 }
 
 
@@ -26,20 +35,27 @@ class PlatformSettings(models.TransientModel):
     _description = "Platform settings"
 
     provider = fields.Selection(
-        [("dry_run", "Simulation"), ("vultr", "Real: Vultr and Cloudflare")],
+        [("dry_run", "Simulation"), ("vultr", "Real: Vultr, Wasabi and Cloudflare")],
         "Provider", default=lambda self: self._param(PARAM_PROVIDER, "dry_run"), required=True,
     )
     base_domain = fields.Char("Base domain", default=lambda self: self._param("ea_platform.base_domain", "auditisa.com"), required=True)
     heartbeat_url = fields.Char("Heartbeat receiving address", default=lambda self: self._param("ea_platform.heartbeat_url"))
-    release_base_url = fields.Char("Releases address", default=lambda self: self._param("ea_platform.release_base_url"))
     release_signing_public_key = fields.Text(
         "Release signing public key",
         default=lambda self: self._param("ea_platform.release_signing_public_key"),
     )
     ssh_allowlist = fields.Text("Operator addresses for port 22", default=lambda self: self._param("ea_platform.ssh_allowlist"))
     vultr_os_id = fields.Char("Server operating system (Vultr id)", default=lambda self: self._param("ea_platform.vultr_os_id"))
-    vultr_storage_cluster = fields.Char("Object storage cluster (Vultr id)", default=lambda self: self._param("ea_platform.vultr_storage_cluster"))
     dns_zone_id = fields.Char("DNS zone (Cloudflare id)", default=lambda self: self._param("ea_platform.dns_zone_id"))
+    # Backup storage and releases: Wasabi. The key and secret are root-only files, not settings.
+    wasabi_region = fields.Char(
+        "Wasabi region", required=True,
+        default=lambda self: self._param(PARAM_WASABI_REGION, DEFAULT_WASABI_REGION),
+    )
+    wasabi_endpoint = fields.Char(
+        "Wasabi address (if not the region's own)", default=lambda self: self._param(PARAM_WASABI_ENDPOINT),
+    )
+    releases_bucket = fields.Char("Releases bucket (Wasabi)", default=lambda self: self._param(PARAM_RELEASES_BUCKET))
     confirm_real = fields.Boolean("I want to create real servers, billed by the provider.")
 
     def _compute_display_name(self):
@@ -55,9 +71,18 @@ class PlatformSettings(models.TransientModel):
         _cidrs, errors = parse_allowlist(self.ssh_allowlist) if self.ssh_allowlist else ([], [])
         if errors:
             raise UserError("\n".join(t(self.env, error) for error in errors))
-        for url in (self.heartbeat_url, self.release_base_url):
+        for url in (self.heartbeat_url,):
             if url and not url.startswith("https://"):
                 raise UserError(t(self.env, _("This address must start with https://: %(url)s", url=url)))
+        self.wasabi_region = (self.wasabi_region or "").strip()
+        self.wasabi_endpoint = (self.wasabi_endpoint or "").strip() or False
+        self.releases_bucket = (self.releases_bucket or "").strip() or False
+        if not wasabi_policy.REGION_RE.match(self.wasabi_region):
+            raise UserError(t(self.env, _("Wasabi region: a code such as eu-central-1.")))
+        if self.wasabi_endpoint and not wasabi_policy.ENDPOINT_RE.match(self.wasabi_endpoint):
+            raise UserError(t(self.env, _("Wasabi address: a host name only, such as s3.eu-central-1.wasabisys.com.")))
+        if self.releases_bucket and not wasabi_policy.RELEASES_BUCKET_RE.match(self.releases_bucket):
+            raise UserError(t(self.env, _("The releases bucket is named auditisa-releases- followed by at least 8 letters or digits.")))
         if self.provider == "vultr":
             self._check_real_mode()
         params = self.env["ir.config_parameter"].sudo()
@@ -72,19 +97,19 @@ class PlatformSettings(models.TransientModel):
         return {"type": "ir.actions.client", "tag": "reload"}
 
     def _check_real_mode(self):
-        """The door to real servers: every setting, both token files, and an explicit tick."""
+        """The door to real servers: every setting, the four credential files, and an explicit tick."""
         if not self.confirm_real:
             raise UserError(t(self.env, _("Tick the confirmation to go real.")))
         missing = [
             self._fields[field]._description_string(self.env)
-            for field in ("heartbeat_url", "release_base_url", "release_signing_public_key", "ssh_allowlist",
-                          "vultr_os_id", "vultr_storage_cluster", "dns_zone_id")
+            for field in ("heartbeat_url", "release_signing_public_key", "ssh_allowlist",
+                          "vultr_os_id", "dns_zone_id", "wasabi_region", "releases_bucket")
             if not self[field]
         ]
         if missing:
             raise UserError(t(self.env, _("To fill in before going real:")) + "\n" + "\n".join(missing))
         folder = os.environ.get("CREDENTIALS_DIRECTORY")
-        for name in (CREDENTIAL_VULTR, CREDENTIAL_CLOUDFLARE):
+        for name in CREDENTIALS:
             path = os.path.join(folder, name) if folder else ""
             if not path or not os.path.isfile(path) or not os.path.getsize(path):
                 raise UserError(t(self.env, _(

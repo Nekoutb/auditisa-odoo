@@ -55,7 +55,7 @@ Dans `firm_SLUG`, remplacez les tirets de l'identifiant par des `_`. Vérifiez, 
 
 ### Serveur perdu
 
-Il faut : la clé de sauvegarde (votre coffre), l'identifiant et la clé du stockage (Vultr > Object Storage). Créez le serveur à neuf, puis restaurez avec les commandes ci-dessus. **Le passage par un nouveau serveur n'est pas encore automatisé** et n'a jamais été répété : faites-le une fois à blanc sur le cabinet fictif.
+Il faut : la clé de sauvegarde (votre coffre), le nom du bucket (fiche du cabinet, « Stockage ») et une clé d'accès à ce bucket, que vous créez chez Wasabi : Users > `auditisa-firm-<identifiant>` > Access Keys > Create Access Key (voir WASABI.md). Créez le serveur à neuf, puis restaurez avec les commandes ci-dessus. **Le passage par un nouveau serveur n'est pas encore automatisé** et n'a jamais été répété : faites-le une fois à blanc sur le cabinet fictif.
 
 ## English
 
@@ -110,4 +110,4 @@ In `firm_SLUG`, write the slug's hyphens as `_`. Check, then erase `/var/tmp/res
 
 ### Server lost
 
-You need: the backup key (your safe), and the storage's id and key (Vultr > Object Storage). Build a new server, then restore with the commands above. **Moving to a new server is not automated yet** and has never been rehearsed: do it once as a dry run on the made-up firm.
+You need: the backup key (your safe), the bucket's name (the firm's page, "Storage") and an access key to that bucket, which you make at Wasabi: Users > `auditisa-firm-<slug>` > Access Keys > Create Access Key (see WASABI.md). Build a new server, then restore with the commands above. **Moving to a new server is not automated yet** and has never been rehearsed: do it once as a dry run on the made-up firm.

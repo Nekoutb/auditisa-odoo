@@ -14,6 +14,7 @@ from ..services.provider import ProviderError
 from ..services.provisioning import SERVER_TAG
 from ..services.validation import custom_domain_errors, parse_allowlist, parse_domain_list, ssh_key_fingerprint
 from .i18n import read, t
+from .platform_services import RELEASE_URL_SECONDS_HEARTBEAT
 
 _logger = logging.getLogger(__name__)
 
@@ -417,6 +418,10 @@ class PlatformFirm(models.Model):
         if release and not self.release_locked and self.state == "active":
             answer["desired_release"] = release.sha
             answer["desired_bundle_sha256"] = release.bundle_sha256
+            # Signed download addresses into the private releases bucket, renewed at each answer.
+            urls = self.env["platform.services"]._release_urls(release, RELEASE_URL_SECONDS_HEARTBEAT)
+            if urls:
+                answer["desired_bundle_url"], answer["desired_signature_url"] = urls
         return answer
 
     # ------------------------------------------------------------------ simulation

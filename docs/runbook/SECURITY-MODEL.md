@@ -48,7 +48,7 @@
 - **Le jeton de heartbeat de chaque cabinet.** Il permet de se faire passer pour lui auprès du contrôle. Il n'ouvre rien chez le cabinet.
 - **Le lien du premier administrateur**, seulement entre sa création et son affichage (72 heures au plus). **Risque connu :** une intrusion sur le contrôle pendant ce délai pourrait prendre le compte administrateur d'un cabinet tout neuf, encore vide. Pour l'écarter : générez le lien sur le serveur (`firm-first-admin-link`).
 
-Et, hors d'Odoo, en fichiers lisibles par root seul : le jeton Vultr et le jeton DNS.
+Et, hors d'Odoo, en fichiers lisibles par root seul : le jeton Vultr, le jeton DNS, et la clé et le secret Wasabi de l'utilisateur `auditisa-console`. Cette clé Wasabi ne touche que les buckets `auditisa-*` et les utilisateurs `auditisa-firm-*`, ne peut écrire aucune politique sur un utilisateur et ne lit aucune sauvegarde (WASABI.md). La clé de stockage de chaque cabinet n'est gardée nulle part sur le contrôle.
 
 Pour l'ordinateur d'entraînement (PRACTICE-SPACES.md), de la même façon : son jeton de heartbeat, et le lien de première connexion de chaque espace d'entraînement jusqu'à son affichage. Ils n'ouvrent que des espaces aux données fictives, jamais un serveur de cabinet.
 
@@ -60,8 +60,9 @@ Pour l'ordinateur d'entraînement (PRACTICE-SPACES.md), de la même façon : son
 | **L'opérateur** (vous) | **Vous détenez toutes les clés : vous pouvez lire les données de tous les cabinets.** Le journal d'accès rend cela visible, sans l'empêcher. | Voir l'option plus bas. Clés sur clé matérielle, poste dédié. |
 | **Le compte Vultr** | Son jeton permet d'arrêter ou de détruire tous les serveurs, et sa console donne la main sur eux. | Double authentification, jeton limité à l'adresse du contrôle. Un sous-compte par cabinet, ou le compte du cabinet lui-même. |
 | **Le compte DNS** | Son jeton permet de détourner toutes les adresses `*.auditisa.com`. | Jeton limité à la zone. Le domaine propre du cabinet sort de ce risque. |
+| **Le compte Wasabi** | La clé de la console peut supprimer les sauvegardes de tous les cabinets (pas les lire : elles sont chiffrées avec la clé de chaque cabinet). Le compte principal, lui, donne la main sur tout. | Double authentification sur le compte principal ; la clé de la console limitée par `auditisa-console-policy` ; un compte Wasabi réservé à la plateforme si vous voulez séparer complètement. |
 | **La clé de signature** | Qui la détient peut publier une version acceptée partout. | Hors ligne, clé matérielle, deux personnes pour signer. |
-| **Le texte de premier démarrage** | Il reste chez Vultr et contient le jeton de heartbeat et la clé de stockage. | Faire tourner la clé de stockage après l'installation (non construit). Le serveur bloque l'adresse de métadonnées sauf pour root et efface ses copies. |
+| **Le texte de premier démarrage** | Il reste chez Vultr et contient le jeton de heartbeat et la clé de stockage (qui n'ouvre que le bucket de ce cabinet). | Faire tourner la clé de stockage après l'installation (non construit). Le serveur bloque l'adresse de métadonnées sauf pour root et efface ses copies. |
 
 ### Limites du journal d'accès
 
@@ -130,7 +131,7 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 - **Each firm's heartbeat token.** It lets someone impersonate that firm to the control plane. It opens nothing at the firm.
 - **The first administrator's link**, only between its creation and its display (72 hours at most). **Known risk:** an intrusion on the control plane in that window could take the administrator account of a brand-new, still empty firm. To rule it out: generate the link on the server (`firm-first-admin-link`).
 
-And, outside Odoo, in root-only files: the Vultr token and the DNS token.
+And, outside Odoo, in root-only files: the Vultr token, the DNS token, and the Wasabi key and secret of the user `auditisa-console`. That Wasabi key touches only the `auditisa-*` buckets and the `auditisa-firm-*` users, cannot write a policy on any user and reads no backup (WASABI.md). Each firm's storage key is kept nowhere on the control plane.
 
 For the practice computer (PRACTICE-SPACES.md), the same two kinds: its heartbeat token, and each practice space's first-login link until it is shown. They open only spaces of made-up data, never a firm's server.
 
@@ -142,8 +143,9 @@ For the practice computer (PRACTICE-SPACES.md), the same two kinds: its heartbea
 | **The operator** (you) | **You hold every key: you can read every firm's data.** The access log makes it visible, it does not prevent it. | See the option below. Keys on a hardware key, a dedicated computer. |
 | **The Vultr account** | Its token can stop or destroy every server, and its console gives control of them. | Two-factor login, token limited to the control plane's address. A sub-account per firm, or the firm's own account. |
 | **The DNS account** | Its token can divert every `*.auditisa.com` address. | Token limited to the zone. A firm's own domain leaves this risk. |
+| **The Wasabi account** | The console's key can delete every firm's backups (not read them: they are encrypted with each firm's key). The main account controls everything. | Two-factor login on the main account; the console's key limited by `auditisa-console-policy`; a Wasabi account kept for the platform alone for complete separation. |
 | **The signing key** | Whoever holds it can publish a release accepted everywhere. | Offline, hardware key, two people to sign. |
-| **The first-boot text** | It stays at Vultr and holds the heartbeat token and the storage key. | Rotate the storage key after the install (not built). The server blocks the metadata address for all but root and erases its copies. |
+| **The first-boot text** | It stays at Vultr and holds the heartbeat token and the storage key (which opens that firm's bucket only). | Rotate the storage key after the install (not built). The server blocks the metadata address for all but root and erases its copies. |
 
 ### Limits of the access log
 

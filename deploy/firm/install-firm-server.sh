@@ -55,8 +55,8 @@ set -a
 set +a
 : "${FIRM_SLUG:?}" "${FIRM_NAME_B64:?}" "${FIRM_HOST:?}" "${FIRM_SIZE:?}" "${FIRM_LANG:?}" "${FIRM_ADMIN_EMAIL:?}"
 : "${RELEASE_SHA:?}" "${RELEASE_BASE_URL:?}" "${HEARTBEAT_URL:?}" "${HEARTBEAT_TOKEN:?}" "${FIRST_ADMIN_TOKEN_SHA256:?}"
-: "${SSH_ALLOWLIST:?}" "${S3_ENDPOINT:?}" "${S3_BUCKET:?}" "${S3_ACCESS_KEY:?}" "${S3_SECRET_KEY:?}"
-: "${FIRM_ALLOWED_DOMAINS:=}"
+: "${SSH_ALLOWLIST:?}" "${S3_ENDPOINT:?}" "${S3_REGION:?}" "${S3_BUCKET:?}" "${S3_ACCESS_KEY:?}" "${S3_SECRET_KEY:?}"
+: "${FIRM_ALLOWED_DOMAINS:=}" "${RELEASE_BUNDLE_URL_B64:=}" "${RELEASE_SIG_URL_B64:=}"
 [[ $FIRM_SLUG =~ ^[a-z][a-z0-9-]{1,30}[a-z0-9]$ ]] || fl_die "invalid slug"
 valid_release "$RELEASE_SHA" || fl_die "invalid release"
 for cidr in $SSH_ALLOWLIST; do valid_cidr "$cidr" || fl_die "refused address for port 22: $cidr"; done
@@ -536,6 +536,7 @@ configure_backups() {
   render /etc/auditisa-firm/secrets/s3.env 600 root:root <<EOF
 AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY
 AWS_SECRET_ACCESS_KEY=$S3_SECRET_KEY
+AWS_DEFAULT_REGION=$S3_REGION
 RESTIC_REPOSITORY=s3:https://$S3_ENDPOINT/$S3_BUCKET/restic
 EOF
   if [ "$DRY_RUN" = 1 ]; then

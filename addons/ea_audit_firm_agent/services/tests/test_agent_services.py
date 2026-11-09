@@ -92,6 +92,21 @@ def test_answer_needs_release_and_digest_together():
         {"desired_release": "$(reboot)", "desired_bundle_sha256": digest}).encode())
 
 
+def test_answer_carries_signed_release_addresses_only_with_the_release():
+    digest = hashlib.sha256(b"x").hexdigest()
+    bundle = ("https://s3.eu-central-1.wasabisys.com/auditisa-releases-x1y2z3w4/abcdef1.tar.gz"
+              "?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKID%2F20261109%2Feu-central-1%2Fs3%2Faws4_request"
+              "&X-Amz-Date=20261109T000000Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=" + "a" * 64)
+    signature = bundle.replace(".tar.gz?", ".tar.gz.sig?")
+    answer = {"desired_release": "abcdef1", "desired_bundle_sha256": digest,
+              "desired_bundle_url": bundle, "desired_signature_url": signature}
+    desired = parse_desired(json.dumps(answer).encode())
+    assert (desired["bundle_url"], desired["signature_url"]) == (bundle, signature)
+    for wrong in ("http://s3.example/x", "https://h/x?a=$(reboot)", "file:///etc/shadow", "https://h.example/x y", 7):
+        assert "bundle_url" not in parse_desired(json.dumps(dict(answer, desired_bundle_url=wrong)).encode())
+    assert "bundle_url" not in parse_desired(json.dumps(dict(answer, desired_release="$(x)")).encode())
+
+
 def test_answer_drops_what_it_does_not_know():
     desired = parse_desired(json.dumps({"run": "rm -rf /", "export_requested": True}).encode())
     assert desired == {"export_requested": True}

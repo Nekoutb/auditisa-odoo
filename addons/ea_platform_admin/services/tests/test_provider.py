@@ -212,16 +212,30 @@ def test_vultr_firewall_opens_22_to_the_list_only():
     assert {r["port"] for r in rules} == {"22", "80", "443"}
 
 
-def test_vultr_storage_needs_a_cluster():
+def test_vultr_has_no_storage_of_its_own():
+    """Backups are at Wasabi: without a storage given, the storage steps refuse, and Vultr is not called."""
+    transport = FakeTransport()
     with pytest.raises(ProviderError):
-        VultrProvider("t", transport=FakeTransport()).create_storage("l", "cdg")
+        VultrProvider("t", transport=transport).create_storage("auditisa-firm-a", "cdg")
+    assert transport.requests == []
 
 
-def test_vultr_storage_credentials():
-    transport = FakeTransport({("GET", "/object-storage/s"): ok({"object_storage": {
-        "s3_hostname": "h", "label": "l", "s3_access_key": "A", "s3_secret_key": "S"}})})
-    credentials = VultrProvider("t", transport=transport).storage_credentials("s")
-    assert (credentials.endpoint, credentials.bucket, credentials.access_key) == ("h", "l", "A")
+def test_vultr_hands_storage_to_the_storage_given():
+    class Storage:
+        def __init__(self):
+            self.calls = []
+
+        def __getattr__(self, name):
+            return lambda *args: self.calls.append((name, args)) or f"{name}-result"
+
+    storage, transport = Storage(), FakeTransport()
+    provider = VultrProvider("t", storage=storage, transport=transport)
+    assert provider.find_storage("auditisa-firm-a") == "find_storage-result"
+    assert provider.create_storage("auditisa-firm-a", "cdg") == "create_storage-result"
+    assert provider.storage_credentials("b") == "storage_credentials-result"
+    provider.delete_storage("b")
+    assert [name for name, _args in storage.calls] == ["find_storage", "create_storage", "storage_credentials", "delete_storage"]
+    assert transport.requests == []
 
 
 @pytest.mark.parametrize("status,retryable", [(429, True), (500, True), (503, True), (400, False), (401, False), (403, False)])

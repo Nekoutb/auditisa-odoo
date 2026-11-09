@@ -1,0 +1,63 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListBucketNames",
+      "Effect": "Allow",
+      "Action": "s3:ListAllMyBuckets",
+      "Resource": "*"
+    },
+    {
+      "Sid": "FirmBuckets",
+      "Effect": "Allow",
+      "Action": [
+        "s3:CreateBucket",
+        "s3:DeleteBucket",
+        "s3:ListBucket",
+        "s3:GetBucketLocation",
+        "s3:PutBucketPolicy"
+      ],
+      "Resource": "arn:aws:s3:::auditisa-fw-*"
+    },
+    {
+      "Sid": "EmptyFirmBucketsBeforeDeletion",
+      "Effect": "Allow",
+      "Action": "s3:DeleteObject",
+      "Resource": "arn:aws:s3:::auditisa-fw-*/*"
+    },
+    {
+      "Sid": "ReleasesBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": "arn:aws:s3:::auditisa-releases-*"
+    },
+    {
+      "Sid": "ReleasesFiles",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": "arn:aws:s3:::auditisa-releases-*/*"
+    },
+    {
+      "Sid": "FirmUsersAndTheirKeys",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateUser",
+        "iam:GetUser",
+        "iam:DeleteUser",
+        "iam:CreateAccessKey",
+        "iam:DeleteAccessKey",
+        "iam:ListAccessKeys"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:user/auditisa/auditisa-firm-*",
+        "arn:aws:iam::*:user/auditisa-firm-*"
+      ]
+    }
+  ]
+}

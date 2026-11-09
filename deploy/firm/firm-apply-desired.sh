@@ -40,6 +40,12 @@ good = (
 )
 print(release if good else "")
 print(digest if good else "")
+# Signed download addresses into the private releases bucket: https only, no shell character.
+URL = r"https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/[A-Za-z0-9._~%/-]{1,512}(\?[A-Za-z0-9._~%&=-]{1,1500})?"
+urls = [data.get("bundle_url", ""), data.get("signature_url", "")]
+urls_good = good and all(isinstance(u, str) and re.fullmatch(URL, u) for u in urls)
+print(urls[0] if urls_good else "")
+print(urls[1] if urls_good else "")
 print("1" if data.get("export_requested") is True else "0")
 print(" ".join(allow) if isinstance(allow, list) and all(isinstance(c, str) and re.fullmatch(r"[0-9a-fA-F:./]+", c) for c in allow) else "")
 # Absent means no request, which changes nothing; an empty list means every add-on off.
@@ -68,7 +74,7 @@ print(ref if isinstance(ref, str) and re.fullmatch(r"[0-9a-f]{16}", ref) else ""
 print("none" if addons is None else "asked" if addons_good else "bad")
 PY
 ) || fl_die "the spool file cannot be read"
-{ read -r RELEASE; read -r DIGEST; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r VISIT; read -r VISIT_END; read -r ANON_REF; read -r ADDONS_STATE; } <<<"$parsed"
+{ read -r RELEASE; read -r DIGEST; read -r BUNDLE_URL; read -r SIG_URL; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r VISIT; read -r VISIT_END; read -r ANON_REF; read -r ADDONS_STATE; } <<<"$parsed"
 
 apply_allowlist() {
   [ -n "$ALLOW" ] || return 0
@@ -124,7 +130,7 @@ if [ -n "$RELEASE" ] && [ "$RELEASE" != "$(get_status release)" ]; then
   if [ "$DRY_RUN" = 1 ]; then
     fl_log "DRY RUN: would run firm-update $RELEASE"
   else
-    "$BIN_DIR/firm-update.sh" "$RELEASE" "$DIGEST" || fl_warn "update of $RELEASE did not succeed"
+    BUNDLE_URL=$BUNDLE_URL SIG_URL=$SIG_URL "$BIN_DIR/firm-update.sh" "$RELEASE" "$DIGEST" || fl_warn "update of $RELEASE did not succeed"
   fi
 fi
 

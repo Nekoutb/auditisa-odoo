@@ -24,11 +24,12 @@ SECRET_FILES=(heartbeat.token restic.key db.password master.password s3.env)
 SEARCH_DIRS=("$R/etc/auditisa-firm" "$R/etc/odoo" "$R/etc/nginx" "$R/etc/ssh" "$R/root" "$R/home" "$R/opt/auditisa-firm" "$R/var/lib/auditisa-firm")
 
 digest_values() {
-  # A value file: its whole content; s3.env: each value on its own.
+  # A value file: its whole content; s3.env: its key and its secret, each on its own (the region
+  # is the same for every firm and is no secret).
   local file=$1
   [ -r "$file" ] || return 0
   case "$file" in
-    *.env) sed -n 's/^[A-Z_]*=//p' "$file" | while read -r value; do printf '%s' "$value" | sha256sum | cut -d' ' -f1; done ;;
+    *.env) sed -n 's/^AWS_\(ACCESS_KEY_ID\|SECRET_ACCESS_KEY\)=//p' "$file" | while read -r value; do printf '%s' "$value" | sha256sum | cut -d' ' -f1; done ;;
     *) tr -d '\n' < "$file" | sha256sum | cut -d' ' -f1 ;;
   esac
 }

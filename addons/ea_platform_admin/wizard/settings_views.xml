@@ -11,23 +11,26 @@
                 </header>
                 <sheet>
                     <p class="text-muted">
-                        No token is saved here. The Vultr token and the DNS token are in files only root can read,
-                        on this server: see PREREQUISITES.md.
+                        No token or key is saved here. The Vultr token, the DNS token and the Wasabi key and secret
+                        are in files only root can read, on this server: see PREREQUISITES.md and WASABI.md.
                     </p>
                     <group>
                         <group string="The provider">
                             <field name="provider" widget="radio"/>
                             <field name="confirm_real" invisible="provider != 'vultr'"/>
                             <field name="vultr_os_id"/>
-                            <field name="vultr_storage_cluster"/>
                             <field name="dns_zone_id"/>
                         </group>
                         <group string="The addresses">
                             <field name="base_domain"/>
                             <field name="heartbeat_url"/>
-                            <field name="release_base_url"/>
                             <field name="ssh_allowlist" placeholder="your public IP address"/>
                         </group>
+                    </group>
+                    <group string="Backup storage and releases: Wasabi">
+                        <field name="wasabi_region" placeholder="eu-central-1"/>
+                        <field name="wasabi_endpoint" placeholder="s3.eu-central-1.wasabisys.com"/>
+                        <field name="releases_bucket" placeholder="auditisa-releases-..."/>
                     </group>
                     <group string="Release signing">
                         <field name="release_signing_public_key" nolabel="1" colspan="2" placeholder="-----BEGIN PUBLIC KEY-----"/>

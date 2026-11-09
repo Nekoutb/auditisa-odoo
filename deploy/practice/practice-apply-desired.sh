@@ -43,6 +43,7 @@ LOGIN = re.compile(r"^[A-Za-z0-9._+-]{1,64}(@[A-Za-z0-9.-]{1,190})?$")
 LANG = re.compile(r"^[a-z]{2,3}_[A-Z]{2}$")
 ADDON = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
 INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+URL = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/[A-Za-z0-9._~%/-]{1,512}(\?[A-Za-z0-9._~%&=-]{1,1500})?$")
 
 with open(sys.argv[1], encoding="utf-8") as handle:
     data = json.load(handle)
@@ -50,7 +51,11 @@ if not isinstance(data, dict):
     sys.exit(0)
 release = data.get("release")
 if isinstance(release, dict) and SHA.match(str(release.get("sha", ""))) and DIGEST.match(str(release.get("bundle_sha256", ""))):
-    print("RELEASE\t%s\t%s" % (release["sha"], release["bundle_sha256"]))
+    # Signed download addresses into the private releases bucket, if the control room gave them.
+    urls = [release.get("bundle_url", ""), release.get("signature_url", "")]
+    if not all(isinstance(u, str) and URL.match(u) for u in urls):
+        urls = ["-", "-"]
+    print("RELEASE\t%s\t%s\t%s\t%s" % (release["sha"], release["bundle_sha256"], urls[0], urls[1]))
 for space in data.get("spaces", [])[:500] if isinstance(data.get("spaces"), list) else []:
     if not isinstance(space, dict):
         continue
@@ -83,17 +88,20 @@ act() {
 }
 
 apply_release() {
-  local sha=$1 digest=$2 work
+  local sha=$1 digest=$2 bundle_url=${3:--} sig_url=${4:--} work
   [ "$sha" != "$(current_release)" ] && [ "${sha:0:12}" != "$(current_release)" ] || return 0
   if grep -qxF "$sha" "$PRACTICE_VAR/refused-releases" 2>/dev/null; then return 0; fi
-  if [ "$PRACTICE_PREVIEW" = 1 ] || [ -z "$PRACTICE_RELEASE_BASE_URL" ]; then
+  if [ "$bundle_url" = - ] && [ -n "$PRACTICE_RELEASE_BASE_URL" ]; then
+    bundle_url=$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz sig_url=$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz.sig
+  fi
+  if [ "$PRACTICE_PREVIEW" = 1 ] || [ "$bundle_url" = - ]; then
     pl_log "release $sha asked: on this computer it is installed by hand (practice-update)"
     return 0
   fi
   if [ "$DRY_RUN" = 1 ]; then pl_log "DRY RUN: fetch, verify and install release $sha"; return 0; fi
   work=$(mktemp -d /var/tmp/practice-release.XXXXXX)
-  if curl -fsSL --retry 3 --max-time 600 -o "$work/${sha:0:12}.tar.gz" "$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz" \
-     && curl -fsSL --retry 3 --max-time 60 -o "$work/${sha:0:12}.tar.gz.sig" "$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz.sig" \
+  if curl -fsSL --retry 3 --max-time 600 -o "$work/${sha:0:12}.tar.gz" "$bundle_url" \
+     && curl -fsSL --retry 3 --max-time 60 -o "$work/${sha:0:12}.tar.gz.sig" "$sig_url" \
      && "$HERE/practice-update.sh" --bundle "$work/${sha:0:12}.tar.gz" --digest "$digest"; then
     pl_log "now on release $sha"
   else
@@ -128,7 +136,7 @@ apply_space() {
 
 while IFS=$'\t' read -r kind a b c d e f g h; do
   case "$kind" in
-    RELEASE) apply_release "$a" "$b" ;;
+    RELEASE) apply_release "$a" "$b" "$c" "$d" ;;
     SPACE) ( apply_space "$a" "$b" "$c" "$d" "$e" "$f" "$g" "$h" ) || pl_warn "space $a: not applied" ;;
     REMOVE) [ ! -e "$(space_file "$a")" ] || act "$HERE/practice-space.sh" delete --slug "$a" --yes ;;
   esac

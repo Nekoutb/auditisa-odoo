@@ -104,7 +104,7 @@ Le script enregistre le serveur coupé, teste la connexion (sans envoyer de mess
 | Mot de passe de l'administrateur | Le contact seul |
 | Mot de passe PostgreSQL, mot de passe maître d'Odoo | Le serveur du cabinet seul. Personne ne les reçoit. |
 | Mot de passe de la messagerie sortante | Le contact vous le donne ; il reste sur le serveur du cabinet (fichier lisible par root seul, et Odoo). Aucun utilisateur du cabinet ne le voit. |
-| Facture Vultr | Vous |
+| Factures Vultr et Wasabi | Vous |
 
 ### Le domaine propre du cabinet (facultatif)
 
@@ -212,7 +212,7 @@ The script saves the server switched off, tests the connection (no message is se
 | Administrator's password | The contact alone |
 | PostgreSQL password, Odoo master password | The firm's server alone. Nobody receives them. |
 | Outgoing mail password | The contact gives it to you; it stays on the firm's server (a root-only file, and Odoo). No firm user sees it. |
-| Vultr invoice | You |
+| Vultr and Wasabi invoices | You |
 
 ### The firm's own domain (optional)
 

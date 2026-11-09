@@ -30,10 +30,19 @@ REQUIRED_KEYS = (
     "FIRST_ADMIN_TOKEN_SHA256",
     "SSH_ALLOWLIST",
     "S3_ENDPOINT",
+    "S3_REGION",
     "S3_BUCKET",
     "S3_ACCESS_KEY",
     "S3_SECRET_KEY",
 )
+
+# Always written, empty when absent. The releases bucket is private: the console signs a download
+# address for the bundle and one for its signature (base64, so that the address's characters pass
+# the install script's check), valid three days. Without them (simulation, rehearsals) the server
+# downloads from RELEASE_BASE_URL. Not secrets: each opens one signed, public-by-design file for a
+# short time, and the signature check still decides.
+OPTIONAL_KEYS = ("RELEASE_BUNDLE_URL_B64", "RELEASE_SIG_URL_B64")
+ALL_KEYS = REQUIRED_KEYS + OPTIONAL_KEYS
 
 # The secrets in the text. A test keeps this list from growing unnoticed.
 SECRET_KEYS = frozenset({"HEARTBEAT_TOKEN", "S3_ACCESS_KEY", "S3_SECRET_KEY"})
@@ -60,7 +69,7 @@ write_files:
     content: |
 {signing_key_block}
 runcmd:
-  - [bash, -c, "set -euo pipefail; . /etc/auditisa-firm/bootstrap.env; cd /root; curl -fsSL --retry 5 --retry-all-errors -o bundle.tar.gz \\"$RELEASE_BASE_URL/$RELEASE_SHA.tar.gz\\"; curl -fsSL --retry 5 --retry-all-errors -o bundle.sig \\"$RELEASE_BASE_URL/$RELEASE_SHA.tar.gz.sig\\"; echo \\"$RELEASE_BUNDLE_SHA256  bundle.tar.gz\\" | sha256sum -c -; openssl pkeyutl -verify -pubin -inkey /etc/auditisa-firm/release-signing.pub -rawin -in bundle.tar.gz -sigfile bundle.sig; mkdir -p /root/firm-bundle; tar -xzf bundle.tar.gz -C /root/firm-bundle; bash /root/firm-bundle/deploy/firm/install-firm-server.sh --env /etc/auditisa-firm/bootstrap.env --bundle /root/bundle.tar.gz"]
+  - [bash, -c, "set -euo pipefail; . /etc/auditisa-firm/bootstrap.env; cd /root; bundle_url=\\"$RELEASE_BASE_URL/$RELEASE_SHA.tar.gz\\"; sig_url=\\"$bundle_url.sig\\"; if [ -n \\"$RELEASE_BUNDLE_URL_B64\\" ]; then bundle_url=$(printf %s \\"$RELEASE_BUNDLE_URL_B64\\" | base64 -d); sig_url=$(printf %s \\"$RELEASE_SIG_URL_B64\\" | base64 -d); fi; curl -fsSL --retry 5 --retry-all-errors -o bundle.tar.gz \\"$bundle_url\\"; curl -fsSL --retry 5 --retry-all-errors -o bundle.sig \\"$sig_url\\"; echo \\"$RELEASE_BUNDLE_SHA256  bundle.tar.gz\\" | sha256sum -c -; openssl pkeyutl -verify -pubin -inkey /etc/auditisa-firm/release-signing.pub -rawin -in bundle.tar.gz -sigfile bundle.sig; mkdir -p /root/firm-bundle; tar -xzf bundle.tar.gz -C /root/firm-bundle; bash /root/firm-bundle/deploy/firm/install-firm-server.sh --env /etc/auditisa-firm/bootstrap.env --bundle /root/bundle.tar.gz"]
 """
 
 
@@ -69,10 +78,10 @@ def render_user_data(values, ssh_public_key, signing_public_key):
     missing = [key for key in REQUIRED_KEYS if not values.get(key) and key != "FIRM_ALLOWED_DOMAINS"]
     if missing:
         raise ValueError("missing: " + ", ".join(missing))
-    unknown = set(values) - set(REQUIRED_KEYS)
+    unknown = set(values) - set(ALL_KEYS)
     if unknown:
         raise ValueError("unknown: " + ", ".join(sorted(unknown)))
-    for key in REQUIRED_KEYS:
+    for key in ALL_KEYS:
         if not SAFE_VALUE.match(str(values.get(key, ""))):
             raise ValueError(f"unsafe value for {key}")
     if not re.match(r"^ssh-ed25519 [A-Za-z0-9+/=]+( [A-Za-z0-9@._-]+)?$", ssh_public_key.strip()):

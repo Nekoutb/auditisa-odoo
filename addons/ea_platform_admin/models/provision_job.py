@@ -14,6 +14,7 @@ from ..services.provider import ProviderError
 from ..services.recipe import render_user_data
 from ..services.validation import flatten_errors, onboarding_errors
 from .i18n import read, t
+from .platform_services import RELEASE_URL_SECONDS_FIRST_BOOT
 
 _logger = logging.getLogger(__name__)
 
@@ -188,21 +189,35 @@ class PlatformProvisionJob(models.Model):
             "FIRM_ALLOWED_DOMAINS": " ".join(firm.allowed_email_domains.split()),
             "RELEASE_SHA": release.sha,
             "RELEASE_BUNDLE_SHA256": release.bundle_sha256,
-            "RELEASE_BASE_URL": self._config_value("ea_platform.release_base_url", "https://releases.example.invalid"),
+            "RELEASE_BASE_URL": self._release_base_url(),
             "HEARTBEAT_URL": self._config_value("ea_platform.heartbeat_url", "https://hb.example.invalid/platform/heartbeat"),
             "HEARTBEAT_TOKEN": firm.heartbeat_token,
             "FIRST_ADMIN_TOKEN_SHA256": hashlib.sha256(token.encode("ascii")).hexdigest(),
             "SSH_ALLOWLIST": " ".join(self._allowlist()),
             "S3_ENDPOINT": credentials.endpoint,
+            "S3_REGION": credentials.region,
             "S3_BUCKET": credentials.bucket,
             "S3_ACCESS_KEY": credentials.access_key,
             "S3_SECRET_KEY": credentials.secret_key,
         }
+        # The releases bucket is private: the first boot downloads with signed addresses that expire.
+        urls = self.env["platform.services"]._release_urls(release, RELEASE_URL_SECONDS_FIRST_BOOT)
+        if urls:
+            values["RELEASE_BUNDLE_URL_B64"] = base64.b64encode(urls[0].encode("ascii")).decode("ascii")
+            values["RELEASE_SIG_URL_B64"] = base64.b64encode(urls[1].encode("ascii")).decode("ascii")
+        elif not firm.is_simulation:
+            raise ProviderError(_("No download address for the release: check the Wasabi settings."), retryable=True)
         signing_key = self._config_value(
             "ea_platform.release_signing_public_key",
             "-----BEGIN PUBLIC KEY-----\nSIMULATION\n-----END PUBLIC KEY-----",
         )
         return render_user_data(values, firm.ssh_public_key, signing_key)
+
+    def _release_base_url(self):
+        url = self.env["platform.services"]._release_base_url()
+        if not url:
+            raise ProviderError(_("Missing setting: %(key)s", key="ea_platform.releases_bucket"))
+        return url
 
     def _heartbeat_seen(self):
         firm = self.firm_id

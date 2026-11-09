@@ -18,6 +18,9 @@ _CIDR = re.compile(r"^[0-9a-fA-F:.]+/\d{1,3}$")
 _ANON_REF = re.compile(r"^[0-9a-f]{16}$")
 _ADDON_CODE = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
 _OPERATOR = re.compile(r"^[\w .'-]{1,64}$")
+# A signed download address of a release file: https, a host name, a path and a query of the
+# characters SigV4 uses. Root checks it again; the release's signature still decides.
+_RELEASE_URL = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/[A-Za-z0-9._~%/-]{1,512}(\?[A-Za-z0-9._~%&=-]{1,1500})?$")
 MAX_ADDON_CODES = 24
 
 
@@ -152,6 +155,13 @@ def parse_desired(body):
     if isinstance(release, str) and _RELEASE.match(release) and isinstance(digest, str) and _SHA256.match(digest):
         desired["release"] = release
         desired["bundle_sha256"] = digest
+        bundle_url, signature_url = data.get("desired_bundle_url"), data.get("desired_signature_url")
+        if (
+            isinstance(bundle_url, str) and _RELEASE_URL.match(bundle_url)
+            and isinstance(signature_url, str) and _RELEASE_URL.match(signature_url)
+        ):
+            desired["bundle_url"] = bundle_url
+            desired["signature_url"] = signature_url
     desired["export_requested"] = data.get("export_requested") is True
     anon_ref = data.get("anon_export_ref")
     if isinstance(anon_ref, str) and _ANON_REF.match(anon_ref):

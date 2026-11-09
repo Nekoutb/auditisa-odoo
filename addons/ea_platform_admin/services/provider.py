@@ -2,7 +2,8 @@
 
 The control plane talks to the server provider, the DNS service and the firm's public address only
 through these classes. The dry-run implementations are used by all tests and by the screens until
-the owner switches on the real provider. The real ones are in provider_vultr.py.
+the owner switches on the real provider. The real ones are in provider_vultr.py (servers, DNS) and
+storage_wasabi.py (backup storage).
 """
 
 import abc
@@ -57,9 +58,10 @@ class StorageCredentials:
     bucket: str
     access_key: str
     secret_key: str
+    region: str = ""
 
     def __repr__(self):
-        return f"StorageCredentials(endpoint={self.endpoint!r}, bucket={self.bucket!r}, ...)"
+        return f"StorageCredentials(endpoint={self.endpoint!r}, bucket={self.bucket!r}, region={self.region!r}, ...)"
 
 
 class ServerProvider(abc.ABC):
@@ -242,6 +244,7 @@ class DryRunProvider(ServerProvider):
             bucket=self.state["storages"][storage_id]["label"],
             access_key="DRYRUN" + seed[:14].upper(),
             secret_key=seed[14:54],
+            region="dry-run",
         )
 
     def delete_storage(self, storage_id):

@@ -22,10 +22,11 @@
 #     FIRM_DOORS (optional) opens more, each its own decision: `support` (a firm user's "Report a
 #     problem": POST /platform/support/{ticket,sync,trace}) and `practice` (the practice computer's
 #     POST /platform/practice-heartbeat). Default: heartbeat only.
-#   - the provider's token in /etc/auditisa-platform/vultr.token and the DNS token beside it, root
+#   - the provider's token in /etc/auditisa-platform/vultr.token, the DNS token beside it, and the
+#     Wasabi key and secret (backup storage, releases) in wasabi.key and wasabi.secret, all root
 #     only (600). systemd's LoadCredential gives Odoo a private copy; nothing is in odoo.conf. Until the
-#     owner puts them there (docs/runbook/PREREQUISITES.md) they are empty, and the console stays in
-#     simulation: no firm can be created for real.
+#     owner puts them there (docs/runbook/PREREQUISITES.md, WASABI.md) they are empty, and the console
+#     stays in simulation: no firm can be created for real.
 #   - only ea_platform_* addons in the database: the addons path holds no ea_audit_* addon.
 #   - no outgoing mail server, and Odoo's fallback to localhost:25 switched off: nothing is sent.
 #     Outbound SMTP is not blocked, so that a mail server can be added later.
@@ -356,6 +357,8 @@ Group=odoo
 ExecStart=$ODOO_PY $ODOO_BIN -c /etc/odoo/odoo.conf
 LoadCredential=vultr-token:$ETC/vultr.token
 LoadCredential=cloudflare-token:$ETC/cloudflare.token
+LoadCredential=wasabi-key:$ETC/wasabi.key
+LoadCredential=wasabi-secret:$ETC/wasabi.secret
 Restart=on-failure
 RestartSec=5
 MemoryHigh=$SERVICE_MEM_HIGH
@@ -387,7 +390,7 @@ if [ "$DRY_RUN" = 1 ]; then
   printf '+ odoo-bin -i ea_platform_admin,ea_platform_pipeline,auth_totp --load-language=fr_FR --stop-after-init (no demo data)\n'
   printf '+ admin: a random password in %s/admin.password (root, 600), never shown\n' "$ETC"
 else
-  for token in vultr.token cloudflare.token; do
+  for token in vultr.token cloudflare.token wasabi.key wasabi.secret; do
     # An empty placeholder keeps the service starting in simulation mode, before the owner has any.
     [ -e "$ETC/$token" ] || install -m 600 /dev/null "$ETC/$token"
   done

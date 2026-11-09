@@ -1,4 +1,6 @@
+import base64
 from datetime import timedelta
+from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import UserError
@@ -41,7 +43,7 @@ class TestOnboarding(PlatformCase):
         self.assertEqual(wizard.step, "addons")
         wizard.action_next()
         self.assertEqual(wizard.step, "preflight")
-        self.assertEqual(wizard.preview_total_cost, 58.0)
+        self.assertEqual(wizard.preview_total_cost, 41.0)
         self.assertIn("SIMULATION", wizard.preview_mode)
         self.assertEqual(wizard.preview_address, "cabinet-a.auditisa.com")
         with self.assertRaisesRegex(UserError, "confirmation"):
@@ -280,3 +282,49 @@ class TestFirstAdminLink(PlatformCase):
         provider = self.env["platform.services"]._outside()[0]
         text = job._user_data(provider.storage_credentials(firm.storage_id))
         self.assertNotIn(token, text)
+
+
+@tagged("post_install", "-at_install")
+class TestWasabiDelivery(PlatformCase):
+    """What reaches a firm's server about its storage and the releases (backups at Wasabi)."""
+
+    BUNDLE = "https://s3.eu-central-1.wasabisys.com/auditisa-releases-k3j4h5g6f7d8/x.tar.gz?X-Amz-Signature=" + "a" * 64
+    SIGNATURE = "https://s3.eu-central-1.wasabisys.com/auditisa-releases-k3j4h5g6f7d8/x.tar.gz.sig?X-Amz-Signature=" + "b" * 64
+
+    def _signed(self):
+        services = type(self.env["platform.services"])
+        return patch.object(services, "_release_urls", lambda model, release, seconds: (self.BUNDLE, self.SIGNATURE))
+
+    def _user_data(self, firm, job):
+        provider = self.env["platform.services"]._outside()[0]
+        return job._user_data(provider.storage_credentials(firm.storage_id))
+
+    def test_simulation_signs_nothing_and_needs_no_wasabi_key(self):
+        self.assertIsNone(self.env["platform.services"]._release_urls(self.release, 3600))
+        firm, job = self._onboard()
+        self.assertEqual(job.state, "done")
+        text = self._user_data(firm, job)
+        self.assertIn("S3_REGION='dry-run'", text)
+        self.assertIn("RELEASE_BUNDLE_URL_B64=''", text)
+        self.assertIn("RELEASE_BASE_URL='https://releases.example.invalid'", text)
+
+    def test_the_first_boot_text_carries_the_signed_release_addresses(self):
+        firm, job = self._onboard()
+        with self._signed():
+            text = self._user_data(firm, job)
+        encoded = base64.b64encode(self.BUNDLE.encode()).decode()
+        self.assertIn(f"RELEASE_BUNDLE_URL_B64='{encoded}'", text)
+        self.assertIn(f"RELEASE_SIG_URL_B64='{base64.b64encode(self.SIGNATURE.encode()).decode()}'", text)
+
+    def test_the_heartbeat_answer_carries_them_only_with_the_release(self):
+        firm = self._active_firm()
+        self.assertNotIn("desired_bundle_url", firm._heartbeat_answer())
+        with self._signed():
+            answer = firm._heartbeat_answer()
+            self.assertEqual((answer["desired_bundle_url"], answer["desired_signature_url"]), (self.BUNDLE, self.SIGNATURE))
+            firm.sudo().release_locked = True
+            self.assertNotIn("desired_bundle_url", firm._heartbeat_answer())
+
+    def test_no_real_storage_is_built_during_tests(self):
+        with self.assertRaises(ProviderError):
+            self.env["platform.services"]._storage()

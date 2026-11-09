@@ -17,7 +17,7 @@ git fetch && git checkout <commit à publier>
 scripts/provision/build_release.sh <commit> --key signature.pem --out sortie/
 ```
 
-La commande affiche le commit et l'empreinte `sha256`. Déposez les deux fichiers (`<commit>.tar.gz` et `<commit>.tar.gz.sig`) à l'emplacement des versions. Le paquet ne contient jamais `ea_platform_admin`.
+La commande affiche le commit et l'empreinte `sha256`. Déposez les deux fichiers (`<commit>.tar.gz` et `<commit>.tar.gz.sig`) dans le bucket des versions : console.wasabisys.com > Buckets > `auditisa-releases-...` > **Upload**, sans les renommer et sans dossier. Le bucket reste privé : chaque serveur reçoit de la console une adresse de téléchargement signée, valable 6 heures et renouvelée à chaque heartbeat. Le paquet ne contient jamais `ea_platform_admin`.
 
 ### 2. L'enregistrer
 
@@ -70,7 +70,7 @@ git fetch && git checkout <commit to publish>
 scripts/provision/build_release.sh <commit> --key signing.pem --out out/
 ```
 
-It prints the commit and the `sha256`. Upload both files (`<commit>.tar.gz` and `<commit>.tar.gz.sig`) to the releases location. The bundle never holds `ea_platform_admin`.
+It prints the commit and the `sha256`. Upload both files (`<commit>.tar.gz` and `<commit>.tar.gz.sig`) to the releases bucket: console.wasabisys.com > Buckets > `auditisa-releases-...` > **Upload**, without renaming them and without a folder. The bucket stays private: each server gets a signed download address from the console, valid 6 hours and renewed at each heartbeat. The bundle never holds `ea_platform_admin`.
 
 ### 2. Register it
 

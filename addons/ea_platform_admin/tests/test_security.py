@@ -55,9 +55,9 @@ class TestSettings(PlatformCase):
             self._settings(
                 provider="vultr", confirm_real=True,
                 heartbeat_url="https://hb.example.invalid/platform/heartbeat",
-                release_base_url="https://releases.example.invalid/x",
+                releases_bucket="auditisa-releases-0123abcd4567",
                 release_signing_public_key="-----BEGIN PUBLIC KEY-----",
-                ssh_allowlist="8.8.8.8", vultr_os_id="1", vultr_storage_cluster="2", dns_zone_id="z",
+                ssh_allowlist="8.8.8.8", vultr_os_id="1", dns_zone_id="z",
             ).action_save()
         self.assertEqual(self.env["ir.config_parameter"].sudo().get_param("ea_platform.provider"), "dry_run")
 
@@ -68,6 +68,18 @@ class TestSettings(PlatformCase):
     def test_addresses_must_be_https(self):
         with self.assertRaisesRegex(UserError, "https"):
             self._settings(heartbeat_url="http://hb.example.invalid/x").action_save()
+
+    def test_wasabi_settings_are_checked(self):
+        with self.assertRaisesRegex(UserError, "region"):
+            self._settings(wasabi_region="Amsterdam").action_save()
+        with self.assertRaisesRegex(UserError, "releases bucket"):
+            self._settings(releases_bucket="my-photos").action_save()
+        with self.assertRaisesRegex(UserError, "host name"):
+            self._settings(wasabi_endpoint="https://s3.example/x").action_save()
+        self._settings(wasabi_region="eu-central-1", releases_bucket="auditisa-releases-0123abcd4567").action_save()
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        self.assertEqual(get_param("ea_platform.releases_bucket"), "auditisa-releases-0123abcd4567")
+        self.assertEqual(get_param("ea_platform.wasabi_region"), "eu-central-1")
 
     def test_a_change_is_logged(self):
         self._settings(base_domain="auditisa.com", ssh_allowlist="8.8.8.8").action_save()

@@ -28,7 +28,7 @@ Le bouton **Détruire le serveur** n'apparaît qu'une fois réunis : export term
 1. Tapez l'identifiant, **Continuer**.
 2. Tapez `DESTROY`, **Détruire définitivement**.
 
-Sont supprimés : le serveur et ses disques, son stockage **avec toutes ses sauvegardes**, l'adresse DNS, le pare-feu, la clé SSH chez le fournisseur. La fiche et son journal restent, sans aucun jeton, et l'identifiant ne sera jamais réattribué.
+Sont supprimés : le serveur et ses disques, son bucket Wasabi **avec toutes ses sauvegardes**, l'utilisateur Wasabi du cabinet et sa clé, l'adresse DNS, le pare-feu, la clé SSH chez le fournisseur. Wasabi facture encore les fichiers effacés jusqu'à 90 jours après leur dépôt. La fiche et son journal restent, sans aucun jeton, et l'identifiant ne sera jamais réattribué.
 
 Si la destruction est incomplète, un message rouge le dit, le cabinet reste en sortie et passe au rouge « SERVEUR ORPHELIN » : voir INCIDENT.md.
 
@@ -62,7 +62,7 @@ The **Destroy the server** button appears only once: export finished, handover c
 1. Type the slug, **Continue**.
 2. Type `DESTROY`, **Destroy for good**.
 
-Removed: the server and its disks, its storage **with all its backups**, the DNS address, the firewall, the SSH key at the provider. The firm's record and its log remain, with no token, and the slug is never given again.
+Removed: the server and its disks, its Wasabi bucket **with all its backups**, the firm's Wasabi user and its key, the DNS address, the firewall, the SSH key at the provider. Wasabi still bills deleted files until 90 days after they were stored. The firm's record and its log remain, with no token, and the slug is never given again.
 
 If destruction is incomplete, a red message says so, the firm stays in exit and turns red "ORPHAN SERVER": see INCIDENT.md.
 

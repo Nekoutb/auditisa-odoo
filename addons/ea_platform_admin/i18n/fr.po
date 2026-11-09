@@ -1727,12 +1727,6 @@ msgstr "Aucun signal de vie reçu"
 
 #. module: ea_platform_admin
 #. odoo-python
-#: code:addons/ea_platform_admin/services/provider_vultr.py:0
-msgid "No object storage cluster set (ea_platform.vultr_storage_cluster)."
-msgstr "Aucune grappe de stockage objet configurée (ea_platform.vultr_storage_cluster)."
-
-#. module: ea_platform_admin
-#. odoo-python
 #: code:addons/ea_platform_admin/models/provision_job.py:0
 msgid "No operator address set for port 22."
 msgstr "Aucune adresse d'opérateur configurée pour le port 22."
@@ -1762,13 +1756,6 @@ msgstr "Aucune version signée n'a été choisie pour ce cabinet."
 #: code:addons/ea_platform_admin/models/platform_services.py:0
 msgid "No token given to this service (LoadCredential missing)."
 msgstr "Aucun jeton fourni à ce service (LoadCredential manquant)."
-
-#. module: ea_platform_admin
-#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
-msgid ""
-"No token is saved here. The Vultr token and the DNS token are in files only root can read,\n"
-"                        on this server: see PREREQUISITES.md."
-msgstr "Aucun jeton ne s'enregistre ici. Le jeton Vultr et le jeton DNS sont dans des fichiers lisibles par root seul,\n                        sur ce serveur : voir PREREQUISITES.md."
 
 #. module: ea_platform_admin
 #. odoo-python
@@ -1811,25 +1798,6 @@ msgstr "Nombre de messages avec une erreur d'envoi"
 #: code:addons/ea_platform_admin/services/health.py:0
 msgid "ORPHAN SERVER: %(detail)s"
 msgstr "SERVEUR ORPHELIN : %(detail)s"
-
-#. module: ea_platform_admin
-#. odoo-python
-#: code:addons/ea_platform_admin/wizard/onboarding.py:0
-#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__vultr_storage_cluster
-msgid "Object storage cluster (Vultr id)"
-msgstr "Grappe de stockage objet (identifiant Vultr)"
-
-#. module: ea_platform_admin
-#. odoo-python
-#: code:addons/ea_platform_admin/services/provider_vultr.py:0
-msgid "Object storage not found at Vultr."
-msgstr "Stockage objet introuvable chez Vultr."
-
-#. module: ea_platform_admin
-#. odoo-python
-#: code:addons/ea_platform_admin/services/provider_vultr.py:0
-msgid "Object storage not ready yet."
-msgstr "Stockage objet pas encore prêt."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__odoo_commit
@@ -2147,11 +2115,6 @@ msgid "Range too wide for port 22: \"%(address)s\" (minimum /%(minimum)s)."
 msgstr "Plage trop large pour le port 22 : « %(address)s » (minimum /%(minimum)s)."
 
 #. module: ea_platform_admin
-#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__provider__vultr
-msgid "Real: Vultr and Cloudflare"
-msgstr "Réel : Vultr et Cloudflare"
-
-#. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass__reason
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_breakglass_wizard__reason
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__health_reason
@@ -2252,13 +2215,6 @@ msgstr "Version à installer"
 #: model:ir.ui.menu,name:ea_platform_admin.menu_releases
 msgid "Releases"
 msgstr "Versions"
-
-#. module: ea_platform_admin
-#. odoo-python
-#: code:addons/ea_platform_admin/wizard/onboarding.py:0
-#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__release_base_url
-msgid "Releases address"
-msgstr "Adresse des versions"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_rollout_line__state__requested
@@ -5503,3 +5459,141 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__computer_simulated
 msgid "Simulated practice computer"
 msgstr "Ordinateur d'entraînement simulé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/platform_services.py:0
+msgid "No real storage in simulation."
+msgstr "Aucun stockage réel en simulation."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "No download address for the release: check the Wasabi settings."
+msgstr "Aucune adresse de téléchargement pour la version : vérifiez les réglages Wasabi."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "No backup storage set (Wasabi)."
+msgstr "Aucun stockage de sauvegarde configuré (Wasabi)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Wasabi refused %(call)s (%(status)s %(code)s)."
+msgstr "Wasabi a refusé %(call)s (%(status)s %(code)s)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Invalid Wasabi region."
+msgstr "Région Wasabi invalide."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Invalid Wasabi endpoint."
+msgstr "Adresse Wasabi invalide."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "The releases bucket must be named auditisa-releases-..."
+msgstr "Le bucket des versions doit s'appeler auditisa-releases-..."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Wasabi: temporary error %(status)s on %(call)s."
+msgstr "Wasabi : erreur temporaire %(status)s sur %(call)s."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Several Wasabi buckets for this firm: %(names)s"
+msgstr "Plusieurs buckets Wasabi pour ce cabinet : %(names)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Not a firm's bucket: %(id)s"
+msgstr "Ce n'est pas le bucket d'un cabinet : %(id)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Wasabi did not give the user's identity yet."
+msgstr "Wasabi n'a pas encore donné l'identité de l'utilisateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Wasabi gave no key."
+msgstr "Wasabi n'a donné aucune clé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "No releases bucket set."
+msgstr "Aucun bucket des versions configuré."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Invalid storage label: %(label)s"
+msgstr "Libellé de stockage invalide : %(label)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__releases_bucket
+msgid "Releases bucket (Wasabi)"
+msgstr "Bucket des versions (Wasabi)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "Wasabi region: a code such as eu-central-1."
+msgstr "Région Wasabi : un code comme eu-central-1."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "Wasabi address: a host name only, such as s3.eu-central-1.wasabisys.com."
+msgstr "Adresse Wasabi : un nom d'hôte seulement, comme s3.eu-central-1.wasabisys.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "The releases bucket is named auditisa-releases- followed by at least 8 letters or digits."
+msgstr "Le bucket des versions s'appelle auditisa-releases- suivi d'au moins 8 lettres ou chiffres."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__wasabi_region
+msgid "Wasabi region"
+msgstr "Région Wasabi"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__wasabi_endpoint
+msgid "Wasabi address (if not the region's own)"
+msgstr "Adresse Wasabi (si ce n'est pas celle de la région)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__provider__vultr
+msgid "Real: Vultr, Wasabi and Cloudflare"
+msgstr "Réel : Vultr, Wasabi et Cloudflare"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "Backup storage and releases: Wasabi"
+msgstr "Stockage des sauvegardes et des versions : Wasabi"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid ""
+"No token or key is saved here. The Vultr token, the DNS token and the Wasabi key and secret\n"
+"                        are in files only root can read, on this server: see PREREQUISITES.md and WASABI.md."
+msgstr ""
+"Aucun jeton ni aucune clé ne s'enregistre ici. Le jeton Vultr, le jeton DNS et la clé et le secret Wasabi\n"
+"                        sont dans des fichiers lisibles par root seul, sur ce serveur : voir PREREQUISITES.md et WASABI.md."

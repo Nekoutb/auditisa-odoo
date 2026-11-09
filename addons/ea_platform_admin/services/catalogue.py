@@ -1,8 +1,8 @@
 """What a firm can be built on, and what it is expected to cost.
 
-Prices are from memory of Vultr's public price list and were NOT checked against Vultr while this
-was written (no call to Vultr was allowed). They only drive the estimate shown before the owner
-confirms. The owner confirms them on vultr.com before the first real firm: see
+Prices are from memory of Vultr's and Wasabi's public price lists and were NOT checked while this
+was written (no call to either was allowed). They only drive the estimate shown before the owner
+confirms. The owner confirms them on vultr.com and wasabi.com before the first real firm: see
 docs/runbook/PREREQUISITES.md. Pure.
 """
 
@@ -51,8 +51,10 @@ SIZES = {
     },
 }
 
-# One storage subscription per firm, because a Vultr access key opens a whole subscription.
-STORAGE_MONTHLY_USD = 18.0
+# Backups at Wasabi, pay as you go: about USD 7 per TB per month, so about USD 1 for a firm's
+# 100 GB or so. The whole account pays at least 1 TB (about USD 7 a month) whatever the firms use,
+# and a deleted file is billed as if kept 90 days: docs/runbook/WASABI.md. To confirm on wasabi.com.
+STORAGE_MONTHLY_USD = 1.0
 
 LANGUAGES = {
     "fr_FR": "French",

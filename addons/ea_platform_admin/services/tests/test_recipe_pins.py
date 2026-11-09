@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from ..catalogue import SIZES
-from ..recipe import REQUIRED_KEYS, render_user_data
+from ..recipe import ALL_KEYS, REQUIRED_KEYS, render_user_data
 from .test_provisioning import KEY, PUB, values
 
 ROOT = Path(__file__).parents[4]
@@ -46,7 +46,7 @@ def test_sizes_agree_with_the_install_script(size):
 
 def test_the_sample_env_holds_exactly_what_the_control_plane_sends():
     sample = (ROOT / "deploy/firm/sample.env").read_text(encoding="utf-8")
-    assert set(re.findall(r"^([A-Z0-9_]+)=", sample, re.M)) == set(REQUIRED_KEYS)
+    assert set(re.findall(r"^([A-Z0-9_]+)=", sample, re.M)) == set(ALL_KEYS)
 
 
 def test_the_first_boot_text_is_valid_yaml_and_its_env_block_reads_back():

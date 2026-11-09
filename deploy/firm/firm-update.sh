@@ -15,6 +15,9 @@
 #   5. on failure puts back the previous release and the copied database and keeps the failed one
 #      as <db>_failed_<sha>_<stamp>
 #
+# BUNDLE_URL and SIG_URL, from firm-apply-desired, are the signed addresses the control plane gave
+# for this release (the releases bucket is private). Without them: $RELEASE_BASE_URL/<sha>.tar.gz.
+#
 # The result is in the status folder for the next heartbeat: ok, rolled_back (running the previous
 # release) or failed (needs the operator). A refused release is not tried twice.
 
@@ -31,6 +34,8 @@ valid_release "$SHA" || fl_die "invalid release '$SHA'"
 valid_digest "$DIGEST" || fl_die "invalid digest"
 load_firm_env
 : "${RELEASE_BASE_URL:?}"
+: "${BUNDLE_URL:=$RELEASE_BASE_URL/$SHA.tar.gz}" "${SIG_URL:=$RELEASE_BASE_URL/$SHA.tar.gz.sig}"
+[[ $BUNDLE_URL =~ ^(https|file):// && $SIG_URL =~ ^(https|file):// ]] || fl_die "release addresses must be https"
 
 : "${SERVICE:=odoo}"
 : "${ODOO_USER:=odoo}"
@@ -45,7 +50,7 @@ MODULES=()
 
 if [ "$DRY_RUN" = 1 ]; then
   fl_log "DRY RUN: nothing is changed"
-  fl_log "fetch and verify $RELEASE_BASE_URL/$SHA.tar.gz (digest and signature)"
+  fl_log "fetch and verify ${BUNDLE_URL%%\?*} (digest and signature)"
   fl_log "firm-backup --tag pre-update; stop Odoo; copy $FIRM_DB to $SNAPSHOT"
   fl_log "switch current to $TARGET; update the addons; start Odoo; health check"
   fl_log "on failure: previous release and copied database back, result rolled_back or failed"
@@ -142,8 +147,8 @@ trap on_exit EXIT
 fetch_and_verify() {
   local work
   work=$(mktemp -d /var/tmp/firm-update.XXXXXX)
-  curl -fsSL --retry 3 --max-time 600 -o "$work/bundle.tar.gz" "$RELEASE_BASE_URL/$SHA.tar.gz"
-  curl -fsSL --retry 3 --max-time 60 -o "$work/bundle.sig" "$RELEASE_BASE_URL/$SHA.tar.gz.sig"
+  curl -fsSL --retry 3 --max-time 600 -o "$work/bundle.tar.gz" "$BUNDLE_URL"
+  curl -fsSL --retry 3 --max-time 60 -o "$work/bundle.sig" "$SIG_URL"
   verify_bundle "$work/bundle.tar.gz" "$work/bundle.sig" "$DIGEST" || { rm -rf "$work"; fl_die "bundle refused"; }
   if [ ! -d "$TARGET" ]; then
     rm -rf "$TARGET.tmp"

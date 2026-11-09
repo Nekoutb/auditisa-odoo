@@ -1,5 +1,8 @@
 """Vultr (official API v2) and Cloudflare behind the interfaces of provider.py. Pure.
 
+Vultr makes the servers, its SSH keys and firewalls. Backup storage is at Wasabi
+(storage_wasabi.py), handed to VultrProvider as `storage`.
+
 NEVER RUN AGAINST THE REAL SERVICES during this build: the tests inject a fake transport and check
 the requests. The endpoints are written from Vultr's and Cloudflare's public API documentation and
 need the checks listed in docs/runbook/PREREQUISITES.md before the first real firm.
@@ -17,7 +20,7 @@ import urllib.request
 from dataclasses import dataclass
 
 from .messages import _
-from .provider import DnsProvider, HealthProbe, ProviderError, Server, ServerProvider, StorageCredentials
+from .provider import DnsProvider, HealthProbe, ProviderError, Server, ServerProvider
 
 VULTR_API = "https://api.vultr.com/v2"
 CLOUDFLARE_API = "https://api.cloudflare.com/client/v4"
@@ -103,9 +106,9 @@ class VultrProvider(ServerProvider):
     name = "vultr"
     is_simulation = False
 
-    def __init__(self, token, object_storage_cluster=None, transport=None):
+    def __init__(self, token, storage=None, transport=None):
         self._api = _Api(VULTR_API, token, transport, "Vultr")
-        self._cluster = object_storage_cluster
+        self._storage = storage
 
     def _all(self, path, key):
         """Every page of a list endpoint."""
@@ -167,34 +170,24 @@ class VultrProvider(ServerProvider):
     def delete_firewall(self, firewall_id):
         self._api.call("DELETE", f"/firewalls/{firewall_id}")
 
+    # Backup storage is not Vultr's: these four go to the storage given (storage_wasabi.WasabiStorage).
+
+    def _backup_storage(self):
+        if self._storage is None:
+            raise ProviderError(_("No backup storage set (Wasabi)."))
+        return self._storage
+
     def find_storage(self, label):
-        for item in self._all("/object-storage", "object_storages"):
-            if item.get("label") == label:
-                return item["id"]
-        return None
+        return self._backup_storage().find_storage(label)
 
     def create_storage(self, label, region):
-        if not self._cluster:
-            raise ProviderError(_("No object storage cluster set (ea_platform.vultr_storage_cluster)."))
-        answer = self._api.call("POST", "/object-storage", {"cluster_id": int(self._cluster), "label": label})
-        return answer["object_storage"]["id"]
+        return self._backup_storage().create_storage(label, region)
 
     def storage_credentials(self, storage_id):
-        answer = self._api.call("GET", f"/object-storage/{storage_id}")
-        if not answer:
-            raise ProviderError(_("Object storage not found at Vultr."))
-        data = answer["object_storage"]
-        if not data.get("s3_access_key"):
-            raise ProviderError(_("Object storage not ready yet."), retryable=True)
-        return StorageCredentials(
-            endpoint=data["s3_hostname"],
-            bucket=data["label"],
-            access_key=data["s3_access_key"],
-            secret_key=data["s3_secret_key"],
-        )
+        return self._backup_storage().storage_credentials(storage_id)
 
     def delete_storage(self, storage_id):
-        self._api.call("DELETE", f"/object-storage/{storage_id}")
+        self._backup_storage().delete_storage(storage_id)
 
     @staticmethod
     def _server(data):
