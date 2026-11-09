@@ -6,7 +6,7 @@
 set -euo pipefail
 shopt -s nullglob
 
-dirs=(addons/*/services/tests addons/*/tests_pure addons/*/tests/pure deploy/practice/tests)
+dirs=(addons/*/services/tests addons/*/tests_pure addons/*/tests/pure deploy/practice/tests deploy/firm/tests)
 if [ ${#dirs[@]} = 0 ]; then
   echo "No pure tests yet."
   exit 0

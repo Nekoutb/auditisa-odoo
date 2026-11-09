@@ -167,6 +167,8 @@ FIGURES = {
     "last_ssh_at": _optional(_timestamp),
     "addons_on": _addon_codes,
     "addons_refused": _integer(0, 1000),
+    # The number of the trusted signer list the firm's server uses (absent before release_trust.py).
+    "signers_serial": _optional(_integer(0, 1000000)),
     "errors": _errors,
     "support_visit": _support_visit,
 }

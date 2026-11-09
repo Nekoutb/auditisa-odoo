@@ -1,9 +1,5 @@
 from pathlib import Path
 
-from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
-from cryptography.hazmat.primitives.serialization import load_pem_public_key
-
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 
@@ -111,22 +107,25 @@ class PlatformRelease(models.Model):
         return self.addon_line_ids.filtered("is_optional").mapped("code")
 
     def _verify_catalogue(self, raw, signature):
-        """Required on a real platform; checked in simulation only when both sides are present."""
-        public = self.env["ir.config_parameter"].sudo().get_param("ea_platform.release_signing_public_key")
+        """Required on a real platform; checked in simulation only when both sides are present.
+
+        The signature must be one of a signer trusted TODAY (Platform > Updates > Signers). The release
+        then records who signed it, if nothing recorded it before.
+        """
+        signers = self.env["platform.signer"].sudo().search([])
         simulation = self.env["platform.services"]._is_simulation()
-        if not (public and signature):
+        if not (signers and signature):
             if simulation:
                 return False
             raise UserError(t(self.env, _(
-                "The catalogue needs its signature file and the release signing public key (Platform > Settings)."
+                "The catalogue needs its signature file and at least one trusted signer (Platform > Updates > Signers)."
             )))
-        try:
-            key = load_pem_public_key(public.encode("ascii"))
-            if not isinstance(key, Ed25519PublicKey):
-                raise ValueError("not ed25519")
-            key.verify(signature, raw)
-        except (InvalidSignature, ValueError, TypeError):
-            raise UserError(t(self.env, _("The catalogue's signature does not hold: nothing was loaded."))) from None
+        signer = self.env["platform.signer"]._who_signed(signature, raw)
+        if not signer:
+            raise UserError(t(self.env, _("The catalogue's signature does not hold: nothing was loaded."))
+                            + "\n" + t(self.env, _("It was not made by a trusted signer.")))
+        if not self.signer_id:
+            self.sudo().signer_id = signer
         return True
 
     def _load_catalogue(self, raw, signature=None):

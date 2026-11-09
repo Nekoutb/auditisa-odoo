@@ -32,8 +32,14 @@
                         <field name="wasabi_endpoint" placeholder="s3.eu-central-1.wasabisys.com"/>
                         <field name="releases_bucket" placeholder="auditisa-releases-..."/>
                     </group>
-                    <group string="Release signing">
-                        <field name="release_signing_public_key" nolabel="1" colspan="2" placeholder="-----BEGIN PUBLIC KEY-----"/>
+                    <group string="Who may sign a new version">
+                        <p class="text-muted" colspan="2">
+                            Each person who signs new versions has their own key, kept on their own computer and locked
+                            by their own passphrase. Only the public half is here. Firms accept a new version only if
+                            one of these people signed it. Add or remove people in Platform &gt; Updates &gt; Signers.
+                        </p>
+                        <field name="signer_names" nolabel="1" colspan="2" readonly="1"/>
+                        <button name="action_open_signers" type="object" string="Manage the signers" class="btn-secondary" colspan="2"/>
                     </group>
                 </sheet>
             </form>

@@ -52,6 +52,21 @@ def _section(title, content):
     return Markup('<h4 class="ea-env-section">%s</h4>%s') % (title, content)
 
 
+def _signed_by(env, release):
+    """The " · signed by NAME" after a release in a history row: the trusted signer whose key matched."""
+    signer = release.sudo().signer_id if release else None
+    if not signer:
+        return Markup("")
+    return Markup(" <small class=\"text-muted\">· %s</small>") % t(env, _("signed by %(name)s", name=signer.name))
+
+
+def _release_of(env, name):
+    """The registered release a history row names (short or long commit), or an empty recordset."""
+    if not name:
+        return env["platform.release"]
+    return env["platform.release"].sudo().with_context(active_test=False).search([("sha", "=like", f"{name[:12]}%")], limit=1)
+
+
 def _note(text, kind="info"):
     return Markup('<div class="alert alert-%s ea-env-note" role="status">%s</div>') % (kind, text)
 
@@ -393,7 +408,8 @@ class PlatformEnvironment(models.Model):
         for index, row in enumerate(releases):
             before = releases[index + 1]["name"] if index + 1 < len(releases) else ""
             result = {"running": t(env, _("Running now")), "replaced": t(env, _("Replaced"))}.get(row["result"] or "", "")
-            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12]),
+            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12])
+                         + _signed_by(env, _release_of(env, row["name"])),
                          result, t(env, _("On the server (not recorded)"))])
         for rebuild in env["platform.pipeline.rebuild"].sudo().search([], limit=10):
             label = dict(rebuild._fields["state"]._description_selection(env)).get(rebuild.state)
@@ -450,7 +466,8 @@ class PlatformEnvironment(models.Model):
         releases = remote.get("releases") or []
         for index, row in enumerate(releases):
             before = releases[index + 1]["name"] if index + 1 < len(releases) else ""
-            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12]),
+            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12])
+                         + _signed_by(env, _release_of(env, row["name"])),
                          result_words.get(row["result"] or "", ""), t(env, _("On the server (practice-update)"))])
         for entry in env["platform.log"].sudo().search([("action", "ilike", "Release sent to the practice computer")], limit=10):
             rows.append([_when(entry.logged_at), entry.detail_text or "", t(env, _("Asked from the console")), entry.user_id.name or ""])
@@ -508,7 +525,8 @@ class PlatformEnvironment(models.Model):
             done = len(lines.filtered(lambda line: line.state == "healthy"))
             label = dict(promotion._fields["state"]._description_selection(env)).get(promotion.state)
             rows.append([_when(promotion.started_at),
-                         Markup("<code>%s</code> → <code>%s</code>") % ((promotion.previous_release_id.sha or "…")[:12], promotion.release_id.sha[:12]),
+                         Markup("<code>%s</code> → <code>%s</code>") % ((promotion.previous_release_id.sha or "…")[:12], promotion.release_id.sha[:12])
+                         + _signed_by(env, promotion.release_id),
                          t(env, _("%(state)s: %(done)s of %(total)s firm(s) through", state=label, done=done, total=len(lines))),
                          promotion.started_by_id.name or ""])
         promoted = env["platform.pipeline.promotion"].sudo().search([]).rollout_id
@@ -517,7 +535,8 @@ class PlatformEnvironment(models.Model):
             done = len(lines.filtered(lambda line: line.state == "healthy"))
             label = dict(rollout._fields["state"]._description_selection(env)).get(rollout.state)
             before = lines.previous_release_id[:1].sha or "…"
-            rows.append([_when(rollout.started_at), Markup("<code>%s</code> → <code>%s</code>") % (before[:12], rollout.release_id.sha[:12]),
+            rows.append([_when(rollout.started_at), Markup("<code>%s</code> → <code>%s</code>") % (before[:12], rollout.release_id.sha[:12])
+                         + _signed_by(env, rollout.release_id),
                          t(env, _("%(state)s: %(done)s of %(total)s firm(s) through", state=label, done=done, total=len(lines))),
                          rollout.create_uid.name or ""])
         rows.sort(key=lambda row: row[0], reverse=True)

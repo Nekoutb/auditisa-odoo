@@ -19,6 +19,11 @@ DRY_RUN=0
 [ "${1:-}" != "--dry-run" ] || DRY_RUN=1
 load_firm_env
 
+# The list of trusted signers that the release in use carries, if newer than the list in use. The
+# release in use was verified when it was installed and only root can change it. This also brings the
+# list to a server whose previous scripts did not know about it, on their first run after the update.
+if [ "$DRY_RUN" != 1 ] && [ -e "$CURRENT_LINK" ]; then adopt_trust "$(readlink -f "$CURRENT_LINK")"; fi
+
 SPOOL=$FIRM_SPOOL/desired.json
 [ -s "$SPOOL" ] || exit 0
 

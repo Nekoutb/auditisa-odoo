@@ -141,7 +141,7 @@ class PlatformPipelinePromotion(models.Model):
         checks.append(pipeline.check(
             "signed", release.attestation_ok,
             _("Signed offline: the attestation holds for this commit and digest.") if release.attestation_ok
-            else _("No valid offline attestation for this release: run sign_promotion.sh on your computer."),
+            else _("No valid offline attestation for this release: a trusted signer signs it with the \"Sign new version\" tool."),
         ))
         if self.kind == "promote":
             # The release order: the practice computer first, the firms after its holding period.

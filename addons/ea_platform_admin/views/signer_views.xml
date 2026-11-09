@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Trusted signers: who may sign a new version. -->
+    <record id="view_signer_list" model="ir.ui.view">
+        <field name="name">platform.signer.list</field>
+        <field name="model">platform.signer</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="not active">
+                <header>
+                    <button name="action_download_list" type="object" display="always"
+                            string="Download the list for the next version (signers.json)"
+                            groups="ea_platform_admin.group_platform_operator"/>
+                </header>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="fingerprint_short"/>
+                <field name="active" widget="boolean_toggle" readonly="1"/>
+                <field name="release_count"/>
+                <field name="added_at"/>
+                <field name="added_by_id"/>
+                <field name="removed_at" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_signer_form" model="ir.ui.view">
+        <field name="name">platform.signer.form</field>
+        <field name="model">platform.signer</field>
+        <field name="arch" type="xml">
+            <form class="o_ea_platform_form" delete="0">
+                <header>
+                    <button name="action_remove" type="object" string="Remove this signer" class="btn-danger"
+                            invisible="not active or not id" groups="ea_platform_admin.group_platform_owner"
+                            confirm="From now on, versions signed by this person will be refused. Versions they signed before stay valid. Firms stop trusting them with the next signed version. Continue?"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="note" invisible="id">
+                        <strong>Adding a person who may sign new versions.</strong>
+                        The person runs "Make my signing key" on their own computer. It makes their own key, locked
+                        by their own passphrase, and copies the PUBLIC key. They send you that public key (it starts
+                        with -----BEGIN PUBLIC KEY-----). Paste it below. Never accept a file or text that says PRIVATE.
+                        Before saving, phone the person and check together that the short fingerprint shown after
+                        saving is the one their tool showed them.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="active or not id">
+                        <strong>Removed.</strong> Signatures made by this key are refused from now on. The versions it
+                        signed while trusted stay valid.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="e.g. Marie Ngono"/>
+                            <field name="email" placeholder="name@example.com"/>
+                            <field name="fingerprint_short" invisible="not id"/>
+                            <field name="fingerprint" invisible="not id"/>
+                        </group>
+                        <group invisible="not id">
+                            <field name="active"/>
+                            <field name="added_at"/>
+                            <field name="added_by_id"/>
+                            <field name="removed_at" invisible="active"/>
+                            <field name="removed_by_id" invisible="active"/>
+                        </group>
+                    </group>
+                    <group string="Public key (not secret)">
+                        <field name="public_pem" nolabel="1" colspan="2" readonly="id"
+                               placeholder="-----BEGIN PUBLIC KEY-----"/>
+                    </group>
+                    <group string="Versions this person signed" invisible="not id">
+                        <field name="release_ids" nolabel="1" colspan="2" readonly="1">
+                            <list>
+                                <field name="sha"/>
+                                <field name="label"/>
+                                <field name="create_date" string="Registered on"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_signer_search" model="ir.ui.view">
+        <field name="name">platform.signer.search</field>
+        <field name="model">platform.signer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="email"/>
+                <filter name="removed" string="Removed signers" domain="[('active', '=', False)]"/>
+                <filter name="everyone" string="Trusted and removed" domain="['|', ('active', '=', True), ('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_signers" model="ir.actions.act_window">
+        <field name="name">Signers</field>
+        <field name="res_model">platform.signer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Nobody may sign a new version yet.</p>
+            <p>Each person who signs has their own key, made with the "Make my signing key" desktop tool. Add the
+               public key they send you. Only the owner adds or removes a signer; each change is in the platform log.</p>
+        </field>
+    </record>
+    <!-- Versions waiting for a signature -->
+    <record id="view_release_pending_list" model="ir.ui.view">
+        <field name="name">platform.release.pending.list</field>
+        <field name="model">platform.release.pending</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'published'" decoration-info="state == 'waiting'">
+                <field name="sha"/>
+                <field name="label"/>
+                <field name="state" widget="badge" decoration-success="state == 'published'" decoration-info="state == 'waiting'"/>
+                <field name="signer_id"/>
+                <field name="create_date" string="Uploaded on"/>
+                <field name="create_uid" string="Uploaded by"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_release_pending_form" model="ir.ui.view">
+        <field name="name">platform.release.pending.form</field>
+        <field name="model">platform.release.pending</field>
+        <field name="arch" type="xml">
+            <form class="o_ea_platform_form">
+                <header>
+                    <button name="action_publish" type="object" string="Check the signatures and publish" class="btn-primary"
+                            invisible="state != 'waiting' or not id"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="note" invisible="id">
+                        <strong>Upload a new version that is not signed yet.</strong>
+                        The technician builds it with <code>build_release.sh &lt;commit&gt; --unsigned</code>. Upload
+                        the bundle (.tar.gz), its catalogue (.catalogue.json) and, if there is one, the list of changes
+                        (.changes.txt). Any trusted signer can then sign it from their own computer.
+                    </div>
+                    <div class="alert alert-info" role="note" invisible="not id or state != 'waiting'">
+                        <strong>How to sign this version, in 3 steps:</strong>
+                        <ol class="mb-0">
+                            <li>Download the files below (bundle, catalogue and list of changes) into one folder, for
+                                example your Downloads folder.</li>
+                            <li>Double-click "Sign new version" on your desktop. It finds the files, shows you this
+                                version and asks for your passphrase.</li>
+                            <li>Upload here the three files it made (.tar.gz.sig, .catalogue.json.sig, .attestation),
+                                then click "Check the signatures and publish".</li>
+                        </ol>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not carried_differs">
+                        This version carries signer list number <field name="carried_serial" readonly="1" class="d-inline"/>,
+                        which is not the console's current list. Firms will trust the signers listed below once they
+                        install it. If the console's list changed, ask the technician to rebuild with the new list.
+                    </div>
+                    <group>
+                        <group string="The version">
+                            <field name="sha" invisible="not id"/>
+                            <field name="label"/>
+                            <field name="bundle_sha256" invisible="not id"/>
+                            <field name="signer_id" invisible="not signer_id"/>
+                            <field name="published_at" invisible="not published_at"/>
+                            <field name="published_by_id" invisible="not published_by_id"/>
+                            <field name="release_id" invisible="not release_id"/>
+                        </group>
+                        <group string="Files to download and sign">
+                            <field name="bundle_filename" invisible="1"/>
+                            <field name="catalogue_filename" invisible="1"/>
+                            <field name="changes_filename" invisible="1"/>
+                            <field name="bundle_file" filename="bundle_filename" readonly="id"/>
+                            <field name="catalogue_file" filename="catalogue_filename" readonly="id"/>
+                            <field name="changes_file" filename="changes_filename" readonly="id"/>
+                        </group>
+                    </group>
+                    <group invisible="not id">
+                        <group string="Changes in this version">
+                            <field name="changes" nolabel="1" colspan="2"/>
+                        </group>
+                        <group string="Signers this version gives to the firms">
+                            <field name="carried_signers" nolabel="1" colspan="2"/>
+                        </group>
+                    </group>
+                    <group string="After signing: upload the three files the tool made" invisible="not id or state != 'waiting'">
+                        <field name="bundle_sig_filename" invisible="1"/>
+                        <field name="catalogue_sig_filename" invisible="1"/>
+                        <field name="attestation_filename" invisible="1"/>
+                        <field name="bundle_sig" filename="bundle_sig_filename"/>
+                        <field name="catalogue_sig" filename="catalogue_sig_filename"/>
+                        <field name="attestation_file" filename="attestation_filename"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_release_pending" model="ir.actions.act_window">
+        <field name="name">Waiting for signature</field>
+        <field name="res_model">platform.release.pending</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_waiting': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No version is waiting for a signature.</p>
+            <p>When the technician builds a new version without signing it, it is uploaded here. Any trusted signer
+               can then sign it from their own computer with the "Sign new version" desktop tool.</p>
+        </field>
+    </record>
+    <record id="view_release_pending_search" model="ir.ui.view">
+        <field name="name">platform.release.pending.search</field>
+        <field name="model">platform.release.pending</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="sha"/>
+                <filter name="waiting" string="Waiting for signature" domain="[('state', '=', 'waiting')]"/>
+                <filter name="published" string="Signed and published" domain="[('state', '=', 'published')]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

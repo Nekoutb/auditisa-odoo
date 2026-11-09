@@ -143,3 +143,11 @@ def test_first_admin_password_rules():
     assert password_problem("un mot de passe long", "autre chose encore") == "mismatch"
     assert password_problem(None, None) == "too_short"
     assert password_problem("un mot de passe long", "un mot de passe long") is None
+
+
+def test_the_number_of_the_trusted_signer_list_is_reported_once_known(tmp_path):
+    assert "signers_serial" not in read_status(str(tmp_path))
+    (tmp_path / "signers_serial").write_text("3\n", encoding="ascii")
+    assert read_status(str(tmp_path))["signers_serial"] == 3
+    (tmp_path / "signers_serial").write_text("three\n", encoding="ascii")
+    assert "signers_serial" not in read_status(str(tmp_path))

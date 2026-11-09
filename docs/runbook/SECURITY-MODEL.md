@@ -63,8 +63,12 @@ Pour le staging (ENVIRONMENTS.md) : la clé SSH restreinte `/root/.ssh/auditisa_
 | **Le compte Vultr** | Son jeton permet d'arrêter ou de détruire tous les serveurs, et sa console donne la main sur eux. | Double authentification, jeton limité à l'adresse du contrôle. Un sous-compte par cabinet, ou le compte du cabinet lui-même. |
 | **Le compte DNS** | Son jeton permet de détourner toutes les adresses `*.auditisa.com`. | Jeton limité à la zone. Le domaine propre du cabinet sort de ce risque. |
 | **Le compte Wasabi** | La clé de la console peut supprimer les sauvegardes de tous les cabinets (pas les lire : elles sont chiffrées avec la clé de chaque cabinet). Le compte principal, lui, donne la main sur tout. | Double authentification sur le compte principal ; la clé de la console limitée par `auditisa-console-policy` ; un compte Wasabi réservé à la plateforme si vous voulez séparer complètement. |
-| **La clé de signature** | Qui la détient peut publier une version acceptée partout. | Hors ligne, clé matérielle, deux personnes pour signer. |
+| **Les clés de signature** | Chaque signataire de confiance a sa propre clé et sa propre phrase secrète : qui en vole une, avec sa phrase, peut publier une version acceptée partout, jusqu'à ce que le propriétaire la retire et qu'une version signée par un autre retire cette clé chez les cabinets. | Une clé par personne, jamais partagée ; hors ligne, verrouillée par phrase secrète ; le propriétaire ajoute ou retire (au journal). Voir SIGNERS.md. |
 | **Le texte de premier démarrage** | Il reste chez Vultr et contient le jeton de heartbeat et la clé de stockage (qui n'ouvre que le bucket de ce cabinet). | Faire tourner la clé de stockage après l'installation (non construit). Le serveur bloque l'adresse de métadonnées sauf pour root et efface ses copies. |
+
+### Qui peut signer une version (depuis le 10 novembre 2026)
+
+La console garde la liste des signataires de confiance (clés publiques seulement). **Chaque cabinet et l'ordinateur d'entraînement gardent leur propre liste**, et ne la changent qu'à partir d'une version signée par une personne qu'ils reconnaissent déjà : une intrusion sur la console ne peut donc ni ajouter une clé chez un cabinet existant, ni y pousser du code. Une liste plus ancienne n'est jamais reprise. Seule exception : un nouveau cabinet reçoit au premier démarrage la liste de la console du moment. Détails : SIGNERS.md.
 
 ### Limites du journal d'accès
 
@@ -148,8 +152,12 @@ For staging (ENVIRONMENTS.md): the restricted SSH key `/root/.ssh/auditisa_env_a
 | **The Vultr account** | Its token can stop or destroy every server, and its console gives control of them. | Two-factor login, token limited to the control plane's address. A sub-account per firm, or the firm's own account. |
 | **The DNS account** | Its token can divert every `*.auditisa.com` address. | Token limited to the zone. A firm's own domain leaves this risk. |
 | **The Wasabi account** | The console's key can delete every firm's backups (not read them: they are encrypted with each firm's key). The main account controls everything. | Two-factor login on the main account; the console's key limited by `auditisa-console-policy`; a Wasabi account kept for the platform alone for complete separation. |
-| **The signing key** | Whoever holds it can publish a release accepted everywhere. | Offline, hardware key, two people to sign. |
+| **The signing keys** | Each trusted signer has their own key and passphrase: whoever steals one, with its passphrase, can publish a release accepted everywhere, until the owner removes it and a release signed by someone else removes that key at the firms. | One key per person, never shared; offline, passphrase-locked; the owner adds or removes (logged). See SIGNERS.md. |
 | **The first-boot text** | It stays at Vultr and holds the heartbeat token and the storage key (which opens that firm's bucket only). | Rotate the storage key after the install (not built). The server blocks the metadata address for all but root and erases its copies. |
+
+### Who can sign a release (since 10 November 2026)
+
+The console keeps the list of trusted signers (public keys only). **Each firm and the practice computer keep their own list**, and change it only from a release signed by someone they already trust: an intrusion on the console can therefore neither add a key at an existing firm nor push code to it. An older list is never taken back. The one exception: a new firm gets the console's list of the day at first boot. Details: SIGNERS.md.
 
 ### Limits of the access log
 

@@ -244,7 +244,7 @@
             </xpath>
             <xpath expr="//group" position="after">
                 <field name="signed_release_ids" invisible="1"/>
-                <p class="text-muted" invisible="signed_release_ids or not context.get('ea_status_promote')">This version is not signed yet. Sign it on your computer first: only releases signed with your key are listed.</p>
+                <p class="text-muted" invisible="signed_release_ids or not context.get('ea_status_promote')">This version is not signed yet. A trusted signer signs it first, with the "Sign new version" tool: only releases signed by a trusted signer are listed.</p>
                 <field name="summary_html" nolabel="1" readonly="1" invisible="not release_id or not context.get('ea_status_promote')"/>
                 <group invisible="not release_id or not context.get('ea_status_promote')">
                     <field name="expected" class="font-monospace" readonly="1"/>

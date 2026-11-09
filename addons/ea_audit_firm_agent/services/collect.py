@@ -66,6 +66,9 @@ STATUS_FILES = {
     "ssh_sessions_24h": _count,
     "last_ssh_at": _text(_INSTANT),
     "addons_refused": _count,
+    # The number of the list of trusted signers in use, written by release_trust.py. Absent until a
+    # signed release first brings a list, so an older control plane keeps working.
+    "signers_serial": _count,
 }
 
 DEFAULTS = {

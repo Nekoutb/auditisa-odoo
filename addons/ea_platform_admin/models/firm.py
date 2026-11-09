@@ -108,6 +108,9 @@ class PlatformFirm(models.Model):
     mail_enabled = fields.Boolean("Mail open", readonly=True, copy=False)
     update_state = fields.Char("Update state", readonly=True, copy=False)
     update_release = fields.Char("Last update's release", readonly=True, copy=False)
+    # The number of the list of trusted signers the firm's server uses. It changes only through a signed
+    # release (deploy/firm/release_trust.py). Zero: the server has not said (older release).
+    signers_serial = fields.Integer("Signer list in use (number)", readonly=True, copy=False)
     export_state = fields.Char("Export state", readonly=True, copy=False)
     export_at = fields.Datetime("Exported on", readonly=True, copy=False)
     export_sha256 = fields.Char("Export digest", readonly=True, copy=False)
@@ -399,6 +402,7 @@ class PlatformFirm(models.Model):
             "export_sha256": figures.get("export_sha256"),
             "ssh_sessions_24h": figures.get("ssh_sessions_24h", 0),
             "last_ssh_at": instant(figures.get("last_ssh_at")),
+            "signers_serial": figures.get("signers_serial") or 0,
         }
         self.write(values)
         self._evaluate_health()

@@ -79,7 +79,7 @@ class TestCatalogue(AddonCase):
     def test_a_signature_is_checked_when_given(self):
         private = Ed25519PrivateKey.generate()
         pem = private.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
-        self.env["ir.config_parameter"].sudo().set_param("ea_platform.release_signing_public_key", pem)
+        self.env["platform.signer"].sudo().create({"name": "Owner", "email": "contact@cm-ea.com", "public_pem": pem})
         raw = catalogue_bytes(self.release2.sha)
         with self.assertRaisesRegex(UserError, "signature does not hold"):
             self.release2._load_catalogue(raw, private.sign(raw + b"x"))

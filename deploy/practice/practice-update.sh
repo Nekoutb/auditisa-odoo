@@ -7,13 +7,15 @@
 # The practice computer gets a new release BEFORE any firm's real server: the control room offers
 # it to a firm only after the holding period (7 days unless the owner says otherwise). In order:
 #
-#   1. the bundle's digest and signature are checked (the same key as the firms'), and it is unpacked
+#   1. the bundle's digest and signature are checked (the same rule as the firms': a signer this computer
+#      already trusts), and it is unpacked
 #   2. Odoo stops; each space is copied to upd_practice_<slug>, closed to connections
 #   3. `current` switches; every space's addons are updated
 #   4. Odoo starts; every space must answer its login page
 #   5. on any failure: the previous release, and every space from its copy. All or nothing: the
 #      spaces share one code.
 #   6. the demo template is built again on the new release (resets need it; until then they refuse)
+#   7. the release's list of trusted signers is taken if it is newer (deploy/firm/release_trust.py)
 
 set -euo pipefail
 umask 022
@@ -52,8 +54,8 @@ unpack() {
     [ -r "$BUNDLE" ] && [ -r "$BUNDLE.sig" ] || pl_die "--bundle FILE (and FILE.sig) required"
     [[ $DIGEST =~ ^[0-9a-f]{64}$ ]] || pl_die "--digest must be a sha256"
     printf '%s  %s\n' "$DIGEST" "$BUNDLE" | sha256sum -c --status - || pl_die "the bundle's digest differs"
-    openssl pkeyutl -verify -pubin -inkey "$PRACTICE_ETC/release-signing.pub" -rawin -in "$BUNDLE" -sigfile "$BUNDLE.sig" >/dev/null 2>&1 \
-      || pl_die "the bundle's signature is refused"
+    practice_signature_holds "$BUNDLE" "$BUNDLE.sig" "$DIGEST" \
+      || pl_die "the bundle's signature is refused: not signed by a signer this computer trusts"
     NAME=$(basename "$BUNDLE" .tar.gz | cut -c1-12)
   fi
   valid_release "$NAME" || pl_die "cannot tell the release's name"
@@ -162,6 +164,8 @@ for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
   psql_q "DROP DATABASE \"$(snapshot_of "$slug")\" WITH (FORCE)" >/dev/null || pl_warn "could not drop $(snapshot_of "$slug")"
 done
 printf '%s\n' "$NAME" > "$PRACTICE_STATUS/release"
+# A newer list of trusted signers, if this release (verified above) carries one.
+practice_adopt_trust "$TARGET"
 printf 'ok %s %s\n' "$NAME" "$(now_utc)" > "$PRACTICE_STATUS/update_state"
 audit_line "update release=$NAME spaces=${#SNAPPED[@]}"
 pl_log "every space is on $NAME; building the demo template on it"

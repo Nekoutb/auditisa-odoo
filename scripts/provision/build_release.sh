@@ -7,6 +7,14 @@
 #                                                            signs what --unsigned built, then checks it
 #   build_release.sh --new-key PRIVATE.pem      makes the signing key, once, and prints the public one
 #   build_release.sh --verify BUNDLE --pub PUBLIC.pem
+#   build_release.sh --verify BUNDLE --signers deploy/trust/signers.json   any trusted signer
+#
+# --unsigned also writes <sha>.changes.txt, the list of changes the signer reads before signing:
+# the commits since --since REF (the release now in service), or the last 20 when not given.
+#
+# The bundle carries deploy/trust/signers.json, the list of trusted signers: a firm takes it once the
+# bundle's signature holds for a signer it already trusts (deploy/firm/release_trust.py). Put the
+# console's list there before building (Platform > Updates > Signers > Download the list).
 #
 # Beside the bundle it writes <sha>.catalogue.json and its signature: the list of what the release
 # carries, read from the manifests of that commit, for Platform > Updates > Releases. --sign also
@@ -28,7 +36,28 @@ umask 077
 
 log() { printf '[build_release] %s\n' "$*"; }
 die() { printf '[build_release] ERROR: %s\n' "$*" >&2; exit 1; }
-usage() { sed -n '2,24p' "$0"; exit 64; }
+usage() { sed -n '2,33p' "$0"; exit 64; }
+
+# With --signers: the public key, among the list's active signers, that signed the bundle.
+pub_from_signers() {
+  local bundle=$1 list=$2 python work key
+  python=$(find_python) || die "python is needed to read $list"
+  work=$(mktemp -d)
+  "$python" -I - "$list" "$work" <<'PY' || { rm -rf "$work"; die "the list of signers cannot be read: $list"; }
+import json, sys
+data = json.load(open(sys.argv[1], encoding="ascii"))
+assert data["schema"] == "auditisa-signers-v1"
+for row in data["signers"]:
+    open(f"{sys.argv[2]}/{row['fingerprint']}.pub", "w", encoding="ascii").write(row["public_key"])
+PY
+  for key in "$work"/*.pub; do
+    if openssl pkeyutl -verify -pubin -inkey "$key" -rawin -in "$bundle" -sigfile "$bundle.sig" >/dev/null 2>&1; then
+      cp "$key" "$work.pub"; rm -rf "$work"; printf '%s' "$work.pub"; return 0
+    fi
+  done
+  rm -rf "$work"
+  die "signature refused: $bundle is not signed by any signer of $list"
+}
 
 verify() {
   local bundle=$1 pub=$2 catalogue
@@ -79,12 +108,14 @@ find_python() {
   return 1
 }
 
-REF="" KEY="" OUT="" PUB="" NEW_KEY="" VERIFY="" SIGN="" UNSIGNED=""
+REF="" KEY="" OUT="" PUB="" NEW_KEY="" VERIFY="" SIGN="" UNSIGNED="" SIGNERS="" SINCE=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --key) KEY=${2:?}; shift ;;
     --out) OUT=${2:?}; shift ;;
     --pub) PUB=${2:?}; shift ;;
+    --signers) SIGNERS=${2:?}; shift ;;
+    --since) SINCE=${2:?}; shift ;;
     --new-key) NEW_KEY=${2:?}; shift ;;
     --verify) VERIFY=${2:?}; shift ;;
     --sign) SIGN=${2:?}; shift ;;
@@ -106,7 +137,12 @@ if [ -n "$NEW_KEY" ]; then
 fi
 
 if [ -n "$VERIFY" ]; then
-  [ -n "$PUB" ] || usage
+  [ -n "$PUB" ] || [ -n "$SIGNERS" ] || usage
+  if [ -z "$PUB" ]; then
+    PUB=$(pub_from_signers "$VERIFY" "$SIGNERS")
+    trap 'rm -f "$PUB"' EXIT
+    log "signed by: $(openssl pkey -pubin -in "$PUB" -outform DER | sha256sum | cut -c1-16)"
+  fi
   verify "$VERIFY" "$PUB"
   exit 0
 fi
@@ -153,6 +189,12 @@ mapfile -t ADDONS < <(git ls-tree -d --name-only "$SHA" addons/ | grep -v '^addo
 [ "${#ADDONS[@]}" -ge 1 ] || die "no addon at $SHA"
 PATHS=("${ADDONS[@]}" deploy/firm deploy/practice scripts/provision/new_firm.sh scripts/provision/backup_firm.sh)
 if git cat-file -e "$SHA:requirements.txt" 2>/dev/null; then PATHS+=(requirements.txt); fi
+# The list of trusted signers that firms take from this release once its signature holds.
+if git cat-file -e "$SHA:deploy/trust/signers.json" 2>/dev/null; then
+  PATHS+=(deploy/trust/signers.json)
+else
+  log "WARNING: no deploy/trust/signers.json at $SHA: firms keep the list of signers they have"
+fi
 
 mkdir -p "$OUT"
 git archive --format=tar "$SHA" "${PATHS[@]}" | gzip -n -9 > "$OUT/$BUNDLE_NAME"
@@ -167,8 +209,21 @@ HERE=$(cd "$(dirname "$0")" && pwd)
   || { rm -rf "$WORK"; die "a manifest of this commit cannot be read"; }
 rm -rf "$WORK"
 
+# What the signer reads before signing: the commits this release brings, in plain subjects.
+{
+  printf 'Version %s, made on %s\n' "${SHA:0:12}" "$(git log -1 --format=%cs "$SHA")"
+  if [ -n "$SINCE" ]; then
+    printf 'Changes since %s:\n' "$(git rev-parse --short=12 "$SINCE")"
+    git log --no-merges --format='- %s' "$SINCE..$SHA" | head -n 200
+  else
+    printf 'Last changes:\n'
+    git log --no-merges --format='- %s' -n 20 "$SHA"
+  fi
+} > "$OUT/$SHA.changes.txt"
+
 log "bundle: $OUT/$BUNDLE_NAME"
 log "catalogue: $OUT/$SHA.catalogue.json"
+log "changes: $OUT/$SHA.changes.txt"
 if [ -n "$KEY" ]; then
   unlock
   sign_file "$OUT/$BUNDLE_NAME" "$OUT/$BUNDLE_NAME.sig"

@@ -186,12 +186,13 @@ class PlatformOnboardingWizard(models.TransientModel):
         required = {
             "ea_platform.heartbeat_url": _("Heartbeat receiving address"),
             "ea_platform.releases_bucket": _("Releases bucket (Wasabi)"),
-            "ea_platform.release_signing_public_key": _("Release signing public key"),
             "ea_platform.ssh_allowlist": _("Operator addresses for port 22"),
             "ea_platform.vultr_os_id": _("Server operating system (Vultr id)"),
             "ea_platform.dns_zone_id": _("DNS zone"),
         }
         missing = [t(self.env, label) for key, label in required.items() if not get_param(key)]
+        if not self.env["platform.signer"].sudo().search_count([]):
+            missing.append(t(self.env, _("At least one trusted signer (Platform > Updates > Signers)")))
         if missing:
             raise UserError(t(self.env, _("Missing settings (Platform > Settings):")) + "\n" + "\n".join(missing))
 

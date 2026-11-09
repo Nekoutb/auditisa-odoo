@@ -15,6 +15,7 @@ nothing but this object. They never appear in an error, a log or a repr.
 import base64
 import hashlib
 import json
+import re
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from urllib.parse import quote
@@ -30,6 +31,7 @@ IAM_ENDPOINT = "iam.wasabisys.com"
 IAM_REGION = "us-east-1"  # Wasabi's IAM is global and signs as us-east-1
 IAM_VERSION = "2010-05-08"
 DELETE_BATCH = 1000  # S3's limit per DeleteObjects call
+RELEASE_FILE_RE = re.compile(r"^[0-9a-f]{40}\.(tar\.gz|tar\.gz\.sig|catalogue\.json|catalogue\.json\.sig)$")
 
 # Errors that can pass by themselves. MalformedPolicy: a user just made may not be known yet to
 # the bucket-policy check (IAM is eventually consistent); the step is tried again a little later.
@@ -273,6 +275,21 @@ class WasabiStorage:
 
     def releases_base_url(self):
         return f"https://{self.endpoint}/{self.releases_bucket}" if self.releases_bucket else ""
+
+    def put_release_file(self, filename, body):
+        """Puts one file of a release, already checked against the trusted signers, in the releases bucket.
+
+        Only the four names a release has: the console's Wasabi key may add files there, not delete them.
+        """
+        if not self.releases_bucket:
+            raise ProviderError(_("No releases bucket set."))
+        if not RELEASE_FILE_RE.match(filename or ""):
+            raise ProviderError(_("Not a release file name."))
+        path = f"/{quote(self.releases_bucket, safe='')}/{quote(filename, safe='')}"
+        headers = {"Content-Type": "application/octet-stream"}
+        status, code, _root = self._send("PUT", self.endpoint, path, [], body, headers, self.region, "s3", "s3:PutObject")
+        if status != 200:
+            raise self._refused(status, code, "s3:PutObject")
 
     @staticmethod
     def _slug(label):

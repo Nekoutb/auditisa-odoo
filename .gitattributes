@@ -4,3 +4,5 @@
 *.yml text eol=lf
 *.env text eol=lf
 *.xlsx binary
+*.cmd text eol=crlf
+*.txt text eol=crlf

@@ -17,7 +17,11 @@ git fetch && git checkout <commit à publier>
 scripts/provision/build_release.sh <commit> --key signature.pem --out sortie/
 ```
 
-Ou en deux temps : `build_release.sh <commit> --unsigned --out sortie/` (sans la clé), puis `build_release.sh --sign sortie/<commit>.tar.gz --key signature.pem --pub signature.pub`, qui demande la phrase de passe une seule fois et signe le paquet, le catalogue et l'attestation (`<commit>.attestation`, pour l'écran Pipeline).
+Ou en deux temps : `build_release.sh <commit> --unsigned --since <version en service> --out sortie/` (sans la clé ; il écrit aussi `<commit>.changes.txt`, la liste des changements), puis un signataire de confiance la signe avec l'outil de bureau **« Sign new version »** (dossier `deploy/signing-kit/`), qui montre la version, ses changements et son empreinte, demande la phrase secrète une seule fois et signe le paquet, le catalogue et l'attestation (`<commit>.attestation`, pour l'écran Pipeline). `build_release.sh --sign` fait la même chose en ligne de commande.
+
+**La liste des signataires part avec la version** (`deploy/trust/signers.json`) : avant de construire, si la liste a changé sur la console, mettez-y le fichier « signers.json » téléchargé depuis Plateforme > Mises à jour > Signataires. Voir SIGNERS.md.
+
+**Sans l'ordinateur du propriétaire :** téléversez la version non signée dans Plateforme > Mises à jour > **En attente de signature**. N'importe quel signataire de confiance la télécharge, la signe chez lui et y renvoie les trois fichiers ; la console vérifie, la dépose dans le bucket et l'enregistre (les étapes de dépôt et 2 ci-dessous sont alors faites).
 
 La commande affiche le commit et l'empreinte `sha256`. Déposez les deux fichiers (`<commit>.tar.gz` et `<commit>.tar.gz.sig`) dans le bucket des versions : console.wasabisys.com > Buckets > `auditisa-releases-...` > **Upload**, sans les renommer et sans dossier. Le bucket reste privé : chaque serveur reçoit de la console une adresse de téléchargement signée, valable 6 heures et renouvelée à chaque heartbeat. Le paquet ne contient jamais `ea_platform_admin`.
 
@@ -72,7 +76,11 @@ git fetch && git checkout <commit to publish>
 scripts/provision/build_release.sh <commit> --key signing.pem --out out/
 ```
 
-Or in two steps: `build_release.sh <commit> --unsigned --out out/` (no key needed), then `build_release.sh --sign out/<commit>.tar.gz --key signing.pem --pub signing.pub`, which asks for the passphrase once and signs the bundle, the catalogue and the attestation (`<commit>.attestation`, for the Pipeline screen).
+Or in two steps: `build_release.sh <commit> --unsigned --since <release in service> --out out/` (no key needed; it also writes `<commit>.changes.txt`, the list of changes), then a trusted signer signs it with the **"Sign new version"** desktop tool (folder `deploy/signing-kit/`), which shows the version, its changes and its fingerprint, asks for the passphrase once and signs the bundle, the catalogue and the attestation (`<commit>.attestation`, for the Pipeline screen). `build_release.sh --sign` does the same on the command line.
+
+**The list of signers travels with the release** (`deploy/trust/signers.json`): before building, if the list changed on the console, put there the "signers.json" downloaded from Platform > Updates > Signers. See SIGNERS.md.
+
+**Without the owner's computer:** upload the unsigned release to Platform > Updates > **Waiting for signature**. Any trusted signer downloads it, signs it at home and uploads the three files there; the console checks them, puts the release in the bucket and registers it (the upload and step 2 below are then done).
 
 It prints the commit and the `sha256`. Upload both files (`<commit>.tar.gz` and `<commit>.tar.gz.sig`) to the releases bucket: console.wasabisys.com > Buckets > `auditisa-releases-...` > **Upload**, without renaming them and without a folder. The bucket stays private: each server gets a signed download address from the console, valid 6 hours and renewed at each heartbeat. The bundle never holds `ea_platform_admin`.
 

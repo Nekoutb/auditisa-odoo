@@ -3,6 +3,8 @@ from . import platform_services
 from . import firm
 from . import breakglass
 from . import release
+from . import signer
+from . import release_pending
 from . import provision_job
 from . import rollout
 from . import addon

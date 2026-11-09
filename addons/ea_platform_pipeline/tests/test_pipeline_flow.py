@@ -32,7 +32,7 @@ class PipelineMixin:
     def _setup_pipeline(cls):
         cls.private = Ed25519PrivateKey.generate()
         public = cls.private.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
-        cls.env["ir.config_parameter"].sudo().set_param("ea_platform.release_signing_public_key", public)
+        cls.signer = cls.env["platform.signer"].sudo().create({"name": "Owner", "email": "contact@cm-ea.com", "public_pem": public})
         cls.release2.sudo().attestation = cls._attest(cls.release2)
 
     @classmethod
@@ -97,6 +97,24 @@ class TestPromotion(PipelineMixin, PlatformCase):
         promotion = self._promotion(canary, canary | other)
         promotion.action_run_checks()
         self.assertFalse(promotion.checks_ok)
+
+    def test_a_signer_trusted_today_signs_and_a_removed_one_keeps_only_what_they_signed(self):
+        canary, other = self._ready()
+        self.assertEqual(self.release2.signer_id, self.signer)
+        marie = Ed25519PrivateKey.generate()
+        pem = marie.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
+        signer = self.env["platform.signer"].with_user(self.owner).create({"name": "Marie", "email": "m@example.com", "public_pem": pem})
+        message = pipeline.attestation_message(self.release2.sha, self.release2.bundle_sha256)
+        self.release2.sudo().attestation = base64.b64encode(marie.sign(message)).decode()
+        self.assertEqual(self.release2.signer_id, signer)
+        self.assertTrue(self.release2.attestation_ok)
+        signer.with_user(self.owner).action_remove()
+        self.release2.invalidate_recordset()
+        self.assertTrue(self.release2.attestation_ok, "what Marie signed while trusted stays valid")
+        message = pipeline.attestation_message(self.release.sha, self.release.bundle_sha256)
+        self.release.sudo().attestation = base64.b64encode(marie.sign(message)).decode()
+        self.assertFalse(self.release.signer_id)
+        self.assertFalse(self.release.attestation_ok, "a removed signer's new signature is refused")
 
     def test_red_tests_stop_it(self):
         canary, other = self._ready()

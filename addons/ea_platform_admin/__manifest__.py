@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Plateforme",
     "summary": "Control plane: every firm's dedicated server, seen from one separate Odoo. Never install in a firm's database.",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Administration",
     "license": "LGPL-3",
     "author": "AuditISA",
@@ -20,6 +20,7 @@
         "views/firm_views.xml",
         "views/job_views.xml",
         "views/release_views.xml",
+        "views/signer_views.xml",
         "views/log_views.xml",
         "wizard/onboarding_views.xml",
         "wizard/firm_action_views.xml",

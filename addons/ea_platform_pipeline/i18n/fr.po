@@ -1670,11 +1670,11 @@ msgstr "Aucune mise à jour connue pour l'instant."
 #. odoo-python
 #: code:addons/ea_platform_pipeline/models/promotion.py:0
 msgid ""
-"No valid offline attestation for this release: run sign_promotion.sh on your"
-" computer."
+"No valid offline attestation for this release: a trusted signer signs it "
+"with the \"Sign new version\" tool."
 msgstr ""
-"Pas d'attestation hors ligne valable pour cette version : lancez "
-"sign_promotion.sh sur votre ordinateur."
+"Pas d'attestation hors ligne valable pour cette version : un signataire de "
+"confiance la signe avec l'outil « Sign new version »."
 
 #. module: ea_platform_pipeline
 #. odoo-python
@@ -3306,9 +3306,10 @@ msgstr "Cette version n'est pas encore signée. Signez-la d'abord sur votre ordi
 #. module: ea_platform_pipeline
 #: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_practice_release_form_confirm
 msgid ""
-"This version is not signed yet. Sign it on your computer first: only "
-"releases signed with your key are listed."
-msgstr "Cette version n'est pas encore signée. Signez-la d'abord sur votre ordinateur : seules les versions signées avec votre clé sont listées."
+"This version is not signed yet. A trusted signer signs it first, with the "
+"\"Sign new version\" tool: only releases signed by a trusted signer are "
+"listed."
+msgstr "Cette version n'est pas encore signée. Un signataire de confiance la signe d'abord avec l'outil « Sign new version » : seules les versions signées par un signataire de confiance sont listées."
 
 #. module: ea_platform_pipeline
 #. odoo-python

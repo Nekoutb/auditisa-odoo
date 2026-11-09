@@ -5,7 +5,7 @@
 #
 # practice-heartbeat keeps the answer only if the control room signed it, and every value is still
 # checked again here, by closed patterns. What the control room can ask, and nothing else:
-#   - a release: still needs the owner's offline signature (practice-update checks it);
+#   - a release: still needs a trusted signer's offline signature (practice-update checks it);
 #   - for each firm's space: its name, its first administrator's login, its language, its optional
 #     add-ons (checked against the release), a reset number (a reset when it grows), and the hash of
 #     a one-time link for the first administrator;
@@ -28,6 +28,8 @@ SPOOL=$PRACTICE_VAR/spool/desired.json
 [ "$DRY_RUN" = 1 ] || [ "$(id -u)" = 0 ] || pl_die "run as root"
 exec 6>/run/lock/practice-apply.lock
 flock -n 6 || exit 0
+# The newer list of trusted signers the release in use carries, if any (verified when installed).
+if [ "$DRY_RUN" != 1 ] && [ -e "$PRACTICE_CURRENT" ]; then practice_adopt_trust "$(readlink -f "$PRACTICE_CURRENT")"; fi
 
 # One action per line, tab-separated, every value checked; anything unexpected is left out.
 parsed=$(python3 -I - "$SPOOL" <<'PY'

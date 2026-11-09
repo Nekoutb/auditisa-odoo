@@ -13,6 +13,9 @@
     <menuitem id="menu_updates" name="Updates" parent="menu_root" sequence="30"/>
     <menuitem id="menu_rollouts" name="Rollouts" parent="menu_updates" action="action_rollouts" sequence="10"/>
     <menuitem id="menu_releases" name="Releases" parent="menu_updates" action="action_releases" sequence="20"/>
+    <menuitem id="menu_release_pending" name="Waiting for signature" parent="menu_updates" action="action_release_pending"
+              sequence="15" groups="group_platform_operator"/>
+    <menuitem id="menu_signers" name="Signers" parent="menu_updates" action="action_signers" sequence="30"/>
     <menuitem id="menu_journal" name="Tracking" parent="menu_root" sequence="40"/>
     <menuitem id="menu_jobs" name="Provisioning runs" parent="menu_journal" action="action_jobs" sequence="10"/>
     <menuitem id="menu_log" name="Log" parent="menu_journal" action="action_log" sequence="20"/>

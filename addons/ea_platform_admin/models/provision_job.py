@@ -208,11 +208,15 @@ class PlatformProvisionJob(models.Model):
             values["RELEASE_SIG_URL_B64"] = base64.b64encode(urls[1].encode("ascii")).decode("ascii")
         elif not firm.is_simulation:
             raise ProviderError(_("No download address for the release: check the Wasabi settings."), retryable=True)
-        signing_key = self._config_value(
-            "ea_platform.release_signing_public_key",
-            "-----BEGIN PUBLIC KEY-----\nSIMULATION\n-----END PUBLIC KEY-----",
-        )
-        return render_user_data(values, firm.ssh_public_key, signing_key)
+        # The firm's first list of trusted signers: the console's list today. From then on the firm
+        # changes it only from a release signed by a signer it already trusts (release_trust.py).
+        if self.env["platform.signer"].sudo().search_count([]):
+            signers = self.env["platform.signer"]._document()
+        elif firm.is_simulation:
+            signers = "-----BEGIN PUBLIC KEY-----\nSIMULATION\n-----END PUBLIC KEY-----"
+        else:
+            raise ProviderError(_("No trusted signer: add one in Platform > Updates > Signers."))
+        return render_user_data(values, firm.ssh_public_key, signers)
 
     def _release_base_url(self):
         url = self.env["platform.services"]._release_base_url()

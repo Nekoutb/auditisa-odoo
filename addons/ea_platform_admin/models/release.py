@@ -28,6 +28,10 @@ class PlatformRelease(models.Model):
     odoo_commit = fields.Char("Odoo commit", readonly=False)
     notes = fields.Text("Notes")
     active = fields.Boolean("Available", default=True)
+    # Who signed it: the trusted signer whose key matched, when it was registered. A signer removed later
+    # stays here: what they signed while trusted stays valid.
+    signer_id = fields.Many2one("platform.signer", "Signed by", readonly=True, ondelete="restrict", index=True,
+                                context={"active_test": False})
     firm_count = fields.Integer("Firms on this release", compute="_compute_firm_count")
 
     _sha_unique = models.Constraint("unique(sha)", "This release is already registered.")
