@@ -17,6 +17,8 @@ git fetch && git checkout <commit à publier>
 scripts/provision/build_release.sh <commit> --key signature.pem --out sortie/
 ```
 
+Ou en deux temps : `build_release.sh <commit> --unsigned --out sortie/` (sans la clé), puis `build_release.sh --sign sortie/<commit>.tar.gz --key signature.pem --pub signature.pub`, qui demande la phrase de passe une seule fois et signe le paquet, le catalogue et l'attestation (`<commit>.attestation`, pour l'écran Pipeline).
+
 La commande affiche le commit et l'empreinte `sha256`. Déposez les deux fichiers (`<commit>.tar.gz` et `<commit>.tar.gz.sig`) dans le bucket des versions : console.wasabisys.com > Buckets > `auditisa-releases-...` > **Upload**, sans les renommer et sans dossier. Le bucket reste privé : chaque serveur reçoit de la console une adresse de téléchargement signée, valable 6 heures et renouvelée à chaque heartbeat. Le paquet ne contient jamais `ea_platform_admin`.
 
 ### 2. L'enregistrer
@@ -69,6 +71,8 @@ Each firm has its own release, shown on its page. An update goes first to **one 
 git fetch && git checkout <commit to publish>
 scripts/provision/build_release.sh <commit> --key signing.pem --out out/
 ```
+
+Or in two steps: `build_release.sh <commit> --unsigned --out out/` (no key needed), then `build_release.sh --sign out/<commit>.tar.gz --key signing.pem --pub signing.pub`, which asks for the passphrase once and signs the bundle, the catalogue and the attestation (`<commit>.attestation`, for the Pipeline screen).
 
 It prints the commit and the `sha256`. Upload both files (`<commit>.tar.gz` and `<commit>.tar.gz.sig`) to the releases bucket: console.wasabisys.com > Buckets > `auditisa-releases-...` > **Upload**, without renaming them and without a folder. The bucket stays private: each server gets a signed download address from the console, valid 6 hours and renewed at each heartbeat. The bundle never holds `ea_platform_admin`.
 

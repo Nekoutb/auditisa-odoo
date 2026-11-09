@@ -42,7 +42,11 @@ def main(argv):
     if len(argv) != 3:
         sys.exit(__doc__)
     document = {"schema": 1, "release": argv[2], "addons": scan(argv[1])}
-    sys.stdout.write(json.dumps(document, ensure_ascii=True, indent=1, sort_keys=True) + "\n")
+    # Bytes, not text: on Windows text mode would turn each newline into CR LF, and the signed file
+    # would then differ from the one a Linux machine builds from the same commit.
+    text = json.dumps(document, ensure_ascii=True, indent=1, sort_keys=True) + "\n"
+    sys.stdout.buffer.write(text.encode("ascii"))
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":
