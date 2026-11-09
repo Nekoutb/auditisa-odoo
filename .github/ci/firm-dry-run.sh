@@ -135,6 +135,7 @@ has "$SITE" 'location = /web/session/authenticate'
 has "$SITE" 'limit_req zone=odoo_login'
 has "$SITE" 'Strict-Transport-Security'
 has "$SITE" 'ssl_reject_handshake on;'
+has "$WORK/cp.log" 'server_tokens off'
 lacks "$SITE" 'allow '
 lacks "$SITE" 'deny all;$'
 # The heartbeat address has the heartbeat only, unless FIRM_DOORS says otherwise.
