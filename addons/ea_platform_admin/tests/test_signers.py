@@ -96,7 +96,7 @@ class TestSigners(SignerCase):
         with self.assertRaisesRegex(UserError, "Il doit rester au moins un signataire"):
             self.signer.with_user(self.owner).with_context(lang="fr_FR").action_remove()
         fr = self.env(context={"lang": "fr_FR"})
-        self.assertEqual(fr["ir.model"]._get("platform.signer").name, "Signataire de confiance")
+        self.assertEqual(fr["ir.model"].search([("model", "=", "platform.signer")]).name, "Signataire de confiance")
         self.assertEqual(fr.ref("ea_platform_admin.menu_release_pending").name, "En attente de signature")
 
     def test_the_last_signer_cannot_be_removed(self):
