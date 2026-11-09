@@ -143,7 +143,7 @@ lacks "$SITE" 'location ~ ^/platform/support/(ticket|sync|trace)'
 lacks "$SITE" 'location = /platform/practice-heartbeat {$'
 has "$CP/etc/nginx/sites-available/control-plane-http.conf" 'return 301 https://'
 has "$CP/etc/odoo/odoo.conf" '^list_db = False'
-has "$CP/etc/odoo/odoo.conf" '^smtp_server = False'
+has "$CP/etc/odoo/odoo.conf" '^smtp_server =$'
 has "$CP/etc/odoo/odoo.conf" '^workers = 2'
 lacks "$CP/etc/odoo/odoo.conf" 'token'
 has "$CP/etc/systemd/system/odoo.service" 'LoadCredential=vultr-token:/etc/auditisa-platform/vultr.token'
@@ -163,6 +163,8 @@ pattern = re.compile(sys.argv[1])
 failed = " 1234 INFO auditisa_platform odoo.addons.base.models.res_users: Login failed for login:x from 203.0.113.9"
 passed = " 1234 INFO auditisa_platform odoo.addons.base.models.res_users: Login successful for login:x from 203.0.113.9"
 assert pattern.match(failed).group("host") == "203.0.113.9"
+# Odoo ends the line with a space.
+assert pattern.match(failed + " ").group("host") == "203.0.113.9"
 assert not pattern.match(passed)
 PY
 

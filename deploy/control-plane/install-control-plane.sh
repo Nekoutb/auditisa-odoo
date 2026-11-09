@@ -188,7 +188,7 @@ log "fail2ban"
 # fail2ban cuts the date off the line before it reads it.
 render /etc/fail2ban/filter.d/odoo-login.conf 644 root:root <<'EOF'
 [Definition]
-failregex = ^.* INFO \S+ odoo\.addons\.base\.models\.res_users: Login failed for login:.* from <HOST>$
+failregex = ^.* INFO \S+ odoo\.addons\.base\.models\.res_users: Login failed for login:.* from <HOST>\s*$
 EOF
 {
   cat <<'EOF'
@@ -337,9 +337,10 @@ limit_memory_hard = $LIMIT_HARD
 limit_time_cpu = 300
 limit_time_real = 600
 limit_request = 8192
-; No outgoing mail server yet, and no fallback to localhost:25: nothing is sent.
-smtp_server = False
-email_from = False
+; No outgoing mail server yet. Empty, not False (Odoo 19 skips False here and falls back to localhost:25):
+; a mail then stops inside Odoo with "Missing SMTP Server", and no connection is attempted.
+smtp_server =
+email_from =
 EOF
 
 # Root-only files. Odoo gets a private copy at $CREDENTIALS_DIRECTORY, for this service only.
@@ -422,6 +423,10 @@ params.set_param("auth_signup.reset_password", "False")
 if not params.get_param("ea_platform.heartbeat_url"):
     params.set_param("ea_platform.heartbeat_url", "https://" + os.environ["P_HEARTBEAT_HOST"] + "/platform/heartbeat")
 env["res.users"].sudo().with_context(active_test=False).search([("login", "in", ("demo", "portal"))]).write({"active": False})
+# No mail server yet: the queue is not worked, and what Odoo queued on its own (the "password changed"
+# notice of the line above) is dropped. Switch "Mail: Email Queue Manager" back on with the mail server.
+env.ref("mail.ir_cron_mail_scheduler_action").sudo().active = False
+env["mail.mail"].sudo().search([("state", "in", ("outgoing", "exception"))]).unlink()
 env.cr.commit()
 PY
   } | as_odoo P_ADMIN_HOST="$ADMIN_HOST" P_HEARTBEAT_HOST="$HEARTBEAT_HOST" \

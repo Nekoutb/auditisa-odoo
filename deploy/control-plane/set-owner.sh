@@ -59,6 +59,9 @@ else:
 user.write({groups_field: [(4, group.id) for group in wanted]})
 user.write({"password": OWNER_PASSWORD})
 del OWNER_PASSWORD
+# Odoo queues a "password changed" notice; with no mail server yet it can only fail, so it is dropped.
+if not env["ir.mail_server"].sudo().search_count([]):
+    env["mail.mail"].sudo().search([("state", "in", ("outgoing", "exception"))]).unlink()
 env.cr.commit()
 missing = wanted - user[groups_field]
 print("SET-OWNER-RESULT", user.id, "groups-ok" if not missing else "groups-missing")
