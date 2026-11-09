@@ -425,7 +425,10 @@ if not params.get_param("ea_platform.heartbeat_url"):
 env["res.users"].sudo().with_context(active_test=False).search([("login", "in", ("demo", "portal"))]).write({"active": False})
 # No mail server yet: the queue is not worked, and what Odoo queued on its own (the "password changed"
 # notice of the line above) is dropped. Switch "Mail: Email Queue Manager" back on with the mail server.
-env.ref("mail.ir_cron_mail_scheduler_action").sudo().active = False
+for xmlid in ("mail.ir_cron_mail_scheduler_action", "sms.ir_cron_sms_scheduler_action", "snailmail.snailmail_print"):
+    cron = env.ref(xmlid, raise_if_not_found=False)
+    if cron:
+        cron.sudo().active = False  # SMS and post go through Odoo's paid service: not used here
 env["mail.mail"].sudo().search([("state", "in", ("outgoing", "exception"))]).unlink()
 env.cr.commit()
 PY
