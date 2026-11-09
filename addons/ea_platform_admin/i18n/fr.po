@@ -6942,3 +6942,768 @@ msgstr "À quoi il sert"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_howto__body
 msgid "Content"
 msgstr "Contenu"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid ""
+"%(name)s (%(email)s), fingerprint %(fingerprint)s. List number %(serial)s."
+msgstr ""
+"%(name)s (%(email)s), empreinte %(fingerprint)s. Liste numéro %(serial)s."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid ""
+"%(name)s (%(email)s), fingerprint %(fingerprint)s. List number %(serial)s. Their future signatures are refused; the versions they signed before stay valid."
+msgstr ""
+"%(name)s (%(email)s), empreinte %(fingerprint)s. Liste numéro %(serial)s. Ses signatures futures sont refusées ; les versions signées avant restent valides."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "%(sha)s signed by %(name)s (fingerprint %(fingerprint)s). %(where)s"
+msgstr "%(sha)s signée par %(name)s (empreinte %(fingerprint)s). %(where)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "%(sha)s, fingerprint %(digest)s"
+msgstr "%(sha)s, empreinte %(digest)s"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid ""
+",\n"
+"                        which is not the console's current list. Firms will trust the signers listed below once they\n"
+"                        install it. If the console's list changed, ask the technician to rebuild with the new list."
+msgstr ""
+", qui n'est pas la liste actuelle de la console. Les cabinets reconnaîtront les signataires listés ci-dessous une fois cette version installée. Si la liste de la console a changé, demandez au technicien de reconstruire avec la nouvelle liste."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__attestation_file
+msgid "<commit>.attestation"
+msgstr "<commit>.attestation"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__catalogue_sig
+msgid "<commit>.catalogue.json.sig"
+msgstr "<commit>.catalogue.json.sig"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__bundle_sig
+msgid "<commit>.tar.gz.sig"
+msgstr "<commit>.tar.gz.sig"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid ""
+"<strong>Adding a person who may sign new versions.</strong>\n"
+"                        The person runs \"Make my signing key\" on their own computer. It makes their own key, locked\n"
+"                        by their own passphrase, and copies the PUBLIC key. They send you that public key (it starts\n"
+"                        with -----BEGIN PUBLIC KEY-----). Paste it below. Never accept a file or text that says PRIVATE.\n"
+"                        Before saving, phone the person and check together that the short fingerprint shown after\n"
+"                        saving is the one their tool showed them."
+msgstr ""
+"<strong>Ajouter une personne qui pourra signer les nouvelles versions.</strong> La personne lance « Make my signing key » sur son propre ordinateur. L'outil crée sa propre clé, verrouillée par sa propre phrase secrète, et copie la clé PUBLIQUE. Elle vous envoie cette clé publique (elle commence par -----BEGIN PUBLIC KEY-----). Collez-la ci-dessous. N'acceptez jamais un fichier ou un texte qui contient PRIVATE. Après l'enregistrement, appelez la personne et vérifiez ensemble que l'empreinte courte affichée ici est celle que son outil lui a montrée."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "<strong>How to sign this version, in 3 steps:</strong>"
+msgstr "<strong>Signer cette version, en 3 étapes :</strong>"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid ""
+"<strong>Removed.</strong> Signatures made by this key are refused from now on. The versions it\n"
+"                        signed while trusted stay valid."
+msgstr ""
+"<strong>Retiré.</strong> Les signatures faites avec cette clé sont désormais refusées. Les versions qu'elle a signées quand elle était de confiance restent valides."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid ""
+"<strong>Upload a new version that is not signed yet.</strong>\n"
+"                        The technician builds it with <code>build_release.sh &lt;commit&gt; --unsigned</code>. Upload\n"
+"                        the bundle (.tar.gz), its catalogue (.catalogue.json) and, if there is one, the list of changes\n"
+"                        (.changes.txt). Any trusted signer can then sign it from their own computer."
+msgstr ""
+"<strong>Téléverser une nouvelle version pas encore signée.</strong> Le technicien la construit avec <code>build_release.sh &lt;commit&gt; --unsigned</code>. Téléversez le paquet (.tar.gz), son catalogue (.catalogue.json) et, s'il existe, la liste des changements (.changes.txt). N'importe quel signataire de confiance peut ensuite la signer depuis son propre ordinateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "A fingerprint in the list does not match its key."
+msgstr "Une empreinte de la liste ne correspond pas à sa clé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid ""
+"A public key starts with -----BEGIN PUBLIC KEY----- and ends with -----END PUBLIC KEY-----."
+msgstr ""
+"Une clé publique commence par -----BEGIN PUBLIC KEY----- et finit par -----END PUBLIC KEY-----."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "A published version stays: it records who signed it."
+msgstr "Une version publiée reste : elle garde qui l'a signée."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_form
+msgid ""
+"A release is built with scripts/provision/build_release.sh and signed by a trusted signer on\n"
+"                        their own computer (the \"Sign new version\" desktop tool). No private signing key ever comes\n"
+"                        here: see UPDATING.md. \"Signed by\" is the trusted signer whose key matched."
+msgstr ""
+"Une version est construite avec scripts/provision/build_release.sh et signée par un signataire de confiance sur son propre ordinateur (l'outil de bureau « Sign new version »). Aucune clé de signature privée ne vient jamais ici : voir UPDATING.md. « Signée par » est le signataire de confiance dont la clé correspond."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid ""
+"A signer is never deleted: use Remove. The record keeps who signed what."
+msgstr ""
+"Un signataire n'est jamais supprimé : utilisez Retirer. La fiche garde qui a signé quoi."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "A signer's email address, such as name@example.com."
+msgstr "L'adresse e-mail du signataire, par exemple nom@exemple.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "A signer's key never changes: remove the signer and add the new key."
+msgstr ""
+"La clé d'un signataire ne change jamais : retirez le signataire et ajoutez la nouvelle clé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "A signer's name: 1 to %(count)s characters."
+msgstr "Nom du signataire : 1 à %(count)s caractères."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__added_by_id
+msgid "Added by"
+msgstr "Ajouté par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__added_at
+msgid "Added on"
+msgstr "Ajouté le"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "After signing: upload the three files the tool made"
+msgstr "Après la signature : téléversez les trois fichiers créés par l'outil"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid ""
+"At least one signer must stay: without one, no new version could ever be accepted."
+msgstr ""
+"Il doit rester au moins un signataire : sans lui, aucune nouvelle version ne pourrait plus être acceptée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: code:addons/ea_platform_admin/wizard/settings.py:0
+msgid "At least one trusted signer (Platform > Updates > Signers)"
+msgstr ""
+"Au moins un signataire de confiance (Plateforme > Mises à jour > Signataires)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__attestation_filename
+msgid "Attestation file name"
+msgstr "Nom du fichier d'attestation"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__bundle_file
+msgid "Bundle (<commit>.tar.gz)"
+msgstr "Paquet (<commit>.tar.gz)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__bundle_filename
+msgid "Bundle file name"
+msgstr "Nom du fichier du paquet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__bundle_sig_filename
+msgid "Bundle signature file name"
+msgstr "Nom du fichier de signature du paquet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__catalogue_sig_filename
+msgid "Catalogue signature file name"
+msgstr "Nom du fichier de signature du catalogue"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__changes_filename
+msgid "Changes file name"
+msgstr "Nom du fichier des changements"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__changes
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "Changes in this version"
+msgstr "Changements dans cette version"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "Check the signatures and publish"
+msgstr "Vérifier les signatures et publier"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__carried_differs
+msgid "Differs from the console's list"
+msgstr "Différente de la liste de la console"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid ""
+"Double-click \"Sign new version\" on your desktop. It finds the files, shows you this\n"
+"                                version and asks for your passphrase."
+msgstr ""
+"Double-cliquez sur « Sign new version » sur votre bureau. L'outil trouve les fichiers, vous montre cette version et demande votre phrase secrète."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid ""
+"Download the files below (bundle, catalogue and list of changes) into one folder, for\n"
+"                                example your Downloads folder."
+msgstr ""
+"Téléchargez les fichiers ci-dessous (paquet, catalogue et liste des changements) dans un même dossier, par exemple votre dossier Téléchargements."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_list
+msgid "Download the list for the next version (signers.json)"
+msgstr "Télécharger la liste pour la prochaine version (signers.json)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_signers
+msgid ""
+"Each person who signs has their own key, made with the \"Make my signing key\" desktop tool. Add the\n"
+"               public key they send you. Only the owner adds or removes a signer; each change is in the platform log."
+msgstr ""
+"Chaque personne qui signe a sa propre clé, créée avec l'outil de bureau « Make my signing key ». Ajoutez la clé publique qu'elle vous envoie. Seul le propriétaire ajoute ou retire un signataire ; chaque changement est au journal de la plateforme."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid ""
+"Each person who signs new versions has their own key, kept on their own computer and locked\n"
+"                            by their own passphrase. Only the public half is here. Firms accept a new version only if\n"
+"                            one of these people signed it. Add or remove people in Platform &gt; Updates &gt; Signers."
+msgstr ""
+"Chaque personne qui signe les nouvelles versions a sa propre clé, gardée sur son propre ordinateur et verrouillée par sa propre phrase secrète. Seule la moitié publique est ici. Les cabinets n'acceptent une nouvelle version que si l'une de ces personnes l'a signée. Ajoutez ou retirez des personnes dans Plateforme &gt; Mises à jour &gt; Signataires."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Files put in the releases bucket."
+msgstr "Fichiers déposés dans le compartiment des versions."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "Files to download and sign"
+msgstr "Fichiers à télécharger et à signer"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__fingerprint
+msgid "Fingerprint"
+msgstr "Empreinte"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__fingerprint_short
+msgid "Fingerprint (short)"
+msgstr "Empreinte (courte)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__bundle_sha256
+msgid "Fingerprint of the bundle (SHA-256)"
+msgstr "Empreinte du paquet (SHA-256)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid ""
+"From now on, versions signed by this person will be refused. Versions they signed before stay valid. Firms stop trusting them with the next signed version. Continue?"
+msgstr ""
+"Désormais, les versions signées par cette personne seront refusées. Celles qu'elle a signées avant restent valides. Les cabinets cessent de la reconnaître avec la prochaine version signée. Continuer ?"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid "It was not made by a trusted signer."
+msgstr "Elle n'a pas été faite par un signataire de confiance."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__changes_file
+msgid "List of changes (<commit>.changes.txt)"
+msgstr "Liste des changements (<commit>.changes.txt)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "Manage the signers"
+msgstr "Gérer les signataires"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "No trusted signer: add one in Platform > Updates > Signers."
+msgstr ""
+"Aucun signataire de confiance : ajoutez-en un dans Plateforme > Mises à jour > Signataires."
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_release_pending
+msgid "No version is waiting for a signature."
+msgstr "Aucune version n'attend de signature."
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_signers
+msgid "Nobody may sign a new version yet."
+msgstr "Personne ne peut encore signer une nouvelle version."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/storage_wasabi.py:0
+msgid "Not a release file name."
+msgstr "Ce n'est pas un nom de fichier de version."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__carried_serial
+msgid "Number of the signer list it carries"
+msgstr "Numéro de la liste de signataires qu'elle contient"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid ""
+"Only an ed25519 public key is accepted, as made by the \"Make my signing key\" tool."
+msgstr ""
+"Seule une clé publique ed25519 est acceptée, comme celle créée par l'outil « Make my signing key »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "Only the owner adds or removes a signer."
+msgstr "Seul le propriétaire ajoute ou retire un signataire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "Only the owner and operators download the list."
+msgstr "Seuls le propriétaire et les opérateurs téléchargent la liste."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Only the owner and operators handle versions waiting for signature."
+msgstr ""
+"Seuls le propriétaire et les opérateurs gèrent les versions en attente de signature."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Only the owner discards a waiting version."
+msgstr "Seul le propriétaire abandonne une version en attente."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__public_pem
+msgid "Public key"
+msgstr "Clé publique"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid "Public key (not secret)"
+msgstr "Clé publique (pas secrète)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__published_by_id
+msgid "Published by"
+msgstr "Publiée par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__published_at
+msgid "Published on"
+msgstr "Publiée le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Refused: nothing was published."
+msgstr "Refusé : rien n'a été publié."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__release_id
+msgid "Registered release"
+msgstr "Version enregistrée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid "Remove this signer"
+msgstr "Retirer ce signataire"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__removed_by_id
+msgid "Removed by"
+msgstr "Retiré par"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__removed_at
+msgid "Removed on"
+msgstr "Retiré le"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_search
+msgid "Removed signers"
+msgstr "Signataires retirés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_release_pending__state__published
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_search
+msgid "Signed and published"
+msgstr "Signée et publiée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release__signer_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__signer_id
+msgid "Signed by"
+msgstr "Signée par"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "Signer added"
+msgstr "Signataire ajouté"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "Signer changed"
+msgstr "Signataire modifié"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__signers_serial
+msgid "Signer list in use (number)"
+msgstr "Liste de signataires en service (numéro)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "Signer removed"
+msgstr "Signataire retiré"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_signers
+#: model:ir.ui.menu,name:ea_platform_admin.menu_signers
+msgid "Signers"
+msgstr "Signataires"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_release_pending__carried_signers
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "Signers this version gives to the firms"
+msgstr "Signataires que cette version donne aux cabinets"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Simulation: no file was sent."
+msgstr "Simulation : aucun fichier n'a été envoyé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The attestation does not match this version or this signer."
+msgstr "L'attestation ne correspond pas à cette version ou à ce signataire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The bundle changed since it was uploaded."
+msgstr "Le paquet a changé depuis son téléversement."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The bundle is the file named <40-character commit>.tar.gz."
+msgstr "Le paquet est le fichier nommé <commit de 40 caractères>.tar.gz."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid ""
+"The bundle was not signed by a trusted signer. If a new person signed, the owner must first add them in Platform > Updates > Signers."
+msgstr ""
+"Le paquet n'a pas été signé par un signataire de confiance. Si une nouvelle personne a signé, le propriétaire doit d'abord l'ajouter dans Plateforme > Mises à jour > Signataires."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The catalogue must be %(name)s."
+msgstr "Le catalogue doit être %(name)s."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/addon.py:0
+msgid ""
+"The catalogue needs its signature file and at least one trusted signer (Platform > Updates > Signers)."
+msgstr ""
+"Le catalogue a besoin de son fichier de signature et d'au moins un signataire de confiance (Plateforme > Mises à jour > Signataires)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The catalogue's signature does not match the same signer."
+msgstr "La signature du catalogue ne correspond pas au même signataire."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_signer__public_pem
+msgid "The content of the person's .pub file. It is not secret."
+msgstr "Le contenu du fichier .pub de la personne. Il n'est pas secret."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid ""
+"The files of a waiting version do not change: discard it and upload again."
+msgstr ""
+"Les fichiers d'une version en attente ne changent pas : abandonnez-la et téléversez à nouveau."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_signer__fingerprint_short
+msgid ""
+"The first 16 characters. The desktop tool shows the same to the person signing."
+msgstr ""
+"Les 16 premiers caractères. L'outil de bureau montre les mêmes à la personne qui signe."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "The list of signers cannot be read."
+msgstr "La liste des signataires ne peut pas être lue."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "The list's number must be 1 or more."
+msgstr "Le numéro de la liste doit être 1 ou plus."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The releases bucket refused the files: nothing was registered."
+msgstr ""
+"Le compartiment des versions a refusé les fichiers : rien n'a été enregistré."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "The same key is listed twice."
+msgstr "La même clé figure deux fois dans la liste."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "The signer list inside this bundle is refused:"
+msgstr "La liste des signataires contenue dans ce paquet est refusée :"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "The version"
+msgstr "La version"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "This bundle holds the console's own addon: it is refused."
+msgstr "Ce paquet contient le module de la console elle-même : il est refusé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid ""
+"This commit is already registered with another fingerprint: a release does not change."
+msgstr ""
+"Ce commit est déjà enregistré avec une autre empreinte : une version ne change pas."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "This file is for another version: %(name)s. Expected: %(expected)s."
+msgstr ""
+"Ce fichier est pour une autre version : %(name)s. Attendu : %(expected)s."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "This file is not a release bundle (.tar.gz)."
+msgstr "Ce fichier n'est pas un paquet de version (.tar.gz)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid ""
+"This is a PRIVATE key: it was not kept. Send the public one only (the .pub file)."
+msgstr ""
+"C'est une clé PRIVÉE : elle n'a pas été gardée. N'envoyez que la clé publique (le fichier .pub)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_signer_fingerprint_unique
+msgid ""
+"This key is already in the list. A removed key cannot come back: make a new one."
+msgstr ""
+"Cette clé est déjà dans la liste. Une clé retirée ne peut pas revenir : créez-en une nouvelle."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/signers.py:0
+msgid "This public key cannot be read."
+msgstr "Cette clé publique ne peut pas être lue."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid "This version carries signer list number"
+msgstr "Cette version contient la liste de signataires numéro"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "This version is already published."
+msgstr "Cette version est déjà publiée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "This version is already registered in Releases."
+msgstr "Cette version est déjà enregistrée dans Versions."
+
+#. module: ea_platform_admin
+#: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_release_pending_sha_unique
+msgid "This version is already waiting or published."
+msgstr "Cette version est déjà en attente ou publiée."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__active
+msgid "Trusted"
+msgstr "De confiance"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_search
+msgid "Trusted and removed"
+msgstr "De confiance et retirés"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_signer
+msgid "Trusted signer"
+msgstr "Signataire de confiance"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__signer_count
+msgid "Trusted signers"
+msgstr "Signataires de confiance"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_form
+msgid ""
+"Upload here the three files it made (.tar.gz.sig, .catalogue.json.sig, .attestation),\n"
+"                                then click \"Check the signatures and publish\"."
+msgstr ""
+"Téléversez ici les trois fichiers qu'il a créés (.tar.gz.sig, .catalogue.json.sig, .attestation), puis cliquez sur « Vérifier les signatures et publier »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Upload the three files the signing tool made: %(names)s."
+msgstr ""
+"Téléversez les trois fichiers créés par l'outil de signature : %(names)s."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_list
+msgid "Uploaded by"
+msgstr "Téléversée par"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_list
+msgid "Uploaded on"
+msgstr "Téléversée le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/signer.py:0
+msgid "Use the Remove button: it is logged."
+msgstr "Utilisez le bouton Retirer : il est inscrit au journal."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Version signed and published"
+msgstr "Version signée et publiée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+#: model:ir.model,name:ea_platform_admin.model_platform_release_pending
+msgid "Version waiting for signature"
+msgstr "Version en attente de signature"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__release_count
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_signer__release_ids
+msgid "Versions signed"
+msgstr "Versions signées"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid "Versions this person signed"
+msgstr "Versions signées par cette personne"
+
+#. module: ea_platform_admin
+#: model:ir.actions.act_window,name:ea_platform_admin.action_release_pending
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_release_pending__state__waiting
+#: model:ir.ui.menu,name:ea_platform_admin.menu_release_pending
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_release_pending_search
+msgid "Waiting for signature"
+msgstr "En attente de signature"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/release_pending.py:0
+msgid "Waiting version discarded"
+msgstr "Version en attente abandonnée"
+
+#. module: ea_platform_admin
+#: model_terms:ir.actions.act_window,help:ea_platform_admin.action_release_pending
+msgid ""
+"When the technician builds a new version without signing it, it is uploaded here. Any trusted signer\n"
+"               can then sign it from their own computer with the \"Sign new version\" desktop tool."
+msgstr ""
+"Quand le technicien construit une nouvelle version sans la signer, elle est téléversée ici. N'importe quel signataire de confiance peut ensuite la signer depuis son propre ordinateur avec l'outil de bureau « Sign new version »."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__signer_names
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
+msgid "Who may sign a new version"
+msgstr "Qui peut signer une nouvelle version"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid "e.g. Marie Ngono"
+msgstr "ex. Marie Ngono"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_signer_form
+msgid "name@example.com"
+msgstr "nom@exemple.com"

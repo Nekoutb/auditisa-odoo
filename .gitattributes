@@ -6,3 +6,4 @@
 *.xlsx binary
 *.cmd text eol=crlf
 *.txt text eol=crlf
+deploy/trust/*.json text eol=lf

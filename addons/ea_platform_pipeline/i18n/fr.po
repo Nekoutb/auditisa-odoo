@@ -3568,3 +3568,16 @@ msgstr "réinitialiser"
 #: code:addons/ea_platform_pipeline/models/environment.py:0
 msgid "staging"
 msgstr "staging"
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,help:ea_platform_pipeline.field_platform_release__attestation
+msgid ""
+"The <commit>.attestation file the signing tool makes, on the signer's computer. Base64 of an ed25519 signature over this commit and this digest. It holds nothing secret."
+msgstr ""
+"Le fichier <commit>.attestation créé par l'outil de signature, sur l'ordinateur du signataire. Base64 d'une signature ed25519 sur ce commit et cette empreinte. Il ne contient rien de secret."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "signed by %(name)s"
+msgstr "signée par %(name)s"

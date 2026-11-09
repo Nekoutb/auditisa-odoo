@@ -89,6 +89,16 @@ class TestSigners(SignerCase):
         with self.assertRaises(UserError):
             self.signer.with_user(self.owner).unlink()
 
+    def test_the_signer_screens_speak_french(self):
+        self.env["res.lang"]._activate_lang("fr_FR")
+        with self.assertRaisesRegex(AccessError, "Seul le propri"):
+            self.signer.with_user(self.operator).with_context(lang="fr_FR").action_remove()
+        with self.assertRaisesRegex(UserError, "Il doit rester au moins un signataire"):
+            self.signer.with_user(self.owner).with_context(lang="fr_FR").action_remove()
+        fr = self.env(context={"lang": "fr_FR"})
+        self.assertEqual(fr["ir.model"]._get("platform.signer").name, "Signataire de confiance")
+        self.assertEqual(fr.ref("ea_platform_admin.menu_release_pending").name, "En attente de signature")
+
     def test_the_last_signer_cannot_be_removed(self):
         with self.assertRaisesRegex(UserError, "At least one signer"):
             self.signer.with_user(self.owner).action_remove()
