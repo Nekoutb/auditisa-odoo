@@ -435,7 +435,7 @@ run systemctl restart odoo
 log "nginx"
 # No version in error pages and headers. Ubuntu's nginx.conf already sets server_tokens: changed there,
 # since a second one in conf.d is refused as a duplicate.
-run sed -i -E 's/^([[:space:]]*)#?[[:space:]]*server_tokens[[:space:]]+[a-z]+;.*$/server_tokens off;/' /etc/nginx/nginx.conf
+run sed -i -E 's/^[[:space:]]*#?[[:space:]]*server_tokens[[:space:]]+[a-z]+;.*$/	server_tokens off;/' /etc/nginx/nginx.conf
 render /etc/nginx/conf.d/auditisa-limits.conf 644 root:root <<'EOF'
 limit_req_zone $binary_remote_addr zone=heartbeat:10m rate=6r/m;
 limit_req_zone $binary_remote_addr zone=support:10m rate=6r/m;
