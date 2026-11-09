@@ -588,6 +588,8 @@ Description=$description
 Type=oneshot
 ExecStart=/usr/local/sbin/$name
 Nice=10
+# restic keeps its cache under HOME; without it every run starts cold (seen 2026-11-09).
+Environment=HOME=/root
 EOF
   render "/etc/systemd/system/$name.timer" 644 root:root <<EOF
 [Unit]
