@@ -83,8 +83,12 @@ check_names() {
       *) continue ;;
     esac
     [ -n "$word" ] || continue
+    # Not grep -w: "-" ends a word for it, so a peer named "ab" was found inside this server's own
+    # "ab-c" (first real pair, 2026-11-09). A name ends where no letter, digit, _ or - follows.
+    local pattern
+    pattern="(^|[^A-Za-z0-9_.-])$(printf '%s' "$word" | sed 's/[.]/[.]/g')(\$|[^A-Za-z0-9_-])"
     # A folder that does not exist makes grep exit 2 even after a match: its output decides.
-    if [ -n "$(grep -RIlwF -- "$word" "${SEARCH_DIRS[@]}" 2>/dev/null || true)" ]; then
+    if [ -n "$(grep -RIlE -- "$pattern" "${SEARCH_DIRS[@]}" 2>/dev/null || true)" ]; then
       fail "this server's files mention the peer's $kind ($word)"
       found=1
     fi
