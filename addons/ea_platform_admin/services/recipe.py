@@ -86,7 +86,9 @@ def render_user_data(values, ssh_public_key, signing_public_key):
             raise ValueError(f"unsafe value for {key}")
     if not re.match(r"^ssh-ed25519 [A-Za-z0-9+/=]+( [A-Za-z0-9@._-]+)?$", ssh_public_key.strip()):
         raise ValueError("unsafe ssh key")
-    env_block = "\n".join(f"      {key}='{values.get(key, '')}'" for key in REQUIRED_KEYS)
+    if bool(values.get("RELEASE_BUNDLE_URL_B64")) != bool(values.get("RELEASE_SIG_URL_B64")):
+        raise ValueError("both release addresses, or neither")
+    env_block = "\n".join(f"      {key}='{values.get(key, '')}'" for key in ALL_KEYS)
     signing_key_block = "\n".join(f"      {line}" for line in signing_public_key.strip().splitlines())
     text = TEMPLATE.format(
         slug=values["FIRM_SLUG"],

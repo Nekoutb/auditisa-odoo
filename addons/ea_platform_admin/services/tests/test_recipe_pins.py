@@ -86,3 +86,13 @@ def test_every_figure_a_script_writes_is_one_the_agent_reads():
         written |= set(re.findall(r"set_status ([a-z_0-9]+) ", path.read_text(encoding="utf-8")))
     assert written
     assert written <= set(STATUS_FILES), written - set(STATUS_FILES)
+
+
+def test_the_signed_release_addresses_are_always_written_and_go_in_pairs():
+    plain = render_user_data(values(), KEY, PUB)
+    # The first-boot command runs under `set -u`: both lines must exist, empty when unused.
+    assert "RELEASE_BUNDLE_URL_B64=''" in plain and "RELEASE_SIG_URL_B64=''" in plain
+    signed = render_user_data(values(RELEASE_BUNDLE_URL_B64="aHR0cHM6Ly94", RELEASE_SIG_URL_B64="aHR0cHM6Ly95"), KEY, PUB)
+    assert "RELEASE_BUNDLE_URL_B64='aHR0cHM6Ly94'" in signed
+    with pytest.raises(ValueError):
+        render_user_data(values(RELEASE_BUNDLE_URL_B64="aHR0cHM6Ly94"), KEY, PUB)
