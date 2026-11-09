@@ -5,9 +5,9 @@ import hashlib
 import json
 import re
 
+import os
+
 import pytest
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 from .. import signers as trust
 from ..recipe import render_user_data
@@ -15,9 +15,19 @@ from .test_provisioning import KEY, values
 
 
 def make():
+    """A key pair, for the tests that sign: they need cryptography (skipped where it is not installed)."""
+    pytest.importorskip("cryptography")
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+    from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
     private = Ed25519PrivateKey.generate()
     pem = private.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
     return private, pem
+
+
+def public_only():
+    """A public key in PEM, for the tests that only read keys: the standard library is enough."""
+    body = base64.b64encode(trust.ED25519_SPKI_PREFIX + os.urandom(32)).decode()
+    return None, f"-----BEGIN PUBLIC KEY-----\n{body}\n-----END PUBLIC KEY-----\n"
 
 
 def der_sha(pem):
@@ -26,7 +36,7 @@ def der_sha(pem):
 
 
 def test_the_fingerprint_is_the_sha256_of_the_public_key_der():
-    _private, pem = make()
+    _private, pem = public_only()
     assert trust.fingerprint(pem) == der_sha(pem)
     assert re.fullmatch(r"[0-9A-F]{4} [0-9A-F]{4} [0-9A-F]{4} [0-9A-F]{4}", trust.short(trust.fingerprint(pem)))
 
@@ -41,7 +51,7 @@ def test_a_private_key_or_another_kind_of_key_is_refused():
 
 
 def test_one_key_is_written_one_way():
-    _private, pem = make()
+    _private, pem = public_only()
     messy = pem.replace("\n", "\r\n") + "\n\n"
     assert trust.normalise(messy) == trust.normalise(pem)
     assert trust.fingerprint(messy) == trust.fingerprint(pem)
@@ -75,7 +85,7 @@ def test_the_list_reads_back_and_keeps_removed_signers_for_their_own_bundles_onl
 
 
 def test_a_list_with_a_forged_fingerprint_no_signer_or_a_twice_listed_key_is_refused():
-    _a, pem = make()
+    _a, pem = public_only()
     good = json.loads(trust.document(1, [{"name": "Owner", "email": "contact@cm-ea.com", "pem": pem}]))
     forged = dict(good, signers=[dict(good["signers"][0], fingerprint="0" * 64)])
     with pytest.raises(trust.SignerRefused):
@@ -110,11 +120,11 @@ def test_the_attestation_is_the_message_of_the_pipeline():
 
 
 def test_a_new_firm_gets_every_signer_and_checks_the_bundle_against_them():
-    _a, alice_pem = make()
-    _b, bob_pem = make()
+    _a, alice_pem = public_only()
+    _b, bob_pem = public_only()
     raw = trust.document(2, [{"name": "Owner", "email": "contact@cm-ea.com", "pem": alice_pem},
                              {"name": "Marie", "email": "marie@example.com", "pem": bob_pem}],
-                         [{"name": "Old", "email": "old@example.com", "pem": make()[1], "valid_for": ["c" * 64]}])
+                         [{"name": "Old", "email": "old@example.com", "pem": public_only()[1], "valid_for": ["c" * 64]}])
     text = render_user_data(values(), KEY, raw)
     yaml = pytest.importorskip("yaml")
     data = yaml.safe_load(text)
