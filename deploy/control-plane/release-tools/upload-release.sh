@@ -56,7 +56,11 @@ fi
 
 DIR=${1:?usage: upload-release.sh DIR [--verify-only] | --check}
 MODE=${2:-}
-mapfile -t BUNDLES < <(cd "$DIR" && ls | grep -E '^[0-9a-f]{40}\.tar\.gz$' || true)
+BUNDLES=()
+for f in "$DIR"/*.tar.gz; do
+  name=$(basename "$f")
+  if [[ $name =~ ^[0-9a-f]{40}\.tar\.gz$ ]]; then BUNDLES+=("$name"); fi
+done
 [ "${#BUNDLES[@]}" -eq 1 ] || die "DIR must hold exactly one <sha>.tar.gz"
 SHA=${BUNDLES[0]%.tar.gz}
 FILES=("$SHA.tar.gz" "$SHA.tar.gz.sig" "$SHA.catalogue.json" "$SHA.catalogue.json.sig")
