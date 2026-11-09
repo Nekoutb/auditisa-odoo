@@ -66,7 +66,9 @@ restic backup --quiet --tag "$TAG" --host "$FIRM_SLUG" "$target"
 restic forget --quiet --tag nightly --host "$FIRM_SLUG" --keep-daily 14 --keep-weekly 8 --keep-monthly 12 --prune
 restic forget --quiet --tag pre-update --host "$FIRM_SLUG" --keep-within 90d --prune
 # The upload is proved by reading the list back, not by the exit code alone.
-restic snapshots --quiet --tag "$TAG" --latest 1 --host "$FIRM_SLUG" | grep -q . || fl_die "the snapshot is not in the repository"
+# grep reads it all: with -q it stops early, restic dies of SIGPIPE and pipefail calls that a
+# failure (first real firm, 2026-11-09).
+restic snapshots --quiet --tag "$TAG" --latest 1 --host "$FIRM_SLUG" | grep . >/dev/null || fl_die "the snapshot is not in the repository"
 
 set_status last_backup_at "$(now_utc)"
 set_status last_backup_ok 1

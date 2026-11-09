@@ -34,7 +34,7 @@ verify() {
   local bundle=$1 pub=$2 catalogue
   openssl pkeyutl -verify -pubin -inkey "$pub" -rawin -in "$bundle" -sigfile "$bundle.sig" >/dev/null 2>&1 \
     || die "signature refused: $bundle"
-  if tar -tzf "$bundle" | grep -q '^addons/ea_platform_'; then die "the bundle holds the control plane's addon"; fi
+  if tar -tzf "$bundle" | grep '^addons/ea_platform_' >/dev/null; then die "the bundle holds the control plane's addon"; fi
   log "signature good: $bundle"
   catalogue="${bundle%.tar.gz}.catalogue.json"
   if [ -e "$catalogue.sig" ]; then
@@ -157,7 +157,8 @@ if git cat-file -e "$SHA:requirements.txt" 2>/dev/null; then PATHS+=(requirement
 mkdir -p "$OUT"
 git archive --format=tar "$SHA" "${PATHS[@]}" | gzip -n -9 > "$OUT/$BUNDLE_NAME"
 DIGEST=$(sha256sum "$OUT/$BUNDLE_NAME" | cut -d' ' -f1)
-if tar -tzf "$OUT/$BUNDLE_NAME" | grep -q '^addons/ea_platform_'; then die "the bundle holds the control plane's addon"; fi
+# Not grep -q: it would stop tar early, and under pipefail the check would then pass unseen.
+if tar -tzf "$OUT/$BUNDLE_NAME" | grep '^addons/ea_platform_' >/dev/null; then die "the bundle holds the control plane's addon"; fi
 
 WORK=$(mktemp -d)
 tar -xzf "$OUT/$BUNDLE_NAME" -C "$WORK" addons

@@ -2,6 +2,7 @@ import base64
 import hashlib
 import json
 from datetime import timedelta
+from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import AccessDenied, AccessError, UserError
@@ -47,6 +48,17 @@ class TestSupportVisit(SupportCase):
         self.assertFalse(user.active)
         with self.assertRaises(AccessDenied):
             self._login(self.token)
+
+    def test_the_expiry_cron_with_nothing_to_end_leaves_the_account_alone(self):
+        """First real firm, 2026-11-09: the cron rewrote the password every minute, and each write
+        queued a "password changed" notice."""
+        user = self.visits._support_user()
+        before = user.write_date
+        with patch.object(type(user), "write", autospec=True, side_effect=type(user).write) as write:
+            self.visits._cron_expire()
+            self.visits._cron_expire()
+        self.assertFalse([c for c in write.call_args_list if "password" in c.args[1]])
+        self.assertEqual(user.write_date, before)
 
     def test_the_support_account_has_no_password_way_in(self):
         self._open(12)

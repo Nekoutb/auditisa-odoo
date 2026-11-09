@@ -137,7 +137,7 @@ check_routes() {
     printf 'NOTE    the peer address is unknown: route not checked\n'
     return
   fi
-  if ip route get "$ip" 2>/dev/null | grep -q ' via '; then
+  if ip route get "$ip" 2>/dev/null | grep ' via ' >/dev/null; then
     pass "the peer is reached only through the public gateway"
   else
     fail "a direct route leads to the peer"

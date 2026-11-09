@@ -217,10 +217,13 @@ class EaFirmSupportVisit(models.Model):
         return visit
 
     def _close(self, state, user=None):
-        for visit in self.filtered(lambda v: v.state == "open"):
+        closing = self.filtered(lambda v: v.state == "open")
+        for visit in closing:
             visit._internal().write({"state": state, "ended_at": fields.Datetime.now(), "ended_by": user.id if user else False})
             self._log(f"support-visit-{state}")
-        if not self.sudo().search_count([("state", "=", "open")]):
+        # Only when a visit really ends: the expiry cron calls this every minute on an empty set, and
+        # each new password queued a "password changed" notice (first real firm, 2026-11-09).
+        if closing and not self.sudo().search_count([("state", "=", "open")]):
             # A new random password also ends every session the account had.
             self._support_user().write({"active": False, "password": secrets.token_urlsafe(48)})
 

@@ -24,6 +24,15 @@ class TestMailGate(TransactionCase):
         with self.assertRaises(MailDeliveryException):
             self.env["ir.mail_server"].send_email(EmailMessage())
 
+    def test_a_closed_gate_opens_no_connection_but_the_test_may(self):
+        self.params.set_param(PARAM_MAIL_GATE, "1")
+        with patch.object(IrMail_Server, "_connect__", return_value="smtp") as connect:
+            with self.assertRaises(MailDeliveryException):
+                self.env["ir.mail_server"]._connect__(mail_server_id=self.server.id)
+            connect.assert_not_called()
+            testing = self.env["ir.mail_server"].with_context(ea_mail_gate_testing=True)
+            self.assertEqual(testing._connect__(mail_server_id=self.server.id), "smtp")
+
     def test_without_the_gate_nothing_changes(self):
         self.params.set_param(PARAM_MAIL_GATE, "0")
         self.assertFalse(self.server._ea_mail_gate_closed())

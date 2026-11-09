@@ -227,13 +227,16 @@ configure_firewall() {
   # The provider's metadata address repeats the first-boot text, which holds secrets. Root only.
   render /usr/local/sbin/firm-metadata-block 755 root:root <<'EOF'
 #!/bin/sh
-iptables -C OUTPUT -d 169.254.169.254 -m owner ! --uid-owner 0 -j REJECT 2>/dev/null \
-  || iptables -A OUTPUT -d 169.254.169.254 -m owner ! --uid-owner 0 -j REJECT
+# First in OUTPUT: appended after ufw's chains it was never reached, since ufw accepts outgoing
+# connections first (first real firm, 2026-11-09: the odoo user could read the first-boot text).
+iptables -D OUTPUT -d 169.254.169.254 -m owner ! --uid-owner 0 -j REJECT 2>/dev/null || true
+iptables -I OUTPUT 1 -d 169.254.169.254 -m owner ! --uid-owner 0 -j REJECT
 EOF
   render /etc/systemd/system/firm-metadata-block.service 644 root:root <<'EOF'
 [Unit]
 Description=Only root reaches the provider's metadata address
 After=network-pre.target ufw.service
+PartOf=ufw.service
 
 [Service]
 Type=oneshot
@@ -330,8 +333,10 @@ install_odoo() {
   fi
   run tar -xzf /tmp/uv.tar.gz --strip-components=1 -C /usr/local/bin
   run runuser -u odoo -- env UV_PYTHON_INSTALL_DIR=/opt/odoo19/python /usr/local/bin/uv python install "$PYTHON_VERSION"
-  run runuser -u odoo -- env UV_PYTHON_INSTALL_DIR=/opt/odoo19/python /usr/local/bin/uv venv --python "$PYTHON_VERSION" /opt/odoo19/venv
+  run runuser -u odoo -- env UV_PYTHON_INSTALL_DIR=/opt/odoo19/python /usr/local/bin/uv venv --allow-existing --python "$PYTHON_VERSION" /opt/odoo19/venv
   # The commit's id is its content: this is the same tree on every firm, and the same as CI's.
+  # From an empty folder, so that a re-run after a stop does not trip on the files already there.
+  run rm -rf /opt/odoo19/src
   run runuser -u odoo -- git init -q /opt/odoo19/src
   run runuser -u odoo -- git -C /opt/odoo19/src fetch -q --depth 1 https://github.com/odoo/odoo "$ODOO_SHA"
   run runuser -u odoo -- git -C /opt/odoo19/src checkout -q FETCH_HEAD
@@ -349,7 +354,10 @@ install_odoo() {
     printf '+ check wkhtmltopdf against sha256 %s\n' "$WKHTMLTOX_SHA256"
   else
     printf '%s  /tmp/wkhtmltox.deb\n' "$WKHTMLTOX_SHA256" | sha256sum -c --status - || die "wkhtmltopdf digest differs"
-    dpkg -i /tmp/wkhtmltox.deb || apt-get install -y -f -qq
+    # Through apt, not dpkg -i: dpkg does not wait for the lock unattended-upgrades holds (first real
+    # firm, 2026-11-09), and apt fetches the package's dependencies in the same go.
+    chmod 644 /tmp/wkhtmltox.deb
+    apt-get install -y -qq --no-install-recommends /tmp/wkhtmltox.deb
     rm -f /tmp/wkhtmltox.deb
   fi
 }
@@ -529,8 +537,10 @@ PY
 
 configure_nginx() {
   # HTTP only until the certificate exists: firm-cert.sh then writes the HTTPS block.
+  # No version in error pages and headers. Ubuntu's nginx.conf already sets server_tokens, and a
+  # second one in conf.d fails nginx -t (first real firm, 2026-11-09): changed there, as on the console.
+  run sed -i -E 's/^[[:space:]]*#?[[:space:]]*server_tokens[[:space:]]+[a-z]+;.*$/	server_tokens off;/' /etc/nginx/nginx.conf
   render /etc/nginx/conf.d/auditisa-limits.conf 644 root:root <<'EOF'
-server_tokens off;
 limit_req_zone $binary_remote_addr zone=odoo_login:10m rate=30r/m;
 EOF
   render /etc/nginx/sites-available/firm-http.conf 644 root:root <<EOF
