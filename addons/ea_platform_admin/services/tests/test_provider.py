@@ -283,12 +283,25 @@ def test_token_file_is_read_and_stripped(tmp_path):
     assert read_secret_file(str(path)) == "value"
 
 
+def _owned(monkeypatch, path, mode, uid, gid):
+    """os.stat sees `path` with this mode and owner, whoever runs the tests (root included)."""
+    real_stat = os.stat
+
+    def fake(target, *args, **kwargs):
+        info = list(real_stat(target, *args, **kwargs))
+        if str(target) == str(path):
+            info[0], info[4], info[5] = 0o100000 | mode, uid, gid
+        return os.stat_result(info)
+
+    monkeypatch.setattr(os, "stat", fake)
+
+
 @pytest.mark.skipif(os.name != "posix", reason="file modes are POSIX")
 @pytest.mark.parametrize("mode", [0o644, 0o640, 0o604, 0o660])
-def test_token_file_that_others_can_read_is_refused(tmp_path, mode):
+def test_token_file_that_others_can_read_is_refused(tmp_path, monkeypatch, mode):
     path = tmp_path / "token"
-    path.write_text("value\n")
-    os.chmod(path, mode)
+    path.write_text("value" + chr(10))
+    _owned(monkeypatch, path, mode, 1000, 1000)
     with pytest.raises(ProviderError) as caught:
         read_secret_file(str(path))
     assert "value" not in str(caught.value)
@@ -298,23 +311,16 @@ def test_token_file_that_others_can_read_is_refused(tmp_path, mode):
 def test_systemd_credential_copy_is_accepted(tmp_path, monkeypatch):
     """LoadCredential gives the service root:root 0440 with an ACL: that copy must be readable."""
     path = tmp_path / "token"
-    path.write_text("value\n")
-    real_stat = os.stat
-
-    def as_systemd(name, mode):
-        def fake(target, *args, **kwargs):
-            info = list(real_stat(target, *args, **kwargs))
-            if str(target) == str(path):
-                info[0], info[4], info[5] = 0o100000 | mode, 0, 0
-            return os.stat_result(info)
-        return fake
-
-    monkeypatch.setattr(os, "stat", as_systemd("token", 0o440))
+    path.write_text("value" + chr(10))
+    _owned(monkeypatch, path, 0o440, 0, 0)
     assert read_secret_file(str(path)) == "value"
     for mode in (0o444, 0o460, 0o470):  # others may read, or the group may write: still refused
-        monkeypatch.setattr(os, "stat", as_systemd("token", mode))
+        _owned(monkeypatch, path, mode, 0, 0)
         with pytest.raises(ProviderError):
             read_secret_file(str(path))
+    _owned(monkeypatch, path, 0o440, 0, 1000)  # group read for a group other than root's: refused
+    with pytest.raises(ProviderError):
+        read_secret_file(str(path))
 
 
 def test_missing_or_empty_token_file_is_refused(tmp_path):
