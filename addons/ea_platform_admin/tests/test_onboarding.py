@@ -2,11 +2,12 @@ import base64
 from datetime import timedelta
 from unittest.mock import patch
 
-from odoo import fields
+from odoo import fields, sql_db
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from ..services.provider import DryRunDns, DryRunProbe, DryRunProvider, ProviderError
+from ..models.provision_job import _RUN_LOCK
 from .common import PlatformCase, ssh_key
 
 
@@ -181,6 +182,29 @@ class TestProvisioningJob(PlatformCase):
         self.assertEqual(job.state, "waiting")
         self.assertEqual(firm.state, "provisioning")
         self.assertEqual(job.step_ids.filtered(lambda s: s.code == "wait_server").state, "running")
+        self.env["platform.provision.job"]._cron_run_jobs()
+        self.assertEqual(job.state, "done")
+        self.assertEqual(firm.state, "active")
+        self.assertEqual(len(provider.state["servers"]), 1)
+
+    def test_a_job_another_runner_holds_is_left_alone_even_between_its_commits(self):
+        """First real firm, 2026-11-09: the cron took a job over between two commits of the
+        screen's run and created a second server. The lock now lasts for the whole run."""
+        provider = DryRunProvider(boot_polls=2)
+        self._outside_patched(provider=provider)
+        firm, job = self._onboard()
+        self.assertEqual(job.state, "waiting")
+        other = sql_db.db_connect(self.env.cr.dbname).cursor()
+        try:
+            other.execute("SELECT pg_advisory_lock(%s, %s)", [_RUN_LOCK, job.id])
+            self.env["platform.provision.job"]._cron_run_jobs()
+            self.assertEqual(job.state, "waiting")
+            self.assertEqual(job.step_ids.filtered(lambda s: s.code == "wait_server").state, "running")
+            with self.assertRaises(UserError):
+                job.action_rollback()
+            other.execute("SELECT pg_advisory_unlock(%s, %s)", [_RUN_LOCK, job.id])
+        finally:
+            other.close()
         self.env["platform.provision.job"]._cron_run_jobs()
         self.assertEqual(job.state, "done")
         self.assertEqual(firm.state, "active")

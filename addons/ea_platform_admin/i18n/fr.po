@@ -3025,6 +3025,12 @@ msgid "This provisioning run can no longer be cancelled."
 msgstr "Cette mise en service ne peut plus être annulée."
 
 #. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/provision_job.py:0
+msgid "This provisioning run is moving right now: try again in a minute."
+msgstr "Cette mise en service avance en ce moment : réessayez dans une minute."
+
+#. module: ea_platform_admin
 #: model:ir.model.constraint,message:ea_platform_admin.constraint_platform_release_sha_unique
 msgid "This release is already registered."
 msgstr "Cette version est déjà enregistrée."

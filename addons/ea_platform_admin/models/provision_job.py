@@ -32,6 +32,7 @@ STEP_STATES = [
     ("undone", "Undone"),
 ]
 _RESOURCE_FIELDS = ("ssh_key_id", "firewall_id", "storage_id", "server_id", "server_ip")
+_RUN_LOCK = 0x50524F56  # "PROV": first key of the advisory lock of a provisioning run
 
 
 class PlatformProvisionJob(models.Model):
@@ -247,18 +248,39 @@ class PlatformProvisionJob(models.Model):
         return {field: firm[field] for field in _RESOURCE_FIELDS if firm[field]}
 
     def _lock(self):
-        """Two runners on one job would create resources twice. Skips if another holds it."""
+        """Two runners on one job would create resources twice. Skips if another holds it.
+
+        A session-level advisory lock, held until _unlock: a row lock ended at the commit made after
+        each step, and on the first real firm (2026-11-09) the cron took the job over from the
+        screen's own run in that gap and created a second server.
+        """
+        self.env.cr.execute("SELECT pg_try_advisory_lock(%s, %s)", [_RUN_LOCK, self.id])
+        return bool(self.env.cr.fetchone()[0])
+
+    def _unlock(self):
         try:
-            with self.env.cr.savepoint():
-                self.env.cr.execute("SELECT id FROM platform_provision_job WHERE id = %s FOR UPDATE NOWAIT", [self.id])
-        except psycopg2.errors.LockNotAvailable:
-            return False
-        return True
+            self.env.cr.execute("SELECT pg_advisory_unlock(%s, %s)", [_RUN_LOCK, self.id])
+        except psycopg2.Error:
+            # An aborted transaction: its work is lost anyway, the lock must not be.
+            if modules.module.current_test:
+                raise
+            self.env.cr.rollback()
+            self.env.cr.execute("SELECT pg_advisory_unlock(%s, %s)", [_RUN_LOCK, self.id])
 
     def _run(self):
         self.ensure_one()
         if self.state != "waiting" or not self._lock():
             return self.state
+        try:
+            # Another runner may have moved the job on while we waited: read it again.
+            self.env.invalidate_all()
+            if self.state != "waiting":
+                return self.state
+            return self._run_locked()
+        finally:
+            self._unlock()
+
+    def _run_locked(self):
         try:
             provider, dns, probe = self.env["platform.services"]._outside()
         except ProviderError as error:
@@ -327,6 +349,14 @@ class PlatformProvisionJob(models.Model):
         self.ensure_one()
         if self.state not in ("waiting", "rollback_failed"):
             raise UserError(t(self.env, _("This provisioning run can no longer be cancelled.")))
+        if not self._lock():
+            raise UserError(t(self.env, _("This provisioning run is moving right now: try again in a minute.")))
+        try:
+            return self._rollback_locked()
+        finally:
+            self._unlock()
+
+    def _rollback_locked(self):
         firm = self.firm_id.sudo()
         provider, dns, probe = self.env["platform.services"]._outside()
         resources = self._resources()
