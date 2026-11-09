@@ -33,6 +33,16 @@ class TestMailGate(TransactionCase):
             testing = self.env["ir.mail_server"].with_context(ea_mail_gate_testing=True)
             self.assertEqual(testing._connect__(mail_server_id=self.server.id), "smtp")
 
+    def test_a_firm_updated_from_an_older_release_loses_the_reset_link_while_closed(self):
+        self.params.set_param(PARAM_MAIL_GATE, "1")
+        self.params.set_param(PARAM_RESET_PASSWORD, "True")
+        self.env["ea.firm.agent"]._cron_send_heartbeat()
+        self.assertEqual(self.params.get_param(PARAM_RESET_PASSWORD), "False")
+        self.params.set_param(PARAM_MAIL_TESTED, "1")
+        self.params.set_param(PARAM_RESET_PASSWORD, "True")
+        self.env["ea.firm.agent"]._cron_send_heartbeat()
+        self.assertEqual(self.params.get_param(PARAM_RESET_PASSWORD), "True")
+
     def test_without_the_gate_nothing_changes(self):
         self.params.set_param(PARAM_MAIL_GATE, "0")
         self.assertFalse(self.server._ea_mail_gate_closed())

@@ -1,4 +1,4 @@
-from odoo import models
+from odoo import api, models
 from odoo.addons.base.models.ir_mail_server import MailDeliveryException
 
 from .firm_agent import PARAM_MAIL_TESTED
@@ -26,6 +26,19 @@ class IrMailServer(models.Model):
     def _ea_mail_gate_closed(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         return get_param(PARAM_MAIL_GATE) == "1" and get_param(PARAM_MAIL_TESTED) != "1"
+
+    @api.model
+    def _ea_keep_reset_closed(self):
+        """While the gate is closed, no "Forgot your password?": it could send nothing.
+
+        The install sets this on a new firm, but a firm updated from an older release kept the link
+        (update test, 2026-11-09). The heartbeat cron calls this, so every firm converges.
+        """
+        params = self.env["ir.config_parameter"].sudo()
+        if self._ea_mail_gate_closed() and params.get_param(PARAM_RESET_PASSWORD) != "False":
+            params.set_param(PARAM_RESET_PASSWORD, "False")
+            return True
+        return False
 
     def _ea_mail_closed(self):
         return MailDeliveryException(
