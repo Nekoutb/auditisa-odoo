@@ -112,7 +112,7 @@ run() { if [ "$DRY_RUN" = 1 ]; then printf '+ %s\n' "$*"; else "$@"; fi; }
 as_odoo() { (cd /opt/odoo19 && runuser -u odoo -- env HOME=/opt/odoo19 UV_NO_CONFIG=1 "$@"); }
 render() {
   local path=$R$1 mode=$2 owner=$3
-  mkdir -p "$(dirname "$path")"
+  (umask 022; mkdir -p "$(dirname "$path")")  # a new parent folder is readable: odoo reads /etc/odoo
   cat > "$path"
   chmod "$mode" "$path"
   if [ "$DRY_RUN" = 0 ]; then chown "$owner" "$path"; fi
