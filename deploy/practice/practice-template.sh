@@ -89,6 +89,7 @@ cmd_build() {
   local result
   result=$(cat <<'PY' | odoo_shell "$TEMPLATE_BUILD_DB" "$ulog" P_ID="$id" P_RELEASE="$release" P_LANG="$lang" EA_AUDIT_DEMO_LANG="$lang" 7>&-
 import os
+import time
 
 from odoo.tools.convert import convert_file
 
@@ -103,11 +104,24 @@ convert_file(env, "ea_audit_ui", "demo/demo_data.xml", {}, mode="init", noupdate
 params = env["ir.config_parameter"].sudo()
 params.set_param("ea_practice.template_id", os.environ["P_ID"])
 params.set_param("ea_practice.template_release", os.environ["P_RELEASE"])
-# Mail: nothing can leave a practice space.
-for xmlid in ("mail.ir_cron_mail_scheduler_action", "mail.ir_cron_mail_gateway_action"):
-    cron = env.ref(xmlid, raise_if_not_found=False)
-    if cron:
-        cron.active = False
+# Mail: nothing can leave a practice space. The running service's scheduler may be touching these jobs in
+# this new database at the same moment: what is done so far is saved first, then the jobs are switched off
+# in a short step of their own, tried again if the scheduler was on them.
+env.cr.commit()
+mail_jobs = [cron.id for cron in (env.ref(xmlid, raise_if_not_found=False) for xmlid in
+             ("mail.ir_cron_mail_scheduler_action", "mail.ir_cron_mail_gateway_action")) if cron]
+for attempt in range(10):
+    try:
+        if mail_jobs:
+            env.cr.execute("UPDATE ir_cron SET active = false WHERE id = ANY(%s)", [mail_jobs])
+        env.cr.commit()
+        break
+    except Exception:
+        env.cr.rollback()
+        if attempt == 9:
+            raise
+        time.sleep(3)
+env.invalidate_all()
 env["ir.mail_server"].sudo().search([]).write({"active": False})
 params.set_param("mail.catchall.domain", False)
 params.set_param("ea_firm_agent.mail_gate", "1")
