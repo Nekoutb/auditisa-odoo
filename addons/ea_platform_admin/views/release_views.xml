@@ -7,7 +7,6 @@
             <list>
                 <field name="sha"/>
                 <field name="label"/>
-                <field name="signer_id"/>
                 <field name="bundle_sha256" optional="hide"/>
                 <field name="firm_count"/>
                 <field name="create_date" string="Registered on"/>
@@ -21,16 +20,15 @@
             <form class="o_ea_platform_form">
                 <sheet>
                     <p class="text-muted">
-                        A release is built with scripts/provision/build_release.sh and signed by a trusted signer on
-                        their own computer (the "Sign new version" desktop tool). No private signing key ever comes
-                        here: see UPDATING.md. "Signed by" is the trusted signer whose key matched.
+                        A release is built with scripts/provision/build_release.sh and registered here by the
+                        developer. Promote it from the Status page: first to Staging, then to Production. A server
+                        installs it only if the file it downloads has exactly this fingerprint (SHA-256).
                     </p>
                     <group>
                         <group>
                             <field name="sha"/>
                             <field name="label"/>
                             <field name="bundle_sha256"/>
-                            <field name="signer_id"/>
                             <field name="odoo_commit"/>
                         </group>
                         <group>

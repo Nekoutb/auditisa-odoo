@@ -1,56 +1,22 @@
 """The decisions of the pipeline. Pure: no Odoo, no network.
 
-What is promoted is a release signed offline. The control plane holds only the public half of that
-key: it can check a signature and cannot make one, so nothing done here can produce a release that a
-firm would accept.
+What is promoted is a registered release, named by its commit and the SHA-256 of its bundle. A firm's
+server installs only a bundle with that SHA-256, which it receives from the console over its
+authenticated heartbeat. Who may promote is who may sign in to the console as its owner.
 """
 
-import base64
 import ipaddress
 import re
-from datetime import timedelta
 
 try:
     from odoo.addons.ea_platform_admin.services.messages import _
 except ImportError:  # The pure tests run without Odoo: see conftest.py.
     from ea_platform_admin.services.messages import _
 
-ATTESTATION_PREFIX = "ea-promotion-v1"
 MIN_REASON_LENGTH = 10
-HEARTBEAT_FRESH = timedelta(minutes=45)
-BACKUP_FRESH = timedelta(hours=26)
 
 _REF = re.compile(r"^[0-9a-f]{16}$")
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
-
-
-def attestation_message(sha, bundle_sha256):
-    """What the owner signs, offline, alongside the bundle. scripts/pipeline/sign_promotion.sh writes it."""
-    return f"{ATTESTATION_PREFIX}\n{sha}\n{bundle_sha256}\n".encode("ascii")
-
-
-def attestation_holds(public_pem, sha, bundle_sha256, attestation_b64):
-    """Whether this commit and digest were signed with the offline key. False on anything unexpected."""
-    if not public_pem or not attestation_b64:
-        return False
-    try:
-        from cryptography.exceptions import InvalidSignature
-        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
-        from cryptography.hazmat.primitives.serialization import load_pem_public_key
-    except ImportError:
-        return False
-    try:
-        key = load_pem_public_key(public_pem.encode("ascii"))
-        signature = base64.b64decode("".join(attestation_b64.split()), validate=True)
-    except (ValueError, TypeError, UnicodeError):
-        return False
-    if not isinstance(key, Ed25519PublicKey):
-        return False
-    try:
-        key.verify(signature, attestation_message(sha, bundle_sha256))
-    except InvalidSignature:
-        return False
-    return True
 
 
 def same_commit(first, second):
@@ -69,8 +35,6 @@ def phrase(kind, target, lang=None):
         "rebuild": "RECONSTRUIRE" if french else "REBUILD",
         "main": "MAIN",
         "rebuilt": "RECONSTRUIT" if french else "REBUILT",
-        "practice": "ENTRAINEMENT" if french else "PRACTICE",
-        "override": "SANS-ATTENTE" if french else "NO-WAIT",
     }[kind]
     return f"{word} {target}"
 
@@ -91,7 +55,7 @@ def owner_addresses(text):
 
 def owner_address_ok(remote_address, cidrs):
     """No list is the owner's choice: no address check (ruling of 2026-11-08, the control room opens
-    from anywhere; sign-in, two-factor, the typed line, the reason and the signed release stay).
+    from anywhere; sign-in and two-factor stay: access to the console is the security).
     A list, once written, refuses every other address, and one that holds no valid range refuses all."""
     if not cidrs:
         return True
@@ -117,50 +81,6 @@ def address_allowed(remote_address, cidrs):
 
 def check(code, ok, detail):
     return {"code": code, "ok": bool(ok), "detail": detail}
-
-
-def test_check(runs):
-    """`runs`: dicts with `suite`, `passed`, `failed`, newest first, for this commit. The newest per suite counts."""
-    if not runs:
-        return check("tests", False, _("No test run is recorded for this commit."))
-    newest = {}
-    for run in runs:
-        newest.setdefault(run["suite"], run)
-    failing = sorted(suite for suite, run in newest.items() if run["failed"] or not run["passed"])
-    if failing:
-        return check("tests", False, _("Not green: %(suites)s.", suites=", ".join(failing)))
-    return check("tests", True, _("Green on this commit: %(suites)s.", suites=", ".join(sorted(newest))))
-
-
-def staging_check(staging, sha, now):
-    """`staging`: the figures of the firm row that stands for the staging server, or None.
-
-    Its reporter (deploy/staging/publish-staging-state.sh) only sends a heartbeat when Odoo answers, so a
-    fresh heartbeat means Odoo is up. A firm's health colour does not apply: staging has no backup duty.
-    """
-    if not staging:
-        return check("staging", False, _("No server is marked as staging: its health is unknown."))
-    heartbeat = staging.get("last_heartbeat_at")
-    if not heartbeat or now - heartbeat > HEARTBEAT_FRESH:
-        return check("staging", False, _("Staging has not reported recently."))
-    if not same_commit(staging.get("release"), sha):
-        return check("staging", False, _("Staging is not running this commit."))
-    if staging.get("mail_enabled"):
-        return check("staging", False, _("Staging reports that mail is on."))
-    return check("staging", True, _("Staging runs this commit and is healthy."))
-
-
-def backup_check(firms, now):
-    """`firms`: name, last_backup_at, last_backup_ok. Each server backs up again before it updates."""
-    if not firms:
-        return check("backup", False, _("No firm is selected."))
-    old = sorted(
-        firm["name"] for firm in firms
-        if not firm.get("last_backup_at") or not firm.get("last_backup_ok") or now - firm["last_backup_at"] > BACKUP_FRESH
-    )
-    if old:
-        return check("backup", False, _("No good backup in the last 26 hours: %(firms)s.", firms=", ".join(old)))
-    return check("backup", True, _("Every firm has a good backup from the last 26 hours."))
 
 
 def rebuild_transition(state, figures, ref):

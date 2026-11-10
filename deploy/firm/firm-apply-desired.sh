@@ -4,11 +4,11 @@
 #   firm-apply-desired [--dry-run]
 #
 # The agent, running as the odoo user, leaves the answer in the spool folder. That makes the file
-# untrusted here: every value is checked again. All it can ask for is a release (which must still
-# carry a signature made outside the control plane), an export, an anonymised copy (which stays on this
+# untrusted here: every value is checked again. All it can ask for is a release (installed only if its
+# SHA-256 is the digest the console gave), an export, an anonymised copy (which stays on this
 # server, and only if this firm allows it), the operator's addresses on port 22 (which still need
 # this firm's SSH key), and which optional add-ons to switch on (which firm-addons checks against the
-# manifests of the signed release in use). It cannot run anything.
+# manifests of the release in use). It cannot run anything.
 
 set -euo pipefail
 SCRIPT_NAME=firm-apply-desired
@@ -18,11 +18,6 @@ HERE=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)
 DRY_RUN=0
 [ "${1:-}" != "--dry-run" ] || DRY_RUN=1
 load_firm_env
-
-# The list of trusted signers that the release in use carries, if newer than the list in use. The
-# release in use was verified when it was installed and only root can change it. This also brings the
-# list to a server whose previous scripts did not know about it, on their first run after the update.
-if [ "$DRY_RUN" != 1 ] && [ -e "$CURRENT_LINK" ]; then adopt_trust "$(readlink -f "$CURRENT_LINK")"; fi
 
 SPOOL=$FIRM_SPOOL/desired.json
 [ -s "$SPOOL" ] || exit 0
@@ -45,12 +40,10 @@ good = (
 )
 print(release if good else "")
 print(digest if good else "")
-# Signed download addresses into the private releases bucket: https only, no shell character.
+# A time-limited download address into the private releases bucket: https only, no shell character.
 URL = r"https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/[A-Za-z0-9._~%/-]{1,512}(\?[A-Za-z0-9._~%&=-]{1,1500})?"
-urls = [data.get("bundle_url", ""), data.get("signature_url", "")]
-urls_good = good and all(isinstance(u, str) and re.fullmatch(URL, u) for u in urls)
-print(urls[0] if urls_good else "")
-print(urls[1] if urls_good else "")
+url = data.get("bundle_url", "")
+print(url if good and isinstance(url, str) and re.fullmatch(URL, url) else "")
 print("1" if data.get("export_requested") is True else "0")
 print(" ".join(allow) if isinstance(allow, list) and all(isinstance(c, str) and re.fullmatch(r"[0-9a-fA-F:./]+", c) for c in allow) else "")
 # Absent means no request, which changes nothing; an empty list means every add-on off.
@@ -79,7 +72,7 @@ print(ref if isinstance(ref, str) and re.fullmatch(r"[0-9a-f]{16}", ref) else ""
 print("none" if addons is None else "asked" if addons_good else "bad")
 PY
 ) || fl_die "the spool file cannot be read"
-{ read -r RELEASE; read -r DIGEST; read -r BUNDLE_URL; read -r SIG_URL; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r VISIT; read -r VISIT_END; read -r ANON_REF; read -r ADDONS_STATE; } <<<"$parsed"
+{ read -r RELEASE; read -r DIGEST; read -r BUNDLE_URL; read -r EXPORT; read -r ALLOW; read -r ADDONS; read -r VISIT; read -r VISIT_END; read -r ANON_REF; read -r ADDONS_STATE; } <<<"$parsed"
 
 apply_allowlist() {
   [ -n "$ALLOW" ] || return 0
@@ -135,7 +128,7 @@ if [ -n "$RELEASE" ] && [ "$RELEASE" != "$(get_status release)" ]; then
   if [ "$DRY_RUN" = 1 ]; then
     fl_log "DRY RUN: would run firm-update $RELEASE"
   else
-    BUNDLE_URL=$BUNDLE_URL SIG_URL=$SIG_URL "$BIN_DIR/firm-update.sh" "$RELEASE" "$DIGEST" || fl_warn "update of $RELEASE did not succeed"
+    BUNDLE_URL=$BUNDLE_URL "$BIN_DIR/firm-update.sh" "$RELEASE" "$DIGEST" || fl_warn "update of $RELEASE did not succeed"
   fi
 fi
 

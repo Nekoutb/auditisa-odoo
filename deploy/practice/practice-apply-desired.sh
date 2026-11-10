@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# practice-apply-desired.sh: does what the control room's last signed heartbeat answer asked.
+# practice-apply-desired.sh: does what the control room's last heartbeat answer asked.
 #
 #   practice-apply-desired [--dry-run]
 #
-# practice-heartbeat keeps the answer only if the control room signed it, and every value is still
-# checked again here, by closed patterns. What the control room can ask, and nothing else:
-#   - a release: still needs a trusted signer's offline signature (practice-update checks it);
+# practice-heartbeat keeps the answer only if its HMAC holds under this computer's token, and every
+# value is still checked again here, by closed patterns. What the control room can ask, and nothing else:
+#   - a release (Promote to Staging): installed only if its SHA-256 is the digest given with it
+#     (practice-update checks it);
 #   - for each firm's space: its name, its first administrator's login, its language, its optional
 #     add-ons (checked against the release), a reset number (a reset when it grows), and the hash of
 #     a one-time link for the first administrator;
@@ -28,9 +29,6 @@ SPOOL=$PRACTICE_VAR/spool/desired.json
 [ "$DRY_RUN" = 1 ] || [ "$(id -u)" = 0 ] || pl_die "run as root"
 exec 6>/run/lock/practice-apply.lock
 flock -n 6 || exit 0
-# The newer list of trusted signers the release in use carries, if any (verified when installed).
-if [ "$DRY_RUN" != 1 ] && [ -e "$PRACTICE_CURRENT" ]; then practice_adopt_trust "$(readlink -f "$PRACTICE_CURRENT")"; fi
-
 # One action per line, tab-separated, every value checked; anything unexpected is left out.
 parsed=$(python3 -I - "$SPOOL" <<'PY'
 import base64
@@ -53,11 +51,11 @@ if not isinstance(data, dict):
     sys.exit(0)
 release = data.get("release")
 if isinstance(release, dict) and SHA.match(str(release.get("sha", ""))) and DIGEST.match(str(release.get("bundle_sha256", ""))):
-    # Signed download addresses into the private releases bucket, if the control room gave them.
-    urls = [release.get("bundle_url", ""), release.get("signature_url", "")]
-    if not all(isinstance(u, str) and URL.match(u) for u in urls):
-        urls = ["-", "-"]
-    print("RELEASE\t%s\t%s\t%s\t%s" % (release["sha"], release["bundle_sha256"], urls[0], urls[1]))
+    # A time-limited download address into the private releases bucket, if the control room gave one.
+    url = release.get("bundle_url", "")
+    if not (isinstance(url, str) and URL.match(url)):
+        url = "-"
+    print("RELEASE\t%s\t%s\t%s" % (release["sha"], release["bundle_sha256"], url))
 for space in data.get("spaces", [])[:500] if isinstance(data.get("spaces"), list) else []:
     if not isinstance(space, dict):
         continue
@@ -90,20 +88,20 @@ act() {
 }
 
 apply_release() {
-  local sha=$1 digest=$2 bundle_url=${3:--} sig_url=${4:--} work
+  local sha=$1 digest=$2 bundle_url=${3:--} work
   [ "$sha" != "$(current_release)" ] && [ "${sha:0:12}" != "$(current_release)" ] || return 0
   if grep -qxF "$sha" "$PRACTICE_VAR/refused-releases" 2>/dev/null; then return 0; fi
   if [ "$bundle_url" = - ] && [ -n "$PRACTICE_RELEASE_BASE_URL" ]; then
-    bundle_url=$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz sig_url=$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz.sig
+    bundle_url=$PRACTICE_RELEASE_BASE_URL/$sha.tar.gz
   fi
-  if [ "$PRACTICE_PREVIEW" = 1 ] || [ "$bundle_url" = - ]; then
-    pl_log "release $sha asked: on this computer it is installed by hand (practice-update)"
+  # The preview on staging installs a bundle too, the same way, when the control room gives an address.
+  if [ "$bundle_url" = - ]; then
+    pl_log "release $sha asked, but no download address: install it by hand (practice-update)"
     return 0
   fi
-  if [ "$DRY_RUN" = 1 ]; then pl_log "DRY RUN: fetch, verify and install release $sha"; return 0; fi
+  if [ "$DRY_RUN" = 1 ]; then pl_log "DRY RUN: fetch, check the SHA-256 and install release $sha"; return 0; fi
   work=$(mktemp -d /var/tmp/practice-release.XXXXXX)
   if curl -fsSL --retry 3 --max-time 600 -o "$work/${sha:0:12}.tar.gz" "$bundle_url" \
-     && curl -fsSL --retry 3 --max-time 60 -o "$work/${sha:0:12}.tar.gz.sig" "$sig_url" \
      && "$HERE/practice-update.sh" --bundle "$work/${sha:0:12}.tar.gz" --digest "$digest"; then
     pl_log "now on release $sha"
   else
@@ -138,7 +136,7 @@ apply_space() {
 
 while IFS=$'\t' read -r kind a b c d e f g h; do
   case "$kind" in
-    RELEASE) apply_release "$a" "$b" "$c" "$d" ;;
+    RELEASE) apply_release "$a" "$b" "$c" ;;
     SPACE) ( apply_space "$a" "$b" "$c" "$d" "$e" "$f" "$g" "$h" ) || pl_warn "space $a: not applied" ;;
     REMOVE) [ ! -e "$(space_file "$a")" ] || act "$HERE/practice-space.sh" delete --slug "$a" --yes ;;
   esac

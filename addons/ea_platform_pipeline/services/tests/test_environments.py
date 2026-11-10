@@ -73,17 +73,8 @@ def test_changes_between_two_commits_of_a_branch():
     assert envs.changes_between([], "a", "b") is None
 
 
-def test_the_sign_commands_name_the_commit_and_never_a_key():
-    lines = envs.sign_commands("24a65a86e804")
-    assert "24a65a86e804 --unsigned" in lines[0]
-    assert "--sign <release folder>/<the .tar.gz file the first line made>" in lines[1]
-    full = "24a65a86e804deb0ecb5d4af2745ee7ef6d37c90"
-    lines = envs.sign_commands("24a65a86", full)
-    assert f"build_release.sh {full} --unsigned" in lines[0]
-    assert f"--sign <release folder>/{full}.tar.gz" in lines[1]
-    assert "other" not in envs.sign_commands("24a65a86", "f" * 40)[1]
-    assert "<your signing key>.pem" in lines[1]
-    assert "<commit>" in envs.sign_commands("; rm -rf /")[0]
+def test_no_signing_command_is_shown_any_more():
+    assert not hasattr(envs, "sign_commands")
 
 
 def test_the_collector_keeps_commit_subjects_as_plain_text():

@@ -14,7 +14,7 @@
 |---|---|---|---|
 | **Branche** | `dev` | `staging` (à créer) | `main` |
 | **Où** | bases jetables | test.auditisa.com | les serveurs des cabinets |
-| **Comment on y arrive** | fusion d'une branche `feat/*` | `git push origin <commit>:refs/heads/staging`, puis déploiement | version signée, puis déploiement par témoin et lots |
+| **Comment on y arrive** | fusion d'une branche `feat/*` | `git push origin <commit>:refs/heads/staging`, puis déploiement | version enregistrée, passée par le staging (espaces d'entraînement), puis témoin et lots |
 
 Pour l'outil Next.js, rien ne change : `dev` sur dev.auditisa.com, `main` sur www, sans serveur de staging à part.
 
@@ -51,7 +51,7 @@ gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-o
 **Maintenant que la salle de contrôle a son ordinateur (console.auditisa.com, depuis le 8 novembre 2026) :**
 
 1. Déclarer le staging : sur la salle de contrôle, dans `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. Le jeton va dans `/etc/auditisa-platform/staging-heartbeat.token`, jamais à l'écran. Copiez-le sur le staging dans `/etc/auditisa-staging/heartbeat.token` (600), et créez `/etc/auditisa-staging/heartbeat.env` avec `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` et `SLUG=staging-server`.
-2. Plateforme > Réglages : la clé publique de signature. **Les boutons Promouvoir et Reconstruire ne vérifient pas l'adresse** (décision du propriétaire du 8 novembre 2026 : la console s'ouvre de partout) ; ils gardent la connexion du propriétaire, le motif, la ligne à recopier et la version signée. Pour les limiter à certaines adresses, écrivez-les dans le paramètre système `ea_platform_pipeline.owner_addresses` (Réglages > Technique > Paramètres système) : dès qu'il est rempli, toute autre adresse est refusée.
+2. **Les boutons Promouvoir et Reconstruire ne vérifient pas l'adresse** (décision du propriétaire du 8 novembre 2026 : la console s'ouvre de partout) ; ils gardent la connexion du propriétaire. Pour les limiter à certaines adresses, écrivez-les dans le paramètre système `ea_platform_pipeline.owner_addresses` (Réglages > Technique > Paramètres système) : dès qu'il est rempli, toute autre adresse est refusée.
 3. status.auditisa.com renvoie vers la salle de contrôle, `/status.json` restant servi pour le collecteur (sur le VPS de production, par vous) :
    ```
    ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check' < deploy/status/redirect-status-site.sh
@@ -59,36 +59,23 @@ gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-o
    ```
    Sans adresse, `apply` renvoie vers l'onglet Statut de la console, https://console.auditisa.com/odoo/status. Pour revenir : même commande avec `rollback`. Le générateur actuel reste en place : il produit les chiffres que l'onglet lit.
 
-### 3. Promouvoir le staging en production
+### 3. Promouvoir vers le staging, puis vers la production
 
-Rien ne peut démarrer sans une version que vous avez signée vous-même, hors ligne.
+Depuis le 10 novembre 2026, sans clé ni signature : voir **UPDATING.md**. En bref :
 
-1. **Sur votre ordinateur, avec la clé branchée seulement pour cette commande :**
-   ```
-   git fetch && scripts/pipeline/sign_promotion.sh origin/staging --key signature.pem --out sortie/
-   ```
-   Déposez les deux fichiers affichés à l'emplacement des versions. Si deux personnes doivent signer, c'est ici.
-2. **Plateforme > Mises à jour > Versions > Nouveau :** collez le commit, l'empreinte et l'attestation. « Signée hors ligne » doit être coché.
-3. **Pipeline > Essais :** inscrivez les tests de ce commit (GitHub Actions est à l'arrêt).
-4. **Statut > Promouvoir :** la version, le cabinet témoin, les cabinets, la taille des lots. **Lancer les contrôles :**
-   - attestation valable pour ce commit et cette empreinte ;
-   - tests verts sur ce commit, le dernier essai de chaque suite faisant foi ;
-   - le staging tourne sur ce commit, a répondu depuis moins de 45 minutes, courriel coupé ;
-   - chaque cabinet a une bonne sauvegarde de moins de 26 heures ;
-   - un seul déploiement à la fois.
-5. **Démarrer :** tapez exactement la ligne demandée (`PROMOUVOIR <12 caractères du commit>`) et un motif. Les contrôles repassent à ce moment.
-6. **Le déploiement existant fait le reste :** témoin, puis lots, arrêt au premier échec. Voir UPDATING.md.
-7. **Quand tous les cabinets sont passés,** déplacez `main` vous-même, puis **Confirmer main déplacé** :
-   ```
-   git push origin <commit>:refs/heads/main
-   ```
-   `main` bouge en dernier : il dit toujours ce que tournent les cabinets. L'écran n'a aucun accès en écriture à GitHub.
+1. **Le développeur** construit la version (`scripts/provision/build_release.sh <commit> --out <dossier>`) puis, sur la console, `release-tools/publish-release.sh <dossier> "étiquette"`. La page Statut affiche « Nouvelle version prête ».
+2. **Statut > Promouvoir vers le staging > Oui** : la version part vers les espaces d'entraînement.
+3. **Statut > Promouvoir vers la production > Oui** : la version qui tourne sur le staging part vers les cabinets. Les contrôles : la version tourne sur le staging, au moins un cabinet à mettre à jour, aucun autre déploiement en cours. Chaque serveur se sauvegarde juste avant sa mise à jour et refuse de continuer sans cette sauvegarde.
+4. **Le déploiement existant fait le reste :** témoin, puis lots, arrêt au premier échec. Le résultat s'affiche cabinet par cabinet.
+5. **Quand tous les cabinets sont passés,** le développeur déplace `main` (`git push origin <commit>:refs/heads/main`), puis **Confirmer main déplacé** sur la promotion. L'écran n'a aucun accès en écriture à GitHub.
+
+Pipeline > Promotions montre la même chose avec tous les détails, et garde la ligne à recopier pour un retour en arrière.
 
 ### 4. Revenir en arrière
 
 **Un cabinet qui échoue revient seul** à sa version et à sa base d'avant, et le déploiement s'arrête. `main` n'a pas bougé. Corrigez, et publiez une **nouvelle** version.
 
-**Sur une promotion, Préparer un retour** demande la version d'avant, déjà signée, à tous les cabinets, dans le même ordre, avec la même confirmation. **Limite :** cela ramène le code, pas la base. Une version qui a modifié le schéma ne se défait pas ainsi : voir BACKUP-RESTORE.md. Si `main` a déjà bougé, ne le forcez pas : annulez le commit sur `dev` et promouvez cette correction.
+**Sur une promotion, Préparer un retour** demande la version d'avant, que les cabinets ont déjà fait tourner, à tous les cabinets, dans le même ordre, avec la même confirmation. **Limite :** cela ramène le code, pas la base. Une version qui a modifié le schéma ne se défait pas ainsi : voir BACKUP-RESTORE.md. Si `main` a déjà bougé, ne le forcez pas : annulez le commit sur `dev` et promouvez cette correction.
 
 ### 5. Reconstruire le staging depuis un cabinet
 
@@ -164,7 +151,7 @@ Il est dans la salle de contrôle (https://console.auditisa.com/odoo/status), de
 |---|---|---|---|
 | **Branch** | `dev` | `staging` (to be created) | `main` |
 | **Where** | throwaway databases | test.auditisa.com | the firm servers |
-| **How it gets there** | merge of a `feat/*` branch | `git push origin <commit>:refs/heads/staging`, then deploy | a signed release, then canary and batches |
+| **How it gets there** | merge of a `feat/*` branch | `git push origin <commit>:refs/heads/staging`, then deploy | a registered release, through Staging (the practice spaces), then canary and batches |
 
 For the Next.js tool nothing changes: `dev` on dev.auditisa.com, `main` on www, with no separate staging server.
 
@@ -201,7 +188,7 @@ gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-o
 **Now that the control room has its own computer (console.auditisa.com, since 8 November 2026):**
 
 1. Enrol staging: on the control room, in `odoo shell`, `env["platform.firm"]._pipeline_enrol_staging(); env.cr.commit()`. The token goes to `/etc/auditisa-platform/staging-heartbeat.token`, never to the screen. Copy it to staging as `/etc/auditisa-staging/heartbeat.token` (600), and create `/etc/auditisa-staging/heartbeat.env` with `HEARTBEAT_URL=https://<HEARTBEAT_HOST>/platform/heartbeat` and `SLUG=staging-server`.
-2. Platform > Settings: the public signing key. **The Promote and Rebuild buttons do not check the address** (the owner's ruling of 8 November 2026: the console opens from anywhere); they keep the owner's sign-in, the reason, the line to type and the signed release. To limit them to some addresses, write those in the system parameter `ea_platform_pipeline.owner_addresses` (Settings > Technical > System Parameters): once it holds anything, every other address is refused.
+2. **The Promote and Rebuild buttons do not check the address** (the owner's ruling of 8 November 2026: the console opens from anywhere); they keep the owner's sign-in. To limit them to some addresses, write those in the system parameter `ea_platform_pipeline.owner_addresses` (Settings > Technical > System Parameters): once it holds anything, every other address is refused.
 3. status.auditisa.com sends people to the control room, `/status.json` still being served for the collector (on the production VPS, by you):
    ```
    ssh -J root@185.92.222.217 root@45.32.150.96 'bash -s -- check' < deploy/status/redirect-status-site.sh
@@ -209,36 +196,23 @@ gh repo deploy-key add /root/.ssh/auditisa_odoo_ro.pub --repo Nekoutb/auditisa-o
    ```
    Without an address, `apply` sends people to the console's Status tab, https://console.auditisa.com/odoo/status. To go back: the same command with `rollback`. The current generator stays: it makes the figures the tab reads.
 
-### 3. Promoting staging to production
+### 3. Promote to Staging, then to Production
 
-Nothing can start without a release you signed yourself, offline.
+Since 10 November 2026, with no key and no signature: see **UPDATING.md**. In short:
 
-1. **On your computer, with the key plugged in for this command only:**
-   ```
-   git fetch && scripts/pipeline/sign_promotion.sh origin/staging --key signing.pem --out out/
-   ```
-   Upload the two files it names to the releases location. If two people are to sign, this is where.
-2. **Platform > Updates > Releases > New:** paste the commit, the digest and the attestation. "Signed offline" must show ticked.
-3. **Pipeline > Test runs:** record this commit's tests (GitHub Actions is stopped).
-4. **Status > Promote:** the release, the test firm, the firms, the batch size. **Run the pre-checks:**
-   - the attestation holds for this commit and digest;
-   - tests are green on this commit, the newest run of each suite counting;
-   - staging runs this commit, reported within 45 minutes, mail off;
-   - every firm has a good backup less than 26 hours old;
-   - one rollout at a time.
-5. **Start:** type exactly the line asked for (`PROMOTE <12 characters of the commit>`) and a reason. The pre-checks run again at this moment.
-6. **The existing rollout does the rest:** canary, then batches, stopping at the first failure. See UPDATING.md.
-7. **Once every firm is through,** move `main` yourself, then **Confirm main moved**:
-   ```
-   git push origin <commit>:refs/heads/main
-   ```
-   `main` moves last, so it always says what the firms run. The screen has no write access to GitHub.
+1. **The developer** builds the release (`scripts/provision/build_release.sh <commit> --out <folder>`) then, on the console, `release-tools/publish-release.sh <folder> "label"`. The Status page shows "New version ready".
+2. **Status > Promote to Staging > Yes**: the version goes to the practice spaces.
+3. **Status > Promote to Production > Yes**: the version that runs on Staging goes to the firms. The checks: the version runs on Staging, at least one firm to update, no other rollout running. Each server backs itself up just before its update and refuses to go on without that backup.
+4. **The existing rollout does the rest:** canary, then batches, stopping at the first failure. The result shows firm by firm.
+5. **Once every firm is through,** the developer moves `main` (`git push origin <commit>:refs/heads/main`), then **Confirm main moved** on the promotion. The screen has no write access to GitHub.
+
+Pipeline > Promotions shows the same with every detail, and keeps the line to type for a rollback.
 
 ### 4. Going back
 
 **A firm that fails goes back by itself** to its previous release and database, and the rollout stops. `main` has not moved. Fix it and publish a **new** release.
 
-**On a promotion, Prepare a rollback** asks every firm for the previous, already signed release, in the same order, with the same confirmation. **Limit:** this brings the code back, not the database. A release that changed the schema is not undone this way: see BACKUP-RESTORE.md. If `main` has already moved, do not force it: revert the commit on `dev` and promote that fix.
+**On a promotion, Prepare a rollback** asks every firm for the previous release, which they already ran, in the same order, with the same confirmation. **Limit:** this brings the code back, not the database. A release that changed the schema is not undone this way: see BACKUP-RESTORE.md. If `main` has already moved, do not force it: revert the commit on `dev` and promote that fix.
 
 ### 5. Rebuilding staging from a firm
 

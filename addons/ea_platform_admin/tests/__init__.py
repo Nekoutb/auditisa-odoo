@@ -12,4 +12,3 @@ from . import test_support
 from . import test_practice
 from . import test_signup
 from . import test_howto
-from . import test_signers

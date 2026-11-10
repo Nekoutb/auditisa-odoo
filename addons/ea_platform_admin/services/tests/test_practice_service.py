@@ -1,7 +1,7 @@
 import json
 import pathlib
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pytest
 
@@ -110,17 +110,15 @@ def test_the_space_request_is_closed():
     assert "first_admin_hash" not in practice.space_request("cabinet-a", "x", "a@b.c", "fr_FR", [], 0)
 
 
-def test_hold_status():
-    now = datetime(2026, 11, 20, 12)
-    ok, until, _message = practice.hold_status(None, 7, now)
-    assert not ok and until is None
-    ok, until, _message = practice.hold_status(now - timedelta(days=6), 7, now)
-    assert not ok and until == now + timedelta(days=1)
-    ok, _until, _message = practice.hold_status(now - timedelta(days=7), 7, now)
-    assert ok
-    ok, _until, message = practice.hold_status(None, 0, now)
-    assert ok and "waived" in message
-    assert practice.hold_status(now - timedelta(days=2), None, now)[0] is False  # 7 by default
+def test_staging_status_takes_only_what_staging_runs_now_with_no_wait():
+    sha = "a" * 40
+    ok, message = practice.staging_status(sha[:12], sha)
+    assert ok and "may go to Production" in message
+    ok, message = practice.staging_status(None, sha)
+    assert not ok and "not on Staging yet" in message
+    ok, message = practice.staging_status("b" * 12, sha)
+    assert not ok and "another version (bbbbbbbbbbbb)" in message
+    assert not hasattr(practice, "hold_status") and not hasattr(practice, "DEFAULT_HOLD_DAYS")
 
 
 def test_json_of_the_answer_is_plain():

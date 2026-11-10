@@ -52,21 +52,6 @@ def _section(title, content):
     return Markup('<h4 class="ea-env-section">%s</h4>%s') % (title, content)
 
 
-def _signed_by(env, release):
-    """The " · signed by NAME" after a release in a history row: the trusted signer whose key matched."""
-    signer = release.sudo().signer_id if release else None
-    if not signer:
-        return Markup("")
-    return Markup(" <small class=\"text-muted\">· %s</small>") % t(env, _("signed by %(name)s", name=signer.name))
-
-
-def _release_of(env, name):
-    """The registered release a history row names (short or long commit), or an empty recordset."""
-    if not name:
-        return env["platform.release"]
-    return env["platform.release"].sudo().with_context(active_test=False).search([("sha", "=like", f"{name[:12]}%")], limit=1)
-
-
 def _note(text, kind="info"):
     return Markup('<div class="alert alert-%s ea-env-note" role="status">%s</div>') % (kind, text)
 
@@ -111,6 +96,7 @@ class PlatformEnvironment(models.Model):
     backups_html = fields.Html("Backups", compute="_compute_pages", sanitize=False)
     monitor_html = fields.Html("Monitor", compute="_compute_pages", sanitize=False)
     people_html = fields.Html("People", compute="_compute_pages", sanitize=False)
+    release_html = fields.Html("Versions", compute="_compute_release_html", sanitize=False)
 
     log_ids = fields.Many2many("platform.log", string="Log", compute="_compute_log_ids")
     account_ids = fields.One2many("platform.environment.account", "environment_id", "Accounts", readonly=True)
@@ -175,12 +161,76 @@ class PlatformEnvironment(models.Model):
         return {"development": "dev", "staging": "staging" if branches.get("staging") else "dev",
                 "practice": None, "production": "main"}[self.code]
 
-    def _signed_release(self, sha):
-        """The registered release for this commit, signed offline, or an empty recordset."""
+    @api.model
+    def _registered_release(self, sha):
+        """The registered release for this commit (short or long), or an empty recordset."""
         if not sha:
             return self.env["platform.release"]
         releases = self.env["platform.release"].sudo().search([])
-        return releases.filtered(lambda r: envs.same_commit(r.sha, sha) and r.attestation_ok)[:1]
+        return releases.filtered(lambda r: envs.same_commit(r.sha, sha))[:1]
+
+    @api.model
+    def _release_overview(self):
+        """Where each version is, for the line at the top of the Status page and its two Promote buttons.
+
+        new: the newest registered release that Staging neither runs nor has been asked to take ("New version
+        ready"); asked: what Staging was asked to take and has not installed yet; staging: the registered release
+        Staging (the practice computer) runs; production_sha and production_count: what most client firms run.
+        """
+        computer = self.env["platform.practice.computer"]._current()
+        running = computer.release if computer else False
+        staging = self._registered_release(running)
+        asked = computer.desired_release_id if computer else self.env["platform.release"]
+        if asked and staging == asked:
+            asked = self.env["platform.release"]
+        newest = self.env["platform.release"].sudo().search([], limit=1)
+        new = newest if newest and newest != staging and newest != asked else self.env["platform.release"]
+        firms = self._production_firms()
+        releases = [firm.addon_release for firm in firms if firm.addon_release]
+        production = max(set(releases), key=releases.count) if releases else False
+        return {
+            "computer": computer, "running": running, "staging": staging, "asked": asked, "new": new,
+            "production_sha": production,
+            "production_count": len([sha for sha in releases if production and envs.same_commit(sha, production)]),
+            "firm_count": len(firms),
+        }
+
+    @api.depends_context("lang")
+    def _compute_release_html(self):
+        env = self.env
+        overview = self._release_overview()
+
+        def version(release, sha=None):
+            sha = release.sha if release else sha
+            if not sha:
+                return Markup('<span class="text-muted">%s</span>') % t(env, _("none yet"))
+            label = Markup(" %s") % release.label if release and release.label else Markup("")
+            return Markup("<code>%s</code>%s") % (sha[:12], label)
+
+        rows = []
+        if overview["new"]:
+            rows.append(Markup('<div class="ea-env-release ea-env-release-new"><b>%s</b> %s <span class="text-muted">%s</span></div>') % (
+                t(env, _("New version ready:")), version(overview["new"]),
+                t(env, _("Next step: Promote to Staging.")),
+            ))
+        if overview["asked"]:
+            rows.append(Markup('<div class="ea-env-release"><b>%s</b> %s <span class="text-muted">%s</span></div>') % (
+                t(env, _("Being installed on Staging:")), version(overview["asked"]),
+                t(env, _("The practice computer picks it up within a few minutes.")),
+            ))
+        if not overview["computer"]:
+            staging = Markup('<span class="text-muted">%s</span>') % t(env, _("the practice computer is not connected yet"))
+        else:
+            staging = version(overview["staging"], overview["running"])
+        rows.append(Markup('<div class="ea-env-release"><b>%s</b> %s</div>') % (t(env, _("On Staging (practice spaces):")), staging))
+        production = version(self._registered_release(overview["production_sha"]), overview["production_sha"])
+        if overview["firm_count"]:
+            production += Markup(' <span class="text-muted">%s</span>') % t(env, _(
+                "%(count)s of %(total)s client firm(s)", count=overview["production_count"], total=overview["firm_count"]))
+        rows.append(Markup('<div class="ea-env-release"><b>%s</b> %s</div>') % (t(env, _("On Production (client firms):")), production))
+        html = Markup('<div class="ea-env-releases">%s</div>') % Markup("").join(rows)
+        for environment in self:
+            environment.release_html = html
 
     def _tests_for(self, sha):
         runs = self.env["platform.pipeline.test.run"].sudo().search([], limit=200)
@@ -408,8 +458,7 @@ class PlatformEnvironment(models.Model):
         for index, row in enumerate(releases):
             before = releases[index + 1]["name"] if index + 1 < len(releases) else ""
             result = {"running": t(env, _("Running now")), "replaced": t(env, _("Replaced"))}.get(row["result"] or "", "")
-            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12])
-                         + _signed_by(env, _release_of(env, row["name"])),
+            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12]),
                          result, t(env, _("On the server (not recorded)"))])
         for rebuild in env["platform.pipeline.rebuild"].sudo().search([], limit=10):
             label = dict(rebuild._fields["state"]._description_selection(env)).get(rebuild.state)
@@ -466,8 +515,7 @@ class PlatformEnvironment(models.Model):
         releases = remote.get("releases") or []
         for index, row in enumerate(releases):
             before = releases[index + 1]["name"] if index + 1 < len(releases) else ""
-            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12])
-                         + _signed_by(env, _release_of(env, row["name"])),
+            rows.append([_when(row["at"]), Markup("<code>%s</code> → <code>%s</code>") % (before[:12] or "…", row["name"][:12]),
                          result_words.get(row["result"] or "", ""), t(env, _("On the server (practice-update)"))])
         for entry in env["platform.log"].sudo().search([("action", "ilike", "Release sent to the practice computer")], limit=10):
             rows.append([_when(entry.logged_at), entry.detail_text or "", t(env, _("Asked from the console")), entry.user_id.name or ""])
@@ -495,8 +543,9 @@ class PlatformEnvironment(models.Model):
         else:
             monitor.append([t(env, _("Practice computer's heartbeat")), t(env, _("Not connected to the console yet"))])
         rules = _note(Markup("%s<br/>%s") % (
-            t(env, _("Practice holds one space per client firm, with made-up data only. New versions arrive here first: "
-                     "the client firms get a version only after it has run here for 7 days.")),
+            t(env, _("Practice holds one space per client firm, with made-up data only. It is the Staging step of a new "
+                     "version: Promote to Staging sends a version here first, and Promote to Production sends the "
+                     "version that runs here to the client firms.")),
             t(env, _("Connect asks which space to open. Accounts made in a space disappear when that space is reset to fresh "
                      "demo data; its first administrator stays."))))
         return {
@@ -525,8 +574,7 @@ class PlatformEnvironment(models.Model):
             done = len(lines.filtered(lambda line: line.state == "healthy"))
             label = dict(promotion._fields["state"]._description_selection(env)).get(promotion.state)
             rows.append([_when(promotion.started_at),
-                         Markup("<code>%s</code> → <code>%s</code>") % ((promotion.previous_release_id.sha or "…")[:12], promotion.release_id.sha[:12])
-                         + _signed_by(env, promotion.release_id),
+                         Markup("<code>%s</code> → <code>%s</code>") % ((promotion.previous_release_id.sha or "…")[:12], promotion.release_id.sha[:12]),
                          t(env, _("%(state)s: %(done)s of %(total)s firm(s) through", state=label, done=done, total=len(lines))),
                          promotion.started_by_id.name or ""])
         promoted = env["platform.pipeline.promotion"].sudo().search([]).rollout_id
@@ -535,8 +583,7 @@ class PlatformEnvironment(models.Model):
             done = len(lines.filtered(lambda line: line.state == "healthy"))
             label = dict(rollout._fields["state"]._description_selection(env)).get(rollout.state)
             before = lines.previous_release_id[:1].sha or "…"
-            rows.append([_when(rollout.started_at), Markup("<code>%s</code> → <code>%s</code>") % (before[:12], rollout.release_id.sha[:12])
-                         + _signed_by(env, rollout.release_id),
+            rows.append([_when(rollout.started_at), Markup("<code>%s</code> → <code>%s</code>") % (before[:12], rollout.release_id.sha[:12]),
                          t(env, _("%(state)s: %(done)s of %(total)s firm(s) through", state=label, done=done, total=len(lines))),
                          rollout.create_uid.name or ""])
         rows.sort(key=lambda row: row[0], reverse=True)
@@ -671,12 +718,13 @@ class PlatformEnvironment(models.Model):
                     "target": "new", "name": t(env, _("Connect to %(environment)s", environment=self.name))}
         raise UserError(t(env, _("Development has no server: there is nothing to connect to.")))
 
-    def action_open_promote(self):
-        self.ensure_one()
-        self.env["platform.pipeline.guard"]._require_owner()
-        wizard = self.env["platform.environment.promote"].create({})
-        return {"type": "ir.actions.act_window", "res_model": wizard._name, "res_id": wizard.id, "view_mode": "form",
-                "target": "new", "name": t(self.env, _("Promote staging → production"))}
+    def action_promote_staging(self):
+        """Promote to Staging: the newest version goes to the practice spaces. One confirmation, nothing to type."""
+        return self.env["platform.environment.promote"]._open("staging")
+
+    def action_promote_production(self):
+        """Promote to Production: the version Staging runs goes to the client firms. One confirmation."""
+        return self.env["platform.environment.promote"]._open("production")
 
     def action_new_account(self):
         self.ensure_one()
@@ -685,16 +733,6 @@ class PlatformEnvironment(models.Model):
             raise UserError(t(self.env, _("Accounts are made only on Staging or in a Practice space, never on a client firm.")))
         wizard = self.env["platform.environment.account.wizard"].create({"environment_id": self.id, "mode": "create"})
         return wizard._reopen()
-
-
-class PlatformPracticeComputer(models.Model):
-    _inherit = "platform.practice.computer"
-
-    def action_send_release(self):
-        """The practice computer's Send button goes through the same guarded screen as the Status page's step 1."""
-        action = super().action_send_release()
-        action["context"] = {**action.get("context", {}), "ea_status_promote": True}
-        return action
 
 
 class PlatformEnvironmentAccount(models.Model):

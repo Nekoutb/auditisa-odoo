@@ -166,7 +166,7 @@ class PlatformProvisionJob(models.Model):
 
     def _check_release(self):
         if not self.firm_id.desired_release_id:
-            raise ProviderError(_("No signed release has been chosen for this firm."))
+            raise ProviderError(_("No release has been chosen for this firm."))
 
     def _config_value(self, key, simulation_value):
         value = self.env["ir.config_parameter"].sudo().get_param(key)
@@ -201,22 +201,14 @@ class PlatformProvisionJob(models.Model):
             "S3_ACCESS_KEY": credentials.access_key,
             "S3_SECRET_KEY": credentials.secret_key,
         }
-        # The releases bucket is private: the first boot downloads with signed addresses that expire.
-        urls = self.env["platform.services"]._release_urls(release, RELEASE_URL_SECONDS_FIRST_BOOT)
-        if urls:
-            values["RELEASE_BUNDLE_URL_B64"] = base64.b64encode(urls[0].encode("ascii")).decode("ascii")
-            values["RELEASE_SIG_URL_B64"] = base64.b64encode(urls[1].encode("ascii")).decode("ascii")
+        # The releases bucket is private: the first boot downloads with an address that expires, and
+        # installs the file only if its SHA-256 is RELEASE_BUNDLE_SHA256.
+        url = self.env["platform.services"]._release_url(release, RELEASE_URL_SECONDS_FIRST_BOOT)
+        if url:
+            values["RELEASE_BUNDLE_URL_B64"] = base64.b64encode(url.encode("ascii")).decode("ascii")
         elif not firm.is_simulation:
             raise ProviderError(_("No download address for the release: check the Wasabi settings."), retryable=True)
-        # The firm's first list of trusted signers: the console's list today. From then on the firm
-        # changes it only from a release signed by a signer it already trusts (release_trust.py).
-        if self.env["platform.signer"].sudo().search_count([]):
-            signers = self.env["platform.signer"]._document()
-        elif firm.is_simulation:
-            signers = "-----BEGIN PUBLIC KEY-----\nSIMULATION\n-----END PUBLIC KEY-----"
-        else:
-            raise ProviderError(_("No trusted signer: add one in Platform > Updates > Signers."))
-        return render_user_data(values, firm.ssh_public_key, signers)
+        return render_user_data(values, firm.ssh_public_key)
 
     def _release_base_url(self):
         url = self.env["platform.services"]._release_base_url()

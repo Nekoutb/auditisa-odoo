@@ -219,44 +219,56 @@ class TestPracticeSpaces(PlatformCase):
     # ------------------------------------------------------------------ release order
 
     def test_without_a_practice_computer_the_release_order_does_not_apply(self):
-        ok, _until, message = self.release2._practice_hold()
+        ok, message = self.release2._staging_check()
         self.assertTrue(ok)
         self.assertIn("No practice computer", message)
 
-    def test_firms_wait_for_the_holding_period_after_the_practice_computer(self):
+    def test_firms_get_a_release_as_soon_as_staging_runs_it_with_no_wait(self):
         computer = self._computer()
         canary = self._active_firm("cabinet-l")
         rollout = self.env["platform.rollout"].with_user(self.operator).create({
             "release_id": self.release2.id, "canary_firm_id": canary.id, "firm_ids": [(6, 0, canary.ids)],
         })
-        with self.assertRaisesRegex(UserError, "Not yet for the firms"):
+        with self.assertRaisesRegex(UserError, "not on Staging yet"):
             rollout.action_start()
-        # The practice computer runs it: the 7 days start.
+        # Sent to the practice computer, not yet installed there: still refused.
         wizard = self.env["platform.practice.release.wizard"].with_user(self.owner).create({
             "computer_id": computer.id, "release_id": self.release2.id,
         })
         wizard.action_confirm()
         self.assertEqual(computer._answer()["release"]["sha"], self.release2.sha)
+        self.assertEqual(computer._answer()["release"]["bundle_sha256"], self.release2.bundle_sha256)
+        self.assertNotIn("signature_url", computer._answer()["release"])
+        with self.assertRaisesRegex(UserError, "Not yet for the firms"):
+            rollout.action_start()
+        # The practice computer runs it: the firms may have it at once, no holding period.
         computer._simulate_heartbeat()
         self.assertEqual(computer.release, self.release2.sha)
         self.assertTrue(self.release2.practice_since)
-        self.assertFalse(self.release2.practice_hold_ok)
-        with self.assertRaisesRegex(UserError, "Not yet for the firms"):
-            rollout.action_start()
-        self.release2.sudo().practice_since = fields.Datetime.now() - timedelta(days=7, minutes=1)
-        self.assertTrue(self.release2.practice_hold_ok)
+        self.assertTrue(self.release2.staging_ok)
+        self.assertNotIn("practice_hold_days", self.release2._fields)
         rollout.action_start()
         self.assertEqual(rollout.state, "running")
 
-    def test_the_owner_alone_can_waive_the_holding_period(self):
-        self._computer()
-        with self.assertRaises(UserError):  # AccessError is one too
-            self.release2.with_user(self.operator).write({"practice_hold_days": 0})
-        self.release2.with_user(self.owner).write({"practice_hold_days": 0})
-        self.assertTrue(self.release2.practice_hold_ok)
-        self.assertIn("waived", self.release2.practice_hold_text)
-        with self.assertRaises(UserError):
-            self.release2.with_user(self.owner).write({"practice_hold_days": -1})
+    def test_a_release_staging_no_longer_runs_cannot_go_to_the_firms(self):
+        computer = self._computer()
+        computer.sudo().write({"desired_release_id": self.release2.id})
+        computer._simulate_heartbeat()
+        self.assertTrue(self.release2.staging_ok)
+        computer.sudo().write({"desired_release_id": self.release.id})
+        computer._simulate_heartbeat()
+        self.env.invalidate_all()
+        self.assertFalse(self.release2.staging_ok)
+        self.assertIn("another version", self.release2.staging_text)
+        canary = self._active_firm("cabinet-m")
+        rollout = self.env["platform.rollout"].with_user(self.operator).create({
+            "release_id": self.release2.id, "canary_firm_id": canary.id, "firm_ids": [(6, 0, canary.ids)],
+        })
+        with self.assertRaisesRegex(UserError, "Not yet for the firms"):
+            rollout.action_start()
+        # Only the pipeline's rollback (back to what the firms ran) is not decided by Staging.
+        rollout.with_context(ea_rollback=True).action_start()
+        self.assertEqual(rollout.state, "running")
 
     def test_only_the_owner_sends_a_release_to_the_practice_computer(self):
         computer = self._computer()

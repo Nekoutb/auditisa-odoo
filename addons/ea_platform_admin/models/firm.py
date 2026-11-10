@@ -108,9 +108,6 @@ class PlatformFirm(models.Model):
     mail_enabled = fields.Boolean("Mail open", readonly=True, copy=False)
     update_state = fields.Char("Update state", readonly=True, copy=False)
     update_release = fields.Char("Last update's release", readonly=True, copy=False)
-    # The number of the list of trusted signers the firm's server uses. It changes only through a signed
-    # release (deploy/firm/release_trust.py). Zero: the server has not said (older release).
-    signers_serial = fields.Integer("Signer list in use (number)", readonly=True, copy=False)
     export_state = fields.Char("Export state", readonly=True, copy=False)
     export_at = fields.Datetime("Exported on", readonly=True, copy=False)
     export_sha256 = fields.Char("Export digest", readonly=True, copy=False)
@@ -402,7 +399,6 @@ class PlatformFirm(models.Model):
             "export_sha256": figures.get("export_sha256"),
             "ssh_sessions_24h": figures.get("ssh_sessions_24h", 0),
             "last_ssh_at": instant(figures.get("last_ssh_at")),
-            "signers_serial": figures.get("signers_serial") or 0,
         }
         self.write(values)
         self._evaluate_health()
@@ -412,7 +408,7 @@ class PlatformFirm(models.Model):
         return parse_allowlist(self.env["ir.config_parameter"].sudo().get_param("ea_platform.ssh_allowlist", ""))[0]
 
     def _heartbeat_answer(self):
-        """What a firm may be asked: a signed release, an export, the operator's addresses. No more."""
+        """What a firm may be asked: a release (with its fingerprint), an export, the operator's addresses. No more."""
         self.ensure_one()
         answer = {"ok": True, "export_requested": bool(self.export_requested and self.state == "offboarding")}
         allowlist = self._ssh_allowlist()
@@ -422,10 +418,12 @@ class PlatformFirm(models.Model):
         if release and not self.release_locked and self.state == "active":
             answer["desired_release"] = release.sha
             answer["desired_bundle_sha256"] = release.bundle_sha256
-            # Signed download addresses into the private releases bucket, renewed at each answer.
-            urls = self.env["platform.services"]._release_urls(release, RELEASE_URL_SECONDS_HEARTBEAT)
-            if urls:
-                answer["desired_bundle_url"], answer["desired_signature_url"] = urls
+            # A time-limited download address into the private releases bucket, renewed at each answer. The
+            # server installs the file only if its SHA-256 is desired_bundle_sha256: this answer is
+            # authenticated (HMAC under the firm's own token, over HTTPS), the bucket is not trusted.
+            url = self.env["platform.services"]._release_url(release, RELEASE_URL_SECONDS_HEARTBEAT)
+            if url:
+                answer["desired_bundle_url"] = url
         return answer
 
     # ------------------------------------------------------------------ simulation

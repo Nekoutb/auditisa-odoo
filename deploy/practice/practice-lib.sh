@@ -56,53 +56,15 @@ pl_die() { printf '[%s] ERROR: %s\n' "${SCRIPT_NAME:-practice}" "$*" >&2; exit 1
 
 now_utc() { date -u +%Y-%m-%dT%H:%M:%SZ; }
 
-# ---------------------------------------------------------------------------- trusted signers
+# ---------------------------------------------------------------------------- release integrity
 
-# The signers this computer trusts for new releases: the same rule as a firm's server. The list
-# changes only through a release signed by a signer it already trusts (practice_adopt_trust).
-PRACTICE_TRUST=$PRACTICE_ETC/trusted-signers
-
-# Every trusted signer's key, and a removed signer's only for a bundle it signed while trusted. With
-# no list yet, the one key of before.
-practice_trusted_keys() {
-  local digest=$1 key only found=0
-  for key in "$PRACTICE_TRUST"/*.pub; do
-    [ -f "$key" ] || continue
-    found=1
-    only=${key%.pub}.only
-    if [ -e "$only" ] && ! grep -qxF "$digest" "$only"; then continue; fi
-    printf '%s\n' "$key"
-  done
-  [ "$found" = 1 ] || printf '%s\n' "$PRACTICE_ETC/release-signing.pub"
-}
-
-# True when a signer this computer trusts signed the bundle. The digest is checked by the caller.
-practice_signature_holds() {
-  local bundle=$1 signature=$2 digest=$3 key
-  while IFS= read -r key; do
-    [ -n "$key" ] || continue
-    if openssl pkeyutl -verify -pubin -inkey "$key" -rawin -in "$bundle" -sigfile "$signature" >/dev/null 2>&1; then
-      return 0
-    fi
-  done < <(practice_trusted_keys "$digest")
-  return 1
-}
-
-# Takes the newer list carried by a release this computer has verified (the one in use, or the one
-# practice-update has just checked). Never fails the caller.
-practice_adopt_trust() {
-  local release=$1 out
-  [ -f "$release/deploy/trust/signers.json" ] && [ -f "$release/deploy/firm/release_trust.py" ] || return 0
-  if ! out=$("$ODOO_PY" -I "$release/deploy/firm/release_trust.py" adopt "$release/deploy/trust/signers.json" \
-      "$PRACTICE_TRUST" --legacy "$PRACTICE_ETC/release-signing.pub"); then
-    pl_warn "the signer list carried by $(basename "$release") was refused; the list in use stays"
-    return 0
-  fi
-  printf '%s\n' "${out##* }" > "$PRACTICE_STATUS/signers_serial"
-  case $out in
-    adopted*) pl_log "trusted signers: list number ${out##* } taken from release $(basename "$release")" ;;
-  esac
-  return 0
+# True when the bundle's SHA-256 is the digest the control room gave in its heartbeat answer, which
+# practice-heartbeat kept only after checking it against this computer's token (HMAC, over HTTPS).
+# The releases bucket and the download address are not trusted: only that digest decides.
+practice_digest_holds() {
+  local bundle=$1 digest=$2
+  [[ $digest =~ ^[0-9a-f]{64}$ ]] || return 1
+  printf '%s  %s\n' "$digest" "$bundle" | sha256sum -c --status -
 }
 
 # ---------------------------------------------------------------------------- names
@@ -153,7 +115,7 @@ load_practice_env() {
   . "$PRACTICE_ETC/practice.env"
   : "${PRACTICE_NAME:?}" "${PRACTICE_DOMAIN:?}" "${PRACTICE_PORT:?}" "${PRACTICE_SERVICE:?}" "${PRACTICE_CONF:?}"
   : "${PRACTICE_DATA_DIR:?}" "${PRACTICE_PUBLIC_URL:?}"
-  : "${PRACTICE_PREVIEW:=0}" "${PRACTICE_STRICT_CLUSTER:=1}" "${PRACTICE_HOLD_DAYS:=7}" "${PRACTICE_LANG:=fr_FR}"
+  : "${PRACTICE_PREVIEW:=0}" "${PRACTICE_STRICT_CLUSTER:=1}" "${PRACTICE_LANG:=fr_FR}"
   : "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_UPDATE_MEM:=1400M}" "${PRACTICE_RELEASE_BASE_URL:=}"
   : "${PRACTICE_ENTRY_URL:=$PRACTICE_PUBLIC_URL/web/login}"
   ODOO_CONF=$PRACTICE_PREFIX$PRACTICE_CONF

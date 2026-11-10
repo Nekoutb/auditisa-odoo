@@ -11,7 +11,6 @@ ACTIONS = [
     ("main", "Confirm main moved"),
     ("rebuild", "Rebuild staging"),
     ("rebuilt", "Record staging rebuilt"),
-    ("override", "Skip the 7 days on practice"),
 ]
 
 
@@ -43,12 +42,11 @@ class PlatformPipelineConfirm(models.TransientModel):
             target = wizard.source_firm_id.slug if wizard.action == "rebuild" else wizard.target
             wizard.expected = pipeline.phrase(wizard.action, target or "...", self.env.lang) if wizard.action else False
             wizard.warning = t(self.env, {
-                "promote": _("Asks the test firm to take this signed release now, then the other firms in batches. Each firm is cut off during its update."),
+                "promote": _("Asks the test firm to take this release now, then the other firms in batches. Each firm is cut off during its update."),
                 "rollback": _("Asks the firms to go back to this earlier release, in the same order. Code only: an update that changed the database cannot be undone this way."),
                 "main": _("Records that you have moved main yourself. It moves nothing."),
                 "rebuild": _("Asks this firm's server to make an anonymised copy, which stays there. Nothing changes on staging until you carry it there and run the script."),
                 "rebuilt": _("Records that you have rebuilt staging. It changes nothing."),
-                "override": _("Lets the client firms get this release before it has run 7 days on practice. Your reason is kept in the platform log. Use it only for an urgent fix."),
             }[wizard.action]) if wizard.action else False
 
     @api.depends("action", "promotion_id")
@@ -101,6 +99,4 @@ class PlatformPipelineConfirm(models.TransientModel):
             }
         elif self.action == "rebuilt":
             self.rebuild_id._confirmed_rebuilt(reason)
-        elif self.action == "override":
-            self.promotion_id._confirmed_override(reason)
         return {"type": "ir.actions.act_window_close"}

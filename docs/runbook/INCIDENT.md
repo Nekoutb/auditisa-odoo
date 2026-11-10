@@ -45,7 +45,7 @@ Le contrôle ne peut pas lire les données des cabinets ni s'y connecter, mais :
 - avec la **clé Wasabi de la console**, on peut supprimer les sauvegardes des cabinets (pas les lire). Supprimez-la chez Wasabi (Users > `auditisa-console` > Access Keys), puis créez-en une nouvelle (WASABI.md, étape 4).
 - avec le **jeton DNS**, on peut détourner les adresses. Révoquez-le.
 - les **jetons de heartbeat** permettent de se faire passer pour un cabinet : changez-les.
-- votre **poste** contient, lui, les clés SSH et la clé de signature : c'est le pire cas. Tout changer, cabinet par cabinet.
+- votre **poste** contient, lui, les clés SSH : c'est le pire cas. Tout changer, cabinet par cabinet. Et depuis le 10 novembre 2026, un **compte propriétaire de la console** volé peut mettre en ligne n'importe quelle version : changez tout de suite son mot de passe et sa double authentification.
 
 ## English
 
@@ -90,4 +90,4 @@ The control plane can neither read firm data nor log in to a firm, but:
 - with the **console's Wasabi key**, anyone can delete the firms' backups (not read them). Delete it at Wasabi (Users > `auditisa-console` > Access Keys), then make a new one (WASABI.md, step 4).
 - with the **DNS token**, anyone can divert the addresses. Revoke it.
 - the **heartbeat tokens** let someone impersonate a firm: change them.
-- your **computer**, though, holds the SSH keys and the signing key: that is the worst case. Change everything, firm by firm.
+- your **computer**, though, holds the SSH keys: that is the worst case. Change everything, firm by firm. And since 10 November 2026 a stolen **console owner account** can put any release live: change its password and two-factor at once.

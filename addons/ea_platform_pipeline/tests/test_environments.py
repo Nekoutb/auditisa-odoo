@@ -14,7 +14,7 @@ from odoo.addons.ea_platform_admin.services.heartbeat import format_instant
 from odoo.addons.ea_platform_admin.tests.common import PlatformCase
 
 from ..services import environments as envs
-from .test_pipeline_flow import REASON, PipelineMixin
+from .test_pipeline_flow import PipelineMixin
 
 NOW = lambda: datetime.utcnow().replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")  # noqa: E731
 
@@ -108,10 +108,10 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         Environment = self.env["platform.environment"].with_user(self.owner)
         english = Environment.with_context(lang="en_US").get_views([(False, "form")])["views"]["form"]["arch"]
         french = Environment.with_context(lang="fr_FR").get_views([(False, "form")])["views"]["form"]["arch"]
-        for word in ("History", "Backups", "Monitor", "Logs", "People", "Connect", "Promote staging → production"):
+        for word in ("History", "Backups", "Monitor", "Logs", "People", "Connect", "Promote to Staging", "Promote to Production"):
             self.assertIn(word, english)
         for word in ("Historique", "Sauvegardes", "Surveillance", "Journaux", "Personnes", "Se connecter",
-                     "Promouvoir staging → production"):
+                     "Promouvoir vers le staging", "Promouvoir vers la production"):
             self.assertIn(word, french)
 
     def test_every_page_renders_for_a_viewer_in_both_languages(self):
@@ -332,93 +332,113 @@ class TestEnvironments(PipelineMixin, PlatformCase):
 
     # ------------------------------------------------------------------ Promote: the guards
 
-    def test_promote_is_the_owners_alone(self):
-        for who in (self.viewer, self.operator):
-            with self.assertRaises(UserError):
-                self._env("staging", who).action_open_promote()
-        action = self._env("staging", self.owner).action_open_promote()
+    def _promote(self, target, who=None):
+        environment = self._env("staging", who or self.owner)
+        action = environment.action_promote_staging() if target == "staging" else environment.action_promote_production()
         self.assertEqual(action["res_model"], "platform.environment.promote")
+        return self.env["platform.environment.promote"].with_user(who or self.owner).browse(action["res_id"])
 
-    def test_an_unsigned_staging_version_is_said_plainly(self):
-        self._state(staging_revision="3" * 12)
-        action = self._env("staging", self.owner).action_open_promote()
-        wizard = self.env["platform.environment.promote"].with_user(self.owner).browse(action["res_id"])
-        self.assertIn("This version is not signed yet. Sign it on your computer first.", wizard.overview_html)
-        self.assertIn("build_release.sh --sign", wizard.overview_html)
-        self.assertIn("--unsigned", wizard.overview_html)
-        self.assertIn("3" * 12, wizard.overview_html)
-        self.assertIn("Step 1. Staging → Practice", wizard.overview_html)
-        self.assertIn("Step 2. Practice → Production", wizard.overview_html)
-        self._state(staging_revision=self.release2.sha)
-        self.env.invalidate_all()
-        self.assertEqual(wizard.staging_release_id, self.release2)
+    def _computer(self):
+        return self.env["platform.practice.computer"]._enrol("practice-1", token_path=None, simulation=True)
 
-    def test_staging_to_practice_takes_a_signed_release_and_the_typed_word(self):
-        computer = self.env["platform.practice.computer"]._enrol("practice-1", token_path=None, simulation=True)
-        Wizard = self.env["platform.practice.release.wizard"].with_user(self.owner).with_context(ea_status_promote=True)
-        self.assertTrue(computer.with_user(self.owner).action_send_release()["context"]["ea_status_promote"])
-        unsigned = Wizard.create({"computer_id": computer.id, "release_id": self.release.id})
-        unsigned.write({"typed": unsigned.expected, "reason": REASON})
-        with self.assertRaises(UserError):
-            unsigned.action_confirm()
-        self.assertNotIn(self.release, unsigned.signed_release_ids)
-        signed = Wizard.create({"computer_id": computer.id, "release_id": self.release2.id})
-        self.assertIn(self.release2.sha[:12], signed.summary_html)
-        signed.write({"typed": "PRACTICE something", "reason": REASON})
-        with self.assertRaises(UserError):
-            signed.action_confirm()
-        self.assertFalse(computer.desired_release_id)
-        signed.write({"typed": signed.expected})
-        self.assertEqual(signed.expected, f"PRACTICE {self.release2.sha[:12]}")
-        signed.action_confirm()
+    def test_promote_is_the_owners_alone(self):
+        self._computer()
+        for who in (self.viewer, self.operator):
+            for button in ("action_promote_staging", "action_promote_production"):
+                with self.assertRaises(UserError):
+                    getattr(self._env("staging", who), button)()
+
+    def test_a_new_version_shows_as_ready_and_promote_to_staging_sends_it_in_one_click(self):
+        computer = self._computer()
+        page = self._env("staging", self.owner)
+        self.assertIn("New version ready:", page.release_html)
+        self.assertIn(self.release2.sha[:12], page.release_html)
+        wizard = self._promote("staging")
+        self.assertEqual(wizard.release_id, self.release2)
+        self.assertFalse(wizard.problem)
+        self.assertIn("practice spaces", wizard.summary_html)
+        self.assertNotIn("signature", wizard.summary_html.lower())
+        result = wizard.action_confirm()
+        self.assertEqual(result["type"], "ir.actions.act_window_close")
         self.assertEqual(computer.desired_release_id, self.release2)
-        self.assertEqual(self.env["platform.log"].search([], limit=1).action_text, "Promote staging → practice confirmed")
-
-    def _ready(self):
-        canary = self._firm_on("cabinet-a")
-        self._staging()
-        self._green()
-        self.env["platform.practice.computer"]._enrol("practice-1", token_path=None, simulation=True)
-        return canary
-
-    def test_the_practice_wait_holds_until_the_owner_skips_it_with_a_reason(self):
-        canary = self._ready()
-        promotion = self._promotion(canary)
-        promotion.action_run_checks()
-        self.assertFalse(promotion.checks_ok)
-        self.assertFalse(promotion.hold_ok)
-        with self.assertRaises(UserError):
-            promotion.with_user(self.operator).action_open_confirm_override()
-        action = promotion.action_open_confirm_override()
-        with self.assertRaises(UserError):
-            self._confirm(action, typed="NO-WAIT other")
-        with self.assertRaises(UserError):
-            self._confirm(action, reason="short")
-        self.assertFalse(promotion.hold_override)
-        self._confirm(action, reason="Urgent fix for a wrong figure on every report.")
-        self.assertTrue(promotion.hold_override)
-        self.assertEqual(promotion.hold_override_by_id, self.owner)
+        self.assertEqual(computer._answer()["release"]["bundle_sha256"], self.release2.bundle_sha256)
         logged = self.env["platform.log"].search([], limit=1)
-        self.assertEqual(logged.action_text, "Practice wait skipped by the owner")
-        self.assertIn("Urgent fix", logged.detail_text)
-        promotion.action_run_checks()
-        self.assertTrue(promotion.checks_ok, promotion.checks_text)
-        self.assertIn("skipped by the owner", promotion.checks_text)
-        self._confirm(promotion.action_open_confirm())
-        self.assertEqual(promotion.state, "rolling")
-        self.assertTrue(promotion.rollout_line_ids)
-
-    def test_the_wait_still_holds_without_the_exception(self):
-        canary = self._ready()
-        promotion = self._promotion(canary)
-        action = promotion.action_open_confirm()
+        self.assertEqual(logged.action_text, "Release sent to the practice computer")
+        self.assertIn(self.release2.sha[:12], logged.detail_text)
+        self.env.invalidate_all()
+        self.assertIn("Being installed on Staging:", self._env("staging", self.owner).release_html)
+        computer._simulate_heartbeat()
+        self.env.invalidate_all()
+        html = self._env("staging", self.owner).release_html
+        self.assertNotIn("New version ready:", html)
+        self.assertIn(self.release2.sha[:12], html)
+        # Nothing newer: the second click says so in plain words and sends nothing.
+        again = self._promote("staging")
+        self.assertIn("no new version", again.problem or "")
         with self.assertRaises(UserError):
-            self._confirm(action)
-        self.assertFalse(promotion.rollout_id)
+            again.action_confirm()
+
+    def test_promote_to_staging_reads_in_french(self):
+        self._computer()
+        wizard = self._promote("staging").with_context(lang="fr_FR")
+        self.assertIn("Étape suivante", wizard.summary_html)
+        self.assertIn("Nouvelle version", self._env("staging", self.owner, lang="fr_FR").release_html)
+
+    def test_promote_to_production_is_refused_until_staging_runs_the_version(self):
+        canary = self._firm_on("cabinet-a")
+        computer = self._computer()
+        wizard = self._promote("production")
+        self.assertIn("Staging runs no version yet", wizard.problem)
+        with self.assertRaises(UserError):
+            wizard.action_confirm()
+        # Sent to Staging but not installed there yet: still refused.
+        computer.sudo().write({"desired_release_id": self.release2.id})
+        computer.sudo().release = self.release.sha
+        wizard = self._promote("production")
+        self.assertEqual(wizard.release_id, self.release)
+        self.assertIn("Every client firm already runs this version", wizard.problem)
+        with self.assertRaises(UserError):
+            wizard.action_confirm()
+        self.assertFalse(self.env["platform.rollout"].search([("release_id", "=", self.release2.id)]))
+        self.assertNotEqual(canary.desired_release_id, self.release2)
+
+    def test_promote_to_production_sends_what_staging_runs_in_one_click_with_no_wait(self):
+        canary = self._firm_on("cabinet-a")
+        other = self._firm_on("cabinet-b")
+        self._on_staging()
+        wizard = self._promote("production")
+        self.assertEqual(wizard.release_id, self.release2)
+        self.assertFalse(wizard.problem)
+        for text in ("2 client firm(s)", "backup", "puts itself back"):
+            self.assertIn(text, wizard.summary_html)
+        result = wizard.action_confirm()
+        promotion = self.env["platform.pipeline.promotion"].with_user(self.owner).browse(result["res_id"])
+        self.assertEqual(promotion.state, "rolling")
+        self.assertEqual(promotion.release_id, self.release2)
+        self.assertEqual(promotion.rollout_id.line_ids.firm_id, canary | other)
+        self.assertEqual(promotion.rollout_line_ids.filtered(lambda line: line.state == "requested").firm_id, canary)
+        self.assertEqual(canary.desired_release_id, self.release2)
+        self.assertEqual(canary._heartbeat_answer()["desired_bundle_sha256"], self.release2.bundle_sha256)
+        self.assertTrue(self.env["platform.log"].search([("action", "ilike", "Promotion started")], limit=1))
+        # One update at a time.
+        self.assertIn("still running", self._promote("production").problem)
+        promotion.rollout_id.action_simulate_answers()
+        promotion.rollout_id.action_simulate_answers()
+        self.assertEqual(promotion.rollout_id.state, "done")
+        self.env.invalidate_all()
+        self.assertIn("2 of 2 client firm(s)", self._env("production", self.owner).release_html)
+        self.assertIn(self.release2.sha[:12], self._env("production", self.owner).deploys_html)
+
+    def test_a_rollout_started_by_hand_also_waits_for_staging(self):
+        canary = self._firm_on("cabinet-a")
+        self._computer()
         rollout = self.env["platform.rollout"].with_user(self.owner).create(
             {"release_id": self.release2.id, "canary_firm_id": canary.id, "firm_ids": [(6, 0, canary.ids)]})
         with self.assertRaises(UserError):
             rollout.action_start()
+        self._on_staging()
+        rollout.action_start()
+        self.assertEqual(rollout.state, "running")
 
     def test_the_confirmation_shows_exactly_what_changes(self):
         canary = self._firm_on("cabinet-a")
@@ -429,7 +449,7 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         action = promotion.action_open_confirm()
         wizard = self.env["platform.pipeline.confirm"].with_user(self.owner).browse(action["res_id"])
         html = wizard.summary_html
-        for text in (self.release.sha[:12], self.release2.sha[:12], canary.name, other.name, "backs itself up"):
+        for text in (self.release.sha[:12], self.release2.sha[:12], canary.name, other.name, "backs itself up", "Staging"):
             self.assertIn(text, html)
         self.assertEqual(wizard.expected, f"PROMOTE {self.release2.sha[:12]}")
 

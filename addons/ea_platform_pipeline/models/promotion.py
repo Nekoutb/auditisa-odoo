@@ -42,10 +42,12 @@ class PlatformPipelineMixin(models.AbstractModel):
 
 
 class PlatformPipelinePromotion(models.Model):
-    """Staging's commit going to the firms: a release signed offline, then the existing rollout.
+    """A release going to the client firms (Production), through the existing rollout.
 
-    `main` moves last, by the owner's own hand, once every firm runs the release: it then always says
-    what the firms run. The control plane has no write access to GitHub and no signing key.
+    Only a release that Staging (the practice computer) runs now may go. The Status page's "Promote to
+    Production" button makes one and starts it after a single confirmation; Pipeline > Promotions does
+    the same with the details shown. `main` moves last, once every firm runs the release. The control
+    plane has no write access to GitHub.
     """
 
     _name = "platform.pipeline.promotion"
@@ -79,32 +81,20 @@ class PlatformPipelinePromotion(models.Model):
     main_moved_at = fields.Datetime("main moved on", readonly=True, copy=False)
     next_step = fields.Text("What you do now", compute="_compute_next_step")
     rollout_line_ids = fields.One2many(related="rollout_id.line_ids", string="Result, firm by firm")
-    # The practice-first rule: 7 days on the practice computer, or the owner's written, logged exception.
-    hold_override = fields.Boolean("Practice wait skipped", readonly=True, copy=False)
-    hold_override_reason = fields.Text("Why the wait was skipped", readonly=True, copy=False)
-    hold_override_by_id = fields.Many2one("res.users", "Skipped by", readonly=True, copy=False)
-    hold_override_at = fields.Datetime("Skipped on", readonly=True, copy=False)
-    hold_ok = fields.Boolean("Practice wait respected", compute="_compute_hold")
-    hold_text = fields.Char("Practice wait", compute="_compute_hold")
+    # The release order: Staging (the practice computer) first. No waiting period.
+    staging_ok = fields.Boolean("On Staging now", compute="_compute_staging")
+    staging_text = fields.Char("Staging", compute="_compute_staging")
 
-    @api.depends("release_id", "hold_override")
+    @api.depends("release_id")
     @api.depends_context("lang")
-    def _compute_hold(self):
+    def _compute_staging(self):
         for promotion in self:
             if not promotion.release_id:
-                promotion.hold_ok, promotion.hold_text = False, False
+                promotion.staging_ok, promotion.staging_text = False, False
                 continue
-            ok, message = promotion._hold_check()
-            promotion.hold_ok = ok
-            promotion.hold_text = t_any(self.env, message)
-
-    def _hold_check(self):
-        """(ok, message): the release's holding period on the practice computer, or the owner's exception."""
-        self.ensure_one()
-        if self.hold_override:
-            return True, _("Practice wait skipped by the owner: %(reason)s", reason=self.hold_override_reason or "")
-        ok, _until, message = self.release_id.sudo()._practice_hold(fields.Datetime.now())
-        return ok, message
+            ok, message = promotion.release_id.sudo()._staging_check()
+            promotion.staging_ok = ok
+            promotion.staging_text = t_any(self.env, message)
 
     @api.depends("checks_raw")
     @api.depends_context("lang")
@@ -132,33 +122,18 @@ class PlatformPipelinePromotion(models.Model):
         return (self.firm_ids | self.canary_firm_id).sudo().filtered(lambda firm: firm.pipeline_role == "firm")
 
     def _collect_checks(self):
-        """Each pre-check as a dict: code, ok, detail. A rollback goes back to something already signed
-        and proven, so it needs no new test run and no staging check."""
+        """Each pre-check as a dict: code, ok, detail. A rollback goes back to a release the firms already
+        ran, so it needs no staging check. Each firm's server backs itself up just before it updates, and
+        refuses to update without that backup: no backup pre-check here."""
         self.ensure_one()
-        now = fields.Datetime.now()
         release = self.release_id
         checks = []
-        checks.append(pipeline.check(
-            "signed", release.attestation_ok,
-            _("Signed offline: the attestation holds for this commit and digest.") if release.attestation_ok
-            else _("No valid offline attestation for this release: a trusted signer signs it with the \"Sign new version\" tool."),
-        ))
         if self.kind == "promote":
-            # The release order: the practice computer first, the firms after its holding period.
-            hold_ok, hold_message = self._hold_check()
-            checks.append(pipeline.check("practice", hold_ok, hold_message))
-            runs = self.env["platform.pipeline.test.run"].sudo().search([("commit_sha", "=like", release.sha[:7] + "%")])
-            matching = [
-                {"suite": run.suite, "passed": run.passed, "failed": run.failed}
-                for run in runs if pipeline.same_commit(run.commit_sha, release.sha)
-            ]
-            checks.append(pipeline.test_check(matching))
-            checks.append(pipeline.staging_check(self.env["platform.firm"]._staging_figures(), release.sha, now))
-        firms = self._target_firms()
-        checks.append(pipeline.backup_check(
-            [{"name": firm.name, "last_backup_at": firm.last_backup_at, "last_backup_ok": firm.last_backup_ok} for firm in firms],
-            now,
-        ))
+            # The release order: Staging (the practice computer) runs it now.
+            ok, message = release.sudo()._staging_check()
+            checks.append(pipeline.check("staging", ok, message))
+        if not self._target_firms():
+            checks.append(pipeline.check("firms", False, _("No firm is selected.")))
         canary = self.canary_firm_id.sudo()
         canary_ok = canary.pipeline_role == "firm" and canary.addon_release != release.sha
         checks.append(pipeline.check(
@@ -195,7 +170,7 @@ class PlatformPipelinePromotion(models.Model):
         return self.env["platform.pipeline.confirm"]._open(self, "rollback" if self.kind == "rollback" else "promote", self.release_id.sha[:12])
 
     def _confirmed(self, kind, reason):
-        """After the typed confirmation. The checks run again: minutes may have passed."""
+        """After the confirmation. The checks run again: minutes may have passed."""
         self.ensure_one()
         self._require_owner()
         if self.state != "draft":
@@ -211,8 +186,8 @@ class PlatformPipelinePromotion(models.Model):
             "firm_ids": [(6, 0, firms.ids)],
             "batch_size": self.batch_size,
         })
-        # A rollback goes back to a release the firms already ran: no holding period again.
-        rollout.with_context(ea_practice_hold_skip=self.kind == "rollback" or self.hold_override).action_start()
+        # A rollback goes back to a release the firms already ran: it need not be on Staging.
+        rollout.with_context(ea_rollback=self.kind == "rollback").action_start()
         self.write({
             "state": "rolling",
             "reason": reason,
@@ -262,7 +237,7 @@ class PlatformPipelinePromotion(models.Model):
             [t(env, _("To")), Markup("<code>%s</code>") % self.release_id.display_name],
             [t(env, _("Test firm, alone first")), canary.name or ""],
             [t(env, _("Then, in batches of %(size)s", size=self.batch_size)), ", ".join(others) or t(env, _("no other firm"))],
-            [t(env, _("Practice wait")), self.hold_text or ""],
+            [t(env, _("Staging")), self.staging_text or ""],
             [t(env, _("Backup")), t(env, _("Each firm's server backs itself up just before it updates. Without that fresh backup the update counts as failed and the rollout stops."))],
         ]
         log = (((env["platform.environment"]._pipeline_state() or {}).get("odoo") or {}).get("log") or {})
@@ -273,26 +248,6 @@ class PlatformPipelinePromotion(models.Model):
             if changes:
                 break
         return _table([t(env, _("What")), t(env, _("Value"))], rows, "") + _changes(env, changes, self.release_id)
-
-    def action_open_confirm_override(self):
-        """The owner's exception to the 7 days on practice: a typed word and a written reason, both logged."""
-        self.ensure_one()
-        self._require_owner()
-        if self.state != "draft" or self.kind != "promote":
-            raise UserError(t(self.env, _("The practice wait can be skipped only before a promotion starts.")))
-        if self.hold_override:
-            raise UserError(t(self.env, _("The practice wait is already skipped for this promotion.")))
-        return self.env["platform.pipeline.confirm"]._open(self, "override", self.release_id.sha[:12])
-
-    def _confirmed_override(self, reason):
-        self.ensure_one()
-        self._require_owner()
-        self.write({"hold_override": True, "hold_override_reason": reason, "hold_override_by_id": self.env.user.id,
-                    "hold_override_at": fields.Datetime.now(), "checks_ok": False})
-        self.env["platform.log"]._record(
-            _("Practice wait skipped by the owner"), None,
-            _("Release %(release)s, reason: %(reason)s", release=self.release_id.sha[:12], reason=reason),
-        )
 
     def action_open_confirm_main(self):
         self.ensure_one()
@@ -311,7 +266,7 @@ class PlatformPipelinePromotion(models.Model):
         )
 
     def action_prepare_rollback(self):
-        """A new rollout of the release before this one, which was already signed. Goes through the same screen."""
+        """A new rollout of the release before this one, which the firms already ran. Goes through the same screen."""
         self.ensure_one()
         self._require_owner()
         if self.state not in ("done", "awaiting_main", "stopped") or not self.previous_release_id:

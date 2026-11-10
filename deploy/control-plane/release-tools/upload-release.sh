@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
-# upload-release.sh: on the console server, as root. Checks a signed release against the trusted signers the
-# console holds (Platform > Updates > Signers), then puts it in the Wasabi releases bucket with the console's
-# own Wasabi key. Before the list of signers (console older than feat/signers): the one key of the settings.
-#
-# Simpler since feat/signers: Platform > Updates > Waiting for signature does the same from the screens.
+# upload-release.sh: on the console server, as root. Checks a release built by build_release.sh, then puts it
+# in the Wasabi releases bucket with the console's own Wasabi key. Usually run by publish-release.sh.
 #
 #   upload-release.sh --check            only lists the releases bucket (proves the key and the bucket)
-#   upload-release.sh DIR                checks, then uploads the four files of the release in DIR
+#   upload-release.sh DIR                checks, then uploads the two files of the release in DIR
 #   upload-release.sh DIR --verify-only  checks only, uploads nothing
 #
-# DIR holds <sha>.tar.gz, <sha>.tar.gz.sig, <sha>.catalogue.json, <sha>.catalogue.json.sig (one release).
+# DIR holds <sha>.tar.gz and <sha>.catalogue.json (one release). No signature: a server installs the bundle
+# only if its SHA-256 is the one the console registered (register-release.sh) and sends it.
 # The key and secret are read from /etc/auditisa-platform and given to curl through a pipe: they are
 # never on a command line, never printed, never written anywhere else.
 
@@ -63,45 +61,10 @@ for f in "$DIR"/*.tar.gz; do
 done
 [ "${#BUNDLES[@]}" -eq 1 ] || die "DIR must hold exactly one <sha>.tar.gz"
 SHA=${BUNDLES[0]%.tar.gz}
-FILES=("$SHA.tar.gz" "$SHA.tar.gz.sig" "$SHA.catalogue.json" "$SHA.catalogue.json.sig")
+FILES=("$SHA.tar.gz" "$SHA.catalogue.json")
 for f in "${FILES[@]}"; do [ -s "$DIR/$f" ] || die "missing: $DIR/$f"; done
 
-KEYS=$(mktemp -d)
-trap 'rm -rf "$KEYS"' EXIT
-# One file per ACTIVE trusted signer, named by the signer's name for the log.
-signers() {
-  (cd /tmp && runuser -u postgres -- psql -XAt "$DB" -F $'\t' -c \
-    "SELECT id, regexp_replace(name, '[^A-Za-z0-9 ._-]', '', 'g') FROM platform_signer WHERE active ORDER BY id" 2>/dev/null)
-}
-signer_pem() {
-  (cd /tmp && runuser -u postgres -- psql -XAt "$DB" -v id="$1" <<'SQL'
-SELECT public_pem FROM platform_signer WHERE id = :'id' AND active;
-SQL
-  )
-}
-declare -A NAMES=()
-while IFS=$'\t' read -r id name; do
-  [ -n "$id" ] || continue
-  signer_pem "$id" > "$KEYS/$id.pub"
-  NAMES[$id]=$name
-done < <(signers)
-if [ "${#NAMES[@]}" = 0 ]; then
-  param ea_platform.release_signing_public_key > "$KEYS/legacy.pub"
-  NAMES[legacy]="the one key of Platform > Settings"
-fi
-SIGNER=""
-for id in "${!NAMES[@]}"; do
-  grep -q 'BEGIN PUBLIC KEY' "$KEYS/$id.pub" || continue
-  openssl pkeyutl -verify -pubin -inkey "$KEYS/$id.pub" -rawin -in "$DIR/$SHA.tar.gz" -sigfile "$DIR/$SHA.tar.gz.sig" >/dev/null 2>&1 || continue
-  SIGNER=$id; break
-done
-[ -n "$SIGNER" ] || die "signature refused for $SHA.tar.gz: not signed by a trusted signer (Platform > Updates > Signers). Nothing uploaded."
-for f in "$SHA.tar.gz" "$SHA.catalogue.json"; do
-  openssl pkeyutl -verify -pubin -inkey "$KEYS/$SIGNER.pub" -rawin -in "$DIR/$f" -sigfile "$DIR/$f.sig" >/dev/null 2>&1 \
-    || die "signature refused for $f: not the same trusted signer. Nothing uploaded."
-  log "signature good, signed by ${NAMES[$SIGNER]}: $f"
-done
-if tar -tzf "$DIR/$SHA.tar.gz" | grep -q '^addons/ea_platform_'; then die "the bundle holds the control plane's addon"; fi
+if tar -tzf "$DIR/$SHA.tar.gz" | grep '^addons/ea_platform_' >/dev/null; then die "the bundle holds the control plane's addon"; fi
 grep -q "\"release\": \"$SHA\"" "$DIR/$SHA.catalogue.json" || die "the catalogue names another release"
 log "commit $SHA"
 log "sha256 $(sha256sum "$DIR/$SHA.tar.gz" | cut -d' ' -f1)"

@@ -1,8 +1,5 @@
-"""Promote follows the release order: the practice computer first, the firms after the holding period."""
+"""Promote follows the release order: Staging (the practice computer) first, then the firms, with no wait."""
 
-from datetime import timedelta
-
-from odoo import fields
 from odoo.tests import tagged
 
 from odoo.addons.ea_platform_admin.tests.common import PlatformCase
@@ -20,11 +17,7 @@ class TestPracticeOrder(PipelineMixin, PlatformCase):
     def _ready(self):
         canary = self._firm_on("cabinet-a")
         self._staging()
-        self._green()
         return canary
-
-    def _practice_line(self, promotion):
-        return [line for line in promotion.checks_text.split("\n") if "practice computer" in line.lower()]
 
     def test_without_a_practice_computer_the_check_says_so_and_passes(self):
         promotion = self._promotion(self._ready())
@@ -32,13 +25,15 @@ class TestPracticeOrder(PipelineMixin, PlatformCase):
         self.assertTrue(promotion.checks_ok, promotion.checks_text)
         self.assertIn("OK No practice computer yet", promotion.checks_text)
 
-    def test_a_release_not_held_on_the_practice_computer_is_not_promoted(self):
+    def test_a_release_goes_to_the_firms_as_soon_as_staging_runs_it(self):
         canary = self._ready()
-        self.env["platform.practice.computer"]._enrol("practice-1", token_path=None, simulation=True)
+        computer = self.env["platform.practice.computer"]._enrol("practice-1", token_path=None, simulation=True)
         promotion = self._promotion(canary)
         promotion.action_run_checks()
         self.assertFalse(promotion.checks_ok)
-        self.assertTrue(any(line.startswith("NO Not yet on the practice computer") for line in self._practice_line(promotion)))
-        self.release2.sudo().practice_since = fields.Datetime.now() - timedelta(days=8)
+        self.assertIn("NO This version is not on Staging yet", promotion.checks_text)
+        computer.sudo().write({"desired_release_id": self.release2.id})
+        computer._simulate_heartbeat()
         promotion.action_run_checks()
         self.assertTrue(promotion.checks_ok, promotion.checks_text)
+        self.assertNotIn("practice_hold_days", self.release2._fields)

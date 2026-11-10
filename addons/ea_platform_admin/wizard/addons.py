@@ -33,14 +33,11 @@ class PlatformCatalogueWizard(models.TransientModel):
     release_id = fields.Many2one("platform.release", "Release", required=True, readonly=True)
     catalogue_file = fields.Binary("Catalogue (<commit>.catalogue.json)", required=True)
     catalogue_name = fields.Char("Catalogue file name")
-    proof_file = fields.Binary("Its signature (<commit>.catalogue.json.sig)")
-    proof_name = fields.Char("Signature file name")
 
     def action_confirm(self):
         self.ensure_one()
         raw = base64.b64decode(self.catalogue_file or b"")
-        proof = base64.b64decode(self.proof_file) if self.proof_file else None
-        self.release_id._load_catalogue(raw, proof)
+        self.release_id._load_catalogue(raw)
         return {"type": "ir.actions.act_window_close"}
 
 

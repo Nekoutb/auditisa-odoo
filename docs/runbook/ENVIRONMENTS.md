@@ -13,14 +13,16 @@ La page **Statut** de la console (https://console.auditisa.com/odoo/status) mont
 | **Staging** | test.auditisa.com, données de test, aucun e-mail | ouvre le site dans un nouvel onglet |
 | **Développement** | la branche `dev`, pas de serveur | rien |
 
-En haut : le nom, un point vert / orange / rouge / gris, **Promouvoir staging → production** (propriétaire seul) et **Se connecter**. Puis une ligne : version d'Odoo, modules et leurs versions, taille de la base, révision (lien GitHub), en service depuis, tests sur ce commit. Onglets : **Historique** (déploiements, commits de la branche), **Sauvegardes**, **Surveillance**, **Journaux** (le journal de la plateforme filtré), **Personnes**. L'ancien tableau reste dans Pipeline > Les deux outils côte à côte (`/odoo/status-board`).
+En haut : le nom, un point vert / orange / rouge / gris, **Promouvoir vers le staging** et **Promouvoir vers la production** (propriétaire seul) et **Se connecter**. Juste dessous, une ligne dit où en est chaque version : « Nouvelle version prête », « Sur le staging (espaces d'entraînement) », « Sur la production (cabinets clients) ». Puis une ligne : version d'Odoo, modules et leurs versions, taille de la base, révision (lien GitHub), en service depuis, tests sur ce commit. Onglets : **Historique** (déploiements, commits de la branche), **Sauvegardes**, **Surveillance**, **Journaux** (le journal de la plateforme filtré), **Personnes**. L'ancien tableau reste dans Pipeline > Les deux outils côte à côte (`/odoo/status-board`).
 
 ### Promouvoir
 
-Deux étapes séparées, chacune avec son écran et son mot à taper :
+Deux boutons, une fenêtre chacun, rien à taper (depuis le 10 novembre 2026 ; détails : UPDATING.md) :
 
-1. **Staging → Entraînement** : une version **signée sur votre ordinateur** et enregistrée dans Mises à jour > Versions. Si la version du staging n'est pas signée, l'écran le dit et montre les deux commandes de `build_release.sh` (`--unsigned` puis `--sign`). La console ne signe jamais. Écran : de → à, espaces, changements, `ENTRAINEMENT <commit>` et une raison.
-2. **Entraînement → Production** : la promotion existante (vérifications, cabinet témoin, lots). La version doit avoir tourné **7 jours** en entraînement ; sinon le bouton **Lever les 7 jours en entraînement...** demande `SANS-ATTENTE <commit>` et une raison écrite, gardée au journal. L'écran de confirmation montre de → à, les cabinets, les changements et la règle de sauvegarde : chaque serveur se sauvegarde juste avant la mise à jour, et sans cette sauvegarde la mise à jour compte comme échouée. Le résultat s'affiche cabinet par cabinet.
+1. **Promouvoir vers le staging** : la nouvelle version part vers les **espaces d'entraînement** (la ligne « Entraînement » de la liste, sur le serveur de staging). La fenêtre montre la version, ce qui va se passer et les changements ; **Oui, promouvoir vers le staging**. Chaque espace est copié avant, et tout est remis comme avant si un point échoue.
+2. **Promouvoir vers la production** : la version qui tourne **maintenant** sur l'ordinateur d'entraînement part vers les cabinets clients : un cabinet d'abord, seul, puis les autres par lots. **Oui, promouvoir vers la production**. Chaque serveur se sauvegarde juste avant, se vérifie après et revient seul en arrière si un point échoue. Le bouton refuse, en clair, une version qui n'est pas sur le staging.
+
+Aucune signature, aucun délai de 7 jours, aucune ligne à recopier : la sécurité, c'est la connexion du propriétaire à la console.
 
 ### Personnes et comptes de test
 
@@ -59,14 +61,16 @@ The console's **Status** page (https://console.auditisa.com/odoo/status) shows t
 | **Staging** | test.auditisa.com, test data, no email | opens the site in a new tab |
 | **Development** | the `dev` branch, no server | nothing |
 
-At the top: the name, a green / amber / red / grey dot, **Promote staging → production** (owner only) and **Connect**. Then one line: Odoo version, add-ons and their versions, database size, revision (GitHub link), up since, tests on this commit. Tabs: **History** (deploys, commits on the branch), **Backups**, **Monitor**, **Logs** (the platform log, filtered), **People**. The previous board stays in Pipeline > Both tools side by side (`/odoo/status-board`).
+At the top: the name, a green / amber / red / grey dot, **Promote to Staging** and **Promote to Production** (owner only) and **Connect**. Just below, one line says where each version is: "New version ready", "On Staging (practice spaces)", "On Production (client firms)". Then one line: Odoo version, add-ons and their versions, database size, revision (GitHub link), up since, tests on this commit. Tabs: **History** (deploys, commits on the branch), **Backups**, **Monitor**, **Logs** (the platform log, filtered), **People**. The previous board stays in Pipeline > Both tools side by side (`/odoo/status-board`).
 
 ### Promote
 
-Two separate steps, each with its own screen and its own word to type:
+Two buttons, one window each, nothing to type (since 10 November 2026; details: UPDATING.md):
 
-1. **Staging → Practice**: a release **signed on your computer** and registered in Updates > Releases. If staging's version is not signed, the screen says so and shows the two `build_release.sh` commands (`--unsigned`, then `--sign`). The console never signs. Screen: from → to, spaces, changes, `PRACTICE <commit>` and a reason.
-2. **Practice → Production**: the existing promotion (pre-checks, test firm, batches). The release must have run **7 days** on practice; otherwise the **Skip the 7 days on practice...** button asks for `NO-WAIT <commit>` and a written reason, kept in the log. The confirmation screen shows from → to, the firms, the changes and the backup rule: each server backs itself up just before it updates, and without that backup the update counts as failed. The result shows firm by firm.
+1. **Promote to Staging**: the new version goes to the **practice spaces** (the "Practice" line of the list, on the staging server). The window shows the version, what will happen and the changes; **Yes, promote to Staging**. Each space is copied first, and everything is put back as it was if anything fails.
+2. **Promote to Production**: the version the practice computer runs **now** goes to the client firms: one firm first, alone, then the others in batches. **Yes, promote to Production**. Each server backs itself up just before, checks itself after and goes back by itself if anything fails. The button refuses, in plain words, a version that is not on Staging.
+
+No signature, no 7-day wait, no line to type: the security is the owner's sign-in to the console.
 
 ### People and test accounts
 

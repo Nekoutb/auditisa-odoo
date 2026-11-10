@@ -1,5 +1,6 @@
 # register-release.py: run inside `odoo-bin shell` on the console (see register-release.sh).
-# Registers one signed release in Platform > Updates > Releases and loads its signed catalogue.
+# Registers one release in Platform > Updates > Releases and loads its catalogue. It then shows on the
+# Status page as "New version ready", for the owner's Promote to Staging.
 # Environment: RELEASE_DIR (the folder with the files), RELEASE_LABEL, DRY_RUN=1 to undo everything at the end.
 import hashlib
 import os
@@ -29,8 +30,6 @@ def read(name, required=True):
 
 digest = hashlib.sha256(read(f"{sha}.tar.gz")).hexdigest()
 catalogue = read(f"{sha}.catalogue.json")
-proof = read(f"{sha}.catalogue.json.sig")
-attestation = (read(f"{sha}.attestation", required=False) or b"").decode("ascii").strip()
 odoo_commit = (read("odoo-commit", required=False) or b"").decode("ascii").strip()
 
 Release = env["platform.release"].sudo()
@@ -46,16 +45,10 @@ try:
         values = {"sha": sha, "bundle_sha256": digest, "label": label}
         if odoo_commit:
             values["odoo_commit"] = odoo_commit
-        if "attestation" in Release._fields and attestation:
-            values["attestation"] = attestation
         release = Release.create(values)
         print(f"registered: {sha[:12]} digest {digest}")
-    release._load_catalogue(catalogue, proof)
-    print(f"catalogue loaded, signature verified: {release.catalogue_signed}; add-ons: {len(release.addon_line_ids)}")
-    if "attestation_ok" in Release._fields:
-        print(f"offline attestation holds: {release.attestation_ok}")
-    if "signer_id" in Release._fields:
-        print(f"signed by: {release.signer_id.name or 'nobody trusted'}")
+    release._load_catalogue(catalogue)
+    print(f"catalogue loaded; add-ons: {len(release.addon_line_ids)}")
 except UserError as refused:
     env.cr.execute("ROLLBACK TO SAVEPOINT register_release")
     print(f"REFUSED by the console: {refused.args[0] if refused.args else refused}")

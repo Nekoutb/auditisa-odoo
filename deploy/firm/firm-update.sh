@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
-# firm-update.sh: takes this firm to a signed release, or leaves it as it was.
+# firm-update.sh: takes this firm to a new release, or leaves it as it was.
 #
 #   firm-update <sha> <bundle sha256> [--dry-run]
 #
 # Started by firm-apply-desired when the control plane names a new release. Modelled on
-# deploy/deploy-staging.sh, with a signed bundle instead of a git mirror: a firm has no access to
+# deploy/deploy-staging.sh, with a release bundle instead of a git mirror: a firm has no access to
 # the repository. In order:
 #
-#   1. fetches the bundle and refuses it unless its digest holds and a signer THIS SERVER trusts signed
-#      it. No signing key is on the control plane, so the control plane can only choose among signed
-#      releases; and this server's list of signers changes only through such a release (step 6).
+#   1. fetches the bundle and refuses it unless its SHA-256 is the digest the console gave in its
+#      authenticated heartbeat answer (HMAC under this firm's own token, over HTTPS)
 #   2. backs up, encrypted, to the firm's storage. No backup, no update.
 #   3. stops Odoo, copies the database, switches `current`, updates the addons, starts Odoo
 #   4. checks /web/health, /web/login, the module states and nginx
 #   5. on failure puts back the previous release and the copied database and keeps the failed one
 #      as <db>_failed_<sha>_<stamp>
-#   6. on success takes the release's list of trusted signers if it is newer (release_trust.py)
 #
-# BUNDLE_URL and SIG_URL, from firm-apply-desired, are the signed addresses the control plane gave
-# for this release (the releases bucket is private). Without them: $RELEASE_BASE_URL/<sha>.tar.gz.
+# BUNDLE_URL, from firm-apply-desired, is the time-limited address the control plane gave for this
+# release (the releases bucket is private). Without it: $RELEASE_BASE_URL/<sha>.tar.gz.
 #
 # The result is in the status folder for the next heartbeat: ok, rolled_back (running the previous
 # release) or failed (needs the operator). A refused release is not tried twice.
@@ -36,8 +34,8 @@ valid_release "$SHA" || fl_die "invalid release '$SHA'"
 valid_digest "$DIGEST" || fl_die "invalid digest"
 load_firm_env
 : "${RELEASE_BASE_URL:?}"
-: "${BUNDLE_URL:=$RELEASE_BASE_URL/$SHA.tar.gz}" "${SIG_URL:=$RELEASE_BASE_URL/$SHA.tar.gz.sig}"
-[[ $BUNDLE_URL =~ ^(https|file):// && $SIG_URL =~ ^(https|file):// ]] || fl_die "release addresses must be https"
+: "${BUNDLE_URL:=$RELEASE_BASE_URL/$SHA.tar.gz}"
+[[ $BUNDLE_URL =~ ^(https|file):// ]] || fl_die "the release address must be https"
 
 : "${SERVICE:=odoo}"
 : "${ODOO_USER:=odoo}"
@@ -52,7 +50,7 @@ MODULES=()
 
 if [ "$DRY_RUN" = 1 ]; then
   fl_log "DRY RUN: nothing is changed"
-  fl_log "fetch and verify ${BUNDLE_URL%%\?*} (digest and signature)"
+  fl_log "fetch ${BUNDLE_URL%%\?*} and check its SHA-256 against the console's"
   fl_log "firm-backup --tag pre-update; stop Odoo; copy $FIRM_DB to $SNAPSHOT"
   fl_log "switch current to $TARGET; update the addons; start Odoo; health check"
   fl_log "on failure: previous release and copied database back, result rolled_back or failed"
@@ -150,9 +148,8 @@ fetch_and_verify() {
   local work
   work=$(mktemp -d /var/tmp/firm-update.XXXXXX)
   curl -fsSL --retry 3 --max-time 600 -o "$work/bundle.tar.gz" "$BUNDLE_URL"
-  curl -fsSL --retry 3 --max-time 60 -o "$work/bundle.sig" "$SIG_URL"
-  verify_bundle "$work/bundle.tar.gz" "$work/bundle.sig" "$DIGEST" || { rm -rf "$work"; fl_die "bundle refused"; }
-  fl_log "signature good: signed by the trusted signer $SIGNED_BY"
+  verify_bundle "$work/bundle.tar.gz" "$DIGEST" || { rm -rf "$work"; fl_die "bundle refused"; }
+  fl_log "bundle accepted: its SHA-256 is the console's"
   if [ ! -d "$TARGET" ]; then
     rm -rf "$TARGET.tmp"
     install -d -m 750 "$TARGET.tmp"
@@ -244,6 +241,4 @@ result ok
 # The server's own scripts come with the release, once it is known to work.
 cp -f "$TARGET/deploy/firm/"*.sh "$TARGET/deploy/firm/recipe.env" "$BIN_DIR/"
 chmod 700 "$BIN_DIR"/*
-# A newer list of trusted signers, if this release (verified above) carries one.
-adopt_trust "$TARGET"
 fl_log "now running $SHA"

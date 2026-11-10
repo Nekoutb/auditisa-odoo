@@ -8,8 +8,6 @@
 # Layout on the server:
 #   /etc/auditisa-firm/firm.env            who this server is (no secret)
 #   /etc/auditisa-firm/secrets/            heartbeat.token (root:odoo 640), restic.key, s3.env (root 600)
-#   /etc/auditisa-firm/trusted-signers/    the signers a release bundle must be signed by (release_trust.py)
-#   /etc/auditisa-firm/release-signing.pub the first of them, for older scripts; the only key before the list
 #   /var/lib/auditisa-firm/status/<name>   one health figure per file, read by ea_audit_firm_agent
 #   /var/lib/auditisa-firm/spool/          what the control plane asked (written by odoo, read by root)
 #   /var/log/auditisa-firm/                logs, and break-glass.log (append-only)
@@ -30,9 +28,6 @@ ODOO_CONF=${ODOO_CONF:-$FIRM_PREFIX/etc/odoo/odoo.conf}
 ODOO_PY=${ODOO_PY:-/opt/odoo19/venv/bin/python}
 ODOO_BIN=${ODOO_BIN:-/opt/odoo19/src/odoo-bin}
 export ODOO_CONF ODOO_PY ODOO_BIN
-# The signers this server trusts for new releases: see release_trust.py and adopt_trust below.
-FIRM_TRUST=$FIRM_ETC/trusted-signers
-TRUST_PY=${TRUST_PY:-$ODOO_PY}
 
 fl_log() { printf '[%s] %s\n' "${SCRIPT_NAME:-firm}" "$*"; }
 fl_warn() { printf '[%s] WARNING: %s\n' "${SCRIPT_NAME:-firm}" "$*" >&2; }
@@ -88,52 +83,14 @@ valid_cidr() {
   [[ $address =~ ^[0-9a-fA-F:]+$ && $address == *:* ]] && [ "$size" -ge 48 ] && [ "$size" -le 128 ]
 }
 
-# The keys that may vouch for a bundle with this digest: every signer this server trusts, and a REMOVED
-# signer only for a bundle it signed while trusted (its .only file). With no list yet (a server set up
-# before the list existed), the one key of before. The list changes only through adopt_trust.
-trusted_keys() {
-  local digest=$1 key only found=0
-  for key in "$FIRM_TRUST"/*.pub; do
-    [ -f "$key" ] || continue
-    found=1
-    only=${key%.pub}.only
-    if [ -e "$only" ] && ! grep -qxF "$digest" "$only"; then continue; fi
-    printf '%s\n' "$key"
-  done
-  [ "$found" = 1 ] || printf '%s\n' "$FIRM_ETC/release-signing.pub"
-}
-
-# Verifies a bundle against its digest and the trusted signers. Prints nothing on success; sets
-# SIGNED_BY to the fingerprint of the signer whose key matched (or "release-signing").
+# Verifies a downloaded bundle: its SHA-256 must be the digest the console gave in its heartbeat
+# answer, which this server checked against its own heartbeat token (HMAC) and received over HTTPS.
+# The releases bucket and the download address are not trusted: only that digest decides.
 verify_bundle() {
-  local bundle=$1 signature=$2 digest=$3 key
-  SIGNED_BY=""
-  printf '%s  %s\n' "$digest" "$bundle" | sha256sum -c --status - || { fl_warn "bundle digest differs"; return 1; }
-  while IFS= read -r key; do
-    [ -n "$key" ] || continue
-    if openssl pkeyutl -verify -pubin -inkey "$key" -rawin -in "$bundle" -sigfile "$signature" >/dev/null 2>&1; then
-      SIGNED_BY=$(basename "$key" .pub)
-      return 0
-    fi
-  done < <(trusted_keys "$digest")
-  fl_warn "bundle signature refused: not signed by a signer this server trusts"
-  return 1
-}
-
-# Takes the list of signers that a release carries (deploy/trust/signers.json) if it is newer than the
-# one in use. ONLY for a release this server has verified: the one in use, or the one firm-update has
-# just checked. Never fails the caller: a refused list leaves the list in use as it was.
-adopt_trust() {
-  local release=$1 out
-  [ -f "$release/deploy/trust/signers.json" ] && [ -f "$release/deploy/firm/release_trust.py" ] || return 0
-  if ! out=$("$TRUST_PY" -I "$release/deploy/firm/release_trust.py" adopt "$release/deploy/trust/signers.json" \
-      "$FIRM_TRUST" --legacy "$FIRM_ETC/release-signing.pub"); then
-    fl_warn "the signer list carried by $(basename "$release") was refused; the list in use stays"
-    return 0
-  fi
-  set_status signers_serial "${out##* }"
-  case $out in
-    adopted*) fl_log "trusted signers: list number ${out##* } taken from release $(basename "$release")" ;;
-  esac
-  return 0
+  local bundle=$1 digest=$2
+  valid_digest "$digest" || { fl_warn "no valid digest to check the bundle against"; return 1; }
+  printf '%s  %s\n' "$digest" "$bundle" | sha256sum -c --status - || {
+    fl_warn "bundle refused: its SHA-256 is not the one the console gave"
+    return 1
+  }
 }

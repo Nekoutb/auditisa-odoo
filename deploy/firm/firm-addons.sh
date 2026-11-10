@@ -5,7 +5,7 @@
 #
 # Started by firm-apply-desired with what the control plane asked. The rules, in order:
 #
-#   1. the request is checked against the manifests of the signed release in use. Any code that is
+#   1. the request is checked against the manifests of the release in use. Any code that is
 #      not an optional add-on of that release refuses the WHOLE request: nothing changes, and the
 #      next heartbeat says so. A base feature can never be asked for or switched off this way.
 #   2. an add-on on for the first time is installed: backup, Odoo stopped, database copied, the
@@ -47,7 +47,7 @@ refuse() {
   exit 3
 }
 
-# The optional add-ons of the signed release in use: firm-update.sh verified it and root owns it.
+# The optional add-ons of the release in use: firm-update.sh checked its SHA-256 and root owns it.
 allowed_addons() {
   "$ODOO_PY" -I - "$1" <<'PY'
 import ast

@@ -5,7 +5,7 @@ build_release.sh). An add-on with "ea_client_addon": True in its manifest is opt
 everything else is a base feature, always on, with no switch of any kind.
 
 Nothing here decides what a firm finally does: its root script checks the request again, against
-the manifests of the signed release it runs. See docs/runbook/CLIENT-ADDONS.md.
+the manifests of the release it runs. See docs/runbook/CLIENT-ADDONS.md.
 """
 
 import ast

@@ -16,7 +16,7 @@ users and nothing else of the owner's.
 
 Releases: one private bucket, auditisa-releases-<random>, made by the owner. Firms hold no key to
 it. The console signs a short-lived address for each file a firm or the practice computer must
-fetch (sigv4.presign_url); the release's signature remains the proof that the file is genuine.
+fetch (sigv4.presign_url); the SHA-256 the console sends with it is what the server checks.
 
 `evaluate` is a small IAM policy evaluator (Allow, explicit Deny, wildcards in actions, resources and
 principals) with which the tests prove these properties offline. It is not Wasabi's engine: what

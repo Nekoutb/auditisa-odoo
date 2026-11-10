@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Rehearses the firm server's recipe without a server: every script in dry-run mode, the rendered
-# files checked one by one, the isolation test on two rendered firms, the release signature.
+# files checked one by one, the isolation test on two rendered firms, the release and its SHA-256 check.
 # Writes under a temporary folder only. Contacts nothing.
 set -euo pipefail
 
@@ -197,29 +197,38 @@ for bad in 'OPERATOR_IPS=0.0.0.0/0' 'OPERATOR_IPS=::/0' 'OPERATOR_IPS="any 8.8.8
   refused "$WORK/bad.env" "$bad"
 done
 
-echo "== a release is signed, verified, and refused once changed"
-KEYS=$WORK/keys
-mkdir -p "$KEYS"
-bash scripts/provision/build_release.sh --new-key "$KEYS/signing.pem" > "$WORK/key.log"
-sed -n '/BEGIN PUBLIC KEY/,/END PUBLIC KEY/p' "$WORK/key.log" > "$KEYS/signing.pub"
-if bash scripts/provision/build_release.sh --new-key "$KEYS/signing.pem" >/dev/null 2>&1; then fail "the signing key was overwritten"; fi
+echo "== a release is built without any key, and a server takes it only with the console's SHA-256"
 SHA=$(git rev-parse HEAD)
-bash scripts/provision/build_release.sh HEAD --key "$KEYS/signing.pem" --out "$WORK/out" > "$WORK/build.log"
+bash scripts/provision/build_release.sh HEAD --out "$WORK/out" > "$WORK/build.log"
 BUNDLE=$WORK/out/$SHA.tar.gz
-bash scripts/provision/build_release.sh --verify "$BUNDLE" --pub "$KEYS/signing.pub" >/dev/null
+DIGEST=$(sha256sum "$BUNDLE" | cut -d' ' -f1)
+has "$WORK/build.log" "^sha256  $DIGEST"
+[ ! -e "$BUNDLE.sig" ] || fail "a signature file was written"
+if bash scripts/provision/build_release.sh HEAD --key "$WORK/none.pem" --out "$WORK/out2" >/dev/null 2>&1; then fail "--key was accepted"; fi
+bash scripts/provision/build_release.sh HEAD --unsigned --out "$WORK/again" >/dev/null
+[ "$(sha256sum "$WORK/again/$SHA.tar.gz" | cut -d' ' -f1)" = "$DIGEST" ] || fail "the same commit gave another bundle"
 [ -s "$WORK/out/$SHA.catalogue.json" ] || fail "no catalogue beside the bundle"
-openssl pkeyutl -verify -pubin -inkey "$KEYS/signing.pub" -rawin -in "$WORK/out/$SHA.catalogue.json" -sigfile "$WORK/out/$SHA.catalogue.json.sig" >/dev/null || fail "the catalogue's signature does not hold"
 has "$WORK/out/$SHA.catalogue.json" '"code": "ea_audit_reports"'
 lacks "$WORK/out/$SHA.catalogue.json" 'ea_platform'
 tar -tzf "$BUNDLE" > "$WORK/list"
 has "$WORK/list" '^deploy/firm/install-firm-server.sh'
+has "$WORK/list" '^deploy/practice/practice-update.sh'
 has "$WORK/list" '^scripts/provision/new_firm.sh'
 has "$WORK/list" '^addons/ea_audit_firm_agent/'
 lacks "$WORK/list" 'ea_platform'
 lacks "$WORK/list" '^deploy/control-plane'
+lacks "$WORK/list" '^deploy/trust'
+# The firm side's one check: the bundle's SHA-256 against the console's. No signature is asked for.
+verify() { ( FIRM_PREFIX=$WORK/verify; . deploy/firm/firm-lib.sh; verify_bundle "$@" ) 2>/dev/null; }
+verify "$BUNDLE" "$DIGEST" || fail "the bundle was refused with its own SHA-256"
 cp "$BUNDLE" "$WORK/tampered.tar.gz"
-cp "$BUNDLE.sig" "$WORK/tampered.tar.gz.sig"
 printf 'x' >> "$WORK/tampered.tar.gz"
-if bash scripts/provision/build_release.sh --verify "$WORK/tampered.tar.gz" --pub "$KEYS/signing.pub" >/dev/null 2>&1; then fail "a changed bundle passed"; fi
+if verify "$WORK/tampered.tar.gz" "$DIGEST"; then fail "a changed bundle passed"; fi
+if verify "$BUNDLE" "$(printf '0%.0s' {1..64})"; then fail "a bundle passed with another SHA-256"; fi
+if verify "$BUNDLE" ""; then fail "a bundle passed with no SHA-256"; fi
+# The practice computer: the same rule.
+practice() { ( . deploy/practice/practice-lib.sh; practice_digest_holds "$@" ) 2>/dev/null; }
+practice "$BUNDLE" "$DIGEST" || fail "the practice computer refused the bundle with its own SHA-256"
+if practice "$WORK/tampered.tar.gz" "$DIGEST"; then fail "the practice computer took a changed bundle"; fi
 
 echo "firm-dry-run: all good"

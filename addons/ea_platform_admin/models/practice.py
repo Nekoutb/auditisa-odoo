@@ -139,15 +139,15 @@ class PlatformPracticeComputer(models.Model):
             space._apply_reported(reported.get(space.slug), figures["release"], now)
 
     def _answer(self):
-        """What the practice computer may be asked: a signed release, and each firm's space."""
+        """What the practice computer may be asked: a release (with its fingerprint), and each firm's space."""
         self.ensure_one()
         answer = {"ok": True, "spaces": [], "remove": []}
         release = self.desired_release_id
         if release:
             answer["release"] = {"sha": release.sha, "bundle_sha256": release.bundle_sha256}
-            urls = self.env["platform.services"]._release_urls(release, RELEASE_URL_SECONDS_HEARTBEAT)
-            if urls:
-                answer["release"]["bundle_url"], answer["release"]["signature_url"] = urls
+            url = self.env["platform.services"]._release_url(release, RELEASE_URL_SECONDS_HEARTBEAT)
+            if url:
+                answer["release"]["bundle_url"] = url
         for space in self.space_ids.with_context(active_test=False):
             if space.state == "removing":
                 answer["remove"].append(space.slug)
@@ -400,33 +400,30 @@ class PlatformFirm(models.Model):
 
 
 class PlatformRelease(models.Model):
-    """Release order: the practice computer first, the firms after the holding period."""
+    """Release order: Staging (the practice computer) first, then Production (the client firms)."""
 
     _inherit = "platform.release"
 
-    practice_hold_days = fields.Integer(
-        "Days on the practice computer before the firms", default=practice.DEFAULT_HOLD_DAYS,
-        help="Firms are offered this release only once the practice computer has run it this long. 0: do not wait.",
-    )
-    practice_since = fields.Datetime("On the practice computer since", readonly=True, copy=False)
-    practice_hold_ok = fields.Boolean("Firms may have it", compute="_compute_practice_hold")
-    practice_hold_text = fields.Char("Release order", compute="_compute_practice_hold")
+    practice_since = fields.Datetime("First on Staging on", readonly=True, copy=False)
+    staging_ok = fields.Boolean("May go to Production", compute="_compute_staging")
+    staging_text = fields.Char("Release order", compute="_compute_staging")
 
-    @api.depends("practice_since", "practice_hold_days")
+    @api.depends("sha")
     @api.depends_context("lang")
-    def _compute_practice_hold(self):
-        now = fields.Datetime.now()
+    def _compute_staging(self):
         for release in self:
-            ok, _until, message = release._practice_hold(now)
-            release.practice_hold_ok = ok
-            release.practice_hold_text = t(self.env, message)
+            ok, message = release._staging_check()
+            release.staging_ok = ok
+            release.staging_text = t(self.env, message)
 
-    def _practice_hold(self, now=None):
-        """(ok, until, message). No practice computer registered: the order cannot apply, and it says so."""
+    def _staging_check(self):
+        """(ok, message). Production takes only what Staging (the practice computer) runs now. No
+        practice computer registered: the order cannot apply, and it says so."""
         self.ensure_one()
-        if not self.env["platform.practice.computer"]._current():
-            return True, None, _("No practice computer yet: the release order does not apply.")
-        return practice.hold_status(self.practice_since, self.practice_hold_days, now or fields.Datetime.now())
+        computer = self.env["platform.practice.computer"]._current()
+        if not computer:
+            return True, _("No practice computer yet: the release order does not apply.")
+        return practice.staging_status(computer.release, self.sha)
 
     @api.model
     def _practice_started(self, sha, when):
@@ -434,30 +431,18 @@ class PlatformRelease(models.Model):
         for release in releases.filtered(lambda r: sha.startswith(r.sha) or r.sha.startswith(sha)):
             release.practice_since = when
 
-    def write(self, vals):
-        if "practice_hold_days" in vals and not self.env.su and not self.env.user.has_group("ea_platform_admin.group_platform_owner"):
-            raise UserError(t(self.env, _("Only the owner can change a release's holding period.")))
-        if "practice_hold_days" in vals and (vals["practice_hold_days"] or 0) < 0:
-            raise UserError(t(self.env, _("The holding period is a number of days, 0 or more.")))
-        result = super().write(vals)
-        if "practice_hold_days" in vals:
-            for release in self:
-                self.env["platform.log"]._record(
-                    _("Holding period on the practice computer changed"), None,
-                    _("Release %(release)s: %(days)s day(s)", release=release.sha[:12], days=release.practice_hold_days),
-                )
-        return result
 
 
 class PlatformRollout(models.Model):
     _inherit = "platform.rollout"
 
     def action_start(self):
-        """A firm is offered a release only after the practice computer has had it for the holding period."""
+        """A firm is offered only a release that Staging runs now. A rollback (back to a release the firms
+        already ran) is the one exception, and only the pipeline's rollback asks for it."""
         for rollout in self:
-            if self.env.context.get("ea_practice_hold_skip"):
+            if self.env.context.get("ea_rollback"):
                 continue
-            ok, _until, message = rollout.release_id.sudo()._practice_hold()
+            ok, message = rollout.release_id.sudo()._staging_check()
             if not ok:
                 raise UserError(t(self.env, _("Not yet for the firms: %(why)s", why=message)))
         return super().action_start()

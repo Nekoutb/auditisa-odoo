@@ -8,7 +8,6 @@ from ..recipe import REQUIRED_KEYS, SECRET_KEYS, render_user_data
 
 NOW = datetime(2026, 11, 5, 12)
 KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ owner@laptop"
-PUB = "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA\n-----END PUBLIC KEY-----"
 
 
 def values(**changes):
@@ -35,7 +34,7 @@ def build(provider=None, dns=None, probe=None, heartbeat=True, config=None, reso
         "user_data": lambda credentials: render_user_data(
             values(S3_ACCESS_KEY=credentials.access_key, S3_SECRET_KEY=credentials.secret_key,
                    S3_BUCKET=credentials.bucket, S3_ENDPOINT=credentials.endpoint),
-            KEY, PUB),
+            KEY),
         "heartbeat_seen": lambda: state["seen"],
         "figures_problems": lambda: [],
         "activate": lambda: state.__setitem__("activated", True),
@@ -295,17 +294,18 @@ def test_two_firms_share_no_resource():
 
 def test_user_data_holds_only_the_listed_secrets():
     assert SECRET_KEYS == {"HEARTBEAT_TOKEN", "S3_ACCESS_KEY", "S3_SECRET_KEY"}
-    text = render_user_data(values(), KEY, PUB)
+    text = render_user_data(values(), KEY)
     assert text.startswith("#cloud-config")
     assert "HBTOKEN" in text
     for word in ("admin_passwd", "db_password", "MASTER", "RESTIC", "PGPASSWORD", "PASSWORD"):
         assert word not in text
 
 
-def test_user_data_checks_the_signature_before_running_anything():
-    text = render_user_data(values(), KEY, PUB)
-    assert text.index("pkeyutl -verify") < text.rindex("install-firm-server.sh")
+def test_user_data_checks_the_sha256_before_running_anything_and_needs_no_signature():
+    text = render_user_data(values(), KEY)
     assert text.index("sha256sum -c") < text.rindex("install-firm-server.sh")
+    for gone in ("pkeyutl", ".sig", "release-signing", "trusted-signers", "RELEASE_SIG_URL_B64"):
+        assert gone not in text
     assert "set -euo pipefail" in text
     assert "ssh_pwauth: false" in text
 
@@ -313,24 +313,24 @@ def test_user_data_checks_the_signature_before_running_anything():
 @pytest.mark.parametrize("bad", ["a'b", "a;reboot", "$(reboot)", "a`b`", "a\nb", 'a"b'])
 def test_user_data_refuses_values_that_could_break_out(bad):
     with pytest.raises(ValueError):
-        render_user_data(values(FIRM_ADMIN_EMAIL=bad), KEY, PUB)
+        render_user_data(values(FIRM_ADMIN_EMAIL=bad), KEY)
 
 
 def test_user_data_refuses_missing_and_unknown_keys():
     data = values()
     del data["HEARTBEAT_TOKEN"]
     with pytest.raises(ValueError):
-        render_user_data(data, KEY, PUB)
+        render_user_data(data, KEY)
     with pytest.raises(ValueError):
-        render_user_data(values(DB_PASSWORD="x"), KEY, PUB)
+        render_user_data(values(DB_PASSWORD="x"), KEY)
 
 
 def test_user_data_refuses_a_key_that_is_not_one_public_key():
     with pytest.raises(ValueError):
-        render_user_data(values(), "ssh-rsa AAAA", PUB)
+        render_user_data(values(), "ssh-rsa AAAA")
     with pytest.raises(ValueError):
-        render_user_data(values(), KEY + "\nssh-ed25519 BBBB", PUB)
+        render_user_data(values(), KEY + "\nssh-ed25519 BBBB")
 
 
 def test_user_data_stays_under_the_limit():
-    assert len(render_user_data(values(), KEY, PUB)) < 8000
+    assert len(render_user_data(values(), KEY)) < 8000

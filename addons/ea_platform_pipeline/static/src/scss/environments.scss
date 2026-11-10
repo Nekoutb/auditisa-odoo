@@ -98,6 +98,14 @@
         gap: 8px;
         flex-wrap: wrap;
     }
+    .ea-env-releases {
+        padding: 8px 12px;
+        margin: 8px 0;
+        border: 1px solid var(--bs-border-color);
+        border-radius: 6px;
+        .ea-env-release { padding: 2px 0; }
+        .ea-env-release-new { font-size: 1.05em; }
+    }
     .ea-env-info {
         display: flex;
         flex-wrap: wrap;

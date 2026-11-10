@@ -51,17 +51,7 @@ class TestSettings(PlatformCase):
             self._settings(provider="vultr").action_save()
         with self.assertRaisesRegex(UserError, "To fill in"):
             self._settings(provider="vultr", confirm_real=True).action_save()
-        with self.assertRaisesRegex(UserError, "trusted signer"):
-            self._settings(
-                provider="vultr", confirm_real=True,
-                heartbeat_url="https://hb.example.invalid/platform/heartbeat",
-                releases_bucket="auditisa-releases-0123abcd4567",
-                ssh_allowlist="8.8.8.8", vultr_os_id="1", dns_zone_id="z",
-            ).action_save()
-        self.env["platform.signer"].sudo().create({
-            "name": "Owner", "email": "contact@cm-ea.com",
-            "public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAZ9Gxf9CGeg8INOv/2l1p9YG2lWSpZqmsPnCglkTNoW8=\n-----END PUBLIC KEY-----\n",
-        })
+        # No signing key is asked for any more (2026-11-10): with every setting, only the token files remain.
         with self.assertRaisesRegex(UserError, "token"):
             self._settings(
                 provider="vultr", confirm_real=True,

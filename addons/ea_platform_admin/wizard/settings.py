@@ -39,9 +39,6 @@ class PlatformSettings(models.TransientModel):
     )
     base_domain = fields.Char("Base domain", default=lambda self: self._param("ea_platform.base_domain", "auditisa.com"), required=True)
     heartbeat_url = fields.Char("Heartbeat receiving address", default=lambda self: self._param("ea_platform.heartbeat_url"))
-    # Who may sign a new version: Platform > Updates > Signers. One key per person, never shared.
-    signer_count = fields.Integer("Trusted signers", compute="_compute_signers")
-    signer_names = fields.Text("Who may sign a new version", compute="_compute_signers")
     ssh_allowlist = fields.Text("Operator addresses for port 22", default=lambda self: self._param("ea_platform.ssh_allowlist"))
     vultr_os_id = fields.Char("Server operating system (Vultr id)", default=lambda self: self._param("ea_platform.vultr_os_id"))
     dns_zone_id = fields.Char("DNS zone (Cloudflare id)", default=lambda self: self._param("ea_platform.dns_zone_id"))
@@ -55,16 +52,6 @@ class PlatformSettings(models.TransientModel):
     )
     releases_bucket = fields.Char("Releases bucket (Wasabi)", default=lambda self: self._param(PARAM_RELEASES_BUCKET))
     confirm_real = fields.Boolean("I want to create real servers, billed by the provider.")
-
-    def _compute_signers(self):
-        signers = self.env["platform.signer"].sudo().search([])
-        for settings in self:
-            settings.signer_count = len(signers)
-            settings.signer_names = "\n".join(
-                f"{signer.name} ({signer.email}) {signer.fingerprint_short}" for signer in signers)
-
-    def action_open_signers(self):
-        return self.env["ir.actions.act_window"]._for_xml_id("ea_platform_admin.action_signers")
 
     def _compute_display_name(self):
         for settings in self:
@@ -114,8 +101,6 @@ class PlatformSettings(models.TransientModel):
                           "vultr_os_id", "dns_zone_id", "wasabi_region", "releases_bucket")
             if not self[field]
         ]
-        if not self.signer_count:
-            missing.append(t(self.env, _("At least one trusted signer (Platform > Updates > Signers)")))
         if missing:
             raise UserError(t(self.env, _("To fill in before going real:")) + "\n" + "\n".join(missing))
         folder = os.environ.get("CREDENTIALS_DIRECTORY")

@@ -92,16 +92,20 @@ def test_answer_needs_release_and_digest_together():
         {"desired_release": "$(reboot)", "desired_bundle_sha256": digest}).encode())
 
 
-def test_answer_carries_signed_release_addresses_only_with_the_release():
+def test_answer_carries_the_release_address_only_with_the_release_and_its_digest():
     digest = hashlib.sha256(b"x").hexdigest()
     bundle = ("https://s3.eu-central-1.wasabisys.com/auditisa-releases-x1y2z3w4/abcdef1.tar.gz"
               "?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKID%2F20261109%2Feu-central-1%2Fs3%2Faws4_request"
               "&X-Amz-Date=20261109T000000Z&X-Amz-Expires=21600&X-Amz-SignedHeaders=host&X-Amz-Signature=" + "a" * 64)
-    signature = bundle.replace(".tar.gz?", ".tar.gz.sig?")
-    answer = {"desired_release": "abcdef1", "desired_bundle_sha256": digest,
-              "desired_bundle_url": bundle, "desired_signature_url": signature}
+    answer = {"desired_release": "abcdef1", "desired_bundle_sha256": digest, "desired_bundle_url": bundle}
     desired = parse_desired(json.dumps(answer).encode())
-    assert (desired["bundle_url"], desired["signature_url"]) == (bundle, signature)
+    assert (desired["release"], desired["bundle_sha256"], desired["bundle_url"]) == ("abcdef1", digest, bundle)
+    # No signature is asked for, and a console of before that still sends one changes nothing.
+    assert "signature_url" not in desired
+    older = parse_desired(json.dumps(dict(answer, desired_signature_url=bundle)).encode())
+    assert older["bundle_url"] == bundle and "signature_url" not in older
+    # Without its digest, no release and no address: the digest is what the server checks.
+    assert "bundle_url" not in parse_desired(json.dumps(dict(answer, desired_bundle_sha256="")).encode())
     for wrong in ("http://s3.example/x", "https://h/x?a=$(reboot)", "file:///etc/shadow", "https://h.example/x y", 7):
         assert "bundle_url" not in parse_desired(json.dumps(dict(answer, desired_bundle_url=wrong)).encode())
     assert "bundle_url" not in parse_desired(json.dumps(dict(answer, desired_release="$(x)")).encode())
@@ -145,9 +149,7 @@ def test_first_admin_password_rules():
     assert password_problem("un mot de passe long", "un mot de passe long") is None
 
 
-def test_the_number_of_the_trusted_signer_list_is_reported_once_known(tmp_path):
-    assert "signers_serial" not in read_status(str(tmp_path))
+def test_a_left_over_signer_list_number_is_not_reported(tmp_path):
+    """Servers set up before 2026-11-10 keep a status/signers_serial file: nothing reads it any more."""
     (tmp_path / "signers_serial").write_text("3\n", encoding="ascii")
-    assert read_status(str(tmp_path))["signers_serial"] == 3
-    (tmp_path / "signers_serial").write_text("three\n", encoding="ascii")
     assert "signers_serial" not in read_status(str(tmp_path))

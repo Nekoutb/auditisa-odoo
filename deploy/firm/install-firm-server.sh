@@ -64,7 +64,7 @@ set +a
 : "${FIRM_SLUG:?}" "${FIRM_NAME_B64:?}" "${FIRM_HOST:?}" "${FIRM_SIZE:?}" "${FIRM_LANG:?}" "${FIRM_ADMIN_EMAIL:?}"
 : "${RELEASE_SHA:?}" "${RELEASE_BASE_URL:?}" "${HEARTBEAT_URL:?}" "${HEARTBEAT_TOKEN:?}" "${FIRST_ADMIN_TOKEN_SHA256:?}"
 : "${SSH_ALLOWLIST:?}" "${S3_ENDPOINT:?}" "${S3_REGION:?}" "${S3_BUCKET:?}" "${S3_ACCESS_KEY:?}" "${S3_SECRET_KEY:?}"
-: "${FIRM_ALLOWED_DOMAINS:=}" "${RELEASE_BUNDLE_URL_B64:=}" "${RELEASE_SIG_URL_B64:=}"
+: "${FIRM_ALLOWED_DOMAINS:=}" "${RELEASE_BUNDLE_URL_B64:=}" "${RELEASE_BUNDLE_SHA256:=}"
 [[ $FIRM_SLUG =~ ^[a-z][a-z0-9-]{1,30}[a-z0-9]$ ]] || fl_die "invalid slug"
 valid_release "$RELEASE_SHA" || fl_die "invalid release"
 for cidr in $SSH_ALLOWLIST; do valid_cidr "$cidr" || fl_die "refused address for port 22: $cidr"; done
@@ -147,9 +147,6 @@ RELEASE_BASE_URL='$RELEASE_BASE_URL'
 EOF
   printf '%s\n' "$FIRM_HOST" | render /etc/auditisa-firm/domains 644 root:root
   printf '%s\n' "$SSH_ALLOWLIST" | tr ' ' '\n' | render /etc/auditisa-firm/ssh_allowlist 644 root:root
-  if [ "$DRY_RUN" = 1 ] && [ ! -s "$FIRM_ETC/release-signing.pub" ]; then
-    printf 'DRY-RUN SIGNING KEY\n' | render /etc/auditisa-firm/release-signing.pub 644 root:root
-  fi
 }
 
 harden_ssh() {
@@ -384,6 +381,10 @@ install_release() {
   local source=$HERE/../..
   if [ "$DRY_RUN" = 0 ]; then
     [ -n "$BUNDLE" ] && [ -r "$BUNDLE" ] || die "--bundle FILE is required"
+    # The first boot checked it already; checked again here, so that no other file is ever installed.
+    if [ -n "$RELEASE_BUNDLE_SHA256" ]; then
+      verify_bundle "$BUNDLE" "$RELEASE_BUNDLE_SHA256" || die "the bundle is not the release the console named"
+    fi
     run install -d -m 750 "$RELEASES_DIR"
     local target=$RELEASES_DIR/$RELEASE_SHA
     rm -rf "$target.tmp"
@@ -397,7 +398,7 @@ install_release() {
     chmod 750 "$(dirname "$RELEASES_DIR")" "$RELEASES_DIR"
     source=$target
   else
-    printf '+ unpack the signed bundle to %s/%s and point current at it\n' /opt/auditisa-odoo/releases "$RELEASE_SHA"
+    printf '+ check the bundle'"'"'s SHA-256, unpack it to %s/%s and point current at it\n' /opt/auditisa-odoo/releases "$RELEASE_SHA"
   fi
   install_scripts_from "$source"
   mkdir -p "$FIRM_STATUS"
@@ -629,7 +630,7 @@ finish() {
   rm -f /var/lib/cloud/instance/user-data.txt /var/lib/cloud/instance/user-data.txt.i \
         /var/lib/cloud/instance/cloud-config.txt /var/lib/cloud/instance/scripts/runcmd
   rm -rf /root/firm-bundle
-  rm -f /root/bundle.tar.gz /root/bundle.sig
+  rm -f /root/bundle.tar.gz /root/bundle.sig  # .sig: left by a first boot of before 2026-11-10
   /usr/local/sbin/firm-cert || fl_warn "no certificate yet: the timer tries again every five minutes"
   /usr/local/sbin/firm-status
   /usr/local/sbin/firm-backup || fl_warn "first backup failed: the board will say so"

@@ -7,8 +7,8 @@
 #   install-practice-server.sh --env FILE --dry-run --root DIR      writes every file under DIR, prints the
 #                                                                   commands, changes nothing else
 #
-# --release DIR is an unpacked release (addons/ at its top) that has been checked: a signed bundle
-# unpacked by practice-update.sh, or on the preview a release staging already runs.
+# --release DIR is an unpacked release (addons/ at its top) that has been checked: a bundle whose
+# SHA-256 held, unpacked by practice-update.sh, or on the preview a release staging already runs.
 #
 # What it sets up (see docs/runbook/PRACTICE-SPACES.md):
 #   - one Odoo 19 service, odoo-practice, as its own system user and PostgreSQL role, serving every
@@ -58,7 +58,7 @@ grep -Evq "^([A-Z0-9_]+='[A-Za-z0-9 ._:@/%+=,-]*'|#.*|)$" "$ENV_FILE" && pl_die 
 : "${PRACTICE_NAME:?}" "${PRACTICE_DOMAIN:?}" "${PRACTICE_PORT:?}" "${PRACTICE_PUBLIC_URL:?}"
 : "${PRACTICE_SERVICE:=odoo-practice}" "${PRACTICE_CONF:=/etc/odoo/practice.conf}" "${PRACTICE_DATA_DIR:=/var/lib/odoo-practice}"
 : "${PRACTICE_ENTRY_URL:=$PRACTICE_PUBLIC_URL/web/login}"
-: "${PRACTICE_WORKERS:=2}" "${PRACTICE_MEMORY:=2400M}" "${PRACTICE_LANG:=fr_FR}" "${PRACTICE_HOLD_DAYS:=7}"
+: "${PRACTICE_WORKERS:=2}" "${PRACTICE_MEMORY:=2400M}" "${PRACTICE_LANG:=fr_FR}"
 : "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_SSH_ALLOWLIST:=}" "${PRACTICE_UPDATE_MEM:=1400M}" "${PRACTICE_RELEASE_BASE_URL:=}"
 : "${PREVIEW_PORT:=}" "${PREVIEW_HOST:=}" "${PREVIEW_CERT:=}"
 [ "$PREVIEW" = 1 ] || [ "${PRACTICE_PREVIEW:-0}" = 0 ] || pl_die "$ENV_FILE is a preview's: add --preview"
@@ -154,7 +154,6 @@ PRACTICE_ENTRY_URL='$PRACTICE_ENTRY_URL'
 PRACTICE_PREVIEW='$PREVIEW'
 PRACTICE_STRICT_CLUSTER='$((1 - PREVIEW))'
 PRACTICE_LANG='$PRACTICE_LANG'
-PRACTICE_HOLD_DAYS='$PRACTICE_HOLD_DAYS'
 PRACTICE_HEARTBEAT_URL='$PRACTICE_HEARTBEAT_URL'
 PRACTICE_RELEASE_BASE_URL='$PRACTICE_RELEASE_BASE_URL'
 PRACTICE_UPDATE_MEM='$PRACTICE_UPDATE_MEM'

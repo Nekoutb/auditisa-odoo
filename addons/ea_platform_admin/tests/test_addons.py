@@ -2,9 +2,6 @@ import json
 import base64
 from datetime import datetime, timedelta
 
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
-
 from odoo import fields
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
@@ -76,23 +73,14 @@ class TestCatalogue(AddonCase):
             with self.assertRaises(AccessError):
                 self.env["platform.addon"].with_user(user).create({"code": "ea_client_z", "name": "Z"})
 
-    def test_a_signature_is_checked_when_given(self):
-        private = Ed25519PrivateKey.generate()
-        pem = private.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
-        self.env["platform.signer"].sudo().create({"name": "Owner", "email": "contact@cm-ea.com", "public_pem": pem})
-        raw = catalogue_bytes(self.release2.sha)
-        with self.assertRaisesRegex(UserError, "signature does not hold"):
-            self.release2._load_catalogue(raw, private.sign(raw + b"x"))
-        self.assertFalse(self.release2.catalogue_loaded_at)
-        self.release2._load_catalogue(raw, private.sign(raw))
-        self.assertTrue(self.release2.catalogue_signed)
-
-    def test_a_real_platform_refuses_a_catalogue_without_a_signature(self):
+    def test_a_real_platform_loads_a_catalogue_with_no_signature(self):
+        """Since 2026-11-10 nothing is signed: the release's own catalogue file loads as it is."""
         services = type(self.env["platform.services"])
         self.patch(services, "_is_simulation", lambda _self: False)
-        with self.assertRaisesRegex(UserError, "signature file"):
-            self.release2._load_catalogue(catalogue_bytes(self.release2.sha))
-        with self.assertRaisesRegex(UserError, "signed file"):
+        self.release2._load_catalogue(catalogue_bytes(self.release2.sha))
+        self.assertTrue(self.release2.catalogue_loaded_at)
+        self.assertNotIn("catalogue_signed", self.release2._fields)
+        with self.assertRaisesRegex(UserError, "own file"):
             self.release2.with_user(self.owner).action_read_catalogue_here()
 
     def test_only_the_owner_reads_a_catalogue_from_the_code_or_uses_the_upload(self):
@@ -115,7 +103,6 @@ class TestCatalogue(AddonCase):
         self.assertIn("ea_audit_core", codes)
         self.assertNotIn("ea_platform_admin", codes)
         self.assertEqual(self.release2._optional_codes(), [SAMPLE])
-        self.assertFalse(self.release2.catalogue_signed)
 
 
 @tagged("post_install", "-at_install")

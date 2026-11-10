@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 # practice-update.sh: takes every practice space to a new release, or leaves them all as they were.
 #
-#   practice-update --bundle FILE --digest SHA256         a signed release bundle (FILE.sig beside it)
+#   practice-update --bundle FILE --digest SHA256         a release bundle and the SHA-256 the console gave
 #   practice-update --release-dir DIR                      the preview only: a release staging already runs
 #
-# The practice computer gets a new release BEFORE any firm's real server: the control room offers
-# it to a firm only after the holding period (7 days unless the owner says otherwise). In order:
+# The practice computer is the Staging step: it gets a new release BEFORE any firm's real server, and
+# the control room offers a firm only the release that runs here. In order:
 #
-#   1. the bundle's digest and signature are checked (the same rule as the firms': a signer this computer
-#      already trusts), and it is unpacked
+#   1. the bundle's SHA-256 must be the digest the console gave (the same rule as the firms'), and it
+#      is unpacked
 #   2. Odoo stops; each space is copied to upd_practice_<slug>, closed to connections
 #   3. `current` switches; every space's addons are updated
 #   4. Odoo starts; every space must answer its login page
 #   5. on any failure: the previous release, and every space from its copy. All or nothing: the
 #      spaces share one code.
-#   6. the demo template is built again on the new release (resets need it; until then they refuse)
-#   7. the release's list of trusted signers is taken if it is newer (deploy/firm/release_trust.py)
+#   6. this computer's scripts are taken from the release (they come with it, once it works)
+#   7. the demo template is built again on the new release (resets need it; until then they refuse)
 
 set -euo pipefail
 umask 022
@@ -46,16 +46,14 @@ snapshot_of() { printf 'upd_practice_%s' "$1"; }
 
 unpack() {
   if [ -n "$SOURCE_DIR" ]; then
-    [ "$PRACTICE_PREVIEW" = 1 ] || pl_die "--release-dir is for the preview only: the practice computer takes signed bundles"
+    [ "$PRACTICE_PREVIEW" = 1 ] || pl_die "--release-dir is for the preview only: the practice computer takes release bundles"
     [ -d "$SOURCE_DIR/addons" ] || pl_die "$SOURCE_DIR has no addons/"
     NAME=$(sed -n 's/^sha=//p' "$SOURCE_DIR/RELEASE" 2>/dev/null | cut -c1-12 || true)
     [ -n "$NAME" ] || NAME=$(basename "$SOURCE_DIR")
   else
-    [ -r "$BUNDLE" ] && [ -r "$BUNDLE.sig" ] || pl_die "--bundle FILE (and FILE.sig) required"
+    [ -r "$BUNDLE" ] || pl_die "--bundle FILE required"
     [[ $DIGEST =~ ^[0-9a-f]{64}$ ]] || pl_die "--digest must be a sha256"
-    printf '%s  %s\n' "$DIGEST" "$BUNDLE" | sha256sum -c --status - || pl_die "the bundle's digest differs"
-    practice_signature_holds "$BUNDLE" "$BUNDLE.sig" "$DIGEST" \
-      || pl_die "the bundle's signature is refused: not signed by a signer this computer trusts"
+    practice_digest_holds "$BUNDLE" "$DIGEST" || pl_die "the bundle is refused: its SHA-256 is not the one the console gave"
     NAME=$(basename "$BUNDLE" .tar.gz | cut -c1-12)
   fi
   valid_release "$NAME" || pl_die "cannot tell the release's name"
@@ -77,6 +75,20 @@ unpack() {
 switch_to() {
   ln -sfn "$1" "$PRACTICE_CURRENT.tmp"
   mv -Tf "$PRACTICE_CURRENT.tmp" "$PRACTICE_CURRENT"
+}
+
+# The scripts of a bundle that now works replace this computer's, each by a rename: a running script
+# keeps its own copy. A release without them (the preview's --release-dir) leaves the scripts as they are.
+take_scripts() {
+  local script
+  [ -d "$TARGET/deploy/practice" ] || return 0
+  for script in practice-lib.sh practice-space.sh practice-template.sh practice-update.sh practice-guard.sh \
+                practice-cert.sh practice-apply-desired.sh practice_heartbeat.py practice_isolation_test.py; do
+    [ -f "$TARGET/deploy/practice/$script" ] || continue
+    install -m 700 "$TARGET/deploy/practice/$script" "$PRACTICE_BIN/.$script.new"
+    mv -f "$PRACTICE_BIN/.$script.new" "$PRACTICE_BIN/$script"
+  done
+  pl_log "scripts taken from $NAME"
 }
 
 update_space() {
@@ -164,8 +176,7 @@ for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
   psql_q "DROP DATABASE \"$(snapshot_of "$slug")\" WITH (FORCE)" >/dev/null || pl_warn "could not drop $(snapshot_of "$slug")"
 done
 printf '%s\n' "$NAME" > "$PRACTICE_STATUS/release"
-# A newer list of trusted signers, if this release (verified above) carries one.
-practice_adopt_trust "$TARGET"
+take_scripts
 printf 'ok %s %s\n' "$NAME" "$(now_utc)" > "$PRACTICE_STATUS/update_state"
 audit_line "update release=$NAME spaces=${#SNAPPED[@]}"
 pl_log "every space is on $NAME; building the demo template on it"

@@ -6,9 +6,9 @@ heartbeat for itself and all its spaces, signed like a firm's under its own pref
 outside the list below rejects the whole heartbeat, and every value must match a closed pattern:
 figures only, never a name, a login or a record of a space.
 
-Release order: a release goes to the practice computer first. A firm's real server is offered it
-only once the practice computer has run it for the holding period (7 days unless the owner sets
-another number on that release). `hold_status` decides it.
+Release order: a release goes to Staging first, that is the practice computer (it runs on the
+staging server). A firm's real server (Production) is offered only a release that the practice
+computer runs now. `staging_status` decides it. There is no waiting period.
 """
 
 import base64
@@ -16,7 +16,7 @@ import hashlib
 import hmac
 import json
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from .heartbeat import MAX_CLOCK_SKEW_SECONDS, HeartbeatRejected
 from .messages import _
@@ -30,7 +30,6 @@ HEADER_RESPONSE_SIGNATURE = "X-EA-Response-Signature"
 SCHEMA_VERSION = 1
 MAX_SPACES = 300
 MAX_BODY_BYTES = 400 * MAX_SPACES + 1024
-DEFAULT_HOLD_DAYS = 7
 
 _NAME = re.compile(r"^[a-z][a-z0-9-]{1,30}$")
 _SLUG = re.compile(r"^[a-z][a-z0-9-]{1,30}[a-z0-9]$")
@@ -180,21 +179,19 @@ def link_hash(token):
     return hashlib.sha256(token.encode("ascii")).hexdigest()
 
 
-def hold_status(practice_since, hold_days, now):
-    """(ok, until, message) for offering a release to the firms.
+def same_release(first, second):
+    """A heartbeat may carry a short commit, a release a longer one."""
+    return bool(first and second) and (first.startswith(second) or second.startswith(first))
 
-    `practice_since` is when the practice computer first reported running the release (None: not
-    yet). `hold_days` 0 means the owner chose not to wait for this release.
+
+def staging_status(running, sha):
+    """(ok, message) for offering release `sha` to the client firms (Production).
+
+    `running` is the release the practice computer (Staging) last reported running. Production takes
+    only what Staging runs now: no waiting period, no exception to type.
     """
-    days = DEFAULT_HOLD_DAYS if hold_days is None else max(0, int(hold_days))
-    if days == 0:
-        return True, None, _("Holding period waived by the owner for this release.")
-    if not practice_since:
-        return False, None, _("Not yet on the practice computer: firms are offered a release after %(days)s days there.", days=days)
-    until = practice_since + timedelta(days=days)
-    if now >= until:
-        return True, until, _("On the practice computer for %(days)s days or more: firms may have it.", days=days)
-    return False, until, _(
-        "On the practice computer since %(since)s: firms may have it from %(until)s.",
-        since=practice_since.strftime("%Y-%m-%d %H:%M"), until=until.strftime("%Y-%m-%d %H:%M"),
-    )
+    if same_release(running, sha):
+        return True, _("Staging runs this version: it may go to Production.")
+    if not running:
+        return False, _("This version is not on Staging yet: promote it to Staging first.")
+    return False, _("Staging runs another version (%(running)s): promote this one to Staging first.", running=running[:12])

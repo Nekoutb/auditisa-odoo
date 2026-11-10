@@ -24,15 +24,20 @@
                                 <div class="ea-env-buttons">
                                     <button name="action_refresh" type="object" string="Read again" class="btn btn-link"
                                             help="Reads the latest figures and accounts the console has received."/>
-                                    <button name="action_open_promote" type="object" class="btn btn-outline-danger"
-                                            string="Promote staging → production"
+                                    <button name="action_promote_staging" type="object" class="btn btn-primary"
+                                            string="Promote to Staging"
                                             groups="ea_platform_admin.group_platform_owner"
-                                            help="Sends a version signed on your computer to the practice spaces, then to the client firms. Two separate steps, each confirmed."/>
+                                            help="Sends the new version to the practice spaces on the staging server. You confirm once."/>
+                                    <button name="action_promote_production" type="object" class="btn btn-outline-danger"
+                                            string="Promote to Production"
+                                            groups="ea_platform_admin.group_platform_owner"
+                                            help="Sends the version Staging runs to the client firms. You confirm once."/>
                                     <button name="action_connect" type="object" class="btn btn-success" string="Connect"
                                             invisible="code == 'development' or not can_connect"
                                             help="Staging: opens it in a new tab. Practice: asks which space. Client firm: starts a read-only support visit."/>
                                 </div>
                             </div>
+                            <field name="release_html" nolabel="1" readonly="1"/>
                             <field name="info_html" nolabel="1" readonly="1"/>
                             <field name="rules_html" nolabel="1" readonly="1"/>
                             <notebook class="ea-env-tabs">
@@ -216,42 +221,25 @@
         </field>
     </record>
 
-    <!-- Promote: the two steps -->
+    <!-- Promote to Staging, Promote to Production: what will happen, in plain words, and one Yes. -->
     <record id="view_environment_promote_form" model="ir.ui.view">
         <field name="name">platform.environment.promote.form</field>
         <field name="model">platform.environment.promote</field>
         <field name="arch" type="xml">
             <form>
-                <field name="overview_html" nolabel="1" readonly="1"/>
+                <field name="target" invisible="1"/>
+                <div class="alert alert-warning" role="status" invisible="not problem">
+                    <field name="problem" nolabel="1" readonly="1"/>
+                </div>
+                <field name="summary_html" nolabel="1" readonly="1"/>
                 <footer>
-                    <button name="action_to_practice" type="object" string="Step 1: Promote staging → practice..." class="btn-primary"/>
-                    <button name="action_to_production" type="object" string="Step 2: Promote practice → production..." class="btn-outline-danger"/>
-                    <button special="cancel" string="Close" class="btn-secondary"/>
+                    <button name="action_confirm" type="object" string="Yes, promote to Staging" class="btn-primary"
+                            invisible="target != 'staging' or problem"/>
+                    <button name="action_confirm" type="object" string="Yes, promote to Production" class="btn-danger"
+                            invisible="target != 'production' or problem"/>
+                    <button special="cancel" string="Cancel" class="btn-secondary"/>
                 </footer>
             </form>
-        </field>
-    </record>
-
-    <!-- Staging → practice: signed releases only, what changes, a typed word -->
-    <record id="view_practice_release_form_confirm" model="ir.ui.view">
-        <field name="name">platform.practice.release.wizard.form.confirm</field>
-        <field name="model">platform.practice.release.wizard</field>
-        <field name="inherit_id" ref="ea_platform_admin.view_practice_release_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='release_id']" position="attributes">
-                <attribute name="domain">[('id', 'in', signed_release_ids)]</attribute>
-                <attribute name="options">{'no_create': True}</attribute>
-            </xpath>
-            <xpath expr="//group" position="after">
-                <field name="signed_release_ids" invisible="1"/>
-                <p class="text-muted" invisible="signed_release_ids or not context.get('ea_status_promote')">This version is not signed yet. A trusted signer signs it first, with the "Sign new version" tool: only releases signed by a trusted signer are listed.</p>
-                <field name="summary_html" nolabel="1" readonly="1" invisible="not release_id or not context.get('ea_status_promote')"/>
-                <group invisible="not release_id or not context.get('ea_status_promote')">
-                    <field name="expected" class="font-monospace" readonly="1"/>
-                    <field name="typed" required="context.get('ea_status_promote')" class="font-monospace" placeholder="Type the line above, exactly"/>
-                    <field name="reason" required="context.get('ea_status_promote')" placeholder="Why now? It goes in the platform log."/>
-                </group>
-            </xpath>
         </field>
     </record>
 
@@ -267,24 +255,16 @@
         </field>
     </record>
 
-    <!-- A promotion: the practice wait, its exception, and the result firm by firm. -->
+    <!-- A promotion: whether Staging runs it, and the result firm by firm. -->
     <record id="view_promotion_form_hold" model="ir.ui.view">
         <field name="name">platform.pipeline.promotion.form.hold</field>
         <field name="model">platform.pipeline.promotion</field>
         <field name="inherit_id" ref="view_promotion_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//header/button[@name='action_open_confirm']" position="after">
-                <button name="action_open_confirm_override" type="object" string="Skip the 7 days on practice..."
-                        class="btn-outline-danger" invisible="state != 'draft' or not id or hold_ok or hold_override or kind != 'promote'"/>
-            </xpath>
             <xpath expr="//sheet/group[1]" position="after">
-                <group string="Practice first" invisible="not release_id or kind != 'promote'">
-                    <field name="hold_ok" invisible="1"/>
-                    <field name="hold_text" string="Practice wait"/>
-                    <field name="hold_override" invisible="not hold_override"/>
-                    <field name="hold_override_reason" invisible="not hold_override"/>
-                    <field name="hold_override_by_id" invisible="not hold_override"/>
-                    <field name="hold_override_at" invisible="not hold_override"/>
+                <group string="Staging first" invisible="not release_id or kind != 'promote'">
+                    <field name="staging_ok" invisible="1"/>
+                    <field name="staging_text" string="Staging"/>
                 </group>
                 <group string="Result, firm by firm" invisible="not rollout_id">
                     <field name="rollout_line_ids" nolabel="1" colspan="2" readonly="1">

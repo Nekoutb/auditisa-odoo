@@ -7,7 +7,7 @@ import pytest
 
 from ..catalogue import SIZES
 from ..recipe import ALL_KEYS, REQUIRED_KEYS, render_user_data
-from .test_provisioning import KEY, PUB, values
+from .test_provisioning import KEY, values
 
 ROOT = Path(__file__).parents[4]
 RECIPE = (ROOT / "deploy/firm/recipe.env").read_text(encoding="utf-8")
@@ -51,7 +51,7 @@ def test_the_sample_env_holds_exactly_what_the_control_plane_sends():
 
 def test_the_first_boot_text_is_valid_yaml_and_its_env_block_reads_back():
     yaml = pytest.importorskip("yaml")
-    text = render_user_data(values(HEARTBEAT_TOKEN="HB123"), KEY, PUB)
+    text = render_user_data(values(HEARTBEAT_TOKEN="HB123"), KEY)
     data = yaml.safe_load(text)
     assert data["ssh_pwauth"] is False
     files = {item["path"]: item for item in data["write_files"]}
@@ -88,11 +88,11 @@ def test_every_figure_a_script_writes_is_one_the_agent_reads():
     assert written <= set(STATUS_FILES), written - set(STATUS_FILES)
 
 
-def test_the_signed_release_addresses_are_always_written_and_go_in_pairs():
-    plain = render_user_data(values(), KEY, PUB)
-    # The first-boot command runs under `set -u`: both lines must exist, empty when unused.
-    assert "RELEASE_BUNDLE_URL_B64=''" in plain and "RELEASE_SIG_URL_B64=''" in plain
-    signed = render_user_data(values(RELEASE_BUNDLE_URL_B64="aHR0cHM6Ly94", RELEASE_SIG_URL_B64="aHR0cHM6Ly95"), KEY, PUB)
-    assert "RELEASE_BUNDLE_URL_B64='aHR0cHM6Ly94'" in signed
+def test_the_release_address_is_always_written_and_there_is_no_signature_address():
+    plain = render_user_data(values(), KEY)
+    # The first-boot command runs under `set -u`: the line must exist, empty when unused.
+    assert "RELEASE_BUNDLE_URL_B64=''" in plain and "RELEASE_SIG_URL_B64" not in plain
+    given = render_user_data(values(RELEASE_BUNDLE_URL_B64="aHR0cHM6Ly94"), KEY)
+    assert "RELEASE_BUNDLE_URL_B64='aHR0cHM6Ly94'" in given
     with pytest.raises(ValueError):
-        render_user_data(values(RELEASE_BUNDLE_URL_B64="aHR0cHM6Ly94"), KEY, PUB)
+        render_user_data(values(RELEASE_SIG_URL_B64="aHR0cHM6Ly95"), KEY)

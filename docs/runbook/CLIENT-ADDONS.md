@@ -63,7 +63,7 @@ class ClientNote(models.Model):
 
 Une tâche planifiée du module doit commencer par `if not self.env["ea.addon.switch"]._is_on("mon_module"): return`.
 
-**5. Publier.** Ajoutez une ligne à `ea_platform_admin/services/addon_texts.py` pour le nom et le résumé (un test le vérifie), mettez le français dans `fr.po`, puis construisez une version signée : voir UPDATING.md.
+**5. Publier.** Ajoutez une ligne à `ea_platform_admin/services/addon_texts.py` pour le nom et le résumé (un test le vérifie), mettez le français dans `fr.po`, puis construisez une version : voir UPDATING.md.
 
 **Trois limites à connaître :**
 
@@ -73,7 +73,7 @@ Une tâche planifiée du module doit commencer par `if not self.env["ea.addon.sw
 
 ### Inscrire la version
 
-`build_release.sh` écrit à côté du paquet `<commit>.catalogue.json` et sa signature. Plateforme > Mises à jour > Versions, ouvrez la version, **Charger le fichier du catalogue**. Sur la vraie plateforme, la signature est exigée et vérifiée. Le catalogue (Plateforme > Modules) montre alors tout ce que contient le code, et qui a quoi.
+`build_release.sh` écrit `<commit>.catalogue.json` à côté du paquet, et `publish-release.sh` le charge en enregistrant la version. Sinon : Plateforme > Mises à jour > Versions, ouvrez la version, **Charger le fichier du catalogue**. Le catalogue (Plateforme > Modules) montre alors tout ce que contient le code, et qui a quoi.
 
 ### Allumer ou couper pour un cabinet
 
@@ -83,7 +83,7 @@ Une tâche planifiée du module doit commencer par `if not self.env["ea.addon.sw
 Ce qui se passe, sans que le contrôle se connecte au cabinet :
 
 1. Au prochain heartbeat (15 minutes au plus), la réponse signée donne la liste voulue. N'y figure que ce que la version en service du cabinet contient.
-2. Dans les 5 minutes, `firm-addons`, lancé par root, revérifie **toute** la liste sur les manifestes de la version signée qu'il exécute. Un seul nom hors liste, et toute la demande est refusée.
+2. Dans les 5 minutes, `firm-addons`, lancé par root, revérifie **toute** la liste sur les manifestes de la version qu'il exécute. Un seul nom hors liste, et toute la demande est refusée.
 3. **La première fois pour ce cabinet,** root installe le module : sauvegarde, arrêt d'Odoo quelques minutes, copie de la base, installation, redémarrage, contrôle de santé. En cas d'échec, la copie est remise et la base en échec conservée. **Prévenez le cabinet.**
 4. Dans les 5 minutes, Odoo applique la liste. Les fois suivantes, rien n'est installé et rien ne s'arrête.
 5. Le heartbeat suivant rapporte les codes allumés, et la fiche compare.
@@ -172,7 +172,7 @@ class ClientNote(models.Model):
 
 A scheduled job of the add-on must start with `if not self.env["ea.addon.switch"]._is_on("my_addon"): return`.
 
-**5. Publish.** Add a line to `ea_platform_admin/services/addon_texts.py` for the name and summary (a test checks it), put the French in `fr.po`, then build a signed release: see UPDATING.md.
+**5. Publish.** Add a line to `ea_platform_admin/services/addon_texts.py` for the name and summary (a test checks it), put the French in `fr.po`, then build a release: see UPDATING.md.
 
 **Three limits to know:**
 
@@ -182,7 +182,7 @@ A scheduled job of the add-on must start with `if not self.env["ea.addon.switch"
 
 ### Registering the release
 
-`build_release.sh` writes `<commit>.catalogue.json` and its signature beside the bundle. Platform > Updates > Releases, open the release, **Load the catalogue file**. On the real platform the signature is required and checked. The catalogue (Platform > Add-ons) then shows everything in the code and who has what.
+`build_release.sh` writes `<commit>.catalogue.json` beside the bundle, and `publish-release.sh` loads it when it registers the release. If it did not: Platform > Updates > Releases, open the release, **Load the catalogue file**. The catalogue (Platform > Add-ons) then shows everything in the code and who has what.
 
 ### Switching on or off for a firm
 
@@ -192,7 +192,7 @@ A scheduled job of the add-on must start with `if not self.env["ea.addon.switch"
 What happens, with the control plane never logging in to the firm:
 
 1. At the next heartbeat (15 minutes at most), the signed answer gives the desired list. Only what the firm's running release carries goes in it.
-2. Within 5 minutes, `firm-addons`, run by root, checks the **whole** list again against the manifests of the signed release it runs. One name outside that list and the whole request is refused.
+2. Within 5 minutes, `firm-addons`, run by root, checks the **whole** list again against the manifests of the release it runs. One name outside that list and the whole request is refused.
 3. **The first time for this firm,** root installs the add-on: backup, Odoo stopped for a few minutes, database copied, install, restart, health check. On failure the copy goes back and the failed database is kept. **Warn the firm.**
 4. Within 5 minutes, Odoo applies the list. After that, nothing is installed and nothing stops.
 5. The next heartbeat reports the codes that are on, and the firm's page compares.

@@ -329,18 +329,17 @@ class TestWasabiDelivery(PlatformCase):
     """What reaches a firm's server about its storage and the releases (backups at Wasabi)."""
 
     BUNDLE = "https://s3.eu-central-1.wasabisys.com/auditisa-releases-k3j4h5g6f7d8/x.tar.gz?X-Amz-Signature=" + "a" * 64
-    SIGNATURE = "https://s3.eu-central-1.wasabisys.com/auditisa-releases-k3j4h5g6f7d8/x.tar.gz.sig?X-Amz-Signature=" + "b" * 64
 
     def _signed(self):
         services = type(self.env["platform.services"])
-        return patch.object(services, "_release_urls", lambda model, release, seconds: (self.BUNDLE, self.SIGNATURE))
+        return patch.object(services, "_release_url", lambda model, release, seconds: self.BUNDLE)
 
     def _user_data(self, firm, job):
         provider = self.env["platform.services"]._outside()[0]
         return job._user_data(provider.storage_credentials(firm.storage_id))
 
     def test_simulation_signs_nothing_and_needs_no_wasabi_key(self):
-        self.assertIsNone(self.env["platform.services"]._release_urls(self.release, 3600))
+        self.assertIsNone(self.env["platform.services"]._release_url(self.release, 3600))
         firm, job = self._onboard()
         self.assertEqual(job.state, "done")
         text = self._user_data(firm, job)
@@ -348,20 +347,25 @@ class TestWasabiDelivery(PlatformCase):
         self.assertIn("RELEASE_BUNDLE_URL_B64=''", text)
         self.assertIn("RELEASE_BASE_URL='https://releases.example.invalid'", text)
 
-    def test_the_first_boot_text_carries_the_signed_release_addresses(self):
+    def test_the_first_boot_text_carries_the_release_address_and_its_digest_and_no_signature(self):
         firm, job = self._onboard()
         with self._signed():
             text = self._user_data(firm, job)
         encoded = base64.b64encode(self.BUNDLE.encode()).decode()
         self.assertIn(f"RELEASE_BUNDLE_URL_B64='{encoded}'", text)
-        self.assertIn(f"RELEASE_SIG_URL_B64='{base64.b64encode(self.SIGNATURE.encode()).decode()}'", text)
+        self.assertIn(f"RELEASE_BUNDLE_SHA256='{firm.desired_release_id.bundle_sha256}'", text)
+        for gone in ("RELEASE_SIG_URL_B64", "release-signing.pub", "trusted-signers", "openssl pkeyutl", ".sig"):
+            self.assertNotIn(gone, text)
+        self.assertIn("sha256sum -c", text)
 
     def test_the_heartbeat_answer_carries_them_only_with_the_release(self):
         firm = self._active_firm()
         self.assertNotIn("desired_bundle_url", firm._heartbeat_answer())
         with self._signed():
             answer = firm._heartbeat_answer()
-            self.assertEqual((answer["desired_bundle_url"], answer["desired_signature_url"]), (self.BUNDLE, self.SIGNATURE))
+            self.assertEqual(answer["desired_bundle_url"], self.BUNDLE)
+            self.assertEqual(answer["desired_bundle_sha256"], firm.desired_release_id.bundle_sha256)
+            self.assertNotIn("desired_signature_url", answer)
             firm.sudo().release_locked = True
             self.assertNotIn("desired_bundle_url", firm._heartbeat_answer())
 

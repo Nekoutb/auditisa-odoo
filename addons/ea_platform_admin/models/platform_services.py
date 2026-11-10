@@ -99,8 +99,8 @@ class PlatformServices(models.AbstractModel):
         return self._storage().releases_base_url()
 
     @api.model
-    def _release_urls(self, release, seconds):
-        """(bundle, signature): signed download addresses of a release, or None.
+    def _release_url(self, release, seconds):
+        """A time-limited download address of a release's bundle, or None.
 
         None in simulation, and when the storage cannot be reached from here (logged): the server
         then has no address and does nothing, which the screens show as an update not started.
@@ -111,10 +111,7 @@ class PlatformServices(models.AbstractModel):
             storage = self._storage()
             if not storage.releases_bucket:
                 return None
-            return (
-                storage.release_url(f"{release.sha}.tar.gz", seconds),
-                storage.release_url(f"{release.sha}.tar.gz.sig", seconds),
-            )
+            return storage.release_url(f"{release.sha}.tar.gz", seconds)
         except ProviderError as error:
             _logger.warning("No download address for release %s: %s", release.sha[:12], error)
             return None

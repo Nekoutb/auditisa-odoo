@@ -66,9 +66,6 @@ STATUS_FILES = {
     "ssh_sessions_24h": _count,
     "last_ssh_at": _text(_INSTANT),
     "addons_refused": _count,
-    # The number of the list of trusted signers in use, written by release_trust.py. Absent until a
-    # signed release first brings a list, so an older control plane keeps working.
-    "signers_serial": _count,
 }
 
 DEFAULTS = {
@@ -158,13 +155,10 @@ def parse_desired(body):
     if isinstance(release, str) and _RELEASE.match(release) and isinstance(digest, str) and _SHA256.match(digest):
         desired["release"] = release
         desired["bundle_sha256"] = digest
-        bundle_url, signature_url = data.get("desired_bundle_url"), data.get("desired_signature_url")
-        if (
-            isinstance(bundle_url, str) and _RELEASE_URL.match(bundle_url)
-            and isinstance(signature_url, str) and _RELEASE_URL.match(signature_url)
-        ):
+        # Where to download the bundle. firm-update installs it only if its SHA-256 is `digest` above.
+        bundle_url = data.get("desired_bundle_url")
+        if isinstance(bundle_url, str) and _RELEASE_URL.match(bundle_url):
             desired["bundle_url"] = bundle_url
-            desired["signature_url"] = signature_url
     desired["export_requested"] = data.get("export_requested") is True
     anon_ref = data.get("anon_export_ref")
     if isinstance(anon_ref, str) and _ANON_REF.match(anon_ref):
@@ -172,7 +166,7 @@ def parse_desired(body):
     allowlist = data.get("ssh_allowlist")
     if isinstance(allowlist, list) and all(isinstance(c, str) and _CIDR.match(c) for c in allowlist):
         desired["ssh_allowlist"] = allowlist
-    # Absent means no request. Root's firm-addons checks the codes against the signed release.
+    # Absent means no request. Root's firm-addons checks the codes against the release in use.
     addons = data.get("desired_addons")
     if (
         isinstance(addons, list) and len(addons) <= MAX_ADDON_CODES

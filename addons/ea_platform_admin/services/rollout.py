@@ -1,6 +1,6 @@
 """The decisions of an update rollout. Pure.
 
-The control plane never logs in to a firm. It names a signed release in the firm's heartbeat
+The control plane never logs in to a firm. It names a release, with its SHA-256, in the firm's heartbeat
 answer; the firm backs up, updates, checks itself and rolls itself back if needed
 (deploy/firm/firm-update.sh), and says how it went in its next heartbeat. This module reads those
 figures and says what happens next: canary first, then batches, and stop at the first failure.

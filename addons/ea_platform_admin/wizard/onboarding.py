@@ -147,7 +147,7 @@ class PlatformOnboardingWizard(models.TransientModel):
             self._raise_errors(errors)
         if not self.release_id:
             raise UserError(t(self.env, _(
-                "No release is registered. Register a signed release first (Platform > Releases): "
+                "No release is registered. Register a release first (Platform > Releases): "
                 "see docs/runbook/UPDATING.md."
             )))
         simulation = self.env["platform.services"]._is_simulation()
@@ -191,8 +191,6 @@ class PlatformOnboardingWizard(models.TransientModel):
             "ea_platform.dns_zone_id": _("DNS zone"),
         }
         missing = [t(self.env, label) for key, label in required.items() if not get_param(key)]
-        if not self.env["platform.signer"].sudo().search_count([]):
-            missing.append(t(self.env, _("At least one trusted signer (Platform > Updates > Signers)")))
         if missing:
             raise UserError(t(self.env, _("Missing settings (Platform > Settings):")) + "\n" + "\n".join(missing))
 

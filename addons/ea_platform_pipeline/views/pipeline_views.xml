@@ -95,8 +95,8 @@
                 </header>
                 <sheet>
                     <p class="text-muted">
-                        This controls the Odoo tool only. A release is built and signed on your computer: the signing key never
-                        comes here. Then main moves last, by your own hand. See docs/runbook/PIPELINE.md.
+                        This controls the Odoo tool only. The simplest way is the Status page: Promote to Staging, then
+                        Promote to Production. This screen shows the same with every detail. See docs/runbook/UPDATING.md.
                     </p>
                     <div class="alert alert-warning" role="status" invisible="not next_step">
                         <field name="next_step" nolabel="1" readonly="1"/>
@@ -105,7 +105,7 @@
                         <group>
                             <field name="kind" invisible="kind == 'promote'"/>
                             <field name="release_id" readonly="state != 'draft' or kind == 'rollback'" options="{'no_create': True}"
-                                   placeholder="Choose a release signed on your computer"/>
+                                   placeholder="Choose a release that Staging runs"/>
                             <field name="canary_firm_id" readonly="state != 'draft'" options="{'no_create': True}"
                                    placeholder="The firm that goes first, alone"/>
                             <field name="firm_ids" widget="many2many_tags" readonly="state != 'draft'" options="{'no_create': True}"

@@ -111,7 +111,6 @@
             <xpath expr="//sheet" position="inside">
                 <group string="What this release carries">
                     <field name="catalogue_loaded_at"/>
-                    <field name="catalogue_signed"/>
                     <field name="catalogue_digest"/>
                     <field name="optional_addon_count"/>
                 </group>
@@ -131,13 +130,11 @@
         <field name="model">platform.catalogue.wizard</field>
         <field name="arch" type="xml">
             <form string="Load a release's add-on catalogue">
-                <p>build_release.sh writes these two files beside the bundle. On a real platform the signature is required and checked.</p>
+                <p>build_release.sh writes this file beside the bundle. register-release.sh loads it by itself: use this only if it did not.</p>
                 <group>
                     <field name="release_id"/>
                     <field name="catalogue_file" filename="catalogue_name"/>
                     <field name="catalogue_name" invisible="1"/>
-                    <field name="proof_file" filename="proof_name"/>
-                    <field name="proof_name" invisible="1"/>
                 </group>
                 <footer>
                     <button name="action_confirm" type="object" string="Load" class="btn-primary"/>

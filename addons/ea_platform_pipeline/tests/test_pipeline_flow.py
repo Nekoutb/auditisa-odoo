@@ -1,7 +1,6 @@
 """The pipeline, through its models and the real heartbeat receiver, on simulated firms."""
 
 import ast
-import base64
 import json
 import os
 import stat
@@ -9,9 +8,6 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
-
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import HttpCase, tagged
@@ -21,7 +17,6 @@ from odoo.addons.ea_platform_admin.services.simulator import healthy_figures, si
 from odoo.addons.ea_platform_admin.tests.common import PlatformCase, PlatformMixin
 
 from .. import models as _models  # noqa: F401
-from ..services import pipeline
 
 ADDON = Path(__file__).parents[1]
 REASON = "The owner tested staging and signed off."
@@ -30,14 +25,16 @@ REASON = "The owner tested staging and signed off."
 class PipelineMixin:
     @classmethod
     def _setup_pipeline(cls):
-        cls.private = Ed25519PrivateKey.generate()
-        public = cls.private.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
-        cls.signer = cls.env["platform.signer"].sudo().create({"name": "Owner", "email": "contact@cm-ea.com", "public_pem": public})
-        cls.release2.sudo().attestation = cls._attest(cls.release2)
+        """Nothing to sign since 2026-11-10: a registered release is all a promotion needs."""
 
-    @classmethod
-    def _attest(cls, release):
-        return base64.b64encode(cls.private.sign(pipeline.attestation_message(release.sha, release.bundle_sha256))).decode()
+    def _on_staging(self, release=None):
+        """The practice computer (Staging) runs this release, as its own heartbeat says."""
+        computer = self.env["platform.practice.computer"]._current()
+        if not computer:
+            computer = self.env["platform.practice.computer"]._enrol("practice-1", token_path=None, simulation=True)
+        computer.sudo().write({"desired_release_id": (release or self.release2).id})
+        computer._simulate_heartbeat()
+        return computer
 
     def _firm_on(self, slug, release=None, **changes):
         firm = self._active_firm(slug)
@@ -83,58 +80,32 @@ class TestPromotion(PipelineMixin, PlatformCase):
         self._green()
         return canary, other
 
-    def test_no_check_passes_without_a_signed_release(self):
-        canary, other = self._ready()
-        self.release2.sudo().attestation = False
-        promotion = self._promotion(canary, canary | other)
-        promotion.action_run_checks()
-        self.assertFalse(promotion.checks_ok)
-        self.assertIn("NO", promotion.checks_text)
-
-    def test_a_forged_attestation_is_refused(self):
-        canary, other = self._ready()
-        self.release2.sudo().attestation = base64.b64encode(Ed25519PrivateKey.generate().sign(b"x")).decode()
-        promotion = self._promotion(canary, canary | other)
-        promotion.action_run_checks()
-        self.assertFalse(promotion.checks_ok)
-
-    def test_a_signer_trusted_today_signs_and_a_removed_one_keeps_only_what_they_signed(self):
-        canary, other = self._ready()
-        self.assertEqual(self.release2.signer_id, self.signer)
-        marie = Ed25519PrivateKey.generate()
-        pem = marie.public_key().public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo).decode()
-        signer = self.env["platform.signer"].with_user(self.owner).create({"name": "Marie", "email": "m@example.com", "public_pem": pem})
-        message = pipeline.attestation_message(self.release2.sha, self.release2.bundle_sha256)
-        self.release2.sudo().attestation = base64.b64encode(marie.sign(message)).decode()
-        self.assertEqual(self.release2.signer_id, signer)
-        self.assertTrue(self.release2.attestation_ok)
-        signer.with_user(self.owner).action_remove()
-        self.release2.invalidate_recordset()
-        self.assertTrue(self.release2.attestation_ok, "what Marie signed while trusted stays valid")
-        message = pipeline.attestation_message(self.release.sha, self.release.bundle_sha256)
-        self.release.sudo().attestation = base64.b64encode(marie.sign(message)).decode()
-        self.assertFalse(self.release.signer_id)
-        self.assertFalse(self.release.attestation_ok, "a removed signer's new signature is refused")
-
-    def test_red_tests_stop_it(self):
-        canary, other = self._ready()
-        self.env["platform.pipeline.test.run"].with_user(self.owner).create({
-            "commit_sha": self.release2.sha, "suite": "odoo", "passed": 99, "failed": 1,
-        })
-        promotion = self._promotion(canary, canary | other)
-        promotion.action_run_checks()
-        self.assertFalse(promotion.checks_ok)
-
-    def test_staging_on_another_commit_stops_it(self):
+    def test_no_signature_and_no_test_run_are_needed(self):
         canary = self._firm_on("cabinet-a")
-        self._staging(release=self.release)
-        self._green()
-        promotion = self._promotion(canary)
+        other = self._firm_on("cabinet-b")
+        self.assertFalse(self.env["platform.pipeline.test.run"].search_count([("commit_sha", "=", self.release2.sha)]))
+        self._on_staging()
+        self.assertNotIn("attestation", self.release2._fields)
+        self.assertNotIn("signer_id", self.release2._fields)
+        promotion = self._promotion(canary, canary | other)
+        promotion.action_run_checks()
+        self.assertTrue(promotion.checks_ok, promotion.checks_text)
+        self.assertIn("OK Staging runs this version", promotion.checks_text)
+
+    def test_a_release_staging_does_not_run_is_not_promoted(self):
+        canary, other = self._ready()
+        self._on_staging(self.release)
+        promotion = self._promotion(canary, canary | other)
         promotion.action_run_checks()
         self.assertFalse(promotion.checks_ok)
+        self.assertIn("NO Staging runs another version", promotion.checks_text)
+        with self.assertRaises(UserError):
+            self._confirm(promotion.action_open_confirm())
+        self.assertFalse(promotion.rollout_id)
 
     def test_it_will_not_start_with_a_failed_check(self):
         canary = self._firm_on("cabinet-a")
+        self._on_staging(self.release)
         promotion = self._promotion(canary)
         action = promotion.action_open_confirm()
         with self.assertRaises(UserError):
@@ -199,7 +170,6 @@ class TestPromotion(PipelineMixin, PlatformCase):
     def test_rollback_goes_back_to_the_release_before_it(self):
         canary, other = self._ready()
         (canary | other).sudo().desired_release_id = self.release
-        self.release.sudo().attestation = self._attest(self.release)
         promotion = self._promotion(canary, canary | other)
         promotion.action_run_checks()
         self._confirm(promotion.action_open_confirm())

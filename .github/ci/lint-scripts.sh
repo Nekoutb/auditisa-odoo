@@ -14,7 +14,7 @@ if bash scripts/provision/new_firm.sh --dry-run --db ea_audit_odoo_staging --nam
   exit 1
 fi
 
-# The firm server's recipe, the isolation test and the release signature, without a server.
+# The firm server's recipe, the isolation test and the release's SHA-256 check, without a server.
 bash .github/ci/firm-dry-run.sh
 
 # The practice computer: name gate, guard, refusals, rendered configuration.

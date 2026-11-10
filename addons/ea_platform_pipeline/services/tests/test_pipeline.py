@@ -1,6 +1,6 @@
 """The pipeline's decisions, the anonymiser's rules and the answers a firm can receive. No Odoo, no database."""
 
-import base64
+import hashlib
 import importlib.util
 import json
 import os
@@ -35,60 +35,18 @@ def text(message):
     return str(message)
 
 
-# ------------------------------------------------------------------ attestation
+# ------------------------------------------------------------------ no signature any more
 
 
-@pytest.fixture
-def keys():
-    ed25519 = pytest.importorskip("cryptography.hazmat.primitives.asymmetric.ed25519")
-    serialization = pytest.importorskip("cryptography.hazmat.primitives.serialization")
-    private = ed25519.Ed25519PrivateKey.generate()
-    public = private.public_key().public_bytes(
-        serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo,
-    ).decode()
-    return private, public
-
-
-def signed(private, sha=SHA, digest=DIGEST):
-    return base64.b64encode(private.sign(pipeline.attestation_message(sha, digest))).decode()
-
-
-def test_attestation_holds_for_what_was_signed(keys):
-    private, public = keys
-    assert pipeline.attestation_holds(public, SHA, DIGEST, signed(private))
-
-
-def test_attestation_tolerates_line_breaks_from_a_paste(keys):
-    private, public = keys
-    value = signed(private)
-    assert pipeline.attestation_holds(public, SHA, DIGEST, value[:20] + "\n" + value[20:] + "\n")
-
-
-@pytest.mark.parametrize("sha, digest", [("0" * 40, DIGEST), (SHA, "b" * 64)])
-def test_attestation_is_refused_for_another_commit_or_digest(keys, sha, digest):
-    private, public = keys
-    assert not pipeline.attestation_holds(public, sha, digest, signed(private))
-
-
-def test_attestation_from_another_key_is_refused(keys):
-    ed25519 = pytest.importorskip("cryptography.hazmat.primitives.asymmetric.ed25519")
-    _private, public = keys
-    other = ed25519.Ed25519PrivateKey.generate()
-    assert not pipeline.attestation_holds(public, SHA, DIGEST, signed(other))
-
-
-@pytest.mark.parametrize("public, value", [("", "abc"), ("not a key", "abc"), (None, None)])
-def test_attestation_with_no_or_broken_input_is_refused(public, value):
-    assert not pipeline.attestation_holds(public, SHA, DIGEST, value)
-
-
-def test_attestation_with_garbage_is_refused(keys):
-    _private, public = keys
-    assert not pipeline.attestation_holds(public, SHA, DIGEST, "%%% not base64 %%%")
-    assert not pipeline.attestation_holds(public, SHA, DIGEST, base64.b64encode(b"short").decode())
-
-
-# ------------------------------------------------------------------ pre-checks
+def test_nothing_signs_or_checks_a_signature_any_more():
+    """2026-11-10: the console's sign-in is the security; a server checks the bundle's SHA-256 only."""
+    for gone in ("attestation_message", "attestation_holds", "ATTESTATION_PREFIX", "test_check", "staging_check", "backup_check"):
+        assert not hasattr(pipeline, gone), gone
+    for kind in ("promote", "rollback", "rebuild", "main", "rebuilt"):
+        assert pipeline.phrase(kind, "x")
+    for gone in ("override", "practice"):
+        with pytest.raises(KeyError):
+            pipeline.phrase(gone, "x")
 
 
 def test_commits_compare_short_and_long():
@@ -97,69 +55,6 @@ def test_commits_compare_short_and_long():
     assert not pipeline.same_commit(SHA, "0" + SHA[1:])
     assert not pipeline.same_commit(None, SHA)
     assert not pipeline.same_commit("", SHA)
-
-
-def test_tests_must_be_recorded():
-    assert not pipeline.test_check([])["ok"]
-
-
-def test_a_green_run_passes():
-    assert pipeline.test_check([{"suite": "odoo", "passed": 10, "failed": 0}])["ok"]
-
-
-def test_the_newest_run_of_a_suite_decides():
-    assert pipeline.test_check([
-        {"suite": "odoo", "passed": 10, "failed": 0},
-        {"suite": "odoo", "passed": 9, "failed": 1},
-    ])["ok"]
-    assert not pipeline.test_check([
-        {"suite": "odoo", "passed": 9, "failed": 1},
-        {"suite": "odoo", "passed": 10, "failed": 0},
-    ])["ok"]
-
-
-def test_one_red_suite_is_enough():
-    assert not pipeline.test_check([
-        {"suite": "odoo", "passed": 10, "failed": 0},
-        {"suite": "pure", "passed": 3, "failed": 2},
-    ])["ok"]
-
-
-def test_a_run_of_nothing_is_not_green():
-    assert not pipeline.test_check([{"suite": "odoo", "passed": 0, "failed": 0}])["ok"]
-
-
-STAGING = {"last_heartbeat_at": NOW - timedelta(minutes=10), "health_color": "green", "release": SHA[:12], "mail_enabled": False}
-
-
-def test_staging_healthy_on_this_commit_passes():
-    assert pipeline.staging_check(STAGING, SHA, NOW)["ok"]
-
-
-@pytest.mark.parametrize("change", [
-    {"last_heartbeat_at": NOW - timedelta(hours=2)},
-    {"last_heartbeat_at": None},
-    {"release": "0" * 12},
-    {"mail_enabled": True},
-])
-def test_staging_fails_each_way(change):
-    assert not pipeline.staging_check({**STAGING, **change}, SHA, NOW)["ok"]
-
-
-def test_staging_unknown_fails():
-    assert not pipeline.staging_check(None, SHA, NOW)["ok"]
-
-
-def test_backups():
-    good = {"name": "A", "last_backup_at": NOW - timedelta(hours=3), "last_backup_ok": True}
-    assert pipeline.backup_check([good], NOW)["ok"]
-    assert not pipeline.backup_check([], NOW)["ok"]
-    assert not pipeline.backup_check([good, {**good, "last_backup_ok": False}], NOW)["ok"]
-    assert not pipeline.backup_check([{**good, "last_backup_at": NOW - timedelta(hours=30)}], NOW)["ok"]
-    assert not pipeline.backup_check([{**good, "last_backup_at": None}], NOW)["ok"]
-
-
-# ------------------------------------------------------------------ confirmation and address
 
 
 def test_phrase_names_the_target_in_the_readers_language():
@@ -434,12 +329,11 @@ def test_the_bundle_leaves_this_addon_out():
     assert "grep -v '^addons/ea_platform_'" in source
 
 
-# ------------------------------------------------------------------ the owner's signing
+# ------------------------------------------------------------------ the developer's build
 
 
-def test_what_the_owners_script_prints_is_what_the_screen_accepts(tmp_path):
-    pytest.importorskip("cryptography")
-    for tool in ("bash", "openssl", "git"):
+def test_the_build_needs_no_key_and_prints_the_sha256_of_its_bundle(tmp_path):
+    for tool in ("bash", "git"):
         if not shutil.which(tool):
             pytest.skip(f"needs {tool}")
     try:  # build_release.sh may call python3, which some Windows machines only alias to the Store.
@@ -447,20 +341,19 @@ def test_what_the_owners_script_prints_is_what_the_screen_accepts(tmp_path):
     except (OSError, subprocess.SubprocessError):
         pytest.skip("needs a working python3")
 
-    def run(*args):
-        return subprocess.run([shutil.which("bash"), *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    def run(*args, check=True):
+        return subprocess.run([shutil.which("bash"), *args], cwd=ROOT, capture_output=True, text=True, check=check)
 
     relative = os.path.relpath(tmp_path, ROOT).replace(os.sep, "/")
-    created = run("scripts/provision/build_release.sh", "--new-key", f"{relative}/key.pem")
-    public = created[created.index("-----BEGIN"):]
-    printed = run("scripts/pipeline/sign_promotion.sh", "HEAD", "--key", f"{relative}/key.pem", "--out", f"{relative}/out")
+    printed = run("scripts/provision/build_release.sh", "HEAD", "--out", f"{relative}/out").stdout
     sha = re.search(r"^commit +(\S+)", printed, re.M).group(1)
     digest = re.search(r"^sha256 +(\S+)", printed, re.M).group(1)
-    attestation = re.search(r"^attestation +(\S+)", printed, re.M).group(1)
-    assert pipeline.attestation_holds(public, sha, digest, attestation)
-    assert not pipeline.attestation_holds(public, "0" * 40, digest, attestation)
-    assert not pipeline.attestation_holds(public, sha, "b" * 64, attestation)
-    assert "PRIVATE" not in printed
+    bundle = tmp_path / "out" / f"{sha}.tar.gz"
+    assert hashlib.sha256(bundle.read_bytes()).hexdigest() == digest
+    assert sorted(path.name for path in (tmp_path / "out").iterdir()) == sorted(
+        [f"{sha}.tar.gz", f"{sha}.catalogue.json", f"{sha}.changes.txt"])
+    refused = run("scripts/provision/build_release.sh", "HEAD", "--key", "x.pem", "--out", f"{relative}/again", check=False)
+    assert refused.returncode != 0 and "no longer signed" in refused.stderr
 
 
 # ------------------------------------------------------------------ what the collector wrote

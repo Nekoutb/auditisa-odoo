@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_release_form_attestation" model="ir.ui.view">
-        <field name="name">platform.release.form.attestation</field>
-        <field name="model">platform.release</field>
-        <field name="inherit_id" ref="ea_platform_admin.view_release_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='bundle_sha256']" position="after">
-                <field name="attestation" placeholder="From scripts/pipeline/sign_promotion.sh"/>
-                <field name="attestation_ok" widget="boolean" readonly="1"/>
-            </xpath>
-        </field>
-    </record>
     <record id="view_firm_form_pipeline" model="ir.ui.view">
         <field name="name">platform.firm.form.pipeline</field>
         <field name="model">platform.firm</field>

@@ -193,11 +193,10 @@
         <field name="inherit_id" ref="view_release_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
-                <group string="Practice computer first">
-                    <field name="practice_hold_days"/>
+                <group string="Staging first, then Production">
                     <field name="practice_since"/>
-                    <field name="practice_hold_text"/>
-                    <field name="practice_hold_ok" invisible="1"/>
+                    <field name="staging_text"/>
+                    <field name="staging_ok" invisible="1"/>
                 </group>
             </xpath>
         </field>
@@ -285,12 +284,11 @@
         <field name="model">platform.practice.release.wizard</field>
         <field name="arch" type="xml">
             <form string="Send a release to the practice computer">
-                <p>The practice computer installs it at its next heartbeat (the release must be signed). From the day it
-                    runs there, the firms wait the release's holding period before they are offered it.</p>
+                <p>The practice computer (Staging) installs it at its next heartbeat. Once it runs there, it can be
+                    promoted to Production (the client firms) from the Status page.</p>
                 <group>
                     <field name="computer_id"/>
                     <field name="release_id"/>
-                    <field name="hold_days"/>
                 </group>
                 <footer>
                     <button name="action_confirm" type="object" string="Send" class="btn-primary"/>

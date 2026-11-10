@@ -184,7 +184,7 @@ grep -q "kept across the switch" <<<"$result" || fail "on again: the row is not 
 grep -q "RESULT menu True" <<<"$result" || fail "on again: the menu is not back"
 ok "on again: the same row, the same menu"
 
-echo "== what the signed release does not offer is refused whole"
+echo "== what the release in use does not offer is refused whole"
 BEFORE=$(approved)
 for bad in ea_audit_firm_agent ea_audit_reports base ea_platform_admin nothing_like_this; do
   ask "{\"addons\":[\"$SAMPLE\",\"$bad\"]}"
@@ -257,10 +257,15 @@ cat > "$WORK/bundle/addons/ea_client_addon_dormant/__manifest__.py" <<'EOF'
 EOF
 SHA=aaaaaaaaaaaa
 tar -C "$WORK/bundle" -czf "$WORK/published/$SHA.tar.gz" addons deploy
-openssl genpkey -algorithm ed25519 -out "$WORK/signing.pem" 2>/dev/null
-openssl pkey -in "$WORK/signing.pem" -pubout -out "$ROOT/etc/auditisa-firm/release-signing.pub"
-openssl pkeyutl -sign -inkey "$WORK/signing.pem" -rawin -in "$WORK/published/$SHA.tar.gz" -out "$WORK/published/$SHA.tar.gz.sig"
 DIGEST=$(sha256sum "$WORK/published/$SHA.tar.gz" | cut -d' ' -f1)
+# A SHA-256 that is not the bundle's: refused before anything changes, with no signature involved.
+if "$BIN/firm-update.sh" "$SHA" "$(printf 'b%.0s' {1..64})" > "$WORK/refused.log" 2>&1; then
+  cat "$WORK/refused.log"; fail "firm-update took a bundle whose SHA-256 is not the console's"
+fi
+grep -q "bundle refused" "$WORK/refused.log" || { cat "$WORK/refused.log"; fail "the refusal does not say why"; }
+[ "$(cat "$ROOT/var/lib/auditisa-firm/status/update_state")" = rolled_back ] || fail "update state after a refused bundle"
+[ "$(module_state $SAMPLE)" = installed ] || fail "a refused bundle changed the firm"
+ok "a bundle whose SHA-256 is not the console's is refused, and nothing changes"
 "$BIN/firm-update.sh" "$SHA" "$DIGEST" > "$WORK/update.log" 2>&1 || { cat "$WORK/update.log"; fail "firm-update failed"; }
 stub_backup
 tail -n 1 "$WORK/update.log"
@@ -274,7 +279,7 @@ ok "the update carried the add-on that is installed"
 ok "its data came through the update"
 ask "{\"addons\":[\"$SAMPLE\",\"ea_client_addon_dormant\"]}"
 [ "$(module_state ea_client_addon_dormant)" = installed ] || fail "the dormant add-on did not install on request"
-ok "an add-on new in the release installs on request, once the release is signed in"
+ok "an add-on new in the release installs on request, once the release is in"
 ask "{\"addons\":[\"$SAMPLE\"]}"
 
 
@@ -283,7 +288,7 @@ HASH=$(printf 'rehearsal-link-token-000000000000000000000' | sha256sum | cut -d'
 ask "{\"support_visit\":{\"id\":41,\"minutes\":30,\"token_sha256\":\"$HASH\",\"operator\":\"Rehearsal Operator\",\"reason\":\"Check the lead schedule'); import os; ('\"}}"
 cat "$WORK/last.log"
 [ "$(as_db "SELECT state FROM ea_firm_support_visit WHERE platform_ref = 41" "$DB")" = open ] || fail "the visit did not open"
-ok "root's script opened the visit asked in the signed answer"
+ok "root's script opened the visit asked in the authenticated answer"
 [ "$(as_db "SELECT reason FROM ea_firm_support_visit WHERE platform_ref = 41" "$DB")" = "Check the lead schedule'); import os; ('" ] || fail "the reason was not kept as text"
 ok "the reason stays text: nothing in it runs"
 [ "$(as_db "SELECT active FROM res_users WHERE login = 'auditisa-support'" "$DB")" = t ] || fail "the support account is not on"

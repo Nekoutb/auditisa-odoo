@@ -11,10 +11,11 @@ _DIGEST = re.compile(r"^[0-9a-f]{64}$")
 
 
 class PlatformRelease(models.Model):
-    """A signed bundle built by scripts/provision/build_release.sh, on the owner's machine.
+    """A bundle built by scripts/provision/build_release.sh and put in the private releases bucket.
 
-    This record only names it. The private signing key is not on the control plane, so an attacker
-    here could ask a firm to take a release but could not make one the firm would accept.
+    This record names it and holds its SHA-256 fingerprint. A firm's server and the practice computer
+    download the bundle and install it only if its fingerprint is the one the console gives them over
+    their authenticated heartbeat channel. Who may choose a release is who may sign in to the console.
     """
 
     _name = "platform.release"
@@ -28,10 +29,6 @@ class PlatformRelease(models.Model):
     odoo_commit = fields.Char("Odoo commit", readonly=False)
     notes = fields.Text("Notes")
     active = fields.Boolean("Available", default=True)
-    # Who signed it: the trusted signer whose key matched, when it was registered. A signer removed later
-    # stays here: what they signed while trusted stays valid.
-    signer_id = fields.Many2one("platform.signer", "Signed by", readonly=True, ondelete="restrict", index=True,
-                                context={"active_test": False})
     firm_count = fields.Integer("Firms on this release", compute="_compute_firm_count")
 
     _sha_unique = models.Constraint("unique(sha)", "This release is already registered.")

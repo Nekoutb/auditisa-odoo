@@ -66,14 +66,13 @@ class PlatformPracticeFirstLogin(models.TransientModel):
 
 
 class PlatformPracticeReleaseWizard(models.TransientModel):
-    """A release goes to the practice computer first; the firms' holding period starts when it runs there."""
+    """A release goes to Staging (the practice computer) first; the firms may have it once it runs there."""
 
     _name = "platform.practice.release.wizard"
     _description = "Send a release to the practice computer"
 
     computer_id = fields.Many2one("platform.practice.computer", "Practice computer", required=True, readonly=True)
     release_id = fields.Many2one("platform.release", "Release", required=True)
-    hold_days = fields.Integer(related="release_id.practice_hold_days", readonly=True)
 
     def action_confirm(self):
         self.ensure_one()
@@ -82,7 +81,7 @@ class PlatformPracticeReleaseWizard(models.TransientModel):
         self.computer_id.sudo().write({"desired_release_id": self.release_id.id})
         self.env["platform.log"]._record(
             _("Release sent to the practice computer"), None,
-            _("Release %(release)s; firms after %(days)s day(s) there", release=self.release_id.sha[:12], days=self.hold_days),
+            _("Release %(release)s", release=self.release_id.sha[:12]),
         )
         return {"type": "ir.actions.act_window_close"}
 

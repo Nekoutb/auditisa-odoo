@@ -183,7 +183,6 @@
                                     <field name="odoo_version"/>
                                     <field name="addon_release"/>
                                     <field name="desired_release_id"/>
-                                    <field name="signers_serial" invisible="not signers_serial"/>
                                     <field name="release_locked"/>
                                     <field name="cert_expires_on"/>
                                     <field name="disk_total_gb"/>

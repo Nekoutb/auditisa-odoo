@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # register-release.sh: on the console server, as root.
 #
-#   register-release.sh DIR "label"            registers the release in DIR and loads its signed catalogue
+#   register-release.sh DIR "label"            registers the release in DIR and loads its catalogue
 #   DRY_RUN=1 register-release.sh DIR "label"  the same, then undoes everything (a rehearsal)
 #
-# The console itself checks the catalogue's signature against its trusted signers (Platform > Updates >
-# Signers): a release signed with any other key is refused and nothing is kept.
+# Usually run by publish-release.sh, after the upload. The release then shows on the Status page as
+# "New version ready". A commit already registered with another SHA-256 is refused: a release never changes.
 set -euo pipefail
 DIR=$(realpath "${1:?usage: register-release.sh DIR [label]}")
 STAGE=$(mktemp -d /tmp/release-register.XXXXXX)

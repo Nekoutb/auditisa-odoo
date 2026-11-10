@@ -183,8 +183,8 @@ NEW_FIRM = {
                              "including hand repairs that are now fixed. The install itself took 20 to 25 minutes, "
                              "about 7 of them to create the firm's database. The server retries its padlock every "
                              "5 minutes, so the health check can wait one or two rounds."),
-            "why": _("The install is long because the server builds everything from scratch, and first checks the "
-                     "owner's signature (a digital stamp) on the software it downloads."),
+            "why": _("The install is long because the server builds everything from scratch, and first checks that "
+                     "the software it downloads is exactly the version the console named (its fingerprint)."),
             "next": _("When all 11 lines say **Done**, the run shows **Finished** at the top right and the firm "
                       "appears as **Active** on the Firms board."),
         },
@@ -320,7 +320,7 @@ NEW_FIRM = {
                      _("Nothing: the step retries. If it lasts more than an hour, tell your technician.")),
                     (_("Time limit passed: Installing on the server..."),
                      _("The install ran past 60 minutes. Everything was removed."),
-                     _("Tell your technician: the usual cause is the software download or its signature.")),
+                     _("Tell your technician: the usual cause is the software download or its fingerprint check.")),
                     (_("Health check refused: ... (port 80 must redirect to HTTPS) or (the login page must answer)"),
                      _("The server is installed but its padlock or login page is not ready yet."),
                      _("Wait: it keeps trying for 30 minutes.")),

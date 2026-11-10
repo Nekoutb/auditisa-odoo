@@ -31,7 +31,7 @@ IAM_ENDPOINT = "iam.wasabisys.com"
 IAM_REGION = "us-east-1"  # Wasabi's IAM is global and signs as us-east-1
 IAM_VERSION = "2010-05-08"
 DELETE_BATCH = 1000  # S3's limit per DeleteObjects call
-RELEASE_FILE_RE = re.compile(r"^[0-9a-f]{40}\.(tar\.gz|tar\.gz\.sig|catalogue\.json|catalogue\.json\.sig)$")
+RELEASE_FILE_RE = re.compile(r"^[0-9a-f]{40}\.(tar\.gz|catalogue\.json)$")
 
 # Errors that can pass by themselves. MalformedPolicy: a user just made may not be known yet to
 # the bucket-policy check (IAM is eventually consistent); the step is tried again a little later.
@@ -277,9 +277,9 @@ class WasabiStorage:
         return f"https://{self.endpoint}/{self.releases_bucket}" if self.releases_bucket else ""
 
     def put_release_file(self, filename, body):
-        """Puts one file of a release, already checked against the trusted signers, in the releases bucket.
+        """Puts one file of a release in the releases bucket.
 
-        Only the four names a release has: the console's Wasabi key may add files there, not delete them.
+        Only the two names a release has: the console's Wasabi key may add files there, not delete them.
         """
         if not self.releases_bucket:
             raise ProviderError(_("No releases bucket set."))

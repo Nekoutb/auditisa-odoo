@@ -164,7 +164,7 @@ systemctl restart odoo
 
 - **À la mise en service :** un bucket `auditisa-fw-<identifiant>-<12 caractères au hasard>` dans la région choisie, un utilisateur `auditisa-firm-<identifiant>` (sous le chemin `/auditisa/`) **sans aucun droit propre**, une règle sur le bucket qui ouvre **ce bucket seul** à **cet utilisateur seul** (lister, lire, écrire, effacer des fichiers ; rien d'autre), puis une clé. La clé part vers le serveur du cabinet dans son texte de premier démarrage, comme avant, et n'est gardée nulle part sur la console.
 - **À la destruction** (après la durée de conservation de la sortie, voir OFFBOARDING.md) : la clé, l'utilisateur, toutes les sauvegardes, puis le bucket. Les 90 jours de facturation minimale de Wasabi courent encore.
-- **À chaque mise à jour :** deux adresses de téléchargement signées (la version et sa signature), valables 6 heures, renouvelées à chaque heartbeat ; 3 jours pour le premier démarrage.
+- **À chaque mise à jour :** une adresse de téléchargement à durée limitée (le paquet de la version), valable 6 heures, renouvelée à chaque heartbeat ; 3 jours pour le premier démarrage. Le serveur n'installe le paquet que si son empreinte SHA-256 est celle que la console donne.
 
 ### Ce que la clé de la console peut et ne peut pas faire
 
@@ -186,7 +186,7 @@ Le code a été écrit d'après la documentation d'AWS, que Wasabi suit, et test
 2. que la console crée le bucket, l'utilisateur, la règle du bucket et la clé (onglet de mise en service) ;
 3. **le point principal :** que la clé du cabinet, qui n'a aucune politique à elle, peut écrire dans son bucket grâce à la seule règle du bucket (`firm-backup` doit réussir, puis `firm-restore-test`). Si Wasabi refuse, il faudra donner aux utilisateurs des cabinets une politique propre, ce qui demande d'élargir la politique de la console : à rediscuter avant ;
 4. qu'avec la clé du cabinet A, `restic` ne peut ni lire ni lister le bucket du cabinet B (depuis le serveur A, en changeant `RESTIC_REPOSITORY` vers le bucket de B : doit échouer) ;
-5. que le serveur télécharge la version par l'adresse signée au premier démarrage et lors d'une mise à jour ;
+5. que le serveur télécharge la version par l'adresse à durée limitée au premier démarrage et lors d'une mise à jour ;
 6. que la destruction du cabinet fictif supprime la clé, l'utilisateur, les fichiers et le bucket.
 
 ## English
@@ -351,7 +351,7 @@ systemctl restart odoo
 
 - **At onboarding:** a bucket `auditisa-fw-<slug>-<12 random characters>` in the chosen region, a user `auditisa-firm-<slug>` (under the path `/auditisa/`) **with no rights of its own**, a rule on the bucket that opens **that bucket only** to **that user only** (list, read, write, delete files; nothing else), then one key. The key goes to the firm's server in its first-boot text, as before, and is kept nowhere on the console.
 - **At destruction** (after the exit's retention period, see OFFBOARDING.md): the key, the user, every backup, then the bucket. Wasabi's 90 days of minimum billing still run.
-- **At each update:** two signed download addresses (the release and its signature), valid 6 hours, renewed at each heartbeat; 3 days for the first boot.
+- **At each update:** one time-limited download address (the release's bundle), valid 6 hours, renewed at each heartbeat; 3 days for the first boot. The server installs the bundle only if its SHA-256 is the one the console gives.
 
 ### What the console's key can and cannot do
 
@@ -373,5 +373,5 @@ The code was written from AWS's documentation, which Wasabi follows, and tested 
 2. that the console creates the bucket, the user, the bucket's rule and the key (provisioning tab);
 3. **the main point:** that the firm's key, which has no policy of its own, can write to its bucket through the bucket's rule alone (`firm-backup` must succeed, then `firm-restore-test`). If Wasabi refuses, the firms' users will need a policy of their own, which means widening the console's policy: to discuss again first;
 4. that with firm A's key, `restic` can neither read nor list firm B's bucket (from server A, pointing `RESTIC_REPOSITORY` at B's bucket: must fail);
-5. that the server downloads the release through the signed address at first boot and during an update;
+5. that the server downloads the release through the time-limited address at first boot and during an update;
 6. that destroying the made-up firm removes the key, the user, the files and the bucket.

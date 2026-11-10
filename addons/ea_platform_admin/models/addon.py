@@ -94,7 +94,6 @@ class PlatformRelease(models.Model):
 
     addon_line_ids = fields.One2many("platform.release.addon", "release_id", "Add-ons in this release")
     catalogue_loaded_at = fields.Datetime("Catalogue loaded on", readonly=True, copy=False)
-    catalogue_signed = fields.Boolean("Catalogue signature verified", readonly=True, copy=False)
     catalogue_digest = fields.Char("Catalogue digest", readonly=True, copy=False)
     optional_addon_count = fields.Integer("Optional add-ons", compute="_compute_optional_count")
 
@@ -106,36 +105,16 @@ class PlatformRelease(models.Model):
         self.ensure_one()
         return self.addon_line_ids.filtered("is_optional").mapped("code")
 
-    def _verify_catalogue(self, raw, signature):
-        """Required on a real platform; checked in simulation only when both sides are present.
+    def _load_catalogue(self, raw):
+        """Writes the rows. A release does not change: a second load must be the same file.
 
-        The signature must be one of a signer trusted TODAY (Platform > Updates > Signers). The release
-        then records who signed it, if nothing recorded it before.
-        """
-        signers = self.env["platform.signer"].sudo().search([])
-        simulation = self.env["platform.services"]._is_simulation()
-        if not (signers and signature):
-            if simulation:
-                return False
-            raise UserError(t(self.env, _(
-                "The catalogue needs its signature file and at least one trusted signer (Platform > Updates > Signers)."
-            )))
-        signer = self.env["platform.signer"]._who_signed(signature, raw)
-        if not signer:
-            raise UserError(t(self.env, _("The catalogue's signature does not hold: nothing was loaded."))
-                            + "\n" + t(self.env, _("It was not made by a trusted signer.")))
-        if not self.signer_id:
-            self.sudo().signer_id = signer
-        return True
-
-    def _load_catalogue(self, raw, signature=None):
-        """Writes the rows. A release does not change: a second load must be the same file."""
+        The catalogue only describes the release on these screens: a firm's server reads the manifests of
+        the bundle it installs (firm-addons.sh), never this file."""
         self.ensure_one()
         try:
             entries = catalogue.parse_catalogue(raw, self.sha)
         except catalogue.CatalogueRefused as refused:
             raise UserError(t(self.env, refused.message)) from None
-        signed = self._verify_catalogue(raw, signature)
         digest = _sha256(raw)
         if self.catalogue_digest and self.catalogue_digest != digest:
             raise UserError(t(self.env, _("This release already has another catalogue: a release does not change.")))
@@ -159,7 +138,6 @@ class PlatformRelease(models.Model):
                 })
         self.sudo().write({
             "catalogue_loaded_at": fields.Datetime.now(),
-            "catalogue_signed": signed or self.catalogue_signed,
             "catalogue_digest": digest,
         })
         self.env["platform.firm"].sudo().search([("state", "!=", "archived")])._ensure_addon_lines()
@@ -171,12 +149,12 @@ class PlatformRelease(models.Model):
         return True
 
     def action_read_catalogue_here(self):
-        """Simulation only: reads the manifests beside this addon, with no signature to show for it."""
+        """Simulation only: reads the manifests beside this addon, with no file to show for it."""
         self.ensure_one()
         if not self.env.user.has_group("ea_platform_admin.group_platform_owner"):
             raise AccessError(t(self.env, _("Only the owner loads a catalogue.")))
         if not self.env["platform.services"]._is_simulation():
-            raise UserError(t(self.env, _("On a real platform a catalogue comes from a signed file only.")))
+            raise UserError(t(self.env, _("On a real platform a catalogue comes from the release's own file only.")))
         import json
 
         folder = Path(__file__).parents[2]
