@@ -38,6 +38,7 @@
             "ea_platform_admin/static/src/scss/platform.scss",
             "ea_platform_admin/static/src/scss/supervision.scss",
             "ea_platform_admin/static/src/scss/howto.scss",
+            "ea_platform_admin/static/src/js/job_form.js",
         ],
     },
     "installable": True,
