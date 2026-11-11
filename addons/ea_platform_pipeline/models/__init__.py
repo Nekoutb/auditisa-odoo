@@ -6,3 +6,4 @@ from . import promotion
 from . import rebuild
 from . import stage
 from . import environment
+from . import release_panel

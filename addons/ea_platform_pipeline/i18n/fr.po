@@ -3014,6 +3014,8 @@ msgid "Version:"
 msgstr "Version :"
 
 #. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
 #: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_environment__release_html
 msgid "Versions"
 msgstr "Versions"
@@ -3207,3 +3209,407 @@ msgstr "staging"
 #: code:addons/ea_platform_pipeline/models/environment.py:0
 msgid "the practice computer is not connected yet"
 msgstr "l'ordinateur d'entraînement n'est pas encore relié"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "Staging: practice spaces"
+msgstr "Staging : espaces d'entraînement"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "Developer test site"
+msgstr "Site de test du développeur"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "This is the developer's test site (test.auditisa.com), with test data only. It never sends email. Promote to Staging does not send a version here: it sends it to the practice spaces."
+msgstr "Ceci est le site de test du développeur (test.auditisa.com), avec des données de test seulement. Il n'envoie jamais d'e-mail. Promouvoir vers le staging n'envoie pas de version ici : la version va vers les espaces d'entraînement."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "The practice spaces: one per client firm, with made-up data only. This is what \"Staging\" means in the Versions panel above: Promote to Staging sends a version here first, and Promote to Production sends the version that runs here to the client firms."
+msgstr "Les espaces d'entraînement : un par cabinet client, avec des données fictives seulement. C'est ce que « staging » veut dire dans le panneau Versions ci-dessus : Promouvoir vers le staging envoie d'abord une version ici, et Promouvoir vers la production envoie la version qui tourne ici aux cabinets clients."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "waiting for Staging to pick it up (about a minute)"
+msgstr "en attente que le staging la prenne (environ une minute)"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "downloading the version and checking it"
+msgstr "téléchargement de la version et vérification"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "the practice spaces are closed for the update; a safety copy of each one is being made"
+msgstr "les espaces d'entraînement sont fermés pour la mise à jour ; une copie de sécurité de chacun est en cours"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "updating a practice space"
+msgstr "mise à jour d'un espace d'entraînement"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "starting again and checking that every practice space answers"
+msgstr "redémarrage et vérification que chaque espace d'entraînement répond"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "rebuilding the demo template (the practice spaces already run the new version)"
+msgstr "reconstruction du modèle de démonstration (les espaces d'entraînement tournent déjà sur la nouvelle version)"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "finishing"
+msgstr "finalisation"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The version could not be downloaded."
+msgstr "La version n'a pas pu être téléchargée."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The downloaded file is not the one the console registered (its fingerprint differs), so Staging refused it."
+msgstr "Le fichier téléchargé n'est pas celui que la console a enregistré (son empreinte diffère) : le staging l'a refusé."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The downloaded file could not be opened."
+msgstr "Le fichier téléchargé n'a pas pu être ouvert."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Another operation was running on Staging for more than ten minutes."
+msgstr "Une autre opération tournait sur le staging depuis plus de dix minutes."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "An earlier update did not finish cleanly: its safety copies are still there."
+msgstr "Une mise à jour précédente ne s'est pas terminée proprement : ses copies de sécurité sont encore là."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The safety copy of the practice spaces could not be made."
+msgstr "La copie de sécurité des espaces d'entraînement n'a pas pu être faite."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The update of a practice space failed."
+msgstr "La mise à jour d'un espace d'entraînement a échoué."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "After the update, a practice space did not answer."
+msgstr "Après la mise à jour, un espace d'entraînement n'a pas répondu."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The demo template could not be rebuilt."
+msgstr "Le modèle de démonstration n'a pas pu être reconstruit."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The installation failed."
+msgstr "L'installation a échoué."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "failed"
+msgstr "a échoué"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "failed and put itself back"
+msgstr "a échoué et s'est remis en l'état"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "did not answer"
+msgstr "n'a pas répondu"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Only the owner promotes a version."
+msgstr "Seul le propriétaire promeut une version."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Sent to Staging: see the next row."
+msgstr "Envoyée vers le staging : voir la ligne suivante."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Nothing new: Staging has the newest version."
+msgstr "Rien de nouveau : le staging a la version la plus récente."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "%(done)s of %(total)s client firm(s) updated"
+msgstr "%(done)s cabinet(s) client(s) sur %(total)s mis à jour"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "New version"
+msgstr "Nouvelle version"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "registered by the developer, not on Staging yet"
+msgstr "enregistrée par le développeur, pas encore sur le staging"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "the practice spaces, on test.auditisa.com"
+msgstr "les espaces d'entraînement, sur test.auditisa.com"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "the client firms"
+msgstr "les cabinets clients"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "In progress: this panel updates by itself every few seconds."
+msgstr "En cours : ce panneau se met à jour tout seul toutes les quelques secondes."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "A version goes to Staging first, then to Production. This panel is the same on every page."
+msgstr "Une version va d'abord vers le staging, puis vers la production. Ce panneau est le même sur chaque page."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "updating the practice space %(slug)s (%(index)s of %(count)s)"
+msgstr "mise à jour de l'espace d'entraînement %(slug)s (%(index)s sur %(count)s)"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Step %(step)s of %(total)s:"
+msgstr "Étape %(step)s sur %(total)s :"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Step 1:"
+msgstr "Étape 1 :"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Runs:"
+msgstr "Version en service :"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Asked at %(time)s."
+msgstr "Demandé à %(time)s."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Last news from Staging: %(time)s."
+msgstr "Dernières nouvelles du staging : %(time)s."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "This is taking longer than usual. If nothing moves in the next few minutes, tell the developer."
+msgstr "C'est plus long que d'habitude. Si rien ne bouge dans les prochaines minutes, prévenez le développeur."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Updating now: %(firms)s."
+msgstr "En cours de mise à jour : %(firms)s."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Waiting their turn: %(count)s."
+msgstr "En attente de leur tour : %(count)s."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Installing"
+msgstr "Installation de"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The update of the practice space %(slug)s failed."
+msgstr "La mise à jour de l'espace d'entraînement %(slug)s a échoué."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "After the update, the practice space %(slug)s did not answer."
+msgstr "Après la mise à jour, l'espace d'entraînement %(slug)s n'a pas répondu."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The %(count)s firm(s) after it were not touched."
+msgstr "Les %(count)s cabinet(s) suivant(s) n'ont pas été touchés."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Up to date: every client firm runs Staging's version."
+msgstr "À jour : chaque cabinet client tourne sur la version du staging."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Not installed:"
+msgstr "Non installée :"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Everything was put back as it was: Staging still runs the version above. Nothing changed for the client firms."
+msgstr "Tout a été remis en l'état : le staging tourne toujours sur la version ci-dessus. Rien n'a changé pour les cabinets clients."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "What you can do:"
+msgstr "Ce que vous pouvez faire :"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "tell the developer. Staging will not try this version again by itself."
+msgstr "prévenir le développeur. Le staging ne réessaiera pas cette version tout seul."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Sending"
+msgstr "Envoi de"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "One firm goes first, alone; the others follow in small batches. Each firm is cut off for a few minutes during its own update."
+msgstr "Un cabinet passe d'abord, seul ; les autres suivent par petits lots. Chaque cabinet est coupé quelques minutes pendant sa propre mise à jour."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Stopped:"
+msgstr "Arrêté :"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "A firm whose update fails puts itself back as it was, from its own backup."
+msgstr "Un cabinet dont la mise à jour échoue se remet tout seul en l'état, à partir de sa propre sauvegarde."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "tell the developer."
+msgstr "prévenir le développeur."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Installed, with one thing missing"
+msgstr "Installée, avec un élément manquant"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "The practice spaces run the new version, but the demo template could not be rebuilt: resetting a practice space will not work until it is."
+msgstr "Les espaces d'entraînement tournent sur la nouvelle version, mais le modèle de démonstration n'a pas pu être reconstruit : la réinitialisation d'un espace d'entraînement ne marchera pas tant qu'il ne l'est pas."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/release_panel.py:0
+msgid "Up to date."
+msgstr "À jour."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/environment.py:0
+msgid "Staging is installing a version: wait until it has finished."
+msgstr "Le staging installe une version : attendez qu'il ait fini."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/environment.py:0
+msgid "The last version could not be installed on Staging. The developer registers a corrected one first."
+msgstr "La dernière version n'a pas pu être installée sur le staging. Le développeur en enregistre d'abord une corrigée."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/environment.py:0
+msgid "Staging starts within about a minute and takes about two minutes per practice space, then a few more to rebuild the demo template. The Versions panel of the Status page shows a progress bar, step by step, and says so plainly if it fails."
+msgstr "Le staging démarre en une minute environ et prend environ deux minutes par espace d'entraînement, puis quelques-unes de plus pour reconstruire le modèle de démonstration. Le panneau Versions de la page Statut montre une barre de progression, étape par étape, et le dit clairement en cas d'échec."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/wizard/environment.py:0
+msgid "The Versions panel of the Status page then shows how many firms are updated, which one is updating now, and says so plainly if one fails."
+msgstr "Le panneau Versions de la page Statut montre ensuite combien de cabinets sont à jour, lequel est en cours de mise à jour, et le dit clairement si l'un échoue."
+
+#. module: ea_platform_pipeline
+#: model:platform.environment,name:ea_platform_pipeline.environment_practice
+msgid "Practice spaces (Staging)"
+msgstr "Espaces d'entraînement (staging)"
+
+#. module: ea_platform_pipeline
+#: model:platform.environment,name:ea_platform_pipeline.environment_staging
+msgid "Developer test site (test.auditisa.com)"
+msgstr "Site de test du développeur (test.auditisa.com)"
+
+#. module: ea_platform_pipeline
+#: model_terms:ir.ui.view,arch_db:ea_platform_pipeline.view_environment_form
+msgid "Developer test site: opens it in a new tab. Practice spaces: asks which space. Client firm: starts a read-only support visit."
+msgstr "Site de test du développeur : l'ouvre dans un nouvel onglet. Espaces d'entraînement : demande quel espace. Cabinet client : lance une visite de support en lecture seule."
+
+#. module: ea_platform_pipeline
+#: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_environment__release_busy
+msgid "Release Busy"
+msgstr "Promotion en cours"

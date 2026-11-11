@@ -1,10 +1,10 @@
 #!/usr/bin/python3 -I
 """practice-heartbeat: figures of the practice computer and of each space, for the control room.
 
-Runs as root every ten minutes (a timer). Figures only, from PostgreSQL and root's own files: the
-release, the template's release, the guard's verdict, and per space its state, last reset, number
-of active internal users and the DAY of the last login. No name, no login, no record of a space
-leaves this computer. The figures are always written to status/heartbeat.json; they are sent only
+Runs as root every minute (a timer), and at each step of an update. Figures only, from PostgreSQL
+and root's own files: the release, the template's release, the guard's verdict, how far an update
+has gone (closed words only), and per space its state, last reset, number of active internal users
+and the DAY of the last login. No name, no login, no record of a space leaves this computer. The figures are always written to status/heartbeat.json; they are sent only
 when PRACTICE_HEARTBEAT_URL (https) and secrets/heartbeat.token both exist.
 
 The signature is the firms' heartbeat format (HMAC-SHA256 under a token known to this computer and
@@ -24,6 +24,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import urllib.request
 
 SCHEMA_VERSION = 1
@@ -41,6 +42,10 @@ _INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 _DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _NAME = re.compile(r"^[a-z][a-z0-9-]{1,30}$")
 _ADDON = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
+# The steps of an update and the reasons it can fail: the same closed lists as practice-lib.sh and
+# the control room's (addons/ea_platform_admin/services/practice.py).
+PROGRESS_CODES = ("download", "copy", "space", "start", "template", "done")
+PROGRESS_REASONS = ("download", "digest", "bundle", "busy", "leftover", "copy", "space_update", "no_answer", "template", "other")
 
 
 # ---------------------------------------------------------------------------- pure
@@ -93,10 +98,29 @@ def space_figures(slug, exists, reset_at, users, last_login_on, generation=0, ad
     }
 
 
-def build_figures(computer, release, template_release, guard, spaces):
+def progress_figures(record):
+    """status/progress as practice-update wrote it (KEY='value'), every value checked: figures or None."""
+    target = _clean(record.get("TARGET"), _RELEASE)
+    step, total = record.get("STEP", ""), record.get("TOTAL", "")
+    code = record.get("CODE")
+    at = _clean(record.get("AT"), _INSTANT)
+    if not (target and at and code in PROGRESS_CODES and step.isascii() and step.isdigit() and total.isascii()
+            and total.isdigit() and len(step) <= 3 and len(total) <= 3 and 1 <= int(total) and int(step) <= int(total)):
+        return None
+    failed = record.get("FAILED") == "1"
+    reason = record.get("REASON") or None
+    if failed and reason not in PROGRESS_REASONS:
+        reason = "other"
+    return {
+        "target": target, "step": int(step), "total": int(total), "code": code,
+        "slug": _clean(record.get("SLUG"), _SLUG), "failed": failed, "reason": reason if failed else None, "at": at,
+    }
+
+
+def build_figures(computer, release, template_release, guard, spaces, progress=None):
     if not _NAME.match(computer or ""):
         raise ValueError("bad computer name")
-    return {
+    figures = {
         "schema": SCHEMA_VERSION,
         "computer": computer,
         "release": _clean(release, _RELEASE),
@@ -104,6 +128,10 @@ def build_figures(computer, release, template_release, guard, spaces):
         "guard": guard if guard in ("ok", "refused") else "unknown",
         "spaces": sorted(spaces, key=lambda s: s["slug"]),
     }
+    # Only when an update has reported: a computer that never updated sends what it always sent.
+    if progress:
+        figures["progress"] = progress
+    return figures
 
 
 def parse_env(text):
@@ -131,10 +159,16 @@ def _read(path):
 
 
 def _psql(sql, database="postgres"):
-    result = subprocess.run(
-        ["runuser", "-u", "postgres", "--", "psql", "-X", "-At", "-d", database, "-c", sql],
-        capture_output=True, text=True, timeout=60, check=False,
-    )
+    # During an update a space's tables can be locked for a while: the figure is then left out and the
+    # heartbeat is not held up (it also carries the update's progress).
+    try:
+        result = subprocess.run(
+            ["runuser", "-u", "postgres", "--", "env", "PGOPTIONS=-c lock_timeout=3s -c statement_timeout=15s",
+             "psql", "-X", "-At", "-d", database, "-c", sql],
+            capture_output=True, text=True, timeout=30, check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return None
     return result.stdout.strip() if result.returncode == 0 else None
 
 
@@ -164,7 +198,8 @@ def collect():
             bool(re.match(r"^[0-9a-f]{64}$", record.get("FIRST_ADMIN_HASH", ""))),
         ))
     release = (_read(os.path.join(VAR, "status", "release")).split() or [""])[0]
-    return env, build_figures(env.get("PRACTICE_NAME", ""), release, template.get("RELEASE"), guard, spaces)
+    progress = progress_figures(parse_env(_read(os.path.join(VAR, "status", "progress"))))
+    return env, build_figures(env.get("PRACTICE_NAME", ""), release, template.get("RELEASE"), guard, spaces, progress)
 
 
 def _write_atomic(path, data, mode):
@@ -207,7 +242,14 @@ def main():
         print("practice-heartbeat: refused, the address is not https", file=sys.stderr)
         return 1
     try:
-        send(url, figures["computer"], token, figures)
+        try:
+            send(url, figures["computer"], token, figures)
+        except urllib.error.HTTPError as error:
+            if error.code != 403 or "progress" not in figures:
+                raise
+            # A control room from before the progress report refuses a figure it does not know: the
+            # same heartbeat again without it, so this computer stays known during the transition.
+            send(url, figures["computer"], token, {key: value for key, value in figures.items() if key != "progress"})
     except (OSError, ValueError) as error:
         print("practice-heartbeat: not delivered (%s)" % type(error).__name__, file=sys.stderr)
         return 1

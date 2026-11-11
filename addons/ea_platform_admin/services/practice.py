@@ -75,6 +75,23 @@ SPACE_FIGURES = {
     "addons_on": lambda value: type(value) is list and len(value) <= 24 and all(type(c) is str and _ADDON.match(c) for c in value),
     "link_set": lambda value: type(value) is bool,
 }
+# How far an update of the practice computer has gone (deploy/practice/practice-update.sh). Closed
+# words only: a step out of a total, a step code, the space concerned, and on failure a reason code.
+# The same lists as deploy/practice/practice-lib.sh and practice_heartbeat.py.
+PROGRESS_CODES = ("download", "copy", "space", "start", "template", "done")
+PROGRESS_REASONS = ("download", "digest", "bundle", "busy", "leftover", "copy", "space_update", "no_answer", "template", "other")
+PROGRESS_FIGURES = {
+    "target": lambda value: type(value) is str and bool(_RELEASE.match(value)),
+    "step": _int(0, 999),
+    "total": _int(1, 999),
+    "code": lambda value: type(value) is str and value in PROGRESS_CODES,
+    "slug": _optional(_SLUG),
+    "failed": lambda value: type(value) is bool,
+    "reason": lambda value: value is None or (type(value) is str and value in PROGRESS_REASONS),
+    "at": lambda value: type(value) is str and bool(_INSTANT.match(value)),
+}
+# Figures a practice computer may leave out: one from before the progress report sends none.
+OPTIONAL_FIGURES = {"progress"}
 FIGURES = {
     "schema": lambda value: type(value) is int and value == SCHEMA_VERSION,
     "computer": lambda value: type(value) is str and bool(_NAME.match(value)),
@@ -95,17 +112,30 @@ def _refuse_duplicates(pairs):
 
 
 def parse_figures(body):
-    """The validated figures, or a rejection. An unknown key anywhere rejects it all."""
+    """The validated figures, or a rejection. An unknown key anywhere rejects it all.
+
+    `progress` may be left out (an older practice computer) or null: it is then None in the result."""
     if len(body) > MAX_BODY_BYTES:
         raise HeartbeatRejected("body_too_large")
     try:
         data = json.loads(body.decode("utf-8"), object_pairs_hook=_refuse_duplicates)
     except (UnicodeDecodeError, ValueError):
         raise HeartbeatRejected("not_json") from None
-    if not isinstance(data, dict) or set(data) != set(FIGURES):
-        raise HeartbeatRejected("unknown_key" if isinstance(data, dict) and set(data) - set(FIGURES) else "missing_key")
+    if not isinstance(data, dict) or set(data) - OPTIONAL_FIGURES != set(FIGURES):
+        unknown = isinstance(data, dict) and set(data) - set(FIGURES) - OPTIONAL_FIGURES
+        raise HeartbeatRejected("unknown_key" if unknown else "missing_key")
+    progress = data.get("progress")
+    if progress is not None:
+        if not isinstance(progress, dict) or set(progress) != set(PROGRESS_FIGURES):
+            raise HeartbeatRejected("bad_progress")
+        for key, value in progress.items():
+            if not PROGRESS_FIGURES[key](value):
+                raise HeartbeatRejected("bad_value")
+        if progress["step"] > progress["total"] or progress["failed"] != (progress["reason"] is not None):
+            raise HeartbeatRejected("bad_value")
+    data["progress"] = progress
     for key, value in data.items():
-        if not FIGURES[key](value):
+        if key not in OPTIONAL_FIGURES and not FIGURES[key](value):
             raise HeartbeatRejected("bad_value")
     seen = set()
     for space in data["spaces"]:

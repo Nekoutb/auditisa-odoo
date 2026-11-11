@@ -6,6 +6,8 @@ import shutil
 import tempfile
 from datetime import datetime, timedelta
 
+from markupsafe import escape
+
 from odoo import fields
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
@@ -108,11 +110,21 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         Environment = self.env["platform.environment"].with_user(self.owner)
         english = Environment.with_context(lang="en_US").get_views([(False, "form")])["views"]["form"]["arch"]
         french = Environment.with_context(lang="fr_FR").get_views([(False, "form")])["views"]["form"]["arch"]
-        for word in ("History", "Backups", "Monitor", "Logs", "People", "Connect", "Promote to Staging", "Promote to Production"):
+        for word in ("History", "Backups", "Monitor", "Logs", "People", "Connect"):
             self.assertIn(word, english)
-        for word in ("Historique", "Sauvegardes", "Surveillance", "Journaux", "Personnes", "Se connecter",
-                     "Promouvoir vers le staging", "Promouvoir vers la production"):
+        for word in ("Historique", "Sauvegardes", "Surveillance", "Journaux", "Personnes", "Se connecter"):
             self.assertIn(word, french)
+        # The two Promote buttons are in the Versions panel, the first thing on every environment's page.
+        self.assertIn('widget="ea_release_panel"', english)
+        self.assertNotIn("action_promote", english)
+        self.assertLess(english.index('name="release_html"'), english.index('name="head_html"'))
+        for code in ("production", "practice", "staging", "development"):
+            panel = self._env(code, self.owner).release_html
+            for word in ("Promote to Staging", "Promote to Production"):
+                self.assertIn(word, panel)
+            panel = self._env(code, self.owner, lang="fr_FR").release_html
+            for word in ("Promouvoir vers le staging", "Promouvoir vers la production"):
+                self.assertIn(word, panel)
 
     def test_every_page_renders_for_a_viewer_in_both_languages(self):
         self._state()
@@ -125,10 +137,15 @@ class TestEnvironments(PipelineMixin, PlatformCase):
                 environment.log_ids  # noqa: B018
         sidebar_en = self._env("staging").sidebar_html
         sidebar_fr = self._env("staging", lang="fr_FR").sidebar_html
-        for word in ("Production", "Practice", "Staging", "Development"):
+        # One word, one thing: "Staging" is where Promote to Staging sends a version, the practice spaces.
+        for word in ("Production", "Staging: practice spaces", "Developer test site", "Development"):
             self.assertIn(word, sidebar_en)
-        for word in ("Production", "Entraînement", "Développement"):
-            self.assertIn(word, sidebar_fr)
+        for word in ("Production", "Staging : espaces d'entraînement", "Site de test du développeur", "Développement"):
+            self.assertIn(escape(word), sidebar_fr)
+        self.assertEqual(self._env("practice").name, "Practice spaces (Staging)")
+        self.assertEqual(self._env("staging").name, "Developer test site (test.auditisa.com)")
+        self.assertEqual(self._env("staging", lang="fr_FR").name, "Site de test du développeur (test.auditisa.com)")
+        self.assertIn("does not send a version here", self._env("staging").rules_html)
         self.assertIn("ea-env-active", sidebar_en)
         self.assertIn("never sends email", self._env("staging").rules_html)
         self.assertIn("jamais", self._env("staging", lang="fr_FR").rules_html)
@@ -366,7 +383,10 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         self.assertEqual(logged.action_text, "Release sent to the practice computer")
         self.assertIn(self.release2.sha[:12], logged.detail_text)
         self.env.invalidate_all()
-        self.assertIn("Being installed on Staging:", self._env("staging", self.owner).release_html)
+        waiting = self._env("staging", self.owner).release_html
+        for text in ("Installing", "Step 1:", "waiting for Staging to pick it up (about a minute)", "progress-bar"):
+            self.assertIn(text, waiting)
+        self.assertTrue(self._env("staging", self.owner).release_busy)
         computer._simulate_heartbeat()
         self.env.invalidate_all()
         html = self._env("staging", self.owner).release_html
@@ -412,7 +432,9 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         for text in ("2 client firm(s)", "backup", "puts itself back"):
             self.assertIn(text, wizard.summary_html)
         result = wizard.action_confirm()
-        promotion = self.env["platform.pipeline.promotion"].with_user(self.owner).browse(result["res_id"])
+        # Back on the Status page, where the Versions panel shows the progress.
+        self.assertEqual(result["type"], "ir.actions.act_window_close")
+        promotion = self.env["platform.pipeline.promotion"].with_user(self.owner).search([], limit=1)
         self.assertEqual(promotion.state, "rolling")
         self.assertEqual(promotion.release_id, self.release2)
         self.assertEqual(promotion.rollout_id.line_ids.firm_id, canary | other)
@@ -471,3 +493,231 @@ class TestEnvironments(PipelineMixin, PlatformCase):
         self.assertNotEqual(other.desired_release_id, self.release2)
         production = self._env("production")
         self.assertIn(canary.name, production.deploys_html)
+
+    # ------------------------------------------------------------------ the Versions panel: buttons, progress, failures
+
+    def _figures(self, computer, release=None, **progress):
+        """A heartbeat of the practice computer, with the progress of its update."""
+        figures = computer._simulated_figures()
+        figures["release"] = release or computer.release or None
+        figures["template_release"] = computer.release or None
+        if progress:
+            figures["progress"] = {"target": self.release2.sha[:12], "step": 1, "total": 7, "code": "download", "slug": None,
+                                   "failed": False, "reason": None, "at": NOW(), **progress}
+        else:
+            figures.pop("progress", None)
+        computer._simulate_heartbeat(figures)
+        self.env.invalidate_all()
+        return self._env("production", self.owner)
+
+    def _staged(self):
+        """Staging runs release 1, two practice spaces, and the owner has just promoted release 2."""
+        self._firm_on("cabinet-a")
+        self._firm_on("cabinet-b")
+        computer = self._computer()
+        self._on_staging(self.release)
+        self._promote("staging").action_confirm()
+        self.env.invalidate_all()
+        return computer
+
+    def test_the_panel_is_the_same_on_every_page_and_names_what_each_button_acts_on(self):
+        self._firm_on("cabinet-a")
+        self._computer()
+        self._on_staging(self.release)
+        pages = [self._env(code, self.owner).release_html for code in ("production", "practice", "staging", "development")]
+        self.assertEqual(len(set(pages)), 1)
+        panel = pages[0]
+        for text in ("Versions", "This panel is the same on every page", "New version", "the practice spaces, on test.auditisa.com",
+                     "the client firms", 'data-ea-action="action_promote_staging"'):
+            self.assertIn(text, panel)
+        self.assertLess(panel.index("ea-rel-new"), panel.index("ea-rel-staging"))
+        self.assertLess(panel.index("ea-rel-staging"), panel.index("ea-rel-production"))
+        self.assertFalse(self._env("staging", self.owner).release_busy)
+        self.assertNotIn("progress-bar", panel)
+        # Production already runs Staging's version: its button is greyed, with the reason under it.
+        self.assertNotIn('data-ea-action="action_promote_production"', panel)
+        self.assertIn("Every client firm already runs this version", panel)
+        self.assertIn('disabled="disabled"', panel)
+
+    def test_someone_who_is_not_the_owner_sees_the_panel_without_a_usable_button(self):
+        self._computer()
+        for who in (self.viewer, self.operator):
+            panel = self._env("staging", who).release_html
+            self.assertNotIn("data-ea-action", panel)
+            self.assertIn("Only the owner promotes a version.", panel)
+            self.assertIn("New version ready:", panel)
+        self.assertEqual(self._env("staging", self.viewer).release_panel()["html"], self._env("staging", self.viewer).release_html)
+
+    def test_staging_shows_each_step_of_its_update(self):
+        computer = self._staged()
+        page = self._env("staging", self.owner)
+        self.assertIn("Step 1:", page.release_html)
+        self.assertIn("Staging is installing a version: wait until it has finished.", page.release_html)
+        self.assertNotIn('data-ea-action="action_promote_staging"', page.release_html)
+        with self.assertRaises(UserError):
+            self._promote("staging").action_confirm()
+        # Two spaces: download 1, copy 2, the spaces 3 and 4, start 5, template 6, done 7. The console's wait is step 1.
+        steps = [
+            ({"step": 1, "code": "download"}, "Step 2 of 7:", "downloading the version and checking it"),
+            ({"step": 2, "code": "copy"}, "Step 3 of 7:", "a safety copy of each one is being made"),
+            ({"step": 3, "code": "space", "slug": "cabinet-a"}, "Step 4 of 7:", "updating the practice space cabinet-a (1 of 2)"),
+            ({"step": 4, "code": "space", "slug": "cabinet-b"}, "Step 5 of 7:", "updating the practice space cabinet-b (2 of 2)"),
+            ({"step": 5, "code": "start"}, "Step 6 of 7:", "checking that every practice space answers"),
+        ]
+        widths = []
+        for progress, step, what in steps:
+            page = self._figures(computer, **progress)
+            panel = page.release_panel()
+            self.assertTrue(panel["busy"], step)
+            for text in (step, what, "progress-bar-animated", self.release2.sha[:12], "In progress: this panel updates by itself"):
+                self.assertIn(text, panel["html"])
+            self.assertNotIn("ea-rel-failed", panel["html"])
+            widths.append(int(panel["html"].split('aria-valuenow="')[1].split('"')[0]))
+        self.assertEqual(widths, sorted(set(widths)))
+        self.assertEqual(computer.release, self.release.sha)
+        # The spaces run the new version; the demo template is rebuilt: still shown, still refreshing.
+        page = self._figures(computer, release=self.release2.sha, step=6, code="template")
+        self.assertEqual(computer.release, self.release2.sha)
+        for text in ("Step 7 of 7:", "rebuilding the demo template"):
+            self.assertIn(text, page.release_html)
+        self.assertTrue(page.release_busy)
+        # Done: the bar goes, the page stops refreshing, and the next button opens.
+        page = self._figures(computer, release=self.release2.sha, step=7, code="done")
+        self.assertFalse(page.release_busy)
+        self.assertNotIn("progress-bar", page.release_html)
+        self.assertNotIn("New version ready:", page.release_html)
+        self.assertIn('data-ea-action="action_promote_production"', page.release_html)
+        self.assertIn("Nothing new: Staging has the newest version.", page.release_html)
+
+    def test_the_steps_read_in_french(self):
+        computer = self._staged()
+        self._figures(computer, step=3, code="space", slug="cabinet-a")
+        panel = self._env("production", self.owner, lang="fr_FR").release_html
+        for text in ("Étape 4 sur 7", "mise à jour de l'espace d'entraînement cabinet-a (1 sur 2)", "Promouvoir vers le staging",
+                     "les espaces d'entraînement, sur test.auditisa.com", "ce panneau se met à jour tout seul"):
+            self.assertIn(escape(text), panel)
+
+    def test_a_failed_install_on_staging_is_shown_in_red_with_what_to_do(self):
+        computer = self._staged()
+        page = self._figures(computer, step=4, code="space", slug="cabinet-b", failed=True, reason="space_update")
+        panel = page.release_html
+        for text in ("ea-rel-failed", "bg-danger", "Not installed:", self.release2.sha[:12],
+                     "The update of the practice space cabinet-b failed.", "Everything was put back as it was",
+                     "What you can do:", "tell the developer", "will not try this version again by itself"):
+            self.assertIn(text, panel)
+        self.assertNotIn("Step 1:", panel)
+        self.assertNotIn("progress-bar-animated", panel)
+        self.assertFalse(page.release_busy)
+        # It is in the platform log, once, however many heartbeats repeat it.
+        self._figures(computer, step=4, code="space", slug="cabinet-b", failed=True, reason="space_update")
+        logged = self.env["platform.log"].search([("action", "=", "Practice computer: the update failed")])
+        self.assertEqual(len(logged), 1)
+        self.assertIn("space_update", logged.detail_text)
+        # Staging still runs the old version, so Production is offered nothing new.
+        self.assertEqual(computer.release, self.release.sha)
+        self.assertIn("could not be installed on Staging", self._promote("staging").problem)
+        # Each reason has its own plain sentence, in both languages.
+        for reason, english, french in [
+            ("download", "could not be downloaded", "n'a pas pu être téléchargée"),
+            ("digest", "its fingerprint differs", "son empreinte diffère"),
+            ("leftover", "did not finish cleanly", "ne s'est pas terminée proprement"),
+            ("no_answer", "did not answer", "n'a pas répondu"),
+            ("other", "The installation failed.", "L'installation a échoué."),
+        ]:
+            self._figures(computer, step=1, code="download", failed=True, reason=reason)
+            self.assertIn(english, self._env("staging", self.owner).release_html, reason)
+            self.assertIn(escape(french), self._env("staging", self.owner, lang="fr_FR").release_html, reason)
+        # A corrected version is registered: the button opens again and the failure leaves the screen once it is sent.
+        fixed = self.env["platform.release"].sudo().create({"sha": "0a1b2c3d4e5f", "bundle_sha256": "c" * 64, "label": "Version 3"})
+        self.env.invalidate_all()
+        panel = self._env("staging", self.owner).release_html
+        self.assertIn('data-ea-action="action_promote_staging"', panel)
+        self.assertIn("ea-rel-failed", panel)
+        wizard = self._promote("staging")
+        self.assertEqual(wizard.release_id, fixed)
+        wizard.action_confirm()
+        self.env.invalidate_all()
+        panel = self._env("staging", self.owner).release_html
+        self.assertNotIn("ea-rel-failed", panel)
+        self.assertIn("waiting for Staging to pick it up", panel)
+
+    def test_a_template_that_was_not_rebuilt_is_a_warning(self):
+        computer = self._staged()
+        page = self._figures(computer, release=self.release2.sha, step=6, code="template", failed=True, reason="template")
+        for text in ("ea-rel-warning", "Installed, with one thing missing", "the demo template could not be rebuilt", "tell the developer"):
+            self.assertIn(text, page.release_html)
+        self.assertFalse(page.release_busy)
+        self.assertIn('data-ea-action="action_promote_production"', page.release_html)
+
+    def test_an_older_practice_computer_without_progress_still_shows_the_wait_then_the_result(self):
+        computer = self._staged()
+        page = self._figures(computer)
+        self.assertIsNone(computer._progress())
+        self.assertIn("waiting for Staging to pick it up", page.release_html)
+        self.assertTrue(page.release_busy)
+        page = self._figures(computer, release=self.release2.sha)
+        self.assertFalse(page.release_busy)
+        self.assertNotIn("progress-bar", page.release_html)
+
+    def test_a_wait_that_lasts_is_said_and_stops_blocking(self):
+        computer = self._staged()
+        computer.sudo().desired_since = fields.Datetime.now() - timedelta(minutes=25)
+        self.env.invalidate_all()
+        panel = self._env("staging", self.owner).release_html
+        self.assertIn("This is taking longer than usual", panel)
+        self.assertTrue(self._env("staging", self.owner).release_busy)
+        computer.sudo().desired_since = fields.Datetime.now() - timedelta(minutes=90)
+        self.env.invalidate_all()
+        self.assertFalse(self._env("staging", self.owner).release_busy)
+
+    def test_production_shows_how_many_firms_are_updated_and_which_one_is_updating(self):
+        canary = self._firm_on("cabinet-a")
+        self._firm_on("cabinet-b")
+        self._firm_on("cabinet-c")
+        self._on_staging()
+        self.assertIn('data-ea-action="action_promote_production"', self._env("staging", self.owner).release_html)
+        self._promote("production").action_confirm()
+        rollout = self.env["platform.rollout"].search([], limit=1)
+        self.env.invalidate_all()
+        page = self._env("development", self.owner)
+        for text in ("Sending", self.release2.sha[:12], "0 of 3 client firm(s) updated", f"Updating now: {canary.name}.",
+                     "Waiting their turn: 2.", "progress-bar-animated", "In progress: this panel updates by itself"):
+            self.assertIn(text, page.release_html)
+        self.assertTrue(page.release_busy)
+        self.assertIn("Another update of the client firms is still running", page.release_html)
+        self.assertNotIn('data-ea-action="action_promote_production"', page.release_html)
+        rollout.action_simulate_answers()
+        self.env.invalidate_all()
+        page = self._env("development", self.owner)
+        self.assertIn("1 of 3 client firm(s) updated", page.release_html)
+        self.assertNotIn(f"Updating now: {canary.name}.", page.release_html)
+        self.assertIn('aria-valuenow="33"', page.release_html)
+        french = self._env("development", self.owner, lang="fr_FR").release_html
+        for text in ("1 cabinet(s) client(s) sur 3 mis à jour", "En cours de mise à jour"):
+            self.assertIn(escape(text), french)
+        rollout.action_simulate_answers()
+        self.assertEqual(rollout.state, "done")
+        self.env.invalidate_all()
+        page = self._env("development", self.owner)
+        self.assertFalse(page.release_busy)
+        self.assertNotIn("progress-bar", page.release_html)
+        for text in ("3 of 3 client firm(s)", "Up to date: every client firm runs Staging"):
+            self.assertIn(text, page.release_html)
+
+    def test_a_firm_that_fails_stops_production_and_is_named_in_red(self):
+        canary = self._firm_on("cabinet-a")
+        self._firm_on("cabinet-b")
+        self._firm_on("cabinet-c")
+        self._on_staging()
+        self._promote("production").action_confirm()
+        rollout = self.env["platform.rollout"].search([], limit=1)
+        rollout.with_context(fail_slugs=["cabinet-a"]).action_simulate_answers()
+        self.assertEqual(rollout.state, "stopped")
+        self.env.invalidate_all()
+        page = self._env("production", self.owner)
+        for text in ("ea-rel-failed", "bg-danger", "Stopped:", self.release2.sha[:12], "0 of 3 client firm(s) updated",
+                     f"{canary.name} failed and put itself back", "The 2 firm(s) after it were not touched.",
+                     "What you can do:", "tell the developer."):
+            self.assertIn(text, page.release_html)
+        self.assertFalse(page.release_busy)
+        self.assertIn(escape("a échoué et s'est remis en l'état"), self._env("production", self.owner, lang="fr_FR").release_html)

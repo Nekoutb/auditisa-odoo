@@ -4,6 +4,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..models.i18n import t
+from ..services import firm_keys
 from ..services.catalogue import LANGUAGES, REGIONS, SIZES, monthly_cost, selection
 from ..services.messages import _
 from ..services.validation import (
@@ -41,10 +42,15 @@ class PlatformOnboardingWizard(models.TransientModel):
         selection(LANGUAGES), "Default language", default="fr_FR",
         help="The firm's default language. Each user can then choose French or English in their preferences.",
     )
+    own_key = fields.Boolean(
+        "Advanced: I supply this firm's key myself",
+        help="Leave unticked: the console makes this firm's maintenance key itself. Tick only if a technician "
+             "gave you a public SSH key to use for this firm.",
+    )
     ssh_public_key = fields.Char(
         "The firm's public SSH key",
-        help="The content of the .pub file made on your computer for this firm. "
-             "The private key stays with you: never paste it here.",
+        help="Optional. The content of the .pub file made for this firm. "
+             "The private key stays with whoever made it: never paste it here.",
     )
     release_id = fields.Many2one(
         "platform.release", "Release to install",
@@ -92,16 +98,21 @@ class PlatformOnboardingWizard(models.TransientModel):
             "name": self.name, "slug": normalise_slug(self.slug), "contact_name": self.contact_name,
             "contact_email": (self.contact_email or "").strip(), "region": self.region, "size": self.size,
             "lang": self.lang, "allowed_email_domains": self.allowed_email_domains,
-            "ssh_public_key": (self.ssh_public_key or "").strip(),
+            "ssh_public_key": (self.ssh_public_key or "").strip() if self.own_key else "",
         }
 
     def _errors(self, fields_to_check=None):
         firms = self.env["platform.firm"].sudo().with_context(active_test=False).search([])
+        data = self._data()
         errors = onboarding_errors(
-            self._data(),
+            data,
             existing_slugs=firms.mapped("slug"),
             existing_fingerprints=firms.mapped("ssh_key_fingerprint"),
         )
+        if not data["ssh_public_key"]:
+            # No key supplied: the console makes one itself when the firm is created. A pasted key is
+            # still checked as before (ed25519, not used by another firm).
+            errors.pop("ssh_public_key", None)
         if fields_to_check is not None:
             errors = {field: messages for field, messages in errors.items() if field in fields_to_check}
         return errors
@@ -154,8 +165,12 @@ class PlatformOnboardingWizard(models.TransientModel):
         if not simulation:
             self._check_settings()
         data = self._data()
+        private = None
+        if not data["ssh_public_key"]:
+            private, data["ssh_public_key"] = firm_keys.generate(data["slug"])
         firm = self.env["platform.firm"].sudo().create({
             **data,
+            "ssh_by_console": bool(private),
             "contact_phone": self.contact_phone,
             "state": "provisioning",
             "is_simulation": simulation,
@@ -167,9 +182,30 @@ class PlatformOnboardingWizard(models.TransientModel):
             _("Size %(size)s, region %(region)s, estimated cost %(cost)s USD/month",
               size=firm.size, region=firm.region, cost=f"{firm.monthly_cost_usd:.2f}"),
         )
-        self._after_firm_created(firm)
-        job = self.env["platform.provision.job"]._start(firm)
-        job._run()
+        if private:
+            # The private half goes to a file only the console's own user can open; never to the database,
+            # a screen or a log. If it cannot be kept, nothing is created.
+            try:
+                firm_keys.store(firm._firm_keys_dir(), firm.slug, private)
+            except (OSError, ValueError):
+                raise UserError(t(self.env, _(
+                    "The console could not keep this firm's maintenance key on its server (the folder for the firms' "
+                    "keys cannot be written). Nothing was created. Tell the developer."))) from None
+            finally:
+                private = None
+            self.env["platform.log"]._record(_("Maintenance key made by the console"), firm, firm.ssh_key_fingerprint)
+        try:
+            self._after_firm_created(firm)
+            job = self.env["platform.provision.job"]._start(firm)
+            job._run()
+        except Exception:
+            # Nothing is kept of this attempt (the database goes back): the key file goes too.
+            if firm.ssh_by_console:
+                try:
+                    firm_keys.remove(firm._firm_keys_dir(), firm.slug)
+                except (OSError, ValueError):
+                    pass
+            raise
         return {
             "type": "ir.actions.act_window",
             "res_model": "platform.provision.job",

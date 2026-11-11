@@ -26,11 +26,10 @@
                         <field name="release_id" options="{'no_create': True}"/>
                     </group>
                     <group string="This firm's key">
-                        <field name="ssh_public_key" placeholder="ssh-ed25519 AAAA..."/>
-                        <div colspan="2" class="text-muted">
-                            On your computer: <code>ssh-keygen -t ed25519 -f ~/.ssh/auditisa-SLUG</code>, then
-                            paste here the content of the <code>.pub</code> file. One key per firm. The private key stays with you.
-                        </div>
+                        <div colspan="2">Nothing to do: the console makes this firm's maintenance key itself and keeps it on its own server.</div>
+                        <field name="own_key"/>
+                        <field name="ssh_public_key" placeholder="ssh-ed25519 AAAA..." invisible="not own_key"/>
+                        <div colspan="2" class="text-muted" invisible="not own_key">Only if a technician gave you a key for this firm: paste here the content of its <code>.pub</code> file. One key per firm. Its private half stays with the technician. Left empty, the console makes the key itself.</div>
                     </group>
                 </group>
                 <div invisible="step != 'preflight'">

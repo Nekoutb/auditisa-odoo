@@ -956,6 +956,7 @@ msgstr "Demandé coupé, le cabinet dit allumé"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__desired
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__desired_since
 msgid "Asked on"
 msgstr "Demandé allumé"
 
@@ -6828,3 +6829,134 @@ msgstr "jusqu'à 30"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form
 msgid "your public IP address"
 msgstr "votre adresse IP publique"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "The firm's maintenance key erased from the console"
+msgstr "Clé de maintenance du cabinet effacée de la console"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm.py:0
+msgid "The firm's maintenance key could NOT be erased from the console"
+msgstr "La clé de maintenance du cabinet n'a PAS pu être effacée de la console"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Practice computer: the update failed"
+msgstr "Ordinateur d'entraînement : la mise à jour a échoué"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/practice.py:0
+msgid "Release %(release)s, reason code %(reason)s"
+msgstr "Version %(release)s, code du motif %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "**No key to ask anyone for.** The server's maintenance door has a key (an SSH key). The console makes one for each firm itself and keeps it on its own server: you have nothing to supply."
+msgstr "**Aucune clé à demander à qui que ce soit.** La porte de maintenance du serveur a une clé (une clé SSH). La console en fabrique une elle-même pour chaque cabinet et la garde sur son propre serveur : vous n'avez rien à fournir."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Screen **The server**. **Region**: where the server lives; keep Paris unless told otherwise. **Size**: from step 1. **Default language**: the firm's language. **Release to install**: the software version; keep the one proposed. Leave **This firm's key** as it is: the console makes the key itself. Click **Continue**."
+msgstr "Écran **Le serveur**. **Région** : où se trouve le serveur ; gardez Paris sauf avis contraire. **Taille** : selon l'étape 1. **Langue par défaut** : la langue du cabinet. **Version à installer** : la version du logiciel ; gardez celle proposée. Laissez **La clé de ce cabinet** telle quelle : la console fabrique la clé elle-même. Cliquez sur **Continuer**."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "The console erases this firm's maintenance key from its own server by itself. Afterwards, erase this firm's backup key from your safe, and the export file from your computer."
+msgstr "La console efface toute seule la clé de maintenance de ce cabinet de son propre serveur. Ensuite, effacez de votre coffre la clé de sauvegarde de ce cabinet, et le fichier d'export de votre ordinateur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/howto.py:0
+msgid "Untick the Advanced box: the console then makes this firm's key itself."
+msgstr "Décochez la case Avancé : la console fabrique alors elle-même la clé de ce cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__ssh_by_console
+msgid "Maintenance key made by the console"
+msgstr "Clé de maintenance fabriquée par la console"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/onboarding.py:0
+msgid "The console could not keep this firm's maintenance key on its server (the folder for the firms' keys cannot be written). Nothing was created. Tell the developer."
+msgstr "La console n'a pas pu garder la clé de maintenance de ce cabinet sur son serveur (le dossier des clés des cabinets n'est pas accessible en écriture). Rien n'a été créé. Prévenez le développeur."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__own_key
+msgid "Advanced: I supply this firm's key myself"
+msgstr "Avancé : je fournis moi-même la clé de ce cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__own_key
+msgid "Leave unticked: the console makes this firm's maintenance key itself. Tick only if a technician gave you a public SSH key to use for this firm."
+msgstr "Laissez décoché : la console fabrique elle-même la clé de maintenance de ce cabinet. Cochez seulement si un technicien vous a donné une clé SSH publique à utiliser pour ce cabinet."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__ssh_public_key
+msgid "Optional. The content of the .pub file made for this firm. The private key stays with whoever made it: never paste it here."
+msgstr "Facultatif. Le contenu du fichier .pub créé pour ce cabinet. La clé privée reste chez celui qui l'a créée : ne la collez jamais ici."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__ssh_by_console
+msgid "The console made this firm's maintenance key itself and keeps its private half in a file on its own server. Unticked: the key was supplied when the firm was created, and its private half is with whoever made it."
+msgstr "La console a fabriqué elle-même la clé de maintenance de ce cabinet et garde sa moitié privée dans un fichier sur son propre serveur. Décoché : la clé a été fournie à la création du cabinet, et sa moitié privée est chez celui qui l'a créée."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Nothing to do: the console makes this firm's maintenance key itself and keeps it on its own server."
+msgstr "Rien à faire : la console fabrique elle-même la clé de maintenance de ce cabinet et la garde sur son propre serveur."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+msgid "Only if a technician gave you a key for this firm: paste here the content of its <code>.pub</code> file. One key per firm. Its private half stays with the technician. Left empty, the console makes the key itself."
+msgstr "Seulement si un technicien vous a donné une clé pour ce cabinet : collez ici le contenu de son fichier <code>.pub</code>. Une clé par cabinet. Sa moitié privée reste chez le technicien. Laissé vide, la console fabrique la clé elle-même."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_target
+msgid "Update: release"
+msgstr "Mise à jour : version"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_step
+msgid "Update: step"
+msgstr "Mise à jour : étape"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_total
+msgid "Update: steps"
+msgstr "Mise à jour : nombre d'étapes"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_code
+msgid "Update: step code"
+msgstr "Mise à jour : code de l'étape"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_slug
+msgid "Update: space"
+msgstr "Mise à jour : espace"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_failed
+msgid "Update: failed"
+msgstr "Mise à jour : échec"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_reason
+msgid "Update: reason code"
+msgstr "Mise à jour : code du motif"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_at
+msgid "Update: reported on"
+msgstr "Mise à jour : signalé le"

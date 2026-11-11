@@ -6,7 +6,8 @@
 # practice-heartbeat keeps the answer only if its HMAC holds under this computer's token, and every
 # value is still checked again here, by closed patterns. What the control room can ask, and nothing else:
 #   - a release (Promote to Staging): installed only if its SHA-256 is the digest given with it
-#     (practice-update checks it);
+#     (practice-update checks it). How far it has gone, and a failure with its reason code, go to
+#     status/progress for the next heartbeat: the control room shows them on its Status page;
 #   - for each firm's space: its name, its first administrator's login, its language, its optional
 #     add-ons (checked against the release), a reset number (a reset when it grows), and the hash of
 #     a one-time link for the first administrator;
@@ -88,7 +89,7 @@ act() {
 }
 
 apply_release() {
-  local sha=$1 digest=$2 bundle_url=${3:--} work
+  local sha=$1 digest=$2 bundle_url=${3:--} work total
   [ "$sha" != "$(current_release)" ] && [ "${sha:0:12}" != "$(current_release)" ] || return 0
   if grep -qxF "$sha" "$PRACTICE_VAR/refused-releases" 2>/dev/null; then return 0; fi
   if [ "$bundle_url" = - ] && [ -n "$PRACTICE_RELEASE_BASE_URL" ]; then
@@ -100,12 +101,19 @@ apply_release() {
     return 0
   fi
   if [ "$DRY_RUN" = 1 ]; then pl_log "DRY RUN: fetch, check the SHA-256 and install release $sha"; return 0; fi
+  total=$(($(list_spaces | wc -l) + 5))
   work=$(mktemp -d /var/tmp/practice-release.XXXXXX)
-  if curl -fsSL --retry 3 --max-time 600 -o "$work/${sha:0:12}.tar.gz" "$bundle_url" \
-     && "$HERE/practice-update.sh" --bundle "$work/${sha:0:12}.tar.gz" --digest "$digest"; then
+  progress_write "$sha" 1 "$total" download
+  if ! curl -fsSL --retry 3 --max-time 600 -o "$work/${sha:0:12}.tar.gz" "$bundle_url"; then
+    printf '%s\n' "$sha" >> "$PRACTICE_VAR/refused-releases"
+    progress_write "$sha" 1 "$total" download "" download
+    pl_warn "release $sha could not be downloaded: it is not tried again"
+  elif "$HERE/practice-update.sh" --bundle "$work/${sha:0:12}.tar.gz" --digest "$digest"; then
     pl_log "now on release $sha"
   else
     printf '%s\n' "$sha" >> "$PRACTICE_VAR/refused-releases"
+    # practice-update says why itself; if it could not, the control room still learns that it failed.
+    progress_failed_for "$sha" || progress_write "$sha" 1 "$total" download "" other
     pl_warn "release $sha not installed: it is not tried again"
   fi
   rm -rf "$work"

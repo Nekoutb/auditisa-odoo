@@ -15,7 +15,7 @@
 | Quoi | Comment | Vérifié par |
 |---|---|---|
 | Serveur, Odoo, PostgreSQL, fichiers | Une machine par cabinet | Conception ; test d'isolation à refaire sur de vrais serveurs |
-| Clé SSH | Une par cabinet ; une clé déjà utilisée est refusée | Tests |
+| Clé SSH | Une par cabinet ; une clé déjà utilisée est refusée. La console la fabrique elle-même si le propriétaire n'en fournit pas | Tests |
 | Mot de passe PostgreSQL, mot de passe maître | Générés sur le serveur, n'en sortent jamais | Essai à blanc |
 | Stockage et clé de sauvegarde | Propres au cabinet. La clé de chiffrement n'est jamais sur le contrôle | Essai à blanc, tests |
 | Jeton de heartbeat | Un par cabinet ; celui d'un autre cabinet est refusé | Tests |
@@ -32,7 +32,8 @@
 - L'écran de supervision et son export Excel n'affichent que ces chiffres, l'identité technique du serveur et ses références chez l'hébergeur. Aucune donnée d'audit, aucun jeton.
 - Toute autre donnée dans un heartbeat fait rejeter le tout, et aucun champ n'accepte de texte libre.
 - Un serveur de cabinet peut aussi dire qu'il a fait une copie anonymisée : un état, une référence, une date, une empreinte. La copie elle-même reste chez lui (PIPELINE.md).
-- Pas de mot de passe de base, pas de clé de sauvegarde, pas de clé de stockage, pas de clé SSH privée. Le code ne contient ni client SSH, ni connexion à une base distante, ni appel RPC. Un test vérifie tout cela.
+- Pas de mot de passe de base, pas de clé de sauvegarde, pas de clé de stockage. La base ne contient aucune clé SSH privée. Le code ne contient ni client SSH, ni connexion à une base distante, ni appel RPC. Un test vérifie tout cela.
+- **Mais la console détient les clés de maintenance** (décision du propriétaire du 11 novembre 2026 : le propriétaire ne fournit plus de clé). Quand le champ de clé du formulaire Nouveau cabinet est laissé vide, la console fabrique une paire ed25519 propre à ce cabinet. La moitié publique est enregistrée comme avant. La moitié privée est écrite dans un fichier par cabinet, `/var/lib/odoo/firm-keys/<identifiant>` (dossier 700, fichier 600, utilisateur `odoo` de la console), hors de la base : jamais à l'écran, dans un journal, un heartbeat ou un export, et hors de la sauvegarde de la console. Elle est effacée quand le serveur du cabinet est détruit. **Conséquence, dite clairement : qui prend le serveur de la console (root ou l'utilisateur odoo) tient la clé de la porte de maintenance de chaque cabinet créé ainsi.** Le pare-feu de chaque cabinet n'ouvre le port 22 qu'aux adresses de l'opérateur, ce qui reste la seconde barrière. Un cabinet créé avec une clé collée (case Avancé) garde l'ancien modèle : sa moitié privée n'est pas sur la console.
 - Il refuse de s'installer dans la base d'un cabinet, et n'est pas dans le paquet livré aux cabinets.
 
 **Un cabinet n'a accès au contrôle que pour son heartbeat :** une seule adresse (hb.auditisa.com), un seul chemin, en POST signé, avec une limite de débit. Le canal des problèmes signalés et celui de l'ordinateur d'entraînement n'y sont ouverts que sur décision (`FIRM_DOORS`) : fermés à ce jour.
@@ -81,7 +82,7 @@ Le propriétaire n'a pas encore répondu. En attendant, il détient les clés. *
 | Option | Ce qui change | Ce que l'on perd |
 |---|---|---|
 | **A. Aujourd'hui :** l'opérateur détient tout | Simple ; vous pouvez dépanner seul | La confiance repose sur vous seul |
-| **B. Clé SSH détenue par le cabinet.** Le cabinet fournit sa clé publique à la mise en service | Plus de connexion sans qu'il vous l'ouvre. La plateforme n'a rien à changer : elle ne reçoit déjà que la clé publique. | Chaque dépannage demande son accord ; s'il perd sa clé, reconstruction depuis les sauvegardes |
+| **B. Clé SSH détenue par le cabinet.** Le cabinet fournit sa clé publique à la mise en service (case Avancé du formulaire) | Plus de connexion sans qu'il vous l'ouvre. La console ne reçoit alors que la clé publique et ne fabrique rien. | Chaque dépannage demande son accord ; s'il perd sa clé, reconstruction depuis les sauvegardes |
 | **C. Clé de sauvegarde détenue aussi par le cabinet,** et chiffrement à clé publique | Même avec le serveur, vous ne lisez pas les anciennes sauvegardes | Le test de restauration automatique ne peut plus tourner sur le serveur, à repenser |
 | **D. Le cabinet ouvre son propre compte Vultr** | Vous n'êtes plus propriétaire de la machine | Facturation, jeton par cabinet |
 
@@ -104,7 +105,7 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 | What | How | Checked by |
 |---|---|---|
 | Server, Odoo, PostgreSQL, files | One machine per firm | Design; the isolation test must be repeated on real servers |
-| SSH key | One per firm; a key already used is refused | Tests |
+| SSH key | One per firm; a key already used is refused. The console makes it itself when the owner supplies none | Tests |
 | PostgreSQL password, master password | Generated on the server, never leave it | Dry run |
 | Backup storage and key | The firm's own. The encryption key is never on the control plane | Dry run, tests |
 | Heartbeat token | One per firm; another firm's is refused | Tests |
@@ -121,7 +122,8 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 - The supervision page and its Excel export show only these figures, the server's technical identity and its references at the provider. No audit data and no token.
 - Anything else in a heartbeat gets it all rejected, and no field accepts free text.
 - A firm's server can also say it has made an anonymised copy: a state, a reference, a date and a digest. The copy itself stays there (PIPELINE.md).
-- No database password, no backup key, no storage key, no private SSH key. The code holds no SSH client, no remote database connection, no RPC call. A test checks all of this.
+- No database password, no backup key, no storage key. The database holds no private SSH key. The code holds no SSH client, no remote database connection, no RPC call. A test checks all of this.
+- **But the console holds the maintenance keys** (the owner's ruling of 11 November 2026: the owner no longer supplies a key). When the key field of the New firm form is left empty, the console makes an ed25519 pair of that firm's own. The public half is registered as before. The private half is written to one file per firm, `/var/lib/odoo/firm-keys/<slug>` (folder 700, file 600, the console's `odoo` user), outside the database: never on a screen, in a log, a heartbeat or an export, and not in the console's backup. It is erased when the firm's server is destroyed. **The consequence, plainly: whoever takes the console's server (root or the odoo user) holds the key to the maintenance door of every firm made this way.** Each firm's firewall opens port 22 to the operator's addresses only, which remains the second barrier. A firm made with a pasted key (the Advanced box) keeps the earlier model: its private half is not on the console.
 - It refuses to install in a firm's database, and is not in the bundle firms receive.
 
 **A firm reaches the control plane for its heartbeat only:** one address (hb.auditisa.com), one path, a signed, rate-limited POST. The reported-problems channel and the practice computer's are opened there only by decision (`FIRM_DOORS`): closed today.
@@ -170,7 +172,7 @@ The owner has not answered yet. Meanwhile, the owner holds the keys. **The door 
 | Option | What changes | What is lost |
 |---|---|---|
 | **A. Today:** the operator holds everything | Simple; you can fix things alone | Trust rests on you alone |
-| **B. SSH key held by the firm.** The firm supplies its public key at onboarding | No login unless it lets you in. The platform needs no change: it already only receives the public key. | Each fix needs its agreement; if it loses its key, rebuild from backups |
+| **B. SSH key held by the firm.** The firm supplies its public key at onboarding (the form's Advanced box) | No login unless it lets you in. The console then receives the public key only and makes nothing. | Each fix needs its agreement; if it loses its key, rebuild from backups |
 | **C. Backup key also held by the firm,** with public-key encryption | Even with the server, you cannot read old backups | The automatic restore test can no longer run on the server, to rethink |
 | **D. The firm opens its own Vultr account** | You no longer own the machine | Billing, a token per firm |
 

@@ -16,6 +16,10 @@
 #      spaces share one code.
 #   6. this computer's scripts are taken from the release (they come with it, once it works)
 #   7. the demo template is built again on the new release (resets need it; until then they refuse)
+#
+# At each step it writes how far it has gone to status/progress (closed words only, see practice-lib.sh)
+# and starts the heartbeat, so the control room's Status page shows a progress bar; a failure is
+# reported the same way, with a reason code, instead of being known on this computer only.
 
 set -euo pipefail
 umask 022
@@ -30,7 +34,7 @@ while [ $# -gt 0 ]; do
     --bundle) BUNDLE=${2:?}; shift ;;
     --digest) DIGEST=${2:?}; shift ;;
     --release-dir) SOURCE_DIR=${2:?}; shift ;;
-    -h|--help) sed -n '2,17p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,21p' "$0"; exit 0 ;;
     *) pl_die "unknown option $1" ;;
   esac
   shift
@@ -41,6 +45,16 @@ cd /
 
 PHASE=idle PREVIOUS="" TARGET="" NAME=""
 SPACES=() SNAPPED=()
+# Progress: download=1, copy=2, one step per space, start, template, done (the last: n spaces + 5).
+P_STEP=1 P_TOTAL=5 P_CODE=download P_SLUG="" P_REASON=other
+
+progress() {
+  P_STEP=$1 P_CODE=$2 P_SLUG=${3:-}
+  [ -z "$NAME" ] || progress_write "$NAME" "$P_STEP" "$P_TOTAL" "$P_CODE" "$P_SLUG"
+}
+progress_failure() {
+  [ -z "$NAME" ] || progress_write "$NAME" "$P_STEP" "$P_TOTAL" "$P_CODE" "$P_SLUG" "$P_REASON"
+}
 
 snapshot_of() { printf 'upd_practice_%s' "$1"; }
 
@@ -53,10 +67,14 @@ unpack() {
   else
     [ -r "$BUNDLE" ] || pl_die "--bundle FILE required"
     [[ $DIGEST =~ ^[0-9a-f]{64}$ ]] || pl_die "--digest must be a sha256"
-    practice_digest_holds "$BUNDLE" "$DIGEST" || pl_die "the bundle is refused: its SHA-256 is not the one the console gave"
     NAME=$(basename "$BUNDLE" .tar.gz | cut -c1-12)
+    valid_release "$NAME" || { NAME=""; pl_die "cannot tell the release's name"; }
+    P_REASON=digest
+    practice_digest_holds "$BUNDLE" "$DIGEST" || pl_die "the bundle is refused: its SHA-256 is not the one the console gave"
   fi
-  valid_release "$NAME" || pl_die "cannot tell the release's name"
+  valid_release "$NAME" || { NAME=""; pl_die "cannot tell the release's name"; }
+  P_REASON=bundle
+  progress 1 download
   TARGET=$PRACTICE_RELEASES/$NAME
   [ ! -d "$TARGET" ] || return 0
   rm -rf "$TARGET.tmp"
@@ -105,6 +123,7 @@ update_space() {
   if [ ${#to_install[@]} -gt 0 ]; then args+=(-i "$(IFS=,; echo "${to_install[*]}")"); fi
   if [ ${#to_update[@]} -gt 0 ]; then args+=(-u "$(IFS=,; echo "${to_update[*]}")"); fi
   log=$ODOO_LOGS/update-$NAME-$slug-$(date -u +%Y%m%dT%H%M%SZ).log
+  P_REASON=space_update
   pl_log "$slug: install ${to_install[*]:-none}; update ${#to_update[@]} addons (log: $log)"
   odoo_run "$db" "$log" "${args[@]}" --without-demo=True 7>&- || { show_errors "$log"; pl_die "$slug: update failed, see $log"; }
   if log_has_errors "$log"; then show_errors "$log"; pl_die "$slug: update logged errors, see $log"; fi
@@ -128,18 +147,32 @@ restore_all() {
 on_exit() {
   local rc=$?
   trap - EXIT
-  [ "$PHASE" != idle ] && [ "$PHASE" != finished ] || exit "$rc"
   set +e
+  if [ "$PHASE" = idle ] || [ "$PHASE" = finished ]; then
+    # Nothing to put back: refused before anything changed, or the spaces are through and only the
+    # demo template is missing. The control room is told why.
+    [ "$rc" = 0 ] || progress_failure
+    exit "$rc"
+  fi
   [ "$rc" != 0 ] || rc=1
   pl_warn "the update to $NAME failed in phase $PHASE: putting everything back"
   restore_all
   printf 'rolled_back %s %s\n' "$NAME" "$(now_utc)" > "$PRACTICE_STATUS/update_state"
   audit_line "update release=$NAME rolled back"
+  progress_failure
   exit "$rc"
 }
 
+trap on_exit EXIT
 exec 7>/run/lock/practice-space.lock
-flock -w 600 7 || pl_die "another practice operation is running"
+mapfile -t SPACES < <(list_spaces)
+P_TOTAL=$((${#SPACES[@]} + 5))
+if ! flock -w 600 7; then
+  NAME=$(basename "${BUNDLE:-x}" .tar.gz | cut -c1-12)
+  valid_release "$NAME" || NAME=""
+  P_REASON=busy
+  pl_die "another practice operation is running"
+fi
 trap "" HUP
 unpack
 PREVIOUS=$(readlink -f "$PRACTICE_CURRENT" || true)
@@ -148,11 +181,14 @@ if [ "$PREVIOUS" = "$TARGET" ]; then
   exit 0
 fi
 mapfile -t SPACES < <(list_spaces)
+P_TOTAL=$((${#SPACES[@]} + 5))
+P_REASON=leftover
 for slug in ${SPACES[@]+"${SPACES[@]}"}; do
   db_exists "$(snapshot_of "$slug")" && pl_die "$(snapshot_of "$slug") exists: an earlier update did not finish"
 done
-trap on_exit EXIT
 
+P_REASON=copy
+progress 2 copy
 PHASE=stopped
 systemctl stop "$PRACTICE_SERVICE"
 for slug in ${SPACES[@]+"${SPACES[@]}"}; do
@@ -163,7 +199,15 @@ for slug in ${SPACES[@]+"${SPACES[@]}"}; do
 done
 PHASE=switched
 switch_to "$TARGET"
-for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do update_space "$slug"; done
+P_INDEX=0
+for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
+  P_INDEX=$((P_INDEX + 1))
+  P_REASON=space_update
+  progress $((2 + P_INDEX)) space "$slug"
+  update_space "$slug"
+done
+P_REASON=no_answer
+progress $((P_TOTAL - 2)) start
 systemctl start "$PRACTICE_SERVICE"
 service_healthy || pl_die "the service does not answer"
 for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
@@ -171,6 +215,8 @@ for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
 done
 
 PHASE=finished
+P_REASON=template
+progress $((P_TOTAL - 1)) template
 for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
   psql_q "ALTER DATABASE \"$(snapshot_of "$slug")\" ALLOW_CONNECTIONS true" >/dev/null
   psql_q "DROP DATABASE \"$(snapshot_of "$slug")\" WITH (FORCE)" >/dev/null || pl_warn "could not drop $(snapshot_of "$slug")"
@@ -182,3 +228,4 @@ audit_line "update release=$NAME spaces=${#SNAPPED[@]}"
 pl_log "every space is on $NAME; building the demo template on it"
 exec 7>&-
 "$HERE/practice-template.sh" build
+progress "$P_TOTAL" done

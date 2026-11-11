@@ -16,7 +16,8 @@
 #   - nginx for *.<domain>: HTTP until the wildcard certificate exists (practice-cert.sh, later)
 #   - no outgoing mail: Odoo's SMTP off, every space's mail servers off, the firewall rejects mail ports
 #   - practice-guard before every start and every ten minutes: only copies of the demo template are served
-#   - practice-heartbeat every ten minutes: figures only
+#   - practice-heartbeat every minute: figures only. Right after each one, practice-apply-desired
+#     does what the control room's answer asked (a Promote to Staging starts within about a minute)
 #
 # Generated here and never printed: the PostgreSQL password and Odoo's master password.
 
@@ -579,8 +580,11 @@ EOF
   fi
 }
 
+# timer <name> <calendar> <description> [then]: a service and its timer. `then` is a service started,
+# without waiting for it, each time this one succeeds.
 timer() {
-  local name=$1 calendar=$2 description=$3
+  local name=$1 calendar=$2 description=$3 then=${4:-} post=""
+  [ -z "$then" ] || post="ExecStartPost=-/usr/bin/systemctl start --no-block $then.service"
   render "/etc/systemd/system/$name.service" 644 root:root <<EOF
 [Unit]
 Description=$description
@@ -588,6 +592,7 @@ Description=$description
 [Service]
 Type=oneshot
 ExecStart=/usr/local/sbin/$name
+$post
 Nice=10
 EOF
   render "/etc/systemd/system/$name.timer" 644 root:root <<EOF
@@ -596,6 +601,7 @@ Description=$description
 
 [Timer]
 OnCalendar=$calendar
+AccuracySec=5s
 Persistent=true
 
 [Install]
@@ -608,7 +614,11 @@ EOF
 configure_timers() {
   # The guard's timer runs `practice-guard`, which checks and stops the service on a finding.
   timer practice-guard '*:0/10' "Practice spaces: only copies of the demo template are served"
-  timer practice-heartbeat '*:3/10' "Practice spaces: figures for the control room"
+  # Every minute, at second 10. Each heartbeat that got through starts practice-apply-desired, which
+  # does what the answer asked: a Promote to Staging starts within about a minute. Both scripts take
+  # a lock, and starting a service that is already running does nothing, so nothing runs twice.
+  timer practice-heartbeat '*:*:10' "Practice spaces: figures for the control room" practice-apply-desired
+  # The safety net, should a heartbeat not start it.
   timer practice-apply-desired '*:1/5' "Practice spaces: what the control room asked"
   if [ "$PREVIEW" = 0 ]; then
     secret /etc/auditisa-practice/secrets/heartbeat.token 600

@@ -133,13 +133,23 @@ class PlatformEnvironmentPromote(models.TransientModel):
     def _problem(self):
         """Why this cannot go now, in plain words, or None."""
         self.ensure_one()
+        return self._problem_for(self.target, self.release_id)
+
+    @api.model
+    def _problem_for(self, target, release):
+        """Why `release` cannot be promoted to `target` now, in plain words, or None. The Versions panel shows
+        the same sentence under a greyed button."""
         env = self.env
         computer = env["platform.practice.computer"]._current()
         if not computer:
             return _("The practice computer (Staging) is not connected to the console yet.")
-        release = self.release_id
-        if self.target == "staging":
+        if target == "staging":
+            state = env["platform.environment"]._staging_progress()
+            if state["state"] in ("waiting", "running") and not state["late"]:
+                return _("Staging is installing a version: wait until it has finished.")
             if not release:
+                if state["state"] == "failed":
+                    return _("The last version could not be installed on Staging. The developer registers a corrected one first.")
                 return _("There is no new version to promote. The developer registers one first.")
             if computer.desired_release_id == release and computer.release and envs.same_commit(computer.release, release.sha):
                 return _("Staging already runs this version.")
@@ -181,6 +191,10 @@ class PlatformEnvironmentPromote(models.TransientModel):
                     "and everything is put back automatically if anything fails. The client firms do not change.",
                     count=len(spaces))))
                 parts.append(Markup("<p>%s</p>") % t(env, _(
+                    "Staging starts within about a minute and takes about two minutes per practice space, then a few more "
+                    "to rebuild the demo template. The Versions panel of the Status page shows a progress bar, step by "
+                    "step, and says so plainly if it fails.")))
+                parts.append(Markup("<p>%s</p>") % t(env, _(
                     "Next step, once Staging runs it and you have looked at it: Promote to Production.")))
             else:
                 firms = env["platform.environment"]._production_firms()
@@ -191,6 +205,9 @@ class PlatformEnvironmentPromote(models.TransientModel):
                     "Each firm's server makes a backup just before it updates, checks itself afterwards, and puts itself back "
                     "automatically if anything fails. The update then stops for the firms that follow. Each firm is cut off for "
                     "a few minutes during its own update.")))
+                parts.append(Markup("<p>%s</p>") % t(env, _(
+                    "The Versions panel of the Status page then shows how many firms are updated, which one is updating now, "
+                    "and says so plainly if one fails.")))
             if release:
                 pipe = env["platform.environment"]._pipeline_state()
                 log = (((pipe or {}).get("odoo") or {}).get("log") or {})
@@ -230,8 +247,8 @@ class PlatformEnvironmentPromote(models.TransientModel):
             "firm_ids": [(6, 0, waiting.ids)],
         })
         promotion._confirmed("promote", t(env, _("Promote to Production, from the Status page")))
-        return {"type": "ir.actions.act_window", "res_model": promotion._name, "res_id": promotion.id,
-                "view_mode": "form", "target": "current"}
+        # Back to the Status page: its Versions panel shows the progress. Pipeline > Promotions has every detail.
+        return {"type": "ir.actions.act_window_close"}
 
 
 def _changes(env, changes, release):

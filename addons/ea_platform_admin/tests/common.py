@@ -42,6 +42,9 @@ class PlatformMixin:
             "region": "cdg",
             "size": "standard",
             "lang": "fr_FR",
+            # The tests paste a key (the Advanced box): none is then written to the console's folder.
+            # tests/test_firm_keys.py covers the usual case, where the console makes the key itself.
+            "own_key": True,
             "ssh_public_key": ssh_key(cls._firm_number),
             "release_id": cls.release.id,
         }

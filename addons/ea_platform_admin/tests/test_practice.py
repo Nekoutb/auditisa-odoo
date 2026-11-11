@@ -112,6 +112,44 @@ class TestPracticeSpaces(PlatformCase):
         with self.assertRaises(HeartbeatRejected):
             self.Computer._receive_heartbeat(headers, body)
 
+    def test_the_heartbeat_carries_the_progress_of_an_update_in_closed_words(self):
+        computer = self._computer()
+        self.assertIsNone(computer._progress())
+        before = fields.Datetime.now()
+        computer.sudo().write({"desired_release_id": self.release2.id})
+        self.assertGreaterEqual(computer.desired_since, before.replace(microsecond=0))
+        figures = computer._simulated_figures()
+        figures["release"] = None
+        # An older practice computer sends no progress at all: accepted, nothing recorded.
+        del figures["progress"]
+        self.Computer._receive_heartbeat(*self._signed(computer, figures))
+        self.assertIsNone(computer._progress())
+        progress = {"target": self.release2.sha, "step": 3, "total": 7, "code": "space", "slug": "cabinet-a",
+                    "failed": False, "reason": None, "at": "2026-11-11T10:00:00Z"}
+        figures["progress"] = progress
+        self.Computer._receive_heartbeat(*self._signed(computer, figures))
+        self.assertEqual(computer._progress(), {**progress, "at": fields.Datetime.to_datetime("2026-11-11 10:00:00")})
+        # A step outside the list refuses the whole heartbeat, and what was known stays.
+        for bad in ({"code": "Updating Cabinet Akwa"}, {"reason": "see /var/log", "failed": True}, {"comment": "x"}):
+            figures["progress"] = {**progress, **bad}
+            with self.assertRaises(HeartbeatRejected):
+                self.Computer._receive_heartbeat(*self._signed(computer, figures))
+        self.assertEqual(computer.progress_step, 3)
+        # A failure is recorded with its reason code, and logged once.
+        figures["progress"] = {**progress, "failed": True, "reason": "space_update"}
+        self.Computer._receive_heartbeat(*self._signed(computer, figures))
+        self.Computer._receive_heartbeat(*self._signed(computer, figures))
+        self.assertTrue(computer.progress_failed)
+        self.assertEqual(computer.progress_reason, "space_update")
+        logged = self.env["platform.log"].search([("action", "=", "Practice computer: the update failed")])
+        self.assertEqual(len(logged), 1)
+        # A heartbeat without progress afterwards leaves the last report as it is.
+        del figures["progress"]
+        self.Computer._receive_heartbeat(*self._signed(computer, figures))
+        self.assertEqual(computer.progress_reason, "space_update")
+        computer.sudo().write({"desired_release_id": False})
+        self.assertFalse(computer.desired_since)
+
     def test_a_forged_or_replayed_heartbeat_is_refused(self):
         computer = self._computer()
         figures = computer._simulated_figures()

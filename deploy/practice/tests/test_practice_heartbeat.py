@@ -83,3 +83,74 @@ def test_only_a_signed_answer_is_authentic():
 
 def test_parse_env_reads_only_quoted_lines():
     assert hb.parse_env("A='1'\nB=2\n# C='3'\nD='x y'\n") == {"A": "1", "D": "x y"}
+
+
+# ---------------------------------------------------------------------------- the progress of an update
+
+PROGRESS = {"TARGET": "0123456789ab", "STEP": "3", "TOTAL": "9", "CODE": "space", "SLUG": "demo-akwa",
+            "FAILED": "0", "REASON": "", "AT": "2026-11-11T10:00:00Z"}
+
+
+def test_progress_is_read_from_the_file_practice_update_writes():
+    text = "".join("%s='%s'\n" % item for item in PROGRESS.items())
+    assert hb.progress_figures(hb.parse_env(text)) == {
+        "target": "0123456789ab", "step": 3, "total": 9, "code": "space", "slug": "demo-akwa",
+        "failed": False, "reason": None, "at": "2026-11-11T10:00:00Z",
+    }
+
+
+def test_a_failure_carries_a_reason_from_the_list_and_nothing_else():
+    failed = hb.progress_figures({**PROGRESS, "FAILED": "1", "REASON": "space_update"})
+    assert failed["failed"] is True and failed["reason"] == "space_update"
+    assert hb.progress_figures({**PROGRESS, "FAILED": "1", "REASON": "disk full on /dev/sda"})["reason"] == "other"
+    assert hb.progress_figures({**PROGRESS, "FAILED": "1", "REASON": ""})["reason"] == "other"
+    # A reason without the flag is not a failure.
+    assert hb.progress_figures({**PROGRESS, "REASON": "digest"})["reason"] is None
+
+
+def test_progress_outside_the_closed_words_is_left_out():
+    for key, value in (("TARGET", "not-a-commit"), ("STEP", "x"), ("STEP", "10"), ("TOTAL", "0"), ("TOTAL", "1000"),
+                       ("CODE", "rm -rf"), ("AT", "yesterday"), ("STEP", "\u0663")):
+        assert hb.progress_figures({**PROGRESS, key: value}) is None, (key, value)
+    assert hb.progress_figures({}) is None
+    assert hb.progress_figures({**PROGRESS, "SLUG": "../etc"})["slug"] is None
+
+
+def test_figures_carry_progress_only_when_there_is_some():
+    assert "progress" not in hb.build_figures("practice-1", "0123456789ab", None, "ok", [])
+    progress = hb.progress_figures(PROGRESS)
+    figures = hb.build_figures("practice-1", "0123456789ab", None, "ok", [], progress)
+    assert figures["progress"] == progress
+
+
+def test_an_older_control_room_still_gets_the_heartbeat_without_progress(monkeypatch, tmp_path):
+    """A control room from before the progress report refuses the unknown figure (403): sent again without it."""
+    import urllib.error
+
+    sent = []
+
+    def fake_send(url, computer, token, figures):
+        sent.append(figures)
+        if "progress" in figures:
+            raise urllib.error.HTTPError(url, 403, "Forbidden", None, None)
+
+    figures = hb.build_figures("practice-1", "0123456789ab", None, "ok", [], hb.progress_figures(PROGRESS))
+    monkeypatch.setattr(hb, "collect", lambda: ({"PRACTICE_HEARTBEAT_URL": "https://console.example/platform/practice-heartbeat"}, figures))
+    monkeypatch.setattr(hb, "send", fake_send)
+    monkeypatch.setattr(hb, "_read", lambda path: "token")
+    monkeypatch.setattr(hb, "_write_atomic", lambda *args: None)
+    assert hb.main() == 0
+    assert len(sent) == 2 and "progress" in sent[0] and "progress" not in sent[1]
+    assert sent[1]["release"] == "0123456789ab"
+    # Any other refusal is not retried.
+    sent.clear()
+    monkeypatch.setattr(hb, "collect", lambda: ({"PRACTICE_HEARTBEAT_URL": "https://console.example/x"},
+                                                hb.build_figures("practice-1", None, None, "ok", [])))
+
+    def refuse(url, computer, token, figures):
+        sent.append(figures)
+        raise urllib.error.HTTPError(url, 403, "Forbidden", None, None)
+
+    monkeypatch.setattr(hb, "send", refuse)
+    assert hb.main() == 1
+    assert len(sent) == 1

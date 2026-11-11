@@ -12,6 +12,7 @@ from ..services.messages import _, dumps_list, loads
 from ..services.catalogue import LANGUAGES, REGIONS, SIZES, monthly_cost, selection
 from ..services.provider import ProviderError
 from ..services.provisioning import SERVER_TAG
+from ..services import firm_keys
 from ..services.validation import custom_domain_errors, parse_allowlist, parse_domain_list, ssh_key_fingerprint
 from .i18n import read, t
 from .platform_services import RELEASE_URL_SECONDS_HEARTBEAT
@@ -40,8 +41,12 @@ class PlatformFirm(models.Model):
     """One firm and its dedicated server, as the control plane sees it.
 
     Holds identity, the provider's references and the heartbeat's figures. It holds no database
-    credential, no firm password, no backup key, no storage key and no SSH private key, and it has
-    no way to reach a firm's server: tests/test_no_firm_data.py checks all of that.
+    credential, no firm password, no backup key, no storage key and no SSH private key, and its code
+    has no way to reach a firm's server: tests/test_no_firm_data.py checks all of that.
+
+    Since 2026-11-11 (owner's ruling) the console makes a firm's maintenance key itself when the owner
+    supplies none. Its private half is a file on the console's server, outside the database
+    (services/firm_keys.py): no field here holds it, and no code here uses it.
     """
 
     _name = "platform.firm"
@@ -83,6 +88,11 @@ class PlatformFirm(models.Model):
     storage_id = fields.Char("Backup storage", readonly=True, copy=False)
     ssh_public_key = fields.Char("Public SSH key", readonly=True, required=True, copy=False)
     ssh_key_fingerprint = fields.Char("SSH key fingerprint", compute="_compute_fingerprint", store=True)
+    ssh_by_console = fields.Boolean(
+        "Maintenance key made by the console", readonly=True, copy=False,
+        help="The console made this firm's maintenance key itself and keeps its private half in a file on its own "
+             "server. Unticked: the key was supplied when the firm was created, and its private half is with whoever made it.",
+    )
     activated_at = fields.Datetime("Went live on", readonly=True, copy=False)
     odoo_version = fields.Char("Odoo version", readonly=True, default="19.0")
 
@@ -403,6 +413,23 @@ class PlatformFirm(models.Model):
         self.write(values)
         self._evaluate_health()
         self.env["platform.rollout"]._on_firm_figures(self)
+
+    @api.model
+    def _firm_keys_dir(self):
+        return self.env["ir.config_parameter"].sudo().get_param(firm_keys.KEYS_DIR_PARAM) or firm_keys.KEYS_DIR_DEFAULT
+
+    def _drop_console_key(self):
+        """Erases the private half the console keeps for this firm, if it made one. Logged; never shown."""
+        for firm in self.sudo():
+            if not firm.ssh_by_console:
+                continue
+            try:
+                removed = firm_keys.remove(self._firm_keys_dir(), firm.slug)
+            except (OSError, ValueError):
+                self.env["platform.log"]._record(_("The firm's maintenance key could NOT be erased from the console"), firm)
+                continue
+            if removed:
+                self.env["platform.log"]._record(_("The firm's maintenance key erased from the console"), firm)
 
     def _ssh_allowlist(self):
         return parse_allowlist(self.env["ir.config_parameter"].sudo().get_param("ea_platform.ssh_allowlist", ""))[0]

@@ -83,7 +83,7 @@ class TestNoFirmData(PlatformCase):
                 continue
             wrong = [
                 name for name in self.env[model]._fields
-                if SECRET_WORDS.search(name) and name not in ("ssh_public_key", "confirm_real",
+                if SECRET_WORDS.search(name) and name not in ("ssh_public_key", "own_key", "confirm_real",
                                                               "release_signing_public_key", "previous_hash")
                 and name not in PRACTICE_SECRET_FIELDS.get(model, ())
             ]

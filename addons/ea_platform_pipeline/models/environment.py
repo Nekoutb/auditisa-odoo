@@ -96,7 +96,6 @@ class PlatformEnvironment(models.Model):
     backups_html = fields.Html("Backups", compute="_compute_pages", sanitize=False)
     monitor_html = fields.Html("Monitor", compute="_compute_pages", sanitize=False)
     people_html = fields.Html("People", compute="_compute_pages", sanitize=False)
-    release_html = fields.Html("Versions", compute="_compute_release_html", sanitize=False)
 
     log_ids = fields.Many2many("platform.log", string="Log", compute="_compute_log_ids")
     account_ids = fields.One2many("platform.environment.account", "environment_id", "Accounts", readonly=True)
@@ -171,7 +170,7 @@ class PlatformEnvironment(models.Model):
 
     @api.model
     def _release_overview(self):
-        """Where each version is, for the line at the top of the Status page and its two Promote buttons.
+        """Where each version is, for the Versions panel at the top of the Status page (release_panel.py).
 
         new: the newest registered release that Staging neither runs nor has been asked to take ("New version
         ready"); asked: what Staging was asked to take and has not installed yet; staging: the registered release
@@ -194,43 +193,6 @@ class PlatformEnvironment(models.Model):
             "production_count": len([sha for sha in releases if production and envs.same_commit(sha, production)]),
             "firm_count": len(firms),
         }
-
-    @api.depends_context("lang")
-    def _compute_release_html(self):
-        env = self.env
-        overview = self._release_overview()
-
-        def version(release, sha=None):
-            sha = release.sha if release else sha
-            if not sha:
-                return Markup('<span class="text-muted">%s</span>') % t(env, _("none yet"))
-            label = Markup(" %s") % release.label if release and release.label else Markup("")
-            return Markup("<code>%s</code>%s") % (sha[:12], label)
-
-        rows = []
-        if overview["new"]:
-            rows.append(Markup('<div class="ea-env-release ea-env-release-new"><b>%s</b> %s <span class="text-muted">%s</span></div>') % (
-                t(env, _("New version ready:")), version(overview["new"]),
-                t(env, _("Next step: Promote to Staging.")),
-            ))
-        if overview["asked"]:
-            rows.append(Markup('<div class="ea-env-release"><b>%s</b> %s <span class="text-muted">%s</span></div>') % (
-                t(env, _("Being installed on Staging:")), version(overview["asked"]),
-                t(env, _("The practice computer picks it up within a few minutes.")),
-            ))
-        if not overview["computer"]:
-            staging = Markup('<span class="text-muted">%s</span>') % t(env, _("the practice computer is not connected yet"))
-        else:
-            staging = version(overview["staging"], overview["running"])
-        rows.append(Markup('<div class="ea-env-release"><b>%s</b> %s</div>') % (t(env, _("On Staging (practice spaces):")), staging))
-        production = version(self._registered_release(overview["production_sha"]), overview["production_sha"])
-        if overview["firm_count"]:
-            production += Markup(' <span class="text-muted">%s</span>') % t(env, _(
-                "%(count)s of %(total)s client firm(s)", count=overview["production_count"], total=overview["firm_count"]))
-        rows.append(Markup('<div class="ea-env-release"><b>%s</b> %s</div>') % (t(env, _("On Production (client firms):")), production))
-        html = Markup('<div class="ea-env-releases">%s</div>') % Markup("").join(rows)
-        for environment in self:
-            environment.release_html = html
 
     def _tests_for(self, sha):
         runs = self.env["platform.pipeline.test.run"].sudo().search([], limit=200)
@@ -336,8 +298,10 @@ class PlatformEnvironment(models.Model):
         env = self.env
         groups = []
         firms = self._production_firms()
-        for code, label in [("production", _("Production")), ("practice", _("Practice")),
-                            ("staging", _("Staging")), ("development", _("Development"))]:
+        # "Staging" is where Promote to Staging sends a version: the practice spaces. The developer's own
+        # test site, on the same server, is named for what it is, so that one word is one thing.
+        for code, label in [("production", _("Production")), ("practice", _("Staging: practice spaces")),
+                            ("staging", _("Developer test site")), ("development", _("Development"))]:
             items = Markup("")
             for environment in everyone.filtered(lambda e, c=code: e.code == c):
                 sub = " · ".join(part for part in (environment.branch or "", environment.odoo_version or "") if part)
@@ -487,7 +451,8 @@ class PlatformEnvironment(models.Model):
             if staging_firm.mem_total_mb:
                 monitor.append([t(env, _("Memory")), t(env, _("%(free)s MB free of %(total)s MB", free=staging_firm.mem_available_mb, total=staging_firm.mem_total_mb))])
         rules = _note(Markup("%s<br/>%s") % (
-            t(env, _("Staging is the test site, with test data only. It never sends email.")),
+            t(env, _("This is the developer's test site (test.auditisa.com), with test data only. It never sends email. "
+                     "Promote to Staging does not send a version here: it sends it to the practice spaces.")),
             t(env, _("Connect opens it in a new tab. Test accounts made here get a password shown once, on this screen: "
                      "nothing is emailed. Only the owner and operators make or change accounts; viewers only look."))))
         return {
@@ -543,9 +508,9 @@ class PlatformEnvironment(models.Model):
         else:
             monitor.append([t(env, _("Practice computer's heartbeat")), t(env, _("Not connected to the console yet"))])
         rules = _note(Markup("%s<br/>%s") % (
-            t(env, _("Practice holds one space per client firm, with made-up data only. It is the Staging step of a new "
-                     "version: Promote to Staging sends a version here first, and Promote to Production sends the "
-                     "version that runs here to the client firms.")),
+            t(env, _("The practice spaces: one per client firm, with made-up data only. This is what \"Staging\" means in "
+                     "the Versions panel above: Promote to Staging sends a version here first, and Promote to Production "
+                     "sends the version that runs here to the client firms.")),
             t(env, _("Connect asks which space to open. Accounts made in a space disappear when that space is reset to fresh "
                      "demo data; its first administrator stays."))))
         return {
@@ -719,7 +684,9 @@ class PlatformEnvironment(models.Model):
         raise UserError(t(env, _("Development has no server: there is nothing to connect to.")))
 
     def action_promote_staging(self):
-        """Promote to Staging: the newest version goes to the practice spaces. One confirmation, nothing to type."""
+        """Promote to Staging: the newest version goes to the practice spaces. One confirmation, nothing to type.
+        Both buttons are in the Versions panel, the same on every environment's page: they act on the versions,
+        not on the page that happens to be open."""
         return self.env["platform.environment.promote"]._open("staging")
 
     def action_promote_production(self):

@@ -61,9 +61,8 @@ NEW_FIRM = {
                   "Note the firm's email domain too: the part after @, for example exemple.cm."),
                 _("**Add-ons:** any extra module the client asked for and agreed to pay for. Most firms have none."),
                 _("**The client's agreement on the monthly cost.** Step 3 shows the amounts."),
-                _("From your technician: **the firm's SSH key**, a small file ending in .pub. An SSH key is like a "
-                  "physical key to the server's maintenance door. Each firm has its own. Its private half stays in "
-                  "your safe; only the public half, the .pub file, goes on screen."),
+                _("**No key to ask anyone for.** The server's maintenance door has a key (an SSH key). The console "
+                  "makes one for each firm itself and keeps it on its own server: you have nothing to supply."),
             ),
             "why": _("The console asks for all of this in one go. Some answers can never change afterwards (the "
                      "slug), and the email decides who receives the first login link."),
@@ -82,8 +81,8 @@ NEW_FIRM = {
                   "Click **Continue**."),
                 _("Screen **The server**. **Region**: where the server lives; keep Paris unless told otherwise. "
                   "**Size**: from step 1. **Default language**: the firm's language. **Release to install**: the "
-                  "software version; keep the one proposed. Then paste the firm's public SSH key and click "
-                  "**Continue**."),
+                  "software version; keep the one proposed. Leave **This firm's key** as it is: the console "
+                  "makes the key itself. Click **Continue**."),
                 _("Screen **Add-ons**: leave every switch off unless the client asked for an add-on. If you switch "
                   "one on, say who asked for it and why in **Why these add-ons**. This can be changed later on "
                   "the firm's page."),
@@ -297,10 +296,10 @@ NEW_FIRM = {
                      _("Correct the email, or add its domain.")),
                     (_("Private key erased"),
                      _("A private key was pasted. It was erased and not kept."),
-                     _("Paste the content of the .pub file instead.")),
+                     _("Untick the Advanced box: the console then makes this firm's key itself.")),
                     (_("This SSH key already serves another firm"),
                      _("Each firm needs its own key."),
-                     _("Ask your technician for a new key for this firm.")),
+                     _("Untick the Advanced box: the console then makes this firm's key itself.")),
                     (_("A step shows a message and its Attempts number goes up"),
                      _("A passing fault: a provider was slow or busy."),
                      _("Nothing: the step tries again by itself every 2 minutes.")),
@@ -379,8 +378,8 @@ NEW_FIRM = {
                 _("Removed for good: the server and its disks, all its backups, its storage key and its web "
                   "address. The firm's record and its log stay, and the slug is never given again. Wasabi still "
                   "bills deleted backups for up to 90 days."),
-                _("Afterwards, erase this firm's SSH key and backup key from your safe, and the export file from "
-                  "your computer."),
+                _("The console erases this firm's maintenance key from its own server by itself. Afterwards, erase "
+                  "this firm's backup key from your safe, and the export file from your computer."),
             ),
             "why": _("The stages and the typed confirmations protect against closing the wrong firm. The wait gives "
                      "the firm time to check its export before its backups disappear."),

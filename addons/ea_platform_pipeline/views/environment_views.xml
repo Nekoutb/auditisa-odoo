@@ -16,6 +16,11 @@
                             <field name="sidebar_html" nolabel="1" readonly="1"/>
                         </div>
                         <div class="ea-env-main">
+                            <!-- The Versions panel: the same on every environment's page. Its two buttons, Promote to
+                                 Staging and Promote to Production, act on the versions, not on the page that is open.
+                                 It refreshes by itself while a promotion is going on (static/src/js/release_panel.js). -->
+                            <field name="release_busy" invisible="1"/>
+                            <field name="release_html" nolabel="1" readonly="1" widget="ea_release_panel"/>
                             <div class="ea-env-head">
                                 <div class="ea-env-title">
                                     <h1 class="mb-0"><field name="name" readonly="1"/></h1>
@@ -24,20 +29,11 @@
                                 <div class="ea-env-buttons">
                                     <button name="action_refresh" type="object" string="Read again" class="btn btn-link"
                                             help="Reads the latest figures and accounts the console has received."/>
-                                    <button name="action_promote_staging" type="object" class="btn btn-primary"
-                                            string="Promote to Staging"
-                                            groups="ea_platform_admin.group_platform_owner"
-                                            help="Sends the new version to the practice spaces on the staging server. You confirm once."/>
-                                    <button name="action_promote_production" type="object" class="btn btn-outline-danger"
-                                            string="Promote to Production"
-                                            groups="ea_platform_admin.group_platform_owner"
-                                            help="Sends the version Staging runs to the client firms. You confirm once."/>
                                     <button name="action_connect" type="object" class="btn btn-success" string="Connect"
                                             invisible="code == 'development' or not can_connect"
-                                            help="Staging: opens it in a new tab. Practice: asks which space. Client firm: starts a read-only support visit."/>
+                                            help="Developer test site: opens it in a new tab. Practice spaces: asks which space. Client firm: starts a read-only support visit."/>
                                 </div>
                             </div>
-                            <field name="release_html" nolabel="1" readonly="1"/>
                             <field name="info_html" nolabel="1" readonly="1"/>
                             <field name="rules_html" nolabel="1" readonly="1"/>
                             <notebook class="ea-env-tabs">

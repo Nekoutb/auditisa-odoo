@@ -220,6 +220,7 @@
                             <group>
                                 <group string="Keys and references">
                                     <field name="ssh_key_fingerprint"/>
+                                    <field name="ssh_by_console"/>
                                     <field name="ssh_key_id"/>
                                     <field name="firewall_id"/>
                                     <field name="storage_id"/>

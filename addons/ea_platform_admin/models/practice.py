@@ -59,6 +59,16 @@ class PlatformPracticeComputer(models.Model):
     template_release = fields.Char("Demo template's release", readonly=True, copy=False)
     guard_state = fields.Selection(GUARD_STATES, "Real-data guard", readonly=True, default="unknown", copy=False)
     desired_release_id = fields.Many2one("platform.release", "Release asked", readonly=True, copy=False, ondelete="restrict")
+    desired_since = fields.Datetime("Asked on", readonly=True, copy=False)
+    # How far its last update has gone, as its heartbeat says: closed words only (services/practice.py).
+    progress_target = fields.Char("Update: release", readonly=True, copy=False)
+    progress_step = fields.Integer("Update: step", readonly=True, copy=False)
+    progress_total = fields.Integer("Update: steps", readonly=True, copy=False)
+    progress_code = fields.Char("Update: step code", readonly=True, copy=False)
+    progress_slug = fields.Char("Update: space", readonly=True, copy=False)
+    progress_failed = fields.Boolean("Update: failed", readonly=True, copy=False)
+    progress_reason = fields.Char("Update: reason code", readonly=True, copy=False)
+    progress_at = fields.Datetime("Update: reported on", readonly=True, copy=False)
     space_ids = fields.One2many("platform.practice.space", "computer_id", "Practice spaces")
     space_count = fields.Integer("Spaces", compute="_compute_space_count")
 
@@ -71,6 +81,22 @@ class PlatformPracticeComputer(models.Model):
     @api.model
     def _current(self):
         return self.sudo().search([], limit=1)
+
+    def write(self, values):
+        if "desired_release_id" in values and "desired_since" not in values:
+            values = dict(values, desired_since=fields.Datetime.now() if values["desired_release_id"] else False)
+        return super().write(values)
+
+    def _progress(self):
+        """The last update's progress as the heartbeat gave it, or None."""
+        self.ensure_one()
+        if not self.progress_target or self.progress_code not in practice.PROGRESS_CODES:
+            return None
+        return {
+            "target": self.progress_target, "step": self.progress_step, "total": self.progress_total,
+            "code": self.progress_code, "slug": self.progress_slug or None, "failed": self.progress_failed,
+            "reason": self.progress_reason or None, "at": self.progress_at,
+        }
 
     @api.model
     def _enrol(self, name, entry_url=None, first_login_url=None,
@@ -128,6 +154,20 @@ class PlatformPracticeComputer(models.Model):
             "template_release": figures["template_release"],
             "guard_state": figures["guard"],
         }
+        progress = figures.get("progress")
+        if progress:
+            was_failed = self.progress_failed and self.progress_target == progress["target"]
+            values.update(
+                progress_target=progress["target"], progress_step=progress["step"], progress_total=progress["total"],
+                progress_code=progress["code"], progress_slug=progress["slug"] or False,
+                progress_failed=progress["failed"], progress_reason=progress["reason"] or False,
+                progress_at=practice.parse_instant(progress["at"]),
+            )
+            if progress["failed"] and not was_failed:
+                self.env["platform.log"]._record(
+                    _("Practice computer: the update failed"), None,
+                    _("Release %(release)s, reason code %(reason)s", release=progress["target"][:12], reason=progress["reason"]),
+                )
         if figures["release"] != self.release:
             values.update(release=figures["release"], release_since=now if figures["release"] else False)
             if figures["release"]:
@@ -169,7 +209,7 @@ class PlatformPracticeComputer(models.Model):
         } for item in answer["spaces"]]
         release = (self.desired_release_id.sha if self.desired_release_id else self.release) or None
         return {"schema": 1, "computer": self.name, "release": release, "template_release": release,
-                "guard": "ok", "spaces": spaces}
+                "guard": "ok", "spaces": spaces, "progress": None}
 
     def _simulate_heartbeat(self, figures=None):
         self.ensure_one()

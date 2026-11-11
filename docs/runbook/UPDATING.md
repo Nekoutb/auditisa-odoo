@@ -37,7 +37,7 @@ bash release-tools/publish-release.sh release-<commit>/ "étiquette courte"
 
 ### 2. Promouvoir vers le staging
 
-Console > **Statut**. En haut, une ligne dit où en est chaque version : « Nouvelle version prête », « Sur le staging », « Sur la production ». Cliquez **Promouvoir vers le staging**. La fenêtre montre la version, ce qui va se passer et la liste des changements. Cliquez **Oui, promouvoir vers le staging**.
+Console > **Statut**. En haut, le panneau **Versions** dit où en est chaque version, sur trois lignes : Nouvelle version, Staging, Production. Sur la ligne Nouvelle version, cliquez **Promouvoir vers le staging**. La fenêtre montre la version, ce qui va se passer et la liste des changements. Cliquez **Oui, promouvoir vers le staging**. Le staging démarre en une minute environ, puis la ligne Staging montre une barre de progression, étape par étape (environ deux minutes par espace d'entraînement, puis quelques-unes pour le modèle de démonstration). Si l'installation échoue, la ligne passe au rouge avec la raison : tout est remis en l'état, et il faut prévenir le développeur (le staging ne réessaie pas cette version : sur le serveur, elle est notée dans `/var/lib/auditisa-practice/refused-releases`).
 
 L'ordinateur d'entraînement la prend dans les minutes qui suivent : il copie chaque espace, installe la version, vérifie que chaque espace répond, et **remet tout comme avant** si un point échoue. La ligne passe à « Sur le staging : <commit> ». Regardez la version dans un espace d'entraînement (bouton **Se connecter**).
 
@@ -108,7 +108,7 @@ bash release-tools/publish-release.sh release-<commit>/ "short label"
 
 ### 2. Promote to Staging
 
-Console > **Status**. At the top, one line says where each version is: "New version ready", "On Staging", "On Production". Click **Promote to Staging**. The window shows the version, what will happen and the list of changes. Click **Yes, promote to Staging**.
+Console > **Status**. At the top, the **Versions** panel says where each version is, on three rows: New version, Staging, Production. On the New version row, click **Promote to Staging**. The window shows the version, what will happen and the list of changes. Click **Yes, promote to Staging**. Staging starts within about a minute, then the Staging row shows a progress bar, step by step (about two minutes per practice space, then a few for the demo template). If the installation fails, the row turns red with the reason: everything is put back as it was, and the developer must be told (Staging does not try that version again: on the server it is noted in `/var/lib/auditisa-practice/refused-releases`).
 
 The practice computer takes it within minutes: it copies each space, installs the version, checks that each space answers, and **puts everything back as it was** if anything fails. The line then reads "On Staging: <commit>". Look at the version in a practice space (the **Connect** button).
 

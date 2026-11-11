@@ -188,6 +188,54 @@ list_spaces() {
 
 template_id() { sed -n "s/^TEMPLATE_ID='\([0-9a-f]\{32\}\)'$/\1/p" "$PRACTICE_VAR/template.env" 2>/dev/null || true; }
 
+# ---------------------------------------------------------------------------- progress of an update
+
+# How far an update has gone, for the control room's Status page. One small file, closed words only:
+# a step number, a step code, the space concerned, and on failure a reason code. Never a free text.
+# practice-heartbeat reads it, and is started at once so the control room learns within seconds
+# (one start per step change, never in a loop: the control room limits heartbeats per minute).
+readonly PROGRESS_CODES="download copy space start template done"
+readonly PROGRESS_REASONS="download digest bundle busy leftover copy space_update no_answer template other"
+
+# progress_write <target> <step> <total> <code> [slug] [reason]    a reason means: it failed
+progress_write() {
+  local target=$1 step=$2 total=$3 code=$4 slug=${5:-} reason=${6:-} failed=0 tmp
+  [[ $target =~ ^[0-9a-f]{7,40}$ && $step =~ ^[0-9]{1,3}$ && $total =~ ^[0-9]{1,3}$ ]] || return 0
+  case " $PROGRESS_CODES " in *" $code "*) ;; *) return 0 ;; esac
+  if [ -n "$slug" ] && ! valid_slug "$slug"; then slug=""; fi
+  if [ -n "$reason" ]; then
+    failed=1
+    case " $PROGRESS_REASONS " in *" $reason "*) ;; *) reason=other ;; esac
+  fi
+  mkdir -p "$PRACTICE_STATUS" 2>/dev/null || return 0
+  tmp=$(mktemp "$PRACTICE_STATUS/.progress.XXXXXX" 2>/dev/null) || return 0
+  if printf "TARGET='%s'\nSTEP='%s'\nTOTAL='%s'\nCODE='%s'\nSLUG='%s'\nFAILED='%s'\nREASON='%s'\nAT='%s'\n" \
+       "$target" "$step" "$total" "$code" "$slug" "$failed" "$reason" "$(now_utc)" > "$tmp" \
+     && chmod 644 "$tmp" && mv -f "$tmp" "$PRACTICE_STATUS/progress"; then
+    progress_tell
+  else
+    rm -f "$tmp"
+  fi
+  return 0
+}
+
+# Starts the heartbeat without waiting for it. Nothing here may stop an update: every failure is ignored.
+# Not under a test prefix: a dry run contacts nothing.
+progress_tell() {
+  [ -z "$PRACTICE_PREFIX" ] || return 0
+  systemctl start --no-block practice-heartbeat.service >/dev/null 2>&1 || true
+}
+
+# True when the progress file says the update to this release failed.
+progress_failed_for() {
+  local sha=$1 target
+  [ -r "$PRACTICE_STATUS/progress" ] || return 1
+  grep -qx "FAILED='1'" "$PRACTICE_STATUS/progress" || return 1
+  target=$(sed -n "s/^TARGET='\([0-9a-f]\{7,40\}\)'$/\1/p" "$PRACTICE_STATUS/progress")
+  [ -n "$target" ] || return 1
+  [[ $sha == "$target"* ]] || [[ $target == "$sha"* ]]
+}
+
 # ---------------------------------------------------------------------------- PostgreSQL
 
 psql_q() { runuser -u postgres -- psql -X -v ON_ERROR_STOP=1 -At -d "${2:-postgres}" -c "$1"; }

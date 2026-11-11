@@ -3,6 +3,7 @@ from odoo.exceptions import UserError
 
 from ..models.firm import DEFAULT_RETENTION_DAYS, MIN_RETENTION_DAYS
 from ..models.i18n import t
+from ..services import firm_keys
 from ..services import provisioning as engine
 from ..services.messages import _, dumps_list
 from ..services.provider import ProviderError
@@ -49,9 +50,12 @@ class PlatformBreakglassWizard(models.TransientModel):
     def _compute_command(self):
         for wizard in self:
             firm = wizard.firm_id
-            wizard.command = (
-                f"ssh -i ~/.ssh/auditisa-{firm.slug} root@{firm.platform_host}" if firm else False
-            )
+            if firm and firm.ssh_by_console:
+                # The console made this firm's key: the developer runs this on the console's server.
+                key = firm_keys.key_path(firm._firm_keys_dir(), firm.slug)
+                wizard.command = f"sudo -u odoo ssh -i {key} root@{firm.platform_host}"
+            else:
+                wizard.command = f"ssh -i ~/.ssh/auditisa-{firm.slug} root@{firm.platform_host}" if firm else False
 
     def action_confirm(self):
         self.ensure_one()
@@ -232,5 +236,6 @@ class PlatformDestroyWizard(models.TransientModel):
             "orphan_flag": False, "orphan_detail_raw": False, "desired_release_id": False,
         })
         self.env["platform.log"]._record(_("Server destroyed, firm archived"), firm, user=self.env.user)
+        firm._drop_console_key()
         firm._evaluate_health()
         return {"type": "ir.actions.act_window_close"}

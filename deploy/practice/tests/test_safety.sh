@@ -127,7 +127,10 @@ has "$UNIT" '^User=odoo-practice$'
 has "$UNIT" '^ExecStartPre=+/usr/local/sbin/practice-guard check$'
 has "$UNIT" '^NoNewPrivileges=yes$'
 has "$R/etc/systemd/system/practice-guard.timer" 'OnCalendar='
-has "$R/etc/systemd/system/practice-heartbeat.timer" 'OnCalendar='
+has "$R/etc/systemd/system/practice-heartbeat.timer" '^OnCalendar=\*:\*:10$'
+has "$R/etc/systemd/system/practice-heartbeat.service" '^ExecStartPost=-/usr/bin/systemctl start --no-block practice-apply-desired.service$'
+lacks "$R/etc/systemd/system/practice-apply-desired.service" 'ExecStartPost'
+lacks "$R/etc/systemd/system/practice-guard.service" 'ExecStartPost'
 has "$R/etc/auditisa-practice/practice.env" "^PRACTICE_STRICT_CLUSTER='1'$"
 
 echo "== the preview's configuration (dry run)"
@@ -151,6 +154,89 @@ has "$WORK/preview.log" 'ufw allow 8443/tcp'
 lacks "$WORK/preview.log" 'ufw --force reset'
 lacks "$WORK/preview.log" 'ufw default'
 lacks "$WORK/preview.log" 'apt-get'
+
+echo "== the progress of an update: closed words only"
+G=$WORK/progress
+mkdir -p "$G/var/lib/auditisa-practice/status"
+PFILE=$G/var/lib/auditisa-practice/status/progress
+# shellcheck source=deploy/practice/practice-lib.sh
+pw() { ( PATH=$STUBS:$PATH; PRACTICE_PREFIX=$G; . "$HERE/practice-lib.sh"; progress_write "$@" ); }
+pf() { ( PRACTICE_PREFIX=$G; . "$HERE/practice-lib.sh"; progress_failed_for "$1" ); }
+SHA=0123456789abcdef0123456789abcdef01234567
+: > "$CALLS"
+pw "$SHA" 3 9 space demo-akwa
+has "$PFILE" "^TARGET='$SHA'\$"
+has "$PFILE" "^STEP='3'\$"
+has "$PFILE" "^TOTAL='9'\$"
+has "$PFILE" "^CODE='space'\$"
+has "$PFILE" "^SLUG='demo-akwa'\$"
+has "$PFILE" "^FAILED='0'\$"
+has "$PFILE" "^REASON=''\$"
+has "$PFILE" "^AT='[0-9]\{4\}-[0-9][0-9]-[0-9][0-9]T[0-9:]\{8\}Z'\$"
+[ "$(wc -l < "$PFILE")" = 8 ] && ok || bad "the progress file has other lines"
+[ "$(stat -c %a "$PFILE")" = 644 ] && ok || bad "the progress file is not 644"
+expect_refused "a step that goes on is not a failure" pf "$SHA"
+[ ! -s "$CALLS" ] && ok || bad "under a test prefix the heartbeat was started: $(cat "$CALLS")"
+# A failure: the flag and a reason from the list; anything else becomes "other".
+pw "$SHA" 3 9 space demo-akwa space_update
+has "$PFILE" "^FAILED='1'\$"
+has "$PFILE" "^REASON='space_update'\$"
+expect_ok "the failure is known by the full commit" pf "$SHA"
+expect_ok "and by its short form" pf "${SHA:0:12}"
+expect_refused "but not for another release" pf fedcba9876543210
+pw "$SHA" 3 9 space demo-akwa "disk full; rm -rf /"
+has "$PFILE" "^REASON='other'\$"
+# What is not in the lists is not written: the file stays as it was.
+before=$(cat "$PFILE")
+pw "$SHA" 4 9 "made up" demo-akwa
+pw "not a commit" 4 9 space demo-akwa
+pw "$SHA" x 9 space demo-akwa
+pw "$SHA" 4 "9; id" space demo-akwa
+[ "$(cat "$PFILE")" = "$before" ] && ok || bad "a step outside the list was written"
+pw "$SHA" 4 9 space "../etc"
+has "$PFILE" "^SLUG=''\$"
+lacks "$PFILE" 'etc'
+# It never stops an update: no folder to write to, and the scripts go on.
+expect_ok "no status folder: still succeeds" env PRACTICE_PREFIX=/proc/none bash -c ". '$HERE/practice-lib.sh'; progress_write $SHA 1 5 download"
+# Outside a test prefix it starts the heartbeat once, without waiting, and its failure is ignored.
+: > "$CALLS"
+( PATH=$STUBS:$PATH; PRACTICE_PREFIX=""; . "$HERE/practice-lib.sh"; progress_tell ) && ok || bad "progress_tell failed with a failing systemctl"
+[ "$(cat "$CALLS")" = "systemctl start --no-block practice-heartbeat.service" ] && ok || bad "progress_tell called: $(cat "$CALLS")"
+# practice-update reports each step and a failure; practice-apply-desired reports a failed download.
+for word in 'progress 1 download' 'progress 2 copy' 'space "$slug"' 'start$' 'template$' 'progress "$P_TOTAL" done' 'progress_failure'; do
+  has "$HERE/practice-update.sh" "$word"
+done
+has "$HERE/practice-apply-desired.sh" 'progress_write "$sha" 1 "$total" download "" download'
+has "$HERE/practice-apply-desired.sh" 'progress_failed_for "$sha" || progress_write'
+# One start per step change, never in a loop.
+[ "$(grep -c 'systemctl start --no-block practice-heartbeat' "$HERE"/*.sh | awk -F: '{n += $2} END {print n}')" = 1 ] && ok || bad "the heartbeat is started from more than one place"
+# The three lists are the same: the scripts', the heartbeat's and the control room's.
+if python3 -I - "$HERE" <<'PY'
+import importlib.util
+import pathlib
+import re
+import sys
+
+here = pathlib.Path(sys.argv[1])
+lib = (here / "practice-lib.sh").read_text(encoding="utf-8")
+codes = tuple(re.search(r'^readonly PROGRESS_CODES="([a-z_ ]+)"$', lib, re.M).group(1).split())
+reasons = tuple(re.search(r'^readonly PROGRESS_REASONS="([a-z_ ]+)"$', lib, re.M).group(1).split())
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+heartbeat = load("practice_heartbeat", here / "practice_heartbeat.py")
+assert heartbeat.PROGRESS_CODES == codes and heartbeat.PROGRESS_REASONS == reasons
+console = (here.parents[1] / "addons/ea_platform_admin/services/practice.py").read_text(encoding="utf-8")
+assert tuple(re.search(r'^PROGRESS_CODES = \(([^)]*)\)', console, re.M).group(1).replace('"', "").replace(",", " ").split()) == codes
+assert tuple(re.search(r'^PROGRESS_REASONS = \(([^)]*)\)', console, re.M | re.S).group(1).replace('"', "").replace(",", " ").split()) == reasons
+PY
+then ok; else bad "the progress lists differ between the scripts, the heartbeat and the control room"; fi
 
 printf '%d passed, %d failed\n' "$PASSED" "$FAILED"
 [ "$FAILED" = 0 ]
