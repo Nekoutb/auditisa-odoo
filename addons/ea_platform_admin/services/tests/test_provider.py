@@ -247,6 +247,17 @@ def test_vultr_errors_say_if_a_retry_may_help(status, retryable):
     assert SECRET_TOKEN not in str(caught.value)
 
 
+def test_a_known_vultr_refusal_is_said_in_plain_words_without_quoting_the_answer():
+    body = json.dumps({"error": "Server add failed: You have reached the maximum monthly fee limit for this account. " + SECRET_TOKEN, "status": 400}).encode()
+    transport = FakeTransport({("POST", "/ssh-keys"): HttpResponse(400, body)})
+    with pytest.raises(ProviderError) as caught:
+        VultrProvider(SECRET_TOKEN, transport=transport).create_ssh_key("l", "k")
+    assert "monthly spending limit" in str(caught.value)
+    assert caught.value.retryable is False
+    assert SECRET_TOKEN not in str(caught.value)
+    assert "Server add failed" not in str(caught.value)
+
+
 def test_the_token_is_not_in_the_repr():
     provider = VultrProvider(SECRET_TOKEN, transport=FakeTransport())
     assert SECRET_TOKEN not in repr(provider)

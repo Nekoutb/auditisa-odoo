@@ -110,6 +110,30 @@ msgstr "%(method)s : panne simulée (temporaire)"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "%(service)s: %(reason)s"
+msgstr "%(service)s : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "the account has reached its monthly spending limit. Ask the provider's support to raise the limit, then start again."
+msgstr "le compte a atteint sa limite de dépense mensuelle. Demandez au support du fournisseur de relever la limite, puis recommencez."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "the account does not have enough credit. Add funds at the provider, then start again."
+msgstr "le compte n'a pas assez de crédit. Ajoutez des fonds chez le fournisseur, puis recommencez."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
+msgid "the account has reached its maximum number of servers. Ask the provider's support to raise the limit, then start again."
+msgstr "le compte a atteint son nombre maximal de serveurs. Demandez au support du fournisseur de relever la limite, puis recommencez."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provider_vultr.py:0
 msgid "%(service)s refused %(call)s (%(status)s)."
 msgstr "%(service)s a refusé %(call)s (%(status)s)."
 

@@ -84,6 +84,18 @@ class UrllibTransport:
             raise ProviderError(_("Provider out of reach (%(error)s).", error=type(error).__name__), retryable=True) from None
 
 
+def _known_refusal(body):
+    """Our own sentence for a refusal the owner can act on, or None. Never the provider's text."""
+    text = body[:2000].decode("utf-8", "replace").lower() if body else ""
+    if "monthly fee limit" in text:
+        return _("the account has reached its monthly spending limit. Ask the provider's support to raise the limit, then start again.")
+    if "insufficient" in text and ("fund" in text or "balance" in text or "credit" in text):
+        return _("the account does not have enough credit. Add funds at the provider, then start again.")
+    if "maximum number of" in text or "instance limit" in text:
+        return _("the account has reached its maximum number of servers. Ask the provider's support to raise the limit, then start again.")
+    return None
+
+
 class _Api:
     def __init__(self, base, token, transport, service):
         self._base = base
@@ -104,6 +116,11 @@ class _Api:
             raise ProviderError(_("%(service)s: temporary error %(status)s.", service=self._service, status=response.status), retryable=True)
         if response.status >= 400:
             # The answer is not quoted: it could repeat what was sent, and that may hold secrets.
+            # A few known refusals are recognised and said in our own words, because the owner can
+            # act on them.
+            reason = _known_refusal(response.body)
+            if reason:
+                raise ProviderError(_("%(service)s: %(reason)s", service=self._service, reason=reason))
             raise ProviderError(_("%(service)s refused %(call)s (%(status)s).", service=self._service, call=f"{method} {path.split('?')[0]}", status=response.status))
         if not response.body:
             return {}
