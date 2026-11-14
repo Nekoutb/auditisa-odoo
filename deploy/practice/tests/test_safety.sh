@@ -203,7 +203,7 @@ expect_ok "no status folder: still succeeds" env PRACTICE_PREFIX=/proc/none bash
 ( PATH=$STUBS:$PATH; PRACTICE_PREFIX=""; . "$HERE/practice-lib.sh"; progress_tell ) && ok || bad "progress_tell failed with a failing systemctl"
 [ "$(cat "$CALLS")" = "systemctl start --no-block practice-heartbeat.service" ] && ok || bad "progress_tell called: $(cat "$CALLS")"
 # practice-update reports each step and a failure; practice-apply-desired reports a failed download.
-for word in 'progress 1 download' 'progress 2 copy' 'space "$slug"' 'start$' 'template$' 'progress "$P_TOTAL" done' 'progress_failure'; do
+for word in 'progress 1 download' 'progress 2 copy' 'space "$slug"' 'start$' 'template$' 'progress "$P_TOTAL" "done"' 'progress_failure'; do
   has "$HERE/practice-update.sh" "$word"
 done
 has "$HERE/practice-apply-desired.sh" 'progress_write "$sha" 1 "$total" download "" download'
