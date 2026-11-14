@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2015  # "A && ok || bad" is the point: ok never fails
 # ci_rebuild.sh: proves staging-rebuild.sh on throwaway databases. On a server, as root.
 #
 #   [SOURCE_DB=name] ci_rebuild.sh DUMP TOOL_DIR

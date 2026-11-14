@@ -361,6 +361,6 @@ n=$(q "SELECT count(*) FROM res_users WHERE password IS NOT NULL AND login <> 'c
 # 7. Start
 service_start
 service_healthy
-PHASE=done
+PHASE="done"
 log "done. To go back: staging-rebuild --db $DB --rollback $STAMP --apply"
 log "kept aside: $OLD_DB, $FILESTORE/$OLD_DB, $BACKUP. Remove them yourself when you no longer need them."

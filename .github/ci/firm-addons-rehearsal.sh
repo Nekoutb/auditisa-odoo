@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2015  # "A && B || fail" is the point
 # Rehearses the firm's side of the client add-ons with the real scripts, a real Odoo and a real
 # throwaway database, as root on a machine that has both. Not part of CI: it needs root and PostgreSQL.
 #

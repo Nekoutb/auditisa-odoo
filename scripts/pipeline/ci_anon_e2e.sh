@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2015  # "A && ok || bad" is the point: ok never fails
 # ci_anon_e2e.sh: end-to-end proof of the anonymiser, on throwaway databases. On a server, as root.
 #
 #   ci_anon_e2e.sh SOURCE_DB TOOL_DIR
@@ -97,7 +98,7 @@ TAR=$OUT/anon-$REF.tar
 if [ -f "$TAR" ]; then
   LISTING=$(tar -tf "$TAR" | LC_ALL=C sort | tr '\n' ' ')
   [ "$LISTING" = "ANON-REPORT.json SHA256SUMS db.dump " ] && ok "the file holds db.dump, the report and digests, no filestore" || bad "listing: $LISTING"
-  [ "$(status anon_export_state)" = done ] && ok "reports done" || bad "reports $(status anon_export_state)"
+  [ "$(status anon_export_state)" = "done" ] && ok "reports done" || bad "reports $(status anon_export_state)"
   [ "$(status anon_export_sha256)" = "$(sha256sum "$TAR" | cut -d' ' -f1)" ] && ok "reports the file's digest" || bad "digest"
   [ "$(status anon_export_ref)" = "$REF" ] && ok "reports the reference" || bad "reference"
   [ "$(stat -c %a "$TAR")" = 600 ] && ok "root only" || bad "mode $(stat -c %a "$TAR")"

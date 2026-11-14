@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2015,SC2016  # "A && ok || bad" is the point; nginx variables are literal
+# shellcheck disable=SC2015,SC2016,SC2030,SC2031,SC1091  # "A && ok || bad" is the point; nginx variables are literal; PATH is changed in a subshell on purpose
 # The practice computer's safety rules, without a server: the name gate, the guard's verdicts, the
 # scripts refusing before they touch anything, the rendered configuration, no secret printed and
 # no way to load a dump. Writes under a temporary folder only; contacts nothing.

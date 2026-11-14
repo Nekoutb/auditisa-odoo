@@ -34,7 +34,9 @@ state() {
   [[ $release =~ ^[0-9a-f]{7,40}$ ]] || release=""
   mail=$(q "SELECT count(*) FROM ir_mail_server WHERE active")
   band=$(q "SELECT value FROM ir_config_parameter WHERE key = 'ea_audit.staging_band'")
+  # shellcheck disable=SC2012  # the newest dump by date; the names are ours
   rebuilt=$(stat -c %y "$(ls -1t /var/backups/odoo/before-rebuild/*.dump 2>/dev/null | head -n 1)" 2>/dev/null | cut -c1-19 | tr ' ' T || true)
+  # shellcheck disable=SC2143  # grep -q would close the pipe early under pipefail
   printf '{"schema":1,"release":"%s","at":"%s","mail_off":%s,"band_on":%s,"rebuilt_at":%s}\n' \
     "$release" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
     "$([ "$mail" = 0 ] && [ -z "$(conf_value smtp_server | grep -vE '^(False|false)?$')" ] && echo true || echo false)" \

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2015  # "A && ok || bad" is the point: ok never fails
 # test-redirect.sh: redirect-status-site.sh against a local copy of a vhost. Nothing outside a temporary folder.
 # The vhost below follows the layout of the server's other vhosts; the real one was not readable when this was
 # written, so run `check` on the server first.

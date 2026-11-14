@@ -228,4 +228,4 @@ audit_line "update release=$NAME spaces=${#SNAPPED[@]}"
 pl_log "every space is on $NAME; building the demo template on it"
 exec 7>&-
 "$HERE/practice-template.sh" build
-progress "$P_TOTAL" done
+progress "$P_TOTAL" "done"
