@@ -7,7 +7,7 @@ from markupsafe import Markup
 
 from odoo import api, fields, models
 
-from ..models.tool_record import is_french
+from ..models.tool_record import bracketed, is_french
 from ..rules import rule_error
 from ..services.gl_analytics import ANALYTICS, column_kind, t
 from ..services.gl_correlation import amount_input, split_accounts
@@ -22,15 +22,14 @@ def whole(value):
     """A figure as FCFA are written: no decimals, a space between thousands."""
     if value is None or value is False:
         return "—"
-    text = "{:,.0f}".format(value).replace(",", " ")
-    return "0" if text == "-0" else text
+    return bracketed("{:,.0f}".format(value).replace(",", " "))
 
 
 def decimal(value, locale):
     if value is None or value is False:
         return "—"
     text = "{:,.2f}".format(value).replace(",", " ")
-    return text.replace(".", ",") if locale == "fr" else text
+    return bracketed(text.replace(".", ",") if locale == "fr" else text)
 
 
 def date_label(iso):

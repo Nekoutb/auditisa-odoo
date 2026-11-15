@@ -1,10 +1,12 @@
 from markupsafe import Markup
 
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
+from odoo.exceptions import AccessError, UserError
 
 from ..services.ap_schedules import index_resolver
 from ..services.fs_captions import bilan_totals
 from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, account_class_label, account_type_label, lead_schedule_alerts
+from ..rules import rule_error
 from .tool_record import fcfa
 
 
@@ -28,9 +30,25 @@ class LeadCommentMixin(models.AbstractModel):
     _description = "Commented lead row"
 
     commentary = fields.Text(compute="_compute_commentary", inverse="_inverse_commentary")
+    # Not stored: whether this reader may type a commentary here. Archived files, read-only
+    # roles and the EQR see the cell read-only; the write path refuses them all the same.
+    ea_comment_locked = fields.Boolean(string="Commentary read-only", compute="_compute_ea_comment_locked")
 
     def _ea_comment_key(self):
         raise NotImplementedError
+
+    @api.depends_context("uid")
+    def _compute_ea_comment_locked(self):
+        verdicts = {}
+        for row in self:
+            engagement = row.sudo().engagement_id
+            if engagement.id not in verdicts:
+                try:
+                    engagement.with_env(self.env)._ea_tool_guard()
+                    verdicts[engagement.id] = False
+                except (UserError, AccessError):
+                    verdicts[engagement.id] = True
+            row.ea_comment_locked = verdicts[engagement.id]
 
     def _compute_commentary(self):
         Comment = self.env["ea.audit.ap.comment"].sudo()
@@ -89,6 +107,21 @@ class LeadSchedule(models.Model):
 
     def _ea_comment_key(self):
         return self.index_code, "total"
+
+    def _ea_user_write(self, vals):
+        """The schedule's form saves its accounts' commentaries with it: only an update of a
+        line's commentary is accepted from line_ids, and each goes through the line's own rules."""
+        vals = dict(vals)
+        commands = vals.pop("line_ids", None) or []
+        for command in commands:
+            if command[0] == Command.UPDATE:
+                line = self.env["ea.audit.lead.line"].browse(command[1])
+                if line.sudo().schedule_id not in self.sudo():
+                    raise rule_error(self.env, "forbidden")
+                line.write(command[2])
+            elif command[0] != Command.LINK:
+                raise rule_error(self.env, "invalid-field")
+        return super()._ea_user_write(vals) if vals else True
 
     @api.depends("alerts", "line_ids.closing")
     @api.depends_context("lang")

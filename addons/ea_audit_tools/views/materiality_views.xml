@@ -11,7 +11,7 @@
                             <field name="version_no"/>
                             <field name="state"/>
                             <field name="benchmark"/>
-                            <field name="benchmark_amount"/>
+                            <field name="benchmark_amount" widget="ea_amount"/>
                             <field name="percentage"/>
                         </group>
                         <group>

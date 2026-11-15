@@ -108,7 +108,7 @@
                 <group>
                     <group>
                         <field name="benchmark"/>
-                        <field name="benchmark_amount"/>
+                        <field name="benchmark_amount" widget="ea_amount"/>
                         <field name="percentage"/>
                     </group>
                     <group>
@@ -199,7 +199,7 @@
                     <field name="recommendation"/>
                 </group>
                 <group invisible="route != 'b5'">
-                    <field name="amount" required="route == 'b5'"/>
+                    <field name="amount" widget="ea_amount" required="route == 'b5'"/>
                     <field name="accounts"/>
                     <field name="mtype"/>
                     <field name="trivial_confirmed"/>

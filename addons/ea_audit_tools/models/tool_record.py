@@ -13,23 +13,34 @@ def is_french(env):
     return (env.lang or env.context.get("lang") or "").startswith("fr")
 
 
+def bracketed(text):
+    """A negative figure as an accountant writes it: (1 250), not -1 250 (owner, 2026-11-15).
+    A figure that rounds to nothing loses its sign: -0 reads 0."""
+    if not text.startswith("-"):
+        return text
+    digits = text[1:]
+    return "(%s)" % digits if any(c in "123456789" for c in digits) else digits
+
+
 def grouped(amount, lang=None):
     """No decimals; the separator follows the language: of ``lang``, else of the caller's
-    environment found as odoo's _ finds it. French groups with a space, English with a comma."""
+    environment found as odoo's _ finds it. French groups with a space, English with a comma.
+    A negative reads in brackets."""
     if lang is None:
         lang = _get_lang(inspect.currentframe().f_back)
     digits = "{:,.0f}".format(amount)
-    return digits.replace(",", " ") if (lang or "").startswith("fr") else digits
+    return bracketed(digits.replace(",", " ") if (lang or "").startswith("fr") else digits)
 
 
 def fcfa(amount, lang=None):
-    """formatFCFA: no decimals, grouped as the language groups."""
+    """formatFCFA: no decimals, grouped as the language groups, a negative in brackets."""
     if amount is None or amount is False:
         return "—"
     negative = round(amount) < 0  # -0.4 reads 0, never -0 (F019)
     if lang is None:
         lang = _get_lang(inspect.currentframe().f_back)
-    return "%s%s FCFA" % ("-" if negative else "", grouped(abs(amount), lang))
+    text = grouped(abs(amount), lang)
+    return "(%s) FCFA" % text if negative else "%s FCFA" % text
 
 
 def decimal_label(value, lang=None):
@@ -37,7 +48,7 @@ def decimal_label(value, lang=None):
     if lang is None:
         lang = _get_lang(inspect.currentframe().f_back)
     text = str(value)
-    return text.replace(".", ",") if (lang or "").startswith("fr") else text
+    return bracketed(text.replace(".", ",") if (lang or "").startswith("fr") else text)
 
 
 def french_date(value):

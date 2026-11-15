@@ -19,6 +19,7 @@
     "assets": {
         "web.assets_backend": [
             "ea_audit_ui/static/src/scss/shell.scss",
+            "ea_audit_ui/static/src/scss/grid.scss",
             "ea_audit_ui/static/src/js/**/*",
             "ea_audit_ui/static/src/xml/**/*",
         ],

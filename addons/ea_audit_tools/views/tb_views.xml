@@ -11,8 +11,8 @@
                 <field name="is_current" string="In use" width="60px"/>
                 <field name="source_filename" width="200px"/>
                 <field name="row_count" width="50px"/>
-                <field name="total_debit" string="Total debit" width="130px"/>
-                <field name="total_credit" string="Total credit" width="130px"/>
+                <field name="total_debit" widget="ea_amount" string="Total debit" width="130px"/>
+                <field name="total_credit" widget="ea_amount" string="Total credit" width="130px"/>
                 <field name="superseded_at" string="Superseded on" widget="datetime" options="{'show_seconds': false}" width="170px"/>
                 <field name="create_uid" string="Imported by" width="100px"/>
                 <button name="action_delete" type="object" icon="fa-trash-o" title="Delete this version" groups="ea_audit_core.group_writer"/>
@@ -35,8 +35,8 @@
                         </group>
                         <group>
                             <field name="source_filename"/>
-                            <field name="total_debit"/>
-                            <field name="total_credit"/>
+                            <field name="total_debit" widget="ea_amount"/>
+                            <field name="total_credit" widget="ea_amount"/>
                         </group>
                     </group>
                     <field name="checks_text" nolabel="1"/>
@@ -44,11 +44,11 @@
                         <list>
                             <field name="account_code"/>
                             <field name="account_name"/>
-                            <field name="opening_debit"/>
-                            <field name="opening_credit"/>
-                            <field name="debit"/>
-                            <field name="credit"/>
-                            <field name="closing"/>
+                            <field name="opening_debit" widget="ea_amount"/>
+                            <field name="opening_credit" widget="ea_amount"/>
+                            <field name="debit" widget="ea_amount"/>
+                            <field name="credit" widget="ea_amount"/>
+                            <field name="closing" widget="ea_amount"/>
                         </list>
                     </field>
                 </sheet>

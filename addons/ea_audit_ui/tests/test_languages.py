@@ -61,7 +61,7 @@ class TestBothLanguages(TransactionCase):
         self.assertEqual((french.thousands_sep, french.decimal_point), (" ", ","))
         self.assertEqual(fcfa(1234567, "en_US"), "1,234,567 FCFA")
         self.assertEqual(fcfa(1234567, "fr_FR"), "1 234 567 FCFA")
-        self.assertEqual(grouped(-2500, "en_US"), "-2,500")
+        self.assertEqual(grouped(-2500, "en_US"), "(2,500)")  # brackets (owner, 2026-11-15)
 
     def test_every_paper_resolves_in_both(self):
         missing = []

@@ -15,7 +15,7 @@
                 <field name="is_current" width="65px"/>
                 <field name="source_filename" width="200px"/>
                 <field name="row_count" width="60px"/>
-                <field name="display_total" width="130px"/>
+                <field name="display_total" widget="ea_amount" width="130px"/>
                 <field name="gl_line_count" optional="show" width="110px"/>
                 <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" optional="show" width="90px"/>
                 <field name="superseded_at" string="Superseded on" widget="datetime" options="{'show_seconds': false}" width="170px"/>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="o_ea_card">
                             <div class="o_ea_card_label">Total amount</div>
-                            <field name="display_total" class="o_ea_card_value"/>
+                            <field name="display_total" widget="ea_amount" class="o_ea_card_value"/>
                             <div class="o_ea_card_note"><field name="display_total_note"/></div>
                         </div>
                     </div>
@@ -133,9 +133,9 @@
                 <field name="entry_date" optional="hide"/>
                 <field name="je_description" optional="show"/>
                 <field name="line_description" optional="hide"/>
-                <field name="debit" sum="Debit"/>
-                <field name="credit" sum="Credit"/>
-                <field name="signed" sum="Signed" optional="hide"/>
+                <field name="debit" widget="ea_amount" sum="Debit"/>
+                <field name="credit" widget="ea_amount" sum="Credit"/>
+                <field name="signed" widget="ea_amount" sum="Signed" optional="hide"/>
                 <field name="reference" optional="show"/>
                 <field name="third_party_name" optional="hide"/>
                 <field name="preparer" optional="hide"/>

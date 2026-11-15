@@ -53,8 +53,8 @@
                                 </group>
                                 <group string="Value">
                                     <field name="use_round_amount"/>
-                                    <field name="round_min" invisible="not use_round_amount"/>
-                                    <field name="round_step" invisible="not use_round_amount"/>
+                                    <field name="round_min" widget="ea_amount" invisible="not use_round_amount"/>
+                                    <field name="round_step" widget="ea_amount" invisible="not use_round_amount"/>
                                 </group>
                                 <group string="Pattern">
                                     <field name="use_unusual_pairing"/>

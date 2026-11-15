@@ -7364,6 +7364,7 @@ msgstr "Risques et CRA"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
 msgid "Role"
 msgstr "Rôle"
 
@@ -11014,3 +11015,53 @@ msgstr "Motif du rejet de la réfutation"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__lock_note
 msgid "Why the status is locked"
 msgstr "Pourquoi le statut est verrouillé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/team.py:0
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_team
+msgid "Engagement team"
+msgstr "Équipe de la mission"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_team
+msgid "Who is on this file, their role, and inviting a member."
+msgstr "Qui travaille sur ce dossier, avec quel rôle, et l'invitation d'un membre."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/team.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
+msgid "Invite a member"
+msgstr "Inviter un membre"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
+msgid "Invited on"
+msgstr "Invité le"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
+msgid "Answered on"
+msgstr "Répondu le"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_fa_ratio_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_schedule_form
+msgid "Click to type a commentary"
+msgstr "Cliquez pour saisir un commentaire"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__ea_comment_locked
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_comment_mixin__ea_comment_locked
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__ea_comment_locked
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__ea_comment_locked
+msgid "Commentary read-only"
+msgstr "Commentaire en lecture seule"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_team_member__ea_role_locked
+msgid "Role read-only"
+msgstr "Rôle en lecture seule"

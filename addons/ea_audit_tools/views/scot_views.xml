@@ -608,11 +608,11 @@
                         <field name="method"/>
                         <field name="sample_size"/>
                         <field name="seed"/>
-                        <field name="threshold" invisible="method != 'criteria'"/>
+                        <field name="threshold" widget="ea_amount" invisible="method != 'criteria'"/>
                     </group>
                     <group>
                         <field name="confidence" invisible="method != 'mus'"/>
-                        <field name="expected" invisible="method != 'mus'"/>
+                        <field name="expected" widget="ea_amount" invisible="method != 'mus'"/>
                         <field name="override_size"/>
                         <field name="override_rationale" invisible="not override_size" required="override_size"/>
                     </group>

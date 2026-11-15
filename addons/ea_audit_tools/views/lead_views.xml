@@ -17,7 +17,8 @@
                 <field name="movement" readonly="1" sum="Total"/>
                 <field name="has_variance_pct" column_invisible="1"/>
                 <field name="variance_pct" readonly="1" invisible="not has_variance_pct"/>
-                <field name="commentary"/>
+                <field name="ea_comment_locked" column_invisible="1"/>
+                <field name="commentary" readonly="ea_comment_locked" placeholder="Click to type a commentary" class="o_ea_editable_cell"/>
                 <button name="action_open_gl_console" type="object" icon="fa-search" title="Open the general-ledger entries"/>
             </list>
         </field>
@@ -61,17 +62,19 @@
                     </group>
                     <field name="alerts" invisible="1"/>
                     <field name="alerts_label" readonly="1" invisible="not alerts" class="o_ea_banner"/>
-                    <group><field name="commentary"/></group>
-                    <field name="line_ids" readonly="1">
-                        <list>
-                            <field name="account_code"/>
-                            <field name="account_name"/>
-                            <field name="closing"/>
-                            <field name="prior"/>
-                            <field name="movement"/>
+                    <field name="ea_comment_locked" invisible="1"/>
+                    <group><field name="commentary" readonly="ea_comment_locked"/></group>
+                    <field name="line_ids">
+                        <list create="0" delete="0" editable="bottom">
+                            <field name="account_code" readonly="1"/>
+                            <field name="account_name" readonly="1"/>
+                            <field name="closing" readonly="1"/>
+                            <field name="prior" readonly="1"/>
+                            <field name="movement" readonly="1"/>
                             <field name="has_variance_pct" column_invisible="1"/>
-                            <field name="variance_pct" invisible="not has_variance_pct"/>
-                            <field name="commentary"/>
+                            <field name="variance_pct" readonly="1" invisible="not has_variance_pct"/>
+                            <field name="ea_comment_locked" column_invisible="1"/>
+                            <field name="commentary" readonly="ea_comment_locked" placeholder="Click to type a commentary" class="o_ea_editable_cell"/>
                             <button name="action_open_gl_console" type="object" icon="fa-search" title="Open the general-ledger entries"/>
                         </list>
                     </field>
@@ -84,7 +87,7 @@
         <field name="model">ea.audit.engagement</field>
         <field name="priority">90</field>
         <field name="arch" type="xml">
-            <form create="0" delete="0" edit="0">
+            <form create="0" delete="0">
                 <header>
                     <button name="action_export_lead" type="object" string="Extract to Excel" class="btn-primary"/>
                     <button name="action_tool_lead_lines" type="object" string="By account, with commentary"/>
@@ -104,18 +107,19 @@
                         <div class="o_ea_legend mt-1" invisible="not lead_hidden_note"><field name="lead_hidden_note" readonly="1" nolabel="1"/></div>
                     </div>
                     <div class="o_ea_panel">
-                        <field name="lead_schedule_ids" readonly="1" nolabel="1">
-                            <list decoration-warning="alerts">
+                        <field name="lead_schedule_ids" nolabel="1">
+                            <list decoration-warning="alerts" create="0" delete="0" editable="bottom">
                                 <field name="alerts" column_invisible="1"/>
-                                <field name="index_code"/>
-                                <field name="paper_code"/>
-                                <field name="account_type_label" optional="show"/>
-                                <field name="closing"/>
-                                <field name="prior"/>
-                                <field name="movement"/>
+                                <field name="index_code" readonly="1"/>
+                                <field name="paper_code" readonly="1"/>
+                                <field name="account_type_label" optional="show" readonly="1"/>
+                                <field name="closing" readonly="1"/>
+                                <field name="prior" readonly="1"/>
+                                <field name="movement" readonly="1"/>
                                 <field name="has_variance_pct" column_invisible="1"/>
-                                <field name="variance_pct" invisible="not has_variance_pct"/>
-                                <field name="commentary"/>
+                                <field name="variance_pct" readonly="1" invisible="not has_variance_pct"/>
+                                <field name="ea_comment_locked" column_invisible="1"/>
+                                <field name="commentary" readonly="ea_comment_locked" placeholder="Click to type a commentary" class="o_ea_editable_cell"/>
                             </list>
                         </field>
                     </div>

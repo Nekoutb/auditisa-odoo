@@ -84,6 +84,7 @@ access_program_wizard_writer,ea.audit.program.wizard writer,model_ea_audit_progr
 access_sap_wizard_writer,ea.audit.sap.wizard writer,model_ea_audit_sap_wizard,ea_audit_core.group_writer,1,1,1,1
 access_pbc_item_member,ea.audit.pbc.item member,model_ea_audit_pbc_item,ea_audit_core.group_member,1,0,0,0
 access_fa_ratio_member,ea.audit.fa.ratio member,model_ea_audit_fa_ratio,ea_audit_core.group_member,1,0,0,0
+access_fa_ratio_writer,ea.audit.fa.ratio writer,model_ea_audit_fa_ratio,ea_audit_core.group_writer,1,1,0,0
 access_wp_template_member,ea.audit.wp.template member,model_ea_audit_wp_template,ea_audit_core.group_member,1,0,0,0
 access_portal_contact_member,ea.audit.portal.contact member,model_ea_audit_portal_contact,ea_audit_core.group_member,1,0,0,0
 access_pbc_wizard_writer,ea.audit.pbc.wizard writer,model_ea_audit_pbc_wizard,ea_audit_core.group_writer,1,1,1,1
