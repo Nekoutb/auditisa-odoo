@@ -85,4 +85,14 @@ a.o_ea_chip_warn { color: $ea-amber !important; }
         text-overflow: clip !important;
     }
     td.o_data_cell .o_select_menu input { text-overflow: clip !important; }
+    // a risk's title reads in full on its tag, over several lines if need be
+    td.o_data_cell .o_field_tags { display: flex !important; width: 100%; }
+    td.o_data_cell .o_tag, td.o_data_cell .o_tag .o_tag_badge_text {
+        white-space: normal !important;
+        max-width: 100% !important;
+        height: auto;
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+    td.o_data_cell .o_tag { border-radius: .5rem !important; padding-top: .15rem; padding-bottom: .15rem; }
 }

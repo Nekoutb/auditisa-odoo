@@ -15,20 +15,20 @@
                 <field name="reviewer_known" column_invisible="1"/>
                 <field name="engagement_id" column_invisible="1"/>
                 <field name="has_risk" column_invisible="1"/>
-                <field name="index_code" readonly="1" width="190px"/>
-                <field name="closing" readonly="1" width="115px"/>
+                <field name="index_code" readonly="1" width="160px"/>
+                <field name="closing" readonly="1" width="105px"/>
                 <!-- counted from the general ledger in use: empty when there is none, or the column was not matched -->
-                <field name="tx_count" readonly="1" invisible="not activity_dataset" optional="show" width="105px"/>
-                <field name="preparer_count" readonly="1" invisible="not preparer_known" optional="show" width="100px"/>
-                <field name="reviewer_count" readonly="1" invisible="not reviewer_known" optional="show" width="90px"/>
-                <field name="above_te" readonly="1" optional="show" width="85px"/>
+                <field name="tx_count" readonly="1" invisible="not activity_dataset" optional="show" width="95px"/>
+                <field name="preparer_count" readonly="1" invisible="not preparer_known" optional="show" width="90px"/>
+                <field name="reviewer_count" readonly="1" invisible="not reviewer_known" optional="show" width="85px"/>
+                <field name="above_te" readonly="1" optional="show" width="80px"/>
                 <!-- picked from this engagement's risk register; any live risk locks the row at Significant -->
-                <field name="risk_ids" widget="many2many_tags" width="170px"
+                <field name="risk_ids" widget="many2many_tags" width="160px"
                        options="{'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"
                        domain="[('engagement_id', '=', engagement_id), ('rebutted', '=', False)]"/>
                 <field name="risk_assertions" readonly="1" optional="hide"/>
                 <field name="default_status" readonly="1" optional="show" width="95px"/>
-                <field name="status" widget="selection" decoration-success="status == 'significant'" decoration-bf="1" width="115px"
+                <field name="status" widget="selection" decoration-success="status == 'significant'" decoration-bf="1" width="110px"
                        readonly="has_risk"/>
                 <button name="action_change_status" type="object" string="Change status" icon="fa-exchange" class="btn-link"
                         title="Change between Significant and Not significant, with the reason" groups="ea_audit_core.group_writer"
@@ -37,8 +37,8 @@
                         title="A linked risk keeps this account Significant: remove the link or rebut the risk in the risk register"
                         groups="ea_audit_core.group_writer" invisible="not has_risk"/>
                 <field name="justification" placeholder="Required when the status departs from the default"/>
-                <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}" width="110px"/>
-                <field name="specific_te" width="105px"/>
+                <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}" width="95px"/>
+                <field name="specific_te" width="95px"/>
             </list>
         </field>
     </record>
