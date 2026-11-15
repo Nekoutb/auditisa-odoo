@@ -58,13 +58,6 @@ msgstr "%(count)s autres comptes de contrepartie ne sont pas affichés"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/wizards/dataset_wizard.py:0
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
-msgid "%(count)s rows read"
-msgstr "%(count)s lignes lues"
-
-#. module: ea_audit_tools
-#. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "%(count)s unbalanced"
 msgstr "%(count)s déséquilibrées"
@@ -424,14 +417,11 @@ msgid "Accepted by"
 msgstr "Accepté par"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__drill_account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__account_code
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__account_code
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__account
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
@@ -522,8 +512,6 @@ msgid "Account type"
 msgstr "Type de compte"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__accounts
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__account_ids
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_accounts
@@ -1190,7 +1178,9 @@ msgstr "Banques, crédits de trésorerie et d'escompte"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__bank_statement
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__bank_statement
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__bank_statement
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__bank_statement
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__bank_statement
 msgid "Bank statements"
 msgstr "Relevés bancaires"
 
@@ -1330,9 +1320,9 @@ msgstr "Niveau ECR"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_link_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_test_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_deficiency_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_itgc_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_materiality_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_osp_wizard
@@ -1354,7 +1344,6 @@ msgstr "Niveau ECR"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_step_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_supplier_recon_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_draw_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_grid_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tod_result_wizard
@@ -1578,7 +1567,6 @@ msgstr "Choisissez des codes de compte valides : lettres, chiffres, point, tiret
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 msgid "Class"
 msgstr "Classe"
 
@@ -1653,6 +1641,7 @@ msgstr "Seuil des anomalies manifestement négligeables"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_grouping_override__client_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_client_override_mixin__client_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__client_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_index_override__client_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_portal_contact__client_id
 msgid "Client"
@@ -1704,28 +1693,11 @@ msgid "Closed"
 msgstr "Clos"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__closing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__closing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__closing
 msgid "Closing"
 msgstr "Clôture"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_closing
-msgid "Closing (signed)"
-msgstr "Clôture (signé)"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_closingCredit
-msgid "Closing credit"
-msgstr "Clôture crédit"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_closingDebit
-msgid "Closing debit"
-msgstr "Clôture débit"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -1751,27 +1723,9 @@ msgid "Code"
 msgstr "Code"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/dataset_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio_rule__field
 msgid "Column"
 msgstr "Colonne"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__map_ids
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
-msgid "Column mapping"
-msgstr "Correspondance des colonnes"
-
-#. module: ea_audit_tools
-#: model:ir.model,name:ea_audit_tools.model_ea_audit_dataset_import_map
-msgid "Column of a dataset import"
-msgstr "Colonne d'un import de données"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__header
-msgid "Column of the file"
-msgstr "Colonne du fichier"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_grid_wizard
@@ -1961,18 +1915,9 @@ msgid "Confidence"
 msgstr "Confiance"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__step__confirm
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__step__confirm
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_reason_wizard
 msgid "Confirm"
 msgstr "Confirmer"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/dataset_wizard.py:0
-#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
-msgid "Confirm the column mapping"
-msgstr "Confirmer la correspondance des colonnes"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fscp__je_controls_implemented
@@ -1985,14 +1930,11 @@ msgid "Console"
 msgstr "Console"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__content
 msgid "Content"
 msgstr "Contenu"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_import_wizard
-msgid "Continue"
-msgstr "Continuer"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_scot_control
@@ -2194,8 +2136,6 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__create_uid
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__create_uid
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__create_uid
@@ -2211,6 +2151,12 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__create_uid
@@ -2262,7 +2208,6 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__create_uid
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__create_uid
@@ -2292,8 +2237,6 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__create_date
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__create_date
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__create_date
@@ -2309,6 +2252,12 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__create_date
@@ -2357,7 +2306,6 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__create_date
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__create_date
@@ -2379,7 +2327,6 @@ msgstr "Créé le"
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__credit
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__credit
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_credit
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__credit
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__credit
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_list
@@ -2468,6 +2415,7 @@ msgstr "Analyse de données"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__dataset_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__dataset_id
 msgid "Dataset"
@@ -2488,7 +2436,6 @@ msgstr "Date testée"
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__debit
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__debit
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_debit
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__debit
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__debit
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_list
@@ -2553,7 +2500,6 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__name
@@ -2568,7 +2514,6 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__finding
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_wizard__description
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__account_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw__description
@@ -2711,8 +2656,6 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__display_name
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__display_name
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__display_name
@@ -2730,6 +2673,12 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__display_name
@@ -2781,7 +2730,6 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__display_name
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__display_name
@@ -2827,8 +2775,6 @@ msgstr "Télécharger"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
 msgid "Download the template"
 msgstr "Télécharger le modèle"
@@ -2997,7 +2943,6 @@ msgstr "Méthode active"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__engagement_id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_choice__engagement_id
@@ -3010,6 +2955,8 @@ msgstr "Méthode active"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fscp__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__engagement_id
@@ -3048,7 +2995,6 @@ msgstr "Méthode active"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__engagement_id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__engagement_id
@@ -3187,7 +3133,7 @@ msgid "Entry description"
 msgstr "Libellé d'écriture"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__je_key_columns
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__je_key_column_ids
 msgid "Entry identified by several columns"
 msgstr "Écriture identifiée par plusieurs colonnes"
 
@@ -3452,16 +3398,6 @@ msgid "Feeds the combined risk assessment."
 msgstr "Alimente l'évaluation combinée des risques."
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__label
-msgid "Field"
-msgstr "Champ"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__field_key
-msgid "Field Key"
-msgstr "Clé du champ"
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__figure_accounts
 msgid "Figure Accounts"
 msgstr ""
@@ -3487,6 +3423,8 @@ msgid "Figure Set"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__source_filename
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_upload_wizard__file
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__source_filename
@@ -3495,8 +3433,7 @@ msgid "File"
 msgstr "Fichier"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__file
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__file
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__file
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_grid_wizard__file
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__file
 msgid "File (.csv, .xlsx)"
@@ -3519,10 +3456,9 @@ msgid "Filed under"
 msgstr "Classé sous"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__filename
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__filename
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__filename
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_upload_wizard__filename
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__filename
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_grid_wizard__filename
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__filename
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__filename
@@ -3684,12 +3620,6 @@ msgid "Firm thresholds: low, moderate, high"
 msgstr "Seuils du cabinet : faible, modéré, élevé"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__header_row
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__header_row
-msgid "First line is a header"
-msgstr "La première ligne est un en-tête"
-
-#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "First selected account"
 msgstr "Premier compte sélectionné"
@@ -3705,7 +3635,9 @@ msgstr "Exercice"
 #: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_fixed_assets
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__fixed_asset_register
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__fixed_asset_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__fixed_asset_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__fixed_asset_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__fixed_asset_register
 msgid "Fixed assets"
 msgstr "Actif immobilisé"
 
@@ -3778,7 +3710,9 @@ msgstr "Procédures générales d'audit"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__journal_entries
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__journal_entries
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__journal_entries
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__journal_entries
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__journal_entries
 msgid "General ledger"
 msgstr "Grand livre"
 
@@ -4053,8 +3987,6 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__id
@@ -4072,6 +4004,12 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__id
@@ -4123,7 +4061,6 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__id
@@ -4312,17 +4249,13 @@ msgstr "Mis en œuvre"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__version_kind__initial
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_import_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_grid_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tool_import_wizard
 msgid "Import"
 msgstr "Importer"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/dataset.py:0
-#: model:ir.model,name:ea_audit_tools.model_ea_audit_dataset_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
 msgid "Import a dataset"
 msgstr "Importer un jeu de données"
@@ -4330,7 +4263,6 @@ msgstr "Importer un jeu de données"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/tb.py:0
-#: model:ir.model,name:ea_audit_tools.model_ea_audit_tb_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
 msgid "Import a trial balance"
 msgstr "Importer une balance"
@@ -4356,7 +4288,9 @@ msgid "Import the test grid"
 msgstr "Importer la grille de test"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 msgid "Imported by"
 msgstr "Importé par"
@@ -4372,7 +4306,9 @@ msgid "Imported dataset row"
 msgstr "Ligne de jeu de données importé"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 msgid "Imported on"
 msgstr "Importé le"
@@ -4523,7 +4459,9 @@ msgstr "Invalide"
 #: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_inventory
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__inventory_listing
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__inventory_listing
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__inventory_listing
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__inventory_listing
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__inventory_listing
 msgid "Inventory"
 msgstr "Stocks"
 
@@ -4674,6 +4612,7 @@ msgstr "Justification de la base, du pourcentage et des facteurs qualitatifs (IS
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__key
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__key
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__key
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__key
 msgid "Key"
@@ -4713,7 +4652,8 @@ msgstr "Seuil des éléments clés"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__kind
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__kind
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__kind
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_override_wizard__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__kind
@@ -4728,12 +4668,14 @@ msgstr "Libellé"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_firm_holiday__label_en
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__label_en
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_public_holiday__label_en
 msgid "Label En"
 msgstr ""
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_firm_holiday__label_fr
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__label_fr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_public_holiday__label_fr
 msgid "Label Fr"
 msgstr ""
@@ -4773,8 +4715,6 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__write_uid
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__write_uid
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__write_uid
@@ -4790,6 +4730,12 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__write_uid
@@ -4838,7 +4784,6 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__write_uid
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__write_uid
@@ -4868,8 +4813,6 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__write_date
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__write_date
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__write_date
@@ -4885,6 +4828,12 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__write_date
@@ -4933,7 +4882,6 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__write_date
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__write_date
@@ -4956,8 +4904,6 @@ msgid "Layers (application, database, operating system)"
 msgstr "Couches (application, base de données, système)"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__index_code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__index_code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__index_code
@@ -5318,11 +5264,6 @@ msgid "Mapping"
 msgstr "Mappage"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__mapping_error
-msgid "Mapping Error"
-msgstr "Erreur de mappage"
-
-#. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_50
 msgid "Marketable securities"
 msgstr "Titres de placement"
@@ -5606,6 +5547,7 @@ msgstr "Motif S.O."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_it_application__name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_portal_contact__name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__name
@@ -5687,6 +5629,8 @@ msgid "Next"
 msgstr "Suivant"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_design__no
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_implemented__no
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_1__no
@@ -6038,16 +5982,9 @@ msgid "Open the lines"
 msgstr "Ouvrir les lignes"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__opening
 msgid "Opening"
 msgstr "Ouverture"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_opening
-msgid "Opening (signed)"
-msgstr "Ouverture (signé)"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__opening_credit
@@ -6066,10 +6003,10 @@ msgid "Opening balance (TB)"
 msgstr "Solde d'ouverture (balance)"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__opening
 #. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_openings_warning
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__opening
 msgid "Opening balances"
 msgstr "Soldes d'ouverture"
 
@@ -6078,16 +6015,6 @@ msgstr "Soldes d'ouverture"
 #: code:addons/ea_audit_tools/models/tb.py:0
 msgid "Opening balances balance"
 msgstr "Soldes d'ouverture équilibrés"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_openingCredit
-msgid "Opening credit"
-msgstr "Ouverture crédit"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__map_openingDebit
-msgid "Opening debit"
-msgstr "Ouverture débit"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -6135,11 +6062,6 @@ msgstr "Tests de fonctionnement"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio_rule__operator
 msgid "Operator"
 msgstr "Opérateur"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_dataset_import_wizard__je_key_columns
-msgid "Optional, for a ledger whose entry is identified by several columns (for instance journal, voucher): headers separated by commas."
-msgstr "Facultatif, pour un grand livre dont l'écriture est identifiée par plusieurs colonnes (par exemple journal, pièce) : en-têtes séparés par des virgules."
 
 #. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_27
@@ -6319,7 +6241,9 @@ msgstr "Schéma"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__ap_open_items
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__ap_open_items
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__ap_open_items
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__ap_open_items
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__ap_open_items
 msgid "Payables"
 msgstr "Fournisseurs"
 
@@ -6332,7 +6256,9 @@ msgstr "Grand livre fournisseurs"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__payroll_register
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__payroll_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__payroll_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__payroll_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__payroll_register
 msgid "Payroll"
 msgstr "Paie"
 
@@ -6513,8 +6439,7 @@ msgstr "Reporter sur l'état C1.1"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__timing__post_audit
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__timing__post_audit
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__timing__post_audit
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__timing__post_audit
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__post_audit
 msgid "Post-audit"
 msgstr "Post-audit"
@@ -6561,8 +6486,7 @@ msgstr "Risques potentiels"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__timing__pre_audit
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__timing__pre_audit
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__timing__pre_audit
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__timing__pre_audit
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__pre_audit
 msgid "Pre-audit"
 msgstr "Pré-audit"
@@ -6649,8 +6573,6 @@ msgid "Prevent"
 msgstr "Prévenir"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__preview_html
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__preview_html
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tod_wizard__preview_html
 msgid "Preview Html"
 msgstr ""
@@ -6671,8 +6593,7 @@ msgstr "N-1"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__prior
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__prior
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__timing__prior_year
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__timing__prior_year
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_import_wizard__timing__prior_year
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__timing__prior_year
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__prior_year
 msgid "Prior year"
 msgstr "Exercice N-1"
@@ -6927,7 +6848,7 @@ msgid "Raw materials and related supplies"
 msgstr "Matières premières et fournitures liées"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 msgid "Read the file"
 msgstr "Lire le fichier"
 
@@ -6977,7 +6898,9 @@ msgstr "Réfuté"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_receivables
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__ar_open_items
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__ar_open_items
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__ar_open_items
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__ar_open_items
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__ar_open_items
 msgid "Receivables"
 msgstr "Créances"
 
@@ -7252,11 +7175,6 @@ msgstr "Demandé"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
 msgid "Requested on"
 msgstr "Demandé le"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__required_column
-msgid "Required"
-msgstr "Obligatoire"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fscp__je_controls_design
@@ -7568,12 +7486,6 @@ msgid "SCOTs and controls"
 msgstr "SCOT et contrôles"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__source_sha256
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__source_sha256
-msgid "SHA-256"
-msgstr "SHA-256"
-
-#. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_grouping_rule
 msgid "SYSCOHADA grouping rule"
 msgstr "Règle de regroupement SYSCOHADA"
@@ -7588,13 +7500,6 @@ msgstr "Ventes"
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Same day or before"
 msgstr "Le jour même ou avant"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/dataset_wizard.py:0
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__sample
-msgid "Sample"
-msgstr "Exemple"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__sample_note
@@ -7780,9 +7685,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__sequence
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__sequence
@@ -8036,9 +7943,8 @@ msgid "Status"
 msgstr "État"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__step
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__step
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_step_wizard__step_id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__step
 msgid "Step"
 msgstr "Étape"
 
@@ -8177,6 +8083,7 @@ msgid "Superseded"
 msgstr "Remplacé"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__superseded_at
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__superseded_at
 msgid "Superseded At"
 msgstr "Remplacée le"
@@ -8187,7 +8094,9 @@ msgstr "Remplacée le"
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_supplier
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_supplier_recon_wizard__statement_id
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__supplier_statements
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset_import_wizard__kind__supplier_statements
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__supplier_statements
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__supplier_statements
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__supplier_statements
 msgid "Supplier statements"
 msgstr "Relevés fournisseurs"
 
@@ -8755,11 +8664,10 @@ msgstr "Jeudi"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__timing_hint
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__timing
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_wizard__timing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__timing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_osp__timing
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__timing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__timing
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__timing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__timing
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 msgid "Timing"
@@ -8839,8 +8747,10 @@ msgid "Total Debit"
 msgstr "Total débit"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__display_total
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
 msgid "Total amount"
 msgstr "Montant total"
 
@@ -8929,10 +8839,13 @@ msgstr "Trésorerie-passif"
 #: code:addons/ea_audit_tools/models/tb.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_tb
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_current_label
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__cra_missing__tb
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__trial_balance
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__trial_balance
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__trial_balance
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sap_procedure__actual_source__tb
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__cra_missing__tb
 msgid "Trial balance"
 msgstr "Balance générale"
 
@@ -9030,12 +8943,6 @@ msgstr "Écarts non justifiés"
 #: code:addons/ea_audit_tools/models/tb.py:0
 msgid "Unknown accounts: %(accounts)s"
 msgstr "Comptes inconnus : %(accounts)s"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizard_helpers.py:0
-msgid "Unmapped"
-msgstr "Non affecté"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__use_unusual_pairing
@@ -9145,6 +9052,7 @@ msgid "Variations in produced inventories"
 msgstr "Variations des stocks de biens et services produits"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__version_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__version_no
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__version_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__version_no
@@ -9333,7 +9241,8 @@ msgid "Within the threshold"
 msgstr "Dans le seuil"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_import_map__wizard_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__wizard_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__wizard_id
 msgid "Wizard"
 msgstr ""
 
@@ -9363,6 +9272,8 @@ msgid "Worst (sampling)"
 msgstr "Le plus élevé (échantillonnage)"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_design__yes
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_implemented__yes
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_1__yes
@@ -9427,12 +9338,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "ea_audit_tools.view_dataset_form"
-msgstr ""
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/dataset.py:0
-msgid "ea_audit_tools.view_dataset_list"
 msgstr ""
 
 #. module: ea_audit_tools
@@ -9719,17 +9624,12 @@ msgid "<b>The last import is invalid and does not drive the file:</b>"
 msgstr "<b>Le dernier import est invalide et ne pilote pas le dossier :</b>"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_import_wizard
-msgid "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choose a file first\" invisible=\"step != 'upload' or file\">Continue</span>"
-msgstr "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choisissez d'abord un fichier\" invisible=\"step != 'upload' or file\">Continuer</span>"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 msgid "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choose a file first\" invisible=\"step != 'upload' or file\">Read the file</span>"
 msgstr "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Choisissez d'abord un fichier\" invisible=\"step != 'upload' or file\">Lire le fichier</span>"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 msgid "Accepted: a .csv or .xlsx file with one line per account. Required: the account number, then a debit and a credit column (movements), or a closing balance."
 msgstr "Accepté : un fichier .csv ou .xlsx, une ligne par compte. Obligatoire : le numéro de compte, puis une colonne débit et une colonne crédit (mouvements), ou un solde de clôture."
 
@@ -9815,12 +9715,6 @@ msgstr "Mode de calcul du seuil"
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "Import one to run the analytics. The thirty analytics can be read without it: use the button above."
 msgstr "Importez-en un pour exécuter les analyses. Les trente analyses se consultent sans grand livre : utilisez le bouton ci-dessus."
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
-msgid "Import refused"
-msgstr "Import refusé"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fa_ratio__variance
@@ -9930,7 +9824,7 @@ msgid "Open the trial balance"
 msgstr "Ouvrir la balance"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 msgid "Optional: the label, and the opening balances (opening debit and opening credit, or one signed column). Without opening balances or a prior-year trial balance, the prior-year column reads 0."
 msgstr "Facultatif : le libellé et les soldes d'ouverture (débit et crédit d'ouverture, ou une colonne signée). Sans soldes d'ouverture ni balance N-1, la colonne N-1 affiche 0."
 
@@ -9981,15 +9875,9 @@ msgid "Scope"
 msgstr "Périmètre"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_import_wizard__template_html
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__template_html
 msgid "Template Html"
 msgstr ""
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
-msgid "The file is invalid."
-msgstr "Le fichier est invalide."
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
@@ -10074,3 +9962,749 @@ msgstr "Probabilité contre ampleur, avec l'échelle et la légende."
 #: code:addons/ea_audit_tools/wizards/je_studio.py:0
 msgid "Journal entries"
 msgstr "Écritures de journal"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "\"Read the file\" saves nothing: it opens the file and moves to the matching of its columns."
+msgstr "« Lire le fichier » n'enregistre rien : il ouvre le fichier et passe à la correspondance de ses colonnes."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(count)s point(s) still to settle. The file cannot be imported yet."
+msgstr "%(count)s point(s) à régler. Le fichier ne peut pas encore être importé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(count)s point(s) to read below. None of them blocks the import."
+msgstr "%(count)s point(s) à lire ci-dessous. Aucun ne bloque l'import."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(count)s rows"
+msgstr "%(count)s lignes"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(lines)s lines in the file, %(left)s left out"
+msgstr "%(lines)s lignes dans le fichier, %(left)s écartées"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(name)s is chosen for more than one column: keep it on one."
+msgstr "%(name)s est choisi pour plusieurs colonnes : gardez-le sur une seule."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(name)s: choose its column."
+msgstr "%(name)s : choisissez sa colonne."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "%(name)s: choose the column(s) for %(ways)s."
+msgstr "%(name)s : choisissez la ou les colonnes pour %(ways)s."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__step__upload
+msgid "1 Upload"
+msgstr "1 Fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__step__match
+msgid "2 Match the columns"
+msgstr "2 Correspondance des colonnes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__step__check
+msgid "3 Check"
+msgstr "3 Contrôle"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"A blocking point stops the import\" invisible=\"step != 'check' or not blocking\">Import</span>"
+msgstr "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Un point bloquant empêche l'import\" invisible=\"step != 'check' or not blocking\">Importer</span>"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Match the mandatory fields first\" invisible=\"step != 'match' or not missing_count\">Check the file</span>"
+msgstr "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Faites d'abord correspondre les champs obligatoires\" invisible=\"step != 'match' or not missing_count\">Contrôler le fichier</span>"
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_import_matching_client_kind_uniq
+msgid "A client has one remembered matching per kind of file."
+msgstr "Un client a une seule correspondance retenue par type de fichier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A field is chosen for more than one column of the file: keep it on one column."
+msgstr "Un champ est choisi pour plusieurs colonnes du fichier : gardez-le sur une seule colonne."
+
+#. module: ea_audit_tools
+#: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_import_field_kind_key_uniq
+msgid "A field is listed once for a kind of file."
+msgstr "Un champ figure une seule fois pour un type de fichier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A later upload has taken over from this one. Delete the later upload to use this one again."
+msgstr "Un import plus récent a remplacé celui-ci. Supprimez l'import plus récent pour utiliser de nouveau celui-ci."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
+msgid "A later upload of this kind and timing has taken over: this one is kept as a record and is not in use. It is in use again if the later upload is deleted."
+msgstr "Un import plus récent de ce type et de ce moment l'a remplacé : celui-ci est conservé pour mémoire et n'est pas utilisé. Il est de nouveau utilisé si l'import plus récent est supprimé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "A line stays in the engagement log: who deleted it, when, the file name, its rows and its totals."
+msgstr "Une ligne reste dans le journal de la mission : qui l'a supprimé, quand, le nom du fichier, ses lignes et ses totaux."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "Accepted: a .csv or .xlsx file. The mandatory fields of this kind of data are named at the next step."
+msgstr "Accepté : un fichier .csv ou .xlsx. Les champs obligatoires de ce type de données sont indiqués à l'étape suivante."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "All mandatory fields are matched. %(count)s rows read."
+msgstr "Tous les champs obligatoires ont leur colonne. %(count)s lignes lues."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__field_id
+msgid "AuditISA field"
+msgstr "Champ AuditISA"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__csv_separator__auto
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__date_format__auto
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__decimal_separator__auto
+msgid "Automatic"
+msgstr "Automatique"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "Back to matching"
+msgstr "Retour à la correspondance"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "Back to upload"
+msgstr "Retour au fichier"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Balanced"
+msgstr "Équilibré"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__blocking
+msgid "Blocking"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Blocks the import"
+msgstr "Bloque l'import"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__check_html
+msgid "Check Html"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "Check the file"
+msgstr "Contrôler le fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard_column__match_state__you
+msgid "Chosen by you"
+msgstr "Choisie par vous"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__header
+msgid "Column in your file"
+msgstr "Colonne de votre fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_import_wizard_column
+msgid "Column of an imported file"
+msgstr "Colonne d'un fichier importé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__csv_separator
+msgid "Column separator"
+msgstr "Séparateur de colonnes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__column_ids
+msgid "Columns of the file"
+msgstr "Colonnes du fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__csv_separator__,
+msgid "Comma ,"
+msgstr "Virgule ,"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__decimal_separator__comma
+msgid "Comma: 1 234,56"
+msgstr "Virgule : 1 234,56"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__date_format
+msgid "Date format"
+msgstr "Format des dates"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__date_format__dmy
+msgid "Day/month/year: 31/12/2025"
+msgstr "Jour/mois/année : 31/12/2025"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__decimal_separator
+msgid "Decimal separator"
+msgstr "Séparateur décimal"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_delete_wizard
+msgid "Delete"
+msgstr "Supprimer"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_import_delete_wizard
+msgid "Delete an upload"
+msgstr "Supprimer un import"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Delete the upload of %(stamp)s?"
+msgstr "Supprimer l'import du %(stamp)s ?"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+msgid "Delete this upload"
+msgstr "Supprimer cet import"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
+msgid "Delete this version"
+msgstr "Supprimer cette version"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__detected_field_id
+msgid "Detected Field"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Download the template for this kind of data"
+msgstr "Télécharger le modèle pour ce type de données"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+msgid "Each line is one column of your file. Open the list on a line to choose another field, or \"Do not import\" to leave the column out. A column not recognised is left out unless you choose a field for it."
+msgstr "Chaque ligne est une colonne de votre fichier. Ouvrez la liste d'une ligne pour choisir un autre champ, ou « Ne pas importer » pour écarter la colonne. Une colonne non reconnue est écartée sauf si vous lui choisissez un champ."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Effect"
+msgstr "Effet"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_import_field
+msgid "Field of an imported file"
+msgstr "Champ d'un fichier importé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__sample
+msgid "First three values"
+msgstr "Trois premières valeurs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__found_note
+msgid "Found Note"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Found in the file: %(found)s."
+msgstr "Trouvé dans le fichier : %(found)s."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__has_dates
+msgid "Has Dates"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__match_state
+msgid "How it was matched"
+msgstr "Origine de la correspondance"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_import_wizard
+msgid "Import data"
+msgstr "Importer des données"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Imported"
+msgstr "Importé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Imported with a warning"
+msgstr "Importé avec un avertissement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__is_current
+msgid "In use"
+msgstr "Utilisé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__is_excel
+msgid "Is Excel"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "It will be the one in use. The upload of %(stamp)s (%(file)s) stays in the list, superseded."
+msgstr "Ce sera l'import utilisé. L'import du %(stamp)s (%(file)s) reste dans la liste, remplacé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "It will drive the file."
+msgstr "Elle pilotera le dossier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "It will drive the file. The version imported on %(stamp)s (%(file)s) stays in the list, superseded."
+msgstr "Elle pilotera le dossier. La version importée le %(stamp)s (%(file)s) reste dans la liste, remplacée."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_delete_wizard
+msgid "Keep it"
+msgstr "Conserver"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__kind
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__kind
+msgid "Kind of data"
+msgstr "Type de données"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb__last_version_no
+msgid "Last Version No"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Left out"
+msgstr "Écartée"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Line %(rows)s"
+msgstr "Ligne %(rows)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Lines %(rows)s"
+msgstr "Lignes %(rows)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Lines %(rows)s and %(more)s more"
+msgstr "Lignes %(rows)s et %(more)s autres"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Lines with no account or no entry number. They belong to no entry."
+msgstr "Lignes sans compte ou sans numéro d'écriture. Elles n'appartiennent à aucune écriture."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__mandatory
+msgid "Mandatory"
+msgstr "Obligatoire"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__match_html
+msgid "Match Html"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard_column__match_state__auto
+msgid "Matched automatically"
+msgstr "Reconnue automatiquement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__matching
+msgid "Matching"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__missing_count
+msgid "Missing Count"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Missing: %(name)s"
+msgstr "Manquant : %(name)s"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__date_format__mdy
+msgid "Month/day/year: 12/31/2025"
+msgstr "Mois/jour/année : 12/31/2025"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "No line of the file carries both an account and an entry number: there is nothing to import."
+msgstr "Aucune ligne du fichier ne porte à la fois un compte et un numéro d'écriture : il n'y a rien à importer."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard_column__match_state__none
+msgid "Not recognised"
+msgstr "Non reconnue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_import_wizard__je_key_column_ids
+msgid "Optional, for a ledger whose entry is identified by several columns together (for instance journal and voucher number): choose them here, four at most."
+msgstr "Facultatif, pour un grand livre dont l'écriture est identifiée par plusieurs colonnes ensemble (par exemple le journal et le numéro de pièce) : choisissez-les ici, quatre au plus."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__decimal_separator__point
+msgid "Point: 1,234.56"
+msgstr "Point : 1,234.56"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Read the blocking points below. Correct the file, or go back to the matching if a wrong column was chosen. Nothing has been saved."
+msgstr "Lisez les points bloquants ci-dessous. Corrigez le fichier, ou revenez à la correspondance si une mauvaise colonne a été choisie. Rien n'a été enregistré."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__remember
+msgid "Remember this matching for this client's next file of this kind"
+msgstr "Retenir cette correspondance pour le prochain fichier de ce type de ce client"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_import_matching
+msgid "Remembered matching of a client's file"
+msgstr "Correspondance retenue pour le fichier d'un client"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__row_count
+msgid "Row Count"
+msgstr ""
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Rows read"
+msgstr "Lignes lues"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Samples and selections already drawn from it are kept, without their link to this file."
+msgstr "Les échantillons et sélections déjà tirés de ce fichier sont conservés, sans leur lien avec lui."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__csv_separator__;
+msgid "Semicolon ;"
+msgstr "Point-virgule ;"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__sheet_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__sheet_ids
+msgid "Sheet"
+msgstr "Feuille"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_import_wizard_sheet
+msgid "Sheet of an imported Excel file"
+msgstr "Feuille d'un fichier Excel importé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__skip
+msgid "Skip"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__starred
+msgid "Starred"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_delete_wizard__summary_html
+msgid "Summary Html"
+msgstr ""
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__csv_separator__tab
+msgid "Tab"
+msgstr "Tabulation"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "The column \"%(column)s\" holds something that is not an amount, for instance \"%(value)s\". These lines count for nothing in the total."
+msgstr "La colonne « %(column)s » contient autre chose qu'un montant, par exemple « %(value)s ». Ces lignes ne comptent pas dans le total."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "The file can be imported. Nothing is saved until you press Import."
+msgstr "Le fichier peut être importé. Rien n'est enregistré tant que vous n'appuyez pas sur Importer."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "The file cannot be imported."
+msgstr "Le fichier ne peut pas être importé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The file was not imported and nothing of it was saved. %(reasons)s"
+msgstr "Le fichier n'a pas été importé et rien n'en a été enregistré. %(reasons)s"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__header_row
+msgid "The first line holds the column titles"
+msgstr "La première ligne contient les titres des colonnes"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "The rows of this upload are removed for good."
+msgstr "Les lignes de cet import sont supprimées définitivement."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "This upload is the one in use, and no other one of this kind and timing remains."
+msgstr "Cet import est celui utilisé, et il n'en reste aucun autre de ce type et de ce moment."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "This upload is the one in use. Once it is deleted, the upload of %(stamp)s (%(file)s) is in use again."
+msgstr "Cet import est celui utilisé. Une fois supprimé, l'import du %(stamp)s (%(file)s) est de nouveau utilisé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "This version drives the file and no other valid pre-audit version remains: once it is deleted, the file has no trial balance and the lead schedules are emptied."
+msgstr "Cette version pilote le dossier et il ne reste aucune autre version pré-audit valide : une fois supprimée, le dossier n'a plus de balance et les feuilles maîtresses sont vidées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "This version drives the file. Once it is deleted, the version imported on %(stamp)s (%(file)s) drives the file again and the lead schedules are recalculated."
+msgstr "Cette version pilote le dossier. Une fois supprimée, la version importée le %(stamp)s (%(file)s) pilote de nouveau le dossier et les feuilles maîtresses sont recalculées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "This version is the one in use for its timing, and no other one remains for it."
+msgstr "Cette version est celle utilisée pour son moment, et il n'en reste aucune autre."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "This version is the one in use for its timing. Once it is deleted, the version imported on %(stamp)s (%(file)s) is used instead."
+msgstr "Cette version est celle utilisée pour son moment. Une fois supprimée, la version importée le %(stamp)s (%(file)s) est utilisée à sa place."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Total credit"
+msgstr "Total crédit"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Total debit"
+msgstr "Total débit"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
+msgid "Total lines, titles and lines with no account number. They are not accounts."
+msgstr "Lignes de total, titres et lignes sans numéro de compte. Ce ne sont pas des comptes."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__csv_separator__|
+msgid "Vertical bar |"
+msgstr "Barre verticale |"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "What the system found"
+msgstr "Ce que le système a trouvé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Where"
+msgstr "Où"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "Whole file"
+msgstr "Tout le fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__date_format__ymd
+msgid "Year-month-day: 2025-12-31"
+msgstr "Année-mois-jour : 2025-12-31"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "by %(name)s on %(stamp)s"
+msgstr "par %(name)s le %(stamp)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "column separator: %(found)s"
+msgstr "séparateur de colonnes : %(found)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "comma"
+msgstr "virgule"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "dates: %(found)s"
+msgstr "dates : %(found)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "day/month/year"
+msgstr "jour/mois/année"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "decimal separator: %(found)s"
+msgstr "séparateur décimal : %(found)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "difference %(amount)s"
+msgstr "écart %(amount)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "does not drive the file"
+msgstr "ne pilote pas le dossier"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "drives the file"
+msgstr "pilote le dossier"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "in use"
+msgstr "utilisé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "mandatory"
+msgstr "obligatoire"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "month/day/year"
+msgstr "mois/jour/année"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "or"
+msgstr "ou"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "point"
+msgstr "point"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "semicolon"
+msgstr "point-virgule"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "superseded"
+msgstr "remplacé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "tab"
+msgstr "tabulation"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "vertical bar"
+msgstr "barre verticale"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+msgid "year-month-day"
+msgstr "année-mois-jour"

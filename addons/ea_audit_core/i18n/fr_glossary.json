@@ -199,5 +199,8 @@
 "Reporting framework": "Référentiel comptable",
 "Revised SYSCOHADA, normal system": "SYSCOHADA révisé, système normal",
 "Sole director (administrateur général)": "Administrateur général",
-"The language of the audit report, the letters, the legal documents and the exports of this engagement.": "La langue du rapport d'audit, des lettres, des documents légaux et des exports de cette mission."
+"prior year": "exercice précédent",
+"Trial balance imported: %(file)s (%(status)s, %(count)s rows)": "Balance importée : %(file)s (%(status)s, %(count)s lignes)",
+"Trial balance deleted: %(file)s (%(status)s, imported on %(date)s, %(count)s rows, total debit %(debit)s, total credit %(credit)s)": "Balance supprimée : %(file)s (%(status)s, importée le %(date)s, %(count)s lignes, total débit %(debit)s, total crédit %(credit)s)",
+"%(file)s deleted (%(kind)s, %(status)s, imported on %(date)s, %(count)s rows, total %(amount)s)": "%(file)s supprimé (%(kind)s, %(status)s, importé le %(date)s, %(count)s lignes, total %(amount)s)"
 }

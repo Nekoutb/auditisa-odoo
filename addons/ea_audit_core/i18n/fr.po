@@ -4130,3 +4130,27 @@ msgstr "Choisissez Règle du cabinet, Oui ou Non."
 #: code:addons/ea_audit_core/models/apikeys.py:0
 msgid "API keys are disabled on this firm's server, for every user."
 msgstr "Les clés API sont désactivées sur le serveur du cabinet, pour tous les utilisateurs."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "prior year"
+msgstr "exercice précédent"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Trial balance imported: %(file)s (%(status)s, %(count)s rows)"
+msgstr "Balance importée : %(file)s (%(status)s, %(count)s lignes)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Trial balance deleted: %(file)s (%(status)s, imported on %(date)s, %(count)s rows, total debit %(debit)s, total credit %(credit)s)"
+msgstr "Balance supprimée : %(file)s (%(status)s, importée le %(date)s, %(count)s lignes, total débit %(debit)s, total crédit %(credit)s)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(file)s deleted (%(kind)s, %(status)s, imported on %(date)s, %(count)s rows, total %(amount)s)"
+msgstr "%(file)s supprimé (%(kind)s, %(status)s, importé le %(date)s, %(count)s lignes, total %(amount)s)"
