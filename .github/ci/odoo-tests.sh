@@ -48,7 +48,7 @@ run_tests() {
   # A failing test or a broken data file does not always change the exit code, so the log decides too.
   if [ "$rc" != 0 ] || grep -qE ' (ERROR|CRITICAL) ' "$log"; then
     echo "Odoo exit code: $rc"
-    grep -E -A25 ' (ERROR|CRITICAL) ' "$log" | tail -n 150 || tail -n 50 "$log"
+    grep -E -A60 ' (ERROR|CRITICAL) ' "$log" | tail -n 200 || tail -n 50 "$log"
     exit 1
   fi
   # A clean log alone is not enough: the registry must have loaded.
