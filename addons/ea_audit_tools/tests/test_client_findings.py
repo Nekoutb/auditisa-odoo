@@ -118,7 +118,8 @@ class TestFinancialAnalysisScreen(ToolsCase):
         self.assertIn("grand livre", dso.note)
         roe = Ratio.search([("engagement_id", "=", self.engagement.id), ("key", "=", "roe")])
         self.assertIn("après impôt", roe.label)
-        self.assertIn("89", roe.formula)
+        self.assertIn("capitaux propres", roe.formula)
+        self.assertNotRegex(roe.formula, r"d{2}")  # general words, no account numbers (owner, 2026-11-15)
 
 
 @tagged("post_install", "-at_install")
