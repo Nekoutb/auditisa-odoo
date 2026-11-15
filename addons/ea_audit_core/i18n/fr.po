@@ -4267,7 +4267,9 @@ msgid "Risk unlinked from %(index)s on the significant accounts: %(title)s"
 msgstr "Risque retiré de %(index)s dans les comptes significatifs : %(title)s"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "1. How much is automated"
 msgstr "1. Degré d'automatisation"
 
@@ -4278,37 +4280,51 @@ msgid "2 to 3"
 msgstr "2 à 3"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "2. Software customised, integrated or built in-house"
 msgstr "2. Logiciels personnalisés, intégrés ou développés en interne"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "3. Big IT changes this year"
 msgstr "3. Grands changements informatiques cette année"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "4. Number of interfaces"
 msgstr "4. Nombre d'interfaces"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "5. IT outsourced to several providers"
 msgstr "5. Informatique confiée à plusieurs prestataires"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "6. Reliance on reports from the system"
 msgstr "6. Confiance dans les états produits par le système"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "7. Data entered by hand or automatically"
 msgstr "7. Données saisies à la main ou automatiquement"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "8. Volume of data"
 msgstr "8. Volume de données"
 
@@ -4352,12 +4368,16 @@ msgid "Answer every question of the profile before concluding. Still to answer: 
 msgstr "Répondez à toutes les questions du profil avant de conclure. Reste à répondre : %(questions)s."
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Approach and history"
 msgstr "Approche et historique"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Are some components audited by other auditors?"
 msgstr "Certaines composantes sont-elles auditées par d'autres auditeurs ?"
 
@@ -4367,7 +4387,9 @@ msgid "Audit period from"
 msgstr "Période auditée du"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Back to the engagement"
 msgstr "Retour à la mission"
 
@@ -4382,7 +4404,9 @@ msgid "Big IT changes this year"
 msgstr "Grands changements informatiques cette année"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Close monitoring"
 msgstr "Surveillance rapprochée"
 
@@ -4419,7 +4443,9 @@ msgid "Designated by law or by the firm"
 msgstr "Désignée par la loi ou par le cabinet"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Does it prepare consolidated accounts?"
 msgstr "Établit-elle des comptes consolidés ?"
 
@@ -4429,7 +4455,9 @@ msgid "Engagement profile questionnaire"
 msgstr "Questionnaire de profil de la mission"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Engagement quality review"
 msgstr "Revue qualité de la mission"
 
@@ -4476,7 +4504,9 @@ msgid "How much is automated"
 msgstr "Degré d'automatisation"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "How the evidence will be obtained"
 msgstr "Comment les éléments probants seront obtenus"
 
@@ -4486,7 +4516,9 @@ msgid "ISA for LCE"
 msgstr "ISA pour les EMC"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "IT"
 msgstr "Informatique"
 
@@ -4501,7 +4533,9 @@ msgid "Insurer"
 msgstr "Assureur"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__level
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Level"
 msgstr "Niveau"
 
@@ -4639,7 +4673,9 @@ msgid "Q1 listed or offered to the public"
 msgstr "Q1 cotée ou faisant appel public à l'épargne"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"
 msgstr "Q1. Ses actions ou obligations sont-elles cotées (BVMAC ou autre bourse) ou offertes au public, ou le seront-elles dans les deux ans environ ?"
 
@@ -4655,7 +4691,9 @@ msgid "Q10 a regulator sets the reporting rules or receives the accounts"
 msgstr "Q10 un régulateur fixe les règles de reporting ou reçoit les comptes"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q10. Does a regulator set the entity's reporting rules or receive its accounts?"
 msgstr "Q10. Un régulateur fixe-t-il les règles de reporting de l'entité ou reçoit-il ses comptes ?"
 
@@ -4671,7 +4709,9 @@ msgid "Q11 known or suspected fraud, non-compliance or whistle-blowing reports"
 msgstr "Q11 fraude avérée ou suspectée, non-conformité ou signalements"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"
 msgstr "Q11. Existe-t-il une fraude avérée ou suspectée, un non-respect des textes légaux et réglementaires, ou des signalements de lanceurs d'alerte ?"
 
@@ -4687,7 +4727,9 @@ msgid "Q12 not all owners are known"
 msgstr "Q12 tous les propriétaires ne sont pas connus"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q12. Are all owners, including those who really own and control it, known?"
 msgstr "Q12. Tous les propriétaires, y compris ceux qui la possèdent et la contrôlent réellement, sont-ils connus ?"
 
@@ -4703,7 +4745,9 @@ msgid "Q13 a process too automated for testing balances alone"
 msgstr "Q13 un processus trop automatisé pour le seul test des soldes"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"
 msgstr "Q13. Un processus est-il si automatisé que tester les soldes et les opérations seuls ne peut pas donner assez d'éléments probants ?"
 
@@ -4724,7 +4768,9 @@ msgid "Q14 we rely on a service provider's own auditor report"
 msgstr "Q14 nous nous appuyons sur le rapport de l'auditeur d'un prestataire"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q14. Who keeps the books or processes key data?"
 msgstr "Q14. Qui tient la comptabilité ou traite les données clés ?"
 
@@ -4751,7 +4797,9 @@ msgid "Q15 under the firm's close monitoring"
 msgstr "Q15 sous surveillance rapprochée du cabinet"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q15. Is the engagement under the firm's close monitoring? Is an engagement quality review required?"
 msgstr "Q15. La mission est-elle sous surveillance rapprochée du cabinet ? Une revue qualité de la mission est-elle exigée ?"
 
@@ -4783,7 +4831,9 @@ msgid "Q17 doubt about going concern"
 msgstr "Q17 doute sur la continuité d'exploitation"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q17. Any doubt about going concern?"
 msgstr "Q17. Un doute sur la continuité d'exploitation ?"
 
@@ -4799,7 +4849,9 @@ msgid "Q18 significant related-party or unusual transactions"
 msgstr "Q18 transactions importantes avec des parties liées ou inhabituelles"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q18. Significant related-party or unusual transactions outside the normal business?"
 msgstr "Q18. Des transactions importantes avec des parties liées ou inhabituelles, hors de l'activité normale ?"
 
@@ -4841,7 +4893,9 @@ msgid "Q20 First-year audit"
 msgstr "Q20 Premier exercice audité"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q20. Is this a first-year audit?"
 msgstr "Q20. S'agit-il d'un premier exercice audité ?"
 
@@ -4857,7 +4911,9 @@ msgid "Q3 controls testing required by law or a regulator"
 msgstr "Q3 tests des contrôles exigés par la loi ou un régulateur"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q3. Does a law or regulator require the auditor to test internal controls?"
 msgstr "Q3. Une loi ou un régulateur exige-t-il que l'auditeur teste le contrôle interne ?"
 
@@ -4905,7 +4961,9 @@ msgid "Q5 more than 3 activities"
 msgstr "Q5 plus de 3 activités"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q5. How many distinct activities or revenue streams?"
 msgstr "Q5. Combien d'activités ou de sources de revenus distinctes ?"
 
@@ -4921,7 +4979,9 @@ msgid "Q6 more than 3 sites"
 msgstr "Q6 plus de 3 sites"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Q6. How many sites keep accounting records or hold significant inventory?"
 msgstr "Q6. Combien de sites tiennent une comptabilité ou détiennent des stocks importants ?"
 
@@ -4990,7 +5050,9 @@ msgid "Rely on controls"
 msgstr "S'appuyer sur les contrôles"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Risk"
 msgstr "Risques"
 
@@ -5005,7 +5067,9 @@ msgid "Scaled file: core and standard task templates."
 msgstr "Dossier allégé : modèles de tâches de base et standard."
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "See the tasks"
 msgstr "Voir les tâches"
 
@@ -5025,7 +5089,9 @@ msgid "Something else (tick below)"
 msgstr "Autre chose (cochez ci-dessous)"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Specialists, people and ownership"
 msgstr "Spécialistes, personnes et propriété"
 
@@ -5053,6 +5119,7 @@ msgstr "Filiale ou succursale"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement.py:0
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Tasks"
 msgstr "Tâches"
 
@@ -5090,12 +5157,16 @@ msgid "The audit period must start before it ends."
 msgstr "La période auditée doit commencer avant de finir."
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "The business"
 msgstr "L'activité"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "The entity"
 msgstr "L'entité"
 
@@ -5128,7 +5199,9 @@ msgid "Volume of data"
 msgstr "Volume de données"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Will we rely on that provider's own auditor's report?"
 msgstr "Nous appuierons-nous sur le rapport de l'auditeur de ce prestataire ?"
 
@@ -5141,3 +5214,341 @@ msgstr "ex. Commissariat aux comptes 2025"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__period_end
 msgid "to"
 msgstr "au"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "%(n)s of %(total)s answered"
+msgstr "%(n)s sur %(total)s répondues"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Section %(n)s of %(total)s"
+msgstr "Section %(n)s sur %(total)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Level so far"
+msgstr "Niveau à ce stade"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Not settled yet"
+msgstr "Pas encore fixé"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "No sign of complexity so far. Very simple is still possible."
+msgstr "Aucun signe de complexité à ce stade. Très simple reste possible."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "No sign of complexity so far. Not Very simple because:"
+msgstr "Aucun signe de complexité à ce stade. Pas Très simple parce que :"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "%s tasks so far"
+msgstr "%s tâches à ce stade"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "%s tasks"
+msgstr "%s tâches"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Still to answer: 1 question. The level can still change."
+msgstr "Reste à répondre : 1 question. Le niveau peut encore changer."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Still to answer: %s questions. The level can still change."
+msgstr "Reste à répondre : %s questions. Le niveau peut encore changer."
+
+#. module: ea_audit_core
+#. odoo-python
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Available once all 20 questions are answered."
+msgstr "Disponible une fois les 20 questions répondues."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Puts the tasks on the file. You can reopen the questionnaire later."
+msgstr "Met les tâches dans le dossier. Vous pourrez rouvrir le questionnaire plus tard."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Concluded on %(date)s by %(name)s. Changing an answer works the level out again and only adds tasks."
+msgstr "Conclu le %(date)s par %(name)s. Changer une réponse recalcule le niveau et ne fait qu'ajouter des tâches."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Engagement profile"
+msgstr "Profil de la mission"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Previous"
+msgstr "Précédente"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Next section"
+msgstr "Section suivante"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answers are saved automatically."
+msgstr "Les réponses sont enregistrées automatiquement."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Saving…"
+msgstr "Enregistrement…"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Saved"
+msgstr "Enregistré"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Provisional"
+msgstr "Provisoire"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Why"
+msgstr "Pourquoi"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Added by your answers:"
+msgstr "Ajoutées par vos réponses :"
+
+#. module: ea_audit_core
+#. odoo-python
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Conclude"
+msgstr "Conclure"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answer the questions that have just appeared to save this change."
+msgstr "Répondez aux questions qui viennent d'apparaître pour enregistrer ce changement."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Read only: this engagement is archived."
+msgstr "Lecture seule : cette mission est archivée."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Read only: the quality reviewer reads the answers but does not change them."
+msgstr "Lecture seule : le réviseur qualité lit les réponses mais ne les modifie pas."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Read only: your role reads the files but does not change them."
+msgstr "Lecture seule : votre rôle permet de lire les dossiers sans les modifier."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "A listing or a public offering always makes the audit Complex."
+msgstr "Une cotation ou une offre au public rend toujours l'audit Complexe."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q2. Is it a public-interest entity?"
+msgstr "Q2. Est-ce une entité d'intérêt public ?"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Bank, microfinance institution, insurer, pension fund, or named as such by law or by the firm."
+msgstr "Banque, établissement de microfinance, assureur, caisse de retraite, ou désignée comme telle par la loi ou par le cabinet."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answer Yes only when testing the controls is an obligation, not a choice."
+msgstr "Répondez Oui seulement lorsque tester les contrôles est une obligation, pas un choix."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q4. Is the entity part of a group?"
+msgstr "Q4. L'entité fait-elle partie d'un groupe ?"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "A branch keeping its own ledger and management also counts. Being in a group alone does not make it Complex."
+msgstr "Une succursale qui tient sa propre comptabilité et a sa propre direction compte aussi. Faire partie d'un groupe ne suffit pas à la rendre Complexe."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Count what management follows and reports separately."
+msgstr "Comptez ce que la direction suit et présente séparément."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Count offices, plants, shops or warehouses with their own records or large stocks."
+msgstr "Comptez les bureaux, usines, magasins ou entrepôts qui ont leur propre comptabilité ou des stocks importants."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q7. Major change this year?"
+msgstr "Q7. Changement majeur cette année ?"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "New activity, acquisition, restructuring or new management."
+msgstr "Nouvelle activité, acquisition, restructuration ou nouvelle direction."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q8. Rate each IT point."
+msgstr "Q8. Notez chaque point informatique."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "One point rated High makes the audit Complex. Low means simple, off-the-shelf and stable; High means custom-built, many interfaces or heavy reliance on reports from the system."
+msgstr "Un seul point noté Élevé rend l'audit Complexe. Faible : simple, standard et stable ; Élevé : développé sur mesure, nombreuses interfaces ou forte confiance dans les états produits par le système."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q9. Will specialists be needed, and on what?"
+msgstr "Q9. Faudra-t-il des spécialistes, et sur quoi ?"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Actuary, valuer, engineer, IT or tax. Tax alone keeps Very simple possible."
+msgstr "Actuaire, évaluateur, ingénieur, informatique ou fiscalité. La fiscalité seule laisse Très simple possible."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "For example a sector regulator that fixes the form of the accounts or must receive them."
+msgstr "Par exemple un régulateur sectoriel qui fixe la forme des comptes ou doit les recevoir."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Yes adds the fraud and laws work: P5.1, E3.1 and E6.1."
+msgstr "Oui ajoute les travaux sur la fraude et les textes : P5.1, E3.1 et E6.1."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Think of the people who really own or control it, even through others."
+msgstr "Pensez aux personnes qui la possèdent ou la contrôlent réellement, même par l'intermédiaire d'autres."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "For example sales recorded only by the system, with no document to check."
+msgstr "Par exemple des ventes enregistrées uniquement par le système, sans pièce à vérifier."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Anyone other than the entity itself adds S5.2, service organisations."
+msgstr "Toute personne autre que l'entité elle-même ajoute S5.2, organisations de services."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "A quality review adds C4.2."
+msgstr "Une revue qualité ajoute C4.2."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q16. Significant risks beyond the presumed ones, or complex estimates?"
+msgstr "Q16. Des risques importants au-delà de ceux présumés, ou des estimations complexes ?"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "For example impairment, provisions or fair values with high uncertainty."
+msgstr "Par exemple des dépréciations, des provisions ou des justes valeurs très incertaines."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Losses, debts falling due, or the loss of a key customer or lender."
+msgstr "Pertes, dettes arrivant à échéance, ou perte d'un client ou d'un prêteur clé."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Dealings with owners, managers or their companies, or one-off operations outside the normal business."
+msgstr "Opérations avec les propriétaires, les dirigeants ou leurs sociétés, ou opérations ponctuelles hors de l'activité normale."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Q19. Planned approach"
+msgstr "Q19. Approche prévue"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Balances only at year end, or tick what else you will do: rely on controls, test at an interim date, use internal audit's work."
+msgstr "Les soldes seulement, à la clôture, ou cochez ce que vous ferez d'autre : vous appuyer sur les contrôles, tester à une date intermédiaire, utiliser les travaux de l'audit interne."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Yes adds P1.2, contact with the predecessor auditor."
+msgstr "Oui ajoute P1.2, prise de contact avec l'auditeur précédent."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_1__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_2__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_3__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_4__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_5__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_6__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_7__medium
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_8__medium
+msgid "Medium"
+msgstr "Moyen"
