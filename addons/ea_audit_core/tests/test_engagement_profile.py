@@ -70,8 +70,9 @@ class TestEngagementProfile(EaAuditCase):
         self.assertCode("period-order", wizard.action_create)
 
     def test_a_creator_off_the_team_is_told_and_the_partner_finds_the_banner(self):
+        # Owner ruling 2026-11-15: the firm administrator looks at every file but changes none.
         engagement, action = self.open_new(user=self.admin)
-        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual((action["type"], action.get("res_id")), ("ir.actions.act_window", engagement.id))
         self.assertTrue(engagement.with_user(self.partner).profile_pending)
 
     # ---------------------------------------------------------------- save for later

@@ -165,7 +165,10 @@ class TestGuards(ToolsCase):
             self.assertTrue(record, model)
             self.assertEqual(Model.with_user(self.staff).search_count([("id", "=", record.id)]), 1, model)
             self.assertEqual(Model.with_user(self.outsider).search_count([("id", "=", record.id)]), 0, model)
-            self.assertEqual(Model.with_user(self.admin).search_count([("id", "=", record.id)]), 0, model)
+            # Owner ruling 2026-11-15: the firm administrator looks at every file but changes none.
+            self.assertEqual(Model.with_user(self.admin).search_count([("id", "=", record.id)]), 1, model)
+            with self.assertRaises(AccessError):
+                record.with_user(self.admin).check_access("write")
             with self.assertRaises(AccessError):
                 record.with_user(self.outsider).read(["create_date"])
 
