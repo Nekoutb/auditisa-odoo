@@ -43,8 +43,8 @@ WORDS = {
     "recorded": _lt("recorded"),
     "current": _lt("current edition"),
     "revised_2026": _lt("2026 revised edition"),
-    "significant": _lt("significant"),
-    "not_significant": _lt("not significant"),
+    "Significant": _lt("Significant"),
+    "Not significant": _lt("Not significant"),
 }
 
 # The line, in order, as lists: the translation export reads a string in a tuple after a _lt as a term.
@@ -150,9 +150,9 @@ _ENTRIES = (
     [r"^Test-of-controls sample redrawn \(draw (?P<draw>\d+)\): (?P<done>\d+) of (?P<total>\d+) — (?P<why>.*)$",
      _lt("Test-of-controls sample redrawn (draw %(draw)s): %(done)s of %(total)s. %(why)s")],
     # P6.2 (owner's request of 2026-11-15): who moved an index from its status, and why.
-    [r"^Significance of (?P<index>\S+) changed from (?P<status>\S+) to (?P<word>\S+) by (?P<name>.+?): (?P<why>.*)$",
+    [r"^Significance of (?P<index>\S+) changed from (?P<status>.+?) to (?P<word>.+?) by (?P<name>.+?): (?P<why>.*)$",
      _lt("Significance of %(index)s changed from %(status)s to %(word)s by %(name)s: %(why)s")],
-    [r"^Significance of (?P<index>\S+) changed from (?P<status>\S+) to (?P<word>\S+) by (?P<name>.+)$",
+    [r"^Significance of (?P<index>\S+) changed from (?P<status>.+?) to (?P<word>.+?) by (?P<name>.+)$",
      _lt("Significance of %(index)s changed from %(status)s to %(word)s by %(name)s")],
     [r"^SCOT assigned to (?P<name>.+): (?P<title>.*)$", _lt("SCOT assigned to %(name)s: %(title)s")],
     [r"^Trial balance imported: (?P<file>.+) \((?P<status>\w+), (?P<count>\d+) rows\)$",

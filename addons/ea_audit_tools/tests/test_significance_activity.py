@@ -14,8 +14,8 @@ from .common import ToolsCase, to_bytes
 LEDGER = """Compte;N° écriture;Libellé;Date;Débit;Crédit;Saisi par;Approuvé par
 411000;VE001;Facture 1;15/01/2025;1 000,00;;Awa;Paul
 701000;VE001;Facture 1;15/01/2025;;1 000,00;Awa;Paul
-411000;VE002;Facture 2;16/01/2025;500,00;;Ben;
-701000;VE002;Facture 2;16/01/2025;;500,00;Ben;
+411000;VE002;Facture 2;16/01/2025;500,00;;BEN  ;
+706100;VE002;Facture 2;16/01/2025;;500,00;ben;
 521000;BQ001;Encaissement;31/12/2025;1 000,00;;Awa;Marie
 411000;BQ001;Encaissement;31/12/2025;;1 000,00;Awa;Marie
 """
@@ -188,9 +188,9 @@ class TestSignificanceChange(ToolsCase):
         self.assertFalse(row.unjustified)
         (action, summary), = self.trail()
         self.env["res.lang"]._ea_setup_languages()
-        self.assertEqual(summary, "Significance of E changed from not_significant to significant by %s: Covenant ratio account" % self.staff.name)
+        self.assertEqual(summary, "Significance of E changed from Not significant to Significant by %s: Covenant ratio account" % self.staff.name)
         french = translate_summary(action, summary, "fr_FR")
-        self.assertEqual(french, "Statut de E changé de non significatif à significatif par %s : Covenant ratio account" % self.staff.name)
+        self.assertEqual(french, "Statut de E changé de Non significatif à Significatif par %s : Covenant ratio account" % self.staff.name)
         # clearing the reason of a departure is refused too
         self.assertCode("significance-reason-required", row.write, {"justification": ""})
 
@@ -203,7 +203,7 @@ class TestSignificanceChange(ToolsCase):
         self.assertEqual(row.status, "not_significant")
         self.assertFalse(row.overridden)
         self.assertEqual(len(self.trail()), 2)
-        self.assertTrue(self.trail()[0][1].startswith("Significance of E changed from significant to not_significant by "))
+        self.assertTrue(self.trail()[0][1].startswith("Significance of E changed from Significant to Not significant by "))
 
     def test_the_refusal_reads_in_french(self):
         self.import_tb()

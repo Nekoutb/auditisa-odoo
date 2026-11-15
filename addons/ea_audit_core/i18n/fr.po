@@ -4158,14 +4158,14 @@ msgstr "%(file)s supprimé (%(kind)s, %(status)s, importé le %(date)s, %(count)
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "significant"
-msgstr "significatif"
+msgid "Significant"
+msgstr "Significatif"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "not significant"
-msgstr "non significatif"
+msgid "Not significant"
+msgstr "Non significatif"
 
 #. module: ea_audit_core
 #. odoo-python

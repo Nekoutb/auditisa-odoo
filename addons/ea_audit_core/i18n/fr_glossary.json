@@ -203,8 +203,8 @@
 "Trial balance imported: %(file)s (%(status)s, %(count)s rows)": "Balance importée : %(file)s (%(status)s, %(count)s lignes)",
 "Trial balance deleted: %(file)s (%(status)s, imported on %(date)s, %(count)s rows, total debit %(debit)s, total credit %(credit)s)": "Balance supprimée : %(file)s (%(status)s, importée le %(date)s, %(count)s lignes, total débit %(debit)s, total crédit %(credit)s)",
 "%(file)s deleted (%(kind)s, %(status)s, imported on %(date)s, %(count)s rows, total %(amount)s)": "%(file)s supprimé (%(kind)s, %(status)s, importé le %(date)s, %(count)s lignes, total %(amount)s)",
-"significant": "significatif",
-"not significant": "non significatif",
+"Significant": "Significatif",
+"Not significant": "Non significatif",
 "Significance of %(index)s changed from %(status)s to %(word)s by %(name)s: %(why)s": "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s : %(why)s",
 "Significance of %(index)s changed from %(status)s to %(word)s by %(name)s": "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s"
 }

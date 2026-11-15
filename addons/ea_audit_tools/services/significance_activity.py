@@ -21,7 +21,8 @@ def people_columns(mapping):
 
 
 def _person(value):
-    text = (value or "").strip() if isinstance(value, str) else ""
+    """One person however the name was typed: "AWA  N." and "Awa N." are the same."""
+    text = " ".join(value.split()).casefold() if isinstance(value, str) else ""
     return text or None
 
 

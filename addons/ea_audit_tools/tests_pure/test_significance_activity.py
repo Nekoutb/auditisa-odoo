@@ -50,6 +50,28 @@ def test_the_entry_identity_is_the_projections_one():
     assert index_activity((read(row) for row in data), index_resolver([]))["E"]["entries"] == 2
 
 
+def test_revenue_accounts_count_under_ua_and_income_tax_under_o4_as_on_the_tb():
+    read = line_reader(MAPPING)
+    data = [
+        {"Compte": account, "Piece": "J%d" % n, "Saisi": "Awa", "Valide": ""}
+        for n, account in enumerate(["701000", "706100", "707000", "708000", "891000"])
+    ]
+    result = index_activity((read(row) for row in data), index_resolver([]))
+    assert result["UA"]["entries"] == 4
+    assert result["O4"]["entries"] == 1
+
+
+def test_a_name_is_one_person_whatever_its_case_and_spaces():
+    read = line_reader(MAPPING)
+    data = [
+        {"Compte": "411000", "Piece": "1", "Saisi": "AWA  N.", "Valide": "paul"},
+        {"Compte": "411000", "Piece": "2", "Saisi": " Awa n. ", "Valide": "PAUL"},
+        {"Compte": "411000", "Piece": "3", "Saisi": "Ben", "Valide": "Paul T."},
+    ]
+    result = index_activity((read(row) for row in data), index_resolver([]))["E"]
+    assert (result["preparers"], result["reviewers"]) == (2, 2)
+
+
 def test_reviewers_count_approved_by_and_reviewer_together():
     mapping = {"account": "Compte", "jeNumber": "Piece", "approvedBy": "Valide", "reviewer": "Revu"}
     read = line_reader(mapping)

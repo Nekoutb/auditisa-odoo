@@ -8,6 +8,8 @@ from ..services.significance_activity import IndexActivity, line_reader, people_
 from ..services.significant_accounts import significance_rows, specific_refusal, unjustified_count
 
 STATUS_SELECTION = [("significant", "Significant"), ("not_significant", "Not significant")]
+# The trail is written in English with the labels a reader knows (activity_summary translates them).
+STATUS_LABELS = dict(STATUS_SELECTION)
 # Ledger rows read per query when the activity is counted: memory stays bounded on a large ledger.
 ACTIVITY_BATCH = 20000
 
@@ -119,7 +121,7 @@ class Significance(models.Model):
             engagement.with_env(self.env)._ea_log(
                 "significance_changed",
                 "Significance of %s changed from %s to %s by %s%s" % (
-                    as_root.index_code, before_status, after_status, self.env.user.name,
+                    as_root.index_code, STATUS_LABELS[before_status], STATUS_LABELS[after_status], self.env.user.name,
                     ": %s" % " ".join(reason.split()) if reason.strip() else "",
                 ),
             )

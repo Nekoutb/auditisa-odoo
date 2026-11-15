@@ -67,3 +67,22 @@ a.o_ea_chip_warn { color: $ea-amber !important; }
     }
     &.o_ea_tile_off { opacity: .55; }
 }
+
+// Significant accounts (owner, 2026-11-15: no cut text). Headers and cells wrap onto a second
+// line instead of ending in "…", in English and in French.
+.o_ea_significance_list {
+    thead th {
+        vertical-align: bottom;
+        .text-truncate, span {
+            white-space: normal !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+        }
+    }
+    td.o_data_cell, td.o_data_cell .o_field_widget, td.o_data_cell span {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+    td.o_data_cell .o_select_menu input { text-overflow: clip !important; }
+}
