@@ -168,14 +168,23 @@ class TestRisks(ToolsCase):
         fraud.write({"likelihood": "medium"})
         self.assertCode("invalid-field", fraud.write, {"rebutted": True})
 
-    def test_rebuttal_is_the_engagement_partners(self):
+    def test_rebuttal_is_proposed_by_the_team_and_approved_by_the_engagement_partner(self):
         fraud = self.presumed("revenue_fraud")
-        self.assertCode("rebut-partner-only", fraud.with_user(self.manager).rebut, "reason")
-        self.assertCode("justification-required", fraud.with_user(self.partner).rebut, " ")
+        self.assertCode("justification-required", fraud.with_user(self.manager).propose_rebuttal, " ")
+        self.assertCode("rebuttal-not-proposed", fraud.with_user(self.partner).approve_rebuttal)
+        fraud.with_user(self.manager).propose_rebuttal("No incentive: fixed-price contracts.")
+        self.assertCode("rebuttal-already-proposed", fraud.with_user(self.staff).propose_rebuttal, "again")
+        # still live and on revenue while it waits
+        self.assertFalse(fraud.sudo().rebutted)
+        self.assertEqual(fraud.sudo().rebuttal_state, "proposed")
+        self.assertIn("UA", fraud.sudo().index_link_ids.mapped("index_code"))
+        self.assertCode("rebut-partner-only", fraud.with_user(self.manager).approve_rebuttal)
         self.seat(self.engagement, self.partner2, "manager")
-        self.assertCode("not-engagement-partner", fraud.with_user(self.partner2).rebut, "reason")
-        fraud.with_user(self.partner).rebut("No incentive: fixed-price contracts.")
+        self.assertCode("not-engagement-partner", fraud.with_user(self.partner2).approve_rebuttal)
+        fraud.with_user(self.partner).approve_rebuttal()
         as_root = fraud.sudo()
+        self.assertEqual(as_root.rebuttal_state, "approved")
+        self.assertNotIn("UA", as_root.index_link_ids.mapped("index_code"))
         self.assertTrue(as_root.rebutted)
         self.assertFalse(as_root.significant)
         self.assertEqual(as_root.status, "concluded")
@@ -183,7 +192,30 @@ class TestRisks(ToolsCase):
         self.assertEqual(self.engagement.sudo()._ea_unapproved_rebuttal_count(), 0)
 
     def test_override_is_never_rebuttable(self):
-        self.assertCode("not-rebuttable", self.presumed("mgmt_override").with_user(self.partner).rebut, "reason")
+        self.assertCode("not-rebuttable", self.presumed("mgmt_override").with_user(self.partner).propose_rebuttal, "reason")
+
+    def test_the_partner_does_not_approve_their_own_proposal_and_may_reject(self):
+        fraud = self.presumed("revenue_fraud")
+        fraud.with_user(self.partner).propose_rebuttal("Simple, predictable revenue.")
+        self.assertCode("rebuttal-own-proposal", fraud.with_user(self.partner).approve_rebuttal)
+        fraud.sudo().write({"rebuttal_state": False})
+        fraud.with_user(self.staff).propose_rebuttal("Simple, predictable revenue.")
+        self.assertCode("justification-required", fraud.with_user(self.partner).reject_rebuttal, " ")
+        fraud.with_user(self.partner).reject_rebuttal("Bonuses depend on revenue.")
+        as_root = fraud.sudo()
+        self.assertEqual(as_root.rebuttal_state, "rejected")
+        self.assertFalse(as_root.rebutted)
+        self.assertIn("UA", as_root.index_link_ids.mapped("index_code"))
+        # the team may propose again after a rejection
+        fraud.with_user(self.staff).propose_rebuttal("New facts: fixed fees only.")
+        self.assertEqual(as_root.rebuttal_state, "proposed")
+
+    def test_the_revenue_link_leaves_only_by_an_approved_rebuttal(self):
+        fraud = self.presumed("revenue_fraud")
+        override = self.presumed("mgmt_override")
+        self.assertEqual(fraud.sudo().index_link_ids.mapped("index_code"), ["UA"])
+        self.assertFalse(override.sudo().index_link_ids)
+        self.assertCode("revenue-fraud-link-locked", fraud.with_user(self.staff).unlink_index, "UA")
 
     def test_linking_upserts_and_refuses_unknown_indexes(self):
         risk = self.as_staff.add_risk("Cut-off")

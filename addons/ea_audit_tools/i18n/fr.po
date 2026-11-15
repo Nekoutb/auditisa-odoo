@@ -10879,3 +10879,45 @@ msgstr "Changer le statut de %(index)s"
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "%(index)s: this status departs from the default. Write the reason before saving it."
 msgstr "%(index)s : ce statut s'écarte du statut par défaut. Écrivez le motif avant de l'enregistrer."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A rebuttal of this risk is already awaiting the partner's approval."
+msgstr "Une réfutation de ce risque attend déjà l'approbation de l'associé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "No rebuttal of this risk is awaiting approval."
+msgstr "Aucune réfutation de ce risque n'attend d'approbation."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "You proposed this rebuttal: the engagement partner or their delegate, not you, approves or rejects it."
+msgstr "Vous avez proposé cette réfutation : c'est l'associé signataire ou son délégué, pas vous, qui l'approuve ou la rejette."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The presumed revenue-fraud risk stays on revenue (UA) until the engagement partner approves its rebuttal in the risk register."
+msgstr "Le risque présumé de fraude sur les produits reste sur le chiffre d'affaires (UA) tant que l'associé signataire n'a pas approuvé sa réfutation dans le registre des risques."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "%(index)s is linked to %(risks)s: it stays Significant. To change the status, remove the link or rebut the risk in the risk register."
+msgstr "%(index)s est lié à %(risks)s : il reste Significatif. Pour changer le statut, retirez le lien ou réfutez le risque dans le registre des risques."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/significance.py:0
+msgid "Linked to: %(risks)s. To change the status, remove the link or rebut the risk in the risk register."
+msgstr "Lié à : %(risks)s. Pour changer le statut, retirez le lien ou réfutez le risque dans le registre des risques."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/significance.py:0
+msgid "Status locked"
+msgstr "Statut verrouillé"

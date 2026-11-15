@@ -170,6 +170,17 @@ def test_significance_default_comes_from_te_a_specific_threshold_or_a_risk():
     assert unjustified_count(rows) == 1
 
 
+def test_a_linked_risk_locks_the_index_at_significant_whatever_was_recorded():
+    rows = significance_rows(
+        {"UA": -5000, "E": 900}, 10000, {},
+        {"UA": {"status": "not_significant", "justification": "Small"}, "E": {"status": "not_significant", "justification": "Small"}},
+        {"UA": {"E", "A"}},
+    )
+    by = {row["index"]: row for row in rows}
+    assert by["UA"]["status"] == "significant" and by["UA"]["locked"] and not by["UA"]["overridden"]
+    assert by["E"]["status"] == "not_significant" and not by["E"]["locked"]
+
+
 def test_no_materiality_defaults_to_not_significant():
     assert significance_rows({"E": 900}, None, {}, {}, {})[0]["status"] == "not_significant"
 

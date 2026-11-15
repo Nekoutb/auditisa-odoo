@@ -167,7 +167,8 @@ class ReasonWizard(models.TransientModel):
     _description = "A written reason"
 
     kind = fields.Selection(
-        [("rebut", "Rebuttal"), ("dismiss", "Dismissal"), ("clear", "Clearing")], required=True, readonly=True,
+        [("rebut", "Rebuttal"), ("reject_rebuttal", "Rejected rebuttal"), ("dismiss", "Dismissal"), ("clear", "Clearing")],
+        required=True, readonly=True,
     )
     record_id = fields.Integer(required=True)
     reason = fields.Text(required=True)
@@ -187,7 +188,8 @@ class ReasonWizard(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
         model, method = {
-            "rebut": ("ea.audit.risk", "rebut"),
+            "rebut": ("ea.audit.risk", "propose_rebuttal"),
+            "reject_rebuttal": ("ea.audit.risk", "reject_rebuttal"),
             "dismiss": ("ea.audit.potential.risk", "dismiss"),
             "clear": ("ea.audit.finding", "clear"),
         }[self.kind]

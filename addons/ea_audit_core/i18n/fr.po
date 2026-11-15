@@ -4178,3 +4178,33 @@ msgstr "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s : %(w
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Significance of %(index)s changed from %(status)s to %(word)s by %(name)s"
 msgstr "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Rebuttal of the presumed revenue-fraud risk proposed by %(name)s: %(why)s"
+msgstr "Réfutation du risque présumé de fraude sur les produits proposée par %(name)s : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Rebuttal of the presumed revenue-fraud risk approved by %(name)s: %(why)s"
+msgstr "Réfutation du risque présumé de fraude sur les produits approuvée par %(name)s : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Rebuttal of the presumed revenue-fraud risk rejected by %(name)s: %(why)s"
+msgstr "Réfutation du risque présumé de fraude sur les produits rejetée par %(name)s : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Risk linked to %(index)s from the significant accounts: %(title)s"
+msgstr "Risque lié à %(index)s depuis les comptes significatifs : %(title)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Risk unlinked from %(index)s on the significant accounts: %(title)s"
+msgstr "Risque retiré de %(index)s dans les comptes significatifs : %(title)s"

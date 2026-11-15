@@ -16,6 +16,13 @@ from ..services.risk_model import MGMT_OVERRIDE_PROCEDURE, PRESUMED_SEED, PRESUM
 from .tool_record import is_french
 
 RATING_SELECTION = [("low", "Low"), ("medium", "Medium"), ("high", "High")]
+REBUTTAL_STATE_SELECTION = [
+    ("proposed", "Awaiting partner approval"),
+    ("approved", "Approved by the partner"),
+    ("rejected", "Rejected by the partner"),
+]
+# The presumed revenue-fraud risk sits on revenue until a rebuttal is approved.
+REVENUE_INDEX = "UA"
 RISK_STATUS_SELECTION = [
     ("identified", "Identified"),
     ("response_planned", "Response planned"),
@@ -127,6 +134,14 @@ class Risk(models.Model):
     rebutted = fields.Boolean(readonly=True)
     rebuttal_justification = fields.Text(readonly=True)
     rebuttal_approved_by_id = fields.Many2one("res.users", string="Rebuttal approved by", ondelete="restrict", readonly=True)
+    # Owner's ruling of 2026-11-15: anyone on the team proposes the rebuttal, the engagement
+    # partner (or delegate) approves or rejects it. Until approved the risk stays live and linked.
+    rebuttal_state = fields.Selection(REBUTTAL_STATE_SELECTION, string="Rebuttal", readonly=True)
+    rebuttal_proposed_by_id = fields.Many2one("res.users", string="Rebuttal proposed by", ondelete="restrict", readonly=True)
+    rebuttal_proposed_at = fields.Datetime(string="Rebuttal proposed on", readonly=True)
+    rebuttal_decided_at = fields.Datetime(string="Rebuttal decided on", readonly=True)
+    rebuttal_rejected_by_id = fields.Many2one("res.users", string="Rebuttal rejected by", ondelete="restrict", readonly=True)
+    rebuttal_rejection = fields.Text(string="Why the rebuttal was rejected", readonly=True)
     added_after_planning = fields.Boolean(readonly=True)
     addition_approved_by_id = fields.Many2one("res.users", string="Addition approved by", ondelete="restrict", readonly=True)
     created_by_id = fields.Many2one("res.users", string="Created by", ondelete="restrict", readonly=True)
@@ -214,6 +229,7 @@ class Risk(models.Model):
     def unlink_index(self, index_code):
         self.ensure_one()
         self._ea_guard()
+        self._ea_refuse_revenue_unlink(index_code)
         self.env["ea.audit.risk.index"].sudo().search([
             ("risk_id", "=", self.sudo().id), ("index_code", "=", index_code),
         ]).unlink()
@@ -250,27 +266,88 @@ class Risk(models.Model):
             as_root.status = "response_planned"
         return True
 
-    def rebut(self, justification):
-        """rebutRevenueFraudRisk: the engagement partner's judgement, or their delegate's (F003)."""
+    def _ea_refuse_revenue_unlink(self, index_code):
+        """The presumed revenue-fraud risk leaves revenue only through an approved rebuttal."""
+        as_root = self.sudo()
+        if as_root.presumed_type == "revenue_fraud" and not as_root.rebutted and index_code == REVENUE_INDEX:
+            raise rule_error(self.env, "revenue-fraud-link-locked")
+
+    def propose_rebuttal(self, justification):
+        """Step 1 (owner's ruling of 2026-11-15): anyone on the team writes why revenue does not
+        carry the presumed fraud risk. The risk stays live and linked until the partner approves."""
         self.ensure_one()
         as_root = self.sudo()
         engagement = as_root.engagement_id.with_env(self.env)
         engagement._ea_tool_guard()
+        if as_root.presumed_type != "revenue_fraud" or as_root.rebutted:
+            raise rule_error(self.env, "not-rebuttable")
+        if as_root.rebuttal_state == "proposed":
+            raise rule_error(self.env, "rebuttal-already-proposed")
+        text = (justification or "").strip()
+        if not text:
+            raise rule_error(self.env, "justification-required")
+        as_root.write({
+            "rebuttal_state": "proposed", "rebuttal_justification": text,
+            "rebuttal_proposed_by_id": self.env.user.id, "rebuttal_proposed_at": fields.Datetime.now(),
+            "rebuttal_rejected_by_id": False, "rebuttal_rejection": False, "rebuttal_decided_at": False,
+        })
+        engagement._ea_log(
+            "rebuttal_proposed",
+            "Rebuttal of the presumed revenue-fraud risk proposed by %s: %s" % (self.env.user.name, " ".join(text.split())[:160]),
+        )
+        return True
+
+    def _ea_rebuttal_decider(self):
+        """The engagement partner or their delegate (F003), never the one who proposed it (F001)."""
+        as_root = self.sudo()
+        engagement = as_root.engagement_id.with_env(self.env)
+        engagement._ea_tool_guard()
+        if as_root.rebuttal_state != "proposed" or as_root.rebutted:
+            raise rule_error(self.env, "rebuttal-not-proposed")
         if not can_partner_signoff(self.env.user._ea_firm_role()):
             raise rule_error(self.env, "rebut-partner-only")
-        if not (justification or "").strip():
-            raise rule_error(self.env, "justification-required")
-        if as_root.presumed_type == "revenue_fraud":
-            refusal = engagement._ea_partner_tier_refusal()
-            if refusal:
-                raise rule_error(self.env, refusal)
-        else:
-            raise rule_error(self.env, "not-rebuttable")
+        refusal = engagement._ea_partner_tier_refusal()
+        if refusal:
+            raise rule_error(self.env, refusal)
+        if as_root.rebuttal_proposed_by_id == self.env.user:
+            raise rule_error(self.env, "rebuttal-own-proposal")
+        return engagement
+
+    def approve_rebuttal(self):
+        """Step 2: the risk is rebutted, leaves revenue, and revenue falls back to its default."""
+        self.ensure_one()
+        engagement = self._ea_rebuttal_decider()
+        as_root = self.sudo()
         as_root.write({
-            "rebutted": True, "rebuttal_justification": justification,
-            "rebuttal_approved_by_id": self.env.user.id, "significant": False, "status": "concluded",
+            "rebutted": True, "rebuttal_state": "approved", "rebuttal_approved_by_id": self.env.user.id,
+            "rebuttal_decided_at": fields.Datetime.now(), "significant": False, "status": "concluded",
         })
-        engagement._ea_log("risk_rebutted", "Presumed revenue-fraud risk rebutted: %s" % justification.strip()[:160])
+        self.env["ea.audit.risk.index"].sudo().search([
+            ("risk_id", "=", as_root.id), ("index_code", "=", REVENUE_INDEX),
+        ]).unlink()
+        engagement._ea_log(
+            "risk_rebutted",
+            "Rebuttal of the presumed revenue-fraud risk approved by %s: %s" % (
+                self.env.user.name, " ".join((as_root.rebuttal_justification or "").split())[:160],
+            ),
+        )
+        return True
+
+    def reject_rebuttal(self, reason):
+        """Step 2, the other way: the risk stays live and linked; the team may propose again."""
+        self.ensure_one()
+        engagement = self._ea_rebuttal_decider()
+        text = (reason or "").strip()
+        if not text:
+            raise rule_error(self.env, "justification-required")
+        self.sudo().write({
+            "rebuttal_state": "rejected", "rebuttal_rejected_by_id": self.env.user.id,
+            "rebuttal_rejection": text, "rebuttal_decided_at": fields.Datetime.now(),
+        })
+        engagement._ea_log(
+            "rebuttal_rejected",
+            "Rebuttal of the presumed revenue-fraud risk rejected by %s: %s" % (self.env.user.name, " ".join(text.split())[:160]),
+        )
         return True
 
     def approve_addition(self):
@@ -288,6 +365,13 @@ class Risk(models.Model):
 
     def action_open_rebut(self):
         return self.env["ea.audit.reason.wizard"]._ea_open("rebut", self)
+
+    def action_open_reject_rebuttal(self):
+        return self.env["ea.audit.reason.wizard"]._ea_open("reject_rebuttal", self)
+
+    def action_approve_rebuttal(self):
+        self.approve_rebuttal()
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def action_open_index_link(self):
         self.ensure_one()
@@ -457,6 +541,8 @@ class EngagementRisk(models.Model):
                 "source": "Auto-seeded (ISA 240)",
                 "category": "fraud",
             })
+            if presumed == "revenue_fraud":
+                self._ea_link_revenue_fraud(risk)
             section = items.search([("engagement_id", "=", self.id), ("code", "=", section_code)], limit=1)
             if not section:
                 continue
@@ -472,6 +558,28 @@ class EngagementRisk(models.Model):
                     "source": "risk_extension",
                 })
                 risk.write({"program_step_ids": [(4, step.id)], "status": "response_planned"})
+
+    def _ea_link_revenue_fraud(self, risk=None):
+        """The presumed revenue-fraud risk sits on revenue (UA), with the assertions it was seeded
+        with, unless a rebuttal was approved. Management override stays pervasive: no account.
+        Nothing is written on an archived file."""
+        self.ensure_one()
+        if self._ea_is_archived():
+            return False
+        risk = risk or self.env["ea.audit.risk"].sudo().search([
+            ("engagement_id", "=", self.id), ("presumed_type", "=", "revenue_fraud"),
+        ], limit=1)
+        if not risk or risk.rebutted:
+            return False
+        Link = self.env["ea.audit.risk.index"].sudo()
+        if Link.search_count([("risk_id", "=", risk.id), ("index_code", "=", REVENUE_INDEX)]):
+            return False
+        assertions = dict((code, codes) for code, _section, codes in PRESUMED_SEED)["revenue_fraud"]
+        Link.create({
+            "engagement_id": self.id, "risk_id": risk.id, "index_code": REVENUE_INDEX,
+            "assertion_ids": [(6, 0, self.env["ea.audit.assertion"]._ea_from_codes(assertions).ids)],
+        })
+        return True
 
     def add_risk(
         self, description, category="business", level="assertion", likelihood=None, magnitude=None, significant=False,

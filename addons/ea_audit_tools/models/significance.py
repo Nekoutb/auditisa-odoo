@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 from ..rules import rule_error
 from ..services._js import js_round
@@ -57,6 +57,13 @@ class Significance(models.Model):
     unjustified = fields.Boolean(compute="_compute_row", compute_sudo=True)
     has_risk = fields.Boolean(string="Risk linked", compute="_compute_row", compute_sudo=True)
     risk_assertions = fields.Char(string="Risk assertions", compute="_compute_row", compute_sudo=True)
+    # Owner's ruling of 2026-11-15: the risks of the register, picked here; any live one locks the
+    # index at Significant. Written through the register's own link (ea.audit.risk.index).
+    risk_ids = fields.Many2many(
+        "ea.audit.risk", string="Risks", compute="_compute_risks", inverse="_inverse_noop", compute_sudo=True,
+        help="Risks of this engagement's risk register that bear on this lead index.",
+    )
+    lock_note = fields.Char(string="Why the status is locked", compute="_compute_risks", compute_sudo=True)
 
     _uniq = models.Constraint("UNIQUE(engagement_id, index_code)", "One decision per lead index.")
 
@@ -74,11 +81,25 @@ class Significance(models.Model):
                 record.has_risk = bool(row and row["hasRisk"])
                 record.risk_assertions = ", ".join(sorted(derived.get(record.index_code, ())))
 
+    @api.depends_context("lang")
+    def _compute_risks(self):
+        Link = self.env["ea.audit.risk.index"].sudo()
+        for record in self:
+            risks = Link.search([
+                ("engagement_id", "=", record.engagement_id.id), ("index_code", "=", record.index_code),
+                ("risk_id.rebutted", "=", False),
+            ]).risk_id
+            record.risk_ids = risks
+            record.lock_note = self.env._(
+                "Linked to: %(risks)s. To change the status, remove the link or rebut the risk in the risk register.",
+                risks="; ".join(risks.with_context(lang=self.env.lang).mapped("title")),
+            ) if risks else False
+
     def _inverse_noop(self):
         """The value arrives through _ea_user_write, never through here."""
 
     def _ea_user_write(self, vals):
-        self._ea_only(vals, {"status", "justification", "assertion_ids", "specific_te"})
+        self._ea_only(vals, {"status", "justification", "assertion_ids", "specific_te", "risk_ids"})
         self._ea_guard()
         for record in self.sudo():
             record.with_env(self.env)._ea_save(vals)
@@ -91,6 +112,14 @@ class Significance(models.Model):
         engagement = as_root.engagement_id
         if "status" in vals and vals["status"] and vals["status"] not in dict(STATUS_SELECTION):
             raise rule_error(self.env, "invalid-value")
+        if "risk_ids" in vals:
+            self._ea_save_risks(vals["risk_ids"])
+            as_root.invalidate_recordset()
+        if vals.get("status") == "not_significant" and as_root.risk_ids:
+            raise rule_error(
+                self.env, "significance-locked-by-risk", index=as_root.index_code,
+                risks="; ".join(as_root.risk_ids.with_context(lang=self.env.lang).mapped("title")),
+            )
         values = {}
         if "status" in vals:
             values["decision"] = vals["status"] or False
@@ -127,10 +156,63 @@ class Significance(models.Model):
             )
         return True
 
+    def _ea_save_risks(self, commands):
+        """The Risks column: the many2many commands of the list, turned into the risk register's
+        links. A new link carries the assertions the risk already bears, else the row's relevant
+        assertions. The presumed revenue-fraud risk leaves revenue only by an approved rebuttal."""
+        as_root = self.sudo()
+        engagement = as_root.engagement_id.with_env(self.env)
+        current = set(as_root.risk_ids.ids)
+        wanted = set(current)
+        for command in commands or ():
+            if isinstance(command, int):
+                wanted.add(command)
+                continue
+            op = command[0]
+            if op == 6:
+                wanted = set(command[2] or ())
+            elif op == 5:
+                wanted = set()
+            elif op == 4:
+                wanted.add(command[1])
+            elif op == 3:
+                wanted.discard(command[1])
+            else:
+                raise rule_error(self.env, "invalid-value")
+        Risk = self.env["ea.audit.risk"]
+        added = Risk.sudo().browse(sorted(wanted - current))
+        removed = Risk.sudo().browse(sorted(current - wanted))
+        for risk in added:
+            if risk.engagement_id != as_root.engagement_id or risk.rebutted:
+                raise rule_error(self.env, "not-found")
+        for risk in removed:
+            risk.with_env(self.env)._ea_refuse_revenue_unlink(as_root.index_code)
+        for risk in added:
+            codes = set((risk.index_link_ids.assertion_ids | risk.section_link_ids.assertion_ids).mapped("code"))
+            codes = codes or set(as_root.assertion_ids.mapped("code"))
+            risk.with_env(self.env).link_index(as_root.index_code, sorted(codes))
+            engagement._ea_log(
+                "risk_linked",
+                "Risk linked to %s from the significant accounts: %s" % (as_root.index_code, risk.with_context(lang="en_US").title),
+            )
+        for risk in removed:
+            risk.with_env(self.env).unlink_index(as_root.index_code)
+            engagement._ea_log(
+                "risk_unlinked",
+                "Risk unlinked from %s on the significant accounts: %s" % (as_root.index_code, risk.with_context(lang="en_US").title),
+            )
+
     def action_change_status(self):
-        """The row's Change status button: the status and its reason, in one small window."""
+        """The row's Change status button: the status and its reason, in one small window. A row
+        a live risk locks says why instead."""
         self.ensure_one()
         record = self.sudo()
+        if record.risk_ids:
+            return {
+                "type": "ir.actions.client", "tag": "display_notification",
+                "params": {"title": self.env._("Status locked"), "message": record.with_context(lang=self.env.lang).lock_note,
+                           "type": "warning", "sticky": False},
+            }
         return {
             "type": "ir.actions.act_window",
             "name": self.env._("Change the status of %(index)s", index=record.index_code),
@@ -261,10 +343,13 @@ class EngagementSignificance(models.Model):
     def _ea_sync_significance(self, activity=True):
         """Derived rows follow the current TB. A row holding a decision is kept. The ledger
         counts follow too; activity=False counts only when a row was never counted from the
-        ledger in use (opening the list, the Excel round trip)."""
+        ledger in use (opening the list, the Excel round trip). The presumed revenue-fraud risk
+        is on revenue unless rebutted."""
         self.ensure_one()
         if self.sudo()._ea_is_archived():
             return
+        if hasattr(self, "_ea_link_revenue_fraud"):
+            self.sudo()._ea_link_revenue_fraud()
         Significance = self.env["ea.audit.significance"].sudo()
         closings = self.sudo()._ea_closings_by_index()
         existing = {r.index_code: r for r in Significance.search([("engagement_id", "=", self.id)])}

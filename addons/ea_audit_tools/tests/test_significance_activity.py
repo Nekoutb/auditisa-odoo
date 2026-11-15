@@ -247,3 +247,99 @@ class TestSignificanceChange(ToolsCase):
         self.assertEqual(self.row().justification, "Low transaction volumes but key covenant")
         # a reader cannot change it
         self.assertCode("read-only-role", row.with_user(self.reader).write, {"status": "significant", "justification": "x"})
+
+
+@tagged("post_install", "-at_install")
+class TestSignificanceRisks(ToolsCase):
+    """Owner's rulings of 2026-11-15: risks picked from the register on the list; any live risk
+    locks the row at Significant; the presumed revenue-fraud risk sits on revenue until its
+    rebuttal is approved by the engagement partner."""
+
+    def row(self, code):
+        self.engagement.sudo()._ea_sync_significance(activity=False)
+        record = self.env["ea.audit.significance"].with_user(self.staff).search([
+            ("engagement_id", "=", self.engagement.id), ("index_code", "=", code),
+        ])
+        record.invalidate_recordset()
+        return record
+
+    def risk(self, kind):
+        return self.env["ea.audit.risk"].sudo().search([
+            ("engagement_id", "=", self.engagement.id), ("presumed_type", "=", kind),
+        ])
+
+    def trail(self, action):
+        bodies = self.engagement.sudo().message_ids.mapped("body")
+        return [parsed[1] for parsed in map(parse_body, bodies) if parsed and parsed[0] == action]
+
+    def test_revenue_carries_the_presumed_fraud_risk_and_is_locked(self):
+        self.import_tb()
+        revenue = self.row("UA")
+        self.assertEqual(revenue.risk_ids, self.risk("revenue_fraud"))
+        self.assertEqual(revenue.status, "significant")
+        self.assertIn("Presumed fraud risk in revenue recognition", revenue.lock_note)
+        self.assertCode("significance-locked-by-risk", revenue.write, {"status": "not_significant", "justification": "Small"})
+        self.assertCode("revenue-fraud-link-locked", revenue.write, {"risk_ids": [(3, self.risk("revenue_fraud").id)]})
+        action = revenue.action_change_status()
+        self.assertEqual(action["tag"], "display_notification")
+        # management override stays pervasive: on no account
+        self.assertFalse(self.env["ea.audit.risk.index"].sudo().search([("risk_id", "=", self.risk("mgmt_override").id)]))
+
+    def test_a_risk_picked_on_the_list_is_the_registers_link_and_locks_the_row(self):
+        self.import_tb()
+        risk = self.as_staff.add_risk("Doubtful receivables")
+        receivables = self.row("E")
+        self.assertEqual(receivables.status, "not_significant")
+        receivables.write({"risk_ids": [(4, risk.id)]})
+        receivables = self.row("E")
+        self.assertEqual(receivables.risk_ids, risk)
+        self.assertEqual(receivables.status, "significant")
+        self.assertEqual(risk.sudo().index_link_ids.mapped("index_code"), ["E"])
+        self.assertEqual(self.trail("risk_linked"), ["Risk linked to E from the significant accounts: Doubtful receivables"])
+        # unpicked: the link goes, the row follows its default again
+        receivables.write({"risk_ids": [(6, 0, [])]})
+        receivables = self.row("E")
+        self.assertFalse(risk.sudo().index_link_ids)
+        self.assertEqual(receivables.status, "not_significant")
+        self.assertEqual(len(self.trail("risk_unlinked")), 1)
+        # a risk of another file, or a rebutted one, cannot be picked
+        other = self.make_engagement(year=2024)
+        foreign = self.env["ea.audit.risk"].sudo().create({"engagement_id": other.id, "description": "Another file's risk"})
+        self.assertCode("not-found", receivables.write, {"risk_ids": [(4, foreign.id)]})
+
+    def test_an_old_not_significant_decision_is_dormant_while_a_risk_is_linked(self):
+        self.import_tb()
+        risk = self.as_staff.add_risk("Cut-off")
+        receivables = self.row("E")
+        receivables.write({"status": "not_significant"})
+        receivables.write({"risk_ids": [(4, risk.id)]})
+        receivables = self.row("E")
+        self.assertEqual(receivables.status, "significant")
+        self.assertEqual(receivables.sudo().decision, "not_significant")
+        self.assertFalse(receivables.unjustified)
+
+    def test_an_approved_rebuttal_frees_revenue(self):
+        self.import_tb()
+        fraud = self.risk("revenue_fraud")
+        fraud.with_user(self.manager).propose_rebuttal("Fixed-fee contracts, no bonus on revenue.")
+        self.assertEqual(self.row("UA").status, "significant")
+        fraud.with_user(self.partner).approve_rebuttal()
+        revenue = self.row("UA")
+        self.assertFalse(revenue.risk_ids)
+        self.assertEqual(revenue.status, revenue.default_status)
+        # the sync does not put a rebutted risk back on revenue
+        self.engagement.sudo()._ea_sync_significance()
+        self.assertFalse(self.row("UA").risk_ids)
+        lines = self.trail("rebuttal_proposed") + self.trail("risk_rebutted")
+        self.assertEqual(len(lines), 2)
+        self.assertTrue(lines[1].startswith("Rebuttal of the presumed revenue-fraud risk approved by"))
+
+    def test_an_open_file_without_the_link_gets_it_and_an_archived_one_is_left_alone(self):
+        self.import_tb()
+        link = self.env["ea.audit.risk.index"].sudo().search([("risk_id", "=", self.risk("revenue_fraud").id)])
+        link.unlink()
+        self.assertTrue(self.engagement.sudo()._ea_link_revenue_fraud())
+        self.assertFalse(self.engagement.sudo()._ea_link_revenue_fraud())
+        self.env["ea.audit.risk.index"].sudo().search([("risk_id", "=", self.risk("revenue_fraud").id)]).unlink()
+        self.engagement.sudo().phase = "archived"
+        self.assertFalse(self.engagement.sudo()._ea_link_revenue_fraud())

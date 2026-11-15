@@ -206,5 +206,10 @@
 "Significant": "Significatif",
 "Not significant": "Non significatif",
 "Significance of %(index)s changed from %(status)s to %(word)s by %(name)s: %(why)s": "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s : %(why)s",
-"Significance of %(index)s changed from %(status)s to %(word)s by %(name)s": "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s"
+"Significance of %(index)s changed from %(status)s to %(word)s by %(name)s": "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s",
+"Rebuttal of the presumed revenue-fraud risk proposed by %(name)s: %(why)s": "Réfutation du risque présumé de fraude sur les produits proposée par %(name)s : %(why)s",
+"Rebuttal of the presumed revenue-fraud risk approved by %(name)s: %(why)s": "Réfutation du risque présumé de fraude sur les produits approuvée par %(name)s : %(why)s",
+"Rebuttal of the presumed revenue-fraud risk rejected by %(name)s: %(why)s": "Réfutation du risque présumé de fraude sur les produits rejetée par %(name)s : %(why)s",
+"Risk linked to %(index)s from the significant accounts: %(title)s": "Risque lié à %(index)s depuis les comptes significatifs : %(title)s",
+"Risk unlinked from %(index)s on the significant accounts: %(title)s": "Risque retiré de %(index)s dans les comptes significatifs : %(title)s"
 }

@@ -16,6 +16,7 @@
                 <field name="inherent_rating" widget="badge" decoration-danger="inherent_rating == 'high'" decoration-warning="inherent_rating == 'medium'" decoration-success="inherent_rating == 'low'"/>
                 <field name="significant"/>
                 <field name="rebutted" optional="show"/>
+                <field name="rebuttal_state" optional="show" decoration-warning="rebuttal_state == 'proposed'" decoration-danger="rebuttal_state == 'rejected'"/>
                 <field name="index_summary"/>
                 <field name="linked_step_count"/>
                 <field name="status"/>
@@ -30,11 +31,20 @@
                 <header>
                     <button name="action_open_index_link" type="object" string="Link to a lead index" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_step_link" type="object" string="Link a program step" groups="ea_audit_core.group_writer"/>
-                    <button name="action_open_rebut" type="object" string="Rebut" invisible="presumed_type != 'revenue_fraud' or rebutted" groups="ea_audit_core.group_partner"/>
+                    <button name="action_open_rebut" type="object" string="Propose a rebuttal" invisible="presumed_type != 'revenue_fraud' or rebutted or rebuttal_state == 'proposed'" groups="ea_audit_core.group_writer"/>
+                    <button name="action_approve_rebuttal" type="object" string="Approve the rebuttal" class="btn-primary" invisible="rebuttal_state != 'proposed'" groups="ea_audit_core.group_partner"
+                            confirm="Approve the rebuttal? The risk is rebutted and leaves revenue (UA)."/>
+                    <button name="action_open_reject_rebuttal" type="object" string="Reject the rebuttal" invisible="rebuttal_state != 'proposed'" groups="ea_audit_core.group_partner"/>
                     <button name="approve_addition" type="object" string="Approve the addition" invisible="not added_after_planning or addition_approved_by_id" groups="ea_audit_core.group_partner"/>
                     <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="rebuttal_state != 'proposed'">
+                        <strong>Rebuttal awaiting partner approval.</strong> Until the engagement partner approves it, the risk stays live and linked to revenue.
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="rebuttal_state != 'rejected'">
+                        <strong>Rebuttal rejected by the partner.</strong> The risk stays live and linked to revenue; a new rebuttal may be proposed.
+                    </div>
                     <group>
                         <field name="title" readonly="1"/>
                         <field name="description" readonly="presumed_type"/>
@@ -62,7 +72,11 @@
                     <group>
                         <field name="inherent_factors"/>
                         <field name="fs_note" invisible="level != 'fs'"/>
-                        <field name="rebuttal_justification" invisible="not rebutted"/>
+                        <field name="rebuttal_justification" invisible="not rebutted and not rebuttal_state"/>
+                        <field name="rebuttal_state" invisible="not rebuttal_state"/>
+                        <field name="rebuttal_proposed_by_id" invisible="not rebuttal_state"/>
+                        <field name="rebuttal_rejected_by_id" invisible="rebuttal_state != 'rejected'"/>
+                        <field name="rebuttal_rejection" invisible="rebuttal_state != 'rejected'"/>
                     </group>
                     <notebook>
                         <page string="Lead indexes">

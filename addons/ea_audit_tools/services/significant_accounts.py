@@ -24,7 +24,12 @@ def significance_rows(closings, tolerable_error, specific, decisions, risk_asser
         default_status = "significant" if above_te or has_risk else "not_significant"
         decision = decisions.get(code) or {}
         recorded = decision.get("status")
-        status = recorded if recorded in ("significant", "not_significant") else default_status
+        # A linked live risk locks the index at significant (owner's ruling of 2026-11-15): a
+        # decision recorded before the link stays stored, dormant, and is read again if the link goes.
+        if has_risk:
+            status = "significant"
+        else:
+            status = recorded if recorded in ("significant", "not_significant") else default_status
         rows.append({
             "index": code,
             "closing": closing,
@@ -35,6 +40,7 @@ def significance_rows(closings, tolerable_error, specific, decisions, risk_asser
             "overridden": status != default_status,
             "justification": decision.get("justification") or "",
             "hasRisk": has_risk,
+            "locked": has_risk,
         })
     return rows
 

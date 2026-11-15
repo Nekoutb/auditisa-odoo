@@ -62,7 +62,8 @@ class TestIntegration(EaAuditCase):
         revenue = self.env["ea.audit.risk"].sudo().search(
             [("engagement_id", "=", engagement.id), ("presumed_type", "=", "revenue_fraud")],
         )
-        revenue.with_user(self.partner).rebut("Revenus simples et prévisibles.")
+        revenue.with_user(self.manager).propose_rebuttal("Revenus simples et prévisibles.")
+        revenue.with_user(self.partner).approve_rebuttal()
         for code in ("P2.2", "P5.2", "S3.1"):
             if self.item(self.engagement, code):
                 self.fill(self.manager, code)
