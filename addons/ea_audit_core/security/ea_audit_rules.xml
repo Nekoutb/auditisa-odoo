@@ -21,6 +21,11 @@
         <field name="model_id" ref="model_ea_audit_file_item"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_engagement_profile_team_only" model="ir.rule">
+        <field name="name">Engagement profile: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_engagement_profile"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
     <record id="rule_signoff_team_only" model="ir.rule">
         <field name="name">Sign-off: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_signoff"/>

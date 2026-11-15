@@ -21,3 +21,5 @@ access_partner_transfer_wizard,transfer wizard,model_ea_audit_partner_transfer_w
 access_team_decline_wizard,decline wizard,model_ea_audit_team_decline_wizard,group_member,1,1,1,1
 access_activity_firm_admin,firm audit log,model_ea_audit_activity,group_firm_admin,1,0,0,0
 access_signoff_matrix_import,matrix import wizard,model_ea_audit_signoff_matrix_import,group_partner,1,1,1,1
+access_engagement_profile_member,engagement profile member,model_ea_audit_engagement_profile,group_member,1,0,0,0
+access_engagement_profile_writer,engagement profile writer,model_ea_audit_engagement_profile,group_writer,1,1,0,0

@@ -1,0 +1,220 @@
+"""The decision tree of the engagement profile, one condition at a time."""
+from datetime import date
+
+import pytest
+
+from engagement_profile import (
+    ANSWER_FIELDS,
+    COMPLEX,
+    NON_COMPLEX,
+    VERY_SIMPLE,
+    conclude,
+    is_first_year,
+    lce_available,
+    missing,
+    task_codes,
+)
+
+# A small owner-managed company: every answer on the Very simple side.
+PLAIN = {
+    "q1_listed": "no", "q2_pie": "none", "q3_controls_law": "no", "q4_group": "standalone",
+    "q5_activities": "one", "q6_sites": "one", "q7_major_change": "no",
+    **{"q8_%d" % n: "low" for n in range(1, 9)},
+    "q9_specialists": "none", "q10_regulator": "no",
+    "q11_management": "up_to_5", "q11_accounting": "up_to_5", "q11_one_place": "yes",
+    "q12_owners_known": "yes", "q13_automated": "no", "q14_keeper": "entity",
+    "q15_monitoring": "no", "q15_eqr": "no", "q16_risks": "no", "q17_going_concern": "no",
+    "q18_related_parties": "no", "q19_approach": "substantive", "q20_history": "recurring",
+}
+
+
+def answers(**changes):
+    return {**PLAIN, **changes}
+
+
+def test_plain_company_is_very_simple_with_no_reason():
+    assert conclude(PLAIN) == (VERY_SIMPLE, [])
+
+
+def test_two_to_three_activities_or_sites_stay_very_simple():
+    assert conclude(answers(q5_activities="few", q6_sites="few"))[0] == VERY_SIMPLE
+
+
+# ---------------------------------------------------------------- gate 1
+
+@pytest.mark.parametrize("changes, reason", [
+    ({"q1_listed": "yes"}, "q1"),
+    ({"q2_pie": "bank"}, "q2:bank"),
+    ({"q2_pie": "microfinance"}, "q2:microfinance"),
+    ({"q2_pie": "insurer"}, "q2:insurer"),
+    ({"q2_pie": "pension"}, "q2:pension"),
+    ({"q2_pie": "designated"}, "q2:designated"),
+    ({"q3_controls_law": "yes"}, "q3"),
+    ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "yes"}, "q4"),
+    ({"q5_activities": "more"}, "q5"),
+    ({"q6_sites": "more"}, "q6"),
+    ({"q7_major_change": "yes"}, "q7"),
+    ({"q9_specialists": "core"}, "q9"),
+] + [({"q8_%d" % n: "high"}, "q8:%d" % n) for n in range(1, 9)])
+def test_each_sign_of_complexity_alone_makes_it_complex(changes, reason):
+    level, reasons = conclude(answers(**changes))
+    assert level == COMPLEX
+    assert reason in reasons
+
+
+def test_every_reason_is_listed():
+    level, reasons = conclude(answers(q2_pie="bank", q8_3="high", q8_7="high"))
+    assert (level, reasons) == (COMPLEX, ["q2:bank", "q8:3", "q8:7"])
+
+
+def test_a_subsidiary_is_judged_like_a_stand_alone_company():
+    assert conclude(answers(q4_group="subsidiary"))[0] == VERY_SIMPLE
+
+
+def test_a_parent_auditing_its_whole_group_itself_is_not_complex_for_that():
+    level, reasons = conclude(answers(q4_group="parent", q4_consolidates="yes", q4_other_auditors="no"))
+    assert level == NON_COMPLEX
+    assert reasons == ["q4:consolidates"]
+
+
+def test_a_parent_that_does_not_consolidate_can_be_very_simple():
+    assert conclude(answers(q4_group="parent", q4_consolidates="no", q4_other_auditors="no"))[0] == VERY_SIMPLE
+
+
+def test_group_sub_answers_left_from_an_earlier_choice_are_ignored():
+    stale = answers(q4_group="subsidiary", q4_consolidates="yes", q4_other_auditors="yes")
+    assert conclude(stale) == (VERY_SIMPLE, [])
+
+
+# ---------------------------------------------------------------- gate 2
+
+@pytest.mark.parametrize("changes, reason", [
+    ({"q10_regulator": "yes"}, "q10"),
+    ({"q11_management": "over_5"}, "q11:management"),
+    ({"q11_accounting": "over_5"}, "q11:accounting"),
+    ({"q11_one_place": "no"}, "q11:place"),
+    ({"q12_owners_known": "no"}, "q12"),
+    ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}, "q4:consolidates"),
+    ({"q13_automated": "yes"}, "q13"),
+    ({"q14_keeper": "accountant", "q14_rely_report": "yes"}, "q14"),
+    ({"q15_monitoring": "yes"}, "q15:monitoring"),
+    ({"q15_eqr": "yes"}, "q15:eqr"),
+    ({"q16_risks": "yes"}, "q16"),
+    ({"q17_going_concern": "yes"}, "q17"),
+    ({"q18_related_parties": "yes"}, "q18"),
+    ({"q9_specialists": "other"}, "q9:other"),
+    ({"q19_approach": "other", "q19_controls": True}, "q19"),
+    ({"q19_approach": "other", "q19_interim": True}, "q19"),
+    ({"q19_approach": "other", "q19_internal_audit": True}, "q19"),
+])
+def test_each_unmet_very_simple_condition_alone_makes_it_non_complex(changes, reason):
+    assert conclude(answers(**changes)) == (NON_COMPLEX, [reason])
+
+
+def test_a_tax_specialist_keeps_it_very_simple():
+    assert conclude(answers(q9_specialists="tax"))[0] == VERY_SIMPLE
+
+
+def test_an_outside_bookkeeper_without_reliance_on_its_auditor_keeps_it_very_simple():
+    assert conclude(answers(q14_keeper="accountant", q14_rely_report="no"))[0] == VERY_SIMPLE
+
+
+def test_first_year_changes_no_level():
+    for history in ("new_audited", "new_never"):
+        extra = {"q20_modified": "yes"} if history == "new_audited" else {}
+        assert conclude(answers(q20_history=history, **extra))[0] == VERY_SIMPLE
+
+
+def test_gate_one_wins_over_gate_two():
+    level, reasons = conclude(answers(q1_listed="yes", q10_regulator="yes"))
+    assert (level, reasons) == (COMPLEX, ["q1"])
+
+
+# ---------------------------------------------------------------- compulsory answers
+
+def test_nothing_answered_lists_every_question_once():
+    assert missing({}) == ["Q%d" % n for n in range(1, 21)]
+
+
+@pytest.mark.parametrize("field", sorted(set(PLAIN)))
+def test_each_question_is_compulsory(field):
+    partial = dict(PLAIN)
+    del partial[field]
+    assert missing(partial)
+    with pytest.raises(ValueError):
+        conclude(partial)
+
+
+@pytest.mark.parametrize("changes, question", [
+    ({"q4_group": "parent"}, "Q4"),
+    ({"q4_group": "parent", "q4_consolidates": "yes"}, "Q4"),
+    ({"q14_keeper": "payroll"}, "Q14"),
+    ({"q19_approach": "other"}, "Q19"),
+    ({"q20_history": "new_audited"}, "Q20"),
+])
+def test_a_sub_answer_is_compulsory_in_its_case(changes, question):
+    assert missing(answers(**changes)) == [question]
+
+
+def test_no_sub_answer_is_asked_outside_its_case():
+    assert missing(answers(q20_history="new_never", q14_keeper="entity")) == []
+
+
+def test_every_answer_field_is_known():
+    assert set(PLAIN) <= set(ANSWER_FIELDS)
+
+
+# ---------------------------------------------------------------- tasks
+
+def test_a_plain_company_switches_nothing_on():
+    assert task_codes(PLAIN) == set()
+
+
+@pytest.mark.parametrize("changes, code", [
+    ({"q20_history": "new_audited", "q20_modified": "no"}, "P1.2"),
+    ({"q20_history": "new_never"}, "P1.2"),
+    ({"q3_controls_law": "yes"}, "P4.2"),
+    ({"q13_automated": "yes"}, "P4.2"),
+    ({"q19_approach": "other", "q19_controls": True}, "P4.2"),
+    ({"q8_4": "high"}, "P4.3"),
+    ({"q13_automated": "yes"}, "P4.3"),
+    ({"q9_specialists": "tax"}, "S5.1"),
+    ({"q9_specialists": "other"}, "S5.1"),
+    ({"q9_specialists": "core"}, "S5.1"),
+    ({"q14_keeper": "hosting", "q14_rely_report": "no"}, "S5.2"),
+    ({"q19_approach": "other", "q19_internal_audit": True}, "S5.3"),
+    ({"q15_eqr": "yes"}, "C4.2"),
+    ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}, "P2.3"),
+    ({"q4_group": "parent", "q4_consolidates": "no", "q4_other_auditors": "yes"}, "P2.3"),
+])
+def test_an_answer_switches_its_task_on(changes, code):
+    assert code in task_codes(answers(**changes))
+
+
+def test_options_ticked_before_choosing_year_end_substantive_switch_nothing_on():
+    assert task_codes(answers(q19_approach="substantive", q19_controls=True, q19_internal_audit=True)) == set()
+
+
+def test_retired_income_statement_tasks_are_never_switched_on():
+    everything = answers(
+        q1_listed="yes", q3_controls_law="yes", q13_automated="yes", q9_specialists="core",
+        q14_keeper="accountant", q14_rely_report="yes", q15_eqr="yes", q19_approach="other",
+        q19_controls=True, q19_interim=True, q19_internal_audit=True, q20_history="new_never",
+        q4_group="parent", q4_consolidates="yes", q4_other_auditors="yes", **{"q8_%d" % n: "high" for n in range(1, 9)},
+    )
+    assert not {code for code in task_codes(everything) if code.startswith("E5.")}
+
+
+def test_first_year():
+    assert not is_first_year(PLAIN)
+    assert is_first_year(answers(q20_history="new_never"))
+
+
+# ---------------------------------------------------------------- ISA for LCE
+
+def test_isa_for_lce_from_periods_beginning_15_december_2025():
+    assert lce_available(NON_COMPLEX, date(2025, 12, 15))
+    assert lce_available(VERY_SIMPLE, date(2026, 1, 1))
+    assert not lce_available(VERY_SIMPLE, date(2025, 1, 1))
+    assert not lce_available(COMPLEX, date(2026, 1, 1))
+    assert not lce_available(NON_COMPLEX, None)

@@ -19,3 +19,18 @@ class Engagement(models.Model):
             "engagement_id": self.id,
         })
         return member
+
+    # The profile questionnaire leads back to these screens rather than to the raw forms.
+    def _ea_open_engagement_screen(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.client", "tag": "ea_audit_ui.dashboard",
+            "name": self.env._("Engagement dashboard"), "params": {"resId": self.id},
+        }
+
+    def _ea_open_task_list(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.client", "tag": "ea_audit_ui.all_tasks",
+            "name": self.env._("Tasks"), "params": {"resId": self.id},
+        }

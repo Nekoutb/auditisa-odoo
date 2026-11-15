@@ -83,7 +83,8 @@ class TestPartnerRequired(EaAuditCase):
             "client_id": self.client.id, "fiscal_year": 2035, "period_end": date(2035, 12, 31),
             "engagement_partner_id": self.partner.id,
         })
-        self.assertEqual(wizard.action_create()["res_model"], "ea.audit.engagement")
+        # owner's rulings of 2026-11-15: the profile questionnaire opens right after creation
+        self.assertEqual(wizard.action_create()["res_model"], "ea.audit.engagement.profile")
 
     def test_the_wizard_refuses_a_missing_partner(self):
         wizard = self.env["ea.audit.engagement.create.wizard"].with_user(self.admin).create({

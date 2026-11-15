@@ -13,6 +13,8 @@ export class EaDashboard extends Component {
     setup() {
         this.ctx = useService("ea_audit_context");
         this.notification = useService("notification");
+        this.orm = useService("orm");
+        this.action = useService("action");
         this.ctxState = useState(this.ctx.state);
         this.state = useState({ data: null });
         const params = this.props.action.params || {};
@@ -83,6 +85,12 @@ export class EaDashboard extends Component {
 
     openUnassigned() {
         return this.ctx.openItems(this.state.data.unassigned_ids, _t("Tasks without a preparer"));
+    }
+
+    /** The profile questionnaire: until it is concluded the file has no task. */
+    async openProfile() {
+        const action = await this.orm.call("ea.audit.engagement", "action_open_profile", [[this.engagementId]]);
+        return this.action.doAction(action);
     }
 
     openClient() {

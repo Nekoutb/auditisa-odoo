@@ -13,7 +13,8 @@ from ..services.signoff_rules import (
     can_write,
     may_hold_partner_seat,
 )
-from ..services.standards_edition import STANDARDS_EDITIONS, edition_for_period
+from ..services.engagement_profile import task_codes as profile_task_codes
+from ..services.standards_edition import STANDARDS_EDITIONS, default_standards_edition, edition_for_period
 
 PHASE_SELECTION = [
     ("acceptance", "Acceptance"),
@@ -39,6 +40,7 @@ _ENGINE_FIELDS = {
     "phase", "standards_edition", "edition_reason", "archived_at", "complexity",
     # set at creation; the period and set-up screen (F073) brings their own rules
     "client_id", "fiscal_year", "period_end", "duration_months", "nature", "first_year",
+    "nature_text", "period_start",
 }
 _CREATOR_SEAT = {"manager": "manager", "senior": "senior", "staff": "staff"}
 
@@ -70,7 +72,11 @@ class Engagement(models.Model):
     fiscal_year = fields.Integer(required=True, tracking=True)
     period_end = fields.Date(required=True, tracking=True)
     duration_months = fields.Integer(string="Duration (months)")
+    # The fixed list of natures, kept for the files opened before 2026-11-15: their tasks were chosen
+    # with it and stay as they are. A new file says its nature in words, which chooses no task.
     nature = fields.Selection(NATURE_SELECTION, tracking=True)
+    nature_text = fields.Char(string="Nature of the service", tracking=True)
+    period_start = fields.Date(string="Period from", tracking=True)
     framework = fields.Selection(FRAMEWORK_SELECTION, string="Reporting framework", tracking=True)
     planned_report_date = fields.Date(tracking=True)
     planned_agm_date = fields.Date(string="Planned general meeting", tracking=True)
@@ -94,6 +100,24 @@ class Engagement(models.Model):
         "res.users", string="Partner delegate", ondelete="set null", tracking=True, index="btree_not_null",
     )
     gate_summary = fields.Text(string="Gates of this phase", compute="_compute_gate_summary")
+    profile_ids = fields.One2many("ea.audit.engagement.profile", "engagement_id", string="Profile")
+    profile_state = fields.Selection(
+        [("none", "Not started"), ("draft", "Not finished"), ("concluded", "Concluded")],
+        string="Profile questionnaire", compute="_compute_profile_state",
+    )
+    profile_pending = fields.Boolean(string="Profile not finished", compute="_compute_profile_state")
+
+    @api.depends("profile_ids.state", "file_item_ids")
+    def _compute_profile_state(self):
+        """A file opened before the questionnaire existed has its tasks and is never held up."""
+        for engagement in self:
+            as_root = engagement.sudo()
+            profile = as_root.profile_ids[:1]
+            engagement.profile_state = profile.state or "none"
+            engagement.profile_pending = (
+                profile.state != "concluded" and not as_root.file_item_ids
+                and not as_root.archived_at and as_root.phase != "archived"
+            )
 
     @api.depends("client_id", "fiscal_year", "name")
     def _compute_display_name(self):
@@ -277,11 +301,20 @@ class Engagement(models.Model):
             if not partner.exists() or not may_hold_partner_seat(partner._ea_firm_role()):
                 raise rule_error(self.env, "partner-role-requires-partner-rank")
             partners.append(partner)
+            if vals.get("period_start") and vals.get("period_end"):
+                start, end = fields.Date.to_date(vals["period_start"]), fields.Date.to_date(vals["period_end"])
+                if start > end:
+                    raise rule_error(self.env, "period-order")
+                if not vals.get("duration_months"):
+                    vals["duration_months"] = max(1, round(((end - start).days + 1) / 30.44))
             if vals.get("period_end") and (not self.env.su or "standards_edition" not in vals):
                 # F045: the edition follows the first day of the period
-                vals["standards_edition"] = edition_for_period(
-                    fields.Date.to_date(vals["period_end"]), vals.get("duration_months"),
-                )
+                if vals.get("period_start"):
+                    vals["standards_edition"] = default_standards_edition(fields.Date.to_date(vals["period_start"]))
+                else:
+                    vals["standards_edition"] = edition_for_period(
+                        fields.Date.to_date(vals["period_end"]), vals.get("duration_months"),
+                    )
             if not vals.get("framework") and vals.get("client_id"):
                 vals["framework"] = self.env["ea.audit.client"].sudo().browse(vals["client_id"]).framework
         # The creator may not be on the team (a partner opening a file for another
@@ -359,8 +392,70 @@ class Engagement(models.Model):
         item = self.env["ea.audit.file.item"].sudo().search(
             [("engagement_id", "=", self.id), ("code", "=", code), ("conditional", "=", False)], limit=1,
         )
-        if item and not self._ea_task_holds_work(item):
+        if item and not self._ea_task_holds_work(item) and code not in self._ea_profile_task_codes():
             item.conditional = True
+
+    # ------------------------------------------------------------------
+    # The profile questionnaire (owner's rulings of 2026-11-15)
+    # ------------------------------------------------------------------
+
+    def _ea_profile(self):
+        self.ensure_one()
+        return self.env["ea.audit.engagement.profile"].sudo().search([("engagement_id", "=", self.id)], limit=1)
+
+    def _ea_profile_task_codes(self):
+        """The tasks a concluded profile switched on: a later "no" elsewhere does not switch them off."""
+        profile = self._ea_profile()
+        return profile_task_codes(profile._ea_answers()) if profile.state == "concluded" else set()
+
+    def action_open_profile(self):
+        """The questionnaire. An older file gets an empty one, which holds nothing up."""
+        self.ensure_one()
+        self._ea_require_access()
+        profile = self._ea_profile()
+        if not profile:
+            self._ea_assert_mutable()
+            profile = self.env["ea.audit.engagement.profile"].sudo().create({"engagement_id": self.id})
+        return {
+            "type": "ir.actions.act_window", "res_model": "ea.audit.engagement.profile", "res_id": profile.id,
+            "view_mode": "form", "views": [(False, "form")], "target": "current",
+            "name": self.env._("Profile questionnaire"),
+        }
+
+    def _ea_open_engagement_screen(self):
+        """Where "Save for later" goes back to. ea_audit_ui opens the engagement dashboard instead."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id,
+            "view_mode": "form", "views": [(False, "form")], "target": "current",
+        }
+
+    def _ea_open_task_list(self):
+        """The tasks of the file. ea_audit_ui opens its task list instead."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window", "res_model": "ea.audit.file.item", "name": self.env._("Tasks"),
+            "view_mode": "list,form", "views": [(False, "list"), (False, "form")], "target": "current",
+            "domain": [("engagement_id", "=", self.id), ("conditional", "=", False)],
+        }
+
+    def _ea_open_profile_or_notify(self):
+        """Right after creation: the questionnaire, when the creator is on the team."""
+        self.ensure_one()
+        if self._ea_member(self.env.user).state == "accepted":
+            return self.action_open_profile()
+        return self._ea_open_or_notify()
+
+    def _ea_carry_profile_forward(self, source):
+        """Next year's file starts from last year's answers, the client now recurring. It is not
+        concluded: the team reads the answers again and concludes, which brings the tasks."""
+        self.ensure_one()
+        previous = source._ea_profile()
+        if not previous:
+            return
+        values = previous._ea_answers()
+        values.update(q20_history="recurring", q20_modified=False)
+        self.env["ea.audit.engagement.profile"].sudo().create({"engagement_id": self.id, **values})
 
     def apply_complexity(self, complexity, first_audit=False):
         """Port of applyComplexity: record the classification, add what it brings."""
@@ -390,12 +485,22 @@ class Engagement(models.Model):
         partners = partners.filtered(lambda u: may_hold_partner_seat(u._ea_firm_role()))
         if not partners:
             raise rule_error(self.env, "engagement-partner-required")
-        target = self.create({
+        shift = relativedelta(years=new_year - source.fiscal_year)
+        vals = {
             "client_id": source.client_id.id,
             "fiscal_year": new_year,
-            "period_end": source.period_end + relativedelta(years=new_year - source.fiscal_year),
+            "period_end": source.period_end + shift,
             "engagement_partner_id": partners[0].id,
-        })
+        }
+        concluded = source._ea_profile().state == "concluded"
+        if concluded:
+            # A file opened with the questionnaire: next year's tasks come from its conclusion.
+            vals.update(complexity=False, nature_text=source.nature_text, report_language=source.report_language)
+            if source.period_start:
+                vals["period_start"] = source.period_start + shift
+        target = self.create(vals)
+        if concluded:
+            target.sudo()._ea_carry_profile_forward(source)
         target.sudo()._ea_carry_forward_from(source)
         return target
 

@@ -449,7 +449,10 @@ class AuditUi(models.AbstractModel):
             missions.append({
                 **self._ea_ui_mission(engagement),
                 "period_end": fmt_date(engagement.period_end),
-                "nature": self.env._(NATURE_LABELS[engagement.nature]) if engagement.nature in NATURE_LABELS else "",
+                "nature": engagement.nature_text or (
+                    self.env._(NATURE_LABELS[engagement.nature]) if engagement.nature in NATURE_LABELS else ""
+                ),
+                "profile_pending": engagement.profile_pending,
                 "archived": archived,
                 "archived_on": fmt_date(fields.Date.to_date(engagement.archived_at)) if engagement.archived_at else "",
                 "phase_deadline": fmt_date(phase_deadline(engagement.period_end, engagement.phase)),
@@ -622,6 +625,8 @@ class AuditUi(models.AbstractModel):
             "my_tasks": {"count": len(mine), "rows": mine[:_MY_TASK_ROWS], "e4": e4},
             "notes": self._ea_ui_notes_tile(engagement),
             "calendar": {"late": len(late), "rows": calendar_rows},
+            # a file opened with the questionnaire has no task until its profile is concluded
+            "profile_pending": engagement.profile_pending,
         }
 
     # ------------------------------------------------------------------

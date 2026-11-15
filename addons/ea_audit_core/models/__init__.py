@@ -4,6 +4,7 @@ from . import engagement_mixin
 from . import client
 from . import task_template
 from . import engagement
+from . import engagement_profile
 from . import team_member
 from . import file_item
 from . import signoff
