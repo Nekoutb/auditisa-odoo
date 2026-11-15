@@ -156,7 +156,7 @@ class TestSadHeader(ToolsCase):
 
     def test_f019_no_minus_zero(self):
         self.assertEqual(fcfa(-0.4, "fr_FR"), "0 FCFA")
-        self.assertEqual(fcfa(-1000, "fr_FR"), "-1 000 FCFA")
+        self.assertEqual(fcfa(-1000, "fr_FR"), "(1 000) FCFA")  # brackets (owner, 2026-11-15)
 
 
 @tagged("post_install", "-at_install")

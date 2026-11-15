@@ -19,13 +19,13 @@
                     <group>
                         <group string="Debit">
                             <field name="dr_account" readonly="register_only"/>
-                            <field name="dr_amount" readonly="register_only"/>
+                            <field name="dr_amount" widget="ea_amount" readonly="register_only"/>
                             <field name="dr_caption"/>
                             <field name="dr_caption_effective"/>
                         </group>
                         <group string="Credit">
                             <field name="cr_account" readonly="register_only"/>
-                            <field name="cr_amount" readonly="register_only"/>
+                            <field name="cr_amount" widget="ea_amount" readonly="register_only"/>
                             <field name="cr_caption"/>
                             <field name="cr_caption_effective"/>
                         </group>
@@ -56,10 +56,10 @@
                     <group>
                         <group string="Tax and turnaround">
                             <field name="tax_rate"/>
-                            <field name="turnaround_factual"/>
-                            <field name="turnaround_judgmental"/>
-                            <field name="income_after_tax_tb"/>
-                            <field name="income_after_tax"/>
+                            <field name="turnaround_factual" widget="ea_amount"/>
+                            <field name="turnaround_judgmental" widget="ea_amount"/>
+                            <field name="income_after_tax_tb" widget="ea_amount"/>
+                            <field name="income_after_tax" widget="ea_amount"/>
                         </group>
                         <group string="Qualitative factors">
                             <field name="tq_1"/><field name="tq_1c"/>
@@ -76,9 +76,9 @@
                                     <field name="no"/>
                                     <field name="ref"/>
                                     <field name="line"/>
-                                    <field name="operating"/>
-                                    <field name="investing"/>
-                                    <field name="financing"/>
+                                    <field name="operating" widget="ea_amount"/>
+                                    <field name="investing" widget="ea_amount"/>
+                                    <field name="financing" widget="ea_amount"/>
                                     <field name="evaluation"/>
                                 </list>
                             </field>
@@ -152,10 +152,10 @@
                                 <field name="task_code"/>
                                 <field name="finding"/>
                                 <field name="dr_account"/>
-                                <field name="dr_amount"/>
+                                <field name="dr_amount" widget="ea_amount"/>
                                 <field name="dr_caption_effective" optional="show"/>
                                 <field name="cr_account"/>
-                                <field name="cr_amount"/>
+                                <field name="cr_amount" widget="ea_amount"/>
                                 <field name="cr_caption_effective" optional="show"/>
                                 <field name="mtype"/>
                                 <field name="corrected"/>

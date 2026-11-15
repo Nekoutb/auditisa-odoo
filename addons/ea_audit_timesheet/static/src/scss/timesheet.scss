@@ -49,14 +49,13 @@ body.ea-shell .ea-ts {
   .ea-ts-technical { background: var(--ea-bluebg); color: var(--ea-blue); }
 
   .ea-ts-grid {
-    width: 100%; border-collapse: collapse; font-size: 13.5px;
+    width: 100%; border-collapse: collapse; font-size: 13px; // the grid: ea_audit_ui/static/src/scss/grid.scss
     th {
       font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-align: left; color: var(--ea-muted);
       padding: 9px 8px; border-top: 1px solid var(--ea-line); border-bottom: 1px solid var(--ea-line); white-space: nowrap;
     }
     td { padding: 7px 8px; border-bottom: 1px solid var(--ea-line); vertical-align: middle; }
-    tfoot td { border-bottom: 0; background: #f6f8f9; font-size: 13px; }
-    tbody tr:last-child td { border-bottom: 0; }
+    tfoot td { background: #f6f8f9; }
     .ea-ts-first { padding-left: 16px; min-width: 200px; }
     .ea-ts-first small { display: block; color: var(--ea-muted); font-size: 12px; }
     .ea-ts-num { text-align: right; padding-right: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }

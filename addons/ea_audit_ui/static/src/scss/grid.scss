@@ -1,0 +1,113 @@
+// Figures look like Excel, on every screen of the firm (owner, 2026-11-15).
+// One stylesheet for Odoo's own lists and for every table the audit add-ons draw:
+// a thin grid on every cell, a light grey header, pale-green group rows with green
+// bold text, and every figure in the app's font at one size, right-aligned, with
+// digits of equal width so columns line up.
+// Scoped to body.ea-shell (a firm user), so the platform console is untouched.
+
+$ea-grid-line: #dfe3e6;
+$ea-grid-head: #f3f5f6;
+$ea-grid-group: #e6f2ed;
+$ea-grid-green: #17694f;
+$ea-grid-ink: #1f2a33;
+$ea-grid-muted: #66727c;
+$ea-grid-figure-size: 13px;
+
+// A figure: the app's font, one size, right-aligned, equal-width digits.
+@mixin ea-figure {
+    font-family: inherit !important;
+    font-size: $ea-grid-figure-size !important;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+// The grid itself. Cells carry only their right and bottom lines and the table its top
+// and left, so the lines stay 1px whether the table collapses its borders or not
+// (Odoo's lists keep them separate for the sticky header).
+@mixin ea-grid {
+    border-top: 1px solid $ea-grid-line;
+    border-left: 1px solid $ea-grid-line;
+    > thead > tr > th,
+    > thead > tr > td,
+    > tbody > tr > th,
+    > tbody > tr > td,
+    > tfoot > tr > th,
+    > tfoot > tr > td {
+        border-top: 0;
+        border-left: 0;
+        border-right: 1px solid $ea-grid-line;
+        border-bottom: 1px solid $ea-grid-line;
+    }
+    > thead > tr > th {
+        background: $ea-grid-head;
+        color: $ea-grid-ink;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: normal;
+        text-transform: none;
+    }
+    > tfoot > tr > td,
+    > tfoot > tr > th {
+        background: $ea-grid-head;
+        font-weight: 600;
+    }
+    // last rows keep their bottom line: the grid closes
+    > tbody > tr:last-child > td { border-bottom: 1px solid $ea-grid-line; }
+}
+
+body.ea-shell {
+    // Odoo's lists (every list view and every list inside a form)
+    .o_list_renderer .o_list_table {
+        @include ea-grid;
+        border-collapse: separate;
+        border-spacing: 0;
+        > thead > tr > th { box-shadow: none; }
+        // group rows: pale green, green bold text
+        > tbody > tr.o_group_header {
+            > th, > td { background: $ea-grid-group !important; color: $ea-grid-green; font-weight: 700; }
+            .o_group_name, .o_group_name span { color: $ea-grid-green; font-weight: 700; }
+        }
+        td.o_list_number,
+        th.o_list_number_th,
+        td.o_list_number .o_field_widget,
+        td.o_list_number input,
+        tr.o_group_header td.o_list_number,
+        tfoot td.o_list_number,
+        > tfoot > tr > td {
+            @include ea-figure;
+        }
+        // a cell the user may type in shows it on hover
+        td.o_ea_editable_cell:hover { box-shadow: inset 0 0 0 1px $ea-grid-green; cursor: text; }
+    }
+
+    // The audit add-ons' own tables
+    .o_ea_table,
+    .o_ea_board_table,
+    .o_ea_tieout,
+    .ea-ts-grid,
+    .ea-ts .ea-ts-grid,
+    .ea-page .ea-table,
+    .ea-table {
+        @include ea-grid;
+        border-collapse: collapse;
+        > tbody > tr:last-child > td { border-bottom: 1px solid $ea-grid-line; }
+        .text-end,
+        .o_ea_num,
+        .ea-ts-num,
+        .ea-ts-cell,
+        td.ea-num,
+        th.ea-num {
+            @include ea-figure;
+        }
+        // a group row inside our own tables
+        tr.o_ea_group_row > td,
+        tr.o_ea_group_row > th {
+            background: $ea-grid-group;
+            color: $ea-grid-green;
+            font-weight: 700;
+        }
+    }
+    .ea-ts .ea-ts-pair,
+    .ea-ts .ea-ts-cell { font-family: inherit; font-size: $ea-grid-figure-size; font-variant-numeric: tabular-nums; }
+}

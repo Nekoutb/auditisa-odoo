@@ -134,8 +134,8 @@
                 <field name="index_code"/>
                 <field name="assertion"/>
                 <field name="expectation_model"/>
-                <field name="expected_value"/>
-                <field name="actual_value"/>
+                <field name="expected_value" widget="ea_amount"/>
+                <field name="actual_value" widget="ea_amount"/>
                 <field name="actual_source"/>
                 <field name="threshold_amount"/>
                 <field name="difference"/>
@@ -250,8 +250,8 @@
                     <group>
                         <field name="index_code"/>
                         <field name="assertion"/>
-                        <field name="expected_value"/>
-                        <field name="actual_value"/>
+                        <field name="expected_value" widget="ea_amount"/>
+                        <field name="actual_value" widget="ea_amount"/>
                     </group>
                     <group>
                         <field name="use_override"/>

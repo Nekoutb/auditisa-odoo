@@ -10,7 +10,7 @@
                 <field name="file_item_id" string="Paper"/>
                 <field name="route"/>
                 <field name="severity" widget="badge" decoration-warning="severity == 'significant_deficiency'"/>
-                <field name="amount"/>
+                <field name="amount" widget="ea_amount"/>
                 <field name="state_label"/>
                 <field name="communicated_on" optional="hide"/>
             </list>
@@ -39,7 +39,7 @@
                         </group>
                         <group>
                             <field name="status"/>
-                            <field name="amount" invisible="route != 'b5'"/>
+                            <field name="amount" widget="ea_amount" invisible="route != 'b5'"/>
                             <field name="communicated_on" invisible="route != 'c1'"/>
                             <field name="created_by_id"/>
                         </group>

@@ -14,7 +14,7 @@
                             <span class="o_ea_tile_desc"><field name="subtitle"/></span>
                             <div class="mt-2">
                                 <t t-foreach="(record.feeds.raw_value || '').split(',')" t-as="code" t-key="code">
-                                    <span class="o_ea_tile_code" t-esc="code"/>
+                                    <span class="o_ea_tile_code" t-if="code" t-esc="code"/>
                                 </t>
                             </div>
                         </div>
@@ -71,6 +71,26 @@
             <xpath expr="//header/field[@name='phase']" position="before">
                 <button name="action_open_tools" type="object" string="Tools"/>
             </xpath>
+        </field>
+    </record>
+    <!-- The Engagement team tile: members, role and status; a manager invites and sets roles. -->
+    <record id="view_team_tool_list" model="ir.ui.view">
+        <field name="name">ea.audit.team.member.tool.list</field>
+        <field name="model">ea.audit.team.member</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" editable="bottom">
+                <header>
+                    <button name="action_ea_invite_member" type="object" string="Invite a member" class="btn-primary" display="always" groups="ea_audit_core.group_manager"/>
+                </header>
+                <field name="user_id" readonly="1"/>
+                <field name="email" readonly="1"/>
+                <field name="ea_role_locked" column_invisible="1"/>
+                <field name="team_role" string="Role" readonly="ea_role_locked"/>
+                <field name="state" readonly="1"/>
+                <field name="invited_at" string="Invited on" readonly="1" optional="show"/>
+                <field name="responded_at" string="Answered on" readonly="1" optional="show"/>
+            </list>
         </field>
     </record>
 </odoo>

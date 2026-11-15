@@ -51,9 +51,9 @@
                                         <field name="name"/>
                                         <field name="lines"/>
                                         <field name="entries"/>
-                                        <field name="debit"/>
-                                        <field name="credit"/>
-                                        <field name="signed"/>
+                                        <field name="debit" widget="ea_amount"/>
+                                        <field name="credit" widget="ea_amount"/>
+                                        <field name="signed" widget="ea_amount"/>
                                     </list>
                                 </field>
                             </div>
@@ -134,8 +134,8 @@
                                     <field name="year_end_days" invisible="analytic_key != 'year-end-concentration'"/>
                                     <field name="sd_factor" invisible="analytic_key != 'monthly-spikes'"/>
                                     <field name="percentile" invisible="analytic_key != 'top-value'"/>
-                                    <field name="round_min" invisible="analytic_key != 'round-numbers'"/>
-                                    <field name="round_step" invisible="analytic_key != 'round-numbers'"/>
+                                    <field name="round_min" widget="ea_amount" invisible="analytic_key != 'round-numbers'"/>
+                                    <field name="round_step" widget="ea_amount" invisible="analytic_key != 'round-numbers'"/>
                                     <field name="min_occurrences" invisible="analytic_key != 'repeated-amounts'"/>
                                     <field name="rare_max" invisible="analytic_key != 'rare-accounts'"/>
                                     <field name="prefixes" invisible="analytic_key != 'third-party-attribution'"/>
