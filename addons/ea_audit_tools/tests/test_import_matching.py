@@ -333,10 +333,10 @@ class TestCheck(ImportCase):
         self.assertEqual(len(self.versions()), 1)
 
     def test_the_check_of_a_ledger_is_what_its_projection_says(self):
-        content = LEDGER + "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n"
+        content = LEDGER + "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n701000;Ventes;VE009;Hors periode;15/01/2024;;10,00;;VE;Awa\n"
         check = self.as_staff.ea_import_check("journal_entries", "l.csv", to_bytes(content), MAPPING)
         self.assertFalse(self.datasets())
-        self.assertEqual((check["fileRows"], check["rows"], check["leftOut"], check["balanced"], check["blocking"]), (6, 5, 1, False, False))
+        self.assertEqual((check["fileRows"], check["rows"], check["leftOut"], check["balanced"], check["blocking"]), (7, 6, 1, True, False))
         dataset = self.ledger(content)
         built = self.as_staff.gl_build_projection(dataset.id)
         self.assertEqual((built["build"]["lines"], built["build"]["rejected"], dataset.row_count), (check["rows"], check["leftOut"], check["fileRows"]))
@@ -349,14 +349,17 @@ class TestCheck(ImportCase):
         from odoo.addons.ea_audit_tools.services.import_matching import gl_population
         from odoo.addons.ea_audit_tools.tabular import parse_table
 
-        content = LEDGER + "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n411000;Clients;VE001;Facture 1;15/01/2025;1 000,00;;F1;VE;Awa\n"
+        content = LEDGER + (
+            "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n701000;Ventes;VE009;Hors periode;15/01/2024;;10,00;;VE;Awa\n"
+            "411000;Clients;VE001;Facture 1;15/01/2025;1 000,00;;F1;VE;Awa\n701000;Ventes;VE001;Facture 1;15/01/2025;;1 000,00;F1;VE;Awa\n"
+        )
         before = gl_population(parse_table("l.csv", to_bytes(content)), MAPPING, "2025-01-01", "2025-12-31")["validation"]
         dataset = self.ledger(content)
         self.as_staff.gl_build_projection(dataset.id)
         after = self.as_staff.gl_validate_population(dataset.id)
         self.assertEqual({check["key"]: check["status"] for check in before["checks"]}, {check["key"]: check["status"] for check in after["checks"]})
         self.assertEqual([check["detailEn"] for check in before["checks"]], [check["detailEn"] for check in after["checks"]])
-        self.assertEqual(before["status"], "failed")
+        self.assertEqual(before["status"], "warning")
 
     def test_the_check_of_a_sub_ledger(self):
         content = AR_CSV + "C3;Gamma;F3;15/09/2025;n/d\n"
@@ -405,6 +408,65 @@ class TestRefused(ImportCase):
         self.assertTrue(check["blocking"])
         self.assertCode("import-refused", self.as_staff.create_dataset, "journal_entries", "l.csv", to_bytes(empty), mapping=mapping)
         self.assertFalse(self.datasets())
+
+    def test_an_unbalanced_ledger_is_stopped_at_the_check_and_refused_at_the_import(self):
+        """Owner's ruling of 2026-11-15: in total, or entry by entry, a general ledger must balance."""
+        content = LEDGER + "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n"
+        check = self.as_staff.ea_import_check("journal_entries", "l.csv", to_bytes(content), MAPPING)
+        self.assertTrue(check["blocking"])
+        self.assertFalse(check["balanced"])
+        blocking = [issue for issue in check["issues"] if issue["effect"] == "blocking"]
+        self.assertIn("Total debit 2,010 and total credit 2,000 differ by 10", blocking[0]["text"])
+        self.assertEqual(blocking[1]["rows"], [7])
+        self.assertIn("Entry VE009 of 15/01/2024 does not balance: debit 10, credit 0, difference 10.", blocking[1]["text"])
+        # the population check says the same once, as a blocking point, not twice
+        self.assertFalse([issue for issue in check["issues"] if "Total debits equal total credits" in issue["text"]])
+        with self.assertRaises(Exception) as refused:
+            self.as_staff.create_dataset("journal_entries", "l.csv", to_bytes(content), mapping=MAPPING)
+        self.assertIn("import-refused", str(refused.exception))
+        self.assertIn("Entry VE009", str(refused.exception))
+        self.assertFalse(self.datasets())
+        wizard = self.read(content, filename="l.csv", kind="journal_entries")
+        wizard.action_check()
+        self.assertTrue(wizard.blocking)
+        html = str(wizard.check_html)
+        for text in ("The file cannot be imported", "Blocks the import", "Entry VE009", "Line 7", "No"):
+            self.assertIn(text, html)
+        self.assertCode("import-refused", wizard.action_import)
+        self.assertFalse(self.datasets())
+
+    def test_entries_that_offset_each_other_are_refused_too(self):
+        offsetting = "Compte;N° écriture;Libellé;Date;Débit;Crédit\n411000;A1;x;15/01/2025;100;\n701000;A1;x;15/01/2025;;90\n411000;A2;x;16/01/2025;;10\n"
+        mapping = {"account": "Compte", "jeNumber": "N° écriture", "jeDescription": "Libellé", "journalDate": "Date", "debit": "Débit", "credit": "Crédit"}
+        check = self.as_staff.ea_import_check("journal_entries", "l.csv", to_bytes(offsetting), mapping)
+        self.assertEqual((check["totalDebit"], check["totalCredit"], check["blocking"]), (100, 100, True))
+        texts = [issue["text"] for issue in check["issues"] if issue["effect"] == "blocking"]
+        self.assertEqual(len(texts), 2)
+        self.assertIn("Entry A1 of 15/01/2025", texts[0])
+        self.assertIn("difference 10.", texts[0])
+        self.assertIn("Entry A2 of 16/01/2025", texts[1])
+        self.assertIn("difference -10.", texts[1])
+        self.assertCode("import-refused", self.as_staff.create_dataset, "journal_entries", "l.csv", to_bytes(offsetting), mapping=mapping)
+
+    def test_twenty_unbalanced_entries_are_named_and_the_others_counted(self):
+        lines = ["Compte;N° écriture;Libellé;Date;Montant"]
+        for number in range(25):
+            lines += ["411000;E%02d;x;15/01/2025;100" % number, "701000;E%02d;x;15/01/2025;-99" % number]
+        mapping = {"account": "Compte", "jeNumber": "N° écriture", "jeDescription": "Libellé", "journalDate": "Date", "amount": "Montant"}
+        check = self.as_staff.ea_import_check("journal_entries", "l.csv", to_bytes("\n".join(lines) + "\n"), mapping)
+        texts = [issue["text"] for issue in check["issues"] if issue["effect"] == "blocking"]
+        self.assertEqual(len(texts), 1 + 20 + 1)
+        self.assertIn("Entry E19 ", texts[20])
+        self.assertEqual(texts[-1], "5 more entries do not balance.")
+
+    def test_a_rounding_difference_within_the_trial_balances_tolerance_passes(self):
+        content = "Compte;N° écriture;Libellé;Date;Débit;Crédit\n411000;A1;x;15/01/2025;100,0049;\n701000;A1;x;15/01/2025;;100\n"
+        mapping = {"account": "Compte", "jeNumber": "N° écriture", "jeDescription": "Libellé", "journalDate": "Date", "debit": "Débit", "credit": "Crédit"}
+        self.assertFalse(self.as_staff.ea_import_check("journal_entries", "l.csv", to_bytes(content), mapping)["blocking"])
+        self.as_staff.create_dataset("journal_entries", "l.csv", to_bytes(content), mapping=mapping)
+        self.assertEqual(len(self.datasets()), 1)
+        over = content.replace("100,0049", "100,02")
+        self.assertCode("import-refused", self.as_staff.create_dataset, "journal_entries", "l.csv", to_bytes(over), mapping=mapping)
 
     def test_a_refusal_reads_in_french(self):
         as_french = self.as_staff.with_context(lang="fr_FR")

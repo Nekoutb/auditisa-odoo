@@ -7939,6 +7939,7 @@ msgstr "Relevés face au grand livre fournisseurs."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__status
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__status
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__status
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 msgid "Status"
 msgstr "État"
 
@@ -10281,6 +10282,7 @@ msgstr "Importé avec un avertissement"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__is_current
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 msgid "In use"
 msgstr "Utilisé"
 
@@ -10557,12 +10559,14 @@ msgstr "Cette version est celle utilisée pour son moment. Une fois supprimée, 
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 msgid "Total credit"
 msgstr "Total crédit"
 
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 msgid "Total debit"
 msgstr "Total débit"
 
@@ -10713,3 +10717,39 @@ msgstr "barre verticale"
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 msgid "year-month-day"
 msgstr "année-mois-jour"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s more entries do not balance."
+msgstr "%(count)s autres écritures ne sont pas équilibrées."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s more points stop the file."
+msgstr "%(count)s autres points arrêtent le fichier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Entry %(entry)s of %(date)s does not balance: debit %(debit)s, credit %(credit)s, difference %(difference)s."
+msgstr "L'écriture %(entry)s du %(date)s n'est pas équilibrée : débit %(debit)s, crédit %(credit)s, écart %(difference)s."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Entry %(entry)s, with no readable date, does not balance: debit %(debit)s, credit %(credit)s, difference %(difference)s."
+msgstr "L'écriture %(entry)s, sans date lisible, n'est pas équilibrée : débit %(debit)s, crédit %(credit)s, écart %(difference)s."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
+msgid "Superseded on"
+msgstr "Remplacé le"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Total debit %(debit)s and total credit %(credit)s differ by %(difference)s: a general ledger must balance."
+msgstr "Le total débit %(debit)s et le total crédit %(credit)s diffèrent de %(difference)s : un grand livre doit être équilibré."

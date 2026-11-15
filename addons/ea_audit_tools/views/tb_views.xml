@@ -5,16 +5,16 @@
         <field name="model">ea.audit.tb.version</field>
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0" decoration-danger="validation_status == 'invalid'" decoration-muted="superseded_at and not is_current">
-                <field name="create_date" string="Imported on"/>
-                <field name="timing"/>
-                <field name="validation_status" widget="badge" decoration-success="validation_status == 'valid'" decoration-danger="validation_status == 'invalid'"/>
-                <field name="is_current"/>
+                <field name="create_date" string="Imported on" widget="datetime" options="{'show_seconds': false}" width="140px"/>
+                <field name="timing" width="90px"/>
+                <field name="validation_status" string="Status" widget="badge" decoration-success="validation_status == 'valid'" decoration-danger="validation_status == 'invalid'" width="80px"/>
+                <field name="is_current" string="In use" width="65px"/>
                 <field name="source_filename"/>
-                <field name="row_count"/>
-                <field name="total_debit"/>
-                <field name="total_credit"/>
-                <field name="superseded_at"/>
-                <field name="create_uid" string="Imported by"/>
+                <field name="row_count" width="60px"/>
+                <field name="total_debit" string="Total debit" width="150px"/>
+                <field name="total_credit" string="Total credit" width="150px"/>
+                <field name="superseded_at" string="Superseded on" widget="datetime" options="{'show_seconds': false}" width="140px"/>
+                <field name="create_uid" string="Imported by" width="110px"/>
                 <button name="action_delete" type="object" icon="fa-trash-o" title="Delete this version" groups="ea_audit_core.group_writer"/>
             </list>
         </field>

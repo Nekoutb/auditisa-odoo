@@ -14,7 +14,7 @@ from .dataset_mapping import FIELDS, JE_KEY, auto_map, encode_je_key, je_key_col
 from .gl_line import TOLERANCE, mapped_fields, parse_date_iso, population_checks, projector
 from .subledger_kinds import SUB_LEDGER_KINDS
 from .subledgers import source_row_of
-from .tb import alias_tb_mapping, heuristic_fill
+from .tb import EPSILON, alias_tb_mapping, heuristic_fill
 
 TB_KIND = "trial_balance"
 IMPORT_KINDS = [TB_KIND] + SUB_LEDGER_KINDS
@@ -58,6 +58,11 @@ _AMOUNT_KEYS = {
     "amount", "quantity", "unitPrice", "depreciation", "nbv", "net",
 }
 _DATE_KEYS = {"date", "journalDate", "jeDate"}
+
+#: How far a ledger's debits may be from its credits, in total and per entry, before it is refused:
+#: the trial balance's own tolerance (owner's ruling of 2026-11-15, "an unbalanced general ledger
+#: should be rejected").
+BALANCE_TOLERANCE = EPSILON
 
 DECIMALS = ("auto", "comma", "point")
 DATE_FORMATS = ("auto", "dmy", "mdy", "ymd")
@@ -307,7 +312,11 @@ def _file_row(record, position):
 
 def gl_population(table, mapping, period_start=None, period_end=None):
     """The population checks of a ledger, on the file itself: what the projection and its checks
-    will say once the file is imported. ``period_start`` and ``period_end`` are ISO dates."""
+    will say once the file is imported. ``period_start`` and ``period_end`` are ISO dates.
+
+    Also whether it balances, in total and entry by entry, over the lines that belong to an entry
+    (those the projection keeps): ``balanced``, and ``unbalancedEntries`` in file order, each with
+    its identity, first date, debit, credit, difference and file rows."""
     project = projector(mapping)
     rows = table["rows"]
     left_out = []
@@ -329,7 +338,14 @@ def gl_population(table, mapping, period_start=None, period_end=None):
             no_date += 1
         elif period_start is None or journal_date < period_start or journal_date > period_end:
             out_of_period += 1
-        by_entry[line["je_number"]] = by_entry.get(line["je_number"], 0) + line["signed"]
+        entry = by_entry.get(line["je_number"])
+        if entry is None:
+            entry = by_entry[line["je_number"]] = {"entry": line["je_number"], "date": journal_date, "debit": 0, "credit": 0, "rows": []}
+        entry["debit"] += line["debit"]
+        entry["credit"] += line["credit"]
+        entry["rows"].append(_file_row(raw, position))
+        if entry["date"] is None:
+            entry["date"] = journal_date
         key = (line["account"], line["je_number"], journal_date, line["reference"] or "", line["signed"], line["je_description"] or "")
         same[key] = same.get(key, 0) + 1
     repeated = [count for count in same.values() if count > 1]
@@ -341,12 +357,18 @@ def gl_population(table, mapping, period_start=None, period_end=None):
         "no_account": 0, "no_je": 0, "no_date": no_date, "zero_amount": zero,
         "total_debit": total_debit, "total_credit": total_credit, "out_of_period": out_of_period,
         "period_start": period_start, "period_end": period_end,
-        "unbalanced": len([total for total in by_entry.values() if abs(total) > TOLERANCE]),
+        "unbalanced": len([entry for entry in by_entry.values() if abs(entry["debit"] - entry["credit"]) > TOLERANCE]),
         "dup_groups": len(repeated), "dup_extra": extra,
     })
+    unbalanced = [
+        dict(entry, difference=entry["debit"] - entry["credit"])
+        for entry in by_entry.values() if abs(entry["debit"] - entry["credit"]) > BALANCE_TOLERANCE
+    ]
     return {
         "validation": validation, "lines": lines, "fileRows": len(rows), "leftOut": left_out,
         "totalDebit": total_debit, "totalCredit": total_credit,
+        "balanced": abs(total_debit - total_credit) <= BALANCE_TOLERANCE and not unbalanced,
+        "unbalancedEntries": unbalanced,
     }
 
 

@@ -26,7 +26,10 @@ Decisions of the firm owner on the AuditISA rebuild on Odoo 19 Community. Number
   5. **The other eight kinds follow the trial balance.** Every upload is kept as a version; the latest of a kind and timing is the one in use, the earlier ones are superseded; deletion, confirmation and log line are the same. A superseded ledger keeps its rows and loses its projection, which is rebuilt if it is in use again.
   6. **A mandatory field unmatched stops the import**, on the screen and in the import itself. Mandatory fields are those of the catalogue, with "one of" groups: a trial balance's amounts (movements, or closing debit and credit, or signed closing), a ledger's amount (one column, or debit and credit).
 
-  Applied as the smallest reading where a ruling is silent, owner to confirm: a ledger whose debits and credits differ, or with unbalanced entries, still comes in, shown on the check screen and on the ledger as before (`_ea_dataset_check`); only a ledger with no usable line is refused. An amount column of a trial balance is never guessed from its place in the file: titles nobody knows give the account and the description by their values, and a person chooses the amounts.
+  7. **An unbalanced general ledger is refused (2026-11-15, second ruling).** Total debit different from total credit, or any entry (as the entry columns identify it) whose debits differ from its credits, stops the file at the check screen and in the import itself; nothing is saved. Tolerance: the trial balance's own (0.01). The check names the difference and the first 20 unbalanced entries with their date, debit, credit and difference, and counts the rest. Only the lines that belong to an entry count, as in the projection. Ledgers stored before stay as they are; the "unbalanced entries" analytic and the population checks still read them, but a new ledger can no longer be unbalanced.
+  8. **An amount column is never guessed from its place in the file (confirmed 2026-11-15).** Titles nobody knows give the account and the description by their values; a person chooses the amounts.
+
+  The other seven kinds are not stopped by what their check finds (unreadable amounts are shown as a warning), as before: owner to confirm.
 
 ## Provisional: working papers, owner to confirm
 

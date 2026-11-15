@@ -115,13 +115,27 @@ class TestProjection(GlCase):
         dataset = self.env["ea.audit.dataset"].sudo().browse(dataset_id)
         self.assertIn("table", str(dataset.population_html))
 
-    def test_unbalanced_and_out_of_period_are_caught(self):
-        content = LEDGER + "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n"
-        dataset_id = self.built(content)
+    def test_an_unbalanced_ledger_is_refused_and_out_of_period_is_caught(self):
+        """Owner's ruling of 2026-11-15: an unbalanced general ledger is not imported."""
+        unbalanced = LEDGER + "411000;Clients;VE009;Hors periode;15/01/2024;10,00;;;VE;Awa\n"
+        self.assertCode("import-refused", self.import_ledger, unbalanced)
+        self.assertFalse(self.env["ea.audit.dataset"].sudo().search_count([("engagement_id", "=", self.engagement.id)]))
+        balanced = unbalanced + "701000;Ventes;VE009;Hors periode;15/01/2024;;10,00;;VE;Awa\n"
+        dataset_id = self.built(balanced)
+        status = {c["key"]: c["status"] for c in self.as_staff.gl_validate_population(dataset_id)["checks"]}
+        self.assertEqual(status["entries-balance"], "passed")
+        self.assertEqual(status["debit-credit-reconcile"], "passed")
+        self.assertEqual(status["dates-in-period"], "warning")
+
+    def test_a_ledger_stored_unbalanced_before_the_ruling_still_says_so(self):
+        """Ledgers imported before 2026-11-15 are left as they are: their checks still read them."""
+        dataset_id = self.built()
+        line = self.env["ea.audit.gl.line"].sudo().search([("dataset_id", "=", dataset_id)], limit=1)
+        line.write({"debit": line.debit + 10, "signed": line.signed + 10})
+        self.env.flush_all()
         status = {c["key"]: c["status"] for c in self.as_staff.gl_validate_population(dataset_id)["checks"]}
         self.assertEqual(status["entries-balance"], "failed")
         self.assertEqual(status["debit-credit-reconcile"], "failed")
-        self.assertEqual(status["dates-in-period"], "warning")
 
     def test_incomplete_mapping_is_refused(self):
         """At the import now, and still at the build for a ledger imported before the matching was mandatory."""

@@ -174,6 +174,10 @@ def test_the_check_of_a_ledger_reads_the_file_as_the_projection_will():
     found = gl_population(parse_csv(LEDGER), GL, "2025-01-01", "2025-12-31")
     assert (found["fileRows"], found["lines"], found["leftOut"]) == (4, 3, [4])
     assert (found["totalDebit"], found["totalCredit"]) == (1010, 1000)
+    assert found["balanced"] is False
+    assert found["unbalancedEntries"] == [{"entry": "VE009", "date": "2024-01-15", "debit": 10, "credit": 0, "rows": [5], "difference": 10}]
+    balanced = gl_population(parse_csv(LEDGER + "701000;VE009;Hors periode;15/01/2024;;10,00;VE\n"), GL, "2025-01-01", "2025-12-31")
+    assert balanced["balanced"] is True and balanced["unbalancedEntries"] == []
     status = {check["key"]: check["status"] for check in found["validation"]["checks"]}
     assert status["mandatory-mapped"] == "passed"
     assert status["debit-credit-reconcile"] == "failed" and status["entries-balance"] == "failed"

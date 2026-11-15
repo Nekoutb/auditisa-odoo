@@ -11,8 +11,9 @@ from ..rules import rule_error
 from ..services.amount import parse_amount
 from ..services.dataset_mapping import auto_map
 from ..services.errors import ServiceError
-from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, population_checks, projector
-from ..services.import_matching import amount_check, apply_reading_options, clean_mapping, gl_population, missing_fields
+from ..services._js import format_fr
+from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, nf, population_checks, projector
+from ..services.import_matching import BALANCE_TOLERANCE, amount_check, apply_reading_options, clean_mapping, gl_population, missing_fields
 from ..services.subledger_kinds import SUB_LEDGER_KINDS, is_sub_ledger_kind
 from ..services.subledgers import detect_amount_column
 from ..tabular import parse_table
@@ -20,6 +21,9 @@ from .tool_record import french_date, grouped, is_french, upload_stamp
 from .tb import TIMING_SELECTION
 
 MAX_BYTES = 60 * 1024 * 1024
+#: Unbalanced entries named on the check screen, and blocking points repeated in a refusal.
+GL_UNBALANCED_SHOWN = 20
+GL_REFUSAL_SHOWN = 6
 INGEST_BATCH = 5000
 
 KIND_SELECTION = [
@@ -277,40 +281,82 @@ class EngagementDataset(models.Model):
         start = (period_end - relativedelta(years=1) + relativedelta(days=1)) if period_end else None
         return start, period_end
 
+    def _ea_gl_found(self, table, mapping):
+        """The ledger as the import reads it: gl_population over this file's period."""
+        start, end = self._ea_gl_period()
+        try:
+            return gl_population(table, mapping, start.isoformat() if start else None, end.isoformat() if end else None)
+        except ServiceError as error:
+            raise rule_error(self.env, error.code) from error
+
+    def _ea_gl_blocking(self, found):
+        """What stops a ledger at the check (owner's ruling of 2026-11-15): no line that belongs to
+        an entry, debits that differ from credits, or an entry that does not balance. The first
+        GL_UNBALANCED_SHOWN entries are named; the others are counted."""
+        def amount(value):
+            return format_fr(value) if is_french(self.env) else nf(value)
+
+        if not found["lines"]:
+            return [{"effect": "blocking", "rows": [], "text": self.env._(
+                "No line of the file carries both an account and an entry number: there is nothing to import.",
+            )}]
+        issues = []
+        difference = found["totalDebit"] - found["totalCredit"]
+        if abs(difference) > BALANCE_TOLERANCE:
+            issues.append({"effect": "blocking", "rows": [], "text": self.env._(
+                "Total debit %(debit)s and total credit %(credit)s differ by %(difference)s: a general ledger must balance.",
+                debit=amount(found["totalDebit"]), credit=amount(found["totalCredit"]), difference=amount(difference),
+            )})
+        entries = found["unbalancedEntries"]
+        for entry in entries[:GL_UNBALANCED_SHOWN]:
+            values = {
+                "entry": entry["entry"], "debit": amount(entry["debit"]), "credit": amount(entry["credit"]),
+                "difference": amount(entry["difference"]),
+            }
+            if entry["date"]:
+                text = self.env._(
+                    "Entry %(entry)s of %(date)s does not balance: debit %(debit)s, credit %(credit)s, difference %(difference)s.",
+                    date=french_date(fields.Date.to_date(entry["date"])), **values,
+                )
+            else:
+                text = self.env._(
+                    "Entry %(entry)s, with no readable date, does not balance: debit %(debit)s, credit %(credit)s, difference %(difference)s.",
+                    **values,
+                )
+            issues.append({"effect": "blocking", "rows": entry["rows"], "text": text})
+        if len(entries) > GL_UNBALANCED_SHOWN:
+            issues.append({"effect": "blocking", "rows": [], "text": self.env._(
+                "%(count)s more entries do not balance.", count=len(entries) - GL_UNBALANCED_SHOWN,
+            )})
+        return issues
+
     def _ea_dataset_check(self, kind, filename, content, mapping, header_row, options):
         """The check screen of a dataset. A ledger gets its population checks, read from the file
-        as the projection will read it; the other kinds their rows and the total of their amounts.
-        Nothing blocks but a file with no line to use: what the checks find is shown, and the
-        file comes in with it, as it always did."""
+        as the projection will read it, and is stopped when it does not balance; the other kinds
+        get their rows and the total of their amounts, and what is found is shown without stopping
+        the file, as it always was."""
         table, mapping = self._ea_dataset_read(kind, filename, content, mapping, header_row, options)
         fr = is_french(self.env)
         issues = []
         if kind == "journal_entries":
-            start, end = self._ea_gl_period()
-            try:
-                found = gl_population(table, mapping, start.isoformat() if start else None, end.isoformat() if end else None)
-            except ServiceError as error:
-                raise rule_error(self.env, error.code) from error
+            found = self._ea_gl_found(table, mapping)
+            blocking = self._ea_gl_blocking(found)
             if found["leftOut"]:
                 issues.append({"effect": "left_out", "rows": found["leftOut"], "text": self.env._(
                     "Lines with no account or no entry number. They belong to no entry.",
                 )})
+            # the count of lines left out is the list above; the balance, the blocking points
+            skipped = {"row-count"} | ({"debit-credit-reconcile", "entries-balance"} if blocking else set())
             for check in found["validation"]["checks"]:
-                # the count of lines left out is the list above
-                if check["status"] != "passed" and check["key"] != "row-count":
+                if check["status"] != "passed" and check["key"] not in skipped:
                     issues.append({"effect": "warning", "rows": [], "text": "%s. %s" % (
                         check["labelFr" if fr else "labelEn"], check["detailFr" if fr else "detailEn"],
                     )})
-            blocking = found["lines"] == 0
-            if blocking:
-                issues.append({"effect": "blocking", "rows": [], "text": self.env._(
-                    "No line of the file carries both an account and an entry number: there is nothing to import.",
-                )})
             return {
                 "kind": kind, "fileRows": found["fileRows"], "rows": found["lines"], "leftOut": len(found["leftOut"]),
                 "totalDebit": found["totalDebit"], "totalCredit": found["totalCredit"],
-                "balanced": abs(found["totalDebit"] - found["totalCredit"]) <= TOLERANCE,
-                "difference": found["totalDebit"] - found["totalCredit"], "issues": issues, "blocking": blocking,
+                "balanced": found["balanced"], "difference": found["totalDebit"] - found["totalCredit"],
+                "issues": blocking + issues, "blocking": bool(blocking),
             }
         found = amount_check(table, mapping)
         if found["unreadable"]:
@@ -333,14 +379,13 @@ class EngagementDataset(models.Model):
             raise rule_error(self.env, "fields-required")
         table, mapping = self._ea_dataset_read(kind, filename, content, mapping, header_row, options)
         if kind == "journal_entries":
-            try:
-                project = projector(mapping)
-            except ServiceError as error:
-                raise rule_error(self.env, error.code) from error
-            if not any(project(row) is not None for row in table["rows"]):
-                raise rule_error(self.env, "import-refused", reasons=self.env._(
-                    "No line of the file carries both an account and an entry number: there is nothing to import.",
-                ))
+            # the check screen's own refusal, here too: the screen is not the control
+            blocking = self._ea_gl_blocking(self._ea_gl_found(table, mapping))
+            if blocking:
+                reasons = [issue["text"] for issue in blocking[:GL_REFUSAL_SHOWN]]
+                if len(blocking) > GL_REFUSAL_SHOWN:
+                    reasons.append(self.env._("%(count)s more points stop the file.", count=len(blocking) - GL_REFUSAL_SHOWN))
+                raise rule_error(self.env, "import-refused", reasons=" ".join(reasons))
         debit_col, credit_col = mapping.get("debit"), mapping.get("credit")
         amount_mapped = mapping.get("amount")
         signed_pair = bool(debit_col and credit_col) and not amount_mapped

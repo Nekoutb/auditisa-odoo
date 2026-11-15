@@ -1309,5 +1309,11 @@
 "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Match the mandatory fields first\" invisible=\"step != 'match' or not missing_count\">Check the file</span>": "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Faites d'abord correspondre les champs obligatoires\" invisible=\"step != 'match' or not missing_count\">Contrôler le fichier</span>",
 "Delete": "Supprimer",
 "All mandatory fields are matched. %(count)s lines in the file.": "Tous les champs obligatoires ont leur colonne. %(count)s lignes dans le fichier.",
-"Sheets of the file": "Feuilles du fichier"
+"Sheets of the file": "Feuilles du fichier",
+"Total debit %(debit)s and total credit %(credit)s differ by %(difference)s: a general ledger must balance.": "Le total débit %(debit)s et le total crédit %(credit)s diffèrent de %(difference)s : un grand livre doit être équilibré.",
+"Entry %(entry)s of %(date)s does not balance: debit %(debit)s, credit %(credit)s, difference %(difference)s.": "L'écriture %(entry)s du %(date)s n'est pas équilibrée : débit %(debit)s, crédit %(credit)s, écart %(difference)s.",
+"Entry %(entry)s, with no readable date, does not balance: debit %(debit)s, credit %(credit)s, difference %(difference)s.": "L'écriture %(entry)s, sans date lisible, n'est pas équilibrée : débit %(debit)s, crédit %(credit)s, écart %(difference)s.",
+"%(count)s more entries do not balance.": "%(count)s autres écritures ne sont pas équilibrées.",
+"%(count)s more points stop the file.": "%(count)s autres points arrêtent le fichier.",
+"Superseded on": "Remplacé le"
 }
