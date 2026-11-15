@@ -47,7 +47,7 @@ class TestIntegration(EaAuditCase):
         self.assertCode(
             "gates-failed:d31_form_complete,d31_checks_passed,d31_partner_signed", self.as_partner.advance_to_planning,
         )
-        self.fill(self.manager, "P1.1", {"engagement_type": "recurring", "auditor_change": "no", "rating": "moderate"})
+        self.fill(self.manager, "P1.1", {"rating": "moderate"})
         self.sign(self.manager, self.engagement, "P1.1", "preparer")
         self.sign(self.partner, self.engagement, "P1.1", "partner")
         self.as_partner.advance_to_planning()

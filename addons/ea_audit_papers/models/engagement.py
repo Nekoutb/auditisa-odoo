@@ -26,12 +26,21 @@ class Engagement(models.Model):
         self.ensure_one()
         verdict = acceptance_verdict(
             paper_for("P1.1"), paper_for("P1.2"), self._ea_paper_values("P1.1"), self._ea_paper_values("P1.2"),
+            predecessor_required=self._ea_predecessor_required(),
         )
         return {
             "complete": verdict["complete"],
             "concluded_accept": verdict["accepted"],
             "checks_passed": verdict["checks_passed"],
         }
+
+    def _ea_predecessor_required(self):
+        """P1.2 must be done when it is on the file: active and not marked not applicable."""
+        self.ensure_one()
+        item = self.env["ea.audit.file.item"].sudo().search(
+            [("engagement_id", "=", self.id), ("code", "=", "P1.2")], limit=1,
+        )
+        return bool(item) and not item.conditional and not item.not_applicable
 
     def _ea_open_review_notes(self, code_patterns):
         """Open notes on tasks matching the LIKE patterns (P1.% and the like)."""

@@ -30,44 +30,22 @@
     "kind": "fields",
     "titleEn": "Engagement profile",
     "titleFr": "Profil de la mission",
-    "introEn": "Select what applies before performing the procedures.",
-    "introFr": "Sélectionner ce qui s'applique avant de mettre en œuvre les procédures.",
+    "introEn": "Taken from the engagement profile questionnaire, read only. To change an answer, reopen the questionnaire from the engagement.",
+    "introFr": "Repris du questionnaire de profil de la mission, en lecture seule. Pour modifier une réponse, rouvrir le questionnaire depuis la mission.",
     "fields": [
      {
-      "key": "engagement_type",
-      "kind": "select",
-      "labelEn": "Engagement type",
-      "labelFr": "Type de mission",
-      "options": [
-       {
-        "value": "new",
-        "en": "New engagement",
-        "fr": "Nouvelle mission"
-       },
-       {
-        "value": "recurring",
-        "en": "Recurring engagement",
-        "fr": "Mission récurrente"
-       }
-      ]
+      "key": "profile_first_year",
+      "kind": "auto",
+      "labelEn": "First-year audit (question 20)",
+      "labelFr": "Premier exercice audité (question 20)",
+      "source": "engagement profile"
      },
      {
-      "key": "auditor_change",
-      "kind": "select",
-      "labelEn": "Change of auditor?",
-      "labelFr": "Changement d'auditeur ?",
-      "options": [
-       {
-        "value": "yes",
-        "en": "Yes — predecessor communication applies (P1.2)",
-        "fr": "Oui — communication avec le prédécesseur (P1.2)"
-       },
-       {
-        "value": "no",
-        "en": "No",
-        "fr": "Non"
-       }
-      ]
+      "key": "profile_level",
+      "kind": "auto",
+      "labelEn": "Engagement level",
+      "labelFr": "Niveau de la mission",
+      "source": "engagement profile"
      }
     ]
    },

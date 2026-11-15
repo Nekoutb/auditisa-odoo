@@ -307,7 +307,36 @@ class Paper(models.Model):
 
     def _ea_auto_values(self):
         """Auto fields, filled from the tools and never saved."""
+        self.ensure_one()
+        if self.code == "P1.1":
+            return self._ea_profile_auto_values()
         return {}
+
+    def _ea_profile_auto_values(self):
+        """P1.1 shows the engagement profile questionnaire, read only (owner's ruling of
+        2026-11-15): first-year audit and level are answered once, in the questionnaire."""
+        profile = self.sudo().engagement_id._ea_profile()
+        if not profile:
+            return {}
+        _ = self.env._
+        values = {}
+        if profile.q20_first_year == "yes":
+            values["profile_first_year"] = _("Yes: communication with the predecessor auditor applies (P1.2)")
+        elif profile.q20_first_year == "no":
+            values["profile_first_year"] = _("No")
+        if profile.state == "concluded" and profile.level:
+            level = {
+                "complex": _("Complex"),
+                "non_complex": _("Non-complex"),
+                "very_simple": _("Very simple"),
+            }[profile.level]
+            if profile.concluded_at:
+                day = fields.Date.context_today(profile, profile.concluded_at).strftime("%d/%m/%Y")
+                level = _("%(level)s (questionnaire concluded on %(day)s)", level=level, day=day)
+            values["profile_level"] = level
+        else:
+            values["profile_level"] = _("The questionnaire is not finished yet.")
+        return values
 
     def _ea_tool_links(self):
         """The header chips: label and, once the tool exists, the action it opens."""
@@ -322,11 +351,6 @@ class Paper(models.Model):
         self.ensure_one()
         engagement = self.sudo().engagement_id
         self._ea_sync_seeded_response_step()
-        if self.code == "P1.1" and ("engagement_type" in values or "auditor_change" in values):
-            stored = self._ea_values()
-            engagement._ea_set_predecessor_active(
-                stored.get("engagement_type") == "new" or stored.get("auditor_change") == "yes"
-            )
         if self.code == "P1.5" and any(values.get(key) == "yes" for key in _EQR_DETERMINATION):
             engagement._ea_ensure_task(EQR_PAPER)
         if self.code == "S6.1":

@@ -117,10 +117,12 @@ def test_acceptance_verdict():
     assert verdict["complete"] and verdict["accepted"] and verdict["checks_passed"]
     # the first conclusion answered No is no acceptance
     assert not acceptance_verdict(p11, p12, {**values, "c_0": "no", "c_0_x": "Declined."}, {})["accepted"]
-    # a changed auditor needs a completed P1.2
+    # P1.2 on the file (a first-year audit, from the questionnaire) needs a completed P1.2
+    assert not acceptance_verdict(p11, p12, values, {}, predecessor_required=True)["checks_passed"]
+    assert acceptance_verdict(p11, p12, values, _answered("P1.2"), predecessor_required=True)["checks_passed"]
+    # an older P1.1 that still holds "change of auditor: yes" keeps its rule
     changed = {**values, "auditor_change": "yes"}
     assert not acceptance_verdict(p11, p12, changed, {})["checks_passed"]
-    assert acceptance_verdict(p11, p12, changed, _answered("P1.2"))["checks_passed"]
 
 
 def test_missing_parts_name_the_part_in_both_languages_in_paper_order():

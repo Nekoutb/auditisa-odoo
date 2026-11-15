@@ -109,8 +109,10 @@ def persons_on_save(stored, posted):
     return persons_from_headcount(posted["headcount"])
 
 
-def acceptance_verdict(p11_definition, p12_definition, p11, p12):
-    """What the acceptance gates read from the P1.1 paper (acceptancePaperVerdict)."""
+def acceptance_verdict(p11_definition, p12_definition, p11, p12, predecessor_required=None):
+    """What the acceptance gates read from the P1.1 paper (acceptancePaperVerdict).
+    predecessor_required: whether P1.2 is on the file (the engagement profile questionnaire
+    puts it there for a first-year audit). None reads an older P1.1's own "change of auditor"."""
 
     def answer(key):
         return js_trim(p11.get(key) or "")
@@ -124,7 +126,9 @@ def acceptance_verdict(p11_definition, p12_definition, p11, p12):
         for item in section["items"]
     )
     rating_holds = not (any_no and answer("rating") == "low")
-    predecessor = answer("auditor_change") != "yes" or not paper_missing(p12_definition, p12)
+    if predecessor_required is None:
+        predecessor_required = answer("auditor_change") == "yes"
+    predecessor = not predecessor_required or not paper_missing(p12_definition, p12)
     return {
         "complete": complete,
         "accepted": accepted,

@@ -264,16 +264,31 @@ class TestPerCodeBehaviour(PaperCase):
         self.assertFalse(item.conditional)
         self.assertTrue(engagement.sudo()._ea_eqr_required())
 
-    def test_p11_profile_decides_whether_p12_applies(self):
-        self.save(self.staff, "P1.1", {"auditor_change": "yes"})
-        self.assertFalse(self.item(self.engagement, "P1.2").conditional)
-        self.save(self.staff, "P1.1", {"auditor_change": "no", "engagement_type": "recurring"})
-        self.assertTrue(self.item(self.engagement, "P1.2").conditional)
-        # a task holding work stays
-        self.save(self.staff, "P1.1", {"auditor_change": "yes"})
-        self.save(self.staff, "P1.2", {"key_findings": "Letter sent."})
-        self.save(self.staff, "P1.1", {"auditor_change": "no"})
-        self.assertFalse(self.item(self.engagement, "P1.2").conditional)
+    def test_p11_shows_the_profile_answers_read_only(self):
+        """Owner's ruling of 2026-11-15: P1.1 no longer asks new/recurring or change of
+        auditor; it shows the questionnaire's answers, which nobody can type over."""
+        engagement = self.engagement.sudo()
+        self.save(self.staff, "P1.1", {"rating": "moderate"})
+        paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", engagement.id), ("code", "=", "P1.1")])
+        profile = engagement._ea_profile() or self.env["ea.audit.engagement.profile"].sudo().create(
+            {"engagement_id": engagement.id}
+        )
+        profile.q20_first_year = "yes"
+        values = paper._ea_auto_values()
+        self.assertIn("P1.2", values["profile_first_year"])
+        self.assertEqual(values["profile_level"], "The questionnaire is not finished yet.")
+        profile.q20_first_year = "no"
+        self.assertEqual(paper._ea_auto_values()["profile_first_year"], "No")
+        self.save(self.staff, "P1.1", {"profile_first_year": "typed over"})
+        self.assertNotIn("profile_first_year", self.stored("P1.1"))
+
+    def test_acceptance_needs_p12_only_when_it_is_on_the_file(self):
+        engagement = self.engagement.sudo()
+        self.assertFalse(engagement._ea_predecessor_required())
+        engagement._ea_ensure_task("P1.2")
+        self.assertTrue(engagement._ea_predecessor_required())
+        self.item(self.engagement, "P1.2").not_applicable = True
+        self.assertFalse(engagement._ea_predecessor_required())
 
     def test_auto_fields_are_never_saved(self):
         definition = paper_for("P6.1")

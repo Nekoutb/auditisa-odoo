@@ -134,6 +134,7 @@ export const AUTO_SOURCES = {
     strategy: _t("the risk strategy tool, nothing recorded yet"),
     "je-selection": _t("the journal-entry selection tool, no design recorded yet"),
     "engagement record": _t("the engagement record"),
+    "engagement profile": _t("the engagement profile questionnaire, not answered yet"),
 };
 
 export const CHIP_LETTER = { preparer: "P", reviewer: "R", partner: "A", eqr: "EQR" };

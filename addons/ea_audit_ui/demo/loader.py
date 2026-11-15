@@ -41,8 +41,6 @@ WALK_PAPERS = (
 )
 _WALK_NA_REASON = ("Demonstration file: paper not kept for the guided walk.", "Dossier de démonstration : papier non retenu pour la visite guidée.")
 _SELECT_ANSWERS = {
-    "engagement_type": "recurring",
-    "auditor_change": "no",
     "rating": "moderate",
     "itgc_state": "support",
     # S6.1, the conditional tasks: none on the demonstration files until someone says so

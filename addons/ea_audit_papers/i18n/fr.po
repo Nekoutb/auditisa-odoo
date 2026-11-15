@@ -1653,3 +1653,46 @@ msgstr "Aucune date fixée pour cette tâche : l'échéance de sa phase s'appliq
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__rating_ids
 msgid "Ratings"
 msgstr ""
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the engagement profile questionnaire, not answered yet"
+msgstr "le questionnaire de profil de la mission, pas encore renseigné"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Yes: communication with the predecessor auditor applies (P1.2)"
+msgstr "Oui : communication avec l'auditeur prédécesseur (P1.2)"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Complex"
+msgstr "Complexe"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Non-complex"
+msgstr "Non complexe"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Very simple"
+msgstr "Très simple"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+#, python-format
+msgid "%(level)s (questionnaire concluded on %(day)s)"
+msgstr "%(level)s (questionnaire conclu le %(day)s)"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "The questionnaire is not finished yet."
+msgstr "Le questionnaire n'est pas encore terminé."
