@@ -4,6 +4,7 @@ from . import email_domains
 from . import standards_edition
 from . import tool_fed
 from . import file_scope
+from . import engagement_profile
 from . import phases
 from . import activity_summary
 from . import conditional_triggers

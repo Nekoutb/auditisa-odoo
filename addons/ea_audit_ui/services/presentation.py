@@ -15,7 +15,7 @@ _PHASE_OFFSET_DAYS = {"acceptance": -90, "planning": -45, "execution": 90, "conc
 
 NATURE_LABELS = {
     "statutory_audit": _lt("statutory audit"),
-    "contractual_audit": _lt("contractual audit"),
+    "contractual_audit": _lt("non-statutory audit"),
     "limited_review": _lt("limited review"),
     "commissariat_apports": _lt("contribution audit"),
     "agreed_procedures": _lt("agreed-upon procedures"),

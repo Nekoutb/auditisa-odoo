@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The profile questionnaire: twenty compulsory questions, then the conclusion (owner's rulings of 2026-11-15). -->
+    <record id="view_engagement_profile_form" model="ir.ui.view">
+        <field name="name">ea.audit.engagement.profile.form</field>
+        <field name="model">ea.audit.engagement.profile</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" duplicate="0" class="ea-profile">
+                <header>
+                    <button name="action_save_for_later" type="object" string="Save for later" invisible="state == 'concluded'"/>
+                    <button name="action_conclude" type="object" string="Finish and see the conclusion" class="btn-primary" invisible="state == 'concluded'"/>
+                    <button name="action_open_tasks" type="object" string="See the tasks" class="btn-primary" invisible="state != 'concluded'"/>
+                    <button name="action_save_for_later" type="object" string="Back to the engagement" invisible="state != 'concluded'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="text-muted">Profile questionnaire</div>
+                        <h1><field name="engagement_id" readonly="1" options="{'no_open': True}"/></h1>
+                    </div>
+                    <p class="text-muted">
+                        Answer all 20 questions. The answers alone decide the level of the engagement (Complex,
+                        Non-complex or Very simple) and its tasks. You can save and come back later; the tasks come
+                        once every question is answered.
+                    </p>
+
+                    <div class="alert alert-warning" role="alert" invisible="state == 'concluded' or not missing_text">
+                        <field name="missing_text" readonly="1" nolabel="1"/>
+                    </div>
+
+                    <div class="alert alert-danger" role="status" invisible="state != 'concluded' or level != 'complex'">
+                        <h3 class="mb-2">Level: Complex</h3>
+                        <div class="fw-bold"><field name="conclusion_title" readonly="1" nolabel="1"/></div>
+                        <field name="reasons_text" readonly="1" nolabel="1"/>
+                        <div class="mt-2 small">Full ISAs, full methodology: all task templates.</div>
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="state != 'concluded' or level != 'non_complex'">
+                        <h3 class="mb-2">Level: Non-complex</h3>
+                        <div class="fw-bold"><field name="conclusion_title" readonly="1" nolabel="1"/></div>
+                        <field name="reasons_text" readonly="1" nolabel="1"/>
+                        <div class="mt-2 small">Scaled file: core and standard task templates.</div>
+                        <div class="mt-2 small fst-italic"><field name="lce_note" readonly="1" nolabel="1"/></div>
+                    </div>
+                    <div class="alert alert-success" role="status" invisible="state != 'concluded' or level != 'very_simple'">
+                        <h3 class="mb-2">Level: Very simple</h3>
+                        <div class="fw-bold"><field name="conclusion_title" readonly="1" nolabel="1"/></div>
+                        <div class="mt-2 small">Shortest file: core task templates only, fully substantive, all at year end.</div>
+                        <div class="mt-2 small fst-italic"><field name="lce_note" readonly="1" nolabel="1"/></div>
+                    </div>
+                    <p class="small text-muted" invisible="state != 'concluded'">
+                        The level is worked out from the answers and cannot be changed by hand. If an answer changes
+                        later, the level is worked out again and any new tasks are added; no task is ever removed.
+                    </p>
+                    <field name="level" invisible="1"/>
+
+                    <h2 class="mt-4">The entity</h2>
+                    <div class="mb-3">
+                        <label for="q1_listed" class="fw-bold d-block" string="Q1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"/>
+                        <field name="q1_listed" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q2_pie" class="fw-bold d-block" string="Q2. Is it a public-interest entity: bank, microfinance institution, insurer, pension fund, or so designated by law or by the firm?"/>
+                        <field name="q2_pie" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q3_controls_law" class="fw-bold d-block" string="Q3. Does a law or regulator require the auditor to test internal controls?"/>
+                        <field name="q3_controls_law" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q4_group" class="fw-bold d-block" string="Q4. Is the entity part of a group, as parent or subsidiary? (A branch keeping its own ledger and management also counts.)"/>
+                        <field name="q4_group" widget="radio" options="{'horizontal': true}"/>
+                        <div class="ms-4 mt-2" invisible="q4_group != 'parent'">
+                            <label for="q4_consolidates" class="d-block" string="Does it prepare consolidated accounts?"/>
+                            <field name="q4_consolidates" widget="radio" options="{'horizontal': true}"/>
+                            <label for="q4_other_auditors" class="d-block" string="Are some components audited by other auditors?"/>
+                            <field name="q4_other_auditors" widget="radio" options="{'horizontal': true}"/>
+                        </div>
+                    </div>
+
+                    <h2 class="mt-4">The business</h2>
+                    <div class="mb-3">
+                        <label for="q5_activities" class="fw-bold d-block" string="Q5. How many distinct activities or revenue streams?"/>
+                        <field name="q5_activities" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q6_sites" class="fw-bold d-block" string="Q6. How many sites keep accounting records or hold significant inventory?"/>
+                        <field name="q6_sites" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q7_major_change" class="fw-bold d-block" string="Q7. Major change this year: new activity, acquisition, restructuring, new management?"/>
+                        <field name="q7_major_change" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+
+                    <h2 class="mt-4">IT</h2>
+                    <div class="mb-3">
+                        <div class="fw-bold">Q8. Rate the IT on 8 points, each low or high. A single "high" makes the engagement Complex.</div>
+                        <group class="mt-1">
+                            <field name="q8_1" string="1. How much is automated" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_2" string="2. Software customised, integrated or built in-house" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_3" string="3. Big IT changes this year" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_4" string="4. Number of interfaces" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_5" string="5. IT outsourced to several providers" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_6" string="6. Reliance on reports from the system" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_7" string="7. Data entered by hand or automatically" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q8_8" string="8. Volume of data" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </div>
+
+                    <h2 class="mt-4">Specialists, people and ownership</h2>
+                    <div class="mb-3">
+                        <label for="q9_specialists" class="fw-bold d-block" string="Q9. Will specialists be needed (actuary, valuer, engineer, IT, tax), and on what?"/>
+                        <field name="q9_specialists" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q10_regulator" class="fw-bold d-block" string="Q10. Does a regulator set the entity's reporting rules or receive its accounts?"/>
+                        <field name="q10_regulator" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q11_fraud" class="fw-bold d-block" string="Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"/>
+                        <field name="q11_fraud" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q12_owners_known" class="fw-bold d-block" string="Q12. Are all owners, including those who really own and control it, known?"/>
+                        <field name="q12_owners_known" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+
+                    <h2 class="mt-4">How the evidence will be obtained</h2>
+                    <div class="mb-3">
+                        <label for="q13_automated" class="fw-bold d-block" string="Q13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"/>
+                        <field name="q13_automated" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q14_keeper" class="fw-bold d-block" string="Q14. Who keeps the books or processes key data?"/>
+                        <field name="q14_keeper" widget="radio" options="{'horizontal': true}"/>
+                        <div class="ms-4 mt-2" invisible="not q14_keeper or q14_keeper == 'entity'">
+                            <label for="q14_rely_report" class="d-block" string="Will we rely on that provider's own auditor's report?"/>
+                            <field name="q14_rely_report" widget="radio" options="{'horizontal': true}"/>
+                        </div>
+                    </div>
+
+                    <h2 class="mt-4">Risk</h2>
+                    <div class="mb-3">
+                        <div class="fw-bold">Q15. Is the engagement under the firm's close monitoring? Is an engagement quality review required?</div>
+                        <group class="mt-1">
+                            <field name="q15_monitoring" string="Close monitoring" widget="radio" options="{'horizontal': true}"/>
+                            <field name="q15_eqr" string="Engagement quality review" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q16_risks" class="fw-bold d-block" string="Q16. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"/>
+                        <field name="q16_risks" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q17_going_concern" class="fw-bold d-block" string="Q17. Any doubt about going concern?"/>
+                        <field name="q17_going_concern" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q18_related_parties" class="fw-bold d-block" string="Q18. Significant related-party or unusual transactions outside the normal business?"/>
+                        <field name="q18_related_parties" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+
+                    <h2 class="mt-4">Approach and history</h2>
+                    <div class="mb-3">
+                        <label for="q19_approach" class="fw-bold d-block" string="Q19. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"/>
+                        <field name="q19_approach" widget="radio" options="{'horizontal': true}"/>
+                        <div class="ms-4 mt-2" invisible="q19_approach != 'other'">
+                            <div><field name="q19_controls"/> <label for="q19_controls"/></div>
+                            <div><field name="q19_interim"/> <label for="q19_interim"/></div>
+                            <div><field name="q19_internal_audit"/> <label for="q19_internal_audit"/></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q20_first_year" class="fw-bold d-block" string="Q20. Is this a first-year audit?"/>
+                        <field name="q20_first_year" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -91,13 +91,18 @@ class TestNewEngagement(EaAuditCase):
             wizard.action_create()
         self.assertEqual(caught.exception.code, "fiscal-year-required")
 
-    def test_f075_name_preview(self):
-        wizard = self.wizard().new({"fiscal_year": 2025})
-        self.assertEqual(wizard.name_preview, "—")
-        wizard.client_id = self.client
-        self.assertEqual(wizard.name_preview, "Governance SA 2025")
+    def test_f075_an_engagement_without_a_name_reads_client_and_year(self):
         engagement = self.make_engagement(2025)
-        self.assertEqual(engagement.sudo().display_name, wizard.name_preview)
+        self.assertEqual(engagement.sudo().display_name, "Governance SA 2025")
+
+    def test_the_typed_name_is_the_engagement_s_name(self):
+        wizard = self.wizard().create({
+            "client_id": self.client.id, "name": " Review of the CNPS declarations ", "fiscal_year": 2025,
+            "period_end": date(2025, 12, 31), "engagement_partner_id": self.partner.id,
+        })
+        wizard.action_create()
+        engagement = self.Engagement.sudo().search([("name", "=", "Review of the CNPS declarations")])
+        self.assertEqual(engagement.display_name, "Review of the CNPS declarations")
 
 
 @tagged("post_install", "-at_install")

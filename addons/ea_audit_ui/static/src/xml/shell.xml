@@ -177,6 +177,7 @@
                     <a t-foreach="state.missions" t-as="mission" t-key="mission.id" class="ea-mis" href="#" role="button" t-on-click.prevent="() => this.openMission(mission)">
                         <div>
                             <b><t t-esc="mission.client"/>, <t t-esc="mission.period_end"/><t t-if="mission.nature">, <t t-esc="mission.nature"/></t></b>
+                            <div class="ea-m" t-if="mission.profile_pending"><b>Profile not finished: finish it to get your tasks.</b></div>
                             <div class="ea-m" t-if="mission.archived">
                                 <t t-if="mission.archived_on">Archived on <t t-esc="mission.archived_on"/></t><t t-else="">Archived</t><br/>
                                 <t t-esc="mission.partner"/> · File locked
@@ -216,6 +217,11 @@
                         <small>OVERALL COMPLETION</small>
                         <b><t t-esc="d.pct"/>%</b>
                     </div>
+                </div>
+
+                <div class="ea-alert ea-profile-banner" role="alert" t-if="d.profile_pending">
+                    <b>Profile not finished: finish it to get your tasks.</b>
+                    <a class="ea-link ms-2" href="#" role="button" t-on-click.prevent="openProfile">Finish the profile &#8594;</a>
                 </div>
 
                 <div class="ea-rings" t-att-class="{open: openSection}" t-att-style="gridStyle">

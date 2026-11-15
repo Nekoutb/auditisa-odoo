@@ -1,6 +1,8 @@
+from datetime import date
+
 from odoo import api, fields, models
 
-from ..models.engagement import COMPLEXITY_SELECTION, NATURE_SELECTION
+from ..models.engagement import NEW_NATURE_SELECTION, REPORT_LANGUAGE_SELECTION
 from ..models.signoff_policy import LADDER_SELECTION
 from ..models.team_member import TEAM_ROLE_SELECTION
 from ..services.errors import rule_error
@@ -9,29 +11,28 @@ from ..services.errors import rule_error
 class EngagementCreateWizard(models.TransientModel):
     """Opening a file. A wizard, not the engagement form: a partner may open a
     file for another partner and may not read it back afterwards (F008), and the
-    standard form would read the new row in the same transaction."""
+    standard form would read the new row in the same transaction.
+
+    Owner's rulings of 2026-11-15: nothing about the client's profile is asked here. The
+    questionnaire opens right after, and the tasks come from its conclusion."""
 
     _name = "ea.audit.engagement.create.wizard"
     _description = "New engagement"
 
     client_id = fields.Many2one("ea.audit.client", string="Client", required=True)
-    fiscal_year = fields.Integer(required=True, default=lambda self: fields.Date.context_today(self).year - 1)
-    period_end = fields.Date(required=True)
-    name_preview = fields.Char(string="Name of the file", compute="_compute_name_preview")
-    duration_months = fields.Integer(string="Duration (months)", default=12)
-    nature = fields.Selection(NATURE_SELECTION, default="statutory_audit")
-    complexity = fields.Selection(COMPLEXITY_SELECTION, default="complex")
-    first_year = fields.Boolean(string="First-year audit")
+    name = fields.Char(string="Engagement name")
+    nature = fields.Selection(NEW_NATURE_SELECTION, string="Nature of the service")
+    fiscal_year = fields.Integer(string="Financial year", required=True, default=lambda self: fields.Date.context_today(self).year - 1)
+    period_start = fields.Date(string="Audit period from", default=lambda self: date(fields.Date.context_today(self).year - 1, 1, 1))
+    period_end = fields.Date(string="to", required=True, default=lambda self: date(fields.Date.context_today(self).year - 1, 12, 31))
+    report_language = fields.Selection(
+        REPORT_LANGUAGE_SELECTION, string="Report language", required=True,
+        default=lambda self: self.env["ea.audit.engagement"]._ea_firm_language(),
+    )
     engagement_partner_id = fields.Many2one(
         "res.users", string="Engagement partner",
         domain=lambda self: [("all_group_ids", "in", self.env.ref("ea_audit_core.group_partner").ids)],
     )
-
-    @api.depends("client_id", "fiscal_year")
-    def _compute_name_preview(self):
-        """F075: as the file will read; a dash until the client is chosen."""
-        for wizard in self:
-            wizard.name_preview = "%s %s" % (wizard.client_id.name, wizard.fiscal_year) if wizard.client_id else "—"
 
     @api.onchange("period_end")
     def _onchange_period_end(self):
@@ -44,15 +45,17 @@ class EngagementCreateWizard(models.TransientModel):
             raise rule_error(self.env, "fiscal-year-required")
         engagement = self.env["ea.audit.engagement"].create({
             "client_id": self.client_id.id,
+            "name": (self.name or "").strip() or False,
+            "nature": self.nature or False,
             "fiscal_year": self.fiscal_year,
+            "period_start": self.period_start,
             "period_end": self.period_end,
-            "duration_months": self.duration_months,
-            "nature": self.nature,
-            "complexity": self.complexity,
-            "first_year": self.first_year,
+            "report_language": self.report_language,
+            # no level yet: the questionnaire works it out, and only then are the tasks made
+            "complexity": False,
             "engagement_partner_id": self.engagement_partner_id.id,
         })
-        return engagement._ea_open_or_notify()
+        return engagement._ea_open_profile_or_notify()
 
 
 class TeamInviteWizard(models.TransientModel):
