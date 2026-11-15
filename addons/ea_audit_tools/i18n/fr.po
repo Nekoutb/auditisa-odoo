@@ -1126,6 +1126,7 @@ msgstr "Disponible"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/materiality.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__rebuttal_state__proposed
 msgid "Awaiting partner approval"
 msgstr "En attente d'approbation de l'associé"
 
@@ -6889,6 +6890,7 @@ msgstr "Réfuter"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_reason_wizard__kind__rebut
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_state
 msgid "Rebuttal"
 msgstr "Réfutation"
 
@@ -7349,6 +7351,7 @@ msgstr "Sélection orientée risque, motif de chaque choix."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__risk_ids
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__risk_ids
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__risks
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__risk_ids
 msgid "Risks"
 msgstr "Risques"
 
@@ -10921,3 +10924,93 @@ msgstr "Lié à : %(risks)s. Pour changer le statut, retirez le lien ou réfutez
 #: code:addons/ea_audit_tools/models/significance.py:0
 msgid "Status locked"
 msgstr "Statut verrouillé"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "<strong>Rebuttal awaiting partner approval.</strong> Until the engagement partner approves it, the risk stays live and linked to revenue."
+msgstr "<strong>Réfutation en attente de l'approbation de l'associé.</strong> Tant que l'associé signataire ne l'a pas approuvée, le risque reste actif et lié au chiffre d'affaires."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "<strong>Rebuttal rejected by the partner.</strong> The risk stays live and linked to revenue; a new rebuttal may be proposed."
+msgstr "<strong>Réfutation rejetée par l'associé.</strong> Le risque reste actif et lié au chiffre d'affaires ; une nouvelle réfutation peut être proposée."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "A linked risk keeps this account Significant: remove the link or rebut the risk in the risk register"
+msgstr "Un risque lié maintient ce compte Significatif : retirez le lien ou réfutez le risque dans le registre des risques"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Approve the rebuttal"
+msgstr "Approuver la réfutation"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Approve the rebuttal? The risk is rebutted and leaves revenue (UA)."
+msgstr "Approuver la réfutation ? Le risque est réfuté et quitte le chiffre d'affaires (UA)."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__rebuttal_state__approved
+msgid "Approved by the partner"
+msgstr "Approuvée par l'associé"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Locked by a risk"
+msgstr "Verrouillé par un risque"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Propose a rebuttal"
+msgstr "Proposer une réfutation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_decided_at
+msgid "Rebuttal decided on"
+msgstr "Décision sur la réfutation le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_proposed_by_id
+msgid "Rebuttal proposed by"
+msgstr "Réfutation proposée par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_proposed_at
+msgid "Rebuttal proposed on"
+msgstr "Réfutation proposée le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_rejected_by_id
+msgid "Rebuttal rejected by"
+msgstr "Réfutation rejetée par"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_form
+msgid "Reject the rebuttal"
+msgstr "Rejeter la réfutation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__rebuttal_state__rejected
+msgid "Rejected by the partner"
+msgstr "Rejetée par l'associé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_reason_wizard__kind__reject_rebuttal
+msgid "Rejected rebuttal"
+msgstr "Réfutation rejetée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_significance__risk_ids
+msgid "Risks of this engagement's risk register that bear on this lead index."
+msgstr "Risques du registre des risques de cette mission qui portent sur cet indice."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebuttal_rejection
+msgid "Why the rebuttal was rejected"
+msgstr "Motif du rejet de la réfutation"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__lock_note
+msgid "Why the status is locked"
+msgstr "Pourquoi le statut est verrouillé"

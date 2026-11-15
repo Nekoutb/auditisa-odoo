@@ -1369,5 +1369,6 @@
 "<strong>Rebuttal awaiting partner approval.</strong> Until the engagement partner approves it, the risk stays live and linked to revenue.": "<strong>Réfutation en attente de l'approbation de l'associé.</strong> Tant que l'associé signataire ne l'a pas approuvée, le risque reste actif et lié au chiffre d'affaires.",
 "<strong>Rebuttal rejected by the partner.</strong> The risk stays live and linked to revenue; a new rebuttal may be proposed.": "<strong>Réfutation rejetée par l'associé.</strong> Le risque reste actif et lié au chiffre d'affaires ; une nouvelle réfutation peut être proposée.",
 "Locked by a risk": "Verrouillé par un risque",
-"A linked risk keeps this account Significant: remove the link or rebut the risk in the risk register": "Un risque lié maintient ce compte Significatif : retirez le lien ou réfutez le risque dans le registre des risques"
+"A linked risk keeps this account Significant: remove the link or rebut the risk in the risk register": "Un risque lié maintient ce compte Significatif : retirez le lien ou réfutez le risque dans le registre des risques",
+"Rebuttal": "Réfutation"
 }
