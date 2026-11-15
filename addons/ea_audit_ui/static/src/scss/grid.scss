@@ -111,3 +111,12 @@ body.ea-shell {
     .ea-ts .ea-ts-pair,
     .ea-ts .ea-ts-cell { font-family: inherit; font-size: $ea-grid-figure-size; font-variant-numeric: tabular-nums; }
 }
+
+// Long words in a list (ratio names, notes, commentaries) wrap instead of being cut with "...".
+// !important: Odoo's own nowrap rule on list cells is more specific.
+body.ea-shell .o_list_renderer .o_list_table td.o_ea_wrap,
+body.ea-shell .o_list_renderer .o_list_table td.o_ea_wrap * {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+}
