@@ -1236,7 +1236,7 @@ class Engagement(models.Model):
 
     def action_open_conclusion(self):
         self.ensure_one()
-        return self._ea_board("ea_audit_reports.view_engagement_conclusion_form", self.env._("Conclusion and archive"))
+        return self._ea_board("ea_audit_reports.view_engagement_conclusion_form", self.env._("Conclusion"))
 
     def action_open_completion_wizard(self):
         self.ensure_one()

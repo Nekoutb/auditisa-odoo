@@ -364,7 +364,6 @@ msgstr "Voir ce qui est demandé et le déposer"
 
 #. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_form
-#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
 msgid "Send a reminder"
 msgstr "Envoyer une relance"
 
@@ -500,3 +499,13 @@ msgstr ""
 #: code:addons/ea_audit_portal/models/pbc.py:0
 msgid "ea_audit_portal.view_pbc_item_list"
 msgstr ""
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
+msgid "Remind"
+msgstr "Relancer"
+
+#. module: ea_audit_portal
+#: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_pbc_item_list
+msgid "Send the client a reminder for the selected requests"
+msgstr "Relancer le client pour les demandes sélectionnées"

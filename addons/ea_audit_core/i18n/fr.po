@@ -3195,11 +3195,6 @@ msgid "Export the matrix, fill in columns I, J and K, and import the file back. 
 msgstr "Exportez la matrice, renseignez les colonnes I, J et K, puis réimportez le fichier. Une cellule vide applique la règle par défaut du cabinet. Rien n'est enregistré si une ligne est erronée."
 
 #. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
-msgid "Export to Excel"
-msgstr "Exporter vers Excel"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__field_key
 msgid "Field"
 msgstr "Champ"
@@ -3265,13 +3260,9 @@ msgstr "Déficience ISA 265 évaluée en C5.11 : classée %(status)s, communiqu�
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_import
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
 msgid "Import"
 msgstr "Importer"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
-msgid "Import from Excel"
-msgstr "Importer depuis Excel"
 
 #. module: ea_audit_core
 #: model:ir.actions.act_window,name:ea_audit_core.action_signoff_matrix_import
@@ -5541,3 +5532,17 @@ msgstr "Les soldes seulement, à la clôture, ou cochez ce que vous ferez d'autr
 msgid "Yes adds P1.2, contact with the predecessor auditor."
 msgstr "Oui ajoute P1.2, prise de contact avec l'auditeur précédent."
 
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
+msgid "Export"
+msgstr "Exporter"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
+msgid "Export this list to Excel"
+msgstr "Exporter cette liste vers Excel"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
+msgid "Import this list from an Excel file"
+msgstr "Importer cette liste depuis un fichier Excel"

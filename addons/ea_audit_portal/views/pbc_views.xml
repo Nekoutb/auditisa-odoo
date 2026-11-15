@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0" decoration-warning="status == 'uploaded'" decoration-muted="status == 'accepted'">
                 <header>
-                    <button name="action_chase" type="object" string="Send a reminder"/>
+                    <button name="action_chase" type="object" string="Remind" help="Send the client a reminder for the selected requests"/>
                 </header>
                 <field name="title"/>
                 <field name="status" widget="badge"/>

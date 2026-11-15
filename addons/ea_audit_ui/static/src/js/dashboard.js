@@ -8,7 +8,7 @@ export class EaDashboard extends Component {
     static template = "ea_audit_ui.Dashboard";
     static props = { ...standardActionServiceProps };
     static path = "ea-mission";
-    static displayName = _t("Engagement dashboard");
+    static displayName = _t("Dashboard");
 
     setup() {
         this.ctx = useService("ea_audit_context");

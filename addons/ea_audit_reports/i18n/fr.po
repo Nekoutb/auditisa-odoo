@@ -305,8 +305,6 @@ msgid "Completion records"
 msgstr "Enregistrements d'achèvement"
 
 #. module: ea_audit_reports
-#. odoo-python
-#: code:addons/ea_audit_reports/models/engagement.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_conclusion_button
 msgid "Conclusion and archive"
 msgstr "Conclusion et archivage"
@@ -1546,3 +1544,9 @@ msgstr "Ouvert"
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_report_dates
 msgid "Open the conclusion"
 msgstr "Ouvrir la conclusion"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/models/engagement.py:0
+msgid "Conclusion"
+msgstr "Conclusion"

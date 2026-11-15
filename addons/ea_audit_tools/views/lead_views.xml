@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" editable="bottom">
                 <header>
-                    <button name="action_list_export" type="object" string="Extract to Excel" display="always"/>
+                    <button name="action_list_export" type="object" string="Export" help="Export the lead schedules to Excel" display="always"/>
                 </header>
                 <field name="index_code" readonly="1"/>
                 <field name="sub_index" readonly="1" optional="hide"/>

@@ -90,8 +90,8 @@
         <field name="arch" type="xml">
             <list create="0" edit="1" delete="0" editable="bottom" default_order="matrix_order" decoration-info="matrix_firm_rule">
                 <header>
-                    <button name="action_matrix_export" type="object" string="Export to Excel" display="always" groups="ea_audit_core.group_partner"/>
-                    <button name="action_matrix_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_partner"/>
+                    <button name="action_matrix_export" type="object" string="Export" help="Export this list to Excel" display="always" groups="ea_audit_core.group_partner"/>
+                    <button name="action_matrix_import" type="object" string="Import" help="Import this list from an Excel file" display="always" groups="ea_audit_core.group_partner"/>
                 </header>
                 <field name="code" readonly="1"/>
                 <field name="title" readonly="1"/>

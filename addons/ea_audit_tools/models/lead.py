@@ -219,7 +219,7 @@ class EngagementLead(models.Model):
         self._ea_require_access()
         self.sudo()._ea_refresh_lead_schedules()
         return self._ea_list(
-            "ea.audit.lead.line", self.env._("Lead schedules by account"),
+            "ea.audit.lead.line", self.env._("Lead schedules"),
             [("ea_audit_tools.view_lead_line_list", "list")],
             {"context": {
                 "default_engagement_id": self.id, "ea_engagement_id": self.id,

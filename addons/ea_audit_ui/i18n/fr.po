@@ -351,7 +351,11 @@ msgid "DUE DATE"
 msgstr "ÉCHÉANCE"
 
 #. module: ea_audit_ui
+#. odoo-python
 #. odoo-javascript
+#: code:addons/ea_audit_ui/models/engagement.py:0
+#: code:addons/ea_audit_ui/static/src/js/context_service.js:0
+#: code:addons/ea_audit_ui/static/src/js/dashboard.js:0
 #: code:addons/ea_audit_ui/static/src/js/home.js:0
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 #: model:ir.actions.client,name:ea_audit_ui.action_home
@@ -425,14 +429,6 @@ msgstr "MISSIONS"
 #: model:ir.model.fields.selection,name:ea_audit_ui.selection__ea_audit_notification__kind__mission
 msgid "Engagement"
 msgstr "Mission"
-
-#. module: ea_audit_ui
-#. odoo-javascript
-#: code:addons/ea_audit_ui/static/src/js/context_service.js:0
-#: code:addons/ea_audit_ui/static/src/js/dashboard.js:0
-#: code:addons/ea_audit_ui/models/engagement.py:0
-msgid "Engagement dashboard"
-msgstr "Tableau de bord de la mission"
 
 #. module: ea_audit_ui
 #. odoo-javascript
@@ -1465,12 +1461,6 @@ msgid "· Phase deadline"
 msgstr "· Échéance de phase"
 
 #. module: ea_audit_ui
-#. odoo-javascript
-#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
-msgid "← Back to dashboard"
-msgstr "← Retour au tableau de bord"
-
-#. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/models/ui_data.py:0
 msgid "Audit"
@@ -1645,3 +1635,9 @@ msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "non-statutory audit"
 msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "← Dashboard"
+msgstr "← Tableau de bord"

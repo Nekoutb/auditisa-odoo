@@ -301,7 +301,7 @@
         <div class="ea-page">
             <t t-if="state.data">
                 <t t-set="d" t-value="state.data"/>
-                <a class="ea-back" href="#" role="button" t-on-click.prevent="back">&#8592; Back to dashboard</a>
+                <a class="ea-back" href="#" role="button" t-on-click.prevent="back">&#8592; Dashboard</a>
                 <div class="ea-title ea-title-tasks">
                     <div>
                         <h1><t t-esc="d.group.code"/> <t t-esc="d.group.title"/></h1>
@@ -367,7 +367,7 @@
         <div class="ea-page">
             <t t-if="state.data">
                 <t t-set="d" t-value="state.data"/>
-                <a class="ea-back" href="#" role="button" t-on-click.prevent="back">&#8592; Back to dashboard</a>
+                <a class="ea-back" href="#" role="button" t-on-click.prevent="back">&#8592; Dashboard</a>
                 <div class="ea-title ea-title-tasks">
                     <div>
                         <h1>Tasks</h1>

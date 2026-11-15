@@ -200,7 +200,7 @@ class EngagementSap(models.Model):
 
     def action_sap_procedures(self):
         return self._ea_list(
-            "ea.audit.sap.procedure", self.env._("Substantive analytical procedures"),
+            "ea.audit.sap.procedure", self.env._("Substantive analytics"),
             [("ea_audit_tools.view_sap_list", "list")], {"context": {"ea_engagement_id": self.id, "create": False}},
         )
 

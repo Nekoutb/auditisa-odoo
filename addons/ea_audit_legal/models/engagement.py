@@ -693,7 +693,7 @@ class Engagement(models.Model):
 
     def action_open_legal(self):
         self.ensure_one()
-        return self._ea_board("ea_audit_legal.view_engagement_legal_form", self.env._("OHADA legal register"))
+        return self._ea_board("ea_audit_legal.view_engagement_legal_form", self.env._("Legal register"))
 
     def action_open_legal_wizard(self):
         self.ensure_one()
@@ -724,6 +724,6 @@ class Engagement(models.Model):
         self.ensure_one()
         self._ea_partner_only()
         return self._ea_list(
-            "ea.audit.criminal.disclosure", self.env._("Disclosures of criminal facts"),
+            "ea.audit.criminal.disclosure", self.env._("Criminal facts"),
             [("ea_audit_legal.view_criminal_disclosure_list", "list")],
         )

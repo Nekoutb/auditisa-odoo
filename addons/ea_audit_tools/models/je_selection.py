@@ -353,7 +353,7 @@ class EngagementJe(models.Model):
 
     def action_open_je_designs(self):
         return self._ea_list(
-            "ea.audit.je.design", self.env._("S5.4 selection designs"), [("ea_audit_tools.view_je_design_list", "list")],
+            "ea.audit.je.design", self.env._("S5.4 designs"), [("ea_audit_tools.view_je_design_list", "list")],
             {"context": {"ea_engagement_id": self.id, "create": False}},
         )
 

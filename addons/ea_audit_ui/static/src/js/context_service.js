@@ -69,7 +69,7 @@ const contextService = {
                     return;
                 }
                 return action.doAction(
-                    clientAction("ea_audit_ui.dashboard", _t("Engagement dashboard"), {
+                    clientAction("ea_audit_ui.dashboard", _t("Dashboard"), {
                         resId: engagementId,
                         section,
                     }),
