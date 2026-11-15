@@ -6,7 +6,7 @@ import io
 from datetime import date, datetime
 
 from .services.errors import SubLedgerError
-from .services.subledgers import TabularRow, _header_line_index, parse_csv
+from .services.subledgers import TabularRow, _header_line_index, csv_lines, detect_csv_delimiter, parse_csv
 
 
 def _decode(content):
@@ -33,12 +33,13 @@ def _cell_text(value):
     return str(value).strip()
 
 
-def _parse_xlsx(content, header_row):
+def _parse_xlsx(content, header_row, sheet_name=None):
     from openpyxl import load_workbook  # comes with Odoo 19; the pure tests do not need it
 
     try:
         book = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
-        sheet = book.worksheets[0]
+        # the first sheet, unless a person chose another one that the file does hold
+        sheet = book[sheet_name] if sheet_name and sheet_name in book.sheetnames else book.worksheets[0]
         lines = []
         for line_no, cells in enumerate(sheet.iter_rows(values_only=True), start=1):
             texts = [_cell_text(cell) for cell in cells]
@@ -67,10 +68,32 @@ def _parse_xlsx(content, header_row):
     return {"headers": headers, "rows": rows}
 
 
-def parse_table(filename, content, header_row=True):
+def parse_table(filename, content, header_row=True, sheet=None, delimiter=None):
+    """``sheet`` (Excel) and ``delimiter`` (CSV) are a person's choices over the reader's own:
+    the first sheet, and the separator the lines suggest."""
     lower = (filename or "").lower()
     if lower.endswith(".xlsx"):
-        return _parse_xlsx(content, header_row)
+        return _parse_xlsx(content, header_row, sheet)
     if lower.endswith(".csv") or lower.endswith(".txt"):
-        return parse_csv(_decode(content), header_row)
+        return parse_csv(_decode(content), header_row, delimiter)
     raise SubLedgerError("unsupported-file")
+
+
+def sheet_names(filename, content):
+    """The sheets of an Excel file, in the file's order; nothing for a CSV."""
+    if not (filename or "").lower().endswith(".xlsx"):
+        return []
+    from openpyxl import load_workbook
+
+    try:
+        return list(load_workbook(io.BytesIO(content), read_only=True, data_only=True).sheetnames)
+    except Exception as error:
+        raise SubLedgerError("unreadable-file") from error
+
+
+def found_delimiter(filename, content):
+    """The separator a CSV's own lines suggest; None for an Excel file."""
+    lower = (filename or "").lower()
+    if not (lower.endswith(".csv") or lower.endswith(".txt")):
+        return None
+    return detect_csv_delimiter(csv_lines(_decode(content)))

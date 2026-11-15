@@ -433,10 +433,11 @@ def norm(value):
     return _NOT_ALNUM.sub("", _COMBINING.sub("", unicodedata.normalize("NFD", js_trim(value).lower())))
 
 
-def auto_map(kind, headers):
+def auto_map(kind, headers, mapping=None):
     """Map a file's headers onto the kind's fields. Exact alias matches claim their
-    header first, then substring matches fill in; a header is claimed once."""
-    mapping = {}
+    header first, then substring matches fill in; a header is claimed once. A mapping
+    already begun is kept and only added to."""
+    mapping = dict(mapping or {})
     normalized = [(h, norm(h)) for h in headers]
     for exact in (True, False):
         for field in FIELDS[kind]:

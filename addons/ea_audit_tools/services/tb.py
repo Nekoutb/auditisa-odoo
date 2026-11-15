@@ -67,16 +67,24 @@ def normalize_header(value):
     return _NOT_ALNUM.sub("", _COMBINING.sub("", unicodedata.normalize("NFD", js_trim(value).lower())))
 
 
-def infer_tb_mapping(headers):
-    """The column mapping from headers (EN/FR aliases)."""
+def alias_tb_mapping(headers, mapping=None):
+    """The columns the aliases recognise (EN/FR), added to a mapping already begun. Checks nothing."""
     normalized = {normalize_header(header): header for header in headers}
-    mapping = {}
+    mapping = dict(mapping or {})
     for column, aliases in ALIASES.items():
+        if mapping.get(column):
+            continue
         for alias in aliases:
             hit = normalized.get(alias)
             if hit and hit not in mapping.values():
                 mapping[column] = hit
                 break
+    return mapping
+
+
+def infer_tb_mapping(headers):
+    """The column mapping from headers (EN/FR aliases)."""
+    mapping = alias_tb_mapping(headers)
     validate_mapping(mapping)
     return mapping
 
@@ -147,6 +155,18 @@ def readability_of(table, mapping):
                 })
             found[column] = entry
     return {"rows": len(table["rows"]), "rowsWithoutAccount": rows_without_account, "unreadable": list(found.values())}
+
+
+def left_out_rows(table, mapping):
+    """The file rows a trial balance leaves out: [{row, text}], totals, titles and rows with no
+    account, as extract_tb_rows skips them."""
+    out = []
+    for i, raw in enumerate(table["rows"]):
+        account = js_trim(cell_str(raw.get(mapping.get("account"))))
+        if _skip_tb_row(account, raw, mapping):
+            row_no = source_row_of(raw)
+            out.append({"row": row_no if row_no is not None else i + 1, "text": account})
+    return out
 
 
 def extract_tb_rows(table, mapping):

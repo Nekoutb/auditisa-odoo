@@ -104,6 +104,9 @@ def test_income_takes_class_8_and_keeps_89_apart():
 def test_the_label_beside_total_assets():
     assert asset_basis_label("fr", 3) == "Total actif net (SYSCOHADA), balance v3"
     assert asset_basis_label("en", None) == "Total net assets (SYSCOHADA)"
+    # on the screens a trial balance is known by the date and time of its upload
+    assert asset_basis_label("en", None, imported_on="12/11/2026 09:14") == "Total net assets (SYSCOHADA), TB of 12/11/2026 09:14"
+    assert asset_basis_label("fr", 3, imported_on="12/11/2026 09:14") == "Total actif net (SYSCOHADA), balance du 12/11/2026 09:14"
 
 
 def test_materiality_rounds_as_math_round():

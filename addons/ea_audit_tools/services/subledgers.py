@@ -98,14 +98,20 @@ def _header_line_index(cells_by_line):
     return 0
 
 
-def parse_csv(text, header_row=True):
-    """{headers, rows}. Without a header row every line is data, under col_N names."""
+def csv_lines(text):
+    """The lines of a CSV text that hold something."""
+    return [line for line in _NEWLINES.sub("\n", text).split("\n") if len(js_trim(line)) > 0]
+
+
+def parse_csv(text, header_row=True, delimiter=None):
+    """{headers, rows}. Without a header row every line is data, under col_N names.
+    ``delimiter`` is a person's choice over the one the file suggests."""
     all_lines = _NEWLINES.sub("\n", text).split("\n")
     line_nos = [index + 1 for index, line in enumerate(all_lines) if len(js_trim(line)) > 0]
     lines = [line for line in all_lines if len(js_trim(line)) > 0]
     if len(lines) < (2 if header_row else 1):
         raise SubLedgerError("empty-file")
-    delimiter = detect_csv_delimiter(lines)
+    delimiter = delimiter if delimiter in _CSV_DELIMITERS else detect_csv_delimiter(lines)
 
     def split(line):
         return split_csv_line(line, delimiter)
