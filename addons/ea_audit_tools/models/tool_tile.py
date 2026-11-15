@@ -155,11 +155,15 @@ class EngagementTools(models.Model):
         return "materiality-%s.xlsx" % self._ea_export_slug(), simple_workbook("Seuil" if fr else "Materiality", head, rows)
 
     def _ea_export_significance(self, fr):
-        self.sudo()._ea_sync_significance()
+        self.sudo()._ea_sync_significance(activity=False)
         rows = []
         for record in self.env["ea.audit.significance"].sudo().search([("engagement_id", "=", self.id)]):
             rows.append([
-                record.index_code, record.closing, record.status or "", record.default_status or "", record.justification or "",
+                record.index_code, record.closing,
+                record.tx_count if record.activity_dataset else "",
+                record.preparer_count if record.preparer_known else "",
+                record.reviewer_count if record.reviewer_known else "",
+                record.status or "", record.default_status or "", record.justification or "",
                 ", ".join(record.assertion_ids.mapped("code")), record.specific_te or "", record.risk_assertions or "",
             ])
         head = SIGNIFICANCE_HEAD
@@ -253,7 +257,7 @@ class EngagementTools(models.Model):
         return count
 
     def _ea_import_significance(self, table):
-        self.sudo()._ea_sync_significance()
+        self.sudo()._ea_sync_significance(activity=False)
         Significance = self.env["ea.audit.significance"]
         count = 0
         for row in table["rows"]:
@@ -295,6 +299,7 @@ class EngagementTools(models.Model):
 
 
 # The columns of the three registers that come back in: the same words in and out.
-SIGNIFICANCE_HEAD = ["index", "closing", "status", "default", "justification", "assertions", "specific_te", "risk_assertions"]
+# transactions, preparers and reviewers are counted from the ledger: an import reads them not
+SIGNIFICANCE_HEAD = ["index", "closing", "transactions", "preparers", "reviewers", "status", "default", "justification", "assertions", "specific_te", "risk_assertions"]
 RISK_HEAD = ["description", "category", "level", "likelihood", "magnitude", "rating", "significant", "rebutted", "status", "indexes", "steps"]
 CRA_HEAD = ["index", "assertion", "relevant", "ir", "ir_basis", "cr", "cr_basis", "level", "tod"]

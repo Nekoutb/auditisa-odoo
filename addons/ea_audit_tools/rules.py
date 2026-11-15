@@ -13,6 +13,7 @@ MESSAGES = {
     "materiality-basis-mismatch": _lt("The amount differs from the trial-balance base for this benchmark — give a justification for the deviation."),
     "performance-justification-required": _lt("Performance materiality departs from the default share of overall materiality — give the justification for the percentage chosen."),
     "justification-required": _lt("A justification is required."),
+    "significance-reason-required": _lt("%(index)s: this status departs from the default. Write the reason before saving it."),
     "stale-version": _lt("Only the latest materiality version can be approved."),
     "rebut-partner-only": _lt("Only a partner can rebut the presumed revenue-fraud risk (ISA 240 ¶26)."),
     "not-rebuttable": _lt("This presumed risk cannot be rebutted or downgraded."),

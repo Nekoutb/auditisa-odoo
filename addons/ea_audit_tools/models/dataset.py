@@ -425,6 +425,8 @@ class EngagementDataset(models.Model):
         self._ea_log("dataset_imported", "%s imported (%s, %s, %d rows)" % (filename, kind, timing, len(rows)))
         if remember:
             self._ea_remember_matching(kind, table["headers"], mapping)
+        if kind == "journal_entries":
+            self._ea_refresh_significance_activity()
         return {"datasetId": dataset.id, "rowCount": len(rows)}
 
     def _ea_current_dataset(self, kind, timing=None):
@@ -473,6 +475,8 @@ class EngagementDataset(models.Model):
                 except AuditRuleError:
                     # an upload from before the matching was mandatory: it waits for a person to build it
                     pass
+        if facts[1] == "journal_entries":
+            self._ea_refresh_significance_activity()
         return {"successorId": successor.id or False}
 
     # ------------------------------------------------------------------

@@ -1350,6 +1350,7 @@ msgstr "Niveau ECR"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tool_import_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_wcgw_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_wp_assign_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1696,6 +1697,7 @@ msgstr "Clos"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__closing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__closing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__closing
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__closing
 msgid "Closing"
 msgstr "Clôture"
 
@@ -2221,6 +2223,7 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -2319,6 +2322,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -2467,6 +2471,7 @@ msgstr "Décidé par"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__default_status
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__default_status
 msgid "Default"
 msgstr "Par défaut"
 
@@ -2744,6 +2749,7 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -4075,6 +4081,7 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__id
 msgid "ID"
 msgstr "ID"
 
@@ -4601,7 +4608,6 @@ msgstr "De jugement"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_justification
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__justification
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__justification
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__justification
 msgid "Justification"
 msgstr "Justification"
 
@@ -4797,6 +4803,7 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Dernière modification par"
 
@@ -4895,6 +4902,7 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__write_date
 msgid "Last Updated on"
 msgstr "Dernière modification le"
 
@@ -4927,6 +4935,7 @@ msgstr "Couches (application, base de données, système)"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_search
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_overrides_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_search
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__index_code
 msgid "Lead index"
 msgstr "Indice"
 
@@ -5775,6 +5784,7 @@ msgstr "Ne pas s'appuyer"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__decision__not_significant
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__default_status__not_significant
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__status__not_significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance_wizard__new_status__not_significant
 msgid "Not significant"
 msgstr "Non significatif"
 
@@ -6856,6 +6866,8 @@ msgstr "Lire le fichier"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__reason
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__reason
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__reason
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__justification
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__reason
 msgid "Reason"
 msgstr "Motif"
 
@@ -7570,6 +7582,7 @@ msgstr "Samedi"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_threshold_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_step_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -7773,6 +7786,7 @@ msgstr "Montant signé"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__decision__significant
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__default_status__significant
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance__status__significant
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_significance_wizard__new_status__significant
 msgid "Significant"
 msgstr "Significatif"
 
@@ -10753,3 +10767,115 @@ msgstr "Remplacé le"
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "Total debit %(debit)s and total credit %(credit)s differ by %(difference)s: a general ledger must balance."
 msgstr "Le total débit %(debit)s et le total crédit %(credit)s diffèrent de %(difference)s : un grand livre doit être équilibré."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__activity_dataset
+msgid "Activity Dataset"
+msgstr "Grand livre compté"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__tx_count
+msgid "Transactions"
+msgstr "Écritures"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_significance__tx_count
+msgid "Journal entries of the general ledger in use with at least one line on an account of this index."
+msgstr "Écritures du grand livre en usage ayant au moins une ligne sur un compte de cet indice."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__preparer_count
+msgid "Preparers"
+msgstr "Préparateurs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_significance__preparer_count
+msgid "People who recorded those entries (Recorded by or Prepared by column of the general ledger)."
+msgstr "Personnes qui ont saisi ces écritures (colonne Saisi par ou Préparé par du grand livre)."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__reviewer_count
+msgid "Reviewers"
+msgstr "Valideurs"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_significance__reviewer_count
+msgid "People who approved or reviewed those entries (Approved by or Reviewer column of the general ledger)."
+msgstr "Personnes qui ont approuvé ou revu ces écritures (colonne Approuvé par ou Réviseur du grand livre)."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__preparer_known
+msgid "Preparer Known"
+msgstr "Préparateur connu"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__reviewer_known
+msgid "Reviewer Known"
+msgstr "Valideur connu"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_significance_wizard
+msgid "Change the status of a significant account"
+msgstr "Changer le statut d'un compte significatif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__significance_id
+msgid "Significance"
+msgstr "Compte significatif"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__current_status
+msgid "Current status"
+msgstr "Statut actuel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__new_status
+msgid "New status"
+msgstr "Nouveau statut"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__needs_reason
+msgid "Needs Reason"
+msgstr "Motif requis"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Change status"
+msgstr "Changer le statut"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Change between Significant and Not significant, with the reason"
+msgstr "Passer de Significatif à Non significatif, ou l'inverse, avec le motif"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Required when the status departs from the default"
+msgstr "Obligatoire si le statut s'écarte du statut par défaut"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
+msgid "Why this account is treated differently from the default"
+msgstr "Pourquoi ce compte est traité autrement que par défaut"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
+msgid "This status departs from the default: the reason is required and is kept in the file's activity log."
+msgstr "Ce statut s'écarte du statut par défaut : le motif est obligatoire et il est conservé dans le journal d'activité du dossier."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
+msgid "This is the default status: no reason is needed."
+msgstr "C'est le statut par défaut : aucun motif n'est nécessaire."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/significance.py:0
+msgid "Change the status of %(index)s"
+msgstr "Changer le statut de %(index)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "%(index)s: this status departs from the default. Write the reason before saving it."
+msgstr "%(index)s : ce statut s'écarte du statut par défaut. Écrivez le motif avant de l'enregistrer."

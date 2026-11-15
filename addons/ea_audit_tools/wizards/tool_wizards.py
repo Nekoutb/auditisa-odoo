@@ -256,3 +256,32 @@ class ToolListActions(models.AbstractModel):
             "ea.audit.cra.assessment": "cra",
             "ea.audit.lead.line": "lead",
         }.get(self._name, "")
+
+
+class SignificanceWizard(models.TransientModel):
+    """The row's Change status button (owner's request of 2026-11-15): Significant or Not significant,
+    with the reason a departure from the default needs."""
+
+    _name = "ea.audit.significance.wizard"
+    _description = "Change the status of a significant account"
+
+    significance_id = fields.Many2one("ea.audit.significance", required=True, ondelete="cascade")
+    index_code = fields.Selection(related="significance_id.index_code", string="Lead index")
+    closing = fields.Float(related="significance_id.closing", digits=(18, 0))
+    current_status = fields.Selection(related="significance_id.status", string="Current status")
+    default_status = fields.Selection(related="significance_id.default_status", string="Default")
+    new_status = fields.Selection(
+        [("significant", "Significant"), ("not_significant", "Not significant")], string="New status", required=True,
+    )
+    reason = fields.Text()
+    needs_reason = fields.Boolean(compute="_compute_needs_reason")
+
+    @api.depends("new_status", "default_status")
+    def _compute_needs_reason(self):
+        for wizard in self:
+            wizard.needs_reason = bool(wizard.new_status and wizard.new_status != wizard.default_status)
+
+    def action_apply(self):
+        self.ensure_one()
+        self.significance_id.write({"status": self.new_status, "justification": self.reason or ""})
+        return _RELOAD

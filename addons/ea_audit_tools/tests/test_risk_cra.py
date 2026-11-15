@@ -49,7 +49,9 @@ class TestSignificance(ToolsCase):
     def test_an_override_needs_its_justification_before_p62_is_signed(self):
         self.import_tb()
         row = self.rows()["E"]
-        row.write({"status": "significant"})
+        # a departure without its reason is now refused; one stored before (old data) stays, in red
+        self.assertCode("significance-reason-required", row.write, {"status": "significant"})
+        row.sudo().write({"decision": "significant"})
         row.invalidate_recordset()
         self.assertTrue(row.overridden)
         self.assertTrue(row.unjustified)
@@ -99,7 +101,7 @@ class TestSignificance(ToolsCase):
         _filename, content = self.as_staff.ea_export_xlsx("significance")
         sheet = load_workbook(io.BytesIO(content)).active
         head = [cell.value for cell in sheet[1]]
-        self.assertEqual(head[:3], ["index", "closing", "status"])
+        self.assertEqual(head[:6], ["index", "closing", "transactions", "preparers", "reviewers", "status"])
         count = self.as_staff.ea_import_xlsx("significance", "s.xlsx", workbook([
             ["index", "status", "justification", "assertions", "specific_te"],
             ["E", "significant", "Key account", "C,E,RO", ""],

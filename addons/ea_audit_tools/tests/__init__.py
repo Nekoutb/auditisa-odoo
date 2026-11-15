@@ -14,3 +14,4 @@ from . import test_wiring
 from . import test_every_paper_opens
 from . import test_client_findings
 from . import test_import_matching
+from . import test_significance_activity

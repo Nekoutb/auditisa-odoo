@@ -4154,3 +4154,27 @@ msgstr "Balance supprimée : %(file)s (%(status)s, importée le %(date)s, %(coun
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "%(file)s deleted (%(kind)s, %(status)s, imported on %(date)s, %(count)s rows, total %(amount)s)"
 msgstr "%(file)s supprimé (%(kind)s, %(status)s, importé le %(date)s, %(count)s lignes, total %(amount)s)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "significant"
+msgstr "significatif"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "not significant"
+msgstr "non significatif"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Significance of %(index)s changed from %(status)s to %(word)s by %(name)s: %(why)s"
+msgstr "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Significance of %(index)s changed from %(status)s to %(word)s by %(name)s"
+msgstr "Statut de %(index)s changé de %(status)s à %(word)s par %(name)s"
