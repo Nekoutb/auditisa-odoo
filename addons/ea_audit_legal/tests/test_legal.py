@@ -105,8 +105,10 @@ class TestDeadlines(LegalCase):
         self.assertTrue(row.with_user(self.reader).key)
         with self.assertRaises(AccessError):
             row.with_user(self.outsider).read(["key"])
+        # Owner ruling 2026-11-15: the firm administrator looks at every file but changes none.
+        self.assertTrue(row.with_user(self.admin).key)
         with self.assertRaises(AccessError):
-            row.with_user(self.admin).read(["key"])
+            row.with_user(self.admin).check_access("write")
         self.assertCode("look-only", self.engagement.with_user(self.admin).generate_deadlines)
 
     def test_invalid_date(self):

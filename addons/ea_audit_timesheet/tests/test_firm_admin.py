@@ -176,15 +176,17 @@ class TestEscalation(FirmAdminCase):
         })
         self.assertCode("fa-forbidden", self.fa().ea_fa_set_role, portal.id, "firm_admin")
 
-    def test_firm_admin_does_not_read_files_they_are_not_on_after_any_of_this(self):
+    def test_firm_admin_does_not_change_files_they_are_not_on_after_any_of_this(self):
+        # Owner ruling 2026-11-15: the firm administrator looks at every file but changes none.
         self.fa().ea_fa_set_role(self.staff.id, "manager")
         Engagement = self.env["ea.audit.engagement"].with_user(self.admin)
-        self.assertFalse(Engagement.search([("id", "=", self.engagement.id)]))
+        self.assertTrue(Engagement.search([("id", "=", self.engagement.id)]))
         with self.assertRaises(AccessError):
-            self.engagement.with_user(self.admin).read(["name"])
+            self.engagement.with_user(self.admin).check_access("write")
         for item in self.engagement.sudo().file_item_ids[:1]:
+            self.assertTrue(item.with_user(self.admin).code)
             with self.assertRaises(AccessError):
-                item.with_user(self.admin).read(["code"])
+                item.with_user(self.admin).check_access("write")
 
     def test_the_firm_log_is_append_only(self):
         self.fa().ea_fa_set_domains("gov.example.com")

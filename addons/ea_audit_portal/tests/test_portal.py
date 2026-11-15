@@ -173,8 +173,10 @@ class TestPbcFlow(PortalCase):
         self.assertTrue(self.req.with_user(self.reader).title)
         with self.assertRaises(AccessError):
             self.req.with_user(self.outsider).read(["title"])
+        # Owner ruling 2026-11-15: the firm administrator looks at every file but changes none.
+        self.assertTrue(self.req.with_user(self.admin).title)
         with self.assertRaises(AccessError):
-            self.req.with_user(self.admin).read(["title"])
+            self.req.with_user(self.admin).check_access("write")
 
     def test_chase(self):
         self.req.with_user(self.staff).chase()
