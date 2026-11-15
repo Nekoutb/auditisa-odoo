@@ -116,12 +116,8 @@
                         <field name="q10_regulator" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <div class="fw-bold">Q11. How many people in key management, and how many in accounting and reporting? Is accounting done in one place?</div>
-                        <group class="mt-1">
-                            <field name="q11_management" string="Key management" widget="radio" options="{'horizontal': true}"/>
-                            <field name="q11_accounting" string="Accounting and reporting" widget="radio" options="{'horizontal': true}"/>
-                            <field name="q11_one_place" string="Accounting done in one place" widget="radio" options="{'horizontal': true}"/>
-                        </group>
+                        <label for="q11_fraud" class="fw-bold d-block" string="Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"/>
+                        <field name="q11_fraud" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
                         <label for="q12_owners_known" class="fw-bold d-block" string="Q12. Are all owners, including those who really own and control it, known?"/>
@@ -174,12 +170,8 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="q20_history" class="fw-bold d-block" string="Q20. First year for the firm on this client? If so, was it audited before by another auditor?"/>
-                        <field name="q20_history" widget="radio" options="{'horizontal': true}"/>
-                        <div class="ms-4 mt-2" invisible="q20_history != 'new_audited'">
-                            <label for="q20_modified" class="d-block" string="Was that auditor's last opinion modified?"/>
-                            <field name="q20_modified" widget="radio" options="{'horizontal': true}"/>
-                        </div>
+                        <label for="q20_first_year" class="fw-bold d-block" string="Q20. Is this a first-year audit?"/>
+                        <field name="q20_first_year" widget="radio" options="{'horizontal': true}"/>
                     </div>
                 </sheet>
             </form>

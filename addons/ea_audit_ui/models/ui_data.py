@@ -449,9 +449,7 @@ class AuditUi(models.AbstractModel):
             missions.append({
                 **self._ea_ui_mission(engagement),
                 "period_end": fmt_date(engagement.period_end),
-                "nature": engagement.nature_text or (
-                    self.env._(NATURE_LABELS[engagement.nature]) if engagement.nature in NATURE_LABELS else ""
-                ),
+                "nature": self.env._(NATURE_LABELS[engagement.nature]) if engagement.nature in NATURE_LABELS else "",
                 "profile_pending": engagement.profile_pending,
                 "archived": archived,
                 "archived_on": fmt_date(fields.Date.to_date(engagement.archived_at)) if engagement.archived_at else "",

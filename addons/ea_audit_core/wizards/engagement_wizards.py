@@ -2,7 +2,7 @@ from datetime import date
 
 from odoo import api, fields, models
 
-from ..models.engagement import REPORT_LANGUAGE_SELECTION
+from ..models.engagement import NEW_NATURE_SELECTION, REPORT_LANGUAGE_SELECTION
 from ..models.signoff_policy import LADDER_SELECTION
 from ..models.team_member import TEAM_ROLE_SELECTION
 from ..services.errors import rule_error
@@ -21,7 +21,7 @@ class EngagementCreateWizard(models.TransientModel):
 
     client_id = fields.Many2one("ea.audit.client", string="Client", required=True)
     name = fields.Char(string="Engagement name")
-    nature_text = fields.Char(string="Nature of the service")
+    nature = fields.Selection(NEW_NATURE_SELECTION, string="Nature of the service")
     fiscal_year = fields.Integer(string="Financial year", required=True, default=lambda self: fields.Date.context_today(self).year - 1)
     period_start = fields.Date(string="Audit period from", default=lambda self: date(fields.Date.context_today(self).year - 1, 1, 1))
     period_end = fields.Date(string="to", required=True, default=lambda self: date(fields.Date.context_today(self).year - 1, 12, 31))
@@ -46,7 +46,7 @@ class EngagementCreateWizard(models.TransientModel):
         engagement = self.env["ea.audit.engagement"].create({
             "client_id": self.client_id.id,
             "name": (self.name or "").strip() or False,
-            "nature_text": (self.nature_text or "").strip() or False,
+            "nature": self.nature or False,
             "fiscal_year": self.fiscal_year,
             "period_start": self.period_start,
             "period_end": self.period_end,

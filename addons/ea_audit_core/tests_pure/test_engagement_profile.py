@@ -21,10 +21,10 @@ PLAIN = {
     "q5_activities": "one", "q6_sites": "one", "q7_major_change": "no",
     **{"q8_%d" % n: "low" for n in range(1, 9)},
     "q9_specialists": "none", "q10_regulator": "no",
-    "q11_management": "up_to_5", "q11_accounting": "up_to_5", "q11_one_place": "yes",
+    "q11_fraud": "no",
     "q12_owners_known": "yes", "q13_automated": "no", "q14_keeper": "entity",
     "q15_monitoring": "no", "q15_eqr": "no", "q16_risks": "no", "q17_going_concern": "no",
-    "q18_related_parties": "no", "q19_approach": "substantive", "q20_history": "recurring",
+    "q18_related_parties": "no", "q19_approach": "substantive", "q20_first_year": "no",
 }
 
 
@@ -90,9 +90,7 @@ def test_group_sub_answers_left_from_an_earlier_choice_are_ignored():
 
 @pytest.mark.parametrize("changes, reason", [
     ({"q10_regulator": "yes"}, "q10"),
-    ({"q11_management": "over_5"}, "q11:management"),
-    ({"q11_accounting": "over_5"}, "q11:accounting"),
-    ({"q11_one_place": "no"}, "q11:place"),
+    ({"q11_fraud": "yes"}, "q11"),
     ({"q12_owners_known": "no"}, "q12"),
     ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}, "q4:consolidates"),
     ({"q13_automated": "yes"}, "q13"),
@@ -120,9 +118,7 @@ def test_an_outside_bookkeeper_without_reliance_on_its_auditor_keeps_it_very_sim
 
 
 def test_first_year_changes_no_level():
-    for history in ("new_audited", "new_never"):
-        extra = {"q20_modified": "yes"} if history == "new_audited" else {}
-        assert conclude(answers(q20_history=history, **extra))[0] == VERY_SIMPLE
+    assert conclude(answers(q20_first_year="yes"))[0] == VERY_SIMPLE
 
 
 def test_gate_one_wins_over_gate_two():
@@ -150,14 +146,13 @@ def test_each_question_is_compulsory(field):
     ({"q4_group": "parent", "q4_consolidates": "yes"}, "Q4"),
     ({"q14_keeper": "payroll"}, "Q14"),
     ({"q19_approach": "other"}, "Q19"),
-    ({"q20_history": "new_audited"}, "Q20"),
 ])
 def test_a_sub_answer_is_compulsory_in_its_case(changes, question):
     assert missing(answers(**changes)) == [question]
 
 
 def test_no_sub_answer_is_asked_outside_its_case():
-    assert missing(answers(q20_history="new_never", q14_keeper="entity")) == []
+    assert missing(answers(q20_first_year="yes", q14_keeper="entity")) == []
 
 
 def test_every_answer_field_is_known():
@@ -171,8 +166,10 @@ def test_a_plain_company_switches_nothing_on():
 
 
 @pytest.mark.parametrize("changes, code", [
-    ({"q20_history": "new_audited", "q20_modified": "no"}, "P1.2"),
-    ({"q20_history": "new_never"}, "P1.2"),
+    ({"q20_first_year": "yes"}, "P1.2"),
+    ({"q11_fraud": "yes"}, "P5.1"),
+    ({"q11_fraud": "yes"}, "E3.1"),
+    ({"q11_fraud": "yes"}, "E6.1"),
     ({"q3_controls_law": "yes"}, "P4.2"),
     ({"q13_automated": "yes"}, "P4.2"),
     ({"q19_approach": "other", "q19_controls": True}, "P4.2"),
@@ -199,7 +196,7 @@ def test_retired_income_statement_tasks_are_never_switched_on():
     everything = answers(
         q1_listed="yes", q3_controls_law="yes", q13_automated="yes", q9_specialists="core",
         q14_keeper="accountant", q14_rely_report="yes", q15_eqr="yes", q19_approach="other",
-        q19_controls=True, q19_interim=True, q19_internal_audit=True, q20_history="new_never",
+        q19_controls=True, q19_interim=True, q19_internal_audit=True, q20_first_year="yes",
         q4_group="parent", q4_consolidates="yes", q4_other_auditors="yes", **{"q8_%d" % n: "high" for n in range(1, 9)},
     )
     assert not {code for code in task_codes(everything) if code.startswith("E5.")}
@@ -207,7 +204,7 @@ def test_retired_income_statement_tasks_are_never_switched_on():
 
 def test_first_year():
     assert not is_first_year(PLAIN)
-    assert is_first_year(answers(q20_history="new_never"))
+    assert is_first_year(answers(q20_first_year="yes"))
 
 
 # ---------------------------------------------------------------- ISA for LCE

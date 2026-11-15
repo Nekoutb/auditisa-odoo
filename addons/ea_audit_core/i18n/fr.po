@@ -3389,7 +3389,7 @@ msgstr "Les nouveaux comptes prennent cette langue. Chacun peut ensuite choisir 
 #. odoo-python
 #: code:addons/ea_audit_core/models/signoff_policy.py:0
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q10_regulator__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_one_place__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_fraud__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q12_owners_known__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q13_automated__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_rely_report__no
@@ -3399,7 +3399,7 @@ msgstr "Les nouveaux comptes prennent cette langue. Chacun peut ensuite choisir 
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q17_going_concern__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q18_related_parties__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q1_listed__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_modified__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_first_year__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q2_pie__none
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q3_controls_law__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__no
@@ -3845,7 +3845,7 @@ msgstr "Classeur"
 #. odoo-python
 #: code:addons/ea_audit_core/models/signoff_policy.py:0
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q10_regulator__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_one_place__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_fraud__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q12_owners_known__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q13_automated__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_rely_report__yes
@@ -3855,7 +3855,7 @@ msgstr "Classeur"
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q17_going_concern__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q18_related_parties__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q1_listed__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_modified__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_first_year__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q3_controls_law__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__yes
@@ -4239,12 +4239,6 @@ msgid "4. Number of interfaces"
 msgstr "4. Nombre d'interfaces"
 
 #. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_accounting__up_to_5
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_management__up_to_5
-msgid "5 or fewer"
-msgstr "5 ou moins"
-
-#. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 msgid "5. IT outsourced to several providers"
 msgstr "5. Informatique confiée à plusieurs prestataires"
@@ -4278,16 +4272,6 @@ msgstr "Un hébergeur ou prestataire informatique"
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_keeper__payroll
 msgid "A payroll bureau"
 msgstr "Un prestataire de paie"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Accounting and reporting"
-msgstr "Comptabilité et reporting"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Accounting done in one place"
-msgstr "Comptabilité tenue en un seul lieu"
 
 #. module: ea_audit_core
 #: model:ir.model.constraint,message:ea_audit_core.constraint_ea_audit_engagement_profile_engagement_uniq
@@ -4411,6 +4395,11 @@ msgid "Finish the profile"
 msgstr "Terminer le profil"
 
 #. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Former nature"
+msgstr "Ancienne nature"
+
+#. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 msgid "Full ISAs, full methodology: all task templates."
 msgstr "ISA complètes, méthodologie complète : tous les modèles de tâches."
@@ -4458,11 +4447,6 @@ msgid "Insurer"
 msgstr "Assureur"
 
 #. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Key management"
-msgstr "Direction clé"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__level
 msgid "Level"
 msgstr "Niveau"
@@ -4506,26 +4490,10 @@ msgid "More than 3"
 msgstr "Plus de 3"
 
 #. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_accounting__over_5
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_management__over_5
-msgid "More than 5"
-msgstr "Plus de 5"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__nature_text
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__nature_text
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__nature_kind
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__nature
 msgid "Nature of the service"
 msgstr "Nature de la mission"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_history__new_audited
-msgid "New client, audited before by another auditor"
-msgstr "Nouveau client, audité auparavant par un autre auditeur"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_history__new_never
-msgid "New client, never audited"
-msgstr "Nouveau client, jamais audité"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
@@ -4537,6 +4505,13 @@ msgstr "Ensuite, le questionnaire de profil s'ouvre : ses réponses décident du
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Non-complex: no sign of complexity, but not Very simple because:"
 msgstr "Non complexe : aucun signe de complexité, mais pas Très simple car :"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature__contractual_audit
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__nature_kind__non_statutory
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__nature__contractual_audit
+msgid "Non-statutory audit"
+msgstr "Audit contractuel"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q9_specialists__none
@@ -4631,42 +4606,20 @@ msgid "Q10. Does a regulator set the entity's reporting rules or receive its acc
 msgstr "Q10. Un régulateur fixe-t-il les règles de reporting de l'entité ou reçoit-il ses comptes ?"
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q11_one_place
-msgid "Q11 Accounting done in one place"
-msgstr "Q11 Comptabilité tenue en un seul lieu"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q11_accounting
-msgid "Q11 People in accounting and reporting"
-msgstr "Q11 Personnes en comptabilité et reporting"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q11_management
-msgid "Q11 People in key management"
-msgstr "Q11 Personnes dans la direction clé"
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q11_fraud
+msgid "Q11 Fraud, non-compliance or whistle-blowing"
+msgstr "Q11 Fraude, non-conformité ou signalements"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q11 accounting not done in one place"
-msgstr "Q11 comptabilité non tenue en un seul lieu"
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q11 more than 5 people in accounting and reporting"
-msgstr "Q11 plus de 5 personnes en comptabilité et reporting"
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q11 more than 5 people in key management"
-msgstr "Q11 plus de 5 personnes dans la direction clé"
+msgid "Q11 known or suspected fraud, non-compliance or whistle-blowing reports"
+msgstr "Q11 fraude avérée ou suspectée, non-conformité ou signalements"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q11. How many people in key management, and how many in accounting and reporting? Is accounting done in one place?"
-msgstr "Q11. Combien de personnes dans la direction clé, et combien en comptabilité et reporting ? La comptabilité est-elle tenue en un seul lieu ?"
+msgid "Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"
+msgstr "Q11. Existe-t-il une fraude avérée ou suspectée, un non-respect des textes légaux et réglementaires, ou des signalements de lanceurs d'alerte ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q12_owners_known
@@ -4829,19 +4782,14 @@ msgid "Q2. Is it a public-interest entity: bank, microfinance institution, insur
 msgstr "Q2. Est-ce une entité d'intérêt public : banque, établissement de microfinance, assureur, caisse de retraite, ou désignée comme telle par la loi ou par le cabinet ?"
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q20_history
-msgid "Q20 History with this client"
-msgstr "Q20 Historique avec ce client"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q20_modified
-msgid "Q20 Previous opinion modified"
-msgstr "Q20 Opinion précédente modifiée"
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q20_first_year
+msgid "Q20 First-year audit"
+msgstr "Q20 Premier exercice audité"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q20. First year for the firm on this client? If so, was it audited before by another auditor?"
-msgstr "Q20. Première année du cabinet sur ce client ? Si oui, a-t-il été audité auparavant par un autre auditeur ?"
+msgid "Q20. Is this a first-year audit?"
+msgstr "Q20. S'agit-il d'un premier exercice audité ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q3_controls_law
@@ -4976,11 +4924,6 @@ msgstr "Q9. Faudra-t-il des spécialistes (actuaire, évaluateur, ingénieur, in
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__reasons_text
 msgid "Reasons"
 msgstr "Motifs"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_history__recurring
-msgid "Recurring client"
-msgstr "Client récurrent"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q8_6
@@ -5132,11 +5075,6 @@ msgstr "Volume de données"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Was that auditor's last opinion modified?"
-msgstr "La dernière opinion de cet auditeur était-elle modifiée ?"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 msgid "Will we rely on that provider's own auditor's report?"
 msgstr "Nous appuierons-nous sur le rapport de l'auditeur de ce prestataire ?"
 
@@ -5144,11 +5082,6 @@ msgstr "Nous appuierons-nous sur le rapport de l'auditeur de ce prestataire ?"
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
 msgid "e.g. Statutory audit 2025"
 msgstr "ex. Commissariat aux comptes 2025"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
-msgid "e.g. Statutory audit, Contractual audit, Agreed-upon procedures"
-msgstr "ex. Commissariat aux comptes, Audit contractuel, Procédures convenues"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__period_end

@@ -1639,3 +1639,9 @@ msgstr "Terminer le profil →"
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "Profile not finished: finish it to get your tasks."
 msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "non-statutory audit"
+msgstr "audit contractuel"

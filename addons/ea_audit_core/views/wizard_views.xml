@@ -9,7 +9,7 @@
                     <group>
                         <field name="client_id"/>
                         <field name="name" required="1" placeholder="e.g. Statutory audit 2025"/>
-                        <field name="nature_text" required="1" placeholder="e.g. Statutory audit, Contractual audit, Agreed-upon procedures"/>
+                        <field name="nature" required="1" widget="radio"/>
                         <field name="engagement_partner_id"/>
                     </group>
                     <group>

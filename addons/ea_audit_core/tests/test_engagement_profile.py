@@ -12,10 +12,10 @@ PLAIN = {
     "q5_activities": "one", "q6_sites": "one", "q7_major_change": "no",
     **{"q8_%d" % n: "low" for n in range(1, 9)},
     "q9_specialists": "none", "q10_regulator": "no",
-    "q11_management": "up_to_5", "q11_accounting": "up_to_5", "q11_one_place": "yes",
+    "q11_fraud": "no",
     "q12_owners_known": "yes", "q13_automated": "no", "q14_keeper": "entity",
     "q15_monitoring": "no", "q15_eqr": "no", "q16_risks": "no", "q17_going_concern": "no",
-    "q18_related_parties": "no", "q19_approach": "substantive", "q20_history": "recurring",
+    "q18_related_parties": "no", "q19_approach": "substantive", "q20_first_year": "no",
 }
 
 
@@ -25,7 +25,7 @@ class TestEngagementProfile(EaAuditCase):
         """The creation screen, as the owner approved it: no profiling, then the questionnaire."""
         user = user or self.partner
         wizard = self.env["ea.audit.engagement.create.wizard"].with_user(user).create({
-            "client_id": self.client.id, "name": "Statutory audit 2026", "nature_text": "Statutory audit",
+            "client_id": self.client.id, "name": "Statutory audit 2026", "nature": "statutory_audit",
             "fiscal_year": 2026, "period_start": date(2026, 1, 1), "period_end": date(2026, 12, 31),
             "engagement_partner_id": self.partner.id, **vals,
         })
@@ -53,8 +53,7 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(action["res_id"], engagement._ea_profile().id)
         self.assertFalse(engagement.file_item_ids)
         self.assertFalse(engagement.complexity)
-        self.assertEqual(engagement.nature_text, "Statutory audit")
-        self.assertFalse(engagement.nature)
+        self.assertEqual((engagement.nature, engagement.nature_kind), ("statutory_audit", "statutory"))
         self.assertEqual(engagement.period_start, date(2026, 1, 1))
         self.assertEqual(engagement.duration_months, 12)
         self.assertEqual(engagement.report_language, self.Engagement._ea_firm_language())
@@ -108,9 +107,10 @@ class TestEngagementProfile(EaAuditCase):
 
     def test_non_complex_says_why_it_is_not_very_simple(self):
         engagement, _action = self.open_new()
-        profile = self.conclude(engagement, q11_accounting="over_5", q17_going_concern="yes")
+        profile = self.conclude(engagement, q11_fraud="yes", q17_going_concern="yes")
         self.assertEqual(engagement.complexity, "non_complex")
-        self.assertIn("Q11 more than 5 people in accounting", profile.reasons_text)
+        self.assertIn("Q11 known or suspected fraud", profile.reasons_text)
+        self.assertLessEqual({"P5.1", "E3.1", "E6.1"}, self.active_codes(engagement))
         self.assertIn("Q17", profile.reasons_text)
         self.assertNotIn("extended", engagement.file_item_ids.template_id.mapped("tier"))
 
@@ -131,12 +131,41 @@ class TestEngagementProfile(EaAuditCase):
         profile = self.conclude(engagement)
         self.assertIn("begins earlier", profile.lce_note)
 
+    # ---------------------------------------------------------------- nature of the service
+
+    def test_a_non_statutory_audit_leaves_out_the_ohada_statutory_tasks(self):
+        statutory_only = {"C5.%d" % n for n in range(2, 11)}
+        engagement, _action = self.open_new()
+        self.conclude(engagement, q2_pie="bank")
+        self.assertLessEqual(statutory_only - {"C5.7"}, self.active_codes(engagement))
+        self.Engagement.sudo().search([("name", "=", "Statutory audit 2026")]).write({"name": "done"})
+        other, _action = self.open_new(nature="contractual_audit")
+        self.conclude(other, q2_pie="bank")
+        self.assertEqual(other.nature_kind, "non_statutory")
+        self.assertFalse(statutory_only & self.active_codes(other))
+
+    def test_an_older_file_s_nature_reads_in_the_two_words_and_keeps_its_value(self):
+        kinds = {}
+        for year, nature in enumerate(("statutory_audit", "contractual_audit", "limited_review",
+                                       "commissariat_apports", "agreed_procedures", "other", False), start=2010):
+            old = self.make_engagement(year, nature=nature).sudo()
+            kinds[nature] = (old.nature, old.nature_kind)
+        self.assertEqual(kinds, {
+            "statutory_audit": ("statutory_audit", "statutory"),
+            "contractual_audit": ("contractual_audit", "non_statutory"),
+            "limited_review": ("limited_review", "non_statutory"),
+            "commissariat_apports": ("commissariat_apports", "statutory"),
+            "agreed_procedures": ("agreed_procedures", "non_statutory"),
+            "other": ("other", "non_statutory"),
+            False: (False, "statutory"),
+        })
+
     # ---------------------------------------------------------------- tasks from the answers
 
     def test_answers_switch_their_conditional_tasks_on(self):
         engagement, _action = self.open_new()
         self.conclude(
-            engagement, q20_history="new_never", q8_4="high", q9_specialists="tax", q14_keeper="accountant",
+            engagement, q20_first_year="yes", q8_4="high", q9_specialists="tax", q14_keeper="accountant",
             q14_rely_report="no", q19_approach="other", q19_internal_audit=True,
         )
         codes = self.active_codes(engagement)
@@ -160,10 +189,10 @@ class TestEngagementProfile(EaAuditCase):
 
     def test_a_changed_answer_only_adds_tasks(self):
         engagement, _action = self.open_new()
-        profile = self.conclude(engagement, q2_pie="bank", q20_history="new_never")
+        profile = self.conclude(engagement, q2_pie="bank", q20_first_year="yes")
         before = set(engagement.file_item_ids.ids)
         active_before = self.active_codes(engagement)
-        profile.write({"q2_pie": "none", "q20_history": "recurring"})
+        profile.write({"q2_pie": "none", "q20_first_year": "no"})
         self.assertEqual(profile.level, "very_simple")
         self.assertEqual(engagement.complexity, "very_simple")
         self.assertLessEqual(before, set(engagement.file_item_ids.ids))
@@ -230,18 +259,20 @@ class TestEngagementProfile(EaAuditCase):
         written = self.cr.fetchone()[0]
         module.migrate(self.cr, "19.0.1.0.0")
         module.migrate(self.cr, "19.0.1.0.0")
-        self.cr.execute("SELECT write_date, complexity, nature_text, period_start FROM ea_audit_engagement WHERE id = %s", [old.id])
-        self.assertEqual(self.cr.fetchone(), (written, "very_simple", None, None))
+        self.cr.execute("SELECT write_date, complexity, period_start FROM ea_audit_engagement WHERE id = %s", [old.id])
+        self.assertEqual(self.cr.fetchone(), (written, "very_simple", None))
+        self.cr.execute("SELECT 1 FROM information_schema.columns WHERE table_name = 'ea_audit_engagement' AND column_name = 'nature_text'")
+        self.assertFalse(self.cr.fetchone())
 
     # ---------------------------------------------------------------- next year
 
     def test_rollforward_starts_from_last_year_s_answers_as_a_recurring_client(self):
         engagement, _action = self.open_new()
-        self.conclude(engagement, q20_history="new_never", q16_risks="yes")
+        self.conclude(engagement, q20_first_year="yes", q16_risks="yes")
         target = engagement.with_user(self.partner).rollforward(2027).sudo()
         profile = target._ea_profile()
-        self.assertEqual((profile.state, profile.q20_history, profile.q16_risks), ("draft", "recurring", "yes"))
+        self.assertEqual((profile.state, profile.q20_first_year, profile.q16_risks), ("draft", "no", "yes"))
         self.assertFalse(target.file_item_ids)
         self.assertTrue(target.profile_pending)
         self.assertEqual(target.period_start, date(2027, 1, 1))
-        self.assertEqual(target.nature_text, "Statutory audit")
+        self.assertEqual(target.nature, "statutory_audit")

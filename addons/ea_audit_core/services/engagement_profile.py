@@ -36,9 +36,7 @@ REQUIRED = (
 ) + tuple(("Q8", point, None) for point in IT_POINTS) + (
     ("Q9", "q9_specialists", None),
     ("Q10", "q10_regulator", None),
-    ("Q11", "q11_management", None),
-    ("Q11", "q11_accounting", None),
-    ("Q11", "q11_one_place", None),
+    ("Q11", "q11_fraud", None),
     ("Q12", "q12_owners_known", None),
     ("Q13", "q13_automated", None),
     ("Q14", "q14_keeper", None),
@@ -49,8 +47,7 @@ REQUIRED = (
     ("Q17", "q17_going_concern", None),
     ("Q18", "q18_related_parties", None),
     ("Q19", "q19_approach", None),
-    ("Q20", "q20_history", None),
-    ("Q20", "q20_modified", lambda a: a.get("q20_history") == "new_audited"),
+    ("Q20", "q20_first_year", None),
 )
 
 ANSWER_FIELDS = tuple(dict.fromkeys(field for _q, field, _when in REQUIRED)) + Q19_OPTIONS
@@ -118,12 +115,8 @@ def not_very_simple_reasons(answers):
     reasons = []
     if _yes(answers, "q10_regulator"):
         reasons.append("q10")
-    if answers.get("q11_management") == "over_5":
-        reasons.append("q11:management")
-    if answers.get("q11_accounting") == "over_5":
-        reasons.append("q11:accounting")
-    if answers.get("q11_one_place") == "no":
-        reasons.append("q11:place")
+    if _yes(answers, "q11_fraud"):
+        reasons.append("q11")
     if answers.get("q12_owners_known") == "no":
         reasons.append("q12")
     if _parent(answers) and _yes(answers, "q4_consolidates"):
@@ -164,11 +157,11 @@ def conclude(answers):
 
 
 def is_first_year(answers):
-    return answers.get("q20_history") in ("new_audited", "new_never")
+    return _yes(answers, "q20_first_year")
 
 
 # What the answers switch on, whatever the level. The eleven conditional templates of the catalogue:
-#   P1.2 predecessor auditor .... Q20 first year for the firm (as the old "first-year audit" box did)
+#   P1.2 predecessor auditor .... Q20 first-year audit (as the old "first-year audit" box did)
 #   P4.2 control environment .... Q3 controls testing by law, Q13 automated process, Q19 reliance on controls
 #   P4.3 IT environment ......... Q8 any IT point high, Q13 automated process
 #   S5.1 experts (ISA 620) ...... Q9 any specialist, tax included
@@ -178,6 +171,9 @@ def is_first_year(answers):
 # Two tasks of the "extended" tier, which a Non-complex file does not have otherwise:
 #   C4.2 engagement quality review  Q15 a quality review is required
 #   P2.3 scope and components ....  Q4 a parent that consolidates or whose components others audit
+# Q11 known or suspected fraud, non-compliance or whistle-blowing: the fraud and laws work, P5.1 (fraud
+# risks), E3.1 (journal entries and fraud) and E6.1 (laws and NOCLAR). They are core tasks, on every
+# file already; they are named here so the answer keeps them on whatever happens elsewhere.
 def task_codes(answers):
     codes = set()
     if is_first_year(answers):
@@ -199,6 +195,8 @@ def task_codes(answers):
         codes.add("C4.2")
     if _parent(answers) and (_yes(answers, "q4_consolidates") or _yes(answers, "q4_other_auditors")):
         codes.add("P2.3")
+    if _yes(answers, "q11_fraud"):
+        codes.update(("P5.1", "E3.1", "E6.1"))
     return codes
 
 

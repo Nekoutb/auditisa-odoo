@@ -19,7 +19,6 @@ _lt = LazyTranslate("ea_audit_core")
 YES_NO = [("yes", "Yes"), ("no", "No")]
 LOW_HIGH = [("low", "Low"), ("high", "High")]
 ONE_FEW_MORE = [("one", "1"), ("few", "2 to 3"), ("more", "More than 3")]
-UP_TO_FIVE = [("up_to_5", "5 or fewer"), ("over_5", "More than 5")]
 PIE_SELECTION = [
     ("none", "No"),
     ("bank", "Bank"),
@@ -44,11 +43,6 @@ KEEPER_SELECTION = [
 APPROACH_SELECTION = [
     ("substantive", "Test balances only, all at year end"),
     ("other", "Something else (tick below)"),
-]
-HISTORY_SELECTION = [
-    ("recurring", "Recurring client"),
-    ("new_audited", "New client, audited before by another auditor"),
-    ("new_never", "New client, never audited"),
 ]
 STATE_SELECTION = [("draft", "Not finished"), ("concluded", "Concluded")]
 
@@ -75,9 +69,7 @@ _REASONS = {
     "q8": _lt("Q8 IT point %s high"),
     "q9": _lt("Q9 specialists needed on the core of the business"),
     "q10": _lt("Q10 a regulator sets the reporting rules or receives the accounts"),
-    "q11:management": _lt("Q11 more than 5 people in key management"),
-    "q11:accounting": _lt("Q11 more than 5 people in accounting and reporting"),
-    "q11:place": _lt("Q11 accounting not done in one place"),
+    "q11": _lt("Q11 known or suspected fraud, non-compliance or whistle-blowing reports"),
     "q12": _lt("Q12 not all owners are known"),
     "q4:consolidates": _lt("Q4 the entity prepares consolidated accounts"),
     "q13": _lt("Q13 a process too automated for testing balances alone"),
@@ -146,9 +138,7 @@ class EngagementProfile(models.Model):
     # Specialists, people and ownership
     q9_specialists = fields.Selection(SPECIALIST_SELECTION, string="Q9 Specialists")
     q10_regulator = fields.Selection(YES_NO, string="Q10 Regulator sets the reporting rules")
-    q11_management = fields.Selection(UP_TO_FIVE, string="Q11 People in key management")
-    q11_accounting = fields.Selection(UP_TO_FIVE, string="Q11 People in accounting and reporting")
-    q11_one_place = fields.Selection(YES_NO, string="Q11 Accounting done in one place")
+    q11_fraud = fields.Selection(YES_NO, string="Q11 Fraud, non-compliance or whistle-blowing")
     q12_owners_known = fields.Selection(YES_NO, string="Q12 All owners known")
     # How the evidence will be obtained
     q13_automated = fields.Selection(YES_NO, string="Q13 Process too automated for balance testing alone")
@@ -165,8 +155,7 @@ class EngagementProfile(models.Model):
     q19_controls = fields.Boolean(string="Rely on controls")
     q19_interim = fields.Boolean(string="Test at an interim date")
     q19_internal_audit = fields.Boolean(string="Use internal audit's work")
-    q20_history = fields.Selection(HISTORY_SELECTION, string="Q20 History with this client")
-    q20_modified = fields.Selection(YES_NO, string="Q20 Previous opinion modified")
+    q20_first_year = fields.Selection(YES_NO, string="Q20 First-year audit")
 
     # What the screen shows
     missing_text = fields.Char(string="Still to answer", compute="_compute_texts")

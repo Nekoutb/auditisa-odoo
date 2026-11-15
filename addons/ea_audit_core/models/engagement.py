@@ -25,12 +25,17 @@ PHASE_SELECTION = [
 ]
 NATURE_SELECTION = [
     ("statutory_audit", "Statutory audit"),
-    ("contractual_audit", "Contractual audit"),
+    ("contractual_audit", "Non-statutory audit"),
     ("limited_review", "Limited review (ISRE 2400/2410)"),
     ("commissariat_apports", "Contribution auditor (commissariat aux apports)"),
     ("agreed_procedures", "Agreed-upon procedures"),
     ("other", "Other"),
 ]
+# The two natures a new file chooses from (owner's ruling of 2026-11-15). The other values stay for
+# the files opened before, whose tasks were chosen with them.
+NEW_NATURE_SELECTION = [("statutory_audit", "Statutory audit"), ("contractual_audit", "Non-statutory audit")]
+# How an older file's nature reads in those two words: a contribution audit is required by law.
+NATURE_KIND = {"statutory_audit": "statutory", "commissariat_apports": "statutory", False: "statutory"}
 REPORT_LANGUAGE_SELECTION = [("en", "English"), ("fr", "French")]
 COMPLEXITY_SELECTION = [("complex", "Complex"), ("non_complex", "Non-complex"), ("very_simple", "Very simple")]
 EDITION_SELECTION = [("current", "ISA in force"), ("revised_2026", "ISA revised (periods from 15 December 2026)")]
@@ -40,7 +45,7 @@ _ENGINE_FIELDS = {
     "phase", "standards_edition", "edition_reason", "archived_at", "complexity",
     # set at creation; the period and set-up screen (F073) brings their own rules
     "client_id", "fiscal_year", "period_end", "duration_months", "nature", "first_year",
-    "nature_text", "period_start",
+    "period_start",
 }
 _CREATOR_SEAT = {"manager": "manager", "senior": "senior", "staff": "staff"}
 
@@ -72,10 +77,13 @@ class Engagement(models.Model):
     fiscal_year = fields.Integer(required=True, tracking=True)
     period_end = fields.Date(required=True, tracking=True)
     duration_months = fields.Integer(string="Duration (months)")
-    # The fixed list of natures, kept for the files opened before 2026-11-15: their tasks were chosen
-    # with it and stay as they are. A new file says its nature in words, which chooses no task.
+    # A new file chooses Statutory or Non-statutory (contractual_audit, which leaves out the OHADA
+    # statutory-only tasks). The other values stay for the files opened before, as they were.
     nature = fields.Selection(NATURE_SELECTION, tracking=True)
-    nature_text = fields.Char(string="Nature of the service", tracking=True)
+    nature_kind = fields.Selection(
+        [("statutory", "Statutory audit"), ("non_statutory", "Non-statutory audit")],
+        string="Nature of the service", compute="_compute_nature_kind",
+    )
     period_start = fields.Date(string="Period from", tracking=True)
     framework = fields.Selection(FRAMEWORK_SELECTION, string="Reporting framework", tracking=True)
     planned_report_date = fields.Date(tracking=True)
@@ -106,6 +114,11 @@ class Engagement(models.Model):
         string="Profile questionnaire", compute="_compute_profile_state",
     )
     profile_pending = fields.Boolean(string="Profile not finished", compute="_compute_profile_state")
+
+    @api.depends("nature")
+    def _compute_nature_kind(self):
+        for engagement in self:
+            engagement.nature_kind = NATURE_KIND.get(engagement.nature, "non_statutory")
 
     @api.depends("profile_ids.state", "file_item_ids")
     def _compute_profile_state(self):
@@ -454,7 +467,7 @@ class Engagement(models.Model):
         if not previous:
             return
         values = previous._ea_answers()
-        values.update(q20_history="recurring", q20_modified=False)
+        values.update(q20_first_year="no")
         self.env["ea.audit.engagement.profile"].sudo().create({"engagement_id": self.id, **values})
 
     def apply_complexity(self, complexity, first_audit=False):
@@ -495,7 +508,7 @@ class Engagement(models.Model):
         concluded = source._ea_profile().state == "concluded"
         if concluded:
             # A file opened with the questionnaire: next year's tasks come from its conclusion.
-            vals.update(complexity=False, nature_text=source.nature_text, report_language=source.report_language)
+            vals.update(complexity=False, nature=source.nature, report_language=source.report_language)
             if source.period_start:
                 vals["period_start"] = source.period_start + shift
         target = self.create(vals)
