@@ -304,14 +304,15 @@ class TestHubAndGates(ToolsCase):
         self.as_staff.save_sad_conclusion("Nothing to correct.")
         self.assertIsNone(item._ea_tool_output_missing())
 
-    def test_e4_needs_a_valid_tb_and_an_invalid_reimport_does_not_take_it_away(self):
+    def test_e4_needs_a_valid_tb_and_a_refused_reimport_does_not_take_it_away(self):
+        unbalanced = "Compte;Libellé;Mouvement débit;Mouvement crédit\n411000;Clients;1000;0\n701000;Ventes;0;900\n"
         item = self.item(self.engagement, "E4.1")
         self.assertEqual(item._ea_tool_output_missing(), "tool-output-missing-tb")
-        self.import_tb("Compte;Libellé;Mouvement débit;Mouvement crédit\n411000;Clients;1000;0\n701000;Ventes;0;900\n")
+        self.assertCode("import-refused", self.import_tb, unbalanced)
         self.assertEqual(item._ea_tool_output_missing(), "tool-output-missing-tb")
         self.import_tb()
         self.assertIsNone(item._ea_tool_output_missing())
-        self.import_tb("Compte;Libellé;Mouvement débit;Mouvement crédit\n411000;Clients;1000;0\n701000;Ventes;0;900\n")
+        self.assertCode("import-refused", self.import_tb, unbalanced)
         self.assertIsNone(item._ea_tool_output_missing())
 
     def test_planning_gates_read_the_tools(self):
