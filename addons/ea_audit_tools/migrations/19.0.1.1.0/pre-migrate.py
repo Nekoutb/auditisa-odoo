@@ -50,6 +50,12 @@ def _drop_views(cr):
 
 
 def migrate(cr, version):
+    # The trial balance's new counter "highest number ever given" is created here, with 0 already in
+    # every row. Left to Odoo, the column would be filled by an UPDATE of every trial balance, which
+    # an archived file refuses (archive trigger): the update of a database holding an archived file
+    # failed on the practice computer (demo-akwa, 2026-11-15). ADD COLUMN ... DEFAULT writes no row
+    # and fires no trigger. 0 is right: the next number is the highest of this and the versions'.
+    cr.execute('ALTER TABLE IF EXISTS "ea_audit_tb" ADD COLUMN IF NOT EXISTS "last_version_no" integer DEFAULT 0')
     for table, columns in COLUMNS.items():
         for column in columns:
             cr.execute(f'ALTER TABLE IF EXISTS "{table}" DROP COLUMN IF EXISTS "{column}" CASCADE')
