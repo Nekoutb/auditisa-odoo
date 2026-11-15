@@ -230,8 +230,8 @@ def test_a_sign_of_complexity_settles_complex_before_the_end():
     assert provisional({"q8_2": "high"}) == (COMPLEX, ["q8:2"])
 
 
-def test_medium_it_is_not_a_sign_of_complexity():
-    assert provisional({"q8_2": "medium"}) == (None, [])
+def test_low_it_is_not_a_sign_of_complexity():
+    assert provisional({"q8_2": "low"}) == (None, [])
 
 
 def test_an_unmet_very_simple_condition_rules_very_simple_out_early():

@@ -5541,14 +5541,3 @@ msgstr "Les soldes seulement, à la clôture, ou cochez ce que vous ferez d'autr
 msgid "Yes adds P1.2, contact with the predecessor auditor."
 msgstr "Oui ajoute P1.2, prise de contact avec l'auditeur précédent."
 
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_1__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_2__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_3__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_4__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_5__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_6__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_7__medium
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q8_8__medium
-msgid "Medium"
-msgstr "Moyen"

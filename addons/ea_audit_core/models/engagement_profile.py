@@ -18,7 +18,7 @@ from ..services.standards_edition import period_start_of
 _lt = LazyTranslate("ea_audit_core")
 
 YES_NO = [("yes", "Yes"), ("no", "No")]
-LOW_HIGH = [("low", "Low"), ("medium", "Medium"), ("high", "High")]  # only High counts (the tree)
+LOW_HIGH = [("low", "Low"), ("high", "High")]  # owner, 2026-11-15: Low or High only; one High makes it Complex
 ONE_FEW_MORE = [("one", "1"), ("few", "2 to 3"), ("more", "More than 3")]
 PIE_SELECTION = [
     ("none", "No"),

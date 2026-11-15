@@ -297,7 +297,7 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(screen["progress"], {"answered": 0, "total": 20})
         it = screen["sections"][2]["questions"][0]
         self.assertEqual(len(it["parts"]), 8)
-        self.assertEqual([o["value"] for o in it["parts"][0]["options"]], ["low", "medium", "high"])
+        self.assertEqual([o["value"] for o in it["parts"][0]["options"]], ["low", "high"])
         self.assertTrue(all(q["help"] for s in screen["sections"] for q in s["questions"]))
         self.assertFalse(screen["readonly"])
 
@@ -323,8 +323,8 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(screen["panel"]["level"], "non_complex")
         self.assertTrue(screen["panel"]["provisional"])
         self.assertIn("Q16 significant risks or complex estimates expected", screen["panel"]["reasons"])
-        # Medium is not High: still not Complex
-        screen = profile.ea_profile_save({"q8_1": "medium"})
+        # Low is not a sign of complexity (owner, 2026-11-15: Low or High only)
+        screen = profile.ea_profile_save({"q8_1": "low"})
         self.assertEqual(screen["panel"]["level"], "non_complex")
         screen = profile.ea_profile_save({"q8_3": "high"})
         self.assertEqual(screen["panel"]["level"], "complex")
