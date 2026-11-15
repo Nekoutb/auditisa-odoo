@@ -4265,6 +4265,8 @@ msgstr "Risque lié à %(index)s depuis les comptes significatifs : %(title)s"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Risk unlinked from %(index)s on the significant accounts: %(title)s"
 msgstr "Risque retiré de %(index)s dans les comptes significatifs : %(title)s"
+
+#. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 msgid "1. How much is automated"
 msgstr "1. Degré d'automatisation"
