@@ -107,7 +107,7 @@ class TestDeadlines(LegalCase):
             row.with_user(self.outsider).read(["key"])
         with self.assertRaises(AccessError):
             row.with_user(self.admin).read(["key"])
-        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.admin).generate_deadlines)
+        self.assertCode("look-only", self.engagement.with_user(self.admin).generate_deadlines)
 
     def test_invalid_date(self):
         self.assertCode("invalid-date", self.as_partner.set_legal_dates, agm_date="15/06/2026")

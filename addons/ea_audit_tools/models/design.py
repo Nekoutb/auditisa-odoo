@@ -441,7 +441,7 @@ class EngagementDesign(models.Model):
     def section_coverage(self, task_code):
         """sectionCoverage: which assertions of each mapped risk the linked steps address."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         item = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", self.id), ("code", "=", task_code)], limit=1)
         rows = []
         links = self.env["ea.audit.risk.section"].sudo().search([("file_item_id", "=", item.id)])
@@ -459,7 +459,7 @@ class EngagementDesign(models.Model):
 
     def action_tool_dsp(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self.sudo()._ea_sync_dsp()
         action = self._ea_list(
             "ea.audit.dsp.design", self.env._("S5.5: design of substantive procedures"),

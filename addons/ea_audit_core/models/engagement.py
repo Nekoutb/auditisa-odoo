@@ -184,11 +184,29 @@ class Engagement(models.Model):
         )
 
     def _ea_require_access(self):
-        """F008: only an accepted member opens the file, whatever their firm
-        role. The record rules say the same; this gives the refusal its code."""
+        """F008: only an accepted member works on the file, whatever their firm
+        role. The record rules say the same; this gives the refusal its code.
+        Every path that changes or signs anything calls this one. The firm
+        administrator who is not on the team looks only (owner, 2026-11-15):
+        they are refused with "look-only"."""
         for engagement in self:
             if engagement._ea_member(self.env.user).state != "accepted":
-                raise rule_error(self.env, "not-on-this-engagement")
+                raise rule_error(self.env, "look-only" if self.env.user._ea_is_firm_admin() else "not-on-this-engagement")
+
+    def _ea_require_read(self):
+        """The read paths (screens, previews, downloads): an accepted member, or
+        the firm administrator, who sees every engagement of the firm in look-only
+        mode (owner ruling, 2026-11-15)."""
+        if self.env.user._ea_is_firm_admin():
+            return
+        self._ea_require_access()
+
+    def _ea_look_only(self, user=None):
+        """True when ``user`` reads this file without being on its team: the
+        firm administrator's look-only mode. Screens show it read-only."""
+        self.ensure_one()
+        user = user or self.env.user
+        return bool(user._ea_is_firm_admin()) and self._ea_member(user).state != "accepted"
 
     def _ea_is_archived(self):
         self.ensure_one()
@@ -424,7 +442,7 @@ class Engagement(models.Model):
     def action_open_profile(self):
         """The questionnaire. An older file gets an empty one, which holds nothing up."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         profile = self._ea_profile()
         if not profile:
             self._ea_assert_mutable()
@@ -528,9 +546,10 @@ class Engagement(models.Model):
 
     def _ea_open_or_notify(self):
         """Open the file when the caller is on its team. A partner who opened a
-        file for another partner is not, and cannot open it (F008)."""
+        file for another partner is not, and cannot open it (F008). The firm
+        administrator opens it look-only (owner, 2026-11-15)."""
         self.ensure_one()
-        if self._ea_member(self.env.user).state == "accepted":
+        if self._ea_member(self.env.user).state == "accepted" or self._ea_look_only():
             return {
                 "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id,
                 "view_mode": "form", "target": "current",
@@ -936,12 +955,12 @@ class Engagement(models.Model):
 
     def acceptance_gates(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.sudo()._ea_acceptance_gates()
 
     def planning_close_gates(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.sudo()._ea_planning_close_gates()
 
     def _ea_lock_phase(self, expected):

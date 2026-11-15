@@ -64,7 +64,7 @@ class FileItem(models.Model):
         self.ensure_one()
         item = self.sudo()
         engagement = item.engagement_id
-        engagement.with_env(self.env)._ea_require_access()
+        engagement.with_env(self.env)._ea_require_read()
         builder = {
             "P6.1": self._ea_board_materiality,
             "P6.2": self._ea_board_significance,

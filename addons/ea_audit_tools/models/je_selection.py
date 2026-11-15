@@ -128,7 +128,7 @@ class EngagementJe(models.Model):
 
     def list_holidays(self, country="CM"):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         code = country.upper() if re.fullmatch(r"[A-Za-z]{2}", country or "") else "CM"
         holidays = self._ea_load_holidays(code)
         return [{"date": key, **holidays[key]} for key in sorted(holidays)]
@@ -264,7 +264,7 @@ class EngagementJe(models.Model):
     def je_run_selection(self, dataset_id, request=None):
         """runSelection. Reads only, so an archived file answers it."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         dataset = self._ea_gl_dataset(dataset_id)
         request = request or {}
         params = request.get("params") or {}
@@ -346,7 +346,7 @@ class EngagementJe(models.Model):
     def action_tool_je(self):
         """The studio: criteria, rules, the run. Opens on the file's most recent ledger."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         dataset = self._ea_current_dataset("journal_entries")
         wizard = self.env["ea.audit.je.studio"].create({"engagement_id": self.id, "dataset_id": dataset.id or False})
         return wizard._ea_reopen()

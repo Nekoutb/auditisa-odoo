@@ -219,15 +219,19 @@ class ToolListActions(models.AbstractModel):
 
     _inherit = "ea.audit.tool.record"
 
-    def _ea_context_engagement(self):
+    def _ea_context_engagement(self, read=False):
         engagement = self.env["ea.audit.engagement"].browse(self.env.context.get("ea_engagement_id"))
         if not engagement:
             raise rule_error(self.env, "not-found")
-        engagement._ea_require_access()
+        # an export only reads: the firm administrator's look-only mode allows it
+        if read:
+            engagement._ea_require_read()
+        else:
+            engagement._ea_require_access()
         return engagement
 
     def action_list_export(self):
-        return self._ea_context_engagement()._ea_export_action(self._ea_export_kind())
+        return self._ea_context_engagement(read=True)._ea_export_action(self._ea_export_kind())
 
     def action_list_import(self):
         engagement = self._ea_context_engagement()

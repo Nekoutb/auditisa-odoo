@@ -120,7 +120,7 @@ class EngagementAnalysis(models.Model):
     def financial_analysis_view(self):
         """financialAnalysis: None without a TB. Prior-year TB closings beat the working TB's openings."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         version = as_root._ea_current_tb_version()
         if not version:
@@ -163,7 +163,7 @@ class EngagementAnalysis(models.Model):
 
     def action_tool_financial(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self.sudo()._ea_sync_fa()
         return self._ea_list(
             "ea.audit.fa.ratio", self.env._("Financial analysis"), [("ea_audit_tools.view_fa_ratio_list", "list")],
@@ -210,7 +210,7 @@ class EngagementAnalysis(models.Model):
     def analytical_review(self):
         """analyticalReview (P3.2, ISA 315): variance by section, flagged above performance materiality."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         current = as_root._ea_tb_balances()
         # The lead schedules' comparative, so the two screens cannot disagree (F012).
@@ -257,7 +257,7 @@ class EngagementAnalysis(models.Model):
         }
 
     def _ea_analytics_html(self):
-        review = self.analytical_review() if self._ea_member(self.env.user) or self.env.su else None
+        review = self.analytical_review() if self._ea_member(self.env.user) or self.env.su or self._ea_look_only() else None
         if not review or not review["hasTb"]:
             return False
         fr = is_french(self.env)
@@ -284,7 +284,7 @@ class EngagementAnalysis(models.Model):
 
     def action_tool_analytics(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self.sudo()._ea_refresh_lead_schedules()
         return self._ea_board("ea_audit_tools.view_engagement_analytics_board", self.env._("Analytical procedures"))
 
@@ -294,7 +294,7 @@ class EngagementAnalysis(models.Model):
 
     def action_tool_overrides(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self._ea_board("ea_audit_tools.view_engagement_overrides_board", self.env._("Client overrides"))
 
     def action_open_override_wizard(self):
@@ -327,7 +327,7 @@ class EngagementAnalysis(models.Model):
 
     def action_tool_templates(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self._ea_sync_wp_generics()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Paper templates"), "res_model": "ea.audit.wp.template", "view_mode": "list",

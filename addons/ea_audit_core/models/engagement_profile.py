@@ -245,6 +245,7 @@ _READ_ONLY = {
     "archived": _lt("Read only: this engagement is archived."),
     "eqr": _lt("Read only: the quality reviewer reads the answers but does not change them."),
     "role": _lt("Read only: your role reads the files but does not change them."),
+    "look_only": _lt("You are not on this engagement's team: you can look but not change anything. Ask the engagement partner to add you."),
 }
 _TOGGLES = set(tree.Q19_OPTIONS)
 
@@ -460,6 +461,8 @@ class EngagementProfile(models.Model):
         engagement = self.engagement_id
         if engagement._ea_is_archived():
             return "archived"
+        if engagement._ea_look_only(self.env.user):
+            return "look_only"
         if engagement._ea_acts_as_eqr(self.env.user):
             return "eqr"
         if not can_write(self.env.user._ea_firm_role()):
@@ -525,7 +528,7 @@ class EngagementProfile(models.Model):
     def ea_profile_screen(self, overlay=None, held=False):
         """Everything the questionnaire screen shows, in the reader's language."""
         self.ensure_one()
-        self.engagement_id._ea_require_access()
+        self.engagement_id._ea_require_read()
         env = self.env
         lang = env.lang or "en_US"
         answers = self._ea_answers()

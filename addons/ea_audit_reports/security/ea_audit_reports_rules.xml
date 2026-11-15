@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- F008: only an accepted member of the team reads these. Global rules, so they bind every
-         firm role, firm administrator and partner included. -->
+         firm role, firm administrator and partner included.
+        ea_team_domain() (ea_audit_core/models/ir_rule.py): the firm administrator also READS every file, look-only (owner, 2026-11-15); writes stay team-only. -->
     <record id="rule_document_team_only" model="ir.rule">
         <field name="name">ea.audit.document: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_document"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_document_version_team_only" model="ir.rule">
         <field name="name">ea.audit.document.version: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_document_version"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <!-- A restricted document (disclosure of criminal facts) is for partners. -->
     <record id="rule_document_open_to_members" model="ir.rule">
@@ -40,17 +41,17 @@
     <record id="rule_completion_record_team_only" model="ir.rule">
         <field name="name">ea.audit.completion.record: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_completion_record"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_legal_hold_team_only" model="ir.rule">
         <field name="name">ea.audit.legal.hold: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_legal_hold"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_archive_manifest_team_only" model="ir.rule">
         <field name="name">ea.audit.archive.manifest: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_archive_manifest"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_notice_own" model="ir.rule">
         <field name="name">ea.audit.notice: own rows only</field>

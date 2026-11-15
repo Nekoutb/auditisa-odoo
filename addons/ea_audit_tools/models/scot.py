@@ -848,13 +848,13 @@ class EngagementScot(models.Model):
 
     def action_tool_itgc(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self._ea_sync_it_applications()
         return self._ea_board("ea_audit_tools.view_engagement_itgc_board", self.env._("IT applications and ITGC"))
 
     def action_tool_fscp(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         Fscp = self.env["ea.audit.fscp"].sudo()
         record = Fscp.search([("engagement_id", "=", self.id)], limit=1) or Fscp.create({"engagement_id": self.id})
         return {

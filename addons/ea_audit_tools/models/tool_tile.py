@@ -41,7 +41,7 @@ class ToolTile(models.Model):
     def action_open_tool(self):
         self.ensure_one()
         engagement = self.env["ea.audit.engagement"].browse(self.env.context.get("ea_engagement_id"))
-        engagement._ea_require_access()
+        engagement._ea_require_read()
         if not self.method or not hasattr(engagement, self.method):
             raise rule_error(self.env, "tool-not-available")
         if not self.method.startswith("action_tool_"):
@@ -74,7 +74,7 @@ class EngagementTools(models.Model):
     def action_open_tools(self):
         """/engagements/[id]/tools."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         year = self.env._("Fiscal year")
         return {
@@ -104,7 +104,7 @@ class EngagementTools(models.Model):
     def ea_export_xlsx(self, kind):
         """(filename, bytes) of one workbook. Read rights: any accepted member, EQR included."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         method = self._ea_export_dynamic_method(kind) or self._ea_export_method(kind)
         if method is None:
             raise rule_error(self.env, "not-found")

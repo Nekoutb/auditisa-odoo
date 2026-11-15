@@ -64,7 +64,7 @@ class Engagement(models.Model):
 
     def action_open_ea_budget(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return {
             "type": "ir.actions.client",
             "tag": "ea_audit_timesheet.budget",

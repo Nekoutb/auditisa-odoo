@@ -122,6 +122,8 @@ class AuditUi(models.AbstractModel):
             "phase": engagement.phase,
             "phase_label": self.env._(phase_label(engagement.phase)),
             "section": SECTION_OF_PHASE[engagement.phase],
+            # the firm administrator reading a file whose team they are not on
+            "look_only": engagement._ea_look_only(),
         }
 
     @api.model
@@ -370,72 +372,10 @@ class AuditUi(models.AbstractModel):
     # ------------------------------------------------------------------
 
     @api.model
-    def _ea_ui_home_todo(self, engagements, items, today):
-        user = self.env.user
-        policy = self.env["ea.audit.signoff.policy"]._ea_policy()
-        rows = []
-        for engagement in engagements.filtered(lambda e: not e.archived_at and e.phase != "archived"):
-            mission = self.env._("%(client)s, fiscal year %(year)s", client=engagement.client_id.name, year=engagement.fiscal_year)
-            own = items.filtered(lambda item: item.engagement_id == engagement)
-            is_partner = user == engagement.engagement_partner_id or user == engagement.partner_delegate_id
-            awaiting_acceptance = (
-                is_partner and engagement.phase == "acceptance" and not engagement.sudo()._ea_approval_signed("P1.1")
-            )
-            to_review = own.filtered(
-                lambda item: self._ea_ui_my_word(item, user, is_partner, policy) in ("to_review", "to_sign")
-                # the acceptance has a row of its own
-                and not (awaiting_acceptance and item.code == "P1.1")
-            )
-            if to_review:
-                rows.append({
-                    "title": self.env._("Working papers awaiting review"),
-                    "mission": mission,
-                    "count": len(to_review),
-                    "engagement_id": engagement.id,
-                    "item_ids": to_review.ids,
-                })
-            if awaiting_acceptance:
-                acceptance = own.filtered(lambda item: item.code == "P1.1")
-                rows.append({
-                    "title": self.env._("Acceptance awaiting the partner's sign-off"),
-                    "mission": mission,
-                    "count": 0,
-                    "engagement_id": engagement.id,
-                    "item_ids": acceptance.ids,
-                })
-            late = own.filtered(
-                lambda item: user in (item.preparer_id, item.assignee_id) and self._ea_ui_late_days(item, today) > 0
-            )
-            if late:
-                rows.append({
-                    "title": self.env._("Overdue tasks"),
-                    "mission": mission,
-                    "count": len(late),
-                    "engagement_id": engagement.id,
-                    "item_ids": late.ids,
-                })
-            uncommunicated = engagement.sudo()._ea_uncommunicated_significant_count() if is_partner else 0
-            if uncommunicated:
-                rows.append({
-                    "title": self.env._("Significant deficiency to communicate"),
-                    "mission": mission,
-                    "count": uncommunicated,
-                    "engagement_id": engagement.id,
-                    "tool": "action_tool_deficiencies",
-                })
-        invitations = self.env["ea.audit.team.member"].search([("user_id", "=", user.id), ("state", "=", "invited")])
-        for invitation in invitations:
-            rows.append({
-                "title": self.env._("Invitation to answer"),
-                "mission": self.env._("%(client)s, fiscal year %(year)s", client=invitation.invitation_client_name, year=invitation.invitation_fiscal_year),
-                "count": 0,
-                "invitation": True,
-            })
-        return rows
-
-    @api.model
     def ea_ui_home(self):
-        today = self._ea_ui_today()
+        """The firm's engagements: those of the caller's teams, and all of them for the
+        firm administrator (look-only off the team, owner 2026-11-15). The "To do" card
+        was removed (owner, 2026-11-15)."""
         engagements = self.env["ea.audit.engagement"].search([], order="fiscal_year desc, id")
         engagements = engagements.sorted(lambda e: bool(e.archived_at or e.phase == "archived"))
         items = self._ea_ui_active_items(engagements)
@@ -461,7 +401,7 @@ class AuditUi(models.AbstractModel):
                 "total": len(own),
                 "pct": percent(done, len(own)),
             })
-        return {"todo": self._ea_ui_home_todo(engagements, items, today), "missions": missions}
+        return {"missions": missions}
 
     # ------------------------------------------------------------------
     # The engagement dashboard

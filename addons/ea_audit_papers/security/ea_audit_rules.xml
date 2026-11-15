@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- F008: global, as in core: only an accepted member of the team reads a file's papers, whatever the firm role. -->
+    <!-- F008: global, as in core: only an accepted member of the team reads a file's papers, whatever the firm role. ea_team_domain() (ea_audit_core/models/ir_rule.py): the firm administrator also READS every file, look-only (owner, 2026-11-15); writes stay team-only. -->
     <record id="rule_paper_team_only" model="ir.rule">
         <field name="name">Paper: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_paper"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_planning_ras_team_only" model="ir.rule">
         <field name="name">Planning summary: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_planning_ras"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_paper_answer_team_only" model="ir.rule">
         <field name="name">Answer: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_paper_answer"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_paper_answer_history_team_only" model="ir.rule">
         <field name="name">Answer history: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_paper_answer_history"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_review_note_team_only" model="ir.rule">
         <field name="name">Review note: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_review_note"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <record id="rule_section_conclusion_team_only" model="ir.rule">
         <field name="name">Section conclusion: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_section_conclusion"/>
-        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">ea_team_domain('engagement_id')</field>
     </record>
     <!-- A removed file reads as gone, its bytes included: ir.attachment follows this rule. -->
     <record id="rule_task_attachment_team_only" model="ir.rule">
         <field name="name">Task attachment: live files, accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_task_attachment"/>
-        <field name="domain_force">[('deleted_at', '=', False), ('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+        <field name="domain_force">[('deleted_at', '=', False)] + ea_team_domain('engagement_id')</field>
     </record>
 </odoo>

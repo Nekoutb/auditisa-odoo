@@ -119,4 +119,4 @@ class TestPartnerRequired(EaAuditCase):
 
     def test_rollforward_refuses_someone_off_the_team(self):
         source = self.make_engagement(2034, partner=self.partner)
-        self.assertCode("not-on-this-engagement", source.with_user(self.admin).rollforward, 2035)
+        self.assertCode("look-only", source.with_user(self.admin).rollforward, 2035)

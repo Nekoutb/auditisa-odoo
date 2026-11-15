@@ -178,7 +178,7 @@ class GlConsole(models.TransientModel):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            self.env["ea.audit.engagement"].browse(vals.get("engagement_id"))._ea_require_access()
+            self.env["ea.audit.engagement"].browse(vals.get("engagement_id"))._ea_require_read()
         return super().create(vals_list)
 
     def _ea_reopen(self):

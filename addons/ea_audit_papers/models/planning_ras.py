@@ -140,7 +140,7 @@ class Engagement(models.Model):
     def ea_ras_view(self):
         """The summary as the board shows it. The client decides nothing."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         ras = as_root._ea_ras()
         answers = dict(ras.answers or {}) if ras else {}
@@ -148,7 +148,7 @@ class Engagement(models.Model):
         states = as_root._ea_ras_task_states()
         unready = unready_lines(answers, states)
         role = self.env.user._ea_firm_role()
-        readonly = as_root._ea_is_archived() or not role or role == "read_only"
+        readonly = as_root._ea_is_archived() or not role or role == "read_only" or as_root._ea_look_only(self.env.user)
         is_eqr = as_root._ea_is_appointed_eqr(self.env.user)
         partners, delegate = as_root._ea_partner_seat()
         is_partner = self.env.user in partners or (delegate and delegate == self.env.user)

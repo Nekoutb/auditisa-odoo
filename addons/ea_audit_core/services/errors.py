@@ -55,6 +55,7 @@ MESSAGES = {
     "engagement-partner-required": _lt("Choose the engagement partner: an engagement cannot be created without one (a partner or administrator of the firm)."),
     "not-on-this-engagement": _lt("Only accepted members of an engagement's team can open it."),
     "read-only-role": _lt("Your role can view this file but not change it."),
+    "look-only": _lt("You are not on this engagement's team: you can look but not change anything. Ask the engagement partner to add you."),
     "team-manager-only": _lt("Only a manager, partner or firm administrator on this engagement can change its team."),
     "partner-only-team-role": _lt("Only a partner can give or take away the engagement partner role."),
     "invalid-team-role": _lt("Choose a valid team role."),

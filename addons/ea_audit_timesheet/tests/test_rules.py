@@ -399,16 +399,19 @@ class TestReach(TimesheetCase):
             self.assertIn(far, self.visible(lead))
         self.assertNotIn(far, self.visible(self.senior))
 
-    def test_firm_admin_gets_no_audit_file_through_it(self):
+    def test_firm_admin_looks_at_the_budget_without_changing_it(self):
+        """Owner ruling, 2026-11-15: the firm administrator reads every file, look-only."""
         Engagement = self.env["ea.audit.engagement"].with_user(self.admin)
-        self.assertFalse(Engagement.search([("id", "=", self.engagement.id)]))
-        with self.assertRaises(AccessError):
-            self.engagement.with_user(self.admin).read(["client_id"])
-        files = self.env["ea.audit.file.item"].with_user(self.admin)
-        self.assertFalse(files.search([("engagement_id", "=", self.engagement.id)]))
-        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.admin).action_open_ea_budget)
+        self.assertTrue(Engagement.search([("id", "=", self.engagement.id)]))
+        self.assertTrue(self.engagement.with_user(self.admin).read(["client_id"]))
+        self.assertTrue(self.engagement.with_user(self.admin).action_open_ea_budget())
         budget = self.env["ea.audit.team.budget"].with_user(self.admin)
-        self.assertCode("not-on-this-engagement", budget.ea_ts_budget, self.engagement.id)
+        screen = budget.ea_ts_budget(self.engagement.id)
+        self.assertFalse(screen["can_edit"])
+        # a partner off the team still gets nothing
+        with self.assertRaises(AccessError):
+            self.engagement.with_user(self.partner2).read(["client_id"])
+        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.partner2).action_open_ea_budget)
 
     def test_engagement_projects_are_hidden_from_the_rest_of_the_firm(self):
         projects = self.env["project.project"].with_user(self.outsider)

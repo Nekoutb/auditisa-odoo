@@ -65,11 +65,20 @@ class TestAllowList(PaperCase):
 class TestWhoMaySave(PaperCase):
     def test_refusals_of_the_guards(self):
         self.assertCode("not-on-this-engagement", self.save, self.outsider, "P3.1", {"key_findings": "x"})
-        self.assertCode("not-on-this-engagement", self.save, self.admin, "P3.1", {"key_findings": "x"})
+        self.assertCode("look-only", self.save, self.admin, "P3.1", {"key_findings": "x"})
         self.seat(self.engagement, self.reader, "staff")
         self.assertCode("read-only-role", self.save, self.reader, "P3.1", {"key_findings": "x"})
         self.engagement.sudo().phase = "archived"
         self.assertCode("archived", self.save, self.staff, "P3.1", {"key_findings": "x"})
+
+    def test_the_firm_administrator_reads_a_paper_look_only(self):
+        """Owner ruling, 2026-11-15: off the team, the firm administrator opens the paper read-only."""
+        payload = self.paper("P3.1").with_user(self.admin).get_payload()
+        self.assertTrue(payload["readonly"])
+        self.assertIn("you can look but not change anything", payload["readonly_reason"])
+        self.assertTrue(self.env["ea.audit.paper"].with_user(self.admin).search([("engagement_id", "=", self.engagement.id)]))
+        self.assertFalse(self.env["ea.audit.paper"].with_user(self.outsider).search([("engagement_id", "=", self.engagement.id)]))
+        self.assertCode("not-on-this-engagement", self.paper("P3.1").with_user(self.outsider).get_payload)
 
     def test_the_team_role_eqr_is_read_only_on_the_teams_work(self):
         # uat3 B03

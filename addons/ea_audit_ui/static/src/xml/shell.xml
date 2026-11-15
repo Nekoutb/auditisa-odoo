@@ -165,19 +165,12 @@
                     <button t-if="shell.can_write" type="button" class="ea-btn" t-on-click="newMission">+ New engagement</button>
                 </div>
 
-                <div class="ea-card ea-todo" t-if="state.todo.length">
-                    <div class="ea-cardh">To do <span class="ea-count" t-esc="state.todo.length"/></div>
-                    <a t-foreach="state.todo" t-as="row" t-key="row_index" class="ea-row" href="#" role="button" t-on-click.prevent="() => this.openTodo(row)">
-                        <span><b t-esc="row.title"/> · <t t-esc="row.mission"/></span>
-                        <span class="ea-count"><t t-if="row.count"><t t-esc="row.count"/> </t>&#8594;</span>
-                    </a>
-                </div>
-
                 <div class="ea-card ea-missions">
                     <a t-foreach="state.missions" t-as="mission" t-key="mission.id" class="ea-mis" href="#" role="button" t-on-click.prevent="() => this.openMission(mission)">
                         <div>
                             <b><t t-esc="mission.client"/>, <t t-esc="mission.period_end"/><t t-if="mission.nature">, <t t-esc="mission.nature"/></t></b>
                             <div class="ea-m" t-if="mission.profile_pending"><b>Profile not finished: finish it to get your tasks.</b></div>
+                            <div class="ea-m" t-if="mission.look_only"><span class="ea-pill ea-look-only">Look only</span> You are not on this team.</div>
                             <div class="ea-m" t-if="mission.archived">
                                 <t t-if="mission.archived_on">Archived on <t t-esc="mission.archived_on"/></t><t t-else="">Archived</t><br/>
                                 <t t-esc="mission.partner"/> · File locked
@@ -217,6 +210,10 @@
                         <small>OVERALL COMPLETION</small>
                         <b><t t-esc="d.pct"/>%</b>
                     </div>
+                </div>
+
+                <div class="ea-alert ea-look-only-banner" role="status" t-if="d.mission.look_only">
+                    <b>Look only.</b> You are not on this engagement's team: you can look but not change anything. Ask the engagement partner to add you.
                 </div>
 
                 <div class="ea-alert ea-profile-banner" role="alert" t-if="d.profile_pending">

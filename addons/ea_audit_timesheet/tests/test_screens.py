@@ -111,7 +111,7 @@ class TestBudget(TimesheetCase):
         member = self.member(self.staff).id
         self.assertCode("team-manager-only", self.budget(self.staff).ea_ts_budget_set, member, "execution", 5)
         self.assertCode("team-manager-only", self.budget(self.senior).ea_ts_budget_set, member, "execution", 5)
-        self.assertCode("not-on-this-engagement", self.budget(self.admin).ea_ts_budget_set, member, "execution", 5)
+        self.assertCode("look-only", self.budget(self.admin).ea_ts_budget_set, member, "execution", 5)
         self.assertCode("not-on-this-engagement", self.budget(self.partner2).ea_ts_budget_set, member, "execution", 5)
 
     def test_bounds(self):

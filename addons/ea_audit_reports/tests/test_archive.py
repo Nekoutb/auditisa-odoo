@@ -245,7 +245,7 @@ class TestExportBundle(ReportsCase):
         self.assertIn("60-conclusion/archive-manifest.json", archive.namelist())
 
     def test_team_only_and_logged(self):
-        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.admin).export_engagement_bundle)
+        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.partner2).export_engagement_bundle)
         before = self.env["mail.message"].sudo().search_count([("model", "=", "ea.audit.engagement"), ("res_id", "=", self.engagement.id)])
         self._bundle(self.engagement.with_user(self.reader))
         after = self.env["mail.message"].sudo().search_count([("model", "=", "ea.audit.engagement"), ("res_id", "=", self.engagement.id)])

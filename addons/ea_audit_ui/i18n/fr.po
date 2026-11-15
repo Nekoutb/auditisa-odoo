@@ -17,12 +17,6 @@ msgstr ""
 
 #. module: ea_audit_ui
 #. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "%(client)s, fiscal year %(year)s"
-msgstr "%(client)s, exercice %(year)s"
-
-#. module: ea_audit_ui
-#. odoo-python
 #: code:addons/ea_audit_ui/models/file_item.py:0
 msgid "%(count)s tasks assigned: %(client)s, %(year)s"
 msgstr "%(count)s tâches affectées : %(client)s, %(year)s"
@@ -122,12 +116,6 @@ msgstr "À propos du client →"
 #: code:addons/ea_audit_ui/services/task_groups.py:0
 msgid "Acceptance & continuance"
 msgstr "Acceptation & maintien"
-
-#. module: ea_audit_ui
-#. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Acceptance awaiting the partner's sign-off"
-msgstr "Acceptation en attente de la signature de l'associé"
 
 #. module: ea_audit_ui
 #. odoo-javascript
@@ -577,12 +565,6 @@ msgstr "Invitation"
 
 #. module: ea_audit_ui
 #. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Invitation to answer"
-msgstr "Invitation à répondre"
-
-#. module: ea_audit_ui
-#. odoo-python
 #: code:addons/ea_audit_ui/models/engagement.py:0
 msgid "Invitation: %(client)s"
 msgstr "Invitation : %(client)s"
@@ -764,12 +746,6 @@ msgstr "Ouvrir"
 #: code:addons/ea_audit_ui/models/ui_data.py:0
 msgid "Overdue by %(days)s d"
 msgstr "En retard de %(days)s j"
-
-#. module: ea_audit_ui
-#. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Overdue tasks"
-msgstr "Tâches en retard"
 
 #. module: ea_audit_ui
 #. odoo-python
@@ -1067,12 +1043,6 @@ msgstr "Signé le %(date)s"
 
 #. module: ea_audit_ui
 #. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Significant deficiency to communicate"
-msgstr "Déficience significative à communiquer"
-
-#. module: ea_audit_ui
-#. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
 msgid "Specific procedures (E3, E6)"
 msgstr "Procédures spécifiques (E3, E6)"
@@ -1170,12 +1140,6 @@ msgid "Title"
 msgstr "Titre"
 
 #. module: ea_audit_ui
-#. odoo-javascript
-#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
-msgid "To do"
-msgstr "À faire"
-
-#. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/models/ui_data.py:0
 msgid "To prepare"
@@ -1247,12 +1211,6 @@ msgstr "Bienvenue,"
 #: code:addons/ea_audit_ui/static/src/js/context_service.js:0
 msgid "Working paper"
 msgstr "Papier de travail"
-
-#. module: ea_audit_ui
-#. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Working papers awaiting review"
-msgstr "Feuilles de travail en attente de revue"
 
 #. module: ea_audit_ui
 #. odoo-python
@@ -1645,3 +1603,27 @@ msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "non-statutory audit"
 msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Look only"
+msgstr "Consultation seule"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "You are not on this team."
+msgstr "Vous n'êtes pas dans cette équipe."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Look only."
+msgstr "Consultation seule."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "You are not on this engagement's team: you can look but not change anything. Ask the engagement partner to add you."
+msgstr "Vous n'êtes pas dans l'équipe de cette mission : vous pouvez consulter, mais rien modifier. Demandez à l'associé responsable de la mission de vous ajouter."

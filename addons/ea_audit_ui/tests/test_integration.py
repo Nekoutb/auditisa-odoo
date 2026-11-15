@@ -168,15 +168,6 @@ class TestIntegration(EaAuditCase):
         mine = [row["title"] for row in self.Ui.with_user(self.senior).ea_ui_notifications()["rows"]]
         self.assertFalse(any(title.startswith("Finding") for title in mine))
 
-    def test_a_significant_deficiency_stays_on_the_partners_home_until_communicated(self):
-        self.as_senior.route_finding("c1", "Pas de rapprochement", severity="significant_deficiency")
-        rows = self.Ui.with_user(self.partner).ea_ui_home()["todo"]
-        row = next(r for r in rows if r["title"] == "Significant deficiency to communicate")
-        self.assertEqual((row["count"], row["tool"]), (1, "action_tool_deficiencies"))
-        self.assertFalse([
-            r for r in self.Ui.with_user(self.senior).ea_ui_home()["todo"] if r["title"].startswith("Significant deficiency")
-        ])
-
     def test_a_significant_risk_without_a_response_is_a_chip(self):
         self.set_phase(self.engagement, "planning")
         self.as_senior.add_risk("Risque de démonstration", significant=True)

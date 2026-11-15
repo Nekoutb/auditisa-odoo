@@ -210,13 +210,13 @@ class EngagementLead(models.Model):
 
     def action_tool_lead(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self.sudo()._ea_refresh_lead_schedules()
         return self._ea_board("ea_audit_tools.view_engagement_lead_board", self.env._("Lead schedules"))
 
     def action_tool_lead_lines(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self.sudo()._ea_refresh_lead_schedules()
         return self._ea_list(
             "ea.audit.lead.line", self.env._("Lead schedules by account"),

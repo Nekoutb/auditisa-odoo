@@ -199,7 +199,7 @@ class ArchiveManifest(models.Model):
 
     def action_download(self):
         self.ensure_one()
-        self.sudo().engagement_id.with_env(self.env)._ea_require_access()
+        self.sudo().engagement_id.with_env(self.env)._ea_require_read()
         return {"type": "ir.actions.act_url", "target": "self", "url": "/web/content/%d?download=true" % self.sudo().attachment_id.id}
 
     def _ea_verify(self):

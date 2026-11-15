@@ -38,6 +38,12 @@ class ResUsers(models.Model):
                 return role
         return False
 
+    def _ea_is_firm_admin(self):
+        """The firm administrator sees every engagement of the firm, look-only
+        unless on its team (owner ruling, 2026-11-15)."""
+        self.ensure_one()
+        return self.sudo().has_group("ea_audit_core.group_firm_admin")
+
     @api.constrains("group_ids")
     def _check_ea_single_firm_role(self):
         """A person holds one firm role, as membership.role does today."""

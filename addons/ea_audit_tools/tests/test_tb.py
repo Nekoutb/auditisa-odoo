@@ -127,8 +127,15 @@ class TestGuards(ToolsCase):
         self.seat(self.engagement, invited, "staff", state="invited")
         self.assertCode("not-on-this-engagement", self.import_tb, actor=self.engagement.with_user(invited))
 
-    def test_a_firm_admin_off_the_team_is_refused_as_anyone(self):
-        self.assertCode("not-on-this-engagement", self.import_tb, actor=self.engagement.with_user(self.admin))
+    def test_a_firm_admin_off_the_team_looks_but_does_not_import(self):
+        """Owner ruling, 2026-11-15: they read the imported balance, they do not change it."""
+        self.import_tb()
+        self.assertCode("look-only", self.import_tb, actor=self.engagement.with_user(self.admin))
+        tbs = self.env["ea.audit.tb"].with_user(self.admin).search([("engagement_id", "=", self.engagement.id)])
+        self.assertTrue(tbs)
+        self.assertTrue(tbs.read(["engagement_id"]))
+        self.assertFalse(self.env["ea.audit.tb"].with_user(self.outsider).search([("engagement_id", "=", self.engagement.id)]))
+        self.assertTrue(self.engagement.with_user(self.admin).action_open_tools())
 
     def test_an_archived_file_refuses(self):
         self.engagement.sudo().phase = "archived"
@@ -171,7 +178,7 @@ class TestGuards(ToolsCase):
                 # global, or the firm's own group rule where a client contact reads the same model
                 member = self.env.ref("ea_audit_core.group_member")
                 rules = Rule.search([("model_id.model", "=", name)]).filtered(lambda r: not r.groups or member in r.groups)
-                self.assertTrue(rules.filtered(lambda r: "accepted" in r.domain_force), "%s has no team-only rule" % name)
+                self.assertTrue(rules.filtered(lambda r: "ea_team_domain(" in r.domain_force), "%s has no team-only rule" % name)
                 checked += 1
         self.assertGreaterEqual(checked, 20)
 

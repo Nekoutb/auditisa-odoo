@@ -58,7 +58,7 @@ class EngagementTeamTool(models.Model):
     def action_tool_team(self):
         """The team of this engagement: members, role and status, and the invitation button."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self._ea_list(
             "ea.audit.team.member", self.env._("Engagement team"),
             [("ea_audit_tools.view_team_tool_list", "list")],

@@ -14,28 +14,12 @@ export class EaHome extends Component {
     setup() {
         this.shell = shellSession;
         this.ctx = useService("ea_audit_context");
-        this.state = useState({ todo: [], missions: [], loaded: false });
+        this.state = useState({ missions: [], loaded: false });
         onWillStart(async () => {
             this.ctx.enterHome();
             const data = await this.ctx.call("ea_ui_home");
             Object.assign(this.state, data, { loaded: true });
         });
-    }
-
-    openTodo(row) {
-        if (row.invitation) {
-            return this.ctx.openXmlid("ea_audit_core.action_my_invitations");
-        }
-        if (row.tool) {
-            return this.ctx.openTool(row.engagement_id, row.tool);
-        }
-        if (row.item_ids?.length === 1) {
-            return this.ctx.openItem(row.item_ids[0]);
-        }
-        if (row.item_ids?.length) {
-            return this.ctx.openItems(row.item_ids, row.title);
-        }
-        return this.ctx.openDashboard(row.engagement_id);
     }
 
     openMission(mission) {

@@ -135,7 +135,7 @@ class Engagement(models.Model):
 
     def _ea_board(self, view_xmlid, name):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return {
             "type": "ir.actions.act_window",
             "name": name,
@@ -149,7 +149,7 @@ class Engagement(models.Model):
 
     def _ea_list(self, model, name, views, extra=None):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         action = {
             "type": "ir.actions.act_window",
             "name": name,
@@ -169,7 +169,7 @@ class Engagement(models.Model):
 
     def _ea_export_action(self, kind):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return {
             "type": "ir.actions.act_url",
             "url": "/ea_audit_tools/export/%s/%d" % (kind, self.id),

@@ -329,7 +329,7 @@ class Engagement(models.Model):
     def active_alerte(self):
         """E6.3 and report linkage: an alerte still open means going-concern doubt."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return bool(self.env["ea.audit.alerte"].sudo().search_count([
             ("engagement_id", "=", self.id), ("stage", "!=", "closed"), ("discontinued_at", "=", False),
         ]))
@@ -391,7 +391,7 @@ class Engagement(models.Model):
     def get_alerte(self):
         """getAlerte: the latest procedure, with what the screen and the tests read."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         alerte = self._ea_current_alerte()
         if not alerte:
             return None
@@ -470,7 +470,7 @@ class Engagement(models.Model):
 
     def list_faits(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         self._ea_partner_only()
         return self.env["ea.audit.criminal.disclosure"].sudo().search([("engagement_id", "=", self.id)])
 
@@ -596,7 +596,7 @@ class Engagement(models.Model):
 
     def equity_status(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.sudo()._ea_compute_equity()
 
     def equity_check(self):

@@ -37,21 +37,52 @@ class TestTeamOnly(EaAuditCase):
     def test_keeps_a_colleague_out(self):
         self.assertOutOfFile(self.outsider)
 
-    def test_keeps_a_firm_administrator_out_no_exception(self):
-        self.assertOutOfFile(self.admin)
+    def assertLooksOnly(self, user):
+        """Owner ruling, 2026-11-15: the firm administrator reads every file, look-only."""
+        self.assertIn(self.assigned, self.Engagement.with_user(user).search([]))
+        self.assertEqual(self.assigned.with_user(user).read(["fiscal_year"])[0]["fiscal_year"], 2025)
+        self.assertTrue(self.item_e41.with_user(user).read(["code"]))
+        self.assertTrue(self.env["ea.audit.file.item"].with_user(user).search([("engagement_id", "=", self.assigned.id)]))
+        self.assertTrue(self.env["ea.audit.team.member"].with_user(user).search([("engagement_id", "=", self.assigned.id)]))
+        self.assigned.with_user(user).check_access("read")
+        self.assigned.with_user(user).acceptance_gates()
+        self.assertTrue(self.assigned.with_user(user)._ea_look_only())
+        # ... and changes nothing: the rules engine and the Python guards both refuse
+        with self.assertRaisesRegex(AccessError, "you can look but not change anything"):
+            self.assigned.with_user(user).check_access("write")
+        with self.assertRaisesRegex(AccessError, "you can look but not change anything"):
+            self.item_e41.with_user(user).check_access("write")
+        self.assertCode("look-only", self.assigned.with_user(user).write, {"name": "x"})
+        self.assertCode("look-only", self.item_e41.with_user(user).write, {"not_applicable": True})
+        self.assertCode("look-only", self.item_e41.with_user(user).action_sign, "preparer")
+        self.assertCode("look-only", self.assigned.with_user(user).assign_team_member, user.id, "partner")
+
+    def test_the_firm_administrator_looks_without_changing(self):
+        self.assertLooksOnly(self.admin)
+
+    def test_the_firm_administrator_with_system_rights_still_only_looks(self):
+        self.admin.group_ids = [(4, self.env.ref("base.group_system").id)]
+        self.assertLooksOnly(self.admin)
+
+    def test_the_firm_administrator_on_the_team_works_as_a_member(self):
+        self.seat(self.assigned, self.admin, "manager")
+        self.assertFalse(self.assigned.with_user(self.admin)._ea_look_only())
+        self.assigned.with_user(self.admin).check_access("write")
 
     def test_keeps_a_system_administrator_out(self):
-        self.admin.group_ids = [(4, self.env.ref("base.group_system").id)]
-        self.assertTrue(self.admin.has_group("base.group_system"))
-        self.assertOutOfFile(self.admin)
+        self.outsider.group_ids = [(4, self.env.ref("base.group_system").id)]
+        self.assertTrue(self.outsider.has_group("base.group_system"))
+        self.assertOutOfFile(self.outsider)
 
     def test_keeps_a_partner_out(self):
         self.assertOutOfFile(self.partner2)
 
     def test_opens_a_file_with_no_team_to_nobody(self):
         self.vacate_team(self.assigned)
-        for user in (self.admin, self.partner, self.senior):
+        for user in (self.partner, self.senior):
             self.assertOutOfFile(user)
+        # the firm administrator still looks at it (owner, 2026-11-15)
+        self.assertIn(self.assigned, self.Engagement.with_user(self.admin).search([]))
 
     def test_a_task_assignment_grants_nothing_without_a_team_row(self):
         self.item_e41.write({"assignee_id": self.outsider.id, "preparer_id": self.outsider.id})
@@ -64,15 +95,17 @@ class TestTeamOnly(EaAuditCase):
 
     def test_refuses_writes_as_well_as_reads(self):
         with self.assertRaises(AccessError):
-            self.assigned.with_user(self.admin).check_access("write")
-        self.assertCode("not-on-this-engagement", self.assigned.with_user(self.admin).write, {"name": "x"})
-        self.assertCode("not-on-this-engagement", self.item_e41.with_user(self.admin).write, {"not_applicable": True})
-        self.assertCode("not-on-this-engagement", self.assigned.with_user(self.admin).assign_team_member, self.admin.id, "partner")
-        self.assertCode("not-on-this-engagement", self.assigned.with_user(self.admin).transfer_engagement_partner, self.admin.id, "director")
-        self.assertCode("not-on-this-engagement", self.sign_as_admin)
+            self.assigned.with_user(self.partner2).check_access("write")
+        self.assertCode("not-on-this-engagement", self.assigned.with_user(self.partner2).write, {"name": "x"})
+        self.assertCode("not-on-this-engagement", self.item_e41.with_user(self.partner2).write, {"not_applicable": True})
+        self.assertCode("not-on-this-engagement", self.assigned.with_user(self.partner2).assign_team_member, self.partner2.id, "partner")
+        self.assertCode("not-on-this-engagement", self.assigned.with_user(self.partner2).transfer_engagement_partner, self.partner2.id, "director")
+        self.assertCode("not-on-this-engagement", self.sign_as_partner2)
+        # the firm administrator off the team: the same refusals, in look-only words
+        self.assertCode("look-only", self.assigned.with_user(self.admin).transfer_engagement_partner, self.admin.id, "director")
 
-    def sign_as_admin(self):
-        return self.item_e41.with_user(self.admin).action_sign("preparer")
+    def sign_as_partner2(self):
+        return self.item_e41.with_user(self.partner2).action_sign("preparer")
 
     def test_the_team_list_of_another_file_is_not_readable(self):
         members = self.env["ea.audit.team.member"].with_user(self.outsider)

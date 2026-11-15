@@ -71,7 +71,7 @@ class Document(models.Model):
 
     def action_download(self):
         self.ensure_one()
-        self.sudo().engagement_id.with_env(self.env)._ea_require_access()
+        self.sudo().engagement_id.with_env(self.env)._ea_require_read()
         attachment = self.sudo().current_version_id.attachment_id
         if not attachment:
             raise rule_error(self.env, "not-found")
@@ -79,7 +79,7 @@ class Document(models.Model):
 
     def action_print_pdf(self):
         self.ensure_one()
-        self.sudo().engagement_id.with_env(self.env)._ea_require_access()
+        self.sudo().engagement_id.with_env(self.env)._ea_require_read()
         return self.env.ref("ea_audit_reports.action_report_document").report_action(self)
 
     def _ea_print_blocks(self):

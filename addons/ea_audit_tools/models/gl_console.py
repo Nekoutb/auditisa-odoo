@@ -334,7 +334,7 @@ class EngagementGlConsole(models.Model):
     def _ea_gl_read(self, dataset_id):
         """Every read's guard: on the team, and a ledger of this file."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self._ea_gl_dataset(dataset_id)
 
     def _ea_locale(self):
@@ -356,7 +356,7 @@ class EngagementGlConsole(models.Model):
     def gl_run_analytic(self, dataset_id, key, params=None):
         """runAnalytic: an honest `unavailable`, never a partial table."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         definition = analytics.ANALYTIC_BY_KEY.get(key)
         if not definition:
             raise rule_error(self.env, "unknown-analytic")
@@ -448,7 +448,7 @@ class EngagementGlConsole(models.Model):
         """Restricted to the entries where the two accounts actually meet: that measures the
         relationship between them, not the client's seasonal rhythm."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         account_a, account_b = self._ea_service(correlation.read_pair, a, b)
         dataset = self._ea_gl_dataset(dataset_id)
         args = {"dataset": dataset.id, "engagement": self.id, "a": account_a, "b": account_b}
@@ -518,7 +518,7 @@ class EngagementGlConsole(models.Model):
     def _ea_gl_datasets(self):
         """glDatasets: CY is the post-audit ledger, else the pre-audit one. PY the prior-year one."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         found = self.env["ea.audit.dataset"].sudo().search([
             ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
         ])
@@ -664,7 +664,7 @@ class EngagementGlConsole(models.Model):
         """A ledger's console; from a lead-schedule figure its accounts arrive selected, and the
         figure is there to reconcile to."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         if not dataset:
             dataset = self._ea_current_dataset("journal_entries")
         self._ea_gl_dataset(dataset.id)
@@ -712,7 +712,7 @@ class LeadFigure(models.AbstractModel):
         self.ensure_one()
         as_root = self.sudo()
         engagement = as_root.engagement_id.with_env(self.env)
-        engagement._ea_require_access()
+        engagement._ea_require_read()
         accounts, closing = as_root._ea_figure_accounts()
         version = as_root.engagement_id._ea_current_tb_version()
         opening = js_sum(js_round(line.opening) for line in version.line_ids if line.account_code in accounts) if version else 0

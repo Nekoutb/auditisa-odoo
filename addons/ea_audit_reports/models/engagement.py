@@ -230,7 +230,7 @@ class Engagement(models.Model):
 
     def completion_record_version(self, key):
         """The token the form holds: "" when there is no record yet."""
-        self._ea_require_access()
+        self._ea_require_read()
         record = self._ea_completion_record(key)
         return str(record.version) if record else ""
 
@@ -469,7 +469,7 @@ class Engagement(models.Model):
 
     def completion_gates(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.sudo()._ea_completion_gates()
 
     def _ea_raise_report_gates(self, failed):
@@ -752,7 +752,7 @@ class Engagement(models.Model):
 
     def archive_gates(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.sudo()._ea_archive_gates()
 
     def _ea_checklist_items(self, fr):
@@ -839,7 +839,7 @@ class Engagement(models.Model):
 
     def archive_checklist(self, locale=None):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.sudo()._ea_checklist(locale)
 
     def _ea_gates_html(self, gates):
@@ -1019,13 +1019,13 @@ class Engagement(models.Model):
 
     def active_hold(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self._ea_active_hold()
 
     def list_holds(self):
         """Every hold ever placed, newest first: released ones are history, not noise."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return self.env["ea.audit.legal.hold"].sudo().search([("engagement_id", "=", self.id)])
 
     def _ea_hold_guard(self, minimum, code):
@@ -1149,7 +1149,7 @@ class Engagement(models.Model):
         Any team member may take it; every export is logged (I-9). Returns (filename, file object),
         and the caller closes the file."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         client = as_root.client_id
         slug = re.sub(r"[^a-z0-9]+", "-", (client.name or "engagement").lower()).strip("-")
@@ -1224,7 +1224,7 @@ class Engagement(models.Model):
 
     def action_export_bundle(self):
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         return {"type": "ir.actions.act_url", "target": "self", "url": "/ea_audit/engagement/%d/export" % self.id}
 
     # ------------------------------------------------------------------

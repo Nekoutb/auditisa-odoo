@@ -601,7 +601,7 @@ class TestDeleteVersion(ImportCase):
         self.assertFalse(self.env["ea.audit.tb.version"].sudo().browse(earlier).exists())
         self.assertCode("read-only-role", self.as_reader.delete_tb_version, version)
         self.assertCode("not-on-this-engagement", self.as_outsider.delete_tb_version, version)
-        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.admin).delete_tb_version, version)
+        self.assertCode("look-only", self.engagement.with_user(self.admin).delete_tb_version, version)
         self.assertCode("eqr-read-only", self.as_eqr.delete_tb_version, version)
         record = self.env["ea.audit.tb.version"].browse(version)
         self.assertCode("forbidden", record.with_user(self.manager).unlink)

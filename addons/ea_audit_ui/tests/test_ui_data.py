@@ -5,6 +5,7 @@ from datetime import date, timedelta
 from odoo import fields
 from odoo.exceptions import AccessError
 from odoo.tests import tagged
+from odoo.tools import file_open
 
 from odoo.addons.ea_audit_core.tests.common import EaAuditCase
 
@@ -148,35 +149,15 @@ class TestUiData(EaAuditCase):
         self.assertEqual(row["done"], 1)
         self.assertEqual(row["pct"], round(100 / row["total"]))
 
-    def test_home_todo_counts_what_waits_for_me(self):
-        item = self.item(self.engagement, "E6.2")
-        item.with_user(self.partner).assign_tasks(self.staff.id, "preparer")
-        item.with_user(self.partner).assign_tasks(self.senior.id, "approver")
-        item.with_user(self.staff).action_sign("preparer")
-        todo = self.ui(self.senior).ea_ui_home()["todo"]
-        self.assertEqual([(t["title"], t["count"]) for t in todo], [("Working papers awaiting review", 1)])
-        self.assertEqual(self.ui(self.manager).ea_ui_home()["todo"], [])
-
-    def test_home_todo_acceptance_is_the_partners(self):
-        fresh = self.make_engagement(2026, partner=self.partner)
-        titles = [t["title"] for t in self.ui(self.partner).ea_ui_home()["todo"] if t["engagement_id"] == fresh.id]
-        self.assertIn("Acceptance awaiting the partner's sign-off", titles)
-
-    def test_home_todo_does_not_list_the_acceptance_twice(self):
-        fresh = self.make_engagement(2026, partner=self.partner)
-        self.seat(fresh, self.manager, "manager")
-        p11 = self.item(fresh, "P1.1")
-        p11.with_user(self.manager).assign_tasks(self.manager.id, "preparer")
-        p11.with_user(self.manager).assign_tasks(self.partner.id, "approver")
-        p11.with_user(self.manager).action_sign("preparer")
-        titles = [t["title"] for t in self.ui(self.partner).ea_ui_home()["todo"] if t["engagement_id"] == fresh.id]
-        self.assertEqual(titles, ["Acceptance awaiting the partner's sign-off"])
-
-    def test_home_todo_shows_an_invitation_without_opening_the_file(self):
+    def test_home_has_no_to_do_card(self):
+        """Owner, 2026-11-15: the "To do" card is gone from the home page."""
         self.engagement.with_user(self.partner)._ea_invite_user(self.outsider, "staff")
-        home = self.ui(self.outsider).ea_ui_home()
-        self.assertEqual(home["missions"], [])
-        self.assertEqual([t["title"] for t in home["todo"]], ["Invitation to answer"])
+        for user in (self.partner, self.senior, self.outsider):
+            self.assertNotIn("todo", self.ui(user).ea_ui_home())
+        with file_open("ea_audit_ui/static/src/xml/shell.xml") as handle:
+            shell = handle.read()
+        self.assertNotIn("ea-todo", shell)
+        self.assertNotIn("state.todo", shell)
 
     # ------------------------------------------------------------------
     # the task list
@@ -231,7 +212,6 @@ class TestUiData(EaAuditCase):
         ui = self.ui(user)
         home = ui.ea_ui_home()
         self.assertEqual(home["missions"], [])
-        self.assertEqual(home["todo"], [])
         self.assertEqual(ui.ea_ui_dashboard(self.engagement.id), {"denied": True})
         self.assertEqual(ui.ea_ui_tasks(self.engagement.id, "e4"), {"denied": True})
         self.assertEqual(ui.ea_ui_shell()["recent"], [])
@@ -242,11 +222,26 @@ class TestUiData(EaAuditCase):
         self.assertEqual(ui.ea_ui_search("E4.1")["tasks"], [])
 
     def test_a_system_administrator_off_the_team_sees_no_mission(self):
-        self.admin.group_ids = [(4, self.env.ref("base.group_system").id)]
-        self.assertSeesNoFile(self.admin)
+        self.outsider.group_ids = [(4, self.env.ref("base.group_system").id)]
+        self.assertSeesNoFile(self.outsider)
 
-    def test_a_firm_administrator_off_the_team_sees_no_mission(self):
-        self.assertSeesNoFile(self.admin)
+    def test_a_firm_administrator_off_the_team_sees_every_mission_look_only(self):
+        """Owner ruling, 2026-11-15: the firm administrator sees every engagement of the firm."""
+        other = self.make_engagement(2025, partner=self.partner2, client=self.env["ea.audit.client"].create({"name": "Autre SA"}))
+        ui = self.ui(self.admin)
+        home = ui.ea_ui_home()
+        ids = [m["id"] for m in home["missions"]]
+        self.assertIn(self.engagement.id, ids)
+        self.assertIn(other.id, ids)
+        self.assertTrue(all(m["look_only"] for m in home["missions"]))
+        self.assertIn(self.engagement.id, [m["id"] for m in ui.ea_ui_shell()["recent"]])
+        dashboard = ui.ea_ui_dashboard(self.engagement.id)
+        self.assertEqual(dashboard["mission"]["id"], self.engagement.id)
+        self.assertTrue(dashboard["mission"]["look_only"])
+        self.assertNotEqual(ui.ea_ui_tasks(self.engagement.id, "e4"), {"denied": True})
+        self.assertEqual(ui.ea_ui_context("ea.audit.engagement", self.engagement.id)["id"], self.engagement.id)
+        # a member of the team is not in look-only mode
+        self.assertFalse(self.ui(self.staff).ea_ui_dashboard(self.engagement.id)["mission"]["look_only"])
 
     def test_a_partner_off_the_team_sees_no_mission(self):
         self.assertSeesNoFile(self.partner2)

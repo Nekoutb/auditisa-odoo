@@ -3,6 +3,7 @@ import binascii
 
 from odoo import api, fields, models
 
+from odoo.addons.ea_audit_core.services.errors import rule_error as core_rule_error
 from odoo.addons.ea_audit_core.services.phases import phase_still_open
 from odoo.addons.ea_audit_core.services.signoff_rules import (
     EQR_PAPER,
@@ -307,6 +308,8 @@ class FileItem(models.Model):
             raise paper_error(env, "self-review")
         engagement = item.engagement_id
         engagement.with_env(env)._ea_assert_mutable()
+        if engagement._ea_look_only(user):
+            raise core_rule_error(env, "look-only")
         member = engagement._ea_member(user)
         if not member:
             raise paper_error(env, "not-on-team-to-sign")

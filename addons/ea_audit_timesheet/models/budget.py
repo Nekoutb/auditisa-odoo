@@ -32,10 +32,12 @@ class TeamBudget(models.Model):
         engagement = self.env["ea.audit.engagement"].browse(int(engagement_id)).exists()
         if not engagement:
             raise rule_error(self.env, "not-found")
-        engagement._ea_require_access()
+        engagement._ea_require_read()
         as_root = engagement.sudo()
         mine = as_root._ea_member(self.env.user)
-        lead = mine.team_role in _LEADS
+        look_only = as_root._ea_look_only(self.env.user)
+        # the firm administrator off the team reads the whole team, look-only (owner, 2026-11-15)
+        lead = mine.team_role in _LEADS or look_only
         members = as_root.team_member_ids.filtered(lambda m: m.state == "accepted")
         if not lead:
             members = mine
@@ -83,7 +85,7 @@ class TeamBudget(models.Model):
             "totals": totals,
             "budget": sum(t["budget"] for t in totals),
             "actual": sum(t["actual"] for t in totals),
-            "can_edit": lead and not engagement._ea_is_archived(),
+            "can_edit": lead and not look_only and not engagement._ea_is_archived(),
             "lead": lead,
         }
 

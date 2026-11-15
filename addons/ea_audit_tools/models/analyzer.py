@@ -124,7 +124,7 @@ class EngagementAnalyzer(models.Model):
     def aging_for(self, kind):
         """agingFor: the latest dataset of the kind; None when its mapping lacks party, amount or date."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         dataset = self._ea_current_dataset(kind)
         return self._ea_aging_of(dataset) if dataset else None
 
@@ -205,7 +205,7 @@ class EngagementAnalyzer(models.Model):
     def action_tool_data_analytics(self):
         """The analyzers, as a second page of tiles."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         action = self.action_open_tools()
         action["name"] = self.env._("Data analytics")
         action["domain"] = [("section", "=", "analyzers")]

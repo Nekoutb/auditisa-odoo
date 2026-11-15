@@ -223,7 +223,7 @@ class EngagementSampling(models.Model):
         """todSideView. Nothing invented: an index S3.1 does not assess gets the default CRA and says
         so, an index with no ledger line is named rather than silently absent."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         if side not in ("bs", "is"):
             raise rule_error(self.env, "invalid-value")
         as_root = self.sudo()
@@ -319,7 +319,7 @@ class EngagementSampling(models.Model):
     def tod_preview(self, prefix, cra, assurance, threshold=None):
         """todPreview: the plan for one account prefix. Refusals as the source's ok:false codes."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         approved = as_root._ea_approved_materiality()
         if not approved:
@@ -358,7 +358,7 @@ class EngagementSampling(models.Model):
     def mus_preview(self, prefix, interval=None):
         """musPreview: interval TE/3 by default; items at or above it are examined in full."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         as_root = self.sudo()
         dataset = as_root._ea_ledger()
         if not dataset:
@@ -479,7 +479,7 @@ class EngagementSampling(models.Model):
     def mus_size_preview(self, population_value, confidence, expected=0):
         """musPlan on the approved tolerable: what the size would be."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         approved = self.sudo()._ea_approved_materiality()
         if not approved:
             raise rule_error(self.env, "no-materiality")

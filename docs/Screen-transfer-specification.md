@@ -541,7 +541,7 @@ Field-level groups attribute on identity fields (groups='ea_audit_core.group_fir
 
 **Odoo 19 target.** Models: ea.audit.engagement (phase selection acceptance/planning/execution/conclusion/archived, fiscal_year, period_end, report_date, retention_until, progress computed), ea.audit.team.member, ea.audit.client. View: list (+ kanban) with search filters; roll-forward as server action/wizard. Groups: read: group_read_only+ (record rule: accepted team member); roll-forward: group_staff+.
 
-ir.rule: engagement visible iff team_member_ids filtered(user=uid, state='accepted') — no bypass for admins (F008) except via sudo; stored computed fields progress_pct, status, deadline (phaseDeadline rules in lib/engagement-dashboard.ts); search filters as ir.filters; roll-forward = action_rollforward(new_year) with constraints; archived rows read-only (see mutability).
+ir.rule: engagement visible iff team_member_ids filtered(user=uid, state='accepted') — no bypass for admins (F008) except via sudo; **Owner ruling, 2026-11-15:** the firm administrator (group_firm_admin) sees every engagement of the firm and everything under it in look-only mode when not an accepted team member (rules call `ea_team_domain()`, ea_audit_core/models/ir_rule.py: always true for the firm administrator in read mode only); every write, create, delete and sign-off stays team-only and refuses with `look-only`. Every other role keeps the team-only rule.  stored computed fields progress_pct, status, deadline (phaseDeadline rules in lib/engagement-dashboard.ts); search filters as ir.filters; roll-forward = action_rollforward(new_year) with constraints; archived rows read-only (see mutability).
 
 **Effort / phase.** M (4 pd) (estimate) · 2 Engagement file. Source: `app/engagements/page.tsx`; rules in lib/engagements.ts (listEngagements), lib/engagement-access.ts, lib/engagement-dashboard.ts (phaseDeadline), lib/completion.ts (rollforward), app/actions/conclusion.ts, components/RegisterRow.tsx. Screenshot: extra\x02-engagements-register.png; other agent: 02-engagements-list.png
 
@@ -603,7 +603,7 @@ action_generate_document on ea.audit.file.item; DOCX rendering in ea_audit_repor
 
 **Rules enforced (plain words).**
 
-- Team-only access F008: only accepted team_member rows open the engagement (read or write), no firm-admin/partner exception
+- Team-only access F008: only accepted team_member rows open the engagement (read or write), no firm-admin/partner exception (superseded for reading by the firm administrator). **Owner ruling, 2026-11-15:** the firm administrator (group_firm_admin) sees every engagement of the firm and everything under it in look-only mode when not an accepted team member (rules call `ea_team_domain()`, ea_audit_core/models/ir_rule.py: always true for the firm administrator in read mode only); every write, create, delete and sign-off stays team-only and refuses with `look-only`. Every other role keeps the team-only rule.
 - Invited-member routing: status='invited' → /invitations/[id]
 - Tenant isolation: UUID check + RLS so a foreign engagement id reads as not visible (UAT B01)
 

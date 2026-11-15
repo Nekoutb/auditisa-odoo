@@ -549,7 +549,7 @@ class Paper(models.Model):
         if not paper.exists():
             raise paper_error(env, "not-found")
         engagement = paper.engagement_id
-        engagement.with_env(env)._ea_require_access()
+        engagement.with_env(env)._ea_require_read()
         item = paper.file_item_id.with_context(env.context)
         user = env.user
         firm_role = user._ea_firm_role()
@@ -560,6 +560,8 @@ class Paper(models.Model):
             readonly_code = "archived"
         elif firm_role == "read_only" or not firm_role:
             readonly_code = "read-only-role"
+        elif engagement._ea_look_only(user):
+            readonly_code = "look-only"
         elif engagement._ea_acts_as_eqr(user) and paper.code != EQR_PAPER:
             readonly_code = "eqr-read-only"
         exempt = completeness_exempt(paper.code, has_bespoke_paper(paper.code))

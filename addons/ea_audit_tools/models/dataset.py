@@ -130,7 +130,10 @@ class Dataset(models.Model):
         for dataset in self:
             # read afresh, so a ledger built before a wording change shows the current text
             validation = dataset.validation
-            if validation and dataset.gl_built_at and dataset.engagement_id._ea_member(self.env.user).state == "accepted":
+            if validation and dataset.gl_built_at and (
+                dataset.engagement_id._ea_member(self.env.user).state == "accepted"
+                or dataset.engagement_id._ea_look_only()
+            ):
                 validation = dataset.engagement_id.gl_validate_population(dataset.id)
             rows = Markup("").join(
                 Markup("<tr><td>{label}</td><td><span class='{css}'>{status}</span></td><td>{detail}</td></tr>").format(
@@ -558,7 +561,7 @@ class EngagementDataset(models.Model):
     def gl_validate_population(self, dataset_id):
         """op validate: read-only, so an archived file answers it."""
         self.ensure_one()
-        self._ea_require_access()
+        self._ea_require_read()
         dataset = self._ea_gl_dataset(dataset_id)
         cr = self.env.cr
         start, period_end = self._ea_gl_period()

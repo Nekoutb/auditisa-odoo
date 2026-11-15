@@ -5541,3 +5541,9 @@ msgstr "Les soldes seulement, à la clôture, ou cochez ce que vous ferez d'autr
 msgid "Yes adds P1.2, contact with the predecessor auditor."
 msgstr "Oui ajoute P1.2, prise de contact avec l'auditeur précédent."
 
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "You are not on this engagement's team: you can look but not change anything. Ask the engagement partner to add you."
+msgstr "Vous n'êtes pas dans l'équipe de cette mission : vous pouvez consulter, mais rien modifier. Demandez à l'associé responsable de la mission de vous ajouter."
