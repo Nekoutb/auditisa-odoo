@@ -44,6 +44,12 @@ def french_date(value):
     return value.strftime("%d/%m/%Y") if value else ""
 
 
+def upload_stamp(record, moment):
+    """The date and time of an upload, in the reader's time zone: how a person tells one
+    version of a file from another."""
+    return fields.Datetime.context_timestamp(record, moment).strftime("%d/%m/%Y %H:%M") if moment else ""
+
+
 class ToolRecord(models.AbstractModel):
     """Every record of the tools. Nothing reaches the database through the plain
     ORM entry points: create, write and unlink route a user's call to the

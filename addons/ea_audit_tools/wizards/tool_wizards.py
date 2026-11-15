@@ -1,104 +1,15 @@
 import base64
 
-from markupsafe import Markup
-
 from odoo import api, fields, models
 
 from ..models.finding import LIKELIHOOD_SELECTION, MAGNITUDE_SELECTION, MTYPE_SELECTION, SEVERITY_SELECTION
 from ..models.materiality import BENCHMARK_SELECTION
 from ..models.risk import CATEGORY_SELECTION, LEVEL_SELECTION, RATING_SELECTION
-from ..models.tb import TIMING_SELECTION
 from ..rules import rule_error
 from ..services.deficiency_model import suggested_grade
 from ..services.materiality import midpoint
-from ..services.tb import ALIASES
-from .tool_wizard_helpers import preview_html
-
-MAPPING_FIELDS = tuple("map_%s" % column for column in ALIASES)
 
 _RELOAD = {"type": "ir.actions.client", "tag": "soft_reload"}
-
-
-class TbImportWizard(models.TransientModel):
-    """Upload, then confirm and map, then ingest: the preview writes nothing."""
-
-    _name = "ea.audit.tb.import.wizard"
-    _description = "Import a trial balance"
-
-    engagement_id = fields.Many2one("ea.audit.engagement", required=True)
-    file = fields.Binary(string="File (.csv, .xlsx)", required=True)
-    filename = fields.Char()
-    timing = fields.Selection(TIMING_SELECTION, default="pre_audit", required=True)
-    header_row = fields.Boolean(string="First line is a header", default=True)
-    step = fields.Selection([("upload", "Upload"), ("confirm", "Confirm")], default="upload")
-    preview_html = fields.Html(sanitize=False, readonly=True)
-    template_html = fields.Html(compute="_compute_template_html", sanitize=False)
-    mapping_error = fields.Char(readonly=True)
-    map_account = fields.Char(string="Account")
-    map_label = fields.Char(string="Description")
-    map_openingDebit = fields.Char(string="Opening debit")
-    map_openingCredit = fields.Char(string="Opening credit")
-    map_opening = fields.Char(string="Opening (signed)")
-    map_debit = fields.Char(string="Debit")
-    map_credit = fields.Char(string="Credit")
-    map_closingDebit = fields.Char(string="Closing debit")
-    map_closingCredit = fields.Char(string="Closing credit")
-    map_closing = fields.Char(string="Closing (signed)")
-
-    def _content(self):
-        return base64.b64decode(self.file or b"")
-
-    def _mapping(self):
-        mapping = {}
-        for column in ALIASES:
-            value = (self["map_%s" % column] or "").strip()
-            if value:
-                mapping[column] = value
-        return mapping
-
-    def action_preview(self):
-        self.ensure_one()
-        preview = self.engagement_id.preview_trial_balance_file(self.filename, self._content(), header_row=self.header_row)
-        values = {
-            "step": "confirm",
-            "preview_html": preview_html(preview, self.env),
-            "mapping_error": rule_error(self.env, preview["mappingError"]).args[0] if preview["mappingError"] else False,
-        }
-        for column in ALIASES:
-            values["map_%s" % column] = preview["mapping"].get(column) or False
-        self.write(values)
-        return {
-            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id,
-            "view_mode": "form", "target": "new", "name": self.env._("Confirm the column mapping"),
-        }
-
-    @api.depends("engagement_id")
-    @api.depends_context("lang")
-    def _compute_template_html(self):
-        """F016. A link, not a button: a button would save the wizard, and the file is still missing."""
-        for wizard in self:
-            wizard.template_html = Markup("<a href='/ea_audit_tools/export/tb_template/{id}' data-ea-template='1'>{label}</a>").format(
-                id=wizard.engagement_id.id, label=self.env._("Download the template"),
-            )
-
-    def action_import(self):
-        """F016, F018: what went wrong, or what is missing, is said here and stays on the board."""
-        self.ensure_one()
-        engagement = self.engagement_id
-        result = engagement.import_trial_balance(
-            self.filename, self._content(), mapping=self._mapping(), timing=self.timing, header_row=self.header_row,
-        )
-        if result["summary"]["status"] == "invalid":
-            as_root = engagement.sudo().with_context(lang=self.env.lang)
-            return self._ea_notify(self.env._("Import refused"), " ".join(as_root._ea_tb_invalid_reasons() or [self.env._("The file is invalid.")]), "danger")
-        warning = engagement.sudo().with_context(lang=self.env.lang)._ea_tb_openings_warning()
-        return self._ea_notify(self.env._("Opening balances"), warning, "warning") if warning else _RELOAD
-
-    def _ea_notify(self, title, message, kind):
-        return {
-            "type": "ir.actions.client", "tag": "display_notification",
-            "params": {"title": title, "message": message, "type": kind, "sticky": True, "next": _RELOAD},
-        }
 
 
 class MaterialityWizard(models.TransientModel):

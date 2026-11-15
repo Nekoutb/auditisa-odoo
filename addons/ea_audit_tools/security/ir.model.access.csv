@@ -39,7 +39,6 @@ access_lead_index_override_member,ea.audit.lead.index.override member,model_ea_a
 access_assertion_member,ea.audit.assertion member,model_ea_audit_assertion,ea_audit_core.group_member,1,0,0,0
 access_grouping_rule_member,ea.audit.grouping.rule member,model_ea_audit_grouping_rule,ea_audit_core.group_member,1,0,0,0
 access_tool_tile_member,ea.audit.tool.tile member,model_ea_audit_tool_tile,ea_audit_core.group_member,1,0,0,0
-access_tb_import_wizard_writer,ea.audit.tb.import.wizard writer,model_ea_audit_tb_import_wizard,ea_audit_core.group_writer,1,1,1,1
 access_materiality_wizard_writer,ea.audit.materiality.wizard writer,model_ea_audit_materiality_wizard,ea_audit_core.group_writer,1,1,1,1
 access_risk_wizard_writer,ea.audit.risk.wizard writer,model_ea_audit_risk_wizard,ea_audit_core.group_writer,1,1,1,1
 access_risk_link_wizard_writer,ea.audit.risk.link.wizard writer,model_ea_audit_risk_link_wizard,ea_audit_core.group_writer,1,1,1,1
@@ -50,8 +49,6 @@ access_tool_import_wizard_writer,ea.audit.tool.import.wizard writer,model_ea_aud
 access_dataset_member,ea.audit.dataset member,model_ea_audit_dataset,ea_audit_core.group_member,1,0,0,0
 access_dataset_row_member,ea.audit.dataset.row member,model_ea_audit_dataset_row,ea_audit_core.group_member,1,0,0,0
 access_gl_line_member,ea.audit.gl.line member,model_ea_audit_gl_line,ea_audit_core.group_member,1,0,0,0
-access_dataset_import_wizard,ea.audit.dataset.import.wizard,model_ea_audit_dataset_import_wizard,ea_audit_core.group_member,1,1,1,1
-access_dataset_import_map,ea.audit.dataset.import.map,model_ea_audit_dataset_import_map,ea_audit_core.group_member,1,1,1,1
 access_gl_console,ea.audit.gl.console,model_ea_audit_gl_console,ea_audit_core.group_member,1,1,1,1
 access_gl_console_account,ea.audit.gl.console.account,model_ea_audit_gl_console_account,ea_audit_core.group_member,1,1,1,1
 access_scot_member,ea.audit.scot member,model_ea_audit_scot,ea_audit_core.group_member,1,0,0,0
@@ -108,3 +105,9 @@ access_scot_control_writer,ea.audit.scot.control writer,model_ea_audit_scot_cont
 access_fscp_writer,ea.audit.fscp writer,model_ea_audit_fscp,ea_audit_core.group_writer,1,1,0,0
 access_it_application_writer,ea.audit.it.application writer,model_ea_audit_it_application,ea_audit_core.group_writer,1,1,0,0
 access_risk_step_wizard_writer,ea.audit.risk.step.wizard writer,model_ea_audit_risk_step_wizard,ea_audit_core.group_writer,1,1,1,1
+access_import_wizard_writer,ea.audit.import.wizard writer,model_ea_audit_import_wizard,ea_audit_core.group_writer,1,1,1,1
+access_import_wizard_sheet_writer,ea.audit.import.wizard.sheet writer,model_ea_audit_import_wizard_sheet,ea_audit_core.group_writer,1,1,1,1
+access_import_wizard_column_writer,ea.audit.import.wizard.column writer,model_ea_audit_import_wizard_column,ea_audit_core.group_writer,1,1,1,1
+access_import_delete_wizard_writer,ea.audit.import.delete.wizard writer,model_ea_audit_import_delete_wizard,ea_audit_core.group_writer,1,1,1,1
+access_import_field_member,ea.audit.import.field member,model_ea_audit_import_field,ea_audit_core.group_member,1,0,0,0
+access_import_matching_member,ea.audit.import.matching member,model_ea_audit_import_matching,ea_audit_core.group_member,1,0,0,0

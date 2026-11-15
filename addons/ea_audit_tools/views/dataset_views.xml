@@ -4,20 +4,23 @@
         <field name="name">ea.audit.dataset.list</field>
         <field name="model">ea.audit.dataset</field>
         <field name="arch" type="xml">
-            <list create="0" delete="0" edit="0">
+            <list create="0" delete="0" edit="0" decoration-muted="superseded_at">
                 <header>
                     <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_template" type="object" string="Download the template" display="always"/>
                 </header>
+                <field name="create_date" string="Imported on"/>
                 <field name="kind"/>
                 <field name="timing"/>
+                <field name="is_current"/>
                 <field name="source_filename"/>
                 <field name="row_count"/>
                 <field name="display_total"/>
                 <field name="gl_line_count" optional="show"/>
                 <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" optional="show"/>
+                <field name="superseded_at"/>
                 <field name="create_uid" string="Imported by"/>
-                <field name="create_date" string="Imported on"/>
+                <button name="action_delete" type="object" icon="fa-trash-o" title="Delete this upload" groups="ea_audit_core.group_writer"/>
             </list>
         </field>
     </record>
@@ -57,15 +60,17 @@
         <field name="arch" type="xml">
             <form create="0" delete="0" edit="0">
                 <header>
-                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="kind != 'journal_entries' or gl_built_at" groups="ea_audit_core.group_writer"/>
+                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="kind != 'journal_entries' or gl_built_at or superseded_at" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_console" type="object" string="Open the console" class="btn-primary" invisible="kind != 'journal_entries' or not gl_built_at"/>
                     <button name="action_open_lines" type="object" string="Ledger lines" invisible="not gl_built_at"/>
-                    <button name="action_reconcile" type="object" string="Reconcile to the control account" class="btn-primary" invisible="not has_recon" groups="ea_audit_core.group_writer"/>
+                    <button name="action_reconcile" type="object" string="Reconcile to the control account" class="btn-primary" invisible="not has_recon or superseded_at" groups="ea_audit_core.group_writer"/>
                     <button name="action_export_aging" type="object" string="Export the aging" invisible="kind not in ('ar_open_items', 'ap_open_items')"/>
-                    <button name="action_open_supplier_recon" type="object" string="Supplier statements against the ledger" invisible="kind != 'supplier_statements'" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_supplier_recon" type="object" string="Supplier statements against the ledger" invisible="kind != 'supplier_statements' or superseded_at" groups="ea_audit_core.group_writer"/>
+                    <button name="action_delete" type="object" string="Delete this upload" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>
                     <div class="o_ea_title"><field name="name" readonly="1"/></div>
+                    <div class="o_ea_banner" invisible="not superseded_at">A later upload of this kind and timing has taken over: this one is kept as a record and is not in use. It is in use again if the later upload is deleted.</div>
                     <div class="o_ea_cards">
                         <div class="o_ea_card">
                             <div class="o_ea_card_label">Rows</div>
@@ -89,7 +94,9 @@
                             <field name="timing"/>
                         </group>
                         <group>
-                            <field name="source_sha256"/>
+                            <field name="create_date" string="Imported on"/>
+                            <field name="create_uid" string="Imported by"/>
+                            <field name="superseded_at" invisible="not superseded_at"/>
                             <field name="gl_built_at" invisible="kind != 'journal_entries'"/>
                         </group>
                     </group>
@@ -170,43 +177,6 @@
         </field>
     </record>
 
-    <record id="view_dataset_import_wizard" model="ir.ui.view">
-        <field name="name">ea.audit.dataset.import.wizard.form</field>
-        <field name="model">ea.audit.dataset.import.wizard</field>
-        <field name="arch" type="xml">
-            <form>
-                <field name="step" invisible="1"/>
-                <field name="engagement_id" invisible="1"/>
-                <group invisible="step != 'upload'">
-                    <field name="kind"/>
-                    <field name="file" filename="filename"/>
-                    <field name="filename" invisible="1"/>
-                    <field name="timing"/>
-                    <field name="header_row"/>
-                </group>
-                <div invisible="step != 'confirm'">
-                    <field name="map_ids" nolabel="1">
-                        <list create="0" delete="0" editable="bottom">
-                            <field name="label"/>
-                            <field name="required_column"/>
-                            <field name="header"/>
-                            <field name="sample"/>
-                        </list>
-                    </field>
-                    <group invisible="kind != 'journal_entries'">
-                        <field name="je_key_columns"/>
-                    </group>
-                    <field name="preview_html" nolabel="1"/>
-                </div>
-                <footer>
-                    <button name="action_preview" type="object" string="Continue" class="btn-primary" invisible="step != 'upload' or not file"/>
-                    <span class="btn btn-primary disabled" aria-disabled="true" title="Choose a file first" invisible="step != 'upload' or file">Continue</span>
-                    <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'confirm'"/>
-                    <button special="cancel" string="Cancel"/>
-                </footer>
-            </form>
-        </field>
-    </record>
     <record id="view_supplier_recon_wizard" model="ir.ui.view">
         <field name="name">ea.audit.supplier.recon.wizard.form</field>
         <field name="model">ea.audit.supplier.recon.wizard</field>

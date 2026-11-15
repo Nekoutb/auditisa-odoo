@@ -1,4 +1,3 @@
-import hashlib
 import json
 
 from dateutil.relativedelta import relativedelta
@@ -6,15 +5,18 @@ from markupsafe import Markup
 
 from odoo import api, fields, models
 
+from odoo.addons.ea_audit_core.services.errors import AuditRuleError
+
 from ..rules import rule_error
 from ..services.amount import parse_amount
 from ..services.dataset_mapping import auto_map
 from ..services.errors import ServiceError
 from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, population_checks, projector
+from ..services.import_matching import amount_check, apply_reading_options, clean_mapping, gl_population, missing_fields
 from ..services.subledger_kinds import SUB_LEDGER_KINDS, is_sub_ledger_kind
 from ..services.subledgers import detect_amount_column
 from ..tabular import parse_table
-from .tool_record import french_date, is_french
+from .tool_record import french_date, grouped, is_french, upload_stamp
 from .tb import TIMING_SELECTION
 
 MAX_BYTES = 60 * 1024 * 1024
@@ -34,8 +36,10 @@ assert [kind for kind, _label in KIND_SELECTION] == SUB_LEDGER_KINDS
 
 
 class Dataset(models.Model):
-    """sub_ledger_dataset. One per kind and timing: a new upload replaces the previous one,
-    its rows and its projection going with it."""
+    """sub_ledger_dataset. Every upload is kept, as a version a person knows by the date and time
+    of its upload. The latest of a kind and timing is the one in use; a new upload supersedes it
+    and takes its projection away, which is rebuilt from the rows should it be in use again.
+    A member who may import may delete one (Engagement.delete_dataset)."""
 
     _name = "ea.audit.dataset"
     _inherit = ["ea.audit.tool.record"]
@@ -46,7 +50,8 @@ class Dataset(models.Model):
     timing = fields.Selection(TIMING_SELECTION, default="pre_audit", required=True)
     name = fields.Char(required=True)
     source_filename = fields.Char(string="File")
-    source_sha256 = fields.Char(string="SHA-256")
+    superseded_at = fields.Datetime(index=True)
+    is_current = fields.Boolean(string="In use", compute="_compute_is_current", compute_sudo=True)
     row_count = fields.Integer(string="Rows")
     total_amount = fields.Float(digits=(18, 2))
     has_total = fields.Boolean()
@@ -62,6 +67,34 @@ class Dataset(models.Model):
         [("passed", "Passed"), ("warning", "Warning"), ("failed", "Failed")], string="Population",
     )
     population_html = fields.Html(string="Population checks", compute="_compute_population_html", sanitize=False, compute_sudo=True)
+
+    @api.depends("superseded_at")
+    def _compute_is_current(self):
+        for dataset in self:
+            dataset.is_current = not dataset.superseded_at
+
+    @api.depends("source_filename", "create_date")
+    @api.depends_context("tz")
+    def _compute_display_name(self):
+        for dataset in self:
+            dataset.display_name = "%s · %s" % (upload_stamp(dataset, dataset.create_date), dataset.source_filename or dataset.name or "")
+
+    def action_delete(self):
+        """The bin of a line: the confirmation first, which says what goes and what takes over."""
+        self.ensure_one()
+        return self.env["ea.audit.import.delete.wizard"]._ea_open(self.sudo().engagement_id.with_env(self.env), dataset=self)
+
+    def _ea_supersede(self):
+        """A later upload takes over. The rows stay, they are the upload; the projection goes,
+        it is rebuilt from them if this upload is ever in use again."""
+        if not self:
+            return
+        self.env.cr.execute("DELETE FROM ea_audit_gl_line WHERE dataset_id IN %s", [tuple(self.ids)])
+        self.env["ea.audit.gl.line"].invalidate_model()
+        self.write({
+            "superseded_at": fields.Datetime.now(), "gl_line_count": 0, "gl_rejected": 0, "gl_built_at": False,
+            "validation": False, "validation_status": False,
+        })
 
     @api.depends("total_amount", "mapping", "amount_column")
     @api.depends_context("lang")
@@ -124,8 +157,8 @@ class Dataset(models.Model):
         engagement = self._ea_context_engagement()
         return {
             "type": "ir.actions.act_window",
-            "name": self.env._("Import a dataset"),
-            "res_model": "ea.audit.dataset.import.wizard",
+            "name": self.env._("Import data"),
+            "res_model": "ea.audit.import.wizard",
             "view_mode": "form",
             "target": "new",
             "context": {
@@ -192,13 +225,16 @@ class EngagementDataset(models.Model):
     # Upload (lib/subledgers.ts)
     # ------------------------------------------------------------------
 
-    def _ea_parse(self, filename, content, header_row):
+    def _ea_parse(self, filename, content, header_row, options=None):
+        """The file as a table. ``options`` holds a person's choices over the reader's own guesses:
+        sheet (Excel) and delimiter (CSV) here, decimal and date_format once the columns are matched."""
         if not content:
             raise rule_error(self.env, "empty-file")
         if len(content) > MAX_BYTES:
             raise rule_error(self.env, "file-too-large")
+        options = options or {}
         try:
-            return parse_table(filename, content, header_row)
+            return parse_table(filename, content, header_row, sheet=options.get("sheet"), delimiter=options.get("delimiter"))
         except ServiceError as error:
             raise rule_error(self.env, error.code) from error
 
@@ -224,27 +260,99 @@ class EngagementDataset(models.Model):
             "mapping": auto_map(kind, table["headers"]),
         }
 
-    def create_dataset(self, kind, filename, content, mapping=None, timing="pre_audit", header_row=True):
+    def _ea_dataset_read(self, kind, filename, content, mapping, header_row, options):
+        """The file as the import will take it: (table, mapping). Refuses a matching that leaves a
+        mandatory field out, here and not only on the screen. Writes nothing."""
+        table = self._ea_parse(filename, content, header_row, options)
+        mapping = mapping or auto_map(kind, table["headers"])
+        if missing_fields(kind, clean_mapping(kind, mapping, table["headers"])):
+            raise rule_error(self.env, "mapping-incomplete")
+        apply_reading_options(table, kind, mapping, (options or {}).get("decimal"), (options or {}).get("date_format"))
+        return table, mapping
+
+    def _ea_gl_period(self):
+        """(first day, last day) of the period the ledger's dates are checked against."""
+        period_end = self.sudo().period_end
+        start = (period_end - relativedelta(years=1) + relativedelta(days=1)) if period_end else None
+        return start, period_end
+
+    def _ea_dataset_check(self, kind, filename, content, mapping, header_row, options):
+        """The check screen of a dataset. A ledger gets its population checks, read from the file
+        as the projection will read it; the other kinds their rows and the total of their amounts.
+        Nothing blocks but a file with no line to use: what the checks find is shown, and the
+        file comes in with it, as it always did."""
+        table, mapping = self._ea_dataset_read(kind, filename, content, mapping, header_row, options)
+        fr = is_french(self.env)
+        issues = []
+        if kind == "journal_entries":
+            start, end = self._ea_gl_period()
+            try:
+                found = gl_population(table, mapping, start.isoformat() if start else None, end.isoformat() if end else None)
+            except ServiceError as error:
+                raise rule_error(self.env, error.code) from error
+            if found["leftOut"]:
+                issues.append({"effect": "left_out", "rows": found["leftOut"], "text": self.env._(
+                    "Lines with no account or no entry number. They belong to no entry.",
+                )})
+            for check in found["validation"]["checks"]:
+                # the count of lines left out is the list above
+                if check["status"] != "passed" and check["key"] != "row-count":
+                    issues.append({"effect": "warning", "rows": [], "text": "%s. %s" % (
+                        check["labelFr" if fr else "labelEn"], check["detailFr" if fr else "detailEn"],
+                    )})
+            blocking = found["lines"] == 0
+            if blocking:
+                issues.append({"effect": "blocking", "rows": [], "text": self.env._(
+                    "No line of the file carries both an account and an entry number: there is nothing to import.",
+                )})
+            return {
+                "kind": kind, "fileRows": found["fileRows"], "rows": found["lines"], "leftOut": len(found["leftOut"]),
+                "totalDebit": found["totalDebit"], "totalCredit": found["totalCredit"],
+                "balanced": abs(found["totalDebit"] - found["totalCredit"]) <= TOLERANCE,
+                "difference": found["totalDebit"] - found["totalCredit"], "issues": issues, "blocking": blocking,
+            }
+        found = amount_check(table, mapping)
+        if found["unreadable"]:
+            issues.append({"effect": "warning", "rows": [row["row"] for row in found["unreadable"]], "text": self.env._(
+                "The column \"%(column)s\" holds something that is not an amount, for instance \"%(value)s\". These lines count for nothing in the total.",
+                column=found["header"], value=found["unreadable"][0]["value"],
+            )})
+        return {
+            "kind": kind, "fileRows": found["fileRows"], "rows": found["fileRows"], "leftOut": 0,
+            "total": found["total"] or 0, "balanced": None, "issues": issues, "blocking": False,
+        }
+
+    def create_dataset(self, kind, filename, content, mapping=None, timing="pre_audit", header_row=True, options=None, remember=False):
         """createDataset. The confirmed amount column wins over the guess; a ledger stating value
-        as a debit/credit pair has no single amount column, so the row amount is debit − credit."""
+        as a debit/credit pair has no single amount column, so the row amount is debit − credit.
+        The upload before it, of the same kind and timing, is kept and superseded."""
         self.ensure_one()
         self._ea_tool_guard()
         if not is_sub_ledger_kind(kind) or timing not in dict(TIMING_SELECTION):
             raise rule_error(self.env, "fields-required")
-        table = self._ea_parse(filename, content, header_row)
-        mapping = mapping or None
-        debit_col, credit_col = (mapping or {}).get("debit"), (mapping or {}).get("credit")
-        amount_mapped = (mapping or {}).get("amount")
+        table, mapping = self._ea_dataset_read(kind, filename, content, mapping, header_row, options)
+        if kind == "journal_entries":
+            try:
+                project = projector(mapping)
+            except ServiceError as error:
+                raise rule_error(self.env, error.code) from error
+            if not any(project(row) is not None for row in table["rows"]):
+                raise rule_error(self.env, "import-refused", reasons=self.env._(
+                    "No line of the file carries both an account and an entry number: there is nothing to import.",
+                ))
+        debit_col, credit_col = mapping.get("debit"), mapping.get("credit")
+        amount_mapped = mapping.get("amount")
         signed_pair = bool(debit_col and credit_col) and not amount_mapped
         amount_col = amount_mapped or (debit_col if signed_pair else detect_amount_column(table))
 
         Dataset = self.env["ea.audit.dataset"].sudo()
-        Dataset.search([("engagement_id", "=", self.id), ("kind", "=", kind), ("timing", "=", timing)]).unlink()
-        raw = content if isinstance(content, bytes) else content.encode()
+        self._ea_lock()
+        Dataset.search([
+            ("engagement_id", "=", self.id), ("kind", "=", kind), ("timing", "=", timing), ("superseded_at", "=", False),
+        ])._ea_supersede()
         name = filename.rsplit(".", 1)[0] if "." in filename else filename
         dataset = Dataset.create({
-            "engagement_id": self.id, "kind": kind, "timing": timing, "name": name,
-            "source_filename": filename, "source_sha256": hashlib.sha256(raw).hexdigest(),
+            "engagement_id": self.id, "kind": kind, "timing": timing, "name": name, "source_filename": filename,
             "row_count": len(table["rows"]), "amount_column": amount_col, "mapping": mapping,
         })
         total = None
@@ -269,7 +377,57 @@ class EngagementDataset(models.Model):
             )
         dataset.write({"total_amount": total or 0, "has_total": total is not None})
         self._ea_log("dataset_imported", "%s imported (%s, %s, %d rows)" % (filename, kind, timing, len(rows)))
+        if remember:
+            self._ea_remember_matching(kind, table["headers"], mapping)
         return {"datasetId": dataset.id, "rowCount": len(rows)}
+
+    def _ea_current_dataset(self, kind, timing=None):
+        """The upload in use of a kind: of that timing, else the newest whatever its timing."""
+        self.ensure_one()
+        domain = [("engagement_id", "=", self.id), ("kind", "=", kind), ("superseded_at", "=", False)]
+        if timing:
+            domain.append(("timing", "=", timing))
+        return self.env["ea.audit.dataset"].sudo().search(domain, limit=1)
+
+    def _ea_dataset_successor(self, dataset):
+        """The upload in use again when this one is deleted: the latest other one of its kind and
+        timing. Empty when this one is not in use, or when none remains."""
+        if dataset.superseded_at:
+            return self.env["ea.audit.dataset"].sudo()
+        return self.env["ea.audit.dataset"].sudo().search([
+            ("engagement_id", "=", self.id), ("kind", "=", dataset.kind), ("timing", "=", dataset.timing), ("id", "!=", dataset.id),
+        ], limit=1)
+
+    def delete_dataset(self, dataset_id):
+        """Whoever may import may delete (owner's ruling of 2026-11-15), as for a trial balance.
+        A sampling run or a selection design drawn from the upload stays, without its link to it.
+        When the upload in use goes, the one before it is in use again, and a ledger gets its
+        projection back if the deleted one had its own. The trail keeps what was deleted."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        dataset = self.env["ea.audit.dataset"].sudo().search([
+            ("id", "=", int(dataset_id or 0)), ("engagement_id", "=", self.id),
+        ], limit=1)
+        if not dataset:
+            raise rule_error(self.env, "no-dataset")
+        self._ea_lock()
+        successor = self._ea_dataset_successor(dataset)
+        had_projection = bool(dataset.gl_built_at)
+        facts = (
+            dataset.source_filename, dataset.kind, dataset.timing, upload_stamp(self, dataset.create_date),
+            dataset.row_count, grouped(dataset.display_total, "en"),
+        )
+        dataset.unlink()
+        self._ea_log("dataset_deleted", "%s deleted (%s, %s, imported on %s, %d rows, total %s)" % facts)
+        if successor:
+            successor.superseded_at = False
+            if successor.kind == "journal_entries" and had_projection:
+                try:
+                    self.gl_build_projection(successor.id)
+                except AuditRuleError:
+                    # an upload from before the matching was mandatory: it waits for a person to build it
+                    pass
+        return {"successorId": successor.id or False}
 
     # ------------------------------------------------------------------
     # The GL projection (lib/gl-line.ts)
@@ -291,6 +449,8 @@ class EngagementDataset(models.Model):
         self.ensure_one()
         self._ea_tool_guard()
         dataset = self._ea_gl_dataset(dataset_id)
+        if dataset.superseded_at:
+            raise rule_error(self.env, "dataset-superseded")
         cr = self.env.cr
         cr.execute("SELECT count(*) FROM ea_audit_gl_line WHERE dataset_id = %s", [dataset.id])
         already = cr.fetchone()[0]
@@ -351,8 +511,7 @@ class EngagementDataset(models.Model):
         self._ea_require_access()
         dataset = self._ea_gl_dataset(dataset_id)
         cr = self.env.cr
-        period_end = self.sudo().period_end
-        start = (period_end - relativedelta(years=1) + relativedelta(days=1)) if period_end else None
+        start, period_end = self._ea_gl_period()
         cr.execute(
             """SELECT count(*),
                       count(*) FILTER (WHERE coalesce(trim(account), '') = ''),
@@ -430,9 +589,7 @@ class EngagementDataset(models.Model):
     def _ea_export_gl_population(self, fr):
         from ..exports import simple_workbook
 
-        dataset = self.env["ea.audit.dataset"].sudo().search(
-            [("engagement_id", "=", self.id), ("kind", "=", "journal_entries")], limit=1,
-        )
+        dataset = self._ea_current_dataset("journal_entries")
         if not dataset:
             raise rule_error(self.env, "no-dataset")
         checks = self.gl_validate_population(dataset.id)["checks"]

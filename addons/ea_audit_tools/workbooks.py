@@ -230,7 +230,6 @@ def je_workbook(view, fr):
     ledger = view["ledger"]
     if ledger:
         kv(population, "Grand livre" if fr else "Ledger", ledger["filename"])
-        kv(population, "SHA-256", ledger["sha256"])
         kv(population, "Lignes du fichier" if fr else "File rows", ledger["rows"])
         kv(population, "Lignes projetées" if fr else "Projected lines", ledger["lines"])
     else:

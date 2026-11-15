@@ -1,48 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_tb_import_wizard" model="ir.ui.view">
-        <field name="name">ea.audit.tb.import.wizard.form</field>
-        <field name="model">ea.audit.tb.import.wizard</field>
+    <record id="view_import_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.import.wizard.form</field>
+        <field name="model">ea.audit.import.wizard</field>
         <field name="arch" type="xml">
             <form>
-                <field name="step" invisible="1"/>
+                <header>
+                    <field name="step" widget="statusbar"/>
+                </header>
                 <field name="engagement_id" invisible="1"/>
-                <div class="o_ea_legend mb-2" invisible="step != 'upload'">
-                    <p class="mb-1">Accepted: a .csv or .xlsx file with one line per account. Required: the account number, then a debit and a credit column (movements), or a closing balance.</p>
-                    <p class="mb-1">Optional: the label, and the opening balances (opening debit and opening credit, or one signed column). Without opening balances or a prior-year trial balance, the prior-year column reads 0.</p>
-                    <field name="template_html" nolabel="1"/>
+                <field name="filename" invisible="1"/>
+                <field name="missing_count" invisible="1"/>
+                <field name="blocking" invisible="1"/>
+                <field name="row_count" invisible="1" force_save="1"/>
+                <field name="is_excel" invisible="1"/>
+                <field name="has_dates" invisible="1"/>
+                <div invisible="step != 'upload'">
+                    <group>
+                        <field name="kind"/>
+                        <field name="timing"/>
+                        <field name="file" filename="filename"/>
+                        <field name="header_row"/>
+                    </group>
+                    <div class="o_ea_legend mb-2">
+                        <div invisible="kind != 'trial_balance'">
+                            <p class="mb-1">Accepted: a .csv or .xlsx file with one line per account. Required: the account number, then a debit and a credit column (movements), or a closing balance.</p>
+                            <p class="mb-1">Optional: the label, and the opening balances (opening debit and opening credit, or one signed column). Without opening balances or a prior-year trial balance, the prior-year column reads 0.</p>
+                        </div>
+                        <p class="mb-1" invisible="kind == 'trial_balance'">Accepted: a .csv or .xlsx file. The mandatory fields of this kind of data are named at the next step.</p>
+                        <p class="mb-1">"Read the file" saves nothing: it opens the file and moves to the matching of its columns.</p>
+                        <field name="template_html" nolabel="1"/>
+                    </div>
                 </div>
-                <group invisible="step != 'upload'">
-                    <field name="file" filename="filename"/>
-                    <field name="filename" invisible="1"/>
-                    <field name="timing"/>
-                    <field name="header_row"/>
-                </group>
-                <div invisible="step != 'confirm'">
-                    <field name="preview_html" nolabel="1"/>
-                    <div class="alert alert-warning" invisible="not mapping_error"><field name="mapping_error"/></div>
-                    <group string="Column mapping">
+                <div invisible="step != 'match'">
+                    <field name="match_html" nolabel="1"/>
+                    <group>
                         <group>
-                            <field name="map_account"/>
-                            <field name="map_label"/>
-                            <field name="map_openingDebit"/>
-                            <field name="map_openingCredit"/>
-                            <field name="map_opening"/>
+                            <field name="sheet_id" widget="selection" invisible="not is_excel"/>
+                            <field name="csv_separator" invisible="is_excel"/>
                         </group>
                         <group>
-                            <field name="map_debit"/>
-                            <field name="map_credit"/>
-                            <field name="map_closingDebit"/>
-                            <field name="map_closingCredit"/>
-                            <field name="map_closing"/>
+                            <field name="decimal_separator"/>
+                            <field name="date_format" invisible="not has_dates"/>
                         </group>
                     </group>
+                    <div class="o_ea_legend" invisible="not found_note"><field name="found_note" nolabel="1" force_save="1"/></div>
+                    <field name="column_ids" nolabel="1">
+                        <list create="0" delete="0" editable="bottom" decoration-muted="match_state == 'none'">
+                            <field name="kind" column_invisible="1"/>
+                            <field name="sequence" column_invisible="1"/>
+                            <field name="detected_field_id" column_invisible="1" force_save="1"/>
+                            <field name="header" force_save="1"/>
+                            <field name="sample" force_save="1"/>
+                            <field name="field_id" widget="selection"/>
+                            <field name="mandatory" decoration-danger="mandatory"/>
+                            <field name="match_state" widget="badge" decoration-success="match_state == 'auto'" decoration-info="match_state == 'you'" decoration-muted="match_state == 'none'"/>
+                        </list>
+                    </field>
+                    <div class="o_ea_legend">Each line is one column of your file. Open the list on a line to choose another field, or "Do not import" to leave the column out. A column not recognised is left out unless you choose a field for it.</div>
+                    <group invisible="kind != 'journal_entries'">
+                        <field name="je_key_column_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <div>
+                        <field name="remember" nolabel="1" class="oe_inline"/>
+                        <label for="remember"/>
+                    </div>
+                </div>
+                <div invisible="step != 'check'">
+                    <field name="check_html" nolabel="1"/>
                 </div>
                 <footer>
-                    <button name="action_preview" type="object" string="Read the file" class="btn-primary" invisible="step != 'upload' or not file"/>
+                    <button name="action_read" type="object" string="Read the file" class="btn-primary" invisible="step != 'upload' or not file"/>
                     <span class="btn btn-primary disabled" aria-disabled="true" title="Choose a file first" invisible="step != 'upload' or file">Read the file</span>
-                    <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'confirm'"/>
+                    <button name="action_check" type="object" string="Check the file" class="btn-primary" invisible="step != 'match' or missing_count"/>
+                    <span class="btn btn-primary disabled" aria-disabled="true" title="Match the mandatory fields first" invisible="step != 'match' or not missing_count">Check the file</span>
+                    <button name="action_back_to_upload" type="object" string="Back to upload" invisible="step != 'match'"/>
+                    <button name="action_import" type="object" string="Import" class="btn-primary" invisible="step != 'check' or blocking"/>
+                    <span class="btn btn-primary disabled" aria-disabled="true" title="A blocking point stops the import" invisible="step != 'check' or not blocking">Import</span>
+                    <button name="action_back_to_matching" type="object" string="Back to matching" invisible="step != 'check'"/>
                     <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_import_delete_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.import.delete.wizard.form</field>
+        <field name="model">ea.audit.import.delete.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <field name="version_id" invisible="1"/>
+                <field name="dataset_id" invisible="1"/>
+                <field name="summary_html" nolabel="1"/>
+                <footer>
+                    <button name="action_confirm" type="object" string="Delete" class="btn-danger"/>
+                    <button special="cancel" string="Keep it"/>
                 </footer>
             </form>
         </field>

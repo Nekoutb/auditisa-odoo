@@ -347,7 +347,7 @@ class EngagementJe(models.Model):
         """The studio: criteria, rules, the run. Opens on the file's most recent ledger."""
         self.ensure_one()
         self._ea_require_access()
-        dataset = self.env["ea.audit.dataset"].sudo().search([("engagement_id", "=", self.id), ("kind", "=", "journal_entries")], limit=1)
+        dataset = self._ea_current_dataset("journal_entries")
         wizard = self.env["ea.audit.je.studio"].create({"engagement_id": self.id, "dataset_id": dataset.id or False})
         return wizard._ea_reopen()
 
@@ -374,9 +374,7 @@ class EngagementJe(models.Model):
         """The selection is re-run at export: nothing is stored, so the parameters and the ledger
         it read are written on the workbook, which can then be checked against the file."""
         as_root = self.sudo()
-        dataset = (studio.exists().sudo().dataset_id if studio else None) or self.env["ea.audit.dataset"].sudo().search(
-            [("engagement_id", "=", self.id), ("kind", "=", "journal_entries")], limit=1,
-        )
+        dataset = (studio.exists().sudo().dataset_id if studio else None) or self._ea_current_dataset("journal_entries")
         locale = "fr" if fr else "en"
         request = {"criteria": [item["key"] for item in JE_CRITERIA if item["key"] != "user-defined"], "params": {"locale": locale}, "limit": SELECTION_CAP}
         if studio and studio.exists():
@@ -391,7 +389,7 @@ class EngagementJe(models.Model):
         return "E3.1-journal-entries-%s-%s.xlsx" % (client, as_root.fiscal_year), je_workbook({
             "clientName": as_root.client_id.name, "fiscalYear": as_root.fiscal_year, "periodEnd": french_date(as_root.period_end),
             "preparer": self.env.user.name, "ledger": dataset and {
-                "filename": dataset.source_filename, "sha256": dataset.source_sha256, "rows": dataset.row_count, "lines": dataset.gl_line_count,
+                "filename": dataset.source_filename, "rows": dataset.row_count, "lines": dataset.gl_line_count,
             } or None, "checks": checks, "result": result,
         }, fr)
 

@@ -128,6 +128,11 @@
         <field name="model_id" ref="model_ea_audit_lead_index_override"/>
         <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_import_matching_client_team_only" model="ir.rule">
+        <field name="name">ea.audit.import.matching: on one of the client's teams</field>
+        <field name="model_id" ref="model_ea_audit_import_matching"/>
+        <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
     <record id="rule_dataset_team_only" model="ir.rule">
         <field name="name">ea.audit.dataset: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_dataset"/>

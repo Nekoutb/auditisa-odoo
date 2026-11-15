@@ -246,7 +246,7 @@ class SamplingWizard(models.TransientModel):
     _description = "Draw a sample from a dataset"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
-    dataset_id = fields.Many2one("ea.audit.dataset", string="Dataset", required=True, domain="[('engagement_id', '=', engagement_id)]")
+    dataset_id = fields.Many2one("ea.audit.dataset", string="Dataset", required=True, domain="[('engagement_id', '=', engagement_id), ('superseded_at', '=', False)]")
     method = fields.Selection(METHOD_SELECTION, default="mus", required=True)
     sample_size = fields.Integer(string="Sample size", default=25, required=True)
     seed = fields.Char(help="Empty: generated and stored with the run, so the draw can be reproduced.")

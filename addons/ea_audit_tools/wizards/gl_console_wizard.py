@@ -97,7 +97,7 @@ class GlConsole(models.TransientModel):
     engagement_id = fields.Many2one("ea.audit.engagement", required=True, ondelete="cascade")
     dataset_id = fields.Many2one(
         "ea.audit.dataset", string="Ledger", required=True, ondelete="cascade",
-        domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'journal_entries')]",
+        domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'journal_entries'), ('superseded_at', '=', False)]",
     )
     gl_built_at = fields.Datetime(related="dataset_id.gl_built_at")
     gl_line_count = fields.Integer(related="dataset_id.gl_line_count")

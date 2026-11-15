@@ -139,9 +139,7 @@ class EngagementSampling(models.Model):
         ]))
         cells = self.env["ea.audit.cra.assessment"].sudo().search([("engagement_id", "=", self.id)])
         cra = bool(cells) and not cells.filtered(lambda cell: cell.relevant and not (cell.ir and cell.cr))
-        dataset = self.env["ea.audit.dataset"].sudo().search([
-            ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"),
-        ], limit=1)
+        dataset = self._ea_current_dataset("journal_entries")
         papers = {item.code: "/odoo/%d/ea_audit_paper" % item.id for item in self.env["ea.audit.file.item"].sudo().search([
             ("engagement_id", "=", self.id), ("code", "in", ("S2.1", "S3.1")),
         ])}
@@ -158,8 +156,17 @@ class EngagementSampling(models.Model):
     def _ea_ledger(self):
         """The pre-audit ledger, else the newest."""
         self.ensure_one()
-        datasets = self.env["ea.audit.dataset"].sudo().search([("engagement_id", "=", self.id), ("kind", "=", "journal_entries")])
+        datasets = self.env["ea.audit.dataset"].sudo().search([
+            ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
+        ])
         return datasets.sorted(lambda d: (d.timing != "pre_audit", -d.id))[:1]
+
+    def _ea_ledger_start_key(self, dataset):
+        """What a tests-of-details plan starts from, besides the file and the index: facts of the
+        ledger that a second import of the same file gives again (its kind, its number of rows,
+        its total in hundredths). Worked out when asked, stored nowhere: it replaces the file's
+        fingerprint, which the owner had removed (2026-11-15)."""
+        return "%s:%d:%d" % (dataset.kind, dataset.row_count, int(round(dataset.total_amount * 100)))
 
     def _ea_ledger_lines_by_index(self, dataset):
         """{index: [GlLine]} read from the file's own rows, as todSideView does; zero lines skipped."""
@@ -238,7 +245,7 @@ class EngagementSampling(models.Model):
             if record.specific_te > 0
         }
         by_index = as_root._ea_ledger_lines_by_index(dataset)
-        sha = dataset.source_sha256 or str(dataset.id)
+        start_key = as_root._ea_ledger_start_key(dataset)
         sheets, empty = [], []
         for definition in indexes_of_side(side):
             code = definition["code"]
@@ -260,7 +267,7 @@ class EngagementSampling(models.Model):
                     "lines": lines, "te": te_index, "threshold": threshold_index, "cra": cra or DEFAULT_CRA, "assurance": assurance,
                     # B37, owner's ruling pending: the id changes at migration, so a migrated file keeps the
                     # samples it drew as data, and only a plan worked out afterwards starts elsewhere.
-                    "startFraction": start_fraction if start_fraction is not None else stable_start_fraction(str(self.id), code, sha),
+                    "startFraction": start_fraction if start_fraction is not None else stable_start_fraction(str(self.id), code, start_key),
                 }),
             })
         return {

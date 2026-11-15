@@ -5,7 +5,7 @@
         <field name="model">ea.audit.tb.version</field>
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0" decoration-danger="validation_status == 'invalid'" decoration-muted="superseded_at and not is_current">
-                <field name="version_no"/>
+                <field name="create_date" string="Imported on"/>
                 <field name="timing"/>
                 <field name="validation_status" widget="badge" decoration-success="validation_status == 'valid'" decoration-danger="validation_status == 'invalid'"/>
                 <field name="is_current"/>
@@ -15,7 +15,7 @@
                 <field name="total_credit"/>
                 <field name="superseded_at"/>
                 <field name="create_uid" string="Imported by"/>
-                <field name="create_date" string="Imported on"/>
+                <button name="action_delete" type="object" icon="fa-trash-o" title="Delete this version" groups="ea_audit_core.group_writer"/>
             </list>
         </field>
     </record>
@@ -27,14 +27,14 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="version_no"/>
+                            <field name="create_date" string="Imported on"/>
+                            <field name="create_uid" string="Imported by"/>
                             <field name="timing"/>
                             <field name="validation_status"/>
                             <field name="is_current"/>
                         </group>
                         <group>
                             <field name="source_filename"/>
-                            <field name="source_sha256"/>
                             <field name="total_debit"/>
                             <field name="total_credit"/>
                         </group>

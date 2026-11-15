@@ -519,7 +519,9 @@ class EngagementGlConsole(models.Model):
         """glDatasets: CY is the post-audit ledger, else the pre-audit one. PY the prior-year one."""
         self.ensure_one()
         self._ea_require_access()
-        found = self.env["ea.audit.dataset"].sudo().search([("engagement_id", "=", self.id), ("kind", "=", "journal_entries")])
+        found = self.env["ea.audit.dataset"].sudo().search([
+            ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
+        ])
 
         def latest(timing):
             return found.filtered(lambda dataset: dataset.timing == timing and dataset.mapping)[:1]
@@ -664,9 +666,7 @@ class EngagementGlConsole(models.Model):
         self.ensure_one()
         self._ea_require_access()
         if not dataset:
-            dataset = self.env["ea.audit.dataset"].sudo().search(
-                [("engagement_id", "=", self.id), ("kind", "=", "journal_entries")], limit=1,
-            )
+            dataset = self._ea_current_dataset("journal_entries")
         self._ea_gl_dataset(dataset.id)
         wanted = correlation.arrival_accounts(accounts or [])
         vals = {"engagement_id": self.id, "dataset_id": dataset.id, "selected_accounts": ", ".join(wanted)}

@@ -6,8 +6,8 @@ class SupplierReconWizard(models.TransientModel):
     _description = "Supplier statements against the ledger"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
-    statement_id = fields.Many2one("ea.audit.dataset", string="Supplier statements", required=True, domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'supplier_statements')]")
-    ledger_id = fields.Many2one("ea.audit.dataset", string="Payables ledger", required=True, domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'ap_open_items')]")
+    statement_id = fields.Many2one("ea.audit.dataset", string="Supplier statements", required=True, domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'supplier_statements'), ('superseded_at', '=', False)]")
+    ledger_id = fields.Many2one("ea.audit.dataset", string="Payables ledger", required=True, domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'ap_open_items'), ('superseded_at', '=', False)]")
 
     def action_run(self):
         self.ensure_one()

@@ -1,4 +1,3 @@
-import hashlib
 import re
 
 from odoo import api, fields, models
@@ -7,11 +6,11 @@ from ..rules import rule_error
 from ..services.ap_schedules import ap_lead_schedules, index_resolver
 from ..services.errors import ServiceError
 from ..services.fs_captions import asset_basis_label, bilan_totals
+from ..services.import_matching import TB_KIND, apply_reading_options
 from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_schedule_alerts, sub_index_for
 from ..services.tb_reasons import explain_tb_summary
-from ..services.tb import extract_tb_rows, infer_tb_mapping, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
-from ..tabular import parse_table
-from .tool_record import french_date, is_french
+from ..services.tb import extract_tb_rows, infer_tb_mapping, left_out_rows, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
+from .tool_record import grouped, is_french, upload_stamp
 
 TIMING_SELECTION = [
     ("pre_audit", "Pre-audit"),
@@ -31,19 +30,23 @@ class TrialBalance(models.Model):
     currency = fields.Char(default="XAF", required=True)
     period_end = fields.Date()
     current_version_no = fields.Integer(string="Current version", default=0)
+    # The highest number ever given: a deleted version's number is not given again.
+    last_version_no = fields.Integer(default=0)
     version_ids = fields.One2many("ea.audit.tb.version", "tb_id", string="Versions")
 
     _engagement_uniq = models.Constraint("UNIQUE(engagement_id)", "An engagement has one trial balance.")
 
 
 class TbVersion(models.Model):
-    """Immutable: a new upload supersedes a version, never rewrites or deletes it."""
+    """One upload. A new upload supersedes a version and never rewrites it; a member who may
+    import may delete one (Engagement.delete_tb_version). A person knows a version by the date
+    and time of its upload: the number only orders them."""
 
     _name = "ea.audit.tb.version"
     _inherit = ["ea.audit.tool.record"]
     _description = "Trial balance version"
     _order = "version_no desc"
-    _rec_name = "version_no"
+    _rec_name = "source_filename"
 
     tb_id = fields.Many2one("ea.audit.tb", required=True, ondelete="cascade", index=True)
     version_no = fields.Integer(string="Version", required=True)
@@ -51,7 +54,6 @@ class TbVersion(models.Model):
     timing = fields.Selection(TIMING_SELECTION, default="pre_audit", required=True)
     validation_status = fields.Selection([("valid", "Valid"), ("invalid", "Invalid")], required=True)
     source_filename = fields.Char(string="File")
-    source_sha256 = fields.Char(string="SHA-256")
     row_count = fields.Integer(string="Rows")
     total_debit = fields.Float(digits=(18, 2))
     total_credit = fields.Float(digits=(18, 2))
@@ -67,6 +69,17 @@ class TbVersion(models.Model):
     def _compute_is_current(self):
         for version in self:
             version.is_current = version.tb_id.current_version_no == version.version_no
+
+    @api.depends("source_filename", "create_date")
+    @api.depends_context("tz")
+    def _compute_display_name(self):
+        for version in self:
+            version.display_name = "%s · %s" % (upload_stamp(version, version.create_date), version.source_filename or "")
+
+    def action_delete(self):
+        """The bin of a line: the confirmation first, which says what goes and what takes over."""
+        self.ensure_one()
+        return self.env["ea.audit.import.delete.wizard"]._ea_open(self.sudo().engagement_id.with_env(self.env), version=self)
 
     @api.depends("validation_summary")
     @api.depends_context("lang")
@@ -218,14 +231,12 @@ class EngagementTb(models.Model):
             engagement.lead_override_ids = self.env["ea.audit.lead.index.override"].sudo().search([("client_id", "=", client)])
             engagement.grouping_override_ids = self.env["ea.audit.client.grouping.override"].sudo().search([("client_id", "=", client)])
 
+    @api.depends_context("tz")
     def _compute_tb_card(self):
         for engagement in self:
             version = engagement._ea_current_tb_version()
-            engagement.tb_current_label = "v%d" % version.version_no if version else "—"
-            engagement.tb_status_label = (
-                "%s · %s · %d" % (version.source_filename or "", french_date(version.create_date), version.row_count)
-                if version else ""
-            )
+            engagement.tb_current_label = upload_stamp(engagement, version.create_date) if version else "—"
+            engagement.tb_status_label = "%s · %d" % (version.source_filename or "", version.row_count) if version else ""
 
     @api.depends_context("lang")
     def _compute_tb_alerts(self):
@@ -282,7 +293,8 @@ class EngagementTb(models.Model):
             engagement.bilan_net_result = bilan["netResult"]
             engagement.bilan_total_equity_liabilities = bilan["totalLiabilitiesAndEquity"]
             engagement.bilan_label = asset_basis_label(
-                "fr" if is_french(self.env) else "en", version.version_no if version else None,
+                "fr" if is_french(self.env) else "en", None,
+                imported_on=upload_stamp(engagement, version.create_date) if version else None,
             )
 
     # ------------------------------------------------------------------
@@ -405,44 +417,75 @@ class EngagementTb(models.Model):
         """The file analysed without ingesting: the confirm-and-map step."""
         self.ensure_one()
         self._ea_tool_guard()
-        try:
-            table = parse_table(filename, content, header_row)
-        except ServiceError as error:
-            raise rule_error(self.env, error.code) from error
+        table = self._ea_parse(filename, content, header_row)
         return preview_trial_balance(table, mapping, index_overrides=dict(self._ea_lead_overrides()))
 
-    def import_trial_balance(self, filename, content, mapping=None, timing="pre_audit", header_row=True):
-        """importTrialBalance: the next version, validated, activated only when valid and pre-audit."""
+    def _ea_tb_read(self, filename, content, mapping, header_row, options):
+        """The file as the import will take it: (table, mapping, rows, summary). Writes nothing,
+        so the check screen and the import read the same thing."""
+        table = self._ea_parse(filename, content, header_row, options)
+        try:
+            mapping = mapping if mapping is not None else infer_tb_mapping(table["headers"])
+            validate_mapping({column: header for column, header in mapping.items() if header in table["headers"]})
+            apply_reading_options(table, TB_KIND, mapping, (options or {}).get("decimal"), (options or {}).get("date_format"))
+            rows = extract_tb_rows(table, mapping)
+        except ServiceError as error:
+            raise rule_error(self.env, error.code) from error
+        summary = validate_tb_rows(
+            rows, self._ea_known_prefixes(), self._ea_prior_closings_map(), mapping, readability_of(table, mapping),
+        )
+        return table, mapping, rows, summary
+
+    def _ea_tb_check(self, filename, content, mapping, header_row, options):
+        """The check screen of a trial balance. Blocking is what made a version invalid."""
+        table, mapping, rows, summary = self._ea_tb_read(filename, content, mapping, header_row, options)
+        locale = "fr" if is_french(self.env) else "en"
+        checks = summary["checks"]
+        issues = []
+        left_out = left_out_rows(table, mapping)
+        if left_out:
+            issues.append({"effect": "left_out", "rows": [row["row"] for row in left_out], "text": self.env._(
+                "Total lines, titles and lines with no account number. They are not accounts.",
+            )})
+        # the reasons, without the line about skipped rows, which the list above replaces
+        read = dict(summary.get("readability") or {}, rowsWithoutAccount=0)
+        for line in explain_tb_summary(dict(summary, readability=read), locale):
+            issues.append({"effect": "blocking" if line["blocking"] else "warning", "rows": [], "text": line["text"]})
+        balanced = checks["balanced"]
+        return {
+            "kind": TB_KIND, "fileRows": len(table["rows"]), "rows": len(rows), "leftOut": len(left_out),
+            "totalDebit": balanced["totalDebit"], "totalCredit": balanced["totalCredit"],
+            "balanced": balanced["ok"], "difference": balanced["totalDebit"] - balanced["totalCredit"],
+            "issues": issues, "blocking": summary["status"] != "valid",
+        }
+
+    def import_trial_balance(self, filename, content, mapping=None, timing="pre_audit", header_row=True, options=None, remember=False):
+        """importTrialBalance: the next version, activated when pre-audit. A file that fails the
+        checks is refused and nothing of it is kept (owner's ruling of 2026-11-15): the check
+        screen is where it stops."""
         self.ensure_one()
         self._ea_tool_guard()
         if timing not in dict(TIMING_SELECTION):
             raise rule_error(self.env, "invalid-value")
-        try:
-            table = parse_table(filename, content, header_row)
-            mapping = mapping if mapping is not None else infer_tb_mapping(table["headers"])
-            validate_mapping(mapping)
-            rows = extract_tb_rows(table, mapping)
-        except ServiceError as error:
-            raise rule_error(self.env, error.code) from error
+        table, mapping, rows, summary = self._ea_tb_read(filename, content, mapping, header_row, options)
+        if summary["status"] != "valid":
+            locale = "fr" if is_french(self.env) else "en"
+            reasons = [line["text"] for line in explain_tb_summary(summary, locale) if line["blocking"]]
+            raise rule_error(self.env, "import-refused", reasons=" ".join(reasons))
 
         as_root = self.sudo()
-        summary = validate_tb_rows(
-            rows, self._ea_known_prefixes(), self._ea_prior_closings_map(), mapping, readability_of(table, mapping),
-        )
         tb = self._ea_tb() or self.env["ea.audit.tb"].sudo().create({
             "engagement_id": self.id, "period_end": as_root.period_end,
         })
         self.env.cr.execute("SELECT id FROM ea_audit_tb WHERE id = %s FOR UPDATE", [tb.id])
         Version = self.env["ea.audit.tb.version"].sudo()
-        # One live TB per timing: a new upload supersedes, never deletes. The working
-        # TB moves only on a valid pre-audit import, so an invalid re-import is on the
-        # record and the last valid version keeps driving the lead schedules.
+        # One live TB per timing: a new upload supersedes the one before, which stays on the list.
         Version.search([
             ("tb_id", "=", tb.id), ("timing", "=", timing), ("superseded_at", "=", False),
         ]).write({"superseded_at": fields.Datetime.now()})
         last = Version.search([("tb_id", "=", tb.id)], order="version_no desc", limit=1)
-        version_no = last.version_no + 1
-        raw = content if isinstance(content, bytes) else content.encode()
+        version_no = max(last.version_no, tb.last_version_no) + 1
+        tb.last_version_no = version_no
         version = Version.create({
             "engagement_id": self.id,
             "tb_id": tb.id,
@@ -450,7 +493,6 @@ class EngagementTb(models.Model):
             "timing": timing,
             "validation_status": summary["status"],
             "source_filename": filename,
-            "source_sha256": hashlib.sha256(raw).hexdigest(),
             "row_count": len(rows),
             "total_debit": summary["checks"]["balanced"]["totalDebit"],
             "total_credit": summary["checks"]["balanced"]["totalCredit"],
@@ -468,14 +510,59 @@ class EngagementTb(models.Model):
             "credit": row["credit"],
             "raw_data": dict(row["raw"]),
         } for row_no, row in enumerate(rows, start=1)])
-        if summary["status"] == "valid" and timing == "pre_audit":
+        if timing == "pre_audit":
             tb.current_version_no = version_no
         # The TB is the file's primary evidence: every import is on the trail (UAT B62).
-        self._ea_log("tb_imported", "Trial balance imported (%s, v%d, %s) — %s" % (timing, version_no, filename, summary["status"]))
-        if summary["status"] == "valid":
-            self._ea_rebuild_lead_schedules()
-            self._ea_sync_significance()
+        self._ea_log("tb_imported", "Trial balance imported: %s (%s, %d rows)" % (filename, timing, len(rows)))
+        self._ea_rebuild_lead_schedules()
+        self._ea_sync_significance()
+        if remember:
+            self._ea_remember_matching(TB_KIND, table["headers"], mapping)
         return {"versionId": version.id, "versionNo": version_no, "summary": summary}
+
+    def _ea_tb_successor(self, version):
+        """The version that takes over when this one is deleted: the latest other valid one of
+        its timing. Empty when none remains."""
+        return self.env["ea.audit.tb.version"].sudo().search([
+            ("tb_id", "=", version.tb_id.id), ("timing", "=", version.timing),
+            ("validation_status", "=", "valid"), ("id", "!=", version.id),
+        ], order="version_no desc", limit=1)
+
+    def delete_tb_version(self, version_id):
+        """Whoever may import may delete (owner's ruling of 2026-11-15): no reason asked, no
+        version protected. The latest valid version left of the same timing is in use again; for
+        a pre-audit one it drives the file, and the schedules follow as they do after an import.
+        The trail keeps what was deleted."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        version = self.env["ea.audit.tb.version"].sudo().search([
+            ("id", "=", int(version_id or 0)), ("engagement_id", "=", self.id),
+        ], limit=1)
+        if not version:
+            raise rule_error(self.env, "not-found")
+        tb = version.tb_id
+        self.env.cr.execute("SELECT id FROM ea_audit_tb WHERE id = %s FOR UPDATE", [tb.id])
+        timing, was_current = version.timing, version.is_current
+        refresh = was_current or (timing == "prior_year" and version.validation_status == "valid")
+        successor = self._ea_tb_successor(version)
+        facts = (
+            version.source_filename, timing, upload_stamp(self, version.create_date), version.row_count,
+            grouped(version.total_debit, "en"), grouped(version.total_credit, "en"),
+        )
+        version.unlink()
+        if successor.superseded_at:
+            successor.superseded_at = False
+        if timing == "pre_audit" and tb.current_version_no != (successor.version_no or 0):
+            tb.current_version_no = successor.version_no or 0
+        self._ea_log("tb_deleted", "Trial balance deleted: %s (%s, imported on %s, %d rows, total debit %s, total credit %s)" % facts)
+        # the version in use, or the comparative, has moved: the schedules follow, as after an import
+        if refresh and self._ea_current_tb_version():
+            self._ea_rebuild_lead_schedules()
+        elif was_current:
+            self.env["ea.audit.lead.schedule"].sudo().search([("engagement_id", "=", self.id)]).unlink()
+        if refresh:
+            self._ea_sync_significance()
+        return {"successorId": successor.id or False}
 
     # ------------------------------------------------------------------
     # Lead schedules
@@ -603,9 +690,9 @@ class EngagementTb(models.Model):
         return {
             "type": "ir.actions.act_window",
             "name": self.env._("Import a trial balance"),
-            "res_model": "ea.audit.tb.import.wizard",
+            "res_model": "ea.audit.import.wizard",
             "view_mode": "form",
             "target": "new",
-            "context": {"default_engagement_id": self.id},
+            "context": {"default_engagement_id": self.id, "default_kind": TB_KIND},
         }
 

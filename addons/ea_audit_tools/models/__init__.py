@@ -9,6 +9,7 @@ from . import cra
 from . import finding
 from . import sad
 from . import dataset
+from . import import_matching
 from . import gl_console
 from . import scot
 from . import control_test

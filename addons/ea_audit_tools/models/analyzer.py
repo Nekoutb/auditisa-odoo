@@ -125,7 +125,7 @@ class EngagementAnalyzer(models.Model):
         """agingFor: the latest dataset of the kind; None when its mapping lacks party, amount or date."""
         self.ensure_one()
         self._ea_require_access()
-        dataset = self.env["ea.audit.dataset"].sudo().search([("engagement_id", "=", self.id), ("kind", "=", kind)], limit=1)
+        dataset = self._ea_current_dataset(kind)
         return self._ea_aging_of(dataset) if dataset else None
 
     def run_reconciliation(self, dataset_id, stale_days=None):
