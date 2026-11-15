@@ -37,6 +37,7 @@ class LeadCommentMixin(models.AbstractModel):
     def _ea_comment_key(self):
         raise NotImplementedError
 
+    @api.depends_context("uid")
     def _compute_ea_comment_locked(self):
         verdicts = {}
         for row in self:

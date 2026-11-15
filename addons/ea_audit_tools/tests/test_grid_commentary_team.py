@@ -53,6 +53,7 @@ class TestCommentaryInline(ToolsCase):
         self.import_tb()
         self.as_staff.action_tool_financial()
         self.engagement.sudo().write({"archived_at": "2026-01-01 00:00:00"})
+        self.env.invalidate_all()
         ratios = self.env["ea.audit.fa.ratio"].with_user(self.staff).search([("engagement_id", "=", self.engagement.id)])
         self.assertTrue(ratios)
         self.assertTrue(all(ratios.mapped("ea_comment_locked")))
@@ -108,6 +109,7 @@ class TestEngagementTeamTile(ToolsCase):
         self.assertFalse(any(self.env["ea.audit.team.member"].with_user(self.manager).search(domain).mapped("ea_role_locked")))
         self.assertTrue(all(self.env["ea.audit.team.member"].with_user(self.staff).search(domain).mapped("ea_role_locked")))
         self.engagement.sudo().write({"archived_at": "2026-01-01 00:00:00"})
+        self.env.invalidate_all()  # a new request reads the archive afresh
         self.assertTrue(all(self.env["ea.audit.team.member"].with_user(self.manager).search(domain).mapped("ea_role_locked")))
 
     def test_the_tile_reads_in_french(self):

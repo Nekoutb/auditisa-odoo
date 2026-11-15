@@ -1,7 +1,7 @@
 """The Engagement team tile (owner, 2026-11-15): who is on this file, in which role, and where
 their invitation stands, with a way to invite someone. Every rule stays with the engagement's
 team methods (invite_team_member, assign_team_member): this only opens the screens."""
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 
 from ..rules import rule_error
@@ -14,6 +14,7 @@ class TeamMemberTool(models.Model):
     # file that is not archived, sees the role cell open; the write path checks it again.
     ea_role_locked = fields.Boolean(string="Role read-only", compute="_compute_ea_role_locked")
 
+    @api.depends_context("uid")
     def _compute_ea_role_locked(self):
         verdicts = {}
         for member in self:
