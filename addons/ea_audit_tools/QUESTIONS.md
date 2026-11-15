@@ -58,8 +58,8 @@ Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only t
 | B7 | No self-review on materiality: a partner may generate and approve the same version | Other reviews refuse `self-review`. |
 | B8 | Any writer may record the SAD conclusion, which alone satisfies C1.1's `sad` output; any writer may also grade or downgrade an ISA 265 deficiency | A staff member can move a significant deficiency to observation, which lifts the archive gate. |
 | B9 | P6.1 needs any approved version, the planning gate the latest one (`test_a_late_revision_reopens_the_gate_but_not_the_paper`) | After a revision P6.1 still signs on the superseded figure while the gate is shut. |
-| B10 | An invalid re-import marks the previous live version superseded though it stays current | The history shows a superseded version driving the file. |
-| B11 | Version numbers are shared by pre-audit, post-audit and prior-year uploads | "Balance v3" can be the second working TB. |
+| B10 | An invalid re-import marks the previous live version superseded though it stays current | Ruled 2026-11-15: a file that fails the checks is no longer saved, so a new import cannot do this. A version saved as invalid before keeps the oddity until it is deleted, which lifts the stamp. |
+| B11 | Version numbers are shared by pre-audit, post-audit and prior-year uploads | Ruled 2026-11-15: the number is no longer shown. A version is known by the date and time of its upload; the number only orders them, and is never given twice. |
 | B12 | A prior-year upload is itself tested against the previous engagement's closing, for opening ties | The check compares the wrong periods for that timing. |
 | B13 | Two comparatives: `leadSchedules` (prior engagement), `apLeadSchedules` (prior-year TB, else opening). The tool uses the second; the opening check uses `priorClosingsMap` | The prior year can read differently between screens. |
 | B14 | The seed has no prefix 20, 74, 76, 80, while lead classes map several of these or the chart uses them | A 20x balance is on schedule L yet blocks `tb_mapped`, and F060 says class 20 must be reported, not blocked. |
@@ -96,7 +96,7 @@ Source: platform at commit 8725e6a; rows from A16 and B22 on, at 371a0b2. Only t
 
 ## Migration rule on drawn samples (B37, pending the owner's ruling)
 
-The start point of a ToD plan stays `stable_start_fraction(str(engagement id), index, ledger sha)`. The migration script must carry each file's drawn ToD and ToC samples across as data and must not redraw them, so what was tested on a migrated file stays what was tested. A plan worked out again on that file after migration starts elsewhere, because its id changed. If the owner rules that it must reproduce, the old UUID has to be stored on the engagement and read here instead of the id.
+The start point of a ToD plan is `stable_start_fraction(str(engagement id), index, ledger facts)`. Until 2026-11-15 the third part was the ledger file's SHA-256; the owner had the fingerprint removed, and it is now the ledger's kind, number of rows and total in hundredths (`_ea_ledger_start_key`), which the same file gives again when it is imported again. Nothing is stored: a plan worked out on the screen after that release starts elsewhere than it did before it, and a sample already drawn is data and does not move. The migration script must carry each file's drawn ToD and ToC samples across as data and must not redraw them, so what was tested on a migrated file stays what was tested. A plan worked out again on that file after migration starts elsewhere, because its id changed. If the owner rules that it must reproduce, the old UUID has to be stored on the engagement and read here instead of the id.
 
 ## Second integration: what changed behind the ported rules
 
