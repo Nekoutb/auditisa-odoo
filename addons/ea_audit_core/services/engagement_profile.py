@@ -156,6 +156,33 @@ def conclude(answers):
     return VERY_SIMPLE, []
 
 
+QUESTION_NUMBERS = tuple(dict.fromkeys(number for number, _field, _when in REQUIRED))
+
+
+def answered_count(answers):
+    """How many of the twenty questions are fully answered, sub-answers included."""
+    return len(QUESTION_NUMBERS) - len(missing(answers))
+
+
+def provisional(answers):
+    """(level or None, reason keys) from the answers given so far, for the screen only.
+
+    The same two gates as conclude(), read on a partial set of answers: a sign of complexity
+    already makes the level Complex, an unmet Very simple condition already rules Very simple
+    out. While nothing rules it out and a question is open, the level is not settled (None).
+    Once every question is answered this is exactly conclude().
+    """
+    reasons = complex_reasons(answers)
+    if reasons:
+        return COMPLEX, reasons
+    reasons = not_very_simple_reasons(answers)
+    if reasons:
+        return NON_COMPLEX, reasons
+    if is_complete(answers):
+        return VERY_SIMPLE, []
+    return None, []
+
+
 def is_first_year(answers):
     return _yes(answers, "q20_first_year")
 

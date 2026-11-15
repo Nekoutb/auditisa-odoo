@@ -51,6 +51,8 @@ class TestEngagementProfile(EaAuditCase):
         engagement, action = self.open_new()
         self.assertEqual(action["res_model"], "ea.audit.engagement.profile")
         self.assertEqual(action["res_id"], engagement._ea_profile().id)
+        self.assertEqual((action["type"], action["tag"]), ("ir.actions.client", "ea_audit_core.profile"))
+        self.assertEqual(action["params"]["profile_id"], engagement._ea_profile().id)
         self.assertFalse(engagement.file_item_ids)
         self.assertFalse(engagement.complexity)
         self.assertEqual((engagement.nature, engagement.nature_kind), ("statutory_audit", "statutory"))
@@ -276,3 +278,127 @@ class TestEngagementProfile(EaAuditCase):
         self.assertTrue(target.profile_pending)
         self.assertEqual(target.period_start, date(2027, 1, 1))
         self.assertEqual(target.nature, "statutory_audit")
+
+    # ---------------------------------------------------------------- the screen (mock-up of 2026-11-15)
+
+    def screen(self, engagement, user=None):
+        return self.profile(engagement, user).ea_profile_screen()
+
+    def test_the_screen_has_seven_sections_and_twenty_questions(self):
+        engagement, _action = self.open_new()
+        screen = self.screen(engagement)
+        self.assertEqual(
+            [s["title"] for s in screen["sections"]],
+            ["The entity", "The business", "IT", "Specialists, people and ownership",
+             "How the evidence will be obtained", "Risk", "Approach and history"],
+        )
+        numbers = [q["number"] for s in screen["sections"] for q in s["questions"]]
+        self.assertEqual(numbers, ["Q%d" % n for n in range(1, 21)])
+        self.assertEqual(screen["progress"], {"answered": 0, "total": 20})
+        it = screen["sections"][2]["questions"][0]
+        self.assertEqual(len(it["parts"]), 8)
+        self.assertEqual([o["value"] for o in it["parts"][0]["options"]], ["low", "medium", "high"])
+        self.assertTrue(all(q["help"] for s in screen["sections"] for q in s["questions"]))
+        self.assertFalse(screen["readonly"])
+
+    def test_nothing_answered_leaves_the_level_open_and_conclude_greyed(self):
+        engagement, _action = self.open_new()
+        screen = self.screen(engagement)
+        self.assertFalse(screen["panel"]["level"])
+        self.assertTrue(screen["panel"]["provisional"])
+        self.assertEqual(screen["panel"]["level_label"], "Not settled yet")
+        self.assertIn("Very simple is still possible", screen["panel"]["intro"])
+        self.assertFalse(screen["conclude"]["can"])
+        self.assertEqual(screen["conclude"]["hint"], "Available once all 20 questions are answered.")
+
+    def test_the_level_so_far_follows_each_answer(self):
+        engagement, _action = self.open_new()
+        profile = self.profile(engagement)
+        screen = profile.ea_profile_save({"q1_listed": "no", "q2_pie": "none"})
+        self.assertEqual(screen["progress"]["answered"], 2)
+        self.assertFalse(screen["panel"]["level"])
+        self.assertEqual(profile.q2_pie, "none")
+        # Very simple ruled out, not yet settled between Non-complex and Complex
+        screen = profile.ea_profile_save({"q16_risks": "yes"})
+        self.assertEqual(screen["panel"]["level"], "non_complex")
+        self.assertTrue(screen["panel"]["provisional"])
+        self.assertIn("Q16 significant risks or complex estimates expected", screen["panel"]["reasons"])
+        # Medium is not High: still not Complex
+        screen = profile.ea_profile_save({"q8_1": "medium"})
+        self.assertEqual(screen["panel"]["level"], "non_complex")
+        screen = profile.ea_profile_save({"q8_3": "high"})
+        self.assertEqual(screen["panel"]["level"], "complex")
+        self.assertEqual(screen["panel"]["reasons"], ["Q8 IT point 3 high"])
+        self.assertIn("P4.3", [t["code"] for t in screen["panel"]["tasks"]])
+        self.assertEqual(profile.state, "draft")
+        self.assertFalse(engagement.file_item_ids)
+
+    def test_conclude_is_refused_until_all_twenty_are_answered(self):
+        engagement, _action = self.open_new()
+        profile = self.profile(engagement)
+        screen = profile.ea_profile_save({k: v for k, v in PLAIN.items() if k != "q20_first_year"})
+        self.assertEqual(screen["progress"]["answered"], 19)
+        self.assertFalse(screen["conclude"]["can"])
+        self.assertIn("1 question", screen["panel"]["still_open"])
+        self.assertCode("profile-incomplete", profile.ea_profile_conclude)
+        self.assertFalse(engagement.file_item_ids)
+        screen = profile.ea_profile_save({"q20_first_year": "no"})
+        self.assertTrue(screen["conclude"]["can"])
+        self.assertFalse(screen["panel"]["provisional"])
+        self.assertEqual(screen["panel"]["level"], "very_simple")
+        screen = profile.ea_profile_conclude()
+        self.assertEqual((screen["state"], profile.level), ("concluded", "very_simple"))
+        self.assertFalse(screen["conclude"]["show"])
+        self.assertTrue(screen["concluded_note"])
+        self.assertEqual(screen["panel"]["task_count"], len(self.active_codes(engagement)))
+
+    def test_a_sub_question_shows_only_in_its_case(self):
+        engagement, _action = self.open_new()
+        profile = self.profile(engagement)
+
+        def visible(screen, field):
+            return next(
+                p["visible"] for s in screen["sections"] for q in s["questions"] for p in q["parts"] if p["field"] == field
+            )
+
+        screen = profile.ea_profile_save({"q4_group": "standalone", "q14_keeper": "entity", "q19_approach": "substantive"})
+        self.assertFalse(visible(screen, "q4_consolidates"))
+        self.assertFalse(visible(screen, "q14_rely_report"))
+        self.assertFalse(visible(screen, "q19_controls"))
+        screen = profile.ea_profile_save({"q4_group": "parent", "q14_keeper": "payroll", "q19_approach": "other"})
+        self.assertTrue(visible(screen, "q4_consolidates"))
+        self.assertTrue(visible(screen, "q4_other_auditors"))
+        self.assertTrue(visible(screen, "q14_rely_report"))
+        self.assertTrue(visible(screen, "q19_controls"))
+
+    def test_a_concluded_profile_holds_a_change_until_its_sub_question_is_answered(self):
+        engagement, _action = self.open_new()
+        profile = self.conclude(engagement)
+        screen = profile.ea_profile_save({"q4_group": "parent"})
+        self.assertTrue(screen["held"])
+        self.assertEqual(profile.q4_group, "standalone")
+        self.assertEqual(screen["answers"]["q4_group"], "parent")
+        screen = profile.ea_profile_save({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"})
+        self.assertFalse(screen["held"])
+        self.assertEqual((profile.q4_group, profile.level), ("parent", "non_complex"))
+        self.assertIn("P2.3", self.active_codes(engagement))
+
+    def test_the_screen_saves_answers_only(self):
+        engagement, _action = self.open_new()
+        profile = self.profile(engagement)
+        self.assertCode("forbidden", profile.ea_profile_save, {"level": "complex"})
+        self.assertCode("forbidden", profile.ea_profile_save, {"q1_listed": "maybe"})
+
+    def test_the_quality_reviewer_and_an_archived_file_read_only(self):
+        engagement, _action = self.open_new()
+        self.seat(engagement, self.eqr, "eqr_reviewer")
+        screen = self.screen(engagement, self.eqr)
+        self.assertTrue(screen["readonly"])
+        self.assertIn("quality reviewer", screen["readonly_note"])
+        self.assertCode("eqr-read-only", self.profile(engagement, self.eqr).ea_profile_save, {"q1_listed": "no"})
+        engagement.sudo().archived_at = "2026-01-01 00:00:00"
+        screen = self.screen(engagement)
+        self.assertTrue(screen["readonly"])
+        self.assertIn("archived", screen["readonly_note"])
+        self.assertFalse(screen["conclude"]["can"])
+        self.assertCode("archived", self.profile(engagement).ea_profile_save, {"q1_listed": "no"})

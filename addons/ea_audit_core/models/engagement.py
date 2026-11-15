@@ -429,9 +429,13 @@ class Engagement(models.Model):
         if not profile:
             self._ea_assert_mutable()
             profile = self.env["ea.audit.engagement.profile"].sudo().create({"engagement_id": self.id})
+        # The screen of the owner's mock-up of 2026-11-15: one section at a time, a live level
+        # panel. res_model and res_id say which record it is; active_id survives a reload.
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.engagement.profile", "res_id": profile.id,
-            "view_mode": "form", "views": [(False, "form")], "target": "current",
+            "type": "ir.actions.client", "tag": "ea_audit_core.profile", "target": "current",
+            "res_model": "ea.audit.engagement.profile", "res_id": profile.id,
+            "params": {"profile_id": profile.id},
+            "context": {"active_id": profile.id, "ea_engagement_id": self.id},
             "name": self.env._("Profile questionnaire"),
         }
 

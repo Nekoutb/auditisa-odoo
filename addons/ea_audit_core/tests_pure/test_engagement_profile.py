@@ -8,10 +8,12 @@ from engagement_profile import (
     COMPLEX,
     NON_COMPLEX,
     VERY_SIMPLE,
+    answered_count,
     conclude,
     is_first_year,
     lce_available,
     missing,
+    provisional,
     task_codes,
 )
 
@@ -215,3 +217,40 @@ def test_isa_for_lce_from_periods_beginning_15_december_2025():
     assert not lce_available(VERY_SIMPLE, date(2025, 1, 1))
     assert not lce_available(COMPLEX, date(2026, 1, 1))
     assert not lce_available(NON_COMPLEX, None)
+
+
+# ---- the level so far, shown while the questionnaire is being answered
+
+def test_nothing_answered_leaves_the_level_open():
+    assert provisional({}) == (None, [])
+    assert answered_count({}) == 0
+
+
+def test_a_sign_of_complexity_settles_complex_before_the_end():
+    assert provisional({"q8_2": "high"}) == (COMPLEX, ["q8:2"])
+
+
+def test_medium_it_is_not_a_sign_of_complexity():
+    assert provisional({"q8_2": "medium"}) == (None, [])
+
+
+def test_an_unmet_very_simple_condition_rules_very_simple_out_early():
+    assert provisional({"q17_going_concern": "yes"}) == (NON_COMPLEX, ["q17"])
+
+
+def test_plain_answers_stay_open_until_the_last_one():
+    partial = {k: v for k, v in PLAIN.items() if k != "q20_first_year"}
+    assert provisional(partial) == (None, [])
+    assert answered_count(partial) == 19
+
+
+@pytest.mark.parametrize("changes", [{}, {"q2_pie": "bank"}, {"q16_risks": "yes"}, {"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}])
+def test_once_complete_it_is_exactly_the_conclusion(changes):
+    answers = {**PLAIN, **changes}
+    assert answered_count(answers) == 20
+    assert provisional(answers) == conclude(answers)
+
+
+def test_a_parent_without_its_sub_answers_is_not_answered():
+    answers = {**PLAIN, "q4_group": "parent"}
+    assert answered_count(answers) == 19

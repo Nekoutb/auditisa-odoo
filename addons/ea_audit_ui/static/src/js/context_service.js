@@ -143,6 +143,11 @@ const contextService = {
                     const itemId = Number(current.params?.file_item_id || current.context?.active_id);
                     return itemId ? enter("ea.audit.file.item", itemId) : undefined;
                 }
+                // the profile questionnaire belongs to its engagement
+                if (current?.tag === "ea_audit_core.profile") {
+                    const engagementId = Number(current.context?.ea_engagement_id);
+                    return engagementId ? enter("ea.audit.engagement", engagementId) : undefined;
+                }
                 if (current?.type !== "ir.actions.act_window") {
                     return;
                 }

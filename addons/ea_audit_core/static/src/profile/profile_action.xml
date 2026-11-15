@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="ea_audit_core.ProfileAction">
+    <div class="o_ea_profile" t-if="p">
+        <a href="#" class="eapr-back" role="button" t-on-click.prevent="() => this.openAction('action_save_for_later')">&#8592; <t t-esc="p.words.back"/></a>
+        <div class="eapr-head">
+            <div>
+                <h1 t-esc="p.words.title"/>
+                <div class="eapr-sub" t-esc="p.engagement"/>
+            </div>
+            <div class="eapr-progress" data-eapr="progress">
+                <span t-esc="p.words.answered"/>
+                <div class="eapr-bar"><i t-att-style="progressStyle"/></div>
+            </div>
+        </div>
+
+        <div class="eapr-note is-info" role="status" t-if="p.concluded_note" t-esc="p.concluded_note"/>
+        <div class="eapr-note" role="status" t-if="p.readonly_note" t-esc="p.readonly_note"/>
+
+        <div class="eapr-grid">
+            <!-- the seven sections -->
+            <nav class="eapr-card eapr-nav">
+                <t t-foreach="p.sections" t-as="s" t-key="s_index">
+                    <button type="button" class="eapr-sec" t-att-class="{'is-done': s.done, 'is-current': s_index === state.section}"
+                            t-att-aria-current="s_index === state.section ? 'step' : false" t-on-click="() => this.go(s_index)">
+                        <span class="eapr-dot"><t t-if="s.done">&#10003;</t><t t-else="" t-esc="s_index + 1"/></span>
+                        <span class="eapr-sec-title" t-esc="s.title"/>
+                        <span class="eapr-count"><t t-esc="s.answered"/>/<t t-esc="s.total"/></span>
+                    </button>
+                </t>
+            </nav>
+
+            <!-- one section at a time -->
+            <section class="eapr-card eapr-main">
+                <div class="eapr-sh">
+                    <span class="eapr-pill" t-esc="sectionLabel()"/>
+                    <h2 t-esc="current.title"/>
+                </div>
+                <t t-foreach="current.questions" t-as="q" t-key="q.number">
+                    <div class="eapr-q" t-att-data-question="q.number">
+                        <div class="eapr-qt"><t t-esc="q.text"/><span class="eapr-tick" t-if="q.answered"> &#10003;</span></div>
+                        <div class="eapr-help" t-if="q.help" t-esc="q.help"/>
+                        <div t-att-class="q.grid ? 'eapr-it' : ''">
+                            <t t-foreach="q.parts" t-as="part" t-key="part.field">
+                                <t t-if="part.visible and part.kind === 'choice'">
+                                    <span t-if="part.label" class="eapr-label" t-att-class="{'is-sub': !q.grid}" t-esc="part.label"/>
+                                    <div class="eapr-choices" role="group" t-att-class="{'is-sub': part.label and !q.grid}" t-att-aria-label="part.label or q.text">
+                                        <t t-foreach="part.options" t-as="o" t-key="o.value">
+                                            <button type="button" class="eapr-choice" t-att-class="{'is-on': value(part.field) === o.value}"
+                                                    t-att-aria-pressed="value(part.field) === o.value ? 'true' : 'false'" t-att-disabled="p.readonly"
+                                                    t-att-data-field="part.field" t-att-data-value="o.value"
+                                                    t-on-click="() => this.answer(part.field, o.value)" t-esc="o.label"/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                        <t t-set="qToggles" t-value="toggles(q)"/>
+                        <div class="eapr-choices is-sub" role="group" t-if="qToggles.length">
+                            <t t-foreach="qToggles" t-as="part" t-key="part.field">
+                                <button type="button" class="eapr-choice is-toggle" t-att-class="{'is-on': value(part.field)}"
+                                        t-att-aria-pressed="value(part.field) ? 'true' : 'false'" t-att-disabled="p.readonly"
+                                        t-att-data-field="part.field" t-on-click="() => this.answer(part.field, !value(part.field))">
+                                    <t t-if="value(part.field)">&#10003; </t><t t-esc="part.label"/>
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                <div class="eapr-note" role="status" t-if="p.held" t-esc="p.words.held"/>
+                <div class="eapr-foot">
+                    <span class="eapr-saved" t-if="!p.readonly">
+                        <t t-if="state.saving" t-esc="p.words.saving"/>
+                        <t t-elif="state.savedOnce" t-esc="p.words.saved + '. ' + p.words.autosave"/>
+                        <t t-else="" t-esc="p.words.autosave"/>
+                    </span>
+                    <button type="button" class="eapr-btn" t-att-disabled="state.section === 0" t-on-click="() => this.go(state.section - 1)">&#8249; <t t-esc="p.words.previous"/></button>
+                    <button type="button" class="eapr-btn is-primary" t-if="state.section &lt; p.sections.length - 1" t-on-click="() => this.go(state.section + 1)"><t t-esc="p.words.next"/> &#8250;</button>
+                </div>
+            </section>
+
+            <!-- the live panel -->
+            <aside class="eapr-card eapr-panel" aria-live="polite" data-eapr="panel">
+                <div class="eapr-caps">
+                    <t t-esc="p.panel.heading"/>
+                    <span class="eapr-flag" t-if="p.panel.provisional" t-esc="p.words.provisional"/>
+                </div>
+                <div class="eapr-level" t-att-class="levelClass()" t-esc="p.panel.level_label"/>
+                <div class="eapr-caps" t-esc="p.words.why"/>
+                <p class="eapr-intro" t-esc="p.panel.intro"/>
+                <ul class="eapr-reasons" t-if="p.panel.reasons.length">
+                    <t t-foreach="p.panel.reasons" t-as="r" t-key="r_index"><li t-esc="r"/></t>
+                </ul>
+                <div class="eapr-caps" t-esc="p.words.tasks"/>
+                <p class="eapr-intro" t-esc="p.panel.tasks_line"/>
+                <t t-if="p.panel.tasks.length">
+                    <div class="eapr-small" t-esc="p.words.added"/>
+                    <div class="eapr-tasks">
+                        <t t-foreach="p.panel.tasks" t-as="task" t-key="task.code">
+                            <span class="eapr-tag" t-att-title="task.title"><b t-esc="task.code"/> <t t-esc="task.title"/></span>
+                        </t>
+                    </div>
+                </t>
+                <div class="eapr-note" t-if="p.panel.still_open" t-esc="p.panel.still_open"/>
+                <div class="eapr-note is-info" t-if="p.panel.lce_note" t-esc="p.panel.lce_note"/>
+                <t t-if="p.conclude.show">
+                    <button type="button" class="eapr-btn is-primary eapr-conclude" t-att-disabled="!p.conclude.can"
+                            t-on-click="() => this.conclude()" t-esc="p.words.conclude"/>
+                    <div class="eapr-small" t-esc="p.conclude.hint"/>
+                </t>
+                <button type="button" class="eapr-btn is-primary eapr-conclude" t-else=""
+                        t-on-click="() => this.openAction('action_open_tasks')" t-esc="p.words.see_tasks"/>
+            </aside>
+        </div>
+    </div>
+</t>
+
+</templates>

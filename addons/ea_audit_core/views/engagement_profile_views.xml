@@ -7,10 +7,10 @@
         <field name="arch" type="xml">
             <form create="0" delete="0" duplicate="0" class="ea-profile">
                 <header>
-                    <button name="action_save_for_later" type="object" string="Save for later" invisible="state == 'concluded'"/>
-                    <button name="action_conclude" type="object" string="Finish and see the conclusion" class="btn-primary" invisible="state == 'concluded'"/>
+                    <button name="action_conclude" type="object" string="Conclude" class="btn-primary" invisible="state == 'concluded' or missing_text"/>
+                    <span class="text-muted align-self-center" invisible="state == 'concluded' or not missing_text">Available once all 20 questions are answered.</span>
                     <button name="action_open_tasks" type="object" string="See the tasks" class="btn-primary" invisible="state != 'concluded'"/>
-                    <button name="action_save_for_later" type="object" string="Back to the engagement" invisible="state != 'concluded'"/>
+                    <button name="action_save_for_later" type="object" string="Back to the engagement"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>

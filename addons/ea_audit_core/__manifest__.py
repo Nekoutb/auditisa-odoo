@@ -5,7 +5,7 @@
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
-    "depends": ["base", "mail"],
+    "depends": ["base", "mail", "web"],
     "data": [
         "data/res_lang_data.xml",
         "security/ea_audit_security.xml",
@@ -23,6 +23,11 @@
         "views/res_users_views.xml",
         "data/activity_data.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "ea_audit_core/static/src/profile/**/*",
+        ],
+    },
     "application": True,
     "installable": True,
 }
