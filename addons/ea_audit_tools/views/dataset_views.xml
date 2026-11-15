@@ -9,17 +9,17 @@
                     <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_template" type="object" string="Download the template" display="always"/>
                 </header>
-                <field name="create_date" string="Imported on" widget="datetime" options="{'show_seconds': false}" width="140px"/>
-                <field name="kind" width="120px"/>
-                <field name="timing" width="90px"/>
+                <field name="create_date" string="Imported on" widget="datetime" options="{'show_seconds': false}" width="170px"/>
+                <field name="kind" width="110px"/>
+                <field name="timing" width="80px"/>
                 <field name="is_current" width="65px"/>
-                <field name="source_filename"/>
+                <field name="source_filename" width="200px"/>
                 <field name="row_count" width="60px"/>
-                <field name="display_total" width="150px"/>
-                <field name="gl_line_count" optional="show" width="120px"/>
-                <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" optional="show" width="100px"/>
-                <field name="superseded_at" string="Superseded on" widget="datetime" options="{'show_seconds': false}" width="140px"/>
-                <field name="create_uid" string="Imported by" width="110px"/>
+                <field name="display_total" width="130px"/>
+                <field name="gl_line_count" optional="show" width="110px"/>
+                <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" optional="show" width="90px"/>
+                <field name="superseded_at" string="Superseded on" widget="datetime" options="{'show_seconds': false}" width="170px"/>
+                <field name="create_uid" string="Imported by" width="100px"/>
                 <button name="action_delete" type="object" icon="fa-trash-o" title="Delete this upload" groups="ea_audit_core.group_writer"/>
             </list>
         </field>
