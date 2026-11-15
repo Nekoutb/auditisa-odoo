@@ -229,6 +229,7 @@ class ImportWizard(models.TransientModel):
             }))
         self.je_key_column_ids = [Command.clear()]
         self.column_ids = lines
+        self._ea_mark_lines()
         self.row_count = read["rowCount"]
         self.found_note = self._ea_found_note(read["found"])
         return read
@@ -256,6 +257,28 @@ class ImportWizard(models.TransientModel):
     def _onchange_je_key(self):
         if len(self.je_key_column_ids) > JE_KEY_MAX:
             self.je_key_column_ids = [Command.set(self.je_key_column_ids.ids[:JE_KEY_MAX])]
+
+    @api.onchange("column_ids", "je_key_column_ids")
+    def _onchange_marks(self):
+        self._ea_mark_lines()
+
+    def _ea_mark_lines(self):
+        """The mark beside each field the import cannot do without, as matched now. A line's mark
+        depends on its neighbours (the debit's waits for the credit's column), and a screen is
+        only told of a line's change when the value was stored and has moved: so the mark is a
+        plain field, set here for every line at each change, and not a computed one."""
+        for wizard in self:
+            marks = mandatory_marks(wizard.kind or TB_KIND, wizard._mapping())
+            for line in wizard.column_ids:
+                mark = self.env._("mandatory") if line.field_id.key in marks and not line.field_id.skip else False
+                if line.mandatory != mark:
+                    line.mandatory = mark
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "je_key_column_ids" in vals or "kind" in vals:
+            self._ea_mark_lines()
+        return result
 
     def action_back_to_upload(self):
         self.ensure_one()
@@ -341,7 +364,7 @@ class ImportWizard(models.TransientModel):
         table = ""
         if issues:
             rows = Markup("").join(
-                Markup("<tr><td>{where}</td><td>{text}</td><td><span class='{css}'>{effect}</span></td></tr>").format(
+                Markup("<tr><td class='text-nowrap'>{where}</td><td>{text}</td><td class='text-nowrap'><span class='{css}'>{effect}</span></td></tr>").format(
                     where=self._ea_where(issue["rows"]), text=issue["text"], css=_EFFECT_CSS[issue["effect"]], effect=effects[issue["effect"]],
                 )
                 for issue in sorted(issues, key=lambda issue: issue["effect"] != "blocking")
@@ -423,7 +446,7 @@ class ImportWizardColumn(models.TransientModel):
         "ea.audit.import.field", string="AuditISA field", required=True, ondelete="cascade", domain="[('kind', '=', kind)]",
     )
     detected_field_id = fields.Many2one("ea.audit.import.field", ondelete="cascade", readonly=True)
-    mandatory = fields.Char(string="Mandatory", compute="_compute_mandatory")
+    mandatory = fields.Char(string="Mandatory", readonly=True)
     match_state = fields.Selection(
         [("auto", "Matched automatically"), ("you", "Chosen by you"), ("none", "Not recognised")],
         string="How it was matched", compute="_compute_match_state",
@@ -437,16 +460,17 @@ class ImportWizardColumn(models.TransientModel):
             else:
                 line.match_state = "none" if line.field_id.skip or not line.field_id else "auto"
 
-    @api.depends("field_id", "wizard_id.column_ids.field_id", "wizard_id.je_key_column_ids")
-    @api.depends_context("lang")
-    def _compute_mandatory(self):
-        """The mark beside a field the import cannot do without, as matched now."""
-        for wizard in self.wizard_id:
-            marks = mandatory_marks(wizard.kind or TB_KIND, wizard._mapping())
-            for line in self.filtered(lambda line: line.wizard_id == wizard):
-                line.mandatory = self.env._("mandatory") if line.field_id.key in marks and not line.field_id.skip else False
-        for line in self.filtered(lambda line: not line.wizard_id):
-            line.mandatory = False
+    @api.model_create_multi
+    def create(self, vals_list):
+        lines = super().create(vals_list)
+        lines.wizard_id._ea_mark_lines()
+        return lines
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "field_id" in vals:
+            self.wizard_id._ea_mark_lines()
+        return result
 
 
 class ImportDeleteWizard(models.TransientModel):

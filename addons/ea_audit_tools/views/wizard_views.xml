@@ -53,7 +53,7 @@
                             <field name="header" force_save="1" width="200px"/>
                             <field name="sample" force_save="1"/>
                             <field name="field_id" widget="selection" width="220px"/>
-                            <field name="mandatory" decoration-danger="mandatory" width="100px"/>
+                            <field name="mandatory" decoration-danger="mandatory" width="100px" force_save="1"/>
                             <field name="match_state" widget="badge" decoration-success="match_state == 'auto'" decoration-info="match_state == 'you'" decoration-muted="match_state == 'none'" width="190px"/>
                         </list>
                     </field>
