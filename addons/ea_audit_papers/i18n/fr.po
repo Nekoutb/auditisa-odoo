@@ -719,7 +719,9 @@ msgstr "Suivant ›"
 
 #. module: ea_audit_papers
 #. odoo-javascript
+#. odoo-python
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: code:addons/ea_audit_papers/models/paper.py:0
 msgid "No"
 msgstr "Non"
 
