@@ -40,7 +40,7 @@ class ImportWizard(models.TransientModel):
     # The reading options: automatic unless a person chooses.
     is_excel = fields.Boolean(compute="_compute_file_kind")
     has_dates = fields.Boolean(compute="_compute_file_kind")
-    sheet_ids = fields.One2many("ea.audit.import.wizard.sheet", "wizard_id")
+    sheet_ids = fields.One2many("ea.audit.import.wizard.sheet", "wizard_id", string="Sheets of the file")
     sheet_id = fields.Many2one("ea.audit.import.wizard.sheet", string="Sheet", domain="[('wizard_id', '=', id)]")
     csv_separator = fields.Selection(
         [("auto", "Automatic"), (";", "Semicolon ;"), (",", "Comma ,"), ("tab", "Tab"), ("|", "Vertical bar |")],
@@ -155,7 +155,7 @@ class ImportWizard(models.TransientModel):
                     titles = je_key_columns(mapping) if used == [JE_KEY] else [mapping[key] for key in used]
                     chips.append(chip.format(css="o_ea_chip_good", text="%s ← %s" % (group[language], " + ".join(titles))))
                 wizard.match_html = Markup("<div class='alert alert-success mb-2' role='status'><b>{head}</b><div class='mt-1'>{chips}</div></div>").format(
-                    head=self.env._("All mandatory fields are matched. %(count)s rows read.", count=grouped(wizard.row_count, self.env.lang)),
+                    head=self.env._("All mandatory fields are matched. %(count)s lines in the file.", count=grouped(wizard.row_count, self.env.lang)),
                     chips=Markup("").join(chips),
                 )
                 continue
@@ -193,7 +193,7 @@ class ImportWizard(models.TransientModel):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id,
-            "view_mode": "form", "target": "new", "name": self._ea_title(),
+            "view_mode": "form", "target": "new", "name": self._ea_title(), "context": {"dialog_size": "extra-large"},
         }
 
     def _ea_found_note(self, found):

@@ -54,7 +54,9 @@ class TestFsTieout(ReportsCase):
         self.assertIn("o_ea_tieout", self.engagement.with_user(self.senior).fs_tieout_html)
 
     def test_e610_refuses_yes_while_the_tieout_shows_differences(self):
-        self.import_tb(content="Compte;Libellé;Mouvement débit;Mouvement crédit\n411000;Clients;1000;0\n701000;Ventes;0;900\n")
+        # An unbalanced file is refused and nothing of it is kept: the tie-out has no trial balance to agree to.
+        unbalanced = "Compte;Libellé;Mouvement débit;Mouvement crédit\n411000;Clients;1000;0\n701000;Ventes;0;900\n"
+        self.assertCode("import-refused", self.import_tb, content=unbalanced)
         self.assertTrue(self.item(self.engagement, "E6.10")._ea_paper()._ea_tieout_failed())
 
     def test_e610_board_fronts_the_figures(self):

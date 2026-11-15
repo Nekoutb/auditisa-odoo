@@ -231,12 +231,14 @@ class EngagementTb(models.Model):
             engagement.lead_override_ids = self.env["ea.audit.lead.index.override"].sudo().search([("client_id", "=", client)])
             engagement.grouping_override_ids = self.env["ea.audit.client.grouping.override"].sudo().search([("client_id", "=", client)])
 
-    @api.depends_context("tz")
+    @api.depends_context("lang", "tz")
     def _compute_tb_card(self):
         for engagement in self:
             version = engagement._ea_current_tb_version()
             engagement.tb_current_label = upload_stamp(engagement, version.create_date) if version else "—"
-            engagement.tb_status_label = "%s · %d" % (version.source_filename or "", version.row_count) if version else ""
+            engagement.tb_status_label = "%s · %s" % (
+                version.source_filename or "", self.env._("%(count)s rows", count=version.row_count),
+            ) if version else ""
 
     @api.depends_context("lang")
     def _compute_tb_alerts(self):
@@ -693,6 +695,6 @@ class EngagementTb(models.Model):
             "res_model": "ea.audit.import.wizard",
             "view_mode": "form",
             "target": "new",
-            "context": {"default_engagement_id": self.id, "default_kind": TB_KIND},
+            "context": {"default_engagement_id": self.id, "default_kind": TB_KIND, "dialog_size": "extra-large"},
         }
 

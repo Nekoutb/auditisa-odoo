@@ -50,11 +50,11 @@
                             <field name="kind" column_invisible="1"/>
                             <field name="sequence" column_invisible="1"/>
                             <field name="detected_field_id" column_invisible="1" force_save="1"/>
-                            <field name="header" force_save="1"/>
+                            <field name="header" force_save="1" width="200px"/>
                             <field name="sample" force_save="1"/>
-                            <field name="field_id" widget="selection"/>
-                            <field name="mandatory" decoration-danger="mandatory"/>
-                            <field name="match_state" widget="badge" decoration-success="match_state == 'auto'" decoration-info="match_state == 'you'" decoration-muted="match_state == 'none'"/>
+                            <field name="field_id" widget="selection" width="220px"/>
+                            <field name="mandatory" decoration-danger="mandatory" width="100px"/>
+                            <field name="match_state" widget="badge" decoration-success="match_state == 'auto'" decoration-info="match_state == 'you'" decoration-muted="match_state == 'none'" width="190px"/>
                         </list>
                     </field>
                     <div class="o_ea_legend">Each line is one column of your file. Open the list on a line to choose another field, or "Do not import" to leave the column out. A column not recognised is left out unless you choose a field for it.</div>

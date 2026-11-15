@@ -1235,7 +1235,6 @@
 "No line of the file carries both an account and an entry number: there is nothing to import.": "Aucune ligne du fichier ne porte à la fois un compte et un numéro d'écriture : il n'y a rien à importer.",
 "The column \"%(column)s\" holds something that is not an amount, for instance \"%(value)s\". These lines count for nothing in the total.": "La colonne « %(column)s » contient autre chose qu'un montant, par exemple « %(value)s ». Ces lignes ne comptent pas dans le total.",
 "Download the template for this kind of data": "Télécharger le modèle pour ce type de données",
-"All mandatory fields are matched. %(count)s rows read.": "Tous les champs obligatoires ont leur colonne. %(count)s lignes lues.",
 "%(name)s: choose the column(s) for %(ways)s.": "%(name)s : choisissez la ou les colonnes pour %(ways)s.",
 "or": "ou",
 "%(name)s: choose its column.": "%(name)s : choisissez sa colonne.",
@@ -1308,5 +1307,7 @@
 "A later upload of this kind and timing has taken over: this one is kept as a record and is not in use. It is in use again if the later upload is deleted.": "Un import plus récent de ce type et de ce moment l'a remplacé : celui-ci est conservé pour mémoire et n'est pas utilisé. Il est de nouveau utilisé si l'import plus récent est supprimé.",
 "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"A blocking point stops the import\" invisible=\"step != 'check' or not blocking\">Import</span>": "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Un point bloquant empêche l'import\" invisible=\"step != 'check' or not blocking\">Importer</span>",
 "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Match the mandatory fields first\" invisible=\"step != 'match' or not missing_count\">Check the file</span>": "<span class=\"btn btn-primary disabled\" aria-disabled=\"true\" title=\"Faites d'abord correspondre les champs obligatoires\" invisible=\"step != 'match' or not missing_count\">Contrôler le fichier</span>",
-"Delete": "Supprimer"
+"Delete": "Supprimer",
+"All mandatory fields are matched. %(count)s lines in the file.": "Tous les champs obligatoires ont leur colonne. %(count)s lignes dans le fichier.",
+"Sheets of the file": "Feuilles du fichier"
 }

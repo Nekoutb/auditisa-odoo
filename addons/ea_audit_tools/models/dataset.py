@@ -164,6 +164,7 @@ class Dataset(models.Model):
             "context": {
                 "default_engagement_id": engagement.id,
                 "default_kind": self.env.context.get("ea_dataset_kind") or "journal_entries",
+                "dialog_size": "extra-large",
             },
         }
 

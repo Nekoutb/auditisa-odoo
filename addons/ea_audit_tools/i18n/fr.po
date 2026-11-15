@@ -9982,6 +9982,7 @@ msgstr "%(count)s point(s) à lire ci-dessous. Aucun ne bloque l'import."
 
 #. module: ea_audit_tools
 #. odoo-python
+#: code:addons/ea_audit_tools/models/tb.py:0
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 msgid "%(count)s rows"
 msgstr "%(count)s lignes"
@@ -10076,8 +10077,8 @@ msgstr "Accepté : un fichier .csv ou .xlsx. Les champs obligatoires de ce type 
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
-msgid "All mandatory fields are matched. %(count)s rows read."
-msgstr "Tous les champs obligatoires ont leur colonne. %(count)s lignes lues."
+msgid "All mandatory fields are matched. %(count)s lines in the file."
+msgstr "Tous les champs obligatoires ont leur colonne. %(count)s lignes dans le fichier."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__field_id
@@ -10449,9 +10450,13 @@ msgstr "Point-virgule ;"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__sheet_id
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__sheet_ids
 msgid "Sheet"
 msgstr "Feuille"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard__sheet_ids
+msgid "Sheets of the file"
+msgstr "Feuilles du fichier"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_import_wizard_sheet
