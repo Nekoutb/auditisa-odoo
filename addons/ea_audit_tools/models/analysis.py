@@ -129,9 +129,14 @@ class EngagementAnalysis(models.Model):
         source, prior = as_root._ea_comparatives()
         prior_rows = None if source == "opening" else [{"account_code": code, "closing": closing} for code, closing in prior.items()]
         ledger = as_root._ea_ledger()
+        if ledger and ledger.timing == "prior_year":
+            ledger = ledger.browse()  # only a prior-year ledger: this year has none
         gl_rows = [row["data"] for row in as_root._ea_dataset_rows(ledger)] if ledger else ()
+        prior_ledger = as_root._ea_prior_ledger()
+        prior_gl_rows = [row["data"] for row in as_root._ea_dataset_rows(prior_ledger)] if prior_ledger else ()
         return financial_analysis(
             rows, as_root.period_end.isoformat(), prior_rows, as_root._ea_lead_overrides(), ledger.mapping if ledger else None, gl_rows,
+            prior_ledger.mapping if prior_ledger else None, prior_gl_rows,
         )
 
     def _ea_sync_fa(self):

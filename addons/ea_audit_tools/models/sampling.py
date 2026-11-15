@@ -161,6 +161,14 @@ class EngagementSampling(models.Model):
         ])
         return datasets.sorted(lambda d: (d.timing != "pre_audit", -d.id))[:1]
 
+    def _ea_prior_ledger(self):
+        """The prior-year ledger in use, if one was uploaded: it gives the prior year its DSO and DPO."""
+        self.ensure_one()
+        return self.env["ea.audit.dataset"].sudo().search([
+            ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
+            ("timing", "=", "prior_year"),
+        ], order="id desc", limit=1)
+
     def _ea_ledger_start_key(self, dataset):
         """What a tests-of-details plan starts from, besides the file and the index: facts of the
         ledger that a second import of the same file gives again (its kind, its number of rows,

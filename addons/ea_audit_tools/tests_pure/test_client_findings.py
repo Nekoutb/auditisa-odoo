@@ -43,7 +43,7 @@ def test_f064_a_blank_dso_or_dpo_says_why():
     no_ledger = financial_analysis(_tb(a411000=100, a701000=-100), "2025-12-31")
     rows = {row["key"]: row for row in no_ledger["rows"]}
     assert rows["dso"]["current"] is None
-    assert "General Ledger" in rows["dso"]["note"]
+    assert "general ledger" in rows["dso"]["note"]
     assert "grand livre" in rows["dpo"]["noteFr"]
     # A ledger in the window with sales but no purchases: DSO 45 days = 100 / 200 x 90, DPO blank.
     mapping = {"account": "A", "amount": "M", "journalDate": "D"}
@@ -55,6 +55,30 @@ def test_f064_a_blank_dso_or_dpo_says_why():
     assert rows["dpo"]["current"] is None
     assert "No purchases" in rows["dpo"]["blank"]
     assert "Aucun achat" in rows["dpo"]["blankFr"]
+
+
+def test_a_ledger_of_another_year_says_the_period_and_the_data_do_not_match():
+    """Owner's ruling of 2026-11-15 (ELIMELEC: year ending 31/12/2026, ledgers of 2025 and 2024)."""
+    mapping = {"account": "A", "amount": "M", "journalDate": "D"}
+    current = [{"A": "701000", "M": "200", "D": "01/01/2025"}, {"A": "701000", "M": "50", "D": "31/12/2025"}]
+    prior = [{"A": "701000", "M": "200", "D": "15/12/2024"}]
+    view = financial_analysis(_tb(a411000=100, a701000=-100), "2026-12-31", gl_mapping=mapping, gl_rows=current,
+                              prior_gl_mapping=mapping, prior_gl_rows=prior)
+    dso = {row["key"]: row for row in view["rows"]}["dso"]
+    assert dso["current"] is None and dso["prior"] is None
+    assert "do not match" in dso["note"] and "31/12/2026" in dso["note"] and "01/01/2025 to 31/12/2025" in dso["note"]
+    assert "prior year ends on 31/12/2025" in dso["note"] and "15/12/2024 to 15/12/2024" in dso["note"]
+    assert "ne concordent pas" in dso["noteFr"]
+
+
+def test_the_prior_year_ledger_gives_the_prior_dso():
+    mapping = {"account": "A", "amount": "M", "journalDate": "D"}
+    prior = [{"A": "701000", "M": "300", "D": "15/12/2024"}]
+    tb = [{"account_code": "411000", "opening": 150, "closing": 100}, {"account_code": "701000", "opening": 0, "closing": -100}]
+    view = financial_analysis(tb, "2025-12-31", prior_gl_mapping=mapping, prior_gl_rows=prior)
+    dso = {row["key"]: row for row in view["rows"]}["dso"]
+    assert dso["prior"] == 45  # 150 opening receivables / 300 sales x 90
+    assert "Prior year" not in dso["note"]
 
 
 def test_f012_a_prior_closing_gives_the_income_statement_its_comparative():

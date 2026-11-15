@@ -17,8 +17,17 @@ from services import (
 )
 from services.errors import ServiceError
 
+_SOURCE_NOTES = {
+    False: ("Requires the General Ledger (last 3 months): upload it in the GL Analyzer. Prior year: blank because the prior-year General Ledger is not imported.",
+            "Nécessite le grand livre (3 derniers mois) : à importer dans l'analyseur de grand livre. Exercice précédent : vide car le grand livre N-1 n'est pas importé."),
+    True: ("Prior year: blank because the prior-year General Ledger is not imported.",
+           "Exercice précédent : vide car le grand livre N-1 n'est pas importé."),
+}
+
+
 def _financial_analysis_as_source(rows, end, prior, overrides, mapping, gl):
-    """What the source returns: the formula and the reason for a blank with a ledger (F064) are this port's."""
+    """What the source returns: the formula, the reason for a blank (F064) and the wording of the
+    notes (owner's ruling of 2026-11-15: say when the audit period and the data do not match) are this port's."""
     view = financial_analysis.financial_analysis(rows, end, prior, overrides, mapping, gl)
     if view:
         for row in view["rows"]:
@@ -26,6 +35,9 @@ def _financial_analysis_as_source(rows, end, prior, overrides, mapping, gl):
             row.pop("formulaFr")
             row.pop("blank", None)
             row.pop("blankFr", None)
+            if "note" in row:
+                # the source's own wording, which the port replaced
+                row["note"], row["noteFr"] = _SOURCE_NOTES[view["glAvailable"]]
     return view
 
 

@@ -8,7 +8,7 @@ DPO draw the last three months of sales and purchases from the general ledger
 """
 import re
 
-from ._js import add_utc, cell_str, date_utc, js_date_parse, js_round, js_trim
+from ._js import add_utc, cell_str, date_parts, date_utc, js_date_parse, js_round, js_trim
 from .amount import amount_or
 from .fs_captions import bilan_totals, income_from_tb
 
@@ -160,37 +160,46 @@ RATIO_KEYS = [d["key"] for d in DEFS]
 
 #: What each ratio divides by what, for the tooltip (F064): key -> (English, French).
 FORMULAS = {
-    "current": ("Current assets / current liabilities", "Actif circulant et trésorerie-actif / passif circulant et trésorerie-passif"),
-    "quick": ("(Current assets - inventory) / current liabilities", "(Actif circulant et trésorerie-actif - stocks) / passif circulant et trésorerie-passif"),
-    "cash": ("Cash (class 5, debit balance) / current liabilities", "Trésorerie-actif (classe 5 débitrice) / passif circulant et trésorerie-passif"),
-    "wc": ("Current assets - current liabilities", "Actif circulant et trésorerie-actif - passif circulant et trésorerie-passif"),
-    "dso": ("Trade receivables (41) / sales of the last 3 months (70, from the ledger) x 90", "Créances clients (41) / ventes des 3 derniers mois (70, au grand livre) x 90"),
-    "dpo": ("Trade payables (40) / purchases of the last 3 months (60-62, from the ledger) x 90", "Dettes fournisseurs (40) / achats des 3 derniers mois (60-62, au grand livre) x 90"),
-    "inv_turn": ("Cost of sales (60) / inventory (3)", "Coût des ventes (60) / stocks (3)"),
-    "rec_turn": ("Revenue (class 7) / trade receivables (41)", "Produits (classe 7) / créances clients (41)"),
-    "pay_turn": ("Cost of sales (60) / trade payables (40)", "Coût des ventes (60) / dettes fournisseurs (40)"),
-    "asset_turn": ("Revenue (class 7) / total net assets", "Produits (classe 7) / total actif net"),
-    "gross": ("(Revenue - cost of sales) / revenue", "(Produits - coût des ventes) / produits"),
-    "ebitda": ("(Result before tax + 67 + 68 and 69) / revenue", "(Résultat avant impôt + 67 + 68 et 69) / produits"),
-    "net": ("Result before tax (class 7 - class 6) / revenue", "Résultat avant impôt (classe 7 - classe 6) / produits"),
-    "gearing": ("Financial debt (16-18) / (financial debt + equity)", "Dettes financières (16-18) / (dettes financières + capitaux propres)"),
-    "dte": ("Financial debt (16-18) / equity", "Dettes financières (16-18) / capitaux propres"),
-    "equity_ratio": ("Equity / total net assets", "Capitaux propres / total actif net"),
-    "int_cover": ("(Result before tax + finance costs 67) / finance costs 67", "(Résultat avant impôt + charges financières 67) / charges financières 67"),
-    "roa": ("Net result after tax (89 deducted) / total net assets", "Résultat net après impôt (89 déduit) / total actif net"),
-    "roe": ("Net result after tax (89 deducted) / equity", "Résultat net après impôt (89 déduit) / capitaux propres"),
-    "roce": ("(Net result after tax + finance costs 67) / (equity + financial debt)", "(Résultat net après impôt + charges financières 67) / (capitaux propres + dettes financières)"),
+    "current": ("Current assets / current liabilities", "Actif circulant / passif circulant"),
+    "quick": ("(Current assets - inventory) / current liabilities", "(Actif circulant - stocks) / passif circulant"),
+    "cash": ("Cash and cash equivalents / current liabilities", "Trésorerie et équivalents / passif circulant"),
+    "wc": ("Current assets - current liabilities", "Actif circulant - passif circulant"),
+    "dso": ("Trade receivables / sales of the last 3 months of the year (from the general ledger) x 90", "Créances clients / ventes des 3 derniers mois de l'exercice (au grand livre) x 90"),
+    "dpo": ("Trade payables / purchases of the last 3 months of the year (from the general ledger) x 90", "Dettes fournisseurs / achats des 3 derniers mois de l'exercice (au grand livre) x 90"),
+    "inv_turn": ("Cost of sales / inventory", "Coût des ventes / stocks"),
+    "rec_turn": ("Revenue / trade receivables", "Chiffre d'affaires / créances clients"),
+    "pay_turn": ("Cost of sales / trade payables", "Coût des ventes / dettes fournisseurs"),
+    "asset_turn": ("Revenue / total assets (net)", "Chiffre d'affaires / total actif net"),
+    "gross": ("(Revenue - cost of sales) / revenue", "(Chiffre d'affaires - coût des ventes) / chiffre d'affaires"),
+    "ebitda": ("(Profit before tax + finance costs + depreciation, amortisation and provisions) / revenue", "(Résultat avant impôt + charges financières + dotations aux amortissements et provisions) / chiffre d'affaires"),
+    "net": ("Profit before tax / revenue", "Résultat avant impôt / chiffre d'affaires"),
+    "gearing": ("Borrowings / (borrowings + equity)", "Emprunts et dettes financières / (emprunts et dettes financières + capitaux propres)"),
+    "dte": ("Borrowings / equity", "Emprunts et dettes financières / capitaux propres"),
+    "equity_ratio": ("Equity / total assets (net)", "Capitaux propres / total actif net"),
+    "int_cover": ("(Profit before tax + finance costs) / finance costs", "(Résultat avant impôt + charges financières) / charges financières"),
+    "roa": ("Profit after tax / total assets (net)", "Résultat net après impôt / total actif net"),
+    "roe": ("Profit after tax / equity", "Résultat net après impôt / capitaux propres"),
+    "roce": ("(Profit after tax + finance costs) / (equity + borrowings)", "(Résultat net après impôt + charges financières) / (capitaux propres + emprunts et dettes financières)"),
 }
 
-GL_NOTE = "Requires the General Ledger (last 3 months): upload it in the GL Analyzer."  # i18n: term
-GL_NOTE_FR = "Nécessite le grand livre (3 derniers mois) : à importer dans l'analyseur de grand livre."
-PRIOR_NOTE = "Prior year: blank because the prior-year General Ledger is not imported."  # i18n: term
-PRIOR_NOTE_FR = "Exercice précédent : vide car le grand livre N-1 n'est pas importé."
+GL_NOTE = "No general ledger for this year: upload it in the GL Analyzer to work out this ratio."  # i18n: term
+GL_NOTE_FR = "Pas de grand livre pour cet exercice : l'importer dans l'analyseur de grand livre pour calculer ce ratio."
+PRIOR_NOTE = "Prior year: no prior-year general ledger uploaded."  # i18n: term
+PRIOR_NOTE_FR = "Exercice précédent : aucun grand livre N-1 importé."
+# The ledger is there but holds nothing in the last 3 months of the year: the period and the data do not match.
+MISMATCH_NOTE = ("The audit period and the data do not match: this year ends on %(end)s, but the general ledger "
+                 "uploaded runs from %(first)s to %(last)s. Check the engagement's year or upload the ledger of this period.")  # i18n: term
+MISMATCH_NOTE_FR = ("La période auditée et les données ne concordent pas : l'exercice se termine le %(end)s, mais le grand "
+                    "livre importé couvre du %(first)s au %(last)s. Vérifier l'exercice de la mission ou importer le grand livre de cette période.")
+PRIOR_MISMATCH_NOTE = ("Prior year: the period and the data do not match: the prior year ends on %(end)s, but the prior-year "
+                       "general ledger runs from %(first)s to %(last)s.")  # i18n: term
+PRIOR_MISMATCH_NOTE_FR = ("Exercice précédent : la période et les données ne concordent pas : l'exercice précédent se termine le "
+                          "%(end)s, mais le grand livre N-1 couvre du %(first)s au %(last)s.")
 # A ledger with nothing to divide by leaves a blank too; the source does not say why (F064).
-NO_SALES_NOTE = "No sales (70) in the ledger's last 3 months: nothing to divide by."  # i18n: term
-NO_SALES_NOTE_FR = "Aucune vente (70) dans les 3 derniers mois du grand livre : rien à diviser."
-NO_PURCHASES_NOTE = "No purchases (60-62) in the ledger's last 3 months: nothing to divide by."  # i18n: term
-NO_PURCHASES_NOTE_FR = "Aucun achat (60-62) dans les 3 derniers mois du grand livre : rien à diviser."
+NO_SALES_NOTE = "No sales in the general ledger for the last 3 months of the year: nothing to divide by."  # i18n: term
+NO_SALES_NOTE_FR = "Aucune vente au grand livre sur les 3 derniers mois de l'exercice : rien à diviser."
+NO_PURCHASES_NOTE = "No purchases in the general ledger for the last 3 months of the year: nothing to divide by."  # i18n: term
+NO_PURCHASES_NOTE_FR = "Aucun achat au grand livre sur les 3 derniers mois de l'exercice : rien à diviser."
 
 _DMY = re.compile(r"([0-9]{1,2})[/.-]([0-9]{1,2})[/.-]([0-9]{4})")
 _EQUITY = re.compile(r"1[0-5]")
@@ -302,12 +311,71 @@ def _parse_gl_date(value):
     return js_date_parse(raw)
 
 
-def financial_analysis(tb_rows, period_end, prior_rows=None, overrides=(), gl_mapping=None, gl_rows=()):
+def _fmt(ms):
+    year, month0, day = date_parts(ms)
+    return "%02d/%02d/%04d" % (day, month0 + 1, year)
+
+
+def _days(balance, flow):
+    return js_round((balance / flow) * 90) if flow is not None and flow > 0 else None
+
+
+def _ledger_window(mapping, gl_rows, end):
+    """Sales and purchases of the 3 months to ``end`` (None when the ledger has no entry in
+    them), with the ledger's first and last dates so a blank can say why."""
+    out = {"sales": None, "purchases": None, "end": end, "first": None, "last": None, "present": False}
+    # a ledger stated as a debit/credit pair carries no amount column: the row value
+    # is debit - credit, exactly as the importer derives it
+    use_pair = bool(mapping and mapping.get("debit") and mapping.get("credit"))
+    if not (mapping and mapping.get("account") and (mapping.get("amount") or use_pair) and mapping.get("journalDate")):
+        return out
+    # setUTCMonth rolls over: 31 May less three months is 3 March, not 28 February
+    start = add_utc(end, months=-3)
+    sales = purchases = 0
+    in_window = 0
+    for data in gl_rows:
+        d = _parse_gl_date(data.get(mapping["journalDate"]))
+        if d is None:
+            continue
+        out["present"] = True
+        out["first"] = d if out["first"] is None else min(out["first"], d)
+        out["last"] = d if out["last"] is None else max(out["last"], d)
+        if d < start or d > end:
+            continue
+        in_window += 1
+        account = cell_str(data.get(mapping["account"]))
+        if mapping.get("amount"):
+            amount = abs(amount_or(data.get(mapping["amount"]), 0))
+        else:
+            amount = abs(amount_or(data.get(mapping["debit"]), 0) - amount_or(data.get(mapping["credit"]), 0))
+        if account.startswith("70"):
+            sales += amount
+        if _PURCHASES.match(account):
+            purchases += amount
+    if in_window > 0:
+        out["sales"], out["purchases"] = sales, purchases
+    return out
+
+
+def _why_blank(window, prior):
+    """(English, French) reason for a blank ratio of that year, or ("", "") when it is worked out."""
+    if window["sales"] is not None:
+        return "", ""
+    if not window["present"]:
+        return (PRIOR_NOTE, PRIOR_NOTE_FR) if prior else (GL_NOTE, GL_NOTE_FR)
+    words = {"end": _fmt(window["end"]), "first": _fmt(window["first"]), "last": _fmt(window["last"])}
+    en, fr = (PRIOR_MISMATCH_NOTE, PRIOR_MISMATCH_NOTE_FR) if prior else (MISMATCH_NOTE, MISMATCH_NOTE_FR)
+    return en % words, fr % words
+
+
+def financial_analysis(tb_rows, period_end, prior_rows=None, overrides=(), gl_mapping=None, gl_rows=(),
+                       prior_gl_mapping=None, prior_gl_rows=()):
     """{rows, glAvailable, periodEnd}, None without a TB.
 
     ``tb_rows``: {account_code, opening, closing}. ``prior_rows``: {account_code, closing}
     of the prior-year TB. ``overrides``: (prefix, index_code) pairs. ``gl_mapping`` and
-    ``gl_rows``: the journal-entries dataset's mapping and its rows' data.
+    ``gl_rows``: the journal-entries dataset's mapping and its rows' data. ``prior_gl_*``: the same for
+    the prior-year ledger, which gives the prior year its DSO and DPO.
     """
     if not tb_rows:
         return None
@@ -327,40 +395,14 @@ def financial_analysis(tb_rows, period_end, prior_rows=None, overrides=(), gl_ma
     cur = ratio_set(current_b)
     pri = ratio_set(prior_b)
 
-    sales_3m = None
-    purchases_3m = None
-    mapping = gl_mapping
-    # a ledger stated as a debit/credit pair carries no amount column: the row value
-    # is debit - credit, exactly as the importer derives it
-    use_pair = bool(mapping and mapping.get("debit") and mapping.get("credit"))
-    if mapping and mapping.get("account") and (mapping.get("amount") or use_pair) and mapping.get("journalDate"):
-        end = js_date_parse(period_end + "T00:00:00Z")
-        # setUTCMonth rolls over: 31 May less three months is 3 March, not 28 February
-        start = add_utc(end, months=-3)
-        sales = 0
-        purchases = 0
-        in_window = 0
-        for data in gl_rows:
-            d = _parse_gl_date(data.get(mapping["journalDate"]))
-            if d is None or d < start or d > end:
-                continue
-            in_window += 1
-            account = cell_str(data.get(mapping["account"]))
-            if mapping.get("amount"):
-                amount = abs(amount_or(data.get(mapping["amount"]), 0))
-            else:
-                amount = abs(amount_or(data.get(mapping["debit"]), 0) - amount_or(data.get(mapping["credit"]), 0))
-            if account.startswith("70"):
-                sales += amount
-            if _PURCHASES.match(account):
-                purchases += amount
-        if in_window > 0:
-            sales_3m = sales
-            purchases_3m = purchases
-    cur["dso"] = js_round((current_b["receivables"] / sales_3m) * 90) if sales_3m is not None and sales_3m > 0 else None
-    cur["dpo"] = js_round((current_b["payables"] / purchases_3m) * 90) if purchases_3m is not None and purchases_3m > 0 else None
-    pri["dso"] = None
-    pri["dpo"] = None
+    end = js_date_parse(period_end + "T00:00:00Z")
+    current_gl = _ledger_window(gl_mapping, gl_rows, end)
+    prior_gl = _ledger_window(prior_gl_mapping, prior_gl_rows, add_utc(end, years=-1))
+    sales_3m, purchases_3m = current_gl["sales"], current_gl["purchases"]
+    cur["dso"] = _days(current_b["receivables"], sales_3m)
+    cur["dpo"] = _days(current_b["payables"], purchases_3m)
+    pri["dso"] = _days(prior_b["receivables"], prior_gl["sales"])
+    pri["dpo"] = _days(prior_b["payables"], prior_gl["purchases"])
 
     rows = []
     for definition in DEFS:
@@ -369,9 +411,10 @@ def financial_analysis(tb_rows, period_end, prior_rows=None, overrides=(), gl_ma
         row["prior"] = pri.get(definition["key"])
         row["formula"], row["formulaFr"] = FORMULAS[definition["key"]]
         if definition["key"] in ("dso", "dpo"):
-            # A blank here is always explained (F064).
-            row["note"] = "%s%s" % ("%s " % GL_NOTE if sales_3m is None else "", PRIOR_NOTE)
-            row["noteFr"] = "%s%s" % ("%s " % GL_NOTE_FR if sales_3m is None else "", PRIOR_NOTE_FR)
+            # A blank here is always explained (F064), in plain words.
+            notes = (_why_blank(current_gl, False), _why_blank(prior_gl, True))
+            row["note"] = " ".join(n[0] for n in notes if n[0])
+            row["noteFr"] = " ".join(n[1] for n in notes if n[1])
             if sales_3m is not None and row["current"] is None:
                 row["blank"], row["blankFr"] = (NO_SALES_NOTE, NO_SALES_NOTE_FR) if definition["key"] == "dso" else (NO_PURCHASES_NOTE, NO_PURCHASES_NOTE_FR)
         rows.append(row)
