@@ -46,7 +46,8 @@ run_tests() {
 
   grep -E 'odoo\.tests\.(stats|result)|tests in ' "$log" | tail -n 10 || true
   # A failing test or a broken data file does not always change the exit code, so the log decides too.
-  if [ "$rc" != 0 ] || grep -qE ' (ERROR|CRITICAL) ' "$log"; then
+  # Two tests of ea_audit_firm_agent log an error on purpose, under their own logger name: not a failure.
+  if [ "$rc" != 0 ] || grep -E ' (ERROR|CRITICAL) ' "$log" | grep -qvF ' odoo.addons.ea_audit_firm_agent.tests: '; then
     echo "Odoo exit code: $rc"
     grep -E -A60 ' (ERROR|CRITICAL) ' "$log" | tail -n 200 || tail -n 50 "$log"
     exit 1
