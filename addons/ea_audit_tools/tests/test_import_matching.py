@@ -26,6 +26,9 @@ ERP_CSV = """N°;Désignation;Mvt D;Mvt C;Observations
 """
 #: The same balance with other figures, to tell two versions apart.
 OTHER_CSV = BALANCED_CSV.replace("411000;Clients;800;0;1000;900", "411000;Clients;800;0;1000;600").replace("521000;Banque;700;0;900;900", "521000;Banque;700;0;600;900")
+#: The ledger of test_gl without its line that has no entry number: with the entry identified by
+#: journal and number, that line is an entry of its own (" · OD") and does not balance.
+KEYED_LEDGER = LEDGER.replace("601000;Achats;;Sans numero;03/03/2025;50,00;;;OD;Awa\n", "")
 #: A ledger stated with one signed amount, balanced.
 SIGNED_LEDGER = """Compte;N° écriture;Libellé;Date;Montant
 411000;VE001;Facture 1;03/04/2025;1000
@@ -186,7 +189,7 @@ class TestMatching(ImportCase):
         self.assertEqual(self.datasets("ar_open_items").total_amount, 350)
 
     def test_an_entry_identified_by_several_columns(self):
-        wizard = self.read(LEDGER, filename="ledger.csv", kind="journal_entries")
+        wizard = self.read(KEYED_LEDGER, filename="ledger.csv", kind="journal_entries")
         self.choose(wizard, "N° écriture")
         self.assertEqual(wizard.missing_count, 1)
         wizard.je_key_column_ids = self.line(wizard, "Journal") | self.line(wizard, "N° écriture")
@@ -299,12 +302,12 @@ class TestRemember(ImportCase):
         self.assertCode("forbidden", self.remembered().with_user(self.staff).unlink)
 
     def test_a_ledgers_matching_is_remembered_with_its_entry_columns(self):
-        wizard = self.read(LEDGER, filename="ledger.csv", kind="journal_entries")
+        wizard = self.read(KEYED_LEDGER, filename="ledger.csv", kind="journal_entries")
         self.choose(wizard, "N° écriture")
         wizard.je_key_column_ids = self.line(wizard, "Journal") | self.line(wizard, "N° écriture")
         wizard.action_check()
         wizard.action_import()
-        again = self.read(LEDGER, filename="ledger-2.csv", kind="journal_entries")
+        again = self.read(KEYED_LEDGER, filename="ledger-2.csv", kind="journal_entries")
         self.assertEqual(again.je_key_column_ids.mapped("header"), ["N° écriture", "Journal"])
         self.assertEqual(again.missing_count, 0)
 
