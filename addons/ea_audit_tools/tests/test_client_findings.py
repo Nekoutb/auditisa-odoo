@@ -11,7 +11,7 @@ from odoo.tools import file_open
 from odoo.addons.ea_audit_tools.models.tool_record import decimal_label, fcfa
 from odoo.addons.ea_audit_tools.services.tb import infer_tb_mapping
 
-from .common import ToolsCase, UNBALANCED_CSV, to_bytes
+from .common import AR_CSV, AR_MAPPING, ToolsCase, UNBALANCED_CSV, to_bytes
 from .test_gl import GlCase
 
 PRIOR_2024 = """Compte;Libellé;Solde ouverture débit;Solde ouverture crédit;Mouvement débit;Mouvement crédit
@@ -178,7 +178,7 @@ class TestLedgerRecord(GlCase):
 
     def test_m10_a_single_amount_column_keeps_its_total(self):
         dataset = self.env["ea.audit.dataset"].sudo().browse(self.as_staff.create_dataset(
-            "ar_open_items", "ar.csv", b"Client;Montant\nA;100\nB;250\n", mapping={"amount": "Montant"},
+            "ar_open_items", "ar.csv", to_bytes(AR_CSV), mapping=AR_MAPPING,
         )["datasetId"])
         self.assertEqual(dataset.display_total, 350)
         self.assertEqual(dataset.display_total_note, "Montant")
@@ -216,32 +216,42 @@ class TestLeadChecks(ToolsCase):
         self.assertIn("o_ea_chip_bad", html)
 
     def test_f018_an_invalid_import_says_why(self):
-        # 1 000 of debits against 900 of credits: a difference of 100.
-        result = self.import_tb(UNBALANCED_CSV)
-        self.assertEqual(result["summary"]["status"], "invalid")
+        # 1 000 of debits against 900 of credits: a difference of 100. Refused, with the reason.
+        with self.assertRaises(Exception) as refused:
+            self.import_tb(UNBALANCED_CSV)
+        self.assertIn("import-refused", str(refused.exception))
+        self.assertIn("Movements do not balance", str(refused.exception))
+        self.assertIn("100", str(refused.exception))
+        self.assertFalse(self.engagement.sudo().tb_invalid_reason)
+
+    def test_f018_an_invalid_version_of_before_still_says_why(self):
+        self.invalid_version()
         reason = self.engagement.sudo().tb_invalid_reason
         self.assertIn("Movements do not balance", reason)
         self.assertIn("100", reason)
         self.import_tb()
         self.assertFalse(self.engagement.sudo().tb_invalid_reason)
 
-    def test_f018_the_wizard_notifies_the_refusal(self):
-        wizard = self.env["ea.audit.tb.import.wizard"].with_user(self.staff).create({
+    def test_f018_the_wizard_stops_the_file_at_the_check(self):
+        wizard = self.env["ea.audit.import.wizard"].with_user(self.staff).create({
             "engagement_id": self.engagement.id, "file": base64.b64encode(to_bytes(UNBALANCED_CSV)), "filename": "b.csv",
         })
-        wizard.action_preview()
-        action = wizard.action_import()
-        self.assertEqual(action["params"]["type"], "danger")
-        self.assertIn("Movements do not balance", action["params"]["message"])
+        wizard.action_read()
+        wizard.action_check()
+        self.assertTrue(wizard.blocking)
+        self.assertIn("Movements do not balance", str(wizard.check_html))
+        self.assertCode("import-refused", wizard.action_import)
+        self.assertFalse(self.engagement.sudo()._ea_tb().version_ids)
 
 
 @tagged("post_install", "-at_install")
 class TestOpeningsWarning(ToolsCase):
     def test_f016_warned_when_nothing_stands_behind_the_prior_year(self):
-        wizard = self.env["ea.audit.tb.import.wizard"].with_user(self.staff).create({
+        wizard = self.env["ea.audit.import.wizard"].with_user(self.staff).create({
             "engagement_id": self.engagement.id, "file": base64.b64encode(to_bytes(NO_OPENINGS)), "filename": "b.csv",
         })
-        wizard.action_preview()
+        wizard.action_read()
+        wizard.action_check()
         action = wizard.action_import()
         self.assertEqual(action["params"]["type"], "warning")
         self.assertIn("opening balances", action["params"]["message"].lower())
@@ -269,11 +279,13 @@ class TestOpeningsWarning(ToolsCase):
         self.assertIn("tb_template", self.as_staff.action_export_tb_template()["url"])
 
     def test_f016_the_dialog_states_the_columns(self):
-        arch = self.env.ref("ea_audit_tools.view_tb_import_wizard").arch
+        arch = self.env.ref("ea_audit_tools.view_import_wizard").arch
         self.assertIn("Accepted: a .csv or .xlsx file", arch)
         self.assertIn("template_html", arch)
-        wizard = self.env["ea.audit.tb.import.wizard"].with_user(self.staff).new({"engagement_id": self.engagement.id})
+        wizard = self.env["ea.audit.import.wizard"].with_user(self.staff).new({"engagement_id": self.engagement.id})
         self.assertIn("/ea_audit_tools/export/tb_template/%d" % self.engagement.id, str(wizard.template_html))
+        wizard.kind = "ar_open_items"
+        self.assertIn("/ea_audit_tools/export/template_ar_open_items/%d" % self.engagement.id, str(wizard.template_html))
 
 
 @tagged("post_install", "-at_install")
@@ -289,13 +301,14 @@ class TestToolsWithoutData(ToolsCase):
             self.as_outsider.action_tool_gl_catalogue()
 
     def test_f066_no_way_forward_without_a_file(self):
-        for xmlid, method in (("view_dataset_import_wizard", "action_preview"), ("view_tb_import_wizard", "action_preview")):
-            arch = etree.fromstring(self.env.ref("ea_audit_tools.%s" % xmlid).arch)
+        arch = etree.fromstring(self.env.ref("ea_audit_tools.view_import_wizard").arch)
+        # no file, no reading; a mandatory field unmatched, no check; a blocking point, no import
+        for method, blocked_by in (("action_read", "file"), ("action_check", "missing_count"), ("action_import", "blocking")):
             button = arch.xpath("//footer/button[@name='%s']" % method)[0]
-            self.assertIn("not file", button.get("invisible"))
-            stand_in = arch.xpath("//footer/span[contains(@class, 'disabled')]")[0]
+            self.assertIn(blocked_by, button.get("invisible"))
+        for stand_in in arch.xpath("//footer/span[contains(@class, 'disabled')]"):
             self.assertEqual(stand_in.get("aria-disabled"), "true")
-            self.assertIn("or file", stand_in.get("invisible"))
+        self.assertEqual(len(arch.xpath("//footer/span[contains(@class, 'disabled')]")), 3)
 
     def test_f068_the_grid_names_the_first_step_missing(self):
         as_staff = self.as_staff.sudo().with_user(self.staff)

@@ -57,7 +57,7 @@ class TestFrench(ToolsCase):
         self.import_tb()
         board = self.engagement.sudo().with_context(lang="fr_FR")
         board.invalidate_recordset()
-        self.assertIn("balance v1", board.bilan_label)
+        self.assertIn("balance du ", board.bilan_label)
         version = board._ea_current_tb_version().with_context(lang="fr_FR")
         self.assertIn("Débits égaux aux crédits", version.checks_text)
         self.assertIn("Aucune version", board.mat_status_label)

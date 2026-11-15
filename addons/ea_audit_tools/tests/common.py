@@ -19,6 +19,17 @@ UNBALANCED_CSV = """Compte;Libellé;Mouvement débit;Mouvement crédit
 """
 
 
+#: A receivables file with every mandatory field of its kind, and the mapping a person would confirm.
+AR_CSV = """Client;Nom;Référence;Date;Montant
+C1;Alpha;F1;15/12/2025;100
+C2;Beta;F2;15/10/2025;250
+"""
+AR_MAPPING = {"party": "Client", "partyName": "Nom", "reference": "Référence", "date": "Date", "amount": "Montant"}
+#: The same for payables. The name is not titled "Nom": the supplier reconciliation takes the first
+#: column whose title reads as a supplier or a name for its key.
+AP_MAPPING = {"party": "Fournisseur", "partyName": "Raison sociale", "reference": "Référence", "date": "Date", "amount": "Montant"}
+
+
 def to_bytes(text):
     return text.encode("utf-8")
 
@@ -48,6 +59,36 @@ class ToolsCase(EaAuditCase):
 
     def import_tb(self, content=BALANCED_CSV, filename="balance.csv", timing="pre_audit", actor=None):
         return (actor or self.as_staff).import_trial_balance(filename, to_bytes(content), timing=timing)
+
+    def invalid_version(self, content=UNBALANCED_CSV, filename="invalid.csv", timing="pre_audit"):
+        """A version saved as invalid, as the import kept them before the ruling of 2026-11-15:
+        such versions remain in the databases of that time. Written as that import wrote it."""
+        from odoo import fields
+
+        from odoo.addons.ea_audit_tools.services.tb import extract_tb_rows, infer_tb_mapping, readability_of, validate_tb_rows
+        from odoo.addons.ea_audit_tools.tabular import parse_table
+
+        engagement = self.engagement.sudo()
+        table = parse_table(filename, to_bytes(content))
+        mapping = infer_tb_mapping(table["headers"])
+        rows = extract_tb_rows(table, mapping)
+        summary = validate_tb_rows(rows, engagement._ea_known_prefixes(), None, mapping, readability_of(table, mapping))
+        self.assertEqual(summary["status"], "invalid")
+        tb = engagement._ea_tb() or self.env["ea.audit.tb"].sudo().create({"engagement_id": engagement.id})
+        Version = self.env["ea.audit.tb.version"].sudo()
+        Version.search([("tb_id", "=", tb.id), ("timing", "=", timing), ("superseded_at", "=", False)]).write({"superseded_at": fields.Datetime.now()})
+        number = max(Version.search([("tb_id", "=", tb.id)], order="version_no desc", limit=1).version_no, tb.last_version_no) + 1
+        tb.last_version_no = number
+        version = Version.create({
+            "engagement_id": engagement.id, "tb_id": tb.id, "version_no": number, "timing": timing, "validation_status": "invalid",
+            "source_filename": filename, "row_count": len(rows), "validation_summary": summary,
+            "total_debit": summary["checks"]["balanced"]["totalDebit"], "total_credit": summary["checks"]["balanced"]["totalCredit"],
+        })
+        self.env["ea.audit.tb.line"].sudo().create([{
+            "engagement_id": engagement.id, "version_id": version.id, "row_no": row_no, "account_code": row["account"],
+            "account_name": row["label"], "debit": row["debit"], "credit": row["credit"],
+        } for row_no, row in enumerate(rows, start=1)])
+        return version
 
     def approve(self, overall_pct=2, trivial_pct=5, benchmark="total_assets", amount=None):
         """A TB, a version on its base, the partner's approval."""

@@ -28,7 +28,8 @@ RICH_MAPPING = {
     "journalCode": "Journal", "preparedBy": "Préparé", "approvedBy": "Approuvé", "reviewer": "Réviseur", "thirdPartyCode": "Tiers",
 }
 
-THIN_MAPPING = {"account": "Compte", "jeNumber": "N° écriture", "journalDate": "Date", "debit": "Débit", "credit": "Crédit"}
+# The mandatory fields and nothing more: an analytic that needs another one says so.
+THIN_MAPPING = {"account": "Compte", "jeNumber": "N° écriture", "jeDescription": "Libellé", "journalDate": "Date", "debit": "Débit", "credit": "Crédit"}
 
 
 class ConsoleCase(GlCase):

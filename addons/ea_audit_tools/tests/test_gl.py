@@ -1,7 +1,7 @@
 from odoo.exceptions import AccessError
 from odoo.tests import tagged
 
-from .common import ToolsCase, to_bytes
+from .common import AR_CSV, AR_MAPPING, ToolsCase, to_bytes
 
 LEDGER = """Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Référence;Journal;Saisi par
 411000;Clients;VE001;Facture 1;15/01/2025;1 000,00;;F1;VE;Awa
@@ -38,13 +38,18 @@ class TestDataset(GlCase):
         self.assertEqual(preview["mapping"]["account"], "Compte")
         self.assertFalse(self.env["ea.audit.dataset"].sudo().search_count([("engagement_id", "=", self.engagement.id)]))
 
-    def test_a_new_upload_replaces_the_previous_one(self):
-        first = self.import_ledger()["datasetId"]
-        second = self.import_ledger()["datasetId"]
-        self.assertFalse(self.env["ea.audit.dataset"].sudo().browse(first).exists())
-        rows = self.env["ea.audit.dataset.row"].sudo().search([("dataset_id", "=", second)])
-        self.assertEqual(len(rows), 5)
-        self.assertEqual(rows[0].data["Compte"], "411000")
+    def test_a_new_upload_supersedes_the_previous_one_and_keeps_it(self):
+        """Owner's ruling of 2026-11-15: an upload is a version, no longer deleted by the next one."""
+        first = self.env["ea.audit.dataset"].sudo().browse(self.import_ledger()["datasetId"])
+        second = self.env["ea.audit.dataset"].sudo().browse(self.import_ledger()["datasetId"])
+        self.assertTrue(first.exists())
+        self.assertTrue(first.superseded_at)
+        self.assertFalse(first.is_current)
+        self.assertTrue(second.is_current)
+        for dataset in (first, second):
+            rows = self.env["ea.audit.dataset.row"].sudo().search([("dataset_id", "=", dataset.id)])
+            self.assertEqual(len(rows), 5)
+            self.assertEqual(rows[0].data["Compte"], "411000")
 
     def test_the_pair_amount_is_debit_minus_credit(self):
         dataset = self.env["ea.audit.dataset"].sudo().browse(self.import_ledger()["datasetId"])
@@ -119,14 +124,19 @@ class TestProjection(GlCase):
         self.assertEqual(status["dates-in-period"], "warning")
 
     def test_incomplete_mapping_is_refused(self):
-        dataset_id = self.import_ledger(mapping={"account": "Compte"})["datasetId"]
+        """At the import now, and still at the build for a ledger imported before the matching was mandatory."""
+        with self.assertRaisesRegex(Exception, "mapping-incomplete"):
+            self.import_ledger(mapping={"account": "Compte"})
+        self.assertFalse(self.env["ea.audit.dataset"].sudo().search_count([("engagement_id", "=", self.engagement.id)]))
+        dataset_id = self.import_ledger()["datasetId"]
+        self.env["ea.audit.dataset"].sudo().browse(dataset_id).mapping = {"account": "Compte"}
         with self.assertRaisesRegex(Exception, "mapping-incomplete"):
             self.as_staff.gl_build_projection(dataset_id)
 
     def test_only_a_ledger_of_this_file(self):
         with self.assertRaisesRegex(Exception, "no-dataset"):
             self.as_staff.gl_build_projection(999999)
-        other = self.as_staff.create_dataset("ar_open_items", "ar.csv", to_bytes("Client;Montant\nA;10\n"))
+        other = self.as_staff.create_dataset("ar_open_items", "ar.csv", to_bytes(AR_CSV), mapping=AR_MAPPING)
         with self.assertRaisesRegex(Exception, "no-dataset"):
             self.as_staff.gl_build_projection(other["datasetId"])
 

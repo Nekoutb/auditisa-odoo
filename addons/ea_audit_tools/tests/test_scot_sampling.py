@@ -253,7 +253,9 @@ class TestTod(ToolsCase):
     def test_refusals(self):
         with self.assertRaisesRegex(Exception, "no-gl"):
             self.as_staff.tod_side_view("bs")
-        self.as_staff.create_dataset("journal_entries", "gl.csv", to_bytes(LEDGER), mapping={"account": "Compte"})
+        # a ledger imported before the matching was mandatory can still lack its amount
+        dataset = self.env["ea.audit.dataset"].sudo().browse(self.ledger()["datasetId"])
+        dataset.mapping = {"account": "Compte"}
         with self.assertRaisesRegex(Exception, "no-mapping"):
             self.as_staff.tod_side_view("bs")
 

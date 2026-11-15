@@ -28,7 +28,7 @@ class TestTrialBalance(ToolsCase):
         version = self.engagement.sudo()._ea_current_tb_version()
         self.assertEqual(version.row_count, 7)
         self.assertEqual(version.source_filename, "balance.csv")
-        self.assertEqual(len(version.source_sha256), 64)
+        self.assertNotIn("source_sha256", version._fields)
         line = version.line_ids.filtered(lambda l: l.account_code == "411000")
         self.assertEqual((line.opening, line.closing), (800, 900))
 
@@ -57,16 +57,16 @@ class TestTrialBalance(ToolsCase):
         self.assertCode("missing-account-column", self.as_staff.import_trial_balance, "b.csv", to_bytes("Montant;Autre\n1;2\n"))
         self.assertCode("missing-amount-columns", self.as_staff.import_trial_balance, "b.csv", to_bytes("Compte;Libellé\n411;Clients\n"))
 
-    def test_an_invalid_reimport_is_recorded_and_the_valid_version_keeps_driving(self):
+    def test_an_invalid_reimport_is_refused_and_the_valid_version_keeps_driving(self):
+        """Owner's ruling of 2026-11-15: a file that fails the checks is not saved."""
         self.import_tb()
-        result = self.import_tb(UNBALANCED_CSV)
-        self.assertEqual(result["versionNo"], 2)
-        self.assertEqual(result["summary"]["status"], "invalid")
+        self.assertCode("import-refused", self.import_tb, UNBALANCED_CSV)
         tb = self.engagement.sudo()._ea_tb()
+        self.assertEqual(len(tb.version_ids), 1)
         self.assertEqual(tb.current_version_no, 1)
-        self.assertEqual(self.engagement.sudo()._ea_current_tb_version().version_no, 1)
-        first = tb.version_ids.filtered(lambda v: v.version_no == 1)
-        self.assertTrue(first.superseded_at)  # the source's own oddity: see QUESTIONS.md
+        first = self.engagement.sudo()._ea_current_tb_version()
+        self.assertEqual(first.version_no, 1)
+        self.assertFalse(first.superseded_at)
         self.assertTrue(first.line_ids)
 
     def test_a_new_valid_import_moves_the_file_and_keeps_the_old_rows(self):
@@ -99,15 +99,18 @@ class TestTrialBalance(ToolsCase):
         self.assertEqual(preview["rowCount"], 7)
         self.assertFalse(self.engagement.sudo()._ea_tb())
 
-    def test_the_wizard_uploads_previews_and_imports_with_the_mapping(self):
-        wizard = self.env["ea.audit.tb.import.wizard"].with_user(self.staff).create({
+    def test_the_wizard_uploads_matches_checks_and_imports(self):
+        wizard = self.env["ea.audit.import.wizard"].with_user(self.staff).create({
             "engagement_id": self.engagement.id,
             "file": base64.b64encode(to_bytes(BALANCED_CSV)),
             "filename": "balance.csv",
         })
-        wizard.action_preview()
-        self.assertEqual(wizard.step, "confirm")
-        self.assertEqual(wizard.map_account, "Compte")
+        wizard.action_read()
+        self.assertEqual(wizard.step, "match")
+        self.assertEqual(wizard.column_ids.filtered(lambda line: line.field_id.key == "account").header, "Compte")
+        wizard.action_check()
+        self.assertEqual(wizard.step, "check")
+        self.assertFalse(self.engagement.sudo()._ea_tb())
         wizard.action_import()
         self.assertEqual(self.engagement.sudo()._ea_tb().current_version_no, 1)
 
@@ -269,7 +272,8 @@ class TestBilan(ToolsCase):
         self.assertEqual(as_root.bilan_class1, 5000)
         self.assertEqual(as_root.bilan_class4_credit, 600)
         self.assertEqual(as_root.bilan_total_assets, as_root.bilan_total_equity_liabilities)
-        self.assertIn("v1", as_root.bilan_label)
+        self.assertIn("TB of ", as_root.bilan_label)
+        self.assertNotIn("v1", as_root.bilan_label)
 
     def test_tb_mapped_gate_reads_unknown_accounts(self):
         self.import_tb("Compte;Libellé;Mouvement débit;Mouvement crédit\n999000;Inconnu;100;0\n411000;Clients;0;100\n")

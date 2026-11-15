@@ -4,7 +4,7 @@ from openpyxl import load_workbook
 
 from odoo.tests import tagged
 
-from .common import ToolsCase, to_bytes
+from .common import AP_MAPPING, ToolsCase, to_bytes
 
 AR = """Client;Nom;Référence;Date;Montant;Conditions
 C1;Alpha;F1;15/12/2025;600;30 jours
@@ -68,7 +68,9 @@ class TestAnalyzers(ToolsCase):
 
     def test_supplier_statements(self):
         statement = self.as_staff.create_dataset("supplier_statements", "s.csv", to_bytes("Fournisseur;Montant\nA;10\nB;5\n"))["datasetId"]
-        ledger = self.as_staff.create_dataset("ap_open_items", "ap.csv", to_bytes("Fournisseur;Montant\nA;8\nB;5\n"))["datasetId"]
+        ledger = self.as_staff.create_dataset(
+            "ap_open_items", "ap.csv", to_bytes("Fournisseur;Raison sociale;Référence;Date;Montant\nA;Alpha;F1;15/12/2025;8\nB;Beta;F2;15/12/2025;5\n"), mapping=AP_MAPPING,
+        )["datasetId"]
         run = self.as_staff.run_supplier_recon(statement, ledger).sudo()
         self.assertEqual(run.summary["suppliersCompared"], 2)
         self.assertEqual(run.summary["differences"], 1)
