@@ -81,7 +81,7 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" editable="bottom">
                 <header>
-                    <button name="action_ea_invite_member" type="object" string="Invite a member" class="btn-primary" display="always" groups="ea_audit_core.group_manager"/>
+                    <button name="action_ea_invite_member" type="object" string="Invite" help="Invite a member to the engagement team" class="btn-primary" display="always" groups="ea_audit_core.group_manager"/>
                 </header>
                 <field name="user_id" readonly="1"/>
                 <field name="email" readonly="1"/>

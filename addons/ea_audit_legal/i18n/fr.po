@@ -290,12 +290,6 @@ msgid "Disclosure of criminal facts"
 msgstr "Révélation de faits délictueux"
 
 #. module: ea_audit_legal
-#. odoo-python
-#: code:addons/ea_audit_legal/models/engagement.py:0
-msgid "Disclosures of criminal facts"
-msgstr "Révélations de faits délictueux"
-
-#. module: ea_audit_legal
 #: model:ir.model.fields,field_description:ea_audit_legal.field_ea_audit_alerte__discontinued_at
 msgid "Discontinued At"
 msgstr "Interrompue le"
@@ -865,3 +859,15 @@ msgstr "Répartition des travaux"
 #: code:addons/ea_audit_legal/models/engagement.py:0
 msgid "ea_audit_legal.view_criminal_disclosure_list"
 msgstr ""
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+msgid "Legal register"
+msgstr "Registre légal"
+
+#. module: ea_audit_legal
+#. odoo-python
+#: code:addons/ea_audit_legal/models/engagement.py:0
+msgid "Criminal facts"
+msgstr "Faits délictueux"

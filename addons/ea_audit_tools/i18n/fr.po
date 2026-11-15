@@ -596,13 +596,11 @@ msgstr "Ajouter un contrôle"
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_risk_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
 msgid "Add a risk"
 msgstr "Ajouter un risque"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_wizard__mode__custom
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
 msgid "Add a step"
 msgstr "Ajouter une étape"
 
@@ -615,14 +613,10 @@ msgid "Add an override"
 msgstr "Ajouter une dérogation"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
-msgid "Add another procedure"
-msgstr "Ajouter une autre procédure"
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/design.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_osp_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
 msgid "Add another substantive procedure"
 msgstr "Ajouter une autre procédure de substance"
 
@@ -1069,6 +1063,8 @@ msgid "Audit assertion"
 msgstr "Assertion d'audit"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sad
 #: model:ir.actions.act_window,name:ea_audit_tools.action_sad_entries
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_entry_ids
@@ -1683,6 +1679,8 @@ msgid "Close"
 msgstr "Fermer"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_fscp
 msgid "Close process"
 msgstr "Processus de clôture"
@@ -2781,7 +2779,6 @@ msgid "Download"
 msgstr "Télécharger"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
 msgid "Download the template"
 msgstr "Télécharger le modèle"
@@ -3320,18 +3317,12 @@ msgid "Export the aging"
 msgstr "Exporter la balance âgée"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_itgc_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sap_board
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
 msgid "Export to Excel"
 msgstr "Exporter vers Excel"
 
@@ -3371,7 +3362,6 @@ msgstr "Extraire les échantillons"
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
 msgid "Extract to Excel"
 msgstr "Extraire vers Excel"
 
@@ -3744,6 +3734,7 @@ msgstr "Ligne du grand livre"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_materiality_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
 msgid "Generate"
 msgstr "Générer"
 
@@ -3753,11 +3744,6 @@ msgstr "Générer"
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_materiality_wizard
 msgid "Generate a materiality version"
 msgstr "Générer une version du seuil"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
-msgid "Generate a program"
-msgstr "Générer un programme"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
@@ -4172,8 +4158,6 @@ msgid "IT applications"
 msgstr "Applications informatiques"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/scot.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_itgc
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_itgc_board
 msgid "IT applications and ITGC"
@@ -4257,16 +4241,17 @@ msgstr "Mis en œuvre"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__version_kind__initial
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_grid_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tool_import_wizard
 msgid "Import"
 msgstr "Importer"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
-msgid "Import a dataset"
-msgstr "Importer un jeu de données"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -4279,11 +4264,6 @@ msgstr "Importer une balance"
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/tool_wizards.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_tool_import_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
 msgid "Import from Excel"
 msgstr "Importer depuis Excel"
 
@@ -4565,8 +4545,6 @@ msgid "Journal entries"
 msgstr "Écritures de journal"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/je_studio.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 msgid "Journal entries: risk-directed selection"
 msgstr "Écritures : sélection orientée par le risque"
@@ -5017,17 +4995,13 @@ msgstr "Feuilles maîtresses et commentaires"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/lead.py:0
-msgid "Lead schedules by account"
-msgstr "Feuilles maîtresses par compte"
-
-#. module: ea_audit_tools
-#. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Lead-schedule figure:"
 msgstr "Montant de la feuille maîtresse :"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__dataset_id
 msgid "Ledger"
@@ -7168,6 +7142,7 @@ msgid "Reporting"
 msgstr "Restitution"
 
 #. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_wizard
 msgid "Request"
 msgstr "Demander"
@@ -7176,7 +7151,6 @@ msgstr "Demander"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/pbc.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_pbc_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
 msgid "Request a document"
 msgstr "Demander un document"
 
@@ -7445,18 +7419,6 @@ msgstr "Conclusion S2.5"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
 msgid "S3.1 · Inherent and control risk, by account and assertion"
 msgstr "S3.1 · Risque inhérent et risque de contrôle, par compte et assertion"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/je_selection.py:0
-msgid "S5.4 selection designs"
-msgstr "Conceptions de sélection S5.4"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/design.py:0
-msgid "S5.5: design of substantive procedures"
-msgstr "S5.5 : conception des procédures de substance"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_sad_cf_row
@@ -8010,12 +7972,6 @@ msgstr "Procédure analytique de substance"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/sap.py:0
-msgid "Substantive analytical procedures"
-msgstr "Procédures analytiques de substance"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/sap.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sap
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sap_board
 msgid "Substantive analytics"
@@ -8070,8 +8026,6 @@ msgid "Summary"
 msgstr "Résumé"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/sad.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
 msgid "Summary of audit differences"
 msgstr "Récapitulatif des écarts d'audit"
@@ -8206,6 +8160,7 @@ msgstr "Conclusion de l'équipe et onglets"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__template_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
 msgid "Template"
 msgstr "Modèle"
 
@@ -8278,12 +8233,6 @@ msgstr "Tests de détail en priorité"
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_tod_wizard
 msgid "Tests of details: plan"
 msgstr "Tests de détail : plan"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/sampling.py:0
-msgid "Tests of details: results"
-msgstr "Tests de détail : résultats"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -9730,12 +9679,6 @@ msgid "How the threshold is set"
 msgstr "Mode de calcul du seuil"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/dataset.py:0
-msgid "Import one to run the analytics. The thirty analytics can be read without it: use the button above."
-msgstr "Importez-en un pour exécuter les analyses. Les trente analyses se consultent sans grand livre : utilisez le bouton ci-dessus."
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_fa_ratio__variance
 msgid "In the ratio's own unit: percentage points for a percentage, never a relative %."
 msgstr "Dans l'unité du ratio : en points pour un pourcentage, jamais en % relatif."
@@ -9907,7 +9850,6 @@ msgstr "La grille est vide car aucune balance valide ne pilote ce dossier : impo
 #. odoo-python
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__gl_catalogue_html
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_dataset_list
 msgid "The thirty analytics"
 msgstr "Les trente analyses"
 
@@ -11031,7 +10973,6 @@ msgstr "Qui travaille sur ce dossier, avec quel rôle, et l'invitation d'un memb
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/team.py:0
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
 msgid "Invite a member"
 msgstr "Inviter un membre"
 
@@ -11065,3 +11006,135 @@ msgstr "Commentaire en lecture seule"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_team_member__ea_role_locked
 msgid "Role read-only"
 msgstr "Rôle en lecture seule"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_dataset_list
+msgid "30 analytics"
+msgstr "30 analyses"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Export"
+msgstr "Exporter"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
+msgid "New procedure"
+msgstr "Nouvelle procédure"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
+msgid "New step"
+msgstr "Nouvelle étape"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+msgid "New risk"
+msgstr "Nouveau risque"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
+msgid "Invite"
+msgstr "Inviter"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot.py:0
+msgid "IT controls"
+msgstr "Contrôles informatiques"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/je_selection.py:0
+msgid "S5.4 designs"
+msgstr "Conceptions S5.4"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sampling.py:0
+msgid "Test results"
+msgstr "Résultats des tests"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/design.py:0
+msgid "S5.5 procedures"
+msgstr "Procédures S5.5"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+msgid "Import a dataset from a file"
+msgstr "Importer un jeu de données depuis un fichier"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_list
+msgid "Download the Excel template to fill in"
+msgstr "Télécharger le modèle Excel à remplir"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_dataset_list
+msgid "What each of the thirty analytics looks for"
+msgstr "Ce que recherche chacune des trente analyses"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
+msgid "Export the lead schedules to Excel"
+msgstr "Exporter les feuilles maîtresses vers Excel"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
+msgid "Generate the audit program from the procedures"
+msgstr "Générer le programme de travail à partir des procédures"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
+msgid "Add a step to the audit program"
+msgstr "Ajouter une étape au programme de travail"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+msgid "Add a risk to the register"
+msgstr "Ajouter un risque au registre"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
+msgid "Request a document from the client"
+msgstr "Demander un document au client"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_team_tool_list
+msgid "Invite a member to the engagement team"
+msgstr "Inviter un membre dans l'équipe de la mission"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Export this list to Excel"
+msgstr "Exporter cette liste vers Excel"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_pbc_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Import this list from an Excel file"
+msgstr "Importer cette liste depuis un fichier Excel"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "Import one to run the analytics. The thirty analytics can be read without it: use the 30 analytics button above."
+msgstr "Importez-en un pour exécuter les analyses. Les trente analyses se consultent sans grand livre : utilisez le bouton 30 analyses ci-dessus."

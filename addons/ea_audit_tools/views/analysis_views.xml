@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0" decoration-danger="overdue">
                 <header>
-                    <button name="action_list_add_pbc" type="object" string="Request a document" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
-                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
-                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_add_pbc" type="object" string="Request" help="Request a document from the client" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export" type="object" string="Export" help="Export this list to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import" help="Import this list from an Excel file" display="always" groups="ea_audit_core.group_writer"/>
                 </header>
                 <field name="title"/>
                 <field name="note" optional="show"/>

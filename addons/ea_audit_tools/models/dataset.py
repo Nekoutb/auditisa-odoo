@@ -608,14 +608,14 @@ class EngagementDataset(models.Model):
     def action_tool_gl(self):
         """The ledgers of the file. The console (C.7.5) opens from a ledger's form."""
         return self._ea_list(
-            "ea.audit.dataset", self.env._("General ledger"),
+            "ea.audit.dataset", self.env._("Ledger"),
             [("ea_audit_tools.view_gl_dataset_list", "list"), ("ea_audit_tools.view_dataset_form", "form")],
             {
                 "domain": [("engagement_id", "=", self.id), ("kind", "=", "journal_entries")],
                 "context": {"ea_engagement_id": self.id, "ea_dataset_kind": "journal_entries", "create": False},
                 "help": Markup("<p>{}</p><p>{}</p>").format(
                     self.env._("No general ledger on this file yet."),
-                    self.env._("Import one to run the analytics. The thirty analytics can be read without it: use the button above."),
+                    self.env._("Import one to run the analytics. The thirty analytics can be read without it: use the 30 analytics button above."),
                 ),
             },
         )
@@ -637,7 +637,7 @@ class EngagementDataset(models.Model):
             engagement.gl_catalogue_html = html
 
     def action_tool_gl_catalogue(self):
-        return self._ea_board("ea_audit_tools.view_engagement_gl_catalogue", self.env._("The thirty analytics"))
+        return self._ea_board("ea_audit_tools.view_engagement_gl_catalogue", self.env._("30 analytics"))
 
     def _ea_export_gl_population(self, fr):
         from ..exports import simple_workbook

@@ -462,7 +462,7 @@ class EngagementDesign(models.Model):
         self._ea_require_read()
         self.sudo()._ea_sync_dsp()
         action = self._ea_list(
-            "ea.audit.dsp.design", self.env._("S5.5: design of substantive procedures"),
+            "ea.audit.dsp.design", self.env._("S5.5 procedures"),
             [("ea_audit_tools.view_dsp_design_list", "list"), ("ea_audit_tools.view_dsp_design_form", "form")],
         )
         action["domain"] = [("engagement_id", "=", self.id), ("active_row", "=", True)]

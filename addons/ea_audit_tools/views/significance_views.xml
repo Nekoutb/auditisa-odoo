@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" editable="bottom" decoration-danger="unjustified" class="o_ea_significance_list">
                 <header>
-                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
-                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export" type="object" string="Export" help="Export this list to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import" help="Import this list from an Excel file" display="always" groups="ea_audit_core.group_writer"/>
                 </header>
                 <field name="unjustified" column_invisible="1"/>
                 <field name="activity_dataset" column_invisible="1"/>

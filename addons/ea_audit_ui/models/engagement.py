@@ -25,7 +25,7 @@ class Engagement(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.client", "tag": "ea_audit_ui.dashboard",
-            "name": self.env._("Engagement dashboard"), "params": {"resId": self.id},
+            "name": self.env._("Dashboard"), "params": {"resId": self.id},
         }
 
     def _ea_open_task_list(self):

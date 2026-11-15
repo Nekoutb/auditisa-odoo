@@ -850,7 +850,7 @@ class EngagementScot(models.Model):
         self.ensure_one()
         self._ea_require_read()
         self._ea_sync_it_applications()
-        return self._ea_board("ea_audit_tools.view_engagement_itgc_board", self.env._("IT applications and ITGC"))
+        return self._ea_board("ea_audit_tools.view_engagement_itgc_board", self.env._("IT controls"))
 
     def action_tool_fscp(self):
         self.ensure_one()
@@ -858,7 +858,7 @@ class EngagementScot(models.Model):
         Fscp = self.env["ea.audit.fscp"].sudo()
         record = Fscp.search([("engagement_id", "=", self.id)], limit=1) or Fscp.create({"engagement_id": self.id})
         return {
-            "type": "ir.actions.act_window", "name": self.env._("Financial statement close process"),
+            "type": "ir.actions.act_window", "name": self.env._("Close process"),
             "res_model": "ea.audit.fscp", "res_id": record.id, "view_mode": "form", "target": "current",
             "context": {"ea_engagement_id": self.id},
         }

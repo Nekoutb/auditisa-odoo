@@ -304,7 +304,7 @@ body.ea-shell .ea-page {
   .ea-pill { background: var(--ea-rosebg); color: var(--ea-rose); font-size: 11px; font-weight: 700; border-radius: 9px; padding: 1px 8px; white-space: nowrap; }
 
   // Task list
-  .ea-back { display: inline-block; margin-top: 12px; color: var(--ea-green); font-size: 13px; font-weight: 600; }
+  .ea-back { display: inline-block; margin-top: 12px; color: var(--ea-green); font-size: 12px; font-weight: 600; }
   .ea-title-tasks { margin-top: 6px; }
   .ea-task-card { margin-top: 14px; overflow: hidden; }
   .ea-note-line { margin-top: 8px; color: var(--ea-muted); font-size: 12.5px; }
@@ -353,6 +353,54 @@ body.ea-shell .ea-page {
     &.y { background: var(--ea-goldbg); color: var(--ea-gold); }
     &.bl { background: var(--ea-bluebg); color: var(--ea-blue); }
     &.n { color: var(--ea-muted); }
+  }
+}
+
+// ----------------------------------------------------------------------
+// Odoo's page toolbar: buttons and search on one line (owner, 2026-11-15)
+// ----------------------------------------------------------------------
+// Why the buttons were tall: from 992px up Odoo gives the block that holds the buttons and
+// the path ("breadcrumbs") and the pager block flex: 1 each, and the search at least a third
+// of the width. The buttons share what is left and Bootstrap lets a button's words wrap, so
+// they became narrow boxes three lines high. Below 992px Odoo puts the search on a row of
+// its own. Here the buttons keep their natural width on one line, the same height as the
+// search, and the search takes the rest of the row; on a phone Odoo's own layout stays.
+
+body.ea-shell .o_control_panel {
+  --ea-cp-h: 32px;
+
+  .o_control_panel_main_buttons {
+    flex: 0 0 auto;
+    align-items: center;
+    .btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      height: var(--ea-cp-h);
+      display: inline-flex;
+      align-items: center;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+  .o_searchview { min-height: var(--ea-cp-h); }
+
+  // The path back: smaller, the page name no longer a heading.
+  .o_breadcrumb .breadcrumb { font-size: 12px; }
+  .o_breadcrumb .o_last_breadcrumb_item.fs-4 { font-size: 15px !important; }
+}
+
+@media (min-width: 768px) {
+  body.ea-shell .o_control_panel {
+    .o_control_panel_main { flex-wrap: nowrap !important; align-items: center !important; }
+    // Never narrower than its buttons; only the page name shortens (with "...").
+    .o_control_panel_breadcrumbs { flex: 0 1 auto; min-width: auto; }
+    .o_control_panel_actions {
+      flex: 1 1 260px;
+      order: 1 !important;
+      width: auto !important;
+      min-width: 220px;
+    }
+    .o_control_panel_navigation { flex: 0 0 auto; flex-grow: 0 !important; order: 2 !important; }
   }
 }
 

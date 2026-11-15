@@ -514,7 +514,7 @@ class EngagementSampling(models.Model):
 
     def action_sampling_results(self):
         return self._ea_list(
-            "ea.audit.automation.run", self.env._("Tests of details: results"),
+            "ea.audit.automation.run", self.env._("Test results"),
             [("ea_audit_tools.view_tod_result_list", "list")],
             {"domain": [("engagement_id", "=", self.id), ("method", "=", "tod-mus")], "context": {"ea_engagement_id": self.id, "create": False}},
         )

@@ -335,7 +335,7 @@ class EngagementSad(models.Model):
         }
 
     def action_tool_sad(self):
-        return self._ea_board("ea_audit_tools.view_engagement_sad_board", self.env._("Summary of audit differences"))
+        return self._ea_board("ea_audit_tools.view_engagement_sad_board", self.env._("Audit differences"))
 
     def action_open_sad_conclusion(self):
         self.ensure_one()

@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" editable="bottom" decoration-danger="significant">
                 <header>
-                    <button name="action_list_add_osp" type="object" string="Add another procedure" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
-                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
-                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_add_osp" type="object" string="New procedure" help="Add another substantive procedure" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export" type="object" string="Export" help="Export this list to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import" help="Import this list from an Excel file" display="always" groups="ea_audit_core.group_writer"/>
                 </header>
                 <field name="index_code" readonly="1"/>
                 <field name="assertion_label"/>
@@ -62,8 +62,8 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0">
                 <header>
-                    <button name="action_list_generate_program" type="object" string="Generate a program" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
-                    <button name="action_list_add_step" type="object" string="Add a step" display="always" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_generate_program" type="object" string="Generate" help="Generate the audit program from the procedures" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_add_step" type="object" string="New step" help="Add a step to the audit program" display="always" groups="ea_audit_core.group_writer"/>
                 </header>
                 <field name="file_item_id"/>
                 <field name="seq"/>

@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <list create="0" delete="0">
                 <header>
-                    <button name="action_list_add_risk" type="object" string="Add a risk" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
-                    <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
-                    <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_add_risk" type="object" string="New risk" help="Add a risk to the register" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_export" type="object" string="Export" help="Export this list to Excel" display="always"/>
+                    <button name="action_list_import" type="object" string="Import" help="Import this list from an Excel file" display="always" groups="ea_audit_core.group_writer"/>
                 </header>
                 <field name="title"/>
                 <field name="category"/>

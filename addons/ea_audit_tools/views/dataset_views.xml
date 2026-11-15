@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0" decoration-muted="superseded_at">
                 <header>
-                    <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
-                    <button name="action_list_template" type="object" string="Download the template" display="always"/>
+                    <button name="action_list_import_dataset" type="object" string="Import" help="Import a dataset from a file" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_template" type="object" string="Template" help="Download the Excel template to fill in" display="always"/>
                 </header>
                 <field name="create_date" string="Imported on" widget="datetime" options="{'show_seconds': false}" width="170px"/>
                 <field name="kind" width="110px"/>
@@ -31,7 +31,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button name="action_list_gl_catalogue" type="object" string="The thirty analytics" display="always"/>
+                <button name="action_list_gl_catalogue" type="object" string="30 analytics" help="What each of the thirty analytics looks for" display="always"/>
             </xpath>
         </field>
     </record>

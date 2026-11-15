@@ -87,7 +87,7 @@ class JeStudio(models.TransientModel):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "target": "current",
-            "name": self.env._("Journal entries: risk-directed selection"), "context": {"ea_engagement_id": self.engagement_id.id},
+            "name": self.env._("Journal entries"), "context": {"ea_engagement_id": self.engagement_id.id},
         }
 
     def _ea_require_dataset(self):
