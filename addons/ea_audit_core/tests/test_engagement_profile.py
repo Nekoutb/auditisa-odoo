@@ -6,6 +6,7 @@ from datetime import date
 from odoo.tests import tagged
 
 from .common import EaAuditCase
+from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 
 PLAIN = {
     "q1_listed": "no", "q2_pie": "none", "q3_controls_law": "no", "q4_group": "standalone",
@@ -102,7 +103,8 @@ class TestEngagementProfile(EaAuditCase):
         profile = self.conclude(engagement)
         self.assertEqual((profile.state, profile.level, engagement.complexity), ("concluded", "very_simple", "very_simple"))
         core = self.env["ea.audit.task.template"].search([("tier", "=", "core"), ("conditional", "=", False)])
-        self.assertEqual(self.active_codes(engagement), set(core.mapped("code")))
+        # P7.1 and S6.2 are merged into P1.4 and S6.1 (2026-11-16): no new file gets them
+        self.assertEqual(self.active_codes(engagement), set(core.mapped("code")) - RETIRED_CODES)
         self.assertFalse(engagement.profile_pending)
         self.assertIn("ISA for LCE", profile.lce_note)
         self.assertIn("may be documented", profile.lce_note)
@@ -125,7 +127,8 @@ class TestEngagementProfile(EaAuditCase):
         self.assertIn("Q8 IT point 3 high", profile.reasons_text)
         self.assertFalse(profile.lce_note)
         self.assertEqual(
-            len(engagement.file_item_ids), self.env["ea.audit.task.template"].search_count([]),
+            len(engagement.file_item_ids),
+            self.env["ea.audit.task.template"].search_count([("code", "not in", sorted(RETIRED_CODES))]),
         )
 
     def test_a_period_before_the_isa_for_lce_says_so(self):

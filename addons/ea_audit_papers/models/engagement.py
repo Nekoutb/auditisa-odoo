@@ -2,6 +2,8 @@ from fnmatch import fnmatchcase
 
 from odoo import models
 
+from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
+
 from ..services import acceptance_verdict, is_blank, paper_for
 from ..services.completeness import eqr_decided
 
@@ -73,10 +75,27 @@ class Engagement(models.Model):
         self.ensure_one()
         self._ea_set_task_active("P1.2", active)
 
+    def _ea_retire_merged_tasks(self):
+        """P7.1 and S6.2 are merged into P1.4 and S6.1 (owner's decision of 2026-11-16). On the
+        open files among ``self`` (all open files when empty), each of them still active and
+        holding no answer, evidence, conclusion or sign-off leaves the file. A task with work
+        stays, and an archived file is never read for writing (archive trigger). Returns the
+        number of tasks retired; running twice retires nothing more."""
+        Engagement = self.env["ea.audit.engagement"].sudo()
+        engagements = self.sudo() if self else Engagement.search([])
+        engagements = engagements.filtered(lambda e: not e.archived_at and e.phase != "archived")
+        items = self.env["ea.audit.file.item"].sudo().search([
+            ("engagement_id", "in", engagements.ids), ("code", "in", sorted(RETIRED_CODES)), ("conditional", "=", False),
+        ])
+        retired = items.filtered(lambda item: not item.engagement_id._ea_task_holds_work(item))
+        retired.write({"conditional": True})
+        return len(retired)
+
     def _ea_task_holds_work(self, item):
+        paper = item._ea_paper()
         return bool(
             item.signoff_ids
-            or any(not is_blank(v) for v in item._ea_paper()._ea_values().values())
+            or (paper and any(not is_blank(v) for v in paper._ea_values().values()))
             or self.env["ea.audit.task.attachment"].sudo().search_count([("file_item_id", "=", item.id)])
             or self.env["ea.audit.section.conclusion"].sudo().search_count([("file_item_id", "=", item.id)])
         )

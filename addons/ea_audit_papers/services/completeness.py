@@ -88,13 +88,31 @@ def paper_keys(definition):
     return keys
 
 
-def required_keys(definition):
-    """The fields the preparer must complete, in paper order."""
+def section_collapsed(section, values):
+    """A block that folds to one line on one answer (owner's decision of 2026-11-16): the
+    section's ``collapse`` names the key and the value. ``values`` may carry the paper's auto
+    values too, so a fact the system knows (a team of one) can fold a block as well."""
+    rule = section.get("collapse")
+    if not rule or values is None:
+        return False
+    return _value(values, rule["key"]) == rule["value"]
+
+
+def _section_fields(section, values):
+    """The typed fields of a fields section that still ask for an answer."""
+    if section_collapsed(section, values):
+        return [f["key"] for f in section["fields"] if _typed(f) and f["key"] == section["collapse"]["key"]]
+    return [f["key"] for f in section["fields"] if _typed(f)]
+
+
+def required_keys(definition, values=None):
+    """The fields the preparer must complete, in paper order. With ``values``, the fields of
+    a folded block are left out."""
     out = [f["key"] for f in definition.get("fields") or [] if _typed(f)]
     for section in _sections(definition):
         kind = section["kind"]
         if kind == "fields":
-            out.extend(f["key"] for f in section["fields"] if _typed(f))
+            out.extend(_section_fields(section, values))
         elif kind == "proc":
             out.extend(proc_key(p["key"]) for p in section["procs"])
         elif kind == "yn":
@@ -148,7 +166,7 @@ def key_answered(definition, key, values):
 
 def unanswered_keys(definition, values):
     """The required keys still without an answer, in paper order."""
-    return [k for k in required_keys(definition) if not key_answered(definition, k, values)]
+    return [k for k in required_keys(definition, values) if not key_answered(definition, k, values)]
 
 
 def paper_complete(definition, values):
@@ -157,7 +175,7 @@ def paper_complete(definition, values):
 
 def paper_progress(definition, values):
     """Answered fields over required fields, as {"done": n, "total": n}."""
-    total = len(required_keys(definition))
+    total = len(required_keys(definition, values))
     return {"done": total - len(unanswered_keys(definition, values)), "total": total}
 
 

@@ -1708,6 +1708,24 @@ msgid "Removed by the person who signed"
 msgstr "Retirée par la personne qui a signé"
 
 #. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Yes, as recorded on P5.2 (team discussion)"
+msgstr "Oui, comme consigné en P5.2 (discussion de l'équipe)"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "No, as recorded on P5.2 (team discussion)"
+msgstr "Non, comme consigné en P5.2 (discussion de l'équipe)"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Marked not applicable on P5.2 (team discussion)"
+msgstr "Indiqué sans objet en P5.2 (discussion de l'équipe)"
+
+#. module: ea_audit_papers
 #. odoo-javascript
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "Saved: all your answers are recorded"
@@ -1839,3 +1857,9 @@ msgstr "Décidé par %(name)s le %(day)s."
 #: code:addons/ea_audit_papers/models/paper.py:0
 msgid "C4.2 stays on the file: it already holds work or a quality reviewer sits on the team."
 msgstr "C4.2 reste au dossier : elle contient déjà des travaux ou un réviseur qualité fait partie de l'équipe."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the team discussion (P5.2), not answered yet"
+msgstr "la discussion de l'équipe (P5.2), pas encore renseignée"

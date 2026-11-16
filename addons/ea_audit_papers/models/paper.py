@@ -31,6 +31,7 @@ from ..services import (
 )
 from ..services.completeness import EMBED_ONLY_PAPERS, EQR_DECISION, eqr_decided
 from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
+from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 
 from .errors import paper_error
 from .paper_answer import ANSWER_DOOR
@@ -60,9 +61,9 @@ CROSS_LINKS = {
     "E6.3": ["S4.2", "C2.2", "C5.1", "C5.11"],
     "S1.1": ["P6.2", "S1.2"], "S1.2": ["S1.3", "E1.1"], "S1.3": ["S1.2", "E1.1"], "S1.4": ["E3.1", "C2.1"],
     "S2.1": ["S2.2", "E1.1"], "S2.2": ["E1.1", "S3.1"], "S5.1": ["P2.2"], "S5.2": ["P4.3"], "S5.3": ["E1.1"],
-    "S6.1": ["P7.2", "P6.1", "S3.1"], "S6.2": ["P7.2", "S6.1"],
+    "S6.1": ["P7.2", "P6.1", "S3.1", "P5.2"], "S6.2": ["P7.2", "S6.1"], "P1.4": ["C5.11"],
     "C3.1": ["C1.1", "E6.9"], "C4.2": ["P1.5", "C5.11"], "C5.1": ["C1.1", "C2.2", "C4.2", "C5.11"],
-    "C5.11": ["C1.2", "C1.1", "C4.2", "C5.1", "P7.1"],
+    "C5.11": ["C1.2", "C1.1", "C4.2", "C5.1", "P1.4"],
     "C4.1": ["C4.3", "C6.1"], "C1.2": ["C1.1", "C1.3"], "C5.3": ["E6.2"], "C5.8": ["E4.9", "E6.3"],
     "E6.2": ["S4.3", "C5.3"], "E6.7": ["S4.4"],
 }
@@ -321,7 +322,32 @@ class Paper(models.Model):
             return self._ea_profile_auto_values()
         if self.code == "P1.5":
             return self._ea_eqr_auto_values()
+        if self.code == "S6.1":
+            return self._ea_direction_auto_values()
         return {}
+
+    def _ea_gauge_values(self):
+        """What completeness reads: the answers, and the auto values that fold a block (a team
+        of one on S6.1). Auto keys are never required, so they cannot fill a gap themselves."""
+        self.ensure_one()
+        return {**self._ea_values(), **self._ea_auto_values()}
+
+    def _ea_direction_auto_values(self):
+        """S6.1 Part E (owner's decision of 2026-11-16, S6.2 merged): whether the partner took
+        part in the team discussion is read from P5.2, and a team of one folds the block."""
+        engagement = self.sudo().engagement_id
+        _ = self.env._
+        members = engagement.team_member_ids.filtered(lambda m: m.state != "declined" and m.team_role != "eqr_reviewer")
+        values = {"dir_sole": "yes" if len(members.user_id) <= 1 else "no"}
+        p52 = self.sudo().search([("engagement_id", "=", engagement.id), ("code", "=", "P5.2")], limit=1)
+        answer = (p52._ea_values().get("q_partner") or "").strip() if p52 else ""
+        if answer == "yes":
+            values["dir_briefing"] = _("Yes, as recorded on P5.2 (team discussion)")
+        elif answer == "no":
+            values["dir_briefing"] = _("No, as recorded on P5.2 (team discussion)")
+        elif answer == "na":
+            values["dir_briefing"] = _("Marked not applicable on P5.2 (team discussion)")
+        return values
 
     def _ea_eqr_auto_values(self):
         """P1.5 (owner's ruling of 2026-11-16): the profile's facts, read only, each with its
@@ -628,7 +654,7 @@ class Paper(models.Model):
         wanted = wanted[:6]
         items = self.env["ea.audit.file.item"].sudo().with_context(self.env.context).search(
             [("engagement_id", "=", self.sudo().engagement_id.id), ("code", "in", wanted)]
-        )
+        ).filtered(lambda item: not (item.conditional and item.code in RETIRED_CODES))
         by_code = {item.code: item for item in items}
         return [
             {"id": by_code[code].id, "code": code, "title": by_code[code].short_title or by_code[code].title}
@@ -649,6 +675,7 @@ class Paper(models.Model):
         firm_role = user._ea_firm_role()
         definition = paper._ea_resolved()
         values = paper._ea_values()
+        gauge = paper._ea_gauge_values()
         readonly_code = False
         if engagement._ea_is_archived():
             readonly_code = "archived"
@@ -676,9 +703,9 @@ class Paper(models.Model):
             "digests": base_digests(values),
             "version": paper.answer_version,
             "saved_at": fields.Datetime.to_string(latest.write_date) if latest else False,
-            "progress": paper_progress(definition, values),
-            "missing": [] if exempt else paper_missing(definition, values),
-            "missing_parts": [] if exempt else missing_parts(definition, values),
+            "progress": paper_progress(definition, gauge),
+            "missing": [] if exempt else paper_missing(definition, gauge),
+            "missing_parts": [] if exempt else missing_parts(definition, gauge),
             "readonly": bool(readonly_code),
             "readonly_reason": rule_error(env, readonly_code).args[0] if readonly_code else False,
             "locked_keys": self.with_env(env)._ea_locked_keys(),

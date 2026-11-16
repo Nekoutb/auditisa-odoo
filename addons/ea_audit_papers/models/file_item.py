@@ -94,7 +94,7 @@ class FileItem(models.Model):
         self.ensure_one()
         if not completeness_exempt(self.code, has_bespoke_paper(self.code)):
             paper = self._ea_paper()
-            parts = missing_parts(paper._ea_resolved(), paper._ea_values())
+            parts = missing_parts(paper._ea_resolved(), paper._ea_gauge_values())
             if parts:
                 raise incomplete_error(self.env, parts)
         gap = self._ea_tool_gap()

@@ -5549,3 +5549,15 @@ msgstr "Sous surveillance rapprochée du cabinet (question supprimée depuis)"
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "An engagement quality review was required (question since removed)"
 msgstr "Une revue qualité de la mission était exigée (question supprimée depuis)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Now recorded in P1.4, Part D (planning communication with those charged with governance)"
+msgstr "Désormais consigné en P1.4, partie D (communication de planification aux responsables de la gouvernance)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Now recorded in S6.1, Part E (direction, supervision and review by the partner)"
+msgstr "Désormais consigné en S6.1, partie E (direction, supervision et revue par l'associé)"

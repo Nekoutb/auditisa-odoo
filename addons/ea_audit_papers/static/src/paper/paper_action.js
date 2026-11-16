@@ -213,6 +213,11 @@ export class PaperAction extends Component {
                     ansKey: `q_${item.key}`,
                     whyKey: `q_${item.key}_x`,
                 }));
+            } else if (this.collapsed(section)) {
+                // One line (owner's decision of 2026-11-16): the deciding answer, then why the rest is closed.
+                const rule = section.collapse;
+                items = section.fields.filter((field) => field.key === rule.key).map((field) => this.fieldItem(field));
+                items.push({ kind: "note", id: `n:${rule.key}`, text: this.pick(rule, "note") });
             } else {
                 // an auto field marked hideEmpty (P1.5's reminder and conclusion) shows only with a value
                 items = section.fields
@@ -237,6 +242,16 @@ export class PaperAction extends Component {
             });
         }
         return parts;
+    }
+
+    /** A block folded by an answer, or by a fact the server knows (sent in auto_values). */
+    collapsed(section) {
+        const rule = section.collapse;
+        if (!rule) {
+            return false;
+        }
+        const given = this.state.values[rule.key] ?? this.state.payload.auto_values[rule.key] ?? "";
+        return String(given).trim() === rule.value;
     }
 
     fieldItem(field) {
@@ -264,6 +279,9 @@ export class PaperAction extends Component {
         const v = (key) => this.state.values[key];
         if (item.kind === "proc") {
             return v(item.naKey) === NA ? filled(v(item.whyKey)) : filled(v(item.resKey));
+        }
+        if (item.kind === "note") {
+            return true;
         }
         if (item.kind === "yn") {
             const answer = v(item.ansKey);

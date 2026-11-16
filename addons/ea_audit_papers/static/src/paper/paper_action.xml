@@ -143,6 +143,9 @@
             <t t-set="ckey" t-value="item.ansKey"/>
             <t t-call="ea_audit_papers.PaperConflict"/>
         </t>
+        <t t-elif="item.kind === 'note'">
+            <p class="eap-auto" data-eap="collapsed" t-esc="item.text"/>
+        </t>
         <t t-elif="item.field.kind === 'auto' and item.field.compact">
             <div class="eap-fact">
                 <span class="eap-fact-label"><t t-esc="item.label"/> <small class="eap-fact-tag" t-if="item.tag" t-esc="item.tag"/></span>
