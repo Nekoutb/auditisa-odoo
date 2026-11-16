@@ -118,3 +118,5 @@ access_procedure_library_member,ea.audit.procedure.library member,model_ea_audit
 access_designed_procedure_member,ea.audit.designed.procedure member,model_ea_audit_designed_procedure,ea_audit_core.group_member,1,0,0,0
 access_designed_procedure_writer,ea.audit.designed.procedure writer,model_ea_audit_designed_procedure,ea_audit_core.group_writer,1,1,0,0
 access_confirmation_member,ea.audit.confirmation member,model_ea_audit_confirmation,ea_audit_core.group_member,1,0,0,0
+access_finding_adjustment_member,ea.audit.finding.adjustment member,model_ea_audit_finding_adjustment,ea_audit_core.group_member,1,0,0,0
+access_finding_adjustment_writer,ea.audit.finding.adjustment writer,model_ea_audit_finding_adjustment,ea_audit_core.group_writer,1,1,1,1

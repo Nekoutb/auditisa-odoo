@@ -1330,5 +1330,187 @@
   "condition_en": "short-term investments",
   "condition_fr": "placements à court terme",
   "automatable": null
+ },
+ {
+  "code": "T-A1",
+  "cycle": "T",
+  "kind": "ASP",
+  "sequence": 59,
+  "assertions": [
+   "C",
+   "A",
+   "P"
+  ],
+  "title_en": "Allocation of last year's result",
+  "title_fr": "Affectation du résultat de l'exercice précédent",
+  "summary_en": "Agree the entries booked this year to the general meeting's resolution on the prior-year profit or loss: transfers to reserves, retained earnings and dividends.",
+  "summary_fr": "Rapprocher les écritures de l'exercice de la résolution de l'assemblée générale sur le bénéfice ou la perte de l'exercice précédent : dotations aux réserves, report à nouveau et dividendes.",
+  "when_en": "Always",
+  "when_fr": "Toujours",
+  "suggest_levels": [
+   "low",
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "C",
+   "A",
+   "P"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "T-A2",
+  "cycle": "T",
+  "kind": "ASP",
+  "sequence": 60,
+  "assertions": [
+   "V",
+   "P"
+  ],
+  "title_en": "Equity below half of share capital",
+  "title_fr": "Capitaux propres inférieurs à la moitié du capital social",
+  "summary_en": "Compare equity with share capital. If equity has fallen below half of the share capital because of losses, check that the shareholders were convened to decide whether the company continues, as the OHADA Uniform Act on commercial companies requires (SARL art. 371, SA art. 664); consider the effect on going concern and on our report.",
+  "summary_fr": "Comparer les capitaux propres au capital social. S'ils sont devenus inférieurs à la moitié du capital du fait des pertes, vérifier que les associés ont été consultés sur la poursuite de l'activité, comme l'exige l'Acte uniforme OHADA relatif aux sociétés commerciales (SARL art. 371, SA art. 664) ; apprécier l'incidence sur la continuité d'exploitation et sur notre rapport.",
+  "when_en": "Always",
+  "when_fr": "Toujours",
+  "suggest_levels": [
+   "low",
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "V",
+   "P"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "T-A3",
+  "cycle": "T",
+  "kind": "ASP",
+  "sequence": 61,
+  "assertions": [
+   "E",
+   "RO",
+   "P"
+  ],
+  "title_en": "Dividends paid on time",
+  "title_fr": "Mise en paiement des dividendes dans les délais",
+  "summary_en": "Check that the dividends declared were put in payment within nine months of year end (by 30 September for a December year end); otherwise obtain the court decision granting an extension (AUSCGIE art. 146).",
+  "summary_fr": "Vérifier que les dividendes décidés ont été mis en paiement dans les neuf mois de la clôture (au plus tard le 30 septembre pour une clôture en décembre) ; à défaut, obtenir la décision de justice accordant une prolongation (AUSCGIE art. 146).",
+  "when_en": "Only if dividends were declared",
+  "when_fr": "Uniquement si des dividendes ont été décidés",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "dividends were declared",
+  "condition_fr": "des dividendes ont été décidés",
+  "automatable": null
+ },
+ {
+  "code": "T-A4",
+  "cycle": "T",
+  "kind": "ASP",
+  "sequence": 62,
+  "assertions": [
+   "A",
+   "C"
+  ],
+  "title_en": "Tax withheld on dividends",
+  "title_fr": "Retenue à la source sur les dividendes",
+  "summary_en": "For the dividends paid, obtain the withholding tax certificate and evidence that the tax withheld was paid over to the tax authority.",
+  "summary_fr": "Pour les dividendes versés, obtenir l'attestation de retenue à la source et la preuve que l'impôt retenu a été reversé à l'administration fiscale.",
+  "when_en": "Only if dividends were paid",
+  "when_fr": "Uniquement si des dividendes ont été versés",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "dividends were paid",
+  "condition_fr": "des dividendes ont été versés",
+  "automatable": null
+ },
+ {
+  "code": "Q-A1",
+  "cycle": "Q",
+  "kind": "ASP",
+  "sequence": 63,
+  "assertions": [
+   "C",
+   "E",
+   "A",
+   "V"
+  ],
+  "title_en": "Loan schedule to the ledger",
+  "title_fr": "Tableau d'amortissement des emprunts et comptabilité",
+  "summary_en": "Reconcile each loan's schedule with the accounts: capital outstanding at year end, interest expense for the year and interest accrued at year end. Record each loan in a table and explain every difference.",
+  "summary_fr": "Rapprocher le tableau d'amortissement de chaque emprunt de la comptabilité : capital restant dû à la clôture, charge d'intérêts de l'exercice et intérêts courus à la clôture. Reporter chaque emprunt dans un tableau et expliquer tout écart.",
+  "when_en": "Always",
+  "when_fr": "Toujours",
+  "suggest_levels": [
+   "low",
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "C",
+   "E",
+   "A",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "Q-A2",
+  "cycle": "Q",
+  "kind": "ASP",
+  "sequence": 64,
+  "assertions": [
+   "P",
+   "V"
+  ],
+  "title_en": "Loan covenants",
+  "title_fr": "Clauses des contrats d'emprunt (covenants)",
+  "summary_en": "List the covenants in the loan agreements and test compliance at year end. For a breach, check the classification of the loan (current or non-current), the disclosure and the effect on going concern.",
+  "summary_fr": "Recenser les engagements (covenants) prévus par les contrats d'emprunt et vérifier leur respect à la clôture. En cas de manquement, vérifier le classement de l'emprunt (à plus ou moins d'un an), l'information en annexe et l'incidence sur la continuité d'exploitation.",
+  "when_en": "Always",
+  "when_fr": "Toujours",
+  "suggest_levels": [
+   "low",
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "P",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "Q-A3",
+  "cycle": "Q",
+  "kind": "ASP",
+  "sequence": 65,
+  "assertions": [
+   "A",
+   "P"
+  ],
+  "title_en": "Interest on shareholder loans (tax)",
+  "title_fr": "Intérêts des comptes courants d'associés (fiscalité)",
+  "summary_en": "The tax team computes the deductible part of the interest paid to shareholders under the applicable tax rules; the audit team checks this was done and agrees it to the tax computation.",
+  "summary_fr": "L'équipe fiscale calcule la part déductible des intérêts versés aux associés selon les règles fiscales applicables ; l'équipe d'audit vérifie que ce calcul a été fait et le rapproche du calcul de l'impôt.",
+  "when_en": "Only if shareholders lent to the company · Prepared by: Tax team · Reviewed by: Audit",
+  "when_fr": "Uniquement si des associés ont prêté à la société · Préparé par : équipe fiscale · Revu par : audit",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "shareholders lent to the company",
+  "condition_fr": "des associés ont prêté à la société",
+  "automatable": null
  }
 ]

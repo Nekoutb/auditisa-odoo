@@ -43,13 +43,13 @@ class ProcedureDesignCase(ToolsCase):
 class TestProcedureLibrary(ProcedureDesignCase):
     def test_the_library_is_loaded_in_both_languages(self):
         Library = self.env["ea.audit.procedure.library"].sudo()
-        self.assertEqual(Library.search_count([]), 58)
+        self.assertEqual(Library.search_count([]), 65)
         self.assertEqual(Library.search_count([("kind", "=", "MSP")]), 25)
         item = Library.search([("code", "=", "E-M1")])
         self.assertEqual(item.with_context(lang="en_US").title, "Sub-ledger and aged balance agree to the general ledger")
         self.assertIn("balance âgée", item.title_fr)
-        self.assertEqual(Library._ea_load_library(), 58)  # idempotent
-        self.assertEqual(Library.search_count([]), 58)
+        self.assertEqual(Library._ea_load_library(), 65)  # idempotent
+        self.assertEqual(Library.search_count([]), 65)
 
     def test_the_tile_is_renamed(self):
         self.assertEqual(self.env.ref("ea_audit_tools.tile_dsp").name, "Procedure design")

@@ -18,7 +18,7 @@ def library():
 
 
 def test_the_library_holds_both_languages_and_known_values(library):
-    assert len(library) == 58
+    assert len(library) == 65
     assert sum(1 for item in library.values() if item["kind"] == "MSP") == 25
     for code, item in library.items():
         assert code.startswith(item["cycle"] + "-"), code
@@ -93,3 +93,30 @@ def test_what_feeds_a_procedure(library):
     assert dataset_kind(library["E-M2"], "E") == "ar_open_items"
     assert dataset_kind(library["E-M3"], "E") == "journal_entries"
     assert dataset_kind(library["K-M2"], "K") == "fixed_asset_register"
+
+
+def test_equity_and_borrowings_alternatives(library):
+    """Owner's design of 2026-11-16: T Equity and Q Borrowings, all alternatives."""
+    codes = ["T-A1", "T-A2", "T-A3", "T-A4", "Q-A1", "Q-A2", "Q-A3"]
+    assert all(library[code]["kind"] == "ASP" for code in codes)
+    assert library["T-A1"]["assertions"] == ["C", "A", "P"]
+    assert library["T-A3"]["assertions"] == ["E", "RO", "P"]
+    assert library["Q-A1"]["assertions"] == ["C", "E", "A", "V"]
+    # "Always": suggested at any combined level, a minimal one included
+    for code in ("T-A1", "T-A2", "Q-A1", "Q-A2"):
+        item = library[code]
+        assert not item["condition_en"] and item["when_en"] == "Always" and item["when_fr"] == "Toujours", code
+        for level in ("minimal", "low", "moderate", "high"):
+            assert suggest(item, {a: level for a in item["assertions"]}, item["assertions"]), (code, level)
+    assert suggest(library["T-A2"], {"V": "to_assess"}, ["V"]) is None
+    # conditional: offered as "Only if ...", never suggested by the risk
+    for code, condition in (("T-A3", "dividends were declared"), ("T-A4", "dividends were paid"), ("Q-A3", "shareholders lent to the company")):
+        item = library[code]
+        assert item["condition_en"] == condition and item["condition_fr"], code
+        assert item["when_en"].startswith("Only if " + condition), code
+        assert item["when_fr"].startswith("Uniquement si "), code
+        assert suggest(item, {a: "high" for a in item["assertions"]}, item["assertions"]) is None, code
+    assert "Prepared by: Tax team · Reviewed by: Audit" in library["Q-A3"]["when_en"]
+    assert "Préparé par : équipe fiscale · Revu par : audit" in library["Q-A3"]["when_fr"]
+    # no loan schedule upload exists yet: Q-A1 is worked by hand
+    assert sample_mode(library["Q-A1"]) == "none"

@@ -255,4 +255,9 @@
         <field name="groups" eval="[(4, ref('ea_audit_core.group_member'))]"/>
         <field name="domain_force">[('client_id.engagement_ids.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_finding_adjustment_team_only" model="ir.rule">
+        <field name="name">ea.audit.finding.adjustment: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_finding_adjustment"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>

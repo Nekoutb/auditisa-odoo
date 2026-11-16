@@ -25,3 +25,4 @@ from . import test_procedure_design
 
 from . import test_subsequent
 from . import test_rollforward
+from . import test_finding_adjustment
