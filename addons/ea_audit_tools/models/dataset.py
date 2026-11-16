@@ -9,7 +9,7 @@ from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 
 from ..rules import rule_error
 from ..services.amount import parse_amount
-from ..services.dataset_mapping import auto_map
+from ..services.dataset_mapping import auto_map, auto_map_extra
 from ..services.errors import ServiceError
 from ..services._js import format_fr
 from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, nf, population_checks, projector
@@ -273,7 +273,7 @@ class EngagementDataset(models.Model):
         """The file as the import will take it: (table, mapping). Refuses a matching that leaves a
         mandatory field out, here and not only on the screen. Writes nothing."""
         table = self._ea_parse(filename, content, header_row, options)
-        mapping = mapping or auto_map(kind, table["headers"])
+        mapping = mapping or auto_map_extra(kind, table["headers"], auto_map(kind, table["headers"]))
         if missing_fields(kind, clean_mapping(kind, mapping, table["headers"])):
             raise rule_error(self.env, "mapping-incomplete")
         apply_reading_options(table, kind, mapping, (options or {}).get("decimal"), (options or {}).get("date_format"))

@@ -10,7 +10,7 @@ import re
 
 from ._js import cell_str, is_number, js_str, js_trim, u16_slice
 from .amount import parse_amount
-from .dataset_mapping import FIELDS, JE_KEY, auto_map, encode_je_key, je_key_columns, norm
+from .dataset_mapping import JE_KEY, all_fields, auto_map, auto_map_extra, encode_je_key, je_key_columns, norm
 from .gl_line import TOLERANCE, mapped_fields, parse_date_iso, population_checks, projector
 from .subledger_kinds import SUB_LEDGER_KINDS
 from .subledgers import source_row_of
@@ -75,7 +75,7 @@ _YEAR_FIRST = re.compile(r"^\d{4}[/.\-]")
 
 def fields_of(kind):
     """The fields a kind offers: [{key, en, fr, required}]."""
-    return TB_FIELDS if kind == TB_KIND else FIELDS[kind]
+    return TB_FIELDS if kind == TB_KIND else all_fields(kind)
 
 
 def groups_of(kind):
@@ -205,7 +205,7 @@ def detect_mapping(kind, table, remembered=None):
             if by_values.get(key) and not guessed.get(key):
                 guessed[key] = by_values[key]
     else:
-        named = auto_map(kind, free, mapping)
+        named = auto_map_extra(kind, free, auto_map(kind, free, mapping))
         guessed = named
     for key, header in guessed.items():
         if key == JE_KEY or header in sources:

@@ -71,7 +71,7 @@ class AutomationRunSample(models.Model):
     def ea_sampling_item(self, row_no, patch):
         """One tested item: the audited value, how it was tested, a note. Refused once concluded."""
         as_root = self._ea_own()
-        if as_root.method in ("cutoff", "unrecorded"):
+        if as_root.method in ("cutoff", "unrecorded", "count"):
             # a selection of a procedure is answered on its working paper (procedure_execution.py)
             raise rule_error(self.env, "selection-on-paper")
         if as_root.method == "tod-mus" or (as_root.summary or {}).get("projected") is not None:
@@ -95,7 +95,7 @@ class AutomationRunSample(models.Model):
     def ea_sampling_conclude(self):
         """The errors found in the items, projected by the existing evaluation (ISA 530 ¶14)."""
         as_root = self._ea_own()
-        if as_root.method in ("cutoff", "unrecorded"):
+        if as_root.method in ("cutoff", "unrecorded", "count"):
             raise rule_error(self.env, "selection-on-paper")
         if as_root.method == "tod-mus" or (as_root.summary or {}).get("projected") is not None:
             raise rule_error(self.env, "sample-concluded")
@@ -472,7 +472,7 @@ class EngagementWorksheets(models.Model):
                 "tolerable": tolerable, "exceeds": exceeds, "raised": run.raised_to_b5, "concluded": True,
                 "files": files.get(run.id, []),
             }
-        if method in ("cutoff", "unrecorded"):
+        if method in ("cutoff", "unrecorded", "count"):
             return self._ea_selection_card(run, lang, files)
         picks, book, results = self._ea_sample_items(run)
         rows, totals = sample_items(picks, book, results)
@@ -502,7 +502,8 @@ class EngagementWorksheets(models.Model):
         rows, totals = [], {"book": 0, "audited": 0, "difference": 0, "tested": 0, "errors": 0, "count": 0}
         for position, row in enumerate(run.sheet_rows or [], start=1):
             found = results.get(str(row[0])) or {}
-            answer = found.get("period")
+            # a cut-off entry is answered "right period", a test count "agrees" (F-M1)
+            answer = found.get("period") or found.get("ok")
             result = {"yes": "agreed", "no": "error"}.get(answer, "to_test")
             amount = row[7] if len(row) > 7 else None
             rows.append({

@@ -18,8 +18,8 @@ def library():
 
 
 def test_the_library_holds_both_languages_and_known_values(library):
-    assert len(library) == 58
-    assert sum(1 for item in library.values() if item["kind"] == "MSP") == 25
+    assert len(library) == 59
+    assert sum(1 for item in library.values() if item["kind"] == "MSP") == 26
     for code, item in library.items():
         assert code.startswith(item["cycle"] + "-"), code
         assert item["kind"] in ("MSP", "ASP"), code
@@ -28,7 +28,8 @@ def test_the_library_holds_both_languages_and_known_values(library):
             assert item[key].strip(), (code, key)
         assert set(item["suggest_levels"]) <= {"low", "moderate", "high"}, code
         assert set(item["suggest_assertions"]) <= set(item["assertions"]) | set(ASSERTIONS), code
-        assert item["automatable"] in (None, "reconciliation", "cutoff_selection", "sample_selection"), code
+        assert item["automatable"] in (
+            None, "reconciliation", "cutoff_selection", "sample_selection", "confirmation", "count_attendance"), code
         assert bool(item["condition_en"]) == bool(item["condition_fr"]), code
         if item["kind"] == "ASP":
             # every alternative is either suggested by the risk or tied to a condition of the client
@@ -88,7 +89,10 @@ def test_nothing_is_complete_while_a_risk_is_to_assess():
 
 def test_what_feeds_a_procedure(library):
     assert sample_mode(library["E-M1"]) == "tool"
-    assert sample_mode(library["E-M2"]) == "draw"
+    assert sample_mode(library["E-A2"]) == "draw"
+    # confirmations and the count pick their own items on the working paper
+    assert sample_mode(library["E-M2"]) == "tool"
+    assert sample_mode(library["F-M1"]) == "tool"
     assert sample_mode(library["E-M4"]) == "none"
     assert dataset_kind(library["E-M2"], "E") == "ar_open_items"
     assert dataset_kind(library["E-M3"], "E") == "journal_entries"

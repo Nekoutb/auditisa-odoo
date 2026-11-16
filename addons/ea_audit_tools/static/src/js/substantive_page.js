@@ -8,6 +8,12 @@ import { EaCrumbs, EaDocsPane } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 
+const STATE_WORDS = {
+    done: () => _t("Done"),
+    started: () => _t("In progress"),
+    draft: () => _t("Not started"),
+};
+
 function kindTip(kind) {
     if (kind === "MSP") {
         return _t("Mandatory substantive procedure: must be performed for this assertion");
@@ -58,7 +64,17 @@ export class SubstantivePage extends Component {
         if (account.missing.length) {
             return "is-bad";
         }
-        return account.ready ? "is-good" : "is-warn";
+        return { done: "is-good", started: "is-warn" }[account.state] || "is-open";
+    }
+
+    barStyle(account) {
+        const share = account.total ? Math.round((100 * account.done) / account.total) : 0;
+        return `width: ${share}%;`;
+    }
+
+    openAccount(account) {
+        // an account with no procedure yet opens Procedure design, where they are chosen
+        return account.total ? this.open("account", account.code) : this.open("action_tool_dsp");
     }
 
     missingText(account) {
@@ -94,7 +110,7 @@ export class ProcedurePaper extends Component {
         this.procId = Number(params.procedure_id);
         this.state = useState({
             p: null, busy: false, dragging: false, note: "", days: "", threshold: "", showAll: false,
-            finding: null, party: "", book: "",
+            finding: null, party: "", book: "", farText: "", countSize: "15", floorItem: "", floorLocation: "",
         });
         this.queue = Promise.resolve();
         useSetupAction({ beforeLeave: () => this.queue.then(() => true) });
@@ -110,8 +126,22 @@ export class ProcedurePaper extends Component {
     }
 
     show(page) {
+        // every list the page reads is there, even from an older server (the "Oops" of F-M1, 2026-11-16)
+        page.tabs = page.tabs || [];
+        page.steps = page.steps || [];
+        page.samples = page.samples || [];
+        page.findings = page.findings || [];
+        page.evidence = page.evidence || [];
+        page.assertions = page.assertions || [];
+        page.mtypes = page.mtypes || [];
+        page.misstatements = page.misstatements || { count: 0, total: 0 };
+        page.toTick = page.toTick || { steps: 0, items: 0, explain: false };
         this.state.p = page;
         this.state.note = page.note || "";
+        this.state.farText = page.far ? page.far.explanation || "" : "";
+        if (page.count && page.count.size) {
+            this.state.countSize = String(page.count.size);
+        }
         if (page.selection) {
             this.state.days = String(page.selection.days ?? "");
             this.state.threshold = page.selection.threshold === null || page.selection.threshold === undefined ? "" : String(page.selection.threshold);
@@ -157,7 +187,10 @@ export class ProcedurePaper extends Component {
     }
 
     get leftText() {
-        const { steps, items } = this.p.toTick;
+        const { steps, items, explain } = this.p.toTick;
+        if (explain) {
+            return _t("Explain the difference with the general ledger");
+        }
         if (items) {
             return _t("%s items still to tick", items);
         }
@@ -172,6 +205,159 @@ export class ProcedurePaper extends Component {
 
     get canMarkDone() {
         return this.editable && !this.leftText && !this.state.busy;
+    }
+
+    // ---- tabs ------------------------------------------------------------------
+
+    get tabsDone() {
+        return this.p.tabs.filter((tab) => tab.state === "done").length;
+    }
+
+    get ownLabel() {
+        return _t("Own");
+    }
+
+    tabTip(tab) {
+        const word = STATE_WORDS[tab.state];
+        return `${tab.code} ${tab.title}\n${kindTip(tab.kind)}\n${word ? word() : ""}`;
+    }
+
+    async switchTab(tab) {
+        if (tab.id === this.procId) {
+            return;
+        }
+        await this.queue;
+        this.procId = tab.id;
+        this.state.finding = null;
+        this.state.showAll = false;
+        this.state.party = "";
+        this.state.book = "";
+        await this.load();
+    }
+
+    // ---- figures -----------------------------------------------------------------
+
+    cell(value) {
+        return value === null || value === undefined ? "—" : this.fmt(value);
+    }
+
+    qty(value) {
+        if (value === null || value === undefined || value === "") {
+            return "—";
+        }
+        return value < 0 ? `(${Math.abs(value)})` : String(value);
+    }
+
+    numText(value) {
+        return value === null || value === undefined ? "" : String(value);
+    }
+
+    // ---- K-M1 ----------------------------------------------------------------------
+
+    gapText(gap) {
+        return _t("%(label)s: the register differs from the ledger by %(amount)s. Explain the difference below, or raise a finding.", {
+            label: gap.label || _t("Ledger accounts not in the register"), amount: this.fmt(gap.difference),
+        });
+    }
+
+    movedText(gap) {
+        return _t("%(label)s: opening + additions − disposals − depreciation differs from the closing value by %(amount)s.", {
+            label: gap.label, amount: this.fmt(gap.difference),
+        });
+    }
+
+    saveFar() {
+        if (!this.editable || (this.p.far.explanation || "") === this.state.farText.trim()) {
+            return;
+        }
+        return this.call("ea_proc_far", [this.state.farText]);
+    }
+
+    // ---- F-M1 ----------------------------------------------------------------------
+
+    get countPhases() {
+        return [
+            { key: "before", label: _t("Before the count"), checks: [
+                { key: "before.instructions", label: _t("Count instructions obtained and assessed") },
+                { key: "before.teams", label: _t("Locations, teams and segregation planned") },
+                { key: "before.numbers", label: _t("Last delivery and receipt numbers before the count noted") },
+                { key: "before.special", label: _t("Slow, damaged and third-party stock identified") },
+            ] },
+            { key: "during", label: _t("During the count"), checks: [
+                { key: "during.follow", label: _t("Counters follow the instructions") },
+                { key: "during.testcounts", label: _t("Test counts: sheet to floor (existence) and floor to sheet (completeness), samples below") },
+                { key: "during.sheets", label: _t("Count sheets controlled (numbered, all returned)") },
+            ] },
+            { key: "after", label: _t("After the count"), checks: [
+                { key: "after.agree", label: _t("Our test counts agree to the final listing") },
+                { key: "after.cutoff", label: _t("Cut-off documents traced to the ledger") },
+                { key: "after.rollforward", label: _t("Count date different from the year end: roll-forward or roll-back to the year end") },
+            ] },
+        ];
+    }
+
+    get notePlaceholder() {
+        return _t("Notes: document numbers, who was met, what was seen");
+    }
+
+    countClass(state) {
+        return { ok: "is-good", diff: "is-bad", missing: "is-warn" }[state] || "is-open";
+    }
+
+    countStateText(state) {
+        return {
+            ok: _t("Agrees"),
+            diff: _t("Difference"),
+            missing: _t("Not on the sheets"),
+            todo: _t("To count"),
+        }[state] || "";
+    }
+
+    countCheck(key, done) {
+        return this.call("ea_proc_count", ["check", key, { done }]);
+    }
+
+    countNote(phase, text) {
+        return this.call("ea_proc_count", ["note", phase, { text }]);
+    }
+
+    drawCount() {
+        return this.call("ea_proc_count", ["draw", null, { size: this.state.countSize }]);
+    }
+
+    countItem(item, field, value) {
+        return this.call("ea_proc_count", ["item", item.key, { [field]: value }]);
+    }
+
+    async floorAdd() {
+        const item = this.state.floorItem.trim();
+        if (!item) {
+            return;
+        }
+        await this.call("ea_proc_count", ["floor_add", null, { item, location: this.state.floorLocation.trim() }]);
+        this.state.floorItem = "";
+        this.state.floorLocation = "";
+    }
+
+    floorSave(item, field, value) {
+        return this.call("ea_proc_count", ["floor_update", item.index, { [field]: value }]);
+    }
+
+    floorRemove(item) {
+        return this.call("ea_proc_count", ["floor_remove", item.index, null]);
+    }
+
+    saveRoll(field, value) {
+        return this.call("ea_proc_count", ["roll", null, { [field]: value }]);
+    }
+
+    offerCountFinding(item, side) {
+        const label = side === "count" ? `${item.label || ""} ${item.item ? `(${item.item})` : ""}`.trim() : item.item;
+        const text = item.state === "missing"
+            ? _t("%(item)s: %(counted)s counted on the floor, not on the count sheets", { item: label, counted: this.qty(item.counted) })
+            : _t("%(item)s: %(sheet)s per the count sheets, %(counted)s counted", { item: label, sheet: this.qty(item.sheet), counted: this.qty(item.counted) });
+        const key = side === "count" ? `count:${item.key}` : `floor:${item.index}`;
+        this.state.finding = { ...this.blankFinding(), description: text, itemKey: key };
     }
 
     reconStateText(recon) {
@@ -285,8 +471,12 @@ export class ProcedurePaper extends Component {
 
     // ---- confirmations -------------------------------------------------------------
 
-    enableConfirm() {
-        return this.call("ea_proc_confirm", ["enable", null, null]);
+    get confirmEditable() {
+        return Boolean(this.editable && this.p.confirm && this.p.confirm.editable);
+    }
+
+    pickParties() {
+        return this.call("ea_proc_confirm", ["pick", null, null]);
     }
 
     async addRequest() {

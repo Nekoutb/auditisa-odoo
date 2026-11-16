@@ -393,6 +393,55 @@ FIELDS = {
     ],
 }
 
+#: Optional columns added after the port (owner's mock-ups of 2026-11-16, mock-sub2-*): the
+#: fixed asset register's categories and movements for K-M1, the inventory's location for the
+#: test counts of F-M1. Kept apart from FIELDS, which stays the source's list (parity).
+EXTRA_FIELDS = {
+    "fixed_asset_register": [
+        {"key": "category", "en": "Category (optional)", "fr": "Catégorie (optionnel)",
+         "aliases": ["categorie", "category", "famille", "rubrique", "nature"]},
+        {"key": "account", "en": "General ledger account (optional)", "fr": "Compte du grand livre (optionnel)",
+         "aliases": ["comptegeneral", "compte", "account", "glaccount"]},
+        {"key": "openingNbv", "en": "Opening net book value (optional)", "fr": "Valeur nette d'ouverture (optionnel)",
+         "aliases": ["vncouverture", "vncdebut", "openingnbv", "ouverture", "opening"]},
+        {"key": "additions", "en": "Additions of the year (optional)", "fr": "Acquisitions de l'exercice (optionnel)",
+         "aliases": ["acquisitions", "additions", "entrees", "augmentations"]},
+        {"key": "disposals", "en": "Disposals, net book value (optional)", "fr": "Cessions, valeur nette (optionnel)",
+         "aliases": ["cessions", "disposals", "sorties", "diminutions"]},
+        {"key": "charge", "en": "Depreciation of the year (optional)", "fr": "Dotation de l'exercice (optionnel)",
+         "aliases": ["dotation", "dotations", "depreciationcharge", "charge"]},
+    ],
+    "inventory_listing": [
+        {"key": "location", "en": "Location (optional)", "fr": "Emplacement (optionnel)",
+         "aliases": ["emplacement", "magasin", "location", "depot", "entrepot", "lieu"]},
+    ],
+}
+
+
+def all_fields(kind):
+    """The fields a kind offers: the source's, then the optional ones added since."""
+    return FIELDS[kind] + EXTRA_FIELDS.get(kind, [])
+
+
+def auto_map_extra(kind, headers, mapping):
+    """auto_map over the optional fields added since the port, on the headers still free."""
+    mapping = dict(mapping or {})
+    normalized = [(h, norm(h)) for h in headers]
+    for exact in (True, False):
+        for field in EXTRA_FIELDS.get(kind, []):
+            if mapping.get(field["key"]):
+                continue
+            for alias in field["aliases"]:
+                hit = next(
+                    (h for h, n in normalized if (n == alias if exact else alias in n) and h not in mapping.values()),
+                    None,
+                )
+                if hit is not None:
+                    mapping[field["key"]] = hit
+                    break
+    return mapping
+
+
 JE_KEY = "jeKey"
 JE_KEY_SEP = "\u001f"
 JE_KEY_JOIN = " · "
