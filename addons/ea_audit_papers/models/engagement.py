@@ -3,13 +3,7 @@ from fnmatch import fnmatchcase
 from odoo import models
 
 from ..services import acceptance_verdict, is_blank, paper_for
-from ..services.completeness import yn_key
-
-# eqrDeterminationFields: q_eqr of the older paper, and the Part B criteria of P1.5
-_EQR_DETERMINATION = tuple(
-    ["q_eqr"]
-    + [yn_key(k) for k in ("listed", "law", "pie", "high_risk", "first_year", "complexity", "capital", "monitor", "policy")]
-)
+from ..services.completeness import eqr_decided
 
 
 class Engagement(models.Model):
@@ -54,15 +48,24 @@ class Engagement(models.Model):
         return len(notes), sorted(set(notes.mapped("code")))
 
     def _ea_eqr_required(self):
-        """eqrRequiredTx: P1.5 concluded so, or a quality reviewer sits on the team."""
+        """eqrRequiredTx: the firm decided on P1.5 to appoint a reviewer, or one sits on the team."""
         self.ensure_one()
-        seated = self.env["ea.audit.team.member"].sudo().search_count(
-            [("engagement_id", "=", self.id), ("team_role", "=", "eqr_reviewer")]
-        )
-        if seated:
+        if self._ea_eqr_seated():
             return True
-        values = self._ea_paper_values("P1.5")
-        return any((values.get(key) or "").strip() == "yes" for key in _EQR_DETERMINATION)
+        return eqr_decided(self._ea_paper_values("P1.5"))
+
+    def _ea_eqr_seated(self):
+        self.ensure_one()
+        return bool(self.env["ea.audit.team.member"].sudo().search_count(
+            [("engagement_id", "=", self.id), ("team_role", "=", "eqr_reviewer")]
+        ))
+
+    def _ea_eqr_task_on_file(self):
+        """C4.2 is on the file, active."""
+        self.ensure_one()
+        return bool(self.env["ea.audit.file.item"].sudo().search_count(
+            [("engagement_id", "=", self.id), ("code", "=", "C4.2"), ("conditional", "=", False)]
+        ))
 
     def _ea_set_predecessor_active(self, active):
         """setPredecessorTaskActiveTx: P1.2 follows P1.1's profile. A task that holds work

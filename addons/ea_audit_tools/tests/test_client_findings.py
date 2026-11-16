@@ -334,35 +334,50 @@ class TestToolsWithoutData(ToolsCase):
 
 @tagged("post_install", "-at_install")
 class TestRisksAndDesign(ToolsCase):
+    def _cell(self, overview, likelihood, magnitude):
+        row = next(r for r in overview["grid"] if r["likelihood"] == likelihood)
+        return next(c for c in row["cells"] if c["magnitude"] == magnitude)
+
     def test_f067_cells_count_the_register(self):
-        # Two risks high x high, one of them significant; one low x medium: 3 risks over the two presumed ones.
+        """One risk page (owner's mock-up of 2026-11-16): the heat map sits above the register."""
+        # Two risks high x high, one of them significant; one low x medium: 3 risks over the presumed ones.
         Risk = self.env["ea.audit.risk"].sudo()
-        before = Risk.search_count([("engagement_id", "=", self.engagement.id)])
+        mine = [("engagement_id", "=", self.engagement.id)]
+        before = Risk.search_count(mine)
         common = {"engagement_id": self.engagement.id, "description": "Risk", "level": "fs"}
         Risk.create({**common, "likelihood": "high", "magnitude": "high", "significant": True})
         Risk.create({**common, "likelihood": "high", "magnitude": "high"})
         Risk.create({**common, "likelihood": "low", "magnitude": "medium"})
-        high_high = Risk.search_count([("engagement_id", "=", self.engagement.id), ("likelihood", "=", "high"), ("magnitude", "=", "high")])
-        tree = etree.fromstring("<div>%s</div>" % self.as_staff.risk_heatmap_html, etree.HTMLParser())
-        cell = tree.xpath("//td[@data-ea-cell='high-high']")[0]
-        self.assertEqual(int(cell.xpath(".//b/text()")[0]), high_high)
-        self.assertTrue(cell.xpath(".//div[contains(text(), 'significant')]"))
-        self.assertEqual(int(tree.xpath("//td[@data-ea-cell='low-medium']//b/text()")[0]), 1 + Risk.search_count([("engagement_id", "=", self.engagement.id), ("likelihood", "=", "low"), ("magnitude", "=", "medium"), ("description", "!=", "Risk")]))
-        self.assertIn("%s risks" % (before + 3), tree.xpath("//table/@aria-label")[0])
+        overview = self.as_staff.ea_risk_overview()
+        cell = self._cell(overview, "high", "high")
+        self.assertEqual(cell["count"], Risk.search_count(mine + [("likelihood", "=", "high"), ("magnitude", "=", "high")]))
+        self.assertIn("significant", cell["significantLabel"])
+        self.assertEqual(self._cell(overview, "low", "medium")["count"], Risk.search_count(mine + [("likelihood", "=", "low"), ("magnitude", "=", "medium")]))
+        summary = overview["summary"]
+        self.assertEqual(summary["total"], before + 3)
+        self.assertEqual(summary["significant"], Risk.search_count(mine + [("significant", "=", True)]))
+        live = Risk.search(mine + [("rebutted", "=", False)])
+        self.assertEqual(summary["no_index"], len(live.filtered(lambda r: not r.index_link_ids)))
+        self.assertEqual(summary["no_step"], len(live.filtered(lambda r: not r.program_step_ids)))
+        self.assertEqual([m["value"] for m in overview["magnitudes"]], ["low", "medium", "high"])
 
-    def test_f067_ticks_and_legend_follow_the_language(self):
+    def test_f067_the_register_carries_the_heat_map(self):
         self.env["res.lang"]._activate_lang("fr_FR")
         self.env["ir.module.module"].search([("name", "=", "ea_audit_tools")])._update_translations(["fr_FR"], overwrite=True)
-        english = str(self.as_staff.risk_heatmap_html)
-        for word in ("Likelihood", "Magnitude", "Inherent rating", "Medium"):
-            self.assertIn(word, english)
-        french = str(self.as_staff.with_context(lang="fr_FR").risk_heatmap_html)
-        for word in ("Probabilité", "Ampleur", "Élevé"):
-            self.assertIn(word, french)
-        tile = self.env.ref("ea_audit_tools.tile_risk_heatmap").with_user(self.staff)
-        self.assertTrue(tile.available)
-        action = tile.with_context(ea_engagement_id=self.engagement.id).action_open_tool()
-        self.assertEqual(action["res_id"], self.engagement.id)
+        english = self.as_staff.ea_risk_overview()
+        self.assertEqual((english["labels"]["likelihood"], english["labels"]["magnitude"]), ("Likelihood", "Magnitude"))
+        self.assertEqual(english["grid"][1]["label"], "Medium")
+        french = self.as_staff.with_context(lang="fr_FR").ea_risk_overview()
+        self.assertEqual((french["labels"]["likelihood"], french["labels"]["magnitude"]), ("Probabilité", "Ampleur"))
+        self.assertEqual(french["grid"][0]["label"], "Élevé")
+        self.assertEqual(french["labels"]["total"], "Total des risques")
+        self.assertEqual(french["labels"]["noIndex"], "Pas encore liés à un indice")
+        # the register opens with the heat map above it; the separate board and its tile are gone
+        action = self.as_staff.action_tool_risk()
+        list_view = self.env["ir.ui.view"].browse(action["views"][0][0])
+        self.assertIn('js_class="ea_risk_list"', list_view.arch)
+        self.assertFalse(self.env.ref("ea_audit_tools.tile_risk_heatmap", raise_if_not_found=False))
+        self.assertFalse(self.env["ea.audit.tool.tile"].sudo().search([("code", "=", "risk_heatmap")]))
 
     def test_f041_a_picker_reads_in_words(self):
         assertion = self.env.ref("ea_audit_tools.assertion_RO")

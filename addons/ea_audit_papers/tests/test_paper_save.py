@@ -1,6 +1,7 @@
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
+from ..models.paper_answer import ANSWER_DOOR
 from ..services import EQR_C42_KEYS, base_digests, paper_for, paper_keys, required_keys
 from .common import PaperCase
 
@@ -250,19 +251,80 @@ class TestPerCodeBehaviour(PaperCase):
         self.save(self.staff, "C5.10", {"persons": "five"})
         self.assertEqual(self.stored("C5.10")["persons"], "five")
 
-    def test_p15_any_criterion_yes_puts_c42_on_the_file(self):
+    def _p15_engagement(self):
         engagement = self.make_engagement()
         self.seat(engagement, self.staff, "staff")
         item = self.item(engagement, "C4.2")
         if item:
             item.conditional = True
-        self.save(self.staff, "P1.5", {"q_pie": "no"}, engagement=engagement)
+        return engagement
+
+    def test_p15_the_firms_decision_puts_c42_on_and_off_the_file(self):
+        """Owner's ruling of 2026-11-16: appointing a quality reviewer is always the firm's decision."""
+        engagement = self._p15_engagement()
+        self.save(self.staff, "P1.5", {"other_capital": "applies"}, engagement=engagement)
         self.assertFalse(self.item(engagement, "C4.2") and not self.item(engagement, "C4.2").conditional)
-        self.save(self.staff, "P1.5", {"q_pie": "yes"}, engagement=engagement)
+        self.save(self.staff, "P1.5", {"decision": "appoint", "decision_why": "Lenders rely on the accounts."}, engagement=engagement)
         item = self.item(engagement, "C4.2")
         self.assertTrue(item)
         self.assertFalse(item.conditional)
         self.assertTrue(engagement.sudo()._ea_eqr_required())
+        self.save(self.staff, "P1.5", {"decision": "none"}, engagement=engagement)
+        self.assertTrue(self.item(engagement, "C4.2").conditional)
+        self.assertFalse(engagement.sudo()._ea_eqr_required())
+        line = self.paper("P1.5", engagement)._ea_auto_values()["decision_conclusion"]
+        self.assertIn("No engagement quality review for this engagement.", line)
+        self.assertIn("Decided by %s" % self.staff.name, line)
+        self.assertNotIn("C4.2 stays", line)
+
+    def test_p15_no_review_keeps_a_c42_that_holds_work(self):
+        engagement = self._p15_engagement()
+        self.save(self.staff, "P1.5", {"decision": "appoint"}, engagement=engagement)
+        c42 = self.paper("C4.2", engagement)
+        self.env["ea.audit.paper.answer"].sudo().with_context(**{ANSWER_DOOR: True}).create(
+            {"paper_id": c42.id, "field_key": "key_findings", "value": "Planning reviewed."}
+        )
+        self.save(self.staff, "P1.5", {"decision": "none"}, engagement=engagement)
+        self.assertFalse(self.item(engagement, "C4.2").conditional)
+        self.assertIn("C4.2 stays on the file", self.paper("P1.5", engagement)._ea_auto_values()["decision_conclusion"])
+
+    def test_p15_old_answers_decide_until_the_firm_records_its_decision(self):
+        """A file saved before the ruling keeps its behaviour: nothing changes silently."""
+        engagement = self._p15_engagement()
+        paper = self.paper("P1.5", engagement)
+        self.env["ea.audit.paper.answer"].sudo().with_context(**{ANSWER_DOOR: True}).create(
+            {"paper_id": paper.id, "field_key": "q_pie", "value": "yes"}
+        )
+        self.assertTrue(engagement.sudo()._ea_eqr_required())
+        self.assertIn("No decision recorded yet", paper._ea_auto_values()["decision_conclusion"])
+        # the old criteria are no longer on the paper: a save cannot write them
+        self.save(self.staff, "P1.5", {"q_listed": "yes"}, engagement=engagement)
+        self.assertNotIn("q_listed", self.stored("P1.5", engagement))
+        self.save(self.staff, "P1.5", {"decision": "none", "decision_why": "Small private company."}, engagement=engagement)
+        self.assertFalse(engagement.sudo()._ea_eqr_required())
+        self.assertEqual(self.stored("P1.5", engagement)["q_pie"], "yes")
+
+    def test_p15_shows_the_profile_facts_and_the_reminder(self):
+        engagement = self._p15_engagement().sudo()
+        paper = self.paper("P1.5", engagement)
+        values = paper._ea_auto_values()
+        self.assertEqual(values["profile_listed"], "Not answered")
+        self.assertEqual(values["p11_rating"], "Not rated yet")
+        self.assertNotIn("decision_note", values)
+        self.assertNotIn("decision_conclusion", values)
+        profile = engagement._ea_profile() or self.env["ea.audit.engagement.profile"].sudo().create(
+            {"engagement_id": engagement.id}
+        )
+        profile.write({"q1_listed": "no", "q3_controls_law": "yes", "q2_pie": "none", "q20_first_year": "yes"})
+        self.save(self.staff, "P1.1", {"rating": "high"}, engagement=engagement)
+        values = paper._ea_auto_values()
+        self.assertEqual((values["profile_listed"], values["profile_law"], values["profile_pie"]), ("No", "Yes", "No"))
+        self.assertEqual(values["profile_first_year"], "Yes")
+        self.assertEqual(values["p11_rating"], "High")
+        self.assertIn("ISQM 1", values["decision_note"])
+        # a reminder, never a rule: "no review" is accepted
+        self.save(self.staff, "P1.5", {"decision": "none", "decision_why": "Firm policy reviewed."}, engagement=engagement)
+        self.assertFalse(engagement._ea_eqr_required())
 
     def test_p11_shows_the_profile_answers_read_only(self):
         """Owner's ruling of 2026-11-15: P1.1 no longer asks new/recurring or change of

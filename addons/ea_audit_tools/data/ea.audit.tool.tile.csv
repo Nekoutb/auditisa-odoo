@@ -7,7 +7,6 @@ tile_forms,forms,Forms,"Every paper by phase, and who it is assigned to.","P1.1,
 tile_materiality,materiality,Materiality,"Overall, performance and clearly trivial, with approval.",P6.1,action_tool_materiality,60,hub
 tile_significance,significance,Significant accounts,"Per index: closing against threshold, decision, assertions.",P6.2,action_tool_significance,65,hub
 tile_risk,risk,Risk register,"What can go wrong, by assertion.",S3.1,action_tool_risk,70,hub
-tile_risk_heatmap,risk_heatmap,Risk heat map,"Likelihood against magnitude, with its scale and legend.",S3.1,action_tool_risk_heatmap,71,hub
 tile_cra,cra,Combined risk assessment,Inherent and control risk per account.,"S3.1,E6.8",action_tool_cra,80,hub
 tile_sad,sad,Audit differences,"Misstatements by caption, linked to the papers.","C1.1,C3.1",action_tool_sad,90,hub
 tile_findings,findings,Findings,"The register: deficiencies, matters and misstatements.","C1.1,C5.11",action_tool_findings,95,hub

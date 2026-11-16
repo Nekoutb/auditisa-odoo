@@ -1533,7 +1533,9 @@ msgstr "Exercice "
 
 #. module: ea_audit_papers
 #. odoo-javascript
+#. odoo-python
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: code:addons/ea_audit_papers/models/paper.py:0
 msgid "Yes"
 msgstr "Oui"
 
@@ -1764,3 +1766,76 @@ msgstr "Votre signature : cliquez pour la retirer"
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "Cancel"
 msgstr "Annuler"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Not answered"
+msgstr "Sans réponse"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Not concluded yet"
+msgstr "Pas encore conclu"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Low"
+msgstr "Faible"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Moderate"
+msgstr "Modérée"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "High"
+msgstr "Élevée"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Not rated yet"
+msgstr "Pas encore notée"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "The entity is listed, or a law or regulator applies (Q1, Q3). ISQM 1 ¶34(f) expects an engagement quality review in these cases. The decision stays with the firm: give the reason."
+msgstr "L'entité est cotée, ou une loi ou un régulateur s'applique (Q1, Q3). ISQM 1 ¶34(f) prévoit une revue de qualité dans ces cas. La décision reste celle du cabinet : en donner le motif."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "No decision recorded yet. Answers given on this paper before 16/11/2026 call for a quality review, so C4.2 stays on the file until the firm records its decision."
+msgstr "Aucune décision consignée. Des réponses données sur cette feuille avant le 16/11/2026 appellent une revue de qualité : C4.2 reste au dossier jusqu'à ce que le cabinet consigne sa décision."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "An engagement quality reviewer is appointed for this engagement."
+msgstr "Un réviseur qualité est désigné pour cette mission."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "No engagement quality review for this engagement."
+msgstr "Pas de revue de qualité pour cette mission."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+#, python-format
+msgid "Decided by %(name)s on %(day)s."
+msgstr "Décidé par %(name)s le %(day)s."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "C4.2 stays on the file: it already holds work, a quality reviewer sits on the team, or the engagement profile asks for it."
+msgstr "C4.2 reste au dossier : elle contient déjà des travaux, un réviseur qualité fait partie de l'équipe, ou le profil de la mission la demande."

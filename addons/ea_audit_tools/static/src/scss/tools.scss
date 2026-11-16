@@ -186,3 +186,44 @@ a.o_ea_chip_warn { color: $ea-amber !important; }
 }
 .ea-assert-opt-code { display: inline-block; min-width: 30px; }
 .ea-assert-opt-desc { color: #66727c; font-size: 12px; }
+
+// One risk page (owner's mock-up of 2026-11-16): heat map and summary above the register.
+.o_ea_risk_panel {
+    padding: 8px 16px 6px;
+    color: #1f2a33;
+    h3 { font-size: 15px; font-weight: 700; margin: 0 0 2px; }
+    .o_ea_risk_cards { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+    .o_ea_risk_map { flex: 0 1 auto; }
+    .o_ea_risk_summary { flex: 1 1 320px; min-width: 260px; }
+    .o_ea_risk_hint { color: #66727c; font-size: 12.5px; margin: 0 0 8px; }
+    .o_ea_risk_grid_wrap { display: flex; align-items: center; gap: 6px; }
+    .o_ea_risk_axis_y { writing-mode: vertical-rl; transform: rotate(180deg); color: #66727c; font-size: 12px; }
+    .o_ea_risk_axis_x { text-align: center; color: #66727c; font-size: 12px; margin: 2px 0 0 60px; }
+    .o_ea_risk_grid {
+        border-collapse: collapse;
+        th { font-weight: 600; font-size: 12px; color: #66727c; padding: 0 10px 0 0; text-align: left; }
+        .o_ea_risk_tick { text-align: center; padding: 4px 0 0; }
+        td { padding: 0; border: 1px solid #dfe3e6; }
+    }
+    .o_ea_risk_cell {
+        width: 88px; height: 50px; border: 2px solid transparent; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; font-variant-numeric: tabular-nums; cursor: pointer;
+        b { font-size: 15px; }
+        small { font-size: 10.5px; color: #66727c; }
+        &.is-low { background: #e6f2ed; color: #17694f; }
+        &.is-medium { background: #fdf3dc; color: #8a5a00; }
+        &.is-high { background: #fbe4e6; color: #a1262f; }
+        &:hover { border-color: #66727c; }
+        &.is-on { border-color: #1f2a33; }
+    }
+    .o_ea_risk_sum {
+        width: 100%; border-collapse: collapse; font-size: 13px;
+        th, td { border: 1px solid #dfe3e6; padding: 6px 10px; }
+        th { background: #f3f5f6; font-weight: 600; text-align: left; }
+        td { text-align: right; font-variant-numeric: tabular-nums; width: 110px; }
+    }
+    .o_ea_risk_chip {
+        margin-top: 10px; border: 0; border-radius: 14px; padding: 4px 12px; background: #1f2a33; color: #fff; font-size: 12.5px;
+        .o_ea_risk_chip_x { margin-left: 6px; }
+    }
+}

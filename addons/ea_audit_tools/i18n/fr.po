@@ -6913,6 +6913,8 @@ msgid "Rebuttal approved by"
 msgstr "Réfutation approuvée par"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__rebutted
 msgid "Rebutted"
 msgstr "Réfuté"
@@ -7784,6 +7786,8 @@ msgid "Signed amount"
 msgstr "Montant signé"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__significant
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__significant
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__significant
@@ -8057,6 +8061,8 @@ msgid "Suggested grade"
 msgstr "Gravité suggérée"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__summary
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__summary
 msgid "Summary"
@@ -9711,6 +9717,8 @@ msgid "From the trial balance, income tax (89) deducted"
 msgstr "Selon la balance, impôt sur le résultat (89) déduit"
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
 msgid "Heat map"
 msgstr "Carte de chaleur"
@@ -11329,3 +11337,39 @@ msgstr "Écrivez dans la case pourquoi vous vous appuyez sans contrôle testé, 
 #: code:addons/ea_audit_tools/static/src/js/cra_page.js:0
 msgid "Planning is closed: write the reason for the change in the box, then click again."
 msgstr "La planification est close : écrivez dans la case le motif du changement, puis cliquez à nouveau."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Click a square to show only those risks. Click it again to show all."
+msgstr "Cliquer sur une case pour n'afficher que ces risques. Cliquer à nouveau pour tout afficher."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Total risks"
+msgstr "Total des risques"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Not yet linked to a lead index"
+msgstr "Pas encore liés à un indice"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "No program step yet"
+msgstr "Sans étape de programme"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Showing:"
+msgstr "Affichage :"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/risk.py:0
+msgid "Show all risks"
+msgstr "Afficher tous les risques"

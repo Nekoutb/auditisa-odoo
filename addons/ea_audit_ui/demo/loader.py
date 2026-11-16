@@ -49,6 +49,10 @@ _SELECT_ANSWERS = {
     "has_internal_audit": "no",
     "assess_control_env": "no",
     "assess_it_env": "no",
+    # P1.5: the firm decides no quality review on the demonstration files (owner, 2026-11-16)
+    "decision": "none",
+    "other_capital": "not_applies",
+    "other_policy": "not_applies",
 }
 _DONE_TEXT = ("Done, see the working paper.", "Effectué, voir la feuille de travail.")
 
@@ -242,10 +246,13 @@ class _Demo:
         for key in required_keys(definition):
             if key in options:
                 out[key] = options[key]
-            elif item.code == "P1.5" and key.startswith("q_"):
-                # a "yes" on any criterion would require a quality reviewer on the file
-                out[key] = "no"
-                out["%s_x" % key] = _d("Criterion not met for this entity.", "Critère non rempli pour cette entité.")
+            elif item.code == "P1.5" and key in ("reviewer", "eligibility", "points"):
+                continue  # asked only when the firm appoints a reviewer
+            elif item.code == "P1.5" and key == "decision_why":
+                out[key] = _d(
+                    "Unlisted entity with a moderate risk rating; no point calls for a review.",
+                    "Entité non cotée, risque modéré ; aucun point n'appelle de revue.",
+                )
             elif key.startswith(("q_", "c_")):
                 out[key] = "yes"
             else:

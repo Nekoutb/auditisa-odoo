@@ -17,7 +17,7 @@ from services.materiality import (
     tb_benchmark_amounts,
     validate_version,
 )
-from services.risk_model import PRESUMED_SEED, inherent_rating, risk_title
+from services.risk_model import PRESUMED_SEED, inherent_rating, risk_overview, risk_title
 from services.significant_accounts import significance_rows, specific_refusal, unjustified_count
 
 BALANCED = [
@@ -205,6 +205,40 @@ def test_no_approved_materiality_no_specific_check():
 ])
 def test_inherent_rating(likelihood, magnitude, rating):
     assert inherent_rating(likelihood, magnitude) == rating
+
+
+def _risk(likelihood, magnitude, significant=False, rebutted=False, indexes=1, steps=1):
+    return {
+        "likelihood": likelihood, "magnitude": magnitude, "significant": significant,
+        "rebutted": rebutted, "indexes": indexes, "steps": steps,
+    }
+
+
+def test_one_risk_page_heat_map_and_summary():
+    """Owner's mock-up of 2026-11-16: likelihood high to low down the side, magnitude low to
+    high along the bottom; the summary counts the whole register."""
+    rows = [
+        _risk("high", "high", significant=True, steps=0),
+        _risk("high", "high", indexes=0),
+        _risk("low", "medium"),
+        _risk("medium", "high", rebutted=True, indexes=0, steps=0),
+    ]
+    overview = risk_overview(rows)
+    grid = overview["grid"]
+    assert [row["likelihood"] for row in grid] == ["high", "medium", "low"]
+    assert [cell["magnitude"] for cell in grid[0]["cells"]] == ["low", "medium", "high"]
+    top_right = grid[0]["cells"][2]
+    assert (top_right["count"], top_right["significant"], top_right["rating"]) == (2, 1, "high")
+    assert grid[2]["cells"][1]["count"] == 1 and grid[2]["cells"][1]["rating"] == "low"
+    assert sum(cell["count"] for row in grid for cell in row["cells"]) == len(rows)
+    # a rebutted risk needs no lead index nor program step
+    assert overview["summary"] == {"total": 4, "significant": 1, "rebutted": 1, "no_index": 1, "no_step": 1}
+
+
+def test_one_risk_page_empty_register():
+    overview = risk_overview([])
+    assert overview["summary"] == {"total": 0, "significant": 0, "rebutted": 0, "no_index": 0, "no_step": 0}
+    assert all(cell["count"] == 0 for row in overview["grid"] for cell in row["cells"])
 
 
 def test_presumed_risks_read_in_the_readers_language():

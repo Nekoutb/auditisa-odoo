@@ -29,10 +29,9 @@ from ..services import (
     resolve_definition,
     same_answer,
 )
-from ..services.completeness import EMBED_ONLY_PAPERS
+from ..services.completeness import EMBED_ONLY_PAPERS, EQR_DECISION, eqr_decided
 from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
 
-from .engagement import _EQR_DETERMINATION
 from .errors import paper_error
 from .paper_answer import ANSWER_DOOR
 
@@ -320,7 +319,81 @@ class Paper(models.Model):
         self.ensure_one()
         if self.code == "P1.1":
             return self._ea_profile_auto_values()
+        if self.code == "P1.5":
+            return self._ea_eqr_auto_values()
         return {}
+
+    def _ea_eqr_auto_values(self):
+        """P1.5 (owner's ruling of 2026-11-16): the profile's facts, read only, each with its
+        source; a reminder where the entity is listed or a law applies; the decision's line."""
+        _ = self.env._
+        paper = self.sudo()
+        engagement = paper.engagement_id
+        profile = engagement._ea_profile()
+        yes_no = {"yes": _("Yes"), "no": _("No")}
+        unanswered = _("Not answered")
+        values = {}
+        for key, name in (
+            ("profile_listed", "q1_listed"), ("profile_law", "q3_controls_law"),
+            ("profile_monitoring", "q15_monitoring"), ("profile_risks", "q16_risks"),
+            ("profile_going_concern", "q17_going_concern"), ("profile_first_year", "q20_first_year"),
+        ):
+            values[key] = (yes_no.get(profile[name]) if profile else None) or unanswered
+        pie = profile.q2_pie if profile else False
+        if pie == "none":
+            values["profile_pie"] = _("No")
+        elif pie:
+            values["profile_pie"] = dict(profile._fields["q2_pie"]._description_selection(self.env))[pie]
+        else:
+            values["profile_pie"] = unanswered
+        if profile and profile.state == "concluded" and profile.level:
+            values["profile_level"] = {
+                "complex": _("Complex"), "non_complex": _("Non-complex"), "very_simple": _("Very simple"),
+            }[profile.level]
+        else:
+            values["profile_level"] = _("Not concluded yet")
+        rating = (engagement._ea_paper_values("P1.1").get("rating") or "").strip()
+        values["p11_rating"] = {"low": _("Low"), "moderate": _("Moderate"), "high": _("High")}.get(rating) or _("Not rated yet")
+        if profile and "yes" in (profile.q1_listed, profile.q3_controls_law):
+            values["decision_note"] = _(
+                "The entity is listed, or a law or regulator applies (Q1, Q3). ISQM 1 ¶34(f) expects an "
+                "engagement quality review in these cases. The decision stays with the firm: give the reason."
+            )
+        conclusion = paper._ea_eqr_conclusion()
+        if conclusion:
+            values["decision_conclusion"] = conclusion
+        return values
+
+    def _ea_eqr_conclusion(self):
+        """The line under the decision: what was decided, by whom and when, and why C4.2
+        stays on the file where a "no review" could not take it off."""
+        _ = self.env._
+        engagement = self.engagement_id
+        stored = self._ea_values()
+        decision = (stored.get(EQR_DECISION) or "").strip()
+        if not decision:
+            if eqr_decided(stored):
+                return _(
+                    "No decision recorded yet. Answers given on this paper before 16/11/2026 call for a "
+                    "quality review, so C4.2 stays on the file until the firm records its decision."
+                )
+            return ""
+        if decision == "appoint":
+            text = _("An engagement quality reviewer is appointed for this engagement.")
+        else:
+            text = _("No engagement quality review for this engagement.")
+        row = self.env["ea.audit.paper.answer.history"].sudo().search(
+            [("paper_id", "=", self.id), ("field_key", "=", EQR_DECISION)], order="changed_at desc, id desc", limit=1,
+        )
+        if row:
+            day = fields.Date.context_today(self, row.changed_at).strftime("%d/%m/%Y")
+            text = "%s %s" % (text, _("Decided by %(name)s on %(day)s.", name=row.user_id.name, day=day))
+        if decision != "appoint" and engagement._ea_eqr_task_on_file():
+            text = "%s %s" % (text, _(
+                "C4.2 stays on the file: it already holds work, a quality reviewer sits on the team, "
+                "or the engagement profile asks for it."
+            ))
+        return text
 
     def _ea_profile_auto_values(self):
         """P1.1 shows the engagement profile questionnaire, read only (owner's ruling of
@@ -361,8 +434,12 @@ class Paper(models.Model):
         self.ensure_one()
         engagement = self.sudo().engagement_id
         self._ea_sync_seeded_response_step()
-        if self.code == "P1.5" and any(values.get(key) == "yes" for key in _EQR_DETERMINATION):
-            engagement._ea_ensure_task(EQR_PAPER)
+        if self.code == "P1.5" and EQR_DECISION in values:
+            # the firm's decision (owner's ruling of 2026-11-16); a blank leaves C4.2 as it is
+            if values[EQR_DECISION] == "appoint":
+                engagement._ea_ensure_task(EQR_PAPER)
+            elif values[EQR_DECISION] == "none" and not engagement._ea_eqr_seated():
+                engagement._ea_set_task_active(EQR_PAPER, False)
         if self.code == "S6.1":
             for key, code in S61_TRIGGERS.items():
                 if key in values:
