@@ -45,6 +45,14 @@ body.ea-shell {
   // Odoo's own lists and forms keep clear of the bar.
   .o_action_manager > .o_action > .o_control_panel,
   .o_action_manager > .o_view_controller > .o_control_panel { margin-top: 10px; }
+
+  // Owner, 2026-11-16: page buttons (Export to Excel, Import from Excel, ...) sit on ONE line,
+  // side by side, the same height, lined up with the page title, on every page.
+  .o_control_panel_breadcrumbs { min-width: 0; }
+  .o_control_panel_main_buttons { flex-shrink: 0; align-items: center; }
+  .o_control_panel_main_buttons .btn,
+  .o_statusbar_buttons .btn { white-space: nowrap; }
+  .o_control_panel_breadcrumbs .breadcrumb { flex-wrap: nowrap; min-width: 0; }
 }
 
 body.ea-shell .ea-top,
