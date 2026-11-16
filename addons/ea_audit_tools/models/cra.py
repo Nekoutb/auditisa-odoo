@@ -118,7 +118,9 @@ class CraAssessment(models.Model):
                 raise rule_error(self.env, "rely-without-controls")
         next_ir = patch["ir"] if "ir" in patch else as_root.ir
         next_cr = patch["cr"] if "cr" in patch else as_root.cr
-        reassessed = (as_root.ir or as_root.cr) and (next_ir != as_root.ir or next_cr != as_root.cr)
+        # A revision changes a risk already chosen; filling the other, still blank one (the
+        # one-page CRA saves IR and CR one click at a time) is the first assessment, not a revision.
+        reassessed = bool((as_root.ir and next_ir != as_root.ir) or (as_root.cr and next_cr != as_root.cr))
         reason = (patch.get("reason") or "").strip()
         if reassessed:
             if not reason and engagement._ea_assessment_locked():

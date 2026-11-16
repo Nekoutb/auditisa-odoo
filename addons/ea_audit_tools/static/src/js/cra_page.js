@@ -104,7 +104,8 @@ export class CraPage extends Component {
         }
         const patch = { [field]: value };
         const fresh = (this.typed[cell.id] || "").trim();
-        const reassessment = Boolean(cell.ir || cell.cr);
+        // a revision changes a risk already chosen; filling the blank one is not one
+        const reassessment = Boolean(cell[field]);
         const relyUnsupported = field === "cr" && value === "rely" && cell.cr !== "rely" && cell.rely_needs_basis;
         if (relyUnsupported || (this.p.locked && reassessment)) {
             if (!fresh) {

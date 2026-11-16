@@ -455,7 +455,10 @@ class TestCraPage(ToolsCase):
         self.assertEqual(self.page_cell(page)["level"], "to_assess")
         self.assertEqual(self.account(page)["worst"], False)
         self.assertEqual(self.cell().level, "to_assess")
+        # once materiality is approved, filling the blank CR is no revision: no reason asked
+        self.assertTrue(self.engagement.sudo()._ea_assessment_locked())
         page = self.cell().ea_cra_page_save({"cr": "not_rely"})
+        self.assertFalse(self.cell().history_ids)
         self.assertEqual(self.page_cell(page)["level"], "moderate")
         self.assertEqual(self.cell().tod_level, "moderate")
         self.assertEqual(page["progress"]["done"], 1)
