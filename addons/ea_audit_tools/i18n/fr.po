@@ -14773,3 +14773,13 @@ msgstr "Reçue"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__no_reply
 msgid "No reply"
 msgstr "Pas de réponse"
+
+#. module: ea_audit_tools
+#: model:ea.audit.wp.template,name:ea_audit_tools.wp_c31_rep_letter
+msgid "C3.1 Management representation letter"
+msgstr "C3.1 Lettre d'affirmation de la direction"
+
+#. module: ea_audit_tools
+#: model:ea.audit.wp.template,description:ea_audit_tools.wp_c31_rep_letter
+msgid "Sample letter (Word): yellow text must be completed or deleted. Date it the same day as the auditor's report."
+msgstr "Modèle de lettre (Word) : le texte en jaune doit être complété ou supprimé. Datez-la du même jour que le rapport de l'auditeur."

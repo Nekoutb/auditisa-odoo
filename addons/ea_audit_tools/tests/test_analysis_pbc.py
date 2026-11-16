@@ -1,5 +1,6 @@
 import base64
 import io
+import zipfile
 
 from openpyxl import load_workbook
 
@@ -181,8 +182,37 @@ class TestTemplates(ToolsCase):
         self.assertTrue(templates.filtered(lambda t: t.key.startswith("substantive-generic-")))
         for template in templates:
             name, content = self.as_staff.ea_export_xlsx("wp_%d" % template.id)
+            if name.endswith(".docx"):
+                self.assertIn("word/document.xml", zipfile.ZipFile(io.BytesIO(content)).namelist(), name)
+                continue
             self.assertTrue(name.endswith(".xlsx"), name)
             self.assertTrue(load_workbook(io.BytesIO(content)).worksheets, name)
+
+    def test_the_c31_letter_is_listed_and_follows_the_report_language(self):
+        """C3.1: the sample representation letter, English or French with the engagement's report language."""
+        self.as_staff.action_tool_templates()
+        template = self.env["ea.audit.wp.template"].with_user(self.staff).search([("default_for", "=", "C3.1")])
+        self.assertEqual(template.key, "c31-rep-letter")
+        self.engagement.sudo().report_language = "en"
+        name, english = self.as_staff.ea_export_xlsx("wp_%d" % template.id)
+        self.assertEqual(name, "C3.1 Management representation letter (template).docx")
+        self.engagement.sudo().report_language = "fr"
+        name, french = self.as_staff.ea_export_xlsx("wp_%d" % template.id)
+        self.assertEqual(name, "C3.1 Lettre d'affirmation de la direction (modele).docx")
+        self.assertNotEqual(english, french)
+        for content in (english, french):
+            self.assertIn("word/document.xml", zipfile.ZipFile(io.BytesIO(content)).namelist())
+
+    def test_the_c31_paper_offers_the_letter(self):
+        paper = self.item(self.engagement, "C3.1")._ea_paper()
+        link = paper.with_user(self.staff).get_payload()["tool_links"][-1]
+        template = self.env.ref("ea_audit_tools.wp_c31_rep_letter")
+        self.assertEqual(link["en"], "Template: management representation letter (Word)")
+        self.assertIn("File the signed copy on this task.", link["note_en"])
+        self.assertTrue(link["note_fr"])
+        self.assertEqual(link["action"]["url"], "/ea_audit_tools/export/wp_%d/%d" % (template.id, self.engagement.id))
+        other = self.item(self.engagement, "P3.1")._ea_paper().with_user(self.staff).get_payload()["tool_links"]
+        self.assertFalse([entry for entry in other if entry.get("plain")])
 
     def test_assign_copies_to_the_task(self):
         template = self.env.ref("ea_audit_tools.wp_sub_trade_receivables")

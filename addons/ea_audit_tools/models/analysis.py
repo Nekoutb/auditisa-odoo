@@ -14,6 +14,20 @@ from ..workbooks import substantive_workbook
 from .tool_record import decimal_label, fcfa, is_french
 
 _WP_KIND = re.compile(r"^wp_(\d+)$")
+# A shipped paper that exists in French too: the English file -> (the French file, its download name).
+_FRENCH_SHIPPED = {
+    "C3.1_Representation_letter_EN.docx": ("C3.1_Representation_letter_FR.docx", "C3.1 Lettre d'affirmation de la direction (modele).docx"),
+}
+_MIMETYPES = {
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+}
+
+
+def mimetype_of(filename):
+    """The content type of a paper, by its extension (a workbook unless it says otherwise)."""
+    extension = ("." + filename.rsplit(".", 1)[-1].lower()) if "." in (filename or "") else ""
+    return _MIMETYPES.get(extension, _MIMETYPES[".xlsx"])
 
 
 class FaRatio(models.Model):
@@ -85,8 +99,11 @@ class WpTemplate(models.Model):
         self.ensure_one()
         as_root = self.sudo()
         if as_root.shipped_file:
-            with file_open("ea_audit_tools/data/wp_templates/%s" % as_root.shipped_file, "rb") as handle:
-                return as_root.filename, handle.read()
+            shipped, filename = as_root.shipped_file, as_root.filename
+            if fr and shipped in _FRENCH_SHIPPED:
+                shipped, filename = _FRENCH_SHIPPED[shipped]
+            with file_open("ea_audit_tools/data/wp_templates/%s" % shipped, "rb") as handle:
+                return filename, handle.read()
         from ..workbooks import je_workbook, toc_sample_workbook
 
         client = {"clientName": "", "fiscalYear": "", "periodEnd": "", "preparer": ""}
@@ -345,7 +362,7 @@ class EngagementAnalysis(models.Model):
         filename, content = template._ea_content(self, is_french(self.env))
         attachment = self.env["ir.attachment"].sudo().create({
             "name": filename, "res_model": "ea.audit.file.item", "res_id": file_item.id, "datas": base64.b64encode(content),
-            "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "mimetype": mimetype_of(filename),
         })
         self._ea_invalidate_signoffs(file_item.sudo().code)
         self._ea_log("attachment_template_assigned", "Template %s assigned to %s" % (filename, file_item.sudo().code))
