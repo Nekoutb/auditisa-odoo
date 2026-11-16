@@ -116,6 +116,11 @@
     .o_ea_ws_input { border: 1px solid var(--eaws-line); border-radius: 6px; padding: 4px 8px; }
     .o_ea_ws_box { border: 1px solid var(--eaws-line); border-radius: 6px; padding: 7px 9px; }
     .o_ea_ws_eval { border: 1px solid var(--eaws-line); border-radius: 6px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
+    .o_ea_ws_adj { border: 1px solid #b9cfc5; background: #f6fbf8; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+    .o_ea_ws_adjgrid { background: #fff; font-variant-numeric: tabular-nums; }
+    .o_ea_ws_adjgrid td { padding: 3px 6px; }
+    .o_ea_ws_adjgrid .o_ea_ws_input { width: 100%; min-width: 0; }
+    .o_ea_ws_adjgrid input.o_num { text-align: right; }
     .o_ea_ws_evrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; > span:first-child { min-width: 80px; color: var(--eaws-muted); } }
     .o_ea_ws_check { display: flex; align-items: center; gap: 6px; margin: 0; }
     .o_ea_ws_seg {

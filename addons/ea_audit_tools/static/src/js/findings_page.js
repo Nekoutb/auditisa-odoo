@@ -27,7 +27,7 @@ export class FindingsPage extends Component {
         this.engagementId = Number(params.engagement_id || context.active_id || context.ea_engagement_id);
         this.state = useState({
             p: null, tab: "all", selected: Number(params.finding_id) || null, docs: [], busy: false,
-            closing: "", reopening: "",
+            closing: "", reopening: "", extraLines: 0,
         });
         this.queue = Promise.resolve();
         useSetupAction({ beforeLeave: () => this.queue.then(() => true) });
@@ -88,6 +88,7 @@ export class FindingsPage extends Component {
         this.state.selected = finding.id;
         this.state.closing = "";
         this.state.reopening = "";
+        this.state.extraLines = 0;
         await this.loadDocs();
     }
 
@@ -155,6 +156,81 @@ export class FindingsPage extends Component {
         }
         this.state.reopening = "";
         return this.run("ea_findings_page_reopen", [finding.id, reason]);
+    }
+
+    // ---- the adjustment of a misstatement -------------------------------------
+
+    get natures() {
+        return [
+            { key: "factual", label: _t("Factual") },
+            { key: "judgmental", label: _t("Judgemental") },
+            { key: "projected", label: _t("Projected") },
+        ];
+    }
+
+    adjRows(finding) {
+        const rows = finding.adjustment.lines.map((line) => ({ ...line }));
+        const blanks = this.state.extraLines || (rows.length ? 0 : 2);
+        for (let i = 0; i < blanks; i++) {
+            rows.push({ account: "", label: "", debit: "", credit: "" });
+        }
+        return rows;
+    }
+
+    amount(value) {
+        return String(value || "").replace(/[^0-9.]/g, "");
+    }
+
+    saveRows(finding, rows) {
+        const lines = rows.map((row) => ({
+            account: row.account, label: row.label, debit: this.amount(row.debit), credit: this.amount(row.credit),
+        }));
+        return this.run("ea_findings_page_adjust", [finding.id, lines, null]);
+    }
+
+    editLine(finding, rows, index, field, ev) {
+        if (this.p.readonly || finding.adjustment.booked) {
+            return;
+        }
+        rows[index][field] = ev.target.value;
+        // one amount per line: a debit clears the credit, and the other way round
+        if (field === "debit" && ev.target.value) {
+            rows[index].credit = "";
+        } else if (field === "credit" && ev.target.value) {
+            rows[index].debit = "";
+        }
+        if (index >= finding.adjustment.lines.length) {
+            this.state.extraLines = Math.max(0, this.adjRows(finding).length - finding.adjustment.lines.length - 1);
+        }
+        return this.saveRows(finding, rows);
+    }
+
+    addLine(finding) {
+        this.state.extraLines = Math.max(this.adjRows(finding).length - finding.adjustment.lines.length, 0) + 1;
+    }
+
+    removeLine(finding, rows, index) {
+        if (index >= finding.adjustment.lines.length) {
+            this.state.extraLines = Math.max(0, this.state.extraLines - 1);
+            return;
+        }
+        rows.splice(index, 1);
+        return this.saveRows(finding, rows);
+    }
+
+    setNature(finding, key) {
+        if (this.p.readonly || finding.adjustment.booked || finding.adjustment.nature === key) {
+            return;
+        }
+        return this.run("ea_findings_page_adjust", [finding.id, null, key]);
+    }
+
+    book(finding) {
+        if (this.p.readonly || !finding.adjustment.canBook) {
+            return;
+        }
+        this.state.extraLines = 0;
+        return this.run("ea_findings_page_book", [finding.id]);
     }
 
     // ---- documents (the pane at the right) --------------------------------

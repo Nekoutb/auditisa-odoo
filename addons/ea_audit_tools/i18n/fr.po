@@ -418,6 +418,8 @@ msgid "Accepted by"
 msgstr "Accepté par"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__drill_account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__account
@@ -2380,7 +2382,9 @@ msgid "Created on"
 msgstr "Créé le"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__credit
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__credit
@@ -2490,7 +2494,9 @@ msgid "Date tested"
 msgstr "Date testée"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__debit
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__debit
@@ -3521,6 +3527,8 @@ msgid "FS reference"
 msgstr "Réf. états financiers"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/findings_page.js:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__factual
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__factual
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__factual
@@ -4846,6 +4854,8 @@ msgid "Kind"
 msgstr "Nature"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__label
 msgid "Label"
@@ -5764,6 +5774,8 @@ msgid "Name"
 msgstr "Nom"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__nature
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_osp__nature
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__nature
@@ -6953,6 +6965,8 @@ msgid "Program steps"
 msgstr "Étapes du programme"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/findings_page.js:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__projected
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__projected
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__projected
@@ -9065,6 +9079,7 @@ msgstr "Enregistrement des outils"
 #. module: ea_audit_tools
 #. odoo-javascript
 #. odoo-python
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
@@ -10528,7 +10543,9 @@ msgid "Each line is one column of your file. Open the list on a line to choose a
 msgstr "Chaque ligne est une colonne de votre fichier. Ouvrez la liste d'une ligne pour choisir un autre champ, ou « Ne pas importer » pour écarter la colonne. Une colonne non reconnue est écartée sauf si vous lui choisissez un champ."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 msgid "Effect"
 msgstr "Effet"
@@ -15561,3 +15578,117 @@ msgstr "%(item)s : %(sheet)s selon les feuilles de comptage, %(counted)s compté
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_procedure_library__automatable__count_attendance
 msgid "Count attendance"
 msgstr "Assistance à l'inventaire"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Each adjustment line needs an account and one amount, either in debit or in credit."
+msgstr "Chaque ligne de l'ajustement doit avoir un compte et un seul montant, au débit ou au crédit."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The adjustment is not balanced: enter at least one debit and one credit, with the same total."
+msgstr "L'ajustement n'est pas équilibré : saisissez au moins un débit et un crédit, de même total."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This adjustment is already booked on the summary of audit differences: record any correction there."
+msgstr "Cet ajustement est déjà reporté au sommaire des écarts d'audit : enregistrez toute correction à cet endroit."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Only a misstatement carries an adjustment."
+msgstr "Seule une anomalie comporte un ajustement."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "Profit %(profit)s · Assets %(assets)s · Liabilities %(liabilities)s · Equity %(equity)s"
+msgstr "Résultat %(profit)s · Actif %(assets)s · Passif %(liabilities)s · Capitaux propres %(equity)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "Booked as %(number)s on %(date)s by %(name)s"
+msgstr "Reporté sous %(number)s le %(date)s par %(name)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "Booked lines can be marked “corrected by management” on the summary. The line links back to this finding and to %s. Equity includes the effect on profit."
+msgstr "Sur le sommaire, une ligne reportée peut être marquée « corrigée par la direction ». La ligne renvoie à ce constat et à %s. Les capitaux propres comprennent l'effet sur le résultat."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "Booked lines can be marked “corrected by management” on the summary. The line links back to this finding. Equity includes the effect on profit."
+msgstr "Sur le sommaire, une ligne reportée peut être marquée « corrigée par la direction ». La ligne renvoie à ce constat. Les capitaux propres comprennent l'effet sur le résultat."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/findings_page.js:0
+msgid "Judgemental"
+msgstr "De jugement"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__adjustment_ids
+msgid "Adjustment"
+msgstr "Ajustement"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "appears on the summary of audit differences as soon as it is booked"
+msgstr "figure au sommaire des écarts d'audit dès qu'il est reporté"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "e.g. 6033"
+msgstr "ex. 6033"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Remove the line"
+msgstr "Supprimer la ligne"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Not balanced"
+msgstr "Non équilibré"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "+ Add a line"
+msgstr "+ Ajouter une ligne"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Book to the summary of audit differences"
+msgstr "Reporter au sommaire des écarts d'audit"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Enter balanced lines, each with its account, to book it."
+msgstr "Saisissez des lignes équilibrées, chacune avec son compte, pour le reporter."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Open the summary"
+msgstr "Ouvrir le sommaire"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_finding_adjustment
+msgid "Finding adjustment line"
+msgstr "Ligne d'ajustement d'un constat"

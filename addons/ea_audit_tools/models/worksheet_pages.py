@@ -243,7 +243,11 @@ class EngagementWorksheetPages(models.Model):
         }
         entries = self.env["ea.audit.sad.entry"].sudo().search([("engagement_id", "=", self.id)])
         numbers = root._ea_sad_numbers()
-        sad_of = {entry.misstatement_id.id: numbers[entry.id] for entry in entries if entry.misstatement_id}
+        sad_of = {}
+        for entry in entries.sorted("id"):
+            # an adjustment booked on several lines is shown by its first
+            if entry.misstatement_id:
+                sad_of.setdefault(entry.misstatement_id.id, numbers[entry.id])
         doc_names = {}
         for row in self.env["ea.audit.task.attachment"].sudo().search(
             [("finding_id", "in", root.finding_ids.ids), ("deleted_at", "=", False)],
@@ -316,6 +320,7 @@ class EngagementWorksheetPages(models.Model):
                     "type": mtypes.get(misstatement.mtype, ""), "corrected": misstatement.corrected,
                     "trivial": misstatement.trivial, "summary": summary_text,
                 } if misstatement else False,
+                "adjustment": finding._ea_adjustment_view(lang, self._ea_figure) if finding.route == "b5" and misstatement else False,
                 "evaluation": {
                     "likelihood": evaluation.likelihood or False, "magnitude": evaluation.magnitude or False,
                     "grade": evaluation.grade or finding.severity or False,
@@ -385,6 +390,18 @@ class EngagementWorksheetPages(models.Model):
         values.update({key: (value or None) if key != "management_aware" else bool(value) for key, value in patch.items()})
         grade = values.pop("grade")
         finding.save_deficiency_evaluation(grade, **values)
+        return self.ea_findings_page()
+
+    def ea_findings_page_adjust(self, finding_id, lines=None, nature=None):
+        """The Adjustment section's draft: its lines and nature, until it is booked."""
+        self.ensure_one()
+        self._ea_page_finding(finding_id).ea_save_adjustment(lines=lines, nature=nature)
+        return self.ea_findings_page()
+
+    def ea_findings_page_book(self, finding_id):
+        """Book to the summary of audit differences."""
+        self.ensure_one()
+        self._ea_page_finding(finding_id).ea_book_adjustment()
         return self.ea_findings_page()
 
     def ea_findings_page_clear(self, finding_id, response):

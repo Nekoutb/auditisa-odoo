@@ -238,6 +238,8 @@ _ENTRIES = (
     [r"^(?P<code>\S+): Attached from (?P<source>\S+): (?P<file>.+) v(?P<version>\S+)$",
      _lt("%(code)s: existing document attached from %(source)s, %(file)s v%(version)s")],
     [r"^Finding (?P<ref>.+) reopened: (?P<reason>.+)$", _lt("Finding %(ref)s reopened: %(reason)s")],
+    [r"^Adjustment of finding (?P<ref>\S+) booked on the summary of audit differences: (?P<accounts>.+) for (?P<amount>\S+)$",
+     _lt("Adjustment of finding %(ref)s booked on the summary of audit differences: %(accounts)s for %(amount)s")],
     [r"^(?P<code>\S+): (?P<file>.+) v(?P<version>\S+)$", _lt("%(code)s: evidence uploaded, %(file)s v%(version)s")],
     [r"^(?P<code>\S+): (?P<old>.+) renamed to (?P<new>.+)$", _lt("%(code)s: evidence %(old)s renamed to %(new)s")],
     [r"^(?P<code>\S+): Deleted: (?P<file>.+) \(restorable for (?P<days>\S+) days\)$",
