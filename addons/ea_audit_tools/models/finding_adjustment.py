@@ -23,7 +23,7 @@ from ..services.finding_adjustment import (
     clean_lines,
     totals,
 )
-from .tool_record import french_date
+from .tool_record import french_date, grouped
 
 
 class FindingAdjustmentLine(models.Model):
@@ -153,7 +153,9 @@ class FindingAdjustment(models.Model):
         root.adjustment_ids.write({"booked": True, "booked_by_id": self.env.user.id, "booked_at": fields.Datetime.now()})
         engagement.with_env(self.env)._ea_log(
             "finding_adjustment_booked",
-            "Adjustment of finding %s booked on the summary of audit differences: %s, %s" % (root.reference, text, total),
+            "Adjustment of finding %s booked on the summary of audit differences: %s for %s" % (
+                root.reference, text, grouped(total, "en_US"),
+            ),
         )
         return True
 
