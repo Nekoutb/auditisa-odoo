@@ -330,7 +330,9 @@ class TestRollforward(ToolsCase):
         self.assertFalse(paper.history_ids)
         self.assertFalse(self.env["ea.audit.signoff"].sudo().search([("file_item_id", "=", paper.file_item_id.id)]))
         self.assertEqual(paper.state, "draft")
-        self.assertEqual(paper.get_payload()["carried"], "Carried forward from 2025: to update")
+        seat = target.team_member_ids.filtered(lambda m: m.user_id == self.partner)
+        seat.with_user(self.partner).action_accept()
+        self.assertEqual(paper.with_user(self.partner).get_payload()["carried"], "Carried forward from 2025: to update")
         # the source file is left as it was
         self.assertEqual({a.field_key: a.value for a in source_paper.answer_ids}, before)
 

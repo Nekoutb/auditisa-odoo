@@ -5916,3 +5916,15 @@ msgstr "En acceptant, vous confirmez être indépendant de ce client pour cet ex
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "working paper answers"
 msgstr "réponses des feuilles de travail"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Audit file archived and locked by %(name)s"
+msgstr "Dossier d'audit archivé et verrouillé par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(count)s working paper(s) carried forward from %(year)s as drafts, to update"
+msgstr "%(count)s feuille(s) de travail reprise(s) de %(year)s en brouillon, à mettre à jour"
