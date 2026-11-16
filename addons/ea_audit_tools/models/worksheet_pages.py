@@ -97,6 +97,7 @@ class FindingPage(models.Model):
                 "by": row.uploaded_by_id.name or "", "date": french_date(row.uploaded_at),
                 "url": "/web/content/%d?download=true" % row.attachment_id.id,
                 "ext": row.name.rsplit(".", 1)[-1][:4].upper() if "." in row.name else "DOC",
+                **row._ea_carry_info(),
             }
         return list(live.values())
 

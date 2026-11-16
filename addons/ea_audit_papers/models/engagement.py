@@ -5,6 +5,8 @@ from odoo import fields, models
 from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 
 from ..services import acceptance_verdict, document_library, is_blank, paper_for
+from odoo.addons.ea_audit_core.services.rollforward_plan import evidence_to_copy
+
 from ..services.completeness import eqr_decided
 
 
@@ -124,6 +126,7 @@ class Engagement(models.Model):
                 "date": fields.Date.context_today(self, row.uploaded_at).strftime("%d/%m/%Y") if row.uploaded_at else "",
                 "ext": name.rsplit(".", 1)[-1][:4].upper() if "." in name else "DOC",
                 "url": "/web/content/%d?download=true" % row.attachment_id.id,
+                **row._ea_carry_info(),
             })
         return found
 
@@ -133,3 +136,66 @@ class Engagement(models.Model):
         self.ensure_one()
         self._ea_require_access()
         return document_library.library(self.sudo()._ea_document_rows(), search)
+
+    # ------------------------------------------------------------------
+    # Roll forward: last year's evidence (owner's ruling of 2026-11-16)
+    # ------------------------------------------------------------------
+
+    def _ea_rollforward_evidence(self, source, carry, mapping):
+        """Every live file of last year, its latest version, copied onto the same task of this file
+        and marked "prior year, carried forward" until reviewed. Only the permanent file's tasks
+        when "all evidence" is not ticked. The bytes are not stored twice: the filestore keeps one
+        file per checksum, so the new ir.attachment points to the same stored file. A new
+        ir.attachment row it is, all the same: its access answers to its own evidence row (the
+        team-only rule of the new file), which last year's row cannot give. The source file is only
+        read."""
+        self.ensure_one()
+        count = super()._ea_rollforward_evidence(source, carry, mapping)
+        Attachment = self.env["ea.audit.task.attachment"].sudo()
+        rows = Attachment.search([("engagement_id", "=", source.id), ("deleted_at", "=", False)])
+        chosen = evidence_to_copy([{
+            "id": row.id, "item": row.file_item_id.id, "name": row.name, "version": row.version, "code": row.code,
+            "deleted": bool(row.deleted_at),
+        } for row in rows], carry)
+        for row in Attachment.browse([entry["id"] for entry in chosen]):
+            item = self._ea_rf_task(row.code)
+            if not item:
+                continue
+            values = {
+                "file_item_id": item.id, "name": row.name, "mime": row.mime, "size_bytes": row.size_bytes,
+                "version": 1, "uploaded_by_id": row.uploaded_by_id.id,
+                "uploaded_at": row.uploaded_at, "carried_from_year": source.fiscal_year,
+            }
+            values.update(self._ea_rf_evidence_links(row, mapping))
+            original = row.attachment_id
+            stored = self.env["ir.attachment"].sudo().create({
+                "name": values["name"], "raw": original.raw, "mimetype": original.mimetype or row.mime,
+                "res_model": "ea.audit.task.attachment", "res_id": 0,
+            })
+            copy = Attachment.create(dict(values, attachment_id=stored.id))
+            stored.res_id = copy.id
+            mapping[("ea.audit.task.attachment", row.id)] = copy
+            count += 1
+        return count
+
+    def _ea_rf_evidence_links(self, row, mapping):
+        """ea_audit_tools: the type and the SCOT, control or procedure the file supports, where
+        that record was carried too (and the name, when it carries its SCOT's tag)."""
+        return {}
+
+    def _ea_instantiate_file_index(self):
+        """A task added hidden by a roll-forward, to hold last year's evidence, comes onto the file
+        when the new file's scope takes it in."""
+        result = super()._ea_instantiate_file_index()
+        for engagement in self:
+            hidden = self.env["ea.audit.file.item"].sudo().search([
+                ("engagement_id", "=", engagement.id), ("conditional", "=", True),
+            ])
+            if not hidden:
+                continue
+            scoped = engagement._ea_scoped_templates().filtered(lambda t: not t.conditional)
+            holding = self.env["ea.audit.task.attachment"].sudo().search([
+                ("file_item_id", "in", hidden.ids), ("carried_from_year", "!=", False), ("deleted_at", "=", False),
+            ]).file_item_id
+            holding.filtered(lambda i: i.template_id in scoped).write({"conditional": False})
+        return result

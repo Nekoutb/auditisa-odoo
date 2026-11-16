@@ -105,6 +105,9 @@
         <field name="arch" type="xml">
             <form>
                 <field name="engagement_id" invisible="1"/>
+                <div class="alert alert-info" role="status" invisible="not carried_label">
+                    <field name="carried_label" readonly="1"/>
+                </div>
                 <group>
                     <group>
                         <field name="benchmark"/>

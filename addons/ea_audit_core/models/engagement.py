@@ -14,6 +14,7 @@ from ..services.signoff_rules import (
     may_hold_partner_seat,
 )
 from ..services.engagement_profile import task_codes as profile_task_codes
+from ..services.rollforward_plan import ROLLFORWARD_KEYS, invitations, uses_last_year_tasks
 from ..services.standards_edition import STANDARDS_EDITIONS, default_standards_edition, edition_for_period
 
 PHASE_SELECTION = [
@@ -120,15 +121,16 @@ class Engagement(models.Model):
         for engagement in self:
             engagement.nature_kind = NATURE_KIND.get(engagement.nature, "non_statutory")
 
-    @api.depends("profile_ids.state", "file_item_ids")
+    @api.depends("profile_ids.state", "file_item_ids", "file_item_ids.conditional")
     def _compute_profile_state(self):
-        """A file opened before the questionnaire existed has its tasks and is never held up."""
+        """A file opened before the questionnaire existed has its tasks and is never held up. The
+        hidden tasks a roll-forward adds to hold last year's evidence are not tasks yet."""
         for engagement in self:
             as_root = engagement.sudo()
             profile = as_root.profile_ids[:1]
             engagement.profile_state = profile.state or "none"
             engagement.profile_pending = (
-                profile.state != "concluded" and not as_root.file_item_ids
+                profile.state != "concluded" and not as_root.file_item_ids.filtered(lambda i: not i.conditional)
                 and not as_root.archived_at and as_root.phase != "archived"
             )
 
@@ -489,15 +491,21 @@ class Engagement(models.Model):
             as_root._ea_ensure_task("P1.2")
         return True
 
-    def rollforward(self, new_year):
+    def rollforward(self, new_year, options=None):
         """Port of rollforward: a new file for a later year, carrying the prior
-        year's accepted partner while they still hold partner rank."""
+        year's accepted partner while they still hold partner rank.
+
+        With options (the "Roll forward" wizard, owner's mock-up of 2026-11-16) the caller says
+        what to carry, the year end, the partner, the team and the approach: see
+        _ea_rollforward_with."""
         self.ensure_one()
         self._ea_require_write()
         self._ea_require_access()
         source = self.sudo()
         if new_year <= source.fiscal_year:
             raise rule_error(self.env, "invalid-year")
+        if options is not None:
+            return self._ea_rollforward_with(new_year, options)
         partners, _delegate = source._ea_partner_seat()
         partners = partners.filtered(lambda u: may_hold_partner_seat(u._ea_firm_role()))
         if not partners:
@@ -521,10 +529,125 @@ class Engagement(models.Model):
         target.sudo()._ea_carry_forward_from(source)
         return target
 
-    def action_rollforward_next_year(self):
+    # ------------------------------------------------------------------
+    # Roll forward with the wizard (owner's mock-up and rulings of 2026-11-16)
+    # ------------------------------------------------------------------
+
+    def _ea_may_roll_forward(self):
+        """From a closed file only: archived, or its report issued."""
         self.ensure_one()
-        target = self.rollforward(self.fiscal_year + 1)
-        return target._ea_open_or_notify()
+        root = self.sudo()
+        return root._ea_is_archived() or bool("report_date" in root._fields and root.report_date)
+
+    def action_rollforward_next_year(self):
+        """The wizard: what to carry, the year, the team and the approach."""
+        self.ensure_one()
+        self._ea_require_team_manager()
+        if not self._ea_may_roll_forward():
+            raise rule_error(self.env, "rollforward-not-closed")
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("Roll forward to %(year)s", year=self.sudo().fiscal_year + 1),
+            "res_model": "ea.audit.rollforward.wizard",
+            "view_mode": "form", "views": [(False, "form")], "target": "new",
+            "context": {"default_source_id": self.id},
+        }
+
+    def _ea_rf_task(self, code):
+        """The task of the new file that receives what was on the same task last year. A task not
+        on the file (yet) is added hidden: the questionnaire's conclusion brings it in."""
+        self.ensure_one()
+        Item = self.env["ea.audit.file.item"].sudo()
+        item = Item.search([("engagement_id", "=", self.id), ("code", "=", code)], limit=1)
+        if item:
+            return item
+        template = self.env["ea.audit.task.template"].sudo().search([("code", "=", code)], limit=1)
+        if not template:
+            return Item
+        return Item.create({"engagement_id": self.id, "template_id": template.id, "conditional": True})
+
+    def _ea_rollforward_carry(self, source, carry, mapping):
+        """ea_audit_tools: the records carried as drafts (SCOTs, risks, procedures, ...).
+        mapping[(model, source id)] = new record, for the evidence links."""
+
+    def _ea_rollforward_evidence(self, source, carry, mapping):
+        """ea_audit_papers: the evidence copied to the new file. Returns how many files."""
+        return 0
+
+    def _ea_rollforward_with(self, new_year, options):
+        """The new file, as the wizard asked. The source file is only read: an archived file
+        refuses any row change. Nothing is concluded or signed in the new file, and every seat,
+        the partner's and the caller's included, waits for its holder to accept the invitation,
+        which is where each member confirms independence for the new year."""
+        self.ensure_one()
+        self._ea_require_team_manager()
+        source = self.sudo()
+        carry = set(options.get("carry") or ())
+        Users = self.env["res.users"]
+        partner = Users.browse(options["partner_id"]).exists() if options.get("partner_id") else Users
+        if not partner:
+            partners, _delegate = source._ea_partner_seat()
+            partner = partners.filtered(lambda u: may_hold_partner_seat(u._ea_firm_role()))[:1]
+        if not partner:
+            raise rule_error(self.env, "engagement-partner-required")
+        shift = relativedelta(years=new_year - source.fiscal_year)
+        period_end = fields.Date.to_date(options.get("period_end")) or source.period_end + shift
+        if period_end <= source.period_end:
+            raise rule_error(self.env, "invalid-year")
+        same = uses_last_year_tasks(carry, options.get("approach"))
+        name = source.name and source.name.replace(str(source.fiscal_year), str(new_year))
+        vals = {
+            "client_id": source.client_id.id,
+            "name": name or False,
+            "fiscal_year": new_year,
+            "period_end": period_end,
+            "engagement_partner_id": partner.id,
+            "nature": source.nature,
+            "report_language": source.report_language,
+            # Same as last year: last year's level and tasks. Otherwise the questionnaire decides.
+            "complexity": (source.complexity or "complex") if same else False,
+        }
+        if source.period_start:
+            months = source.duration_months or 12
+            vals["period_start"] = period_end - relativedelta(months=months) + relativedelta(days=1)
+        target = self.create(vals)
+        as_target = target.sudo()
+        if "scope" in carry:
+            as_target._ea_carry_profile_forward(source)
+        if same:
+            for code in source.file_item_ids.filtered(lambda i: not i.conditional).mapped("code"):
+                as_target._ea_ensure_task(code)
+        as_target._ea_carry_forward_from(source)
+        mapping = {}
+        as_target._ea_rollforward_carry(source, carry, mapping)
+        evidence = as_target._ea_rollforward_evidence(source, carry, mapping)
+        target._ea_rollforward_team(partner, options.get("members") or [])
+        target._ea_log("rolled_forward", "Rolled forward from the %d file by %s" % (source.fiscal_year, self.env.user.name))
+        if carry:
+            target._ea_log("rolled_forward", "Carried forward from the %d file: %s" % (
+                source.fiscal_year, ", ".join(key for key in ROLLFORWARD_KEYS if key in carry),
+            ))
+        if evidence:
+            target._ea_log("evidence_carried", "%d evidence file(s) carried forward from %d, to review before relying on them" % (
+                evidence, source.fiscal_year,
+            ))
+        return target
+
+    def _ea_rollforward_team(self, partner, members):
+        """The team of the new file: the invitations go through the usual invitation, by the
+        caller when they sit on the new team, else by its engagement partner. Then every seat
+        waits for its holder's acceptance."""
+        self.ensure_one()
+        inviter = self if self._ea_member(self.env.user).state == "accepted" else self.with_user(partner)
+        seated = self.env["ea.audit.team.member"].sudo().search([("engagement_id", "=", self.id)]).user_id.mapped("login")
+        for line in invitations([dict(line, invite=True) for line in members], seated):
+            inviter.invite_team_member(
+                line["email"], line.get("role") or "staff", line.get("name"), bool(line.get("eqr_declaration")),
+            )
+        now = fields.Datetime.now()
+        self.env["ea.audit.team.member"].sudo().search([
+            ("engagement_id", "=", self.id), ("state", "=", "accepted"),
+        ]).write({"state": "invited", "invited_at": now, "responded_at": False})
 
     def _ea_open_or_notify(self):
         """Open the file when the caller is on its team. A partner who opened a

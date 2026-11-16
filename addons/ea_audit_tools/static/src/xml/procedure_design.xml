@@ -135,6 +135,7 @@
                                             <t t-esc="row.title"/>
                                             <span class="o_ea_pd_kind" t-att-title="kindTip(row)" t-esc="kindLabel(row)"/>
                                             <span class="o_ea_pd_lock" t-if="lockText(row)"><i class="fa fa-lock" aria-hidden="true"/> <t t-esc="lockText(row)"/></span>
+                                            <span class="badge text-bg-warning ms-1" t-if="row.carried" t-esc="row.carried"/>
                                         </td>
                                         <td class="o_dot" t-foreach="p.assertions" t-as="code" t-key="code" t-esc="dot(row, code)"/>
                                         <td><span t-if="row.why" t-attf-class="o_ea_pd_why {{ whyClass(row.why_tone) }}" t-esc="row.why"/></td>

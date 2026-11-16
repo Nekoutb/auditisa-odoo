@@ -679,6 +679,12 @@ export class PaperAction extends Component {
         });
     }
 
+    async markReviewed(row) {
+        if ((await this.attachmentAct(row, "mark_carried_reviewed")).ok) {
+            await this.refresh();
+        }
+    }
+
     async restore(row) {
         if ((await this.attachmentAct(row, "restore")).ok) {
             await this.refresh();

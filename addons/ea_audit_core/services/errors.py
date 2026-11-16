@@ -75,6 +75,7 @@ MESSAGES = {
     "email-taken": _lt("A user with this email already exists."),
     "reason-required": _lt("A reason is required."),
     "invalid-year": _lt("The new fiscal year must be after the current one."),
+    "rollforward-not-closed": _lt("Roll forward from a closed file: issue its report or archive it first."),
     "fiscal-year-required": _lt("Enter the fiscal year of the file."),
     "period-order": _lt("The audit period must start before it ends."),
     "profile-incomplete": _lt("Answer every question of the profile before concluding. Still to answer: %(questions)s."),

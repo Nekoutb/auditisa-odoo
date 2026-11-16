@@ -63,6 +63,12 @@
                                 <t t-if="doc.by"> · <t t-esc="doc.by"/></t>
                                 <t t-if="doc.date">, <t t-esc="doc.date"/></t>
                             </div>
+                            <div class="o_ea_docs_carried" t-if="doc.carried">
+                                <span t-if="!reviewedLabel(doc)" class="badge text-bg-warning text-wrap text-start" t-esc="doc.carried"/>
+                                <button type="button" class="btn btn-link btn-sm p-0 ms-1" t-if="!reviewedLabel(doc) and props.canUpload"
+                                        t-att-disabled="state.busy" t-on-click="() => this.markReviewed(doc)">Mark as reviewed</button>
+                                <span class="o_ea_docs_muted" t-if="reviewedLabel(doc)" t-esc="reviewedLabel(doc)"/>
+                            </div>
                             <div class="o_ea_docs_edit" t-if="props.canUpload and (props.onSetType or props.onSetControl)">
                                 <select t-if="props.onSetType and props.types" class="form-select form-select-sm" aria-label="Type"
                                         t-att-disabled="state.busy" t-on-change="(ev) => this.setType(doc, ev)">

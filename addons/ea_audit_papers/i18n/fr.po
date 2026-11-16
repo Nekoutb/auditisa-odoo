@@ -1932,3 +1932,36 @@ msgstr "Joindre un document de cette mission"
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "Pick from this engagement"
 msgstr "Choisir dans cette mission"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__carried_from_year
+msgid "Carried forward from"
+msgstr "Repris de l'exercice"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__carried_reviewed_by_id
+msgid "Prior-year document reviewed by"
+msgstr "Document N-1 revu par"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__carried_reviewed_at
+msgid "Prior-year document reviewed on"
+msgstr "Document N-1 revu le"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/task_attachment.py:0
+msgid "Reviewed by %(name)s on %(date)s"
+msgstr "Revu par %(name)s le %(date)s"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/task_attachment.py:0
+msgid "Prior year (%(year)s), carried forward — review before relying on it"
+msgstr "Exercice précédent (%(year)s), repris — à revoir avant de s'y fier"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Mark as reviewed"
+msgstr "Marquer comme revu"

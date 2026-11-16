@@ -15005,3 +15005,79 @@ msgstr "C3.1 Lettre d'affirmation de la direction"
 #: model:ea.audit.wp.template,description:ea_audit_tools.wp_c31_rep_letter
 msgid "Sample letter (Word): yellow text must be completed or deleted. Date it the same day as the auditor's report."
 msgstr "Modèle de lettre (Word) : le texte en jaune doit être complété ou supprimé. Datez-la du même jour que le rapport de l'auditeur."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__carried_from_year
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__carried_from_year
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__carried_from_year
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__carried_from_year
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__carried_from_year
+msgid "Carried forward from"
+msgstr "Repris de l'exercice"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_scot__carried_from_year
+msgid "A draft carried from last year's file: to update."
+msgstr "Brouillon repris du dossier de l'an dernier : à mettre à jour."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_scot_control__carried_from_year
+msgid "Last year's design, carried as a draft: the test starts again."
+msgstr "Conception de l'an dernier, reprise en brouillon : le test repart de zéro."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_risk__carried_from_year
+msgid "Carried from last year's file: the assessment is to re-confirm."
+msgstr "Repris du dossier de l'an dernier : l'évaluation est à reconfirmer."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_designed_procedure__carried_from_year
+msgid "Chosen last year, carried as a draft: not started, no conclusion."
+msgstr "Choisie l'an dernier, reprise en brouillon : non commencée, sans conclusion."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_significance__carried_from_year
+msgid "Last year's decision, carried as a draft: to re-confirm."
+msgstr "Décision de l'an dernier, reprise en brouillon : à reconfirmer."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__ea_carried_basis
+msgid "Carried from last year"
+msgstr "Repris de l'an dernier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_carried_label
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__carried_label
+msgid "Last year's basis"
+msgstr "Base de l'an dernier"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/rollforward.py:0
+msgid "Last year (%(year)s): %(benchmark)s, %(pct)s%%; performance %(perf)s%%; clearly trivial %(trivial)s%%. Amounts are worked out again from this year's figures."
+msgstr "L'an dernier (%(year)s) : %(benchmark)s, %(pct)s %% ; seuil de travail %(perf)s %% ; manifestement négligeable %(trivial)s %%. Les montants sont recalculés à partir des chiffres de l'exercice."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/rollforward.py:0
+msgid "Closing balances of the %(year)s file"
+msgstr "Soldes de clôture du dossier %(year)s"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Carried from"
+msgstr "Repris de"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "Mark as reviewed"
+msgstr "Marquer comme revu"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Carried forward from %(year)s: to update"
+msgstr "Repris de %(year)s : à mettre à jour"

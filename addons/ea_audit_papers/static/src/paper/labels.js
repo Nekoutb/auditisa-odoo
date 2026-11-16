@@ -108,6 +108,7 @@ export const LABELS = {
     rename: _t("Rename"),
     renameDone: _t("OK"),
     restore: _t("Restore"),
+    markReviewed: _t("Mark as reviewed"),
     removedFiles: _t("Removed (30 days): "),
     uploadVoids: _t("Attaching a file after signing voids the signatures."),
     removeTitle: _t("Remove this file?"),

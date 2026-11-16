@@ -61,7 +61,7 @@ class ScotOverview(models.Model):
 
     @api.depends(
         "index_ids", "wcgw_ids.control_ids", "control_ids.selected_for_testing", "control_ids.operating_eval",
-        "document_ids.deleted_at", "assignee_id", "transaction_type", "strategy", "walkthrough_open",
+        "document_ids.deleted_at", "assignee_id", "transaction_type", "strategy", "walkthrough_open", "carried_from_year",
     )
     @api.depends_context("lang")
     def _compute_overview(self):
@@ -106,6 +106,8 @@ class ScotOverview(models.Model):
             scot.ea_card = {
                 "subtitle": "%s · %s · %s %s" % (types.get(scot.transaction_type, ""), approach, _("Owner:"), owner),
                 "tags": [{"code": line.index_code, "label": labels.get(line.index_code, "")} for line in scot.index_ids],
+                # roll forward: last year's SCOT, carried as a draft
+                "carried": _("Carried forward from %(year)s: to update", year=scot.carried_from_year) if scot.carried_from_year else False,
                 "steps": steps,
                 "kpis": kpis,
                 "empty": _("No risk recorded yet") if not wcgws else "",
@@ -201,6 +203,7 @@ class ScotOverview(models.Model):
                 "controlId": row.control_id.id or False, "controlCode": row.control_id.code or "",
                 "url": "/web/content/%d?download=true" % row.attachment_id.id,
                 "ext": row.name.rsplit(".", 1)[-1][:4].upper() if "." in row.name else "DOC",
+                **row._ea_carry_info(),
             }
         floor = fields.Datetime.now() - timedelta(days=RESTORE_WINDOW_DAYS)
         removed = {}

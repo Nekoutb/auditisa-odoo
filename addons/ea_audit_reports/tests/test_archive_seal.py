@@ -161,6 +161,12 @@ class TestSealedArchive(ReportsCase):
         self.assertTrue(page["archived"])
         self.assertTrue(any("Downloaded" in row["what"] or "téléchargée" in row["what"] for row in page["access"]))
 
+    def test_roll_forward_from_the_archived_file_opens_the_wizard(self):
+        self._archived()
+        action = self.as_partner.ea_archive_page_open("method", "action_rollforward_next_year")
+        self.assertEqual((action["res_model"], action["target"]), ("ea.audit.rollforward.wizard", "new"))
+        self.assertEqual(action["context"]["default_source_id"], self.engagement.id)
+
     def test_opening_an_archived_paper_is_logged(self):
         self._archived()
         item = self.item(self.engagement, "C6.1")

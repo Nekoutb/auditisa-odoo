@@ -31,6 +31,11 @@ class TaskAttachment(models.Model):
     uploaded_at = fields.Datetime(required=True, default=fields.Datetime.now)
     deleted_at = fields.Datetime(index=True)
     deleted_by_id = fields.Many2one("res.users", ondelete="restrict")
+    # Roll forward (owner's ruling of 2026-11-16): last year's evidence copied to the new file, the
+    # same bytes, marked until someone of the team has reviewed it.
+    carried_from_year = fields.Integer(string="Carried forward from", readonly=True, copy=False)
+    carried_reviewed_by_id = fields.Many2one("res.users", string="Prior-year document reviewed by", ondelete="restrict", readonly=True, copy=False)
+    carried_reviewed_at = fields.Datetime(string="Prior-year document reviewed on", readonly=True, copy=False)
 
     _item_name_version_uniq = models.Constraint(
         "UNIQUE(file_item_id, name, version)", "This version of the file already exists.",
@@ -100,6 +105,37 @@ class TaskAttachment(models.Model):
         row.file_item_id._ea_after_evidence_change(self.env, "restored", "Restored: %s" % row.name)
         return True
 
+    def _ea_carry_info(self):
+        """What a list of documents shows of a carried file: the mark, and who reviewed it."""
+        self.ensure_one()
+        row = self.sudo()
+        if not row.carried_from_year:
+            return {"carried": False, "carriedReviewed": False}
+        reviewed = False
+        if row.carried_reviewed_at:
+            reviewed = self.env._(
+                "Reviewed by %(name)s on %(date)s", name=row.carried_reviewed_by_id.name or "",
+                date=fields.Date.context_today(self, row.carried_reviewed_at).strftime("%d/%m/%Y"),
+            )
+        return {
+            "carried": self.env._(
+                "Prior year (%(year)s), carried forward — review before relying on it", year=row.carried_from_year,
+            ),
+            "carriedReviewed": reviewed,
+        }
+
+    def mark_carried_reviewed(self):
+        """A member of the team has read last year's file again: it may be relied on this year."""
+        row = self._ea_guard("staff")
+        if row.deleted_at or not row.carried_from_year:
+            raise paper_error(self.env, "not-found")
+        if not row.carried_reviewed_at:
+            row.write({"carried_reviewed_by_id": self.env.user.id, "carried_reviewed_at": fields.Datetime.now()})
+            row.engagement_id._ea_log(
+                "attachment_reviewed", "%s: Prior-year document reviewed: %s" % (row.code, row.name),
+            )
+        return row._ea_carry_info()
+
     @api.model
     def _ea_payload(self, item):
         rows = self.sudo().search([("file_item_id", "=", item.id)])
@@ -109,6 +145,7 @@ class TaskAttachment(models.Model):
                 "id": row.id, "name": row.name, "version": row.version, "size": row.size_bytes,
                 "attachment_id": row.attachment_id.id, "by": row.uploaded_by_id.name,
                 "date": row.uploaded_at.strftime("%d/%m/%Y"), "history": [],
+                **row._ea_carry_info(),
             })
             if entry["id"] != row.id:
                 entry["history"].append({"id": row.id, "version": row.version, "attachment_id": row.attachment_id.id})

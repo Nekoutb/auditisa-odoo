@@ -25,13 +25,33 @@ class MaterialityWizard(models.TransientModel):
     performance_justification = fields.Text()
     trivial_pct = fields.Float(string="Clearly trivial %", digits=(5, 2), default=5)
     override_justification = fields.Text(string="Why it departs from the range or the TB base")
+    carried_label = fields.Char(related="engagement_id.mat_carried_label", string="Last year's basis")
+
+    def _ea_carried(self, engagement):
+        """Last year's basis and percentages, while this file has no version of its own (roll forward)."""
+        root = engagement.sudo()
+        if not root or root.materiality_ids:
+            return {}
+        return (root.ea_carried_basis or {}).get("materiality") or {}
+
+    @api.model
+    def default_get(self, field_names):
+        values = super().default_get(field_names)
+        engagement_id = values.get("engagement_id") or self.env.context.get("default_engagement_id")
+        carried = self._ea_carried(self.env["ea.audit.engagement"].browse(engagement_id))
+        for name in ("benchmark", "percentage", "performance_pct", "trivial_pct", "justification", "performance_justification"):
+            if carried.get(name) not in (None, False) and name in field_names:
+                values[name] = carried[name]
+        return values
 
     @api.onchange("benchmark", "engagement_id")
     def _onchange_benchmark(self):
-        """Refills the amount from the TB base and the percentage from the range's midpoint."""
+        """Refills the amount from the TB base and the percentage from the range's midpoint, or
+        from last year's percentage on last year's basis."""
         if not self.benchmark or not self.engagement_id:
             return
-        self.percentage = midpoint(self.benchmark)
+        carried = self._ea_carried(self.engagement_id)
+        self.percentage = carried["percentage"] if carried.get("benchmark") == self.benchmark else midpoint(self.benchmark)
         bases = self.engagement_id.sudo()._ea_tb_bases()
         if bases:
             self.benchmark_amount = max(bases[self.benchmark], 0)

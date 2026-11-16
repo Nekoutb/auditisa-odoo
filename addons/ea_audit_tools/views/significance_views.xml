@@ -39,6 +39,8 @@
                 <field name="status" widget="selection" decoration-success="status == 'significant'" decoration-bf="1" width="110px"
                        readonly="has_risk"/>
                 <field name="justification" placeholder="Required when the status departs from the one proposed"/>
+                <field name="carried_from_year" string="Carried from" optional="show" readonly="1" options="{'enable_formatting': false}"
+                       decoration-warning="carried_from_year" invisible="not carried_from_year"/>
                 <field name="assertion_ids" widget="ea_assertion_picker" width="95px"/>
                 <field name="specific_te" width="95px"/>
             </list>

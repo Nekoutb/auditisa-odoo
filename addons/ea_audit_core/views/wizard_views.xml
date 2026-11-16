@@ -108,4 +108,55 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
+    <record id="view_rollforward_wizard" model="ir.ui.view">
+        <field name="name">ea.audit.rollforward.wizard.form</field>
+        <field name="model">ea.audit.rollforward.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="source_id" invisible="1"/>
+                <field name="new_year" invisible="1"/>
+                <div class="text-muted mb-2"><field name="source_label" readonly="1"/></div>
+                <p><field name="intro" readonly="1"/></p>
+                <h5>1 · What to carry</h5>
+                <group>
+                    <field name="carry_scope"/>
+                    <field name="carry_materiality"/>
+                    <field name="carry_scots"/>
+                    <field name="carry_risks"/>
+                    <field name="carry_procedures"/>
+                    <field name="carry_significance"/>
+                    <field name="carry_comparatives"/>
+                    <field name="carry_permanent"/>
+                    <field name="carry_evidence"/>
+                </group>
+                <div class="text-muted small mb-3">Carried items come in as drafts to update or re-confirm. Last year's evidence is copied and marked "Prior year, carried forward: review before relying on it". Sign-offs, conclusions and independence always start again.</div>
+                <h5>2 · Year, team and process</h5>
+                <group>
+                    <group>
+                        <field name="period_end"/>
+                        <field name="engagement_partner_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="approach" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                </group>
+                <field name="member_ids">
+                    <list editable="bottom">
+                        <field name="invite" widget="boolean_toggle"/>
+                        <field name="email" required="1"/>
+                        <field name="name"/>
+                        <field name="team_role"/>
+                        <field name="eqr_declaration" invisible="team_role != 'eqr_reviewer'"/>
+                        <field name="carried" column_invisible="1" force_save="1"/>
+                        <field name="note" force_save="1"/>
+                    </list>
+                </field>
+                <div class="text-muted small">Add a member with a new line: email and role.</div>
+                <footer>
+                    <button name="action_create" type="object" string="Create the file" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
 </odoo>

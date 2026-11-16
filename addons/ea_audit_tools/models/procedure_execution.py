@@ -408,6 +408,7 @@ class EngagementProcedureExecution(models.Model):
                 "by": row.uploaded_by_id.name or "", "date": row.uploaded_at.strftime("%d/%m/%Y") if row.uploaded_at else "",
                 "url": "/web/content/%d?download=true" % row.attachment_id.id,
                 "ext": row.name.rsplit(".", 1)[-1][:4].upper() if "." in row.name else "DOC",
+                **row._ea_carry_info(),
             })
         return sorted(latest.values(), key=lambda r: r["name"].lower())
 
