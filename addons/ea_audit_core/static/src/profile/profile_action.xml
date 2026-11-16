@@ -3,7 +3,7 @@
 
 <t t-name="ea_audit_core.ProfileAction">
     <div class="o_ea_profile" t-if="p">
-        <a href="#" class="eapr-back" role="button" t-on-click.prevent="() => this.openAction('action_save_for_later')">&#8592; <t t-esc="p.words.back"/></a>
+        <a href="#" class="eapr-back" role="button" t-on-click.prevent="() => this.back()">&#8592; <t t-esc="backLabel"/></a>
         <div class="eapr-head">
             <div>
                 <h1 t-esc="p.words.title"/>

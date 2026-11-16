@@ -192,7 +192,7 @@ class CraRow(models.Model):
     cell_v = fields.Selection(CELL_SELECTION, string="V", compute="_compute_cells", compute_sudo=True)
     cell_p = fields.Selection(CELL_SELECTION, string="P", compute="_compute_cells", compute_sudo=True)
     cell_ro = fields.Selection(CELL_SELECTION, string="RO", compute="_compute_cells", compute_sudo=True)
-    worst_tod = fields.Selection(TOD_SELECTION, string="Worst (sampling)", compute="_compute_cells", compute_sudo=True)
+    worst_tod = fields.Selection(TOD_SELECTION, string="Sampling level", help="Highest combined risk among the relevant assertions", compute="_compute_cells", compute_sudo=True)
 
     _uniq = models.Constraint("UNIQUE(engagement_id, index_code)", "One board line per lead index.")
 

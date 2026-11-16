@@ -1,0 +1,20 @@
+// "Attach a document of this engagement": the searchable list of the file's own documents.
+.o_ea_xdocs {
+    font-size: 13px;
+    .o_ea_xdocs_search { margin-bottom: 6px; }
+    .o_ea_xdocs_hint, .o_ea_xdocs_muted, .o_ea_xdocs_empty { color: #66727c; font-size: 12px; }
+    .o_ea_xdocs_hint { margin: 0 0 8px; }
+    .o_ea_xdocs_list { max-height: 55vh; overflow: auto; border: 1px solid #dfe3e6; border-radius: 8px; }
+    .o_ea_xdocs_table {
+        margin: 0;
+        th { background: #f3f5f6; font-size: 12px; font-weight: 600; position: sticky; top: 0; }
+        td, th { border-bottom: 1px solid #dfe3e6; vertical-align: middle; }
+        tbody tr { cursor: pointer; }
+        tbody tr:hover { background: #f7faf9; }
+        tbody tr.is-picked { background: #e6f2ed; }
+    }
+    .o_ea_xdocs_ext {
+        display: inline-block; min-width: 34px; margin-right: 6px; padding: 0 4px; border-radius: 4px;
+        background: #e6f2ed; color: #17694f; font-size: 10px; font-weight: 700; text-align: center;
+    }
+}

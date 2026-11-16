@@ -5,20 +5,12 @@ import { useService } from "@web/core/utils/hooks";
 import { kanbanView } from "@web/views/kanban/kanban_view";
 import { KanbanController } from "@web/views/kanban/kanban_controller";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
+import { EaDocsPane } from "./page_kit";
 
 /**
  * SCOTs and controls (owner's mock-ups of 2026-11-16): the totals above the cards, the counts on
  * the SCOT's tabs, the "which control answers which risk" grid and the SCOT's documents.
  */
-
-function readBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result).split(",")[1] || "");
-        reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(file);
-    });
-}
 
 function errorText(error) {
     return error?.data?.message || error?.message || _t("The action failed.");
@@ -83,7 +75,7 @@ registry.category("views").add("ea_scot_kanban", { ...kanbanView, Controller: Sc
 // Inside a SCOT: the count on each tab
 // ---------------------------------------------------------------------------------------------
 
-/** Adds the count to each of the five tabs. The tabs work without it: it only decorates them. */
+/** Adds the count to each of the four tabs (the documents sit in the pane at the right). The tabs work without it: it only decorates them. */
 export class ScotTabCounts extends Component {
     static template = "ea_audit_tools.ScotTabCounts";
     static props = { ...standardWidgetProps };
@@ -101,7 +93,6 @@ export class ScotTabCounts extends Component {
             String(data.wcgw_count || 0),
             String(data.control_count || 0),
             data.walkthrough_open ? String(data.walkthrough_open) : "✓",
-            String(data.document_count || 0),
         ];
     }
 
@@ -172,15 +163,17 @@ registry.category("view_widgets").add("ea_scot_grid", { component: ScotGrid });
 // The SCOT's documents
 // ---------------------------------------------------------------------------------------------
 
+/** The SCOT's documents, in the pane at the right of the SCOT (owner, 2026-11-16): always in
+ * view beside the tabs, no longer a tab of their own. The pane is the one every page shares. */
 export class ScotDocuments extends Component {
     static template = "ea_audit_tools.ScotDocuments";
     static props = { ...standardWidgetProps };
+    static components = { EaDocsPane };
 
     setup() {
         this.orm = useService("orm");
         this.notification = useService("notification");
-        this.fileInput = useRef("fileInput");
-        this.state = useState({ docs: null, busy: false, over: false, type: "flowchart", controlId: false });
+        this.state = useState({ docs: null });
         onWillStart(() => this.load());
     }
 
@@ -193,7 +186,6 @@ export class ScotDocuments extends Component {
     }
 
     async call(method, args) {
-        this.state.busy = true;
         try {
             this.state.docs = await this.orm.call("ea.audit.scot", method, [[this.scotId], ...args]);
             await this.props.record.model.load();
@@ -201,63 +193,27 @@ export class ScotDocuments extends Component {
         } catch (error) {
             this.notification.add(errorText(error), { type: "danger" });
             return false;
-        } finally {
-            this.state.busy = false;
         }
     }
 
-    choose() {
-        this.fileInput.el?.click();
-    }
-
-    async uploadFiles(files) {
+    async upload(files, options) {
         for (const file of files) {
-            const content = await readBase64(file);
-            if (!(await this.call("upload_document", [file.name, content, this.state.type, this.state.controlId || false]))) {
+            if (!(await this.call("upload_document", [file.name, file.content, options.type || "other", options.controlId || false]))) {
                 break;
             }
         }
     }
 
-    async onFileChange(ev) {
-        const files = [...ev.target.files];
-        ev.target.value = "";
-        await this.uploadFiles(files);
+    attachExisting(ids, options) {
+        return this.call("attach_existing_documents", [ids, options.type || "other", options.controlId || false]);
     }
 
-    onDragOver(ev) {
-        if (this.state.docs?.canUpload) {
-            ev.preventDefault();
-            this.state.over = true;
-        }
+    setType(doc, value) {
+        return this.call("set_document", [doc.id, value, null]);
     }
 
-    onDragLeave() {
-        this.state.over = false;
-    }
-
-    async onDrop(ev) {
-        ev.preventDefault();
-        this.state.over = false;
-        if (this.state.docs?.canUpload && ev.dataTransfer?.files?.length) {
-            await this.uploadFiles([...ev.dataTransfer.files]);
-        }
-    }
-
-    onTypeChoice(ev) {
-        this.state.type = ev.target.value;
-    }
-
-    onControlChoice(ev) {
-        this.state.controlId = Number(ev.target.value) || false;
-    }
-
-    setType(doc, ev) {
-        return this.call("set_document", [doc.id, ev.target.value, null]);
-    }
-
-    setControl(doc, ev) {
-        return this.call("set_document", [doc.id, null, Number(ev.target.value) || false]);
+    setControl(doc, value) {
+        return this.call("set_document", [doc.id, null, value || false]);
     }
 
     remove(doc) {

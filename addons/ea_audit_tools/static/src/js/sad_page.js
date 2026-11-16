@@ -3,6 +3,7 @@ import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
+import { EaCrumbs } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 
@@ -15,6 +16,7 @@ const ENGAGEMENT = "ea.audit.engagement";
 export class SadPage extends Component {
     static template = "ea_audit_tools.SadPage";
     static props = ["*"];
+    static components = { EaCrumbs };
 
     setup() {
         this.orm = useService("orm");

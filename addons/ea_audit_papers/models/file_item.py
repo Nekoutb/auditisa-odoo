@@ -390,3 +390,47 @@ class FileItem(models.Model):
         stored.res_id = row.id
         item._ea_after_evidence_change(env, "uploaded", "%s v%s" % (name, version))
         return row.id
+
+    def attach_existing(self, row_ids):
+        return self._ea_attach_existing(row_ids)
+
+    def _ea_attach_existing(self, row_ids, name_of=None):
+        """Attach documents already in THIS engagement (owner, 2026-11-16): each becomes the next
+        version of its name on this task. The bytes are not copied: the filestore keeps one file
+        per checksum, so the new ir.attachment points to the same stored file. It answers to this
+        task's own row (the team-only rule), so removing the original never takes this one away.
+        A file of another engagement, or a removed one, is refused as not found."""
+        self.ensure_one()
+        env = self.env
+        item = self.sudo()
+        if not item.exists():
+            raise paper_error(env, "not-found")
+        item.with_env(env)._ea_guard_evidence("staff")
+        wanted = {int(i) for i in (row_ids or []) if i}
+        Attachment = env["ea.audit.task.attachment"].sudo()
+        sources = Attachment.browse(sorted(wanted)).exists()
+        if not wanted or len(sources) != len(wanted):
+            raise paper_error(env, "not-found")
+        created = []
+        for source in sources:
+            if source.deleted_at or source.engagement_id != item.engagement_id:
+                raise paper_error(env, "not-found")
+            name = name_of(source.name) if name_of else source.name
+            previous = Attachment.search(
+                [("file_item_id", "=", item.id), ("name", "=", name)], order="version desc", limit=1,
+            )
+            original = source.attachment_id
+            stored = env["ir.attachment"].sudo().create({
+                "name": name, "raw": original.raw, "mimetype": original.mimetype or source.mime,
+                "res_model": "ea.audit.task.attachment", "res_id": 0,
+            })
+            row = Attachment.create({
+                "file_item_id": item.id, "name": name, "mime": source.mime, "size_bytes": source.size_bytes,
+                "version": previous.version + 1, "attachment_id": stored.id, "uploaded_by_id": env.user.id,
+            })
+            stored.res_id = row.id
+            item._ea_after_evidence_change(
+                env, "attached", "Attached from %s: %s v%s" % (source.code, name, row.version),
+            )
+            created.append(row.id)
+        return created

@@ -3,6 +3,7 @@ import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
+import { EaCrumbs } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 const CELL = "ea.audit.cra.assessment";
@@ -17,12 +18,14 @@ const CELL = "ea.audit.cra.assessment";
 export class CraPage extends Component {
     static template = "ea_audit_tools.CraPage";
     static props = ["*"];
+    static components = { EaCrumbs };
 
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
         const { params = {}, context = {} } = this.props.action || {};
         this.engagementId = Number(params.engagement_id || context.active_id || context.ea_engagement_id);
+        // owner, 2026-11-16: the filter starts OFF, so every assessment stays in reach
         this.state = useState({ p: null, onlyOpen: false, folded: {}, hints: {}, busy: false });
         // what was typed in a basis box since that cell's last choice: the basis or reason a
         // choice needs must be written for it, an older text is no reason (UAT B51)
@@ -70,6 +73,10 @@ export class CraPage extends Component {
         }
         // an account fully assessed starts folded, as in the mock-up
         return !this.state.onlyOpen && account.total > 0 && account.done === account.total;
+    }
+
+    showAll() {
+        this.state.onlyOpen = false;
     }
 
     toggle(account) {

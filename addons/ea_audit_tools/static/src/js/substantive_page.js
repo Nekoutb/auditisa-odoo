@@ -4,7 +4,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
 import { amount } from "@ea_audit_tools/js/figures";
-import { readAsBase64 } from "@ea_audit_tools/js/je_page";
+import { EaCrumbs, EaDocsPane } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 
@@ -27,6 +27,7 @@ function kindTip(kind) {
 export class SubstantivePage extends Component {
     static template = "ea_audit_tools.SubstantivePage";
     static props = ["*"];
+    static components = { EaCrumbs };
 
     setup() {
         this.orm = useService("orm");
@@ -83,6 +84,7 @@ export class SubstantivePage extends Component {
 export class ProcedurePaper extends Component {
     static template = "ea_audit_tools.ProcedurePaper";
     static props = ["*"];
+    static components = { EaCrumbs, EaDocsPane };
 
     setup() {
         this.orm = useService("orm");
@@ -319,31 +321,21 @@ export class ProcedurePaper extends Component {
         return `/web/content/${attachmentId}?download=true`;
     }
 
+    // the evidence of the procedure, in the pane at the right
     async attach(files) {
         if (!this.editable) {
             return;
         }
         for (const file of files) {
-            const content = await readAsBase64(file);
-            await this.call("ea_proc_upload", [file.name, content]);
+            await this.call("ea_proc_upload", [file.name, file.content]);
         }
     }
 
-    onFiles(ev) {
-        const files = [...ev.target.files];
-        ev.target.value = "";
-        return this.attach(files);
-    }
-
-    onDrop(ev) {
-        ev.preventDefault();
-        this.state.dragging = false;
-        return this.attach([...(ev.dataTransfer?.files || [])]);
-    }
-
-    onDragOver(ev) {
-        ev.preventDefault();
-        this.state.dragging = true;
+    attachExisting(ids) {
+        if (!this.editable) {
+            return;
+        }
+        return this.call("ea_proc_attach_existing", [ids]);
     }
 
     removeFile(file) {

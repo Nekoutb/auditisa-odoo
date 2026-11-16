@@ -5,6 +5,7 @@ import { user } from "@web/core/user";
 import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
 
+import { ExistingDocsDialog } from "../docs/existing_docs_dialog";
 import { AUTO_SOURCES, CHIP_LETTER, LABELS } from "./labels";
 
 const NA = "na";
@@ -639,6 +640,18 @@ export class PaperAction extends Component {
         if (done.ok) {
             await this.refresh();
         }
+    }
+
+    pickExisting() {
+        this.dialog.add(ExistingDocsDialog, {
+            engagementId: this.state.payload.engagement_id,
+            onAttach: async (ids) => {
+                const done = await this.guarded(() => this.callItem("attach_existing", [ids]));
+                if (done.ok) {
+                    await this.refresh();
+                }
+            },
+        });
     }
 
     downloadUrl(attachmentId) {

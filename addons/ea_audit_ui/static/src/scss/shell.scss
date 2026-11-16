@@ -18,6 +18,9 @@ body.ea-shell {
   --ea-goldbg: #f7edd8;
   --ea-blue: #34467f;
   --ea-bluebg: #e8ebf5;
+  // One side margin for the whole shell (owner, 2026-11-16): the top bar, Odoo's lists, forms
+  // and kanbans, and the one-page tools all line up on it, at every width.
+  --ea-gutter: 40px;
   background: var(--ea-canvas);
 
   // Odoo's chat bubbles belong to the navbar this shell replaces.
@@ -45,6 +48,38 @@ body.ea-shell {
   // Odoo's own lists and forms keep clear of the bar.
   .o_action_manager > .o_action > .o_control_panel,
   .o_action_manager > .o_view_controller > .o_control_panel { margin-top: 10px; }
+
+  // Owner, 2026-11-16: the content card's left and right edges are the top bar's, exactly.
+  // Odoo's views (lists, forms, kanbans, with their control panel) sit on the gutter as one
+  // white card; the one-page tools pad their own canvas by the same gutter.
+  .o_action_manager > .o_view_controller {
+    margin-left: var(--ea-gutter);
+    margin-right: var(--ea-gutter);
+    margin-bottom: 16px;
+    min-width: 0;
+  }
+  .o_action_manager > .o_view_controller:not(.o_ea_hub) {
+    background: var(--ea-card);
+    border: 1px solid var(--ea-line);
+    border-radius: 10px;
+    overflow: hidden;
+    > .o_control_panel { margin-top: 0; }
+  }
+  .o_action_manager > .o_view_controller:not(.o_ea_hub) { margin-top: 10px; }
+  // A form's sheet fills the card instead of floating narrower in the middle of it.
+  .o_action_manager .o_form_view .o_form_sheet_bg { padding-left: 0; padding-right: 0; }
+  .o_action_manager .o_form_view .o_form_sheet_bg > .o_form_sheet {
+    max-width: none; width: auto; margin-left: 0; margin-right: 0; border-left: 0; border-right: 0;
+  }
+  .o_action_manager .o_ea_cra,
+  .o_action_manager .o_ea_ws,
+  .o_action_manager .o_ea_pd,
+  .o_action_manager .o_ea_px,
+  .o_action_manager .o_ea_profile,
+  .o_action_manager .o_ea_paper {
+    padding-left: var(--ea-gutter);
+    padding-right: var(--ea-gutter);
+  }
 
   // Owner, 2026-11-16: page buttons (Export to Excel, Import from Excel, ...) sit on ONE line,
   // side by side, the same height, lined up with the page title, on every page.
@@ -75,7 +110,7 @@ body.ea-shell .ea-top {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 16px 40px 0;
+  margin: 16px var(--ea-gutter) 0;
   padding: 9px 14px;
   background: var(--ea-card);
   border: 1px solid var(--ea-line);
@@ -203,7 +238,7 @@ body.ea-shell .ea-pop-search { left: auto; right: 0; width: 340px; }
 body.ea-shell .ea-page {
   height: 100%;
   overflow: auto;
-  padding: 6px 40px 48px;
+  padding: 6px var(--ea-gutter) 48px;
   background: var(--ea-canvas);
 
   h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: 1.4; margin: 0; color: var(--ea-ink); }
@@ -369,8 +404,8 @@ body.ea-shell .ea-page {
 // ----------------------------------------------------------------------
 
 @media (max-width: 1240px) {
-  body.ea-shell .ea-top { flex-wrap: wrap; margin: 12px 16px 0; }
-  body.ea-shell .ea-page { padding-left: 16px; padding-right: 16px; }
+  body.ea-shell { --ea-gutter: 16px; }
+  body.ea-shell .ea-top { flex-wrap: wrap; margin-top: 12px; }
   body.ea-shell .ea-page .ea-tiles { grid-template-columns: 1fr 1fr; }
 }
 

@@ -39,7 +39,7 @@ from ..services.procedure_execution import (
     split_steps, unrecorded_select,
 )
 from ..services.ws_pages import sample_items
-from .tool_record import french_date, grouped, is_french
+from .tool_record import free_name, french_date, grouped, is_french
 from .worksheet_pages import FINDING_KINDS
 
 SELECTION_METHODS = ("cutoff", "unrecorded")
@@ -397,6 +397,8 @@ class EngagementProcedureExecution(models.Model):
             latest.setdefault(row.name, {
                 "id": row.id, "name": row.name, "version": row.version, "attachment_id": row.attachment_id.id,
                 "by": row.uploaded_by_id.name or "", "date": row.uploaded_at.strftime("%d/%m/%Y") if row.uploaded_at else "",
+                "url": "/web/content/%d?download=true" % row.attachment_id.id,
+                "ext": row.name.rsplit(".", 1)[-1][:4].upper() if "." in row.name else "DOC",
             })
         return sorted(latest.values(), key=lambda r: r["name"].lower())
 
@@ -734,6 +736,23 @@ class EngagementProcedureExecution(models.Model):
             raise paper_error(self.env, "name-taken")
         row_id = host.with_env(self.env).upload_attachment(filename, content_b64)
         self.env["ea.audit.task.attachment"].sudo().browse(row_id).designed_procedure_id = proc.id
+        self._ea_exec_started(proc)
+        return self.ea_procedure_paper(proc.id)
+
+    def ea_proc_attach_existing(self, proc_id, row_ids):
+        """Documents already in the engagement, attached as evidence of the procedure: no new upload."""
+        proc = self._ea_exec_writable(proc_id)
+        code = INDEX_SECTION.get(proc.index_code)
+        if code:
+            self.sudo()._ea_ensure_task(code)
+        host = self._ea_exec_task(proc.index_code)
+        if not host:
+            raise rule_error(self.env, "not-found")
+        Attachment = self.env["ea.audit.task.attachment"].sudo()
+        created = host.with_env(self.env)._ea_attach_existing(
+            row_ids, name_of=lambda name: free_name(self.env, host, name, ("designed_procedure_id", "!=", proc.id)),
+        )
+        Attachment.browse(created).write({"designed_procedure_id": proc.id})
         self._ea_exec_started(proc)
         return self.ea_procedure_paper(proc.id)
 

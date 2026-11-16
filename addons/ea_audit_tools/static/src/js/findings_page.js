@@ -3,6 +3,7 @@ import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
+import { EaCrumbs, EaDocsPane } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 
@@ -16,6 +17,7 @@ const ENGAGEMENT = "ea.audit.engagement";
 export class FindingsPage extends Component {
     static template = "ea_audit_tools.FindingsPage";
     static props = ["*"];
+    static components = { EaCrumbs, EaDocsPane };
 
     setup() {
         this.orm = useService("orm");
@@ -25,7 +27,7 @@ export class FindingsPage extends Component {
         this.engagementId = Number(params.engagement_id || context.active_id || context.ea_engagement_id);
         this.state = useState({
             p: null, tab: "all", selected: Number(params.finding_id) || null, docs: [], busy: false,
-            closing: "", drag: false,
+            closing: "", reopening: "",
         });
         this.queue = Promise.resolve();
         useSetupAction({ beforeLeave: () => this.queue.then(() => true) });
@@ -85,6 +87,7 @@ export class FindingsPage extends Component {
     async select(finding) {
         this.state.selected = finding.id;
         this.state.closing = "";
+        this.state.reopening = "";
         await this.loadDocs();
     }
 
@@ -144,16 +147,17 @@ export class FindingsPage extends Component {
         return this.run("ea_findings_page_clear", [finding.id, response]);
     }
 
-    // ---- documents ------------------------------------------------------------
-
-    readFile(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(String(reader.result).split(",")[1] || "");
-            reader.onerror = () => reject(reader.error);
-            reader.readAsDataURL(file);
-        });
+    reopen(finding) {
+        const reason = this.state.reopening.trim();
+        if (!reason) {
+            this.notification.add(_t("Write why the finding is reopened, then reopen it."), { type: "warning" });
+            return;
+        }
+        this.state.reopening = "";
+        return this.run("ea_findings_page_reopen", [finding.id, reason]);
     }
+
+    // ---- documents (the pane at the right) --------------------------------
 
     async upload(files) {
         const finding = this.current;
@@ -161,30 +165,16 @@ export class FindingsPage extends Component {
             return;
         }
         for (const file of files) {
-            const content = await this.readFile(file);
-            await this.run("ea_findings_page_upload", [finding.id, file.name, content]);
+            await this.run("ea_findings_page_upload", [finding.id, file.name, file.content]);
         }
     }
 
-    onPick(ev) {
-        const files = [...(ev.target.files || [])];
-        ev.target.value = "";
-        return this.upload(files);
-    }
-
-    onDrop(ev) {
-        ev.preventDefault();
-        this.state.drag = false;
-        return this.upload([...(ev.dataTransfer.files || [])]);
-    }
-
-    onDragOver(ev) {
-        ev.preventDefault();
-        this.state.drag = true;
-    }
-
-    onDragLeave() {
-        this.state.drag = false;
+    attachExisting(ids) {
+        const finding = this.current;
+        if (!finding || this.p.readonly) {
+            return;
+        }
+        return this.run("ea_findings_page_attach", [finding.id, ids]);
     }
 
     remove(doc) {

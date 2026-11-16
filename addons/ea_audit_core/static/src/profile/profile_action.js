@@ -130,6 +130,22 @@ export class ProfileAction extends Component {
         this.state.p = await this.orm.call(MODEL, "ea_profile_conclude", [[this.profileId]]);
     }
 
+    /** Back to where the user came from (owner, 2026-11-16), as Odoo's breadcrumb does; with no
+     * trail (a bookmark), to the engagement. The answers are saved already. */
+    get backLabel() {
+        const crumbs = this.env.config?.breadcrumbs || [];
+        return crumbs.length > 1 ? crumbs.at(-2).name : this.p.words.back;
+    }
+
+    async back() {
+        await this.queue;
+        const crumbs = this.env.config?.breadcrumbs || [];
+        if (crumbs.length > 1) {
+            return crumbs.at(-2).onSelected();
+        }
+        return this.openAction("action_save_for_later");
+    }
+
     async openAction(method) {
         await this.queue;
         const action = await this.orm.call(MODEL, method, [[this.profileId]]);

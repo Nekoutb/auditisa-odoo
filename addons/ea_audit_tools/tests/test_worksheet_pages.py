@@ -77,6 +77,43 @@ class TestFindingsPage(ToolsCase):
         self.assertFalse(self.as_staff.ea_findings_page_documents(finding.id))
         self.assertCode("read-only-role", self.as_reader.ea_findings_page_upload, finding.id, "a.txt", content)
 
+    def test_a_closed_finding_can_be_reopened_with_a_reason(self):
+        finding = self.deficiency()
+        self.as_staff.ea_findings_page_clear(finding.id, "Fixed.")
+        self.assertCode("response-required", self.as_staff.ea_findings_page_reopen, finding.id, "  ")
+        page = self.as_staff.ea_findings_page_reopen(finding.id, "The fix did not hold.")
+        self.assertFalse(self.row(page, finding)["closed"])
+        self.assertEqual(finding.sudo().status, "open")
+        self.assertCode("not-found", self.as_staff.ea_findings_page_reopen, finding.id, "again")
+        self.assertCode("read-only-role", self.as_reader.ea_findings_page_reopen, finding.id, "x")
+        bodies = self.engagement.sudo().message_ids.mapped("body")
+        self.assertTrue(any("finding_reopened" in b for b in bodies))
+
+    def test_a_document_of_the_engagement_is_attached_without_a_new_upload(self):
+        source_id = self.item(self.engagement, "C1.1").with_user(self.staff).upload_attachment(
+            "bank letter.txt", base64.b64encode(b"bank letter").decode(),
+        )
+        library = self.as_staff.ea_document_library("bank")
+        self.assertEqual([row["id"] for row in library], [source_id])
+        finding = self.deficiency()
+        self.as_staff.ea_findings_page_attach(finding.id, [source_id])
+        docs = self.as_staff.ea_findings_page_documents(finding.id)
+        self.assertEqual(len(docs), 1)
+        Attachment = self.env["ea.audit.task.attachment"].sudo()
+        attached, source = Attachment.browse(docs[0]["id"]), Attachment.browse(source_id)
+        self.assertEqual(attached.finding_id, finding.sudo())
+        self.assertEqual(attached.attachment_id.checksum, source.attachment_id.checksum)
+        # a second finding takes the same document: its own chain, never the first one's
+        second = self.deficiency("Shared administrator password")
+        self.as_staff.ea_findings_page_attach(second.id, [source_id])
+        other = self.as_staff.ea_findings_page_documents(second.id)
+        self.assertEqual(len(other), 1)
+        second_row = Attachment.browse(other[0]["id"])
+        self.assertEqual(second_row.finding_id, second.sudo())
+        if second_row.file_item_id == attached.file_item_id:
+            self.assertNotEqual(second_row.name, attached.name)
+        self.assertCode("read-only-role", self.as_reader.ea_findings_page_attach, finding.id, [source_id])
+
     def test_a_misstatement_from_another_record_lands_on_the_sad(self):
         item = self.item(self.engagement, "C1.1")
         finding = self.as_staff.ea_raise_finding(

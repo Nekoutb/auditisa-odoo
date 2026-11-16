@@ -3,6 +3,7 @@
     <t t-name="ea_audit_tools.CraPage">
         <div class="o_ea_cra" t-if="p" data-ea="cra-page">
             <div class="o_ea_cra_card">
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_cra_head">
                     <div>
                         <h1>Combined risk assessment</h1>
@@ -42,7 +43,10 @@
                         </label>
                     </div>
 
-                    <p class="o_ea_cra_done" t-if="!accounts.length">Everything is assessed.</p>
+                    <div class="o_ea_cra_done" t-if="!accounts.length" data-ea="cra-all-done">
+                        <span>Everything is assessed. You can still review and change any assessment.</span>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.showAll()">Show all the assessments</button>
+                    </div>
 
                     <section class="o_ea_cra_account" t-foreach="accounts" t-as="account" t-key="account.id">
                         <header class="o_ea_cra_acc_head" t-on-click="() => this.toggle(account)">
@@ -52,8 +56,9 @@
                             <span class="o_ea_cra_acc_meta">
                                 <span>Relevant:</span>
                                 <span class="o_ea_cra_init" t-foreach="account.relevant" t-as="code" t-key="code" t-esc="code"/>
-                                <span>· Worst for sampling</span>
-                                <span t-attf-class="o_ea_cra_badge {{ levelClass(account.worst) }}" t-esc="account.worst_label"/>
+                                <span title="Highest combined risk among the relevant assertions">· Sampling level</span>
+                                <span t-attf-class="o_ea_cra_badge {{ levelClass(account.worst) }}" t-esc="account.worst_label"
+                                      title="Highest combined risk among the relevant assertions"/>
                                 <t t-if="account.task"><span>· Task</span> <span t-esc="account.task"/></t>
                             </span>
                         </header>
@@ -103,7 +108,7 @@
                         </table>
                     </section>
 
-                    <p class="o_ea_cra_note">Click a choice and it saves at once, no Save button. Click an account's title to fold or open it. An account appears here once it is Significant, with the assertions ticked as relevant on the Significant accounts page.</p>
+                    <p class="o_ea_cra_note">Click a choice and it saves at once, no Save button. Click an account's title to fold or open it: an assessed account can be reopened and changed at any time. An account appears here once it is Significant, with the assertions ticked as relevant on the Significant accounts page.</p>
                 </t>
 
                 <div class="o_ea_cra_warn" t-if="p.unlinked">

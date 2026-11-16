@@ -3,3 +3,4 @@ from . import test_notes_conclusions_evidence
 from . import test_paper_save
 from . import test_signing
 from . import test_merged_papers
+from . import test_document_library

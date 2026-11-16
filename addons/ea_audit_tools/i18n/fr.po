@@ -7393,6 +7393,7 @@ msgstr "Faible"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "Remove"
 msgstr "Retirer"
 
@@ -7839,8 +7840,9 @@ msgstr "Échantillonnage et résultats (E1.2)"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__tod_level
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__worst_tod
 msgid "Sampling level"
-msgstr "Niveau d'échantillonnage"
+msgstr "Niveau retenu pour l'échantillonnage"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -9231,6 +9233,7 @@ msgstr "Deux versions du seuil ne peuvent jamais être approuvées en même temp
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "Type"
 msgstr "Type"
 
@@ -9601,11 +9604,6 @@ msgstr "Modèle de papier"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sampling_run_list
 msgid "Worksheet"
 msgstr "Feuille de travail"
-
-#. module: ea_audit_tools
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__worst_tod
-msgid "Worst (sampling)"
-msgstr "Le plus élevé (échantillonnage)"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -11592,12 +11590,6 @@ msgstr "Pertinentes :"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
-msgid "· Worst for sampling"
-msgstr "· Le plus élevé pour l'échantillonnage"
-
-#. module: ea_audit_tools
-#. odoo-javascript
-#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 msgid "· Task"
 msgstr "· Tâche"
 
@@ -11622,8 +11614,8 @@ msgstr "risque significatif"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
-msgid "Click a choice and it saves at once, no Save button. Click an account's title to fold or open it. An account appears here once it is Significant, with the assertions ticked as relevant on the Significant accounts page."
-msgstr "Un clic sur un choix l'enregistre aussitôt, sans bouton Enregistrer. Cliquez sur le titre d'un compte pour le replier ou l'ouvrir. Un compte apparaît ici dès qu'il est significatif, avec les assertions cochées comme pertinentes sur la page des comptes significatifs."
+msgid "Click a choice and it saves at once, no Save button. Click an account's title to fold or open it: an assessed account can be reopened and changed at any time. An account appears here once it is Significant, with the assertions ticked as relevant on the Significant accounts page."
+msgstr "Un clic sur un choix l'enregistre aussitôt, sans bouton Enregistrer. Cliquez sur le titre d'un compte pour le replier ou l'ouvrir : un compte évalué peut être rouvert et modifié à tout moment. Un compte apparaît ici dès qu'il est significatif, avec les assertions cochées comme pertinentes sur la page des comptes significatifs."
 
 #. module: ea_audit_tools
 #. odoo-javascript
@@ -11953,10 +11945,6 @@ msgstr "3 Contrôles"
 msgid "4 Walkthrough"
 msgstr "4 Test de cheminement"
 
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
-msgid "5 Documents"
-msgstr "5 Documents"
 
 #. module: ea_audit_tools
 #. odoo-javascript
@@ -12471,6 +12459,7 @@ msgstr "Clôturer"
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__document_ids
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "Documents"
 msgstr "Documents"
 
@@ -12564,6 +12553,7 @@ msgstr "Lié à"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "No control"
 msgstr "Aucun contrôle"
 
@@ -12580,6 +12570,7 @@ msgstr "logigramme, description du processus, preuve du cheminement, procédures
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "No document yet."
 msgstr "Aucun document pour l'instant."
 
@@ -12598,6 +12589,7 @@ msgstr "Retirés (restaurables pendant 30 jours)"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "Restore"
 msgstr "Restaurer"
 
@@ -14773,3 +14765,142 @@ msgstr "Reçue"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__no_reply
 msgid "No reply"
 msgstr "Pas de réponse"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "Breadcrumb"
+msgstr "Fil d'Ariane"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "Drop files here"
+msgstr "Déposez les fichiers ici"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "From the computer"
+msgstr "Depuis l'ordinateur"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "From this engagement"
+msgstr "Depuis cette mission"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "Linked control"
+msgstr "Contrôle lié"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "linked to"
+msgstr "lié à"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
+msgid "Removed in the last 30 days"
+msgstr "Retirés depuis moins de 30 jours"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/page_kit.js:0
+msgid "Engagement dashboard"
+msgstr "Tableau de bord de la mission"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Everything is assessed. You can still review and change any assessment."
+msgstr "Tout est évalué. Vous pouvez encore revoir et modifier chaque évaluation."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Show all the assessments"
+msgstr "Afficher toutes les évaluations"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_cra_row__worst_tod
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Highest combined risk among the relevant assertions"
+msgstr "Risque combiné le plus élevé parmi les assertions pertinentes"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "· Sampling level"
+msgstr "· Niveau retenu pour l'échantillonnage"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Why reopen it?"
+msgstr "Pourquoi le rouvrir ?"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Reopen the finding"
+msgstr "Rouvrir le constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Click a finding to see and add its documents."
+msgstr "Cliquez sur un constat pour voir et ajouter ses documents."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Evidence of the finding: letters, extracts, screenshots."
+msgstr "Preuves du constat : courriers, extraits, captures d'écran."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/findings_page.js:0
+msgid "Write why the finding is reopened, then reopen it."
+msgstr "Écrivez pourquoi le constat est rouvert, puis rouvrez-le."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Support"
+msgstr "Justificatifs"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Open an entry in Selected entries to see and file its support."
+msgstr "Ouvrez une écriture dans Écritures sélectionnées pour voir et classer ses justificatifs."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Open a sample or a control to see and file its documents."
+msgstr "Ouvrez un échantillon ou un contrôle pour voir et classer ses documents."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Support of the items tested: invoices, confirmations, extracts."
+msgstr "Justificatifs des éléments testés : factures, confirmations, extraits."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "All substantive procedures"
+msgstr "Toutes les procédures de substance"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Flowchart, process narrative, walkthrough evidence, policies. Files also appear on the S1.3 task."
+msgstr "Logigramme, description du processus, preuves du test de cheminement, procédures. Les fichiers figurent aussi sur la tâche S1.3."

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.EaCrumbs">
+        <nav class="o_ea_crumbs" aria-label="Breadcrumb" data-ea="crumbs">
+            <a href="#" class="o_ea_crumbs_back" role="button" t-on-click.prevent="() => this.back()" t-att-title="backLabel">←</a>
+            <ol>
+                <li t-if="!earlier.length"><a href="#" t-on-click.prevent="() => this.back()" t-esc="backLabel"/></li>
+                <li t-foreach="earlier" t-as="crumb" t-key="crumb_index">
+                    <a href="#" t-on-click.prevent="() => this.open(crumb)" t-esc="crumb.name"/>
+                </li>
+                <li class="is-current" aria-current="page" t-esc="current"/>
+            </ol>
+        </nav>
+    </t>
+
+    <t t-name="ea_audit_tools.EaDocsPane">
+        <aside class="o_ea_docs" data-ea="docs-pane">
+            <div class="o_ea_docs_head">
+                <h3><t t-if="props.title" t-esc="props.title"/><t t-else="">Documents</t> <span class="o_ea_docs_count" t-if="docs.length" t-esc="docs.length"/></h3>
+                <div class="o_ea_docs_subject" t-if="props.subject" t-esc="props.subject"/>
+            </div>
+
+            <p class="o_ea_docs_muted" t-if="idle" t-esc="props.idleText"/>
+            <t t-else="">
+                <div t-if="props.canUpload" t-attf-class="o_ea_docs_drop {{ state.over ? 'is-over' : '' }}"
+                     t-on-dragover="onDragOver" t-on-dragleave="onDragLeave" t-on-drop="onDrop">
+                    <div>Drop files here</div>
+                    <div class="o_ea_docs_ways">
+                        <button type="button" class="btn btn-secondary btn-sm" t-att-disabled="state.busy" t-on-click="choose">From the computer</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="props.onAttach" t-att-disabled="state.busy"
+                                data-ea="docs-pick-existing" t-on-click="pickExisting">From this engagement</button>
+                    </div>
+                    <div class="o_ea_docs_options" t-if="props.types or props.controls">
+                        <label t-if="props.types">Type
+                            <select class="form-select form-select-sm" t-on-change="onTypeChoice" t-att-disabled="state.busy">
+                                <option t-foreach="props.types" t-as="type" t-key="type[0]" t-att-value="type[0]"
+                                        t-att-selected="type[0] === this.type" t-esc="type[1]"/>
+                            </select>
+                        </label>
+                        <label t-if="props.controls">Linked control
+                            <select class="form-select form-select-sm" t-on-change="onControlChoice" t-att-disabled="state.busy">
+                                <option value="">No control</option>
+                                <option t-foreach="props.controls" t-as="control" t-key="control[0]" t-att-value="control[0]" t-esc="control[1]"/>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="o_ea_docs_muted" t-if="props.hint" t-esc="props.hint"/>
+                    <input type="file" multiple="multiple" class="d-none" t-ref="fileInput" t-on-change="onFileChange"/>
+                </div>
+
+                <p class="o_ea_docs_muted" t-if="!docs.length">
+                    <t t-if="props.emptyText" t-esc="props.emptyText"/><t t-else="">No document yet.</t>
+                </p>
+                <div class="o_ea_docs_list" t-if="docs.length">
+                    <div class="o_ea_docs_item" t-foreach="docs" t-as="doc" t-key="doc.id">
+                        <span class="o_ea_docs_ext" t-esc="doc.ext or 'DOC'"/>
+                        <div class="o_ea_docs_main">
+                            <a t-att-href="doc.url" target="_blank" t-esc="doc.name"/>
+                            <div class="o_ea_docs_muted">
+                                <t t-if="doc.typeLabel"><t t-esc="doc.typeLabel"/> · </t>
+                                <t t-if="doc.controlCode">linked to <t t-esc="doc.controlCode"/> · </t>
+                                <t t-if="doc.version">v<t t-esc="doc.version"/></t>
+                                <t t-if="doc.by"> · <t t-esc="doc.by"/></t>
+                                <t t-if="doc.date">, <t t-esc="doc.date"/></t>
+                            </div>
+                            <div class="o_ea_docs_edit" t-if="props.canUpload and (props.onSetType or props.onSetControl)">
+                                <select t-if="props.onSetType and props.types" class="form-select form-select-sm" aria-label="Type"
+                                        t-att-disabled="state.busy" t-on-change="(ev) => this.setType(doc, ev)">
+                                    <option t-foreach="props.types" t-as="type" t-key="type[0]" t-att-value="type[0]"
+                                            t-att-selected="type[0] === doc.type" t-esc="type[1]"/>
+                                </select>
+                                <select t-if="props.onSetControl and props.controls" class="form-select form-select-sm" aria-label="Linked control"
+                                        t-att-disabled="state.busy" t-on-change="(ev) => this.setControl(doc, ev)">
+                                    <option value="">No control</option>
+                                    <option t-foreach="props.controls" t-as="control" t-key="control[0]" t-att-value="control[0]"
+                                            t-att-selected="control[0] === doc.controlId" t-esc="control[1]"/>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-link btn-sm o_ea_docs_remove" t-if="props.canRemove and props.onRemove"
+                                t-att-disabled="state.busy" t-on-click="() => this.remove(doc)">Remove</button>
+                    </div>
+                </div>
+                <div class="o_ea_docs_removed" t-if="props.removed and props.removed.length and props.onRestore">
+                    <div class="o_ea_docs_muted">Removed in the last 30 days</div>
+                    <div t-foreach="props.removed" t-as="doc" t-key="doc.id" class="o_ea_docs_muted">
+                        <t t-esc="doc.name"/> <button type="button" class="btn btn-link btn-sm p-0" t-att-disabled="state.busy" t-on-click="() => this.restore(doc)">Restore</button>
+                    </div>
+                </div>
+            </t>
+        </aside>
+    </t>
+</templates>

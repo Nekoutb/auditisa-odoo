@@ -52,6 +52,22 @@ def decimal_label(value, lang=None):
     return bracketed(text.replace(".", ",") if (lang or "").startswith("fr") else text)
 
 
+def free_name(env, item, name, foreign):
+    """`name` on the task `item`, numbered "stem (2).ext" while a live file of another owner
+    (the `foreign` domain clause) holds it: two owners never share a version chain."""
+    Attachment = env["ea.audit.task.attachment"].sudo()
+    stem, dot, ext = (name or "").rpartition(".")
+    if not dot:
+        stem, ext = name or "", ""
+    candidate, number = name, 1
+    while Attachment.search_count([
+        ("file_item_id", "=", item.id), ("name", "=", candidate), ("deleted_at", "=", False), foreign,
+    ]):
+        number += 1
+        candidate = "%s (%d)%s" % (stem, number, ("." + ext) if dot else "")
+    return candidate
+
+
 def french_date(value):
     return value.strftime("%d/%m/%Y") if value else ""
 
