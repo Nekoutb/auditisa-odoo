@@ -129,10 +129,10 @@
      },
      {
       "key": "provide",
-      "en": "Make the attestation available to the shareholders with the other documents article 525 lists, within the period before the general meeting, and record the date and manner on C5.2.",
-      "fr": "Mettre l'attestation à la disposition des actionnaires avec les autres documents visés à l'article 525, dans le délai précédant l'assemblée, et consigner la date et la modalité en C5.2.",
-      "srcEn": "C5.2 statutory deadlines calendar · convening documents · AUSCGIE art. 525",
-      "srcFr": "C5.2 calendrier des échéances légales · documents de convocation · AUSCGIE art. 525"
+      "en": "Make the attestation available to the shareholders with the other documents article 525 lists, within the period before the general meeting, and record the date and manner on this paper.",
+      "fr": "Mettre l'attestation à la disposition des actionnaires avec les autres documents visés à l'article 525, dans le délai précédant l'assemblée, et consigner la date et la modalité sur cette feuille.",
+      "srcEn": "Legal tool, statutory calendar · convening documents · AUSCGIE art. 525",
+      "srcFr": "Outil juridique, calendrier légal · documents de convocation · AUSCGIE art. 525"
      }
     ]
    },
@@ -170,8 +170,8 @@
      },
      {
       "key": "provided",
-      "en": "The signed attestation was made available to the shareholders before the general meeting, and the date is recorded on C5.2.",
-      "fr": "L'attestation signée a été mise à la disposition des actionnaires avant l'assemblée, et la date est consignée en C5.2."
+      "en": "The signed attestation was made available to the shareholders before the general meeting, and the date is recorded on this paper.",
+      "fr": "L'attestation signée a été mise à la disposition des actionnaires avant l'assemblée, et la date est consignée sur cette feuille."
      }
     ]
    }

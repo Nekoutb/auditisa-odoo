@@ -24,10 +24,11 @@ NATURE_FILE_INDEX = {
 }
 
 
-# Tasks merged into another paper (owner's decision of 2026-11-16): the planning communication to
-# those charged with governance is a block of P1.4, the partner's direction a block of S6.1. A new
-# file never gets them; an existing file keeps the ones that already hold work.
-RETIRED_CODES = frozenset({"P7.1", "S6.2"})
+# Tasks taken off the file (owner's decisions of 2026-11-16): the planning communication to those
+# charged with governance is a block of P1.4, the partner's direction a block of S6.1, and C5.2 (the
+# OHADA statutory deadlines and whether each was met) is no longer a paper of the file. A new file
+# never gets them; an existing file keeps the ones that already hold work.
+RETIRED_CODES = frozenset({"P7.1", "S6.2", "C5.2"})
 
 
 def is_societe_anonyme(form):

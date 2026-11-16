@@ -4,35 +4,39 @@
         <field name="name">ea.audit.sad.entry.form</field>
         <field name="model">ea.audit.sad.entry</field>
         <field name="arch" type="xml">
-            <form delete="0">
+            <form create="0" delete="0">
                 <header>
                     <button name="action_post" type="object" string="Post to the C1.1 schedule" class="btn-primary" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>
                     <field name="engagement_id" invisible="1"/>
                     <field name="register_only" invisible="1"/>
+                    <field name="entered_by_hand" invisible="1"/>
+                    <div class="alert alert-info" role="status" invisible="entered_by_hand">The difference comes from its working paper: change it there.</div>
+                    <div class="alert alert-warning" role="status" invisible="not entered_by_hand">Entered by hand before 2026-11-17: kept as it was.</div>
                     <group>
-                        <field name="finding"/>
-                        <field name="file_item_id" domain="[('engagement_id', '=', engagement_id)]" options="{'no_create': True}" readonly="register_only"/>
-                        <field name="ref" readonly="register_only"/>
+                        <field name="finding" readonly="1"/>
+                        <field name="source_label" readonly="1"/>
+                        <field name="file_item_id" readonly="1"/>
+                        <field name="ref" readonly="1"/>
                     </group>
                     <group>
                         <group string="Debit">
-                            <field name="dr_account" readonly="register_only"/>
-                            <field name="dr_amount" widget="ea_amount" readonly="register_only"/>
+                            <field name="dr_account" readonly="1"/>
+                            <field name="dr_amount" widget="ea_amount" readonly="1"/>
                             <field name="dr_caption"/>
                             <field name="dr_caption_effective"/>
                         </group>
                         <group string="Credit">
-                            <field name="cr_account" readonly="register_only"/>
-                            <field name="cr_amount" widget="ea_amount" readonly="register_only"/>
+                            <field name="cr_account" readonly="1"/>
+                            <field name="cr_amount" widget="ea_amount" readonly="1"/>
                             <field name="cr_caption"/>
                             <field name="cr_caption_effective"/>
                         </group>
                     </group>
                     <group>
                         <group>
-                            <field name="mtype"/>
+                            <field name="mtype" readonly="1"/>
                             <field name="corrected"/>
                         </group>
                         <group>
@@ -147,9 +151,10 @@
                         <field name="sad_concl_text" readonly="1" nolabel="1"/>
                     </div>
                     <div class="o_ea_panel">
-                        <field name="sad_entry_ids" nolabel="1" context="{'default_engagement_id': id}">
-                            <list decoration-warning="stale" decoration-muted="is_trivial">
+                        <field name="sad_entry_ids" nolabel="1" readonly="1">
+                            <list create="0" delete="0" decoration-warning="stale" decoration-muted="is_trivial">
                                 <field name="task_code"/>
+                                <field name="source_label"/>
                                 <field name="finding"/>
                                 <field name="dr_account"/>
                                 <field name="dr_amount" widget="ea_amount"/>
@@ -173,5 +178,6 @@
         <field name="name">Audit differences</field>
         <field name="res_model">ea.audit.sad.entry</field>
         <field name="view_mode">form</field>
+        <field name="context">{'create': False}</field>
     </record>
 </odoo>

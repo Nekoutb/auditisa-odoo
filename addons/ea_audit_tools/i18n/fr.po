@@ -513,12 +513,14 @@ msgid "Account type"
 msgstr "Type de compte"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__accounts
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__account_ids
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_accounts
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__line_ids
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__accounts
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__line_ids
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Accounts"
 msgstr "Comptes"
 
@@ -3721,6 +3723,7 @@ msgstr "Chercher un compte"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__title
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__finding_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__source_finding_id
 msgid "Finding"
 msgstr "Constat"
 
@@ -4827,12 +4830,14 @@ msgid "Key-item threshold"
 msgstr "Seuil des éléments clés"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_matching__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_override_wizard__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_reason_wizard__kind
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_import_wizard__kind
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Kind"
 msgstr "Nature"
 
@@ -6895,6 +6900,7 @@ msgstr "Probable"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_osp__text
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__text
 #: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__source_procedure_id
 msgid "Procedure"
 msgstr "Procédure"
 
@@ -8174,6 +8180,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_public_holiday__source
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__source
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__source_label
 msgid "Source"
 msgstr "Source"
 
@@ -12638,12 +12645,14 @@ msgstr "Aucun écart ici."
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Debit account"
 msgstr "Compte débité"
 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Credit account"
 msgstr "Compte crédité"
 
@@ -14894,6 +14903,52 @@ msgid "Support of the items tested: invoices, confirmations, extracts."
 msgstr "Justificatifs des éléments testés : factures, confirmations, extraits."
 
 #. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The summary of audit differences is filled from the working papers: raise the misstatement in the conclusion of the procedure that found it."
+msgstr "Le sommaire des écarts d'audit est alimenté par les papiers de travail : enregistrez l'anomalie dans la conclusion de la procédure qui l'a relevée."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A misstatement is raised from the working paper of the procedure that found it, so the summary of audit differences keeps its source."
+msgstr "Une anomalie s'enregistre depuis le papier de travail de la procédure qui l'a relevée, pour que le sommaire des écarts d'audit garde son origine."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/sad.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__entered_by_hand
+msgid "Entered before 2026-11-17"
+msgstr "Saisi avant le 17/11/2026"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+msgid "The difference comes from its working paper: change it there."
+msgstr "L'écart vient de son papier de travail : c'est là qu'il se modifie."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+msgid "Entered by hand before 2026-11-17: kept as it was."
+msgstr "Saisi à la main avant le 17/11/2026 : conservé tel quel."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_wizard
+msgid "A misstatement is not entered here: raise it from the working paper of the procedure that found it, so it reaches the summary of audit differences with its source."
+msgstr "Une anomalie ne se saisit pas ici : enregistrez-la depuis le papier de travail de la procédure qui l'a relevée, pour qu'elle arrive au sommaire des écarts d'audit avec son origine."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "The differences come from the working papers: a misstatement recorded in the conclusion of a substantive procedure appears here by itself. To add or change one, open its working paper."
+msgstr "Les écarts viennent des papiers de travail : une anomalie enregistrée dans la conclusion d'une procédure de substance apparaît ici d'elle-même. Pour en ajouter ou en modifier une, ouvrez son papier de travail."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Brackets = reduces profit or the balance. Click a line to open the working paper it came from (procedure · account · paper) and see the error. Clearly trivial lines are kept aside, not lost."
+msgstr "Entre parenthèses = diminue le résultat ou le solde. Cliquez sur une ligne pour ouvrir le papier de travail d'où elle vient (procédure · compte · papier) et voir l'erreur. Les lignes manifestement négligeables sont mises à part, pas perdues."
+
+#. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "All substantive procedures"
@@ -14904,3 +14959,39 @@ msgstr "Toutes les procédures de substance"
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
 msgid "Flowchart, process narrative, walkthrough evidence, policies. Files also appear on the S1.3 task."
 msgstr "Logigramme, description du processus, preuves du test de cheminement, procédures. Les fichiers figurent aussi sur la tâche S1.3."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Factual: no doubt about it. Judgmental: an estimate the team disagrees with. Projected: the error found in a sample, spread over the population."
+msgstr "Factuelle : sans aucun doute. De jugement : une estimation que l'équipe conteste. Extrapolée : l'erreur trouvée dans un échantillon, étendue à la population."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "A finding added here goes straight to the Findings page. A misstatement also goes to the Summary of audit differences, with this procedure as its source: it is the only way a line gets there."
+msgstr "Un constat ajouté ici va directement sur la page Constats. Une anomalie va aussi au Sommaire des écarts d'audit, avec cette procédure pour origine : c'est le seul moyen d'y faire figurer une ligne."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Misstatements found"
+msgstr "Anomalies relevées"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "FCFA, on the Summary of audit differences"
+msgstr "FCFA, au Sommaire des écarts d'audit"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Open it"
+msgstr "L'ouvrir"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "None. Record each one below, under Findings on this working paper."
+msgstr "Aucune. Enregistrez chacune ci-dessous, sous Constats sur ce papier de travail."

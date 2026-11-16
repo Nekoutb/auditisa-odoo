@@ -123,9 +123,9 @@ class TestMatrixEnforced(EaAuditCase):
         self.assertCode("role-below-task-minimum-manager", self.sign, self.senior, self.engagement, "E3.1", "reviewer")
 
     def test_the_ohada_papers(self):
-        self.assertCode("role-below-task-minimum-manager", self.sign, self.senior, self.engagement, "C5.2", "preparer")
-        self.sign(self.manager, self.engagement, "C5.2", "preparer")
-        self.assertCode("role-below-task-minimum-partner", self.sign, self.manager, self.engagement, "C5.2", "reviewer")
+        self.assertCode("role-below-task-minimum-manager", self.sign, self.senior, self.engagement, "C5.3", "preparer")
+        self.sign(self.manager, self.engagement, "C5.3", "preparer")
+        self.assertCode("role-below-task-minimum-partner", self.sign, self.manager, self.engagement, "C5.3", "reviewer")
 
     def _with_outputs(self, present):
         self.patch(

@@ -142,7 +142,9 @@ class TestEngagementProfile(EaAuditCase):
         statutory_only = {"C5.%d" % n for n in range(2, 11)}
         engagement, _action = self.open_new()
         self.conclude(engagement, q2_pie="bank")
-        self.assertLessEqual(statutory_only - {"C5.7"}, self.active_codes(engagement))
+        # C5.2 left the file (owner's decision of 2026-11-16); C5.7 depends on the legal form
+        self.assertLessEqual(statutory_only - {"C5.2", "C5.7"}, self.active_codes(engagement))
+        self.assertNotIn("C5.2", self.active_codes(engagement))
         self.Engagement.sudo().search([("name", "=", "Statutory audit 2026")]).write({"name": "done"})
         other, _action = self.open_new(nature="contractual_audit")
         self.conclude(other, q2_pie="bank")

@@ -89,7 +89,7 @@ class TestMateriality(ToolsCase):
         low = self.make(benchmark="pbt", benchmark_amount=200000, percentage=5, override_justification="x")
         low.with_user(self.partner).action_approve()
         self.assertEqual(low.sudo().trivial, 500)
-        result = self.as_staff.route_finding("b5", "Cut-off", amount=600, mtype="factual")
+        result = self.b5("Cut-off", amount=600, mtype="factual")
         item = result["finding"].sudo().misstatement_id
         self.assertFalse(item.trivial)
         high = self.make(benchmark="pbt", benchmark_amount=2000000, percentage=5, override_justification="x")

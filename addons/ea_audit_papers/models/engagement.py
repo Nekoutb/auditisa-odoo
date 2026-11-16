@@ -76,7 +76,8 @@ class Engagement(models.Model):
         self._ea_set_task_active("P1.2", active)
 
     def _ea_retire_merged_tasks(self):
-        """P7.1 and S6.2 are merged into P1.4 and S6.1 (owner's decision of 2026-11-16). On the
+        """P7.1 and S6.2 are merged into P1.4 and S6.1, and C5.2 is no longer a paper of the file
+        (owner's decisions of 2026-11-16: file_scope.RETIRED_CODES). On the
         open files among ``self`` (all open files when empty), each of them still active and
         holding no answer, evidence, conclusion or sign-off leaves the file. A task with work
         stays, and an archived file is never read for writing (archive trigger). Returns the

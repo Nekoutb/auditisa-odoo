@@ -157,7 +157,7 @@ class TestIntegration(EaAuditCase):
         self.assertEqual(tile(self.senior)["for_me"], 1)
         self.assertEqual(tile(self.senior)["note_item_ids"], [item.id])
         self.as_senior.route_finding("c1", "Pas de rapprochement", severity="significant_deficiency", file_item=item)
-        self.as_senior.route_finding("b5", "Sous-évaluation", amount=999999)
+        self.as_senior.route_finding("b5", "Sous-évaluation", amount=999999, source=self.item(self.engagement, "E4.1"))
         self.assertEqual(tile(self.partner)["deficiencies"], 1)
         self.assertEqual(tile(self.partner)["misstatements"], 1)
 

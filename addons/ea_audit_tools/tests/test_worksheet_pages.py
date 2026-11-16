@@ -124,7 +124,7 @@ class TestFindingsPage(ToolsCase):
         self.assertEqual(finding.sudo().source_label, "C1.1")
         sad = self.as_staff.ea_sad_page()
         row = sad["rows"]["uncorrected"][0]
-        self.assertEqual((row["source"], row["sourceFindingId"]), (finding.reference, finding.id))
+        self.assertEqual((row["source"], row["sourceFindingId"], row["byHand"]), ("C1.1", finding.id, False))
         page_row = self.row(self.page(), finding)
         self.assertEqual((page_row["sad"], page_row["stage"]), (row["no"], "assessed"))
         self.assertEqual(self.page()["summary"]["linked"], 1)
@@ -137,29 +137,28 @@ class TestFindingsPage(ToolsCase):
 
 @tagged("post_install", "-at_install")
 class TestSadPage(ToolsCase):
-    def entry(self, **vals):
-        values = {
-            "engagement_id": self.engagement.id, "finding": "Cut-off", "dr_account": "411000", "dr_amount": 1000,
-            "cr_account": "701000", "cr_amount": 1000,
-        }
-        values.update(vals)
-        return self.env["ea.audit.sad.entry"].with_user(self.staff).create(values)
+    def entry(self, finding="Cut-off", dr_account="411000", cr_account="701000", amount=1000, **kwargs):
+        result = self.b5(finding, amount=amount, dr_account=dr_account, cr_account=cr_account, **kwargs)
+        return self.env["ea.audit.sad.entry"].with_user(self.staff).search([("misstatement_id", "=", result["finding"].sudo().misstatement_id.id)])
 
     def test_the_grid_the_totals_and_the_bar(self):
         self.approve()
         trivial = self.engagement.sudo()._ea_materiality_dict()["trivial"]
-        first = self.entry(dr_amount=trivial * 10, cr_amount=trivial * 10)
-        self.entry(finding="Stock count", dr_account="603100", cr_account="321100", dr_amount=trivial * 4, cr_amount=trivial * 4)
-        self.entry(finding="Rounding", dr_amount=trivial / 2, cr_amount=trivial / 2)
+        first = self.entry(amount=trivial * 10)
+        self.entry(finding="Stock count", dr_account="603100", cr_account="321100", amount=trivial * 4)
+        self.entry(finding="Rounding", amount=trivial / 2, trivial_confirmed=True)
+        legacy = self.legacy_sad_entry(dr_amount=trivial * 3, cr_amount=trivial * 3)
         page = self.as_staff.ea_sad_page()
-        self.assertEqual(len(page["rows"]["uncorrected"]), 2)
+        self.assertEqual(len(page["rows"]["uncorrected"]), 3)
         self.assertEqual(len(page["rows"]["trivial"]), 1)
         self.assertEqual(page["rows"]["uncorrected"][0]["no"], "AD-01")
-        self.assertEqual(page["toPost"], 3)
+        self.assertEqual(page["rows"]["uncorrected"][0]["source"], "E4.1")
+        self.assertEqual([r["byHand"] for r in page["rows"]["uncorrected"]], [False, False, True])
+        self.assertEqual(page["toPost"], 1)  # only the line typed before 2026-11-17
         self.assertTrue(page["bar"])
         page = self.as_staff.ea_sad_post_all()
         self.assertEqual(page["toPost"], 0)
-        self.assertTrue(first.sudo().misstatement_id)
+        self.assertTrue(legacy.sudo().misstatement_id)
         page = self.as_staff.ea_sad_page_entry_save(first.id, {"corrected": True})
         self.assertEqual(len(page["rows"]["corrected"]), 1)
         self.assertTrue(first.sudo().misstatement_id.corrected)  # a posted row re-posts
@@ -179,11 +178,13 @@ class TestSadPage(ToolsCase):
         self.assertCode("archived", self.as_staff.ea_sad_page_meta_save, {"tq_2": "yes"})
         self.assertTrue(self.as_staff.ea_sad_page()["archived"])
 
-    def test_the_page_opens_a_difference_in_its_form(self):
+    def test_the_page_opens_where_a_difference_comes_from(self):
         entry = self.entry()
         action = self.as_staff.ea_sad_page_open("entry", entry.id)
         self.assertEqual((action["res_model"], action["res_id"], action["target"]), ("ea.audit.sad.entry", entry.id, "new"))
-        self.assertEqual(self.as_staff.ea_sad_page_open("new")["context"]["default_engagement_id"], self.engagement.id)
+        source = self.as_staff.ea_sad_page_open("source", entry.id)
+        self.assertEqual((source["tag"], source["params"]["finding_id"]), ("ea_audit_tools.findings_page", entry.sudo().source_finding_id.id))
+        self.assertCode("forbidden", self.as_staff.ea_sad_page_open, "new")
         self.assertCode("forbidden", self.as_staff.ea_sad_page_open, "unlink")
 
 

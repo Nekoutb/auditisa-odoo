@@ -175,7 +175,7 @@ SECTION_B = (
         "key": "b13",
         "en": "I have considered the effect of the OHADA Uniform Acts and other applicable legislation on the audit strategy, the presentation of the financial statements and our statutory duties, and the programme responds to it.",
         "fr": "J'ai considéré l'incidence des Actes uniformes OHADA et des autres textes applicables sur la stratégie d'audit, la présentation des états financiers et nos obligations légales, et le programme y répond.",
-        "codes": ["E6.1", "C5.2"],
+        "codes": ["E6.1"],
         "na": False,
     },
     {

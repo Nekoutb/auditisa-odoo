@@ -104,3 +104,27 @@ class ToolsCase(EaAuditCase):
 
     def period_end(self):
         return date(2025, 12, 31)
+
+    def b5(self, title, amount=None, actor=None, **kwargs):
+        """A misstatement raised from a working paper (E4.1 unless told): the only way a line
+        reaches the summary of audit differences (owner's ruling of 2026-11-16)."""
+        kwargs.setdefault("source", self.item(self.engagement, "E4.1"))
+        return (actor or self.as_staff).route_finding("b5", title, amount=amount, **kwargs)
+
+    def legacy_sad_entry(self, **vals):
+        """A line typed on the summary before 2026-11-17, as the database holds it: written by
+        SQL because no code path creates one any more."""
+        values = {
+            "engagement_id": self.engagement.id, "finding": "Cut-off", "dr_account": "411000", "dr_amount": 100,
+            "cr_account": "701000", "cr_amount": 100, "mtype": "factual", "corrected": False, "posted": False,
+            "register_only": False,
+        }
+        values.update(vals)
+        columns = sorted(values)
+        self.env.cr.execute(
+            "INSERT INTO ea_audit_sad_entry (%s, create_uid, write_uid, create_date, write_date) "
+            "VALUES (%s, %%s, %%s, now() at time zone 'UTC', now() at time zone 'UTC') RETURNING id"
+            % (", ".join(columns), ", ".join(["%s"] * len(columns))),
+            [values[c] for c in columns] + [self.env.uid, self.env.uid],
+        )
+        return self.env["ea.audit.sad.entry"].browse(self.env.cr.fetchone()[0]).with_user(self.staff)

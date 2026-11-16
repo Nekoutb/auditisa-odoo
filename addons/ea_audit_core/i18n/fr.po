@@ -47,6 +47,7 @@ msgstr "Acceptez l'invitation à la mission depuis son tableau de bord avant de 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__acceptance
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__acceptance
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__1_acceptance
 msgid "Acceptance"
 msgstr "Acceptation"
 
@@ -275,6 +276,7 @@ msgstr "C4.2 est le dossier propre du réviseur qualité : seul le réviseur qua
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_partner_transfer_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_decline_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_invite_wizard
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_import
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -347,10 +349,12 @@ msgid "Close planning"
 msgstr "Clôturer la planification"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__code
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__code
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__code
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__code
+#: code:addons/ea_audit_core/models/signoff_policy.py:0
 msgid "Code"
 msgstr "Code"
 
@@ -411,12 +415,15 @@ msgstr "Complexité"
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__conclusion
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__conclusion
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__4_conclusion
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__conclusion_title
 msgid "Conclusion"
 msgstr "Conclusion"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__conditional
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__conditional
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
 msgid "Conditional"
 msgstr "Conditionnelle"
 
@@ -470,6 +477,7 @@ msgstr "Évaluation de l'environnement de contrôle"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__tier__core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
 msgid "Core"
 msgstr "Socle"
 
@@ -492,6 +500,9 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__create_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -509,6 +520,9 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__create_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -653,6 +667,10 @@ msgstr "Révélation des faits délictueux"
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_company__display_name
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_lang__display_name
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_users__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_mail_message__display_name
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -712,6 +730,10 @@ msgstr "Énergie"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__engagement_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_list
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__engagement_label
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__engagement_id
 msgid "Engagement"
 msgstr "Mission"
 
@@ -787,6 +809,8 @@ msgstr "Missions"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__report_language__en
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__firm_language__en_us
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__report_language__en
 msgid "English"
 msgstr "Anglais"
 
@@ -885,6 +909,7 @@ msgstr "Produits HAO (U1)"
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__execution
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__execution
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__e
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__3_execution
 msgid "Execution"
 msgstr "Exécution"
 
@@ -971,6 +996,7 @@ msgstr "Administrateur du cabinet"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__partner_required__default
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
 msgid "Firm default"
 msgstr "Règle du cabinet"
 
@@ -981,6 +1007,7 @@ msgstr "Membre du cabinet"
 
 #. module: ea_audit_core
 #: model:ir.ui.menu,name:ea_audit_core.menu_settings
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
 msgid "Firm settings"
 msgstr "Paramètres du cabinet"
 
@@ -1044,6 +1071,8 @@ msgstr "Risques de fraude & réponses (ISA 240)"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__report_language__fr
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__firm_language__fr_fr
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__report_language__fr
 msgid "French"
 msgstr "Français"
 
@@ -1119,6 +1148,10 @@ msgstr "A un message"
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_company__id
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_lang__id
 #: model:ir.model.fields,field_description:ea_audit_core.field_res_users__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_mail_message__id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__id
 msgid "ID"
 msgstr "ID"
 
@@ -1311,6 +1344,9 @@ msgstr "Langues"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__write_uid
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
@@ -1328,6 +1364,9 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_decline_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_invite_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_team_member__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__write_date
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -1444,11 +1483,13 @@ msgstr "Rôle minimum du réviseur"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__min_preparer
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__matrix_min_preparer
 msgid "Minimum preparer"
 msgstr "Préparateur minimum"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__min_reviewer
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__matrix_min_reviewer
 msgid "Minimum reviewer"
 msgstr "Réviseur minimum"
 
@@ -1500,7 +1541,26 @@ msgid "New engagement partner"
 msgstr "Nouvel associé responsable"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__partner_required__no
+#: code:addons/ea_audit_core/models/signoff_policy.py:0
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q10_regulator__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_fraud__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q12_owners_known__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q13_automated__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_rely_report__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_eqr__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_monitoring__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q16_risks__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q17_going_concern__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q18_related_parties__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q1_listed__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_first_year__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q2_pie__none
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q3_controls_law__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q7_major_change__no
 msgid "No"
 msgstr "Non"
 
@@ -1819,10 +1879,14 @@ msgid "Personnel Costs (VB)"
 msgstr "Charges de personnel (VB)"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__phase
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__task_phase
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__phase
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_search
+#: code:addons/ea_audit_core/models/signoff_policy.py:0
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__phase_step
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
 msgid "Phase"
 msgstr "Phase"
 
@@ -1839,6 +1903,7 @@ msgstr "Procédures générales"
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__phase__planning
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase__planning
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__2_planning
 msgid "Planning"
 msgstr "Planification"
 
@@ -2088,6 +2153,7 @@ msgstr "Revue"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__role__reviewer
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__approver_id
 msgid "Reviewer"
 msgstr "Réviseur"
 
@@ -2134,6 +2200,7 @@ msgstr "Périmètre & composants"
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__section
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__section
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
 msgid "Section"
 msgstr "Section"
 
@@ -2382,6 +2449,8 @@ msgstr "Pris par"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__template_id
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_task_rule__template_id
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__code
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
 msgid "Task"
 msgstr "Tâche"
 
@@ -2677,7 +2746,9 @@ msgid "Tick the objectivity declaration to appoint the engagement quality review
 msgstr "Cochez la déclaration d'objectivité pour désigner le réviseur qualité de la mission."
 
 #. module: ea_audit_core
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__tier
+#: code:addons/ea_audit_core/models/signoff_policy.py:0
 msgid "Tier"
 msgstr "Niveau"
 
@@ -2806,6 +2877,8 @@ msgstr "Utilisé pour se connecter au système"
 
 #. module: ea_audit_core
 #: model:ir.model,name:ea_audit_core.model_res_users
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__user_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
 msgid "User"
 msgstr "Utilisateur"
 
@@ -2847,7 +2920,25 @@ msgid "Working paper"
 msgstr "Feuille de travail"
 
 #. module: ea_audit_core
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_task_rule__partner_required__yes
+#: code:addons/ea_audit_core/models/signoff_policy.py:0
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q10_regulator__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_fraud__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q12_owners_known__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q13_automated__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_rely_report__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_eqr__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_monitoring__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q16_risks__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q17_going_concern__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q18_related_parties__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q1_listed__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_first_year__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q3_controls_law__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q7_major_change__yes
 msgid "Yes"
 msgstr "Oui"
 
@@ -3092,18 +3183,6 @@ msgid "Before"
 msgstr "Avant"
 
 #. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_import
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_create_wizard
-msgid "Cancel"
-msgstr "Annuler"
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/models/signoff_policy.py:0
-msgid "Code"
-msgstr "Code"
-
-#. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Combined risk assessment %(cell)s reassessed: %(change)s"
@@ -3133,43 +3212,10 @@ msgid "Control %(name)s tested: %(status)s"
 msgstr "Contrôle %(name)s testé : %(status)s"
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__create_uid
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__create_uid
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__create_uid
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__create_uid
-msgid "Created by"
-msgstr "Créé par"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__create_date
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__create_date
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__create_date
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__create_date
-msgid "Created on"
-msgstr "Créé le"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__at
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
 msgid "Date"
 msgstr "Date"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__display_name
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__display_name
-#: model:ir.model.fields,field_description:ea_audit_core.field_mail_message__display_name
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__display_name
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__display_name
-msgid "Display Name"
-msgstr "Nom affiché"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__engagement_id
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__engagement_label
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__engagement_id
-msgid "Engagement"
-msgstr "Mission"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -3182,12 +3228,6 @@ msgstr "Export de la mission réalisé : %(file)s"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Engagement partner transferred from %(old)s to %(new)s (%(who)s now %(role)s)"
 msgstr "Associé de la mission transféré de %(old)s à %(new)s (%(who)s désormais %(role)s)"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__firm_language__en_us
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__report_language__en
-msgid "English"
-msgstr "Anglais"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_import
@@ -3221,11 +3261,6 @@ msgid "Firm language set to %(language)s"
 msgstr "Langue du cabinet fixée à %(language)s"
 
 #. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
-msgid "Firm settings"
-msgstr "Paramètres du cabinet"
-
-#. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Firm sign-off policy updated"
@@ -3235,21 +3270,6 @@ msgstr "Politique de signature du cabinet mise à jour"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__matrix_firm_rule
 msgid "Firm's own rule"
 msgstr "Règle propre au cabinet"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff_policy__firm_language__fr_fr
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_create_wizard__report_language__fr
-msgid "French"
-msgstr "Français"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__id
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__id
-#: model:ir.model.fields,field_description:ea_audit_core.field_mail_message__id
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__id
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__id
-msgid "ID"
-msgstr "ID"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -3295,22 +3315,6 @@ msgstr "Clé"
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__firm_language
 msgid "Language of the firm"
 msgstr "Langue du cabinet"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__write_uid
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__write_uid
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__write_uid
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__write_uid
-msgid "Last Updated by"
-msgstr "Dernière mise à jour par"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__write_date
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__write_date
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__write_date
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__write_date
-msgid "Last Updated on"
-msgstr "Dernière mise à jour le"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -3359,16 +3363,6 @@ msgid "Message"
 msgstr ""
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__matrix_min_preparer
-msgid "Minimum preparer"
-msgstr "Préparateur minimum"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__matrix_min_reviewer
-msgid "Minimum reviewer"
-msgstr "Réviseur minimum"
-
-#. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Misstatement corrected: %(text)s"
@@ -3384,29 +3378,6 @@ msgstr "Anomalie non corrigée : %(text)s"
 #: model:ir.model.fields,help:ea_audit_core.field_ea_audit_signoff_policy__firm_language
 msgid "New accounts take this language. Each person can then choose their own. Kept by the firm administrator."
 msgstr "Les nouveaux comptes prennent cette langue. Chacun peut ensuite choisir la sienne. Tenue par l'administrateur du cabinet."
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/models/signoff_policy.py:0
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q10_regulator__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_fraud__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q12_owners_known__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q13_automated__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_rely_report__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_eqr__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_monitoring__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q16_risks__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q17_going_concern__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q18_related_parties__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q1_listed__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_first_year__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q2_pie__none
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q3_controls_law__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__no
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q7_major_change__no
-msgid "No"
-msgstr "Non"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -3505,12 +3476,6 @@ msgstr "Signature associé aujourd'hui"
 
 #. module: ea_audit_core
 #. odoo-python
-#: code:addons/ea_audit_core/models/signoff_policy.py:0
-msgid "Phase"
-msgstr "Phase"
-
-#. module: ea_audit_core
-#. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Planning closed: snapshot taken, engagement moved to execution"
 msgstr "Planification clôturée : instantané pris, mission passée en exécution"
@@ -3550,11 +3515,6 @@ msgstr "Note de revue sur %(code)s levée"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Review note raised on %(code)s"
 msgstr "Note de revue émise sur %(code)s"
-
-#. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__approver_id
-msgid "Reviewer"
-msgstr "Réviseur"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -3692,12 +3652,6 @@ msgid "Summary"
 msgstr "Résumé"
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__code
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
-msgid "Task"
-msgstr "Tâche"
-
-#. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/signoff_policy.py:0
 msgid "Task (EN)"
@@ -3804,12 +3758,6 @@ msgstr "Le classeur ne contient pas de feuille « Tasks »."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/signoff_policy.py:0
-msgid "Tier"
-msgstr "Niveau"
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/models/signoff_policy.py:0
 msgid "Today's minimum preparer"
 msgstr "Préparateur minimum aujourd'hui"
 
@@ -3826,12 +3774,6 @@ msgid "Trial balance imported (%(status)s, v%(version)s, %(file)s): %(word)s"
 msgstr "Balance importée (%(status)s, v%(version)s, %(file)s) : %(word)s"
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_activity__user_id
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_activity_search
-msgid "User"
-msgstr "Utilisateur"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,help:ea_audit_core.field_ea_audit_file_item__team_user_ids
 msgid "Who a task can go to: the accepted members of the team, the quality reviewer apart."
 msgstr "À qui une tâche peut aller : les membres acceptés de l'équipe, hors réviseur qualité."
@@ -3840,28 +3782,6 @@ msgstr "À qui une tâche peut aller : les membres acceptés de l'équipe, hors 
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_matrix_import__file
 msgid "Workbook"
 msgstr "Classeur"
-
-#. module: ea_audit_core
-#. odoo-python
-#: code:addons/ea_audit_core/models/signoff_policy.py:0
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q10_regulator__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q11_fraud__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q12_owners_known__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q13_automated__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q14_rely_report__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_eqr__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q15_monitoring__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q16_risks__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q17_going_concern__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q18_related_parties__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q1_listed__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q20_first_year__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q3_controls_law__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__yes
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q7_major_change__yes
-msgid "Yes"
-msgstr "Oui"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -4116,32 +4036,6 @@ msgid "Blank: the firm default applies."
 msgstr "Vide : la règle du cabinet s'applique."
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__phase_step
-msgid "Phase"
-msgstr "Phase"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__1_acceptance
-msgid "Acceptance"
-msgstr "Acceptation"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__2_planning
-msgid "Planning"
-msgstr "Planification"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__3_execution
-msgid "Execution"
-msgstr "Exécution"
-
-#. module: ea_audit_core
-#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__phase_step__4_conclusion
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__conclusion_title
-msgid "Conclusion"
-msgstr "Conclusion"
-
-#. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_task_template__chrono_no
 msgid "Order"
 msgstr "Ordre"
@@ -4150,31 +4044,6 @@ msgstr "Ordre"
 #: model:ir.model.fields,help:ea_audit_core.field_ea_audit_task_template__chrono_no
 msgid "Position in the audit, from acceptance to conclusion."
 msgstr "Position dans l'audit, de l'acceptation à la conclusion."
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_signoff_matrix_list
-msgid "Firm default"
-msgstr "Règle du cabinet"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
-msgid "Core"
-msgstr "Socle"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
-msgid "Conditional"
-msgstr "Conditionnelle"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
-msgid "Phase"
-msgstr "Phase"
-
-#. module: ea_audit_core
-#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_task_template_search
-msgid "Section"
-msgstr "Section"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -5663,3 +5532,9 @@ msgstr "%(code)s : document existant joint depuis %(source)s, %(file)s v%(versio
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Finding %(ref)s reopened: %(reason)s"
 msgstr "Constat %(ref)s rouvert : %(reason)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "No longer a paper of the file (owner's decision of 2026-11-16)"
+msgstr "N'est plus un papier du dossier (décision du 16/11/2026)"

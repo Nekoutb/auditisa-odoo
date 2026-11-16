@@ -37,6 +37,8 @@ MESSAGES = {
     "related-finding-unknown": _lt("A related deficiency must be another deficiency of this file."),
     "title-required": _lt("A title is required."),
     "amount-required": _lt("An amount is required for a misstatement."),
+    "sad-from-papers": _lt("The summary of audit differences is filled from the working papers: raise the misstatement in the conclusion of the procedure that found it."),
+    "misstatement-from-paper": _lt("A misstatement is raised from the working paper of the procedure that found it, so the summary of audit differences keeps its source."),
     "trivial-confirm-required": _lt("Below the trivial threshold — tick the confirmation to log it as trivial."),
     "response-required": _lt("A response is required to clear a note."),
     "specific-above-materiality": _lt("A specific materiality must be below overall materiality (ISA 320 ¶10)."),

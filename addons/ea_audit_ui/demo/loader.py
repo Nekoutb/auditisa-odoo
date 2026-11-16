@@ -507,12 +507,12 @@ class _Demo:
             file_item=active["E4.1"],
         )
         as_senior.route_finding(
-            "b5", _d("Understated allowance on receivables", "Provision clients sous-estimée"), amount=3200000, accounts="411000 / 681000",
-            file_item=active["E4.1"], mtype="factual",
+            "b5", _d("Understated allowance on receivables", "Provision clients sous-estimée"), amount=3200000, dr_account="659100", cr_account="491000",
+            file_item=active["E4.1"], mtype="factual", source=active["E4.1"],
         )
         as_senior.route_finding(
-            "b5", _d("Cut-off of December sales", "Cut-off des ventes de décembre"), amount=1450000, accounts="701000 / 411000",
-            file_item=active["E4.20"], mtype="judgmental",
+            "b5", _d("Cut-off of December sales", "Cut-off des ventes de décembre"), amount=1450000, dr_account="701000", cr_account="411000",
+            file_item=active["E4.20"], mtype="judgmental", source=active["E4.20"],
         )
 
     def review_notes(self, active):

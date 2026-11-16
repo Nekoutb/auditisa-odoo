@@ -132,9 +132,12 @@ class TestCompletionGates(ReportsCase):
     def test_unposted_sad_entry_blocks(self):
         """UAT run 2 B12: an entry above the trivial line that never reached the register."""
         self.green_completion()
-        entry = self.env["ea.audit.sad.entry"].sudo().create({
-            "engagement_id": self.engagement.id, "finding": "x", "dr_amount": 600_000, "cr_amount": 600_000,
-        })
+        # a line typed before 2026-11-17, as the database holds it: no code path creates one any more
+        self.env.cr.execute(
+            "INSERT INTO ea_audit_sad_entry (engagement_id, finding, dr_amount, cr_amount, mtype, posted, register_only)"
+            " VALUES (%s, 'x', 600000, 600000, 'factual', false, false) RETURNING id", [self.engagement.id],
+        )
+        entry = self.env["ea.audit.sad.entry"].sudo().browse(self.env.cr.fetchone()[0])
         self.assertIn("b5_within_materiality", self.failed(self.as_partner.completion_gates()))
         entry.write({"dr_amount": 100, "cr_amount": 100})
         self.assertNotIn("b5_within_materiality", self.failed(self.as_partner.completion_gates()))

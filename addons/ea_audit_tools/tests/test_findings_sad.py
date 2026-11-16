@@ -16,7 +16,8 @@ class TestFindings(ToolsCase):
         self.assertCode("title-required", self.as_staff.route_finding, "b4", " ")
         self.assertCode("invalid-severity", self.as_staff.route_finding, "c1", "x")
         self.assertCode("invalid-severity", self.as_staff.route_finding, "c1", "x", severity="other")
-        self.assertCode("amount-required", self.as_staff.route_finding, "b5", "x", amount=0)
+        self.assertCode("misstatement-from-paper", self.as_staff.route_finding, "b5", "x", amount=10)
+        self.assertCode("amount-required", self.b5, "x", amount=0)
         self.assertCode("invalid-value", self.as_staff.route_finding, "nowhere", "x")
         self.assertEqual(self.as_staff.route_finding("b4", "A matter")["destination"], "b4")
 
@@ -34,18 +35,17 @@ class TestFindings(ToolsCase):
 
     def test_a_trivial_misstatement_needs_the_confirmation(self):
         self.approve()  # trivial 6 (5 % of 112)
-        route = self.as_staff.route_finding
-        self.assertCode("trivial-confirm-required", route, "b5", "Rounding", amount=5)
-        logged = route("b5", "Rounding", amount=5, trivial_confirmed=True)
+        self.assertCode("trivial-confirm-required", self.b5, "Rounding", amount=5)
+        logged = self.b5("Rounding", amount=5, trivial_confirmed=True)
         self.assertEqual(logged["destination"], "b5-trivial")
         self.assertTrue(logged["finding"].sudo().misstatement_id.trivial)
-        self.assertEqual(route("b5", "Cut-off", amount=7)["destination"], "b5")
+        self.assertEqual(self.b5("Cut-off", amount=7)["destination"], "b5")
 
     def test_b5_evaluates_uncorrected_against_umt(self):
         self.approve()  # overall 112, perf 84, UMT 28
-        self.as_staff.route_finding("b5", "A", amount=20)
-        second = self.as_staff.route_finding("b5", "B", amount=10)["finding"].sudo().misstatement_id
-        self.as_staff.route_finding("b5", "C", amount=1, trivial_confirmed=True)
+        self.b5("A", amount=20)
+        second = self.b5("B", amount=10)["finding"].sudo().misstatement_id
+        self.b5("C", amount=1, trivial_confirmed=True)
         result = self.engagement.sudo()._ea_evaluate_b5()
         self.assertEqual(result["uncorrectedTotal"], 30)
         self.assertEqual(result["finalMateriality"], 28)
@@ -58,7 +58,7 @@ class TestFindings(ToolsCase):
         self.assertCode("invalid-field", second.with_user(self.staff).write, {"amount": 1})
 
     def test_b5_is_not_evaluable_without_approved_materiality(self):
-        self.as_staff.route_finding("b5", "A", amount=20)
+        self.b5("A", amount=20)
         self.assertIsNone(self.engagement.sudo()._ea_evaluate_b5()["exceedsMateriality"])
 
     def test_clearing(self):
@@ -115,7 +115,7 @@ class TestFindings(ToolsCase):
     def test_the_cards(self):
         self.approve()
         self.as_staff.route_finding("c1", "Grave", severity="significant_deficiency")
-        self.as_staff.route_finding("b5", "A", amount=20)
+        self.b5("A", amount=20)
         board = self.engagement.with_user(self.staff)
         board.invalidate_recordset()
         self.assertEqual(board.b5_uncorrected_label, "20 FCFA")
@@ -132,13 +132,15 @@ class TestFindings(ToolsCase):
 
 @tagged("post_install", "-at_install")
 class TestSad(ToolsCase):
-    def entry(self, actor=None, **vals):
-        values = {
-            "engagement_id": self.engagement.id, "finding": "Cut-off", "dr_account": "411000", "dr_amount": 100,
-            "cr_account": "701000", "cr_amount": 100,
-        }
-        values.update(vals)
-        return self.env["ea.audit.sad.entry"].with_user(actor or self.staff).create(values)
+    def entry(self, finding="Cut-off", dr_account="411000", cr_account="701000", amount=100, mtype="factual", corrected=False, rationale=None, trivial_confirmed=False):
+        """A line as it arrives now: a misstatement raised from its working paper."""
+        result = self.b5(
+            finding, amount=amount, mtype=mtype, dr_account=dr_account, cr_account=cr_account, trivial_confirmed=trivial_confirmed,
+        )
+        entry = self.env["ea.audit.sad.entry"].with_user(self.staff).search([("misstatement_id", "=", result["finding"].sudo().misstatement_id.id)])
+        if corrected or rationale:
+            entry.write({"corrected": corrected, "rationale": rationale or False})
+        return entry
 
     def test_captions_are_suggested_and_overridable(self):
         entry = self.entry()
@@ -147,45 +149,74 @@ class TestSad(ToolsCase):
         entry.write({"cr_caption": "expense"})
         self.assertEqual(entry.cr_caption_effective, "expense")
 
-    def test_guards_and_field_limits(self):
-        self.assertCode("read-only-role", self.entry, actor=self.reader)
-        self.assertCode("not-on-this-engagement", self.entry, actor=self.outsider)
-        self.assertCode("eqr-read-only", self.entry, actor=self.eqr)
-        self.assertCode("invalid-field", self.entry, posted=True)
+    def test_no_line_is_typed_on_the_summary(self):
+        """Owner's ruling of 2026-11-16: the lines come from the working papers only."""
+        values = {"engagement_id": self.engagement.id, "finding": "Typed", "dr_account": "411000", "dr_amount": 100}
+        Entry = self.env["ea.audit.sad.entry"]
+        for user in (self.staff, self.manager, self.partner, self.reader):
+            self.assertCode("sad-from-papers", Entry.with_user(user).create, values)
+        # nor by the server without a source
+        self.assertCode("sad-from-papers", Entry.sudo().create, values)
+        orphan = self.env["ea.audit.misstatement"].sudo().create({"engagement_id": self.engagement.id, "description": "x", "amount": 5})
+        self.assertCode("sad-from-papers", Entry.sudo().create, dict(values, misstatement_id=orphan.id))
+        # the page offers no way to add one
+        self.assertCode("forbidden", self.as_staff.ea_sad_page_open, "new")
+
+    def test_the_difference_itself_is_the_papers(self):
         entry = self.entry()
-        self.assertCode("invalid-field", entry.write, {"posted": True})
-        self.assertCode("amount-required", self.entry, dr_account=False, dr_amount=0, cr_account=False, cr_amount=0)
+        for field, value in (("dr_amount", 1), ("cr_account", "601"), ("finding", "x"), ("mtype", "judgmental"), ("posted", True)):
+            self.assertCode("invalid-field", entry.write, {field: value})
+        entry.write({"corrected": True, "rationale": "Booked by management", "dr_caption": "expense"})
+        self.assertTrue(entry.sudo().misstatement_id.corrected)
+        self.assertCode("read-only-role", entry.with_user(self.reader).write, {"corrected": False})
 
-    def test_post_upserts_the_schedule_with_the_magnitude(self):
+    def test_a_line_from_the_paper_carries_its_accounts_and_type(self):
         self.approve()
-        entry = self.entry(dr_amount=100, cr_amount=90)
-        entry.action_post()
-        item = entry.sudo().misstatement_id
-        self.assertEqual(item.amount, 100)
-        self.assertTrue(item.accounts.startswith("Dr 411000 ("))
-        self.assertIn(" / Cr 701000 (", item.accounts)
-        self.assertFalse(item.trivial)
-        self.assertTrue(entry.posted)
-        self.assertFalse(entry.stale)
-        entry.write({"dr_amount": 150})
-        self.assertEqual(entry.sudo().misstatement_id.amount, 150)
-        self.assertEqual(len(self.env["ea.audit.misstatement"].sudo().search([("engagement_id", "=", self.engagement.id)])), 1)
+        entry = self.entry(finding="Sales cut-off", amount=40, mtype="judgmental")
+        root = entry.sudo()
+        self.assertTrue(root.register_only and root.posted)
+        self.assertEqual((root.dr_amount, root.cr_amount, root.mtype), (40, 40, "judgmental"))
+        self.assertEqual(root.misstatement_id.accounts, "Dr 411000 / Cr 701000")
+        self.assertEqual(root.source_label, "E4.1")
+        self.assertFalse(root.entered_by_hand)
+        only_debit = self.entry(finding="Expense", dr_account="601000", cr_account="", amount=10)
+        self.assertEqual((only_debit.sudo().dr_amount, only_debit.sudo().cr_amount), (10, 0))
+        self.assertEqual(only_debit.dr_caption_effective, "expense")
 
-    def test_a_row_from_the_b5_route_stands_on_the_sad_and_edits_in_place(self):
-        result = self.as_staff.route_finding("b5", "Projection", amount=500, mtype="projected")
+    def test_a_line_without_accounts_reads_as_an_expense(self):
+        result = self.b5("Projection", amount=500, mtype="projected")
         entry = self.env["ea.audit.sad.entry"].with_user(self.staff).search([("misstatement_id", "=", result["finding"].sudo().misstatement_id.id)])
         self.assertTrue(entry.register_only)
         self.assertEqual(entry.dr_caption_effective, "expense")
-        self.assertCode("invalid-field", entry.write, {"dr_amount": 1})
         entry.write({"corrected": True})
         entry.action_post()
         self.assertTrue(entry.sudo().misstatement_id.corrected)
         self.assertCode("forbidden", entry.unlink)
 
-    def test_a_draft_entry_can_go_and_a_posted_one_cannot(self):
-        draft = self.entry()
-        draft.unlink()
-        posted = self.entry()
+    def test_a_line_typed_before_stays_as_it_was(self):
+        self.approve()
+        legacy = self.legacy_sad_entry(dr_amount=100, cr_amount=90)
+        self.assertTrue(legacy.sudo().entered_by_hand)
+        self.assertEqual(legacy.sudo().source_label, "Entered before 2026-11-17")
+        legacy.action_post()
+        item = legacy.sudo().misstatement_id
+        self.assertEqual(item.amount, 100)
+        self.assertTrue(item.accounts.startswith("Dr 411000 ("))
+        self.assertIn(" / Cr 701000 (", item.accounts)
+        self.assertTrue(legacy.posted)
+        self.assertFalse(legacy.stale)
+        self.assertCode("invalid-field", legacy.write, {"dr_amount": 150})
+        legacy.write({"corrected": True})
+        self.assertTrue(legacy.sudo().misstatement_id.corrected)
+        self.assertEqual(len(self.env["ea.audit.misstatement"].sudo().search([("engagement_id", "=", self.engagement.id)])), 1)
+        page = self.as_staff.ea_sad_page()
+        row = page["rows"]["corrected"][0]
+        self.assertTrue(row["byHand"])
+        self.assertEqual(self.as_staff.ea_sad_page_open("source", row["id"])["res_model"], "ea.audit.sad.entry")
+
+    def test_a_draft_line_typed_before_can_go_and_a_posted_one_cannot(self):
+        self.legacy_sad_entry().unlink()
+        posted = self.legacy_sad_entry()
         posted.action_post()
         self.assertCode("forbidden", posted.unlink)
 
@@ -210,10 +241,10 @@ class TestSad(ToolsCase):
 
     def test_workbook_has_six_tabs_and_the_screens_arithmetic(self):
         self.approve()  # trivial 6
-        self.entry(dr_amount=100, cr_amount=100)
-        self.entry(finding="Tiny", dr_amount=1, cr_amount=1)
-        self.entry(finding="Fixed", dr_amount=50, cr_amount=50, corrected=True, rationale="Booked")
-        self.entry(finding="Move", mtype="classification", dr_amount=30, cr_amount=30)
+        self.entry(amount=100)
+        self.entry(finding="Tiny", amount=1, trivial_confirmed=True)
+        self.entry(finding="Fixed", amount=50, corrected=True, rationale="Booked")
+        self.entry(finding="Move", mtype="classification", amount=30)
         meta = self.engagement.sudo()._ea_sad_meta()
         meta.write({"tax_rate": 33, "concl_text": "Below UMT.", "tq_3": "no"})
         filename, content = self.as_reader.ea_export_xlsx("sad")

@@ -1,6 +1,7 @@
 from odoo import api, fields, models
 
 from ..rules import rule_error
+from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_index_label
 from ..services.sad_model import SAD_CAPTION_LABELS, SAD_CAPTIONS, suggest_caption
 from ..services.sad_view import effective_income_after_tax, fs_caption_amounts
 from .finding import MTYPE_SELECTION
@@ -8,18 +9,20 @@ from .tool_record import fcfa, is_french
 
 CAPTION_SELECTION = [(code, SAD_CAPTION_LABELS[code]["en"]) for code in SAD_CAPTIONS]
 ANSWER_SELECTION = [("yes", "Yes"), ("no", "No"), ("na", "N/A")]
-ENTRY_FIELDS = {
-    "file_item_id", "ref", "finding", "dr_account", "dr_amount", "cr_account", "cr_amount",
-    "dr_caption", "cr_caption", "mtype", "corrected", "rationale",
-}
-#: register-only rows edit their type and correction in place (UAT run 2 B63)
-REGISTER_FIELDS = {"mtype", "corrected", "rationale", "dr_caption", "cr_caption"}
+#: What the summary still changes on a line (owner's ruling of 2026-11-16): whether management
+#: corrected it, the team's rationale, and the caption a line is shown under. The difference
+#: itself (description, accounts, amounts, type) is the working paper's, never typed here.
+REVIEW_FIELDS = {"corrected", "rationale", "dr_caption", "cr_caption"}
+PROC_MODEL = "ea.audit.designed.procedure"
 
 
 class SadEntry(models.Model):
-    """One proposed adjustment on the SAD. The papers addon feeds these from its step
-    results; until it exists they are entered here. A register-only row stands for a C1.1
-    misstatement with no working-paper step behind it (a b5 route, a sampling projection)."""
+    """One proposed adjustment on the SAD. Since 2026-11-17 (owner's ruling of 2026-11-16) a
+    line arrives only from a working paper: a misstatement raised in the conclusion of a
+    substantive procedure (or on a sample, a journal entry...) goes through
+    engagement.ea_raise_finding / route_finding("b5"), which writes the C1.1 misstatement, the
+    finding and this line together (``register_only``). Nobody types a line here any more.
+    Lines typed before that day stay as they were, shown as "entered before 2026-11-17"."""
 
     _name = "ea.audit.sad.entry"
     _inherit = ["ea.audit.tool.record"]
@@ -48,6 +51,50 @@ class SadEntry(models.Model):
     amount = fields.Float(digits=(18, 2), compute="_compute_amount", compute_sudo=True)
     is_trivial = fields.Boolean(string="Clearly trivial", compute="_compute_amount", compute_sudo=True)
     stale = fields.Boolean(compute="_compute_amount", compute_sudo=True)
+    source_finding_id = fields.Many2one("ea.audit.finding", string="Finding", compute="_compute_source", compute_sudo=True)
+    source_procedure_id = fields.Many2one(PROC_MODEL, string="Procedure", compute="_compute_source", compute_sudo=True)
+    source_label = fields.Char(string="Source", compute="_compute_source", compute_sudo=True)
+    entered_by_hand = fields.Boolean(string="Entered before 2026-11-17", compute="_compute_source", compute_sudo=True)
+
+    @api.depends("misstatement_id", "file_item_id")
+    @api.depends_context("lang")
+    def _compute_source(self):
+        Finding = self.env["ea.audit.finding"].sudo()
+        items = self.misstatement_id
+        findings = Finding.search([("misstatement_id", "in", items.ids)]) if items else Finding
+        by_item = {finding.misstatement_id.id: finding for finding in findings}
+        for entry in self:
+            finding = by_item.get(entry.misstatement_id.id) if entry.misstatement_id else None
+            record = entry._ea_source_record(finding)
+            proc = None
+            if record is not None and record._name == PROC_MODEL:
+                proc = record
+            elif record is not None and "designed_procedure_id" in record._fields:
+                proc = record.designed_procedure_id or None
+            entry.source_finding_id = finding or False
+            entry.source_procedure_id = proc or False
+            entry.entered_by_hand = record is None
+            entry.source_label = entry._ea_source_text(record, proc, finding)
+
+    def _ea_source_record(self, finding):
+        if not finding or not finding.source_model or finding.source_model not in self.env or not finding.source_id:
+            return None
+        return self.env[finding.source_model].sudo().browse(finding.source_id).exists() or None
+
+    def _ea_source_text(self, record, proc, finding):
+        """Procedure code · account · paper; for a line with no paper behind it, its age."""
+        fr = is_french(self.env)
+        if proc:
+            definition = LEAD_INDEX_BY_CODE.get(proc.index_code)
+            account = lead_index_label(definition, "fr" if fr else "en") if definition else (proc.index_code or "")
+            return " · ".join(p for p in (proc.code or "", account, proc.file_item_id.code or "") if p)
+        if record is not None:
+            if record._name == "ea.audit.file.item":
+                return record.code or ""
+            name = ("purpose" in record._fields and record.purpose) or record.display_name or ""
+            return " · ".join(p for p in (name, self.file_item_id.code or "") if p)
+        before = self.env._("Entered before 2026-11-17")
+        return " · ".join(p for p in (finding.reference if finding else "", before) if p)
 
     @api.depends("file_item_id", "ref")
     def _compute_refs(self):
@@ -57,9 +104,14 @@ class SadEntry(models.Model):
     @api.depends("dr_account", "cr_account", "dr_caption", "cr_caption", "register_only")
     def _compute_captions(self):
         for entry in self:
+            # a register line without accounts (a finding of before 2026-11-17) reads as an expense
             fallback = "expense" if entry.register_only else None
-            entry.dr_caption_effective = entry.dr_caption or fallback or suggest_caption(entry.dr_account or "")
-            entry.cr_caption_effective = entry.cr_caption or fallback or suggest_caption(entry.cr_account or "")
+            entry.dr_caption_effective = entry.dr_caption or (
+                suggest_caption(entry.dr_account) if entry.dr_account else fallback or suggest_caption("")
+            )
+            entry.cr_caption_effective = entry.cr_caption or (
+                suggest_caption(entry.cr_account) if entry.cr_account else fallback or suggest_caption("")
+            )
 
     @api.depends("dr_amount", "cr_amount", "misstatement_id.amount", "misstatement_id.mtype", "misstatement_id.corrected", "mtype", "corrected")
     def _compute_amount(self):
@@ -84,28 +136,33 @@ class SadEntry(models.Model):
             self.cr_account or "—", SAD_CAPTION_LABELS[self.cr_caption_effective][locale],
         )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Even as superuser a line needs its source: a misstatement whose finding names the
+        working-paper record it was raised from (route_finding writes those two first)."""
+        if self.env.su:
+            Misstatement = self.env["ea.audit.misstatement"].sudo()
+            Finding = self.env["ea.audit.finding"].sudo()
+            for vals in vals_list:
+                item = Misstatement.browse(vals.get("misstatement_id") or [])
+                if not item or not Finding.search_count([
+                    ("misstatement_id", "=", item.id), ("source_model", "!=", False),
+                ]):
+                    raise rule_error(self.env, "sad-from-papers")
+        return super().create(vals_list)
+
     def _ea_user_create(self, vals_list):
-        created = self.browse()
-        for vals in vals_list:
-            engagement = self.env["ea.audit.engagement"].browse(vals.get("engagement_id"))
-            engagement._ea_tool_guard()
-            self._ea_only({k: v for k, v in vals.items() if k != "engagement_id"}, ENTRY_FIELDS)
-            item = self.env["ea.audit.file.item"].sudo().browse(vals.get("file_item_id") or [])
-            if item and item.engagement_id != engagement.sudo():
-                raise rule_error(self.env, "not-found")
-            record = self.sudo().create(vals)
-            if not (record.dr_amount or record.cr_amount or record.dr_account or record.cr_account):
-                raise rule_error(self.env, "amount-required")
-            created |= record.with_env(self.env)
-        return created
+        """No line is typed on the summary: it comes from the working papers."""
+        raise rule_error(self.env, "sad-from-papers")
 
     def _ea_user_write(self, vals):
-        """saveSad. A row already posted re-posts when its paper changes (UAT run 2 B11)."""
+        """saveSad: only the review of a line (corrected, rationale, caption). A row already
+        posted re-posts so the C1.1 schedule follows (UAT run 2 B11)."""
         self._ea_guard()
+        self._ea_only(vals, REVIEW_FIELDS)
         for entry in self.sudo():
-            self._ea_only(vals, REGISTER_FIELDS if entry.register_only else ENTRY_FIELDS)
             entry.write(vals)
-            if entry.posted and not entry.register_only:
+            if entry.posted:
                 entry.with_env(self.env)._ea_post()
         return True
 
@@ -296,11 +353,10 @@ class EngagementSad(models.Model):
         tb = as_root._ea_tb()
         entries = []
         for entry in self.env["ea.audit.sad.entry"].sudo().search([("engagement_id", "=", self.id)]):
-            if entry.register_only and entry.misstatement_id.trivial:
-                continue
+            # every line, a clearly trivial one included: the workbook sets those apart (ISA 450 para 5)
             entries.append({
                 "taskCode": entry.task_code, "taskTitle": entry.file_item_id.title or "",
-                "ref": entry.ref or entry.task_code, "finding": entry.finding or "",
+                "ref": entry.ref or entry.source_procedure_id.code or entry.task_code, "finding": entry.finding or "",
                 "drAccount": entry.dr_account or "", "drAmount": entry.dr_amount,
                 "crAccount": entry.cr_account or "", "crAmount": entry.cr_amount,
                 "drCaption": entry.dr_caption_effective, "crCaption": entry.cr_caption_effective,

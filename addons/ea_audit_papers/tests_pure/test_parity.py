@@ -40,7 +40,9 @@ def _fixture(name):
 # P1.4 and S6.1 take over P7.1 and S6.2 as short blocks (owner's decision of 2026-11-16),
 # and P1.5 records the firm's decision on a quality review, the profile's facts shown read only
 # (owner's ruling of 2026-11-16: appointing a reviewer is always the firm's decision).
-DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1"}
+# C5.2 is no longer a paper of the file (owner's decision of 2026-11-16): C4.3, C5.1, C5.10, E4.14,
+# E4.15 and E6.4 no longer send the reader to it.
+DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.14", "E4.15", "E6.4"}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")

@@ -198,12 +198,7 @@
                     <field name="severity" required="route == 'c1'"/>
                     <field name="recommendation"/>
                 </group>
-                <group invisible="route != 'b5'">
-                    <field name="amount" widget="ea_amount" required="route == 'b5'"/>
-                    <field name="accounts"/>
-                    <field name="mtype"/>
-                    <field name="trivial_confirmed"/>
-                </group>
+                <p class="text-muted">A misstatement is not entered here: raise it from the working paper of the procedure that found it, so it reaches the summary of audit differences with its source.</p>
                 <group invisible="route != 'revise'">
                     <field name="significant"/>
                 </group>
