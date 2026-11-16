@@ -227,3 +227,8 @@ a.o_ea_chip_warn { color: $ea-amber !important; }
         .o_ea_risk_chip_x { margin-left: 6px; }
     }
 }
+
+// the upload lists: how far the next-year general ledger reaches
+.o_ea_subsequent_line { background: #fff; border: 1px solid #e3e7ea; border-radius: 10px; padding: 8px 14px; margin: 8px 16px; color: #1f2a33; font-size: 13px; }
+.o_ea_subsequent_line.is-short { border-color: #e8d6ae; }
+.o_ea_subsequent_warning { color: $ea-amber; margin-top: 4px; }

@@ -20,6 +20,7 @@ from ..services._js import js_round, js_sum
 from ..services.dataset_mapping import JE_KEY_JOIN, je_key_columns
 from ..services.errors import ServiceError
 from ..services.gl_line import BATCH, TOLERANCE
+from ..services.subsequent import CURRENT_YEAR_TIMINGS
 from .tool_record import is_french
 
 MONTH = correlation.MONTH
@@ -521,6 +522,7 @@ class EngagementGlConsole(models.Model):
         self._ea_require_access()
         found = self.env["ea.audit.dataset"].sudo().search([
             ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
+            ("timing", "in", CURRENT_YEAR_TIMINGS),
         ])
 
         def latest(timing):

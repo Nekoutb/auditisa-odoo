@@ -60,6 +60,7 @@ MESSAGES = {
     "dataset-superseded": _lt("A later upload has taken over from this one. Delete the later upload to use this one again."),
     "file-too-large": _lt("The file is too large (limit: 60 MB)."),
     "fields-required": _lt("Choose a file and a kind of dataset."),
+    "subsequent-kind": _lt("Only the general ledger, receivables, payables and inventory can be uploaded for the next year."),
     "unknown-analytic": _lt("That analytic is not one of the catalogue's thirty."),
     "invalid-accounts": _lt("Choose valid account codes: letters, digits, dot, dash or underscore, within the number allowed."),
     "same-account": _lt("Choose two different accounts."),

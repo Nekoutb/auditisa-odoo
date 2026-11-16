@@ -165,7 +165,7 @@ class EngagementImport(models.Model):
             },
         }
 
-    def ea_import_check(self, kind, filename, content, mapping, header_row=True, options=None):
+    def ea_import_check(self, kind, filename, content, mapping, header_row=True, options=None, timing=None):
         """The check screen: what the import would keep and what it would say, nothing kept.
         Refuses, as the import does, a matching that leaves a mandatory field out."""
         self.ensure_one()
@@ -174,7 +174,7 @@ class EngagementImport(models.Model):
             raise rule_error(self.env, "fields-required")
         if kind == TB_KIND:
             return self._ea_tb_check(filename, content, mapping, header_row, options)
-        return self._ea_dataset_check(kind, filename, content, mapping, header_row, options)
+        return self._ea_dataset_check(kind, filename, content, mapping, header_row, options, timing=timing)
 
     def ea_import_file(self, kind, filename, content, mapping, timing="pre_audit", header_row=True, options=None, remember=False):
         """The import of any of the nine kinds, each by its own rule-bearing method."""

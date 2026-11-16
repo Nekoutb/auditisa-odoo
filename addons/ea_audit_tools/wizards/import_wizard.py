@@ -7,12 +7,13 @@ from markupsafe import Markup
 
 from odoo import Command, api, fields, models
 
+from ..models.dataset import DATASET_TIMING_SELECTION
 from ..models.import_matching import IMPORT_KIND_SELECTION
-from ..models.tb import TIMING_SELECTION
 from ..models.tool_record import grouped, is_french, upload_stamp
 from ..rules import rule_error
 from ..services.dataset_mapping import JE_KEY, JE_KEY_MAX, encode_je_key, je_key_columns
 from ..services.import_matching import JE_KEY_LABEL, TB_KIND, fields_of, groups_of, mandatory_marks, missing_fields, required_keys
+from ..services.subsequent import SUBSEQUENT, SUBSEQUENT_KINDS
 
 _RELOAD = {"type": "ir.actions.client", "tag": "soft_reload"}
 _SEPARATOR = {";": ";", ",": ",", "tab": "\t", "|": "|"}
@@ -28,7 +29,7 @@ class ImportWizard(models.TransientModel):
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
     kind = fields.Selection(IMPORT_KIND_SELECTION, string="Kind of data", required=True, default=TB_KIND)
-    timing = fields.Selection(TIMING_SELECTION, default="pre_audit", required=True)
+    timing = fields.Selection(DATASET_TIMING_SELECTION, default="pre_audit", required=True)
     file = fields.Binary(string="File (.csv, .xlsx)", required=True)
     filename = fields.Char()
     header_row = fields.Boolean(string="The first line holds the column titles", default=True)
@@ -237,6 +238,8 @@ class ImportWizard(models.TransientModel):
     def action_read(self):
         """Read the file: opens it and proposes a matching. Saves nothing of it."""
         self.ensure_one()
+        if self.timing == SUBSEQUENT and self.kind not in SUBSEQUENT_KINDS:
+            raise rule_error(self.env, "subsequent-kind")
         self.write({"sheet_id": False, "csv_separator": "auto", "decimal_separator": "auto", "date_format": "auto"})
         read = self._ea_load_columns()
         sheets = [Command.clear()] + [Command.create({"sequence": position, "name": name}) for position, name in enumerate(read["sheets"])]
@@ -301,7 +304,7 @@ class ImportWizard(models.TransientModel):
         self.ensure_one()
         self._ea_refuse_unmatched()
         result = self.engagement_id.ea_import_check(
-            self.kind, self.filename, self._content(), self._mapping(), self.header_row, self._options(),
+            self.kind, self.filename, self._content(), self._mapping(), self.header_row, self._options(), timing=self.timing,
         )
         self.write({"step": "check", "check_html": self._ea_check_html(result), "blocking": result["blocking"]})
         return self._ea_reopen()

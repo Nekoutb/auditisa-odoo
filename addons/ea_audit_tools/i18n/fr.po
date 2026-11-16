@@ -13374,3 +13374,15 @@ msgstr "Revue le"
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_automation_run__purpose
 msgid "The substantive procedure this sample serves, in a few words."
 msgstr "La procédure de corroboration que sert cet échantillon, en quelques mots."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__timing__subsequent
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__timing__subsequent
+msgid "Subsequent period (next year)"
+msgstr "Période suivante (exercice suivant)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Only the general ledger, receivables, payables and inventory can be uploaded for the next year."
+msgstr "Seuls le grand livre, les créances clients, les dettes fournisseurs et les stocks peuvent être importés pour l'exercice suivant."

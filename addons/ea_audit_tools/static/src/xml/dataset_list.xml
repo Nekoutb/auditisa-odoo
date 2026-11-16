@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- The upload lists: how far the next-year general ledger reaches (owner's request of 2026-11-16). -->
+    <t t-name="ea_audit_tools.DatasetListView" t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <SubsequentCoverageLine t-if="eaEngagementId" engagementId="eaEngagementId"/>
+        </xpath>
+    </t>
+
+    <t t-name="ea_audit_tools.SubsequentCoverageLine">
+        <t t-set="data" t-value="state.data"/>
+        <div t-if="data" class="o_ea_subsequent_line" t-att-class="data.short ? 'is-short' : ''">
+            <div class="o_ea_subsequent_sentence" t-esc="data.sentence"/>
+            <div t-if="data.warning" class="o_ea_subsequent_warning" role="alert" t-esc="data.warning"/>
+        </div>
+    </t>
+</templates>

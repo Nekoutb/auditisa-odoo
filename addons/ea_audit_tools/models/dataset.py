@@ -16,6 +16,7 @@ from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, nf, population_c
 from ..services.import_matching import BALANCE_TOLERANCE, amount_check, apply_reading_options, clean_mapping, gl_population, missing_fields
 from ..services.subledger_kinds import SUB_LEDGER_KINDS, is_sub_ledger_kind
 from ..services.subledgers import detect_amount_column
+from ..services.subsequent import SUBSEQUENT, SUBSEQUENT_KINDS
 from ..tabular import parse_table
 from .tool_record import french_date, grouped, is_french, upload_stamp
 from .tb import TIMING_SELECTION
@@ -37,6 +38,9 @@ KIND_SELECTION = [
     ("supplier_statements", "Supplier statements"),
 ]
 assert [kind for kind, _label in KIND_SELECTION] == SUB_LEDGER_KINDS
+# a dataset may also be of the year after the one audited (owner's request of 2026-11-16): the
+# trial balance may not, so its own TIMING_SELECTION stays as it was
+DATASET_TIMING_SELECTION = TIMING_SELECTION + [(SUBSEQUENT, "Subsequent period (next year)")]
 
 
 class Dataset(models.Model):
@@ -51,7 +55,7 @@ class Dataset(models.Model):
     _order = "create_date desc, id desc"
 
     kind = fields.Selection(KIND_SELECTION, required=True, index=True)
-    timing = fields.Selection(TIMING_SELECTION, default="pre_audit", required=True)
+    timing = fields.Selection(DATASET_TIMING_SELECTION, default="pre_audit", required=True)
     name = fields.Char(required=True)
     source_filename = fields.Char(string="File")
     superseded_at = fields.Datetime(index=True)
@@ -275,15 +279,18 @@ class EngagementDataset(models.Model):
         apply_reading_options(table, kind, mapping, (options or {}).get("decimal"), (options or {}).get("date_format"))
         return table, mapping
 
-    def _ea_gl_period(self):
-        """(first day, last day) of the period the ledger's dates are checked against."""
+    def _ea_gl_period(self, timing=None):
+        """(first day, last day) of the period the ledger's dates are checked against: the year
+        audited, or the year after it for a next-year ledger."""
         period_end = self.sudo().period_end
+        if period_end and timing == SUBSEQUENT:
+            return period_end + relativedelta(days=1), period_end + relativedelta(years=1)
         start = (period_end - relativedelta(years=1) + relativedelta(days=1)) if period_end else None
         return start, period_end
 
-    def _ea_gl_found(self, table, mapping):
+    def _ea_gl_found(self, table, mapping, timing=None):
         """The ledger as the import reads it: gl_population over this file's period."""
-        start, end = self._ea_gl_period()
+        start, end = self._ea_gl_period(timing)
         try:
             return gl_population(table, mapping, start.isoformat() if start else None, end.isoformat() if end else None)
         except ServiceError as error:
@@ -330,7 +337,7 @@ class EngagementDataset(models.Model):
             )})
         return issues
 
-    def _ea_dataset_check(self, kind, filename, content, mapping, header_row, options):
+    def _ea_dataset_check(self, kind, filename, content, mapping, header_row, options, timing=None):
         """The check screen of a dataset. A ledger gets its population checks, read from the file
         as the projection will read it, and is stopped when it does not balance; the other kinds
         get their rows and the total of their amounts, and what is found is shown without stopping
@@ -339,7 +346,7 @@ class EngagementDataset(models.Model):
         fr = is_french(self.env)
         issues = []
         if kind == "journal_entries":
-            found = self._ea_gl_found(table, mapping)
+            found = self._ea_gl_found(table, mapping, timing)
             blocking = self._ea_gl_blocking(found)
             if found["leftOut"]:
                 issues.append({"effect": "left_out", "rows": found["leftOut"], "text": self.env._(
@@ -375,12 +382,14 @@ class EngagementDataset(models.Model):
         The upload before it, of the same kind and timing, is kept and superseded."""
         self.ensure_one()
         self._ea_tool_guard()
-        if not is_sub_ledger_kind(kind) or timing not in dict(TIMING_SELECTION):
+        if not is_sub_ledger_kind(kind) or timing not in dict(DATASET_TIMING_SELECTION):
             raise rule_error(self.env, "fields-required")
+        if timing == SUBSEQUENT and kind not in SUBSEQUENT_KINDS:
+            raise rule_error(self.env, "subsequent-kind")
         table, mapping = self._ea_dataset_read(kind, filename, content, mapping, header_row, options)
         if kind == "journal_entries":
             # the check screen's own refusal, here too: the screen is not the control
-            blocking = self._ea_gl_blocking(self._ea_gl_found(table, mapping))
+            blocking = self._ea_gl_blocking(self._ea_gl_found(table, mapping, timing))
             if blocking:
                 reasons = [issue["text"] for issue in blocking[:GL_REFUSAL_SHOWN]]
                 if len(blocking) > GL_REFUSAL_SHOWN:
@@ -430,11 +439,14 @@ class EngagementDataset(models.Model):
         return {"datasetId": dataset.id, "rowCount": len(rows)}
 
     def _ea_current_dataset(self, kind, timing=None):
-        """The upload in use of a kind: of that timing, else the newest whatever its timing."""
+        """The upload in use of a kind: of that timing, else the newest of the year audited. A
+        next-year upload is had only by asking for it: it never stands in for this year's."""
         self.ensure_one()
         domain = [("engagement_id", "=", self.id), ("kind", "=", kind), ("superseded_at", "=", False)]
         if timing:
             domain.append(("timing", "=", timing))
+        else:
+            domain.append(("timing", "!=", SUBSEQUENT))
         return self.env["ea.audit.dataset"].sudo().search(domain, limit=1)
 
     def _ea_dataset_successor(self, dataset):
@@ -561,7 +573,7 @@ class EngagementDataset(models.Model):
         self._ea_require_access()
         dataset = self._ea_gl_dataset(dataset_id)
         cr = self.env.cr
-        start, period_end = self._ea_gl_period()
+        start, period_end = self._ea_gl_period(dataset.timing)
         cr.execute(
             """SELECT count(*),
                       count(*) FILTER (WHERE coalesce(trim(account), '') = ''),
