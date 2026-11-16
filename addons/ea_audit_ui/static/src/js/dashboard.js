@@ -60,6 +60,9 @@ export class EaDashboard extends Component {
     }
 
     openGroup(group) {
+        if (group.tool) {
+            return this.ctx.openTool(this.engagementId, group.tool);
+        }
         return this.ctx.openTasks(this.engagementId, group.id);
     }
 

@@ -80,7 +80,8 @@ def sample_mode(item):
     automatable = (item or {}).get("automatable")
     if automatable in ("sample_selection", "cutoff_selection"):
         return "draw"
-    if automatable == "reconciliation":
+    if automatable in ("reconciliation", "confirmation", "count_attendance"):
+        # the working paper picks the parties or the test counts itself (2026-11-16)
         return "tool"
     return "none"
 

@@ -40,7 +40,10 @@ REASON_SELECTION = [
     ("condition", "Condition met"), ("choice", "Your choice"),
 ]
 CONCLUSION_SELECTION = [("satisfactory", "No exception"), ("exceptions", "Exceptions found")]
-AUTOMATABLE_SELECTION = [("reconciliation", "Reconciliation"), ("cutoff_selection", "Cut-off selection"), ("sample_selection", "Sample selection")]
+AUTOMATABLE_SELECTION = [
+    ("reconciliation", "Reconciliation"), ("cutoff_selection", "Cut-off selection"), ("sample_selection", "Sample selection"),
+    ("confirmation", "Confirmations"), ("count_attendance", "Count attendance"),
+]
 
 
 def library_items():

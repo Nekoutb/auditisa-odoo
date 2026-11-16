@@ -5928,3 +5928,9 @@ msgstr "Dossier d'audit archivé et verrouillé par %(name)s"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "%(count)s working paper(s) carried forward from %(year)s as drafts, to update"
 msgstr "%(count)s feuille(s) de travail reprise(s) de %(year)s en brouillon, à mettre à jour"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Substantive procedure %(index)s %(code)s: %(count)s test counts drawn from the inventory listing"
+msgstr "Procédure de substance %(index)s %(code)s : %(count)s comptages tests tirés de la liste d'inventaire"

@@ -30,17 +30,17 @@
    "RO",
    "V"
   ],
-  "title_en": "Customer balance confirmations",
-  "title_fr": "Confirmation des soldes clients",
-  "summary_en": "Send confirmation requests directly to a sample of customers (key items plus a sample), reconcile replies; for non-replies, use receipts after year end or delivery evidence.",
-  "summary_fr": "Adresser nous-mêmes des demandes de confirmation à un échantillon de clients (éléments clés et échantillon), rapprocher les réponses ; sans réponse, s'appuyer sur les encaissements postérieurs ou les preuves de livraison.",
+  "title_en": "Customer confirmations",
+  "title_fr": "Confirmations clients",
+  "summary_en": "Select customers from the aged balance (largest balances plus a sample of the others) and send confirmation requests ourselves; agree each reply to the book balance and explain every difference; for non-replies, use receipts after year end or delivery evidence.",
+  "summary_fr": "Choisir les clients dans la balance âgée (plus gros soldes et un échantillon des autres) et leur adresser nous-mêmes les demandes de confirmation ; rapprocher chaque réponse du solde comptable et expliquer tout écart ; sans réponse, s'appuyer sur les encaissements postérieurs ou les preuves de livraison.",
   "when_en": "Always, when the account is significant and the assertion is relevant; sample size grows with the CRA level of E",
   "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente ; la taille de l'échantillon croît avec le niveau du risque combiné sur E",
   "suggest_levels": [],
   "suggest_assertions": [],
   "condition_en": null,
   "condition_fr": null,
-  "automatable": "sample_selection"
+  "automatable": "confirmation"
  },
  {
   "code": "E-M3",
@@ -403,6 +403,28 @@
   "automatable": "sample_selection"
  },
  {
+  "code": "N-M5",
+  "cycle": "N",
+  "kind": "MSP",
+  "sequence": 18,
+  "assertions": [
+   "C",
+   "E",
+   "RO"
+  ],
+  "title_en": "Supplier confirmations",
+  "title_fr": "Confirmations fournisseurs",
+  "summary_en": "Select suppliers from the supplier ledger (largest balances plus a sample of the others, including nil balances when completeness is at risk) and send confirmation requests ourselves; agree each reply to the book balance and explain every difference; for non-replies, use payments after year end and supplier invoices.",
+  "summary_fr": "Choisir les fournisseurs dans la balance fournisseurs (plus gros soldes et un échantillon des autres, y compris des soldes nuls si l'exhaustivité est à risque) et leur adresser nous-mêmes les demandes de confirmation ; rapprocher chaque réponse du solde comptable et expliquer tout écart ; sans réponse, s'appuyer sur les paiements postérieurs et les factures fournisseurs.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "confirmation"
+ },
+ {
   "code": "N-A1",
   "cycle": "N",
   "kind": "ASP",
@@ -413,10 +435,10 @@
    "RO",
    "V"
   ],
-  "title_en": "Supplier confirmations or statement reconciliations",
-  "title_fr": "Confirmations ou relevés fournisseurs",
-  "summary_en": "Obtain confirmations or statements from key suppliers, including those with nil balances, and reconcile them to the ledger.",
-  "summary_fr": "Obtenir des confirmations ou relevés des principaux fournisseurs, y compris ceux à solde nul, et les rapprocher de la comptabilité.",
+  "title_en": "Supplier statement reconciliations",
+  "title_fr": "Rapprochement des relevés fournisseurs",
+  "summary_en": "Obtain the statements of key suppliers, including those with nil balances, and reconcile them to the supplier ledger; explain every reconciling item.",
+  "summary_fr": "Obtenir les relevés des principaux fournisseurs, y compris ceux à solde nul, et les rapprocher du compte fournisseur ; expliquer chaque élément de rapprochement.",
   "when_en": "High CRA on C, or weak supplier reconciliation controls",
   "when_fr": "Risque combiné élevé sur C, ou faiblesse des contrôles de rapprochement fournisseurs",
   "suggest_levels": [
@@ -568,15 +590,15 @@
   ],
   "title_en": "Attendance at the physical count",
   "title_fr": "Assistance à l'inventaire physique",
-  "summary_en": "Attend the count, check instructions are followed, perform test counts from records to floor and floor to records, note damaged or slow items and the last movement documents.",
-  "summary_fr": "Assister à l'inventaire, vérifier le respect des instructions, effectuer des comptages tests des listes vers le stock et inversement, relever les articles abîmés ou lents et les derniers documents de mouvement.",
+  "summary_en": "Before the count: assess the instructions, the locations, teams and segregation, note the last delivery and receipt numbers, identify slow, damaged and third-party stock. During: check the instructions are followed, test count from sheets to floor and from floor to sheets, control the count sheets. After: agree our test counts to the final listing, trace the cut-off documents, roll forward or back to the year end.",
+  "summary_fr": "Avant l'inventaire : apprécier les instructions, les lieux, les équipes et la séparation des tâches, relever les derniers numéros de livraison et de réception, repérer les stocks lents, abîmés ou détenus pour des tiers. Pendant : vérifier le respect des instructions, faire des comptages tests des listes vers le stock et du stock vers les listes, contrôler les feuilles de comptage. Après : rapprocher nos comptages de la liste définitive, suivre les documents de césure, faire le passage de la date d'inventaire à la clôture.",
   "when_en": "Always, when the account is significant and the assertion is relevant (inventory material)",
   "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente (stocks significatifs)",
   "suggest_levels": [],
   "suggest_assertions": [],
   "condition_en": null,
   "condition_fr": null,
-  "automatable": "sample_selection"
+  "automatable": "count_attendance"
  },
  {
   "code": "F-M2",

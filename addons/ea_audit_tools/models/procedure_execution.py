@@ -35,14 +35,22 @@ from ..services.procedure_design import design_state, sample_mode
 from ..services.procedure_execution import (
     CONCLUSIONS, CONFIRMATION_STATUSES, CUTOFF_DAYS, CUTOFF_FAMILIES, RECON, UNRECORDED_DAYS, clean_cutoff_patch,
     clean_explanation, clean_selection_params, confirmation_difference, confirmation_state, cutoff_select,
-    default_threshold, gl_accounts, is_confirmation, largest_parties, progress, recon_compare, selection_counts,
+    default_threshold, gl_accounts, largest_parties, progress, recon_compare, selection_counts,
     split_steps, unrecorded_select,
+)
+from ..services.procedure_tools import (
+    COUNT_CHECK_KEYS, COUNT_PHASES, COUNT_SIZE, FLOOR_MAX, account_state, clean_count_patch, clean_count_size,
+    clean_floor_item, clean_rollforward, confirmation_pick, count_item, count_left, count_sample, far_number, far_recon,
+    rollforward, working_order,
 )
 from ..services.ws_pages import sample_items
 from .tool_record import free_name, french_date, grouped, is_french
 from .worksheet_pages import FINDING_KINDS
 
 SELECTION_METHODS = ("cutoff", "unrecorded")
+#: The test counts sheet to floor of F-M1: a run answered on the working paper, as the selections.
+COUNT_METHOD = "count"
+PAPER_METHODS = SELECTION_METHODS + (COUNT_METHOD,)
 #: the kinds of misstatement a working paper's conclusion records (ISA 450 A6)
 PAPER_MTYPES = ("factual", "judgmental", "projected")
 PROC_MODEL = "ea.audit.designed.procedure"
@@ -69,6 +77,12 @@ class DesignedProcedureWork(models.Model):
         """What the tool does on this procedure: recon, cutoff, unrecorded, sample or plain."""
         self.ensure_one()
         item = self.library_id
+        if item and item.automatable == "confirmation":
+            return "confirm"
+        if item and item.automatable == "count_attendance":
+            return "count"
+        if item and item.automatable == "reconciliation" and self.index_code == "K":
+            return "far"
         if item and item.automatable == "reconciliation" and self.index_code in RECON:
             return "recon"
         if item and item.automatable == "cutoff_selection" and self.index_code in CUTOFF_FAMILIES:
@@ -80,9 +94,14 @@ class DesignedProcedureWork(models.Model):
         return "plain"
 
     def _ea_confirmations_on(self):
+        """Confirmations are their own procedures (E customers, N suppliers; owner, 2026-11-16).
+        Requests recorded earlier on another procedure stay visible there, read only."""
         self.ensure_one()
-        auto = bool(self.library_id) and is_confirmation(self.library_id.code, self.library_id.title_en)
-        return auto or bool((self.work_data or {}).get("confirm")) or bool(self.confirmation_ids)
+        return self._ea_mode() == "confirm" or bool(self.confirmation_ids)
+
+    def _ea_count_run(self):
+        self.ensure_one()
+        return self.sudo().run_ids.filtered(lambda r: r.method == COUNT_METHOD).sorted("id", reverse=True)[:1]
 
     def _ea_selection_run(self):
         self.ensure_one()
@@ -154,6 +173,13 @@ class EngagementProcedureExecution(models.Model):
         self._ea_require_access()
         if method == "paper":
             return self._ea_paper_action(self._ea_exec_proc(res_id, selected=True))
+        if method == "account":
+            # an account opens on its first procedure not done yet, in working order
+            tabs = self._ea_exec_tabs(str(res_id or ""))
+            if not tabs:
+                return self.action_tool_dsp()
+            first = next((t for t in tabs if t["state"] != "done"), tabs[0])
+            return self._ea_paper_action(self._ea_exec_proc(first["id"], selected=True))
         if method == "draw":
             return self.ea_procedure_draw(res_id)
         if method == "sample":
@@ -186,14 +212,32 @@ class EngagementProcedureExecution(models.Model):
             out[finding.source_id] |= finding
         return out
 
+    def _ea_exec_tabs(self, index_code, findings=None):
+        """The procedures of one account in working order (MSP, ASP, own), for the tabs."""
+        procs = self.env[PROC_MODEL].sudo().search([
+            ("engagement_id", "=", self.id), ("index_code", "=", index_code), ("selected", "=", True), ("in_scope", "=", True),
+        ])
+        if findings is None:
+            findings = self._ea_exec_findings(procs)
+        rows = [{
+            "id": p.id, "code": p.code, "kind": p.kind, "title": p.title or "", "state": p.state, "sequence": p.sequence,
+            "flag": bool((findings.get(p.id) or self.env["ea.audit.finding"]).filtered(lambda f: f.status == "open")),
+        } for p in procs]
+        return working_order(rows)
+
     def _ea_exec_items(self, proc):
         """(done, total) items of the procedure's sample or selection, or (None, None)."""
+        count_run = proc._ea_count_run()
+        if count_run:
+            results = count_run.item_results or {}
+            keys = [str(row[0]) for row in count_run.sheet_rows or [] if row]
+            return len([k for k in keys if (results.get(k) or {}).get("counted") is not None]), len(keys)
         run = proc._ea_selection_run()
         if run:
             keys = [row[0] for row in run.sheet_rows or [] if row]
             counts = selection_counts(keys, run.item_results)
             return counts["done"], counts["total"]
-        run = proc.run_ids.filtered(lambda r: r.engine == "sampling" and r.method != "tod-mus").sorted("id", reverse=True)[:1]
+        run = proc.run_ids.filtered(lambda r: r.engine == "sampling" and r.method not in PAPER_METHODS + ("tod-mus",)).sorted("id", reverse=True)[:1]
         if run:
             keys = [str(row[0]) for row in run.sheet_rows or [] if row]
             results = run.item_results or {}
@@ -217,15 +261,18 @@ class EngagementProcedureExecution(models.Model):
         ])
         findings = self._ea_exec_findings(procs)
         cards, all_states, finding_count, sad_total = [], [], 0, 0.0
+        Library = self.env["ea.audit.procedure.library"].sudo()
         for account in root._ea_design_accounts():
             code = account["code"]
             mine = procs.filtered(lambda p: p.index_code == code)
             chosen = [{"kind": p.kind, "assertions": (p.assertions or "").split(",")} for p in mine]
             status = design_state(account["levels"], account["relevant"], chosen)
-            if not mine and not status["missing_asp"]:
+            # an account the library does not cover yet: the team's own procedures only
+            own_only = not Library.search_count([("cycle", "=", code)])
+            if not mine and not status["missing_asp"] and not own_only:
                 continue
             chips = []
-            for proc in mine:
+            for proc in self.env[PROC_MODEL].sudo().browse([t["id"] for t in self._ea_exec_tabs(code, findings)]).with_context(lang=lang):
                 done, total = self._ea_exec_items(proc)
                 raised = findings.get(proc.id) or self.env["ea.audit.finding"]
                 chips.append({
@@ -248,6 +295,9 @@ class EngagementProcedureExecution(models.Model):
                 "chips": chips, "done": count["done"], "started": count["started"], "total": count["total"],
                 "findings": mine_findings, "missing": status["missing_asp"], "complete": status["complete"],
                 "ready": bool(count["total"]) and count["done"] == count["total"],
+                "state": account_state(count["done"], count["started"], count["total"]),
+                "ownOnly": own_only,
+                "flag": any(chip["flag"] for chip in chips),
             })
         overall = progress(all_states)
         return {
@@ -328,6 +378,9 @@ class EngagementProcedureExecution(models.Model):
             "by": (ticks.get(str(i)) or {}).get("by", ""), "at": (ticks.get(str(i)) or {}).get("at", ""),
         } for i, text in enumerate(split_steps(summary))]
         mode = proc._ea_mode()
+        if mode == "count":
+            # the attendance at the count works from its three checklists, not the summary's sentences
+            steps = []
         approved = root._ea_approved_materiality()
         Proc = self.env[PROC_MODEL].with_context(lang=lang)
         states = dict(Proc._fields["state"]._description_selection(Proc.env))
@@ -351,7 +404,8 @@ class EngagementProcedureExecution(models.Model):
             "performance": approved.performance if approved else None,
             "trivial": approved.trivial if approved else None,
             "samples": [], "canDraw": mode == "sample",
-            "recon": None, "selection": None, "confirm": None,
+            "recon": None, "selection": None, "confirm": None, "far": None, "count": None,
+            "tabs": self._ea_exec_tabs(proc.index_code),
             "evidence": self._ea_exec_evidence(proc),
             "findings": [{
                 "id": f.id, "ref": f.reference or "", "title": f.title, "route": f.route, "routeLabel": routes.get(f.route, f.route),
@@ -363,21 +417,32 @@ class EngagementProcedureExecution(models.Model):
         }
         misstated = [f for f in findings if f.route == "b5"]
         page["misstatements"] = {"count": len(misstated), "total": sum(abs(f.misstatement_id.amount) for f in misstated)}
-        for run in proc.run_ids.filtered(lambda r: r.engine == "sampling" and r.method not in SELECTION_METHODS and r.method != "tod-mus").sorted("id"):
+        for run in proc.run_ids.filtered(lambda r: r.engine == "sampling" and r.method not in PAPER_METHODS and r.method != "tod-mus").sorted("id"):
             page["samples"].append(self._ea_exec_sample(run, lang))
         if mode == "recon":
             page["recon"] = self._ea_exec_recon(proc, lang)
         if mode in ("cutoff", "unrecorded"):
             page["selection"] = self._ea_exec_selection_view(proc, mode, lang)
-        if proc._ea_confirmations_on() or (item and is_confirmation(item.code, item.title_en)):
+        if mode == "far":
+            page["far"] = self._ea_exec_far(proc)
+        if mode == "count":
+            page["count"] = self._ea_exec_count(proc, lang)
+        if proc._ea_confirmations_on():
             page["confirm"] = self._ea_exec_confirm_view(proc, lang)
-        page["canAddConfirm"] = page["confirm"] is None
+            page["confirm"]["editable"] = mode == "confirm"
+            page["confirm"]["side"] = "suppliers" if proc.index_code == "N" else "customers"
         left = len([s for s in steps if not s["done"]])
         if page["selection"]:
             left_items = page["selection"]["counts"]["total"] - page["selection"]["counts"]["done"]
         else:
             left_items = 0
-        page["toTick"] = {"steps": left, "items": left_items}
+        explain = False
+        if page["count"]:
+            left += page["count"]["left"]["checks"]
+            left_items += page["count"]["left"]["items"]
+        if page["far"]:
+            explain = page["far"]["state"] == "difference"
+        page["toTick"] = {"steps": left, "items": left_items, "explain": explain}
         return page
 
     def _ea_exec_sample(self, run, lang):
@@ -485,6 +550,242 @@ class EngagementProcedureExecution(models.Model):
         proc.write({"work_data": work})
         self._ea_exec_started(proc)
         return self.ea_procedure_paper(proc.id)
+
+    # ---- K-M1: fixed asset register against the ledger ---------------------
+
+    def _ea_exec_dataset_rows(self, dataset):
+        """[(row_no, amount, data)] of an upload."""
+        self.env.cr.execute("SELECT row_no, amount, data FROM ea_audit_dataset_row WHERE dataset_id = %s ORDER BY row_no", [dataset.id])
+        return self.env.cr.fetchall()
+
+    def _ea_exec_far(self, proc):
+        """The register by category against classes 21-25 and 28/29 of the ledger (mock-sub2-account)."""
+        root = self.sudo()
+        balances, source = root._ea_exec_ledger_balances()
+        dataset = root._ea_current_dataset("fixed_asset_register")
+        mapping = (dataset.mapping or {}) if dataset else {}
+        rows = []
+        for _row_no, amount, data in (self._ea_exec_dataset_rows(dataset) if dataset else []):
+            data = data or {}
+
+            def read(key, data=data):
+                column = mapping.get(key)
+                return far_number(data.get(column)) if column else None
+
+            closing = read("nbv")
+            if closing is None:
+                cost = float(amount) if amount is not None else read("amount")
+                depreciation = read("depreciation")
+                closing = None if cost is None else cost - abs(depreciation or 0)
+            rows.append({
+                "category": str(data.get(mapping["category"]) or "") if mapping.get("category") else "",
+                "account": str(data.get(mapping["account"]) or "") if mapping.get("account") else "",
+                "opening": read("openingNbv"), "additions": read("additions"), "disposals": read("disposals"),
+                "charge": read("charge"), "closing": closing,
+            })
+        text = ((proc.work_data or {}).get("far") or {}).get("explanation") or ""
+        result = far_recon(rows, balances, text)
+        return dict(
+            result, explanation=text, source=source, dataset=(dataset.source_filename or "") if dataset else "",
+            datasetDate=french_date(dataset.create_date) if dataset else "",
+            mapped=sorted(key for key in ("category", "account", "openingNbv", "additions", "disposals", "charge") if mapping.get(key)),
+        )
+
+    def ea_proc_far(self, proc_id, explanation):
+        """The explanation of what remains between the register and the ledger."""
+        proc = self._ea_exec_writable(proc_id)
+        if proc._ea_mode() != "far":
+            raise rule_error(self.env, "invalid-value")
+        work = dict(proc.work_data or {})
+        work["far"] = dict(work.get("far") or {}, explanation=str(explanation or "").strip()[:5000])
+        proc.write({"work_data": work})
+        self._ea_exec_started(proc)
+        return self.ea_procedure_paper(proc.id)
+
+    # ---- F-M1: attendance at the physical count ------------------------------
+
+    def _ea_exec_count(self, proc, lang):
+        """The three checklists, the test counts both ways and the roll-forward (mock-sub2-count)."""
+        root = self.sudo()
+        work = (proc.work_data or {}).get("count") or {}
+        checks = work.get("checks") or {}
+        run = proc._ea_count_run()
+        results = (run.item_results or {}) if run else {}
+        sheet = []
+        for position, row in enumerate((run.sheet_rows or []) if run else [], start=1):
+            key = str(row[0])
+            found = results.get(key) or {}
+            per_sheet = row[6] if len(row) > 6 else None
+            per_sheet = float(per_sheet) if isinstance(per_sheet, (int, float)) else None
+            counted = found.get("counted")
+            difference, state = count_item(per_sheet, counted)
+            sheet.append({
+                "position": position, "key": key, "reason": row[1], "item": row[3], "location": row[4], "label": row[5],
+                "sheet": per_sheet, "amount": row[7] if len(row) > 7 else None, "counted": counted,
+                "difference": difference, "state": state, "note": found.get("note") or "", "finding": found.get("finding") or False,
+            })
+        floor = []
+        for index, entry in enumerate(work.get("floor") or []):
+            difference, state = count_item(entry.get("sheet"), entry.get("counted"))
+            floor.append(dict(entry, index=index, difference=difference, state=state, finding=entry.get("finding") or False))
+        dataset = root._ea_current_dataset("inventory_listing")
+        roll = work.get("roll") or {}
+        final_upload = dataset.total_amount if dataset and dataset.has_total else None
+        final = final_upload if final_upload is not None else roll.get("final")
+        count_date = roll.get("countDate") or ""
+        end = root.period_end.isoformat() if root.period_end else ""
+        summary = (run.summary or {}) if run else {}
+        return {
+            "checks": {key: bool(checks.get(key)) for key in COUNT_CHECK_KEYS},
+            "checkedBy": {key: checks[key] for key in COUNT_CHECK_KEYS if isinstance(checks.get(key), dict)},
+            "notes": {phase: (work.get("notes") or {}).get(phase) or "" for phase in COUNT_PHASES},
+            "runId": run.id if run else False, "size": (run.params or {}).get("size") if run else COUNT_SIZE,
+            "drawnOn": french_date(run.create_date) if run else "",
+            "population": summary.get("populationRows"), "populationValue": summary.get("populationTotal"),
+            "frozen": any((v or {}).get("counted") is not None for v in results.values()),
+            "sheet": sheet, "floor": floor, "floorMax": FLOOR_MAX,
+            "hasListing": bool(dataset), "listing": (dataset.source_filename or "") if dataset else "",
+            "roll": {
+                "countDate": count_date, "count": roll.get("count"), "receipts": roll.get("receipts"), "issues": roll.get("issues"),
+                "final": final, "finalFromUpload": final_upload is not None,
+                "needed": bool(count_date) and bool(end) and count_date != end, "yearEnd": end,
+                **rollforward(roll.get("count"), roll.get("receipts"), roll.get("issues"), final),
+            },
+            "left": count_left(checks, sheet, floor),
+        }
+
+    def ea_proc_count(self, proc_id, op, key=None, values=None):
+        """The count's working paper: a check ticked, a phase's note, the test counts drawn
+        (again, until the first is counted), one counted, an item from the floor, the roll-forward."""
+        proc = self._ea_exec_writable(proc_id)
+        if proc._ea_mode() != "count":
+            raise rule_error(self.env, "invalid-value")
+        values = values if isinstance(values, dict) else {}
+        if op == "draw":
+            self._ea_exec_count_draw(proc, values.get("size"))
+            self._ea_exec_started(proc)
+            return self.ea_procedure_paper(proc.id)
+        if op == "item":
+            self._ea_exec_count_item(proc, key, values)
+            self._ea_exec_started(proc)
+            return self.ea_procedure_paper(proc.id)
+        work = dict(proc.work_data or {})
+        count = dict(work.get("count") or {})
+        if op == "check":
+            if key not in COUNT_CHECK_KEYS:
+                raise rule_error(self.env, "not-found")
+            checks = dict(count.get("checks") or {})
+            if values.get("done"):
+                checks[key] = {"by": self.env.user.name, "at": french_date(fields.Date.context_today(self))}
+            else:
+                checks.pop(key, None)
+            count["checks"] = checks
+        elif op == "note":
+            if key not in COUNT_PHASES:
+                raise rule_error(self.env, "not-found")
+            count["notes"] = dict(count.get("notes") or {}, **{key: str(values.get("text") or "").strip()[:3000]})
+        elif op in ("floor_add", "floor_update", "floor_remove"):
+            count["floor"] = self._ea_exec_floor(list(count.get("floor") or []), op, key, values)
+        elif op == "roll":
+            clean = clean_rollforward(values)
+            if clean is None:
+                raise rule_error(self.env, "invalid-value")
+            count["roll"] = dict(count.get("roll") or {}, **clean)
+        else:
+            raise rule_error(self.env, "invalid-value")
+        work["count"] = count
+        proc.write({"work_data": work})
+        self._ea_exec_started(proc)
+        return self.ea_procedure_paper(proc.id)
+
+    def _ea_exec_count_item(self, proc, key, values):
+        run = proc._ea_count_run()
+        if not run or str(key) not in {str(row[0]) for row in run.sheet_rows or [] if row}:
+            raise rule_error(self.env, "not-found")
+        clean = clean_count_patch(values)
+        if clean is None:
+            raise rule_error(self.env, "invalid-value")
+        results = dict(run.item_results or {})
+        entry = dict(results.get(str(key)) or {}, **clean)
+        per_sheet = next((row[6] for row in run.sheet_rows if str(row[0]) == str(key) and len(row) > 6), None)
+        _difference, state = count_item(per_sheet if isinstance(per_sheet, (int, float)) else None, entry.get("counted"))
+        # the Sampling page reads the answer as the selections' (agreed / error)
+        entry["ok"] = {"ok": "yes", "diff": "no", "missing": "no"}.get(state)
+        results[str(key)] = entry
+        run.write({"item_results": results})
+
+    def _ea_exec_floor(self, floor, op, key, values):
+        if op == "floor_add":
+            if len(floor) >= FLOOR_MAX:
+                raise rule_error(self.env, "invalid-value")
+            clean = clean_floor_item(values, adding=True)
+            if clean is None:
+                raise rule_error(self.env, "invalid-value")
+            floor.append(dict({"item": "", "location": "", "sheet": None, "counted": None, "note": ""}, **clean))
+            return floor
+        try:
+            index = int(key)
+            current = floor[index]
+        except (TypeError, ValueError, IndexError):
+            raise rule_error(self.env, "not-found") from None
+        if op == "floor_remove":
+            if current.get("finding"):
+                raise rule_error(self.env, "invalid-value")
+            floor.pop(index)
+            return floor
+        clean = clean_floor_item(values)
+        if clean is None or ("item" in clean and not clean["item"]):
+            raise rule_error(self.env, "invalid-value")
+        floor[index] = dict(current, **clean)
+        return floor
+
+    def _ea_exec_count_draw(self, proc, size):
+        """The test counts sheet to floor, drawn from the inventory listing: the highest values
+        first, then at random. Kept as a run of the procedure; frozen once one item is counted."""
+        size = clean_count_size(size if size not in (None, "") else COUNT_SIZE)
+        if size is None:
+            raise rule_error(self.env, "invalid-value")
+        root = self.sudo()
+        run = proc._ea_count_run()
+        if run and any((v or {}).get("counted") is not None for v in (run.item_results or {}).values()):
+            raise rule_error(self.env, "selection-frozen")
+        dataset = root._ea_current_dataset("inventory_listing")
+        if not dataset:
+            raise rule_error(self.env, "no-dataset")
+        mapping = dataset.mapping or {}
+        rows = self._ea_exec_dataset_rows(dataset)
+        by_no = {row_no: (amount, data or {}) for row_no, amount, data in rows}
+        seed = "%s-%s" % (proc.id, len(proc.run_ids))
+        picks = count_sample([(row_no, float(amount or 0)) for row_no, amount, _data in rows], size, seed)
+
+        def text(data, key):
+            column = mapping.get(key)
+            return str(data.get(column) or "").strip()[:120] if column else ""
+
+        sheet_rows = []
+        for row_no, reason in picks:
+            amount, data = by_no[row_no]
+            quantity = far_number(data.get(mapping["quantity"])) if mapping.get("quantity") else None
+            sheet_rows.append([str(row_no), reason, "", text(data, "item"), text(data, "location"), text(data, "itemDescription"),
+                               quantity, float(amount) if amount is not None else None])
+        values = {
+            "engagement_id": root.id, "title": "Test counts", "engine": "sampling", "method": COUNT_METHOD,
+            "dataset_id": dataset.id, "designed_procedure_id": proc.id, "index_code": proc.index_code,
+            "purpose": ("%s %s" % (proc.code, proc.title or ""))[:200].strip(),
+            "params": {"size": size, "seed": seed},
+            "summary": {
+                "populationRows": len(rows), "populationTotal": dataset.total_amount if dataset.has_total else None,
+                "sampleSize": len(sheet_rows), "sampledValue": sum(abs(r[7] or 0) for r in sheet_rows),
+            },
+            "sheet_header": ["key", "reason", "date", "item", "location", "label", "quantity", "amount"],
+            "sheet_rows": sheet_rows, "item_results": {},
+        }
+        if run:
+            run.write(values)
+        else:
+            self.env["ea.audit.automation.run"].sudo().create(values)
+        self._ea_log("procedure_selection", "Procedure %s %s: %d test counts drawn from the inventory listing" % (
+            proc.index_code, proc.code, len(sheet_rows)))
 
     # ---- ledger lines --------------------------------------------------
 
@@ -709,7 +1010,8 @@ class EngagementProcedureExecution(models.Model):
         """Mark as done: a result chosen, a note written, every step ticked, every selected entry answered."""
         proc = self._ea_exec_writable(proc_id)
         page = self.ea_procedure_paper(proc.id)
-        if not proc.conclusion or not (proc.conclusion_note or "").strip() or page["toTick"]["steps"] or page["toTick"]["items"]:
+        left = page["toTick"]
+        if not proc.conclusion or not (proc.conclusion_note or "").strip() or left["steps"] or left["items"] or left["explain"]:
             raise rule_error(self.env, "procedure-not-finished")
         proc.write({"state": "done", "done_by_id": self.env.user.id, "done_at": fields.Datetime.now()})
         self._ea_log("procedure_done", "Procedure %s %s done: %s" % (proc.index_code, proc.code, proc.conclusion))
@@ -801,7 +1103,9 @@ class EngagementProcedureExecution(models.Model):
             detail=text if len(text) > 200 else None, trivial_confirmed=bool(trivial_confirmed),
             mtype=mtype or "factual", dr_account=dr_account, cr_account=cr_account,
         )
-        if item_key:
+        if item_key and str(item_key).startswith(("count:", "floor:")):
+            self._ea_exec_count_finding(proc, str(item_key), finding)
+        elif item_key:
             run = proc._ea_selection_run()
             if run and str(item_key) in {str(row[0]) for row in run.sheet_rows or [] if row}:
                 results = dict(run.item_results or {})
@@ -814,10 +1118,32 @@ class EngagementProcedureExecution(models.Model):
         self._ea_exec_started(proc)
         return self.ea_procedure_paper(proc.id)
 
+    def _ea_exec_count_finding(self, proc, item_key, finding):
+        """A finding raised from a test count: noted on the item."""
+        side, _sep, key = item_key.partition(":")
+        if side == "count":
+            run = proc._ea_count_run()
+            if run and key in {str(row[0]) for row in run.sheet_rows or [] if row}:
+                results = dict(run.item_results or {})
+                results[key] = dict(results.get(key) or {}, finding=finding.id)
+                run.write({"item_results": results})
+            return
+        work = dict(proc.work_data or {})
+        count = dict(work.get("count") or {})
+        floor = list(count.get("floor") or [])
+        try:
+            index = int(key)
+            floor[index] = dict(floor[index], finding=finding.id)
+        except (ValueError, IndexError):
+            return
+        count["floor"] = floor
+        work["count"] = count
+        proc.write({"work_data": work})
+
     # ---- confirmations -----------------------------------------------------
 
-    def _ea_exec_parties(self, index_code):
-        """{party key (lower): amount} and the list offered, from the sub-ledger of the account."""
+    def _ea_exec_parties(self, index_code, limit=50):
+        """The parties of the account's sub-ledger, largest balance first (``limit`` 0: all)."""
         config = RECON.get(index_code)
         if not config:
             return []
@@ -829,7 +1155,7 @@ class EngagementProcedureExecution(models.Model):
             "SELECT data->>%s, data->>%s, amount FROM ea_audit_dataset_row WHERE dataset_id = %s",
             [mapping.get("party") or "", mapping.get("partyName") or "", dataset.id],
         )
-        return largest_parties([(p, n, float(a or 0)) for p, n, a in self.env.cr.fetchall()], limit=50)
+        return largest_parties([(p, n, float(a or 0)) for p, n, a in self.env.cr.fetchall()], limit=limit)
 
     def _ea_exec_confirm_view(self, proc, lang):
         Conf = self.env["ea.audit.confirmation"].with_context(lang=lang)
@@ -851,13 +1177,26 @@ class EngagementProcedureExecution(models.Model):
         }
 
     def ea_proc_confirm(self, proc_id, op, request_id=None, values=None):
-        """The confirmations block: add it (on any procedure), add a request, change or remove one."""
+        """The confirmations of a confirmation procedure (E customers, N suppliers): the largest
+        balances proposed by the tool, a request added by hand, changed or removed. On any other
+        procedure, requests recorded earlier are read only."""
         proc = self._ea_exec_writable(proc_id)
+        if proc._ea_mode() != "confirm":
+            raise rule_error(self.env, "invalid-value")
         values = values or {}
         Conf = self.env["ea.audit.confirmation"].sudo()
-        if op == "enable":
-            work = dict(proc.work_data or {}, confirm=True)
-            proc.write({"work_data": work})
+        if op == "pick":
+            existing = [c.party for c in proc.confirmation_ids]
+            parties = self._ea_exec_parties(proc.index_code, limit=0)
+            if not parties:
+                raise rule_error(self.env, "no-dataset")
+            chosen = confirmation_pick(parties, existing, "%s-%s" % (proc.id, len(existing)))
+            sequence = len(proc.confirmation_ids)
+            for position, party in enumerate(chosen, start=1):
+                Conf.create({
+                    "engagement_id": self.id, "designed_procedure_id": proc.id, "party": party["name"] or party["party"],
+                    "book_amount": party["amount"], "sequence": sequence + position,
+                })
         elif op == "add":
             party = str(values.get("party") or "").strip()[:200]
             if not party:
@@ -874,8 +1213,6 @@ class EngagementProcedureExecution(models.Model):
                 "engagement_id": self.id, "designed_procedure_id": proc.id, "party": party, "book_amount": amount,
                 "sequence": len(proc.confirmation_ids) + 1,
             })
-            if not (proc.work_data or {}).get("confirm"):
-                proc.write({"work_data": dict(proc.work_data or {}, confirm=True)})
         elif op in ("update", "remove"):
             request = proc.confirmation_ids.filtered(lambda c: c.id == int(request_id or 0))
             if not request:

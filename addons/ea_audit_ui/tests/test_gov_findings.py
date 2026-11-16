@@ -342,6 +342,8 @@ class TestGovFindings(ToolsCase):
         groups = {g["id"]: g for g in self.ring(dashboard, "execution")["groups"]}
         if "e4" in groups:
             self.assertEqual(groups["e4"]["designed"], expected)
+            # the Execution menu's "Substantive procedures" opens the tool page (2026-11-16)
+            self.assertEqual(groups["e4"]["tool"], "action_tool_substantive")
         self.assertEqual(dashboard["my_tasks"]["e4"]["text"], expected)
         self.assertEqual(self.ui(self.staff).ea_ui_tasks(self.engagement.id, "e4")["designed"], expected)
         self.assertEqual(self.ui(self.staff).ea_ui_all_tasks(self.engagement.id)["designed"], expected)

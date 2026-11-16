@@ -488,6 +488,8 @@ class AuditUi(models.AbstractModel):
                     "done": len([item for item in members if item.id in done_ids]),
                     "total": len(members),
                     "designed": e4["text"] if e4 and group["id"] == "e4" else False,
+                    # the Execution menu's "Substantive procedures" opens the tool page, not the task list
+                    "tool": "action_tool_substantive" if group["id"] == "e4" else False,
                 })
             done = sum(group["done"] for group in groups)
             total = sum(group["total"] for group in groups)

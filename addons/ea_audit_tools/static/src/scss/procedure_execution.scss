@@ -43,10 +43,17 @@
 
     // the overview
     .o_ea_px_grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 14px; }
+    // one card per account, its left edge green (all done), amber (in progress) or grey (not started)
     .o_ea_px_account {
-        margin: 0; border-top: 4px solid #d29a12;
-        &.is-good { border-top-color: var(--eapx-green); }
-        &.is-bad { border-top-color: var(--eapx-red); }
+        margin: 0; border-left: 5px solid #c4cbd0; cursor: pointer;
+        &.is-warn { border-left-color: #d29a12; }
+        &.is-good { border-left-color: var(--eapx-green); }
+        &.is-bad { border-left-color: var(--eapx-red); }
+        &:hover, &:focus-visible { box-shadow: 0 0 0 2px var(--eapx-pale), 0 1px 2px rgba(0, 0, 0, .06); outline: none; }
+    }
+    .o_ea_px_bar {
+        height: 7px; border-radius: 4px; background: var(--eapx-line); overflow: hidden; margin: 6px 0 2px;
+        > div { height: 100%; background: var(--eapx-green); border-radius: 4px; }
     }
     .o_ea_px_sub { color: var(--eapx-muted); margin: 4px 0 10px; }
     .o_ea_px_num { font-variant-numeric: tabular-nums; }
@@ -148,4 +155,35 @@
     .o_ea_px_check { display: flex !important; gap: 6px; align-items: center; }
     .o_ea_px_info { margin-top: 10px; padding: 8px 10px; border-radius: 6px; background: var(--eapx-pale); color: var(--eapx-green); }
     .o_ea_px_empty p { margin-bottom: 8px; }
+
+    // the account's procedures, one tab each, in working order (mock-sub2-account)
+    .o_ea_px_tabs {
+        display: flex; flex-wrap: wrap; gap: 4px 18px; border-bottom: 1px solid var(--eapx-line); margin-top: 10px;
+    }
+    .o_ea_px_tab {
+        border: 0; background: none; padding: 8px 2px; display: inline-flex; align-items: center; gap: 6px;
+        color: var(--eapx-muted); font-weight: 600; font-size: 13px; border-bottom: 3px solid transparent; margin-bottom: -1px;
+        &.active { color: var(--eapx-green); border-bottom-color: var(--eapx-green); }
+        &:hover, &:focus-visible { color: var(--eapx-ink); outline: none; }
+    }
+    .o_ea_px_dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #c4cbd0; display: inline-block;
+        &.is-done { background: var(--eapx-green); }
+        &.is-started { background: #d29a12; }
+    }
+    .o_ea_px_kindtag {
+        padding: 1px 7px; border-radius: 6px; font-size: 12px; background: var(--eapx-pale); color: var(--eapx-green);
+        &.is-ASP { background: var(--eapx-amber); color: var(--eapx-amber-ink); }
+        &.is-custom { background: #eceff1; color: var(--eapx-muted); }
+    }
+    .o_ea_px_procline { padding: 12px 16px; }
+    .o_ea_px_side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 0; min-width: 0; }
+    .o_ea_px_side .o_ea_px_card { margin-bottom: 0; }
+    .o_ea_px_scroll { overflow-x: auto; }
+    // the count: three phases side by side
+    .o_ea_px_phases {
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+        @media (max-width: 1100px) { grid-template-columns: minmax(0, 1fr); }
+        .o_ea_px_phase { color: var(--eapx-green); text-transform: none; letter-spacing: 0; font-size: 14px; }
+    }
 }
