@@ -13,6 +13,12 @@ class DesignCase(ToolsCase):
             "assertion_ids": [(6, 0, self.env["ea.audit.assertion"]._ea_from_codes(["E", "V"]).ids)],
         })
 
+    def legacy_choice(self, design):
+        """A catalog choice as an engagement designed before the library holds it (2026-11-16)."""
+        return self.env["ea.audit.dsp.choice"].sudo().create({
+            "engagement_id": self.engagement.id, "design_id": design.id, "position": 0,
+        })
+
     def design(self, assertion="E", code="C"):
         designs = self.engagement.sudo()._ea_sync_dsp()
         return designs.filtered(lambda d: d.index_code == code and d.assertion == assertion)
@@ -23,7 +29,8 @@ class TestDesign(DesignCase):
     def test_rows_follow_the_key_assertions(self):
         designs = self.engagement.sudo()._ea_sync_dsp().filtered(lambda d: d.index_code == "C")
         self.assertEqual(sorted(designs.mapped("assertion")), ["E", "V"])
-        self.assertTrue(self.design().choice_ids)
+        # the library replaced the former catalog: a new design row is offered no catalog choice
+        self.assertFalse(self.design().choice_ids)
 
     def test_refusals(self):
         with self.assertRaisesRegex(Exception, "invalid-field"):
@@ -63,7 +70,7 @@ class TestDesign(DesignCase):
         self.assertEqual(design.sudo().nature, "tod_led")
         with self.assertRaisesRegex(Exception, "invalid-field"):
             design.write({"significant": False})
-        choice = design.sudo().choice_ids[0].with_user(self.staff)
+        choice = self.legacy_choice(design.sudo()).with_user(self.staff)
         choice.write({"selected": True})
         self.assertEqual(design.sudo().selected_count, 1)
         self.assertNotIn("C", self.engagement.sudo()._ea_dsp_gaps())
@@ -73,7 +80,7 @@ class TestDesign(DesignCase):
 
     def test_a_design_puts_the_paper_on_the_file_and_generates_steps(self):
         design = self.design()
-        self.as_staff.save_dsp("C", "sel_E", [design.choice_ids[0].position])
+        self.as_staff.save_dsp("C", "sel_E", [self.legacy_choice(design).position])
         self.assertTrue(self.item(self.engagement, "E4.8") or self.engagement.sudo().file_item_ids)
         from odoo.addons.ea_audit_tools.services.lead_classes import INDEX_SECTION
 

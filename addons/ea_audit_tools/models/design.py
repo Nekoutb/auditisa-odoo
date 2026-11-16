@@ -1,4 +1,4 @@
-"""S5.5, the design of substantive procedures (lib/design-procedures.ts, lib/psp.ts), and the audit
+"""S5.5, procedure design: nature, timing and extent per assertion (lib/design-procedures.ts, lib/psp.ts), and the audit
 programs generated from the library (lib/programs.ts)."""
 import re
 
@@ -165,7 +165,6 @@ class EngagementDesign(models.Model):
         as_root = self.sudo()
         as_root._ea_sync_cra()
         Design = self.env["ea.audit.dsp.design"].sudo()
-        Choice = self.env["ea.audit.dsp.choice"].sudo()
         order = {definition["code"]: position for position, definition in enumerate(LEAD_INDEXES)}
         existing = {(d.index_code, d.assertion): d for d in Design.search([("engagement_id", "=", self.id)])}
         seen = set()
@@ -187,9 +186,8 @@ class EngagementDesign(models.Model):
                 "engagement_id": self.id, "index_code": cell.index_code, "assertion": cell.assertion,
                 "sequence": order.get(cell.index_code, 999) * 10 + (ASSERTIONS.index(cell.assertion) if cell.assertion in ASSERTIONS else 9), **values,
             })
-            Choice.create([{
-                "engagement_id": self.id, "design_id": design.id, "position": position,
-            } for position, proc in enumerate(psp_for(cell.index_code)) if cell.assertion in proc["a"].split(",")])
+            # The library replaced the former catalog (2026-11-16): a new row is offered no catalog
+            # choice; the rows created before keep theirs (ea.audit.designed.procedure holds the design).
         for key, design in existing.items():
             if key not in seen and design.active_row:
                 design.write({"active_row": False})
@@ -200,6 +198,7 @@ class EngagementDesign(models.Model):
         self.ensure_one()
         designs = self.sudo()._ea_sync_dsp()
         osps = set(self.env["ea.audit.dsp.osp"].sudo().search([("engagement_id", "=", self.id)]).mapped("index_code"))
+        osps |= self._ea_library_designed_indexes()
         gaps = []
         for code in dict.fromkeys(designs.mapped("index_code")):
             if code in osps:
@@ -292,7 +291,15 @@ class EngagementDesign(models.Model):
         self.ensure_one()
         chosen = self.env["ea.audit.dsp.choice"].sudo().search([("engagement_id", "=", self.id), ("selected", "=", True)])
         osps = self.env["ea.audit.dsp.osp"].sudo().search([("engagement_id", "=", self.id)])
-        return set(chosen.design_id.mapped("index_code")) | set(osps.mapped("index_code"))
+        return set(chosen.design_id.mapped("index_code")) | set(osps.mapped("index_code")) | self._ea_library_designed_indexes()
+
+    def _ea_library_designed_indexes(self):
+        """The lead indexes with a procedure in the design (library or written by the team)."""
+        self.ensure_one()
+        procs = self.env["ea.audit.designed.procedure"].sudo().search([
+            ("engagement_id", "=", self.id), ("selected", "=", True), ("in_scope", "=", True),
+        ])
+        return set(procs.mapped("index_code"))
 
     def _ea_e4_out_of_scope(self):
         """visibleE4Codes' other side (F010): the E4 tasks S5.5 left out. A task shows when an account
@@ -334,6 +341,24 @@ class EngagementDesign(models.Model):
         for index in indexes:
             chosen = sorted(set(designs.filtered(lambda d: d.index_code == index).choice_ids.filtered("selected").mapped("position")))
             osps = self.env["ea.audit.dsp.osp"].sudo().search([("engagement_id", "=", self.id), ("index_code", "=", index)])
+            procs = self.env["ea.audit.designed.procedure"].sudo().search([
+                ("engagement_id", "=", self.id), ("index_code", "=", index), ("selected", "=", True), ("in_scope", "=", True),
+            ])
+            for proc in procs:
+                # the library's procedures, once each: the step is found again by its code
+                saw_design = True
+                prefix = "%s — " % proc.code
+                if proc.step_id or any((s.description or "").startswith(prefix) for s in existing):
+                    continue
+                seq += 10
+                created += 1
+                step = Step.create({
+                    "engagement_id": self.id, "file_item_id": item.id, "seq": seq, "source": proc.kind.lower(),
+                    "description": prefix + (proc.title or proc.code),
+                    "assertion_ids": [(6, 0, self.env["ea.audit.assertion"]._ea_from_codes((proc.assertions or "").split(",")).ids)],
+                })
+                proc.step_id = step
+                first = first or step
             if not chosen and not osps:
                 continue
             saw_design = True
@@ -457,12 +482,13 @@ class EngagementDesign(models.Model):
     # Screens and Excel
     # ------------------------------------------------------------------
 
-    def action_tool_dsp(self):
+    def action_tool_dsp_list(self):
+        """The list of S5.5 (nature, timing, extent per account and assertion), and its Excel."""
         self.ensure_one()
         self._ea_require_access()
         self.sudo()._ea_sync_dsp()
         action = self._ea_list(
-            "ea.audit.dsp.design", self.env._("S5.5: design of substantive procedures"),
+            "ea.audit.dsp.design", self.env._("S5.5: procedure design, nature, timing and extent"),
             [("ea_audit_tools.view_dsp_design_list", "list"), ("ea_audit_tools.view_dsp_design_form", "form")],
         )
         action["domain"] = [("engagement_id", "=", self.id), ("active_row", "=", True)]

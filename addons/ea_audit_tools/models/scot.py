@@ -531,20 +531,22 @@ class ScotControl(models.Model):
 
     def _ea_stamp_not_rely(self):
         """A control concluded not effective cannot be relied on: S3.1 follows, on the same save,
-        and what it replaces stays on the revision trail with E1.2's conclusion as the reason (UAT B136)."""
+        and what it replaces stays on the revision trail with E1.2's conclusion as the reason (UAT B136).
+        The cell is written through its own save path (saveCraCell), with E1.2's conclusion as the
+        automatic reason, and the trail says which control moved it (procedure design, 2026-11-16);
+        the design page then suggests the alternatives of those assertions."""
         engagement = self.engagement_id
         for index_code, assertion in self._ea_answered_cells():
             cell = engagement._ea_cra_cell(index_code, assertion)
-            if cell.cr != "not_rely" and (cell.ir or cell.cr):
-                self.env["ea.audit.cra.history"].create({
-                    "engagement_id": engagement.id, "assessment_id": cell.id, "index_code": index_code, "assertion": assertion,
-                    "ir": cell.ir, "ir_basis": cell.ir_basis, "cr": cell.cr, "cr_basis": cell.cr_basis,
-                    "new_ir": cell.ir, "new_cr": "not_rely", "reason": CR_DEFICIENT_BASIS, "changed_by_id": self.env.user.id,
-                })
             basis = cell.cr_basis or ""
             if "E1.2" not in basis:
                 basis = "%s · %s" % (basis, CR_DEFICIENT_BASIS) if basis else CR_DEFICIENT_BASIS
-            cell.write({"recorded": True, "relevant": True, "relevant_defaulted": False, "cr": "not_rely", "cr_basis": basis})
+            if cell.cr == "not_rely" and basis == (cell.cr_basis or "") and cell.relevant:
+                continue
+            cell.with_env(self.env)._ea_save_cell({"relevant": True, "cr": "not_rely", "cr_basis": basis, "reason": CR_DEFICIENT_BASIS})
+            engagement._ea_log(
+                "cra_not_rely", "CRA %s/%s set to not rely: control %s concluded not effective" % (index_code, assertion, self.name),
+            )
 
     def _ea_lift_not_rely(self):
         """The same in reverse: only E1.2's stamp is lifted, and only when no other control answering

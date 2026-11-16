@@ -24,6 +24,8 @@ export class SamplingPage extends Component {
         const { params = {}, context = {} } = this.props.action || {};
         this.engagementId = Number(params.engagement_id || context.active_id || context.ea_engagement_id);
         this.state = useState({ p: null, tab: "toc", current: null, busy: false, dragging: false, purpose: "" });
+        // "tod:12": the sample to open on, from the procedure design page
+        this.focus = params.focus || null;
         onWillStart(() => this.load(true));
     }
 
@@ -35,6 +37,13 @@ export class SamplingPage extends Component {
         this.state.p = page;
         if (first && !page.toc.length && page.tod.length) {
             this.state.tab = "tod";
+        }
+        if (first && this.focus) {
+            const [kind] = this.focus.split(":");
+            if (kind === "tod" || kind === "toc") {
+                this.state.tab = kind;
+                this.state.current = this.focus;
+            }
         }
         const cards = this.cards;
         if (!cards.find((card) => this.keyOf(card) === this.state.current)) {

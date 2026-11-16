@@ -5603,3 +5603,21 @@ msgstr "Écriture %(entry)s marquée en problème : %(note)s"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Journal entry %(entry)s put back to clear"
 msgstr "Écriture %(entry)s remise à lever"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Combined risk assessment %(cell)s set to Not rely: control %(name)s concluded not effective"
+msgstr "Évaluation combinée %(cell)s passée à « Ne pas s'appuyer » : contrôle %(name)s conclu inefficace"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Procedure design %(index)s: %(code)s chosen"
+msgstr "Conception des procédures %(index)s : %(code)s choisie"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Procedure design %(index)s: %(code)s removed"
+msgstr "Conception des procédures %(index)s : %(code)s retirée"

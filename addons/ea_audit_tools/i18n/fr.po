@@ -577,11 +577,13 @@ msgid "Actual Value"
 msgstr "Montant comptabilisé"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_osp_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_override_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_wcgw_wizard
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Add"
 msgstr "Ajouter"
 
@@ -616,7 +618,9 @@ msgid "Add an override"
 msgstr "Ajouter une dérogation"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Add another procedure"
 msgstr "Ajouter une autre procédure"
 
@@ -1373,6 +1377,7 @@ msgstr "Niveau ECR"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_wp_assign_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1743,10 +1748,12 @@ msgid "Closing window (days)"
 msgstr "Fenêtre de clôture (jours)"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__code
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Code"
 msgstr "Code"
 
@@ -1977,6 +1984,7 @@ msgstr "Contenu"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__control_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Control"
 msgstr "Contrôle"
 
@@ -2613,9 +2621,13 @@ msgid "Design"
 msgstr "Conception"
 
 #. module: ea_audit_tools
+#. odoo-python
+#. odoo-javascript
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_dsp
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__dsp
-msgid "Design of procedures"
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Procedure design"
 msgstr "Conception des procédures"
 
 #. module: ea_audit_tools
@@ -2851,7 +2863,10 @@ msgid "Documents requested and reminders."
 msgstr "Documents demandés et relances."
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__done
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__state__done
 msgid "Done"
 msgstr "Fait"
 
@@ -2931,6 +2946,8 @@ msgstr "Historique des tirages"
 #: code:addons/ea_audit_tools/models/scot.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
 msgid "Draw the sample"
 msgstr "Tirer l'échantillon"
 
@@ -3810,11 +3827,13 @@ msgid "Fraud"
 msgstr "Fraude"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__frequency
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency_code
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_sampling_list
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Frequency"
 msgstr "Fréquence"
 
@@ -5739,8 +5758,8 @@ msgstr "Nature et montant, traitement rétrospectif et information donnée. Pass
 
 #. module: ea_audit_tools
 #: model:ea.audit.tool.tile,description:ea_audit_tools.tile_dsp
-msgid "Nature, timing, extent and the library, per account and assertion."
-msgstr "Nature, calendrier, étendue et bibliothèque, par compte et assertion."
+msgid "Tests of controls and tests of details: the mandatory and alternative procedures, per account."
+msgstr "Tests des contrôles et tests de détail : les procédures obligatoires et alternatives, par compte."
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -6860,9 +6879,11 @@ msgid "Probable"
 msgstr "Probable"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_choice__label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_osp__text
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__text
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Procedure"
 msgstr "Procédure"
 
@@ -6898,6 +6919,7 @@ msgstr "Étape du programme"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__program_step_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_step_wizard__step_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__step_id
 msgid "Program step"
 msgstr "Étape du programme"
 
@@ -7680,8 +7702,8 @@ msgstr "Conceptions de sélection S5.4"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/design.py:0
-msgid "S5.5: design of substantive procedures"
-msgstr "S5.5 : conception des procédures de substance"
+msgid "S5.5: procedure design, nature, timing and extent"
+msgstr "S5.5 : conception des procédures, nature, calendrier et étendue"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_sad_cf_row
@@ -7708,10 +7730,12 @@ msgid "SAPs + tests of details"
 msgstr "Analytiques + tests de détail"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_link_wizard__scot_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__scot_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__scot_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "SCOT"
 msgstr "SCOT"
 
@@ -8179,6 +8203,7 @@ msgid "Statements against the payables ledger."
 msgstr "Relevés face au grand livre fournisseurs."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__status
@@ -8190,6 +8215,7 @@ msgstr "Relevés face au grand livre fournisseurs."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__status
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__status
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Status"
 msgstr "État"
 
@@ -8977,9 +9003,11 @@ msgid "Toc Sample Items"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/tool_tile.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_form_tools_button
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Tools"
 msgstr "Outils"
 
@@ -9176,6 +9204,7 @@ msgstr "Deux versions du seuil ne peuvent jamais être approuvées en même temp
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Type"
 msgstr "Type"
 
@@ -10593,6 +10622,7 @@ msgstr "Lignes sans compte ou sans numéro d'écriture. Elles n'appartiennent à
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__mandatory
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__reason__mandatory
 msgid "Mandatory"
 msgstr "Obligatoire"
 
@@ -10901,8 +10931,10 @@ msgid "in use"
 msgstr "utilisé"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
 msgid "mandatory"
 msgstr "obligatoire"
 
@@ -11459,6 +11491,7 @@ msgstr "Liste Excel"
 #: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Read only: this engagement is archived."
 msgstr "Lecture seule : cette mission est archivée."
 
@@ -11648,8 +11681,10 @@ msgid "Why another frequency"
 msgstr "Pourquoi une autre fréquence"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__reliance
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__reliance
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Reliance"
 msgstr "Confiance"
 
@@ -11735,8 +11770,10 @@ msgid "IT-dependent manual"
 msgstr "Manuel dépendant de l'informatique"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__reliance__normal
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_wizard__reliance__normal
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Normal"
 msgstr "Normale"
 
@@ -11747,10 +11784,12 @@ msgid "Heavy / significant risk"
 msgstr "Forte / risque important"
 
 #. module: ea_audit_tools
+#. odoo-python
 #. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__result_state__to_test
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
 msgid "To test"
 msgstr "À tester"
 
@@ -11775,7 +11814,9 @@ msgid "Suggested test"
 msgstr "Test suggéré"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw_wizard__suggested_size
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Suggested size"
 msgstr "Taille suggérée"
 
@@ -11850,7 +11891,10 @@ msgid "To finish"
 msgstr "À terminer"
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__completeness__empty
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__state__draft
 msgid "Not started"
 msgstr "Non commencé"
 
@@ -11885,7 +11929,9 @@ msgid "5 Documents"
 msgstr "5 Documents"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "Sample"
 msgstr "Échantillon"
 
@@ -12996,6 +13042,7 @@ msgstr "Notre règle :"
 #. odoo-python
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 #: code:addons/ea_audit_tools/models/sampling.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__run_ids
 msgid "Samples"
 msgstr "Échantillons"
 
@@ -13038,6 +13085,7 @@ msgstr "Aucun test de détail pour l'instant. Tirez un échantillon d'un jeu de 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 msgid "items"
 msgstr "éléments"
 
@@ -13374,3 +13422,488 @@ msgstr "Revue le"
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_automation_run__purpose
 msgid "The substantive procedure this sample serves, in a few words."
 msgstr "La procédure de corroboration que sert cet échantillon, en quelques mots."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "what we will test, before we test it"
+msgstr "ce que nous testerons, avant de le tester"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "controls to test"
+msgstr "contrôles à tester"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "occurrences planned"
+msgstr "occurrences prévues"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "significant accounts"
+msgstr "comptes significatifs"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "tests of details"
+msgstr "tests de détail"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Read only: your role reads the design but does not change it."
+msgstr "Lecture seule : votre rôle consulte la conception sans la modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "1 Design of tests of controls"
+msgstr "1 Conception des tests des contrôles"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "2 Design of tests of details"
+msgstr "2 Conception des tests de détail"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Nature, timing and extent (list)"
+msgstr "Nature, calendrier et étendue (liste)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "No control is ticked \"To test\" on the SCOT pages yet."
+msgstr "Aucun contrôle n'est encore coché « À tester » sur les pages des SCOT."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Open the SCOTs"
+msgstr "Ouvrir les SCOT"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Planned size"
+msgstr "Taille prévue"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Assertions it supports"
+msgstr "Assertions couvertes"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Heavy"
+msgstr "Forte"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Open the test"
+msgstr "Ouvrir le test"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "A control appears here when it is ticked \"To test\" on its SCOT. Suggested size comes from the frequency and reliance (same table as on the SCOT page); a smaller planned size asks for a reason. If a tested control turns out not effective, the combined risk of the assertions it supports moves to \"Not rely\" and section 2 suggests more tests of details."
+msgstr "Un contrôle apparaît ici lorsqu'il est coché « À tester » sur son SCOT. La taille suggérée vient de la fréquence et du niveau de confiance (même table que sur la page du SCOT) ; une taille prévue plus petite demande une raison. Si un contrôle testé se révèle inefficace, le risque combiné des assertions qu'il couvre passe à « Ne pas s'appuyer » et la section 2 suggère davantage de tests de détail."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Nothing to design yet"
+msgstr "Rien à concevoir pour l'instant"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "The tests of details follow the significant accounts and their combined risk: mark the significant accounts and assess their risk first."
+msgstr "Les tests de détail suivent les comptes significatifs et leur risque combiné : marquez d'abord les comptes significatifs et évaluez leur risque."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Open the combined risk assessment"
+msgstr "Ouvrir l'évaluation combinée des risques"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Combined risk:"
+msgstr "Risque combiné :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Designed"
+msgstr "Conçu"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Open the earlier list"
+msgstr "Ouvrir la liste précédente"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "The library has no procedure for this account yet: add your own below."
+msgstr "La bibliothèque n'a pas encore de procédure pour ce compte : ajoutez la vôtre ci-dessous."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__reason
+msgid "Why it is here"
+msgstr "Pourquoi elle est là"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Sample that feeds it"
+msgstr "Échantillon qui l'alimente"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "No sample: done by the tool"
+msgstr "Pas d'échantillon : fait par l'outil"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "No sample needed"
+msgstr "Pas d'échantillon nécessaire"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "(does not answer a relevant assertion of this account)"
+msgstr "(ne répond à aucune assertion pertinente de ce compte)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "show"
+msgstr "afficher"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "The procedure, in a sentence"
+msgstr "La procédure, en une phrase"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Assertions it answers:"
+msgstr "Assertions couvertes :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+msgid "Mandatory procedures (MSP) are ticked and locked: they come with every relevant assertion. Alternatives (ASP) are ticked by you; the tool marks the ones suggested by the combined risk (red = High, amber = Moderate, green = Low) and by conditions. An alternative can be unticked only until work on it starts. A High combined risk needs at least one alternative on that assertion before the account counts as designed. ● = assertion covered, ○ = would cover if chosen. \"Draw the sample\" opens the sampling tool already filled with this procedure's account and population; the sample comes back here and to the working paper."
+msgstr "Les procédures obligatoires (MSP) sont cochées et verrouillées : elles accompagnent chaque assertion pertinente. Les alternatives (ASP) sont cochées par vous ; l'outil signale celles que suggère le risque combiné (rouge = Élevé, orange = Modéré, vert = Faible) et celles liées à une condition. Une alternative ne peut être décochée que tant que le travail n'a pas commencé. Un risque combiné Élevé exige au moins une alternative sur cette assertion avant que le compte soit considéré comme conçu. ● = assertion couverte, ○ = couverte si choisie. « Tirer l'échantillon » ouvre l'outil d'échantillonnage déjà rempli avec le compte et la population de cette procédure ; l'échantillon revient ici et dans la feuille de travail."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "%(done)s of %(total)s accounts designed"
+msgstr "%(done)s sur %(total)s comptes conçus"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "Mandatory substantive procedure: must be performed for this assertion"
+msgstr "Procédure de substance obligatoire : doit être réalisée pour cette assertion"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "Alternative substantive procedure: chosen at design for the risk"
+msgstr "Procédure de substance alternative : choisie à la conception, selon le risque"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "Own procedure: written by the team for this account"
+msgstr "Procédure propre : rédigée par l'équipe pour ce compte"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "own"
+msgstr "propre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "performed, cannot be removed"
+msgstr "réalisée, ne peut plus être retirée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "started, cannot be removed"
+msgstr "commencée, ne peut plus être retirée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "no alternative chosen yet"
+msgstr "aucune alternative choisie"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "%(chosen)s of %(offered)s alternatives chosen"
+msgstr "%(chosen)s alternatives choisies sur %(offered)s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "%s mandatory"
+msgstr "%s obligatoires"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "%(count)s more alternatives (%(codes)s)"
+msgstr "%(count)s autres alternatives (%(codes)s)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "%s is High: choose at least one alternative (ASP) for it before the design is complete."
+msgstr "%s est Élevé : choisissez au moins une alternative (ASP) pour cette assertion avant que la conception soit complète."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "Combined risk still to assess on %s: the design waits for it."
+msgstr "Risque combiné encore à évaluer sur %s : la conception l'attend."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/procedure_design.js:0
+msgid "%s procedure(s) chosen before the library: they stay on the earlier list."
+msgstr "%s procédure(s) choisie(s) avant la bibliothèque : elles restent sur la liste précédente."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Always"
+msgstr "Toujours"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "suggested · %(assertion)s %(level)s"
+msgstr "suggérée · %(assertion)s %(level)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "suggested · control not effective on %s"
+msgstr "suggérée · contrôle inefficace sur %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "condition met · %s"
+msgstr "condition remplie · %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "your choice"
+msgstr "votre choix"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Only if: %s"
+msgstr "Seulement si : %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Tested · effective"
+msgstr "Testé · efficace"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Tested · not effective"
+msgstr "Testé · inefficace"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__state__started
+msgid "In progress"
+msgstr "En cours"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This procedure is mandatory for the account's relevant assertions: it stays in the design."
+msgstr "Cette procédure est obligatoire pour les assertions pertinentes du compte : elle reste dans la conception."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Work on this procedure has started: it can no longer be removed from the design."
+msgstr "Le travail sur cette procédure a commencé : elle ne peut plus être retirée de la conception."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This procedure answers none of the account's relevant assertions."
+msgstr "Cette procédure ne répond à aucune assertion pertinente du compte."
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_procedure_library
+msgid "Substantive procedure library"
+msgstr "Bibliothèque des procédures de substance"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_designed_procedure
+msgid "Designed substantive procedure"
+msgstr "Procédure de substance conçue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sampling_wizard__designed_procedure_id
+msgid "For the test of details"
+msgstr "Pour le test de détail"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__designed_procedure_id
+msgid "Designed procedure"
+msgstr "Procédure conçue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_automation_run__designed_procedure_id
+msgid "The test of details this sample was drawn for."
+msgstr "Le test de détail pour lequel cet échantillon a été tiré."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__library_id
+msgid "Library procedure"
+msgstr "Procédure de la bibliothèque"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__custom_text
+msgid "Procedure written by the team"
+msgstr "Procédure rédigée par l'équipe"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__selected
+msgid "In the design"
+msgstr "Dans la conception"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__selected_by_id
+msgid "Chosen by"
+msgstr "Choisie par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__selected_at
+msgid "Chosen on"
+msgstr "Choisie le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__done_by_id
+msgid "Concluded by"
+msgstr "Conclue par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__done_at
+msgid "Concluded on"
+msgstr "Conclue le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__conclusion_note
+msgid "Conclusion note"
+msgstr "Note de conclusion"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_procedure_library__when_en
+msgid "When it applies (EN)"
+msgstr "Quand elle s'applique (EN)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_procedure_library__when_fr
+msgid "When it applies (FR)"
+msgstr "Quand elle s'applique (FR)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_procedure_library__condition_en
+msgid "Condition (EN)"
+msgstr "Condition (EN)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_procedure_library__condition_fr
+msgid "Condition (FR)"
+msgstr "Condition (FR)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__kind__custom
+msgid "Own procedure"
+msgstr "Procédure propre"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__reason__suggested
+msgid "Suggested by the combined risk"
+msgstr "Suggérée par le risque combiné"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__reason__control
+msgid "Suggested: control not effective"
+msgstr "Suggérée : contrôle inefficace"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__reason__condition
+msgid "Condition met"
+msgstr "Condition remplie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__reason__choice
+msgid "Your choice"
+msgstr "Votre choix"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__conclusion__satisfactory
+msgid "No exception"
+msgstr "Aucune exception"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__conclusion__exceptions
+msgid "Exceptions found"
+msgstr "Exceptions relevées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_procedure_library__automatable__reconciliation
+msgid "Reconciliation"
+msgstr "Rapprochement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_procedure_library__automatable__cutoff_selection
+msgid "Cut-off selection"
+msgstr "Sélection de césure"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_procedure_library__automatable__sample_selection
+msgid "Sample selection"
+msgstr "Sélection d'échantillon"

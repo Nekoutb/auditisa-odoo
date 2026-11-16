@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The substantive procedure library (MSP / ASP), read from procedure_library.json at every install and update. -->
+    <function model="ea.audit.procedure.library" name="_ea_load_library"/>
+</odoo>

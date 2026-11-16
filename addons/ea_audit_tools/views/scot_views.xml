@@ -680,6 +680,7 @@
                 <field name="engagement_id" invisible="1"/>
                 <group>
                     <group>
+                        <field name="designed_procedure_id" invisible="not designed_procedure_id" force_save="1" options="{'no_open': True}"/>
                         <field name="dataset_id" options="{'no_create': True}"/>
                         <field name="method"/>
                         <field name="sample_size"/>

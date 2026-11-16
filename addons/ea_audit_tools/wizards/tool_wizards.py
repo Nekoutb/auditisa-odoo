@@ -203,7 +203,7 @@ class ToolImportWizard(models.TransientModel):
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
     kind = fields.Selection(
-        [("cra", "Combined risk assessment"), ("significance", "Significant accounts"), ("risks", "Risks"), ("dsp", "Design of procedures"), ("pbc", "PBC requests")], required=True,
+        [("cra", "Combined risk assessment"), ("significance", "Significant accounts"), ("risks", "Risks"), ("dsp", "Procedure design"), ("pbc", "PBC requests")], required=True,
     )
     file = fields.Binary(string="File (.csv, .xlsx)", required=True)
     filename = fields.Char()

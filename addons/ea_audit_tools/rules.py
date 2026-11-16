@@ -130,6 +130,9 @@ MESSAGES = {
     "je-note-required": _lt("Write a short note saying why before you mark this entry."),
     "sample-not-tested": _lt("Enter the audited value of every item before you record the conclusion."),
     "sample-concluded": _lt("The conclusion of this sample is recorded: its items can no longer be changed."),
+    "procedure-mandatory": _lt("This procedure is mandatory for the account's relevant assertions: it stays in the design."),
+    "procedure-started": _lt("Work on this procedure has started: it can no longer be removed from the design."),
+    "procedure-not-offered": _lt("This procedure answers none of the account's relevant assertions."),
 }
 
 

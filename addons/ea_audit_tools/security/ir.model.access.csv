@@ -114,3 +114,6 @@ access_import_field_member,ea.audit.import.field member,model_ea_audit_import_fi
 access_import_matching_member,ea.audit.import.matching member,model_ea_audit_import_matching,ea_audit_core.group_member,1,0,0,0
 access_significance_wizard_writer,ea.audit.significance.wizard writer,model_ea_audit_significance_wizard,ea_audit_core.group_writer,1,1,1,1
 access_je_review_member,ea.audit.je.review member,model_ea_audit_je_review,ea_audit_core.group_member,1,0,0,0
+access_procedure_library_member,ea.audit.procedure.library member,model_ea_audit_procedure_library,ea_audit_core.group_member,1,0,0,0
+access_designed_procedure_member,ea.audit.designed.procedure member,model_ea_audit_designed_procedure,ea_audit_core.group_member,1,0,0,0
+access_designed_procedure_writer,ea.audit.designed.procedure writer,model_ea_audit_designed_procedure,ea_audit_core.group_writer,1,1,0,0

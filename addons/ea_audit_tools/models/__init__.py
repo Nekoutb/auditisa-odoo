@@ -19,6 +19,7 @@ from . import je_selection
 from . import ws_pages
 from . import analyzer
 from . import design
+from . import procedure_design
 from . import sap
 from . import pbc
 from . import analysis

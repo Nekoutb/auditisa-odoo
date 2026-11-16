@@ -1,0 +1,1334 @@
+[
+ {
+  "code": "E-M1",
+  "cycle": "E",
+  "kind": "MSP",
+  "sequence": 1,
+  "assertions": [
+   "C",
+   "E"
+  ],
+  "title_en": "Sub-ledger and aged balance agree to the general ledger",
+  "title_fr": "Concordance balance auxiliaire, balance âgée et grand livre",
+  "summary_en": "Agree the customer sub-ledger and aged balance totals to the receivables control accounts; explain and test every difference above the investigation threshold.",
+  "summary_fr": "Comparer les totaux de la balance auxiliaire et de la balance âgée aux comptes collectifs clients ; expliquer et tester tout écart au-delà du seuil d'investigation.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "reconciliation"
+ },
+ {
+  "code": "E-M2",
+  "cycle": "E",
+  "kind": "MSP",
+  "sequence": 2,
+  "assertions": [
+   "E",
+   "RO",
+   "V"
+  ],
+  "title_en": "Customer balance confirmations",
+  "title_fr": "Confirmation des soldes clients",
+  "summary_en": "Send confirmation requests directly to a sample of customers (key items plus a sample), reconcile replies; for non-replies, use receipts after year end or delivery evidence.",
+  "summary_fr": "Adresser nous-mêmes des demandes de confirmation à un échantillon de clients (éléments clés et échantillon), rapprocher les réponses ; sans réponse, s'appuyer sur les encaissements postérieurs ou les preuves de livraison.",
+  "when_en": "Always, when the account is significant and the assertion is relevant; sample size grows with the CRA level of E",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente ; la taille de l'échantillon croît avec le niveau du risque combiné sur E",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "E-M3",
+  "cycle": "E",
+  "kind": "MSP",
+  "sequence": 3,
+  "assertions": [
+   "A",
+   "E",
+   "C"
+  ],
+  "title_en": "Sales cut-off",
+  "title_fr": "Séparation des exercices sur les ventes",
+  "summary_en": "Take sales recorded in the last and first days around year end above a threshold, check delivery or service dates to confirm the right period; check accrued and deferred income corrections.",
+  "summary_fr": "Retenir les ventes comptabilisées dans les derniers et premiers jours autour de la clôture au-delà d'un seuil, contrôler la date de livraison ou de prestation ; vérifier les factures à établir et produits constatés d'avance.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "cutoff_selection"
+ },
+ {
+  "code": "E-M4",
+  "cycle": "E",
+  "kind": "MSP",
+  "sequence": 4,
+  "assertions": [
+   "V",
+   "P"
+  ],
+  "title_en": "Allowance for doubtful receivables",
+  "title_fr": "Dépréciation des créances douteuses",
+  "summary_en": "Check the aged balance is complete and correctly aged, apply the entity's provisioning policy, discuss overdue items not settled after year end, and agree the movement in the allowance to the P&L.",
+  "summary_fr": "Vérifier l'exhaustivité et l'ancienneté de la balance âgée, appliquer la politique de dépréciation, discuter les créances échues non réglées après la clôture et rapprocher la variation de la provision du compte de résultat.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "E-M5",
+  "cycle": "E",
+  "kind": "MSP",
+  "sequence": 5,
+  "assertions": [
+   "V",
+   "A",
+   "C"
+  ],
+  "title_en": "Credit notes, rebates and accrued income",
+  "title_fr": "Avoirs, remises et factures à établir",
+  "summary_en": "Agree lists of credit notes to issue, year-end rebates and invoices to issue to the ledger; vouch items above the threshold to contracts and delivery evidence; check last year's accruals reversed.",
+  "summary_fr": "Rapprocher de la comptabilité les listes d'avoirs à émettre, de remises de fin d'année et de factures à établir ; justifier les éléments au-delà du seuil par les contrats et livraisons ; vérifier le dénouement des montants de l'an dernier.",
+  "when_en": "Always, when the account is significant and the assertion is relevant (when such accruals exist)",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente (lorsque de tels produits à recevoir existent)",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "E-M6",
+  "cycle": "E",
+  "kind": "MSP",
+  "sequence": 6,
+  "assertions": [
+   "E",
+   "C",
+   "P"
+  ],
+  "title_en": "Credit balances and unusual accounts",
+  "title_fr": "Soldes créditeurs et comptes inhabituels",
+  "summary_en": "List customer accounts in credit and unusual accounts (staff, related parties, consignment); investigate large items and reclassify credit balances to other liabilities where needed.",
+  "summary_fr": "Lister les comptes clients créditeurs et les comptes inhabituels (salariés, parties liées, dépôts) ; analyser les montants importants et reclasser les soldes créditeurs en autres dettes si nécessaire.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "E-A1",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 7,
+  "assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "title_en": "Roll-forward from an interim confirmation date",
+  "title_fr": "Passage de la date de confirmation intermédiaire à la clôture",
+  "summary_en": "When balances are confirmed before year end, analyse movements up to year end, test cut-off at both dates and vouch unusual movements.",
+  "summary_fr": "Lorsque les soldes sont confirmés avant la clôture, analyser les mouvements jusqu'à la clôture, tester la séparation aux deux dates et justifier les mouvements inhabituels.",
+  "when_en": "Confirmations performed at an interim date; at High CRA also test the movements in detail",
+  "when_fr": "Confirmations obtenues à une date intermédiaire ; en risque combiné élevé, tester aussi le détail des mouvements",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "confirmed before year end",
+  "condition_fr": "confirmé avant la clôture",
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "E-A2",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 8,
+  "assertions": [
+   "E",
+   "V"
+  ],
+  "title_en": "Receipts after year end",
+  "title_fr": "Encaissements postérieurs à la clôture",
+  "summary_en": "Trace a sample of year-end balances to cash received after year end and the bank statement.",
+  "summary_fr": "Rapprocher un échantillon de soldes de clôture des encaissements reçus après la clôture et des relevés bancaires.",
+  "when_en": "Moderate or High CRA on E or V, or when confirmation replies are poor",
+  "when_fr": "Risque combiné modéré ou élevé sur E ou V, ou réponses aux confirmations insuffisantes",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "E",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "E-A3",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 9,
+  "assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "title_en": "Analytical review of receivables and ageing",
+  "title_fr": "Revue analytique des créances et de la balance âgée",
+  "summary_en": "Set an expectation for receivables, days sales outstanding and ageing structure versus last year and terms; investigate differences above the threshold.",
+  "summary_fr": "Établir une attente sur les créances, le délai moyen de règlement et la structure d'ancienneté par rapport à l'an dernier et aux conditions de paiement ; analyser les écarts au-delà du seuil.",
+  "when_en": "Low CRA: can complete the mandatory work; at Moderate or High only as support",
+  "when_fr": "Risque combiné faible : peut compléter les travaux obligatoires ; en modéré ou élevé, seulement en appui",
+  "suggest_levels": [
+   "low"
+  ],
+  "suggest_assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "E-A4",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 10,
+  "assertions": [
+   "V"
+  ],
+  "title_en": "Foreign-currency receivables",
+  "title_fr": "Créances en devises",
+  "summary_en": "Retranslate foreign-currency balances at the closing rate and recompute exchange differences on a sample.",
+  "summary_fr": "Convertir les soldes en devises au cours de clôture et recalculer les écarts de change sur un échantillon.",
+  "when_en": "Receivables in foreign currency exist",
+  "when_fr": "Créances en devises",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "foreign-currency customers",
+  "condition_fr": "clients en devises",
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "E-A5",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 11,
+  "assertions": [
+   "E",
+   "V",
+   "P"
+  ],
+  "title_en": "Bills of exchange receivable",
+  "title_fr": "Effets à recevoir",
+  "summary_en": "Agree bills on hand to a physical check, bills discounted to bank remittance slips, and bills due to receipts on the bank statement.",
+  "summary_fr": "Contrôler physiquement les effets en portefeuille, les effets remis à l'escompte aux bordereaux bancaires et les effets échus aux encaissements.",
+  "when_en": "Bills receivable recorded",
+  "when_fr": "Effets à recevoir comptabilisés",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "bills receivable",
+  "condition_fr": "effets à recevoir",
+  "automatable": null
+ },
+ {
+  "code": "E-A6",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 12,
+  "assertions": [
+   "RO",
+   "P"
+  ],
+  "title_en": "Pledged, factored or assigned receivables",
+  "title_fr": "Créances nanties, affacturées ou cédées",
+  "summary_en": "Use bank replies, loan agreements and minutes to find receivables pledged or sold and check the disclosure.",
+  "summary_fr": "Exploiter les réponses bancaires, contrats de prêt et procès-verbaux pour identifier les créances nanties ou cédées et vérifier l'information en annexe.",
+  "when_en": "RO relevant, or financing secured on receivables",
+  "when_fr": "RO pertinente, ou financement garanti par les créances",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "financing on receivables",
+  "condition_fr": "financement sur créances",
+  "automatable": null
+ },
+ {
+  "code": "E-A7",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 13,
+  "assertions": [
+   "P"
+  ],
+  "title_en": "Concentration of credit risk",
+  "title_fr": "Concentration du risque de crédit",
+  "summary_en": "Identify major customers and exposure concentrations and judge whether a disclosure is needed.",
+  "summary_fr": "Identifier les principaux clients et les concentrations d'exposition et apprécier le besoin d'une information en annexe.",
+  "when_en": "P relevant, or a few customers make most of the balance",
+  "when_fr": "P pertinente, ou quelques clients font l'essentiel du solde",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "a few large customers",
+  "condition_fr": "quelques gros clients",
+  "automatable": null
+ },
+ {
+  "code": "E-A8",
+  "cycle": "E",
+  "kind": "ASP",
+  "sequence": 14,
+  "assertions": [
+   "A",
+   "V"
+  ],
+  "title_en": "Credit notes issued after year end",
+  "title_fr": "Avoirs émis après la clôture",
+  "summary_en": "Review credit notes above the threshold issued after year end; those relating to the audited year should be accrued.",
+  "summary_fr": "Revoir les avoirs au-delà du seuil émis après la clôture ; ceux relatifs à l'exercice audité doivent être provisionnés.",
+  "when_en": "High CRA on A or V",
+  "when_fr": "Risque combiné élevé sur A ou V",
+  "suggest_levels": [
+   "high"
+  ],
+  "suggest_assertions": [
+   "A",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-M1",
+  "cycle": "N",
+  "kind": "MSP",
+  "sequence": 15,
+  "assertions": [
+   "C",
+   "E"
+  ],
+  "title_en": "Supplier sub-ledger agrees to the general ledger",
+  "title_fr": "Concordance balance fournisseurs et grand livre",
+  "summary_en": "Agree the supplier sub-ledger and aged balance to the payables control accounts; test reconciling items above the threshold.",
+  "summary_fr": "Rapprocher la balance auxiliaire et la balance âgée fournisseurs des comptes collectifs ; tester les écarts au-delà du seuil.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "reconciliation"
+ },
+ {
+  "code": "N-M2",
+  "cycle": "N",
+  "kind": "MSP",
+  "sequence": 16,
+  "assertions": [
+   "E",
+   "C",
+   "P"
+  ],
+  "title_en": "Debit balances and unusual supplier items",
+  "title_fr": "Soldes débiteurs et éléments fournisseurs inhabituels",
+  "summary_en": "List suppliers in debit and unusual items, investigate the large ones and reclassify debit balances to other receivables where needed.",
+  "summary_fr": "Lister les fournisseurs débiteurs et éléments inhabituels, analyser les plus importants et reclasser les soldes débiteurs en autres créances si nécessaire.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-M3",
+  "cycle": "N",
+  "kind": "MSP",
+  "sequence": 17,
+  "assertions": [
+   "A",
+   "C",
+   "E",
+   "RO"
+  ],
+  "title_en": "Purchases cut-off",
+  "title_fr": "Séparation des exercices sur les achats",
+  "summary_en": "Take purchases recorded around year end above a threshold and check receipt dates and delivery terms; check that misplaced items are corrected through accruals.",
+  "summary_fr": "Retenir les achats comptabilisés autour de la clôture au-delà d'un seuil et contrôler les dates de réception et conditions de livraison ; vérifier la correction des erreurs par des factures non parvenues.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "cutoff_selection"
+ },
+ {
+  "code": "N-M4",
+  "cycle": "N",
+  "kind": "MSP",
+  "sequence": 18,
+  "assertions": [
+   "C",
+   "A"
+  ],
+  "title_en": "Search for unrecorded liabilities",
+  "title_fr": "Recherche de passifs non comptabilisés",
+  "summary_en": "Review payments and supplier invoices after year end, and invoices not yet booked; check that liabilities belonging to the audited year are recorded.",
+  "summary_fr": "Revoir les paiements et factures fournisseurs postérieurs à la clôture ainsi que les factures non encore saisies ; vérifier que les dettes de l'exercice audité sont comptabilisées.",
+  "when_en": "Always, when the account is significant and the assertion is relevant; window and threshold grow with the CRA level of C",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente ; la fenêtre et le seuil croissent avec le niveau du risque combiné sur C",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-A1",
+  "cycle": "N",
+  "kind": "ASP",
+  "sequence": 19,
+  "assertions": [
+   "C",
+   "E",
+   "RO",
+   "V"
+  ],
+  "title_en": "Supplier confirmations or statement reconciliations",
+  "title_fr": "Confirmations ou relevés fournisseurs",
+  "summary_en": "Obtain confirmations or statements from key suppliers, including those with nil balances, and reconcile them to the ledger.",
+  "summary_fr": "Obtenir des confirmations ou relevés des principaux fournisseurs, y compris ceux à solde nul, et les rapprocher de la comptabilité.",
+  "when_en": "High CRA on C, or weak supplier reconciliation controls",
+  "when_fr": "Risque combiné élevé sur C, ou faiblesse des contrôles de rapprochement fournisseurs",
+  "suggest_levels": [
+   "high"
+  ],
+  "suggest_assertions": [
+   "C"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-A2",
+  "cycle": "N",
+  "kind": "ASP",
+  "sequence": 20,
+  "assertions": [
+   "C",
+   "V",
+   "A"
+  ],
+  "title_en": "Accrued invoices not yet received",
+  "title_fr": "Factures non parvenues",
+  "summary_en": "Agree the accruals list to the ledger, vouch large items to receipts and orders, and check last year's accruals settled.",
+  "summary_fr": "Rapprocher la liste des factures non parvenues de la comptabilité, justifier les montants importants par les réceptions et commandes, vérifier le dénouement des montants de l'an dernier.",
+  "when_en": "Moderate or High CRA on C",
+  "when_fr": "Risque combiné modéré ou élevé sur C",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "C"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-A3",
+  "cycle": "N",
+  "kind": "ASP",
+  "sequence": 21,
+  "assertions": [
+   "E",
+   "V"
+  ],
+  "title_en": "Vouching of payments",
+  "title_fr": "Revue des décaissements",
+  "summary_en": "Vouch a sample of payments to approved invoices and supporting documents.",
+  "summary_fr": "Justifier un échantillon de décaissements par des factures approuvées et pièces justificatives.",
+  "when_en": "Moderate or High CRA on E",
+  "when_fr": "Risque combiné modéré ou élevé sur E",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "E"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-A4",
+  "cycle": "N",
+  "kind": "ASP",
+  "sequence": 22,
+  "assertions": [
+   "C",
+   "E",
+   "V"
+  ],
+  "title_en": "Analytical review of payables",
+  "title_fr": "Revue analytique des dettes fournisseurs",
+  "summary_en": "Compare payables, days payable outstanding and major suppliers with last year and purchase volumes; investigate differences above the threshold.",
+  "summary_fr": "Comparer les dettes, le délai moyen de paiement et les principaux fournisseurs à l'an dernier et aux volumes d'achat ; analyser les écarts au-delà du seuil.",
+  "when_en": "Low CRA: can complete the mandatory work",
+  "when_fr": "Risque combiné faible : peut compléter les travaux obligatoires",
+  "suggest_levels": [
+   "low"
+  ],
+  "suggest_assertions": [
+   "C",
+   "E",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "N-A5",
+  "cycle": "N",
+  "kind": "ASP",
+  "sequence": 23,
+  "assertions": [
+   "V"
+  ],
+  "title_en": "Foreign-currency payables",
+  "title_fr": "Dettes en devises",
+  "summary_en": "Retranslate foreign-currency balances at the closing rate and agree rates used to supporting documents.",
+  "summary_fr": "Convertir les soldes en devises au cours de clôture et rapprocher les taux utilisés des justificatifs.",
+  "when_en": "Payables in foreign currency exist",
+  "when_fr": "Dettes en devises",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "foreign-currency suppliers",
+  "condition_fr": "fournisseurs en devises",
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "N-A6",
+  "cycle": "N",
+  "kind": "ASP",
+  "sequence": 24,
+  "assertions": [
+   "A",
+   "C"
+  ],
+  "title_en": "Supplier credit notes after year end",
+  "title_fr": "Avoirs fournisseurs reçus après la clôture",
+  "summary_en": "Review credit notes received after year end and check they are recorded in the period of the related purchase.",
+  "summary_fr": "Revoir les avoirs reçus après la clôture et vérifier leur rattachement à l'exercice de l'achat concerné.",
+  "when_en": "High CRA on A",
+  "when_fr": "Risque combiné élevé sur A",
+  "suggest_levels": [
+   "high"
+  ],
+  "suggest_assertions": [
+   "A"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "F-M1",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 25,
+  "assertions": [
+   "E",
+   "C",
+   "V",
+   "RO"
+  ],
+  "title_en": "Attendance at the physical count",
+  "title_fr": "Assistance à l'inventaire physique",
+  "summary_en": "Attend the count, check instructions are followed, perform test counts from records to floor and floor to records, note damaged or slow items and the last movement documents.",
+  "summary_fr": "Assister à l'inventaire, vérifier le respect des instructions, effectuer des comptages tests des listes vers le stock et inversement, relever les articles abîmés ou lents et les derniers documents de mouvement.",
+  "when_en": "Always, when the account is significant and the assertion is relevant (inventory material)",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente (stocks significatifs)",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "F-M2",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 26,
+  "assertions": [
+   "E",
+   "C",
+   "RO"
+  ],
+  "title_en": "Confirmation of inventory held by third parties",
+  "title_fr": "Confirmation des stocks détenus par des tiers",
+  "summary_en": "Confirm quantities held in outside warehouses or on consignment, or visit them when material.",
+  "summary_fr": "Confirmer les quantités détenues en entrepôts extérieurs ou en dépôt, ou s'y rendre si elles sont significatives.",
+  "when_en": "Inventory held by others",
+  "when_fr": "Stocks détenus par des tiers",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "stock held by others",
+  "condition_fr": "stocks chez des tiers",
+  "automatable": null
+ },
+ {
+  "code": "F-M3",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 27,
+  "assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "title_en": "Final inventory listing agrees to count and ledger",
+  "title_fr": "Concordance de l'état d'inventaire valorisé",
+  "summary_en": "Agree our test counts to the final priced listing, check its arithmetic and agree its total to the general ledger.",
+  "summary_fr": "Rapprocher nos comptages de l'état d'inventaire valorisé définitif, vérifier les calculs et rapprocher son total du grand livre.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "reconciliation"
+ },
+ {
+  "code": "F-M4",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 28,
+  "assertions": [
+   "E",
+   "V"
+  ],
+  "title_en": "Roll-forward from count date to year end",
+  "title_fr": "Passage de la date d'inventaire à la clôture",
+  "summary_en": "When the count is not at year end, analyse purchases, production and sales between the two dates and vouch unusual movements.",
+  "summary_fr": "Lorsque l'inventaire n'est pas à la clôture, analyser achats, production et ventes entre les deux dates et justifier les mouvements inhabituels.",
+  "when_en": "Count date differs from year end",
+  "when_fr": "Date d'inventaire différente de la date de clôture",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "count before year end",
+  "condition_fr": "inventaire avant la clôture",
+  "automatable": null
+ },
+ {
+  "code": "F-M5",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 29,
+  "assertions": [
+   "A",
+   "C",
+   "E"
+  ],
+  "title_en": "Inventory cut-off",
+  "title_fr": "Séparation des exercices sur les stocks",
+  "summary_en": "Using the last receipt and despatch documents noted at the count, check goods in and out are recorded in the right period consistently with purchases and sales.",
+  "summary_fr": "À partir des derniers bons de réception et d'expédition relevés à l'inventaire, vérifier l'enregistrement des entrées et sorties sur la bonne période, en cohérence avec achats et ventes.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "cutoff_selection"
+ },
+ {
+  "code": "F-M6",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 30,
+  "assertions": [
+   "V",
+   "P"
+  ],
+  "title_en": "Costing in line with the accounting policy",
+  "title_fr": "Valorisation conforme aux méthodes comptables",
+  "summary_en": "Check unit costs on a sample against purchase invoices or cost sheets and confirm the method is applied consistently.",
+  "summary_fr": "Contrôler sur un échantillon les coûts unitaires par rapport aux factures d'achat ou fiches de coût et vérifier la permanence de la méthode.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "F-M7",
+  "cycle": "F",
+  "kind": "MSP",
+  "sequence": 31,
+  "assertions": [
+   "V"
+  ],
+  "title_en": "Net realisable value and obsolescence",
+  "title_fr": "Valeur nette de réalisation et dépréciation",
+  "summary_en": "Compare cost with recent selling prices less costs to sell; review slow-moving, damaged and obsolete items and the write-down.",
+  "summary_fr": "Comparer le coût aux prix de vente récents nets des frais de vente ; revoir les articles lents, abîmés ou obsolètes et la dépréciation.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "F-A1",
+  "cycle": "F",
+  "kind": "ASP",
+  "sequence": 32,
+  "assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "title_en": "Analytical review of margins and turnover",
+  "title_fr": "Revue analytique des marges et de la rotation",
+  "summary_en": "Compare gross margin, stock turnover and stock by category with last year and expectations; investigate differences.",
+  "summary_fr": "Comparer marge brute, rotation et stocks par catégorie avec l'an dernier et nos attentes ; analyser les écarts.",
+  "when_en": "Low CRA: can complete the mandatory work",
+  "when_fr": "Risque combiné faible : peut compléter les travaux obligatoires",
+  "suggest_levels": [
+   "low"
+  ],
+  "suggest_assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "F-A2",
+  "cycle": "F",
+  "kind": "ASP",
+  "sequence": 33,
+  "assertions": [
+   "V"
+  ],
+  "title_en": "Slow-moving analysis from movement data",
+  "title_fr": "Analyse des articles à faible rotation",
+  "summary_en": "Use item movement history to list items without movement for a set period and compare with the write-down.",
+  "summary_fr": "Exploiter l'historique des mouvements pour lister les articles sans mouvement depuis une période donnée et comparer à la dépréciation.",
+  "when_en": "Moderate or High CRA on V",
+  "when_fr": "Risque combiné modéré ou élevé sur V",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "F-A3",
+  "cycle": "F",
+  "kind": "ASP",
+  "sequence": 34,
+  "assertions": [
+   "V",
+   "A"
+  ],
+  "title_en": "Overhead absorption in production cost",
+  "title_fr": "Incorporation des charges indirectes",
+  "summary_en": "Recompute the overhead rates and check that only production costs at normal activity are included.",
+  "summary_fr": "Recalculer les taux de frais indirects et vérifier que seuls les coûts de production à activité normale sont inclus.",
+  "when_en": "Manufactured inventory with significant overheads",
+  "when_fr": "Stocks fabriqués avec des frais indirects significatifs",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "manufactured stock",
+  "condition_fr": "stocks fabriqués",
+  "automatable": null
+ },
+ {
+  "code": "F-A4",
+  "cycle": "F",
+  "kind": "ASP",
+  "sequence": 35,
+  "assertions": [
+   "E",
+   "C",
+   "RO"
+  ],
+  "title_en": "Goods in transit and consignment stock",
+  "title_fr": "Marchandises en transit et en dépôt",
+  "summary_en": "Check ownership of goods in transit at year end against delivery terms and exclude goods held for others.",
+  "summary_fr": "Vérifier la propriété des marchandises en transit à la clôture selon les conditions de livraison et exclure les biens détenus pour des tiers.",
+  "when_en": "Goods in transit or held on behalf of others",
+  "when_fr": "Marchandises en transit ou détenues pour le compte de tiers",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "goods in transit",
+  "condition_fr": "marchandises en transit",
+  "automatable": null
+ },
+ {
+  "code": "F-A5",
+  "cycle": "F",
+  "kind": "ASP",
+  "sequence": 36,
+  "assertions": [
+   "RO",
+   "P"
+  ],
+  "title_en": "Pledged inventory and retention of title",
+  "title_fr": "Stocks gagés et clauses de réserve de propriété",
+  "summary_en": "Identify inventory pledged as security or bought under retention of title and check the disclosure.",
+  "summary_fr": "Identifier les stocks donnés en garantie ou acquis sous réserve de propriété et vérifier l'information en annexe.",
+  "when_en": "RO relevant, or financing secured on inventory",
+  "when_fr": "RO pertinente, ou financement garanti par les stocks",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "financing on stock",
+  "condition_fr": "financement sur stocks",
+  "automatable": null
+ },
+ {
+  "code": "F-A6",
+  "cycle": "F",
+  "kind": "ASP",
+  "sequence": 37,
+  "assertions": [
+   "E",
+   "C"
+  ],
+  "title_en": "Additional test counts at High risk",
+  "title_fr": "Comptages complémentaires en cas de risque élevé",
+  "summary_en": "Extend test counts to more locations or high-value items, or attend a second count.",
+  "summary_fr": "Étendre les comptages tests à d'autres sites ou aux articles de forte valeur, ou assister à un second comptage.",
+  "when_en": "High CRA on E or C",
+  "when_fr": "Risque combiné élevé sur E ou C",
+  "suggest_levels": [
+   "high"
+  ],
+  "suggest_assertions": [
+   "E",
+   "C"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "K-M1",
+  "cycle": "K",
+  "kind": "MSP",
+  "sequence": 38,
+  "assertions": [
+   "C",
+   "E",
+   "V",
+   "P"
+  ],
+  "title_en": "Movement schedule agrees to register and ledger",
+  "title_fr": "Tableau de variation rapproché du fichier et du grand livre",
+  "summary_en": "Agree opening balances to last year, the fixed asset register and the movement schedule (cost and depreciation) to the general ledger.",
+  "summary_fr": "Rapprocher les soldes d'ouverture de l'an dernier, le fichier des immobilisations et le tableau de variation (valeurs brutes et amortissements) du grand livre.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "reconciliation"
+ },
+ {
+  "code": "K-M2",
+  "cycle": "K",
+  "kind": "MSP",
+  "sequence": 39,
+  "assertions": [
+   "E",
+   "C",
+   "V",
+   "RO",
+   "P"
+  ],
+  "title_en": "Additions and disposals",
+  "title_fr": "Acquisitions et cessions",
+  "summary_en": "Vouch additions above the threshold to invoices and title, check they are capital in nature; for disposals check removal from the register and recompute the gain or loss.",
+  "summary_fr": "Justifier les acquisitions au-delà du seuil par les factures et titres, vérifier leur caractère immobilisable ; pour les cessions, vérifier la sortie du fichier et recalculer le résultat de cession.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "K-M3",
+  "cycle": "K",
+  "kind": "MSP",
+  "sequence": 40,
+  "assertions": [
+   "V",
+   "A",
+   "P"
+  ],
+  "title_en": "Depreciation",
+  "title_fr": "Amortissements",
+  "summary_en": "Check useful lives and methods are reasonable and consistent, and recompute the charge (in full or by an analytical estimate).",
+  "summary_fr": "Vérifier le caractère raisonnable et la permanence des durées et méthodes, et recalculer la dotation (en détail ou par estimation analytique).",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "K-M4",
+  "cycle": "K",
+  "kind": "MSP",
+  "sequence": 41,
+  "assertions": [
+   "V"
+  ],
+  "title_en": "Impairment review",
+  "title_fr": "Revue des pertes de valeur",
+  "summary_en": "Look for signs of impairment (idle assets, damage, losses) and, where present, review the recoverable amount and the write-down.",
+  "summary_fr": "Rechercher les indices de perte de valeur (actifs inutilisés, dommages, pertes) et, le cas échéant, revoir la valeur recouvrable et la dépréciation.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "K-A1",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 42,
+  "assertions": [
+   "E",
+   "C"
+  ],
+  "title_en": "Physical inspection of assets",
+  "title_fr": "Inspection physique des immobilisations",
+  "summary_en": "Inspect a sample of assets from the register and trace a sample seen on site back to the register.",
+  "summary_fr": "Inspecter un échantillon d'actifs du fichier et rattacher au fichier un échantillon d'actifs vus sur site.",
+  "when_en": "Moderate or High CRA on E",
+  "when_fr": "Risque combiné modéré ou élevé sur E",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "E"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "K-A2",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 43,
+  "assertions": [
+   "C",
+   "V"
+  ],
+  "title_en": "Repairs expense review for items to capitalise",
+  "title_fr": "Revue des charges d'entretien à immobiliser",
+  "summary_en": "Review large repair and maintenance entries for items that should be capitalised.",
+  "summary_fr": "Revoir les écritures importantes d'entretien et réparation pour identifier celles à immobiliser.",
+  "when_en": "C relevant at Moderate or High CRA",
+  "when_fr": "C pertinente avec un risque combiné modéré ou élevé",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "C"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "K-A3",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 44,
+  "assertions": [
+   "E",
+   "V",
+   "P"
+  ],
+  "title_en": "Assets under construction",
+  "title_fr": "Immobilisations en cours",
+  "summary_en": "Review projects in progress, their costs and their transfer to completed assets when brought into use.",
+  "summary_fr": "Revoir les projets en cours, leurs coûts et leur transfert en immobilisations achevées à la mise en service.",
+  "when_en": "Assets under construction recorded",
+  "when_fr": "Immobilisations en cours comptabilisées",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "assets under construction",
+  "condition_fr": "immobilisations en cours",
+  "automatable": null
+ },
+ {
+  "code": "K-A4",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 45,
+  "assertions": [
+   "E",
+   "C",
+   "RO",
+   "P"
+  ],
+  "title_en": "Leases",
+  "title_fr": "Contrats de location",
+  "summary_en": "Read significant lease contracts and check their accounting treatment and disclosure.",
+  "summary_fr": "Lire les contrats de location importants et vérifier leur traitement comptable et l'information en annexe.",
+  "when_en": "Significant lease contracts",
+  "when_fr": "Contrats de location significatifs",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "significant leases",
+  "condition_fr": "locations significatives",
+  "automatable": null
+ },
+ {
+  "code": "K-A5",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 46,
+  "assertions": [
+   "V",
+   "P"
+  ],
+  "title_en": "Own work capitalised and borrowing costs",
+  "title_fr": "Production immobilisée et intérêts capitalisés",
+  "summary_en": "Check costs capitalised for internal work and any interest capitalised are eligible and correctly computed.",
+  "summary_fr": "Vérifier l'éligibilité et le calcul des coûts de production immobilisée et des intérêts incorporés.",
+  "when_en": "Own work or interest capitalised",
+  "when_fr": "Production immobilisée ou intérêts incorporés",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "own work capitalised",
+  "condition_fr": "production immobilisée",
+  "automatable": null
+ },
+ {
+  "code": "K-A6",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 47,
+  "assertions": [
+   "RO",
+   "P"
+  ],
+  "title_en": "Pledged assets and title deeds",
+  "title_fr": "Actifs nantis et titres de propriété",
+  "summary_en": "Use title deeds, registration documents and bank replies to identify assets pledged and check the disclosure.",
+  "summary_fr": "Exploiter titres de propriété, cartes grises et réponses bancaires pour identifier les actifs nantis et vérifier l'annexe.",
+  "when_en": "RO relevant, or secured borrowings",
+  "when_fr": "RO pertinente, ou emprunts garantis",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "secured borrowings",
+  "condition_fr": "emprunts garantis",
+  "automatable": null
+ },
+ {
+  "code": "K-A7",
+  "cycle": "K",
+  "kind": "ASP",
+  "sequence": 48,
+  "assertions": [
+   "E",
+   "V"
+  ],
+  "title_en": "Unusual entries in fixed asset accounts",
+  "title_fr": "Écritures inhabituelles sur immobilisations",
+  "summary_en": "Review entries in asset accounts that are not routine additions, disposals or depreciation.",
+  "summary_fr": "Revoir les écritures sur comptes d'immobilisations qui ne sont pas des acquisitions, cessions ou amortissements courants.",
+  "when_en": "High CRA on E or V",
+  "when_fr": "Risque combiné élevé sur E ou V",
+  "suggest_levels": [
+   "high"
+  ],
+  "suggest_assertions": [
+   "E",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "C-M1",
+  "cycle": "C",
+  "kind": "MSP",
+  "sequence": 49,
+  "assertions": [
+   "E",
+   "C",
+   "V",
+   "RO",
+   "P"
+  ],
+  "title_en": "Bank confirmations",
+  "title_fr": "Confirmations bancaires",
+  "summary_en": "Send confirmation requests to every bank the entity has dealt with during the year, including closed accounts, and agree replies (balances, loans, guarantees, pledges).",
+  "summary_fr": "Adresser une demande de confirmation à toutes les banques avec lesquelles l'entité a été en relation dans l'année, y compris les comptes clôturés, et exploiter les réponses (soldes, emprunts, garanties, nantissements).",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": null
+ },
+ {
+  "code": "C-M2",
+  "cycle": "C",
+  "kind": "MSP",
+  "sequence": 50,
+  "assertions": [
+   "E",
+   "C",
+   "V"
+  ],
+  "title_en": "Year-end bank reconciliations",
+  "title_fr": "Rapprochements bancaires de clôture",
+  "summary_en": "Agree the ledger balance and bank statement (or confirmation) through the reconciliation; vouch reconciling items above the threshold to clearance after year end.",
+  "summary_fr": "Rapprocher le solde comptable et le relevé (ou la confirmation) via l'état de rapprochement ; justifier les suspens au-delà du seuil par leur apurement après la clôture.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "reconciliation"
+ },
+ {
+  "code": "C-M3",
+  "cycle": "C",
+  "kind": "MSP",
+  "sequence": 51,
+  "assertions": [
+   "A",
+   "C",
+   "E"
+  ],
+  "title_en": "Cash cut-off",
+  "title_fr": "Séparation des exercices sur la trésorerie",
+  "summary_en": "Check the last receipts, payments and transfers between accounts around year end are recorded in the right period on both sides.",
+  "summary_fr": "Vérifier que les derniers encaissements, décaissements et virements internes autour de la clôture sont enregistrés sur la bonne période des deux côtés.",
+  "when_en": "Always, when the account is significant and the assertion is relevant",
+  "when_fr": "Toujours, lorsque le compte est significatif et l'assertion pertinente",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "cutoff_selection"
+ },
+ {
+  "code": "C-M4",
+  "cycle": "C",
+  "kind": "MSP",
+  "sequence": 52,
+  "assertions": [
+   "C",
+   "V",
+   "RO",
+   "P"
+  ],
+  "title_en": "Overdrafts, loans and their terms",
+  "title_fr": "Découverts, emprunts et leurs conditions",
+  "summary_en": "Agree overdrafts and loans to bank replies and contracts, check interest and classification, and review compliance with covenants.",
+  "summary_fr": "Rapprocher découverts et emprunts des réponses bancaires et contrats, vérifier les intérêts et le classement, et revoir le respect des clauses.",
+  "when_en": "Overdrafts or bank borrowings exist",
+  "when_fr": "Découverts ou emprunts bancaires",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "overdrafts or bank loans",
+  "condition_fr": "découverts ou emprunts",
+  "automatable": null
+ },
+ {
+  "code": "C-A1",
+  "cycle": "C",
+  "kind": "ASP",
+  "sequence": 53,
+  "assertions": [
+   "E",
+   "C"
+  ],
+  "title_en": "Petty cash count",
+  "title_fr": "Comptage de caisse",
+  "summary_en": "Count petty cash at or near year end in the presence of the cashier and agree to the cash book.",
+  "summary_fr": "Compter la caisse à la clôture ou à une date proche en présence du caissier et rapprocher du brouillard de caisse.",
+  "when_en": "Material cash on hand",
+  "when_fr": "Encaisse significative",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "material cash on hand",
+  "condition_fr": "encaisse significative",
+  "automatable": null
+ },
+ {
+  "code": "C-A2",
+  "cycle": "C",
+  "kind": "ASP",
+  "sequence": 54,
+  "assertions": [
+   "E",
+   "V"
+  ],
+  "title_en": "Unusual cash entries",
+  "title_fr": "Écritures de trésorerie inhabituelles",
+  "summary_en": "Review cash accounts for large, round-sum or unusual entries and vouch them.",
+  "summary_fr": "Revoir les comptes de trésorerie pour repérer les écritures importantes, rondes ou inhabituelles et les justifier.",
+  "when_en": "High CRA on E or V",
+  "when_fr": "Risque combiné élevé sur E ou V",
+  "suggest_levels": [
+   "high"
+  ],
+  "suggest_assertions": [
+   "E",
+   "V"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "C-A3",
+  "cycle": "C",
+  "kind": "ASP",
+  "sequence": 55,
+  "assertions": [
+   "A",
+   "E"
+  ],
+  "title_en": "Vouching of receipts and payments",
+  "title_fr": "Exactitude des encaissements et décaissements",
+  "summary_en": "Trace a sample of bank entries to supporting documents and to the related sub-ledgers.",
+  "summary_fr": "Rapprocher un échantillon d'opérations bancaires des pièces justificatives et des comptes auxiliaires concernés.",
+  "when_en": "Moderate or High CRA on A or E",
+  "when_fr": "Risque combiné modéré ou élevé sur A ou E",
+  "suggest_levels": [
+   "moderate",
+   "high"
+  ],
+  "suggest_assertions": [
+   "A",
+   "E"
+  ],
+  "condition_en": null,
+  "condition_fr": null,
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "C-A4",
+  "cycle": "C",
+  "kind": "ASP",
+  "sequence": 56,
+  "assertions": [
+   "E",
+   "C"
+  ],
+  "title_en": "Cash sales banked intact",
+  "title_fr": "Remise en banque des ventes au comptant",
+  "summary_en": "Trace daily cash takings to deposit slips and to the bank statement.",
+  "summary_fr": "Rapprocher les recettes journalières des bordereaux de remise et des relevés bancaires.",
+  "when_en": "Material cash sales",
+  "when_fr": "Ventes au comptant significatives",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "material cash sales",
+  "condition_fr": "ventes au comptant",
+  "automatable": "sample_selection"
+ },
+ {
+  "code": "C-A5",
+  "cycle": "C",
+  "kind": "ASP",
+  "sequence": 57,
+  "assertions": [
+   "V"
+  ],
+  "title_en": "Foreign-currency bank balances",
+  "title_fr": "Comptes bancaires en devises",
+  "summary_en": "Translate foreign-currency balances at the closing rate and recompute the difference.",
+  "summary_fr": "Convertir les soldes en devises au cours de clôture et recalculer l'écart.",
+  "when_en": "Bank accounts in foreign currency",
+  "when_fr": "Comptes bancaires en devises",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "foreign-currency accounts",
+  "condition_fr": "comptes en devises",
+  "automatable": null
+ },
+ {
+  "code": "C-A6",
+  "cycle": "C",
+  "kind": "ASP",
+  "sequence": 58,
+  "assertions": [
+   "E",
+   "V",
+   "RO"
+  ],
+  "title_en": "Short-term investments",
+  "title_fr": "Valeurs mobilières de placement",
+  "summary_en": "Confirm or inspect investments held, and check their valuation at market value or under the policy and their classification.",
+  "summary_fr": "Confirmer ou inspecter les titres détenus, vérifier leur valorisation (valeur de marché ou méthode retenue) et leur classement.",
+  "when_en": "Short-term investments recorded",
+  "when_fr": "Placements à court terme comptabilisés",
+  "suggest_levels": [],
+  "suggest_assertions": [],
+  "condition_en": "short-term investments",
+  "condition_fr": "placements à court terme",
+  "automatable": null
+ }
+]

@@ -296,6 +296,7 @@ class SamplingWizard(models.TransientModel):
     override_rationale = fields.Char(string="Why the size is typed by hand")
     frequency = fields.Selection([(key, key.title()) for key in ATTRIBUTE_SAMPLE_SIZES], string="Attribute plan: frequency")
     attribute_size = fields.Integer(string="Attribute plan: minimum", compute="_compute_attribute")
+    designed_procedure_id = fields.Many2one("ea.audit.designed.procedure", string="For the test of details", readonly=True)
 
     @api.depends("frequency")
     def _compute_attribute(self):
@@ -308,6 +309,7 @@ class SamplingWizard(models.TransientModel):
             self.dataset_id.id, self.method, self.sample_size, seed=self.seed or None, threshold=self.threshold or None,
             confidence=int(self.confidence) if self.confidence else None, expected=self.expected or None,
             override_size=self.override_size or None, override_rationale=self.override_rationale or None,
+            designed_procedure=self.designed_procedure_id or None,
         )
         return run.action_export() if run else _CLOSE
 

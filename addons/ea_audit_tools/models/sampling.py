@@ -426,7 +426,7 @@ class EngagementSampling(models.Model):
         self._ea_log("tod_result", "Tests of details on %s: projected %s" % (result["indexCode"], result["projected"]))
         return {"runId": run.id, "projected": result["projected"], "raisedToB5": result["raisedToB5"]}
 
-    def run_sampling(self, dataset_id, method, sample_size, seed=None, threshold=None, confidence=None, expected=None, override_size=None, override_rationale=None, file_item=None):
+    def run_sampling(self, dataset_id, method, sample_size, seed=None, threshold=None, confidence=None, expected=None, override_size=None, override_rationale=None, file_item=None, designed_procedure=None):
         """runSampling (5.2, ISA 530): the MUS extent computed, not typed, when confidence is given and
         materiality is approved; a typed override needs its rationale (R17). The seed is stored."""
         self.ensure_one()
@@ -435,6 +435,8 @@ class EngagementSampling(models.Model):
         if not dataset:
             raise rule_error(self.env, "no-dataset")
         if file_item and file_item.sudo().engagement_id != self.sudo():
+            raise rule_error(self.env, "not-found")
+        if designed_procedure and (designed_procedure.sudo().engagement_id != self.sudo() or not designed_procedure.sudo().selected):
             raise rule_error(self.env, "not-found")
         approved = self.sudo()._ea_approved_materiality()
         self.env.cr.execute("SELECT row_no, data, amount FROM ea_audit_dataset_row WHERE dataset_id = %s ORDER BY row_no", [dataset.id])
@@ -473,6 +475,14 @@ class EngagementSampling(models.Model):
                 for pick in result["picks"]
             ],
         })
+        if designed_procedure:
+            # the sample feeds the test of details it was drawn for (procedure design, 2026-11-16)
+            proc = designed_procedure.sudo()
+            run.write({
+                "designed_procedure_id": proc.id, "index_code": proc.index_code,
+                "purpose": ("%s %s" % (proc.code, proc.title or ""))[:200].strip(),
+            })
+            proc._ea_mark_started()
         self._ea_log("sampling_run", "Sample of %d drawn from %s (%s, seed %s)" % (len(result["picks"]), dataset.source_filename, method, seed))
         return run.with_env(self.env)
 

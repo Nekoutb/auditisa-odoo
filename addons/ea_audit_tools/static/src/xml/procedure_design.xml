@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.ProcedureDesignPage">
+        <div class="o_ea_pd" t-if="p" data-ea="procedure-design">
+            <div class="o_ea_pd_card">
+                <div class="o_ea_pd_crumb"><span>Tools</span> / <strong>Procedure design</strong></div>
+                <div class="o_ea_pd_head">
+                    <div>
+                        <h1>Procedure design</h1>
+                        <div class="o_ea_pd_sub"><t t-esc="p.engagement"/> · <span>what we will test, before we test it</span></div>
+                    </div>
+                    <div class="o_ea_pd_stats" t-if="state.tab === 'toc'">
+                        <div><strong t-esc="p.stats.controls"/><span>controls to test</span></div>
+                        <div><strong t-esc="p.stats.occurrences"/><span>occurrences planned</span></div>
+                        <div><strong t-esc="p.stats.accounts"/><span>significant accounts</span></div>
+                        <div><strong t-esc="p.stats.tod"/><span>tests of details</span></div>
+                    </div>
+                    <div class="o_ea_pd_progress" t-else="">
+                        <span t-esc="progressText"/>
+                        <span class="o_ea_pd_meter"><i t-att-style="progressStyle"/></span>
+                    </div>
+                </div>
+
+                <div class="o_ea_pd_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the design but does not change it.</t>
+                </div>
+
+                <div class="o_ea_pd_tabs" role="tablist">
+                    <button type="button" role="tab" t-att-class="state.tab === 'toc' ? 'active' : ''" t-on-click="() => this.state.tab = 'toc'">
+                        1 Design of tests of controls <span class="o_ea_pd_count" t-esc="p.controls.length"/>
+                    </button>
+                    <button type="button" role="tab" t-att-class="state.tab === 'tod' ? 'active' : ''" t-on-click="() => this.state.tab = 'tod'">
+                        2 Design of tests of details <span class="o_ea_pd_count" t-esc="p.stats.tod"/>
+                    </button>
+                    <span class="o_ea_pd_tabtools">
+                        <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_dsp_list')">Nature, timing and extent (list)</button>
+                    </span>
+                </div>
+
+                <!-- Section 1: tests of controls -->
+                <t t-if="state.tab === 'toc'">
+                    <p class="o_ea_pd_empty" t-if="!p.controls.length">No control is ticked "To test" on the SCOT pages yet.
+                        <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_scot')">Open the SCOTs</button>
+                    </p>
+                    <table class="o_ea_pd_grid" t-else="" data-ea="toc-design">
+                        <thead>
+                            <tr>
+                                <th>Control</th><th>SCOT</th><th>Type</th><th>Frequency</th><th>Reliance</th>
+                                <th class="o_num">Suggested size</th><th class="o_num">Planned size</th>
+                                <th>Assertions it supports</th><th>Status</th><th>Sample</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="p.controls" t-as="control" t-key="control.id">
+                                <td><strong t-esc="control.code"/> <t t-esc="control.name"/></td>
+                                <td t-esc="control.scot"/>
+                                <td t-esc="control.type"/>
+                                <td t-esc="control.frequency"/>
+                                <td>
+                                    <span class="o_ea_pd_seg" role="group">
+                                        <button type="button" t-att-class="control.reliance === 'normal' ? 'active' : ''" t-att-disabled="p.readonly"
+                                                t-on-click="() => this.reliance(control, 'normal')">Normal</button>
+                                        <button type="button" t-att-class="control.reliance === 'heavy' ? 'active' : ''" t-att-disabled="p.readonly"
+                                                t-on-click="() => this.reliance(control, 'heavy')">Heavy</button>
+                                    </span>
+                                </td>
+                                <td class="o_num" t-esc="control.suggested"/>
+                                <td class="o_num" t-esc="control.planned"/>
+                                <td><span class="o_ea_pd_init" t-foreach="control.assertions" t-as="code" t-key="code" t-esc="code"/></td>
+                                <td><span t-attf-class="o_ea_pd_badge is-{{ control.tone }}" t-esc="control.status"/></td>
+                                <td><button type="button" class="btn btn-link btn-sm o_ea_pd_link" t-on-click="() => this.open('control', control.id)">
+                                    <t t-if="control.drawn">Open the test</t><t t-else="">Draw the sample</t>
+                                </button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="o_ea_pd_note">A control appears here when it is ticked "To test" on its SCOT. Suggested size comes from the frequency and reliance (same table as on the SCOT page); a smaller planned size asks for a reason. If a tested control turns out not effective, the combined risk of the assertions it supports moves to "Not rely" and section 2 suggests more tests of details.</p>
+                </t>
+
+                <!-- Section 2: tests of details -->
+                <t t-else="">
+                    <t t-if="p.missing">
+                        <div class="o_ea_pd_empty">
+                            <span class="o_ea_pd_badge is-open">Nothing to design yet</span>
+                            <p>The tests of details follow the significant accounts and their combined risk: mark the significant accounts and assess their risk first.</p>
+                            <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_cra')">Open the combined risk assessment</button>
+                        </div>
+                    </t>
+                    <section class="o_ea_pd_account" t-foreach="p.accounts" t-as="account" t-key="account.code" t-att-data-account="account.code">
+                        <header class="o_ea_pd_acc_head" t-on-click="() => this.toggle(account)">
+                            <span class="o_ea_pd_caret" t-esc="isFolded(account) ? '▸' : '▾'"/>
+                            <strong><t t-esc="account.code"/> <t t-esc="account.label"/></strong>
+                            <span class="o_ea_pd_closing" t-esc="account.closing"/>
+                            <span class="o_ea_pd_acc_meta">
+                                <span>Combined risk:</span>
+                                <t t-foreach="account.levels" t-as="level" t-key="level.assertion">
+                                    <strong t-esc="level.assertion"/>
+                                    <span t-attf-class="o_ea_pd_badge {{ levelClass(level.level) }}" t-esc="level.label"/>
+                                </t>
+                                <span>· <t t-esc="mandatoryText(account)"/></span>
+                                <span t-if="account.chosen">· <t t-esc="altText(account)"/></span>
+                                <span t-elif="account.offered" class="o_ea_pd_badge is-open" t-esc="altText(account)"/>
+                                <span t-if="account.complete" class="o_ea_pd_badge is-good">Designed</span>
+                            </span>
+                        </header>
+                        <t t-if="!isFolded(account)">
+                            <div class="o_ea_pd_warn" t-foreach="account.missing" t-as="code" t-key="code" data-ea="missing-asp" t-esc="missingText(account, code)"/>
+                            <div class="o_ea_pd_warn" t-if="account.to_assess.length">
+                                <span t-esc="toAssessText(account)"/>
+                                <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_cra')">Open the combined risk assessment</button>
+                            </div>
+                            <div class="o_ea_pd_legacy" t-if="account.legacy">
+                                <span t-esc="legacyText(account)"/>
+                                <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_dsp_list')">Open the earlier list</button>
+                            </div>
+                            <p class="o_ea_pd_none" t-if="!account.rows.length">The library has no procedure for this account yet: add your own below.</p>
+                            <table class="o_ea_pd_grid" t-if="account.rows.length">
+                                <thead>
+                                    <tr>
+                                        <th class="o_tick"/><th>Code</th><th>Procedure</th>
+                                        <th class="o_dot" t-foreach="p.assertions" t-as="code" t-key="code" t-esc="code"/>
+                                        <th>Why it is here</th><th>Sample that feeds it</th><th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="account.rows" t-as="row" t-key="row.code" t-att-data-code="row.code"
+                                        t-att-class="row.selected ? 'is-selected' : 'is-offered'">
+                                        <td class="o_tick">
+                                            <input type="checkbox" t-att-checked="row.selected" t-att-disabled="!canTick(row)"
+                                                   t-att-aria-label="row.code" t-on-change="() => this.tick(account, row)"/>
+                                        </td>
+                                        <td><strong t-esc="row.code"/></td>
+                                        <td t-att-title="rowTip(row)">
+                                            <t t-esc="row.title"/>
+                                            <span class="o_ea_pd_kind" t-att-title="kindTip(row)" t-esc="kindLabel(row)"/>
+                                            <span class="o_ea_pd_lock" t-if="lockText(row)"><i class="fa fa-lock" aria-hidden="true"/> <t t-esc="lockText(row)"/></span>
+                                        </td>
+                                        <td class="o_dot" t-foreach="p.assertions" t-as="code" t-key="code" t-esc="dot(row, code)"/>
+                                        <td><span t-if="row.why" t-attf-class="o_ea_pd_why {{ whyClass(row.why_tone) }}" t-esc="row.why"/></td>
+                                        <td>
+                                            <t t-if="row.sample">
+                                                <a href="#" class="o_ea_pd_link" t-on-click.prevent="() => this.open('sample', row.sample.id)" t-esc="row.sample.title"/>
+                                                <div class="o_ea_pd_muted"><t t-esc="row.sample.count"/> items</div>
+                                            </t>
+                                            <t t-elif="row.selected and row.sample_mode === 'draw'">
+                                                <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-on-click="() => this.draw(row)">Draw the sample</button>
+                                            </t>
+                                            <span t-elif="row.selected and row.sample_mode === 'tool'" class="o_ea_pd_muted">No sample: done by the tool</span>
+                                            <span t-elif="row.selected" class="o_ea_pd_muted">No sample needed</span>
+                                        </td>
+                                        <td><span t-if="row.state" t-attf-class="o_ea_pd_badge {{ stateClass(row.state) }}" t-esc="row.state_label"/></td>
+                                    </tr>
+                                    <tr t-if="state.showMore[account.code]" t-foreach="account.more" t-as="item" t-key="'more-' + item.code" class="is-more">
+                                        <td class="o_tick"/>
+                                        <td><strong t-esc="item.code"/></td>
+                                        <td t-att-colspan="p.assertions.length + 4"><t t-esc="item.title"/> <span class="o_ea_pd_muted">(does not answer a relevant assertion of this account)</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="o_ea_pd_more">
+                                <t t-if="account.more.length and !state.showMore[account.code]">
+                                    <span t-esc="moreText(account)"/> ·
+                                    <a href="#" t-on-click.prevent="() => this.state.showMore[account.code] = true">show</a>
+                                </t>
+                                <t t-if="!p.readonly">
+                                    <t t-if="account.more.length and !state.showMore[account.code]"> · </t>
+                                    <a href="#" t-on-click.prevent="() => this.startAdding(account)">Add another procedure</a>
+                                </t>
+                            </div>
+                            <div class="o_ea_pd_add" t-if="state.adding === account.code">
+                                <input type="text" class="form-control form-control-sm" maxlength="800" t-model="state.text" placeholder="The procedure, in a sentence"/>
+                                <span class="o_ea_pd_muted">Assertions it answers:</span>
+                                <label t-foreach="account.levels" t-as="level" t-key="level.assertion">
+                                    <input type="checkbox" t-model="state.picked[level.assertion]"/> <t t-esc="level.assertion"/>
+                                </label>
+                                <button type="button" class="btn btn-primary btn-sm" t-on-click="() => this.addOwn(account)">Add</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.state.adding = null">Cancel</button>
+                            </div>
+                        </t>
+                    </section>
+                    <p class="o_ea_pd_note" t-if="p.accounts.length">Mandatory procedures (MSP) are ticked and locked: they come with every relevant assertion. Alternatives (ASP) are ticked by you; the tool marks the ones suggested by the combined risk (red = High, amber = Moderate, green = Low) and by conditions. An alternative can be unticked only until work on it starts. A High combined risk needs at least one alternative on that assertion before the account counts as designed. ● = assertion covered, ○ = would cover if chosen. "Draw the sample" opens the sampling tool already filled with this procedure's account and population; the sample comes back here and to the working paper.</p>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>
