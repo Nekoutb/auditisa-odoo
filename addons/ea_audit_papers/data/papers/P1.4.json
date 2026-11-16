@@ -2,20 +2,22 @@
  "code": "P1.4",
  "source": "lib/papers/acceptance.ts",
  "definition": {
-  "std": "ISA 210 ¶9–13, ¶A29",
+  "std": "ISA 210 ¶9–13, ¶A29 · ISA 260 ¶13–17",
   "ownsEn": "the agreed terms of the engagement",
   "ownsFr": "les termes convenus de la mission",
   "reqEn": [
    "We agree the terms of the audit engagement with management or those charged with governance, and record the agreed terms in an engagement letter or other suitable form of written agreement (ISA 210 ¶9–10). Agreement is reached before the audit work begins.",
    "The letter sets out the objective and scope of the audit, our responsibilities, the responsibilities of management, the applicable financial reporting framework, and reference to the expected form and content of any reports, together with a statement that circumstances may require a report to differ from that expected form (ISA 210 ¶10).",
    "Where law or regulation prescribes the terms in sufficient detail, we need not record them in the letter, but we do record that the law applies and that management acknowledges its responsibilities under the premise (ISA 210 ¶11–12).",
-   "On a recurring engagement we assess each period whether the terms require revision and whether the entity should be reminded of the existing terms (ISA 210 ¶13). Indicators include a change of senior management, a significant change in ownership, a significant change in the nature or size of the business, a change in legal or reporting requirements, a change in the framework, and any indication that management misunderstands the objective and scope of the audit (ISA 210 ¶A29)."
+   "On a recurring engagement we assess each period whether the terms require revision and whether the entity should be reminded of the existing terms (ISA 210 ¶13). Indicators include a change of senior management, a significant change in ownership, a significant change in the nature or size of the business, a change in legal or reporting requirements, a change in the framework, and any indication that management misunderstands the objective and scope of the audit (ISA 210 ¶A29).",
+   "Before fieldwork, we tell those charged with governance how we plan to carry out the audit: its scope, its timing and the significant risks we have identified, and for a listed entity our statement on independence (ISA 260 ¶15–17). When the people who govern the entity are the same people who manage it, a matter discussed with them as managers need not be raised with them a second time (ISA 260 ¶13). Part D records what was said, how, when, and the reply."
   ],
   "reqFr": [
    "Les termes de la mission sont convenus avec la direction ou les responsables de la gouvernance et consignés dans une lettre de mission avant le début des travaux (ISA 210 ¶9–10).",
    "La lettre précise l'objectif et l'étendue, nos responsabilités, celles de la direction, le référentiel applicable et la forme attendue des rapports (ISA 210 ¶10).",
    "Lorsque la loi fixe les termes de façon suffisamment détaillée, il suffit de le consigner (ISA 210 ¶11–12).",
-   "Pour une mission récurrente, apprécier chaque exercice si les termes doivent être révisés (ISA 210 ¶13, ¶A29)."
+   "Pour une mission récurrente, apprécier chaque exercice si les termes doivent être révisés (ISA 210 ¶13, ¶A29).",
+   "Avant les travaux, nous indiquons aux responsables de la gouvernance comment nous prévoyons de conduire l'audit : son étendue, son calendrier et les risques importants relevés, et pour une entité cotée notre déclaration d'indépendance (ISA 260 ¶15–17). Lorsque les personnes qui gouvernent l'entité sont aussi celles qui la dirigent, un point vu avec elles en tant que dirigeants n'a pas à leur être présenté une seconde fois (ISA 260 ¶13). La partie D consigne ce qui a été dit, sous quelle forme, à quelle date, et la réponse reçue."
   ],
   "conclEn": [
    "A signed engagement letter recording the agreed terms is on file, and planning work has not begun before that date."
@@ -135,6 +137,92 @@
       "kind": "input",
       "labelEn": "Recurring engagements: the factors assessed in deciding whether the terms require revision, and the conclusion reached",
       "labelFr": "Missions récurrentes : facteurs appréciés pour décider d'une révision des termes, et conclusion"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Part D — Planning communication with those charged with governance",
+    "titleFr": "Partie D — Communication de planification aux responsables de la gouvernance",
+    "introEn": "Planning evidence: record what was communicated before fieldwork. Where management also governs the entity, answer Yes to the first line and the block closes.",
+    "introFr": "Élément probant de planification : consigner ce qui a été communiqué avant les travaux. Si la direction gouverne aussi l'entité, répondre Oui à la première ligne et le bloc se referme.",
+    "collapse": {
+     "key": "tcwg_is_mgmt",
+     "value": "yes",
+     "noteEn": "Management is also the governing body: the planning matters were discussed with management and are not communicated a second time (ISA 260 ¶13).",
+     "noteFr": "La direction est aussi l'organe de gouvernance : les points de planification ont été vus avec la direction et ne sont pas communiqués une seconde fois (ISA 260 ¶13)."
+    },
+    "fields": [
+     {
+      "key": "tcwg_is_mgmt",
+      "kind": "select",
+      "labelEn": "Management is also the governing body (ISA 260 ¶13)",
+      "labelFr": "La direction est aussi l'organe de gouvernance (ISA 260 ¶13)",
+      "options": [
+       {
+        "value": "yes",
+        "en": "Yes",
+        "fr": "Oui"
+       },
+       {
+        "value": "no",
+        "en": "No",
+        "fr": "Non"
+       }
+      ]
+     },
+     {
+      "key": "tcwg_who",
+      "kind": "input",
+      "labelEn": "Who governs the entity (board, managing body, partners' meeting) and who received the communication",
+      "labelFr": "Qui gouverne l'entité (conseil, organe de gestion, assemblée des associés) et qui a reçu la communication"
+     },
+     {
+      "key": "tcwg_planned",
+      "kind": "input",
+      "labelEn": "What was communicated on the planned scope, the timing and the significant risks",
+      "labelFr": "Ce qui a été communiqué sur l'étendue prévue, le calendrier et les risques importants"
+     },
+     {
+      "key": "tcwg_independence",
+      "kind": "input",
+      "labelEn": "Statement on independence made, or why none was made",
+      "labelFr": "Déclaration d'indépendance faite, ou raison de son absence"
+     },
+     {
+      "key": "tcwg_form",
+      "kind": "select",
+      "labelEn": "Form of the communication",
+      "labelFr": "Forme de la communication",
+      "options": [
+       {
+        "value": "letter",
+        "en": "Letter",
+        "fr": "Lettre"
+       },
+       {
+        "value": "meeting",
+        "en": "Meeting",
+        "fr": "Réunion"
+       },
+       {
+        "value": "oral",
+        "en": "Oral",
+        "fr": "Orale"
+       }
+      ]
+     },
+     {
+      "key": "tcwg_when",
+      "kind": "input",
+      "labelEn": "Date of the communication. If it was oral: a short dated note of who said what, and the reply",
+      "labelFr": "Date de la communication. Si elle était orale : une courte note datée indiquant qui a dit quoi, et la réponse"
+     },
+     {
+      "key": "tcwg_response",
+      "kind": "input",
+      "labelEn": "Response received from those charged with governance",
+      "labelFr": "Réponse reçue des responsables de la gouvernance"
      }
     ]
    }

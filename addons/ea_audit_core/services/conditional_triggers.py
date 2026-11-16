@@ -24,9 +24,14 @@ _TEXT = {
 }
 _RETIRED_P_AND_L = re.compile(r"^E5\.[1-5]$")
 _RETIRED_TEXT = _lt("Income statement accounts are covered by the E4 indexes")
+# Merged into another paper (owner's decision of 2026-11-16, file_scope.RETIRED_CODES).
+_MERGED_TEXT = {
+    "P7.1": _lt("Now recorded in P1.4, Part D (planning communication with those charged with governance)"),
+    "S6.2": _lt("Now recorded in S6.1, Part E (direction, supervision and review by the partner)"),
+}
 
 
 def trigger_text(code, lang):
     """The reason a conditional task is not on the file, in ``lang``; False when none is known."""
-    label = _TEXT.get(code) or (_RETIRED_TEXT if _RETIRED_P_AND_L.match(code or "") else None)
+    label = _TEXT.get(code) or _MERGED_TEXT.get(code) or (_RETIRED_TEXT if _RETIRED_P_AND_L.match(code or "") else None)
     return label._translate(lang or "en_US") if label else False

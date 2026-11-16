@@ -5552,3 +5552,15 @@ msgstr "Comptes significatifs : mouvements signalés au-delà de %(pct)s et au-d
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Significant accounts: movements flagged above %(pct)s or above %(amount)s FCFA, set by %(name)s"
 msgstr "Comptes significatifs : mouvements signalés au-delà de %(pct)s ou au-delà de %(amount)s FCFA, fixé par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Now recorded in P1.4, Part D (planning communication with those charged with governance)"
+msgstr "Désormais consigné en P1.4, partie D (communication de planification aux responsables de la gouvernance)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Now recorded in S6.1, Part E (direction, supervision and review by the partner)"
+msgstr "Désormais consigné en S6.1, partie E (direction, supervision et revue par l'associé)"

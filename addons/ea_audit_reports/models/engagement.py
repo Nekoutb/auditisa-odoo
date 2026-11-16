@@ -572,7 +572,10 @@ class Engagement(models.Model):
         def present(candidate):
             return bool(Item.search_count([("engagement_id", "=", self.id), ("code", "=", candidate)]))
 
-        if kind == "planning_tcwg" and present("P7.1"):
+        # P7.1 is merged into P1.4 (2026-11-16): only a file that still has it active files there.
+        if kind == "planning_tcwg" and Item.search_count([
+            ("engagement_id", "=", self.id), ("code", "=", "P7.1"), ("conditional", "=", False),
+        ]):
             code = "P7.1"
         if not present(code) and code == "C5.11" and present("C5.1"):
             code = "C5.1"
@@ -628,8 +631,9 @@ class Engagement(models.Model):
             team = self.env["ea.audit.team.member"].sudo().search([
                 ("engagement_id", "=", self.id), ("state", "!=", "declined"), ("team_role", "!=", "eqr_reviewer"),
             ], order="id")
-            addressees = self._ea_paper_answers("P7.1", ["addressees"])
-            scope = self._ea_paper_answers("P7.1", ["scope"])
+            # P1.4 Part D since P7.1 was merged into it; an older file's P7.1 answers still count.
+            addressees = self._ea_paper_answers("P1.4", ["tcwg_who"]) or self._ea_paper_answers("P7.1", ["addressees"])
+            scope = self._ea_paper_answers("P1.4", ["tcwg_planned"]) or self._ea_paper_answers("P7.1", ["scope"])
             out["planning"] = {
                 "addressees": addressees[0] if addressees else "",
                 "scope": scope[0] if scope else "",

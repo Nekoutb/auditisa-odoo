@@ -39,7 +39,7 @@ SECTION_A = (
         "key": "a5",
         "en": "The audit strategy memorandum is prepared, and the planning report to those charged with governance where one is required.",
         "fr": "Le mémorandum de stratégie d'audit est établi, ainsi que le rapport de planification aux responsables de la gouvernance le cas échéant.",
-        "codes": ["S6.1", "S6.2", "P7.1"],
+        "codes": ["S6.1", "P1.4"],
         "na": True,
     },
     {
@@ -147,7 +147,7 @@ SECTION_B = (
         "key": "b9",
         "en": "Where necessary, all relevant matters have been brought to the attention of those charged with governance.",
         "fr": "Le cas échéant, tous les points pertinents ont été portés à la connaissance des responsables de la gouvernance.",
-        "codes": ["P7.1"],
+        "codes": ["P1.4"],
         "na": True,
     },
     {
@@ -234,7 +234,7 @@ SECTION_C = (
         "key": "c4",
         "en": "I have reviewed the planning communication to those charged with governance and am satisfied that all relevant matters were raised.",
         "fr": "J'ai revu la communication de planification aux responsables de la gouvernance et je suis satisfait que tous les points pertinents ont été soulevés.",
-        "codes": ["P7.1"],
+        "codes": ["P1.4"],
         "na": True,
     },
     {

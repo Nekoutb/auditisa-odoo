@@ -1698,3 +1698,27 @@ msgstr "%(level)s (questionnaire conclu le %(day)s)"
 #: code:addons/ea_audit_papers/models/paper.py:0
 msgid "The questionnaire is not finished yet."
 msgstr "Le questionnaire n'est pas encore terminé."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Yes, as recorded on P5.2 (team discussion)"
+msgstr "Oui, comme consigné en P5.2 (discussion de l'équipe)"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "No, as recorded on P5.2 (team discussion)"
+msgstr "Non, comme consigné en P5.2 (discussion de l'équipe)"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Marked not applicable on P5.2 (team discussion)"
+msgstr "Indiqué sans objet en P5.2 (discussion de l'équipe)"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the team discussion (P5.2), not answered yet"
+msgstr "la discussion de l'équipe (P5.2), pas encore renseignée"
