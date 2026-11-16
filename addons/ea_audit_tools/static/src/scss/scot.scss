@@ -1,0 +1,166 @@
+// SCOTs and controls (owner's mock-ups of 2026-11-16), in the approved app theme.
+$scot-green: #17694f;
+$scot-green-pale: #e6f2ed;
+$scot-ink: #1f2a33;
+$scot-muted: #66727c;
+$scot-line: #e3e7ea;
+$scot-grey: #eef1f3;
+$scot-amber: #d99a06;
+$scot-amber-pale: #fdf3dc;
+$scot-amber-ink: #8a5a10;
+$scot-red: #b42318;
+
+// ---- overview -------------------------------------------------------------------------------
+.o_ea_scot_bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px 4px;
+    .o_ea_scot_bar_buttons { display: flex; gap: 8px; }
+}
+.o_ea_scot_totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    span { display: flex; flex-direction: column; }
+    b { font-size: 1.05rem; color: $scot-ink; font-variant-numeric: tabular-nums; }
+    small { color: $scot-muted; }
+    .o_ea_bad { color: $scot-red; }
+}
+.o_ea_scot_legend { color: $scot-muted; font-size: .82rem; padding: 0 16px 6px; }
+
+.o_ea_scot_kanban .o_kanban_record {
+    border-radius: 10px;
+    overflow: hidden;
+}
+.o_ea_scot_card {
+    border-top: 4px solid $scot-line;
+    margin: -8px -8px 0;
+    padding: 12px 14px;
+    color: $scot-ink;
+    &_green { border-top-color: $scot-green; }
+    &_amber { border-top-color: $scot-amber; }
+    &_red { border-top-color: $scot-red; }
+    &_name { font-size: 1.05rem; font-weight: 700; }
+    &_sub { color: $scot-muted; font-size: .85rem; margin-bottom: 6px; }
+    &_tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+}
+.o_ea_scot_tag {
+    background: $scot-green-pale;
+    color: $scot-green;
+    border-radius: 10px;
+    padding: 1px 9px;
+    font-size: .8rem;
+}
+.o_ea_scot_steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+}
+.o_ea_scot_step {
+    border-radius: 4px;
+    padding: 4px 2px;
+    text-align: center;
+    font-size: .78rem;
+    &_done { background: $scot-green-pale; color: $scot-green; }
+    &_todo { background: $scot-amber-pale; color: $scot-amber-ink; }
+    &_none { background: $scot-grey; color: $scot-muted; }
+}
+.o_ea_scot_kpis {
+    display: flex;
+    gap: 18px;
+    .o_ea_scot_kpi { display: flex; flex-direction: column; }
+    b { font-size: 1rem; font-variant-numeric: tabular-nums; }
+    small { color: $scot-muted; }
+    .o_ea_warn { color: $scot-amber-ink; }
+}
+.o_ea_scot_empty {
+    display: flex;
+    flex-direction: column;
+    b { color: $scot-red; }
+    small { color: $scot-muted; }
+}
+
+// ---- inside a SCOT --------------------------------------------------------------------------
+.o_ea_tab_count {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 7px;
+    border-radius: 9px;
+    background: $scot-grey;
+    color: $scot-muted;
+    font-size: .75rem;
+    font-variant-numeric: tabular-nums;
+}
+.o_ea_scot_actions { display: flex; gap: 8px; margin: 4px 0 10px; }
+.o_ea_scot_note { color: $scot-muted; font-size: .82rem; margin: 6px 0; }
+
+.o_ea_scot_grid {
+    margin-top: 16px;
+    &_title { font-weight: 700; margin-bottom: 6px; color: $scot-ink; }
+}
+.o_ea_grid_table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+    th, td { border: 1px solid #dfe3e6; padding: 6px 10px; }
+    th { background: #f3f5f6; font-weight: 600; }
+    .o_ea_grid_col, .o_ea_grid_cell { text-align: center; width: 64px; }
+    .o_ea_grid_click { cursor: pointer; &:hover { background: $scot-green-pale; } }
+    .o_ea_grid_dot { color: $scot-green; }
+    .o_ea_grid_unanswered td:first-child { color: $scot-red; font-weight: 600; }
+}
+
+.o_ea_drop {
+    border: 2px dashed #b9cfc6;
+    border-radius: 10px;
+    background: #f6faf8;
+    padding: 14px;
+    text-align: center;
+    margin-bottom: 12px;
+    a { font-weight: 700; color: $scot-green; }
+    &_over { background: $scot-green-pale; border-color: $scot-green; }
+    &_options { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 8px; font-size: .85rem; }
+    &_options select { margin-left: 6px; }
+    &_hint { color: $scot-muted; font-size: .8rem; margin-top: 6px; }
+}
+.o_ea_doc {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid $scot-line;
+    &_ext {
+        min-width: 34px;
+        text-align: center;
+        background: #e8eef7;
+        color: #3d5a80;
+        border-radius: 4px;
+        font-size: .7rem;
+        font-weight: 700;
+        padding: 6px 2px;
+    }
+    &_main { flex: 1; min-width: 0; }
+    &_meta { color: $scot-muted; font-size: .8rem; }
+    &_edit { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    &_removed { color: $scot-muted; }
+}
+
+// ---- add a control (mock-up 3) ----------------------------------------------------------------
+.o_ea_suggestion {
+    background: $scot-green-pale;
+    color: $scot-green;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin: 4px 0 10px;
+}
+.o_ea_segmented .o_radio_item {
+    border: 1px solid $scot-line;
+    padding: 3px 10px;
+    margin-right: 0 !important;
+    &:has(input:checked) { background: $scot-green; color: #fff; }
+}

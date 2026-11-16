@@ -69,3 +69,14 @@ class TestFrench(ToolsCase):
             ("engagement_id", "=", self.engagement.id), ("index_code", "=", "L"),
         ])
         self.assertIn("La classe 20", schedule.alerts_label)
+
+    def test_the_frequency_list_reads_in_french(self):
+        fields = self.env["ea.audit.scot.control"].with_env(self.fr).fields_get(["frequency_code", "reliance", "control_type"])
+        self.assertIn(("monthly", "Mensuel"), fields["frequency_code"]["selection"])
+        self.assertIn(("heavy", "Forte / risque important"), fields["reliance"]["selection"])
+        self.assertIn(("it_dependent", "Manuel dépendant de l'informatique"), fields["control_type"]["selection"])
+        choices = self.env["ea.audit.control.wizard"].with_env(self.fr)._ea_frequency_choices()
+        self.assertIn(("monthly", "Mensuel   (2 · 4)"), choices)
+        self.assertIn(("daily", "Quotidien   (nombre requis)"), choices)
+        message = rule_error(self.fr, "below-suggestion-reason-required").args[0]
+        self.assertIn("plus petit que la taille suggérée", message)

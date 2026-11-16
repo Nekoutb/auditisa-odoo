@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- the SCOT cards with their totals and buttons above -->
+    <t t-name="ea_audit_tools.ScotKanbanView" t-inherit="web.KanbanView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <ScotTotalsBar t-if="eaEngagementId" engagementId="eaEngagementId" reload.bind="eaReload"/>
+        </xpath>
+    </t>
+
+    <t t-name="ea_audit_tools.ScotTotalsBar">
+        <div class="o_ea_scot_bar" t-if="state.totals">
+            <div class="o_ea_scot_bar_buttons">
+                <button t-if="state.totals.canWrite" type="button" class="btn btn-primary" t-on-click="newScot">New SCOT</button>
+                <button type="button" class="btn btn-secondary" t-on-click="exportExcel">Export to Excel</button>
+            </div>
+            <div class="o_ea_scot_totals">
+                <span><b t-esc="state.totals.scots"/><small>SCOTs</small></span>
+                <span><b t-esc="state.totals.controls"/><small>controls</small></span>
+                <span><b t-esc="state.totals.toTest"/><small>to test</small></span>
+                <span t-att-title="state.totals.uncoveredLabel">
+                    <b t-att-class="state.totals.uncovered ? 'o_ea_bad' : ''" t-esc="state.totals.uncovered"/>
+                    <small>significant accounts without a SCOT</small>
+                </span>
+            </div>
+        </div>
+        <div class="o_ea_scot_legend" t-if="state.totals">Green = complete, amber = to finish, red = not started. Click a card to open the SCOT.</div>
+    </t>
+
+    <!-- the counts on the five tabs: kept off-screen, written onto the tabs -->
+    <t t-name="ea_audit_tools.ScotTabCounts">
+        <span t-ref="root" class="d-none" t-esc="counts.join(',')"/>
+    </t>
+
+    <!-- which control answers which risk -->
+    <t t-name="ea_audit_tools.ScotGrid">
+        <div class="o_ea_scot_grid" t-if="state.grid and state.grid.wcgws.length">
+            <div class="o_ea_scot_grid_title">Which control answers which risk</div>
+            <table class="o_ea_grid_table">
+                <thead>
+                    <tr>
+                        <th>What can go wrong</th>
+                        <th t-foreach="state.grid.controls" t-as="control" t-key="control.id" class="o_ea_grid_col" t-att-title="control.name">
+                            <t t-esc="control.code"/>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="state.grid.wcgws" t-as="wcgw" t-key="wcgw.id" t-att-class="wcgw.answered ? '' : 'o_ea_grid_unanswered'">
+                        <td t-esc="wcgw.description"/>
+                        <td t-foreach="state.grid.controls" t-as="control" t-key="control.id"
+                            t-attf-class="o_ea_grid_cell #{state.grid.canEdit ? 'o_ea_grid_click' : ''}"
+                            t-on-click="() => this.toggle(wcgw, control)">
+                            <span t-if="isLinked(wcgw, control)" class="o_ea_grid_dot">●</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="o_ea_scot_note">
+                A risk row with no ● turns red: nothing answers it yet.
+                <t t-if="state.grid.canEdit"> Click a cell to link or unlink.</t>
+            </div>
+        </div>
+    </t>
+
+    <!-- the SCOT's documents -->
+    <t t-name="ea_audit_tools.ScotDocuments">
+        <div class="o_ea_scot_docs" t-if="state.docs">
+            <div t-if="state.docs.canUpload" t-attf-class="o_ea_drop #{state.over ? 'o_ea_drop_over' : ''}"
+                 t-on-dragover="onDragOver" t-on-dragleave="onDragLeave" t-on-drop="onDrop">
+                <div>
+                    <span>Drop files here or </span>
+                    <a href="#" role="button" t-on-click.prevent="choose">choose files</a>
+                </div>
+                <div class="o_ea_drop_options">
+                    <label>Type
+                        <select t-on-change="onTypeChoice" t-att-disabled="state.busy">
+                            <option t-foreach="state.docs.types" t-as="type" t-key="type[0]" t-att-value="type[0]"
+                                    t-att-selected="type[0] === state.type" t-esc="type[1]"/>
+                        </select>
+                    </label>
+                    <label>Linked to
+                        <select t-on-change="onControlChoice" t-att-disabled="state.busy">
+                            <option value="">No control</option>
+                            <option t-foreach="state.docs.controls" t-as="control" t-key="control[0]" t-att-value="control[0]" t-esc="control[1]"/>
+                        </select>
+                    </label>
+                </div>
+                <div class="o_ea_drop_hint">flowchart, process narrative, walkthrough evidence, policies</div>
+                <input type="file" multiple="multiple" class="d-none" t-ref="fileInput" t-on-change="onFileChange"/>
+            </div>
+            <div t-if="!state.docs.live.length" class="o_ea_scot_note">No document yet.</div>
+            <div t-foreach="state.docs.live" t-as="doc" t-key="doc.id" class="o_ea_doc">
+                <span class="o_ea_doc_ext" t-esc="doc.ext"/>
+                <div class="o_ea_doc_main">
+                    <a t-att-href="doc.url" t-esc="doc.name"/>
+                    <div class="o_ea_doc_meta">
+                        <t t-esc="doc.typeLabel"/>
+                        <t t-if="doc.controlCode"> · linked to <t t-esc="doc.controlCode"/></t>
+                        · v<t t-esc="doc.version"/> · <t t-esc="doc.by"/>, <t t-esc="doc.date"/>
+                    </div>
+                </div>
+                <div class="o_ea_doc_edit" t-if="state.docs.canUpload">
+                    <select t-on-change="(ev) => this.setType(doc, ev)" t-att-disabled="state.busy" aria-label="Type">
+                        <option t-foreach="state.docs.types" t-as="type" t-key="type[0]" t-att-value="type[0]"
+                                t-att-selected="type[0] === doc.type" t-esc="type[1]"/>
+                    </select>
+                    <select t-on-change="(ev) => this.setControl(doc, ev)" t-att-disabled="state.busy" aria-label="Control">
+                        <option value="">No control</option>
+                        <option t-foreach="state.docs.controls" t-as="control" t-key="control[0]" t-att-value="control[0]"
+                                t-att-selected="control[0] === doc.controlId" t-esc="control[1]"/>
+                    </select>
+                    <button t-if="state.docs.canRemove" type="button" class="btn btn-link btn-sm" t-on-click="() => this.remove(doc)" t-att-disabled="state.busy">Remove</button>
+                </div>
+            </div>
+            <t t-if="state.docs.removed.length">
+                <div class="o_ea_scot_note">Removed (restorable for 30 days)</div>
+                <div t-foreach="state.docs.removed" t-as="doc" t-key="doc.id" class="o_ea_doc o_ea_doc_removed">
+                    <span t-esc="doc.name"/>
+                    <button t-if="state.docs.canRemove" type="button" class="btn btn-link btn-sm" t-on-click="() => this.restore(doc)" t-att-disabled="state.busy">Restore</button>
+                </div>
+            </t>
+            <div class="o_ea_scot_note">Each file can be tagged and linked to a control. Files also appear on the S1.3 task. Removed files can be restored for 30 days.</div>
+        </div>
+    </t>
+</templates>

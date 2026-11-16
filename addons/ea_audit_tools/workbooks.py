@@ -6,7 +6,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
-from .services.control_labels import freq_label, type_short
+from .services.control_labels import type_short
+from .services.toc_sampling import frequency_label as freq_label
 
 HDR = "D9D9D9"
 BAND = "C0C0C0"

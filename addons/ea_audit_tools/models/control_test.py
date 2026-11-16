@@ -73,6 +73,7 @@ class ScotControlTests(models.Model):
         item = self.env["ea.audit.file.item"].sudo().search(
             [("engagement_id", "=", engagement.id), ("code", "=", "E1.2")], limit=1,
         )
+        control._ea_freeze_size()
         test = self.env["ea.audit.control.test"].sudo().create({
             "engagement_id": engagement.id, "control_id": control.id, "file_item_id": item.id or False,
             "description": description, "result": result, "note": note or False,
