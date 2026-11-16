@@ -3,8 +3,8 @@ import pytest
 
 from services.errors import ServiceError
 from services.subsequent import (
-    CURRENT_YEAR_TIMINGS, SUBSEQUENT, SUBSEQUENT_KINDS, SUBSEQUENT_MIN_DAYS, coverage_of, coverage_sentence, coverage_short,
-    coverage_warning, empty_coverage, ledger_coverage,
+    CURRENT_YEAR_TIMINGS, SUBSEQUENT, SUBSEQUENT_MIN_DAYS, coverage_of, coverage_sentence, coverage_short,
+    coverage_warning, empty_coverage, ledger_coverage, upload_line,
 )
 
 MAPPING = {"account": "Compte", "jeNumber": "N°", "journalDate": "Date", "debit": "D", "credit": "C"}
@@ -58,4 +58,10 @@ def test_a_short_ledger_is_warned_about_at_the_threshold():
 
 def test_the_kinds_and_the_timings():
     assert SUBSEQUENT not in CURRENT_YEAR_TIMINGS
-    assert set(SUBSEQUENT_KINDS) == {"journal_entries", "ar_open_items", "ap_open_items", "inventory_listing"}
+    assert set(CURRENT_YEAR_TIMINGS) == {"pre_audit", "post_audit", "prior_year"}
+
+
+def test_the_upload_line_of_other_kinds():
+    from datetime import date
+    assert upload_line("Fixed asset register", date(2026, 3, 5)) == "Next-year Fixed asset register uploaded on 05/03/2026."
+    assert upload_line("Immobilisations", date(2026, 3, 5), fr=True) == "Immobilisations de l'exercice suivant : importé le 05/03/2026."

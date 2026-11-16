@@ -13,7 +13,6 @@ from ..models.tool_record import grouped, is_french, upload_stamp
 from ..rules import rule_error
 from ..services.dataset_mapping import JE_KEY, JE_KEY_MAX, encode_je_key, je_key_columns
 from ..services.import_matching import JE_KEY_LABEL, TB_KIND, fields_of, groups_of, mandatory_marks, missing_fields, required_keys
-from ..services.subsequent import SUBSEQUENT, SUBSEQUENT_KINDS
 
 _RELOAD = {"type": "ir.actions.client", "tag": "soft_reload"}
 _SEPARATOR = {";": ";", ",": ",", "tab": "\t", "|": "|"}
@@ -238,8 +237,6 @@ class ImportWizard(models.TransientModel):
     def action_read(self):
         """Read the file: opens it and proposes a matching. Saves nothing of it."""
         self.ensure_one()
-        if self.timing == SUBSEQUENT and self.kind not in SUBSEQUENT_KINDS:
-            raise rule_error(self.env, "subsequent-kind")
         self.write({"sheet_id": False, "csv_separator": "auto", "decimal_separator": "auto", "date_format": "auto"})
         read = self._ea_load_columns()
         sheets = [Command.clear()] + [Command.create({"sequence": position, "name": name}) for position, name in enumerate(read["sheets"])]

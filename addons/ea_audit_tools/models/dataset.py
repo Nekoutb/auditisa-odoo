@@ -19,7 +19,7 @@ from ..services.import_matching import (
 )
 from ..services.subledger_kinds import SUB_LEDGER_KINDS, is_sub_ledger_kind
 from ..services.subledgers import detect_amount_column
-from ..services.subsequent import SUBSEQUENT, SUBSEQUENT_KINDS
+from ..services.subsequent import SUBSEQUENT
 from ..tabular import parse_table
 from .tool_record import french_date, grouped, is_french, upload_stamp
 from .tb import TIMING_SELECTION
@@ -41,9 +41,9 @@ KIND_SELECTION = [
     ("supplier_statements", "Supplier statements"),
 ]
 assert [kind for kind, _label in KIND_SELECTION] == SUB_LEDGER_KINDS
-# a dataset may also be of the year after the one audited (owner's request of 2026-11-16): the
-# trial balance may not, so its own TIMING_SELECTION stays as it was
-DATASET_TIMING_SELECTION = TIMING_SELECTION + [(SUBSEQUENT, "Subsequent period (next year)")]
+# every upload, the trial balance too, may be of the year after the one audited (owner's request
+# of 2026-11-16): one list of timings for all
+DATASET_TIMING_SELECTION = TIMING_SELECTION
 
 
 class Dataset(models.Model):
@@ -423,8 +423,6 @@ class EngagementDataset(models.Model):
         self._ea_tool_guard()
         if not is_sub_ledger_kind(kind) or timing not in dict(DATASET_TIMING_SELECTION):
             raise rule_error(self.env, "fields-required")
-        if timing == SUBSEQUENT and kind not in SUBSEQUENT_KINDS:
-            raise rule_error(self.env, "subsequent-kind")
         table, mapping = self._ea_dataset_read(kind, filename, content, mapping, header_row, options)
         if kind == "journal_entries":
             # the check screen's own refusal, here too: the screen is not the control

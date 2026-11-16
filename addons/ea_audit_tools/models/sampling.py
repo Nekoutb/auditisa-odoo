@@ -14,7 +14,7 @@ from ..services.engines import evaluate_sampling, record_tod_result, select_samp
 from ..services.errors import EngineError, ServiceError
 from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, lead_index_label
 from ..services.sampling_params import attribute_plan, evaluate_attribute, mus_plan
-from ..services.subsequent import CURRENT_YEAR_TIMINGS
+from ..services.subsequent import CURRENT_YEAR_TIMINGS, SUBSEQUENT
 from ..services.tod_plan import TOD_ASSURANCES, TOD_CRAS, plan_tod, stable_start_fraction
 from ..workbooks import CRA_LABEL, toc_sample_workbook, tod_workbook
 from .tool_record import decimal_label, fcfa, french_date, is_french
@@ -439,6 +439,9 @@ class EngagementSampling(models.Model):
         dataset = self.env["ea.audit.dataset"].sudo().search([("id", "=", int(dataset_id or 0)), ("engagement_id", "=", self.id)], limit=1)
         if not dataset:
             raise rule_error(self.env, "no-dataset")
+        if dataset.timing == SUBSEQUENT:
+            # the population of a sample is the year audited; the next year serves the cut-off only
+            raise rule_error(self.env, "subsequent-dataset")
         if file_item and file_item.sudo().engagement_id != self.sudo():
             raise rule_error(self.env, "not-found")
         if designed_procedure and (designed_procedure.sudo().engagement_id != self.sudo() or not designed_procedure.sudo().selected):

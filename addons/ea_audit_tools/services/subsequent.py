@@ -1,6 +1,6 @@
-"""The subsequent period: uploads of the year after the one audited (the next-year general ledger,
-and its receivables, payables and inventory listings). They serve the cut-off procedures and the
-search for unrecorded liabilities; they never stand in for the year audited."""
+"""The subsequent period: uploads of the year after the one audited. Every kind of upload, and the
+trial balance, may be of the next year (owner's request of 2026-11-16). They serve the cut-off
+procedures and the search for unrecorded liabilities; they never stand in for the year audited."""
 import re
 
 from ._js import _days_from_civil
@@ -9,8 +9,6 @@ from .gl_line import projector
 SUBSEQUENT = "subsequent"
 # below this many days after the year end, the next-year ledger is too short for cut-off work
 SUBSEQUENT_MIN_DAYS = 30
-# the kinds that may be uploaded for the next year
-SUBSEQUENT_KINDS = ("journal_entries", "ar_open_items", "ap_open_items", "inventory_listing")
 # what the year audited reads: every timing but the next year's
 CURRENT_YEAR_TIMINGS = ("pre_audit", "post_audit", "prior_year")
 
@@ -98,3 +96,11 @@ def coverage_warning(coverage, fr=False):
                 "demandez une version plus longue pour les tests de séparation des exercices." % SUBSEQUENT_MIN_DAYS)
     return ("The next-year general ledger covers less than %d days after year end: "
             "ask for a longer one for the cut-off tests." % SUBSEQUENT_MIN_DAYS)
+
+
+def upload_line(kind_label, day, fr=False):
+    """The line the upload list shows for a next-year upload other than the ledger."""
+    stamp = day.strftime("%d/%m/%Y")
+    if fr:
+        return "%s de l'exercice suivant : importé le %s." % (kind_label, stamp)
+    return "Next-year %s uploaded on %s." % (kind_label, stamp)

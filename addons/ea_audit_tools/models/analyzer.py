@@ -2,6 +2,7 @@
 import re
 from datetime import datetime, timezone
 
+from dateutil.relativedelta import relativedelta
 from markupsafe import Markup
 
 from odoo import api, fields, models
@@ -12,6 +13,7 @@ from ..services.dataset_mapping import all_fields
 from ..services.engines import RECON_PREFIXES, recon_preview, run_reconciliation, run_supplier_recon
 from ..services.errors import ServiceError
 from ..services.subledger_kinds import SUB_LEDGER_KINDS
+from ..services.subsequent import SUBSEQUENT
 from .tool_record import fcfa, french_date, is_french
 
 RECON_TASK = {
@@ -33,7 +35,8 @@ class DatasetAnalyzer(models.Model):
     def _compute_analyzer(self):
         for dataset in self:
             engagement = dataset.engagement_id
-            dataset.has_recon = dataset.kind in RECON_PREFIXES
+            # a next-year upload is not agreed to this year's trial balance
+            dataset.has_recon = dataset.kind in RECON_PREFIXES and dataset.timing != SUBSEQUENT
             dataset.recon_html = engagement._ea_recon_html(dataset) if dataset.has_recon else False
             dataset.aging_html = engagement._ea_aging_html(dataset) if dataset.kind in ("ar_open_items", "ap_open_items") else False
 
@@ -92,6 +95,9 @@ class EngagementAnalyzer(models.Model):
     def _ea_aging_of(self, dataset):
         rows = [row["data"] for row in self._ea_dataset_rows(dataset)]
         end = self.sudo().period_end
+        if dataset.timing == SUBSEQUENT:
+            # a next-year listing is aged at the next year end
+            end = end + relativedelta(years=1)
         stamp = int(datetime(end.year, end.month, end.day, tzinfo=timezone.utc).timestamp() * 1000)
         return aging(rows, dataset.mapping, stamp)
 
@@ -136,6 +142,8 @@ class EngagementAnalyzer(models.Model):
         dataset = self.env["ea.audit.dataset"].sudo().search([("id", "=", int(dataset_id or 0)), ("engagement_id", "=", self.id)], limit=1)
         if not dataset:
             raise rule_error(self.env, "no-dataset")
+        if dataset.timing == SUBSEQUENT:
+            raise rule_error(self.env, "subsequent-dataset")
         rows = self._ea_dataset_rows(dataset)
         prefixes = RECON_PREFIXES.get(dataset.kind)
         if not prefixes:
@@ -177,6 +185,8 @@ class EngagementAnalyzer(models.Model):
         ledger = Dataset.search([("id", "=", int(ledger_id or 0)), ("engagement_id", "=", self.id)], limit=1)
         if not statement or not ledger:
             raise rule_error(self.env, "no-dataset")
+        if SUBSEQUENT in (statement.timing, ledger.timing):
+            raise rule_error(self.env, "subsequent-dataset")
         try:
             result = run_supplier_recon(self._ea_dataset_rows(statement), self._ea_dataset_rows(ledger))
         except ServiceError as error:

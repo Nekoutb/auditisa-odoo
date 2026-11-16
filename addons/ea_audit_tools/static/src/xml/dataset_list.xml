@@ -12,6 +12,7 @@
         <div t-if="data" class="o_ea_subsequent_line" t-att-class="data.short ? 'is-short' : ''">
             <div class="o_ea_subsequent_sentence" t-esc="data.sentence"/>
             <div t-if="data.warning" class="o_ea_subsequent_warning" role="alert" t-esc="data.warning"/>
+            <div t-foreach="data.others or []" t-as="line" t-key="line_index" class="o_ea_subsequent_sentence" t-esc="line"/>
         </div>
     </t>
 </templates>

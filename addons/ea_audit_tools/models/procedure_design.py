@@ -351,7 +351,7 @@ class EngagementProcedureDesign(models.Model):
             return self._ea_paper_action(proc)
         kind = dataset_kind(proc.library_id._ea_rule() if proc.library_id else None, proc.index_code)
         dataset = self.env["ea.audit.dataset"].sudo().search([
-            ("engagement_id", "=", self.id), ("kind", "=", kind), ("superseded_at", "=", False),
+            ("engagement_id", "=", self.id), ("kind", "=", kind), ("superseded_at", "=", False), ("timing", "!=", "subsequent"),
         ], limit=1) if kind else self.env["ea.audit.dataset"]
         context = {"default_engagement_id": self.id, "default_designed_procedure_id": proc.id, "default_method": "mus"}
         if dataset:
