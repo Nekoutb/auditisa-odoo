@@ -3,6 +3,7 @@
     <t t-name="ea_audit_tools.FindingsPage">
         <div class="o_ea_ws" t-if="p" data-ea="findings-page">
             <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_ws_head">
                     <div>
                         <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · B5, C5.11</div>
@@ -40,6 +41,8 @@
                     <t t-esc="p.archiveBlock"/> significant deficiency(ies) not communicated in writing: this blocks the archive (ISA 265).
                 </div>
 
+                <div class="o_ea_with_docs">
+                <div class="o_ea_with_docs_main">
                 <div class="o_ea_ws_tabs" role="tablist">
                     <button type="button" t-foreach="tabs" t-as="tab" t-key="tab.key" role="tab"
                             t-att-class="{'is-active': state.tab === tab.key}" t-on-click="() => this.setTab(tab.key)">
@@ -147,6 +150,10 @@
                         <t t-if="f.closed">
                             <label class="o_ea_ws_label">How it was resolved</label>
                             <div class="o_ea_ws_box"><t t-esc="f.response"/> <span class="o_ea_ws_hint">(<t t-esc="f.closedBy"/>, <t t-esc="f.closedOn"/>)</span></div>
+                            <div class="o_ea_ws_closing" t-if="!p.readonly" data-ea="finding-reopen">
+                                <input type="text" class="o_ea_ws_input" t-model="state.reopening" placeholder="Why reopen it?"/>
+                                <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.reopen(f)">Reopen the finding</button>
+                            </div>
                         </t>
                         <t t-elif="f.route !== 'b5' and !p.readonly">
                             <label class="o_ea_ws_label">Close the finding</label>
@@ -156,22 +163,15 @@
                             </div>
                         </t>
 
-                        <label class="o_ea_ws_label">Documents</label>
-                        <label t-if="!p.readonly" t-att-class="'o_ea_ws_drop' + (state.drag ? ' is-drag' : '')"
-                               t-on-dragover="onDragOver" t-on-dragleave="onDragLeave" t-on-drop="onDrop">
-                            <input type="file" multiple="multiple" class="d-none" t-on-change="onPick"/>
-                            Drop evidence here or <b>choose files</b>
-                        </label>
-                        <p class="o_ea_ws_hint" t-if="!state.docs.length">No document yet.</p>
-                        <div class="o_ea_ws_doc" t-foreach="state.docs" t-as="doc" t-key="doc.id">
-                            <span class="o_ea_ws_ext" t-esc="doc.ext"/>
-                            <div class="o_ea_ws_docname">
-                                <a t-att-href="doc.url" target="_blank" t-esc="doc.name"/>
-                                <div class="o_ea_ws_hint"><t t-esc="doc.by"/> · <t t-esc="doc.date"/><t t-if="doc.version > 1" t-esc="' · v' + doc.version"/></div>
-                            </div>
-                            <button type="button" class="btn btn-link btn-sm" t-if="p.canRemove" t-on-click="() => this.remove(doc)">Remove</button>
-                        </div>
                     </div>
+                </div>
+                </div>
+                <EaDocsPane engagementId="engagementId" docs="current ? state.docs : undefined"
+                            subject="current ? current.ref + ' · ' + current.title : ''"
+                            idleText.translate="Click a finding to see and add its documents."
+                            hint.translate="Evidence of the finding: letters, extracts, screenshots."
+                            canUpload="Boolean(current) and !p.readonly" canRemove="Boolean(p.canRemove)"
+                            onUpload.bind="upload" onAttach.bind="attachExisting" onRemove.bind="remove"/>
                 </div>
             </div>
         </div>

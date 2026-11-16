@@ -3,6 +3,7 @@ import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { amount } from "@ea_audit_tools/js/figures";
+import { EaCrumbs, EaDocsPane } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 const STUDIO = "ea.audit.je.studio";
@@ -26,6 +27,7 @@ export function readAsBase64(file) {
 export class JePage extends Component {
     static template = "ea_audit_tools.JePage";
     static props = ["*"];
+    static components = { EaCrumbs, EaDocsPane };
 
     setup() {
         this.orm = useService("orm");
@@ -171,32 +173,23 @@ export class JePage extends Component {
         this.state.finding = null;
     }
 
+    // the support of the entry opened, in the pane at the right
     async attach(files) {
         const entry = this.entry;
         if (!entry || this.p.readonly) {
             return;
         }
         for (const file of files) {
-            const content = await readAsBase64(file);
-            this.show(await this.call("ea_je_attach", [this.studioId, entry.je, file.name, content]));
+            this.show(await this.call("ea_je_attach", [this.studioId, entry.je, file.name, file.content]));
         }
     }
 
-    onFiles(ev) {
-        const files = [...ev.target.files];
-        ev.target.value = "";
-        return this.attach(files);
-    }
-
-    onDrop(ev) {
-        ev.preventDefault();
-        this.state.dragging = false;
-        return this.attach([...(ev.dataTransfer?.files || [])]);
-    }
-
-    onDragOver(ev) {
-        ev.preventDefault();
-        this.state.dragging = true;
+    async attachExisting(ids) {
+        const entry = this.entry;
+        if (!entry || this.p.readonly) {
+            return;
+        }
+        this.show(await this.call("ea_je_attach_existing", [this.studioId, entry.je, ids]));
     }
 
     // ---- leaving -----------------------------------------------------------

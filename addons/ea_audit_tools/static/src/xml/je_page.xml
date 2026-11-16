@@ -3,6 +3,7 @@
     <t t-name="ea_audit_tools.JePage">
         <div class="o_ea_ws" t-if="p" data-ea="je-page">
             <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_ws_head">
                     <div>
                         <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · <span>E3.1 Journal entry testing</span></div>
@@ -37,6 +38,8 @@
                     <div class="o_ea_ws_kpi is-bad"><span>Entries with a problem</span><b t-esc="p.progress.problems"/></div>
                 </div>
 
+                <div class="o_ea_with_docs">
+                <div class="o_ea_with_docs_main">
                 <div class="o_ea_ws_tabs" role="tablist">
                     <button type="button" t-attf-class="{{ state.tab === 'ledger' ? 'is-on' : '' }}" t-on-click="() => this.setTab('ledger')">
                         1 Ledger <span t-if="p.checksOk" class="o_ea_ws_count is-good">✓</span>
@@ -144,14 +147,6 @@
                             <div class="o_ea_ws_detail_body">
                                 <textarea class="form-control o_ea_ws_note" rows="3" t-model="state.note" t-att-readonly="p.readonly"
                                           placeholder="What you checked and what you found. A note is needed to mark the entry."/>
-                                <div t-attf-class="o_ea_ws_drop {{ state.dragging ? 'is-over' : '' }}" t-if="!p.readonly"
-                                     t-on-dragover="onDragOver" t-on-dragleave="() => this.state.dragging = false" t-on-drop="onDrop">
-                                    <span>Drop support here or</span>
-                                    <label class="o_ea_ws_link">choose files<input type="file" multiple="multiple" class="d-none" t-on-change="onFiles"/></label>
-                                </div>
-                            </div>
-                            <div class="o_ea_ws_files" t-if="entry.fileList.length">
-                                <a t-foreach="entry.fileList" t-as="file" t-key="file.id" t-att-href="fileUrl(file)" target="_blank" t-esc="file.name"/>
                             </div>
                             <div class="o_ea_ws_finding" t-if="state.finding" data-ea="je-finding">
                                 <div class="o_ea_ws_row">
@@ -209,6 +204,13 @@
                         <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('action_designs')">Designs recorded</button>
                         <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('action_export')">Export the E3.1 workbook</button>
                     </div>
+                </div>
+                </div>
+                <EaDocsPane engagementId="engagementId" docs="entry ? entry.fileList : undefined"
+                            title.translate="Support" subject="entry ? entry.je + ' · ' + (entry.description or '') : ''"
+                            idleText.translate="Open an entry in Selected entries to see and file its support."
+                            canUpload="Boolean(entry) and !p.readonly"
+                            onUpload.bind="attach" onAttach.bind="attachExisting"/>
                 </div>
             </div>
         </div>

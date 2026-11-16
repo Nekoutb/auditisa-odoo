@@ -17,7 +17,7 @@ from ..services.ws_pages import (
     card_state, clean_item_patch, exceeds_tolerable, group_entries, je_progress, sample_items, toc_steps, tod_result_steps,
     tod_steps,
 )
-from .tool_record import grouped, is_french
+from .tool_record import french_date, grouped, is_french
 from .worksheet_pages import FINDING_KINDS
 
 MAX_SUPPORT_BYTES = 25 * 1024 * 1024
@@ -155,7 +155,12 @@ class EngagementWorksheets(models.Model):
         if not ids:
             return out
         for attachment in self.env["ir.attachment"].sudo().search([("res_model", "=", model), ("res_id", "in", list(ids))], order="id"):
-            out.setdefault(attachment.res_id, []).append({"id": attachment.id, "name": attachment.name})
+            name = attachment.name or ""
+            out.setdefault(attachment.res_id, []).append({
+                "id": attachment.id, "name": name, "url": "/web/content/%d?download=true" % attachment.id,
+                "ext": name.rsplit(".", 1)[-1][:4].upper() if "." in name else "DOC",
+                "by": attachment.create_uid.name or "", "date": french_date(attachment.create_date),
+            })
         return out
 
     def _ea_ws_readonly(self):
@@ -331,6 +336,43 @@ class EngagementWorksheets(models.Model):
         studio = self._ea_je_studio(studio_id)
         review = self._ea_je_review(studio, je_number)
         self.ea_ws_attach("ea.audit.je.review", review.id, filename, content_b64)
+        return self.ea_je_page(studio.id)
+
+    def ea_ws_attach_existing(self, model, res_id, row_ids):
+        """Documents already in THIS engagement, filed on a worksheet line without a new upload:
+        the stored file is the same (one copy per checksum), the access record is the line's."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        record = self._ea_ws_record(model, res_id)
+        wanted = {int(i) for i in (row_ids or []) if i}
+        sources = self.env["ea.audit.task.attachment"].sudo().browse(sorted(wanted)).exists()
+        if not wanted or len(sources) != len(wanted) or any(
+            row.deleted_at or row.engagement_id != self.sudo() for row in sources
+        ):
+            raise rule_error(self.env, "not-found")
+        created = []
+        for source in sources:
+            original = source.attachment_id
+            attachment = self.env["ir.attachment"].sudo().create({
+                "name": source.name, "raw": original.raw, "mimetype": original.mimetype or source.mime,
+                "res_model": model, "res_id": record.id,
+            })
+            created.append(attachment.id)
+            name = source.name
+            if model == "ea.audit.je.review":
+                self._ea_log("worksheet_support", "Support %s filed on journal entry %s" % (name, record.je_number))
+            elif model == "ea.audit.automation.run":
+                self._ea_log("worksheet_support", "Support %s filed on sample S-%d" % (name, record.id))
+            else:
+                self._ea_log("worksheet_support", "Support %s filed on control %s" % (name, record.name))
+        return created
+
+    def ea_je_attach_existing(self, studio_id, je_number, row_ids):
+        self.ensure_one()
+        self._ea_tool_guard()
+        studio = self._ea_je_studio(studio_id)
+        review = self._ea_je_review(studio, je_number)
+        self.ea_ws_attach_existing("ea.audit.je.review", review.id, row_ids)
         return self.ea_je_page(studio.id)
 
     def ea_je_finding(self, studio_id, je_number, description, finding_type="b5", amount=None, trivial_confirmed=False):

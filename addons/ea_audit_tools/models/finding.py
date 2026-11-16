@@ -101,6 +101,23 @@ class Finding(models.Model):
         })
         return True
 
+    def reopen(self, reason):
+        """A closed finding opened again (owner, 2026-11-16: no dead end after completion). The
+        reason is required and kept on the trail; the closing words stay there too."""
+        self.ensure_one()
+        self._ea_guard()
+        text = (reason or "").strip()
+        if not text:
+            raise rule_error(self.env, "response-required")
+        as_root = self.sudo()
+        if as_root.status != "cleared":
+            raise rule_error(self.env, "not-found")
+        as_root.write({"status": "open", "cleared_by_id": False, "cleared_at": False})
+        as_root.engagement_id.with_env(self.env)._ea_log(
+            "finding_reopened", "Finding %s reopened: %s" % (as_root.reference, text),
+        )
+        return True
+
     def save_deficiency_evaluation(
         self, grade, likelihood=None, magnitude=None, accounts_assertions=None, management_aware=None,
         indicators=None, related_ids=(), aggregation_note=None, communicated_on=None, recipient=None,

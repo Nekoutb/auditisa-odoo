@@ -210,6 +210,7 @@ class ScotOverview(models.Model):
         role = self.env.user._ea_firm_role()
         can_write = self._ea_can_edit("staff")
         return {
+            "engagementId": self.sudo().engagement_id.id,
             "live": list(live.values()),
             "removed": list(removed.values()),
             "canUpload": can_write,
@@ -230,6 +231,26 @@ class ScotOverview(models.Model):
         row_id = item.with_env(self.env).upload_attachment((_SCOT_TAG % self.id) + base, content_b64)
         row = self.env["ea.audit.task.attachment"].sudo().browse(row_id)
         row.write({"scot_id": self.id, "doc_type": doc_type, "control_id": control.id or False})
+        return self.ea_documents()
+
+    def attach_existing_documents(self, row_ids, doc_type="other", control_id=False):
+        """Documents already in the engagement, attached to this SCOT without a new upload."""
+        self.ensure_one()
+        self._ea_guard()
+        if doc_type not in dict(DOC_TYPE_SELECTION):
+            raise rule_error(self.env, "invalid-value")
+        control = self._ea_control_of(control_id)
+        item = self._ea_walkthrough_task()
+        tag = _SCOT_TAG % self.id
+        Attachment = self.env["ea.audit.task.attachment"].sudo()
+
+        def name_of(name):
+            # a document of another SCOT loses that SCOT's tag and takes this one's
+            base = re.sub(r"^SCOT \d+ - ", "", name or "")
+            return tag + base
+
+        created = item.with_env(self.env)._ea_attach_existing(row_ids, name_of=name_of)
+        Attachment.browse(created).write({"scot_id": self.id, "doc_type": doc_type, "control_id": control.id or False})
         return self.ea_documents()
 
     def set_document(self, document_id, doc_type=None, control_id=None):

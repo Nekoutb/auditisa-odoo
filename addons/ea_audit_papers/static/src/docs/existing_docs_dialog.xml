@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_papers.ExistingDocsDialog">
+        <Dialog title="title" size="'lg'">
+            <div class="o_ea_xdocs" data-ea="existing-docs">
+                <input type="search" class="form-control o_ea_xdocs_search" t-att-value="state.search" t-on-input="onSearch"
+                       placeholder="Search by name, type, task, who uploaded it or date" aria-label="Search the documents"/>
+                <p class="o_ea_xdocs_hint">Only the documents of this engagement are listed. Attaching one links the same file: nothing is uploaded again.</p>
+                <p class="o_ea_xdocs_empty" t-if="state.rows and !state.rows.length">No document matches.</p>
+                <div class="o_ea_xdocs_list" t-if="state.rows and state.rows.length">
+                    <table class="table table-sm o_ea_xdocs_table">
+                        <thead>
+                            <tr><th/><th>Document</th><th>Type</th><th>Task</th><th>Uploaded by</th><th>Date</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="state.rows" t-as="row" t-key="row.id" t-att-class="state.picked[row.id] ? 'is-picked' : ''"
+                                t-on-click="() => this.toggle(row)">
+                                <td><input type="checkbox" t-att-checked="state.picked[row.id]" t-att-aria-label="row.name"/></td>
+                                <td>
+                                    <span class="o_ea_xdocs_ext" t-esc="row.ext"/>
+                                    <t t-esc="row.name"/> <span class="o_ea_xdocs_muted">v<t t-esc="row.version"/></span>
+                                </td>
+                                <td t-esc="row.type or '—'"/>
+                                <td><strong t-esc="row.code"/> <span class="o_ea_xdocs_muted" t-esc="row.task"/></td>
+                                <td t-esc="row.by"/>
+                                <td t-esc="row.date"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button type="button" class="btn btn-primary" t-att-disabled="!pickedIds.length or state.busy" t-on-click="attach">
+                    Attach the selected documents <span class="badge text-bg-light" t-esc="pickedIds.length"/>
+                </button>
+                <button type="button" class="btn btn-secondary" t-on-click="() => this.props.close()">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

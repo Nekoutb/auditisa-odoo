@@ -1,10 +1,10 @@
 from fnmatch import fnmatchcase
 
-from odoo import models
+from odoo import fields, models
 
 from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 
-from ..services import acceptance_verdict, is_blank, paper_for
+from ..services import acceptance_verdict, document_library, is_blank, paper_for
 from ..services.completeness import eqr_decided
 
 
@@ -99,3 +99,36 @@ class Engagement(models.Model):
             or self.env["ea.audit.task.attachment"].sudo().search_count([("file_item_id", "=", item.id)])
             or self.env["ea.audit.section.conclusion"].sudo().search_count([("file_item_id", "=", item.id)])
         )
+
+    # ------------------------------------------------------------------
+    # The engagement's own documents, offered when a file is attached elsewhere in it
+    # ------------------------------------------------------------------
+
+    def _ea_document_rows(self):
+        """Every live evidence file of THIS engagement, as plain rows. Nothing of another file."""
+        self.ensure_one()
+        rows = self.env["ea.audit.task.attachment"].sudo().search([
+            ("engagement_id", "=", self.id), ("deleted_at", "=", False),
+        ])
+        typed = "doc_type" in rows._fields
+        labels = dict(rows._fields["doc_type"]._description_selection(self.env)) if typed else {}
+        found = []
+        for row in rows:
+            name = row.name or ""
+            found.append({
+                "id": row.id, "item_id": row.file_item_id.id, "name": name, "version": row.version,
+                "code": row.code or "", "task": row.file_item_id.display_name or "",
+                "type": labels.get(row.doc_type, "") if typed and row.doc_type else "",
+                "by": row.uploaded_by_id.name or "",
+                "date": fields.Date.context_today(self, row.uploaded_at).strftime("%d/%m/%Y") if row.uploaded_at else "",
+                "ext": name.rsplit(".", 1)[-1][:4].upper() if "." in name else "DOC",
+                "url": "/web/content/%d?download=true" % row.attachment_id.id,
+            })
+        return found
+
+    def ea_document_library(self, search=None):
+        """The picker of "Attach a document": this engagement's documents, latest versions, searched
+        in the name, type, task code, uploader and date. A team member only (team-only files)."""
+        self.ensure_one()
+        self._ea_require_access()
+        return document_library.library(self.sudo()._ea_document_rows(), search)

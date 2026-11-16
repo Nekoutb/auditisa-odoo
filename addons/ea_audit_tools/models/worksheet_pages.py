@@ -27,7 +27,7 @@ from ..services.worksheet_pages import (
     sad_totals,
     stage_steps,
 )
-from .tool_record import french_date, grouped, is_french
+from .tool_record import free_name, french_date, grouped, is_french
 
 #: What another record may raise: the three routes of the register.
 FINDING_KINDS = {"misstatement": "b5", "deficiency": "c1", "matter": "b4"}
@@ -116,6 +116,19 @@ class FindingPage(models.Model):
         row_id = host.with_env(self.env).upload_attachment(filename, content_b64)
         self.env["ea.audit.task.attachment"].sudo().browse(row_id).finding_id = root.id
         return row_id
+
+    def ea_attach_existing(self, row_ids):
+        """Documents already in the engagement, attached to this finding: no new upload. A name
+        another finding uses on the same task gets a number, so the two never share a chain."""
+        self.ensure_one()
+        root = self.sudo()
+        root.engagement_id.with_env(self.env)._ea_tool_guard()
+        host = root._ea_document_host()
+        created = host.with_env(self.env)._ea_attach_existing(
+            row_ids, name_of=lambda name: free_name(self.env, host, name, ("finding_id", "!=", root.id)),
+        )
+        self.env["ea.audit.task.attachment"].sudo().browse(created).write({"finding_id": root.id})
+        return created
 
     def ea_remove_document(self, document_id):
         """Removed as any evidence file is: a manager, restorable for 30 days on the task."""
@@ -387,6 +400,16 @@ class EngagementWorksheetPages(models.Model):
     def ea_findings_page_remove(self, finding_id, document_id):
         self.ensure_one()
         self._ea_page_finding(finding_id).ea_remove_document(document_id)
+        return self.ea_findings_page()
+
+    def ea_findings_page_attach(self, finding_id, row_ids):
+        self.ensure_one()
+        self._ea_page_finding(finding_id).ea_attach_existing(row_ids)
+        return self.ea_findings_page()
+
+    def ea_findings_page_reopen(self, finding_id, reason):
+        self.ensure_one()
+        self._ea_page_finding(finding_id).reopen(reason)
         return self.ea_findings_page()
 
     def ea_findings_page_documents(self, finding_id):

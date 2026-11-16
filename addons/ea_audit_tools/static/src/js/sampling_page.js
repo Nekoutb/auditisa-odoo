@@ -3,7 +3,7 @@ import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { amount } from "@ea_audit_tools/js/figures";
-import { readAsBase64 } from "@ea_audit_tools/js/je_page";
+import { EaCrumbs, EaDocsPane } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
 const RUN = "ea.audit.automation.run";
@@ -17,6 +17,7 @@ const RUN = "ea.audit.automation.run";
 export class SamplingPage extends Component {
     static template = "ea_audit_tools.SamplingPage";
     static props = ["*"];
+    static components = { EaCrumbs, EaDocsPane };
 
     setup() {
         this.orm = useService("orm");
@@ -177,34 +178,29 @@ export class SamplingPage extends Component {
         this.show(await this.run(RUN, "ea_sampling_conclude", [this.card.id], []));
     }
 
+    // the documents of the sample or control opened, in the pane at the right
+    get docModel() {
+        return this.card.kind === "toc" ? "ea.audit.scot.control" : RUN;
+    }
+
     async attach(files) {
         const card = this.card;
         if (!card || this.p.readonly) {
             return;
         }
-        const model = card.kind === "toc" ? "ea.audit.scot.control" : RUN;
         for (const file of files) {
-            const content = await readAsBase64(file);
-            await this.run(ENGAGEMENT, "ea_ws_attach", [this.engagementId], [model, card.id, file.name, content]);
+            await this.run(ENGAGEMENT, "ea_ws_attach", [this.engagementId], [this.docModel, card.id, file.name, file.content]);
         }
         await this.load();
     }
 
-    onFiles(ev) {
-        const files = [...ev.target.files];
-        ev.target.value = "";
-        return this.attach(files);
-    }
-
-    onDrop(ev) {
-        ev.preventDefault();
-        this.state.dragging = false;
-        return this.attach([...(ev.dataTransfer?.files || [])]);
-    }
-
-    onDragOver(ev) {
-        ev.preventDefault();
-        this.state.dragging = true;
+    async attachExisting(ids) {
+        const card = this.card;
+        if (!card || this.p.readonly) {
+            return;
+        }
+        await this.run(ENGAGEMENT, "ea_ws_attach_existing", [this.engagementId], [this.docModel, card.id, ids]);
+        await this.load();
     }
 
     // ---- leaving -----------------------------------------------------------

@@ -209,6 +209,10 @@ _ENTRIES = (
     [r"^Trial balance imported \((?P<status>\w+), v(?P<version>\d+), (?P<file>.+)\) — (?P<word>\w+)$",
      _lt("Trial balance imported (%(status)s, v%(version)s, %(file)s): %(word)s")],
     [r"^(?P<file>.+) exported by (?P<name>.+)$", _lt("%(file)s exported by %(name)s")],
+    # Owner, 2026-11-16: a document already in the engagement, attached here too (no new upload).
+    [r"^(?P<code>\S+): Attached from (?P<source>\S+): (?P<file>.+) v(?P<version>\S+)$",
+     _lt("%(code)s: existing document attached from %(source)s, %(file)s v%(version)s")],
+    [r"^Finding (?P<ref>.+) reopened: (?P<reason>.+)$", _lt("Finding %(ref)s reopened: %(reason)s")],
     [r"^(?P<code>\S+): (?P<file>.+) v(?P<version>\S+)$", _lt("%(code)s: evidence uploaded, %(file)s v%(version)s")],
     [r"^(?P<code>\S+): (?P<old>.+) renamed to (?P<new>.+)$", _lt("%(code)s: evidence %(old)s renamed to %(new)s")],
     [r"^(?P<code>\S+): Deleted: (?P<file>.+) \(restorable for (?P<days>\S+) days\)$",

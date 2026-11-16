@@ -5651,3 +5651,15 @@ msgstr "Procédure de substance %(index)s %(code)s rouverte"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Substantive procedure %(index)s %(code)s: %(count)s entries selected around year end"
 msgstr "Procédure de substance %(index)s %(code)s : %(count)s écritures sélectionnées autour de la clôture"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(code)s: existing document attached from %(source)s, %(file)s v%(version)s"
+msgstr "%(code)s : document existant joint depuis %(source)s, %(file)s v%(version)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Finding %(ref)s reopened: %(reason)s"
+msgstr "Constat %(ref)s rouvert : %(reason)s"

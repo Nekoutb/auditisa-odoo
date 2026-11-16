@@ -3,6 +3,7 @@
     <t t-name="ea_audit_tools.SadPage">
         <div class="o_ea_ws" t-if="p" data-ea="sad-page">
             <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_ws_head">
                     <div>
                         <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · C1.1, C3.1 · ISA 450</div>

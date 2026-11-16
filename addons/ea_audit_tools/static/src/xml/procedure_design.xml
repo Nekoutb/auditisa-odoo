@@ -3,7 +3,7 @@
     <t t-name="ea_audit_tools.ProcedureDesignPage">
         <div class="o_ea_pd" t-if="p" data-ea="procedure-design">
             <div class="o_ea_pd_card">
-                <div class="o_ea_pd_crumb"><span>Tools</span> / <strong>Procedure design</strong></div>
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_pd_head">
                     <div>
                         <h1>Procedure design</h1>

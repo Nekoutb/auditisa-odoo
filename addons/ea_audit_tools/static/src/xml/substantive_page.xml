@@ -4,8 +4,8 @@
         <div class="o_ea_px" t-if="p" data-ea="substantive-page">
             <div class="o_ea_px_top">
                 <div class="o_ea_px_actions">
+                    <EaCrumbs engagementId="engagementId"/>
                     <a class="btn btn-primary btn-sm" t-att-href="exportUrl()">Export to Excel</a>
-                    <span class="o_ea_px_crumb">Tools / <strong>Substantive procedures</strong></span>
                 </div>
                 <div class="o_ea_px_stats">
                     <div><strong t-esc="p.stats.designed"/><span>procedures designed</span></div>
@@ -60,8 +60,9 @@
     <t t-name="ea_audit_tools.ProcedurePaper">
         <div class="o_ea_px" t-if="p" data-ea="procedure-paper">
             <div class="o_ea_px_card o_ea_px_head">
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_px_crumb">
-                    <a href="#" t-on-click.prevent="() => this.open('action_tool_substantive')">Substantive procedures</a> / <t t-esc="p.index"/> <t t-esc="p.indexLabel"/> / <strong t-esc="p.code"/>
+                    <a href="#" t-on-click.prevent="() => this.open('action_tool_substantive')">All substantive procedures</a> · <t t-esc="p.index"/> <t t-esc="p.indexLabel"/> · <strong t-esc="p.code"/>
                 </div>
                 <div class="o_ea_px_headrow">
                     <div>
@@ -89,6 +90,7 @@
                 </div>
             </div>
 
+            <div class="o_ea_with_docs">
             <div class="o_ea_px_cols">
                 <div class="o_ea_px_col">
                     <!-- Steps -->
@@ -287,24 +289,6 @@
                 </div>
 
                 <div class="o_ea_px_col">
-                    <!-- Evidence -->
-                    <section class="o_ea_px_card" data-ea="evidence">
-                        <h3>Evidence</h3>
-                        <label t-attf-class="o_ea_px_drop {{ state.dragging ? 'is-over' : '' }}" t-if="editable"
-                               t-on-dragover="onDragOver" t-on-dragleave="() => this.state.dragging = false" t-on-drop="onDrop">
-                            Drop files here or <strong>choose files</strong>
-                            <input type="file" multiple="multiple" class="d-none" t-on-change="onFiles"/>
-                        </label>
-                        <ul class="o_ea_px_files">
-                            <li t-foreach="p.evidence" t-as="file" t-key="file.id">
-                                <a t-att-href="downloadUrl(file.attachment_id)"><t t-esc="file.name"/> (v<t t-esc="file.version"/>)</a>
-                                <small><t t-esc="file.by"/> · <t t-esc="file.date"/></small>
-                                <button type="button" class="btn btn-link btn-sm p-0" t-if="editable" t-on-click="() => this.removeFile(file)">Remove</button>
-                            </li>
-                        </ul>
-                        <p class="o_ea_px_muted" t-if="!p.evidence.length">No evidence filed yet.</p>
-                    </section>
-
                     <!-- Conclusion -->
                     <section class="o_ea_px_card" data-ea="conclusion">
                         <h3>Conclusion</h3>
@@ -366,6 +350,11 @@
                         <div class="o_ea_px_info">A finding added here goes straight to the Findings page; a misstatement also to the Summary of audit differences.</div>
                     </section>
                 </div>
+            </div>
+            <EaDocsPane engagementId="engagementId" docs="p.evidence" title.translate="Evidence"
+                        subject="p.code + ' · ' + p.title" emptyText.translate="No evidence filed yet."
+                        canUpload="editable" canRemove="editable"
+                        onUpload.bind="attach" onAttach.bind="attachExisting" onRemove.bind="removeFile"/>
             </div>
         </div>
     </t>

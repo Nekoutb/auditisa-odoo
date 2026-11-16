@@ -3,6 +3,7 @@
     <t t-name="ea_audit_tools.SamplingPage">
         <div class="o_ea_ws" t-if="p" data-ea="sampling-page">
             <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
                 <div class="o_ea_ws_head">
                     <div>
                         <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · <span>Sampling</span></div>
@@ -34,6 +35,8 @@
                     <span t-foreach="p.prerequisites" t-as="item" t-key="item_index" t-attf-class="o_ea_ws_chip {{ item.ok ? 'is-good' : 'is-warn' }}" t-esc="item.label"/>
                 </div>
 
+                <div class="o_ea_with_docs">
+                <div class="o_ea_with_docs_main">
                 <div class="o_ea_ws_tabs" role="tablist">
                     <button type="button" t-attf-class="{{ state.tab === 'toc' ? 'is-on' : '' }}" t-on-click="() => this.setTab('toc')">
                         Tests of controls <span class="o_ea_ws_count is-good" t-esc="p.toc.length"/>
@@ -207,15 +210,15 @@
                             <div class="o_ea_ws_muted" t-if="card.kind === 'tod' and !card.concluded and !card.allTested">Enter the audited value of every item to record the conclusion.</div>
                         </t>
 
-                        <div t-attf-class="o_ea_ws_drop {{ state.dragging ? 'is-over' : '' }}" t-if="!p.readonly"
-                             t-on-dragover="onDragOver" t-on-dragleave="() => this.state.dragging = false" t-on-drop="onDrop">
-                            <span>Drop documents here or</span>
-                            <label class="o_ea_ws_link">choose files<input type="file" multiple="multiple" class="d-none" t-on-change="onFiles"/></label>
-                        </div>
-                        <div class="o_ea_ws_files" t-if="card.files.length">
-                            <a t-foreach="card.files" t-as="file" t-key="file.id" t-att-href="fileUrl(file)" target="_blank" t-esc="file.name"/>
-                        </div>
                     </aside>
+                </div>
+                </div>
+                <EaDocsPane engagementId="engagementId" docs="card ? card.files : undefined"
+                            subject="card ? card.title : ''"
+                            idleText.translate="Open a sample or a control to see and file its documents."
+                            hint.translate="Support of the items tested: invoices, confirmations, extracts."
+                            canUpload="Boolean(card) and !p.readonly"
+                            onUpload.bind="attach" onAttach.bind="attachExisting"/>
                 </div>
             </div>
         </div>

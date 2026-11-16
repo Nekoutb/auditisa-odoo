@@ -103,6 +103,7 @@ export const LABELS = {
     evidence: _t("Attachments"),
     noEvidence: _t("No files."),
     upload: _t("Attach a file"),
+    attachExisting: _t("Pick from this engagement"),
     remove: _t("Remove"),
     rename: _t("Rename"),
     renameDone: _t("OK"),

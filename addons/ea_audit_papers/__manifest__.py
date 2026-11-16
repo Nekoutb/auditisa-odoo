@@ -15,6 +15,7 @@
     "assets": {
         "web.assets_backend": [
             "ea_audit_papers/static/src/paper/**/*",
+            "ea_audit_papers/static/src/docs/**/*",
         ],
     },
     "post_init_hook": "post_init_hook",

@@ -1247,10 +1247,12 @@ msgid "Still to complete: %(parts)s."
 msgstr "Reste à compléter : %(parts)s."
 
 #. module: ea_audit_papers
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_review_note__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_section_conclusion__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__file_item_id
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
 msgid "Task"
 msgstr "Tâche"
 
@@ -1782,6 +1784,7 @@ msgstr "Votre signature : cliquez pour la retirer"
 #. module: ea_audit_papers
 #. odoo-javascript
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1863,3 +1866,69 @@ msgstr "C4.2 reste au dossier : elle contient déjà des travaux ou un réviseur
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "the team discussion (P5.2), not answered yet"
 msgstr "la discussion de l'équipe (P5.2), pas encore renseignée"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Search by name, type, task, who uploaded it or date"
+msgstr "Rechercher par nom, type, tâche, auteur du dépôt ou date"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Search the documents"
+msgstr "Rechercher dans les documents"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Only the documents of this engagement are listed. Attaching one links the same file: nothing is uploaded again."
+msgstr "Seuls les documents de cette mission sont listés. En joindre un relie le même fichier : rien n'est déposé à nouveau."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "No document matches."
+msgstr "Aucun document ne correspond."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Document"
+msgstr "Document"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Type"
+msgstr "Type"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Uploaded by"
+msgstr "Déposé par"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.xml:0
+msgid "Attach the selected documents"
+msgstr "Joindre les documents sélectionnés"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/docs/existing_docs_dialog.js:0
+msgid "Attach a document of this engagement"
+msgstr "Joindre un document de cette mission"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Pick from this engagement"
+msgstr "Choisir dans cette mission"

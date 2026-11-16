@@ -1,0 +1,72 @@
+// Shared by every one-page tool (owner, 2026-11-16): the trail back, and the documents pane
+// at the right of the page. App theme: green #17694f, pale green #e6f2ed, ink #1f2a33,
+// muted #66727c, lines #e3e7ea.
+
+.o_ea_crumbs {
+    display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 13px; color: #66727c; min-width: 0;
+    ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0; margin: 0; padding: 0; list-style: none; min-width: 0; }
+    li { display: inline-flex; align-items: center; white-space: nowrap; }
+    li + li::before { content: "/"; margin: 0 7px; color: #b5bdc4; }
+    a { color: #17694f; font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    li.is-current { color: #1f2a33; font-weight: 600; white-space: normal; }
+    .o_ea_crumbs_back {
+        flex: 0 0 auto; display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px;
+        border: 1px solid #e3e7ea; background: #fff; font-size: 14px; line-height: 1;
+        &:hover { background: #e6f2ed; text-decoration: none; }
+    }
+}
+
+// A page with its documents at the right: the work on the left, the pane always visible.
+.o_ea_with_docs {
+    display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start;
+    > .o_ea_docs { position: sticky; top: 0; }
+    @media (max-width: 1100px) {
+        grid-template-columns: minmax(0, 1fr);
+        > .o_ea_docs { position: static; }
+    }
+}
+
+.o_ea_docs {
+    background: #fff; border: 1px solid #e3e7ea; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #1f2a33; min-width: 0;
+    h3 { margin: 0; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .o_ea_docs_head { margin-bottom: 8px; }
+    .o_ea_docs_subject { color: #66727c; font-size: 12px; margin-top: 2px; overflow-wrap: anywhere; }
+    .o_ea_docs_count { background: #e6f2ed; color: #17694f; border-radius: 9px; padding: 0 7px; font-size: 11px; }
+    .o_ea_docs_muted { color: #66727c; font-size: 12px; }
+    p.o_ea_docs_muted { margin: 6px 0; }
+    .o_ea_docs_drop {
+        border: 1.5px dashed #c6d3cd; border-radius: 9px; padding: 10px; text-align: center; background: #fafcfb;
+        display: flex; flex-direction: column; gap: 8px;
+        &.is-over { border-color: #17694f; background: #e6f2ed; }
+    }
+    .o_ea_docs_ways { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .o_ea_docs_options {
+        display: grid; gap: 6px; text-align: left;
+        label { display: grid; gap: 2px; font-size: 12px; color: #66727c; margin: 0; }
+    }
+    .o_ea_docs_list { margin-top: 8px; }
+    .o_ea_docs_item {
+        display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-top: 1px solid #e3e7ea;
+        &:first-child { border-top: 0; }
+    }
+    .o_ea_docs_ext {
+        flex: 0 0 auto; min-width: 36px; padding: 2px 4px; border-radius: 5px; background: #e6f2ed; color: #17694f;
+        font-size: 10px; font-weight: 700; text-align: center;
+    }
+    .o_ea_docs_main { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; a { color: #17694f; font-weight: 600; } }
+    .o_ea_docs_edit { display: grid; gap: 4px; margin-top: 4px; }
+    .o_ea_docs_remove { flex: 0 0 auto; padding: 0; }
+    .o_ea_docs_removed { margin-top: 8px; padding-top: 6px; border-top: 1px solid #e3e7ea; }
+}
+
+.o_ea_with_docs_main { min-width: 0; }
+// Beside the pane, a page's own two columns stack sooner: each keeps a readable width.
+@media (max-width: 1500px) {
+    .o_ea_ws .o_ea_with_docs .o_ea_ws_split,
+    .o_ea_ws .o_ea_with_docs .o_ea_ws_split.is-result,
+    .o_ea_px .o_ea_with_docs .o_ea_px_cols { grid-template-columns: minmax(0, 1fr); }
+}
+.o_ea_px_actions .o_ea_crumbs { margin: 0; }
+// The SCOT form: the tabs at the left, the documents always at the right.
+.o_ea_scot_form .o_ea_scot_layout { margin-top: 8px; }

@@ -438,6 +438,7 @@
                 <t t-esc="t('upload')"/>
                 <input type="file" data-eap="upload" t-on-change="(ev) => this.upload(ev)"/>
             </label>
+            <button type="button" class="eap-btn eap-upload" data-eap="attach-existing" t-on-click="() => this.pickExisting()" t-esc="t('attachExisting')"/>
             <p class="eap-muted eap-small" t-if="signedRows.length" t-esc="t('uploadVoids')"/>
         </t>
     </div>
