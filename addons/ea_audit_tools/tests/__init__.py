@@ -19,3 +19,4 @@ from . import test_grid_commentary_team
 from . import test_significance_variance
 from . import test_assertion_picker
 from . import test_scot_controls
+from . import test_worksheet_pages

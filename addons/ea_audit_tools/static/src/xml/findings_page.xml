@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.FindingsPage">
+        <div class="o_ea_ws" t-if="p" data-ea="findings-page">
+            <div class="o_ea_ws_card">
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · B5, C5.11</div>
+                        <h1>Findings</h1>
+                    </div>
+                    <div class="o_ea_ws_tools">
+                        <button type="button" class="btn btn-primary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('action_open_finding_wizard')">New finding</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_sad')">Audit differences</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_export_findings')">Export to Excel</button>
+                    </div>
+                </div>
+
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the findings but does not change them.</t>
+                </div>
+
+                <div class="o_ea_ws_progress">
+                    <span class="o_ea_ws_meter">
+                        <i class="is-green" t-att-style="style(p.progress.closed)"/>
+                        <i class="is-amber" t-att-style="style(p.progress.waiting)"/>
+                        <i class="is-red" t-att-style="style(p.progress.significant)"/>
+                    </span>
+                    <span t-esc="p.progressText"/>
+                </div>
+
+                <div class="o_ea_ws_cards">
+                    <div class="o_ea_ws_kpi is-green"><span>All findings</span><b t-esc="p.summary.total"/></div>
+                    <div class="o_ea_ws_kpi is-red"><span>Significant deficiencies</span><b t-esc="p.summary.significant"/></div>
+                    <div class="o_ea_ws_kpi is-amber"><span>Waiting for management's answer</span><b t-esc="p.summary.waiting"/></div>
+                    <div class="o_ea_ws_kpi is-amber"><span>Not yet reported to management</span><b t-esc="p.summary.notReported"/></div>
+                    <div class="o_ea_ws_kpi is-grey"><span>Linked audit differences</span><b t-esc="p.summary.linked"/></div>
+                </div>
+                <div class="o_ea_ws_alert" t-if="p.archiveBlock" data-ea="archive-block">
+                    <t t-esc="p.archiveBlock"/> significant deficiency(ies) not communicated in writing: this blocks the archive (ISA 265).
+                </div>
+
+                <div class="o_ea_ws_tabs" role="tablist">
+                    <button type="button" t-foreach="tabs" t-as="tab" t-key="tab.key" role="tab"
+                            t-att-class="{'is-active': state.tab === tab.key}" t-on-click="() => this.setTab(tab.key)">
+                        <t t-esc="tab.label"/> <span t-att-class="'o_ea_ws_count ' + (tab.tone ? 'is-' + tab.tone : '')" t-esc="tab.count"/>
+                    </button>
+                </div>
+
+                <div class="o_ea_ws_split">
+                    <div class="o_ea_ws_left">
+                        <p class="o_ea_ws_empty" t-if="!visible.length">No finding at this stage.</p>
+                        <table class="o_ea_ws_grid" t-else="">
+                            <thead>
+                                <tr>
+                                    <th>Ref.</th><th>Finding</th><th>Paper</th><th>Severity</th>
+                                    <th class="o_num">Amount (FCFA)</th><th>Stage</th><th class="o_num">Docs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="visible" t-as="f" t-key="f.id" t-on-click="() => this.select(f)"
+                                    t-att-class="'is-' + f.tone + (f.id === state.selected ? ' is-selected' : '')">
+                                    <td class="o_ea_ws_ref"><t t-esc="f.ref"/></td>
+                                    <td><t t-esc="f.title"/></td>
+                                    <td t-att-title="f.paperTitle"><t t-esc="f.paper"/></td>
+                                    <td><span t-att-class="'o_ea_ws_badge is-' + f.tone" t-esc="f.severityLabel"/></td>
+                                    <td class="o_num"><t t-esc="f.amount"/></td>
+                                    <td><span t-att-class="'o_ea_ws_badge is-' + f.stageTone" t-esc="f.stageLabel"/></td>
+                                    <td class="o_num"><t t-esc="f.docs"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_ws_legend">Red = significant deficiency · amber = deficiency · grey = other matter or misstatement. Click a row to open it on the right. A finding moves on as its assessment, management's answer, the written report and the closing are recorded.</p>
+                    </div>
+
+                    <div class="o_ea_ws_right" t-if="current" data-ea="finding-detail">
+                        <t t-set="f" t-value="current"/>
+                        <div class="o_ea_ws_dtitle"><b t-esc="f.ref"/> · <t t-esc="f.title"/></div>
+                        <div class="o_ea_ws_dsub" t-esc="f.subtitle"/>
+                        <div class="o_ea_ws_steps">
+                            <span t-foreach="f.steps" t-as="step" t-key="step.key" t-att-class="'is-' + step.state">
+                                <t t-esc="step.label"/><t t-if="step.state === 'done'"> ✓</t>
+                            </span>
+                        </div>
+
+                        <label class="o_ea_ws_label">What we found</label>
+                        <textarea class="o_ea_ws_text" t-att-readonly="p.readonly" t-on-change="(ev) => this.onText(f, 'detail', ev)" t-att-value="f.detail"/>
+                        <label class="o_ea_ws_label">Why it matters</label>
+                        <textarea class="o_ea_ws_text" t-att-readonly="p.readonly" t-on-change="(ev) => this.onText(f, 'impact', ev)" t-att-value="f.impact"/>
+                        <label class="o_ea_ws_label">What we recommend</label>
+                        <textarea class="o_ea_ws_text" t-att-readonly="p.readonly" t-on-change="(ev) => this.onText(f, 'recommendation', ev)" t-att-value="f.recommendation"/>
+                        <label class="o_ea_ws_label">Management's answer</label>
+                        <textarea t-att-class="'o_ea_ws_text' + (f.answer ? '' : ' is-waiting')" t-att-readonly="p.readonly"
+                                  placeholder="Waiting for management's answer"
+                                  t-on-change="(ev) => this.onText(f, 'management_response', ev)" t-att-value="f.answer"/>
+
+                        <t t-if="f.evaluation">
+                            <label class="o_ea_ws_label">ISA 265 assessment</label>
+                            <div class="o_ea_ws_eval" data-ea="isa265">
+                                <div class="o_ea_ws_evrow">
+                                    <span>Likelihood</span>
+                                    <span class="o_ea_ws_seg">
+                                        <button type="button" t-foreach="p.choices.likelihood" t-as="c" t-key="c[0]" t-att-disabled="p.readonly"
+                                                t-att-class="{'is-on': f.evaluation.likelihood === c[0]}" t-on-click="() => this.evaluate(f, 'likelihood', c[0])"><t t-esc="c[1]"/></button>
+                                    </span>
+                                </div>
+                                <div class="o_ea_ws_evrow">
+                                    <span>Magnitude</span>
+                                    <span class="o_ea_ws_seg">
+                                        <button type="button" t-foreach="p.choices.magnitude" t-as="c" t-key="c[0]" t-att-disabled="p.readonly"
+                                                t-att-class="{'is-on': f.evaluation.magnitude === c[0]}" t-on-click="() => this.evaluate(f, 'magnitude', c[0])"><t t-esc="c[1]"/></button>
+                                    </span>
+                                </div>
+                                <div class="o_ea_ws_evrow">
+                                    <span>Severity</span>
+                                    <span class="o_ea_ws_seg">
+                                        <button type="button" t-foreach="p.choices.grade" t-as="c" t-key="c[0]" t-att-disabled="p.readonly"
+                                                t-att-class="{'is-on': f.evaluation.grade === c[0]}" t-on-click="() => this.evaluate(f, 'grade', c[0])"><t t-esc="c[1]"/></button>
+                                    </span>
+                                    <span class="o_ea_ws_hint" t-if="f.evaluation.suggestedLabel">suggested: <t t-esc="f.evaluation.suggestedLabel"/></span>
+                                </div>
+                                <div class="o_ea_ws_evrow">
+                                    <span>Reported in writing to</span>
+                                    <input type="text" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="f.evaluation.recipient"
+                                           placeholder="e.g. the CFO" t-on-change="(ev) => this.onCommunicated(f, 'recipient', ev)"/>
+                                    <span>date of the letter</span>
+                                    <input type="date" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="f.evaluation.communicatedOn"
+                                           t-on-change="(ev) => this.onCommunicated(f, 'communicated_on', ev)"/>
+                                </div>
+                                <div class="o_ea_ws_evrow">
+                                    <label class="o_ea_ws_check">
+                                        <input type="checkbox" t-att-checked="f.evaluation.aware" t-att-disabled="p.readonly"
+                                               t-on-change="(ev) => this.evaluate(f, 'management_aware', ev.target.checked)"/>
+                                        Management already aware
+                                    </label>
+                                    <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_open_evaluation', f.id)">More: accounts, indicators, related deficiencies</button>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-if="f.misstatement">
+                            <label class="o_ea_ws_label">On the summary of audit differences</label>
+                            <div class="o_ea_ws_box">
+                                <t t-esc="f.misstatement.summary"/>
+                            </div>
+                        </t>
+
+                        <t t-if="f.closed">
+                            <label class="o_ea_ws_label">How it was resolved</label>
+                            <div class="o_ea_ws_box"><t t-esc="f.response"/> <span class="o_ea_ws_hint">(<t t-esc="f.closedBy"/>, <t t-esc="f.closedOn"/>)</span></div>
+                        </t>
+                        <t t-elif="f.route !== 'b5' and !p.readonly">
+                            <label class="o_ea_ws_label">Close the finding</label>
+                            <div class="o_ea_ws_closing">
+                                <input type="text" class="o_ea_ws_input" t-model="state.closing" placeholder="How was it resolved?"/>
+                                <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.close(f)">Mark as closed</button>
+                            </div>
+                        </t>
+
+                        <label class="o_ea_ws_label">Documents</label>
+                        <label t-if="!p.readonly" t-att-class="'o_ea_ws_drop' + (state.drag ? ' is-drag' : '')"
+                               t-on-dragover="onDragOver" t-on-dragleave="onDragLeave" t-on-drop="onDrop">
+                            <input type="file" multiple="multiple" class="d-none" t-on-change="onPick"/>
+                            Drop evidence here or <b>choose files</b>
+                        </label>
+                        <p class="o_ea_ws_hint" t-if="!state.docs.length">No document yet.</p>
+                        <div class="o_ea_ws_doc" t-foreach="state.docs" t-as="doc" t-key="doc.id">
+                            <span class="o_ea_ws_ext" t-esc="doc.ext"/>
+                            <div class="o_ea_ws_docname">
+                                <a t-att-href="doc.url" target="_blank" t-esc="doc.name"/>
+                                <div class="o_ea_ws_hint"><t t-esc="doc.by"/> · <t t-esc="doc.date"/><t t-if="doc.version > 1" t-esc="' · v' + doc.version"/></div>
+                            </div>
+                            <button type="button" class="btn btn-link btn-sm" t-if="p.canRemove" t-on-click="() => this.remove(doc)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -334,9 +334,6 @@ class EngagementSad(models.Model):
             } for r in meta.disc_row_ids] if meta else [],
         }
 
-    def action_tool_sad(self):
-        return self._ea_board("ea_audit_tools.view_engagement_sad_board", self.env._("Summary of audit differences"))
-
     def action_open_sad_conclusion(self):
         self.ensure_one()
         self._ea_require_access()
