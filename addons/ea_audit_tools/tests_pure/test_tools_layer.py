@@ -3,7 +3,9 @@ import pytest
 
 from services.ap_schedules import ap_lead_schedules, index_resolver
 from services.assertions import ASSERTIONS
-from services.cra_board import cell_tod, default_relevance, is_rely_unsupported, suggested_cr, suggested_ir
+from services.cra_board import (
+    cell_level, cell_tod, default_relevance, is_rely_unsupported, page_progress, row_worst_tod, suggested_cr, suggested_ir,
+)
 from services.deficiency_model import evaluate_b5, suggested_grade
 from services.fs_captions import asset_basis_label, bilan_totals, income_from_tb
 from services.lead_classes import LEAD_INDEX_BY_CODE, lead_index_for
@@ -280,3 +282,35 @@ def test_client_override_longest_prefix_wins():
     assert index_of("411100") == "C"
     assert index_of("411200") == "G2"
     assert index_of("401000") == "N"
+
+
+def test_cra_level_waits_for_both_choices():
+    # a suggestion is shown beside the choice, never used as the level (owner, 2026-11-16)
+    assert cell_level(None, None) == "to_assess"
+    assert cell_level("lower", None) == "to_assess"
+    assert cell_level(None, "rely") == "to_assess"
+    assert cell_level("lower", "rely") == "minimal"
+    assert cell_level("lower", "not_rely") == "moderate"
+    assert cell_level("higher", "rely") == "low"
+    assert cell_level("higher", "not_rely") == "high"
+
+
+def test_cra_worst_for_sampling_waits_for_every_kept_cell():
+    def cell(ir, cr, kept=True, significant=False):
+        return {"ir": ir, "cr": cr, "kept": kept, "significant": significant}
+
+    assert row_worst_tod([]) is None
+    assert row_worst_tod([cell("lower", "not_rely"), cell("higher", None)]) is None
+    assert row_worst_tod([cell("lower", "not_rely"), cell(None, None, kept=False)]) == "moderate"
+    assert row_worst_tod([cell("lower", "rely"), cell("higher", "rely", significant=True)]) == "low_sr"
+    assert row_worst_tod([cell("lower", "rely"), cell("higher", "not_rely")]) == "high"
+
+
+def test_cra_page_progress_counts_the_relevant_cells():
+    cells = [
+        {"relevant": True, "ir": "lower", "cr": "rely"},
+        {"relevant": True, "ir": "lower", "cr": None},
+        {"relevant": False, "ir": None, "cr": None},
+    ]
+    assert page_progress(cells) == (1, 2)
+    assert page_progress([]) == (0, 0)

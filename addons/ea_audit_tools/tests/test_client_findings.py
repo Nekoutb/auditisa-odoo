@@ -324,9 +324,12 @@ class TestToolsWithoutData(ToolsCase):
         self.assertTrue(as_staff.action_tool_cra())
 
     def test_f068_the_board_links_each_step(self):
-        arch = self.env.ref("ea_audit_tools.view_engagement_cra_board").arch
+        # the one-page CRA (2026-11-16) carries the empty states and their links
+        with file_open("ea_audit_tools/static/src/xml/cra_page.xml") as handle:
+            template = handle.read()
         for method in ("action_tool_tb", "action_tool_materiality", "action_tool_significance"):
-            self.assertIn(method, arch)
+            self.assertIn(method, template)
+        self.assertEqual(self.engagement.with_user(self.staff).ea_cra_page()["missing"], "tb")
 
 
 @tagged("post_install", "-at_install")

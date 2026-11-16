@@ -1,0 +1,89 @@
+// The combined risk assessment on one page (owner's mock-up of 2026-11-16, "mock-cra").
+// App theme: green #17694f, pale green #e6f2ed, ink #1f2a33, muted #66727c, lines #e3e7ea, page #eef1f3.
+.o_ea_cra {
+    --eacra-green: #17694f;
+    --eacra-pale: #e6f2ed;
+    --eacra-ink: #1f2a33;
+    --eacra-muted: #66727c;
+    --eacra-line: #e3e7ea;
+    --eacra-grid: #dfe3e6;
+    --eacra-head: #f3f5f6;
+
+    height: 100%;
+    overflow: auto;
+    padding: 16px;
+    background: #eef1f3;
+    color: var(--eacra-ink);
+    font-size: 13px;
+
+    h1 { margin: 0; font-size: 22px; font-weight: 700; }
+    p { margin: 0; }
+
+    .o_ea_cra_card { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+    .o_ea_cra_head { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: flex-start; }
+    .o_ea_cra_sub { color: var(--eacra-muted); margin-top: 2px; }
+    .o_ea_cra_tools { display: flex; gap: 6px; }
+
+    .o_ea_cra_readonly { margin-top: 10px; padding: 6px 10px; border-radius: 6px; background: var(--eacra-head); color: var(--eacra-muted); }
+    .o_ea_cra_empty { margin-top: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+
+    .o_ea_cra_bar { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; margin: 12px 0; }
+    .o_ea_cra_progress { display: flex; align-items: center; gap: 10px; color: var(--eacra-muted); font-variant-numeric: tabular-nums; }
+    .o_ea_cra_meter {
+        display: inline-block; width: 160px; height: 8px; border-radius: 5px; background: #dfe5e8; overflow: hidden;
+        i { display: block; height: 100%; background: var(--eacra-green); transition: width .2s ease; }
+    }
+    .o_ea_cra_only { display: flex; align-items: center; gap: 6px; margin: 0; cursor: pointer; }
+    .o_ea_cra_done { color: var(--eacra-muted); padding: 8px 0; }
+
+    .o_ea_cra_account { border: 1px solid var(--eacra-line); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+    .o_ea_cra_acc_head {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px;
+        background: var(--eacra-head); cursor: pointer; user-select: none;
+    }
+    .o_ea_cra_caret { width: 12px; color: var(--eacra-muted); }
+    .o_ea_cra_closing { color: var(--eacra-muted); font-variant-numeric: tabular-nums; }
+    .o_ea_cra_acc_meta { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .o_ea_cra_init {
+        display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px;
+        background: var(--eacra-pale); color: var(--eacra-green); font-weight: 700; font-size: 12px;
+    }
+
+    .o_ea_cra_table {
+        width: 100%; border-collapse: collapse;
+        th, td { border-top: 1px solid var(--eacra-grid); padding: 7px 10px; vertical-align: middle; text-align: left; }
+        th { background: #fff; color: var(--eacra-muted); font-weight: 600; }
+    }
+
+    .o_ea_cra_seg {
+        display: inline-flex; border: 1px solid #cfd6db; border-radius: 6px; overflow: hidden; vertical-align: middle;
+        button {
+            border: 0; background: #fff; color: var(--eacra-ink); padding: 4px 12px; font-size: 13px; cursor: pointer;
+            & + button { border-left: 1px solid #cfd6db; }
+            &.active { background: var(--eacra-green); color: #fff; font-weight: 600; }
+            &:disabled { cursor: default; }
+            &:disabled:not(.active) { color: var(--eacra-muted); }
+            &:focus-visible { outline: 2px solid var(--eacra-green); outline-offset: -2px; }
+        }
+    }
+    .o_ea_cra_hint { margin-left: 6px; color: var(--eacra-muted); font-size: 12px; }
+
+    .o_ea_cra_badge {
+        display: inline-block; padding: 2px 10px; border-radius: 10px; font-weight: 600; font-size: 12px; white-space: nowrap;
+        &.is-good { background: var(--eacra-pale); color: var(--eacra-green); }
+        &.is-warn { background: #fff4dc; color: #8a5a00; }
+        &.is-bad { background: #fde8e8; color: #b42318; }
+        &.is-open { background: #e9ecef; color: var(--eacra-muted); }
+    }
+    .o_ea_cra_sr { margin-left: 6px; color: #b42318; font-size: 12px; }
+
+    .o_ea_cra_basis {
+        width: 100%; min-width: 180px; padding: 4px 8px; border: 1px solid #cfd6db; border-radius: 6px; font-size: 13px;
+        &:focus { outline: none; border-color: var(--eacra-green); }
+        &[readonly] { background: var(--eacra-head); }
+    }
+    .o_ea_cra_need { margin-top: 4px; color: #8a5a00; font-size: 12px; }
+
+    .o_ea_cra_note { margin-top: 8px; color: var(--eacra-muted); font-size: 12.5px; }
+    .o_ea_cra_warn { margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: #fff4dc; color: #8a5a00; }
+}

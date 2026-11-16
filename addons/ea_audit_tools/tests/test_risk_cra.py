@@ -388,5 +388,114 @@ class TestCra(ToolsCase):
 
     def test_rollup_excludes_the_unassessed_default_ro(self):
         board = self.board()
-        rollup = board.cra_rollup_by_index()
-        self.assertIn("E", rollup)
+        # sampling waits for every kept cell: no suggestion stands in for a choice (2026-11-16)
+        self.assertNotIn("E", board.cra_rollup_by_index())
+        row = board.cra_row_ids.filtered(lambda r: r.index_code == "E")
+        for cell in row.cell_ids.filtered(lambda c: c.relevant and c.assertion != "RO"):
+            self.cell("E", cell.assertion).write({"ir": "lower", "cr": "not_rely"})
+        board.invalidate_recordset()
+        row.invalidate_recordset()
+        self.assertEqual(board.cra_rollup_by_index().get("E"), "moderate")
+
+
+@tagged("post_install", "-at_install")
+class TestCraPage(ToolsCase):
+    """The one-page CRA of 2026-11-16."""
+
+    board = TestCra.board
+    cell = TestCra.cell
+
+    def page(self, actor=None):
+        return self.engagement.with_user(actor or self.staff).ea_cra_page()
+
+    def account(self, page, code="E"):
+        return next(account for account in page["accounts"] if account["code"] == code)
+
+    def page_cell(self, page, code="E", assertion="C"):
+        return next(cell for cell in self.account(page, code)["cells"] if cell["assertion"] == assertion)
+
+    def test_the_tile_opens_the_page(self):
+        self.board()
+        action = self.as_staff.action_tool_cra()
+        self.assertEqual((action["type"], action["tag"]), ("ir.actions.client", "ea_audit_tools.cra_page"))
+        self.assertEqual(action["params"]["engagement_id"], self.engagement.id)
+
+    def test_only_significant_accounts_and_their_relevant_assertions(self):
+        board = self.board()
+        page = self.page()
+        significant = {
+            r.index_code for r in self.env["ea.audit.significance"].sudo().search([("engagement_id", "=", self.engagement.id)])
+            if r.status == "significant"
+        }
+        self.assertTrue(page["accounts"])
+        self.assertLessEqual({a["code"] for a in page["accounts"]}, significant)
+        row = board.cra_row_ids.filtered(lambda r: r.index_code == "E")
+        self.assertEqual(self.account(page)["relevant"], row.cell_ids.filtered("relevant").sorted("sequence").mapped("assertion"))
+        self.assertNotIn("P", self.account(page)["relevant"])
+        self.assertEqual(self.account(page)["task"], "E4.1")
+        self.assertFalse(page["readonly"])
+        self.assertEqual(page["progress"]["done"], 0)
+        self.assertEqual(page["progress"]["total"], sum(len(a["cells"]) for a in page["accounts"]))
+
+    def test_a_click_saves_the_cell_itself_not_through_its_row(self):
+        self.board()
+        cell = self.cell()
+        page = cell.ea_cra_page_save({"ir": "higher"})
+        self.assertEqual(self.page_cell(page)["ir"], "higher")
+        self.assertEqual(self.cell().ir, "higher")
+        self.assertTrue(self.cell().recorded)
+        self.assertCode("invalid-field", cell.ea_cra_page_save, {"recorded": False})
+
+    def test_the_level_stays_to_assess_until_both_risks_are_chosen(self):
+        board = self.board()
+        cell = self.cell()
+        self.assertEqual((cell.level, cell.tod_level), ("to_assess", False))
+        self.assertTrue(cell.suggested_ir and cell.suggested_cr)
+        page = cell.ea_cra_page_save({"ir": "lower"})
+        self.assertEqual(self.page_cell(page)["level"], "to_assess")
+        self.assertEqual(self.account(page)["worst"], False)
+        self.assertEqual(self.cell().level, "to_assess")
+        page = self.cell().ea_cra_page_save({"cr": "not_rely"})
+        self.assertEqual(self.page_cell(page)["level"], "moderate")
+        self.assertEqual(self.cell().tod_level, "moderate")
+        self.assertEqual(page["progress"]["done"], 1)
+        row = board.cra_row_ids.filtered(lambda r: r.index_code == "E")
+        row.invalidate_recordset()
+        self.assertEqual(row.cell_c, "moderate")
+
+    def test_the_suggestions_are_unchanged(self):
+        self.board()
+        before = self.cell()
+        self.assertEqual(before.suggested_ir, "higher" if before.risk_count else "lower")
+        self.assertEqual(before.suggested_cr, "not_rely")  # no tested control covers it
+        self.as_staff.add_risk("Ventes fictives", index="E", assertions=["C"])
+        self.cell().invalidate_recordset()
+        self.assertEqual(self.cell().suggested_ir, "higher")
+        self.assertEqual(self.page_cell(self.page())["suggested_ir"], "higher")
+        cls = type(self.env["ea.audit.engagement"])
+        self.patch(cls, "_ea_control_coverage", lambda _s, _i, _a: {"covering": 1, "effective": 1, "failed": 0})
+        self.cell().invalidate_recordset()
+        self.assertEqual(self.cell().suggested_cr, "rely")
+        self.assertFalse(self.page_cell(self.page())["rely_needs_basis"])
+        self.patch(cls, "_ea_itgc_state", lambda _s: "not_support")
+        self.cell().invalidate_recordset()
+        self.assertEqual(self.cell().suggested_cr, "not_rely")
+        # a suggestion never fills the level
+        self.assertEqual(self.cell().level, "to_assess")
+
+    def test_rely_without_a_covering_control_needs_a_basis_from_the_page(self):
+        self.board()
+        self.assertTrue(self.page_cell(self.page())["rely_needs_basis"])
+        self.assertCode("rely-without-controls", self.cell().ea_cra_page_save, {"cr": "rely"})
+        page = self.cell().ea_cra_page_save({"cr": "rely", "cr_basis": "Walkthrough and IT dependent control in E1.2"})
+        self.assertEqual(self.page_cell(page)["cr"], "rely")
+        self.assertIn("E1.2", self.page_cell(page)["basis"])
+
+    def test_a_non_writer_reads_and_is_refused(self):
+        self.board()
+        self.assertTrue(self.page(self.reader)["readonly"])
+        self.assertFalse(self.page(self.reader)["archived"])
+        self.assertCode("read-only-role", self.cell(actor=self.reader).ea_cra_page_save, {"ir": "lower"})
+        self.assertTrue(self.page(self.eqr)["readonly"])
+        self.assertCode("eqr-read-only", self.cell(actor=self.eqr).ea_cra_page_save, {"ir": "lower"})
+        self.assertFalse(self.cell().ir)

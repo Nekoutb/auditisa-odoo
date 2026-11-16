@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.CraPage">
+        <div class="o_ea_cra" t-if="p" data-ea="cra-page">
+            <div class="o_ea_cra_card">
+                <div class="o_ea_cra_head">
+                    <div>
+                        <h1>Combined risk assessment</h1>
+                        <div class="o_ea_cra_sub"><t t-esc="p.engagement"/> · <span>only significant accounts, only their relevant assertions</span></div>
+                    </div>
+                    <div class="o_ea_cra_tools">
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_cra_cells')">Excel list</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_export_cra')">Export to Excel</button>
+                    </div>
+                </div>
+
+                <div class="o_ea_cra_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the assessment but does not change it.</t>
+                </div>
+
+                <t t-if="p.missing">
+                    <div class="o_ea_cra_empty" data-ea="cra-not-assessable">
+                        <span class="o_ea_cra_badge is-open">Not assessable yet</span>
+                        <p t-if="p.missing === 'tb'">The page is empty because no valid trial balance drives this file: import one first.</p>
+                        <p t-if="p.missing === 'materiality'">The trial balance is in. The page is empty because materiality is not approved (P6.1).</p>
+                        <p t-if="p.missing === 'significance'">Trial balance and materiality are in. The page is empty because no account is marked significant (P6.2).</p>
+                        <button t-if="p.missing === 'tb'" type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_tb')">Open the trial balance</button>
+                        <button t-if="p.missing === 'materiality'" type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_materiality')">Open materiality</button>
+                        <button t-if="p.missing === 'significance'" type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_significance')">Open significant accounts</button>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="o_ea_cra_bar">
+                        <div class="o_ea_cra_progress">
+                            <span t-esc="progressText"/>
+                            <span class="o_ea_cra_meter"><i t-att-style="progressStyle"/></span>
+                        </div>
+                        <label class="o_ea_cra_only">
+                            <input type="checkbox" t-model="state.onlyOpen"/>
+                            <span>Show only what is still to assess</span>
+                        </label>
+                    </div>
+
+                    <p class="o_ea_cra_done" t-if="!accounts.length">Everything is assessed.</p>
+
+                    <section class="o_ea_cra_account" t-foreach="accounts" t-as="account" t-key="account.id">
+                        <header class="o_ea_cra_acc_head" t-on-click="() => this.toggle(account)">
+                            <span class="o_ea_cra_caret" t-esc="isFolded(account) ? '▸' : '▾'"/>
+                            <strong><t t-esc="account.code"/> <t t-esc="account.label"/></strong>
+                            <span class="o_ea_cra_closing" t-esc="account.closing"/>
+                            <span class="o_ea_cra_acc_meta">
+                                <span>Relevant:</span>
+                                <span class="o_ea_cra_init" t-foreach="account.relevant" t-as="code" t-key="code" t-esc="code"/>
+                                <span>· Worst for sampling</span>
+                                <span t-attf-class="o_ea_cra_badge {{ levelClass(account.worst) }}" t-esc="account.worst_label"/>
+                                <t t-if="account.task"><span>· Task</span> <span t-esc="account.task"/></t>
+                            </span>
+                        </header>
+                        <table class="o_ea_cra_table" t-if="!isFolded(account)">
+                            <thead>
+                                <tr>
+                                    <th>Assertion</th>
+                                    <th>Inherent risk</th>
+                                    <th>Control risk</th>
+                                    <th>Combined</th>
+                                    <th>Basis / reason (when you differ from the suggestion)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="cellsOf(account)" t-as="cell" t-key="cell.id" t-att-data-cell="cell.assertion">
+                                    <td><strong t-esc="cell.assertion"/> <t t-esc="cell.name"/></td>
+                                    <td>
+                                        <span class="o_ea_cra_seg" role="group">
+                                            <button t-foreach="p.choices.ir" t-as="choice" t-key="choice[0]" type="button"
+                                                    t-att-class="cell.ir === choice[0] ? 'active' : ''" t-att-aria-pressed="cell.ir === choice[0] ? 'true' : 'false'"
+                                                    t-att-disabled="p.readonly" t-att-data-value="choice[0]"
+                                                    t-on-click="() => this.choose(cell, 'ir', choice[0])" t-esc="choice[1]"/>
+                                        </span>
+                                        <span class="o_ea_cra_hint" t-esc="suggested('ir', cell.suggested_ir)"/>
+                                        <span class="o_ea_cra_hint" t-if="cell.risk_count"> · <t t-esc="risksText(cell)"/></span>
+                                    </td>
+                                    <td>
+                                        <span class="o_ea_cra_seg" role="group">
+                                            <button t-foreach="p.choices.cr" t-as="choice" t-key="choice[0]" type="button"
+                                                    t-att-class="cell.cr === choice[0] ? 'active' : ''" t-att-aria-pressed="cell.cr === choice[0] ? 'true' : 'false'"
+                                                    t-att-disabled="p.readonly" t-att-data-value="choice[0]"
+                                                    t-on-click="() => this.choose(cell, 'cr', choice[0])" t-esc="choice[1]"/>
+                                        </span>
+                                        <span class="o_ea_cra_hint" t-esc="suggested('cr', cell.suggested_cr)"/>
+                                    </td>
+                                    <td>
+                                        <span t-attf-class="o_ea_cra_badge {{ levelClass(cell.level) }}" t-esc="cell.level_label"/>
+                                        <span class="o_ea_cra_sr" t-if="cell.significant">significant risk</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="o_ea_cra_basis" placeholder="—" t-att-value="cell.basis"
+                                               t-att-readonly="p.readonly" t-on-change="(ev) => this.onBasis(cell, ev)"/>
+                                        <div class="o_ea_cra_need" t-if="state.hints[cell.id]" t-esc="state.hints[cell.id]"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <p class="o_ea_cra_note">Click a choice and it saves at once, no Save button. Click an account's title to fold or open it. An account appears here once it is Significant, with the assertions ticked as relevant on the Significant accounts page.</p>
+                </t>
+
+                <div class="o_ea_cra_warn" t-if="p.unlinked">
+                    <span>Significant risks in the register linked to no account:</span> <t t-esc="p.unlinked"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

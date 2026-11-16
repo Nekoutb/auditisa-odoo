@@ -51,7 +51,8 @@ class TestFrench(ToolsCase):
         view = self.env.ref("ea_audit_tools.view_engagement_materiality_board").with_env(self.fr)
         self.assertIn("Historique des versions", view.arch)
         self.assertIn("Papiers alimentés", view.arch)
-        self.assertIn("Exhaustivité", self.env.ref("ea_audit_tools.view_engagement_cra_board").with_env(self.fr).arch)
+        level = self.env["ea.audit.cra.assessment"].with_env(self.fr).fields_get(["level"])["level"]
+        self.assertIn(("to_assess", "À évaluer"), [tuple(choice) for choice in level["selection"]])
 
     def test_computed_labels_follow_the_language(self):
         self.import_tb()
