@@ -8,7 +8,7 @@ from odoo import api, fields, models
 
 from ..rules import rule_error
 from ..services.aging import aging
-from ..services.dataset_mapping import FIELDS
+from ..services.dataset_mapping import all_fields
 from ..services.engines import RECON_PREFIXES, recon_preview, run_reconciliation, run_supplier_recon
 from ..services.errors import ServiceError
 from ..services.subledger_kinds import SUB_LEDGER_KINDS
@@ -53,7 +53,7 @@ class DatasetAnalyzer(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Supplier statements against the ledger"), "res_model": "ea.audit.supplier.recon.wizard",
-            "view_mode": "form", "target": "new", "context": {"default_engagement_id": self.sudo().engagement_id.id, "default_statement_id": self.id},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.sudo().engagement_id.id, "default_statement_id": self.id},
         }
 
 
@@ -247,7 +247,7 @@ class EngagementAnalyzer(models.Model):
         """The expected layout, before any file is read (F066): the headers of the kind."""
         from ..exports import simple_workbook
 
-        head = [field["fr" if fr else "en"] for field in FIELDS[kind]]
+        head = [field["fr" if fr else "en"] for field in all_fields(kind)]
         return "%s_%s.xlsx" % (kind, "modele" if fr else "template"), simple_workbook("Modèle" if fr else "Template", head, [])
 
     def _ea_export_aging_grid(self, kind, fr):

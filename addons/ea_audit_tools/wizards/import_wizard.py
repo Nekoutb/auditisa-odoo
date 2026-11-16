@@ -194,7 +194,7 @@ class ImportWizard(models.TransientModel):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id,
-            "view_mode": "form", "target": "new", "name": self._ea_title(), "context": {"dialog_size": "extra-large"},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "name": self._ea_title(), "context": {"dialog_size": "extra-large"},
         }
 
     def _ea_found_note(self, found):
@@ -497,7 +497,7 @@ class ImportDeleteWizard(models.TransientModel):
             "engagement_id": engagement.id, "version_id": version.id if version else False, "dataset_id": dataset.id if dataset else False,
         })
         return {
-            "type": "ir.actions.act_window", "res_model": self._name, "res_id": wizard.id, "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": wizard.id, "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Delete the upload of %(stamp)s?", stamp=upload_stamp(self, record.create_date)),
         }
 

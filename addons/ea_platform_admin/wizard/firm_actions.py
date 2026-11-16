@@ -102,7 +102,7 @@ class PlatformFirstAdminLink(models.TransientModel):
             "name": self.env["ir.model"]._get(self._name).name,
             "res_model": self._name,
             "res_id": self.id,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
         }
 
@@ -189,7 +189,7 @@ class PlatformDestroyWizard(models.TransientModel):
             "name": self.env["ir.model"]._get(self._name).name,
             "res_model": self._name,
             "res_id": self.id,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
         }
 

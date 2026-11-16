@@ -56,7 +56,7 @@ class PlatformPracticeFirstLogin(models.TransientModel):
         space.write({"first_login_token": False, "first_login_revealed_at": fields.Datetime.now()})
         self.env["platform.log"]._record(_("First login of a practice space shown"), space.firm_id, space.slug, user=self.env.user)
         return {
-            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "views": [(False, "form")],
             "target": "new",
         }
 

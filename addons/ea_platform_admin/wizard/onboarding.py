@@ -126,7 +126,7 @@ class PlatformOnboardingWizard(models.TransientModel):
             "name": self.env["ir.model"]._get(self._name).name,
             "res_model": self._name,
             "res_id": self.id,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
         }
 
@@ -210,7 +210,7 @@ class PlatformOnboardingWizard(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": "platform.provision.job",
             "res_id": job.id,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "current",
         }
 

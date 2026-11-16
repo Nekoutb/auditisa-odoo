@@ -355,7 +355,7 @@ class EngagementProcedureDesign(models.Model):
             context["default_dataset_id"] = dataset.id
         return {
             "type": "ir.actions.act_window", "name": self.env._("Draw the sample"), "res_model": "ea.audit.sampling.wizard",
-            "view_mode": "form", "target": "new", "context": context,
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": context,
         }
 
     def ea_procedure_reliance(self, control_id, reliance):

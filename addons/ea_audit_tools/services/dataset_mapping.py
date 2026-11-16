@@ -393,13 +393,21 @@ FIELDS = {
     ],
 }
 
-#: Optional columns added after the port (owner's mock-ups of 2026-11-16, mock-sub2-*): the
+#: Columns added after the port (owner's mock-ups of 2026-11-16, mock-sub2-*): the
 #: fixed asset register's categories and movements for K-M1, the inventory's location for the
 #: test counts of F-M1. Kept apart from FIELDS, which stays the source's list (parity).
 EXTRA_FIELDS = {
     "fixed_asset_register": [
-        {"key": "category", "en": "Category (optional)", "fr": "Catégorie (optionnel)",
+        # mandatory since the owner's request of 2026-11-16: the category, the acquisition date
+        # and the depreciation rate (a percentage per year) of each asset
+        {"key": "category", "en": "Category", "fr": "Catégorie", "required": True,
          "aliases": ["categorie", "category", "famille", "rubrique", "nature"]},
+        {"key": "acquisitionDate", "en": "Acquisition date", "fr": "Date d'acquisition", "required": True,
+         "aliases": ["dateacquisition", "datedacquisition", "acquisitiondate", "dateofacquisition",
+                     "datemiseenservice", "datedemiseenservice", "dateentree", "datedentree", "date"]},
+        {"key": "depreciationRate", "en": "Depreciation rate (% per year)", "fr": "Taux d'amortissement (% par an)",
+         "required": True,
+         "aliases": ["tauxamortissement", "tauxdamortissement", "depreciationrate", "taux", "rate"]},
         {"key": "account", "en": "General ledger account (optional)", "fr": "Compte du grand livre (optionnel)",
          "aliases": ["comptegeneral", "compte", "account", "glaccount"]},
         {"key": "openingNbv", "en": "Opening net book value (optional)", "fr": "Valeur nette d'ouverture (optionnel)",
@@ -421,6 +429,29 @@ EXTRA_FIELDS = {
 def all_fields(kind):
     """The fields a kind offers: the source's, then the optional ones added since."""
     return FIELDS[kind] + EXTRA_FIELDS.get(kind, [])
+
+
+def claim_extra_exact(kind, headers, mapping=None):
+    """The headers that are exactly a name of an added column, claimed before the source's guess:
+    the source's loose matches would otherwise take them ("Taux d'amortissement" holds
+    "amortissement", the accumulated depreciation's name). A mapping already begun is kept."""
+    mapping = dict(mapping or {})
+    normalized = [(h, norm(h)) for h in headers]
+    for field in EXTRA_FIELDS.get(kind, []):
+        if mapping.get(field["key"]):
+            continue
+        for alias in field["aliases"]:
+            hit = next((h for h, n in normalized if n == alias and h not in mapping.values()), None)
+            if hit is not None:
+                mapping[field["key"]] = hit
+                break
+    return mapping
+
+
+def guess_map(kind, headers, mapping=None):
+    """The whole guess over a file's headers: the added columns' exact names, then the source's
+    auto_map, then the added columns' loose names."""
+    return auto_map_extra(kind, headers, auto_map(kind, headers, claim_extra_exact(kind, headers, mapping)))
 
 
 def auto_map_extra(kind, headers, mapping):

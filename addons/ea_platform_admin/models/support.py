@@ -230,7 +230,7 @@ class PlatformSupportVisitWizard(models.TransientModel):
         self.write({"started": True, "link": f"https://{firm.address}/ea-firm/support/{token}"})
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id,
-            "view_mode": "form", "target": "new", "name": self.env["ir.model"]._get(self._name).name,
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "name": self.env["ir.model"]._get(self._name).name,
         }
 
     def action_close(self):
@@ -356,7 +356,7 @@ class PlatformFirmSupport(models.Model):
     def action_support_visit(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "platform.support.visit.wizard", "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": "platform.support.visit.wizard", "view_mode": "form", "views": [(False, "form")],
             "target": "new", "context": {"default_firm_id": self.id},
             "name": self.env["ir.model"]._get("platform.support.visit.wizard").name,
         }

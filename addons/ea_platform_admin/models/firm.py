@@ -487,7 +487,7 @@ class PlatformFirm(models.Model):
             "type": "ir.actions.act_window",
             "res_model": "platform.provision.job",
             "res_id": self.last_job_id.id,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
         }
 
     def action_confirm_key_escrow(self):
@@ -531,7 +531,7 @@ class PlatformFirm(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env["ir.model"]._get(self.env.context["firm_wizard"]).name,
             "res_model": self.env.context["firm_wizard"],
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_firm_id": self.id},
         }

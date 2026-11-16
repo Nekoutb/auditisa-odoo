@@ -107,7 +107,7 @@ class ScotControlTests(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Record a test"), "res_model": "ea.audit.control.test.wizard",
-            "view_mode": "form", "target": "new", "context": {"default_control_id": self.id},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_control_id": self.id},
         }
 
 

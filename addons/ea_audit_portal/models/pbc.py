@@ -151,7 +151,7 @@ class Client(models.Model):
 
     def _ea_show_link(self, contact, link):
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.contact.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.contact.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Invitation link"),
             "context": {"default_client_id": self.id, "default_contact_id": contact.id, "default_invite_link": link},
         }
@@ -159,7 +159,7 @@ class Client(models.Model):
     def action_add_portal_contact(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.contact.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.contact.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("New portal contact"), "context": {"default_client_id": self.id},
         }
 
@@ -314,7 +314,7 @@ class PbcItem(models.Model):
     def action_open_accept(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Accept and file the upload"),
             "context": {"default_engagement_id": self.sudo().engagement_id.id, "default_item_id": self.id},
         }
@@ -365,7 +365,7 @@ class Engagement(models.Model):
     def action_open_pbc_request(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("New request"), "context": {"default_engagement_id": self.id},
         }
 

@@ -313,7 +313,7 @@ class Engagement(models.Model):
         self.ensure_one()
         self._ea_require_access()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.tieout.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.tieout.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Tie-out against the client's statements"), "context": {"default_engagement_id": self.id},
         }
 
@@ -1262,7 +1262,7 @@ class Engagement(models.Model):
         self.ensure_one()
         key = self.env.context.get("completion_key")
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.completion.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.completion.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Completion record"),
             "context": {"default_engagement_id": self.id, "default_key": key},
         }
@@ -1270,14 +1270,14 @@ class Engagement(models.Model):
     def action_open_issue_wizard(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.issue.report.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.issue.report.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Issue the report"), "context": {"default_engagement_id": self.id},
         }
 
     def action_open_hold_wizard(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.hold.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.hold.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Legal hold"),
             "context": {"default_engagement_id": self.id, "default_mode": "release" if self.held else "place"},
         }

@@ -233,7 +233,7 @@ class PlatformPracticeComputer(models.Model):
         """Opens the release choice: a release goes to the practice computer before any firm."""
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "platform.practice.release.wizard", "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": "platform.practice.release.wizard", "view_mode": "form", "views": [(False, "form")],
             "target": "new", "context": {"default_computer_id": self.id},
         }
 
@@ -372,7 +372,7 @@ class PlatformPracticeSpace(models.Model):
         self.ensure_one()
         self._require_operator()
         return {
-            "type": "ir.actions.act_window", "res_model": "platform.practice.reset.wizard", "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": "platform.practice.reset.wizard", "view_mode": "form", "views": [(False, "form")],
             "target": "new", "context": {"default_space_id": self.id},
         }
 
@@ -394,7 +394,7 @@ class PlatformPracticeSpace(models.Model):
         self._require_operator()
         wizard = self.env["platform.practice.first.login"].create({"space_id": self.id})
         return {
-            "type": "ir.actions.act_window", "res_model": wizard._name, "res_id": wizard.id, "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": wizard._name, "res_id": wizard.id, "view_mode": "form", "views": [(False, "form")],
             "target": "new",
         }
 

@@ -19,7 +19,7 @@ class PortalContactWizard(models.TransientModel):
         contact, link = self.client_id.add_portal_contact(self.email, self.name)
         self.write({"contact_id": contact.id, "invite_link": link})
         return {
-            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Invitation link"),
         }
 

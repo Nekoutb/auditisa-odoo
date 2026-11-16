@@ -261,7 +261,7 @@ class Significance(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("Change the status of %(index)s", index=record.index_code),
             "res_model": "ea.audit.significance.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {
                 "default_significance_id": record.id,

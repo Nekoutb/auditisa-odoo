@@ -254,7 +254,7 @@ class TodWizard(models.TransientModel):
     def action_preview(self):
         self.ensure_one()
         self.preview_html = self.engagement_id.tod_preview_html(self.side, self.assurance)
-        return {"type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "target": "new", "name": self.env._("Tests of details: plan")}
+        return {"type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "views": [(False, "form")], "target": "new", "name": self.env._("Tests of details: plan")}
 
     def action_export(self):
         self.ensure_one()

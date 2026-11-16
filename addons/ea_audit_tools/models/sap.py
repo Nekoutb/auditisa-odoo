@@ -208,13 +208,13 @@ class EngagementSap(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Firm thresholds for substantive analytics"),
-            "res_model": "ea.audit.sap.threshold.wizard", "view_mode": "form", "target": "new",
+            "res_model": "ea.audit.sap.threshold.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
         }
 
     def action_open_sap_wizard(self):
         self.ensure_one()
         self._ea_require_access()
-        return {"type": "ir.actions.act_window", "name": self.env._("A substantive analytical procedure"), "res_model": "ea.audit.sap.wizard", "view_mode": "form", "target": "new", "context": {"default_engagement_id": self.id}}
+        return {"type": "ir.actions.act_window", "name": self.env._("A substantive analytical procedure"), "res_model": "ea.audit.sap.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.id}}
 
     def action_export_sap(self):
         return self._ea_export_action("sap")

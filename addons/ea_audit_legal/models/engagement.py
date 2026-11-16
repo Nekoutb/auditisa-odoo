@@ -698,7 +698,7 @@ class Engagement(models.Model):
     def action_open_legal_wizard(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": "ea.audit.legal.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "res_model": "ea.audit.legal.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("OHADA legal register"),
             "context": {"default_engagement_id": self.id, "default_mode": self.env.context.get("legal_mode")},
         }

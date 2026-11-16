@@ -15692,3 +15692,33 @@ msgstr "Ouvrir le sommaire"
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_finding_adjustment
 msgid "Finding adjustment line"
 msgstr "Ligne d'ajustement d'un constat"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have no category."
+msgstr "%(count)s lignes n'ont pas de catégorie."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have no readable acquisition date, for instance \"%(value)s\"."
+msgstr "%(count)s lignes n'ont pas de date d'acquisition lisible, par exemple « %(value)s »."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have an acquisition date after the year end, for instance %(value)s."
+msgstr "%(count)s lignes ont une date d'acquisition postérieure à la clôture, par exemple %(value)s."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have no readable depreciation rate between 0 and 100%%, for instance \"%(value)s\"."
+msgstr "%(count)s lignes n'ont pas de taux d'amortissement lisible entre 0 et 100 %%, par exemple « %(value)s »."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s rates are written as a fraction, for instance \"%(value)s\": they are read as a percentage (0.2 reads 20%%)."
+msgstr "%(count)s taux sont écrits en fraction, par exemple « %(value)s » : ils sont lus en pourcentage (0,2 se lit 20 %%)."

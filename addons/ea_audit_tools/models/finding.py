@@ -185,7 +185,7 @@ class Finding(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("ISA 265 evaluation"),
             "res_model": "ea.audit.deficiency.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {
                 "default_finding_id": self.id,
@@ -429,7 +429,7 @@ class EngagementFinding(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("New finding"),
             "res_model": "ea.audit.finding.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_engagement_id": self.id},
         }

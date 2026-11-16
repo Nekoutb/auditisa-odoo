@@ -256,7 +256,7 @@ def _check_frequency(env, control_type, code, other_reason, occurrences):
 
 def _wizard(record, model, name, context):
     record.ensure_one()
-    return {"type": "ir.actions.act_window", "name": name, "res_model": model, "view_mode": "form", "target": "new", "context": context}
+    return {"type": "ir.actions.act_window", "name": name, "res_model": model, "view_mode": "form", "views": [(False, "form")], "target": "new", "context": context}
 
 
 class ScotIndex(models.Model):
@@ -986,7 +986,7 @@ class EngagementScot(models.Model):
         self._ea_require_access()
         return {
             "type": "ir.actions.act_window", "name": self.env._("New SCOT"), "res_model": "ea.audit.scot.wizard",
-            "view_mode": "form", "target": "new", "context": {"default_engagement_id": self.id},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.id},
         }
 
     def action_tool_itgc(self):
@@ -1002,7 +1002,7 @@ class EngagementScot(models.Model):
         record = Fscp.search([("engagement_id", "=", self.id)], limit=1) or Fscp.create({"engagement_id": self.id})
         return {
             "type": "ir.actions.act_window", "name": self.env._("Financial statement close process"),
-            "res_model": "ea.audit.fscp", "res_id": record.id, "view_mode": "form", "target": "current",
+            "res_model": "ea.audit.fscp", "res_id": record.id, "view_mode": "form", "views": [(False, "form")], "target": "current",
             "context": {"ea_engagement_id": self.id},
         }
 
@@ -1013,7 +1013,7 @@ class EngagementScot(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("S2.5 conclusion"), "res_model": "ea.audit.itgc.wizard",
-            "view_mode": "form", "target": "new", "context": {"default_engagement_id": self.id, "default_state": self.sudo().itgc_state},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.id, "default_state": self.sudo().itgc_state},
         }
 
     def _ea_export_itgc(self, fr):

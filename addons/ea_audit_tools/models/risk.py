@@ -85,14 +85,14 @@ class ProgramStep(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Complete the step"), "res_model": "ea.audit.step.wizard",
-            "view_mode": "form", "target": "new", "context": {"default_step_id": self.id, "default_mode": "complete"},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_step_id": self.id, "default_mode": "complete"},
         }
 
     def action_open_na(self):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Not applicable"), "res_model": "ea.audit.step.wizard",
-            "view_mode": "form", "target": "new", "context": {"default_step_id": self.id, "default_mode": "na"},
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_step_id": self.id, "default_mode": "na"},
         }
 
     def action_uncomplete(self):
@@ -222,7 +222,7 @@ class Risk(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Link a program step"), "res_model": "ea.audit.risk.step.wizard",
-            "view_mode": "form", "target": "new",
+            "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_risk_id": self.id, "default_engagement_id": self.sudo().engagement_id.id},
         }
 
@@ -379,7 +379,7 @@ class Risk(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("Link to a lead index"),
             "res_model": "ea.audit.risk.link.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_risk_id": self.id},
         }

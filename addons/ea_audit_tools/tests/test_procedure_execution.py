@@ -320,12 +320,12 @@ TB_KF = """Compte;Libellé;Solde ouverture débit;Solde ouverture crédit;Mouvem
 701000;Ventes;0;0;0;2000
 """
 
-FAR_CSV = """Numero;Designation;Categorie;Compte;Cout;Amortissements;VNC;VNC ouverture;Acquisitions;Cessions;Dotation
-I1;Immeuble siege;Batiments;231000;4000;500;3500;3600;0;0;100
+FAR_CSV = """Numero;Designation;Categorie;Date acquisition;Taux;Compte;Cout;Amortissements;VNC;VNC ouverture;Acquisitions;Cessions;Dotation
+I1;Immeuble siege;Batiments;15/03/2020;2,5;231000;4000;500;3500;3600;0;0;100
 """
 FAR_MAPPING = {
     "item": "Numero", "itemDescription": "Designation", "amount": "Cout", "depreciation": "Amortissements", "nbv": "VNC",
-    "category": "Categorie", "account": "Compte", "openingNbv": "VNC ouverture", "additions": "Acquisitions",
+    "category": "Categorie", "acquisitionDate": "Date acquisition", "depreciationRate": "Taux", "account": "Compte", "openingNbv": "VNC ouverture", "additions": "Acquisitions",
     "disposals": "Cessions", "charge": "Dotation",
 }
 
