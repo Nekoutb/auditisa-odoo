@@ -142,7 +142,7 @@ class TestJeSelection(ToolsCase):
 
     def test_the_studio_runs_and_exports(self):
         action = self.as_staff.action_tool_je()
-        studio = self.env["ea.audit.je.studio"].with_user(self.staff).browse(action["res_id"])
+        studio = self.env["ea.audit.je.studio"].with_user(self.staff).browse(action["params"]["studio_id"])
         studio.action_run()
         self.assertIn("RO001", str(studio.result_html))
         self.env["ea.audit.je.studio.rule"].with_user(self.staff).create({"studio_id": studio.id, "field": "jeNumber", "operator": "equals", "value": "YE001"})

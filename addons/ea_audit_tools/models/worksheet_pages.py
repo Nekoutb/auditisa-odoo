@@ -31,6 +31,8 @@ from .tool_record import french_date, grouped, is_french
 
 #: What another record may raise: the three routes of the register.
 FINDING_KINDS = {"misstatement": "b5", "deficiency": "c1", "matter": "b4"}
+#: The paper a finding goes to when its source holds no paper of its own (a journal entry: E3.1).
+FINDING_PAPERS = {"ea.audit.je.review": "E3.1"}
 #: Where a finding's documents go when the finding names no paper.
 DOCUMENT_HOSTS = {"b5": ("C1.1", "C5.11"), "c1": ("C5.11", "C1.1"), "b4": ("C5.11", "C1.1")}
 FINDINGS_LINKS = (
@@ -161,6 +163,10 @@ class EngagementWorksheetPages(models.Model):
             file_item = source.file_item_id
         else:
             file_item = None
+        if not file_item and FINDING_PAPERS.get(source._name):
+            file_item = self.env["ea.audit.file.item"].sudo().search(
+                [("engagement_id", "=", self.id), ("code", "=", FINDING_PAPERS[source._name])], limit=1,
+            )
         result = self.route_finding(
             route, description, detail=detail, recommendation=recommendation,
             severity=severity or ("deficiency" if route == "c1" else None),

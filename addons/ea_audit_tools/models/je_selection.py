@@ -344,12 +344,13 @@ class EngagementJe(models.Model):
         return record.with_env(self.env)
 
     def action_tool_je(self):
-        """The studio: criteria, rules, the run. Opens on the file's most recent ledger."""
+        """The journal-entry page (owner's mock-up of 2026-11-16): ledger, criteria, selected
+        entries, conclusion. Its studio holds the criteria; it opens on the file's latest ledger."""
         self.ensure_one()
         self._ea_require_access()
         dataset = self._ea_current_dataset("journal_entries")
         wizard = self.env["ea.audit.je.studio"].create({"engagement_id": self.id, "dataset_id": dataset.id or False})
-        return wizard._ea_reopen()
+        return wizard.action_open_page()
 
     def action_open_je_designs(self):
         return self._ea_list(

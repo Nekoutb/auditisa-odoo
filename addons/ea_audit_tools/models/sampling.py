@@ -503,7 +503,38 @@ class EngagementSampling(models.Model):
     # ------------------------------------------------------------------
 
     def action_tool_sampling(self):
+        """The sampling page (owner's mock-up of 2026-11-16): one card per sample."""
+        self.ensure_one()
+        self._ea_require_access()
+        return {
+            "type": "ir.actions.client", "tag": "ea_audit_tools.sampling_page", "target": "current",
+            "name": self.env._("Samples"), "params": {"engagement_id": self.id},
+            "context": {"active_id": self.id, "ea_engagement_id": self.id},
+        }
+
+    def action_sampling_board(self):
+        """The former board, kept for its links."""
         return self._ea_board("ea_audit_tools.view_engagement_sampling_board", self.env._("Sampling"))
+
+    def ea_sampling_open(self, method, res_id=None):
+        """The sampling page's links: the existing wizards, lists and exports."""
+        self.ensure_one()
+        if method in ("action_open_full", "action_open_draw", "action_open_grid_import"):
+            control = self.env["ea.audit.scot.control"].browse(int(res_id or 0)).exists()
+            if not control or control.sudo().engagement_id != self.sudo():
+                raise rule_error(self.env, "not-found")
+            return getattr(control, method)()
+        if method == "run_export":
+            run = self.env["ea.audit.automation.run"].browse(int(res_id or 0)).exists()
+            if not run or run.sudo().engagement_id != self.sudo():
+                raise rule_error(self.env, "not-found")
+            return run.action_export()
+        if method not in (
+            "action_sampling_controls", "action_open_tod_wizard", "action_open_tod_result_wizard", "action_open_sampling_wizard",
+            "action_export_toc_samples", "action_sampling_results", "action_sampling_runs", "action_sampling_board",
+        ):
+            raise rule_error(self.env, "forbidden")
+        return getattr(self, method)()
 
     def action_sampling_controls(self):
         return self._ea_list(

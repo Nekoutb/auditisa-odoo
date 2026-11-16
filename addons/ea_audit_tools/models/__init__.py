@@ -16,6 +16,7 @@ from . import scot_documents
 from . import control_test
 from . import sampling
 from . import je_selection
+from . import ws_pages
 from . import analyzer
 from . import design
 from . import sap

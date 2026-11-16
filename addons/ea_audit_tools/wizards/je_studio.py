@@ -164,6 +164,23 @@ class JeStudio(models.TransientModel):
         self.ensure_one()
         return self.engagement_id.action_open_je_designs()
 
+    def action_open_page(self):
+        """The journal-entry page on this studio's criteria."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.client", "tag": "ea_audit_tools.je_page", "target": "current",
+            "name": self.env._("Journal entries"),
+            "params": {"engagement_id": self.engagement_id.id, "studio_id": self.id},
+            "context": {"active_id": self.engagement_id.id, "ea_engagement_id": self.engagement_id.id},
+        }
+
+    def ea_open(self, method):
+        """The page's links to the studio's own screens."""
+        self.ensure_one()
+        if method not in ("_ea_reopen", "action_export", "action_designs", "action_import_ledger"):
+            raise rule_error(self.env, "forbidden")
+        return getattr(self, method)()
+
     def action_import_ledger(self):
         self.ensure_one()
         return self.engagement_id.action_tool_gl()

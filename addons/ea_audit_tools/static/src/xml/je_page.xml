@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.JePage">
+        <div class="o_ea_ws" t-if="p" data-ea="je-page">
+            <div class="o_ea_ws_card">
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · <span>E3.1 Journal entry testing</span></div>
+                        <h1>Journal entries</h1>
+                    </div>
+                    <div class="o_ea_ws_tools">
+                        <button type="button" class="btn btn-primary btn-sm" t-on-click="() => this.load()" t-att-disabled="state.busy">Run the criteria</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly and p.selectedEntries" t-on-click="() => this.record()">Record as the S5.4 design</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('action_export')">Export the E3.1 workbook</button>
+                    </div>
+                </div>
+
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the entries but does not change them.</t>
+                </div>
+
+                <div class="o_ea_ws_progress" t-if="!p.missing">
+                    <span class="o_ea_ws_meter"><i class="is-good" t-att-style="barStyle('cleared')"/><i class="is-bad" t-att-style="barStyle('problems')"/></span>
+                    <span t-esc="progressText"/>
+                </div>
+
+                <div class="o_ea_ws_kpis" t-if="!p.missing">
+                    <div class="o_ea_ws_kpi is-good"><span>Ledger lines</span><b t-esc="fmt(p.population.lines)"/></div>
+                    <div class="o_ea_ws_kpi is-good"><span>Entries</span><b t-esc="fmt(p.population.entries)"/></div>
+                    <div t-attf-class="o_ea_ws_kpi {{ p.checksOk ? 'is-good' : 'is-bad' }}">
+                        <span>Ledger checks passed</span>
+                        <b t-if="p.checksOk">Yes ✓</b>
+                        <b t-else="">To look at</b>
+                    </div>
+                    <div class="o_ea_ws_kpi is-warn"><span>Entries selected</span><b t-esc="fmt(p.selectedEntries)"/></div>
+                    <div class="o_ea_ws_kpi is-bad"><span>Entries with a problem</span><b t-esc="p.progress.problems"/></div>
+                </div>
+
+                <div class="o_ea_ws_tabs" role="tablist">
+                    <button type="button" t-attf-class="{{ state.tab === 'ledger' ? 'is-on' : '' }}" t-on-click="() => this.setTab('ledger')">
+                        1 Ledger <span t-if="p.checksOk" class="o_ea_ws_count is-good">✓</span>
+                    </button>
+                    <button type="button" t-attf-class="{{ state.tab === 'criteria' ? 'is-on' : '' }}" t-on-click="() => this.setTab('criteria')" t-att-disabled="p.missing">
+                        2 Criteria <span class="o_ea_ws_count"><t t-esc="criteriaOn"/> <span>on</span></span>
+                    </button>
+                    <button type="button" t-attf-class="{{ state.tab === 'entries' ? 'is-on' : '' }}" t-on-click="() => this.setTab('entries')" t-att-disabled="p.missing">
+                        3 Selected entries <span class="o_ea_ws_count is-warn" t-esc="p.selectedEntries"/>
+                    </button>
+                    <button type="button" t-attf-class="{{ state.tab === 'conclusion' ? 'is-on' : '' }}" t-on-click="() => this.setTab('conclusion')" t-att-disabled="p.missing">
+                        4 Conclusion
+                    </button>
+                </div>
+
+                <!-- 1 Ledger -->
+                <div t-if="state.tab === 'ledger'" class="o_ea_ws_pane">
+                    <div class="o_ea_ws_row">
+                        <label class="o_ea_ws_label">Ledger tested</label>
+                        <select class="form-select form-select-sm o_ea_ws_select" t-on-change="chooseDataset" t-if="p.datasets.length">
+                            <option t-foreach="p.datasets" t-as="d" t-key="d.id" t-att-value="d.id" t-att-selected="d.id === p.datasetId" t-esc="d.name"/>
+                        </select>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('action_import_ledger')">The ledgers</button>
+                    </div>
+                    <p class="o_ea_ws_empty" t-if="p.missing === 'ledger'">No general ledger is imported for this file yet. Import it from the ledgers, then come back.</p>
+                    <p class="o_ea_ws_empty" t-if="p.missing === 'lines'">The ledger is imported but not prepared yet. Open it from the ledgers and run the console once.</p>
+                    <div class="o_ea_ws_prereq">
+                        <span t-foreach="p.prerequisites" t-as="item" t-key="item_index" t-attf-class="o_ea_ws_chip {{ item.ok ? 'is-good' : 'is-warn' }}" t-esc="item.label"/>
+                    </div>
+                    <table class="o_ea_ws_grid" t-if="p.checks.length">
+                        <thead><tr><th>Check</th><th>Result</th><th>Detail</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="p.checks" t-as="check" t-key="check_index">
+                                <td t-esc="check.label"/>
+                                <td><span t-attf-class="o_ea_ws_tag is-{{ check.status }}" t-esc="checkLabel(check.status)"/></td>
+                                <td t-esc="check.detail"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 2 Criteria -->
+                <div t-if="state.tab === 'criteria'" class="o_ea_ws_pane">
+                    <div class="o_ea_ws_row">
+                        <span class="o_ea_ws_muted">Turn a criterion on or off: the entries it catches are counted at once.</span>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('_ea_reopen')">Thresholds and own rules</button>
+                    </div>
+                    <t t-call="ea_audit_tools.JeCriteria"/>
+                </div>
+
+                <!-- 3 Selected entries -->
+                <div t-if="state.tab === 'entries'" class="o_ea_ws_split">
+                    <aside class="o_ea_ws_side">
+                        <div class="o_ea_ws_caption">Criteria (entries caught)</div>
+                        <t t-call="ea_audit_tools.JeCriteria"/>
+                        <p class="o_ea_ws_muted" t-esc="countedOnce"/>
+                    </aside>
+                    <div class="o_ea_ws_main">
+                        <p class="o_ea_ws_empty" t-if="!p.entries.length">No entry is selected: turn a criterion on.</p>
+                        <div class="o_ea_ws_scroll" t-if="p.entries.length">
+                            <table class="o_ea_ws_grid is-clickable">
+                                <thead>
+                                    <tr>
+                                        <th>Entry</th><th>Date</th><th>Journal</th><th>Description</th><th>Posted by</th>
+                                        <th class="text-end">Amount (FCFA)</th><th>Why selected</th><th>Result</th><th class="text-end">Docs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="p.entries" t-as="row" t-key="row.je" t-attf-class="{{ row.je === state.current ? 'is-current' : '' }}" t-on-click="() => this.open(row)">
+                                        <td class="o_ea_ws_strong" t-esc="row.je"/>
+                                        <td t-esc="date(row.date)"/>
+                                        <td t-esc="row.journal"/>
+                                        <td t-esc="row.description or '—'"/>
+                                        <td t-esc="row.postedBy"/>
+                                        <td class="o_ea_ws_num" t-esc="fmt(row.amount)"/>
+                                        <td><span class="o_ea_ws_reason" t-foreach="row.reasons" t-as="reason" t-key="reason_index" t-esc="reason"/></td>
+                                        <td><span t-attf-class="o_ea_ws_tag is-{{ row.status }}" t-esc="statusLabel(row.status)"/></td>
+                                        <td class="o_ea_ws_num" t-esc="row.files"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="o_ea_ws_muted" t-if="p.truncated">The list shows the entries of the first 500 lines selected. Tighten the criteria to see them all.</p>
+
+                        <div class="o_ea_ws_detail" t-if="entry" data-ea="je-entry">
+                            <div class="o_ea_ws_detail_head">
+                                <div>
+                                    <b t-esc="entry.je"/> · <span t-esc="entry.description or '—'"/> · <b t-esc="fmt(entry.amount)"/> FCFA
+                                    <div class="o_ea_ws_muted">
+                                        <t t-foreach="entry.lines" t-as="line" t-key="line_index">
+                                            <span t-if="line.debit">Dr <t t-esc="line.account"/> <t t-esc="line.accountName"/> (<t t-esc="fmt(line.debit)"/>)</span>
+                                            <span t-if="line.credit">Cr <t t-esc="line.account"/> <t t-esc="line.accountName"/> (<t t-esc="fmt(line.credit)"/>)</span>
+                                            <t t-if="!line_last"> · </t>
+                                        </t>
+                                    </div>
+                                    <div class="o_ea_ws_muted" t-if="entry.finding">Finding raised: <b t-esc="entry.finding"/></div>
+                                </div>
+                                <div class="o_ea_ws_tools" t-if="!p.readonly">
+                                    <button type="button" t-attf-class="btn btn-sm {{ entry.status === 'cleared' ? 'btn-success' : 'btn-secondary' }}" t-on-click="() => this.mark('cleared')">Cleared</button>
+                                    <button type="button" t-attf-class="btn btn-sm {{ entry.status === 'problem' ? 'btn-danger' : 'btn-secondary' }}" t-on-click="() => this.mark('problem')">Problem</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" t-if="entry.status !== 'to_clear'" t-on-click="() => this.mark('to_clear')">Back to clear</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" t-if="!entry.finding" t-on-click="() => this.startFinding()">Raise a finding</button>
+                                </div>
+                            </div>
+                            <div class="o_ea_ws_detail_body">
+                                <textarea class="form-control o_ea_ws_note" rows="3" t-model="state.note" t-att-readonly="p.readonly"
+                                          placeholder="What you checked and what you found. A note is needed to mark the entry."/>
+                                <div t-attf-class="o_ea_ws_drop {{ state.dragging ? 'is-over' : '' }}" t-if="!p.readonly"
+                                     t-on-dragover="onDragOver" t-on-dragleave="() => this.state.dragging = false" t-on-drop="onDrop">
+                                    <span>Drop support here or</span>
+                                    <label class="o_ea_ws_link">choose files<input type="file" multiple="multiple" class="d-none" t-on-change="onFiles"/></label>
+                                </div>
+                            </div>
+                            <div class="o_ea_ws_files" t-if="entry.fileList.length">
+                                <a t-foreach="entry.fileList" t-as="file" t-key="file.id" t-att-href="fileUrl(file)" target="_blank" t-esc="file.name"/>
+                            </div>
+                            <div class="o_ea_ws_finding" t-if="state.finding" data-ea="je-finding">
+                                <div class="o_ea_ws_row">
+                                    <label class="o_ea_ws_label">Kind of finding</label>
+                                    <select class="form-select form-select-sm o_ea_ws_select" t-model="state.finding.type">
+                                        <option value="b5">Misstatement (goes to the audit differences)</option>
+                                        <option value="b4">Matter for attention</option>
+                                        <option value="c1">Control deficiency</option>
+                                    </select>
+                                    <t t-if="state.finding.type === 'b5'">
+                                        <label class="o_ea_ws_label">Amount</label>
+                                        <input type="text" class="form-control form-control-sm o_ea_ws_amount" t-model="state.finding.amount"/>
+                                    </t>
+                                </div>
+                                <textarea class="form-control" rows="2" t-model="state.finding.description"/>
+                                <label class="o_ea_ws_check" t-if="state.finding.type === 'b5'">
+                                    <input type="checkbox" t-model="state.finding.trivial"/>
+                                    <span>Record it even if it is below the clearly trivial threshold</span>
+                                </label>
+                                <div class="o_ea_ws_tools">
+                                    <button type="button" class="btn btn-primary btn-sm" t-on-click="() => this.raiseFinding()" t-att-disabled="state.busy">Raise the finding</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.state.finding = null">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Conclusion -->
+                <div t-if="state.tab === 'conclusion'" class="o_ea_ws_pane">
+                    <table class="o_ea_ws_grid o_ea_ws_facts">
+                        <tbody>
+                            <tr><td>Entries selected</td><td class="o_ea_ws_num" t-esc="fmt(p.selectedEntries)"/></tr>
+                            <tr><td>Cleared</td><td class="o_ea_ws_num" t-esc="fmt(p.progress.cleared)"/></tr>
+                            <tr><td>With a problem</td><td class="o_ea_ws_num" t-esc="fmt(p.progress.problems)"/></tr>
+                            <tr><td>Still to clear</td><td class="o_ea_ws_num" t-esc="fmt(p.progress.open)"/></tr>
+                            <tr><td>Selection designs recorded (S5.4)</td><td class="o_ea_ws_num" t-esc="p.designs"/></tr>
+                        </tbody>
+                    </table>
+                    <p class="o_ea_ws_muted" t-foreach="p.notes" t-as="note" t-key="note_index" t-esc="note"/>
+                    <div t-if="problems.length">
+                        <div class="o_ea_ws_caption">Entries with a problem</div>
+                        <table class="o_ea_ws_grid">
+                            <thead><tr><th>Entry</th><th>Note</th><th>Finding</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="problems" t-as="row" t-key="row.je">
+                                    <td class="o_ea_ws_strong" t-esc="row.je"/><td t-esc="row.note"/><td t-esc="row.finding or '—'"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="o_ea_ws_good" t-if="!p.progress.open and !p.progress.problems and p.selectedEntries">Every selected entry is cleared.</p>
+                    <div class="o_ea_ws_tools">
+                        <button type="button" class="btn btn-primary btn-sm" t-if="!p.readonly and p.selectedEntries" t-on-click="() => this.record()">Record as the S5.4 design</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('action_designs')">Designs recorded</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.studio('action_export')">Export the E3.1 workbook</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_tools.JeCriteria">
+        <div class="o_ea_ws_criteria">
+            <button type="button" t-foreach="p.criteria" t-as="criterion" t-key="criterion.key"
+                    t-attf-class="o_ea_ws_criterion {{ criterion.on ? 'is-on' : '' }}" t-on-click="() => this.toggle(criterion)" t-att-disabled="state.busy">
+                <span class="o_ea_ws_switch"><i/></span>
+                <span class="o_ea_ws_cname" t-esc="criterion.name"/>
+                <b class="o_ea_ws_num" t-esc="criterion.on ? criterion.entries : '—'"/>
+            </button>
+            <div class="o_ea_ws_criterion is-on is-own" t-foreach="p.ownRules" t-as="rule" t-key="rule_index">
+                <span class="o_ea_ws_cname">Our rule: <t t-esc="rule.name"/></span>
+                <b class="o_ea_ws_num" t-esc="rule.entries"/>
+            </div>
+        </div>
+    </t>
+</templates>

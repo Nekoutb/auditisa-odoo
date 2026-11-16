@@ -275,8 +275,9 @@ class TestHubAndGates(ToolsCase):
     def test_every_tile_with_a_method_opens(self):  # the hub and the analyzers
         for tile in self.env["ea.audit.tool.tile"].sudo().search([("method", "!=", False)]):
             action = tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
-            # the CRA, the findings and the SAD open their one page (2026-11-16), every other tool a window
-            pages = ("action_tool_cra", "action_tool_findings", "action_tool_sad")
+            # the CRA, the findings, the SAD, the journal entries and sampling open their one page
+            # (2026-11-16), every other tool a window
+            pages = ("action_tool_cra", "action_tool_findings", "action_tool_sad", "action_tool_je", "action_tool_sampling")
             expected = "ir.actions.client" if tile.method in pages else "ir.actions.act_window"
             self.assertEqual(action["type"], expected, tile.code)
 
