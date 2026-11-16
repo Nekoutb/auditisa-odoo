@@ -14,6 +14,7 @@ from engagement_profile import (
     lce_available,
     missing,
     provisional,
+    retired_reasons,
     task_codes,
 )
 
@@ -25,7 +26,7 @@ PLAIN = {
     "q9_specialists": "none", "q10_regulator": "no",
     "q11_fraud": "no",
     "q12_owners_known": "yes", "q13_automated": "no", "q14_keeper": "entity",
-    "q15_monitoring": "no", "q15_eqr": "no", "q16_risks": "no", "q17_going_concern": "no",
+    "q16_risks": "no", "q17_going_concern": "no",
     "q18_related_parties": "no", "q19_approach": "substantive", "q20_first_year": "no",
 }
 
@@ -97,8 +98,6 @@ def test_group_sub_answers_left_from_an_earlier_choice_are_ignored():
     ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}, "q4:consolidates"),
     ({"q13_automated": "yes"}, "q13"),
     ({"q14_keeper": "accountant", "q14_rely_report": "yes"}, "q14"),
-    ({"q15_monitoring": "yes"}, "q15:monitoring"),
-    ({"q15_eqr": "yes"}, "q15:eqr"),
     ({"q16_risks": "yes"}, "q16"),
     ({"q17_going_concern": "yes"}, "q17"),
     ({"q18_related_parties": "yes"}, "q18"),
@@ -131,7 +130,7 @@ def test_gate_one_wins_over_gate_two():
 # ---------------------------------------------------------------- compulsory answers
 
 def test_nothing_answered_lists_every_question_once():
-    assert missing({}) == ["Q%d" % n for n in range(1, 21)]
+    assert missing({}) == ["Q%d" % n for n in range(1, 20)]
 
 
 @pytest.mark.parametrize("field", sorted(set(PLAIN)))
@@ -147,7 +146,7 @@ def test_each_question_is_compulsory(field):
     ({"q4_group": "parent"}, "Q4"),
     ({"q4_group": "parent", "q4_consolidates": "yes"}, "Q4"),
     ({"q14_keeper": "payroll"}, "Q14"),
-    ({"q19_approach": "other"}, "Q19"),
+    ({"q19_approach": "other"}, "Q18"),
 ])
 def test_a_sub_answer_is_compulsory_in_its_case(changes, question):
     assert missing(answers(**changes)) == [question]
@@ -182,7 +181,6 @@ def test_a_plain_company_switches_nothing_on():
     ({"q9_specialists": "core"}, "S5.1"),
     ({"q14_keeper": "hosting", "q14_rely_report": "no"}, "S5.2"),
     ({"q19_approach": "other", "q19_internal_audit": True}, "S5.3"),
-    ({"q15_eqr": "yes"}, "C4.2"),
     ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}, "P2.3"),
     ({"q4_group": "parent", "q4_consolidates": "no", "q4_other_auditors": "yes"}, "P2.3"),
 ])
@@ -197,11 +195,33 @@ def test_options_ticked_before_choosing_year_end_substantive_switch_nothing_on()
 def test_retired_income_statement_tasks_are_never_switched_on():
     everything = answers(
         q1_listed="yes", q3_controls_law="yes", q13_automated="yes", q9_specialists="core",
-        q14_keeper="accountant", q14_rely_report="yes", q15_eqr="yes", q19_approach="other",
+        q14_keeper="accountant", q14_rely_report="yes", q19_approach="other",
         q19_controls=True, q19_interim=True, q19_internal_audit=True, q20_first_year="yes",
         q4_group="parent", q4_consolidates="yes", q4_other_auditors="yes", **{"q8_%d" % n: "high" for n in range(1, 9)},
     )
     assert not {code for code in task_codes(everything) if code.startswith("E5.")}
+
+
+# ---- the former Q15, removed on 2026-11-16: the firm decides on a quality review on P1.5 only
+
+@pytest.mark.parametrize("old", [
+    {"q15_monitoring": "yes"}, {"q15_eqr": "yes"}, {"q15_monitoring": "yes", "q15_eqr": "yes"},
+])
+def test_former_q15_answers_change_neither_level_nor_tasks(old):
+    assert conclude(answers(**old)) == (VERY_SIMPLE, [])
+    assert task_codes(answers(**old)) == set()
+    assert "C4.2" not in task_codes(answers(**old))
+
+
+def test_former_q15_is_not_asked():
+    assert not {"q15_monitoring", "q15_eqr"} & set(ANSWER_FIELDS)
+    assert missing(PLAIN) == []
+
+
+def test_former_q15_answers_explain_an_old_conclusion():
+    assert retired_reasons({"q15_monitoring": "yes", "q15_eqr": "no"}) == ["q15:monitoring"]
+    assert retired_reasons({"q15_monitoring": "yes", "q15_eqr": "yes"}) == ["q15:monitoring", "q15:eqr"]
+    assert retired_reasons({}) == []
 
 
 def test_first_year():
@@ -241,16 +261,16 @@ def test_an_unmet_very_simple_condition_rules_very_simple_out_early():
 def test_plain_answers_stay_open_until_the_last_one():
     partial = {k: v for k, v in PLAIN.items() if k != "q20_first_year"}
     assert provisional(partial) == (None, [])
-    assert answered_count(partial) == 19
+    assert answered_count(partial) == 18
 
 
 @pytest.mark.parametrize("changes", [{}, {"q2_pie": "bank"}, {"q16_risks": "yes"}, {"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}])
 def test_once_complete_it_is_exactly_the_conclusion(changes):
     answers = {**PLAIN, **changes}
-    assert answered_count(answers) == 20
+    assert answered_count(answers) == 19
     assert provisional(answers) == conclude(answers)
 
 
 def test_a_parent_without_its_sub_answers_is_not_answered():
     answers = {**PLAIN, "q4_group": "parent"}
-    assert answered_count(answers) == 19
+    assert answered_count(answers) == 18

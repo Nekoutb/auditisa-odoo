@@ -75,13 +75,14 @@ _REASONS = {
     "q4:consolidates": _lt("Q4 the entity prepares consolidated accounts"),
     "q13": _lt("Q13 a process too automated for testing balances alone"),
     "q14": _lt("Q14 we rely on a service provider's own auditor report"),
-    "q15:monitoring": _lt("Q15 under the firm's close monitoring"),
-    "q15:eqr": _lt("Q15 an engagement quality review is required"),
-    "q16": _lt("Q16 significant risks or complex estimates expected"),
-    "q17": _lt("Q17 doubt about going concern"),
-    "q18": _lt("Q18 significant related-party or unusual transactions"),
+    # the removed Q15 (ruling of 2026-11-16), named only on a profile concluded before it went
+    "q15:monitoring": _lt("Under the firm's close monitoring (question since removed)"),
+    "q15:eqr": _lt("An engagement quality review was required (question since removed)"),
+    "q16": _lt("Q15 significant risks or complex estimates expected"),
+    "q17": _lt("Q16 doubt about going concern"),
+    "q18": _lt("Q17 significant related-party or unusual transactions"),
     "q9:other": _lt("Q9 specialists other than tax"),
-    "q19": _lt("Q19 not tested by balances only at year end"),
+    "q19": _lt("Q18 not tested by balances only at year end"),
 }
 _TITLES = {
     tree.COMPLEX: _lt("Complex because:"),
@@ -182,30 +183,26 @@ SCREEN = (
          _lt("Anyone other than the entity itself adds S5.2, service organisations."),
          (("q14_keeper", None, "choice", None),
           ("q14_rely_report", _lt("Will we rely on that provider's own auditor's report?"), "choice", _outside_keeper))),
-        ("Q15", _lt("Q15. Is the engagement under the firm's close monitoring? Is an engagement quality review required?"),
-         _lt("A quality review adds C4.2."),
-         (("q15_monitoring", _lt("Close monitoring"), "choice", None),
-          ("q15_eqr", _lt("Engagement quality review"), "choice", None))),
     )),
     (_lt("Risk"), (
-        ("Q16", _lt("Q16. Significant risks beyond the presumed ones, or complex estimates?"),
+        ("Q15", _lt("Q15. Significant risks beyond the presumed ones, or complex estimates?"),
          _lt("For example impairment, provisions or fair values with high uncertainty."),
          (("q16_risks", None, "choice", None),)),
-        ("Q17", _lt("Q17. Any doubt about going concern?"),
+        ("Q16", _lt("Q16. Any doubt about going concern?"),
          _lt("Losses, debts falling due, or the loss of a key customer or lender."),
          (("q17_going_concern", None, "choice", None),)),
-        ("Q18", _lt("Q18. Significant related-party or unusual transactions outside the normal business?"),
+        ("Q17", _lt("Q17. Significant related-party or unusual transactions outside the normal business?"),
          _lt("Dealings with owners, managers or their companies, or one-off operations outside the normal business."),
          (("q18_related_parties", None, "choice", None),)),
     )),
     (_lt("Approach and history"), (
-        ("Q19", _lt("Q19. Planned approach"),
+        ("Q18", _lt("Q18. Planned approach"),
          _lt("Balances only at year end, or tick what else you will do: rely on controls, test at an interim date, use internal audit's work."),
          (("q19_approach", None, "choice", None),
           ("q19_controls", None, "toggle", _other_approach),
           ("q19_interim", None, "toggle", _other_approach),
           ("q19_internal_audit", None, "toggle", _other_approach))),
-        ("Q20", _lt("Q20. Is this a first-year audit?"),
+        ("Q19", _lt("Q19. Is this a first-year audit?"),
          _lt("Yes adds P1.2, contact with the predecessor auditor."),
          (("q20_first_year", None, "choice", None),)),
     )),
@@ -238,7 +235,7 @@ _TASKS_SO_FAR = _lt("%s tasks so far")
 _TASKS_ALL = _lt("%s tasks")
 _STILL_ONE = _lt("Still to answer: 1 question. The level can still change.")
 _STILL_MANY = _lt("Still to answer: %s questions. The level can still change.")
-_CONCLUDE_WAIT = _lt("Available once all 20 questions are answered.")
+_CONCLUDE_WAIT = _lt("Available once all 19 questions are answered.")
 _CONCLUDE_READY = _lt("Puts the tasks on the file. You can reopen the questionnaire later.")
 _CONCLUDED = _lt("Concluded on %(date)s by %(name)s. Changing an answer works the level out again and only adds tasks.")
 _READ_ONLY = {
@@ -296,17 +293,18 @@ class EngagementProfile(models.Model):
     q14_keeper = fields.Selection(KEEPER_SELECTION, string="Q14 Who keeps the books")
     q14_rely_report = fields.Selection(YES_NO, string="Q14 Rely on the provider's auditor report")
     # Risk
-    q15_monitoring = fields.Selection(YES_NO, string="Q15 Under close monitoring")
-    q15_eqr = fields.Selection(YES_NO, string="Q15 Engagement quality review required")
-    q16_risks = fields.Selection(YES_NO, string="Q16 Significant risks or complex estimates")
-    q17_going_concern = fields.Selection(YES_NO, string="Q17 Doubt about going concern")
-    q18_related_parties = fields.Selection(YES_NO, string="Q18 Significant related-party or unusual transactions")
+    # The former Q15, removed on 2026-11-16: old answers stay stored, nothing reads or writes them.
+    q15_monitoring = fields.Selection(YES_NO, string="Former question: under close monitoring")
+    q15_eqr = fields.Selection(YES_NO, string="Former question: engagement quality review required")
+    q16_risks = fields.Selection(YES_NO, string="Q15 Significant risks or complex estimates")
+    q17_going_concern = fields.Selection(YES_NO, string="Q16 Doubt about going concern")
+    q18_related_parties = fields.Selection(YES_NO, string="Q17 Significant related-party or unusual transactions")
     # Approach and history
-    q19_approach = fields.Selection(APPROACH_SELECTION, string="Q19 Planned approach")
+    q19_approach = fields.Selection(APPROACH_SELECTION, string="Q18 Planned approach")
     q19_controls = fields.Boolean(string="Rely on controls")
     q19_interim = fields.Boolean(string="Test at an interim date")
     q19_internal_audit = fields.Boolean(string="Use internal audit's work")
-    q20_first_year = fields.Selection(YES_NO, string="Q20 First-year audit")
+    q20_first_year = fields.Selection(YES_NO, string="Q19 First-year audit")
 
     # What the screen shows
     missing_text = fields.Char(string="Still to answer", compute="_compute_texts")
@@ -323,6 +321,17 @@ class EngagementProfile(models.Model):
     def _ea_answers(self):
         self.ensure_one()
         return {name: self[name] for name in tree.ANSWER_FIELDS}
+
+    def _ea_settled(self, level, reasons):
+        """The level a concluded profile stands at, and why.
+
+        A profile concluded before the former Q15 was removed (ruling of 2026-11-16) keeps the
+        level it was concluded at until an answer changes; its old Q15 answers explain it.
+        """
+        self.ensure_one()
+        if self.state == "concluded" and self.level and level and level != self.level:
+            return self.level, tree.retired_reasons({name: self[name] for name in tree.RETIRED_FIELDS})
+        return level, reasons
 
     def _ea_reason_words(self, key, lang):
         head, _sep, detail = key.partition(":")
@@ -356,7 +365,7 @@ class EngagementProfile(models.Model):
             if profile.state != "concluded" or not profile.level or still_open:
                 profile.conclusion_title = profile.reasons_text = profile.lce_note = False
                 continue
-            level, reasons = tree.conclude(answers)
+            level, reasons = profile._ea_settled(*tree.conclude(answers))
             profile.conclusion_title = _TITLES[level]._translate(lang)
             profile.reasons_text = "\n".join("• " + profile._ea_reason_words(key, lang) for key in reasons) or False
             if level == tree.COMPLEX:
@@ -390,7 +399,7 @@ class EngagementProfile(models.Model):
         if not vals:
             return True
         if not self.env.su:
-            if set(vals) & _ENGINE_FIELDS:
+            if set(vals) & (_ENGINE_FIELDS | set(tree.RETIRED_FIELDS)):
                 raise rule_error(self.env, "forbidden")
             self._ea_check_answerer()
         result = super().write(vals)
@@ -552,6 +561,8 @@ class EngagementProfile(models.Model):
             })
 
         level, reasons = tree.provisional(answers)
+        if complete and not overlay:
+            level, reasons = self._ea_settled(level, reasons)
         if level == tree.NON_COMPLEX and not complete:
             intro = _NOT_VS_SO_FAR
         else:

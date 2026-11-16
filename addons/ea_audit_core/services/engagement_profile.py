@@ -1,4 +1,4 @@
-"""The engagement profile: twenty compulsory questions, the decision tree and the tasks they bring.
+"""The engagement profile: nineteen compulsory questions, the decision tree and the tasks they bring.
 
 Owner's rulings of 2026-11-15 (approved page "Engagement profile questionnaire", draft 3):
 
@@ -9,6 +9,11 @@ Owner's rulings of 2026-11-15 (approved page "Engagement profile questionnaire",
 * a subsidiary is judged like a stand-alone company: being in a group only adds tasks;
 * no hour limit, no size threshold, joint audit never set automatically;
 * answers only ever ADD tasks (the caller never removes one).
+
+Owner's ruling of 2026-11-16: the former Q15 (close monitoring, engagement quality review) is removed.
+Appointing a quality reviewer is decided only on P1.5. The two stored answers stay on old profiles and
+are ignored; the questions after it are shown one number lower (Q16 is now Q15 ... Q20 is now Q19).
+The fields and the reason keys keep their old names (q16_risks, "q16", ...): only the labels moved.
 
 Pure: standard library only, so the tree is tested without Odoo. The texts shown to people live in
 the model, which turns the reason keys returned here into words in the reader's language.
@@ -41,14 +46,15 @@ REQUIRED = (
     ("Q13", "q13_automated", None),
     ("Q14", "q14_keeper", None),
     ("Q14", "q14_rely_report", lambda a: bool(a.get("q14_keeper")) and a.get("q14_keeper") != "entity"),
-    ("Q15", "q15_monitoring", None),
-    ("Q15", "q15_eqr", None),
-    ("Q16", "q16_risks", None),
-    ("Q17", "q17_going_concern", None),
-    ("Q18", "q18_related_parties", None),
-    ("Q19", "q19_approach", None),
-    ("Q20", "q20_first_year", None),
+    ("Q15", "q16_risks", None),
+    ("Q16", "q17_going_concern", None),
+    ("Q17", "q18_related_parties", None),
+    ("Q18", "q19_approach", None),
+    ("Q19", "q20_first_year", None),
 )
+
+# The removed question's answers, still stored on old profiles and ignored by the tree.
+RETIRED_FIELDS = ("q15_monitoring", "q15_eqr")
 
 ANSWER_FIELDS = tuple(dict.fromkeys(field for _q, field, _when in REQUIRED)) + Q19_OPTIONS
 
@@ -76,7 +82,7 @@ def missing(answers):
             open_questions.append(number)
     # "Something other than year-end substantive" must say which.
     if answers.get("q19_approach") == "other" and not any(answers.get(f) for f in Q19_OPTIONS):
-        open_questions.append("Q19")
+        open_questions.append("Q18")
     return list(dict.fromkeys(open_questions))
 
 
@@ -125,10 +131,6 @@ def not_very_simple_reasons(answers):
         reasons.append("q13")
     if _relies_on_provider_report(answers):
         reasons.append("q14")
-    if _yes(answers, "q15_monitoring"):
-        reasons.append("q15:monitoring")
-    if _yes(answers, "q15_eqr"):
-        reasons.append("q15:eqr")
     if _yes(answers, "q16_risks"):
         reasons.append("q16")
     if _yes(answers, "q17_going_concern"):
@@ -156,11 +158,20 @@ def conclude(answers):
     return VERY_SIMPLE, []
 
 
+def retired_reasons(stored):
+    """The removed Q15's reason keys, read from the answers an old profile still stores.
+
+    Only to explain the level such a profile was concluded at: the tree itself ignores them.
+    """
+    return ["q15:%s" % name for name, field in (("monitoring", "q15_monitoring"), ("eqr", "q15_eqr"))
+            if stored.get(field) == "yes"]
+
+
 QUESTION_NUMBERS = tuple(dict.fromkeys(number for number, _field, _when in REQUIRED))
 
 
 def answered_count(answers):
-    """How many of the twenty questions are fully answered, sub-answers included."""
+    """How many of the nineteen questions are fully answered, sub-answers included."""
     return len(QUESTION_NUMBERS) - len(missing(answers))
 
 
@@ -188,15 +199,14 @@ def is_first_year(answers):
 
 
 # What the answers switch on, whatever the level. The eleven conditional templates of the catalogue:
-#   P1.2 predecessor auditor .... Q20 first-year audit (as the old "first-year audit" box did)
-#   P4.2 control environment .... Q3 controls testing by law, Q13 automated process, Q19 reliance on controls
+#   P1.2 predecessor auditor .... Q19 first-year audit (as the old "first-year audit" box did)
+#   P4.2 control environment .... Q3 controls testing by law, Q13 automated process, Q18 reliance on controls
 #   P4.3 IT environment ......... Q8 any IT point high, Q13 automated process
 #   S5.1 experts (ISA 620) ...... Q9 any specialist, tax included
 #   S5.2 service organisations .. Q14 books or key data kept by someone outside the entity
-#   S5.3 internal audit ......... Q19 internal audit's work used
+#   S5.3 internal audit ......... Q18 internal audit's work used
 #   E5.1-E5.5 .................... retired (income statement covered by the E4 indexes): never
-# Two tasks of the "extended" tier, which a Non-complex file does not have otherwise:
-#   C4.2 engagement quality review  Q15 a quality review is required
+# A task of the "extended" tier, which a Non-complex file does not have otherwise:
 #   P2.3 scope and components ....  Q4 a parent that consolidates or whose components others audit
 # Q11 known or suspected fraud, non-compliance or whistle-blowing: the fraud and laws work, P5.1 (fraud
 # risks), E3.1 (journal entries and fraud) and E6.1 (laws and NOCLAR). They are core tasks, on every
@@ -218,8 +228,6 @@ def task_codes(answers):
         codes.add("S5.2")
     if answers.get("q19_approach") == "other" and answers.get("q19_internal_audit"):
         codes.add("S5.3")
-    if _yes(answers, "q15_eqr"):
-        codes.add("C4.2")
     if _parent(answers) and (_yes(answers, "q4_consolidates") or _yes(answers, "q4_other_auditors")):
         codes.add("P2.3")
     if _yes(answers, "q11_fraud"):

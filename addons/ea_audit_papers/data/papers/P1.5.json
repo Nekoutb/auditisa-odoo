@@ -62,23 +62,13 @@
       "source": "engagement profile"
      },
      {
-      "key": "profile_monitoring",
-      "kind": "auto",
-      "compact": true,
-      "labelEn": "Close monitoring required",
-      "labelFr": "Surveillance renforcée",
-      "tagEn": "Q15",
-      "tagFr": "Q15",
-      "source": "engagement profile"
-     },
-     {
       "key": "profile_risks",
       "kind": "auto",
       "compact": true,
       "labelEn": "Significant risks or complex estimates",
       "labelFr": "Risques importants ou estimations complexes",
-      "tagEn": "Q16",
-      "tagFr": "Q16",
+      "tagEn": "Q15",
+      "tagFr": "Q15",
       "source": "engagement profile"
      },
      {
@@ -87,8 +77,8 @@
       "compact": true,
       "labelEn": "Doubt about going concern",
       "labelFr": "Doute sur la continuité d'exploitation",
-      "tagEn": "Q17",
-      "tagFr": "Q17",
+      "tagEn": "Q16",
+      "tagFr": "Q16",
       "source": "engagement profile"
      },
      {
@@ -97,8 +87,8 @@
       "compact": true,
       "labelEn": "First-year audit",
       "labelFr": "Premier exercice audité",
-      "tagEn": "Q20",
-      "tagFr": "Q20",
+      "tagEn": "Q19",
+      "tagFr": "Q19",
       "source": "engagement profile"
      },
      {

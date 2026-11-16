@@ -335,7 +335,7 @@ class Paper(models.Model):
         values = {}
         for key, name in (
             ("profile_listed", "q1_listed"), ("profile_law", "q3_controls_law"),
-            ("profile_monitoring", "q15_monitoring"), ("profile_risks", "q16_risks"),
+            ("profile_risks", "q16_risks"),
             ("profile_going_concern", "q17_going_concern"), ("profile_first_year", "q20_first_year"),
         ):
             values[key] = (yes_no.get(profile[name]) if profile else None) or unanswered
@@ -390,8 +390,7 @@ class Paper(models.Model):
             text = "%s %s" % (text, _("Decided by %(name)s on %(day)s.", name=row.user_id.name, day=day))
         if decision != "appoint" and engagement._ea_eqr_task_on_file():
             text = "%s %s" % (text, _(
-                "C4.2 stays on the file: it already holds work, a quality reviewer sits on the team, "
-                "or the engagement profile asks for it."
+                "C4.2 stays on the file: it already holds work or a quality reviewer sits on the team."
             ))
         return text
 

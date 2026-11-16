@@ -14,7 +14,7 @@ PLAIN = {
     "q9_specialists": "none", "q10_regulator": "no",
     "q11_fraud": "no",
     "q12_owners_known": "yes", "q13_automated": "no", "q14_keeper": "entity",
-    "q15_monitoring": "no", "q15_eqr": "no", "q16_risks": "no", "q17_going_concern": "no",
+    "q16_risks": "no", "q17_going_concern": "no",
     "q18_related_parties": "no", "q19_approach": "substantive", "q20_first_year": "no",
 }
 
@@ -113,7 +113,7 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(engagement.complexity, "non_complex")
         self.assertIn("Q11 known or suspected fraud", profile.reasons_text)
         self.assertLessEqual({"P5.1", "E3.1", "E6.1"}, self.active_codes(engagement))
-        self.assertIn("Q17", profile.reasons_text)
+        self.assertIn("Q16 doubt about going concern", profile.reasons_text)
         self.assertNotIn("extended", engagement.file_item_ids.template_id.mapped("tier"))
 
     def test_complex_lists_every_reason(self):
@@ -175,11 +175,31 @@ class TestEngagementProfile(EaAuditCase):
         self.assertNotIn("P4.2", codes)
         self.assertTrue(engagement.first_year)
 
-    def test_a_quality_review_brings_c42_to_a_non_complex_file(self):
+    def test_the_former_q15_is_gone_and_brings_no_quality_review(self):
+        """Owner's ruling of 2026-11-16: the quality review is decided on P1.5 only."""
         engagement, _action = self.open_new()
-        self.conclude(engagement, q15_eqr="yes")
-        self.assertEqual(engagement.complexity, "non_complex")
-        self.assertIn("C4.2", self.active_codes(engagement))
+        profile = self.conclude(engagement)
+        self.assertEqual(engagement.complexity, "very_simple")
+        self.assertNotIn("C4.2", self.active_codes(engagement))
+        self.assertEqual(self.attempt(profile.write, {"q15_eqr": "yes"}), "forbidden")
+        self.assertEqual(self.attempt(profile.ea_profile_save, {"q15_monitoring": "yes"}), "forbidden")
+
+    def test_a_profile_concluded_before_q15_went_keeps_its_level_until_an_answer_changes(self):
+        engagement, _action = self.open_new()
+        profile = self.conclude(engagement)
+        # as stored by the old questionnaire: Q15 close monitoring made it Non-complex
+        profile.sudo().with_context(ea_profile_applying=True).write({"q15_monitoring": "yes", "level": "non_complex"})
+        profile.invalidate_recordset()
+        self.assertEqual(profile.level, "non_complex")
+        self.assertIn("Non-complex", profile.conclusion_title)
+        self.assertIn("close monitoring (question since removed)", profile.reasons_text)
+        panel = self.screen(engagement)["panel"]
+        self.assertEqual(panel["level"], "non_complex")
+        self.assertIn("Under the firm's close monitoring (question since removed)", panel["reasons"])
+        # a changed answer works the level out again, without the former question
+        profile.write({"q7_major_change": "no"})
+        self.assertEqual(profile.level, "very_simple")
+        self.assertEqual(profile.q15_monitoring, "yes")
 
     def test_s61_saying_no_does_not_switch_off_what_the_profile_switched_on(self):
         engagement, _action = self.open_new()
@@ -284,7 +304,7 @@ class TestEngagementProfile(EaAuditCase):
     def screen(self, engagement, user=None):
         return self.profile(engagement, user).ea_profile_screen()
 
-    def test_the_screen_has_seven_sections_and_twenty_questions(self):
+    def test_the_screen_has_seven_sections_and_nineteen_questions(self):
         engagement, _action = self.open_new()
         screen = self.screen(engagement)
         self.assertEqual(
@@ -293,8 +313,8 @@ class TestEngagementProfile(EaAuditCase):
              "How the evidence will be obtained", "Risk", "Approach and history"],
         )
         numbers = [q["number"] for s in screen["sections"] for q in s["questions"]]
-        self.assertEqual(numbers, ["Q%d" % n for n in range(1, 21)])
-        self.assertEqual(screen["progress"], {"answered": 0, "total": 20})
+        self.assertEqual(numbers, ["Q%d" % n for n in range(1, 20)])
+        self.assertEqual(screen["progress"], {"answered": 0, "total": 19})
         it = screen["sections"][2]["questions"][0]
         self.assertEqual(len(it["parts"]), 8)
         self.assertEqual([o["value"] for o in it["parts"][0]["options"]], ["low", "high"])
@@ -309,7 +329,7 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(screen["panel"]["level_label"], "Not settled yet")
         self.assertIn("Very simple is still possible", screen["panel"]["intro"])
         self.assertFalse(screen["conclude"]["can"])
-        self.assertEqual(screen["conclude"]["hint"], "Available once all 20 questions are answered.")
+        self.assertEqual(screen["conclude"]["hint"], "Available once all 19 questions are answered.")
 
     def test_the_level_so_far_follows_each_answer(self):
         engagement, _action = self.open_new()
@@ -322,7 +342,7 @@ class TestEngagementProfile(EaAuditCase):
         screen = profile.ea_profile_save({"q16_risks": "yes"})
         self.assertEqual(screen["panel"]["level"], "non_complex")
         self.assertTrue(screen["panel"]["provisional"])
-        self.assertIn("Q16 significant risks or complex estimates expected", screen["panel"]["reasons"])
+        self.assertIn("Q15 significant risks or complex estimates expected", screen["panel"]["reasons"])
         # Low is not a sign of complexity (owner, 2026-11-15: Low or High only)
         screen = profile.ea_profile_save({"q8_1": "low"})
         self.assertEqual(screen["panel"]["level"], "non_complex")

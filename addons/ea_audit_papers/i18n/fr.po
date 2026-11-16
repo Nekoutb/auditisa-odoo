@@ -1837,5 +1837,5 @@ msgstr "Décidé par %(name)s le %(day)s."
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/paper.py:0
-msgid "C4.2 stays on the file: it already holds work, a quality reviewer sits on the team, or the engagement profile asks for it."
-msgstr "C4.2 reste au dossier : elle contient déjà des travaux, un réviseur qualité fait partie de l'équipe, ou le profil de la mission la demande."
+msgid "C4.2 stays on the file: it already holds work or a quality reviewer sits on the team."
+msgstr "C4.2 reste au dossier : elle contient déjà des travaux ou un réviseur qualité fait partie de l'équipe."

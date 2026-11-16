@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- The profile questionnaire: twenty compulsory questions, then the conclusion (owner's rulings of 2026-11-15). -->
+    <!-- The profile questionnaire: nineteen compulsory questions, then the conclusion (owner's rulings of 2026-11-15). -->
     <record id="view_engagement_profile_form" model="ir.ui.view">
         <field name="name">ea.audit.engagement.profile.form</field>
         <field name="model">ea.audit.engagement.profile</field>
@@ -8,7 +8,7 @@
             <form create="0" delete="0" duplicate="0" class="ea-profile">
                 <header>
                     <button name="action_conclude" type="object" string="Conclude" class="btn-primary" invisible="state == 'concluded' or missing_text"/>
-                    <span class="text-muted align-self-center" invisible="state == 'concluded' or not missing_text">Available once all 20 questions are answered.</span>
+                    <span class="text-muted align-self-center" invisible="state == 'concluded' or not missing_text">Available once all 19 questions are answered.</span>
                     <button name="action_open_tasks" type="object" string="See the tasks" class="btn-primary" invisible="state != 'concluded'"/>
                     <button name="action_save_for_later" type="object" string="Back to the engagement"/>
                     <field name="state" widget="statusbar"/>
@@ -19,7 +19,7 @@
                         <h1><field name="engagement_id" readonly="1" options="{'no_open': True}"/></h1>
                     </div>
                     <p class="text-muted">
-                        Answer all 20 questions. The answers alone decide the level of the engagement (Complex,
+                        Answer all 19 questions. The answers alone decide the level of the engagement (Complex,
                         Non-complex or Very simple) and its tasks. You can save and come back later; the tasks come
                         once every question is answered.
                     </p>
@@ -140,28 +140,21 @@
 
                     <h2 class="mt-4">Risk</h2>
                     <div class="mb-3">
-                        <div class="fw-bold">Q15. Is the engagement under the firm's close monitoring? Is an engagement quality review required?</div>
-                        <group class="mt-1">
-                            <field name="q15_monitoring" string="Close monitoring" widget="radio" options="{'horizontal': true}"/>
-                            <field name="q15_eqr" string="Engagement quality review" widget="radio" options="{'horizontal': true}"/>
-                        </group>
-                    </div>
-                    <div class="mb-3">
-                        <label for="q16_risks" class="fw-bold d-block" string="Q16. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"/>
+                        <label for="q16_risks" class="fw-bold d-block" string="Q15. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"/>
                         <field name="q16_risks" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q17_going_concern" class="fw-bold d-block" string="Q17. Any doubt about going concern?"/>
+                        <label for="q17_going_concern" class="fw-bold d-block" string="Q16. Any doubt about going concern?"/>
                         <field name="q17_going_concern" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q18_related_parties" class="fw-bold d-block" string="Q18. Significant related-party or unusual transactions outside the normal business?"/>
+                        <label for="q18_related_parties" class="fw-bold d-block" string="Q17. Significant related-party or unusual transactions outside the normal business?"/>
                         <field name="q18_related_parties" widget="radio" options="{'horizontal': true}"/>
                     </div>
 
                     <h2 class="mt-4">Approach and history</h2>
                     <div class="mb-3">
-                        <label for="q19_approach" class="fw-bold d-block" string="Q19. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"/>
+                        <label for="q19_approach" class="fw-bold d-block" string="Q18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"/>
                         <field name="q19_approach" widget="radio" options="{'horizontal': true}"/>
                         <div class="ms-4 mt-2" invisible="q19_approach != 'other'">
                             <div><field name="q19_controls"/> <label for="q19_controls"/></div>
@@ -170,7 +163,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="q20_first_year" class="fw-bold d-block" string="Q20. Is this a first-year audit?"/>
+                        <label for="q20_first_year" class="fw-bold d-block" string="Q19. Is this a first-year audit?"/>
                         <field name="q20_first_year" widget="radio" options="{'horizontal': true}"/>
                     </div>
                 </sheet>
