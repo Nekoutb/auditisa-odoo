@@ -68,7 +68,7 @@
                 <field name="file_item_id"/>
                 <field name="seq"/>
                 <field name="description"/>
-                <field name="assertion_ids" widget="many2many_tags"/>
+                <field name="assertion_ids" widget="ea_assertion_picker"/>
                 <field name="source"/>
                 <field name="status"/>
                 <field name="conclusion" optional="show"/>
@@ -209,7 +209,7 @@
                 <group>
                     <field name="index_code"/>
                     <field name="text"/>
-                    <field name="assertion_ids" widget="many2many_tags"/>
+                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                     <field name="nature"/>
                     <field name="timing"/>
                     <field name="extent"/>
@@ -231,7 +231,7 @@
                     <field name="mode"/>
                     <field name="file_item_id" options="{'no_create': True}"/>
                     <field name="description" invisible="mode != 'custom'" required="mode == 'custom'"/>
-                    <field name="assertion_ids" widget="many2many_tags" invisible="mode != 'custom'"/>
+                    <field name="assertion_ids" widget="ea_assertion_picker" invisible="mode != 'custom'"/>
                 </group>
                 <footer>
                     <button name="action_apply" type="object" string="Apply" class="btn-primary"/>

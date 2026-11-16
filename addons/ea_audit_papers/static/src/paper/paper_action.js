@@ -43,6 +43,7 @@ export class PaperAction extends Component {
         this.orm = useService("orm");
         this.action = useService("action");
         this.dialog = useService("dialog");
+        this.notification = useService("notification");
         const { params = {}, context = {} } = this.props.action || {};
         this.fileItemId = Number(params.file_item_id || params.active_id || context.active_id);
         this.state = useState({
@@ -397,7 +398,11 @@ export class PaperAction extends Component {
                 const names = voided.map((role) => this.t(role)).join(", ");
                 this.state.notice = this.t("voidedNotice") + names;
             }
-            return Object.keys(conflicts).length === 0;
+            const clean = Object.keys(conflicts).length === 0;
+            if (clean) {
+                this.notification.add(this.t("savedToast"), { type: "success" });
+            }
+            return clean;
         } finally {
             this.state.saving = false;
         }
@@ -423,7 +428,7 @@ export class PaperAction extends Component {
             minute: "2-digit",
             hourCycle: "h23",
         }).format(date);
-        return `${this.t("savedAt")}${clock} (WAT)`;
+        return `✓ ${this.t("savedAt")}${clock} (WAT)`;
     }
 
     // ---- signatures ----------------------------------------------------
@@ -445,6 +450,38 @@ export class PaperAction extends Component {
             return `${this.letter(chip.role)} ${chip.by}, ${chip.date}`;
         }
         return `${this.letter(chip.role)} ${this.t(`toSign_${chip.role}`)}`;
+    }
+
+    chipTitle(chip) {
+        if (chip.state !== "signed") {
+            return chip.reason || "";
+        }
+        return chip.removable ? this.t("unsignHint") : chip.remove_reason || "";
+    }
+
+    chipClick(chip) {
+        return chip.state === "signed" ? this.unsign(chip) : this.sign(chip);
+    }
+
+    /** Take back one's own sign-off, after a small confirmation; the server decides. */
+    unsign(chip) {
+        if (chip.state !== "signed" || !chip.removable) {
+            return;
+        }
+        this.dialog.add(ConfirmationDialog, {
+            title: this.t(`unsignTitle_${chip.role}`),
+            body: this.t("unsignBody").replace("%(state)s", this.t(`toSign_${chip.role}`)),
+            confirmLabel: this.t("unsignConfirm"),
+            cancelLabel: this.t("cancel"),
+            confirm: async () => {
+                const done = await this.guarded(() => this.callItem("action_unsign", [chip.role]));
+                if (done.ok) {
+                    this.state.notice = false;
+                    await this.refresh();
+                }
+            },
+            cancel: () => {},
+        });
     }
 
     async sign(chip) {

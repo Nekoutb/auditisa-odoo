@@ -65,6 +65,8 @@ _ENTRIES = (
     [r"^Partner sign-off delegation cleared$", _lt("Partner sign-off delegation cleared")],
     [r"^(?P<code>\S+) signed by (?P<name>.+) as (?P<role>\w+)$",
      _lt("%(code)s signed by %(name)s as %(role)s")],
+    [r"^(?P<code>\S+) sign-off as (?P<role>\w+) removed by (?P<name>.+)$",
+     _lt("%(code)s: sign-off as %(role)s removed by %(name)s")],
     [r"^(?P<count>\d+) task\(s\) assigned as (?P<role>\w+): (?P<codes>.+)$",
      _lt("%(count)s task(s) assigned as %(role)s: %(codes)s")],
     [r"^(?P<count>\d+) task\(s\) unassigned as (?P<role>\w+): (?P<codes>.+)$",

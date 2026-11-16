@@ -148,7 +148,7 @@
                     </group>
                     <group invisible="level == 'fs'">
                         <field name="index_code"/>
-                        <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="assertion_ids" widget="ea_assertion_picker"/>
                     </group>
                     <group invisible="level != 'fs'">
                         <field name="fs_note"/>
@@ -173,7 +173,7 @@
                 <field name="risk_id" invisible="1"/>
                 <group>
                     <field name="index_code"/>
-                    <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                 </group>
                 <footer>
                     <button name="action_link" type="object" string="Link" class="btn-primary"/>

@@ -21,9 +21,9 @@
             <div class="eap-chips" t-if="state.tab !== 'conclusion'">
                 <t t-foreach="chips" t-as="chip" t-key="chip.role">
                     <button type="button" class="eap-chip" t-att-data-chip="chip.role"
-                            t-att-class="{'is-signed': chip.state === 'signed', 'is-open': chip.state === 'open', 'is-refused': chip.state === 'refused'}"
-                            t-att-disabled="chip.state !== 'open'" t-att-title="chip.reason || ''"
-                            t-on-click="() => this.sign(chip)" t-esc="chipText(chip)"/>
+                            t-att-class="{'is-signed': chip.state === 'signed', 'is-open': chip.state === 'open', 'is-refused': chip.state === 'refused', 'is-mine': chip.removable}"
+                            t-att-disabled="chip.state !== 'open' and !chip.removable" t-att-title="chipTitle(chip)"
+                            t-on-click="() => this.chipClick(chip)" t-esc="chipText(chip)"/>
                 </t>
                 <t t-foreach="p.tool_links" t-as="link" t-key="link_index">
                     <button type="button" class="eap-chip is-tool" t-att-disabled="!link.action" t-on-click="() => this.openTool(link)">
@@ -67,7 +67,7 @@
                 </t>
 
                 <div class="eap-foot">
-                    <span class="eap-saved" t-att-class="{'is-dirty': dirty}" data-eap="save-indicator">
+                    <span class="eap-saved" t-att-class="{'is-dirty': dirty, 'is-saved': !dirty and savedLabel}" data-eap="save-indicator">
                         <t t-if="dirty" t-esc="t('unsaved')"/>
                         <t t-elif="savedLabel" t-esc="savedLabel"/>
                     </span>
@@ -75,7 +75,7 @@
                     <button type="button" class="eap-btn" t-if="tabIndex > 0" data-eap="prev" t-on-click="() => this.go(-1)" t-esc="t('previous')"/>
                     <button type="button" class="eap-btn" t-if="tabIndex &lt; tabs.length - 1" data-eap="next" t-on-click="() => this.go(1)" t-esc="t('next')"/>
                     <button type="button" class="eap-btn is-primary" t-if="!p.readonly and !p.embed_only" data-eap="save"
-                            t-att-disabled="state.saving or !dirty" t-on-click="() => this.save()"
+                            t-att-disabled="state.saving or !dirty" t-att-title="dirty ? '' : t('allSavedHint')" t-on-click="() => this.save()"
                             t-esc="state.saving ? t('saving') : t('save')"/>
                 </div>
             </div>
@@ -276,7 +276,10 @@
         <p class="eap-q"><b t-esc="t('signatures')"/></p>
         <div class="eap-sign-row">
             <t t-foreach="chips" t-as="chip" t-key="chip.role">
-                <span class="eap-chip is-signed" t-if="chip.state === 'signed'" t-att-data-chip="chip.role" t-esc="chipText(chip)"/>
+                <button type="button" class="eap-chip is-signed is-mine" t-if="chip.state === 'signed' and chip.removable" t-att-data-chip="chip.role"
+                        t-att-title="chipTitle(chip)" t-on-click="() => this.unsign(chip)" t-esc="chipText(chip)"/>
+                <span class="eap-chip is-signed" t-elif="chip.state === 'signed'" t-att-data-chip="chip.role"
+                      t-att-title="chipTitle(chip)" t-esc="chipText(chip)"/>
                 <button type="button" class="eap-btn is-primary" t-elif="chip.state === 'open'" t-att-data-chip="chip.role"
                         t-on-click="() => this.sign(chip)" t-esc="t('sign_' + chip.role)"/>
                 <span class="eap-refused" t-else="" t-att-data-chip="chip.role">

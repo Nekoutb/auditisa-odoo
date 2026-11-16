@@ -296,3 +296,69 @@ class TestPolicyEditors(StaffedCase):
             "invalid-team-role", self.TaskRule.with_user(self.partner2).save_task_rules,
             [{"code": "E4.1", "min_preparer": "boss", "min_reviewer": None, "partner_required": None}],
         )
+
+
+@tagged("post_install", "-at_install")
+class TestRemoveOwnSignoff(StaffedCase):
+    """Owner, 2026-11-16: whoever signed may take their sign-off back, while nobody has
+    signed after them and the file is not archived."""
+
+    def setUp(self):
+        super().setUp()
+        self.staff_team()
+
+    def unsign(self, user, code, role):
+        return self.item(self.engagement, code).with_user(user).action_unsign(role)
+
+    def test_the_preparer_removes_theirs_and_the_paper_goes_back(self):
+        self.sign(self.staff, self.engagement, "E4.1", "preparer")
+        self.assertEqual(self.item(self.engagement, "E4.1").state, "prepared")
+        self.assertEqual(self.unsign(self.staff, "E4.1", "preparer"), "preparer")
+        item = self.item(self.engagement, "E4.1")
+        self.assertEqual(item.state, "in_progress")
+        row = item.signoff_ids.filtered(lambda s: s.role == "preparer")
+        self.assertTrue(row.voided_at)
+        self.assertEqual(row.voided_by_id, self.staff)
+        # signed again afterwards: the voided row does not stand in the way
+        self.assertEqual(self.sign(self.staff, self.engagement, "E4.1", "preparer"), "preparer")
+
+    def test_only_the_signer_and_only_a_signature_that_exists(self):
+        self.assertCode("not-signed", self.unsign, self.staff, "E4.1", "preparer")
+        self.sign(self.staff, self.engagement, "E4.1", "preparer")
+        self.assertCode("not-your-signoff", self.unsign, self.senior, "E4.1", "preparer")
+        self.assertCode("forbidden", self.unsign, self.staff, "E4.1", "boss")
+
+    def test_a_later_signature_must_go_first(self):
+        self.TaskRule.with_user(self.partner).save_task_rules([
+            {"code": "E4.2", "min_preparer": None, "min_reviewer": None, "partner_required": True},
+        ])
+        self.sign(self.senior, self.engagement, "E4.2", "preparer")
+        self.sign(self.manager, self.engagement, "E4.2", "reviewer")
+        self.assertCode("later-signoff-first", self.unsign, self.senior, "E4.2", "preparer")
+        self.assertEqual(self.unsign(self.manager, "E4.2", "reviewer"), "reviewer")
+        self.assertEqual(self.item(self.engagement, "E4.2").state, "prepared")
+        self.assertEqual(self.unsign(self.senior, "E4.2", "preparer"), "preparer")
+
+    def test_the_reviewer_who_locked_the_paper_unlocks_it(self):
+        self.sign(self.staff, self.engagement, "E4.1", "preparer")
+        self.sign(self.manager, self.engagement, "E4.1", "reviewer")
+        self.assertEqual(self.item(self.engagement, "E4.1").state, "signed")
+        self.assertCode("later-signoff-first", self.unsign, self.staff, "E4.1", "preparer")
+        self.unsign(self.manager, "E4.1", "reviewer")
+        self.assertEqual(self.item(self.engagement, "E4.1").state, "prepared")
+
+    def test_a_dry_run_writes_nothing(self):
+        self.sign(self.staff, self.engagement, "E4.1", "preparer")
+        item = self.item(self.engagement, "E4.1").with_user(self.staff).with_context(ea_sign_dry_run=True)
+        self.assertEqual(item.action_unsign("preparer"), "preparer")
+        self.assertEqual(self.item(self.engagement, "E4.1").state, "prepared")
+
+    def test_refused_on_an_archived_file_and_written_to_the_trail(self):
+        self.sign(self.staff, self.engagement, "E4.1", "preparer")
+        self.unsign(self.staff, "E4.1", "preparer")
+        self.assertIn("E4.1 sign-off as preparer removed by", "\n".join(
+            self.engagement.sudo().message_ids.mapped(lambda m: m.body or "")
+        ))
+        self.sign(self.staff, self.engagement, "E4.1", "preparer")
+        self.engagement.sudo().write({"phase": "archived", "archived_at": "2026-01-01 00:00:00"})
+        self.assertCode("archived", self.unsign, self.staff, "E4.1", "preparer")

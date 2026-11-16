@@ -1698,3 +1698,69 @@ msgstr "%(level)s (questionnaire conclu le %(day)s)"
 #: code:addons/ea_audit_papers/models/paper.py:0
 msgid "The questionnaire is not finished yet."
 msgstr "Le questionnaire n'est pas encore terminé."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Removed by the person who signed"
+msgstr "Retirée par la personne qui a signé"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Saved: all your answers are recorded"
+msgstr "Enregistré : toutes vos réponses sont conservées"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Everything is saved. The button turns green again when you change something."
+msgstr "Tout est enregistré. Le bouton redevient vert dès que vous modifiez quelque chose."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove your sign-off as preparer?"
+msgstr "Retirer votre signature de préparateur ?"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove your sign-off as reviewer?"
+msgstr "Retirer votre signature de réviseur ?"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove your sign-off as approver?"
+msgstr "Retirer votre signature d'approbateur ?"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove your sign-off as quality reviewer?"
+msgstr "Retirer votre signature de revue qualité ?"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "The paper goes back to \"%(state)s\". This is recorded in the activity trail."
+msgstr "La feuille revient à « %(state)s ». Cela est consigné dans le journal d'activité."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Remove my sign-off"
+msgstr "Retirer ma signature"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Your sign-off: click to remove it"
+msgstr "Votre signature : cliquez pour la retirer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Cancel"
+msgstr "Annuler"

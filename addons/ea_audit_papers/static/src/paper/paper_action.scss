@@ -39,6 +39,7 @@
         border: 0; border-radius: 8px; padding: 5px 10px; font-size: 13px; font-weight: 600;
         background: var(--eap-grey); color: var(--eap-muted);
         &.is-signed { background: var(--eap-greenbg); color: var(--eap-green); }
+        &.is-mine { cursor: pointer; &:hover { box-shadow: inset 0 0 0 1px var(--eap-green); } }
         &.is-open { background: var(--eap-bluebg); color: var(--eap-blue); cursor: pointer; }
         &.is-refused { background: var(--eap-grey); color: var(--eap-muted); cursor: not-allowed; }
         &.is-tool { background: var(--eap-goldbg); color: var(--eap-gold); }
@@ -126,7 +127,7 @@
 
     .eap-foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 16px; }
     .eap-spacer { flex: 1; }
-    .eap-saved { color: var(--eap-muted); font-size: 13px; &.is-dirty { color: var(--eap-gold); font-weight: 600; } }
+    .eap-saved { color: var(--eap-muted); font-size: 13px; &.is-dirty { color: var(--eap-gold); font-weight: 600; } &.is-saved { color: var(--eap-green); font-weight: 600; } }
     .eap-btn {
         border: 0; border-radius: 8px; padding: 7px 12px; font-size: 13px; font-weight: 600; background: var(--eap-grey); color: var(--eap-soft); cursor: pointer;
         &.is-primary { background: var(--eap-green); color: #fff; }

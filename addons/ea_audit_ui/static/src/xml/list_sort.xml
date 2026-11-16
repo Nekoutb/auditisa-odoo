@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<!-- The rows in the order a click on a computed column chose (list_sort_patch.js). -->
+<t t-inherit="web.ListRenderer.Rows" t-inherit-mode="extension">
+    <xpath expr="//t[@t-foreach='list.records']" position="attributes">
+        <attribute name="t-foreach">eaRows(list)</attribute>
+    </xpath>
+</t>
+
+</templates>

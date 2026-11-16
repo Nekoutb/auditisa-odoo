@@ -5552,3 +5552,27 @@ msgstr "Comptes significatifs : mouvements signalés au-delà de %(pct)s et au-d
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Significant accounts: movements flagged above %(pct)s or above %(amount)s FCFA, set by %(name)s"
 msgstr "Comptes significatifs : mouvements signalés au-delà de %(pct)s ou au-delà de %(amount)s FCFA, fixé par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "There is no sign-off in that role on this working paper."
+msgstr "Cette feuille de travail ne porte pas de signature dans ce rôle."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Only the person who signed can remove this sign-off."
+msgstr "Seule la personne qui a signé peut retirer cette signature."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Someone has signed after you: their sign-off must be removed first."
+msgstr "Quelqu'un a signé après vous : sa signature doit d'abord être retirée."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(code)s: sign-off as %(role)s removed by %(name)s"
+msgstr "%(code)s : signature comme %(role)s retirée par %(name)s"

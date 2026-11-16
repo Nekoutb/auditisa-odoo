@@ -172,6 +172,25 @@ class TestChips(PaperCase):
         self.assertEqual(chips["preparer"]["by"], self.senior.name)
         self.assertEqual(chips["reviewer"]["state"], "open")
 
+    def test_only_the_signer_may_remove_and_only_while_nothing_follows(self):
+        self.complete(self.senior, "P3.1")
+        self.sign(self.senior, self.engagement, "P3.1", "preparer")
+        mine = self.chips(self.senior)["preparer"]
+        self.assertTrue(mine["mine"])
+        self.assertTrue(mine["removable"])
+        self.assertFalse(self.chips(self.manager)["preparer"]["mine"])
+        self.assertFalse(self.chips(self.manager)["preparer"]["removable"])
+        self.sign(self.manager, self.engagement, "P3.1", "reviewer")
+        held = self.chips(self.senior)["preparer"]
+        self.assertFalse(held["removable"])
+        self.assertTrue(held["remove_reason"])
+        self.assertFalse(held["remove_reason"].endswith("]"))
+        self.assertTrue(self.chips(self.manager)["reviewer"]["removable"])
+        self.item(self.engagement, "P3.1").with_user(self.manager).action_unsign("reviewer")
+        self.assertEqual(self.chips(self.manager)["reviewer"]["state"], "open")
+        payload = self.paper("P3.1").with_user(self.manager).get_payload()
+        self.assertEqual([v["role"] for v in payload["signing"]["voided"]], ["reviewer"])
+
     def test_the_preparer_is_told_why_they_cannot_review(self):
         self.complete(self.manager, "P3.1")
         self.sign(self.manager, self.engagement, "P3.1", "preparer")

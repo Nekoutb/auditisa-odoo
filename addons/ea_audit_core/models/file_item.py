@@ -16,6 +16,10 @@ from ..services.signoff_rules import (
 )
 from ..services.tool_fed import tool_output_missing_code, tool_outputs_for
 
+# Removing a sign-off waits for the roles signed after it (the EQR's stands apart).
+LATER_SIGNOFFS = {"preparer": ("reviewer", "partner"), "reviewer": ("partner",)}
+SIGNOFF_REMOVED_REASON = "Removed by the person who signed"
+
 # file_item column -> who the task's preparer rules apply to
 _ASSIGNMENT_FIELD = {"preparer": "preparer_id", "approver": "approver_id", "assignee": "assignee_id"}
 _ENGINE_FIELDS = {"state", "template_id", "engagement_id", "conditional", "code", "section"}
@@ -339,6 +343,62 @@ class FileItem(models.Model):
             item.state = "prepared"
         engagement._ea_log("signed_off", "%s signed by %s as %s" % (item.code, user.name, role))
         return role
+
+    def action_unsign(self, role):
+        """Take back one's own sign-off (owner, 2026-11-16). Only the person who signed that
+        role, only while no later role is signed (preparer < reviewer < partner; the EQR's
+        own signature stands apart), never on an archived file. The row stays, voided, and
+        the paper's state follows the signatures that remain. Returns the role removed."""
+        self.ensure_one()
+        env = self.env
+        Engagement = env["ea.audit.engagement"]
+        user = env.user
+        Engagement._ea_require_write()
+        item = self.sudo()
+        if not item.exists():
+            raise rule_error(env, "not-found")
+        engagement = item.engagement_id
+        engagement.with_env(env)._ea_require_access()
+        if role not in SIGNOFF_ROLES:
+            raise rule_error(env, "forbidden")
+        env.cr.execute("SELECT id FROM ea_audit_file_item WHERE id = %s FOR UPDATE", [item.id])
+        item.invalidate_recordset()
+        if engagement._ea_is_archived():
+            raise rule_error(env, "archived")
+        active = item.signoff_ids.filtered(
+            lambda s: s.kind == "workpaper" and not s.voided_at and not s.invalidated_at
+        )
+        signature = active.filtered(lambda s: s.role == role)[:1]
+        if not signature:
+            raise rule_error(env, "not-signed")
+        if signature.user_id != user:
+            raise rule_error(env, "not-your-signoff")
+        if set(active.mapped("role")) & set(LATER_SIGNOFFS.get(role, ())):
+            raise rule_error(env, "later-signoff-first")
+        if env.context.get("ea_sign_dry_run"):
+            return role
+        signature.write({
+            "voided_at": fields.Datetime.now(), "voided_by_id": user.id, "void_reason": SIGNOFF_REMOVED_REASON,
+        })
+        item._ea_restate_from_signoffs()
+        engagement._ea_log("signoff_removed", "%s sign-off as %s removed by %s" % (item.code, role, user.name))
+        return role
+
+    def _ea_restate_from_signoffs(self):
+        """The task's state as its remaining signatures make it."""
+        for item in self.sudo():
+            roles = set(item.signoff_ids.filtered(
+                lambda s: s.kind == "workpaper" and not s.voided_at and not s.invalidated_at
+            ).mapped("role"))
+            rule = self.env["ea.audit.signoff.policy"].sudo()._ea_effective_rule(item.code)
+            if "partner" in roles or ("reviewer" in roles and not rule["partner_required"]):
+                item.state = "signed"
+            elif "reviewer" in roles:
+                item.state = "reviewed"
+            elif "preparer" in roles:
+                item.state = "prepared"
+            elif item.state != "not_started":
+                item.state = "in_progress"
 
     def action_sign_preparer(self):
         self.action_sign("preparer")

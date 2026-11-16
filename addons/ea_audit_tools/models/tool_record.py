@@ -3,6 +3,7 @@ import inspect
 from odoo.tools.translate import _get_lang
 
 from odoo import api, fields, models
+from odoo.tools.translate import LazyTranslate
 
 from ..rules import rule_error
 from ..services.assertions import ASSERTIONS
@@ -116,6 +117,18 @@ class ToolRecord(models.AbstractModel):
 
 ASSERTION_SELECTION = [(code, code) for code in ASSERTIONS]
 
+_lt = LazyTranslate("ea_audit_tools")
+
+# What each assertion means, in a line (the assertion picker, owner's mock-up of 2026-11-16).
+ASSERTION_DESCRIPTIONS = {
+    "C": _lt("All transactions and balances that should be recorded are recorded."),
+    "E": _lt("Assets and liabilities exist; recorded transactions took place."),
+    "A": _lt("Amounts are recorded correctly and in the right period."),
+    "V": _lt("Balances are stated at appropriate amounts."),
+    "P": _lt("Items are classified and disclosed properly."),
+    "RO": _lt("The entity holds the rights to assets; liabilities are its obligations."),
+}
+
 
 class Assertion(models.Model):
     """The six assertions of lib/assertions.ts, as tags. Reference data, no engagement."""
@@ -130,6 +143,16 @@ class Assertion(models.Model):
     sequence = fields.Integer(default=10, readonly=True)
 
     _code_uniq = models.Constraint("UNIQUE(code)", "An assertion code is unique.")
+
+    # One line under the name in the assertion picker; computed, so nothing is stored.
+    description = fields.Char(compute="_compute_description")
+
+    @api.depends("code")
+    @api.depends_context("lang")
+    def _compute_description(self):
+        for assertion in self:
+            source = ASSERTION_DESCRIPTIONS.get(assertion.code)
+            assertion.description = self.env._(source) if source else False
 
     @api.depends("code", "name")
     @api.depends_context("lang")

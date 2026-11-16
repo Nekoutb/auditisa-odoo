@@ -83,7 +83,7 @@
                             <field name="index_link_ids" readonly="1">
                                 <list>
                                     <field name="index_code"/>
-                                    <field name="assertion_ids" widget="many2many_tags"/>
+                                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                                 </list>
                             </field>
                         </page>

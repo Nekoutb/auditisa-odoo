@@ -2528,6 +2528,7 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__description
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__description
 msgid "Description"
 msgstr "Intitulé"
 
@@ -11177,3 +11178,51 @@ msgstr "et : signaler seulement quand les deux limites sont dépassées. ou : qu
 #: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
 msgid "Set by the team members who can edit this file. and: both limits are passed; or: either one is."
 msgstr "Fixé par les membres de l'équipe qui peuvent modifier ce dossier. et : les deux limites sont dépassées ; ou : l'une d'elles l'est."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_record.py:0
+msgid "All transactions and balances that should be recorded are recorded."
+msgstr "Toutes les opérations et tous les soldes qui devraient être enregistrés le sont."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_record.py:0
+msgid "Assets and liabilities exist; recorded transactions took place."
+msgstr "Les actifs et les passifs existent ; les opérations enregistrées ont eu lieu."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_record.py:0
+msgid "Amounts are recorded correctly and in the right period."
+msgstr "Les montants sont enregistrés correctement et sur la bonne période."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_record.py:0
+msgid "Balances are stated at appropriate amounts."
+msgstr "Les soldes figurent pour des montants appropriés."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_record.py:0
+msgid "Items are classified and disclosed properly."
+msgstr "Les éléments sont correctement classés et présentés."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/tool_record.py:0
+msgid "The entity holds the rights to assets; liabilities are its obligations."
+msgstr "L'entité détient les droits sur les actifs ; les passifs sont ses obligations."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/assertion_picker.js:0
+msgid "Choose the relevant assertions"
+msgstr "Choisissez les assertions pertinentes"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/assertion_picker.js:0
+msgid "Assertion picker"
+msgstr "Choix des assertions"

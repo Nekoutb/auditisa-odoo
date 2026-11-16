@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="ea_audit_tools.AssertionCodes">
+    <span class="ea-assert-codes">
+        <t t-foreach="chosen" t-as="option" t-key="option.id">
+            <span class="ea-assert-code" t-att-data-code="option.code" t-esc="option.code"/>
+        </t>
+    </span>
+</t>
+
+<t t-name="ea_audit_tools.AssertionPickerField">
+    <div class="ea-assert-pick" t-att-title="hint">
+        <t t-if="props.readonly"><t t-call="ea_audit_tools.AssertionCodes"/></t>
+        <Dropdown t-else="" menuClass="'ea-assert-menu'" position="'bottom-start'">
+            <button type="button" class="ea-assert-toggle">
+                <t t-call="ea_audit_tools.AssertionCodes"/>
+                <span class="ea-assert-caret">▾</span>
+            </button>
+            <t t-set-slot="content">
+                <t t-foreach="all" t-as="option" t-key="option.id">
+                    <DropdownItem closingMode="'none'" onSelected="() => this.toggle(option)">
+                        <div class="ea-assert-opt" t-att-data-code="option.code">
+                            <input type="checkbox" class="form-check-input" tabindex="-1" t-att-checked="isSelected(option)"/>
+                            <div>
+                                <div><b class="ea-assert-opt-code" t-esc="option.code"/><t t-esc="option.name"/></div>
+                                <div class="ea-assert-opt-desc" t-if="option.description" t-esc="option.description"/>
+                            </div>
+                        </div>
+                    </DropdownItem>
+                </t>
+            </t>
+        </Dropdown>
+    </div>
+</t>
+
+</templates>

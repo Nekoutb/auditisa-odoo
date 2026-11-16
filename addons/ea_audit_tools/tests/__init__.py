@@ -17,3 +17,4 @@ from . import test_import_matching
 from . import test_significance_activity
 from . import test_grid_commentary_team
 from . import test_significance_variance
+from . import test_assertion_picker

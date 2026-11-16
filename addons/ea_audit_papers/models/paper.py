@@ -2,6 +2,8 @@ import logging
 
 from odoo import api, fields, models
 
+from odoo.exceptions import UserError
+
 from odoo.addons.ea_audit_core.services.errors import AuditRuleError, rule_error
 from odoo.addons.ea_audit_core.services.signoff_rules import EQR_PAPER, can_review, can_write
 
@@ -40,6 +42,14 @@ _logger = logging.getLogger(__name__)
 SIGNOFF_INVALIDATED_REASON = "Paper content changed after sign-off"
 CONTENT_SCHEME = 2
 TZ = "Africa/Douala"
+
+
+def _refusal_text(error):
+    """A refusal's message without the " [code]" the rules engine puts after it."""
+    message = error.args[0] if error.args else ""
+    code = getattr(error, "code", None)
+    suffix = " [%s]" % code if code else ""
+    return message[: -len(suffix)] if suffix and message.endswith(suffix) else message
 
 # app/engagements/[id]/sections/[itemId]/page.tsx. The E4 line is the mock-up's rail: the
 # platform shows none on account tasks.
@@ -482,18 +492,26 @@ class Paper(models.Model):
                     signature.definition_hash
                     and signature.definition_hash != self.env["ea.audit.paper.def"]._ea_current(self.code).definition_hash
                 ),
+                **self._ea_remove_chip(role, signature),
             }
         item = self.file_item_id.with_env(self.env).with_context(ea_sign_dry_run=True)
         try:
             recorded = item.action_sign(role)
         except AuditRuleError as error:
-            suffix = " [%s]" % error.code
-            message = error.args[0]
-            return {
-                "role": role, "state": "refused", "code": error.code,
-                "reason": message[: -len(suffix)] if message.endswith(suffix) else message,
-            }
+            return {"role": role, "state": "refused", "code": error.code, "reason": _refusal_text(error)}
         return {"role": role, "state": "open", "recorded": recorded}
+
+    def _ea_remove_chip(self, role, signature):
+        """Whether the person looking signed this chip, and may take it back now: core's
+        action_unsign run without its write, so the chip and the server agree."""
+        if signature.user_id != self.env.user:
+            return {"mine": False, "removable": False, "remove_reason": ""}
+        item = self.file_item_id.with_env(self.env).with_context(ea_sign_dry_run=True)
+        try:
+            item.action_unsign(role)
+        except UserError as error:
+            return {"mine": True, "removable": False, "remove_reason": _refusal_text(error)}
+        return {"mine": True, "removable": True, "remove_reason": ""}
 
     def _ea_signing_payload(self):
         self.ensure_one()

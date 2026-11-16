@@ -51,7 +51,7 @@
                             <field name="index_ids" readonly="1" nolabel="1">
                                 <list>
                                     <field name="index_code"/>
-                                    <field name="assertion_ids" widget="many2many_tags"/>
+                                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                                     <button name="action_unlink_index" type="object" string="Remove" groups="ea_audit_core.group_writer"/>
                                 </list>
                             </field>
@@ -60,7 +60,7 @@
                             <field name="wcgw_ids" readonly="1" nolabel="1">
                                 <list>
                                     <field name="description"/>
-                                    <field name="assertion_ids" widget="many2many_tags"/>
+                                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                                     <field name="control_ids" widget="many2many_tags"/>
                                     <field name="answered"/>
                                 </list>
@@ -404,7 +404,7 @@
                 <field name="scot_id" invisible="1"/>
                 <group>
                     <field name="index_code"/>
-                    <field name="assertion_ids" widget="many2many_tags"/>
+                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                 </group>
                 <footer>
                     <button name="action_link" type="object" string="Link" class="btn-primary"/>
@@ -421,7 +421,7 @@
                 <field name="scot_id" invisible="1"/>
                 <group>
                     <field name="description"/>
-                    <field name="assertion_ids" widget="many2many_tags"/>
+                    <field name="assertion_ids" widget="ea_assertion_picker"/>
                 </group>
                 <footer>
                     <button name="action_add" type="object" string="Add" class="btn-primary"/>
