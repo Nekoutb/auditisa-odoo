@@ -9,3 +9,7 @@ access_issue_wizard,issue wizard,model_ea_audit_issue_report_wizard,ea_audit_cor
 access_completion_wizard,completion wizard,model_ea_audit_completion_wizard,ea_audit_core.group_member,1,1,1,0
 access_hold_wizard,hold wizard,model_ea_audit_hold_wizard,ea_audit_core.group_member,1,1,1,0
 access_tieout_wizard,tieout wizard,model_ea_audit_tieout_wizard,ea_audit_core.group_member,1,1,1,0
+access_archive_seal_member,archive seal member,model_ea_audit_archive_seal,ea_audit_core.group_member,1,0,0,0
+access_archive_addendum_member,archive addendum member,model_ea_audit_archive_addendum,ea_audit_core.group_member,1,0,0,0
+access_archive_access_member,archive access member,model_ea_audit_archive_access,ea_audit_core.group_member,1,0,0,0
+access_late_work_member,late work member,model_ea_audit_late_work,ea_audit_core.group_member,1,0,0,0

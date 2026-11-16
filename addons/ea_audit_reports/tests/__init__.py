@@ -5,3 +5,4 @@ from . import test_letters
 from . import test_i18n
 from . import test_wiring
 from . import test_settings_dates
+from . import test_archive_seal

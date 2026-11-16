@@ -27,7 +27,7 @@ from ..services.gates import CODE_CAP, GROUP_OF, GROUPS, gate_applies_to_nature,
 from ..services.letters import LETTER_CODES, LETTER_KINDS, build_letter, end_sentence
 from ..services.opinion import OPINIONS, decide_opinion, report_blocks
 
-SYSTEM_COMPLETION_KEYS = {"archive_manifest"}
+SYSTEM_COMPLETION_KEYS = {"archive_manifest", "ready_to_issue"}
 OPINION_SELECTION = [
     ("unmodified", "Unmodified"), ("qualified", "Qualified"), ("adverse", "Adverse"), ("disclaimer", "Disclaimer"),
 ]
@@ -510,6 +510,8 @@ class Engagement(models.Model):
             reviewed_to = (as_root._ea_completion_data("subsequent_events") or {}).get("reviewedTo") or ""
             if not reviewed_to or reviewed_to < report_date.isoformat():
                 failed.append("subsequent_events")
+        # C6.1: the engagement partner's "ready to issue", still describing the file (owner, 2026-11-16).
+        failed += as_root._ea_ready_failed()
         self._ea_raise_report_gates(failed)
         as_root.write({"phase": "conclusion", "report_date": report_date, "opinion": opinion})
         self._ea_log("engagement_finalised", "Report issued: %s, dated %s" % (opinion, french_date(report_date)))
@@ -752,6 +754,9 @@ class Engagement(models.Model):
             gate("review_approval", 0 if c41 else 1),
             gate("review_notes_cleared", len(notes), sorted(set(notes.mapped("code")))),
             gate("c62_checklist", 0 if c62 else 1),
+            # owner's mock-up of 2026-11-16: the partner's checklist, and the team's two confirmations
+            gate("checklist_signed", 0 if self._ea_record_exists("ready_to_issue") else 1, ["C6.1"]),
+            gate("assembly_confirmed", 0 if self._ea_assembly_confirmed() else 1, ["C6.2"]),
         ]
 
     def archive_gates(self):
@@ -807,6 +812,8 @@ class Engagement(models.Model):
             "deficiencies_communicated": [code_item("C5.11", "évaluation des déficiences (ISA 265)", "deficiency evaluation (ISA 265)")],
             "c43_cleared": [code_item("C4.3", "points en suspens", "points outstanding")] + note_items,
             "c62_checklist": [code_item("C6.2", "documentation et archivage", "documentation and archive")],
+            "checklist_signed": [code_item("C6.1", "liste d'achèvement", "completion checklist")],
+            "assembly_confirmed": [code_item("C6.2", "confirmations avant l'archivage", "confirmations before archiving")],
         }
 
     def _ea_checklist(self, locale=None):
@@ -962,8 +969,10 @@ class Engagement(models.Model):
         """Later addons add their registers to the manifest here."""
         return {}
 
-    def archive_engagement(self):
-        """archiveEngagement: gates, retention, manifest and lock, in one transaction."""
+    def archive_engagement(self, late_reason=None):
+        """archiveEngagement: gates, retention, manifest, sealed copy and lock, in one transaction.
+        The engagement partner only, not a delegate (owner, 2026-11-16); past the 60 days, with
+        the reason logged."""
         self.ensure_one()
         self._ea_require_write()
         self._ea_require_access()
@@ -972,6 +981,8 @@ class Engagement(models.Model):
         refusal = self._ea_partner_tier_refusal()
         if refusal:
             raise rule_error(self.env, refusal)
+        if self.env.user not in self._ea_engagement_partners():
+            raise rule_error(self.env, "archive-engagement-partner-only")
         as_root = self.sudo()
         self.env.flush_all()
         self.env.cr.execute("SELECT report_date, archived_at FROM ea_audit_engagement WHERE id = %s FOR UPDATE", [self.id])
@@ -982,6 +993,9 @@ class Engagement(models.Model):
         self._ea_raise_report_gates([gate["key"] for gate in as_root._ea_archive_gates() if not gate["ok"]])
         if not report_date:
             raise rule_error(self.env, "no-report")
+        late = (late_reason or "").strip()
+        if fields.Date.context_today(self) > assembly_deadline(report_date) and not late:
+            raise rule_error(self.env, "late-archive-reason")
         # Fixed here, from the firm's period as it stands today, and before the manifest is built,
         # so a later change of the firm's setting cannot shorten the life of a closed file.
         years = self.env.company.sudo().ea_retention_years or RETENTION_MIN_YEARS
@@ -996,6 +1010,12 @@ class Engagement(models.Model):
             "name": "archive-manifest-%s.json" % as_root.fiscal_year, "raw": raw, "mimetype": "application/json",
             "res_model": "ea.audit.archive.manifest", "res_id": manifest.id,
         })
+        if late:
+            self._ea_log("archive.late", "Archived after the assembly deadline. Reason: %s" % late)
+        open_note = as_root._ea_open_late_work()
+        if open_note:
+            open_note.write({"closed_at": fields.Datetime.now(), "closed_by_id": self.env.user.id})
+        as_root.with_env(self.env)._ea_build_seal(content)
         as_root.write({"phase": "archived", "archived_at": fields.Datetime.now()})
         self._ea_log("archive", "Audit file archived and locked")
         # Everyone on the file hears it closed. Never an email; a failure must not undo the archive.
@@ -1007,9 +1027,9 @@ class Engagement(models.Model):
         return manifest
 
     def action_archive_file(self):
+        """The archive asks for the client's name: it is done on the C6.2 page."""
         self.ensure_one()
-        self.archive_engagement()
-        return True
+        return self.action_tool_archive()
 
     # ------------------------------------------------------------------
     # Retention and legal hold
@@ -1290,6 +1310,15 @@ class FileItem(models.Model):
         """E6.10 fronts the tie-out: the same figures as the conclusion board."""
         board = super().ea_paper_board()
         item = self.sudo()
+        if item.code in ("C6.1", "C6.2"):
+            # the paper fronts its page: the checklist before the report, the archive after it
+            engagement = item.engagement_id.with_env(self.env)
+            board["facts"], board["head"], board["rows"] = [], [], []
+            board["links"] = [
+                {"label": self.env._("Completion checklist"), "action": engagement.action_tool_checklist()},
+                {"label": self.env._("Assemble and archive"), "action": engagement.action_tool_archive()},
+            ]
+            return board
         if item.code != "E6.10" or not item.engagement_id._ea_tb_balances():
             return board
         result = item.engagement_id._ea_fs_tieout()

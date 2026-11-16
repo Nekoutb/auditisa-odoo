@@ -110,7 +110,7 @@ class TestArchive(ReportsCase):
     def _archived(self):
         self.issued()
         self.green_archive()
-        return self.as_partner.archive_engagement()
+        return self.archive()
 
     def test_who_may_archive(self):
         self.assertCode("archive-partner-only", self.as_manager.archive_engagement)
@@ -120,6 +120,11 @@ class TestArchive(ReportsCase):
 
     def test_refuses_naming_the_gates(self):
         self.issued()
+        self.env.flush_all()
+        self.env.cr.execute(
+            "UPDATE ea_audit_file_item SET na_reason = NULL, not_applicable = FALSE WHERE id = %s", [self.item(self.engagement, "E6.2").id],
+        )
+        self.env.invalidate_all()
         code = self.attempt(self.as_partner.archive_engagement)
         self.assertTrue(code.startswith("gates-failed:"))
         self.assertIn("tasks_addressed", code)
@@ -239,7 +244,7 @@ class TestExportBundle(ReportsCase):
     def test_bundle_of_an_archived_file_carries_the_manifest(self):
         self.issued()
         self.green_archive()
-        self.as_partner.archive_engagement()
+        self.archive()
         _name, archive = self._bundle()
         self.assertTrue(json.loads(archive.read("00-index/engagement.json"))["complete"])
         self.assertIn("60-conclusion/archive-manifest.json", archive.namelist())

@@ -33,7 +33,7 @@ class TestFrench(ReportsCase):
         self.assertIn("Conclusion générale de l", str(html))
 
     def test_french_dates_on_the_report(self):
-        self.green_completion()
+        self.ready()
         text = self.text_of(self.engagement.with_user(self.partner).with_context(lang="fr_FR").issue_report_from_form(report_date="2026-03-31"))
         self.assertIn("Fait le 31/03/2026", text)
 

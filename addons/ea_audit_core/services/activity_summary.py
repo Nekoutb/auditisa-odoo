@@ -219,6 +219,17 @@ _ENTRIES = (
      _lt("%(code)s: evidence deleted, %(file)s (restorable for %(days)s days)")],
     [r"^(?P<code>\S+): Removed: (?P<file>.+)$", _lt("%(code)s: evidence removed, %(file)s")],
     [r"^(?P<code>\S+): Restored: (?P<file>.+)$", _lt("%(code)s: evidence restored, %(file)s")],
+    # The completion checklist, the assembly window and the archived file (owner's mock-ups of 2026-11-16).
+    [r"^Finding recorded after the report date: (?P<what>.*)\. Reason: (?P<why>.*)$", _lt("Finding recorded after the report date: %(what)s. Reason: %(why)s")],
+    [r"^Misstatement recorded after the report date: (?P<what>.*)\. Reason: (?P<why>.*)$", _lt("Misstatement recorded after the report date: %(what)s. Reason: %(why)s")],
+    [r"^Procedure concluded after the report date: (?P<what>.*)\. Reason: (?P<why>.*)$", _lt("Procedure concluded after the report date: %(what)s. Reason: %(why)s")],
+    [r"^Archived after the assembly deadline\. Reason: (?P<why>.*)$", _lt("Archived after the assembly deadline. Reason: %(why)s")],
+    [r"^Sealed copy made: (?P<count>\d+) files, fingerprint (?P<sha>\S+)$", _lt("Sealed copy made: %(count)s files, fingerprint %(sha)s")],
+    [r"^Sealed copy downloaded$", _lt("Sealed copy downloaded")],
+    [r"^Addendum added after archiving: (?P<why>.*)$", _lt("Addendum added after archiving: %(why)s")],
+    [r"^Completion checklist signed by the partner: ready to issue$", _lt("Completion checklist signed by the partner: ready to issue")],
+    [r"^Work after the report date opened\. Reason: (?P<why>.*)$", _lt("Work after the report date opened. Reason: %(why)s")],
+    [r"^Work after the report date closed$", _lt("Work after the report date closed")],
     # The firm's own settings: no engagement.
     [r"^Firm sign-off policy updated$", _lt("Firm sign-off policy updated")],
     [r"^Sign-off rule of (?P<code>\S+) added$", _lt("Sign-off rule of %(code)s added")],

@@ -2,6 +2,7 @@ from datetime import date
 
 from odoo.addons.ea_audit_tools.tests.common import ToolsCase
 
+from ..services.archive_seal import ARCHIVE_CONFIRMS, QUESTIONS, answer_key, note_key
 from ..services.docx_builder import docx_text
 
 MATERIALITY = {"overall": 10_000_000.0, "performance": 7_000_000.0, "trivial": 500_000.0}
@@ -90,6 +91,7 @@ class ReportsCase(ToolsCase):
         """What the archive gates add: every task addressed, every worked task prepared and reviewed."""
         engagement = engagement or self.engagement
         self.patch(type(self.env["ea.audit.engagement"]), "_ea_paper_is_complete", lambda _self, _code: True)
+        self.answer_confirmations("C6.2", ARCHIVE_CONFIRMS, engagement)
         items = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", engagement.id)])
         self.env.flush_all()
         self.env.cr.execute("UPDATE ea_audit_file_item SET na_reason = 'Not used', not_applicable = TRUE WHERE id IN %s", [tuple(items.ids)])
@@ -100,9 +102,35 @@ class ReportsCase(ToolsCase):
             if row["worked"] and not row["reviewed"]:
                 self.signoff(row["item"].code, "reviewer", self.senior, engagement)
 
+    def answer_confirmations(self, code, questions, engagement=None, value="yes", note="Seen and filed."):
+        engagement = engagement or self.engagement
+        for question in questions:
+            self.answer(code, answer_key(question["key"]), value, engagement=engagement)
+            self.answer(code, note_key(question["key"]), note, engagement=engagement)
+
+    def conclude_procedures(self, engagement=None):
+        engagement = engagement or self.engagement
+        self.env["ea.audit.designed.procedure"].sudo().search([("engagement_id", "=", engagement.id)]).write(
+            {"state": "done", "conclusion": "satisfactory"},
+        )
+
+    def ready(self, engagement=None, reviewed_to="2026-03-31", eqr=True):
+        """Everything the C6.1 checklist asks, then the partner's "ready to issue"."""
+        engagement = engagement or self.engagement
+        self.green_completion(engagement, reviewed_to=reviewed_to, eqr=eqr)
+        self.conclude_procedures(engagement)
+        self.answer_confirmations("C6.1", QUESTIONS, engagement)
+        self.green_archive(engagement)
+        engagement.with_user(self.partner).ea_sign_ready()
+        return engagement
+
     def issued(self, engagement=None, report_date=date(2026, 3, 31)):
         """A file with its report issued."""
         engagement = engagement or self.engagement
-        self.green_completion(engagement)
+        self.ready(engagement)
         engagement.with_user(self.partner).issue_report_from_form(report_date=report_date)
         return engagement
+
+    def archive(self, engagement=None):
+        """The engagement partner archives; the test files are past their 60 days."""
+        return (engagement or self.engagement).with_user(self.partner).archive_engagement(late_reason="Test file archived late.")

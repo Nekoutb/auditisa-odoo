@@ -8,8 +8,9 @@
             <form create="0" delete="0" edit="0">
                 <header>
                     <button name="action_open_issue_wizard" type="object" string="Issue the report" class="btn-primary" invisible="report_date or archived_at" groups="ea_audit_core.group_partner"/>
-                    <button name="action_archive_file" type="object" string="Archive and lock the file" class="btn-primary" invisible="not report_date or archived_at" groups="ea_audit_core.group_partner"
-                            confirm="Once archived, nothing on this file can be changed. Archive it?"/>
+                    <button name="action_tool_checklist" type="object" string="Completion checklist" invisible="report_date or archived_at"/>
+                    <button name="action_archive_file" type="object" string="Archive and lock the file" class="btn-primary" invisible="not report_date or archived_at" groups="ea_audit_core.group_partner"/>
+                    <button name="action_tool_archive" type="object" string="Assemble and archive" invisible="not report_date"/>
                     <button name="action_view_documents" type="object" string="Letters and reports"/>
                     <button name="action_export_bundle" type="object" string="Export the file"/>
                     <button name="action_open_hold_wizard" type="object" string="Legal hold" groups="ea_audit_core.group_manager"/>

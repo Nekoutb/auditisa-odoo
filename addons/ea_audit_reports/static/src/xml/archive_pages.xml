@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_reports.ConfirmRows">
+        <div class="o_ea_arc_q" t-foreach="rows" t-as="row" t-key="row.key" t-att-data-key="row.key">
+            <div class="o_ea_arc_qline">
+                <span class="o_ea_arc_qtext"><t t-esc="row.n"/>. <t t-esc="row.label"/><t t-if="row.isa"> (<t t-esc="row.isa"/>)</t></span>
+                <span class="o_ea_arc_yn" role="group">
+                    <button type="button" t-att-class="{'is-on': page.draft(row).answer === 'yes'}" t-att-disabled="readonly"
+                            t-on-click="() => page.choose(row, 'yes')">Yes</button>
+                    <button type="button" t-att-class="{'is-on is-no': page.draft(row).answer === 'no'}" t-att-disabled="readonly"
+                            t-on-click="() => page.choose(row, 'no')">No</button>
+                </span>
+            </div>
+            <input type="text" class="form-control form-control-sm o_ea_arc_note" t-att-value="page.draft(row).note"
+                   t-att-readonly="readonly" placeholder="Note (required for every answer)"
+                   t-on-input="(ev) => page.onNote(row, ev)" t-on-change="() => page.saveIfComplete(row)"/>
+            <div class="o_ea_arc_need" t-if="page.needsNote(row)">Write a note to save this answer.</div>
+            <div class="o_ea_arc_need is-muted" t-elif="!row.answered">to answer</div>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_reports.ChecklistPage">
+        <div class="o_ea_arc" t-if="p" data-ea="checklist-page">
+            <div class="o_ea_arc_card o_ea_arc_top">
+                <EaCrumbs engagementId="engagementId"/>
+                <div class="o_ea_arc_head">
+                    <div>
+                        <h1>Ready to issue the report?</h1>
+                        <div class="o_ea_arc_sub"><t t-esc="p.engagement"/> · C6.1 · ISA 220, 230, 450, 560, 570, 580, 700</div>
+                    </div>
+                    <div class="o_ea_arc_stats">
+                        <div><b><t t-esc="p.checksOk"/> / <t t-esc="p.checksTotal"/></b><span>checks by the tool</span></div>
+                        <div><b><t t-esc="p.answered"/> / <t t-esc="p.questions"/></b><span>questions answered</span></div>
+                        <div>
+                            <b t-if="status === 'issued'">Report issued</b>
+                            <b t-elif="status === 'signed'" class="is-green">Ready to issue</b>
+                            <b t-elif="status === 'ready'">Awaiting the partner</b>
+                            <b t-else="">Not ready</b>
+                            <span>status</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="o_ea_arc_info" t-if="p.archived">Read only: this engagement is archived.</div>
+                <div class="o_ea_arc_warn" t-if="p.stale">An answer changed after the partner signed: the partner signs again before the report is issued.</div>
+            </div>
+
+            <div class="o_ea_arc_cols">
+                <div class="o_ea_arc_card">
+                    <h3>1 · Checked by the tool</h3>
+                    <div class="o_ea_arc_check" t-foreach="p.checks" t-as="check" t-key="check.key" t-att-data-key="check.key">
+                        <span t-att-class="check.ok ? 'o_ea_arc_ok' : 'o_ea_arc_ko'" t-esc="check.ok ? '✓' : '✗'"/>
+                        <span class="o_ea_arc_label">
+                            <t t-esc="check.label"/>
+                            <span class="o_ea_arc_codes" t-if="!check.ok and check.codes.length"> · <t t-esc="check.codes.join(', ')"/></span>
+                        </span>
+                        <span class="o_ea_arc_auto" t-if="check.ok">auto</span>
+                        <a href="#" class="o_ea_arc_fix" t-else="" t-on-click.prevent="() => this.open(check.openKind, check.openValue)">open ›</a>
+                    </div>
+                </div>
+
+                <div class="o_ea_arc_card">
+                    <h3>2 · Confirmed by the team — a note is required for each answer</h3>
+                    <t t-call="ea_audit_reports.ConfirmRows">
+                        <t t-set="rows" t-value="p.rows"/>
+                        <t t-set="page" t-value="this"/>
+                        <t t-set="readonly" t-value="p.readonly or p.reportIssued"/>
+                    </t>
+                    <div class="o_ea_arc_sign">
+                        <button type="button" class="btn btn-primary" data-ea="sign-ready" t-if="!p.signed and !p.reportIssued"
+                                t-att-disabled="!p.canSign or state.busy" t-on-click="sign">Partner sign-off: ready to issue</button>
+                        <button type="button" class="btn btn-primary" t-if="p.signed and !p.reportIssued and p.isPartner"
+                                t-on-click="issue">Issue the report</button>
+                        <span class="o_ea_arc_muted" t-if="p.signedText" t-esc="p.signedText"/>
+                        <span class="o_ea_arc_muted" t-elif="!p.reportIssued">Available when everything is green. Signed by the engagement partner. Issuing the report requires it.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_reports.ArchivePage">
+        <div class="o_ea_arc" t-if="p" data-ea="archive-page">
+            <!-- the archived file: lock banner, sealed copy, addenda, access log -->
+            <t t-if="p.archived">
+                <div class="o_ea_arc_card o_ea_arc_top">
+                    <EaCrumbs engagementId="engagementId"/>
+                    <div class="o_ea_arc_banner" data-ea="archive-banner" t-att-title="p.fingerprint" t-esc="p.banner"/>
+                    <div class="o_ea_arc_buttons">
+                        <button type="button" class="btn btn-secondary" t-if="p.hasSeal" t-on-click="download">Download the sealed copy</button>
+                        <button type="button" class="btn btn-secondary" t-on-click="() => this.state.showAdd = !this.state.showAdd">Add an addendum</button>
+                        <button type="button" class="btn btn-secondary" t-if="p.held ? p.canRelease : p.canManage"
+                                t-on-click="() => this.state.showHold = !this.state.showHold">Legal hold</button>
+                        <button type="button" class="btn btn-primary" t-on-click="rollForward" t-esc="p.rollLabel"/>
+                    </div>
+                    <div class="o_ea_arc_form" t-if="state.showAdd">
+                        <textarea class="form-control" rows="2" placeholder="Why this addendum (what, and who asked)" t-model="state.addReason"/>
+                        <input type="file" class="form-control form-control-sm" t-ref="addendumFile"/>
+                        <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!state.addReason.trim() or state.busy" t-on-click="addAddendum">Add the addendum</button>
+                    </div>
+                    <div class="o_ea_arc_form" t-if="state.showHold">
+                        <textarea class="form-control" rows="2" placeholder="Reason (required)" t-model="state.holdReason"/>
+                        <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!state.holdReason.trim() or state.busy" t-on-click="toggleHold">
+                            <t t-if="p.held">Release the legal hold</t><t t-else="">Place a legal hold</t>
+                        </button>
+                        <span class="o_ea_arc_muted">While a legal hold is on, the file cannot be deleted, even after its retention period.</span>
+                    </div>
+                    <div class="o_ea_arc_muted" t-if="p.sealText" t-esc="p.sealText"/>
+                </div>
+                <div class="o_ea_arc_cols">
+                    <div class="o_ea_arc_card">
+                        <h3>Addenda after archiving (ISA 230 ¶16)</h3>
+                        <table class="o_ea_arc_grid" t-if="p.addenda.length">
+                            <thead><tr><th>Date</th><th>By</th><th>Why</th><th>Document</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="p.addenda" t-as="a" t-key="a.id">
+                                    <td t-esc="a.at"/><td t-esc="a.by"/><td t-esc="a.reason"/>
+                                    <td><a t-if="a.url" t-att-href="a.url" t-esc="a.document"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_arc_muted" t-else="">No addendum.</p>
+                        <p class="o_ea_arc_muted">An addendum adds; it never changes or removes what was archived.</p>
+                    </div>
+                    <div class="o_ea_arc_card">
+                        <h3>Access log</h3>
+                        <table class="o_ea_arc_grid" t-if="p.access.length">
+                            <thead><tr><th>Date</th><th>Who</th><th>What</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="p.access" t-as="r" t-key="r_index">
+                                    <td t-esc="r.at"/><td t-esc="r.who"/><td t-esc="r.what"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_arc_muted" t-else="">Nobody has opened the archived file yet.</p>
+                    </div>
+                </div>
+            </t>
+
+            <!-- before archiving: the 60-day window -->
+            <t t-else="">
+                <div class="o_ea_arc_card o_ea_arc_top">
+                    <EaCrumbs engagementId="engagementId"/>
+                    <div class="o_ea_arc_head">
+                        <div>
+                            <h1>Assemble and archive the file</h1>
+                            <div class="o_ea_arc_sub" t-esc="p.subtitle"/>
+                        </div>
+                        <div class="o_ea_arc_clock" t-if="p.clock" t-att-class="'is-' + p.clock.tone" data-ea="assembly-clock">
+                            <div class="o_ea_arc_muted" t-esc="p.clock.deadlineText"/>
+                            <b t-esc="p.clock.text"/>
+                            <div class="o_ea_arc_track"><i t-att-style="clockStyle"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="o_ea_arc_cols">
+                    <div class="o_ea_arc_card">
+                        <h3>Before archiving</h3>
+                        <div class="o_ea_arc_check" t-foreach="p.checks" t-as="check" t-key="check.key" t-att-data-key="check.key">
+                            <span t-att-class="check.ok ? 'o_ea_arc_ok' : 'o_ea_arc_ko'" t-esc="check.ok ? '✓' : '✗'"/>
+                            <span class="o_ea_arc_label"><t t-esc="check.label"/></span>
+                            <a href="#" class="o_ea_arc_fix" t-if="check.code" t-on-click.prevent="() => this.open('method', 'action_tool_checklist')" t-esc="check.code"/>
+                            <a href="#" class="o_ea_arc_fix" t-elif="!check.ok" t-on-click.prevent="() => this.open('method', 'action_open_conclusion')">open ›</a>
+                        </div>
+                        <ul class="o_ea_arc_blocking" t-if="p.blocking.length">
+                            <li t-foreach="p.blocking" t-as="label" t-key="label_index" t-esc="label"/>
+                        </ul>
+                        <t t-call="ea_audit_reports.ConfirmRows">
+                            <t t-set="rows" t-value="p.confirms"/>
+                            <t t-set="page" t-value="this"/>
+                            <t t-set="readonly" t-value="p.readonly"/>
+                        </t>
+
+                        <h3 class="mt-3">Work after the report date</h3>
+                        <p class="o_ea_arc_muted">After the report date only assembly work is done. A new finding, misstatement or procedure conclusion is refused unless a manager opens this with its reason; each one is then named in the activity trail.</p>
+                        <div t-foreach="p.lateWork" t-as="n" t-key="n_index" t-att-class="'o_ea_arc_late' + (n.open ? ' o_ea_arc_amber' : '')" t-esc="n.text"/>
+                        <div class="o_ea_arc_form" t-if="p.canManage and p.reportDate and !p.readonly">
+                            <t t-if="p.lateOpen">
+                                <button type="button" class="btn btn-secondary btn-sm" t-on-click="closeLateWork">Close the work after the report date</button>
+                            </t>
+                            <t t-else="">
+                                <input type="text" class="form-control form-control-sm" placeholder="Reason for new work after the report date" t-model="state.lateWork"/>
+                                <button type="button" class="btn btn-secondary btn-sm" t-att-disabled="!state.lateWork.trim()" t-on-click="openLateWork">Open, with this reason</button>
+                            </t>
+                        </div>
+
+                        <h3 class="mt-3">What archiving does</h3>
+                        <ul class="o_ea_arc_does">
+                            <li>🔒 The whole file becomes read-only: no edit, no deletion.</li>
+                            <li>📦 A sealed copy is made: every paper (PDF where the server can render it, else HTML), all evidence, and a fingerprint (SHA-256) of each file.</li>
+                            <li>🗄 The sealed copy is kept on the server and in the backups.</li>
+                            <li t-esc="p.keptText"/>
+                        </ul>
+                    </div>
+
+                    <div class="o_ea_arc_card">
+                        <h3>Archive</h3>
+                        <div class="o_ea_arc_warn">Only the engagement partner can archive. This cannot be undone.</div>
+                        <t t-if="p.isPartner and !p.readonly">
+                            <label class="o_ea_arc_confirm">Type the client name to confirm:
+                                <input type="text" class="form-control form-control-sm" t-att-placeholder="p.client" t-model="state.confirmName" data-ea="confirm-name"/>
+                            </label>
+                            <label class="o_ea_arc_confirm" t-if="p.clock and p.clock.overdue">Why the file is archived after the 60 days (required):
+                                <textarea class="form-control form-control-sm" rows="2" t-model="state.lateReason"/>
+                            </label>
+                            <button type="button" class="btn btn-danger" data-ea="archive-file" t-att-disabled="!canPressArchive" t-on-click="archive">Archive the file</button>
+                            <div class="o_ea_arc_muted" t-if="!p.canArchive">Every line on the left must be green first.</div>
+                        </t>
+                        <h3 class="mt-3">After archiving</h3>
+                        <ul class="o_ea_arc_does">
+                            <li>The team and inspectors can still open and read it; every opening is logged.</li>
+                            <li>A later change is an addendum (who, when, why); the original stays untouched.</li>
+                            <li>A legal hold can stop deletion at the end of retention.</li>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

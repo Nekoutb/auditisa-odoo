@@ -404,7 +404,9 @@ msgid "Disposal proceeds"
 msgstr "Produits des cessions"
 
 #. module: ea_audit_reports
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_document_version__document_id
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
 msgid "Document"
 msgstr "Document"
 
@@ -665,11 +667,13 @@ msgid "Issue the audit report"
 msgstr "Émettre le rapport d'audit"
 
 #. module: ea_audit_reports
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_reports/models/engagement.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_conclusion_button
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_issue_report_wizard
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
 msgid "Issue the report"
 msgstr "Émettre le rapport"
 
@@ -730,11 +734,13 @@ msgid "Latest version"
 msgstr "Dernière version"
 
 #. module: ea_audit_reports
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_reports/models/engagement.py:0
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_hold_wizard
 #: model:ir.model,name:ea_audit_reports.model_ea_audit_legal_hold
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
 msgid "Legal hold"
 msgstr "Conservation légale"
 
@@ -1546,3 +1552,437 @@ msgstr "Ouvert"
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_form_report_dates
 msgid "Open the conclusion"
 msgstr "Ouvrir la conclusion"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Yes"
+msgstr "Oui"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "No"
+msgstr "Non"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Note (required for every answer)"
+msgstr "Note (requise pour chaque réponse)"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Write a note to save this answer."
+msgstr "Écrivez une note pour enregistrer cette réponse."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "to answer"
+msgstr "à répondre"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Ready to issue the report?"
+msgstr "Prêt à émettre le rapport ?"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "checks by the tool"
+msgstr "contrôles de l'outil"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "questions answered"
+msgstr "questions répondues"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Report issued"
+msgstr "Rapport émis"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Ready to issue"
+msgstr "Prêt à émettre"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Awaiting the partner"
+msgstr "En attente de l'associé"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Not ready"
+msgstr "Pas prêt"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "status"
+msgstr "statut"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Read only: this engagement is archived."
+msgstr "Lecture seule : cette mission est archivée."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "An answer changed after the partner signed: the partner signs again before the report is issued."
+msgstr "Une réponse a changé après la signature de l'associé : l'associé signe de nouveau avant l'émission du rapport."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "1 · Checked by the tool"
+msgstr "1 · Contrôlé par l'outil"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "auto"
+msgstr "auto"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "open ›"
+msgstr "ouvrir ›"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "2 · Confirmed by the team — a note is required for each answer"
+msgstr "2 · Confirmé par l'équipe — une note est requise pour chaque réponse"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Partner sign-off: ready to issue"
+msgstr "Signature de l'associé : prêt à émettre"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Available when everything is green. Signed by the engagement partner. Issuing the report requires it."
+msgstr "Disponible quand tout est au vert. Signée par l'associé responsable de la mission. L'émission du rapport l'exige."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Download the sealed copy"
+msgstr "Télécharger la copie scellée"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Add an addendum"
+msgstr "Ajouter un addendum"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Why this addendum (what, and who asked)"
+msgstr "Pourquoi cet addendum (quoi, et à la demande de qui)"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Add the addendum"
+msgstr "Ajouter l'addendum"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Reason (required)"
+msgstr "Motif (requis)"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Release the legal hold"
+msgstr "Lever la conservation légale"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Place a legal hold"
+msgstr "Placer une conservation légale"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "While a legal hold is on, the file cannot be deleted, even after its retention period."
+msgstr "Tant qu'une conservation légale est active, le dossier ne peut pas être supprimé, même après sa durée de conservation."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Addenda after archiving (ISA 230 ¶16)"
+msgstr "Addenda après l'archivage (ISA 230 ¶16)"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "By"
+msgstr "Par"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Why"
+msgstr "Pourquoi"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "No addendum."
+msgstr "Aucun addendum."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "An addendum adds; it never changes or removes what was archived."
+msgstr "Un addendum ajoute ; il ne modifie ni ne retire jamais ce qui a été archivé."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Access log"
+msgstr "Journal des accès"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Who"
+msgstr "Qui"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "What"
+msgstr "Quoi"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Nobody has opened the archived file yet."
+msgstr "Personne n'a encore ouvert le dossier archivé."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Assemble and archive the file"
+msgstr "Assembler et archiver le dossier"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Before archiving"
+msgstr "Avant l'archivage"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Work after the report date"
+msgstr "Travaux après la date du rapport"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "After the report date only assembly work is done. A new finding, misstatement or procedure conclusion is refused unless a manager opens this with its reason; each one is then named in the activity trail."
+msgstr "Après la date du rapport, seuls des travaux d'assemblage sont réalisés. Un nouveau constat, une nouvelle anomalie ou une conclusion de procédure sont refusés tant qu'un manager n'a pas ouvert ceci avec son motif ; chacun est alors cité dans le journal d'activité."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Close the work after the report date"
+msgstr "Clore les travaux après la date du rapport"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Reason for new work after the report date"
+msgstr "Motif des nouveaux travaux après la date du rapport"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Open, with this reason"
+msgstr "Ouvrir, avec ce motif"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "What archiving does"
+msgstr "Ce que fait l'archivage"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "🔒 The whole file becomes read-only: no edit, no deletion."
+msgstr "🔒 Tout le dossier passe en lecture seule : aucune modification, aucune suppression."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "📦 A sealed copy is made: every paper (PDF where the server can render it, else HTML), all evidence, and a fingerprint (SHA-256) of each file."
+msgstr "📦 Une copie scellée est constituée : chaque papier (en PDF si le serveur sait le produire, sinon en HTML), toutes les pièces, et une empreinte (SHA-256) de chaque fichier."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "🗄 The sealed copy is kept on the server and in the backups."
+msgstr "🗄 La copie scellée est conservée sur le serveur et dans les sauvegardes."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Archive"
+msgstr "Archiver"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Only the engagement partner can archive. This cannot be undone."
+msgstr "Seul l'associé responsable de la mission peut archiver. C'est irréversible."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Type the client name to confirm:"
+msgstr "Saisissez le nom du client pour confirmer :"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Why the file is archived after the 60 days (required):"
+msgstr "Pourquoi le dossier est archivé après les 60 jours (requis) :"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Archive the file"
+msgstr "Archiver le dossier"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "Every line on the left must be green first."
+msgstr "Chaque ligne de gauche doit d'abord être au vert."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "After archiving"
+msgstr "Après l'archivage"
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "The team and inspectors can still open and read it; every opening is logged."
+msgstr "L'équipe et les contrôleurs peuvent toujours l'ouvrir et le lire ; chaque ouverture est journalisée."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "A later change is an addendum (who, when, why); the original stays untouched."
+msgstr "Une modification ultérieure est un addendum (qui, quand, pourquoi) ; l'original reste intact."
+
+#. module: ea_audit_reports
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
+msgid "A legal hold can stop deletion at the end of retention."
+msgstr "Une conservation légale peut empêcher la suppression à la fin de la conservation."
+
+#. module: ea_audit_reports
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/js/archive_pages.js:0
+#: code:addons/ea_audit_reports/models/archive_pages.py:0
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Completion checklist"
+msgstr "Liste d'achèvement"
+
+#. module: ea_audit_reports
+#. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_reports/static/src/js/archive_pages.js:0
+#: code:addons/ea_audit_reports/models/archive_pages.py:0
+#: code:addons/ea_audit_reports/models/engagement.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
+msgid "Assemble and archive"
+msgstr "Assembler et archiver"
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Write a note with your answer: a note is required for every answer, Yes or No."
+msgstr "Écrivez une note avec votre réponse : une note est requise pour chaque réponse, Oui comme Non."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The report is dated: only assembly work is done now. To record new audit work, open 'Work after the report date' with its reason on the archive page (C6.2), then try again."
+msgstr "Le rapport est daté : seuls des travaux d'assemblage sont réalisés désormais. Pour enregistrer de nouveaux travaux d'audit, ouvrez « Travaux après la date du rapport » avec son motif sur la page d'archivage (C6.2), puis réessayez."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "The 60-day assembly period has passed: give the reason for the late archive."
+msgstr "Le délai d'assemblage de 60 jours est dépassé : indiquez le motif de l'archivage tardif."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Type the client's name exactly as shown to confirm the archive."
+msgstr "Saisissez le nom du client exactement comme affiché pour confirmer l'archivage."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Only the engagement partner can archive this file."
+msgstr "Seul l'associé responsable de la mission peut archiver ce dossier."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This file is not archived."
+msgstr "Ce dossier n'est pas archivé."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "Work after the report date is already open on this file."
+msgstr "Des travaux après la date du rapport sont déjà ouverts sur ce dossier."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "No work after the report date is open on this file."
+msgstr "Aucun travail après la date du rapport n'est ouvert sur ce dossier."
+
+#. module: ea_audit_reports
+#. odoo-python
+#: code:addons/ea_audit_reports/rules.py:0
+msgid "This archived file is kept until the end of its retention period and cannot be deleted before."
+msgstr "Ce dossier archivé est conservé jusqu'à la fin de sa durée de conservation et ne peut pas être supprimé avant."

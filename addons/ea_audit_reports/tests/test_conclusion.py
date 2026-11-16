@@ -203,7 +203,7 @@ class TestIssuance(ReportsCase):
         self.assertCode("not-on-this-engagement", self.engagement.with_user(self.partner3).issue_report, "unmodified", "2026-03-31")
 
     def test_delegate_may_issue(self):
-        self.green_completion()
+        self.ready()
         self.seat(self.engagement, self.partner2, "manager")
         self.engagement.sudo().partner_delegate_id = self.partner2
         self.assertEqual(self.attempt(self.engagement.with_user(self.partner2).issue_report, "unmodified", "2026-03-31"), "ok")
@@ -220,12 +220,12 @@ class TestIssuance(ReportsCase):
 
     def test_subsequent_events_must_reach_the_report_date(self):
         """ISA 560, UAT run 2 B79."""
-        self.green_completion(reviewed_to="2026-03-30")
+        self.ready(reviewed_to="2026-03-30")
         self.assertEqual(self.attempt(self.as_partner.issue_report, "unmodified", "2026-03-31"), "gates-failed:subsequent_events")
         self.assertEqual(self.attempt(self.as_partner.issue_report, "unmodified", "2026-03-30"), "ok")
 
     def test_issue_then_refuse_a_second(self):
-        self.green_completion()
+        self.ready()
         document = self.as_partner.issue_report_from_form(report_date="2026-03-31")
         row = self.engagement.sudo()
         self.assertEqual((row.phase, row.report_date, row.opinion), ("conclusion", date(2026, 3, 31), "unmodified"))
@@ -236,7 +236,7 @@ class TestIssuance(ReportsCase):
         self.assertEqual(self.engagement.with_user(self.partner).assembly_deadline, date(2026, 5, 30))
 
     def test_report_text(self):
-        self.green_completion()
+        self.ready()
         text = self.text_of(self.as_partner.issue_report_from_form(report_date="2026-03-31", going_concern_uncertainty=True))
         self.assertIn("Rapport du commissaire aux comptes sur les états financiers annuels", text)
         self.assertIn("Nous certifions que les états financiers annuels de Governance SA pour l'exercice clos le 31 décembre 2025", text)
@@ -247,7 +247,7 @@ class TestIssuance(ReportsCase):
         self.assertIn("art. 713 %s" % MARK, text)
 
     def test_form_rules(self):
-        self.green_completion()
+        self.ready()
         self.assertCode("fields-required", self.as_partner.issue_report_from_form)
         self.assertCode("basis-required", self.as_partner.issue_report_from_form, material_misstatement=True, report_date="2026-03-31")
         self.client.listed = True
@@ -264,7 +264,7 @@ class TestIssuance(ReportsCase):
     def test_joint_report_discloses_the_divergence(self):
         """legal.test.ts 8.8: art. 719."""
         self.client.co_cac = True
-        self.green_completion()
+        self.ready()
         self.record("f8_disagreement", {"text": "Divergence sur la provision clients."})
         text = self.text_of(self.as_partner.issue_report_from_form(report_date="2026-03-31"))
         self.assertIn("Divergence entre commissaires aux comptes (art. 719 %s)" % MARK, text)
@@ -272,7 +272,7 @@ class TestIssuance(ReportsCase):
         self.assertIn("rapport commun", text)
 
     def test_pdf_of_the_report(self):
-        self.green_completion()
+        self.ready()
         document = self.as_partner.issue_report_from_form(report_date="2026-03-31")
         html = self.env["ir.actions.report"].sudo()._render_qweb_html("ea_audit_reports.report_document", document.ids)[0]
         self.assertIn("Nous certifions", html.decode())

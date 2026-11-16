@@ -441,7 +441,7 @@ class TestJointAuditorAndArt525(LegalCase):
         self.as_partner.record_joint_auditor("disagreement", "Divergence sur la provision clients.")
         self.assertCode("invalid-key", self.as_partner.record_joint_auditor, "other", "x")
         self.assertEqual(self.engagement.sudo()._ea_completion_data("f8_worksplit")["confirmed"], True)
-        self.green_completion()
+        self.ready()
         text = self.text(self.as_partner.issue_report_from_form(report_date="2026-03-31", material_misstatement=True, basis="Provision."))
         self.assertIn("Divergence sur la provision clients.", text)
 
