@@ -45,6 +45,8 @@ WORDS = {
     "revised_2026": _lt("2026 revised edition"),
     "Significant": _lt("Significant"),
     "Not significant": _lt("Not significant"),
+    "satisfactory": _lt("no exception"),
+    "exceptions": _lt("exceptions found"),
 }
 
 # The line, in order, as lists: the translation export reads a string in a tuple after a _lt as a term.
@@ -126,6 +128,11 @@ _ENTRIES = (
     [r"^S5\.5 (?P<index>\S+) (?P<code>\S+) chosen$", _lt("Procedure design %(index)s: %(code)s chosen")],
     [r"^S5\.5 (?P<index>\S+) (?P<code>\S+) removed$", _lt("Procedure design %(index)s: %(code)s removed")],
     [r"^S5\.5 (?P<index>\S+) (?P<keys>\S+) changed$", _lt("S5.5 %(index)s: design changed")],
+    [r"^Procedure (?P<index>\S+) (?P<code>\S+) done: (?P<status>\S+)$",
+     _lt("Substantive procedure %(index)s %(code)s done: %(status)s")],
+    [r"^Procedure (?P<index>\S+) (?P<code>\S+) reopened$", _lt("Substantive procedure %(index)s %(code)s reopened")],
+    [r"^Procedure (?P<index>\S+) (?P<code>\S+): (?P<count>\d+) entries selected around year end$",
+     _lt("Substantive procedure %(index)s %(code)s: %(count)s entries selected around year end")],
     [r"^(?P<code>\S+): (?P<count>\d+) signature\(s\) to give again$",
      _lt("%(code)s: %(count)s signature(s) to give again")],
     [r"^ISA 265 deficiency evaluated on C5\.11: graded (?P<status>\w+), communicated in writing on (?P<date>\S+) \(was (?P<word>\w+)\)$",

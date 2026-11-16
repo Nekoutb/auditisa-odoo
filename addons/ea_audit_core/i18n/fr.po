@@ -5621,3 +5621,33 @@ msgstr "Conception des procédures %(index)s : %(code)s choisie"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Procedure design %(index)s: %(code)s removed"
 msgstr "Conception des procédures %(index)s : %(code)s retirée"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "no exception"
+msgstr "aucune exception"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "exceptions found"
+msgstr "exceptions relevées"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Substantive procedure %(index)s %(code)s done: %(status)s"
+msgstr "Procédure de substance %(index)s %(code)s terminée : %(status)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Substantive procedure %(index)s %(code)s reopened"
+msgstr "Procédure de substance %(index)s %(code)s rouverte"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Substantive procedure %(index)s %(code)s: %(count)s entries selected around year end"
+msgstr "Procédure de substance %(index)s %(code)s : %(count)s écritures sélectionnées autour de la clôture"

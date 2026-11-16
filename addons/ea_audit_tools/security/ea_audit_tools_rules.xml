@@ -223,6 +223,11 @@
         <field name="model_id" ref="model_ea_audit_designed_procedure"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_confirmation_team_only" model="ir.rule">
+        <field name="name">ea.audit.confirmation: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_confirmation"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
     <record id="rule_dsp_osp_team_only" model="ir.rule">
         <field name="name">ea.audit.dsp.osp: accepted team members only</field>
         <field name="model_id" ref="model_ea_audit_dsp_osp"/>

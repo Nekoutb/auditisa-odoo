@@ -71,6 +71,9 @@ class AutomationRunSample(models.Model):
     def ea_sampling_item(self, row_no, patch):
         """One tested item: the audited value, how it was tested, a note. Refused once concluded."""
         as_root = self._ea_own()
+        if as_root.method in ("cutoff", "unrecorded"):
+            # a selection of a procedure is answered on its working paper (procedure_execution.py)
+            raise rule_error(self.env, "selection-on-paper")
         if as_root.method == "tod-mus" or (as_root.summary or {}).get("projected") is not None:
             raise rule_error(self.env, "sample-concluded")
         drawn = {str(row[0]) for row in as_root.sheet_rows or [] if row}
@@ -92,6 +95,8 @@ class AutomationRunSample(models.Model):
     def ea_sampling_conclude(self):
         """The errors found in the items, projected by the existing evaluation (ISA 530 ¶14)."""
         as_root = self._ea_own()
+        if as_root.method in ("cutoff", "unrecorded"):
+            raise rule_error(self.env, "selection-on-paper")
         if as_root.method == "tod-mus" or (as_root.summary or {}).get("projected") is not None:
             raise rule_error(self.env, "sample-concluded")
         engagement = as_root.engagement_id.with_env(self.env)
@@ -425,6 +430,8 @@ class EngagementWorksheets(models.Model):
                 "tolerable": tolerable, "exceeds": exceeds, "raised": run.raised_to_b5, "concluded": True,
                 "files": files.get(run.id, []),
             }
+        if method in ("cutoff", "unrecorded"):
+            return self._ea_selection_card(run, lang, files)
         picks, book, results = self._ea_sample_items(run)
         rows, totals = sample_items(picks, book, results)
         projected = summary.get("projected")
@@ -443,6 +450,39 @@ class EngagementWorksheets(models.Model):
             "projected": projected, "tolerable": tolerable, "exceeds": exceeds, "raised": run.raised_to_b5,
             "concluded": projected is not None, "allTested": bool(rows) and totals["tested"] >= len(rows),
             "files": files.get(run.id, []),
+        }
+
+    def _ea_selection_card(self, run, lang, files):
+        """A cut-off or unrecorded-liability selection of a procedure, as the Sampling page shows
+        it: read only here, answered on the procedure's working paper."""
+        summary = run.summary or {}
+        results = run.item_results or {}
+        rows, totals = [], {"book": 0, "audited": 0, "difference": 0, "tested": 0, "errors": 0, "count": 0}
+        for position, row in enumerate(run.sheet_rows or [], start=1):
+            found = results.get(str(row[0])) or {}
+            answer = found.get("period")
+            result = {"yes": "agreed", "no": "error"}.get(answer, "to_test")
+            amount = row[7] if len(row) > 7 else None
+            rows.append({
+                "position": position, "rowNo": row[0], "reason": row[1], "label": " · ".join(str(x) for x in row[2:6] if x)[:90],
+                "book": amount, "audited": None, "difference": None, "how": "", "note": found.get("note") or "", "result": result,
+            })
+            totals["count"] += 1
+            totals["book"] += amount or 0
+            if answer:
+                totals["tested"] += 1
+            if answer == "no":
+                totals["errors"] += 1
+        steps = tod_steps(summary.get("populationRows"), summary.get("sampleSize"), bool(rows), totals["tested"], len(rows), None, False)
+        return {
+            "kind": "tod", "id": run.id, "title": run.purpose or run.title,
+            "sub": " · ".join(x for x in (run.dataset_id.source_filename or "", self.env._("Answered on the procedure's working paper")) if x),
+            "purpose": run.purpose or "", "steps": steps, "state": card_state(steps),
+            "stats": {"items": len(rows), "errors": totals["errors"] if totals["tested"] else None, "projected": None},
+            "rows": rows, "totals": totals, "population": summary.get("populationTotal"), "populationRows": summary.get("populationRows"),
+            "sampleValue": summary.get("sampledValue"), "seed": "", "projected": None, "tolerable": None, "exceeds": False,
+            "raised": False, "concluded": True, "allTested": bool(rows) and totals["tested"] >= len(rows),
+            "procedureId": run.designed_procedure_id.id or False, "files": files.get(run.id, []),
         }
 
     def ea_sampling_page(self):

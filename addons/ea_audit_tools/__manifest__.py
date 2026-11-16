@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, CRA, findings, SAD and the tools hub",
-    "version": "19.0.1.9.0",
+    "version": "19.0.1.10.0",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
@@ -42,6 +42,7 @@
             "ea_audit_tools/static/src/scss/worksheet_pages.scss",
             "ea_audit_tools/static/src/scss/ws_pages.scss",
             "ea_audit_tools/static/src/scss/procedure_design.scss",
+            "ea_audit_tools/static/src/scss/procedure_execution.scss",
             "ea_audit_tools/static/src/js/**/*",
             "ea_audit_tools/static/src/xml/**/*",
         ],

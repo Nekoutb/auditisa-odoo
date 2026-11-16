@@ -134,6 +134,10 @@ MESSAGES = {
     "procedure-mandatory": _lt("This procedure is mandatory for the account's relevant assertions: it stays in the design."),
     "procedure-started": _lt("Work on this procedure has started: it can no longer be removed from the design."),
     "procedure-not-offered": _lt("This procedure answers none of the account's relevant assertions."),
+    "procedure-done": _lt("This procedure is marked as done: reopen it before you change it."),
+    "procedure-not-finished": _lt("Choose a result, write the conclusion, tick every step and answer every selected entry before you mark the procedure as done."),
+    "selection-frozen": _lt("An entry of this selection already has an answer: the selection is frozen."),
+    "selection-on-paper": _lt("This selection is answered on its procedure's working paper."),
 }
 
 

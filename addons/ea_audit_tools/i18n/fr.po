@@ -1923,6 +1923,8 @@ msgid "Concluded"
 msgstr "Conclu"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fscp__fscp_conclusion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__conclusion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__conclusion
@@ -2864,6 +2866,8 @@ msgstr "Documents demandés et relances."
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__done
 #: code:addons/ea_audit_tools/models/procedure_design.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__state__done
@@ -2958,6 +2962,8 @@ msgid "Drawn by"
 msgstr "Tiré par"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__toc_sample_drawn_at
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sampling_run_list
@@ -4674,6 +4680,8 @@ msgid "Item"
 msgstr "Élément"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__items
 msgid "Items"
 msgstr "Éléments"
@@ -5603,6 +5611,8 @@ msgstr "Référence manquante"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_misstatement
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__misstatement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__misstatement_id
@@ -6880,6 +6890,7 @@ msgstr "Probable"
 
 #. module: ea_audit_tools
 #. odoo-javascript
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_confirmation__designed_procedure_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_choice__label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_osp__text
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_osp_wizard__text
@@ -7391,6 +7402,8 @@ msgid "Removed"
 msgstr "Retiré"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
 msgid "Reopen"
 msgstr "Rouvrir"
@@ -7657,6 +7670,8 @@ msgid "Rows"
 msgstr "Lignes"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__suggested_rule
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__rule
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw_wizard__suggested_rule
@@ -7669,6 +7684,8 @@ msgid "Rules combine"
 msgstr "Combinaison des règles"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_supplier_recon_wizard
@@ -8024,6 +8041,8 @@ msgid "Short-term treasury risk provisions"
 msgstr "Provisions pour risques à court terme (trésorerie)"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tod_wizard__side
 msgid "Side"
 msgstr "Côté"
@@ -8226,6 +8245,8 @@ msgid "Step"
 msgstr "Étape"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__linked_step_count
 msgid "Steps"
 msgstr "Étapes"
@@ -8293,6 +8314,11 @@ msgid "Substantive procedure design"
 msgstr "Conception de procédure de substance"
 
 #. module: ea_audit_tools
+#. odoo-python
+#. odoo-javascript
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_substantive
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/models/procedure_execution.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_wp_template__category__substantive
 msgid "Substantive procedures"
 msgstr "Procédures de substance"
@@ -10621,6 +10647,8 @@ msgid "Lines with no account or no entry number. They belong to no entry."
 msgstr "Lignes sans compte ou sans numéro d'écriture. Elles n'appartiennent à aucune écriture."
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__mandatory
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__reason__mandatory
 msgid "Mandatory"
@@ -11757,6 +11785,8 @@ msgid "Event-driven (each time it happens)"
 msgstr "À chaque événement"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__other
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__other
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__other
@@ -13865,6 +13895,8 @@ msgid "Condition (FR)"
 msgstr "Condition (FR)"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__kind__custom
 msgid "Own procedure"
 msgstr "Procédure propre"
@@ -13890,11 +13922,15 @@ msgid "Your choice"
 msgstr "Votre choix"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__conclusion__satisfactory
 msgid "No exception"
 msgstr "Aucune exception"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_designed_procedure__conclusion__exceptions
 msgid "Exceptions found"
 msgstr "Exceptions relevées"
@@ -13919,3 +13955,821 @@ msgstr "Sélection d'échantillon"
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "Only the general ledger, receivables, payables and inventory can be uploaded for the next year."
 msgstr "Seuls le grand livre, les créances clients, les dettes fournisseurs et les stocks peuvent être importés pour l'exercice suivant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Tools /"
+msgstr "Outils /"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "procedures designed"
+msgstr "procédures conçues"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "done"
+msgstr "terminées"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "in progress"
+msgstr "en cours"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "findings raised"
+msgstr "constats relevés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "misstatements to SAD"
+msgstr "anomalies vers le SAD"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Read only: your role reads the procedures but does not perform them."
+msgstr "Lecture seule : votre rôle consulte les procédures mais ne les réalise pas."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "No procedure is designed yet. The procedures appear here once they are chosen in Procedure design."
+msgstr "Aucune procédure n'est encore conçue. Les procédures apparaissent ici une fois choisies dans Conception des procédures."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Open Procedure design"
+msgstr "Ouvrir la conception des procédures"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "· Preparer"
+msgstr "· Préparateur"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Design not finished"
+msgstr "Conception non terminée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "findings"
+msgstr "constats"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Ready for review"
+msgstr "Prêt pour la revue"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Green = done, amber = in progress (with items done out of the sample), grey = not started, ⚑ = a finding is open on it. Click a procedure to open its working paper. Procedures not chosen in Procedure design never appear here."
+msgstr "Vert = terminée, orange = en cours (avec les éléments traités sur l'échantillon), gris = non commencée, ⚑ = un constat est ouvert. Cliquez sur une procédure pour ouvrir sa feuille de travail. Les procédures non choisies dans la conception des procédures n'apparaissent jamais ici."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "· Assertions"
+msgstr "· Assertions"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "· Year end"
+msgstr "· Clôture"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "steps"
+msgstr "étapes"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "items done"
+msgstr "éléments traités"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "wrong period"
+msgstr "mauvais exercice"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "This procedure is done. Reopen it to change it."
+msgstr "Cette procédure est terminée. Rouvrez-la pour la modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "to do"
+msgstr "à faire"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The tool's comparison"
+msgstr "La comparaison faite par l'outil"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Open the uploads"
+msgstr "Ouvrir les imports"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "General ledger account"
+msgstr "Compte du grand livre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Balance"
+msgstr "Solde"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Total general ledger"
+msgstr "Total grand livre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Total of the sub-ledger"
+msgstr "Total de la balance auxiliaire"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Difference: sub-ledger less general ledger"
+msgstr "Écart : balance auxiliaire moins grand livre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "No trial balance: the balances come from the general ledger of the year."
+msgstr "Pas de balance générale : les soldes viennent du grand livre de l'exercice."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Differences explained by the auditor"
+msgstr "Écarts expliqués par l'auditeur"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_confirmation__explanation
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Explanation"
+msgstr "Explication"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Explained"
+msgstr "Expliqué"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Unexplained:"
+msgstr "Non expliqué :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Add an explanation"
+msgstr "Ajouter une explication"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Largest balances in the sub-ledger"
+msgstr "Soldes les plus importants de la balance auxiliaire"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_confirmation__party
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Party"
+msgstr "Tiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Entries around year end (chosen by the tool)"
+msgstr "Écritures autour de la clôture (choisies par l'outil)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Payments and invoices after year end (chosen by the tool)"
+msgstr "Paiements et factures après la clôture (choisis par l'outil)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Without the next-year general ledger, only the entries before year end can be selected. Upload it to test the first days of the next year."
+msgstr "Sans le grand livre de l'exercice suivant, seules les écritures d'avant la clôture peuvent être sélectionnées. Importez-le pour tester les premiers jours de l'exercice suivant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Data missing: no general ledger of the year is uploaded."
+msgstr "Données manquantes : aucun grand livre de l'exercice n'est importé."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Data missing: the next-year general ledger is not uploaded."
+msgstr "Données manquantes : le grand livre de l'exercice suivant n'est pas importé."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Days"
+msgstr "Jours"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Threshold (FCFA)"
+msgstr "Seuil (FCFA)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Select again"
+msgstr "Sélectionner à nouveau"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Select the entries"
+msgstr "Sélectionner les écritures"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The selection is frozen: an entry already has an answer."
+msgstr "La sélection est figée : une écriture a déjà une réponse."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Default threshold: 10% of performance materiality. Change the days or the threshold before you select."
+msgstr "Seuil par défaut : 10 % du seuil de signification de travail. Modifiez les jours ou le seuil avant de sélectionner."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Window"
+msgstr "Période"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "to"
+msgstr "au"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "every entry ≥"
+msgstr "chaque écriture ≥"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "entries ·"
+msgstr "écritures ·"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Drawn"
+msgstr "Tiré"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Third party / label"
+msgstr "Tiers / libellé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Delivery or service date"
+msgstr "Date de livraison ou de prestation"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Right period?"
+msgstr "Bon exercice ?"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Document seen?"
+msgstr "Pièce vue ?"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "finding raised"
+msgstr "constat relevé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Show all"
+msgstr "Tout afficher"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "\"Before\" entries are tested for delivery after year end (recorded too early), \"After\" entries for delivery before year end (recorded too late). The selection is a sample of the Sampling page: changing the days or the threshold selects again, until the first entry has an answer; then it is frozen."
+msgstr "Les écritures « Avant » sont testées pour une livraison après la clôture (comptabilisées trop tôt), les écritures « Après » pour une livraison avant la clôture (comptabilisées trop tard). La sélection est un échantillon de la page Échantillonnage : modifier les jours ou le seuil sélectionne à nouveau, jusqu'à ce que la première écriture ait une réponse ; elle est alors figée."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Each payment or invoice of the next year is checked: does it settle a liability that existed at year end, and was that liability recorded? The selection is frozen once the first entry has an answer."
+msgstr "Chaque paiement ou facture de l'exercice suivant est vérifié : règle-t-il une dette qui existait à la clôture, et cette dette était-elle comptabilisée ? La sélection est figée dès que la première écriture a une réponse."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Sample (from the sampling tool)"
+msgstr "Échantillon (de l'outil d'échantillonnage)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "No sample is drawn for this procedure yet."
+msgstr "Aucun échantillon n'est encore tiré pour cette procédure."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Book"
+msgstr "Comptable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Audited"
+msgstr "Audité"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Draw another sample"
+msgstr "Tirer un autre échantillon"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Third-party confirmations"
+msgstr "Confirmations de tiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_confirmation__book_amount
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Book amount"
+msgstr "Montant comptable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_confirmation__sent_on
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Sent on"
+msgstr "Envoyée le"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Confirmed"
+msgstr "Confirmé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "No request yet."
+msgstr "Aucune demande pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "from the sub-ledger"
+msgstr "de la balance auxiliaire"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Add a request"
+msgstr "Ajouter une demande"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The book amount comes from the sub-ledger when the party is found there. A reply that differs needs an explanation; without one, raise it as a finding. With no reply, perform alternative procedures."
+msgstr "Le montant comptable vient de la balance auxiliaire lorsque le tiers y figure. Une réponse différente demande une explication ; sans explication, relevez-la comme constat. Sans réponse, réalisez des procédures alternatives."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Add a confirmations block"
+msgstr "Ajouter un bloc de confirmations"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Evidence"
+msgstr "Éléments probants"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "No evidence filed yet."
+msgstr "Aucun élément probant classé pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Mark as done"
+msgstr "Marquer comme terminée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Findings on this working paper"
+msgstr "Constats de cette feuille de travail"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Goes to"
+msgstr "Va vers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "· SAD"
+msgstr "· SAD"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "None yet."
+msgstr "Aucun pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Below the clearly trivial threshold: record it anyway"
+msgstr "Sous le seuil manifestement négligeable : l'enregistrer quand même"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "(filled in for you)"
+msgstr "(rempli pour vous)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Add the finding"
+msgstr "Ajouter le constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Add a finding"
+msgstr "Ajouter un constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "A finding added here goes straight to the Findings page; a misstatement also to the Summary of audit differences."
+msgstr "Un constat ajouté ici va directement sur la page Constats ; une anomalie va aussi au Sommaire des écarts d'audit."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%s High: choose at least one alternative"
+msgstr "%s élevé : choisissez au moins une alternative"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Alternative"
+msgstr "Alternative"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%s items still to tick"
+msgstr "%s éléments encore à cocher"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%s step(s) still to tick"
+msgstr "%s étape(s) encore à cocher"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Choose a result and write the conclusion"
+msgstr "Choisissez un résultat et rédigez la conclusion"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Data missing: no trial balance and no general ledger for the year. Upload one to compare."
+msgstr "Données manquantes : ni balance générale ni grand livre pour l'exercice. Importez-en un pour comparer."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Data missing: the sub-ledger of the year is not uploaded yet."
+msgstr "Données manquantes : la balance auxiliaire de l'exercice n'est pas encore importée."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The sub-ledger agrees with the general ledger."
+msgstr "La balance auxiliaire concorde avec le grand livre."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The difference is explained."
+msgstr "L'écart est expliqué."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Part of the difference is not explained yet."
+msgstr "Une partie de l'écart n'est pas encore expliquée."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Before"
+msgstr "Avant"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "After"
+msgstr "Après"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Agrees"
+msgstr "Concorde"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Difference explained"
+msgstr "Écart expliqué"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Difference not explained"
+msgstr "Écart non expliqué"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "No reply: perform alternative procedures (payments after year end, invoices, delivery notes)"
+msgstr "Pas de réponse : réalisez des procédures alternatives (paiements après la clôture, factures, bons de livraison)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Waiting for the reply"
+msgstr "Réponse attendue"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Entry %(entry)s of %(date)s (%(amount)s) is recorded in the wrong period"
+msgstr "L'écriture %(entry)s du %(date)s (%(amount)s) est comptabilisée sur le mauvais exercice"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/procedure_execution.py:0
+msgid "Confirmation from %(party)s: difference of %(amount)s not explained"
+msgstr "Confirmation de %(party)s : écart de %(amount)s non expliqué"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/ws_pages.py:0
+msgid "Answered on the procedure's working paper"
+msgstr "Réponses sur la feuille de travail de la procédure"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This procedure is marked as done: reopen it before you change it."
+msgstr "Cette procédure est marquée comme terminée : rouvrez-la avant de la modifier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Choose a result, write the conclusion, tick every step and answer every selected entry before you mark the procedure as done."
+msgstr "Choisissez un résultat, rédigez la conclusion, cochez chaque étape et répondez à chaque écriture sélectionnée avant de marquer la procédure comme terminée."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "An entry of this selection already has an answer: the selection is frozen."
+msgstr "Une écriture de cette sélection a déjà une réponse : la sélection est figée."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This selection is answered on its procedure's working paper."
+msgstr "Les réponses de cette sélection se donnent sur la feuille de travail de sa procédure."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_substantive
+msgid "The procedures designed, by account: their working papers, samples, conclusions and findings."
+msgstr "Les procédures conçues, par compte : leurs feuilles de travail, échantillons, conclusions et constats."
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_confirmation
+msgid "Third-party confirmation"
+msgstr "Confirmation de tiers"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__work_data
+msgid "Work done"
+msgstr "Travail réalisé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_designed_procedure__confirmation_ids
+msgid "Confirmations"
+msgstr "Confirmations"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_confirmation__confirmed_amount
+msgid "Confirmed amount"
+msgstr "Montant confirmé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__to_send
+msgid "To send"
+msgstr "À envoyer"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__sent
+msgid "Sent"
+msgstr "Envoyée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__reminder
+msgid "Reminder sent"
+msgstr "Relance envoyée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__received
+msgid "Received"
+msgstr "Reçue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_confirmation__status__no_reply
+msgid "No reply"
+msgstr "Pas de réponse"

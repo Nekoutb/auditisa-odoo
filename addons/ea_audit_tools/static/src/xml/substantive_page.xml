@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.SubstantivePage">
+        <div class="o_ea_px" t-if="p" data-ea="substantive-page">
+            <div class="o_ea_px_top">
+                <div class="o_ea_px_actions">
+                    <a class="btn btn-primary btn-sm" t-att-href="exportUrl()">Export to Excel</a>
+                    <span class="o_ea_px_crumb">Tools / <strong>Substantive procedures</strong></span>
+                </div>
+                <div class="o_ea_px_stats">
+                    <div><strong t-esc="p.stats.designed"/><span>procedures designed</span></div>
+                    <div><strong t-esc="p.stats.done"/><span>done</span></div>
+                    <div><strong t-esc="p.stats.started"/><span>in progress</span></div>
+                    <div><strong t-att-class="p.stats.findings ? 'o_ea_px_bad' : ''" t-esc="p.stats.findings"/><span>findings raised</span></div>
+                    <div><strong t-esc="p.stats.sad"/><span>misstatements to SAD</span></div>
+                </div>
+            </div>
+            <div class="o_ea_px_readonly" t-if="p.readonly">
+                <t t-if="p.archived">Read only: this engagement is archived.</t>
+                <t t-else="">Read only: your role reads the procedures but does not perform them.</t>
+            </div>
+            <div class="o_ea_px_empty o_ea_px_card" t-if="!p.accounts.length">
+                <p>No procedure is designed yet. The procedures appear here once they are chosen in Procedure design.</p>
+                <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_dsp')">Open Procedure design</button>
+            </div>
+            <div class="o_ea_px_grid">
+                <section t-foreach="p.accounts" t-as="account" t-key="account.code" t-attf-class="o_ea_px_card o_ea_px_account {{ cardClass(account) }}" t-att-data-account="account.code">
+                    <h2><t t-esc="account.code"/> <t t-esc="account.label"/></h2>
+                    <div class="o_ea_px_sub">
+                        <span class="o_ea_px_num" t-esc="account.closing"/>
+                        <t t-foreach="account.levels" t-as="level" t-key="level.assertion"> · <t t-esc="level.assertion"/> <t t-esc="level.label"/></t>
+                        <t t-if="account.preparer"> · Preparer <t t-esc="account.preparer"/></t>
+                    </div>
+                    <div class="o_ea_px_chips">
+                        <button type="button" t-foreach="account.chips" t-as="chip" t-key="chip.id" t-attf-class="o_ea_px_chip {{ chipClass(chip) }}"
+                                t-att-title="chipTip(chip)" t-att-data-proc="chip.code" t-on-click="() => this.open('paper', chip.id)">
+                            <t t-esc="chip.code"/>
+                            <t t-if="chip.state === 'done'"> ✓</t>
+                            <t t-elif="chip.items"> <t t-esc="chip.items"/></t>
+                            <t t-if="chip.flag"> ⚑</t>
+                        </button>
+                    </div>
+                    <div class="o_ea_px_missing" t-if="account.missing.length">
+                        <strong>Design not finished</strong>
+                        <div t-esc="missingText(account)"/>
+                        <button type="button" class="btn btn-link btn-sm p-0" t-on-click="() => this.open('action_tool_dsp')">Open Procedure design</button>
+                    </div>
+                    <div class="o_ea_px_counts" t-if="account.total">
+                        <div><strong><t t-esc="account.done"/>/<t t-esc="account.total"/></strong><span>done</span></div>
+                        <div><strong t-esc="account.started"/><span>in progress</span></div>
+                        <div><strong t-att-class="account.findings ? 'o_ea_px_bad' : ''" t-esc="account.findings"/><span>findings</span></div>
+                        <div t-if="account.ready" class="o_ea_px_ready">Ready for review</div>
+                    </div>
+                </section>
+            </div>
+            <p class="o_ea_px_note">Green = done, amber = in progress (with items done out of the sample), grey = not started, ⚑ = a finding is open on it. Click a procedure to open its working paper. Procedures not chosen in Procedure design never appear here.</p>
+        </div>
+    </t>
+
+    <t t-name="ea_audit_tools.ProcedurePaper">
+        <div class="o_ea_px" t-if="p" data-ea="procedure-paper">
+            <div class="o_ea_px_card o_ea_px_head">
+                <div class="o_ea_px_crumb">
+                    <a href="#" t-on-click.prevent="() => this.open('action_tool_substantive')">Substantive procedures</a> / <t t-esc="p.index"/> <t t-esc="p.indexLabel"/> / <strong t-esc="p.code"/>
+                </div>
+                <div class="o_ea_px_headrow">
+                    <div>
+                        <h1><t t-esc="p.code"/> · <t t-esc="p.title"/></h1>
+                        <div class="o_ea_px_sub">
+                            <span class="o_ea_px_kind" t-att-title="kindTip"><t t-esc="p.kind === 'custom' ? kindLabel : p.kind"/></span>
+                            · <t t-esc="kindLabel"/>
+                            · Assertions <t t-foreach="p.assertions" t-as="a" t-key="a.code"><span t-attf-class="o_ea_px_level is-{{ a.level or 'none' }}" t-att-title="a.label"><t t-esc="a.code"/><t t-if="a.label"> <t t-esc="a.label"/></t></span> </t>
+                            · Year end <t t-esc="p.periodEnd"/>
+                        </div>
+                    </div>
+                    <div class="o_ea_px_stats">
+                        <div t-if="p.steps.length"><strong><t t-esc="stepsDone"/>/<t t-esc="p.steps.length"/></strong><span>steps</span></div>
+                        <div t-if="p.selection"><strong><t t-esc="p.selection.counts.done"/>/<t t-esc="p.selection.counts.total"/></strong><span>items done</span></div>
+                        <div t-if="p.selection"><strong t-att-class="p.selection.counts.wrong ? 'o_ea_px_bad' : ''" t-esc="p.selection.counts.wrong"/><span>wrong period</span></div>
+                        <div><strong t-esc="p.stateLabel"/><span t-if="p.doneBy"><t t-esc="p.doneBy"/> · <t t-esc="p.doneAt"/></span></div>
+                    </div>
+                </div>
+                <div class="o_ea_px_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the procedures but does not perform them.</t>
+                </div>
+                <div class="o_ea_px_readonly" t-elif="p.locked">This procedure is done. Reopen it to change it.
+                    <button type="button" class="btn btn-link btn-sm" t-on-click="reopen">Reopen</button>
+                </div>
+            </div>
+
+            <div class="o_ea_px_cols">
+                <div class="o_ea_px_col">
+                    <!-- Steps -->
+                    <section class="o_ea_px_card" t-if="p.steps.length or p.summary">
+                        <h3>Steps</h3>
+                        <ul class="o_ea_px_steps">
+                            <li t-foreach="p.steps" t-as="step" t-key="step.index">
+                                <label>
+                                    <input type="checkbox" t-att-checked="step.done" t-att-disabled="!editable or state.busy" t-on-change="() => this.tick(step)"/>
+                                    <span t-esc="step.text"/>
+                                </label>
+                                <small t-if="step.done"><t t-esc="step.by"/> · <t t-esc="step.at"/></small>
+                                <small t-else="">to do</small>
+                            </li>
+                        </ul>
+                        <p class="o_ea_px_muted" t-if="p.when" t-esc="p.when"/>
+                    </section>
+
+                    <!-- Reconciliation -->
+                    <section class="o_ea_px_card" t-if="p.recon" data-ea="recon">
+                        <h3>The tool's comparison</h3>
+                        <div t-attf-class="o_ea_px_banner {{ p.recon.state === 'agrees' or p.recon.state === 'explained' ? 'is-good' : (p.recon.state === 'difference' ? 'is-bad' : 'is-warn') }}" t-esc="reconStateText(p.recon)"/>
+                        <t t-if="p.recon.state === 'no-gl' or p.recon.state === 'no-subledger'">
+                            <button type="button" class="btn btn-secondary btn-sm mt-2" t-on-click="() => this.open('action_tool_data_analytics')">Open the uploads</button>
+                        </t>
+                        <table class="o_ea_px_table" t-if="p.recon.accounts.length">
+                            <thead><tr><th>General ledger account</th><th class="o_num">Balance</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="p.recon.accounts" t-as="row" t-key="row.account"><td><t t-esc="row.account"/> <t t-esc="row.name"/></td><td class="o_num" t-esc="fmt(row.balance)"/></tr>
+                                <tr class="o_ea_px_total"><td>Total general ledger</td><td class="o_num" t-esc="fmt(p.recon.gl)"/></tr>
+                                <tr class="o_ea_px_total"><td>Total of the sub-ledger <small t-if="p.recon.dataset">(<t t-esc="p.recon.dataset"/>)</small></td><td class="o_num" t-esc="p.recon.sub === null ? '—' : fmt(p.recon.sub)"/></tr>
+                                <tr t-if="p.recon.difference !== null" t-attf-class="o_ea_px_diff {{ p.recon.state === 'difference' ? 'is-bad' : '' }}"><td>Difference: sub-ledger less general ledger</td><td class="o_num" t-esc="fmt(p.recon.difference)"/></tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_px_muted" t-if="p.recon.source === 'gl'">No trial balance: the balances come from the general ledger of the year.</p>
+
+                        <h4>Differences explained by the auditor</h4>
+                        <table class="o_ea_px_table" t-if="p.recon.explanations.length">
+                            <thead><tr><th>#</th><th>Explanation</th><th class="o_num">Amount</th><th>Cleared</th><th/></tr></thead>
+                            <tbody>
+                                <tr t-foreach="p.recon.explanations" t-as="line" t-key="line_index">
+                                    <td t-esc="line_index + 1"/>
+                                    <td><input type="text" class="o_ea_px_input" t-att-value="line.text" t-att-disabled="!editable" t-on-change="(ev) => this.saveExplanation(line_index, 'text', ev.target.value)"/></td>
+                                    <td class="o_num"><input type="text" class="o_ea_px_input text-end" t-att-value="line.amount" t-att-disabled="!editable" t-on-change="(ev) => this.saveExplanation(line_index, 'amount', ev.target.value)"/></td>
+                                    <td><input type="checkbox" t-att-checked="line.cleared" t-att-disabled="!editable" t-on-change="(ev) => this.saveExplanation(line_index, 'cleared', ev.target.checked)"/></td>
+                                    <td><button type="button" class="btn btn-link btn-sm" t-if="editable" t-on-click="() => this.removeExplanation(line_index)">Remove</button></td>
+                                </tr>
+                                <tr class="o_ea_px_total"><td/><td>Explained</td><td class="o_num" t-esc="fmt(p.recon.explained)"/><td colspan="2">Unexplained: <t t-esc="p.recon.unexplained === null ? '—' : fmt(p.recon.unexplained)"/></td></tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="editable" t-on-click="addExplanation">Add an explanation</button>
+
+                        <t t-if="p.recon.parties.length">
+                            <h4>Largest balances in the sub-ledger</h4>
+                            <table class="o_ea_px_table">
+                                <thead><tr><th>Party</th><th class="o_num">Items</th><th class="o_num">Balance</th></tr></thead>
+                                <tbody>
+                                    <tr t-foreach="p.recon.parties" t-as="party" t-key="party_index"><td><t t-esc="party.party"/> <t t-esc="party.name"/></td><td class="o_num" t-esc="party.items"/><td class="o_num" t-esc="fmt(party.amount)"/></tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </section>
+
+                    <!-- Cut-off / unrecorded liabilities -->
+                    <section class="o_ea_px_card" t-if="p.selection" data-ea="selection">
+                        <h3 t-if="p.selection.mode === 'cutoff'">Entries around year end (chosen by the tool)</h3>
+                        <h3 t-else="">Payments and invoices after year end (chosen by the tool)</h3>
+                        <div class="o_ea_px_sentence"><t t-esc="p.selection.sentence"/></div>
+                        <div class="o_ea_px_banner is-warn" t-if="p.selection.warning" t-esc="p.selection.warning"/>
+                        <div class="o_ea_px_banner is-warn" t-if="p.selection.mode === 'cutoff' and !p.selection.hasNext">Without the next-year general ledger, only the entries before year end can be selected. Upload it to test the first days of the next year.</div>
+                        <div class="o_ea_px_banner is-bad" t-if="p.selection.mode === 'cutoff' and !p.selection.hasCurrent">Data missing: no general ledger of the year is uploaded.</div>
+                        <div class="o_ea_px_banner is-bad" t-if="p.selection.mode === 'unrecorded' and !p.selection.hasNext">Data missing: the next-year general ledger is not uploaded.</div>
+                        <div class="o_ea_px_params">
+                            <label>Days <input type="number" min="1" max="366" class="o_ea_px_input o_ea_px_small" t-model="state.days" t-att-disabled="!editable or p.selection.frozen"/></label>
+                            <label>Threshold (FCFA) <input type="text" class="o_ea_px_input" t-model="state.threshold" t-att-disabled="!editable or p.selection.frozen"/></label>
+                            <button type="button" class="btn btn-primary btn-sm" t-if="editable and !p.selection.frozen" t-att-disabled="state.busy" t-on-click="select">
+                                <t t-if="p.selection.runId">Select again</t><t t-else="">Select the entries</t>
+                            </button>
+                            <span class="o_ea_px_muted" t-if="p.selection.frozen">The selection is frozen: an entry already has an answer.</span>
+                        </div>
+                        <p class="o_ea_px_muted" t-if="!p.selection.runId">Default threshold: 10% of performance materiality. Change the days or the threshold before you select.</p>
+                        <div class="o_ea_px_runbox" t-if="p.selection.runId">
+                            <span>Sample <a href="#" t-on-click.prevent="() => this.open('sample', p.selection.runId)" t-esc="p.selection.runTitle"/></span>
+                            <span>Window <strong><t t-esc="p.selection.window.from"/> to <t t-esc="p.selection.window.to"/></strong></span>
+                            <span>Rule <strong>every entry ≥ <t t-esc="fmt(p.selection.threshold)"/></strong></span>
+                            <span>Population <strong><t t-esc="p.selection.population"/> entries · <t t-esc="fmt(p.selection.populationValue)"/></strong></span>
+                            <span>Drawn <strong><t t-esc="p.selection.items.length"/> items</strong> on <t t-esc="p.selection.drawnOn"/></span>
+                        </div>
+                        <table class="o_ea_px_table" t-if="p.selection.items.length">
+                            <thead>
+                                <tr><th>#</th><th>Date</th><th>Side</th><th>Entry</th><th>Third party / label</th><th class="o_num">Amount</th>
+                                    <th>Delivery or service date</th><th>Right period?</th><th>Document seen?</th><th>Comment</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="visibleItems" t-as="item" t-key="item.key" t-att-data-key="item.key">
+                                    <td t-esc="item.position"/>
+                                    <td t-esc="item.date"/>
+                                    <td t-esc="sideLabel(item.side)"/>
+                                    <td t-esc="item.entry"/>
+                                    <td><t t-esc="item.third"/><t t-if="item.third and item.label"> · </t><t t-esc="item.label"/></td>
+                                    <td class="o_num" t-esc="fmt(item.amount)"/>
+                                    <td><input type="text" class="o_ea_px_input" t-att-value="item.when" t-att-disabled="!editable" t-on-change="(ev) => this.answer(item, 'when', ev.target.value)"/></td>
+                                    <td>
+                                        <span class="o_ea_px_seg" role="group">
+                                            <button type="button" t-att-class="item.period === 'yes' ? 'active is-yes' : ''" t-att-disabled="!editable" t-on-click="() => this.answer(item, 'period', 'yes')">Yes</button>
+                                            <button type="button" t-att-class="item.period === 'no' ? 'active is-no' : ''" t-att-disabled="!editable" t-on-click="() => this.answer(item, 'period', 'no')">No</button>
+                                        </span>
+                                    </td>
+                                    <td><input type="checkbox" t-att-checked="item.doc" t-att-disabled="!editable" t-on-change="(ev) => this.answer(item, 'doc', ev.target.checked)"/></td>
+                                    <td>
+                                        <input type="text" class="o_ea_px_input" t-att-value="item.note" t-att-disabled="!editable" t-on-change="(ev) => this.answer(item, 'note', ev.target.value)"/>
+                                        <a href="#" class="o_ea_px_bad" t-if="item.finding" t-on-click.prevent="() => this.open('finding', item.finding)">finding raised</a>
+                                        <button type="button" class="btn btn-link btn-sm p-0" t-elif="item.period === 'no' and editable" t-on-click="() => this.offerFinding(item)">Raise a finding</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-link btn-sm" t-if="!state.showAll and p.selection.items.length > 12" t-on-click="() => this.state.showAll = true">Show all</button>
+                        <p class="o_ea_px_muted" t-if="p.selection.mode === 'cutoff'">"Before" entries are tested for delivery after year end (recorded too early), "After" entries for delivery before year end (recorded too late). The selection is a sample of the Sampling page: changing the days or the threshold selects again, until the first entry has an answer; then it is frozen.</p>
+                        <p class="o_ea_px_muted" t-else="">Each payment or invoice of the next year is checked: does it settle a liability that existed at year end, and was that liability recorded? The selection is frozen once the first entry has an answer.</p>
+                    </section>
+
+                    <!-- Samples drawn for it -->
+                    <section class="o_ea_px_card" t-if="p.mode === 'sample' or p.samples.length" data-ea="sample">
+                        <h3>Sample (from the sampling tool)</h3>
+                        <t t-if="!p.samples.length">
+                            <p class="o_ea_px_muted">No sample is drawn for this procedure yet.</p>
+                            <button type="button" class="btn btn-primary btn-sm" t-if="editable and p.canDraw" t-on-click="() => this.open('draw', p.id)">Draw the sample</button>
+                        </t>
+                        <div t-foreach="p.samples" t-as="sample" t-key="sample.id" class="o_ea_px_sample">
+                            <div class="o_ea_px_runbox">
+                                <span>Run <a href="#" t-on-click.prevent="() => this.open('sample', sample.id)" t-esc="sample.title"/></span>
+                                <span t-if="sample.population !== null and sample.population !== undefined">Population <strong><t t-esc="sample.populationRows"/> · <t t-esc="fmt(sample.population)"/></strong></span>
+                                <span>Rule <strong t-esc="sample.rule"/></span>
+                                <span>Size <strong t-esc="sample.size"/></span>
+                                <span>Drawn on <strong t-esc="sample.drawnOn"/></span>
+                            </div>
+                            <table class="o_ea_px_table">
+                                <thead><tr><th>#</th><th>Item</th><th class="o_num">Book</th><th class="o_num">Audited</th><th>How tested</th><th>Note</th><th>Result</th></tr></thead>
+                                <tbody>
+                                    <tr t-foreach="sample.rows" t-as="row" t-key="row.rowNo">
+                                        <td t-esc="row.position"/>
+                                        <td t-esc="row.label"/>
+                                        <td class="o_num" t-esc="fmt(row.book)"/>
+                                        <td class="o_num"><input type="text" class="o_ea_px_input text-end" t-att-value="row.audited === null ? '' : row.audited" t-att-disabled="!editable or sample.concluded"
+                                                                 t-on-change="(ev) => this.sampleItem(sample, row, 'audited', ev.target.value)"/></td>
+                                        <td><input type="text" class="o_ea_px_input" t-att-value="row.how" t-att-disabled="!editable or sample.concluded" t-on-change="(ev) => this.sampleItem(sample, row, 'how', ev.target.value)"/></td>
+                                        <td><input type="text" class="o_ea_px_input" t-att-value="row.note" t-att-disabled="!editable or sample.concluded" t-on-change="(ev) => this.sampleItem(sample, row, 'note', ev.target.value)"/></td>
+                                        <td><span t-attf-class="o_ea_px_tag is-{{ row.result }}" t-esc="resultLabel(row.result)"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="editable and p.canDraw and p.samples.length" t-on-click="() => this.open('draw', p.id)">Draw another sample</button>
+                    </section>
+
+                    <!-- Confirmations -->
+                    <section class="o_ea_px_card" t-if="p.confirm" data-ea="confirmations">
+                        <h3>Third-party confirmations</h3>
+                        <table class="o_ea_px_table" t-if="p.confirm.rows.length">
+                            <thead><tr><th>Party</th><th class="o_num">Book amount</th><th>Sent on</th><th>Status</th><th class="o_num">Confirmed</th><th class="o_num">Difference</th><th>Explanation</th><th/></tr></thead>
+                            <tbody>
+                                <tr t-foreach="p.confirm.rows" t-as="row" t-key="row.id">
+                                    <td t-esc="row.party"/>
+                                    <td class="o_num"><input type="text" class="o_ea_px_input text-end" t-att-value="row.book" t-att-disabled="!editable" t-on-change="(ev) => this.saveRequest(row, 'book', ev.target.value)"/></td>
+                                    <td><input type="date" class="o_ea_px_input" t-att-value="row.sent" t-att-disabled="!editable" t-on-change="(ev) => this.saveRequest(row, 'sent', ev.target.value)"/></td>
+                                    <td>
+                                        <select class="o_ea_px_input" t-att-disabled="!editable" t-on-change="(ev) => this.saveRequest(row, 'status', ev.target.value)">
+                                            <option t-foreach="p.confirm.statuses" t-as="s" t-key="s.value" t-att-value="s.value" t-att-selected="s.value === row.status" t-esc="s.label"/>
+                                        </select>
+                                    </td>
+                                    <td class="o_num"><input type="text" class="o_ea_px_input text-end" t-att-value="row.confirmed === null ? '' : row.confirmed" t-att-disabled="!editable" t-on-change="(ev) => this.saveRequest(row, 'confirmed', ev.target.value)"/></td>
+                                    <td class="o_num" t-esc="row.difference === null ? '' : fmt(row.difference)"/>
+                                    <td>
+                                        <input type="text" class="o_ea_px_input" t-att-value="row.explanation" t-att-disabled="!editable" t-on-change="(ev) => this.saveRequest(row, 'explanation', ev.target.value)"/>
+                                        <div><span t-attf-class="o_ea_px_tag {{ statusClass(row.state) }}" t-esc="confirmStateText(row.state)"/></div>
+                                    </td>
+                                    <td>
+                                        <a href="#" t-if="row.finding" class="o_ea_px_bad" t-on-click.prevent="() => this.open('finding', row.finding)">finding raised</a>
+                                        <button type="button" class="btn btn-link btn-sm p-0" t-elif="row.state === 'difference' and editable" t-on-click="() => this.requestFinding(row)">Raise a finding</button>
+                                        <button type="button" class="btn btn-link btn-sm p-0" t-if="editable and !row.finding" t-on-click="() => this.removeRequest(row)">Remove</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_px_muted" t-else="">No request yet.</p>
+                        <div class="o_ea_px_params" t-if="editable">
+                            <label>Party <input type="text" class="o_ea_px_input" list="o_ea_px_parties" t-model="state.party"/></label>
+                            <datalist id="o_ea_px_parties"><option t-foreach="p.confirm.parties" t-as="party" t-key="party_index" t-att-value="party.party || party.name"><t t-esc="party.name"/> · <t t-esc="fmt(party.amount)"/></option></datalist>
+                            <label>Book amount <input type="text" class="o_ea_px_input" t-model="state.book" placeholder="from the sub-ledger"/></label>
+                            <button type="button" class="btn btn-secondary btn-sm" t-att-disabled="!state.party.trim() or state.busy" t-on-click="addRequest">Add a request</button>
+                        </div>
+                        <p class="o_ea_px_muted">The book amount comes from the sub-ledger when the party is found there. A reply that differs needs an explanation; without one, raise it as a finding. With no reply, perform alternative procedures.</p>
+                    </section>
+                    <button type="button" class="btn btn-link btn-sm" t-if="editable and p.canAddConfirm" t-on-click="enableConfirm">Add a confirmations block</button>
+                </div>
+
+                <div class="o_ea_px_col">
+                    <!-- Evidence -->
+                    <section class="o_ea_px_card" data-ea="evidence">
+                        <h3>Evidence</h3>
+                        <label t-attf-class="o_ea_px_drop {{ state.dragging ? 'is-over' : '' }}" t-if="editable"
+                               t-on-dragover="onDragOver" t-on-dragleave="() => this.state.dragging = false" t-on-drop="onDrop">
+                            Drop files here or <strong>choose files</strong>
+                            <input type="file" multiple="multiple" class="d-none" t-on-change="onFiles"/>
+                        </label>
+                        <ul class="o_ea_px_files">
+                            <li t-foreach="p.evidence" t-as="file" t-key="file.id">
+                                <a t-att-href="downloadUrl(file.attachment_id)"><t t-esc="file.name"/> (v<t t-esc="file.version"/>)</a>
+                                <small><t t-esc="file.by"/> · <t t-esc="file.date"/></small>
+                                <button type="button" class="btn btn-link btn-sm p-0" t-if="editable" t-on-click="() => this.removeFile(file)">Remove</button>
+                            </li>
+                        </ul>
+                        <p class="o_ea_px_muted" t-if="!p.evidence.length">No evidence filed yet.</p>
+                    </section>
+
+                    <!-- Conclusion -->
+                    <section class="o_ea_px_card" data-ea="conclusion">
+                        <h3>Conclusion</h3>
+                        <div class="o_ea_px_row">
+                            <span>Result</span>
+                            <span class="o_ea_px_seg" role="group">
+                                <button type="button" t-att-class="p.conclusion === 'satisfactory' ? 'active is-yes' : ''" t-att-disabled="!editable" t-on-click="() => this.setResult('satisfactory')">No exception</button>
+                                <button type="button" t-att-class="p.conclusion === 'exceptions' ? 'active is-no' : ''" t-att-disabled="!editable" t-on-click="() => this.setResult('exceptions')">Exceptions found</button>
+                            </span>
+                        </div>
+                        <div class="o_ea_px_row">
+                            <span>Conclusion</span>
+                            <textarea class="o_ea_px_input" rows="3" t-model="state.note" t-att-disabled="!editable" t-on-change="saveNote"/>
+                        </div>
+                        <div class="o_ea_px_row" t-if="!p.locked">
+                            <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!canMarkDone" t-on-click="markDone">Mark as done</button>
+                            <span class="o_ea_px_muted" t-esc="leftText"/>
+                        </div>
+                        <div class="o_ea_px_row" t-else="">
+                            <span class="o_ea_px_tag is-agreed">Done</span> <t t-esc="p.doneBy"/> · <t t-esc="p.doneAt"/>
+                            <button type="button" class="btn btn-link btn-sm" t-if="!p.readonly" t-on-click="reopen">Reopen</button>
+                        </div>
+                    </section>
+
+                    <!-- Findings -->
+                    <section class="o_ea_px_card" data-ea="findings">
+                        <h3>Findings on this working paper</h3>
+                        <table class="o_ea_px_table" t-if="p.findings.length">
+                            <thead><tr><th>Finding</th><th>Type</th><th class="o_num">Amount</th><th>Goes to</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="p.findings" t-as="f" t-key="f.id">
+                                    <td><a href="#" t-on-click.prevent="() => this.open('finding', f.id)"><t t-esc="f.ref"/> <t t-esc="f.title"/></a></td>
+                                    <td><span class="o_ea_px_tag is-warn" t-esc="f.routeLabel"/></td>
+                                    <td class="o_num" t-esc="f.amount === null ? '' : fmt(f.amount)"/>
+                                    <td>Findings<t t-if="f.route === 'b5'"> · SAD</t></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_px_muted" t-else="">None yet.</p>
+                        <div class="o_ea_px_form" t-if="state.finding">
+                            <label>Description <textarea class="o_ea_px_input" rows="2" t-model="state.finding.description"/></label>
+                            <label t-if="state.finding.type === 'misstatement'">Amount (FCFA) <input type="text" class="o_ea_px_input" t-model="state.finding.amount"/></label>
+                            <div class="o_ea_px_row">
+                                <span>Type</span>
+                                <span class="o_ea_px_seg" role="group">
+                                    <button type="button" t-att-class="state.finding.type === 'misstatement' ? 'active' : ''" t-on-click="() => this.state.finding.type = 'misstatement'">Misstatement</button>
+                                    <button type="button" t-att-class="state.finding.type === 'deficiency' ? 'active' : ''" t-on-click="() => this.state.finding.type = 'deficiency'">Control deficiency</button>
+                                    <button type="button" t-att-class="state.finding.type === 'matter' ? 'active' : ''" t-on-click="() => this.state.finding.type = 'matter'">Other</button>
+                                </span>
+                            </div>
+                            <label t-if="findingBelowTrivial" class="o_ea_px_check"><input type="checkbox" t-model="state.finding.trivial"/> Below the clearly trivial threshold: record it anyway</label>
+                            <div class="o_ea_px_muted">Linked to <t t-esc="p.index"/> <t t-esc="p.indexLabel"/> · <t t-esc="p.code"/> (filled in for you)</div>
+                            <div class="o_ea_px_row">
+                                <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!state.finding.description.trim() or state.busy or (findingBelowTrivial and !state.finding.trivial)" t-on-click="addFinding">Add the finding</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.state.finding = null">Cancel</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" t-elif="editable" t-on-click="startFinding">Add a finding</button>
+                        <div class="o_ea_px_info">A finding added here goes straight to the Findings page; a misstatement also to the Summary of audit differences.</div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
