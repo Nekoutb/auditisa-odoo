@@ -191,6 +191,7 @@ class TestSealedArchive(ReportsCase):
     def test_trigger_refuses_edits_but_takes_addenda_and_access_lines(self):
         seal = self._archived()
         addendum = self.as_senior.add_addendum("Late reply filed")
+        self.engagement.with_user(self.reader).ea_archive_page()  # one opening in the access log
         self.env.flush_all()
         refused = [
             ("UPDATE ea_audit_paper_answer SET value = 'x' WHERE engagement_id = %s", self.engagement.id, "archived"),
