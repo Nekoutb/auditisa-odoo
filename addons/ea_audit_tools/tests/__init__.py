@@ -22,3 +22,5 @@ from . import test_scot_controls
 from . import test_worksheet_pages
 from . import test_ws_pages
 from . import test_procedure_design
+
+from . import test_subsequent

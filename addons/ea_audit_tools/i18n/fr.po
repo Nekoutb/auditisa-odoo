@@ -13756,6 +13756,12 @@ msgid "In progress"
 msgstr "En cours"
 
 #. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__timing__subsequent
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__timing__subsequent
+msgid "Subsequent period (next year)"
+msgstr "Période suivante (exercice suivant)"
+
+#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "This procedure is mandatory for the account's relevant assertions: it stays in the design."
@@ -13907,3 +13913,9 @@ msgstr "Sélection de césure"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_procedure_library__automatable__sample_selection
 msgid "Sample selection"
 msgstr "Sélection d'échantillon"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Only the general ledger, receivables, payables and inventory can be uploaded for the next year."
+msgstr "Seuls le grand livre, les créances clients, les dettes fournisseurs et les stocks peuvent être importés pour l'exercice suivant."

@@ -23,7 +23,7 @@ class JeStudio(models.TransientModel):
     _description = "Journal-entry selection studio"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
-    dataset_id = fields.Many2one("ea.audit.dataset", string="Ledger", domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'journal_entries'), ('superseded_at', '=', False)]")
+    dataset_id = fields.Many2one("ea.audit.dataset", string="Ledger", domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'journal_entries'), ('superseded_at', '=', False), ('timing', '!=', 'subsequent')]")
     limit = fields.Selection([("50", "50"), ("200", "200"), ("500", "500")], string="Lines per page", default="200", required=True)
     offset = fields.Integer(default=0)
     date_basis = fields.Selection([("journal", "Journal date"), ("entry", "Entry (recording) date")], string="Date tested", default="journal", required=True)

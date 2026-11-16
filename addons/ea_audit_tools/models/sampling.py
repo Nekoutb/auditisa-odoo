@@ -14,6 +14,7 @@ from ..services.engines import evaluate_sampling, record_tod_result, select_samp
 from ..services.errors import EngineError, ServiceError
 from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, lead_index_label
 from ..services.sampling_params import attribute_plan, evaluate_attribute, mus_plan
+from ..services.subsequent import CURRENT_YEAR_TIMINGS
 from ..services.tod_plan import TOD_ASSURANCES, TOD_CRAS, plan_tod, stable_start_fraction
 from ..workbooks import CRA_LABEL, toc_sample_workbook, tod_workbook
 from .tool_record import decimal_label, fcfa, french_date, is_french
@@ -154,10 +155,11 @@ class EngagementSampling(models.Model):
     # ------------------------------------------------------------------
 
     def _ea_ledger(self):
-        """The pre-audit ledger, else the newest."""
+        """The pre-audit ledger, else the newest of the year audited (never the next year's)."""
         self.ensure_one()
         datasets = self.env["ea.audit.dataset"].sudo().search([
             ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
+            ("timing", "in", CURRENT_YEAR_TIMINGS),
         ])
         return datasets.sorted(lambda d: (d.timing != "pre_audit", -d.id))[:1]
 

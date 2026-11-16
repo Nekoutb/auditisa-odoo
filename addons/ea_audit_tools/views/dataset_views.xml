@@ -4,7 +4,7 @@
         <field name="name">ea.audit.dataset.list</field>
         <field name="model">ea.audit.dataset</field>
         <field name="arch" type="xml">
-            <list create="0" delete="0" edit="0" decoration-muted="superseded_at">
+            <list create="0" delete="0" edit="0" decoration-muted="superseded_at" js_class="ea_dataset_list">
                 <header>
                     <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_template" type="object" string="Download the template" display="always"/>

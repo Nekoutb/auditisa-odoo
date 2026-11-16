@@ -11,6 +11,7 @@ from ..rules import rule_error
 from ..services.errors import ServiceError
 from ..services.je_catalogue import JE_CRITERIA
 from ..services.je_selection import SELECTION_CAP
+from ..services.subsequent import CURRENT_YEAR_TIMINGS
 from ..services.upload_safety import check_upload
 from ..services.ws_pages import (
     card_state, clean_item_patch, exceeds_tolerable, group_entries, je_progress, sample_items, toc_steps, tod_result_steps,
@@ -194,6 +195,7 @@ class EngagementWorksheets(models.Model):
         reason = self._ea_ws_readonly()
         datasets = self.env["ea.audit.dataset"].sudo().search([
             ("engagement_id", "=", self.id), ("kind", "=", "journal_entries"), ("superseded_at", "=", False),
+            ("timing", "in", CURRENT_YEAR_TIMINGS),
         ])
         dataset = studio.dataset_id
         request = studio._ea_request()
