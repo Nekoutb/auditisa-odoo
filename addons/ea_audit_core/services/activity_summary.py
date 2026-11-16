@@ -165,6 +165,11 @@ _ENTRIES = (
      _lt("Significance of %(index)s changed from %(status)s to %(word)s by %(name)s: %(why)s")],
     [r"^Significance of (?P<index>\S+) changed from (?P<status>.+?) to (?P<word>.+?) by (?P<name>.+)$",
      _lt("Significance of %(index)s changed from %(status)s to %(word)s by %(name)s")],
+    # Significant accounts (owner's mock-up of 2026-11-16): the flag thresholds of the file.
+    [r"^Significant accounts: movements flagged above (?P<pct>.+?) and above (?P<amount>\d+) FCFA, set by (?P<name>.+)$",
+     _lt("Significant accounts: movements flagged above %(pct)s and above %(amount)s FCFA, set by %(name)s")],
+    [r"^Significant accounts: movements flagged above (?P<pct>.+?) or above (?P<amount>\d+) FCFA, set by (?P<name>.+)$",
+     _lt("Significant accounts: movements flagged above %(pct)s or above %(amount)s FCFA, set by %(name)s")],
     [r"^SCOT assigned to (?P<name>.+): (?P<title>.*)$", _lt("SCOT assigned to %(name)s: %(title)s")],
     [r"^Trial balance imported: (?P<file>.+) \((?P<status>\w+), (?P<count>\d+) rows\)$",
      _lt("Trial balance imported: %(file)s (%(status)s, %(count)s rows)")],

@@ -343,9 +343,10 @@ class EngagementSignificance(models.Model):
             self.sudo().write(values)
             self._ea_log(
                 "significance_flags",
-                "Significant accounts: a movement is flagged above %s %% %s above %s FCFA (set by %s)" % (
-                    values["significance_flag_pct"], mode, int(values["significance_flag_amount"]), self.env.user.name,
-                ),
+                (
+                    "Significant accounts: movements flagged above %s and above %d FCFA, set by %s" if mode == "and"
+                    else "Significant accounts: movements flagged above %s or above %d FCFA, set by %s"
+                ) % ("%g %%" % values["significance_flag_pct"], values["significance_flag_amount"], self.env.user.name),
             )
         return self.ea_significance_flags()
 
