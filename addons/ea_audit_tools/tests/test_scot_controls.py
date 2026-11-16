@@ -152,7 +152,7 @@ class TestGridAndOverview(ScotCase):
     def test_the_views_load(self):
         for xmlid in ("view_scot_kanban", "view_scot_form", "view_control_form", "view_control_wizard", "view_toc_draw_wizard"):
             view = self.env.ref("ea_audit_tools.%s" % xmlid)
-            self.env[view.model].with_user(self.reader).get_view(view.id)
+            self.env[view.model].with_user(self.staff).get_view(view.id)
 
 
 @tagged("post_install", "-at_install")

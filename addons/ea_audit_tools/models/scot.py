@@ -576,6 +576,7 @@ class ScotControl(models.Model):
         """One-off (2026-11-16): the code of the fixed list for the free text of OPEN files' controls,
         where the keyword parser reads it without doubt. Archived files are left untouched (the archive
         trigger refuses their rows), and so is anything unclear. Returns how many controls got a code."""
+        self.env.flush_all()
         cr = self.env.cr
         cr.execute("""
             SELECT c.id, c.frequency
