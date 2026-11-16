@@ -4,7 +4,9 @@
         <field name="name">ea.audit.significance.list</field>
         <field name="model">ea.audit.significance</field>
         <field name="arch" type="xml">
-            <list create="0" delete="0" editable="bottom" decoration-danger="unjustified" class="o_ea_significance_list">
+            <!-- js_class: the flag thresholds bar above the list, and the row colours (flagged: pale red;
+                 a departure without its reason: the Reason cell in amber) -->
+            <list create="0" delete="0" editable="bottom" js_class="ea_significance_list" class="o_ea_significance_list">
                 <header>
                     <button name="action_list_export" type="object" string="Export to Excel" display="always"/>
                     <button name="action_list_import" type="object" string="Import from Excel" display="always" groups="ea_audit_core.group_writer"/>
@@ -15,8 +17,14 @@
                 <field name="reviewer_known" column_invisible="1"/>
                 <field name="engagement_id" column_invisible="1"/>
                 <field name="has_risk" column_invisible="1"/>
-                <field name="index_code" readonly="1" width="160px"/>
-                <field name="closing" readonly="1" width="105px"/>
+                <field name="flagged" column_invisible="1"/>
+                <field name="index_code" readonly="1" width="160px" decoration-warning="unjustified" decoration-bf="unjustified"/>
+                <field name="closing" string="Current year" readonly="1" width="105px"/>
+                <!-- owner's mock-up of 2026-11-16: the prior year, the change, and the flag in the % cell -->
+                <field name="prior_closing" readonly="1" width="105px"/>
+                <field name="variance" readonly="1" width="105px"/>
+                <field name="variance_pct_label" readonly="1" width="90px" class="text-end o_ea_variance_pct"
+                       decoration-danger="flagged" decoration-bf="flagged"/>
                 <!-- counted from the general ledger in use: empty when there is none, or the column was not matched -->
                 <field name="tx_count" readonly="1" invisible="not activity_dataset" optional="show" width="95px"/>
                 <field name="preparer_count" readonly="1" invisible="not preparer_known" optional="show" width="90px"/>
@@ -27,16 +35,10 @@
                        options="{'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"
                        domain="[('engagement_id', '=', engagement_id), ('rebutted', '=', False)]"/>
                 <field name="risk_assertions" readonly="1" optional="hide"/>
-                <field name="default_status" readonly="1" optional="show" width="95px"/>
+                <!-- one Status column, changed in the cell; a live risk locks it at Significant -->
                 <field name="status" widget="selection" decoration-success="status == 'significant'" decoration-bf="1" width="110px"
                        readonly="has_risk"/>
-                <button name="action_change_status" type="object" string="Change status" icon="fa-exchange" class="btn-link"
-                        title="Change between Significant and Not significant, with the reason" groups="ea_audit_core.group_writer"
-                        invisible="has_risk"/>
-                <button name="action_change_status" type="object" string="Locked by a risk" icon="fa-lock" class="btn-link text-muted opacity-50"
-                        title="A linked risk keeps this account Significant: remove the link or rebut the risk in the risk register"
-                        groups="ea_audit_core.group_writer" invisible="not has_risk"/>
-                <field name="justification" placeholder="Required when the status departs from the default"/>
+                <field name="justification" placeholder="Required when the status departs from the one proposed"/>
                 <field name="assertion_ids" widget="many2many_tags" options="{'no_create': True}" width="95px"/>
                 <field name="specific_te" width="95px"/>
             </list>

@@ -1,10 +1,17 @@
+import math
+
 from odoo import api, fields, models
+
+from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 
 from ..rules import rule_error
 from ..services._js import js_round
 from ..services.ap_schedules import index_resolver
 from ..services.lead_classes import LEAD_INDEX_BY_CODE
 from ..services.significance_activity import IndexActivity, line_reader, people_columns
+from ..services.significance_variance import (
+    DEFAULT_FLAG_AMOUNT, DEFAULT_FLAG_MODE, DEFAULT_FLAG_PCT, FLAG_MODES, is_flagged, variance,
+)
 from ..services.significant_accounts import significance_rows, specific_refusal, unjustified_count
 
 STATUS_SELECTION = [("significant", "Significant"), ("not_significant", "Not significant")]
@@ -65,6 +72,18 @@ class Significance(models.Model):
     )
     lock_note = fields.Char(string="Why the status is locked", compute="_compute_risks", compute_sudo=True)
 
+    # Owner's mock-up of 2026-11-16: the prior year, the change and the flag, read each time.
+    prior_closing = fields.Float(string="Prior year", digits=(18, 0), compute="_compute_variance", compute_sudo=True)
+    variance = fields.Float(string="Variance", digits=(18, 0), compute="_compute_variance", compute_sudo=True)
+    variance_pct = fields.Float(string="Variance % (figure)", digits=(16, 1), compute="_compute_variance", compute_sudo=True)
+    variance_pct_label = fields.Char(
+        string="Variance %", compute="_compute_variance", compute_sudo=True,
+        help="The change over the prior year's balance. New: no balance in the prior year. "
+             "The flag marks a change above the thresholds set at the top of the list.",
+    )
+    variance_new = fields.Boolean(string="New account", compute="_compute_variance", compute_sudo=True)
+    flagged = fields.Boolean(string="Flagged", compute="_compute_variance", compute_sudo=True)
+
     _uniq = models.Constraint("UNIQUE(engagement_id, index_code)", "One decision per lead index.")
 
     def _compute_row(self):
@@ -80,6 +99,31 @@ class Significance(models.Model):
                 record.unjustified = bool(row and row["overridden"] and not row["justification"].strip())
                 record.has_risk = bool(row and row["hasRisk"])
                 record.risk_assertions = ", ".join(sorted(derived.get(record.index_code, ())))
+
+    @api.depends_context("lang")
+    def _compute_variance(self):
+        for engagement in self.engagement_id:
+            records = self.filtered(lambda r: r.engagement_id == engagement)
+            rows = engagement._ea_significance_variances({r.index_code: r.closing for r in records})
+            point = self.env["res.lang"]._lang_get(self.env.lang or "en_US").decimal_point or "."
+            for record in records:
+                row = rows[record.index_code]
+                record.prior_closing = row["prior"]
+                record.variance = row["variance"]
+                record.variance_pct = row["pct"] or 0
+                record.variance_new = row["new"]
+                record.flagged = row["flagged"]
+                if row["pct"] is None:
+                    text = self.env._("new") if row["new"] else ""
+                else:
+                    figure = ("%.1f" % abs(row["pct"])).replace(".", point)
+                    text = ("(%s %%)" if row["pct"] < 0 else "%s %%") % figure
+                record.variance_pct_label = ("⚑ %s" % text) if row["flagged"] else text
+        for record in self.filtered(lambda r: not r.engagement_id):
+            record.update({
+                "prior_closing": 0, "variance": 0, "variance_pct": 0, "variance_pct_label": False,
+                "variance_new": False, "flagged": False,
+            })
 
     @api.depends_context("lang")
     def _compute_risks(self):
@@ -233,6 +277,77 @@ class EngagementSignificance(models.Model):
     significance_ids = fields.One2many("ea.audit.significance", "engagement_id", string="Significant accounts")
     significance_unjustified = fields.Integer(string="Unjustified departures", compute="_compute_significance_counts", compute_sudo=True)
     significance_count = fields.Integer(string="Significant accounts count", compute="_compute_significance_counts", compute_sudo=True)
+
+    # The flag thresholds of the significant accounts (owner's mock-up of 2026-11-16).
+    significance_flag_mode = fields.Selection(
+        [("and", "and"), ("or", "or")], string="Flag when", default=DEFAULT_FLAG_MODE,
+        help="and: flag a movement only when both limits are passed. or: when either one is.",
+    )
+    significance_flag_pct = fields.Float(string="Flag above (%)", default=DEFAULT_FLAG_PCT)
+    significance_flag_amount = fields.Float(string="Flag above (FCFA)", default=DEFAULT_FLAG_AMOUNT)
+
+    def _ea_flag_thresholds(self):
+        self.ensure_one()
+        as_root = self.sudo()
+        mode = as_root.significance_flag_mode if as_root.significance_flag_mode in FLAG_MODES else DEFAULT_FLAG_MODE
+        return mode, as_root.significance_flag_pct or 0, as_root.significance_flag_amount or 0
+
+    def _ea_significance_variances(self, closings):
+        """{index: variance() + flagged} for ``closings`` ({index: current year})."""
+        self.ensure_one()
+        _source, prior = self.sudo()._ea_prior_by_index()
+        mode, pct, amount = self._ea_flag_thresholds()
+        out = {}
+        for code, closing in closings.items():
+            row = variance(closing, prior.get(code, 0))
+            row["flagged"] = is_flagged(row, mode, pct, amount)
+            out[code] = row
+        return out
+
+    def ea_significance_flags(self):
+        """The bar above the significant accounts: the thresholds, who may change them, how many
+        rows they flag and where the prior year comes from."""
+        self.ensure_one()
+        self._ea_require_access()
+        try:
+            self._ea_tool_guard()
+            can_edit = True
+        except AuditRuleError:
+            can_edit = False
+        mode, pct, amount = self._ea_flag_thresholds()
+        records = self.env["ea.audit.significance"].sudo().search([("engagement_id", "=", self.id)])
+        rows = self._ea_significance_variances({r.index_code: r.closing for r in records})
+        return {
+            "mode": mode, "pct": pct, "amount": amount, "canEdit": can_edit,
+            "flagged": len([row for row in rows.values() if row["flagged"]]),
+            "source": self._ea_comparative_label(),
+        }
+
+    def ea_save_significance_flags(self, mode, pct, amount):
+        """Writers set the thresholds of the file; every reader of the list sees the same flags."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        try:
+            pct, amount = float(pct), float(amount)
+        except (TypeError, ValueError):
+            raise rule_error(self.env, "invalid-value") from None
+        if mode not in FLAG_MODES or not math.isfinite(pct) or not math.isfinite(amount) or pct < 0 or amount < 0:
+            raise rule_error(self.env, "invalid-value")
+        values = {
+            "significance_flag_mode": mode,
+            "significance_flag_pct": js_round(pct * 10) / 10,
+            "significance_flag_amount": js_round(amount),
+        }
+        before = self._ea_flag_thresholds()
+        if before != (values["significance_flag_mode"], values["significance_flag_pct"], values["significance_flag_amount"]):
+            self.sudo().write(values)
+            self._ea_log(
+                "significance_flags",
+                "Significant accounts: a movement is flagged above %s %% %s above %s FCFA (set by %s)" % (
+                    values["significance_flag_pct"], mode, int(values["significance_flag_amount"]), self.env.user.name,
+                ),
+            )
+        return self.ea_significance_flags()
 
     def _compute_significance_counts(self):
         for engagement in self:
