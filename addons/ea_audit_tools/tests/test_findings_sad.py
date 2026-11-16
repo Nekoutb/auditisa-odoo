@@ -275,7 +275,9 @@ class TestHubAndGates(ToolsCase):
     def test_every_tile_with_a_method_opens(self):  # the hub and the analyzers
         for tile in self.env["ea.audit.tool.tile"].sudo().search([("method", "!=", False)]):
             action = tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
-            self.assertEqual(action["type"], "ir.actions.act_window", tile.code)
+            # the CRA opens its one page (2026-11-16), every other tool a window
+            expected = "ir.actions.client" if tile.method == "action_tool_cra" else "ir.actions.act_window"
+            self.assertEqual(action["type"], expected, tile.code)
 
     def test_p61_waits_for_an_approved_version(self):
         self.set_phase(self.engagement, "planning")

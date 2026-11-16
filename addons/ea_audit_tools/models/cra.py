@@ -1,11 +1,15 @@
 from odoo import api, fields, models
 
+from odoo.addons.ea_audit_core.services.errors import AuditRuleError
+
 from ..rules import rule_error
 from ..services.assertions import ASSERTIONS
-from ..services.cra_board import cell_tod, default_relevance, is_rely_unsupported, suggested_cr, suggested_ir
-from ..services.cra_model import cells_to_assess, cra_of, threshold_suggestion, timing_suggestion, to_tod, worst_tod
-from ..services.lead_classes import INDEX_SECTION, LEAD_INDEX_BY_CODE
-from .tool_record import ASSERTION_SELECTION, is_french
+from ..services.cra_board import (
+    cell_level, default_relevance, is_rely_unsupported, page_progress, row_worst_tod, suggested_cr, suggested_ir,
+)
+from ..services.cra_model import cells_to_assess, cr_basis_label, threshold_suggestion, timing_suggestion, to_tod
+from ..services.lead_classes import INDEX_SECTION, LEAD_INDEX_BY_CODE, lead_index_label
+from .tool_record import ASSERTION_SELECTION, grouped, is_french
 
 IR_SELECTION = [("lower", "Lower"), ("higher", "Higher")]
 CR_SELECTION = [("rely", "Rely"), ("not_rely", "Not rely")]
@@ -39,7 +43,7 @@ class CraAssessment(models.Model):
     cr = fields.Selection(CR_SELECTION, string="Control risk")
     cr_basis = fields.Char(string="CR basis")
     reason = fields.Char(string="Revision reason", compute="_compute_reason", inverse="_inverse_noop")
-    level = fields.Selection(LEVEL_SELECTION, compute="_compute_derived", compute_sudo=True)
+    level = fields.Selection(LEVEL_SELECTION + [("to_assess", "To assess")], compute="_compute_derived", compute_sudo=True)
     tod_level = fields.Selection(TOD_SELECTION, string="Sampling level", compute="_compute_derived", compute_sudo=True)
     suggested_ir = fields.Selection(IR_SELECTION, string="Suggested IR", compute="_compute_derived", compute_sudo=True)
     suggested_cr = fields.Selection(CR_SELECTION, string="Suggested CR", compute="_compute_derived", compute_sudo=True)
@@ -70,7 +74,9 @@ class CraAssessment(models.Model):
                 coverage = engagement._ea_control_coverage(cell.index_code, cell.assertion)
                 ir_suggested = suggested_ir(risk["count"])
                 cr_suggested = suggested_cr(coverage["covering"], coverage["failed"], itgc)
-                level = cra_of(cell.ir or ir_suggested, cell.cr or cr_suggested)
+                # The level waits for both choices: the suggestions are shown, never used (2026-11-16).
+                level = cell_level(cell.ir, cell.cr)
+                assessed = level != "to_assess"
                 cell.suggested_ir = ir_suggested
                 cell.suggested_cr = cr_suggested
                 cell.risk_count = risk["count"]
@@ -78,9 +84,9 @@ class CraAssessment(models.Model):
                 cell.fraud = risk["fraud"]
                 cell.controls_covering = coverage["covering"]
                 cell.level = level
-                cell.tod_level = to_tod(level, risk["significant"])
-                cell.threshold_hint = threshold_suggestion(level, locale)
-                cell.timing_hint = timing_suggestion(level, locale)
+                cell.tod_level = to_tod(level, risk["significant"]) if assessed else False
+                cell.threshold_hint = threshold_suggestion(level, locale) if assessed else False
+                cell.timing_hint = timing_suggestion(level, locale) if assessed else False
 
     def _ea_user_write(self, vals):
         self._ea_only(vals, {"relevant", "ir", "ir_basis", "cr", "cr_basis", "reason"})
@@ -88,6 +94,14 @@ class CraAssessment(models.Model):
             cell._ea_save_cell(vals)
         self.invalidate_recordset()
         return True
+
+    def ea_cra_page_save(self, patch):
+        """One click on the one-page CRA: the cell is written through its own rule-bearing
+        path (never through its row), then the page is read again."""
+        self.ensure_one()
+        self.write(dict(patch or {}))
+        engagement = self.sudo().engagement_id.with_env(self.env)
+        return engagement.ea_cra_page()
 
     def _ea_save_cell(self, patch):
         """saveCraCell, in the source's order. Clearing a value is False here, "" there."""
@@ -104,7 +118,9 @@ class CraAssessment(models.Model):
                 raise rule_error(self.env, "rely-without-controls")
         next_ir = patch["ir"] if "ir" in patch else as_root.ir
         next_cr = patch["cr"] if "cr" in patch else as_root.cr
-        reassessed = (as_root.ir or as_root.cr) and (next_ir != as_root.ir or next_cr != as_root.cr)
+        # A revision changes a risk already chosen; filling the other, still blank one (the
+        # one-page CRA saves IR and CR one click at a time) is the first assessment, not a revision.
+        reassessed = bool((as_root.ir and next_ir != as_root.ir) or (as_root.cr and next_cr != as_root.cr))
         reason = (patch.get("reason") or "").strip()
         if reassessed:
             if not reason and engagement._ea_assessment_locked():
@@ -200,11 +216,13 @@ class CraRow(models.Model):
                 row["cell_%s" % code.lower()] = value
             # An RO cell on the board only by default and unassessed is "to be assessed",
             # not an assessment: it stays out of the roll-up (F041).
-            kept = [
-                cell for cell in row.cell_ids
-                if cell.relevant and not (cell.assertion == "RO" and cell.relevant_defaulted and not cell.ir and not cell.cr)
-            ]
-            row.worst_tod = worst_tod([cell_tod(c.ir or c.suggested_ir, c.cr or c.suggested_cr, c.significant) for c in kept]) or False
+            # Sampling waits until every kept cell is chosen: no suggestion stands in (2026-11-16).
+            row.worst_tod = row_worst_tod([{
+                "ir": cell.ir, "cr": cell.cr, "significant": cell.significant,
+                "kept": cell.relevant and not (
+                    cell.assertion == "RO" and cell.relevant_defaulted and not cell.ir and not cell.cr
+                ),
+            } for cell in row.cell_ids]) or False
 
     def _ea_user_write(self, vals):
         """saveIndexThreshold: above zero, or cleared so TE applies again. Voids S3.1 (UAT B49)."""
@@ -217,19 +235,6 @@ class CraRow(models.Model):
             row.write({"key_item_threshold": threshold or 0})
             row.engagement_id._ea_invalidate_signoffs("S3.1")
         return True
-
-    def action_open_cells(self):
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": "%s" % dict(self._fields["index_code"]._description_selection(self.env)).get(self.index_code, self.index_code),
-            "res_model": "ea.audit.cra.assessment",
-            "view_mode": "list",
-            "views": [(self.env.ref("ea_audit_tools.view_cra_cell_list").id, "list")],
-            "domain": [("row_id", "=", self.id)],
-            "context": {"ea_engagement_id": self.sudo().engagement_id.id},
-            "target": "current",
-        }
 
 
 class EngagementCra(models.Model):
@@ -339,7 +344,12 @@ class EngagementCra(models.Model):
                         "sequence": position, "relevant": relevant, "relevant_defaulted": defaulted,
                     })
                 elif not cell.recorded:
-                    cell.write({"relevant": relevant, "relevant_defaulted": defaulted})
+                    if (cell.relevant, cell.relevant_defaulted) != (relevant, defaulted):
+                        cell.write({"relevant": relevant, "relevant_defaulted": defaulted})
+                elif relevant and not defaulted and not cell.relevant:
+                    # An assertion ticked on P6.2 (or carried by a risk) after the cell was saved
+                    # comes onto the page; a saved assessment is never hidden by a later untick.
+                    cell.write({"relevant": True, "relevant_defaulted": False})
 
     def cra_rollup_by_index(self):
         """craRollupByIndex: what sampling and S5.5 consume."""
@@ -347,8 +357,95 @@ class EngagementCra(models.Model):
         return {row.index_code: row.worst_tod for row in self.cra_row_ids if row.worst_tod}
 
     def action_tool_cra(self):
+        """The one-page CRA (owner's mock-up of 2026-11-16)."""
+        self.ensure_one()
+        self._ea_require_access()
         self.sudo()._ea_sync_cra()
-        return self._ea_board("ea_audit_tools.view_engagement_cra_board", self.env._("Combined risk assessment"))
+        return {
+            "type": "ir.actions.client", "tag": "ea_audit_tools.cra_page", "target": "current",
+            "name": self.env._("Combined risk assessment"),
+            "params": {"engagement_id": self.id},
+            "context": {"active_id": self.id, "ea_engagement_id": self.id},
+        }
+
+    def _ea_cra_read_only(self):
+        """None when the user may assess; otherwise why not: "archived" or "role"."""
+        self.ensure_one()
+        if self.sudo()._ea_is_archived():
+            return "archived"
+        try:
+            self._ea_tool_guard()
+        except AuditRuleError:
+            return "role"
+        return None
+
+    def ea_cra_page(self):
+        """What the one-page CRA shows: the significant accounts, each with only its relevant
+        assertions, the choices, the suggestions beside them and the combined level."""
+        self.ensure_one()
+        self._ea_require_access()
+        root = self.sudo()
+        fr = is_french(self.env)
+        locale = "fr" if fr else "en"
+        lang = "fr_FR" if fr else "en_US"
+        Cell = self.env["ea.audit.cra.assessment"].with_context(lang=lang)
+        Row = self.env["ea.audit.cra.row"].with_context(lang=lang)
+        levels = dict(Cell._fields["level"]._description_selection(Cell.env))
+        tods = dict(Row._fields["worst_tod"]._description_selection(Row.env))
+        names = {a.code: a.name for a in self.env["ea.audit.assertion"].sudo().with_context(lang=lang).search([])}
+        significant = {row["index"] for row in root._ea_significance_rows() if row["status"] == "significant"}
+        itgc = root._ea_itgc_state()
+        accounts, every = [], []
+        for row in root.cra_row_ids.filtered(lambda r: r.index_code in significant).sorted(lambda r: (r.sequence, r.id)):
+            cells = []
+            for cell in row.cell_ids.filtered("relevant").sorted(lambda c: (c.sequence, c.id)):
+                basis = [cr_basis_label(cell.cr_basis, locale)] if cell.cr_basis else []
+                if cell.ir_basis and cell.ir_basis not in basis:
+                    basis.append(cell.ir_basis)
+                cells.append({
+                    "id": cell.id, "assertion": cell.assertion, "name": names.get(cell.assertion, cell.assertion),
+                    "ir": cell.ir or False, "cr": cell.cr or False,
+                    "suggested_ir": cell.suggested_ir, "suggested_cr": cell.suggested_cr,
+                    "level": cell.level, "level_label": levels.get(cell.level, cell.level),
+                    "significant": cell.significant, "risk_count": cell.risk_count,
+                    "rely_needs_basis": cell.controls_covering == 0 or itgc == "not_support",
+                    "basis": " · ".join(basis),
+                })
+                every.append({"relevant": True, "ir": cell.ir, "cr": cell.cr})
+            done, total = page_progress([{"relevant": True, "ir": c["ir"], "cr": c["cr"]} for c in cells])
+            definition = LEAD_INDEX_BY_CODE.get(row.index_code)
+            accounts.append({
+                "id": row.id, "code": row.index_code,
+                "label": lead_index_label(definition, locale) if definition else row.index_code,
+                "closing": grouped(row.closing or 0, lang),
+                "task": row.task_code or False,
+                "relevant": [c["assertion"] for c in cells],
+                "worst": row.worst_tod or False,
+                "worst_label": tods.get(row.worst_tod) if row.worst_tod else levels["to_assess"],
+                "done": done, "total": total, "cells": cells,
+            })
+        done, total = page_progress(every)
+        reason = self._ea_cra_read_only()
+        return {
+            "engagement": root.display_name,
+            "readonly": bool(reason), "archived": reason == "archived",
+            "locked": root._ea_assessment_locked(),
+            "missing": root._ea_cra_missing() if not root.cra_row_ids else (False if accounts else "significance"),
+            "unlinked": root.cra_unlinked_risk_label or False,
+            "progress": {"done": done, "total": total},
+            "choices": {
+                "ir": Cell._fields["ir"]._description_selection(Cell.env),
+                "cr": Cell._fields["cr"]._description_selection(Cell.env),
+            },
+            "accounts": accounts,
+        }
+
+    def ea_cra_page_open(self, method):
+        """The page's links to the steps upstream and to the Excel list."""
+        self.ensure_one()
+        if method not in ("action_tool_tb", "action_tool_materiality", "action_tool_significance", "action_tool_cra_cells"):
+            raise rule_error(self.env, "forbidden")
+        return getattr(self, method)()
 
     def action_tool_cra_cells(self):
         self.sudo()._ea_sync_cra()

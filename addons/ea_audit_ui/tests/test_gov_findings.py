@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
-from odoo.tools import mute_logger
+from odoo.tools import file_open, mute_logger
 
 from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 from odoo.addons.ea_audit_papers.services import load_definition
@@ -377,14 +377,17 @@ class TestGovFindings(ToolsCase):
     # ---- F014 ---------------------------------------------------------------------------
 
     def test_f014_an_empty_board_says_not_assessable_yet(self):
+        # The CRA is one page since 2026-11-16: the empty state is the page's, in EN and FR.
         self.assertFalse(self.engagement.sudo().cra_row_ids)
-        arch = self.env.ref("ea_audit_tools.view_engagement_cra_board").arch
-        self.assertIn("Not assessable yet", arch)
-        self.assertIn('invisible="cra_row_ids"', arch)
-        view = self.env["ea.audit.engagement"].with_context(lang="fr_FR").get_view(
-            self.env.ref("ea_audit_tools.view_engagement_cra_board").id, "form",
-        )
-        self.assertNotIn("Not assessable yet", view["arch"])
+        page = self.engagement.with_user(self.staff).ea_cra_page()
+        self.assertTrue(page["missing"])
+        self.assertFalse(page["accounts"])
+        with file_open("ea_audit_tools/static/src/xml/cra_page.xml") as handle:
+            template = handle.read()
+        self.assertIn("Not assessable yet", template)
+        self.assertIn('t-if="p.missing"', template)
+        with file_open("ea_audit_tools/i18n/fr.po") as handle:
+            self.assertIn('msgid "Not assessable yet"\nmsgstr "Pas encore évaluable"', handle.read())
 
     # ---- F021 ---------------------------------------------------------------------------
 

@@ -135,7 +135,6 @@ msgid "8 to 30 days"
 msgstr "8 à 30 jours"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_wizard
 msgid "<b>C</b> Completeness · <b>E</b> Existence, occurrence · <b>A</b> Accuracy · <b>V</b> Valuation · <b>P</b> Presentation · <b>RO</b> Rights and obligations"
 msgstr "<b>C</b> Exhaustivité · <b>E</b> Existence, réalité · <b>A</b> Exactitude · <b>V</b> Valorisation · <b>P</b> Présentation · <b>RO</b> Droits et obligations"
@@ -938,6 +937,7 @@ msgid "Are the quantitative and qualitative disclosure requirements identified a
 msgstr "Les exigences quantitatives et qualitatives des annexes sont-elles identifiées et traitées ? Une annexe peut-elle être omise, incomplète, inexacte — ou présentée de façon à en obscurcir le sens ?"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__assertion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__assertion
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__assertion
@@ -947,6 +947,7 @@ msgstr "Les exigences quantitatives et qualitatives des annexes sont-elles ident
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__level__assertion
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_search
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dsp_design__assertion_label
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 msgid "Assertion"
 msgstr "Assertion"
 
@@ -970,11 +971,6 @@ msgstr "Assertion"
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "Assertions"
 msgstr "Assertions"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Assess the cells"
-msgstr "Évaluer les cellules"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__assessment_id
@@ -1408,7 +1404,6 @@ msgstr "Catégorie"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_row__cell_ids
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
 msgid "Cells"
 msgstr "Cellules"
 
@@ -1744,12 +1739,13 @@ msgid "Combined assessment"
 msgstr "Évaluation combinée"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/cra.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_cra
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_row_ids
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tool_import_wizard__kind__cra
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 msgid "Combined risk assessment"
 msgstr "Évaluation combinée des risques"
 
@@ -1965,8 +1961,10 @@ msgid "Control deficiency"
 msgstr "Déficience de contrôle"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__cr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__cr
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 msgid "Control risk"
 msgstr "Risque de contrôle"
 
@@ -3324,9 +3322,9 @@ msgid "Export the aging"
 msgstr "Exporter la balance âgée"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dsp_design_list
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_itgc_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
@@ -3336,6 +3334,7 @@ msgstr "Exporter la balance âgée"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_risk_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 msgid "Export to Excel"
 msgstr "Exporter vers Excel"
 
@@ -4401,8 +4400,10 @@ msgid "Inherent and control risk per account."
 msgstr "Risque inhérent et de contrôle par compte."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__ir
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_history__ir
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
 msgid "Inherent risk"
 msgstr "Risque inhérent"
 
@@ -7449,11 +7450,6 @@ msgid "S2.5 conclusion"
 msgstr "Conclusion S2.5"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "S3.1 · Inherent and control risk, by account and assertion"
-msgstr "S3.1 · Risque inhérent et risque de contrôle, par compte et assertion"
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/je_selection.py:0
 msgid "S5.4 selection designs"
@@ -7824,11 +7820,6 @@ msgid "Significant accounts"
 msgstr "Comptes significatifs"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Significant accounts (P6.2)"
-msgstr "Comptes significatifs (P6.2)"
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_count
 msgid "Significant accounts count"
 msgstr "Nombre de comptes significatifs"
@@ -7869,11 +7860,6 @@ msgstr "Les choix et changements de méthodes significatifs, et l'effet des mét
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_cra_assessment__significant
 msgid "Significant risk"
 msgstr "Risque significatif"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Significant risks in the register linked to no account:"
-msgstr "Risques significatifs du registre liés à aucun compte :"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__cra_unlinked_risk_label
@@ -8720,6 +8706,7 @@ msgstr "Au"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_ro__to_assess
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_v__to_assess
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_cra_cell_search
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_assessment__level__to_assess
 msgid "To assess"
 msgstr "À évaluer"
 
@@ -9623,11 +9610,6 @@ msgid "starts with"
 msgstr "commence par"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "<span class=\"o_ea_chip\">Not assessable yet</span>"
-msgstr "<span class=\"o_ea_chip\">Pas encore évaluable</span>"
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/lead.py:0
 msgid "%(count)s account(s) on no lead index: %(accounts)s"
@@ -9796,11 +9778,6 @@ msgid "Mat Basis Label"
 msgstr ""
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "No significant account on this file: conclude on the significant accounts (P6.2) and the board fills in. Nothing here is a result."
-msgstr "Aucun compte significatif sur ce dossier : concluez sur les comptes significatifs (P6.2) et le tableau se remplira. Rien ici n'est un résultat."
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "No general ledger on this file yet."
@@ -9835,21 +9812,6 @@ msgstr "Aucune balance importée pour l'instant"
 #: code:addons/ea_audit_tools/models/lead.py:0
 msgid "No trial balance in force"
 msgstr "Aucune balance en vigueur"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Open materiality"
-msgstr "Ouvrir le seuil de signification"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Open significant accounts"
-msgstr "Ouvrir les comptes significatifs"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Open the trial balance"
-msgstr "Ouvrir la balance"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
@@ -9908,11 +9870,6 @@ msgid "Template Html"
 msgstr ""
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "The grid is empty because no valid trial balance drives this file: import one first."
-msgstr "La grille est vide car aucune balance valide ne pilote ce dossier : importez-en une d'abord."
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__gl_catalogue_html
@@ -9926,11 +9883,6 @@ msgid "The thirty analytics of the ledger"
 msgstr "Les trente analyses du grand livre"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "The trial balance is in. The grid is empty because materiality is not approved (P6.1)."
-msgstr "La balance est importée. La grille est vide car le seuil de signification n'est pas approuvé (P6.1)."
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/finding.py:0
 msgid "Threshold for uncorrected misstatements = overall materiality - performance materiality: %(overall)s - %(performance)s = %(threshold)s (ISA 450)."
@@ -9941,11 +9893,6 @@ msgstr "Seuil des anomalies non corrigées = seuil de signification global - seu
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "Total of the debits"
 msgstr "Total des débits"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_cra_board
-msgid "Trial balance and materiality are in. The grid is empty because no account is marked significant (P6.2)."
-msgstr "La balance et le seuil sont en place. La grille est vide car aucun compte n'est marqué significatif (P6.2)."
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -11226,3 +11173,159 @@ msgstr "Choisissez les assertions pertinentes"
 #: code:addons/ea_audit_tools/static/src/js/assertion_picker.js:0
 msgid "Assertion picker"
 msgstr "Choix des assertions"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "only significant accounts, only their relevant assertions"
+msgstr "uniquement les comptes significatifs, uniquement leurs assertions pertinentes"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Excel list"
+msgstr "Liste Excel"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Read only: this engagement is archived."
+msgstr "Lecture seule : cette mission est archivée."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Read only: your role reads the assessment but does not change it."
+msgstr "Lecture seule : votre rôle consulte l'évaluation sans la modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Not assessable yet"
+msgstr "Pas encore évaluable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "The page is empty because no valid trial balance drives this file: import one first."
+msgstr "La page est vide car aucune balance valide n'alimente ce dossier : importez-en une d'abord."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "The trial balance is in. The page is empty because materiality is not approved (P6.1)."
+msgstr "La balance est chargée. La page est vide car le seuil de signification n'est pas approuvé (P6.1)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Trial balance and materiality are in. The page is empty because no account is marked significant (P6.2)."
+msgstr "La balance et le seuil sont en place. La page est vide car aucun compte n'est marqué significatif (P6.2)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Open the trial balance"
+msgstr "Ouvrir la balance"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Open materiality"
+msgstr "Ouvrir le seuil de signification"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Open significant accounts"
+msgstr "Ouvrir les comptes significatifs"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Show only what is still to assess"
+msgstr "Afficher seulement ce qui reste à évaluer"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Everything is assessed."
+msgstr "Tout est évalué."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Relevant:"
+msgstr "Pertinentes :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "· Worst for sampling"
+msgstr "· Le plus élevé pour l'échantillonnage"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "· Task"
+msgstr "· Tâche"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Combined"
+msgstr "Combiné"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Basis / reason (when you differ from the suggestion)"
+msgstr "Justification / motif (quand vous vous écartez de la suggestion)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "significant risk"
+msgstr "risque significatif"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Click a choice and it saves at once, no Save button. Click an account's title to fold or open it. An account appears here once it is Significant, with the assertions ticked as relevant on the Significant accounts page."
+msgstr "Un clic sur un choix l'enregistre aussitôt, sans bouton Enregistrer. Cliquez sur le titre d'un compte pour le replier ou l'ouvrir. Un compte apparaît ici dès qu'il est significatif, avec les assertions cochées comme pertinentes sur la page des comptes significatifs."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+msgid "Significant risks in the register linked to no account:"
+msgstr "Risques significatifs du registre liés à aucun compte :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/cra_page.js:0
+msgid "%(done)s of %(total)s assessed"
+msgstr "%(done)s sur %(total)s évaluées"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/cra_page.js:0
+msgid "suggested %s"
+msgstr "suggéré : %s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/cra_page.js:0
+msgid "linked risks: %s"
+msgstr "risques liés : %s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/cra_page.js:0
+msgid "Write in the box why you rely without a tested control, then click Rely again."
+msgstr "Écrivez dans la case pourquoi vous vous appuyez sans contrôle testé, puis cliquez à nouveau sur S'appuyer."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/cra_page.js:0
+msgid "Planning is closed: write the reason for the change in the box, then click again."
+msgstr "La planification est close : écrivez dans la case le motif du changement, puis cliquez à nouveau."
