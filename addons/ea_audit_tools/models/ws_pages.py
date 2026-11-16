@@ -98,7 +98,8 @@ class AutomationRunSample(models.Model):
         if not rows or totals["tested"] < len(rows):
             raise rule_error(self.env, "sample-not-tested")
         self.evaluate(totals["difference"])
-        engagement._ea_log("sample_concluded", "Sample %s concluded: errors %s" % (as_root.id, totals["difference"]))
+        # the trail's known line for a tests-of-details projection (activity summaries)
+        engagement._ea_log("tod_result", "Tests of details on S-%d: projected %s" % (as_root.id, (as_root.summary or {}).get("projected")))
         return engagement.ea_sampling_page()
 
 
@@ -163,7 +164,6 @@ class EngagementWorksheets(models.Model):
         attachment = self.env["ir.attachment"].sudo().create({
             "name": name, "res_model": model, "res_id": record.id, "datas": base64.b64encode(content), "mimetype": mime,
         })
-        self._ea_log("worksheet_support", "Support %s filed on %s %s" % (name, model, record.id))
         return attachment.id
 
     def _ea_ws_files(self, model, ids):
@@ -321,7 +321,6 @@ class EngagementWorksheets(models.Model):
         if status != "to_clear" and not text:
             raise rule_error(self.env, "je-note-required")
         review.write({"status": status, "note": text or False, "reviewed_by_id": self.env.user.id, "reviewed_at": fields.Datetime.now()})
-        self._ea_log("je_entry_reviewed", "Journal entry %s: %s" % (review.je_number, status))
         return self.ea_je_page(studio.id)
 
     def ea_je_note(self, studio_id, je_number, note):
