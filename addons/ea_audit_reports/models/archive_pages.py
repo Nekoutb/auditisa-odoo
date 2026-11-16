@@ -392,7 +392,7 @@ class Engagement(models.Model):
 
     def ea_archive_page(self):
         """What the C6.2 page shows: the 60-day clock, the checks before archiving, the archive
-        button for the engagement partner, and, once archived, the lock, addenda and access log."""
+        button for any team member who may write on the file, and, once archived, the lock, addenda and access log."""
         self.ensure_one()
         self._ea_require_access()
         fr = self._ea_fr()
@@ -402,6 +402,8 @@ class Engagement(models.Model):
             self._ea_log_access("open", ARCHIVE_CODE)
         user = self.env.user
         partners = as_root._ea_engagement_partners()
+        # Any accepted member with write rights archives (owner, 2026-11-16); the EQR stays read-only.
+        may_archive = self._ea_can_write_role() and not self._ea_acts_as_eqr(user)
         clock = assembly_status(as_root.report_date, self._ea_today())
         gates = as_root._ea_archive_gates()
         blocking = [g for g in gates if not g["ok"] and g["key"] not in ("checklist_signed", "assembly_confirmed")]
@@ -462,7 +464,8 @@ class Engagement(models.Model):
             "checks": checks, "confirms": confirms, "blocking": [gate_label(g["key"], fr) for g in blocking][:12],
             "keptUntil": french_date(kept) if kept else "",
             "isPartner": user in partners, "readonly": archived or not self._ea_can_write_role(),
-            "canArchive": user in partners and not archived and bool(as_root.report_date) and ready_all and not blocking,
+            "mayArchive": may_archive,
+            "canArchive": may_archive and not archived and bool(as_root.report_date) and ready_all and not blocking,
             "canManage": at_least(user._ea_firm_role(), "manager"),
             "canRelease": at_least(user._ea_firm_role(), "partner"),
             "lateWork": [{
@@ -492,7 +495,7 @@ class Engagement(models.Model):
         }
 
     def ea_archive_from_page(self, confirm_name, late_reason=None):
-        """The archive button: the engagement partner types the client's name to confirm."""
+        """The archive button: the team member types the client's name to confirm."""
         self.ensure_one()
         typed = " ".join((confirm_name or "").split()).casefold()
         if not typed or typed != " ".join((self.sudo().client_id.name or "").split()).casefold():

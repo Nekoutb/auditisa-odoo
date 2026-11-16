@@ -8,7 +8,7 @@ import json
 import os
 from functools import lru_cache
 
-from .completeness import paper_keys
+from .completeness import carried_answer_keys, paper_keys
 from .tokens import DATA_DIR, legal_forms, resolve_legal_form_paper, resolve_paper
 
 _PAPERS_DIR = os.path.join(DATA_DIR, "papers")
@@ -83,6 +83,14 @@ def all_paper_keys(definition):
     keys = set()
     for form in legal_forms():
         keys |= paper_keys(resolve_definition(definition, "current", form))
+    return keys
+
+
+def carried_paper_keys(definition):
+    """What a roll-forward carries of an unresolved definition, whatever the legal form."""
+    keys = set()
+    for form in legal_forms():
+        keys |= carried_answer_keys(resolve_definition(definition, "current", form))
     return keys
 
 

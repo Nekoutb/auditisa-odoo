@@ -1934,6 +1934,7 @@ msgid "Pick from this engagement"
 msgstr "Choisir dans cette mission"
 
 #. module: ea_audit_papers
+#: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_paper__carried_from_year
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__carried_from_year
 msgid "Carried forward from"
 msgstr "Repris de l'exercice"
@@ -1965,3 +1966,14 @@ msgstr "Exercice précédent (%(year)s), repris — à revoir avant de s'y fier"
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "Mark as reviewed"
 msgstr "Marquer comme revu"
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/paper.py:0
+msgid "Carried forward from %(year)s: to update"
+msgstr "Repris de %(year)s : à mettre à jour"
+
+#. module: ea_audit_papers
+#: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__carried_from_year
+msgid "Answers carried from last year's file as drafts: to update."
+msgstr "Réponses reprises du dossier de l'an dernier, en brouillon : à mettre à jour."

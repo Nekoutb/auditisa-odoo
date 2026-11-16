@@ -5827,9 +5827,14 @@ msgid "Last year's closing trial balance becomes the prior-year trial balance of
 msgstr "La balance de clôture de l'an dernier devient la balance N-1 du nouveau dossier."
 
 #. module: ea_audit_core
-#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_permanent
-msgid "Permanent file documents (statutes, contracts, organisation chart)"
-msgstr "Documents du dossier permanent (statuts, contrats, organigramme)"
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_answers
+msgid "Paper answers"
+msgstr "Réponses des feuilles de travail"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_answers
+msgid "Every working paper's answers, as drafts marked \"Carried forward: to update\". Sign-offs, conclusions, completion records and review notes start again."
+msgstr "Les réponses de toutes les feuilles de travail, en brouillon marqué « Repris : à mettre à jour ». Les signatures, conclusions, enregistrements d'achèvement et notes de revue repartent de zéro."
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_evidence
@@ -5905,3 +5910,9 @@ msgstr "Créer le dossier"
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_member_form
 msgid "By accepting, you confirm that you are independent of this client for this year."
 msgstr "En acceptant, vous confirmez être indépendant de ce client pour cet exercice."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "working paper answers"
+msgstr "réponses des feuilles de travail"

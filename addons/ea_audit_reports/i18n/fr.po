@@ -926,12 +926,6 @@ msgstr "Seul un manager ou un rang supérieur peut le faire."
 
 #. module: ea_audit_reports
 #. odoo-python
-#: code:addons/ea_audit_reports/rules.py:0
-msgid "Only a partner can archive the file."
-msgstr "Seul un associé peut archiver le dossier."
-
-#. module: ea_audit_reports
-#. odoo-python
 #: code:addons/ea_audit_reports/services/fs_tieout.py:0
 msgid "Operating allowances"
 msgstr "Dotations d'exploitation"
@@ -1862,8 +1856,8 @@ msgstr "Archiver"
 #. module: ea_audit_reports
 #. odoo-javascript
 #: code:addons/ea_audit_reports/static/src/xml/archive_pages.xml:0
-msgid "Only the engagement partner can archive. This cannot be undone."
-msgstr "Seul l'associé responsable de la mission peut archiver. C'est irréversible."
+msgid "Archiving cannot be undone. Every line on the left must be green."
+msgstr "L'archivage est irréversible. Chaque ligne de gauche doit être au vert."
 
 #. module: ea_audit_reports
 #. odoo-javascript
@@ -1956,12 +1950,6 @@ msgstr "Le délai d'assemblage de 60 jours est dépassé : indiquez le motif de 
 #: code:addons/ea_audit_reports/rules.py:0
 msgid "Type the client's name exactly as shown to confirm the archive."
 msgstr "Saisissez le nom du client exactement comme affiché pour confirmer l'archivage."
-
-#. module: ea_audit_reports
-#. odoo-python
-#: code:addons/ea_audit_reports/rules.py:0
-msgid "Only the engagement partner can archive this file."
-msgstr "Seul l'associé responsable de la mission peut archiver ce dossier."
 
 #. module: ea_audit_reports
 #. odoo-python

@@ -7,7 +7,8 @@ from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 from ..services import acceptance_verdict, document_library, is_blank, paper_for
 from odoo.addons.ea_audit_core.services.rollforward_plan import evidence_to_copy
 
-from ..services.completeness import eqr_decided
+from ..services.completeness import NOT_CARRIED_PAPERS, eqr_decided
+from ..services.definitions import carried_paper_keys
 
 
 class Engagement(models.Model):
@@ -141,10 +142,48 @@ class Engagement(models.Model):
     # Roll forward: last year's evidence (owner's ruling of 2026-11-16)
     # ------------------------------------------------------------------
 
+    def _ea_rollforward_carry(self, source, carry, mapping):
+        super()._ea_rollforward_carry(source, carry, mapping)
+        self.ensure_one()
+        if "answers" in carry:
+            self._ea_rf_answers(source)
+
+    def _ea_rf_answers(self, source):
+        """Roll forward everything (owner 2026-11-16): every paper's answers, as drafts of the new
+        file marked "Carried forward from <year>: to update". Not carried: the record of this
+        year's work and its conclusions (procedure ticks, conclusion boxes, the concluding and
+        closing papers), sign-offs, section conclusions, completion records and review notes,
+        which live elsewhere. Dates and figures come as last year's text, to update. A key the
+        new file already holds (the profile carried forward) is left as it is. The source file
+        is only read."""
+        Paper = self.env["ea.audit.paper"].sudo()
+        year = source.fiscal_year
+        count = 0
+        for paper in Paper.search([("engagement_id", "=", source.id), ("code", "not in", NOT_CARRIED_PAPERS)]):
+            answers = {a.field_key: a.value for a in paper.answer_ids if not is_blank(a.value)}
+            if not answers:
+                continue
+            item = self._ea_rf_task(paper.code)
+            if not item:
+                continue
+            item._ea_ensure_papers()
+            target = Paper.search([("file_item_id", "=", item.id)], limit=1)
+            wanted = carried_paper_keys(target._ea_unresolved())
+            have = set(target.answer_ids.mapped("field_key"))
+            values = {key: value for key, value in answers.items() if key in wanted and key not in have}
+            if not values:
+                continue
+            target._ea_carry_forward_answers(values)
+            target.carried_from_year = year
+            count += 1
+        if count:
+            self._ea_log("answers_carried", "%d working paper(s) carried forward from %d as drafts, to update" % (count, year))
+        return count
+
     def _ea_rollforward_evidence(self, source, carry, mapping):
         """Every live file of last year, its latest version, copied onto the same task of this file
-        and marked "prior year, carried forward" until reviewed. Only the permanent file's tasks
-        when "all evidence" is not ticked. The bytes are not stored twice: the filestore keeps one
+        and marked "prior year, carried forward" until reviewed, from every task (no permanent-file
+        restriction, owner 2026-11-16). The bytes are not stored twice: the filestore keeps one
         file per checksum, so the new ir.attachment points to the same stored file. A new
         ir.attachment row it is, all the same: its access answers to its own evidence row (the
         team-only rule of the new file), which last year's row cannot give. The source file is only
@@ -196,6 +235,8 @@ class Engagement(models.Model):
             scoped = engagement._ea_scoped_templates().filtered(lambda t: not t.conditional)
             holding = self.env["ea.audit.task.attachment"].sudo().search([
                 ("file_item_id", "in", hidden.ids), ("carried_from_year", "!=", False), ("deleted_at", "=", False),
+            ]).file_item_id | self.env["ea.audit.paper"].sudo().search([
+                ("file_item_id", "in", hidden.ids), ("carried_from_year", "!=", False),
             ]).file_item_id
             holding.filtered(lambda i: i.template_id in scoped).write({"conditional": False})
         return result

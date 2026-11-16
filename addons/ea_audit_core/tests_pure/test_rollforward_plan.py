@@ -47,10 +47,12 @@ def test_all_evidence_copies_the_latest_live_version_of_each_file():
     assert [row["id"] for row in chosen] == [3, 2, 5]
 
 
-def test_without_all_evidence_only_the_permanent_file_is_copied():
-    chosen = plan.evidence_to_copy(ROWS, {"permanent"})
-    assert [row["code"] for row in chosen] == ["P3.1", "P4.1"]
-    assert chosen[0]["version"] == 2
+def test_no_permanent_file_restriction_every_task_is_copied():
+    """Owner 2026-11-16: roll forward everything; the paper answers box does not limit the files."""
+    assert plan.evidence_to_copy(ROWS, {"answers"}) == []
+    chosen = plan.evidence_to_copy(ROWS, {"evidence"})
+    assert sorted({row["code"] for row in chosen}) == ["E4.7", "P3.1", "P4.1"]
+    assert "permanent" not in plan.ROLLFORWARD_KEYS and "answers" in plan.ROLLFORWARD_KEYS
 
 
 def test_no_evidence_box_copies_nothing():

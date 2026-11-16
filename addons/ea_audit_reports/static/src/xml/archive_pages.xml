@@ -194,8 +194,8 @@
 
                     <div class="o_ea_arc_card">
                         <h3>Archive</h3>
-                        <div class="o_ea_arc_warn">Only the engagement partner can archive. This cannot be undone.</div>
-                        <t t-if="p.isPartner and !p.readonly">
+                        <div class="o_ea_arc_warn">Archiving cannot be undone. Every line on the left must be green.</div>
+                        <t t-if="p.mayArchive and !p.readonly">
                             <label class="o_ea_arc_confirm">Type the client name to confirm:
                                 <input type="text" class="form-control form-control-sm" t-att-placeholder="p.client" t-model="state.confirmName" data-ea="confirm-name"/>
                             </label>

@@ -971,18 +971,14 @@ class Engagement(models.Model):
 
     def archive_engagement(self, late_reason=None):
         """archiveEngagement: gates, retention, manifest, sealed copy and lock, in one transaction.
-        The engagement partner only, not a delegate (owner, 2026-11-16); past the 60 days, with
-        the reason logged."""
+        Any accepted team member with write rights may archive, not only the partner (owner,
+        2026-11-16); the EQR stays independent and read-only. Past the 60 days, with the reason
+        logged; the trail names who archived."""
         self.ensure_one()
         self._ea_require_write()
         self._ea_require_access()
-        if not can_partner_signoff(self.env.user._ea_firm_role()):
-            raise rule_error(self.env, "archive-partner-only")
-        refusal = self._ea_partner_tier_refusal()
-        if refusal:
-            raise rule_error(self.env, refusal)
-        if self.env.user not in self._ea_engagement_partners():
-            raise rule_error(self.env, "archive-engagement-partner-only")
+        if self._ea_acts_as_eqr(self.env.user):
+            raise rule_error(self.env, "eqr-read-only")
         as_root = self.sudo()
         self.env.flush_all()
         self.env.cr.execute("SELECT report_date, archived_at FROM ea_audit_engagement WHERE id = %s FOR UPDATE", [self.id])
@@ -1017,7 +1013,7 @@ class Engagement(models.Model):
             open_note.write({"closed_at": fields.Datetime.now(), "closed_by_id": self.env.user.id})
         as_root.with_env(self.env)._ea_build_seal(content)
         as_root.write({"phase": "archived", "archived_at": fields.Datetime.now()})
-        self._ea_log("archive", "Audit file archived and locked")
+        self._ea_log("archive", "Audit file archived and locked by %s" % self.env.user.name)
         # Everyone on the file hears it closed. Never an email; a failure must not undo the archive.
         members = self.env["ea.audit.team.member"].sudo().search([("engagement_id", "=", self.id)]).user_id
         as_root._ea_notify(

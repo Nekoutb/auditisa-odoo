@@ -119,15 +119,19 @@ class TestSealedArchive(ReportsCase):
         self.as_partner.ea_archive_from_page("  governance   sa ", "Inspection of the firm delayed the assembly.")
         return self.env["ea.audit.archive.seal"].sudo().search([("engagement_id", "=", self.engagement.id)])
 
-    def test_only_the_engagement_partner_archives_with_the_name_typed(self):
+    def test_any_team_member_archives_with_the_name_typed(self):
         self.issued()
         self.green_archive()
-        self.assertCode("confirm-name-mismatch", self.as_partner.ea_archive_from_page, "Other SA", "late")
-        self.assertCode("late-archive-reason", self.as_partner.ea_archive_from_page, "Governance SA", "")
-        self.assertCode("archive-partner-only", self.as_manager.ea_archive_from_page, "Governance SA", "late")
-        self.seat(self.engagement, self.partner2, "manager")
-        self.engagement.sudo().partner_delegate_id = self.partner2
-        self.assertCode("archive-engagement-partner-only", self.engagement.with_user(self.partner2).archive_engagement, "late")
+        self.assertCode("confirm-name-mismatch", self.as_manager.ea_archive_from_page, "Other SA", "late")
+        self.assertCode("late-archive-reason", self.as_manager.ea_archive_from_page, "Governance SA", "")
+        self.assertCode("read-only-role", self.engagement.with_user(self.reader).ea_archive_from_page, "Governance SA", "late")
+        page = self.as_manager.ea_archive_page()
+        self.assertTrue(page["mayArchive"])
+        self.assertTrue(page["canArchive"])
+        self.as_manager.ea_archive_from_page("Governance SA", "Inspection of the firm delayed the assembly.")
+        self.assertTrue(self.engagement.sudo().archived_at)
+        manifest = self.env["ea.audit.archive.manifest"].sudo().search([("engagement_id", "=", self.engagement.id)])
+        self.assertEqual(manifest.archived_by_id, self.manager)
 
     def test_seal_manifest_hashes_match_the_file_bytes(self):
         seal = self._archived()

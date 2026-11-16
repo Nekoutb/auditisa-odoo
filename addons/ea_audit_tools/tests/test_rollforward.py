@@ -66,6 +66,18 @@ class TestRollforward(ToolsCase):
         self.scot.with_user(self.staff).upload_document("flux.txt", b64(b"flowchart"), "flowchart", self.control.id)
         # someone of last year's team who has since left the firm
         self.seat(self.engagement, self.outsider, "staff", state="declined")
+        if self._testMethodName.startswith("test_paper_answers_"):
+            # a working paper outside the old permanent file, answered, concluded and signed last year
+            item = self.item(self.engagement, "E4.1")
+            item._ea_ensure_papers()
+            paper = self.env["ea.audit.paper"].sudo().search([("file_item_id", "=", item.id)])
+            Answer = self.env["ea.audit.paper.answer"].sudo().with_context(ea_audit_answer_door=True)
+            for key, value in (("exceptions", "Aucune exception"), ("q_walkthrough", "yes"), ("key_findings", "Ventes stables"),
+                               ("p_flow", "done"), ("c_0", "agree")):
+                Answer.create({"paper_id": paper.id, "field_key": key, "value": value})
+            self.env["ea.audit.signoff"].sudo().create({
+                "file_item_id": item.id, "kind": "workpaper", "role": "preparer", "user_id": self.staff.id,
+            })
         if self._testMethodName == "test_only_from_a_closed_file":
             return
         # an issued, archived file: from here on no row of it may change (archive trigger)
@@ -104,7 +116,7 @@ class TestRollforward(ToolsCase):
         self.assertEqual(wizard.engagement_partner_id, self.partner)
         self.assertTrue(all(wizard[field] for field in (
             "carry_scope", "carry_materiality", "carry_scots", "carry_risks", "carry_procedures", "carry_significance",
-            "carry_comparatives", "carry_permanent", "carry_evidence",
+            "carry_comparatives", "carry_answers", "carry_evidence",
         )))
         emails = {line.email: line for line in wizard.member_ids}
         self.assertNotIn(self.partner.login, emails)
@@ -296,13 +308,36 @@ class TestRollforward(ToolsCase):
         self.assertTrue(copy.deleted_at)
         self.assertTrue(self.rows("ea.audit.task.attachment", self.engagement).filtered(lambda r: r.name == "banque.txt" and not r.deleted_at))
 
-    def test_permanent_file_only_without_all_evidence(self):
-        copies = self.carried_files(self.without("evidence"))
-        self.assertEqual(copies.mapped("name"), ["statuts.txt"])
+    def test_no_evidence_box_copies_nothing_not_even_the_permanent_file(self):
+        """Owner 2026-11-16: no permanent-file restriction; evidence is all or nothing."""
+        self.assertFalse(self.carried_files(self.without("evidence")))
 
-    def test_no_evidence_box_copies_nothing(self):
-        target = self.roll(carry=[k for k in ROLLFORWARD_KEYS if k not in ("evidence", "permanent")])
-        self.assertFalse(self.carried_files(target))
+    def test_paper_answers_carried_as_drafts(self):
+        """Owner 2026-11-16: roll forward everything. Every answer of every paper comes in as a draft,
+        marked; this year's work record, conclusions and sign-offs start again; the source is unchanged."""
+        source_paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", self.engagement.id), ("code", "=", "E4.1")])
+        before = {a.field_key: a.value for a in source_paper.answer_ids}
+        target = self.roll()
+        paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", target.id), ("code", "=", "E4.1")])
+        carried = {a.field_key: a.value for a in paper.answer_ids}
+        self.assertEqual(carried.get("exceptions"), "Aucune exception")
+        self.assertEqual(carried.get("q_walkthrough"), "yes")
+        self.assertEqual(carried.get("key_findings"), "Ventes stables")
+        self.assertNotIn("p_flow", carried)
+        self.assertNotIn("c_0", carried)
+        self.assertTrue(all(a.carried_forward for a in paper.answer_ids))
+        self.assertEqual(paper.carried_from_year, 2025)
+        self.assertFalse(paper.history_ids)
+        self.assertFalse(self.env["ea.audit.signoff"].sudo().search([("file_item_id", "=", paper.file_item_id.id)]))
+        self.assertEqual(paper.state, "draft")
+        self.assertEqual(paper.get_payload()["carried"], "Carried forward from 2025: to update")
+        # the source file is left as it was
+        self.assertEqual({a.field_key: a.value for a in source_paper.answer_ids}, before)
+
+    def test_paper_answers_box_unticked_carries_none(self):
+        other = self.without("answers")
+        paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", other.id), ("code", "=", "E4.1")])
+        self.assertFalse(paper.answer_ids.filtered("carried_forward"))
 
     def test_evidence_waits_on_a_hidden_task_until_the_questionnaire_brings_it(self):
         target = self.roll(approach="change")

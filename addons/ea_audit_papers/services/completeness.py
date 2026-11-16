@@ -88,6 +88,24 @@ def paper_keys(definition):
     return keys
 
 
+# Roll forward (owner 2026-11-16): papers that only conclude, attest or close the year (the
+# partner's conclusion, the EQR, points forward, the archive checklist) start again empty.
+NOT_CARRIED_PAPERS = ("C4.1", "C4.2", "C6.1", "C6.2")
+
+
+def carried_answer_keys(definition):
+    """What a roll-forward carries of a paper: every answer key, except this year's record of the
+    work and its conclusion (a procedure's done / N/A / why, the conclusion boxes)."""
+    keys = paper_keys(definition)
+    for section in _sections(definition):
+        if section["kind"] == "proc":
+            for proc in section["procs"]:
+                keys -= {proc_key(proc["key"]), proc_na_key(proc["key"]), proc_why_key(proc["key"])}
+    for index in range(len(definition.get("conclEn") or [])):
+        keys -= {concl_key(index), concl_why_key(index)}
+    return keys
+
+
 def section_collapsed(section, values):
     """A block that folds to one line on one answer (owner's decision of 2026-11-16): the
     section's ``collapse`` names the key and the value. ``values`` may carry the paper's auto

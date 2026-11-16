@@ -103,6 +103,8 @@ class Paper(models.Model):
         [("draft", "Draft"), ("signed", "Signed")], compute="_compute_state", store=True, default="draft",
     )
     answer_version = fields.Integer(default=0, help="Moves with every change of an answer: the optimistic lock.")
+    carried_from_year = fields.Integer(string="Carried forward from", readonly=True, copy=False,
+                                       help="Answers carried from last year's file as drafts: to update.")
     answer_ids = fields.One2many("ea.audit.paper.answer", "paper_id", string="Answers")
     history_ids = fields.One2many("ea.audit.paper.answer.history", "paper_id", string="Answer history")
     signoff_ids = fields.One2many(related="file_item_id.signoff_ids", string="Sign-offs")
@@ -702,6 +704,9 @@ class Paper(models.Model):
             "values": values,
             "digests": base_digests(values),
             "version": paper.answer_version,
+            # roll forward: last year's answers, carried as drafts, until each is saved again
+            "carried": env._("Carried forward from %(year)s: to update", year=paper.carried_from_year)
+            if paper.carried_from_year and any(a.carried_forward for a in paper.answer_ids) else False,
             "saved_at": fields.Datetime.to_string(latest.write_date) if latest else False,
             "progress": paper_progress(definition, gauge),
             "missing": [] if exempt else paper_missing(definition, gauge),

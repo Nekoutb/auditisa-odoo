@@ -59,7 +59,7 @@ QUESTIONS = (
      "fr": "Le rapport est daté lorsque des éléments suffisants ont été obtenus, et pas avant les revues de l'associé et du réviseur qualité"},
 )
 
-# What the team confirms on C6.2 before the partner archives.
+# What the team confirms on C6.2 before the file is archived.
 ARCHIVE_CONFIRMS = (
     {"key": "ar01", "isa": "ISA 230 ¶14",
      "en": "Signed report, signed financial statements and signed representation letter filed",

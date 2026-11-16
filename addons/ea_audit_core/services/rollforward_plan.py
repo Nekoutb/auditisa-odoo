@@ -4,14 +4,10 @@ wizard that need no database. Standard library only, so the pure tests load this
 
 # What the wizard can carry, in the order the trail lists it.
 ROLLFORWARD_KEYS = (
-    "scope", "materiality", "scots", "risks", "procedures", "significance", "comparatives", "permanent", "evidence",
+    "scope", "materiality", "scots", "risks", "procedures", "significance", "comparatives", "answers", "evidence",
 )
 # The wizard's boxes, ticked by default, and the key each one gives.
 CARRY_FIELDS = tuple(("carry_%s" % key, key) for key in ROLLFORWARD_KEYS)
-
-# The tasks whose documents make the permanent file: the entity, its owners and statutes, its
-# control environment and IT, its SCOTs and related parties.
-PERMANENT_FILE_CODES = ("P3.1", "P4.1", "P4.2", "P4.3", "S1.1", "S4.3")
 
 NOTE_LEFT = "left"
 NOTE_DECLINED = "declined"
@@ -28,19 +24,15 @@ def uses_last_year_tasks(carry, approach):
     return "scope" in carry and (approach or "same") == "same"
 
 
-def evidence_to_copy(rows, carry, permanent_codes=PERMANENT_FILE_CODES):
-    """The files to copy: the latest live version of each name on each task, all of them, or only
-    the permanent file's when "all evidence" is not ticked. rows: dicts with id, item, name,
-    version, code, deleted. Sorted by task code, then name."""
-    if "evidence" in carry:
-        wanted = None
-    elif "permanent" in carry:
-        wanted = set(permanent_codes)
-    else:
+def evidence_to_copy(rows, carry):
+    """The files to copy: the latest live version of each name on each task, all of them (no
+    permanent-file restriction, owner 2026-11-16). rows: dicts with id, item, name, version, code,
+    deleted. Sorted by task code, then name."""
+    if "evidence" not in carry:
         return []
     latest = {}
     for row in rows:
-        if row.get("deleted") or (wanted is not None and row["code"] not in wanted):
+        if row.get("deleted"):
             continue
         key = (row["item"], row["name"])
         kept = latest.get(key)

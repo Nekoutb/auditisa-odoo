@@ -180,3 +180,16 @@ def test_p15_decision_and_the_answers_given_before_it():
     assert eqr_decided({"q_eqr": "yes", "decision": "  "})
     assert not eqr_decided({"q_pie": "no"})
     assert not eqr_decided({})
+
+
+def test_roll_forward_carries_every_answer_but_the_work_record_and_conclusions():
+    """Owner 2026-11-16: roll forward everything, as drafts; procedure ticks and conclusions start again."""
+    from services.completeness import NOT_CARRIED_PAPERS
+    from services.definitions import carried_paper_keys
+
+    every = all_paper_keys(load_definition("E4.1"))
+    carried = carried_paper_keys(load_definition("E4.1"))
+    assert {"exceptions", "q_walkthrough", "q_walkthrough_x", "key_findings"} <= carried
+    assert not {"p_flow", "p_flow_na", "p_flow_x", "c_0", "c_0_x"} & carried
+    assert carried < every
+    assert "C6.2" in NOT_CARRIED_PAPERS and "E4.1" not in NOT_CARRIED_PAPERS

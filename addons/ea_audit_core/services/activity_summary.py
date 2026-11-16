@@ -56,6 +56,7 @@ WORDS = {
     "significance": _lt("significance decisions"),
     "comparatives": _lt("prior-year balances"),
     "permanent": _lt("permanent file documents"),
+    "answers": _lt("working paper answers"),
     "evidence": _lt("all evidence"),
 }
 

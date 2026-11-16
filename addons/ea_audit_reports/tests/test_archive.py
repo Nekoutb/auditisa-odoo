@@ -113,10 +113,13 @@ class TestArchive(ReportsCase):
         return self.archive()
 
     def test_who_may_archive(self):
-        self.assertCode("archive-partner-only", self.as_manager.archive_engagement)
+        """Any accepted member with write rights archives, not only the partner (owner, 2026-11-16)."""
         self.assertCode("read-only-role", self.engagement.with_user(self.reader).archive_engagement)
-        self.seat(self.engagement, self.partner2, "manager")
-        self.assertCode("not-engagement-partner", self.engagement.with_user(self.partner2).archive_engagement)
+        self.assertCode("not-on-this-engagement", self.engagement.with_user(self.partner2).archive_engagement)
+        self.assertIn(self.attempt(self.engagement.with_user(self.eqr).archive_engagement, "late"), ("eqr-read-only", "read-only-role"))
+        # A manager on the team is past the old partner rule and stopped only by the gates.
+        code = self.attempt(self.as_manager.archive_engagement, "late")
+        self.assertNotIn(code, ("ok", "not-engagement-partner", "read-only-role", "not-on-this-engagement"))
 
     def test_refuses_naming_the_gates(self):
         self.issued()

@@ -8,6 +8,7 @@
         <div class="eap-head">
             <div>
                 <h1><t t-esc="p.code"/> <t t-esc="p.short_title"/></h1>
+                <div t-if="p.carried"><span class="badge text-bg-warning" data-eap="carried" t-esc="p.carried"/></div>
                 <div class="eap-sub">
                     <span t-esc="p.client"/>
                     <span><t t-esc="t('fiscalYear')"/><t t-esc="p.fiscal_year"/></span>

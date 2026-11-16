@@ -38,7 +38,9 @@ class RollforwardWizard(models.TransientModel):
     carry_significance = fields.Boolean(string="Significance decisions", default=True, help="As drafts, to re-confirm.")
     carry_comparatives = fields.Boolean(string="Prior-year balances as comparatives (ISA 510)", default=True,
                                         help="Last year's closing trial balance becomes the prior-year trial balance of the new file.")
-    carry_permanent = fields.Boolean(string="Permanent file documents (statutes, contracts, organisation chart)", default=True)
+    carry_answers = fields.Boolean(string="Paper answers", default=True,
+                                   help="Every working paper's answers, as drafts marked \"Carried forward: to update\". "
+                                        "Sign-offs, conclusions, completion records and review notes start again.")
     carry_evidence = fields.Boolean(string="All of last year's evidence", default=True,
                                     help="Copied to the new file and marked \"Prior year, carried forward: review before relying on it\".")
     approach = fields.Selection(
