@@ -353,11 +353,11 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(profile.state, "draft")
         self.assertFalse(engagement.file_item_ids)
 
-    def test_conclude_is_refused_until_all_twenty_are_answered(self):
+    def test_conclude_is_refused_until_all_nineteen_are_answered(self):
         engagement, _action = self.open_new()
         profile = self.profile(engagement)
         screen = profile.ea_profile_save({k: v for k, v in PLAIN.items() if k != "q20_first_year"})
-        self.assertEqual(screen["progress"]["answered"], 19)
+        self.assertEqual(screen["progress"]["answered"], 18)
         self.assertFalse(screen["conclude"]["can"])
         self.assertIn("1 question", screen["panel"]["still_open"])
         self.assertCode("profile-incomplete", profile.ea_profile_conclude)
