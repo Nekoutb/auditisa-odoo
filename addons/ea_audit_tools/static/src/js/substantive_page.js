@@ -138,7 +138,9 @@ export class ProcedurePaper extends Component {
         page.toTick = page.toTick || { steps: 0, items: 0, explain: false };
         this.state.p = page;
         this.state.note = page.note || "";
-        this.state.farText = page.far ? page.far.explanation || "" : "";
+        if (page.vouch) {
+            page.vouch.items = page.vouch.items || [];
+        }
         if (page.count && page.count.size) {
             this.state.countSize = String(page.count.size);
         }
@@ -254,23 +256,111 @@ export class ProcedurePaper extends Component {
 
     // ---- K-M1 ----------------------------------------------------------------------
 
-    gapText(gap) {
-        return _t("%(label)s: the register differs from the ledger by %(amount)s. Explain the difference below, or raise a finding.", {
-            label: gap.label || _t("Ledger accounts not in the register"), amount: this.fmt(gap.difference),
+    get farSections() {
+        return [
+            { key: "cost", title: _t("1. Gross book value (cost)"), ledger: _t("against classes 21 to 25"), columns: [
+                { key: "opening", label: _t("Opening") }, { key: "additions", label: _t("Additions") },
+                { key: "disposals", label: _t("Disposals") }, { key: "closing", label: _t("Closing per register") },
+            ] },
+            { key: "depreciation", title: _t("2. Accumulated depreciation"), ledger: _t("against classes 28 and 29"), columns: [
+                { key: "opening", label: _t("Opening") }, { key: "charge", label: _t("Charge of the year") },
+                { key: "disposals", label: _t("On disposals") }, { key: "closing", label: _t("Closing per register") },
+            ] },
+            { key: "nbv", title: _t("3. Net book value"), ledger: _t("(1) − (2) against the ledger's net"), columns: [
+                { key: "cost", label: _t("Cost") }, { key: "depreciation", label: _t("Depreciation") },
+                { key: "closing", label: _t("Net book value per register") },
+            ] },
+        ];
+    }
+
+    get farYearText() {
+        return _t("Worked out from each asset's acquisition date, cost, depreciation rate and disposal date, for the year from %(start)s to %(end)s. Straight-line depreciation, pro rata to the days held.", {
+            start: this.p.far.yearStart, end: this.p.far.yearEnd,
         });
     }
 
-    movedText(gap) {
-        return _t("%(label)s: opening + additions − disposals − depreciation differs from the closing value by %(amount)s.", {
-            label: gap.label, amount: this.fmt(gap.difference),
+    get incompleteText() {
+        return _t("%(count)s assets have no readable acquisition date, depreciation rate or cost and are left out (file lines %(rows)s).", {
+            count: this.p.far.incompleteCount, rows: (this.p.far.incomplete || []).slice(0, 10).join(", "),
         });
     }
 
-    saveFar() {
-        if (!this.editable || (this.p.far.explanation || "") === this.state.farText.trim()) {
+    saveFar(section, text) {
+        const part = this.p.far.sections[section];
+        if (!this.editable || (part.explanation || "") === (text || "").trim()) {
             return;
         }
-        return this.call("ea_proc_far", [this.state.farText]);
+        return this.call("ea_proc_far", [text, section]);
+    }
+
+    // ---- K-M2 ----------------------------------------------------------------------
+
+    get additionWord() {
+        return _t("Addition");
+    }
+
+    get disposalWord() {
+        return _t("Disposal");
+    }
+
+    get vouchChecks() {
+        return {
+            addition: [
+                { key: "exists", label: _t("The asset exists (seen, or evidence of it)") },
+                { key: "cost", label: _t("The cost agrees to the invoice or contract") },
+                { key: "period", label: _t("Recorded in the right period") },
+                { key: "policy", label: _t("Category and depreciation rate as per the policy") },
+                { key: "capital", label: _t("Rightly capitalised, not an expense") },
+                { key: "authorised", label: _t("Authorised") },
+            ],
+            disposal: [
+                { key: "authorised", label: _t("Authorised") },
+                { key: "removed", label: _t("Removed from the register") },
+                { key: "proceeds", label: _t("Proceeds received and recorded") },
+                { key: "gainloss", label: _t("Gain or loss rightly worked out") },
+            ],
+        };
+    }
+
+    get vouchSummaryText() {
+        const v = this.p.vouch;
+        const s = v.summary || {};
+        return _t("%(size)s of %(population)s items (%(additions)s additions, %(disposals)s disposals), %(keys)s key items · combined risk %(cra)s · drawn on %(date)s", {
+            size: s.sampleSize || 0, population: s.populationRows || 0, additions: s.additions || 0, disposals: s.disposals || 0,
+            keys: s.keyItems || 0, cra: v.craLabel || v.cra || "—", date: v.drawnOn,
+        });
+    }
+
+    disposalText(item) {
+        return _t("Proceeds %(proceeds)s · net book value at disposal %(nbv)s · gain or loss %(gain)s", {
+            proceeds: this.cell(item.proceeds), nbv: this.cell(item.nbv), gain: this.cell(item.gainLoss),
+        });
+    }
+
+    drawVouch() {
+        return this.call("ea_proc_vouch", ["draw", null, null]);
+    }
+
+    async vouchAnswer(item, check, value) {
+        await this.call("ea_proc_vouch", ["item", item.key, { [check.key]: value }]);
+        if (value === "no" && !item.finding) {
+            this.offerVouchFinding(item, check);
+        }
+    }
+
+    vouchNote(item, text) {
+        return this.call("ea_proc_vouch", ["item", item.key, { note: text }]);
+    }
+
+    offerVouchFinding(item, check) {
+        const current = (this.p.vouch.items || []).find((i) => i.key === item.key) || item;
+        const failed = check ? [check] : this.vouchChecks[current.side].filter((c) => current.answers[c.key] === "no");
+        const label = `${current.label || ""}${current.item ? ` (${current.item})` : ""}`.trim();
+        const side = current.side === "addition" ? _t("Addition") : _t("Disposal");
+        const text = _t("%(side)s %(item)s: not satisfied: %(checks)s", {
+            side, item: label, checks: failed.map((c) => c.label.toLowerCase()).join("; "),
+        });
+        this.state.finding = { ...this.blankFinding(), description: text, itemKey: `vouch:${current.key}` };
     }
 
     // ---- F-M1 ----------------------------------------------------------------------

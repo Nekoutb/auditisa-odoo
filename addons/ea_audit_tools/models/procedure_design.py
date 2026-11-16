@@ -346,6 +346,9 @@ class EngagementProcedureDesign(models.Model):
         proc = self.env["ea.audit.designed.procedure"].sudo().browse(int(proc_id or 0)).exists()
         if not proc or proc.engagement_id != self.sudo() or not proc.selected:
             raise rule_error(self.env, "not-found")
+        if proc._ea_mode() == "vouch":
+            # K-M2 draws its sample on its own working paper (owner, 2026-11-16)
+            return self._ea_paper_action(proc)
         kind = dataset_kind(proc.library_id._ea_rule() if proc.library_id else None, proc.index_code)
         dataset = self.env["ea.audit.dataset"].sudo().search([
             ("engagement_id", "=", self.id), ("kind", "=", kind), ("superseded_at", "=", False),

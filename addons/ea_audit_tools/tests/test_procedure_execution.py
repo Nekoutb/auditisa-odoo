@@ -3,6 +3,7 @@
 with its steps, samples, the tool's work (reconciliation, cut-off), confirmations, evidence, a
 conclusion and the findings raised from it."""
 import base64
+import json
 
 from odoo.tests import tagged
 
@@ -321,7 +322,7 @@ TB_KF = """Compte;Libellé;Solde ouverture débit;Solde ouverture crédit;Mouvem
 """
 
 FAR_CSV = """Numero;Designation;Categorie;Date acquisition;Taux;Compte;Cout;Amortissements;VNC;VNC ouverture;Acquisitions;Cessions;Dotation
-I1;Immeuble siege;Batiments;15/03/2020;2,5;231000;4000;500;3500;3600;0;0;100
+I1;Immeuble siege;Batiments;02/01/2021;2,5;231000;4000;500;3500;3600;0;0;100
 """
 FAR_MAPPING = {
     "item": "Numero", "itemDescription": "Designation", "amount": "Cout", "depreciation": "Amortissements", "nbv": "VNC",
@@ -372,20 +373,87 @@ class TestFixedAssetReconciliation(SubstantiveTwoCase):
         self.assertEqual((page["mode"], page["far"]["state"]), ("far", "no-register"))
         self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_CSV), mapping=FAR_MAPPING)
         far = self.as_staff.ea_procedure_paper(proc.id)["far"]
-        row = far["rows"][0]
-        self.assertEqual((row["label"], row["opening"], row["charge"], row["closing"]), ("Batiments", 3600, -100, 3500))
-        self.assertEqual((row["ledger"], row["difference"], far["state"]), (3600, -100, "difference"))
+        cost, dep, nbv = (far["sections"][name] for name in ("cost", "depreciation", "nbv"))
+        # bought 2 January 2021 at 4,000, 2.5% a year: 400 depreciated before 2025, 100 in 2025
+        row = cost["rows"][0]
+        self.assertEqual((row["label"], row["opening"], row["additions"], row["closing"], row["ledger"], cost["state"]), ("Batiments", 4000, 0, 4000, 4000, "agrees"))
+        row = dep["rows"][0]
+        self.assertEqual((row["opening"], row["charge"], row["closing"], row["ledger"], row["difference"], dep["state"]), (400, 100, 500, 400, 100, "difference"))
+        self.assertEqual((dep["charge"]["computed"], dep["charge"]["register"], dep["charge"]["registerDifference"]), (100, 100, 0))
+        self.assertEqual((nbv["total"]["closing"], nbv["total"]["ledger"], nbv["total"]["difference"], nbv["state"]), (3500, 3600, -100, "difference"))
         page = self.as_staff.ea_procedure_paper(proc.id)
         self.assertTrue(page["toTick"]["explain"])
         for step in page["steps"]:
             self.as_staff.ea_proc_step(proc.id, step["index"], True)
-        self.as_staff.ea_proc_save(proc.id, {"conclusion": "exceptions", "note": "Difference on buildings."})
+        self.as_staff.ea_proc_save(proc.id, {"conclusion": "exceptions", "note": "Charge of 2025 not booked."})
+        page = self.as_staff.ea_proc_far(proc.id, "The charge of 2025 is not booked in the ledger.", "depreciation")
+        self.assertEqual(page["far"]["sections"]["depreciation"]["state"], "explained")
         with self.assertRaisesRegex(Exception, "procedure-not-finished"):
             self.as_staff.ea_proc_done(proc.id)
-        page = self.as_staff.ea_proc_far(proc.id, "Depreciation of December booked twice in the register.")
-        self.assertEqual(page["far"]["state"], "explained")
+        self.as_staff.ea_proc_far(proc.id, "Same: the charge of 2025.", "nbv")
         self.as_staff.ea_proc_done(proc.id)
         self.assertEqual(proc.state, "done")
+
+    def test_a_register_without_dates_asks_for_them(self):
+        self.significant("K", ["E", "V"])
+        proc = self.code_proc("K", "K-M1")
+        dataset = self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_CSV), mapping=FAR_MAPPING)["datasetId"]
+        # an upload of before the mandatory columns: its matching has no date nor rate
+        record = self.env["ea.audit.dataset"].sudo().browse(dataset)
+        old = {key: value for key, value in record.mapping.items() if key not in ("acquisitionDate", "depreciationRate")}
+        self.env.cr.execute("UPDATE ea_audit_dataset SET mapping = %s WHERE id = %s", [json.dumps(old), dataset])
+        record.invalidate_recordset()
+        far = self.as_staff.ea_procedure_paper(proc.id)["far"]
+        self.assertEqual((far["state"], far["missingColumns"]), ("no-dates", ["acquisitionDate", "depreciationRate"]))
+
+
+FAR_MOVES = """Code;Designation;Categorie;Date acquisition;Taux;Compte;Cout;Date cession;Prix cession
+I1;Immeuble siege;Batiments;02/01/2021;2,5;231000;4000;;
+I2;Camion;Materiel;30/06/2025;20;245000;900;;
+I3;Imprimante;Materiel;01/03/2025;25;244000;10;;
+I4;Ancien camion;Materiel;01/01/2020;20;245000;200;30/09/2025;50
+"""
+
+
+@tagged("post_install", "-at_install")
+class TestAdditionsAndDisposals(SubstantiveTwoCase):
+    def test_the_sample_is_drawn_on_the_paper_and_vouched(self):
+        self.significant("K", ["E", "V"])
+        self.approve()
+        proc = self.code_proc("K", "K-M2")
+        self.assertTrue(proc.selected)
+        self.assertEqual(self.as_staff.ea_procedure_paper(proc.id)["mode"], "vouch")
+        # "Draw the sample" from the design opens this paper, where the sample is drawn
+        action = self.as_staff.ea_procedure_draw(proc.id)
+        self.assertEqual((action["type"], action["params"]["procedure_id"]), ("ir.actions.client", proc.id))
+        with self.assertRaisesRegex(Exception, "no-dataset"):
+            self.as_staff.ea_proc_vouch(proc.id, "draw")
+        self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_MOVES))
+        page = self.as_staff.ea_proc_vouch(proc.id, "draw")
+        vouch = page["vouch"]
+        self.assertEqual((vouch["summary"]["additions"], vouch["summary"]["disposals"]), (2, 1))
+        by_key = {item["key"]: item for item in vouch["items"]}
+        # data rows 1 to 4: the truck bought in 2025 is above the threshold, a key item; the
+        # building is no addition of the year
+        self.assertEqual(by_key["A2"]["reason"], "key")
+        self.assertNotIn("A1", by_key)
+        run = proc.run_ids.filtered(lambda r: r.method == "vouch")
+        self.assertEqual((len(run), run.designed_procedure_id), (1, proc))
+        self.assertEqual(page["toTick"]["items"], len(vouch["items"]))
+        page = self.as_staff.ea_proc_vouch(proc.id, "item", "A2", {"exists": "yes", "cost": "no", "note": "Invoice of 850."})
+        item = next(i for i in page["vouch"]["items"] if i["key"] == "A2")
+        self.assertEqual((item["state"], item["answers"]["cost"]), ("exception", "no"))
+        self.assertEqual(run.item_results["A2"]["ok"], "no")
+        with self.assertRaisesRegex(Exception, "selection-frozen"):
+            self.as_staff.ea_proc_vouch(proc.id, "draw")
+        with self.assertRaisesRegex(Exception, "invalid-value"):
+            self.as_staff.ea_proc_vouch(proc.id, "item", "A2", {"removed": "yes"})
+        page = self.as_staff.ea_proc_finding(proc.id, "Camion: cost does not agree to the invoice", amount=50, trivial_confirmed=True, item_key="vouch:A2")
+        self.assertTrue(run.item_results["A2"]["finding"])
+        self.assertTrue(page["findings"])
+        sampling = self.as_staff.ea_sampling_page()
+        card = next(c for c in sampling["tod"] if c["id"] == run.id)
+        self.assertEqual(card["procedureId"], proc.id)
 
 
 @tagged("post_install", "-at_install")

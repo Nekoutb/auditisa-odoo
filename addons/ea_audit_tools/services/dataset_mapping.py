@@ -418,6 +418,10 @@ EXTRA_FIELDS = {
          "aliases": ["cessions", "disposals", "sorties", "diminutions"]},
         {"key": "charge", "en": "Depreciation of the year (optional)", "fr": "Dotation de l'exercice (optionnel)",
          "aliases": ["dotation", "dotations", "depreciationcharge", "charge"]},
+        {"key": "disposalDate", "en": "Disposal date (optional)", "fr": "Date de cession (optionnel)",
+         "aliases": ["datecession", "datedecession", "disposaldate", "dateofdisposal", "datesortie", "datedesortie"]},
+        {"key": "proceeds", "en": "Disposal proceeds (optional)", "fr": "Prix de cession (optionnel)",
+         "aliases": ["prixcession", "prixdecession", "produitcession", "produitdecession", "proceeds", "disposalproceeds"]},
     ],
     "inventory_listing": [
         {"key": "location", "en": "Location (optional)", "fr": "Emplacement (optionnel)",

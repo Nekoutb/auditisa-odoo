@@ -40,17 +40,25 @@ from ..services.procedure_execution import (
 )
 from ..services.procedure_tools import (
     COUNT_CHECK_KEYS, COUNT_PHASES, COUNT_SIZE, FLOOR_MAX, account_state, clean_count_patch, clean_count_size,
-    clean_floor_item, clean_rollforward, confirmation_pick, count_item, count_left, count_sample, far_number, far_recon,
+    clean_floor_item, clean_rollforward, confirmation_pick, count_item, count_left, count_sample, far_number,
     rollforward, working_order,
 )
+from ..services.far_schedule import SECTIONS as FAR_SECTIONS, VOUCH_CHECKS, clean_vouch_patch, far_movements, far_schedule, vouch_state
+from ..services.gl_line import parse_date_iso
+from ..services.import_matching import depreciation_rate
+from ..services._js import js_sum
+from ..services.tod_plan import TOD_CRAS, plan_tod, stable_start_fraction
 from ..services.ws_pages import sample_items
+from .sampling import DEFAULT_CRA
 from .tool_record import free_name, french_date, grouped, is_french
 from .worksheet_pages import FINDING_KINDS
 
 SELECTION_METHODS = ("cutoff", "unrecorded")
 #: The test counts sheet to floor of F-M1: a run answered on the working paper, as the selections.
 COUNT_METHOD = "count"
-PAPER_METHODS = SELECTION_METHODS + (COUNT_METHOD,)
+#: The additions and disposals sample of K-M2, answered on the working paper (owner, 2026-11-16).
+VOUCH_METHOD = "vouch"
+PAPER_METHODS = SELECTION_METHODS + (COUNT_METHOD, VOUCH_METHOD)
 #: the kinds of misstatement a working paper's conclusion records (ISA 450 A6)
 PAPER_MTYPES = ("factual", "judgmental", "projected")
 PROC_MODEL = "ea.audit.designed.procedure"
@@ -83,6 +91,8 @@ class DesignedProcedureWork(models.Model):
             return "count"
         if item and item.automatable == "reconciliation" and self.index_code == "K":
             return "far"
+        if item and item.code == "K-M2":
+            return "vouch"
         if item and item.automatable == "reconciliation" and self.index_code in RECON:
             return "recon"
         if item and item.automatable == "cutoff_selection" and self.index_code in CUTOFF_FAMILIES:
@@ -227,6 +237,11 @@ class EngagementProcedureExecution(models.Model):
 
     def _ea_exec_items(self, proc):
         """(done, total) items of the procedure's sample or selection, or (None, None)."""
+        vouch_run = self._ea_vouch_run(proc) if proc._ea_mode() == "vouch" else None
+        if vouch_run:
+            results = vouch_run.item_results or {}
+            rows = [row for row in vouch_run.sheet_rows or [] if row]
+            return len([row for row in rows if vouch_state(row[2], results.get(str(row[0]))) != "todo"]), len(rows)
         count_run = proc._ea_count_run()
         if count_run:
             results = count_run.item_results or {}
@@ -404,7 +419,7 @@ class EngagementProcedureExecution(models.Model):
             "performance": approved.performance if approved else None,
             "trivial": approved.trivial if approved else None,
             "samples": [], "canDraw": mode == "sample",
-            "recon": None, "selection": None, "confirm": None, "far": None, "count": None,
+            "recon": None, "selection": None, "confirm": None, "far": None, "count": None, "vouch": None,
             "tabs": self._ea_exec_tabs(proc.index_code),
             "evidence": self._ea_exec_evidence(proc),
             "findings": [{
@@ -427,6 +442,8 @@ class EngagementProcedureExecution(models.Model):
             page["far"] = self._ea_exec_far(proc)
         if mode == "count":
             page["count"] = self._ea_exec_count(proc, lang)
+        if mode == "vouch":
+            page["vouch"] = self._ea_exec_vouch(proc, lang)
         if proc._ea_confirmations_on():
             page["confirm"] = self._ea_exec_confirm_view(proc, lang)
             page["confirm"]["editable"] = mode == "confirm"
@@ -440,8 +457,10 @@ class EngagementProcedureExecution(models.Model):
         if page["count"]:
             left += page["count"]["left"]["checks"]
             left_items += page["count"]["left"]["items"]
+        if page["vouch"]:
+            left_items += page["vouch"]["left"]
         if page["far"]:
-            explain = page["far"]["state"] == "difference"
+            explain = any(section["state"] == "difference" for section in page["far"]["sections"].values())
         page["toTick"] = {"steps": left, "items": left_items, "explain": explain}
         return page
 
@@ -558,47 +577,196 @@ class EngagementProcedureExecution(models.Model):
         self.env.cr.execute("SELECT row_no, amount, data FROM ea_audit_dataset_row WHERE dataset_id = %s ORDER BY row_no", [dataset.id])
         return self.env.cr.fetchall()
 
+    def _ea_far_assets(self, dataset):
+        """The register's lines as K-M1 and K-M2 read them: dates in ISO, the rate in percent.
+        Read from the rows as uploaded, nothing rewritten."""
+        mapping = (dataset.mapping or {}) if dataset else {}
+        assets = []
+        for row_no, amount, data in (self._ea_exec_dataset_rows(dataset) if dataset else []):
+            data = data or {}
+
+            def value(key, data=data):
+                column = mapping.get(key)
+                return data.get(column) if column else None
+
+            def text(key, data=data):
+                found = value(key, data)
+                return str(found).strip()[:120] if found not in (None, "") else ""
+
+            cost = float(amount) if amount is not None else far_number(value("amount"))
+            assets.append({
+                "row": row_no, "item": text("item"), "label": text("itemDescription"), "category": text("category"),
+                "account": text("account"), "cost": cost,
+                "acquired": parse_date_iso(value("acquisitionDate")), "disposed": parse_date_iso(value("disposalDate")),
+                "rate": depreciation_rate(value("depreciationRate")), "proceeds": far_number(value("proceeds")),
+                "charge": far_number(value("charge")),
+            })
+        return assets, mapping
+
     def _ea_exec_far(self, proc):
-        """The register by category against classes 21-25 and 28/29 of the ledger (mock-sub2-account)."""
+        """The register's movement schedule worked out by date for the year, in three parts
+        against the ledger: cost, accumulated depreciation, net book value (owner, 2026-11-16)."""
         root = self.sudo()
         balances, source = root._ea_exec_ledger_balances()
         dataset = root._ea_current_dataset("fixed_asset_register")
-        mapping = (dataset.mapping or {}) if dataset else {}
-        rows = []
-        for _row_no, amount, data in (self._ea_exec_dataset_rows(dataset) if dataset else []):
-            data = data or {}
-
-            def read(key, data=data):
-                column = mapping.get(key)
-                return far_number(data.get(column)) if column else None
-
-            closing = read("nbv")
-            if closing is None:
-                cost = float(amount) if amount is not None else read("amount")
-                depreciation = read("depreciation")
-                closing = None if cost is None else cost - abs(depreciation or 0)
-            rows.append({
-                "category": str(data.get(mapping["category"]) or "") if mapping.get("category") else "",
-                "account": str(data.get(mapping["account"]) or "") if mapping.get("account") else "",
-                "opening": read("openingNbv"), "additions": read("additions"), "disposals": read("disposals"),
-                "charge": read("charge"), "closing": closing,
-            })
-        text = ((proc.work_data or {}).get("far") or {}).get("explanation") or ""
-        result = far_recon(rows, balances, text)
+        assets, mapping = root._ea_far_assets(dataset)
+        start, end = root._ea_gl_period()
+        far = (proc.work_data or {}).get("far") or {}
+        texts = dict(far.get("explanations") or {})
+        if far.get("explanation") and not texts.get("nbv"):
+            # the single explanation of the first K-M1 stays with the net book value
+            texts["nbv"] = far["explanation"]
+        result = far_schedule(assets, balances, start.isoformat() if start else None, end.isoformat() if end else None, texts)
+        missing = [key for key in ("acquisitionDate", "depreciationRate") if not mapping.get(key)] if dataset else []
+        if not dataset:
+            result["state"] = "no-register"
+        elif missing:
+            result["state"] = "no-dates"
         return dict(
-            result, explanation=text, source=source, dataset=(dataset.source_filename or "") if dataset else "",
-            datasetDate=french_date(dataset.create_date) if dataset else "",
-            mapped=sorted(key for key in ("category", "account", "openingNbv", "additions", "disposals", "charge") if mapping.get(key)),
+            result, source=source, dataset=(dataset.source_filename or "") if dataset else "",
+            datasetDate=french_date(dataset.create_date) if dataset else "", missingColumns=missing,
+            yearStart=french_date(start), yearEnd=french_date(end),
         )
 
-    def ea_proc_far(self, proc_id, explanation):
-        """The explanation of what remains between the register and the ledger."""
+    def ea_proc_far(self, proc_id, explanation, section="nbv"):
+        """The explanation of what remains between the register and the ledger, per part."""
         proc = self._ea_exec_writable(proc_id)
-        if proc._ea_mode() != "far":
+        if proc._ea_mode() != "far" or section not in FAR_SECTIONS:
             raise rule_error(self.env, "invalid-value")
         work = dict(proc.work_data or {})
-        work["far"] = dict(work.get("far") or {}, explanation=str(explanation or "").strip()[:5000])
+        far = dict(work.get("far") or {})
+        far["explanations"] = dict(far.get("explanations") or {}, **{section: str(explanation or "").strip()[:5000]})
+        work["far"] = far
         proc.write({"work_data": work})
+        self._ea_exec_started(proc)
+        return self.ea_procedure_paper(proc.id)
+
+    # ---- K-M2: vouching of the additions and disposals ------------------------
+
+    def _ea_vouch_run(self, proc):
+        return proc.sudo().run_ids.filtered(lambda r: r.method == VOUCH_METHOD).sorted("id", reverse=True)[:1]
+
+    def _ea_vouch_plan(self, proc, movements):
+        """The sample's plan: the tests-of-details table at the combined risk of the account (the
+        worst of its relevant assertions), key items from the CRA's threshold, else from
+        performance materiality."""
+        root = self.sudo()
+        approved = root._ea_approved_materiality()
+        if not approved:
+            raise rule_error(self.env, "no-materiality")
+        root._ea_sync_cra()
+        row = self.env["ea.audit.cra.row"].sudo().search([("engagement_id", "=", root.id), ("index_code", "=", proc.index_code)], limit=1)
+        cra = row.worst_tod if row and row.worst_tod in TOD_CRAS else DEFAULT_CRA
+        te = approved.performance
+        threshold = row.key_item_threshold if row and row.key_item_threshold and row.key_item_threshold > 0 else te
+        lines = [{"amount": m["amount"], "key": m["key"]} for m in movements]
+        plan = plan_tod({
+            "lines": lines, "te": te, "threshold": min(threshold, te), "cra": cra, "assurance": "little",
+            "startFraction": stable_start_fraction(str(root.id), proc.code or "", str(len(proc.run_ids))),
+        })
+        return plan, cra
+
+    def _ea_exec_vouch_draw(self, proc):
+        """The sample of additions and disposals, drawn from the register: every key item, then the
+        tests-of-details sample of the rest. Kept as a run of the procedure, so the Sampling page
+        shows it; drawn again only until the first item is answered."""
+        root = self.sudo()
+        run = self._ea_vouch_run(proc)
+        if run and any(vouch_state(row[2], (run.item_results or {}).get(str(row[0]))) != "todo" for row in run.sheet_rows or [] if row):
+            raise rule_error(self.env, "selection-frozen")
+        dataset = root._ea_current_dataset("fixed_asset_register")
+        if not dataset:
+            raise rule_error(self.env, "no-dataset")
+        assets, _mapping = root._ea_far_assets(dataset)
+        start, end = root._ea_gl_period()
+        movements = far_movements(assets, start.isoformat() if start else None, end.isoformat() if end else None)
+        if not movements:
+            raise rule_error(self.env, "empty-population")
+        plan, cra = self._ea_vouch_plan(proc, movements)
+        keys = {line["key"]: "key" for line in plan["keyItems"]}
+        for line in plan["sample"]:
+            keys.setdefault(line["key"], "sample")
+        by_key = {m["key"]: m for m in movements}
+        sheet_rows = []
+        for key, reason in keys.items():
+            m = by_key[key]
+            sheet_rows.append([
+                key, reason, m["side"], m["item"], m["label"], m["category"], m["date"],
+                m["amount"], m["rate"], m["proceeds"], m["nbv"], m["gainLoss"],
+            ])
+        values = {
+            "engagement_id": root.id, "title": "Additions and disposals", "engine": "sampling", "method": VOUCH_METHOD,
+            "dataset_id": dataset.id, "designed_procedure_id": proc.id, "index_code": proc.index_code,
+            "purpose": ("%s %s" % (proc.code, proc.title or ""))[:200].strip(),
+            "params": {"cra": cra, "te": plan["te"], "threshold": plan["threshold"], "interval": plan["interval"]},
+            "summary": {
+                "populationRows": len(movements), "populationTotal": plan["populationValue"],
+                "additions": len([m for m in movements if m["side"] == "addition"]),
+                "disposals": len([m for m in movements if m["side"] == "disposal"]),
+                "keyItems": len(plan["keyItems"]), "sampleSize": len(sheet_rows),
+                "sampledValue": js_sum(abs(r[7] or 0) for r in sheet_rows),
+            },
+            "sheet_header": ["key", "reason", "side", "item", "label", "category", "date", "amount", "rate", "proceeds", "nbv", "gainLoss"],
+            "sheet_rows": sheet_rows, "item_results": {},
+        }
+        if run:
+            run.write(values)
+        else:
+            self.env["ea.audit.automation.run"].sudo().create(values)
+        self._ea_log("procedure_selection", "Procedure %s %s: %d additions and disposals drawn from the register" % (
+            proc.index_code, proc.code, len(sheet_rows)))
+
+    def _ea_exec_vouch(self, proc, lang):
+        root = self.sudo()
+        run = self._ea_vouch_run(proc)
+        results = (run.item_results or {}) if run else {}
+        items = []
+        for position, row in enumerate((run.sheet_rows or []) if run else [], start=1):
+            key, side = str(row[0]), row[2]
+            found = results.get(key) or {}
+            items.append({
+                "position": position, "key": key, "reason": row[1], "side": side, "item": row[3], "label": row[4],
+                "category": row[5], "date": row[6], "amount": row[7], "rate": row[8], "proceeds": row[9], "nbv": row[10],
+                "gainLoss": row[11], "answers": {name: found.get(name) or "" for name in VOUCH_CHECKS.get(side, ())},
+                "note": found.get("note") or "", "finding": found.get("finding") or False, "state": vouch_state(side, found),
+            })
+        summary = (run.summary or {}) if run else {}
+        params = (run.params or {}) if run else {}
+        dataset = root._ea_current_dataset("fixed_asset_register")
+        Row = self.env["ea.audit.cra.row"].with_context(lang=lang)
+        levels = dict(Row._fields["worst_tod"]._description_selection(Row.env))
+        return {
+            "runId": run.id if run else False, "drawnOn": french_date(run.create_date) if run else "",
+            "items": items, "summary": summary, "cra": params.get("cra") or "", "craLabel": levels.get(params.get("cra"), ""),
+            "threshold": params.get("threshold"), "te": params.get("te"),
+            "frozen": any(item["state"] != "todo" for item in items),
+            "hasRegister": bool(dataset), "register": (dataset.source_filename or "") if dataset else "",
+            "left": len([item for item in items if item["state"] == "todo"]),
+        }
+
+    def ea_proc_vouch(self, proc_id, op, key=None, values=None):
+        """K-M2's working paper: the sample drawn (again, until one item is answered), one item answered."""
+        proc = self._ea_exec_writable(proc_id)
+        if proc._ea_mode() != "vouch":
+            raise rule_error(self.env, "invalid-value")
+        if op == "draw":
+            self._ea_exec_vouch_draw(proc)
+        elif op == "item":
+            run = self._ea_vouch_run(proc)
+            row = next((r for r in (run.sheet_rows or []) if r and str(r[0]) == str(key)), None) if run else None
+            if not row:
+                raise rule_error(self.env, "not-found")
+            clean = clean_vouch_patch(row[2], values)
+            if clean is None:
+                raise rule_error(self.env, "invalid-value")
+            results = dict(run.item_results or {})
+            entry = dict(results.get(str(key)) or {}, **clean)
+            # the Sampling page reads the answer as the selections' (agreed / error)
+            entry["ok"] = {"done": "yes", "exception": "no"}.get(vouch_state(row[2], entry))
+            results[str(key)] = entry
+            run.write({"item_results": results})
+        else:
+            raise rule_error(self.env, "invalid-value")
         self._ea_exec_started(proc)
         return self.ea_procedure_paper(proc.id)
 
@@ -1103,7 +1271,14 @@ class EngagementProcedureExecution(models.Model):
             detail=text if len(text) > 200 else None, trivial_confirmed=bool(trivial_confirmed),
             mtype=mtype or "factual", dr_account=dr_account, cr_account=cr_account,
         )
-        if item_key and str(item_key).startswith(("count:", "floor:")):
+        if item_key and str(item_key).startswith("vouch:"):
+            run = self._ea_vouch_run(proc)
+            key = str(item_key)[6:]
+            if run and key in {str(row[0]) for row in run.sheet_rows or [] if row}:
+                results = dict(run.item_results or {})
+                results[key] = dict(results.get(key) or {}, finding=finding.id)
+                run.write({"item_results": results})
+        elif item_key and str(item_key).startswith(("count:", "floor:")):
             self._ea_exec_count_finding(proc, str(item_key), finding)
         elif item_key:
             run = proc._ea_selection_run()

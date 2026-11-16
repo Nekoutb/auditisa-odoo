@@ -129,57 +129,118 @@
                     <p class="o_ea_px_muted" t-if="p.when" t-esc="p.when"/>
                 </section>
 
-                <!-- K-M1: fixed asset register against the ledger -->
+                <!-- K-M1: the register's movements worked out by date, in three parts against the ledger -->
                 <section class="o_ea_px_card" t-if="p.far" data-ea="far">
                     <h3>Fixed asset register vs general ledger, prepared by the tool from your uploads</h3>
-                    <div class="o_ea_px_banner is-warn" t-if="p.far.state === 'no-register'">Data missing: the fixed asset register of the year is not uploaded yet. Upload it with its categories, accounts and movements.</div>
+                    <p class="o_ea_px_muted" t-if="p.far.yearStart" t-esc="farYearText"/>
+                    <div class="o_ea_px_banner is-warn" t-if="p.far.state === 'no-register'">Data missing: the fixed asset register of the year is not uploaded yet. Upload it with its categories, acquisition dates and depreciation rates.</div>
+                    <div class="o_ea_px_banner is-warn" t-if="p.far.state === 'no-dates'">The register in use was uploaded without its acquisition dates or depreciation rates. Upload it again with these columns: they are now required.</div>
                     <div class="o_ea_px_banner is-warn" t-if="p.far.state === 'no-gl'">Data missing: no trial balance and no general ledger for the year. Upload one to compare.</div>
-                    <t t-if="p.far.state === 'no-register' or p.far.state === 'no-gl'">
+                    <t t-if="p.far.state === 'no-register' or p.far.state === 'no-gl' or p.far.state === 'no-dates'">
                         <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_data_analytics')">Open the uploads</button>
                     </t>
-                    <div class="o_ea_px_scroll" t-if="p.far.rows.length">
+                    <div class="o_ea_px_banner is-warn" t-if="p.far.incompleteCount">
+                        <t t-esc="incompleteText"/>
+                    </div>
+                    <t t-if="p.far.state !== 'no-register' and p.far.state !== 'no-dates'">
+                        <t t-foreach="farSections" t-as="section" t-key="section.key">
+                            <t t-set="part" t-value="p.far.sections[section.key]"/>
+                            <h4 class="mt-3"><t t-esc="section.title"/> <small class="o_ea_px_muted" t-esc="section.ledger"/></h4>
+                            <div class="o_ea_px_scroll" t-if="part.rows.length">
+                                <table class="o_ea_px_table">
+                                    <thead><tr>
+                                        <th>Category</th>
+                                        <th class="o_num" t-foreach="section.columns" t-as="column" t-key="column.key" t-esc="column.label"/>
+                                        <th class="o_num">Per ledger</th><th class="o_num">Difference</th>
+                                    </tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="part.rows" t-as="row" t-key="row_index">
+                                            <td t-esc="row.label or '—'"/>
+                                            <td class="o_num" t-foreach="section.columns" t-as="column" t-key="column.key" t-esc="cell(row[column.key])"/>
+                                            <td class="o_num" t-esc="cell(row.ledger)"/>
+                                            <td t-attf-class="o_num {{ row.difference ? 'o_ea_px_bad' : '' }}" t-esc="cell(row.difference)"/>
+                                        </tr>
+                                        <tr class="o_ea_px_total">
+                                            <td>Total</td>
+                                            <td class="o_num" t-foreach="section.columns" t-as="column" t-key="column.key" t-esc="cell(part.total[column.key])"/>
+                                            <td class="o_num" t-esc="cell(part.total.ledger)"/>
+                                            <td t-attf-class="o_num {{ part.total.difference ? 'o_ea_px_bad' : '' }}" t-esc="cell(part.total.difference)"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="o_ea_px_scroll" t-if="section.key === 'depreciation' and part.charge">
+                                <table class="o_ea_px_table">
+                                    <thead><tr><th>Depreciation of the year</th><th class="o_num">Amount</th><th class="o_num">Difference with the charge worked out</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Worked out from the register's dates and rates</td><td class="o_num" t-esc="cell(part.charge.computed)"/><td/></tr>
+                                        <tr><td>Per the register's own column</td><td class="o_num" t-esc="cell(part.charge.register)"/>
+                                            <td t-attf-class="o_num {{ part.charge.registerDifference ? 'o_ea_px_bad' : '' }}" t-esc="cell(part.charge.registerDifference)"/></tr>
+                                        <tr><td>Per the ledger (depreciation expense 681)</td><td class="o_num" t-esc="cell(part.charge.ledger)"/>
+                                            <td t-attf-class="o_num {{ part.charge.ledgerDifference ? 'o_ea_px_bad' : '' }}" t-esc="cell(part.charge.ledgerDifference)"/></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="o_ea_px_banner is-good" t-if="part.state === 'agrees'">This part agrees with the general ledger.</div>
+                            <t t-if="part.needsExplanation">
+                                <div class="o_ea_px_banner is-warn" t-if="part.state === 'difference'">A difference remains with the general ledger. Explain it below, or raise a finding.</div>
+                                <h5>Explanation <small class="o_ea_px_muted">(required while a difference remains)</small></h5>
+                                <textarea class="o_ea_px_input" rows="2" t-att-value="part.explanation" t-att-disabled="!editable" t-on-change="(ev) => this.saveFar(section.key, ev.target.value)"/>
+                            </t>
+                        </t>
+                        <p class="o_ea_px_muted" t-if="!p.far.linked">Some categories carry no general ledger account of their own: they are compared in total only. Map the "General ledger account" column of the register to compare each category.</p>
+                    </t>
+                    <p class="o_ea_px_muted" t-if="p.far.dataset">Data used: <t t-esc="p.far.dataset"/> (<t t-esc="p.far.datasetDate"/>) <span>and the general ledger classes 21 to 25, 28, 29 and 681.</span>
+                        <span t-if="p.far.source === 'gl'">No trial balance: the balances come from the general ledger of the year.</span></p>
+                </section>
+
+                <!-- K-M2: vouching of the additions and disposals -->
+                <section class="o_ea_px_card" t-if="p.vouch" data-ea="vouch">
+                    <h3>Additions and disposals of the year, vouched</h3>
+                    <div class="o_ea_px_banner is-warn" t-if="!p.vouch.hasRegister">Data missing: the fixed asset register of the year is not uploaded yet. Upload it with its acquisition and disposal dates to draw the sample.</div>
+                    <button type="button" class="btn btn-secondary btn-sm" t-if="!p.vouch.hasRegister" t-on-click="() => this.open('action_tool_data_analytics')">Open the uploads</button>
+                    <div class="o_ea_px_params" t-if="p.vouch.hasRegister">
+                        <button type="button" class="btn btn-primary btn-sm" t-if="editable and !p.vouch.frozen" t-att-disabled="state.busy" t-on-click="drawVouch">
+                            <t t-if="p.vouch.runId">Draw again</t><t t-else="">Draw the sample</t>
+                        </button>
+                        <span class="o_ea_px_muted" t-if="p.vouch.frozen">The sample is frozen: an item is already answered.</span>
+                        <span class="o_ea_px_muted" t-if="p.vouch.runId"><t t-esc="vouchSummaryText"/></span>
+                    </div>
+                    <p class="o_ea_px_muted" t-if="!p.vouch.runId and p.vouch.hasRegister">The population is the register's additions (acquired in the year) and disposals (disposed of in the year). Every item above the key-item threshold is taken, then a sample of the rest sized by the combined risk of the account and performance materiality. It also shows on the Sampling page.</p>
+                    <div class="o_ea_px_scroll" t-if="p.vouch.items.length">
                         <table class="o_ea_px_table">
-                            <thead><tr><th>Category</th><th class="o_num">Opening</th><th class="o_num">Additions</th><th class="o_num">Disposals</th><th class="o_num">Depreciation</th>
-                                <th class="o_num">Closing per register</th><th class="o_num">Per ledger (2x / 28x)</th><th class="o_num">Difference</th></tr></thead>
+                            <thead><tr><th>Item</th><th>Date</th><th class="o_num">Cost</th><th>Checks</th><th>Note</th><th/></tr></thead>
                             <tbody>
-                                <tr t-foreach="p.far.rows" t-as="row" t-key="row_index">
-                                    <td><t t-if="row.rest">Ledger accounts not in the register</t><t t-else="" t-esc="row.label or '—'"/></td>
-                                    <td class="o_num" t-esc="cell(row.opening)"/>
-                                    <td class="o_num" t-esc="cell(row.additions)"/>
-                                    <td class="o_num" t-esc="cell(row.disposals)"/>
-                                    <td class="o_num" t-esc="cell(row.charge)"/>
-                                    <td class="o_num" t-esc="cell(row.closing)"/>
-                                    <td class="o_num" t-esc="cell(row.ledger)"/>
-                                    <td t-attf-class="o_num {{ row.difference ? 'o_ea_px_bad' : '' }}" t-esc="cell(row.difference)"/>
-                                </tr>
-                                <tr class="o_ea_px_total">
-                                    <td>Total</td>
-                                    <td class="o_num" t-esc="cell(p.far.total.opening)"/>
-                                    <td class="o_num" t-esc="cell(p.far.total.additions)"/>
-                                    <td class="o_num" t-esc="cell(p.far.total.disposals)"/>
-                                    <td class="o_num" t-esc="cell(p.far.total.charge)"/>
-                                    <td class="o_num" t-esc="cell(p.far.total.closing)"/>
-                                    <td class="o_num" t-esc="cell(p.far.total.ledger)"/>
-                                    <td t-attf-class="o_num {{ p.far.total.difference ? 'o_ea_px_bad' : '' }}" t-esc="cell(p.far.total.difference)"/>
+                                <tr t-foreach="p.vouch.items" t-as="item" t-key="item.key" t-att-data-key="item.key">
+                                    <td>
+                                        <span t-attf-class="o_ea_px_tag {{ item.side === 'addition' ? 'is-open' : 'is-warn' }}" t-esc="item.side === 'addition' ? additionWord : disposalWord"/>
+                                        <t t-esc="item.label"/><t t-if="item.item"> (<t t-esc="item.item"/>)</t>
+                                        <small class="o_ea_px_muted" t-if="item.reason === 'key'"> · key item</small>
+                                        <div class="o_ea_px_muted"><t t-esc="item.category"/><t t-if="item.rate !== null and item.rate !== undefined"> · <t t-esc="item.rate"/>%</t></div>
+                                        <div class="o_ea_px_muted" t-if="item.side === 'disposal'"><t t-esc="disposalText(item)"/></div>
+                                    </td>
+                                    <td t-esc="item.date"/>
+                                    <td class="o_num" t-esc="cell(item.amount)"/>
+                                    <td>
+                                        <div t-foreach="vouchChecks[item.side]" t-as="check" t-key="check.key" class="d-flex gap-2 align-items-center">
+                                            <select class="o_ea_px_input o_ea_px_small" t-att-disabled="!editable" t-on-change="(ev) => this.vouchAnswer(item, check, ev.target.value)">
+                                                <option value="" t-att-selected="!item.answers[check.key]">—</option>
+                                                <option value="yes" t-att-selected="item.answers[check.key] === 'yes'">Yes</option>
+                                                <option value="no" t-att-selected="item.answers[check.key] === 'no'">No</option>
+                                                <option value="na" t-att-selected="item.answers[check.key] === 'na'">N/A</option>
+                                            </select>
+                                            <span t-esc="check.label"/>
+                                        </div>
+                                    </td>
+                                    <td><textarea class="o_ea_px_input" rows="2" t-att-value="item.note" t-att-disabled="!editable" t-on-change="(ev) => this.vouchNote(item, ev.target.value)"/></td>
+                                    <td>
+                                        <a href="#" class="o_ea_px_bad" t-if="item.finding" t-on-click.prevent="() => this.open('finding', item.finding)">finding raised</a>
+                                        <button type="button" class="btn btn-link btn-sm p-0" t-elif="item.state === 'exception' and editable" t-on-click="() => this.offerVouchFinding(item)">Raise a finding</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="o_ea_px_banner is-good" t-if="p.far.state === 'agrees'">The register agrees with the general ledger.</div>
-                    <div class="o_ea_px_banner is-warn" t-foreach="p.far.gaps" t-as="gap" t-key="gap_index">
-                        <t t-esc="gapText(gap)"/>
-                    </div>
-                    <div class="o_ea_px_banner is-warn" t-foreach="p.far.moved" t-as="gap" t-key="'m' + gap_index">
-                        <t t-esc="movedText(gap)"/>
-                    </div>
-                    <p class="o_ea_px_muted" t-if="p.far.rows.length and !p.far.linked">The register has no general ledger account per line: only the total is compared. Map the "General ledger account" column of the register to compare each category.</p>
-                    <p class="o_ea_px_muted" t-if="p.far.rows.length and !p.far.hasMovements">The register has no movement columns (opening, additions, disposals, depreciation of the year): map them on the upload to show the movement of each category.</p>
-                    <t t-if="p.far.needsExplanation">
-                        <h4>Explanation <small class="o_ea_px_muted">(required when a difference remains)</small></h4>
-                        <textarea class="o_ea_px_input" rows="3" t-model="state.farText" t-att-disabled="!editable" t-on-change="saveFar"/>
-                    </t>
-                    <p class="o_ea_px_muted" t-if="p.far.dataset">Data used: <t t-esc="p.far.dataset"/> (<t t-esc="p.far.datasetDate"/>) <span>and the general ledger classes 21 to 25, 28 and 29.</span>
-                        <span t-if="p.far.source === 'gl'">No trial balance: the balances come from the general ledger of the year.</span></p>
                 </section>
 
                 <!-- F-M1: attendance at the physical count -->

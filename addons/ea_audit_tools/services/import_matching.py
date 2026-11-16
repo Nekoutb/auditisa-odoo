@@ -55,9 +55,9 @@ SKIP_LABEL = {"en": "Do not import", "fr": "Ne pas importer"}
 
 _AMOUNT_KEYS = {
     "openingDebit", "openingCredit", "opening", "debit", "credit", "closingDebit", "closingCredit", "closing",
-    "amount", "quantity", "unitPrice", "depreciation", "nbv", "net",
+    "amount", "quantity", "unitPrice", "depreciation", "nbv", "net", "proceeds",
 }
-_DATE_KEYS = {"date", "journalDate", "jeDate", "acquisitionDate"}
+_DATE_KEYS = {"date", "journalDate", "jeDate", "acquisitionDate", "disposalDate"}
 
 #: How far a ledger's debits may be from its credits, in total and per entry, before it is refused:
 #: the trial balance's own tolerance (owner's ruling of 2026-11-15, "an unbalanced general ledger
