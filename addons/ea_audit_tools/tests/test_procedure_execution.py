@@ -23,6 +23,11 @@ NEXT_SALE = """Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Réf�
 
 
 class ExecutionCase(ProcedureDesignCase):
+    def setUp(self):
+        super().setUp()
+        # the procedures exist once the design has run, as when the design page is opened
+        self.engagement.sudo()._ea_sync_procedures()
+
     def proc_page(self, code, actor=None):
         return (actor or self.as_staff).ea_procedure_paper(self.proc(code).id)
 
