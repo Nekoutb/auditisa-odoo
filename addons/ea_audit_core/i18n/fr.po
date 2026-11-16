@@ -5651,3 +5651,9 @@ msgstr "Procédure de substance %(index)s %(code)s rouverte"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Substantive procedure %(index)s %(code)s: %(count)s entries selected around year end"
 msgstr "Procédure de substance %(index)s %(code)s : %(count)s écritures sélectionnées autour de la clôture"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "No longer a paper of the file (owner's decision of 2026-11-16)"
+msgstr "N'est plus un papier du dossier (décision du 16/11/2026)"

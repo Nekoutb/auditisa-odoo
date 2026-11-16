@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Working Papers",
     "summary": "Paper definitions, answers and history, review notes, conclusions, evidence and the paper renderer",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

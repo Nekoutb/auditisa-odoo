@@ -117,16 +117,16 @@ class TestConcurrentEdits(PaperCase):
 
     def test_refuses_the_second_of_two_saves_from_one_version(self):
         # uat2 B05
-        base = self.paper("C5.2").answer_version
-        self.save(self.manager, "C5.2", {"key_findings": "Manager's findings"}, base)
-        self.assertCode("stale-edit", self.save, self.staff, "C5.2", {"key_findings": ""}, base)
-        self.assertEqual(self.stored("C5.2")["key_findings"], "Manager's findings")
+        base = self.paper("C5.3").answer_version
+        self.save(self.manager, "C5.3", {"key_findings": "Manager's findings"}, base)
+        self.assertCode("stale-edit", self.save, self.staff, "C5.3", {"key_findings": ""}, base)
+        self.assertEqual(self.stored("C5.3")["key_findings"], "Manager's findings")
 
     def test_accepts_a_save_from_the_current_version(self):
-        self.save(self.manager, "C5.2", {"key_findings": "One"})
-        base = self.paper("C5.2").answer_version
-        self.save(self.manager, "C5.2", {"key_findings": "Two"}, base)
-        self.assertGreater(self.paper("C5.2").answer_version, base)
+        self.save(self.manager, "C5.3", {"key_findings": "One"})
+        base = self.paper("C5.3").answer_version
+        self.save(self.manager, "C5.3", {"key_findings": "Two"}, base)
+        self.assertGreater(self.paper("C5.3").answer_version, base)
 
     def test_saves_disjoint_edits_and_holds_back_a_field_both_changed(self):
         # uat3 firm.perf-concurrent

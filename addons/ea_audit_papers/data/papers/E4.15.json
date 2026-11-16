@@ -59,8 +59,8 @@
       "key": "filings",
       "en": "Confirm that every return due in the period was filed, and identify any filed late together with the penalty arising.",
       "fr": "Vérifier le dépôt de chaque déclaration due sur l'exercice et identifier les dépôts tardifs et les pénalités correspondantes.",
-      "srcEn": "Filing receipts · tax account statement · C5.2",
-      "srcFr": "Récépissés de dépôt · état de compte fiscal · C5.2"
+      "srcEn": "Filing receipts · tax account statement",
+      "srcFr": "Récépissés de dépôt · état de compte fiscal"
      }
     ]
    },

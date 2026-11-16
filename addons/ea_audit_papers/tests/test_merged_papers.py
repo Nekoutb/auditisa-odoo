@@ -82,3 +82,21 @@ class TestMergedPapers(PaperCase):
         self.env["ea.audit.engagement"]._ea_retire_merged_tasks()
         item.invalidate_recordset(["conditional"])
         self.assertFalse(item.conditional)
+
+    def test_c52_leaves_open_files_only_when_empty(self):
+        """C5.2 is no longer a paper of the file (owner's decision of 2026-11-16)."""
+        self.assertNotIn("C5.2", self.engagement.sudo().file_item_ids.mapped("code"))
+        worked = self.put_back(self.engagement, "C5.2")
+        self.save(self.manager, "C5.2", {"key_findings": "AGM held on time"})
+        empty = self.put_back(self.make_engagement(2023), "C5.2")
+        archived = self.make_engagement(2022)
+        kept = self.put_back(archived, "C5.2")
+        archived.sudo().archived_at = "2026-01-01 00:00:00"
+        self.env.flush_all()
+        self.env["ea.audit.engagement"]._ea_retire_merged_tasks()
+        for item in (empty, worked, kept):
+            item.invalidate_recordset(["conditional"])
+        self.assertTrue(empty.conditional)
+        self.assertTrue(empty.conditional_trigger)
+        self.assertFalse(worked.conditional)
+        self.assertFalse(kept.conditional)

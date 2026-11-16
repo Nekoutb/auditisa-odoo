@@ -28,6 +28,7 @@ _RETIRED_TEXT = _lt("Income statement accounts are covered by the E4 indexes")
 _MERGED_TEXT = {
     "P7.1": _lt("Now recorded in P1.4, Part D (planning communication with those charged with governance)"),
     "S6.2": _lt("Now recorded in S6.1, Part E (direction, supervision and review by the partner)"),
+    "C5.2": _lt("No longer a paper of the file (owner's decision of 2026-11-16)"),
 }
 
 

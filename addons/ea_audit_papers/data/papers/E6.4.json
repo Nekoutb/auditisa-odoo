@@ -59,8 +59,8 @@
       "key": "filings",
       "en": "Confirm that the prior period accounts were approved within the statutory deadline and filed with the RCCM.",
       "fr": "Vérifier que les comptes de l'exercice précédent ont été approuvés dans le délai légal et déposés au RCCM.",
-      "srcEn": "AGO minutes · RCCM filing receipt · C5.2",
-      "srcFr": "Procès-verbal d'AGO · récépissé de dépôt RCCM · C5.2"
+      "srcEn": "AGO minutes · RCCM filing receipt",
+      "srcFr": "Procès-verbal d'AGO · récépissé de dépôt RCCM"
      },
      {
       "key": "subsequent",
