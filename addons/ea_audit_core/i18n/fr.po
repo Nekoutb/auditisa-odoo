@@ -5940,3 +5940,9 @@ msgstr "Procédure de substance %(index)s %(code)s : %(count)s comptages tests t
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Adjustment of finding %(ref)s booked on the summary of audit differences: %(accounts)s for %(amount)s"
 msgstr "Ajustement du constat %(ref)s reporté au sommaire des écarts d'audit : %(accounts)s pour %(amount)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Substantive procedure %(index)s %(code)s: %(count)s additions and disposals drawn from the register"
+msgstr "Procédure de substance %(index)s %(code)s : %(count)s acquisitions et cessions tirées du fichier des immobilisations"
