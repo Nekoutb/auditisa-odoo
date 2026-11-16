@@ -57,4 +57,24 @@
         <field name="model_id" ref="model_ea_audit_notice"/>
         <field name="domain_force">[('user_id', '=', user.id)]</field>
     </record>
+    <record id="rule_archive_seal_team_only" model="ir.rule">
+        <field name="name">ea.audit.archive.seal: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_archive_seal"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_archive_addendum_team_only" model="ir.rule">
+        <field name="name">ea.audit.archive.addendum: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_archive_addendum"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_archive_access_team_only" model="ir.rule">
+        <field name="name">ea.audit.archive.access: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_archive_access"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_late_work_team_only" model="ir.rule">
+        <field name="name">ea.audit.late.work: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_late_work"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>

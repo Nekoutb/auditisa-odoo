@@ -1,0 +1,92 @@
+// The completion checklist (C6.1) and the assemble-and-archive page (C6.2), owner's mock-ups of 2026-11-16.
+// App theme: green #17694f, pale green #e6f2ed, ink #1f2a33, muted #66727c, lines #e3e7ea, page #eef1f3.
+.o_ea_arc {
+    --eaarc-green: #17694f;
+    --eaarc-pale: #e6f2ed;
+    --eaarc-ink: #1f2a33;
+    --eaarc-muted: #66727c;
+    --eaarc-line: #e3e7ea;
+    --eaarc-red: #b3261e;
+    --eaarc-amber: #8a5a00;
+    --eaarc-amber-bg: #fff4d6;
+
+    height: 100%;
+    overflow: auto;
+    padding: 16px;
+    background: #eef1f3;
+    color: var(--eaarc-ink);
+    font-size: 13px;
+
+    h1 { margin: 2px 0 0; font-size: 22px; font-weight: 700; }
+    h3 { font-size: 14px; font-weight: 700; margin: 0 0 10px; }
+    p { margin: 0 0 6px; }
+
+    .o_ea_arc_card { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+    .o_ea_arc_top { margin-bottom: 12px; }
+    .o_ea_arc_cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; align-items: start; }
+    .o_ea_arc_head { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: flex-end; }
+    .o_ea_arc_sub, .o_ea_arc_muted { color: var(--eaarc-muted); }
+    .o_ea_arc_muted { font-size: 12px; }
+    .o_ea_arc_stats {
+        display: flex; gap: 28px;
+        div { display: flex; flex-direction: column; }
+        b { font-size: 18px; }
+        b.is-green { color: var(--eaarc-green); }
+        span { color: var(--eaarc-muted); font-size: 12px; }
+    }
+
+    .o_ea_arc_check {
+        display: flex; gap: 8px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--eaarc-line);
+        .o_ea_arc_label { flex: 1; }
+        .o_ea_arc_codes { color: var(--eaarc-muted); }
+    }
+    .o_ea_arc_ok { color: var(--eaarc-green); font-weight: 700; }
+    .o_ea_arc_ko { color: var(--eaarc-red); font-weight: 700; }
+    .o_ea_arc_auto { color: var(--eaarc-muted); font-size: 11px; }
+    .o_ea_arc_fix { font-size: 12px; white-space: nowrap; }
+
+    .o_ea_arc_q { padding: 8px 0; border-bottom: 1px solid var(--eaarc-line); }
+    .o_ea_arc_qline { display: flex; gap: 10px; justify-content: space-between; align-items: center; }
+    .o_ea_arc_yn {
+        display: inline-flex; border: 1px solid var(--eaarc-line); border-radius: 6px; overflow: hidden; flex: none;
+        button { border: 0; background: #fff; padding: 3px 12px; color: var(--eaarc-muted); }
+        button.is-on { background: var(--eaarc-green); color: #fff; font-weight: 600; }
+        button.is-on.is-no { background: var(--eaarc-red); }
+    }
+    .o_ea_arc_note { margin-top: 6px; }
+    .o_ea_arc_need { font-size: 11px; font-weight: 600; color: var(--eaarc-red); margin-top: 2px; }
+    .o_ea_arc_need.is-muted { color: var(--eaarc-muted); }
+    .o_ea_arc_sign { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 14px; }
+
+    .o_ea_arc_info { margin-top: 10px; padding: 6px 10px; border-radius: 6px; background: #f3f5f6; color: var(--eaarc-muted); }
+    .o_ea_arc_warn { margin: 10px 0; padding: 8px 12px; border-radius: 6px; background: var(--eaarc-amber-bg); color: var(--eaarc-amber); font-weight: 600; }
+    .o_ea_arc_amber { color: var(--eaarc-amber); font-weight: 600; }
+    .o_ea_arc_banner { margin: 6px 0 10px; padding: 9px 14px; border-radius: 8px; background: #e8ecf4; color: #34405a; font-weight: 600; }
+    .o_ea_arc_buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .o_ea_arc_form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; textarea, input[type="text"] { flex: 1 1 260px; } }
+    .o_ea_arc_confirm { display: block; margin: 8px 0; input, textarea { margin-top: 4px; max-width: 320px; } }
+    .o_ea_arc_does { list-style: none; padding: 0; margin: 0; li { padding: 6px 0; border-bottom: 1px solid var(--eaarc-line); } }
+    .o_ea_arc_blocking { color: var(--eaarc-red); font-size: 12px; margin: 6px 0 4px 18px; }
+    .o_ea_arc_late { padding: 4px 0; }
+
+    .o_ea_arc_clock {
+        text-align: right; min-width: 220px;
+        b { font-size: 18px; }
+        &.is-green b { color: var(--eaarc-green); }
+        &.is-amber b { color: var(--eaarc-amber); }
+        &.is-red b { color: var(--eaarc-red); }
+    }
+    .o_ea_arc_track {
+        height: 8px; border-radius: 5px; background: #dfe5e8; overflow: hidden; margin-top: 6px;
+        i { display: block; height: 100%; background: var(--eaarc-green); }
+    }
+    .is-amber .o_ea_arc_track i { background: #d99a00; }
+    .is-red .o_ea_arc_track i { background: var(--eaarc-red); }
+
+    // figures and registers: the app's thin grid
+    .o_ea_arc_grid {
+        width: 100%; border-collapse: collapse;
+        th, td { border: 1px solid #dfe3e6; padding: 6px 8px; vertical-align: top; }
+        th { background: #f3f5f6; font-weight: 600; }
+    }
+}

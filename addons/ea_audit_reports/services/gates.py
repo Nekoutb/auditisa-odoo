@@ -37,13 +37,16 @@ GATE_LABELS = {
     "review_notes_cleared": ("Every review note cleared", "Chaque note de revue levée"),
     "review_approval": ("Review and approval summary concluded (C4.1)", "Récapitulatif de revue et d'approbation conclu (C4.1)"),
     "c62_checklist": ("Documentation and archive checklist concluded (C6.2)", "Liste de documentation et d'archivage conclue (C6.2)"),
+    "checklist_signed": ("Completion checklist signed by the partner: ready to issue (C6.1)", "Liste d'achèvement signée par l'associé : prêt à émettre (C6.1)"),
+    "assembly_confirmed": ("Signed documents filed and permanent file updated (C6.2)", "Documents signés classés et dossier permanent mis à jour (C6.2)"),
+    "ready_to_issue": ("Completion checklist signed by the partner: ready to issue (C6.1)", "Liste d'achèvement signée par l'associé : prêt à émettre (C6.1)"),
 }
 
 GROUP_OF = {
     "report_issued": "report",
     "tasks_addressed": "papers", "papers_signed": "papers", "reviews_complete": "papers",
     "eqr_complete": "review", "review_notes_cleared": "review", "review_approval": "review",
-    "c62_checklist": "assembly",
+    "c62_checklist": "assembly", "checklist_signed": "assembly", "assembly_confirmed": "assembly",
 }
 
 GROUPS = (

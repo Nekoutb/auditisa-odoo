@@ -30,6 +30,15 @@ MESSAGES = {
     "task-not-in-scope": _lt("This task is not in the file's scope."),
     "invalid-letter-kind": _lt("Choose a letter from those offered."),
     "reason-required": _lt("A reason is required."),
+    "note-required": _lt("Write a note with your answer: a note is required for every answer, Yes or No."),
+    "after-report-date": _lt("The report is dated: only assembly work is done now. To record new audit work, open 'Work after the report date' with its reason on the archive page (C6.2), then try again."),
+    "late-archive-reason": _lt("The 60-day assembly period has passed: give the reason for the late archive."),
+    "confirm-name-mismatch": _lt("Type the client's name exactly as shown to confirm the archive."),
+    "archive-engagement-partner-only": _lt("Only the engagement partner can archive this file."),
+    "not-archived": _lt("This file is not archived."),
+    "late-work-open": _lt("Work after the report date is already open on this file."),
+    "no-late-work": _lt("No work after the report date is open on this file."),
+    "retention-not-reached": _lt("This archived file is kept until the end of its retention period and cannot be deleted before."),
 }
 
 GATES_FAILED = _lt("These gates are not met: %(gates)s.")

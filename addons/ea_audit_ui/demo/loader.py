@@ -385,10 +385,17 @@ class _Demo:
         )
         for item in open_items.filtered(lambda i: i.code not in ("C6.1", "C6.2")).sorted(lambda i: i.code == "C4.1"):
             self.complete(item)
+        # C6.1: the team's thirteen confirmations, each with its note, then the partner's "ready to issue"
+        from odoo.addons.ea_audit_reports.services.archive_seal import ARCHIVE_CONFIRMS, QUESTIONS
+        for question in QUESTIONS:
+            as_senior.ea_checklist_answer(question["key"], "yes", _d("Reviewed with the file.", "Revu avec le dossier."))
+        as_partner.ea_sign_ready()
         as_partner.issue_report_from_form(report_date=report_date)
+        for confirm in ARCHIVE_CONFIRMS:
+            as_senior.ea_archive_confirm(confirm["key"], "yes", _d("Filed in the permanent file.", "Classé au dossier permanent."))
         for item in open_items.filtered(lambda i: i.code in ("C6.1", "C6.2")):
             self.complete(item)
-        as_partner.archive_engagement()
+        as_partner.archive_engagement(late_reason=_d("Demonstration file, archived when loaded.", "Dossier de démonstration, archivé au chargement."))
 
     def assess_cra(self, engagement):
         engagement._ea_sync_cra()

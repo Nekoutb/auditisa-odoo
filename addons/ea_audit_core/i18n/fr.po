@@ -5538,3 +5538,63 @@ msgstr "Constat %(ref)s rouvert : %(reason)s"
 #: code:addons/ea_audit_core/services/conditional_triggers.py:0
 msgid "No longer a paper of the file (owner's decision of 2026-11-16)"
 msgstr "N'est plus un papier du dossier (décision du 16/11/2026)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Finding recorded after the report date: %(what)s. Reason: %(why)s"
+msgstr "Constat enregistré après la date du rapport : %(what)s. Motif : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Misstatement recorded after the report date: %(what)s. Reason: %(why)s"
+msgstr "Anomalie enregistrée après la date du rapport : %(what)s. Motif : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Procedure concluded after the report date: %(what)s. Reason: %(why)s"
+msgstr "Procédure conclue après la date du rapport : %(what)s. Motif : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Archived after the assembly deadline. Reason: %(why)s"
+msgstr "Archivé après le délai d'assemblage. Motif : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Sealed copy made: %(count)s files, fingerprint %(sha)s"
+msgstr "Copie scellée constituée : %(count)s fichiers, empreinte %(sha)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Sealed copy downloaded"
+msgstr "Copie scellée téléchargée"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Addendum added after archiving: %(why)s"
+msgstr "Addendum ajouté après l'archivage : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Completion checklist signed by the partner: ready to issue"
+msgstr "Liste d'achèvement signée par l'associé : prêt à émettre"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Work after the report date opened. Reason: %(why)s"
+msgstr "Travaux après la date du rapport ouverts. Motif : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Work after the report date closed"
+msgstr "Travaux après la date du rapport clos"

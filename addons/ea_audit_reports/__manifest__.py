@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Reports",
     "summary": "Completion gates, opinion and auditor's report, letters, archive, retention and legal hold, export bundle",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
@@ -17,7 +17,12 @@
         "views/company_views.xml",
     ],
     "assets": {
-        "web.assets_backend": ["ea_audit_reports/static/src/scss/reports.scss"],
+        "web.assets_backend": [
+            "ea_audit_reports/static/src/scss/reports.scss",
+            "ea_audit_reports/static/src/scss/archive_pages.scss",
+            "ea_audit_reports/static/src/js/**/*",
+            "ea_audit_reports/static/src/xml/**/*",
+        ],
     },
     "post_init_hook": "post_init_hook",
     "application": False,

@@ -15,3 +15,14 @@ class AuditExport(http.Controller):
             ("Content-Disposition", http.content_disposition(filename)),
         ]
         return request.make_response(wrap_file(request.httprequest.environ, handle), headers=headers)
+
+    @http.route("/ea_audit/engagement/<int:engagement_id>/sealed-copy", type="http", auth="user", readonly=False)
+    def sealed_copy(self, engagement_id, **_kw):
+        """The sealed copy of an archived file, for the team; each download is in the access log."""
+        engagement = request.env["ea.audit.engagement"].browse(engagement_id)
+        filename, data = engagement.download_sealed_copy()
+        headers = [
+            ("Content-Type", "application/zip"),
+            ("Content-Disposition", http.content_disposition(filename)),
+        ]
+        return request.make_response(data, headers=headers)

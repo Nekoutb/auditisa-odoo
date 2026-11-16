@@ -13,6 +13,9 @@ ARCHIVE_EXEMPT = (
     "ea_audit_activity",
     # the state of a screen, one row a person: reading an archived ledger still needs it
     "ea_audit_gl_console",
+    # ISA 230 ¶16: an addendum and the access log are written on an archived file; each table
+    # carries its own insert-only trigger instead (archive.py)
+    "ea_audit_archive_addendum", "ea_audit_archive_access",
 )
 _FILE_ITEM_WORK = "state, conditional, not_applicable, na_reason, preparer_id, approver_id, assignee_id, due_date"
 
@@ -215,7 +218,7 @@ class IrAttachment(models.Model):
 
     def _ea_assert_not_sealed(self):
         for attachment in self.sudo():
-            if attachment.res_model == "ea.audit.archive.manifest":
+            if attachment.res_model in ("ea.audit.archive.manifest", "ea.audit.archive.seal", "ea.audit.archive.addendum"):
                 raise rule_error(self.env, "archived")
             if attachment.res_model == "ea.audit.document.version" and attachment.res_id:
                 version = self.env["ea.audit.document.version"].sudo().browse(attachment.res_id).exists()
