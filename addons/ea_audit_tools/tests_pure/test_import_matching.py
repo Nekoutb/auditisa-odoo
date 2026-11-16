@@ -197,3 +197,44 @@ def test_the_check_of_a_sub_ledger():
     assert (found["fileRows"], found["total"], found["header"]) == (4, 350.5, "Montant")
     assert found["unreadable"] == [{"row": 3, "value": "n/d"}]
     assert amount_check(table, {})["total"] is None
+
+
+# ---- the fixed asset register's mandatory columns (owner's request of 2026-11-16) ----------
+
+def test_the_register_needs_its_category_acquisition_date_and_rate():
+    from services.import_matching import missing_fields as missing
+    base = {"item": "N", "itemDescription": "D", "amount": "C"}
+    assert [f["key"] for f in missing("fixed_asset_register", base)] == ["category", "acquisitionDate", "depreciationRate"]
+    full = dict(base, category="Cat", acquisitionDate="Dt", depreciationRate="T")
+    assert missing("fixed_asset_register", full) == []
+    labels = {f["key"]: (f["en"], f["fr"]) for f in fields_of("fixed_asset_register")}
+    assert labels["category"] == ("Category", "Catégorie")
+    assert "optionnel" not in labels["depreciationRate"][1] and "optional" not in labels["acquisitionDate"][0]
+
+
+def test_an_exact_title_of_an_added_column_is_not_taken_by_a_loose_guess():
+    from services.dataset_mapping import guess_map
+    headers = ["Code", "Désignation", "Date de mise en service", "Valeur brute", "Taux d'amortissement", "Amortissements cumulés", "Famille"]
+    mapping = guess_map("fixed_asset_register", headers)
+    assert mapping["depreciationRate"] == "Taux d'amortissement"
+    assert mapping["depreciation"] == "Amortissements cumulés"
+    assert (mapping["acquisitionDate"], mapping["category"]) == ("Date de mise en service", "Famille")
+
+
+def test_a_rate_is_a_percentage_and_a_fraction_reads_as_one():
+    from services.import_matching import depreciation_rate
+    assert [depreciation_rate(v) for v in ("20%", "20 %", "20", "0,2", 0.2, "12,5", "1%", 0)] == [20, 20, 20, 20, 20, 12.5, 1, 0]
+    assert [depreciation_rate(v) for v in ("150", "-5", "n/d", "", None)] == [None] * 5
+
+
+def test_the_register_rows_are_checked_one_by_one():
+    from services.import_matching import far_check
+    mapping = {"category": "Cat", "acquisitionDate": "Dt", "depreciationRate": "T"}
+    rows = [
+        {"Cat": "Bâtiments", "Dt": "15/03/2020", "T": "5%"},
+        {"Cat": " ", "Dt": "31/03/2026", "T": "0,2"},
+        {"Cat": "Info", "Dt": "n/d", "T": "150"},
+    ]
+    found = far_check({"headers": list(mapping.values()), "rows": rows}, mapping, "2025-12-31")
+    rows_of = {key: [item["row"] for item in items] for key, items in found.items()}
+    assert rows_of == {"noCategory": [2], "badDate": [3], "futureDate": [2], "badRate": [3], "fractionRate": [2]}

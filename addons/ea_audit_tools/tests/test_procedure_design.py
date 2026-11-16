@@ -154,6 +154,21 @@ class TestProcedureDesign(ProcedureDesignCase):
         focus = self.as_staff.ea_procedure_open("sample", run.id)
         self.assertEqual(focus["params"]["focus"], "tod:%d" % run.id)
 
+    def test_draw_the_sample_opens_a_wizard_the_web_client_can_show_and_it_draws(self):
+        # Odoo 19's doAction reads action.views: without it, "Oops" (owner's report, 2026-11-16)
+        self.as_staff.ea_procedure_choose("E", "E-A2", True)
+        proc = self.proc("E-A2")
+        self.as_staff.create_dataset("ar_open_items", "ar.csv", to_bytes(AR_CSV), mapping=AR_MAPPING)
+        action = self.as_staff.ea_procedure_draw(proc.id)
+        self.assertEqual([tuple(view) for view in action["views"]], [(False, "form")])
+        wizard = self.env[action["res_model"]].with_user(self.staff).with_context(**action["context"]).create({
+            "method": "random", "sample_size": 1, "seed": "abc",
+        })
+        self.assertEqual(wizard.designed_procedure_id, proc)
+        wizard.action_run()
+        run = proc.sudo().run_ids
+        self.assertEqual((len(run), run.method, len(run.sheet_rows)), (1, "random", 1))
+
     def test_generated_steps_come_from_the_design(self):
         from odoo.addons.ea_audit_tools.services.lead_classes import INDEX_SECTION
 

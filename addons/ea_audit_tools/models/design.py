@@ -550,7 +550,7 @@ class ProgramStepActions(models.Model):
     def _ea_program_wizard(self, mode):
         engagement = self._ea_context_engagement()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("Audit programs"), "res_model": "ea.audit.program.wizard", "view_mode": "form",
+            "type": "ir.actions.act_window", "name": self.env._("Audit programs"), "res_model": "ea.audit.program.wizard", "view_mode": "form", "views": [(False, "form")],
             "target": "new", "context": {"default_engagement_id": engagement.id, "default_mode": mode},
         }
 
@@ -561,7 +561,7 @@ class DspListActions(models.Model):
     def action_list_add_osp(self):
         engagement = self._ea_context_engagement()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("Add another substantive procedure"), "res_model": "ea.audit.osp.wizard", "view_mode": "form",
+            "type": "ir.actions.act_window", "name": self.env._("Add another substantive procedure"), "res_model": "ea.audit.osp.wizard", "view_mode": "form", "views": [(False, "form")],
             "target": "new", "context": {"default_engagement_id": engagement.id},
         }
 

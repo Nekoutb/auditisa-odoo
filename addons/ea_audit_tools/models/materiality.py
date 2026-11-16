@@ -297,7 +297,7 @@ class EngagementMateriality(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("Generate a materiality version"),
             "res_model": "ea.audit.materiality.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_engagement_id": self.id},
         }

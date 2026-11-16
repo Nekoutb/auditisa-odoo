@@ -699,7 +699,7 @@ class EngagementTb(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("Import a trial balance"),
             "res_model": "ea.audit.import.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_engagement_id": self.id, "default_kind": TB_KIND, "dialog_size": "extra-large"},
         }

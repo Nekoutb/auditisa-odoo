@@ -399,7 +399,7 @@ class PlatformProvisionJob(models.Model):
         firm.write({"last_heartbeat_at": False, "last_heartbeat_timestamp": 0, "addon_release": False})
         job = self._start(firm)
         job._run()
-        return {"type": "ir.actions.act_window", "res_model": self._name, "res_id": job.id, "view_mode": "form"}
+        return {"type": "ir.actions.act_window", "res_model": self._name, "res_id": job.id, "view_mode": "form", "views": [(False, "form")]}
 
 
 class PlatformProvisionStep(models.Model):

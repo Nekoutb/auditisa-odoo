@@ -158,6 +158,8 @@ _ENTRIES = (
      _lt("Substantive procedure %(index)s %(code)s: %(count)s entries selected around year end")],
     [r"^Procedure (?P<index>\S+) (?P<code>\S+): (?P<count>\d+) test counts drawn from the inventory listing$",
      _lt("Substantive procedure %(index)s %(code)s: %(count)s test counts drawn from the inventory listing")],
+    [r"^Procedure (?P<index>\S+) (?P<code>\S+): (?P<count>\d+) additions and disposals drawn from the register$",
+     _lt("Substantive procedure %(index)s %(code)s: %(count)s additions and disposals drawn from the register")],
     [r"^(?P<code>\S+): (?P<count>\d+) signature\(s\) to give again$",
      _lt("%(code)s: %(count)s signature(s) to give again")],
     [r"^ISA 265 deficiency evaluated on C5\.11: graded (?P<status>\w+), communicated in writing on (?P<date>\S+) \(was (?P<word>\w+)\)$",

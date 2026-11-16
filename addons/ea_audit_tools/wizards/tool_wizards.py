@@ -195,7 +195,7 @@ class ReasonWizard(models.TransientModel):
             "type": "ir.actions.act_window",
             "name": self.env._("A written reason"),
             "res_model": self._name,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_kind": kind, "default_record_id": record.id},
         }
@@ -250,7 +250,7 @@ class ToolListActions(models.AbstractModel):
             "type": "ir.actions.act_window",
             "name": self.env._("Import from Excel"),
             "res_model": "ea.audit.tool.import.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_engagement_id": engagement.id, "default_kind": self._ea_export_kind()},
         }
@@ -261,7 +261,7 @@ class ToolListActions(models.AbstractModel):
             "type": "ir.actions.act_window",
             "name": self.env._("Add a risk"),
             "res_model": "ea.audit.risk.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_engagement_id": engagement.id},
         }

@@ -247,7 +247,7 @@ class PlatformPipelineStage(models.Model):
             return False
         self.env["platform.pipeline.guard"]._require_owner()
         return {
-            "type": "ir.actions.act_window", "res_model": "platform.pipeline.promotion", "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": "platform.pipeline.promotion", "view_mode": "form", "views": [(False, "form")],
             "target": "current", "name": t(self.env, _("New promotion")),
         }
 

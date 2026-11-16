@@ -131,6 +131,6 @@ class TieoutWizard(models.TransientModel):
             return {"type": "ir.actions.client", "tag": "soft_reload"}
         self.result_html = engagement._ea_tieout_html(result)
         return {
-            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form",
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "views": [(False, "form")],
             "target": "new", "name": self.env._("Tie-out against the client's statements"),
         }

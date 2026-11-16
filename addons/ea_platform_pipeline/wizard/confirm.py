@@ -75,7 +75,7 @@ class PlatformPipelineConfirm(models.TransientModel):
     def _as_action(self, wizard):
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": wizard.id,
-            "view_mode": "form", "target": "new", "name": dict(self._fields["action"]._description_selection(self.env)).get(wizard.action),
+            "view_mode": "form", "views": [(False, "form")], "target": "new", "name": dict(self._fields["action"]._description_selection(self.env)).get(wizard.action),
         }
 
     def action_confirm(self):
@@ -95,7 +95,7 @@ class PlatformPipelineConfirm(models.TransientModel):
             rebuild = self.env["platform.pipeline.rebuild"]._open_request(self.source_firm_id, reason)
             return {
                 "type": "ir.actions.act_window", "res_model": "platform.pipeline.rebuild", "res_id": rebuild.id,
-                "view_mode": "form", "target": "current",
+                "view_mode": "form", "views": [(False, "form")], "target": "current",
             }
         elif self.action == "rebuilt":
             self.rebuild_id._confirmed_rebuilt(reason)

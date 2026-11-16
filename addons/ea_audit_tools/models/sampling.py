@@ -575,7 +575,7 @@ class EngagementSampling(models.Model):
     def _ea_action_wizard(self, model, name):
         self.ensure_one()
         self._ea_require_access()
-        return {"type": "ir.actions.act_window", "name": name, "res_model": model, "view_mode": "form", "target": "new", "context": {"default_engagement_id": self.id}}
+        return {"type": "ir.actions.act_window", "name": name, "res_model": model, "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.id}}
 
     def action_open_tod_wizard(self):
         return self._ea_action_wizard("ea.audit.tod.wizard", self.env._("Tests of details: plan"))

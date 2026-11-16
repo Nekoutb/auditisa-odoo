@@ -1,4 +1,5 @@
 import json
+from datetime import date
 
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup
@@ -9,11 +10,13 @@ from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 
 from ..rules import rule_error
 from ..services.amount import parse_amount
-from ..services.dataset_mapping import auto_map, auto_map_extra
+from ..services.dataset_mapping import guess_map
 from ..services.errors import ServiceError
 from ..services._js import format_fr
 from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, nf, population_checks, projector
-from ..services.import_matching import BALANCE_TOLERANCE, amount_check, apply_reading_options, clean_mapping, gl_population, missing_fields
+from ..services.import_matching import (
+    BALANCE_TOLERANCE, amount_check, apply_reading_options, clean_mapping, far_check, gl_population, missing_fields,
+)
 from ..services.subledger_kinds import SUB_LEDGER_KINDS, is_sub_ledger_kind
 from ..services.subledgers import detect_amount_column
 from ..services.subsequent import SUBSEQUENT, SUBSEQUENT_KINDS
@@ -167,7 +170,7 @@ class Dataset(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("Import data"),
             "res_model": "ea.audit.import.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {
                 "default_engagement_id": engagement.id,
@@ -266,14 +269,14 @@ class EngagementDataset(models.Model):
             samples[header] = values
         return {
             "headers": table["headers"], "headerSamples": samples, "rowCount": len(table["rows"]),
-            "mapping": auto_map(kind, table["headers"]),
+            "mapping": guess_map(kind, table["headers"]),
         }
 
     def _ea_dataset_read(self, kind, filename, content, mapping, header_row, options):
         """The file as the import will take it: (table, mapping). Refuses a matching that leaves a
         mandatory field out, here and not only on the screen. Writes nothing."""
         table = self._ea_parse(filename, content, header_row, options)
-        mapping = mapping or auto_map_extra(kind, table["headers"], auto_map(kind, table["headers"]))
+        mapping = mapping or guess_map(kind, table["headers"])
         if missing_fields(kind, clean_mapping(kind, mapping, table["headers"])):
             raise rule_error(self.env, "mapping-incomplete")
         apply_reading_options(table, kind, mapping, (options or {}).get("decimal"), (options or {}).get("date_format"))
@@ -371,10 +374,46 @@ class EngagementDataset(models.Model):
                 "The column \"%(column)s\" holds something that is not an amount, for instance \"%(value)s\". These lines count for nothing in the total.",
                 column=found["header"], value=found["unreadable"][0]["value"],
             )})
+        if kind == "fixed_asset_register":
+            issues += self._ea_far_issues(table, mapping)
         return {
             "kind": kind, "fileRows": found["fileRows"], "rows": found["fileRows"], "leftOut": 0,
             "total": found["total"] or 0, "balanced": None, "issues": issues, "blocking": False,
         }
+
+    def _ea_far_issues(self, table, mapping):
+        """The register's mandatory values, row by row, shown without stopping the file like the
+        other checks of a sub-ledger (owner's request of 2026-11-16)."""
+        period_end = self.sudo().period_end
+        found = far_check(table, mapping, period_end.isoformat() if period_end else None)
+        issues = []
+
+        def add(key, text):
+            if found[key]:
+                issues.append({"effect": "warning", "rows": [row["row"] for row in found[key]], "text": text})
+
+        add("noCategory", self.env._("%(count)s lines have no category.", count=len(found["noCategory"])))
+        if found["badDate"]:
+            add("badDate", self.env._(
+                "%(count)s lines have no readable acquisition date, for instance \"%(value)s\".",
+                count=len(found["badDate"]), value=found["badDate"][0]["value"],
+            ))
+        if found["futureDate"]:
+            add("futureDate", self.env._(
+                "%(count)s lines have an acquisition date after the year end, for instance %(value)s.",
+                count=len(found["futureDate"]), value=french_date(date.fromisoformat(found["futureDate"][0]["value"])),
+            ))
+        if found["badRate"]:
+            add("badRate", self.env._(
+                "%(count)s lines have no readable depreciation rate between 0 and 100%%, for instance \"%(value)s\".",
+                count=len(found["badRate"]), value=found["badRate"][0]["value"],
+            ))
+        if found["fractionRate"]:
+            add("fractionRate", self.env._(
+                "%(count)s rates are written as a fraction, for instance \"%(value)s\": they are read as a percentage (0.2 reads 20%%).",
+                count=len(found["fractionRate"]), value=found["fractionRate"][0]["value"],
+            ))
+        return issues
 
     def create_dataset(self, kind, filename, content, mapping=None, timing="pre_audit", header_row=True, options=None, remember=False):
         """createDataset. The confirmed amount column wins over the guess; a ledger stating value

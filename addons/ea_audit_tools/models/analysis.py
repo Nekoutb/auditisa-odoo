@@ -90,7 +90,7 @@ class WpTemplate(models.Model):
     def action_open_assign(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("Assign to a task"), "res_model": "ea.audit.wp.assign.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "name": self.env._("Assign to a task"), "res_model": "ea.audit.wp.assign.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_template_id": self.id, "default_engagement_id": self.env.context.get("ea_engagement_id")},
         }
 

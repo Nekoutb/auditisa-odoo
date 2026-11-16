@@ -747,6 +747,7 @@ msgstr "Amortissements des immobilisations incorporelles"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__amount
 #: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Amount"
 msgstr "Montant"
 
@@ -1501,9 +1502,11 @@ msgid "Check the procedure: wording up to 800 characters, values from the option
 msgstr "Vérifiez la procédure : libellé de 800 caractères au plus, valeurs parmi les options proposées, 20 par compte au plus."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_version__checks_text
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__lead_checks_html
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Checks"
 msgstr "Contrôles"
 
@@ -2695,6 +2698,7 @@ msgstr "Écarts"
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__difference
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Difference"
 msgstr "Écart"
 
@@ -2962,6 +2966,7 @@ msgstr "Historique des tirages"
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
 #: code:addons/ea_audit_tools/models/procedure_design.py:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Draw the sample"
 msgstr "Tirer l'échantillon"
 
@@ -4691,6 +4696,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_accept_wizard__item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_upload_wizard__item_id
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Item"
 msgstr "Élément"
 
@@ -5750,6 +5756,7 @@ msgstr "Multiple de"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_5__na
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
 #: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "N/A"
 msgstr "S.O."
 
@@ -5864,6 +5871,7 @@ msgstr "Suivant"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__wt_implemented__no
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__implemented__no
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "No"
 msgstr "Non"
 
@@ -6030,6 +6038,7 @@ msgstr "Non corroborée"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_wizard__note
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__note
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Note"
 msgstr "Note"
 
@@ -6225,6 +6234,7 @@ msgstr "Ouvrir les lignes"
 #. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tb_line__opening
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -9650,6 +9660,7 @@ msgstr "Feuille de travail"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__wt_implemented__yes
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__implemented__yes
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Yes"
 msgstr "Oui"
 
@@ -12349,6 +12360,7 @@ msgstr "Aucune écriture n'est retenue : activez un critère."
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Date"
 msgstr "Date"
 
@@ -12556,6 +12568,7 @@ msgstr "Remettre à lever"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Raise a finding"
 msgstr "Ouvrir un constat"
 
@@ -15157,24 +15170,28 @@ msgstr "Données manquantes : le fichier des immobilisations de l'exercice n'est
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "Additions"
 msgstr "Acquisitions"
 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "Disposals"
 msgstr "Cessions"
 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "Depreciation"
 msgstr "Amortissements"
 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "Closing per register"
 msgstr "Clôture selon le fichier"
 
@@ -15692,3 +15709,299 @@ msgstr "Ouvrir le sommaire"
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_finding_adjustment
 msgid "Finding adjustment line"
 msgstr "Ligne d'ajustement d'un constat"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have no category."
+msgstr "%(count)s lignes n'ont pas de catégorie."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have no readable acquisition date, for instance \"%(value)s\"."
+msgstr "%(count)s lignes n'ont pas de date d'acquisition lisible, par exemple « %(value)s »."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have an acquisition date after the year end, for instance %(value)s."
+msgstr "%(count)s lignes ont une date d'acquisition postérieure à la clôture, par exemple %(value)s."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s lines have no readable depreciation rate between 0 and 100%%, for instance \"%(value)s\"."
+msgstr "%(count)s lignes n'ont pas de taux d'amortissement lisible entre 0 et 100 %%, par exemple « %(value)s »."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/dataset.py:0
+msgid "%(count)s rates are written as a fraction, for instance \"%(value)s\": they are read as a percentage (0.2 reads 20%%)."
+msgstr "%(count)s taux sont écrits en fraction, par exemple « %(value)s » : ils sont lus en pourcentage (0,2 se lit 20 %%)."
+
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Data missing: the fixed asset register of the year is not uploaded yet. Upload it with its categories, acquisition dates and depreciation rates."
+msgstr "Données manquantes : le fichier des immobilisations de l'exercice n'est pas encore importé. Importez-le avec ses catégories, dates d'acquisition et taux d'amortissement."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "The register in use was uploaded without its acquisition dates or depreciation rates. Upload it again with these columns: they are now required."
+msgstr "Le fichier des immobilisations utilisé a été importé sans ses dates d'acquisition ou ses taux d'amortissement. Importez-le de nouveau avec ces colonnes : elles sont désormais obligatoires."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Per ledger"
+msgstr "Selon le grand livre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Depreciation of the year"
+msgstr "Dotation de l'exercice"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Difference with the charge worked out"
+msgstr "Écart avec la dotation calculée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Worked out from the register's dates and rates"
+msgstr "Calculée à partir des dates et taux du fichier"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Per the register's own column"
+msgstr "Selon la colonne du fichier"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Per the ledger (depreciation expense 681)"
+msgstr "Selon le grand livre (dotations 681)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "This part agrees with the general ledger."
+msgstr "Cette partie concorde avec le grand livre."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "A difference remains with the general ledger. Explain it below, or raise a finding."
+msgstr "Un écart subsiste avec le grand livre. Expliquez-le ci-dessous, ou relevez un constat."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "(required while a difference remains)"
+msgstr "(obligatoire tant qu'un écart subsiste)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Some categories carry no general ledger account of their own: they are compared in total only. Map the \"General ledger account\" column of the register to compare each category."
+msgstr "Certaines catégories n'ont pas de compte du grand livre propre : elles ne sont comparées qu'en total. Associez la colonne « Compte du grand livre » du fichier pour comparer chaque catégorie."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "and the general ledger classes 21 to 25, 28, 29 and 681."
+msgstr "et les classes 21 à 25, 28, 29 et 681 du grand livre."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Additions and disposals of the year, vouched"
+msgstr "Acquisitions et cessions de l'exercice, rapprochées des pièces"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Data missing: the fixed asset register of the year is not uploaded yet. Upload it with its acquisition and disposal dates to draw the sample."
+msgstr "Données manquantes : le fichier des immobilisations de l'exercice n'est pas encore importé. Importez-le avec ses dates d'acquisition et de cession pour tirer l'échantillon."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "The sample is frozen: an item is already answered."
+msgstr "L'échantillon est figé : un élément a déjà une réponse."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "The population is the register's additions (acquired in the year) and disposals (disposed of in the year). Every item above the key-item threshold is taken, then a sample of the rest sized by the combined risk of the account and performance materiality. It also shows on the Sampling page."
+msgstr "La population est faite des acquisitions (acquises dans l'exercice) et des cessions (cédées dans l'exercice) du fichier. Tout élément au-dessus du seuil des éléments clés est retenu, puis un échantillon du reste, dimensionné selon le risque combiné du compte et le seuil de signification de planification. Il apparaît aussi sur la page Échantillonnage."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Cost"
+msgstr "Coût"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "· key item"
+msgstr "· élément clé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "1. Gross book value (cost)"
+msgstr "1. Valeur brute (coût)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "against classes 21 to 25"
+msgstr "comparée aux classes 21 à 25"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "2. Accumulated depreciation"
+msgstr "2. Amortissements cumulés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "against classes 28 and 29"
+msgstr "comparés aux classes 28 et 29"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Charge of the year"
+msgstr "Dotation de l'exercice"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "On disposals"
+msgstr "Sur cessions"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "3. Net book value"
+msgstr "3. Valeur nette comptable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "(1) − (2) against the ledger's net"
+msgstr "(1) − (2) comparée au net du grand livre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Net book value per register"
+msgstr "Valeur nette selon le fichier"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Worked out from each asset's acquisition date, cost, depreciation rate and disposal date, for the year from %(start)s to %(end)s. Straight-line depreciation, pro rata to the days held."
+msgstr "Calculé à partir de la date d'acquisition, du coût, du taux d'amortissement et de la date de cession de chaque immobilisation, pour l'exercice du %(start)s au %(end)s. Amortissement linéaire, au prorata des jours de détention."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%(count)s assets have no readable acquisition date, depreciation rate or cost and are left out (file lines %(rows)s)."
+msgstr "%(count)s immobilisations n'ont pas de date d'acquisition, de taux d'amortissement ou de coût lisible et sont écartées (lignes du fichier %(rows)s)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Addition"
+msgstr "Acquisition"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Disposal"
+msgstr "Cession"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The asset exists (seen, or evidence of it)"
+msgstr "L'immobilisation existe (vue, ou preuve de son existence)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "The cost agrees to the invoice or contract"
+msgstr "Le coût concorde avec la facture ou le contrat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Recorded in the right period"
+msgstr "Comptabilisée dans le bon exercice"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Category and depreciation rate as per the policy"
+msgstr "Catégorie et taux d'amortissement conformes à la politique"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Rightly capitalised, not an expense"
+msgstr "À juste titre immobilisée, pas une charge"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Authorised"
+msgstr "Autorisée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Removed from the register"
+msgstr "Sortie du fichier"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Proceeds received and recorded"
+msgstr "Prix de cession reçu et comptabilisé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Gain or loss rightly worked out"
+msgstr "Plus ou moins-value correctement calculée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%(size)s of %(population)s items (%(additions)s additions, %(disposals)s disposals), %(keys)s key items · combined risk %(cra)s · drawn on %(date)s"
+msgstr "%(size)s sur %(population)s éléments (%(additions)s acquisitions, %(disposals)s cessions), %(keys)s éléments clés · risque combiné %(cra)s · tiré le %(date)s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "Proceeds %(proceeds)s · net book value at disposal %(nbv)s · gain or loss %(gain)s"
+msgstr "Prix de cession %(proceeds)s · valeur nette à la cession %(nbv)s · plus ou moins-value %(gain)s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%(side)s %(item)s: not satisfied: %(checks)s"
+msgstr "%(side)s %(item)s : non satisfait : %(checks)s"

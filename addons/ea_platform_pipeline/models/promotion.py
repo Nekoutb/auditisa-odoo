@@ -284,7 +284,7 @@ class PlatformPipelinePromotion(models.Model):
         )
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": rollback.id,
-            "view_mode": "form", "target": "current",
+            "view_mode": "form", "views": [(False, "form")], "target": "current",
         }
 
 

@@ -374,6 +374,26 @@ class TestCheck(ImportCase):
         self.assertEqual((dataset.row_count, dataset.total_amount), (check["rows"], check["total"]))
 
 
+    def test_the_register_needs_its_category_date_and_rate_and_checks_them(self):
+        head = "Code;Designation;Categorie;Date d'acquisition;Taux d'amortissement;Cout\n"
+        rows = "I1;Siege;Batiments;15/03/2020;5%;4000\nI2;Camion;;31/03/2026;0,2;900\nI3;Poste;Info;n/d;150;300\n"
+        base = {"item": "Code", "itemDescription": "Designation", "amount": "Cout"}
+        self.assertCode("mapping-incomplete", self.as_staff.create_dataset, "fixed_asset_register", "f.csv", to_bytes(head + rows), mapping=base)
+        self.assertCode("mapping-incomplete", self.as_staff.ea_import_check, "fixed_asset_register", "f.csv", to_bytes(head + rows), dict(base, category="Categorie"))
+        check = self.as_staff.ea_import_check("fixed_asset_register", "f.csv", to_bytes(head + rows), None)
+        self.assertFalse(check["blocking"])
+        warned = [issue["rows"] for issue in check["issues"]]
+        # file rows (the titles are row 1): no category on row 3, an unreadable date on row 4, a date after
+        # the year end on row 3, a rate out of range on row 4, a rate written as a fraction on row 3
+        self.assertEqual(warned, [[3], [4], [3], [4], [3]])
+        result = self.as_staff.create_dataset("fixed_asset_register", "f.csv", to_bytes(head + rows))
+        dataset = self.env["ea.audit.dataset"].sudo().browse(result["datasetId"])
+        self.assertEqual((dataset.mapping["acquisitionDate"], dataset.mapping["depreciationRate"]), ("Date d'acquisition", "Taux d'amortissement"))
+        _name, content = self.engagement.sudo()._ea_export_dataset_template("fixed_asset_register", False)
+        values = [cell.value for row in load_workbook(io.BytesIO(content)).active.iter_rows() for cell in row]
+        self.assertTrue({"Category", "Acquisition date", "Depreciation rate (% per year)"} <= set(values))
+
+
 @tagged("post_install", "-at_install")
 class TestRefused(ImportCase):
     def test_a_file_that_fails_saves_nothing_and_leaves_no_line_in_the_log(self):

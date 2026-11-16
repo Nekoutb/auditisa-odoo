@@ -167,7 +167,7 @@ class PlatformRelease(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env["ir.model"]._get("platform.catalogue.wizard").name,
             "res_model": "platform.catalogue.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {"default_release_id": self.id},
         }
@@ -215,7 +215,7 @@ class PlatformFirmAddon(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env["ir.model"]._get("platform.addon.toggle.wizard").name,
             "res_model": "platform.addon.toggle.wizard",
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "target": "new",
             "context": {
                 "default_firm_id": self.firm_id.id, "default_addon_id": self.addon_id.id, "default_target": target,

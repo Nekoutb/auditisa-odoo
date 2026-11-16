@@ -10,7 +10,7 @@ import re
 
 from ._js import cell_str, is_number, js_str, js_trim, u16_slice
 from .amount import parse_amount
-from .dataset_mapping import JE_KEY, all_fields, auto_map, auto_map_extra, encode_je_key, je_key_columns, norm
+from .dataset_mapping import JE_KEY, all_fields, encode_je_key, guess_map, je_key_columns, norm
 from .gl_line import TOLERANCE, mapped_fields, parse_date_iso, population_checks, projector
 from .subledger_kinds import SUB_LEDGER_KINDS
 from .subledgers import source_row_of
@@ -55,9 +55,9 @@ SKIP_LABEL = {"en": "Do not import", "fr": "Ne pas importer"}
 
 _AMOUNT_KEYS = {
     "openingDebit", "openingCredit", "opening", "debit", "credit", "closingDebit", "closingCredit", "closing",
-    "amount", "quantity", "unitPrice", "depreciation", "nbv", "net",
+    "amount", "quantity", "unitPrice", "depreciation", "nbv", "net", "proceeds",
 }
-_DATE_KEYS = {"date", "journalDate", "jeDate"}
+_DATE_KEYS = {"date", "journalDate", "jeDate", "acquisitionDate", "disposalDate"}
 
 #: How far a ledger's debits may be from its credits, in total and per entry, before it is refused:
 #: the trial balance's own tolerance (owner's ruling of 2026-11-15, "an unbalanced general ledger
@@ -205,7 +205,7 @@ def detect_mapping(kind, table, remembered=None):
             if by_values.get(key) and not guessed.get(key):
                 guessed[key] = by_values[key]
     else:
-        named = auto_map_extra(kind, free, auto_map(kind, free, mapping))
+        named = guess_map(kind, free, mapping)
         guessed = named
     for key, header in guessed.items():
         if key == JE_KEY or header in sources:
@@ -386,3 +386,56 @@ def amount_check(table, mapping):
         elif value is not None and js_trim(js_str(value)) != "":
             unreadable.append({"row": _file_row(raw, position), "value": u16_slice(js_str(value), 0, 40)})
     return {"fileRows": len(table["rows"]), "total": total, "header": header, "unreadable": unreadable}
+
+
+def _rate_read(value):
+    """(percentage, read as a fraction) of a rate cell; (None, False) when it holds none."""
+    parsed = parse_amount(value)
+    if parsed is None or parsed < 0:
+        return None, False
+    fraction = parsed <= 1 and parsed != 0 and "%" not in js_str(value)
+    rate = parsed * 100 if fraction else parsed
+    return (rate, fraction) if rate <= 100 else (None, False)
+
+
+def depreciation_rate(value):
+    """A depreciation rate as a percentage per year, None when the cell holds none or holds
+    something outside 0-100. "20", "20 %" and "20%" read 20; a value of 1 or less written
+    without "%" is a fraction ("0.2", "0,2", or an Excel cell formatted as a percentage) and
+    reads 20 (owner's request of 2026-11-16)."""
+    return _rate_read(value)[0]
+
+
+def _blank(value):
+    return value is None or js_trim(js_str(value)) == ""
+
+
+def far_check(table, mapping, period_end=None):
+    """The fixed asset register's three mandatory values, row by row (owner's request of
+    2026-11-16): the file rows with no category, with no readable acquisition date, with a date
+    after the year end (``period_end``, ISO), with no readable rate or a rate outside 0-100, and
+    those whose rate was written as a fraction. Each list holds {row, value}."""
+    category, date_col, rate_col = (mapping or {}).get("category"), (mapping or {}).get("acquisitionDate"), (mapping or {}).get("depreciationRate")
+    found = {"noCategory": [], "badDate": [], "futureDate": [], "badRate": [], "fractionRate": []}
+
+    def note(key, raw, position, value):
+        found[key].append({"row": _file_row(raw, position), "value": u16_slice(js_str(value), 0, 40) if value is not None else ""})
+
+    for position, raw in enumerate(table["rows"]):
+        if category and _blank(raw.get(category)):
+            note("noCategory", raw, position, None)
+        if date_col:
+            value = raw.get(date_col)
+            iso = parse_date_iso(value)
+            if iso is None:
+                note("badDate", raw, position, value)
+            elif period_end and iso > period_end:
+                note("futureDate", raw, position, iso)
+        if rate_col:
+            value = raw.get(rate_col)
+            rate, fraction = _rate_read(value)
+            if rate is None:
+                note("badRate", raw, position, value)
+            elif fraction:
+                note("fractionRate", raw, position, value)
+    return found

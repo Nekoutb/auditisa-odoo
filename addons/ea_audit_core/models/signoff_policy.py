@@ -153,7 +153,7 @@ class SignoffPolicy(models.Model):
             "type": "ir.actions.act_window",
             "name": self.env._("Sign-off policy"),
             "res_model": self._name,
-            "view_mode": "form",
+            "view_mode": "form", "views": [(False, "form")],
             "res_id": policy.id or False,
             "target": "current",
         }

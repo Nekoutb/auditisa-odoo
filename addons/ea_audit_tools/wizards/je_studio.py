@@ -86,7 +86,7 @@ class JeStudio(models.TransientModel):
     def _ea_reopen(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "target": "current",
+            "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form", "views": [(False, "form")], "target": "current",
             "name": self.env._("Journal entries: risk-directed selection"), "context": {"ea_engagement_id": self.engagement_id.id},
         }
 

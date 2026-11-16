@@ -679,7 +679,7 @@ class PlatformEnvironment(models.Model):
             if self.code == "production" and not self._production_firms():
                 raise UserError(t(env, _("There is no client firm yet: nothing to connect to.")))
             wizard = env["platform.environment.connect"].create({"environment_id": self.id})
-            return {"type": "ir.actions.act_window", "res_model": wizard._name, "res_id": wizard.id, "view_mode": "form",
+            return {"type": "ir.actions.act_window", "res_model": wizard._name, "res_id": wizard.id, "view_mode": "form", "views": [(False, "form")],
                     "target": "new", "name": t(env, _("Connect to %(environment)s", environment=self.name))}
         raise UserError(t(env, _("Development has no server: there is nothing to connect to.")))
 

@@ -147,21 +147,21 @@ class PbcItem(models.Model):
     def action_open_accept(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("File the upload"), "res_model": "ea.audit.pbc.accept.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "name": self.env._("File the upload"), "res_model": "ea.audit.pbc.accept.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_item_id": self.id, "default_engagement_id": self.sudo().engagement_id.id},
         }
 
     def action_open_upload(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("Record a document received"), "res_model": "ea.audit.pbc.upload.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "name": self.env._("Record a document received"), "res_model": "ea.audit.pbc.upload.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_item_id": self.id},
         }
 
     def action_list_add_pbc(self):
         engagement = self._ea_context_engagement()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("Request a document"), "res_model": "ea.audit.pbc.wizard", "view_mode": "form", "target": "new",
+            "type": "ir.actions.act_window", "name": self.env._("Request a document"), "res_model": "ea.audit.pbc.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_engagement_id": engagement.id},
         }
 
