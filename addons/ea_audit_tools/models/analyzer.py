@@ -164,7 +164,7 @@ class EngagementAnalyzer(models.Model):
         })
         if result.get("finding"):
             finding = result["finding"]
-            self.route_finding(finding["route"], finding["title"], detail=finding.get("detail"), file_item=item)
+            self.route_finding(finding["route"], finding["title"], detail=finding.get("detail"), file_item=item, source=run)
         self._ea_log("reconciled", "%s reconciled to the trial balance: difference %s" % (dataset.source_filename, summary["difference"]))
         return run.with_env(self.env)
 

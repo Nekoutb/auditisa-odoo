@@ -319,6 +319,14 @@
                             <span>Conclusion</span>
                             <textarea class="o_ea_px_input" rows="3" t-model="state.note" t-att-disabled="!editable" t-on-change="saveNote"/>
                         </div>
+                        <div class="o_ea_px_row" data-ea="misstatements-found">
+                            <span>Misstatements found</span>
+                            <span t-if="p.misstatements.count">
+                                <t t-esc="p.misstatements.count"/> · <t t-esc="fmt(p.misstatements.total)"/> FCFA, on the Summary of audit differences
+                                <button type="button" class="btn btn-link btn-sm p-0" t-on-click="() => this.open('action_tool_sad')">Open it</button>
+                            </span>
+                            <span class="o_ea_px_muted" t-else="">None. Record each one below, under Findings on this working paper.</span>
+                        </div>
                         <div class="o_ea_px_row" t-if="!p.locked">
                             <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!canMarkDone" t-on-click="markDone">Mark as done</button>
                             <span class="o_ea_px_muted" t-esc="leftText"/>
@@ -333,11 +341,12 @@
                     <section class="o_ea_px_card" data-ea="findings">
                         <h3>Findings on this working paper</h3>
                         <table class="o_ea_px_table" t-if="p.findings.length">
-                            <thead><tr><th>Finding</th><th>Type</th><th class="o_num">Amount</th><th>Goes to</th></tr></thead>
+                            <thead><tr><th>Finding</th><th>Type</th><th>Accounts</th><th class="o_num">Amount</th><th>Goes to</th></tr></thead>
                             <tbody>
                                 <tr t-foreach="p.findings" t-as="f" t-key="f.id">
                                     <td><a href="#" t-on-click.prevent="() => this.open('finding', f.id)"><t t-esc="f.ref"/> <t t-esc="f.title"/></a></td>
-                                    <td><span class="o_ea_px_tag is-warn" t-esc="f.routeLabel"/></td>
+                                    <td><span class="o_ea_px_tag is-warn" t-esc="f.routeLabel"/><t t-if="f.mtypeLabel"> · <t t-esc="f.mtypeLabel"/></t></td>
+                                    <td t-esc="f.accounts"/>
                                     <td class="o_num" t-esc="f.amount === null ? '' : fmt(f.amount)"/>
                                     <td>Findings<t t-if="f.route === 'b5'"> · SAD</t></td>
                                 </tr>
@@ -346,7 +355,6 @@
                         <p class="o_ea_px_muted" t-else="">None yet.</p>
                         <div class="o_ea_px_form" t-if="state.finding">
                             <label>Description <textarea class="o_ea_px_input" rows="2" t-model="state.finding.description"/></label>
-                            <label t-if="state.finding.type === 'misstatement'">Amount (FCFA) <input type="text" class="o_ea_px_input" t-model="state.finding.amount"/></label>
                             <div class="o_ea_px_row">
                                 <span>Type</span>
                                 <span class="o_ea_px_seg" role="group">
@@ -355,15 +363,28 @@
                                     <button type="button" t-att-class="state.finding.type === 'matter' ? 'active' : ''" t-on-click="() => this.state.finding.type = 'matter'">Other</button>
                                 </span>
                             </div>
+                            <t t-if="state.finding.type === 'misstatement'">
+                                <label>Amount (FCFA) <input type="text" class="o_ea_px_input" t-model="state.finding.amount"/></label>
+                                <label>Debit account <input type="text" class="o_ea_px_input" placeholder="659100" t-model="state.finding.dr"/></label>
+                                <label>Credit account <input type="text" class="o_ea_px_input" placeholder="491000" t-model="state.finding.cr"/></label>
+                                <div class="o_ea_px_row">
+                                    <span>Kind</span>
+                                    <span class="o_ea_px_seg" role="group" data-ea="mtype">
+                                        <button type="button" t-foreach="p.mtypes" t-as="m" t-key="m.value"
+                                                t-att-class="state.finding.mtype === m.value ? 'active' : ''" t-on-click="() => this.state.finding.mtype = m.value"><t t-esc="m.label"/></button>
+                                    </span>
+                                </div>
+                                <div class="o_ea_px_muted">Factual: no doubt about it. Judgmental: an estimate the team disagrees with. Projected: the error found in a sample, spread over the population.</div>
+                            </t>
                             <label t-if="findingBelowTrivial" class="o_ea_px_check"><input type="checkbox" t-model="state.finding.trivial"/> Below the clearly trivial threshold: record it anyway</label>
                             <div class="o_ea_px_muted">Linked to <t t-esc="p.index"/> <t t-esc="p.indexLabel"/> · <t t-esc="p.code"/> (filled in for you)</div>
                             <div class="o_ea_px_row">
-                                <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!state.finding.description.trim() or state.busy or (findingBelowTrivial and !state.finding.trivial)" t-on-click="addFinding">Add the finding</button>
+                                <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!findingReady or state.busy or (findingBelowTrivial and !state.finding.trivial)" t-on-click="addFinding">Add the finding</button>
                                 <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.state.finding = null">Cancel</button>
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary btn-sm" t-elif="editable" t-on-click="startFinding">Add a finding</button>
-                        <div class="o_ea_px_info">A finding added here goes straight to the Findings page; a misstatement also to the Summary of audit differences.</div>
+                        <div class="o_ea_px_info">A finding added here goes straight to the Findings page. A misstatement also goes to the Summary of audit differences, with this procedure as its source: it is the only way a line gets there.</div>
                     </section>
                 </div>
             </div>

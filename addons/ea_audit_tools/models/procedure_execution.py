@@ -43,6 +43,8 @@ from .tool_record import french_date, grouped, is_french
 from .worksheet_pages import FINDING_KINDS
 
 SELECTION_METHODS = ("cutoff", "unrecorded")
+#: the kinds of misstatement a working paper's conclusion records (ISA 450 A6)
+PAPER_MTYPES = ("factual", "judgmental", "projected")
 PROC_MODEL = "ea.audit.designed.procedure"
 
 
@@ -333,6 +335,8 @@ class EngagementProcedureExecution(models.Model):
         findings = self._ea_exec_findings(proc).get(proc.id) or self.env["ea.audit.finding"]
         Finding = self.env["ea.audit.finding"].with_context(lang=lang)
         routes = dict(Finding._fields["route"]._description_selection(Finding.env))
+        Misstatement = self.env["ea.audit.misstatement"].with_context(lang=lang)
+        mtypes = dict(Misstatement._fields["mtype"]._description_selection(Misstatement.env))
         page = {
             "id": proc.id, "code": proc.code, "kind": proc.kind, "title": proc.title or "", "summary": summary,
             "when": ((item.when_fr if fr else item.when_en) or "") if item else "",
@@ -352,8 +356,13 @@ class EngagementProcedureExecution(models.Model):
             "findings": [{
                 "id": f.id, "ref": f.reference or "", "title": f.title, "route": f.route, "routeLabel": routes.get(f.route, f.route),
                 "amount": f.amount if f.route == "b5" else None, "status": f.status,
+                "accounts": f.misstatement_id.accounts or "" if f.route == "b5" else "",
+                "mtypeLabel": mtypes.get(f.misstatement_id.mtype, "") if f.route == "b5" else "",
             } for f in findings],
+            "mtypes": [{"value": key, "label": mtypes[key]} for key in PAPER_MTYPES],
         }
+        misstated = [f for f in findings if f.route == "b5"]
+        page["misstatements"] = {"count": len(misstated), "total": sum(abs(f.misstatement_id.amount) for f in misstated)}
         for run in proc.run_ids.filtered(lambda r: r.engine == "sampling" and r.method not in SELECTION_METHODS and r.method != "tod-mus").sorted("id"):
             page["samples"].append(self._ea_exec_sample(run, lang))
         if mode == "recon":
@@ -747,9 +756,14 @@ class EngagementProcedureExecution(models.Model):
 
     # ---- findings --------------------------------------------------------
 
-    def ea_proc_finding(self, proc_id, description, amount=None, finding_type="misstatement", trivial_confirmed=False, item_key=None, confirmation_id=None):
+    def ea_proc_finding(
+        self, proc_id, description, amount=None, finding_type="misstatement", trivial_confirmed=False, item_key=None,
+        confirmation_id=None, dr_account=None, cr_account=None, mtype="factual",
+    ):
         """A finding raised from the working paper: the one path, ea_raise_finding, with the
-        procedure as its source. From a selected entry or a confirmation, it is noted on them."""
+        procedure as its source. From a selected entry or a confirmation, it is noted on them.
+        A misstatement (amount, accounts, description, type) becomes its line on the summary of
+        audit differences, the only way a line gets there (owner's ruling of 2026-11-16)."""
         proc = self._ea_exec_writable(proc_id)
         if finding_type not in FINDING_KINDS:
             raise rule_error(self.env, "invalid-value")
@@ -758,11 +772,14 @@ class EngagementProcedureExecution(models.Model):
             raise rule_error(self.env, "title-required")
         number = None
         if finding_type == "misstatement":
+            if mtype not in PAPER_MTYPES:
+                raise rule_error(self.env, "invalid-type")
             number = clean_explanation({"amount": amount})
             number = number["amount"] if number else None
         finding = self.ea_raise_finding(
             PROC_MODEL, proc.id, text[:200], amount=number, finding_type=finding_type,
             detail=text if len(text) > 200 else None, trivial_confirmed=bool(trivial_confirmed),
+            mtype=mtype or "factual", dr_account=dr_account, cr_account=cr_account,
         )
         if item_key:
             run = proc._ea_selection_run()

@@ -86,8 +86,11 @@ class AutomationRun(models.Model):
         as_root.write({"summary": summary, "projected": result["projected"], "raised_to_b5": result["raisedToB5"]})
         if result["finding"]:
             finding = result["finding"]
+            # the projection reaches the summary through the procedure that owns the sample
+            source = as_root.designed_procedure_id or as_root
             engagement.route_finding(
-                "b5", finding["title"], amount=finding["amount"], mtype=finding["mtype"], file_item=as_root.file_item_id or None,
+                "b5", finding["title"], amount=finding["amount"], mtype=finding["mtype"],
+                file_item=as_root.file_item_id or source.file_item_id or None, source=source,
             )
         return {"projected": result["projected"], "raisedToB5": result["raisedToB5"]}
 
@@ -423,7 +426,7 @@ class EngagementSampling(models.Model):
         for finding in result["findings"]:
             self.route_finding(
                 "b5", finding["title"], amount=finding["amount"], mtype=finding["mtype"],
-                trivial_confirmed=finding.get("trivialConfirmed", False), file_item=item or None,
+                trivial_confirmed=finding.get("trivialConfirmed", False), file_item=item or None, source=run,
             )
         self._ea_log("tod_result", "Tests of details on %s: projected %s" % (result["indexCode"], result["projected"]))
         return {"runId": run.id, "projected": result["projected"], "raisedToB5": result["raisedToB5"]}

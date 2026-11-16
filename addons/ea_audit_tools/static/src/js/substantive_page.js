@@ -274,7 +274,7 @@ export class ProcedurePaper extends Component {
         const text = _t("Entry %(entry)s of %(date)s (%(amount)s) is recorded in the wrong period", {
             entry: item.entry, date: item.date, amount: this.fmt(item.amount),
         });
-        this.state.finding = { description: text, amount: String(item.amount), type: "misstatement", trivial: false, itemKey: item.key };
+        this.state.finding = { ...this.blankFinding(), description: text, amount: String(item.amount), itemKey: item.key };
     }
 
     sampleItem(sample, row, field, value) {
@@ -352,8 +352,21 @@ export class ProcedurePaper extends Component {
 
     // ---- findings ------------------------------------------------------------------
 
+    blankFinding() {
+        return { description: "", amount: "", type: "misstatement", trivial: false, itemKey: null, dr: "", cr: "", mtype: "factual" };
+    }
+
     startFinding() {
-        this.state.finding = { description: "", amount: "", type: "misstatement", trivial: false, itemKey: null };
+        this.state.finding = this.blankFinding();
+    }
+
+    get findingReady() {
+        const f = this.state.finding;
+        if (!f || !f.description.trim()) {
+            return false;
+        }
+        // a misstatement reaches the summary with its accounts: one of the two at least
+        return f.type !== "misstatement" || Boolean(f.amount && (f.dr.trim() || f.cr.trim()));
     }
 
     get findingBelowTrivial() {
@@ -367,8 +380,10 @@ export class ProcedurePaper extends Component {
 
     async addFinding() {
         const f = this.state.finding;
+        const misstatement = f.type === "misstatement";
         await this.call("ea_proc_finding", [
-            f.description, f.type === "misstatement" ? f.amount : null, f.type, Boolean(f.trivial), f.itemKey, null,
+            f.description, misstatement ? f.amount : null, f.type, Boolean(f.trivial), f.itemKey, null,
+            misstatement ? f.dr.trim() : null, misstatement ? f.cr.trim() : null, misstatement ? f.mtype : "factual",
         ]);
         this.state.finding = null;
     }

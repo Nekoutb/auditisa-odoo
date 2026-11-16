@@ -122,16 +122,15 @@ export class SadPage extends Component {
         return this.action.doAction(action, { onClose: () => this.load() });
     }
 
-    async openFinding(row, ev) {
-        ev.stopPropagation();
-        if (!row.sourceFindingId) {
-            return;
+    /** A line opens where it comes from: its working paper, else its finding, else (a line
+     *  entered before 2026-11-17) its own read-only form. */
+    async openSource(row, ev) {
+        if (ev) {
+            ev.stopPropagation();
         }
         await this.queue;
-        const action = await this.orm.call(ENGAGEMENT, "action_tool_findings", [[this.engagementId]], {
-            context: { ea_finding_id: row.sourceFindingId },
-        });
-        return this.action.doAction(action);
+        const action = await this.orm.call(ENGAGEMENT, "ea_sad_page_open", [[this.engagementId], "source", row.id]);
+        return this.action.doAction(action, { onClose: () => this.load() });
     }
 }
 

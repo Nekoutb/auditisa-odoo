@@ -9,7 +9,6 @@
                         <h1>Summary of audit differences</h1>
                     </div>
                     <div class="o_ea_ws_tools">
-                        <button type="button" class="btn btn-primary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('new')">Add a difference</button>
                         <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="!p.toPost" t-on-click="postAll">
                             Post to the C1.1 schedule<t t-if="p.toPost"> (<t t-esc="p.toPost"/>)</t>
                         </button>
@@ -17,6 +16,8 @@
                         <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_export_sad')">Export to Excel</button>
                     </div>
                 </div>
+
+                <p class="o_ea_ws_legend" data-ea="sad-from-papers">The differences come from the working papers: a misstatement recorded in the conclusion of a substantive procedure appears here by itself. To add or change one, open its working paper.</p>
 
                 <div class="o_ea_ws_readonly" t-if="p.readonly">
                     <t t-if="p.archived">Read only: this engagement is archived.</t>
@@ -58,7 +59,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="gridRows" t-as="r" t-key="r.id" t-on-click="() => this.open('entry', r.id)"
+                                <tr t-foreach="gridRows" t-as="r" t-key="r.id" t-on-click="() => this.openSource(r)"
                                     t-att-class="{'is-stale': r.stale or !r.posted}">
                                     <td class="o_ea_ws_ref"><t t-esc="r.no"/></td>
                                     <td><t t-esc="r.description"/><div class="o_ea_ws_hint" t-if="!r.posted">not posted yet</div><div class="o_ea_ws_hint" t-elif="r.stale">changed since posted</div></td>
@@ -73,9 +74,9 @@
                                     <td class="text-center" t-on-click="stop">
                                         <input type="checkbox" t-att-checked="r.corrected" t-att-disabled="p.readonly" t-on-change="(ev) => this.toggleCorrected(r, ev)"/>
                                     </td>
-                                    <td>
-                                        <a href="#" class="o_ea_ws_badge is-grey" t-if="r.sourceFindingId" t-on-click.prevent="(ev) => this.openFinding(r, ev)" t-esc="r.source"/>
-                                        <span class="o_ea_ws_badge is-grey" t-else="" t-esc="r.source"/>
+                                    <td data-ea="sad-source">
+                                        <span class="o_ea_ws_badge is-amber" t-if="r.byHand" t-esc="r.source"/>
+                                        <a href="#" class="o_ea_ws_badge is-grey" t-else="" t-att-title="r.sourceRef" t-on-click.prevent="(ev) => this.openSource(r, ev)" t-esc="r.source"/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -97,7 +98,7 @@
                         </table>
                     </div>
                     <p class="o_ea_ws_legend" t-if="state.tab === 'trivial'">Clearly trivial differences (below the trivial level) are kept here, not added to the total (ISA 450).</p>
-                    <p class="o_ea_ws_legend" t-else="">Brackets = reduces profit or the balance. Click a line to open it; the Source links back to the finding or paper it came from. Clearly trivial lines are kept aside, not lost.</p>
+                    <p class="o_ea_ws_legend" t-else="">Brackets = reduces profit or the balance. Click a line to open the working paper it came from (procedure · account · paper) and see the error. Clearly trivial lines are kept aside, not lost.</p>
                 </t>
 
                 <t t-if="state.tab === 'disclosures'">

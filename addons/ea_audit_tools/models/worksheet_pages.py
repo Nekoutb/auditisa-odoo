@@ -145,6 +145,7 @@ class EngagementWorksheetPages(models.Model):
     def ea_raise_finding(
         self, source_model, source_id, description, amount=None, finding_type="misstatement", detail=None,
         severity=None, recommendation=None, accounts=None, mtype="factual", trivial_confirmed=False,
+        dr_account=None, cr_account=None,
     ):
         """A finding raised from another record of this engagement (a working paper's step, a
         sample, a journal entry...). ``finding_type``: "misstatement" (it goes onto the SAD and
@@ -171,11 +172,9 @@ class EngagementWorksheetPages(models.Model):
             route, description, detail=detail, recommendation=recommendation,
             severity=severity or ("deficiency" if route == "c1" else None),
             file_item=file_item or None, amount=amount, accounts=accounts, mtype=mtype,
-            trivial_confirmed=trivial_confirmed,
+            trivial_confirmed=trivial_confirmed, source=source, dr_account=dr_account, cr_account=cr_account,
         )
-        finding = result["finding"]
-        finding.sudo().write({"source_model": source._name, "source_id": source.id})
-        return finding
+        return result["finding"]
 
     # ------------------------------------------------------------------
     # The findings page
@@ -453,8 +452,10 @@ class EngagementWorksheetPages(models.Model):
                 "drAccount": entry.dr_account or "", "crAccount": entry.cr_account or "",
                 "drAmount": figure(entry.dr_amount), "crAmount": figure(entry.cr_amount),
                 **{key: figure(value) for key, value in effect.items()},
-                "source": finding.reference if finding else (entry.ref or entry.task_code or ""),
+                "source": entry.source_label or "", "sourceRef": finding.reference if finding else "",
                 "sourceFindingId": finding.id if finding else False,
+                "sourceProcId": entry.source_procedure_id.id or False,
+                "byHand": entry.entered_by_hand,
                 "corrected": entry.corrected, "posted": entry.posted, "stale": entry.stale,
                 "registerOnly": entry.register_only,
             })
@@ -560,23 +561,26 @@ class EngagementWorksheetPages(models.Model):
         return self.ea_sad_page()
 
     def ea_sad_page_open(self, method, entry_id=None):
-        """The page's buttons that open another screen: a difference in its form, a new one,
-        the export, the findings, the cash-flow and disclosure rows."""
+        """The page's buttons that open another screen: where a difference comes from (its
+        working paper, else its finding), a difference in its read-only form, the export, the
+        findings, the cash-flow and disclosure rows. No line is created here (owner's ruling
+        of 2026-11-16): the differences come from the working papers."""
         self.ensure_one()
         self._ea_require_access()
-        if method in ("new", "entry"):
+        if method in ("source", "entry"):
+            entry = self.env["ea.audit.sad.entry"].sudo().browse(int(entry_id or 0)).exists()
+            if not entry or entry.engagement_id != self.sudo():
+                raise rule_error(self.env, "not-found")
+            if method == "source" and entry.source_procedure_id:
+                return self._ea_paper_action(entry.source_procedure_id)
+            if method == "source" and entry.source_finding_id:
+                return self.with_context(ea_finding_id=entry.source_finding_id.id).action_tool_findings()
             view = self.env.ref("ea_audit_tools.view_sad_entry_form").id
-            action = {
-                "type": "ir.actions.act_window", "res_model": "ea.audit.sad.entry",
+            return {
+                "type": "ir.actions.act_window", "res_model": "ea.audit.sad.entry", "res_id": entry.id,
                 "name": self.env._("Audit difference"), "view_mode": "form", "views": [(view, "form")],
-                "target": "new", "context": {"default_engagement_id": self.id, "ea_engagement_id": self.id},
+                "target": "new", "context": {"ea_engagement_id": self.id},
             }
-            if method == "entry":
-                entry = self.env["ea.audit.sad.entry"].sudo().browse(int(entry_id or 0)).exists()
-                if not entry or entry.engagement_id != self.sudo():
-                    raise rule_error(self.env, "not-found")
-                action["res_id"] = entry.id
-            return action
         if method not in SAD_LINKS:
             raise rule_error(self.env, "forbidden")
         return getattr(self, method)()

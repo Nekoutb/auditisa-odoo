@@ -2,7 +2,7 @@ import base64
 
 from odoo import api, fields, models
 
-from ..models.finding import LIKELIHOOD_SELECTION, MAGNITUDE_SELECTION, MTYPE_SELECTION, SEVERITY_SELECTION
+from ..models.finding import LIKELIHOOD_SELECTION, MAGNITUDE_SELECTION, SEVERITY_SELECTION
 from ..models.materiality import BENCHMARK_SELECTION
 from ..models.risk import CATEGORY_SELECTION, LEVEL_SELECTION, RATING_SELECTION
 from ..rules import rule_error
@@ -102,7 +102,8 @@ class FindingWizard(models.TransientModel):
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
     route = fields.Selection(
-        [("b4", "Matter for attention"), ("c1", "Control deficiency"), ("b5", "Misstatement"), ("revise", "Revise the approach")],
+        # no misstatement here: it is raised from its working paper (owner's ruling of 2026-11-16)
+        [("b4", "Matter for attention"), ("c1", "Control deficiency"), ("revise", "Revise the approach")],
         default="c1", required=True,
     )
     title = fields.Char(required=True)
@@ -110,19 +111,13 @@ class FindingWizard(models.TransientModel):
     severity = fields.Selection(SEVERITY_SELECTION)
     recommendation = fields.Text()
     file_item_id = fields.Many2one("ea.audit.file.item", string="Paper", domain="[('engagement_id', '=', engagement_id)]")
-    amount = fields.Float(digits=(18, 2))
-    accounts = fields.Char()
-    mtype = fields.Selection(MTYPE_SELECTION, string="Type", default="factual")
-    trivial_confirmed = fields.Boolean(string="Not indicative of a pervasive issue")
     significant = fields.Boolean()
 
     def action_route(self):
         self.ensure_one()
         self.engagement_id.route_finding(
             self.route, self.title, detail=self.detail, severity=self.severity or None,
-            recommendation=self.recommendation, file_item=self.file_item_id or None, amount=self.amount,
-            accounts=self.accounts, mtype=self.mtype or "factual", trivial_confirmed=self.trivial_confirmed,
-            significant=self.significant,
+            recommendation=self.recommendation, file_item=self.file_item_id or None, significant=self.significant,
         )
         return _RELOAD
 

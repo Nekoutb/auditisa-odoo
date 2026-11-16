@@ -141,6 +141,39 @@ class TestWorkingPaper(ExecutionCase):
         action = self.as_staff.ea_exec_open("finding", finding.id)
         self.assertEqual(action["params"]["finding_id"], finding.id)
 
+    def test_a_misstatement_reaches_the_summary_with_its_source(self):
+        """Owner's ruling of 2026-11-16: the summary's lines come from the papers' conclusions,
+        each one showing the procedure, the account and the paper, and opening the paper."""
+        proc = self.proc("E-M4")
+        self.assertCode("invalid-type", self.as_staff.ea_proc_finding, proc.id, "x", 10, "misstatement", True, None, None, "411", "701", "disclosure")
+        page = self.as_staff.ea_proc_finding(
+            proc.id, "Allowance understated", 5000, "misstatement", True, None, None, "659100", "491000", "judgmental",
+        )
+        self.assertEqual(page["misstatements"]["count"], 1)
+        self.assertEqual(page["findings"][0]["accounts"], "Dr 659100 / Cr 491000")
+        finding = self.env["ea.audit.finding"].sudo().browse(page["findings"][0]["id"])
+        entry = self.env["ea.audit.sad.entry"].sudo().search([("misstatement_id", "=", finding.misstatement_id.id)])
+        self.assertEqual((entry.dr_account, entry.cr_account, entry.dr_amount, entry.mtype), ("659100", "491000", 5000, "judgmental"))
+        self.assertEqual(entry.source_procedure_id, proc)
+        self.assertTrue(entry.source_label.startswith("E-M4 · "))
+        self.assertTrue(entry.source_label.endswith(proc.file_item_id.code))
+        sad = self.as_staff.ea_sad_page()
+        row = next(r for bucket in sad["rows"].values() for r in bucket if r["id"] == entry.id)
+        self.assertEqual((row["sourceProcId"], row["byHand"]), (proc.id, False))
+        action = self.as_staff.ea_sad_page_open("source", entry.id)
+        self.assertEqual((action["tag"], action["params"]["procedure_id"]), ("ea_audit_tools.procedure_paper", proc.id))
+
+    def test_a_projection_flows_through_the_procedure_that_owns_the_sample(self):
+        proc = self.proc("E-M4")
+        run = self.as_staff.run_sampling(self.ar(), "random", 2, seed="abc", designed_procedure=proc).sudo()
+        # every item of the sample wrong: the projection is the whole population, far above trivial
+        result = run.with_user(self.staff).evaluate(run.summary["sampledValue"])
+        self.assertTrue(result["raisedToB5"])
+        entry = self.env["ea.audit.sad.entry"].sudo().search([("engagement_id", "=", self.engagement.id)])
+        self.assertEqual((entry.mtype, entry.source_procedure_id), ("projected", proc))
+        findings = self.as_staff.ea_procedure_paper(proc.id)["findings"]
+        self.assertEqual([f["route"] for f in findings], ["b5"])
+
     def test_evidence_is_filed_on_the_task(self):
         proc = self.proc("E-M4")
         content = base64.b64encode(b"allowance schedule").decode()

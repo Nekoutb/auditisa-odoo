@@ -311,8 +311,15 @@ class EngagementFinding(models.Model):
     def route_finding(
         self, route, title, detail=None, severity=None, recommendation=None, file_item=None, program_step=None,
         amount=None, accounts=None, mtype="factual", trivial_confirmed=False, significant=False,
+        source=None, dr_account=None, cr_account=None,
     ):
-        """routeFinding: b4, c1, b5, or revise. Returns the destination."""
+        """routeFinding: b4, c1, b5, or revise. Returns the destination.
+
+        ``source``: the working-paper record the finding was raised from (a substantive
+        procedure, a sample, a journal entry...). A misstatement (b5) needs one: the summary
+        of audit differences is fed only by the working papers (owner's ruling of 2026-11-16),
+        each line keeping where it came from. ``dr_account`` / ``cr_account``: the accounts
+        the difference sits on, carried to the summary line."""
         self.ensure_one()
         self._ea_tool_guard()
         title = (title or "").strip()
@@ -327,6 +334,8 @@ class EngagementFinding(models.Model):
             "file_item_id": file_item.id if file_item else False,
             "program_step_id": program_step.id if program_step else False,
             "created_by_id": self.env.user.id,
+            "source_model": source._name if source else False,
+            "source_id": source.id if source else False,
         }
         Finding = self.env["ea.audit.finding"].sudo()
         if route in ("b4", "c1"):
@@ -339,10 +348,18 @@ class EngagementFinding(models.Model):
             })
             return {"destination": route, "finding": finding.with_env(self.env)}
         if route == "b5":
+            if not source:
+                raise rule_error(self.env, "misstatement-from-paper")
             if not amount:
                 raise rule_error(self.env, "amount-required")
             if mtype not in SAD_TYPES:
                 raise rule_error(self.env, "invalid-type")
+            dr_account = (dr_account or "").strip()[:64]
+            cr_account = (cr_account or "").strip()[:64]
+            if not accounts and (dr_account or cr_account):
+                accounts = " / ".join(part for part in (
+                    "Dr %s" % dr_account if dr_account else "", "Cr %s" % cr_account if cr_account else "",
+                ) if part)
             materiality = self._ea_materiality_dict()
             is_trivial = bool(materiality) and abs(amount) < materiality["trivial"]
             if is_trivial and not trivial_confirmed:
@@ -357,10 +374,14 @@ class EngagementFinding(models.Model):
             finding = Finding.create({
                 **values, "number": self._ea_next_finding_number(), "route": "b5", "misstatement_id": misstatement.id,
             })
+            # the summary line, fed from the paper: amounts and accounts are the paper's, not typed here
             self.env["ea.audit.sad.entry"].sudo().create({
                 "engagement_id": self.id, "file_item_id": file_item.id if file_item else False,
                 "misstatement_id": misstatement.id, "register_only": True, "finding": title,
-                "dr_amount": amount, "mtype": mtype, "posted": True,
+                "dr_account": dr_account or False, "cr_account": cr_account or False,
+                "dr_amount": amount if (dr_account or not cr_account) else 0,
+                "cr_amount": amount if cr_account else 0,
+                "mtype": mtype, "posted": True,
             })
             return {"destination": "b5-trivial" if is_trivial else "b5", "finding": finding.with_env(self.env)}
         if route == "revise":
