@@ -17,6 +17,8 @@ TIMING_SELECTION = [
     ("pre_audit", "Pre-audit"),
     ("post_audit", "Post-audit"),
     ("prior_year", "Prior year"),
+    # the year after the one audited (owner's request of 2026-11-16): never drives the file
+    ("subsequent", "Subsequent period (next year)"),
 ]
 _ACCOUNT_PREFIX = re.compile(r"^[0-9]{1,8}$")
 _SECTION_CODE = re.compile(r"^E[0-9]+.[0-9]+$")

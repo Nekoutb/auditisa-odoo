@@ -1,13 +1,13 @@
-"""The next-year uploads of a file (owner's request of 2026-11-16): the general ledger of the year
-after the one audited, and its receivables, payables and inventory listings. What they cover is
-worked out when asked and stored nowhere; the procedures of cut-off and the search for unrecorded
-liabilities read it here."""
-from odoo import models
+"""The next-year uploads of a file (owner's request of 2026-11-16): any upload, and the trial
+balance, of the year after the one audited. What the ledger covers is worked out when asked and
+stored nowhere; the procedures of cut-off and the search for unrecorded liabilities read it here.
+These accessors are the only way to the next year: every reader of the year audited leaves it out."""
+from odoo import fields, models
 
 from ..services.errors import ServiceError
 from ..services.subsequent import (
     SUBSEQUENT, SUBSEQUENT_MIN_DAYS, coverage_of, coverage_sentence, coverage_short, coverage_warning, empty_coverage,
-    ledger_coverage,
+    ledger_coverage, upload_line,
 )
 from .tool_record import is_french
 
@@ -24,9 +24,47 @@ class EngagementSubsequent(models.Model):
         ], order="id desc", limit=1)
 
     def _ea_subsequent_dataset(self, kind):
-        """The next-year upload in use of a kind (receivables, payables, inventory), or an empty record."""
+        """The next-year upload in use of a kind (any kind), or an empty record."""
         self.ensure_one()
         return self._ea_current_dataset(kind, SUBSEQUENT)
+
+    def _ea_subsequent_tb_version(self):
+        """The next-year trial balance in use: the newest valid one not superseded, or an empty record.
+        It never drives the file: only a pre-audit import does."""
+        self.ensure_one()
+        tb = self._ea_tb()
+        Version = self.env["ea.audit.tb.version"].sudo()
+        if not tb:
+            return Version
+        return Version.search([
+            ("tb_id", "=", tb.id), ("timing", "=", SUBSEQUENT), ("superseded_at", "=", False), ("validation_status", "=", "valid"),
+        ], order="version_no desc", limit=1)
+
+    def _ea_subsequent_upload_lines(self):
+        """One line per next-year upload in use other than the ledger, whose line is the coverage
+        sentence: "Next-year <kind> uploaded on dd/mm/yyyy"."""
+        self.ensure_one()
+        root = self.sudo()
+        fr = is_french(self.env)
+        Dataset = self.env["ea.audit.dataset"]
+        labels = dict(Dataset._fields["kind"]._description_selection(self.env))
+        found = Dataset.sudo().search([
+            ("engagement_id", "=", root.id), ("timing", "=", SUBSEQUENT), ("superseded_at", "=", False),
+            ("kind", "!=", "journal_entries"),
+        ], order="kind, id desc")
+        lines, seen = [], set()
+        version = root._ea_subsequent_tb_version()
+        if version:
+            day = fields.Datetime.context_timestamp(self, version.create_date).date()
+            lines.append(upload_line(self.env._("Trial balance") if fr else "trial balance", day, fr))
+        for dataset in found:
+            if dataset.kind in seen:
+                continue
+            seen.add(dataset.kind)
+            day = fields.Datetime.context_timestamp(self, dataset.create_date).date()
+            label = labels.get(dataset.kind, dataset.kind)
+            lines.append(upload_line(label if fr else label.lower(), day, fr))
+        return lines
 
     def ea_subsequent_coverage(self):
         """{first_date, last_date, days_after_year_end, entries} of the next-year ledger, dates as
@@ -65,6 +103,7 @@ class EngagementSubsequent(models.Model):
             warning=coverage_warning(coverage, fr),
             short=coverage_short(coverage),
             minDays=SUBSEQUENT_MIN_DAYS,
+            others=self._ea_subsequent_upload_lines(),
         )
 
     def ea_subsequent_sentence(self):

@@ -1,11 +1,12 @@
-"""The next-year uploads (owner's request of 2026-11-16): the general ledger and the receivables,
-payables and inventory of the year after the one audited. They are uploaded through the same
-screens, say how far they reach, and never stand in for the year audited."""
+"""The next-year uploads (owner's request of 2026-11-16): every kind of upload, and the trial
+balance, of the year after the one audited. They are uploaded through the same screens, say how
+far they reach, and never stand in for the year audited."""
 from odoo.tests import tagged
 
 from ..services.subsequent import SUBSEQUENT_MIN_DAYS
 from .common import AR_CSV, AR_MAPPING, BALANCED_CSV, to_bytes
 from .test_gl import LEDGER, MAPPING
+from .test_procedure_execution import FAR_CSV, FAR_MAPPING
 from .test_import_matching import ImportCase
 
 #: Two balanced entries of the next year, the last on 14/02/2026: 45 days after the year end.
@@ -17,6 +18,10 @@ NEXT_LEDGER = """Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Ré
 """
 #: The same file stopping on 20/01/2026: 20 days, too short for the cut-off tests.
 SHORT_LEDGER = NEXT_LEDGER.replace("14/02/2026", "20/01/2026")
+#: A next-year trial balance, its receivables different from the year audited's.
+NEXT_TB = BALANCED_CSV.replace("411000;Clients;800;0;1000;900", "411000;Clients;900;0;5000;900").replace(
+    "701000;Ventes;0;0;0;2000", "701000;Ventes;0;0;0;6000",
+).replace("101000;Capital;0;5000;0;0", "101000;Capital;0;5100;0;0")
 
 
 @tagged("post_install", "-at_install")
@@ -38,15 +43,63 @@ class TestSubsequentUploads(ImportCase):
         details = [check["detailEn"] for check in self.as_staff.gl_validate_population(dataset.id)["checks"]]
         self.assertTrue(any(detail.startswith("All dated lines fall within 2026-01-01 to 2026-12-31") for detail in details), details)
 
-    def test_only_the_ledger_and_the_three_sub_ledgers_may_be_of_the_next_year(self):
-        self.assertCode("subsequent-kind", self.read, BALANCED_CSV, kind="trial_balance", timing="subsequent")
-        self.assertCode(
-            "subsequent-kind", self.as_staff.create_dataset, "fixed_asset_register", "fa.csv", to_bytes(AR_CSV), mapping=AR_MAPPING,
-            timing="subsequent",
-        )
-        self.assertCode("invalid-value", self.as_staff.import_trial_balance, "tb.csv", to_bytes(BALANCED_CSV), timing="subsequent")
+    def test_every_kind_and_the_trial_balance_may_be_of_the_next_year(self):
+        wizard = self.read(BALANCED_CSV, kind="trial_balance", timing="subsequent")
+        self.assertEqual(wizard.timing, "subsequent")
         self.as_staff.create_dataset("ar_open_items", "ar.csv", to_bytes(AR_CSV), mapping=AR_MAPPING, timing="subsequent")
         self.assertEqual(self.engagement.sudo()._ea_subsequent_dataset("ar_open_items").timing, "subsequent")
+        self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_CSV), mapping=FAR_MAPPING, timing="subsequent")
+        self.assertEqual(self.engagement.sudo()._ea_subsequent_dataset("fixed_asset_register").timing, "subsequent")
+        result = self.as_staff.import_trial_balance("tb.csv", to_bytes(BALANCED_CSV), timing="subsequent")
+        version = self.env["ea.audit.tb.version"].sudo().browse(result["versionId"])
+        self.assertEqual(self.engagement.sudo()._ea_subsequent_tb_version(), version)
+        timings = dict(self.env["ea.audit.tb.version"]._fields["timing"]._description_selection(self.env))
+        self.assertEqual(set(timings), {"prior_year", "pre_audit", "post_audit", "subsequent"})
+
+    def test_the_year_audited_never_reads_a_next_year_trial_balance(self):
+        engagement = self.engagement.sudo()
+        # a next-year TB alone: the year audited has none
+        self.as_staff.import_trial_balance("next.csv", to_bytes(NEXT_TB), timing="subsequent")
+        self.assertFalse(engagement._ea_current_tb_version())
+        self.assertEqual(engagement._ea_tb_balances(), [])
+        # the year's TB drives the file; a newer next-year one changes nothing
+        current = self.as_staff.import_trial_balance("tb.csv", to_bytes(BALANCED_CSV))["versionId"]
+        balances = engagement._ea_tb_balances()
+        comparatives = engagement._ea_comparatives()
+        newer = self.as_staff.import_trial_balance("next2.csv", to_bytes(NEXT_TB), timing="subsequent")["versionId"]
+        self.assertEqual(engagement._ea_current_tb_version().id, current)
+        self.assertEqual(engagement._ea_tb_balances(), balances)
+        self.assertEqual(engagement._ea_comparatives(), comparatives)
+        self.assertEqual(engagement._ea_tb_closing_for_prefixes(["411"]), 900)
+        self.assertEqual(engagement._ea_subsequent_tb_version().id, newer)
+
+    def test_next_year_sub_ledgers_never_feed_the_year_audited(self):
+        engagement = self.engagement.sudo()
+        self.as_staff.import_trial_balance("tb.csv", to_bytes(BALANCED_CSV))
+        # receivables: the aging and the reconciliation read this year's listing only
+        self.as_staff.create_dataset("ar_open_items", "ar-next.csv", to_bytes(AR_CSV), mapping=AR_MAPPING, timing="subsequent")
+        following_ar = engagement._ea_subsequent_dataset("ar_open_items")
+        self.assertFalse(engagement._ea_current_dataset("ar_open_items"))
+        self.assertIsNone(self.as_staff.aging_for("ar_open_items"))
+        self.assertFalse(following_ar.has_recon)
+        self.assertCode("subsequent-dataset", self.as_staff.run_reconciliation, following_ar.id)
+        self.assertCode("subsequent-dataset", self.as_staff.run_sampling, following_ar.id, "random", 2)
+        self.as_staff.create_dataset("ar_open_items", "ar.csv", to_bytes(AR_CSV), mapping=AR_MAPPING)
+        this_year = engagement._ea_current_dataset("ar_open_items")
+        self.assertEqual(this_year.timing, "pre_audit")
+        self.assertTrue(this_year.has_recon)
+        self.assertIsNotNone(self.as_staff.aging_for("ar_open_items"))
+        # fixed assets: the same
+        self.as_staff.create_dataset("fixed_asset_register", "far-next.csv", to_bytes(FAR_CSV), mapping=FAR_MAPPING, timing="subsequent")
+        following_far = engagement._ea_subsequent_dataset("fixed_asset_register")
+        self.assertFalse(engagement._ea_current_dataset("fixed_asset_register"))
+        self.assertCode("subsequent-dataset", self.as_staff.run_reconciliation, following_far.id)
+        self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_CSV), mapping=FAR_MAPPING)
+        self.assertEqual(engagement._ea_current_dataset("fixed_asset_register").timing, "pre_audit")
+        self.assertEqual(engagement._ea_subsequent_dataset("fixed_asset_register"), following_far)
+        # the pickers of the sampling and supplier wizards leave the next year out
+        for model, name in (("ea.audit.sampling.wizard", "dataset_id"), ("ea.audit.supplier.recon.wizard", "ledger_id")):
+            self.assertIn("subsequent", self.env[model]._fields[name].domain)
 
     def test_the_year_audited_never_reads_the_next_year_upload(self):
         engagement = self.engagement.sudo()
@@ -108,3 +161,10 @@ class TestSubsequentUploads(ImportCase):
         self.assertIn('js_class="ea_dataset_list"', arch)
         timing = dict(self.env["ea.audit.dataset"]._fields["timing"]._description_selection(self.env))
         self.assertEqual(timing["subsequent"], "Subsequent period (next year)")
+        self.assertEqual(self.as_staff.ea_subsequent_overview()["others"], [])
+        self.as_staff.create_dataset("ar_open_items", "ar-next.csv", to_bytes(AR_CSV), mapping=AR_MAPPING, timing="subsequent")
+        self.as_staff.import_trial_balance("tb-next.csv", to_bytes(BALANCED_CSV), timing="subsequent")
+        others = self.as_staff.ea_subsequent_overview()["others"]
+        self.assertEqual(len(others), 2, others)
+        self.assertTrue(others[0].startswith("Next-year trial balance uploaded on "), others)
+        self.assertTrue(others[1].startswith("Next-year receivables uploaded on "), others)
