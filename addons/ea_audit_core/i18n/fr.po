@@ -5576,3 +5576,45 @@ msgstr "Quelqu'un a signé après vous : sa signature doit d'abord être retiré
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "%(code)s: sign-off as %(role)s removed by %(name)s"
 msgstr "%(code)s : signature comme %(role)s retirée par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Sample S-%(sample)s concluded: errors found %(errors)s, projected %(amount)s"
+msgstr "Échantillon S-%(sample)s conclu : erreurs trouvées %(errors)s, extrapolé %(amount)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Support %(file)s filed on journal entry %(entry)s"
+msgstr "Justificatif %(file)s classé sur l'écriture %(entry)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Support %(file)s filed on sample S-%(sample)s"
+msgstr "Justificatif %(file)s classé sur l'échantillon S-%(sample)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Support %(file)s filed on control %(control)s"
+msgstr "Justificatif %(file)s classé sur le contrôle %(control)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Journal entry %(entry)s cleared: %(note)s"
+msgstr "Écriture %(entry)s levée : %(note)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Journal entry %(entry)s marked as a problem: %(note)s"
+msgstr "Écriture %(entry)s marquée en problème : %(note)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Journal entry %(entry)s put back to clear"
+msgstr "Écriture %(entry)s remise à lever"
