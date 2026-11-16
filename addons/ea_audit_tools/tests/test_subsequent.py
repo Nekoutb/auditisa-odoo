@@ -18,6 +18,16 @@ NEXT_LEDGER = """Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Ré
 """
 #: The same file stopping on 20/01/2026: 20 days, too short for the cut-off tests.
 SHORT_LEDGER = NEXT_LEDGER.replace("14/02/2026", "20/01/2026")
+#: A fixed-asset register (the same as the substantive procedures' tests; that module is not
+#: imported here: it is not in the test package's list and importing it would run it).
+FAR_CSV = """Numero;Designation;Categorie;Compte;Cout;Amortissements;VNC;VNC ouverture;Acquisitions;Cessions;Dotation
+I1;Immeuble siege;Batiments;231000;4000;500;3500;3600;0;0;100
+"""
+FAR_MAPPING = {
+    "item": "Numero", "itemDescription": "Designation", "amount": "Cout", "depreciation": "Amortissements", "nbv": "VNC",
+    "category": "Categorie", "account": "Compte", "openingNbv": "VNC ouverture", "additions": "Acquisitions",
+    "disposals": "Cessions", "charge": "Dotation",
+}
 #: A next-year trial balance, its receivables different from the year audited's.
 NEXT_TB = BALANCED_CSV.replace("411000;Clients;800;0;1000;900", "411000;Clients;900;0;5000;900").replace(
     "701000;Ventes;0;0;0;2000", "701000;Ventes;0;0;0;6000",
