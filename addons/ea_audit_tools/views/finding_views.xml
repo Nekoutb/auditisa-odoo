@@ -46,6 +46,7 @@
                     </group>
                     <group>
                         <field name="detail"/>
+                        <field name="impact"/>
                         <field name="recommendation"/>
                         <field name="management_response"/>
                         <field name="response" invisible="status != 'cleared'"/>

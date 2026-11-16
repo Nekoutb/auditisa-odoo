@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.SadPage">
+        <div class="o_ea_ws" t-if="p" data-ea="sad-page">
+            <div class="o_ea_ws_card">
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · C1.1, C3.1 · ISA 450</div>
+                        <h1>Summary of audit differences</h1>
+                    </div>
+                    <div class="o_ea_ws_tools">
+                        <button type="button" class="btn btn-primary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('new')">Add a difference</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="!p.toPost" t-on-click="postAll">
+                            Post to the C1.1 schedule<t t-if="p.toPost"> (<t t-esc="p.toPost"/>)</t>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_findings')">Findings</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_export_sad')">Export to Excel</button>
+                    </div>
+                </div>
+
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the summary but does not change it.</t>
+                </div>
+
+                <div class="o_ea_ws_status">
+                    <span t-att-class="'o_ea_ws_badge is-' + ({over: 'red', close: 'amber', under: 'green', open: 'grey'}[p.status])" t-esc="p.statusLabel"/>
+                    <span t-esc="p.statusText"/>
+                </div>
+                <div class="o_ea_ws_mbar" t-if="p.bar" data-ea="materiality-bar">
+                    <div class="o_ea_ws_track">
+                        <i t-att-class="'is-' + p.bar.level" t-att-style="width(p.bar.fill)"/>
+                    </div>
+                    <span class="o_ea_ws_mark" t-att-style="at(p.bar.trivial)"><b>Trivial</b><em t-esc="p.levels.trivial"/></span>
+                    <span class="o_ea_ws_mark is-threshold" t-if="p.bar.threshold !== null" t-att-style="at(p.bar.threshold)"><b>Threshold</b><em t-esc="p.levels.threshold"/></span>
+                    <span class="o_ea_ws_mark" t-att-style="at(p.bar.performance)"><b>Performance</b><em t-esc="p.levels.performance"/></span>
+                    <span class="o_ea_ws_mark is-end" t-att-style="at(p.bar.overall)"><b>Overall</b><em t-esc="p.levels.overall"/></span>
+                </div>
+
+                <div class="o_ea_ws_tabs" role="tablist">
+                    <button type="button" t-foreach="tabs" t-as="tab" t-key="tab.key" role="tab"
+                            t-att-class="{'is-active': state.tab === tab.key}" t-on-click="() => this.setTab(tab.key)">
+                        <t t-esc="tab.label"/> <span t-if="tab.count !== false" t-att-class="'o_ea_ws_count ' + (tab.tone ? 'is-' + tab.tone : '')" t-esc="tab.count"/>
+                    </button>
+                </div>
+
+                <t t-if="isGrid">
+                    <p class="o_ea_ws_empty" t-if="!gridRows.length">No difference here.</p>
+                    <div class="o_ea_ws_scroll" t-else="">
+                        <table class="o_ea_ws_grid is-figures" data-ea="sad-grid">
+                            <thead>
+                                <tr>
+                                    <th>No.</th><th>Description</th><th>Type</th><th>Debit account</th><th>Credit account</th>
+                                    <th class="o_num">Amount</th>
+                                    <th class="o_num">Profit before tax</th><th class="o_num">Assets</th>
+                                    <th class="o_num">Liabilities</th><th class="o_num">Equity</th>
+                                    <th>Corrected</th><th>Source</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="gridRows" t-as="r" t-key="r.id" t-on-click="() => this.open('entry', r.id)"
+                                    t-att-class="{'is-stale': r.stale or !r.posted}">
+                                    <td class="o_ea_ws_ref"><t t-esc="r.no"/></td>
+                                    <td><t t-esc="r.description"/><div class="o_ea_ws_hint" t-if="!r.posted">not posted yet</div><div class="o_ea_ws_hint" t-elif="r.stale">changed since posted</div></td>
+                                    <td><span t-att-class="'o_ea_ws_badge is-' + (r.type === 'factual' ? 'blue' : 'amber')" t-esc="r.typeLabel"/></td>
+                                    <td t-esc="r.drAccount"/>
+                                    <td t-esc="r.crAccount"/>
+                                    <td class="o_num"><t t-esc="r.drAmount !== '—' ? r.drAmount : r.crAmount"/></td>
+                                    <td class="o_num" t-esc="r.profit"/>
+                                    <td class="o_num" t-esc="r.assets"/>
+                                    <td class="o_num" t-esc="r.liabilities"/>
+                                    <td class="o_num" t-esc="r.equity"/>
+                                    <td class="text-center" t-on-click="stop">
+                                        <input type="checkbox" t-att-checked="r.corrected" t-att-disabled="p.readonly" t-on-change="(ev) => this.toggleCorrected(r, ev)"/>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="o_ea_ws_badge is-grey" t-if="r.sourceFindingId" t-on-click.prevent="(ev) => this.openFinding(r, ev)" t-esc="r.source"/>
+                                        <span class="o_ea_ws_badge is-grey" t-else="" t-esc="r.source"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot t-if="state.tab === 'uncorrected'">
+                                <tr class="is-total">
+                                    <td colspan="6">Total uncorrected (before tax)</td>
+                                    <td class="o_num" t-esc="p.totals.profit"/>
+                                    <td class="o_num" t-esc="p.totals.assets"/>
+                                    <td class="o_num" t-esc="p.totals.liabilities"/>
+                                    <td class="o_num" t-esc="p.totals.equity"/>
+                                    <td colspan="2"/>
+                                </tr>
+                                <tr class="is-total">
+                                    <td colspan="6" t-esc="p.afterTaxLabel"/>
+                                    <td class="o_num" t-esc="p.afterTax"/>
+                                    <td colspan="5" class="o_ea_ws_hint">Effect on profit after tax against the trial balance: <t t-esc="p.income.before"/> → <t t-esc="p.income.after"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <p class="o_ea_ws_legend" t-if="state.tab === 'trivial'">Clearly trivial differences (below the trivial level) are kept here, not added to the total (ISA 450).</p>
+                    <p class="o_ea_ws_legend" t-else="">Brackets = reduces profit or the balance. Click a line to open it; the Source links back to the finding or paper it came from. Clearly trivial lines are kept aside, not lost.</p>
+                </t>
+
+                <t t-if="state.tab === 'disclosures'">
+                    <p class="o_ea_ws_empty" t-if="!p.discRows.length">No disclosure misstatement recorded.</p>
+                    <table class="o_ea_ws_grid" t-else="">
+                        <thead><tr><th>No.</th><th>Note</th><th>Description</th><th>Guidance</th><th>Evaluation</th><th>Corrected</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="p.discRows" t-as="r" t-key="r_index">
+                                <td t-esc="r.no"/><td t-esc="r.fn"/><td t-esc="r.description"/><td t-esc="r.guidance"/><td t-esc="r.evaluation"/>
+                                <td><t t-if="r.corrected">✓</t></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary btn-sm mt-2" t-on-click="() => this.open('action_open_sad_conclusion')">Edit the disclosure rows</button>
+                </t>
+
+                <t t-if="state.tab === 'cashflow'">
+                    <p class="o_ea_ws_empty" t-if="!p.cfRows.length">No cash-flow misstatement recorded.</p>
+                    <table class="o_ea_ws_grid is-figures" t-else="">
+                        <thead><tr><th>No.</th><th>W/P ref.</th><th>Cash-flow line</th><th class="o_num">Operating</th><th class="o_num">Investing</th><th class="o_num">Financing</th><th>Evaluation</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="p.cfRows" t-as="r" t-key="r_index">
+                                <td t-esc="r.no"/><td t-esc="r.ref"/><td t-esc="r.line"/>
+                                <td class="o_num" t-esc="r.operating"/><td class="o_num" t-esc="r.investing"/><td class="o_num" t-esc="r.financing"/>
+                                <td t-esc="r.evaluation"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary btn-sm mt-2" t-on-click="() => this.open('action_open_sad_conclusion')">Edit the cash-flow rows</button>
+                </t>
+
+                <t t-if="state.tab === 'factors'">
+                    <table class="o_ea_ws_grid" data-ea="sad-factors">
+                        <thead><tr><th>Question (ISA 450 A21)</th><th>Answer</th><th>Comment</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="p.factors" t-as="q" t-key="q.key">
+                                <td t-esc="q.label"/>
+                                <td>
+                                    <span class="o_ea_ws_seg">
+                                        <button type="button" t-foreach="p.answers" t-as="a" t-key="a[0]" t-att-disabled="p.readonly"
+                                                t-att-class="{'is-on': q.answer === a[0]}" t-on-click="() => this.saveMeta(q.key, a[0])"><t t-esc="a[1]"/></button>
+                                    </span>
+                                </td>
+                                <td><input type="text" class="o_ea_ws_input w-100" t-att-readonly="p.readonly" t-att-value="q.comment" t-on-change="(ev) => this.onMeta(q.key + 'c', ev)"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <t t-if="state.tab === 'tax'">
+                    <div class="o_ea_ws_form" data-ea="sad-tax">
+                        <label>Tax rate (%)</label>
+                        <input type="text" inputmode="decimal" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="p.meta.tax_rate" t-on-change="(ev) => this.onMeta('tax_rate', ev, true)"/>
+                        <label>Prior-period turnaround: factual and projected</label>
+                        <input type="text" inputmode="decimal" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="p.meta.turnaround_factual" t-on-change="(ev) => this.onMeta('turnaround_factual', ev, true)"/>
+                        <label>Prior-period turnaround: judgmental</label>
+                        <input type="text" inputmode="decimal" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="p.meta.turnaround_judgmental" t-on-change="(ev) => this.onMeta('turnaround_judgmental', ev, true)"/>
+                        <label>Income after tax from the trial balance</label>
+                        <span class="o_num" t-esc="p.meta.income_tb"/>
+                        <label>Income after tax (enter only when the file's result differs; 0 = the trial balance)</label>
+                        <input type="text" inputmode="decimal" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="p.meta.income_after_tax" t-on-change="(ev) => this.onMeta('income_after_tax', ev, true)"/>
+                    </div>
+                    <label class="o_ea_ws_label">Team conclusion</label>
+                    <textarea class="o_ea_ws_text is-tall" t-att-readonly="p.readonly" t-att-value="p.meta.concl_text"
+                              placeholder="Are the uncorrected differences material, alone or together?"
+                              t-on-change="(ev) => this.onMeta('concl_text', ev)"/>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

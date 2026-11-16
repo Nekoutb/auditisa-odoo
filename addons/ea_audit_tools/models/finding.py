@@ -81,7 +81,7 @@ class Finding(models.Model):
             finding.suggested_severity = evaluation.suggested_severity
 
     def _ea_user_write(self, vals):
-        self._ea_only(vals, {"detail", "recommendation", "management_response"})
+        self._ea_only(vals, {"detail", "impact", "recommendation", "management_response"})
         self._ea_guard()
         self.sudo().write(vals)
         return True
@@ -376,9 +376,6 @@ class EngagementFinding(models.Model):
             self._ea_log("risk-addition", "Risk added during execution, approval required: %s" % (detail or title))
             return {"destination": "risk", "risk": risk.with_env(self.env)}
         raise rule_error(self.env, "invalid-value")
-
-    def action_tool_findings(self):
-        return self._ea_board("ea_audit_tools.view_engagement_findings_board", self.env._("Findings"))
 
     def action_tool_deficiencies(self):
         return self._ea_list(

@@ -375,7 +375,9 @@ msgid "Abandon reliance: substantive extension"
 msgstr "Abandon de l'appui : extension substantive"
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sap_procedure__evaluation__above
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
 msgid "Above the threshold"
 msgstr "Au-dessus du seuil"
 
@@ -693,7 +695,9 @@ msgid "Alerts"
 msgstr "Alertes"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__entry_limit__all
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "All"
 msgstr "Tous"
 
@@ -722,6 +726,7 @@ msgstr "Amortissements des immobilisations incorporelles"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__amount
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__amount
 #: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Amount"
 msgstr "Montant"
 
@@ -978,7 +983,9 @@ msgid "Assessment"
 msgstr "Évaluation"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Assets"
 msgstr "Actif"
 
@@ -1067,10 +1074,12 @@ msgid "Audit assertion"
 msgstr "Assertion d'audit"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sad
 #: model:ir.actions.act_window,name:ea_audit_tools.action_sad_entries
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_entry_ids
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Audit differences"
 msgstr "Écarts d'audit"
 
@@ -1615,9 +1624,11 @@ msgid "Clearing"
 msgstr "Levée"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__mat_trivial_label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__trivial
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__is_trivial
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Clearly trivial"
 msgstr "Anomalies manifestement négligeables"
 
@@ -1688,6 +1699,7 @@ msgstr "Processus de clôture"
 #. odoo-python
 #: code:addons/ea_audit_tools/models/finding.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__status__cleared
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
 msgid "Closed"
 msgstr "Clos"
 
@@ -2021,9 +2033,11 @@ msgid "Corr Html"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__corrected
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__corrected
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__corrected
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Corrected"
 msgstr "Corrigée"
 
@@ -2505,6 +2519,7 @@ msgid "Describe the risk (at least three characters)."
 msgstr "Décrivez le risque (au moins trois caractères)."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__description
@@ -2527,6 +2542,7 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__description
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Description"
 msgstr "Intitulé"
 
@@ -3158,8 +3174,10 @@ msgid "Equipment, furniture and biological assets"
 msgstr "Matériel, mobilier et actifs biologiques"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__equity
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__equity
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Equity"
 msgstr "Capitaux propres"
 
@@ -3194,7 +3212,9 @@ msgid "Estimation"
 msgstr "Estimation"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__evaluation
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Evaluation"
 msgstr "Évaluation"
 
@@ -3335,6 +3355,7 @@ msgstr "Exporter la balance âgée"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
 #: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Export to Excel"
 msgstr "Exporter vers Excel"
 
@@ -3558,7 +3579,9 @@ msgid "Financial statements"
 msgstr "États financiers"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__financing
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Financing"
 msgstr "Financement"
 
@@ -3573,10 +3596,13 @@ msgid "Find an account"
 msgstr "Chercher un compte"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_finding
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__finding_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__finding_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__title
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__finding_id
 msgid "Finding"
 msgstr "Constat"
 
@@ -3591,12 +3617,15 @@ msgid "Finding Uncommunicated Count"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/finding.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_findings
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_ids
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
 msgid "Findings"
 msgstr "Constats"
 
@@ -4505,7 +4534,9 @@ msgid "Investigation"
 msgstr "Investigation"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__investing
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Investing"
 msgstr "Investissement"
 
@@ -5085,12 +5116,14 @@ msgid "Library procedures: what is ticked goes to the E4 paper"
 msgstr "Procédures de la bibliothèque : ce qui est coché va au papier E4"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__likelihood
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__likelihood
 #. odoo-python
 #: code:addons/ea_audit_tools/models/risk.py:0
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Likelihood"
 msgstr "Probabilité"
 
@@ -5237,12 +5270,14 @@ msgid "MUS and attributes, with every draw kept and its reason."
 msgstr "MUS et attributs, tirages conservés avec motif."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__magnitude
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk_wizard__magnitude
 #. odoo-python
 #: code:addons/ea_audit_tools/models/risk.py:0
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Magnitude"
 msgstr "Ampleur"
 
@@ -5437,11 +5472,13 @@ msgid "Missing reference"
 msgstr "Référence manquante"
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_misstatement
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__misstatement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__misstatement_id
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__route__b5
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__b5
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
 msgid "Misstatement"
 msgstr "Anomalie"
 
@@ -5626,10 +5663,12 @@ msgid "New control risk"
 msgstr "Nouveau risque de contrôle"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/finding.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_finding_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "New finding"
 msgstr "Nouveau constat"
 
@@ -5721,9 +5760,11 @@ msgid "No version yet"
 msgstr "Aucune version"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__number
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__no
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__no
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "No."
 msgstr "N°"
 
@@ -5770,6 +5811,7 @@ msgstr "Non évaluable"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/models/finding.py:0
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
 msgid "Not evaluable: materiality is not approved"
 msgstr "Non évaluable : le seuil n'est pas approuvé"
 
@@ -5801,11 +5843,13 @@ msgid "Not supported"
 msgstr "Non corroborée"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_wizard__note
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Note"
 msgstr "Note"
 
@@ -6039,7 +6083,9 @@ msgid "Opening ties to prior year: %(count)s exception(s)"
 msgstr "Rapprochement de l'ouverture avec N-1 : %(count)s exception(s)"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__operating
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Operating"
 msgstr "Exploitation"
 
@@ -6199,6 +6245,7 @@ msgid "Pair"
 msgstr "Couple"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__file_item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__file_item_id
@@ -6208,6 +6255,7 @@ msgstr "Couple"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__file_item_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_finding_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_forms_register
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Paper"
 msgstr "Papier"
 
@@ -6451,7 +6499,9 @@ msgid "Positions"
 msgstr "Positions"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Post to the C1.1 schedule"
 msgstr "Reporter sur l'état C1.1"
 
@@ -6632,12 +6682,16 @@ msgid "Prior year: the valid prior-year trial balance"
 msgstr "Exercice N-1 : la balance N-1 valide"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__turnaround_factual
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Prior-period turnaround: factual and projected"
 msgstr "Retournement N-1 : avérées et extrapolées"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__turnaround_judgmental
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Prior-period turnaround: judgmental"
 msgstr "Retournement N-1 : de jugement"
 
@@ -6693,8 +6747,10 @@ msgid "Processing"
 msgstr "Traitement"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__pbt
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__pbt
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Profit before tax"
 msgstr "Résultat avant impôt"
 
@@ -6814,6 +6870,7 @@ msgstr "Soulevé par"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_risk__source_code
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_potential_wizard__source_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__source_label
 msgid "Raised from"
 msgstr "Soulevé depuis"
 
@@ -7053,7 +7110,9 @@ msgid "Recurring and non-recurring entries (corrections, reclassifications, elim
 msgstr "Écritures récurrentes et non récurrentes (corrections, reclassements, éliminations) : qui peut les initier, qui les approuve, et comment les écritures non standard sont identifiées."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__reference
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Ref."
 msgstr "N°"
 
@@ -7151,8 +7210,10 @@ msgid "Remote"
 msgstr "Faible"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_itgc_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Remove"
 msgstr "Retirer"
 
@@ -7724,8 +7785,10 @@ msgid "Services in progress"
 msgstr "Services en cours"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__severity
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__severity
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Severity"
 msgstr "Gravité"
 
@@ -7839,8 +7902,10 @@ msgid "Significant class of transactions"
 msgstr "Flux significatif"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__finding_significant_count
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_findings_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Significant deficiencies"
 msgstr "Déficiences significatives"
 
@@ -7891,10 +7956,12 @@ msgid "Sort"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__source
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_program_step__source
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_public_holiday__source
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__source
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Source"
 msgstr "Source"
 
@@ -8069,9 +8136,12 @@ msgid "Summary"
 msgstr "Résumé"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/sad.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
 msgid "Summary of audit differences"
 msgstr "Récapitulatif des écarts d'audit"
 
@@ -8192,9 +8262,11 @@ msgid "Tb"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__sad_concl_text
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_meta__concl_text
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sad_board
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Team conclusion"
 msgstr "Conclusion de l'équipe"
 
@@ -8658,9 +8730,11 @@ msgid "This tool is not available yet on this version."
 msgstr "Cet outil n'est pas encore disponible dans cette version."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/materiality.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__threshold_amount
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Threshold"
 msgstr "Seuil"
 
@@ -8919,9 +8993,11 @@ msgid "Two materiality versions can never both be approved."
 msgstr "Deux versions du seuil ne peuvent jamais être approuvées en même temps."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__mtype
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__mtype
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__mtype
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Type"
 msgstr "Type"
 
@@ -9114,8 +9190,10 @@ msgid "Volumes per account class"
 msgstr "Volumes par classe de comptes"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_cf_row__ref
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__ref
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "W/P ref."
 msgstr "Réf. papier"
 
@@ -11197,6 +11275,7 @@ msgstr "Liste Excel"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "Read only: this engagement is archived."
 msgstr "Lecture seule : cette mission est archivée."
 
@@ -11373,3 +11452,597 @@ msgstr "Affichage :"
 #: code:addons/ea_audit_tools/models/risk.py:0
 msgid "Show all risks"
 msgstr "Afficher tous les risques"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Read only: your role reads the findings but does not change them."
+msgstr "Lecture seule : votre rôle lit les constats sans les modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "All findings"
+msgstr "Tous les constats"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Waiting for management's answer"
+msgstr "En attente de la réponse de la direction"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Not yet reported to management"
+msgstr "Pas encore communiqués à la direction"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Linked audit differences"
+msgstr "Écarts d'audit liés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "significant deficiency(ies) not communicated in writing: this blocks the archive (ISA 265)."
+msgstr "déficience(s) significative(s) non communiquée(s) par écrit : cela bloque l'archivage (ISA 265)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "No finding at this stage."
+msgstr "Aucun constat à cette étape."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Amount (FCFA)"
+msgstr "Montant (FCFA)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Stage"
+msgstr "Étape"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Docs"
+msgstr "Pièces"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Red = significant deficiency · amber = deficiency · grey = other matter or misstatement. Click a row to open it on the right. A finding moves on as its assessment, management's answer, the written report and the closing are recorded."
+msgstr "Rouge = déficience significative · orange = déficience · gris = autre point ou anomalie. Cliquez sur une ligne pour l'ouvrir à droite. Un constat avance à mesure que son évaluation, la réponse de la direction, la communication écrite et la clôture sont enregistrées."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "What we found"
+msgstr "Ce que nous avons constaté"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__impact
+msgid "Why it matters"
+msgstr "Pourquoi c'est important"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "What we recommend"
+msgstr "Ce que nous recommandons"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Management's answer"
+msgstr "Réponse de la direction"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "ISA 265 assessment"
+msgstr "Évaluation ISA 265"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "suggested:"
+msgstr "suggéré :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Reported in writing to"
+msgstr "Communiqué par écrit à"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "e.g. the CFO"
+msgstr "ex. le DAF"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "date of the letter"
+msgstr "date du courrier"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Management already aware"
+msgstr "Direction déjà informée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "More: accounts, indicators, related deficiencies"
+msgstr "Plus : comptes, indicateurs, déficiences liées"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "On the summary of audit differences"
+msgstr "Sur le récapitulatif des écarts d'audit"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "How it was resolved"
+msgstr "Comment il a été résolu"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Close the finding"
+msgstr "Clôturer le constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "How was it resolved?"
+msgstr "Comment a-t-il été résolu ?"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Mark as closed"
+msgstr "Clôturer"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__document_ids
+msgid "Documents"
+msgstr "Documents"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Drop evidence here or"
+msgstr "Déposez les pièces ici ou"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "choose files"
+msgstr "choisissez des fichiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "No document yet."
+msgstr "Aucun document pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Add a difference"
+msgstr "Ajouter un écart"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Read only: your role reads the summary but does not change it."
+msgstr "Lecture seule : votre rôle lit le récapitulatif sans le modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Trivial"
+msgstr "Négligeable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Performance"
+msgstr "Seuil de travail"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Overall"
+msgstr "Seuil global"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "No difference here."
+msgstr "Aucun écart ici."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Debit account"
+msgstr "Compte débité"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Credit account"
+msgstr "Compte crédité"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Liabilities"
+msgstr "Passif"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "not posted yet"
+msgstr "pas encore reporté"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "changed since posted"
+msgstr "modifié depuis le report"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Total uncorrected (before tax)"
+msgstr "Total non corrigé (avant impôt)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Effect on profit after tax against the trial balance:"
+msgstr "Effet sur le résultat après impôt par rapport à la balance :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Clearly trivial differences (below the trivial level) are kept here, not added to the total (ISA 450)."
+msgstr "Les écarts manifestement négligeables (sous le seuil de négligeabilité) sont gardés ici, sans entrer dans le total (ISA 450)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Brackets = reduces profit or the balance. Click a line to open it; the Source links back to the finding or paper it came from. Clearly trivial lines are kept aside, not lost."
+msgstr "Entre parenthèses = diminue le résultat ou le solde. Cliquez sur une ligne pour l'ouvrir ; l'Origine renvoie au constat ou au papier d'où elle vient. Les lignes manifestement négligeables sont mises à part, pas perdues."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "No disclosure misstatement recorded."
+msgstr "Aucune anomalie d'information en annexe enregistrée."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Guidance"
+msgstr "Référentiel"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Edit the disclosure rows"
+msgstr "Modifier les lignes d'annexe"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "No cash-flow misstatement recorded."
+msgstr "Aucune anomalie du tableau des flux enregistrée."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Cash-flow line"
+msgstr "Ligne du tableau des flux"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Edit the cash-flow rows"
+msgstr "Modifier les lignes de flux"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Question (ISA 450 A21)"
+msgstr "Question (ISA 450 A21)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Answer"
+msgstr "Réponse"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Comment"
+msgstr "Commentaire"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Tax rate (%)"
+msgstr "Taux d'impôt (%)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Income after tax from the trial balance"
+msgstr "Résultat après impôt selon la balance"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Income after tax (enter only when the file's result differs; 0 = the trial balance)"
+msgstr "Résultat après impôt (à saisir seulement si le résultat du dossier diffère ; 0 = la balance)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Are the uncorrected differences material, alone or together?"
+msgstr "Les écarts non corrigés sont-ils significatifs, seuls ou ensemble ?"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "1 Raised"
+msgstr "1 Relevés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "2 Assessed (ISA 265)"
+msgstr "2 Évalués (ISA 265)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "3 Discussed with management"
+msgstr "3 Discutés avec la direction"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "4 Reported"
+msgstr "4 Communiqués"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "5 Closed"
+msgstr "5 Clôturés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Write how the finding was resolved, then close it."
+msgstr "Indiquez comment le constat a été résolu, puis clôturez-le."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "1 Uncorrected"
+msgstr "1 Non corrigés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "2 Corrected"
+msgstr "2 Corrigés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "3 Disclosures"
+msgstr "3 Annexe"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "4 Cash flow"
+msgstr "4 Flux de trésorerie"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "5 Other factors"
+msgstr "5 Autres facteurs"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "%s to answer"
+msgstr "%s à renseigner"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "6 Tax and conclusion"
+msgstr "6 Impôt et conclusion"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Raised"
+msgstr "Relevé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Assessed"
+msgstr "Évalué"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Discussed"
+msgstr "Discuté"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Reported"
+msgstr "Communiqué"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Other matter"
+msgstr "Autre point"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Not yet assessed"
+msgstr "Pas encore évalué"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Waiting for answer"
+msgstr "En attente de réponse"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Not yet reported"
+msgstr "Pas encore communiqué"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Answer received"
+msgstr "Réponse reçue"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Reported %s"
+msgstr "Communiqué le %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Raised by %(name)s on %(date)s"
+msgstr "Relevé par %(name)s le %(date)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "from %s"
+msgstr "issu de %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "linked to audit difference %s"
+msgstr "lié à l'écart d'audit %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "clearly trivial, kept aside"
+msgstr "manifestement négligeable, mis à part"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "corrected by management"
+msgstr "corrigé par la direction"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "not corrected"
+msgstr "non corrigé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "%(closed)s of %(total)s closed"
+msgstr "%(closed)s sur %(total)s clôturés"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "%(count)s waiting for management"
+msgstr "%(count)s en attente de la direction"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "%(count)s significant deficiency not yet reported"
+msgstr "%(count)s déficience(s) significative(s) pas encore communiquée(s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Close to the threshold"
+msgstr "Proche du seuil"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Below the threshold"
+msgstr "Sous le seuil"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Uncorrected differences: %(total)s FCFA, %(share)s%% of the threshold (overall - performance = %(threshold)s FCFA, ISA 450)"
+msgstr "Écarts non corrigés : %(total)s FCFA, %(share)s %% du seuil (seuil global - seuil de travail = %(threshold)s FCFA, ISA 450)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "To evaluate"
+msgstr "À évaluer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "After tax at %(rate)s%%"
+msgstr "Après impôt à %(rate)s %%"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Audit difference"
+msgstr "Écart d'audit"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__source_model
+msgid "Raised from (model)"
+msgstr "Issu de (modèle)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__source_id
+msgid "Raised from (record)"
+msgstr "Issu de (enregistrement)"
