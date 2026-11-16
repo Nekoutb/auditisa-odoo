@@ -75,8 +75,11 @@ class TestPartnerRequired(EaAuditCase):
             "engagement_partner_id": self.partner.id,
         })
         action = wizard.action_create()
-        self.assertEqual(action["tag"], "display_notification")
-        self.assertEqual(self.Engagement.sudo().search_count([("fiscal_year", "=", 2034)]), 1)
+        engagement = self.Engagement.sudo().search([("fiscal_year", "=", 2034)])
+        self.assertEqual(len(engagement), 1)
+        # Owner ruling 2026-11-15: the firm administrator looks at every file but changes none,
+        # so the file opens look-only instead of a "you cannot read it" notice.
+        self.assertEqual((action["type"], action.get("res_id")), ("ir.actions.act_window", engagement.id))
 
     def test_the_wizard_opens_the_form_for_the_partner_seated(self):
         wizard = self.env["ea.audit.engagement.create.wizard"].with_user(self.partner).create({
