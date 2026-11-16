@@ -36,8 +36,10 @@ def _fixture(name):
 
 # Deliberate departures from the recorded TypeScript: C4.2 holds the quality review alone, its
 # communications being on C5.11 (F005), S6.1 asks what brings a conditional task onto the file (F031),
-# and P1.1 shows the engagement profile questionnaire's answers read only (owner's ruling of 2026-11-15).
-DEPARTS = {"C4.2", "P1.1", "S6.1"}
+# P1.1 shows the engagement profile questionnaire's answers read only (owner's ruling of 2026-11-15),
+# and P1.5 records the firm's decision on a quality review, the profile's facts shown read only
+# (owner's ruling of 2026-11-16: appointing a reviewer is always the firm's decision).
+DEPARTS = {"C4.2", "P1.1", "P1.5", "S6.1"}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")

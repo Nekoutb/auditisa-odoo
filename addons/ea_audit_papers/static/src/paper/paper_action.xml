@@ -143,9 +143,33 @@
             <t t-set="ckey" t-value="item.ansKey"/>
             <t t-call="ea_audit_papers.PaperConflict"/>
         </t>
+        <t t-elif="item.field.kind === 'auto' and item.field.compact">
+            <div class="eap-fact">
+                <span class="eap-fact-label"><t t-esc="item.label"/> <small class="eap-fact-tag" t-if="item.tag" t-esc="item.tag"/></span>
+                <span class="eap-pill" t-esc="autoText(item.field)"/>
+            </div>
+        </t>
+        <t t-elif="item.field.kind === 'auto' and item.field.tone">
+            <p t-att-class="'eap-tone is-' + item.field.tone"><b t-if="item.field.tone === 'conclusion'"><t t-esc="item.label"/>: </b><t t-esc="autoText(item.field)"/></p>
+        </t>
         <t t-elif="item.field.kind === 'auto'">
             <span class="eap-label" t-esc="item.label"/>
             <p class="eap-auto" t-esc="autoText(item.field)"/>
+        </t>
+        <t t-elif="item.field.kind === 'select' and item.cards">
+            <span class="eap-label" t-esc="item.label"/>
+            <div class="eap-cards">
+                <t t-foreach="item.options" t-as="option" t-key="option.value">
+                    <button type="button" class="eap-card-choice" t-att-class="{'is-on': val(item.field.key) === option.value}"
+                            t-att-disabled="ro(item.field.key)" t-att-data-value="option.value"
+                            t-on-click="() => this.set(item.field.key, option.value)">
+                        <b t-esc="option.label"/>
+                        <small t-if="option.hint" t-esc="option.hint"/>
+                    </button>
+                </t>
+            </div>
+            <t t-set="ckey" t-value="item.field.key"/>
+            <t t-call="ea_audit_papers.PaperConflict"/>
         </t>
         <t t-elif="item.field.kind === 'select'">
             <span class="eap-label" t-esc="item.label"/>
@@ -160,7 +184,7 @@
             <t t-call="ea_audit_papers.PaperConflict"/>
         </t>
         <t t-else="">
-            <span class="eap-label" t-esc="item.label"/>
+            <span class="eap-label" t-att-class="{'is-idle': !asked(item.field)}" t-esc="item.label"/>
             <t t-set="bkey" t-value="item.field.key"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('workHint')"/>
             <t t-call="ea_audit_papers.PaperBox"/>
         </t>

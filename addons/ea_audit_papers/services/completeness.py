@@ -115,8 +115,25 @@ def _is_proc_key(definition, key):
     return False
 
 
+def _field_when(definition, key):
+    """The {"key", "value"} condition under which a typed field is asked, or None."""
+    fields = list(definition.get("fields") or [])
+    for section in _sections(definition):
+        if section["kind"] == "fields":
+            fields.extend(section["fields"])
+    for field in fields:
+        if field.get("key") == key and field.get("when"):
+            return field["when"]
+    return None
+
+
 def key_answered(definition, key, values):
-    """A factor or a procedure marked N/A is an answer only with its reason (F040)."""
+    """A factor or a procedure marked N/A is an answer only with its reason (F040). A field
+    asked only under a condition (P1.5's reviewer, when the firm appoints one) needs no answer
+    while the condition is not met."""
+    when = _field_when(definition, key)
+    if when and _value(values, when["key"]) != when["value"]:
+        return True
     if key.startswith("q_"):
         answer = _value(values, key)
         if answer == NA:
@@ -190,3 +207,22 @@ def missing_parts(definition, values):
     count = len(definition.get("conclEn") or [])
     part("Conclusion", "Conclusion", [k for i in range(count) for k in (concl_key(i), concl_why_key(i))])
     return parts
+
+
+# eqrDeterminationFields: q_eqr of the older paper, and the Part B criteria P1.5 asked until
+# 2026-11-16. They decide only on a file where the firm has not yet recorded its decision.
+EQR_LEGACY_KEYS = tuple(
+    ["q_eqr"]
+    + [yn_key(k) for k in ("listed", "law", "pie", "high_risk", "first_year", "complexity", "capital", "monitor", "policy")]
+)
+EQR_DECISION = "decision"
+
+
+def eqr_decided(values):
+    """Owner's ruling of 2026-11-16: appointing a quality reviewer is always the firm's
+    decision, recorded on P1.5. A file saved before that ruling has no decision yet; its
+    old criteria answers keep deciding until one is recorded, so nothing changes silently."""
+    decision = (values.get(EQR_DECISION) or "").strip()
+    if decision:
+        return decision == "appoint"
+    return any((values.get(key) or "").strip() == "yes" for key in EQR_LEGACY_KEYS)

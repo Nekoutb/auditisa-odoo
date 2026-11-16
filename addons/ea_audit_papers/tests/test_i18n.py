@@ -25,6 +25,19 @@ class TestFrench(PaperCase):
                 untranslated.append(code)
         self.assertEqual(untranslated, [])
 
+    def test_p15_facts_and_decision_read_in_french(self):
+        profile = self.engagement._ea_profile() or self.env["ea.audit.engagement.profile"].sudo().create(
+            {"engagement_id": self.engagement.id}
+        )
+        profile.write({"q1_listed": "yes", "q3_controls_law": "no"})
+        self.paper("P1.5").with_user(self.staff).save_answers({"decision": "none", "decision_why": "Politique du cabinet."})
+        values = self.paper("P1.5").with_context(lang="fr_FR")._ea_auto_values()
+        self.assertEqual((values["profile_listed"], values["profile_law"]), ("Oui", "Non"))
+        self.assertEqual(values["profile_monitoring"], "Sans réponse")
+        self.assertIn("La décision reste celle du cabinet", values["decision_note"])
+        self.assertIn("Pas de revue de qualité pour cette mission.", values["decision_conclusion"])
+        self.assertIn("Décidé par", values["decision_conclusion"])
+
     def test_paper_incomplete_names_the_part_in_french(self):
         item = self.item(self.engagement, "P3.1").with_user(self.senior).with_context(lang="fr_FR")
         message = None

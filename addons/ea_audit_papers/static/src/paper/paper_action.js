@@ -213,7 +213,10 @@ export class PaperAction extends Component {
                     whyKey: `q_${item.key}_x`,
                 }));
             } else {
-                items = section.fields.map((field) => this.fieldItem(field));
+                // an auto field marked hideEmpty (P1.5's reminder and conclusion) shows only with a value
+                items = section.fields
+                    .filter((field) => !(field.hideEmpty && !this.state.payload.auto_values[field.key]))
+                    .map((field) => this.fieldItem(field));
             }
             parts.push({
                 id: `s${index}`,
@@ -241,11 +244,19 @@ export class PaperAction extends Component {
             id: `f:${field.key}`,
             field,
             label: this.pick(field, "label"),
+            tag: this.pick(field, "tag"),
             options: (field.options || []).map((option) => ({
                 value: option.value,
                 label: this.fr ? option.fr : option.en,
+                hint: this.pick(option, "hint"),
             })),
+            cards: (field.options || []).some((option) => option.hintEn),
         };
+    }
+
+    /** A field asked only when another answer has a given value (P1.5's reviewer). */
+    asked(field) {
+        return !field.when || this.val(field.when.key) === field.when.value;
     }
 
     answered(item) {
@@ -257,7 +268,7 @@ export class PaperAction extends Component {
             const answer = v(item.ansKey);
             return answer === NA || answer === "no" ? filled(v(item.whyKey)) : filled(answer);
         }
-        return item.field.kind === "auto" || filled(v(item.field.key));
+        return item.field.kind === "auto" || !this.asked(item.field) || filled(v(item.field.key));
     }
 
     get conclusions() {

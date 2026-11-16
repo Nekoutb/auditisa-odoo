@@ -149,3 +149,34 @@ def test_group_siblings_skip_the_task_itself():
     siblings = group_siblings("P1.1")
     assert "P1.2" in siblings and "P1.1" not in siblings
     assert group_siblings("NOPE") == []
+
+
+def test_p15_reviewer_is_asked_only_when_the_firm_appoints_one():
+    """Owner's ruling of 2026-11-16: the firm decides; Part 4 matters only for "appoint"."""
+    from services import unanswered_keys
+
+    definition = paper_for("P1.5")
+    base = {"other_capital": "not_applies", "other_policy": "not_applies", "decision_why": "Small private company.", "c_0": "yes"}
+    assert unanswered_keys(definition, dict(base, decision="none")) == []
+    assert unanswered_keys(definition, dict(base, decision="appoint")) == ["reviewer", "eligibility", "points"]
+    assert unanswered_keys(definition, dict(base, decision="")) == ["decision"]
+    assert unanswered_keys(definition, dict(base, decision="none", decision_why=" ")) == ["decision_why"]
+    # the profile's facts, the reminder and the conclusion are shown, never saved
+    keys = paper_keys(definition)
+    assert {"decision", "decision_why", "other_capital", "other_policy", "reviewer"} <= keys
+    assert not {"profile_listed", "p11_rating", "decision_note", "decision_conclusion", "q_listed"} & keys
+
+
+def test_p15_decision_and_the_answers_given_before_it():
+    from services.completeness import eqr_decided
+
+    assert eqr_decided({"decision": "appoint"})
+    assert not eqr_decided({"decision": "none"})
+    # the decision wins over the old criteria, which stay stored on older files
+    assert not eqr_decided({"decision": "none", "q_listed": "yes"})
+    assert eqr_decided({"decision": "appoint", "q_listed": "no"})
+    # no decision yet: the old answers keep deciding, so nothing changes silently
+    assert eqr_decided({"q_pie": "yes"})
+    assert eqr_decided({"q_eqr": "yes", "decision": "  "})
+    assert not eqr_decided({"q_pie": "no"})
+    assert not eqr_decided({})
