@@ -277,7 +277,7 @@ class TestHubAndGates(ToolsCase):
             action = tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
             # the CRA, the findings, the SAD, the journal entries and sampling open their one page
             # (2026-11-16), every other tool a window
-            pages = ("action_tool_cra", "action_tool_findings", "action_tool_sad", "action_tool_je", "action_tool_sampling")
+            pages = ("action_tool_cra", "action_tool_findings", "action_tool_sad", "action_tool_je", "action_tool_sampling", "action_tool_dsp")
             expected = "ir.actions.client" if tile.method in pages else "ir.actions.act_window"
             self.assertEqual(action["type"], expected, tile.code)
 

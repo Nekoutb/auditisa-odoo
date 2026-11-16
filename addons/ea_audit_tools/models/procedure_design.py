@@ -201,7 +201,10 @@ class EngagementProcedureDesign(models.Model):
         significant = {row["index"] for row in root._ea_significance_rows() if row["status"] == "significant"}
         accounts = []
         for row in root.cra_row_ids.filtered(lambda r: r.index_code in significant).sorted(lambda r: (r.sequence, r.id)):
-            cells = row.cell_ids.filtered("relevant").sorted(lambda c: (c.sequence, c.id))
+            # an RO cell on the board only by default and unassessed is no relevant assertion yet (F041)
+            cells = row.cell_ids.filtered(lambda c: c.relevant and not (
+                c.assertion == "RO" and c.relevant_defaulted and not c.ir and not c.cr
+            )).sorted(lambda c: (c.sequence, c.id))
             accounts.append({
                 "row": row, "code": row.index_code, "cells": cells,
                 "relevant": [cell.assertion for cell in cells],
