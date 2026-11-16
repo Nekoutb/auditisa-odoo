@@ -34,6 +34,7 @@
     .eap-sub { color: var(--eap-muted); font-size: 13px; }
     .eap-sub span + span::before { content: " · "; }
     .eap-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .eap-template-note { margin-top: 6px; font-size: 12px; color: #66727c; }
 
     .eap-chip {
         border: 0; border-radius: 8px; padding: 5px 10px; font-size: 13px; font-weight: 600;

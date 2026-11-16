@@ -281,7 +281,21 @@ class Paper(models.Model):
             action = getattr(paper.engagement_id.with_env(self.env), method)()
             for link in links:
                 link["action"] = action
+        if paper.code == "C3.1":
+            links.append(self._ea_rep_letter_link(paper.engagement_id.with_env(self.env)))
         return links
+
+    def _ea_rep_letter_link(self, engagement):
+        """C3.1: the sample representation letter, downloaded where the work is done."""
+        template = self.env.ref("ea_audit_tools.wp_c31_rep_letter", raise_if_not_found=False)
+        return {
+            "en": "Template: management representation letter (Word)",
+            "fr": "Modèle : lettre d'affirmation de la direction (Word)",
+            "plain": True,
+            "note_en": "Yellow text must be completed or deleted. Date it the same day as the auditor's report. File the signed copy on this task.",
+            "note_fr": "Le texte en jaune doit être complété ou supprimé. Datez-la du même jour que le rapport de l'auditeur. Classez la copie signée sur cette tâche.",
+            "action": engagement._ea_export_action("wp_%d" % template.id) if template else None,
+        }
 
     def _ea_after_save(self, writes):
         """S2.5: the conclusion answered on the paper is the one the CRA reads."""

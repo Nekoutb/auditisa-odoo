@@ -5,3 +5,4 @@ wp_sub_trade_payables,sub-trade-payables,substantive,Trade payables (N),N_Trade 
 wp_sub_inventory,sub-inventory,substantive,Inventory (F),F_Inventory.xlsx,"Lead schedule, counts, valuation and the substantive procedures for inventory.",E4.3,F_Inventory.xlsx,50
 wp_sub_fixed_assets,sub-fixed-assets,substantive,Fixed assets (K),K_Fixed Assets.xlsx,"Lead schedule, movements and the substantive procedures for fixed assets.",E4.4,K_Fixed Assets.xlsx,60
 wp_je_testing,je-testing,general-procedures,E3.1 Journal entries,E3.1 Journal Entries.xlsx,"Cover, population, criteria, selection and exceptions.",E3.1,,70
+wp_c31_rep_letter,c31-rep-letter,general-procedures,C3.1 Management representation letter,C3.1 Management representation letter (template).docx,"Sample letter (Word): yellow text must be completed or deleted. Date it the same day as the auditor's report.",C3.1,C3.1_Representation_letter_EN.docx,80

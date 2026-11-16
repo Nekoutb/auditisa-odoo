@@ -5,7 +5,7 @@ from odoo.http import request
 
 from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 
-XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+from ..models.analysis import mimetype_of
 
 
 class ToolExports(http.Controller):
@@ -18,6 +18,6 @@ class ToolExports(http.Controller):
         except AuditRuleError as error:
             return request.make_json_response({"error": error.code, "message": str(error)}, status=403)
         return request.make_response(content, headers=[
-            ("Content-Type", XLSX),
+            ("Content-Type", mimetype_of(filename)),
             ("Content-Disposition", "attachment; filename*=UTF-8''%s" % quote(filename)),
         ])
