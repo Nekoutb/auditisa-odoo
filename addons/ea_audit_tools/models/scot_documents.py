@@ -201,6 +201,7 @@ class ScotOverview(models.Model):
                 "controlId": row.control_id.id or False, "controlCode": row.control_id.code or "",
                 "url": "/web/content/%d?download=true" % row.attachment_id.id,
                 "ext": row.name.rsplit(".", 1)[-1][:4].upper() if "." in row.name else "DOC",
+                **row._ea_carry_info(),
             }
         floor = fields.Datetime.now() - timedelta(days=RESTORE_WINDOW_DAYS)
         removed = {}

@@ -21,6 +21,8 @@
                 <field name="rebuttal_state" optional="show" decoration-warning="rebuttal_state == 'proposed'" decoration-danger="rebuttal_state == 'rejected'"/>
                 <field name="index_summary"/>
                 <field name="linked_step_count"/>
+                <field name="carried_from_year" string="Carried from" optional="show" options="{'enable_formatting': false}"
+                       decoration-warning="carried_from_year" invisible="not carried_from_year"/>
                 <field name="status"/>
             </list>
         </field>

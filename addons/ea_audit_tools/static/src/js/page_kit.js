@@ -73,7 +73,8 @@ export class EaDocsPane extends Component {
     static template = "ea_audit_tools.EaDocsPane";
     static props = {
         engagementId: Number,
-        // the documents of what is open: {id, name, url, ext?, version?, by?, date?, typeLabel?, type?, controlId?, controlCode?}
+        // the documents of what is open: {id, name, url, ext?, version?, by?, date?, typeLabel?, type?, controlId?, controlCode?,
+        // carried?, carriedReviewed?} (carried: the mark of a document carried from last year's file)
         docs: { type: Array, optional: true },
         removed: { type: Array, optional: true },
         title: { type: String, optional: true },
@@ -97,8 +98,21 @@ export class EaDocsPane extends Component {
     setup() {
         this.dialog = useService("dialog");
         this.notification = useService("notification");
+        this.orm = useService("orm");
         this.fileInput = useRef("fileInput");
-        this.state = useState({ over: false, busy: false, type: "", controlId: false });
+        this.state = useState({ over: false, busy: false, type: "", controlId: false, reviewed: {} });
+    }
+
+    /** A document carried from last year's file (roll forward): who reviewed it, once someone has. */
+    reviewedLabel(doc) {
+        return this.state.reviewed[doc.id] || doc.carriedReviewed || "";
+    }
+
+    markReviewed(doc) {
+        return this.guard(async () => {
+            const info = await this.orm.call("ea.audit.task.attachment", "mark_carried_reviewed", [[doc.id]]);
+            this.state.reviewed[doc.id] = info.carriedReviewed;
+        });
     }
 
     get docs() {

@@ -19,6 +19,7 @@
                                 <td>
                                     <span class="o_ea_xdocs_ext" t-esc="row.ext"/>
                                     <t t-esc="row.name"/> <span class="o_ea_xdocs_muted">v<t t-esc="row.version"/></span>
+                                    <div t-if="row.carried and !row.carriedReviewed"><span class="badge text-bg-warning text-wrap text-start" t-esc="row.carried"/></div>
                                 </td>
                                 <td t-esc="row.type or '—'"/>
                                 <td><strong t-esc="row.code"/> <span class="o_ea_xdocs_muted" t-esc="row.task"/></td>

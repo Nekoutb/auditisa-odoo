@@ -30,7 +30,7 @@
                             context="{'default_engagement_id': id}"/>
                     <button name="action_open_profile" type="object" string="Profile questionnaire"/>
                     <button name="action_rollforward_next_year" type="object" string="Roll forward"
-                            confirm="Open next year's file for this client?"/>
+                            groups="ea_audit_core.group_manager"/>
                     <field name="phase" widget="statusbar"/>
                 </header>
                 <sheet>

@@ -423,9 +423,13 @@
                 <t t-else="">
                     <a t-att-href="downloadUrl(row.attachment_id)"><t t-esc="row.name"/> (v<t t-esc="row.version"/>)</a>
                     <span class="eap-muted eap-small"><t t-esc="row.by"/>, <t t-esc="row.date"/></span>
+                    <span t-if="row.carried and !row.carriedReviewed" class="badge text-bg-warning text-wrap text-start" t-esc="row.carried"/>
+                    <span t-if="row.carriedReviewed" class="eap-muted eap-small" t-esc="row.carriedReviewed"/>
                     <span t-if="!p.readonly">
                         <button type="button" class="eap-link" t-if="p.attachments.can_upload" t-on-click="() => this.startRename(row)" t-esc="t('rename')"/>
                         <button type="button" class="eap-link" t-if="p.attachments.can_remove" t-on-click="() => this.remove(row)" t-esc="t('remove')"/>
+                        <button type="button" class="eap-link" t-if="row.carried and !row.carriedReviewed and p.attachments.can_upload"
+                                t-on-click="() => this.markReviewed(row)" t-esc="t('markReviewed')"/>
                     </span>
                     <t t-foreach="row.history" t-as="old" t-key="old.id">
                         <a class="eap-small" t-att-href="downloadUrl(old.attachment_id)">v<t t-esc="old.version"/> </a>

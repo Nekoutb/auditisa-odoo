@@ -5538,3 +5538,342 @@ msgstr "Constat %(ref)s rouvert : %(reason)s"
 #: code:addons/ea_audit_core/services/conditional_triggers.py:0
 msgid "No longer a paper of the file (owner's decision of 2026-11-16)"
 msgstr "N'est plus un papier du dossier (décision du 16/11/2026)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "Roll forward from a closed file: issue its report or archive it first."
+msgstr "Reportez depuis un dossier clôturé : émettez d'abord son rapport ou archivez-le."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement.py:0
+msgid "Roll forward to %(year)s"
+msgstr "Reporter sur %(year)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/wizards/rollforward_wizard.py:0
+msgid "No longer in the firm: not carried"
+msgstr "A quitté le cabinet : non repris"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/wizards/rollforward_wizard.py:0
+msgid "Declined last year"
+msgstr "A décliné l'an dernier"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/wizards/rollforward_wizard.py:0
+msgid "A new file for %(client)s, year ending %(date)s. Nothing is concluded or signed in the new file; each member confirms independence before working."
+msgstr "Un nouveau dossier pour %(client)s, exercice clos le %(date)s. Rien n'est conclu ni signé dans le nouveau dossier ; chaque membre confirme son indépendance avant de travailler."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/wizards/rollforward_wizard.py:0
+msgid "The %(year)s file is created. Accept its invitation under My invitations to confirm your independence and open it; each member of the team does the same."
+msgstr "Le dossier %(year)s est créé. Acceptez son invitation dans Mes invitations pour confirmer votre indépendance et l'ouvrir ; chaque membre de l'équipe fait de même."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Rolled forward from the %(year)s file by %(name)s"
+msgstr "Reporté depuis le dossier %(year)s par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Carried forward from the %(year)s file: %(roles)s"
+msgstr "Repris du dossier %(year)s : %(roles)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(count)s evidence file(s) carried forward from %(year)s, to review before relying on them"
+msgstr "%(count)s pièce(s) justificative(s) reprise(s) de %(year)s, à revoir avant de s'y fier"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(code)s: prior-year document reviewed, %(file)s"
+msgstr "%(code)s : document de l'exercice précédent revu, %(file)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "tasks and scope"
+msgstr "tâches et périmètre"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "materiality basis"
+msgstr "base du seuil de signification"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "SCOTs and controls"
+msgstr "SCOT et contrôles"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "risk register"
+msgstr "registre des risques"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "procedure design"
+msgstr "conception des procédures"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "significance decisions"
+msgstr "décisions de significativité"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "prior-year balances"
+msgstr "soldes de l'exercice précédent"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "permanent file documents"
+msgstr "documents du dossier permanent"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "all evidence"
+msgstr "toutes les pièces justificatives"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_rollforward_wizard
+msgid "Roll forward to next year"
+msgstr "Reporter sur l'exercice suivant"
+
+#. module: ea_audit_core
+#: model:ir.model,name:ea_audit_core.model_ea_audit_rollforward_member
+msgid "Roll forward: a member to invite"
+msgstr "Report : un membre à inviter"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__source_id
+msgid "From the file"
+msgstr "Depuis le dossier"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__source_label
+msgid "From"
+msgstr "Depuis"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__intro
+msgid "Intro"
+msgstr "Introduction"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__period_end
+msgid "Year end"
+msgstr "Date de clôture"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__new_year
+msgid "New year"
+msgstr "Nouvel exercice"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__engagement_partner_id
+msgid "Engagement partner"
+msgstr "Associé responsable"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_scope
+msgid "Tasks and scope (profile answers)"
+msgstr "Tâches et périmètre (réponses du profil)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_scope
+msgid "Carried to re-confirm: the questionnaire is not concluded in the new file."
+msgstr "Repris pour reconfirmation : le questionnaire n'est pas conclu dans le nouveau dossier."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_materiality
+msgid "Materiality basis and percentages (no amounts)"
+msgstr "Base et pourcentages du seuil de signification (sans montants)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_materiality
+msgid "The basis and the percentages, to re-confirm. The amounts are worked out again from this year's figures."
+msgstr "La base et les pourcentages, à reconfirmer. Les montants sont recalculés à partir des chiffres de l'exercice."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_scots
+msgid "SCOTs, controls and walkthrough notes"
+msgstr "SCOT, contrôles et notes de cheminement"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_scots
+msgid "As drafts, to update: every test result, conclusion and sign-off starts again."
+msgstr "En brouillon, à mettre à jour : chaque résultat de test, conclusion et signature repart de zéro."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_risks
+msgid "Risk register and lead-index links"
+msgstr "Registre des risques et liens aux index"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_risks
+msgid "As drafts: each risk assessment is to re-confirm."
+msgstr "En brouillon : chaque évaluation de risque est à reconfirmer."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_procedures
+msgid "Procedure design (chosen ASPs and own procedures)"
+msgstr "Conception des procédures (ASP choisies et procédures propres)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_procedures
+msgid "As drafts, not started, with no conclusion."
+msgstr "En brouillon, non commencées, sans conclusion."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_significance
+msgid "Significance decisions"
+msgstr "Décisions de significativité"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_significance
+msgid "As drafts, to re-confirm."
+msgstr "En brouillon, à reconfirmer."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_comparatives
+msgid "Prior-year balances as comparatives (ISA 510)"
+msgstr "Soldes de l'exercice précédent comme comparatifs (ISA 510)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_comparatives
+msgid "Last year's closing trial balance becomes the prior-year trial balance of the new file."
+msgstr "La balance de clôture de l'an dernier devient la balance N-1 du nouveau dossier."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_permanent
+msgid "Permanent file documents (statutes, contracts, organisation chart)"
+msgstr "Documents du dossier permanent (statuts, contrats, organigramme)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_evidence
+msgid "All of last year's evidence"
+msgstr "Toutes les pièces justificatives de l'an dernier"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__carry_evidence
+msgid "Copied to the new file and marked \"Prior year, carried forward: review before relying on it\"."
+msgstr "Copiées dans le nouveau dossier et marquées « Exercice précédent, reprise : à revoir avant de s'y fier »."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__approach
+msgid "Approach"
+msgstr "Approche"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_rollforward_wizard__approach
+msgid "Change: the profile questionnaire opens again in the new file and its conclusion gives the tasks."
+msgstr "Changer : le questionnaire de profil est rouvert dans le nouveau dossier et sa conclusion donne les tâches."
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_rollforward_wizard__approach__same
+msgid "Same as last year"
+msgstr "Comme l'an dernier"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_rollforward_wizard__approach__change
+msgid "Change"
+msgstr "Changer"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__member_ids
+msgid "Team"
+msgstr "Équipe"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__wizard_id
+msgid "Wizard"
+msgstr "Assistant"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__invite
+msgid "Invite"
+msgstr "Inviter"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__team_role
+msgid "Role"
+msgstr "Rôle"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__eqr_declaration
+msgid "Objectivity declaration"
+msgstr "Déclaration d'objectivité"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__carried
+msgid "On last year's team"
+msgstr "Dans l'équipe de l'an dernier"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_member__note
+msgid "Note"
+msgstr "Remarque"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_rollforward_wizard
+msgid "1 · What to carry"
+msgstr "1 · Ce qui est repris"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_rollforward_wizard
+msgid "Carried items come in as drafts to update or re-confirm. Last year's evidence is copied and marked \"Prior year, carried forward: review before relying on it\". Sign-offs, conclusions and independence always start again."
+msgstr "Les éléments repris arrivent en brouillon, à mettre à jour ou à reconfirmer. Les pièces de l'an dernier sont copiées et marquées « Exercice précédent, reprise : à revoir avant de s'y fier ». Les signatures, les conclusions et l'indépendance repartent toujours de zéro."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_rollforward_wizard
+msgid "2 · Year, team and process"
+msgstr "2 · Exercice, équipe et démarche"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_rollforward_wizard
+msgid "Add a member with a new line: email and role."
+msgstr "Ajoutez un membre sur une nouvelle ligne : e-mail et rôle."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_rollforward_wizard
+msgid "Create the file"
+msgstr "Créer le dossier"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_rollforward_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_member_form
+msgid "By accepting, you confirm that you are independent of this client for this year."
+msgstr "En acceptant, vous confirmez être indépendant de ce client pour cet exercice."

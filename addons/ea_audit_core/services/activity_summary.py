@@ -47,12 +47,31 @@ WORDS = {
     "Not significant": _lt("Not significant"),
     "satisfactory": _lt("no exception"),
     "exceptions": _lt("exceptions found"),
+    # What a roll-forward carried (engagement.ROLLFORWARD_KEYS)
+    "scope": _lt("tasks and scope"),
+    "materiality": _lt("materiality basis"),
+    "scots": _lt("SCOTs and controls"),
+    "risks": _lt("risk register"),
+    "procedures": _lt("procedure design"),
+    "significance": _lt("significance decisions"),
+    "comparatives": _lt("prior-year balances"),
+    "permanent": _lt("permanent file documents"),
+    "evidence": _lt("all evidence"),
 }
 
 # The line, in order, as lists: the translation export reads a string in a tuple after a _lt as a term.
 # %(count)s of a group named "keys" is how many storage names it held:
 # the reader gets a number, not c_0, eligibility, p_appoint.
 _ENTRIES = (
+    # Roll forward (owner's mock-up of 2026-11-16)
+    [r"^Rolled forward from the (?P<year>\d+) file by (?P<name>.+)$",
+     _lt("Rolled forward from the %(year)s file by %(name)s")],
+    [r"^Carried forward from the (?P<year>\d+) file: (?P<roles>.+)$",
+     _lt("Carried forward from the %(year)s file: %(roles)s")],
+    [r"^(?P<count>\d+) evidence file\(s\) carried forward from (?P<year>\d+), to review before relying on them$",
+     _lt("%(count)s evidence file(s) carried forward from %(year)s, to review before relying on them")],
+    [r"^(?P<code>\S+): Prior-year document reviewed: (?P<file>.+)$",
+     _lt("%(code)s: prior-year document reviewed, %(file)s")],
     [r"^Engagement partner transferred from (?P<old>.+) to (?P<new>.+) \((?P<who>.+) now (?P<role>\w+)\)$",
      _lt("Engagement partner transferred from %(old)s to %(new)s (%(who)s now %(role)s)")],
     [r"^Acceptance gates passed: engagement moved to planning$",
