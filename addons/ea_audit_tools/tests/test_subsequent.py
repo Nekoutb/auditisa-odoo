@@ -6,7 +6,6 @@ from odoo.tests import tagged
 from ..services.subsequent import SUBSEQUENT_MIN_DAYS
 from .common import AR_CSV, AR_MAPPING, BALANCED_CSV, to_bytes
 from .test_gl import LEDGER, MAPPING
-from .test_procedure_execution import FAR_CSV, FAR_MAPPING
 from .test_import_matching import ImportCase
 
 #: Two balanced entries of the next year, the last on 14/02/2026: 45 days after the year end.
