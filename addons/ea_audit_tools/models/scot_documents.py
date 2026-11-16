@@ -4,6 +4,7 @@
 A SCOT's documents are evidence files of its walkthrough task (S1.3): they reuse the versioned,
 team-only, restorable model of ea_audit_papers and only add which SCOT, which control and what
 kind of document each one is. So they also show on S1.3, and its signatures follow them."""
+import re
 from datetime import timedelta
 
 from odoo import api, fields, models
@@ -15,6 +16,16 @@ from ..rules import rule_error
 from ..services.lead_classes import LEAD_INDEXES, lead_index_label
 from .scot import WALKTHROUGH_KEYS
 from .tool_record import is_french
+
+# The walkthrough task (S1.3) holds the documents of every SCOT, and its files are versioned by
+# name. The stored name carries the SCOT's tag, so that the same file name in two SCOTs makes two
+# files, each with its own versions; the SCOT page shows the name without it.
+_SCOT_TAG = "SCOT %d - "
+
+
+def _shown_name(scot, name):
+    tag = _SCOT_TAG % scot.id
+    return name[len(tag):] if name.startswith(tag) else name
 
 WALKTHROUGH_TASK = "S1.3"
 DOC_TYPE_SELECTION = [
@@ -184,7 +195,7 @@ class ScotOverview(models.Model):
                 entry["versions"] += 1
                 continue
             live[row.name] = {
-                "id": row.id, "name": row.name, "version": row.version, "versions": 1,
+                "id": row.id, "name": _shown_name(self, row.name), "version": row.version, "versions": 1,
                 "type": row.doc_type or "other", "typeLabel": type_labels.get(row.doc_type or "other", ""),
                 "by": row.uploaded_by_id.name or "", "date": row.uploaded_at.strftime("%d/%m/%Y") if row.uploaded_at else "",
                 "controlId": row.control_id.id or False, "controlCode": row.control_id.code or "",
@@ -195,7 +206,7 @@ class ScotOverview(models.Model):
         removed = {}
         for row in rows.filtered(lambda r: r.deleted_at and r.deleted_at >= floor):
             if row.name not in live:
-                removed.setdefault(row.name, {"id": row.id, "name": row.name, "by": row.deleted_by_id.name or ""})
+                removed.setdefault(row.name, {"id": row.id, "name": _shown_name(self, row.name), "by": row.deleted_by_id.name or ""})
         role = self.env.user._ea_firm_role()
         can_write = self._ea_can_edit("staff")
         return {
@@ -215,7 +226,8 @@ class ScotOverview(models.Model):
             raise rule_error(self.env, "invalid-value")
         control = self._ea_control_of(control_id)
         item = self._ea_walkthrough_task()
-        row_id = item.with_env(self.env).upload_attachment(filename, content_b64)
+        base = re.split(r"[/\\]", filename or "")[-1].strip()
+        row_id = item.with_env(self.env).upload_attachment((_SCOT_TAG % self.id) + base, content_b64)
         row = self.env["ea.audit.task.attachment"].sudo().browse(row_id)
         row.write({"scot_id": self.id, "doc_type": doc_type, "control_id": control.id or False})
         return self.ea_documents()

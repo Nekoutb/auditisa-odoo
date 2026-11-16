@@ -173,6 +173,12 @@ class TestScotDocuments(ScotCase):
         self.assertEqual(sorted(rows.mapped("version")), [1, 2])
         self.assertEqual(rows.scot_id, self.scot.sudo())
         self.assertEqual(self.scot.sudo().document_count, 1)
+        # the same file name in another SCOT is a file of its own, not version 3 of this one
+        other = self.as_staff.create_scot("Achats").with_user(self.staff)
+        docs = other.upload_document("flux.txt", b64(b"another flowchart"), "flowchart")
+        self.assertEqual([(d["name"], d["version"]) for d in docs["live"]], [("flux.txt", 1)])
+        self.assertEqual(len(as_staff.ea_documents()["live"]), 1)
+        self.assertEqual(as_staff.ea_documents()["live"][0]["version"], 2)
 
     def test_refusals_removal_and_restore(self):
         with self.assertRaisesRegex(Exception, "invalid-value"):
