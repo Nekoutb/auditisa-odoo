@@ -58,8 +58,8 @@ class TestRollforward(ToolsCase):
         )
         self.significance.write({"decision": "significant", "justification": "Poste important"})
         # evidence: a permanent-file document in two versions, another file, one removed, a SCOT document
-        self.upload("P3.1", "statuts.pdf", b"statuts v1")
-        self.upload("P3.1", "statuts.pdf", b"statuts v2")
+        self.upload("P3.1", "statuts.txt", b"statuts v1")
+        self.upload("P3.1", "statuts.txt", b"statuts v2")
         self.upload("E4.1", "banque.txt", b"releve")
         removed = self.upload("E4.1", "ancien.txt", b"old")
         self.env["ea.audit.task.attachment"].browse(removed).with_user(self.manager).remove()
@@ -259,7 +259,7 @@ class TestRollforward(ToolsCase):
     def test_all_evidence_copied_with_its_mark_and_the_same_bytes(self):
         target = self.roll()
         copies = self.carried_files(target)
-        self.assertEqual(sorted(shown(name) for name in copies.mapped("name")), ["banque.txt", "flux.txt", "statuts.pdf"])
+        self.assertEqual(sorted(shown(name) for name in copies.mapped("name")), ["banque.txt", "flux.txt", "statuts.txt"])
         source_rows = self.rows("ea.audit.task.attachment", self.engagement)
         for copy in copies:
             original = source_rows.filtered(lambda r: shown(r.name) == shown(copy.name) and not r.deleted_at).sorted("version")[-1]
@@ -269,7 +269,7 @@ class TestRollforward(ToolsCase):
             self.assertEqual(copy.attachment_id.checksum, original.attachment_id.checksum)
             self.assertEqual(copy.attachment_id.store_fname, original.attachment_id.store_fname)
             self.assertEqual(copy.attachment_id.res_id, copy.id)
-        self.assertEqual(copies.filtered(lambda c: c.name == "statuts.pdf").attachment_id.raw, b"statuts v2")
+        self.assertEqual(copies.filtered(lambda c: c.name == "statuts.txt").attachment_id.raw, b"statuts v2")
         flow = copies.filtered(lambda c: shown(c.name) == "flux.txt")
         self.assertEqual(flow.doc_type, "flowchart")
         self.assertEqual(flow.scot_id, self.rows("ea.audit.scot", target))
@@ -278,7 +278,7 @@ class TestRollforward(ToolsCase):
         info = copies[0]._ea_carry_info()
         self.assertIn("2025", info["carried"])
         self.assertFalse(info["carriedReviewed"])
-        item = copies.filtered(lambda c: c.name == "statuts.pdf").file_item_id
+        item = copies.filtered(lambda c: c.name == "statuts.txt").file_item_id
         payload = self.env["ea.audit.task.attachment"]._ea_payload(item)
         self.assertIn("2025", payload["live"][0]["carried"])
 
@@ -298,7 +298,7 @@ class TestRollforward(ToolsCase):
 
     def test_permanent_file_only_without_all_evidence(self):
         copies = self.carried_files(self.without("evidence"))
-        self.assertEqual(copies.mapped("name"), ["statuts.pdf"])
+        self.assertEqual(copies.mapped("name"), ["statuts.txt"])
 
     def test_no_evidence_box_copies_nothing(self):
         target = self.roll(carry=[k for k in ROLLFORWARD_KEYS if k not in ("evidence", "permanent")])
@@ -306,7 +306,7 @@ class TestRollforward(ToolsCase):
 
     def test_evidence_waits_on_a_hidden_task_until_the_questionnaire_brings_it(self):
         target = self.roll(approach="change")
-        copy = self.carried_files(target).filtered(lambda c: c.name == "statuts.pdf")
+        copy = self.carried_files(target).filtered(lambda c: c.name == "statuts.txt")
         self.assertTrue(copy.file_item_id.conditional)
         target.sudo().complexity = "complex"
         target._ea_instantiate_file_index()
