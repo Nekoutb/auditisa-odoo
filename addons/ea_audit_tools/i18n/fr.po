@@ -722,6 +722,7 @@ msgstr "Amortissements des immobilisations incorporelles"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__amount
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__amount
 #: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Amount"
 msgstr "Montant"
 
@@ -1316,6 +1317,7 @@ msgid "CRA level"
 msgstr "Niveau ECR"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_link_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_test_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_wizard
@@ -1350,6 +1352,7 @@ msgstr "Niveau ECR"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_wcgw_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_wp_assign_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1955,8 +1958,10 @@ msgid "Control Type"
 msgstr "Nature du contrôle"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__route__c1
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__c1
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Control deficiency"
 msgstr "Déficience de contrôle"
 
@@ -2506,6 +2511,7 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__description
@@ -2527,6 +2533,8 @@ msgstr "Décrivez le risque (au moins trois caractères)."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw_wizard__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__description
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_assertion__description
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Description"
 msgstr "Intitulé"
 
@@ -2555,14 +2563,18 @@ msgid "Design the test of every selected control before signing."
 msgstr "Concevez le test de chaque contrôle sélectionné avant de signer."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__designs_count
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Designs recorded"
 msgstr "Conceptions enregistrées"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__detail
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__detail
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Detail"
 msgstr "Détail"
 
@@ -2585,14 +2597,18 @@ msgid "Deviation Decision"
 msgstr "Décision d'écart"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__deviations
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Deviations"
 msgstr "Écarts"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__difference
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Difference"
 msgstr "Écart"
 
@@ -2814,10 +2830,12 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__draw_no
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_sampling_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sampling_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_toc_draw_wizard
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
 msgid "Draw"
 msgstr "Tirer"
 
@@ -2834,7 +2852,9 @@ msgid "Draw a test-of-controls sample"
 msgstr "Tirer un échantillon de test de contrôle"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Draw from a dataset"
 msgstr "Tirer d'un jeu de données"
 
@@ -2845,8 +2865,10 @@ msgstr "Historique des tirages"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/scot.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Draw the sample"
 msgstr "Tirer l'échantillon"
 
@@ -3076,9 +3098,11 @@ msgstr "Saisissez des montants valides."
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__entries
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__entry_rank__entries
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Entries"
 msgstr "Écritures"
 
@@ -3100,7 +3124,10 @@ msgid "Entries touching"
 msgstr "Écritures touchant"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_search
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__je_number
 msgid "Entry"
 msgstr "Écriture"
 
@@ -3182,8 +3209,10 @@ msgid "Equity investments"
 msgstr "Titres de participation"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk__category__error
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_risk_wizard__category__error
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
 msgid "Error"
 msgstr "Erreur"
 
@@ -3194,7 +3223,9 @@ msgid "Estimation"
 msgstr "Estimation"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__evaluation
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Evaluation"
 msgstr "Évaluation"
 
@@ -3312,7 +3343,9 @@ msgid "Export Filename"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Export the E3.1 workbook"
 msgstr "Exporter le classeur E3.1"
 
@@ -3397,8 +3430,10 @@ msgstr "Avérée"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__validation_status__failed
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
 msgid "Failed"
 msgstr "Échec"
 
@@ -3573,10 +3608,13 @@ msgid "Find an account"
 msgstr "Chercher un compte"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_finding
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_evaluation__finding_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_deficiency_wizard__finding_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__title
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__finding_id
 msgid "Finding"
 msgstr "Constat"
 
@@ -4292,9 +4330,11 @@ msgstr "Importer depuis Excel"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/scot.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_toc_grid_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Import the test grid"
 msgstr "Importer la grille de test"
 
@@ -4520,8 +4560,10 @@ msgid "Is Latest"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_accept_wizard__item_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_upload_wizard__item_id
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Item"
 msgstr "Élément"
 
@@ -4541,9 +4583,11 @@ msgid "JE number"
 msgstr "N° d'écriture"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_journal
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__journal_code
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_search
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Journal"
 msgstr "Journal"
 
@@ -4651,8 +4695,10 @@ msgid "Key people and roles"
 msgstr "Personnes clés et rôles"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__key_misstatement
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tod_result_wizard__key_misstatement
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
 msgid "Key-item misstatement"
 msgstr "Anomalie sur éléments clés"
 
@@ -5035,14 +5081,17 @@ msgstr "Montant de la feuille maîtresse :"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__dataset_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__dataset_id
 msgid "Ledger"
 msgstr "Grand livre"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: code:addons/ea_audit_tools/models/gl_console.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Ledger lines"
 msgstr "Lignes du grand livre"
 
@@ -5356,8 +5405,10 @@ msgid "Matrix Html"
 msgstr ""
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding__route__b4
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__route__b4
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Matter for attention"
 msgstr "Point d'attention"
 
@@ -5446,8 +5497,10 @@ msgid "Misstatement"
 msgstr "Anomalie"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__sample_misstatement
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tod_result_wizard__sample_misstatement
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
 msgid "Misstatement in the sample"
 msgstr "Anomalie dans l'échantillon"
 
@@ -5538,6 +5591,7 @@ msgid "Multiple of"
 msgstr "Multiple de"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_a__na
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_c__na
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_cra_row__cell_e__na
@@ -5550,6 +5604,7 @@ msgstr "Multiple de"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_4__na
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_meta__tq_5__na
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_program_step_list
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
 msgid "N/A"
 msgstr "S.O."
 
@@ -5645,6 +5700,7 @@ msgstr "Suivant"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_design__no
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_implemented__no
@@ -5656,6 +5712,7 @@ msgstr "Suivant"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__wt_design__no
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__wt_implemented__no
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__implemented__no
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "No"
 msgstr "Non"
 
@@ -5801,11 +5858,14 @@ msgid "Not supported"
 msgstr "Non corroborée"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_item__note
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_pbc_wizard__note
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__note
 msgid "Note"
 msgstr "Note"
 
@@ -6049,7 +6109,9 @@ msgid "Operating Notes"
 msgstr "Notes de fonctionnement"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__operating_eval
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Operating conclusion"
 msgstr "Conclusion de fonctionnement"
 
@@ -6245,8 +6307,10 @@ msgstr "Dettes liées à des participations et comptes de liaison"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/dataset.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__validation_status__passed
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
 msgid "Passed"
 msgstr "Réussi"
 
@@ -6421,11 +6485,13 @@ msgid "Policies, procedures and IT applications of the close"
 msgstr "Politiques, procédures et applications informatiques de la clôture"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__validation_status
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__validation_status
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__toc_population
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw__population
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw_wizard__population
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Population"
 msgstr "Population"
 
@@ -6970,8 +7036,10 @@ msgstr "Enregistrer un document reçu"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/sampling.py:0
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Record a result"
 msgstr "Enregistrer un résultat"
 
@@ -6998,7 +7066,9 @@ msgid "Record and project"
 msgstr "Enregistrer et extrapoler"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Record as the S5.4 design"
 msgstr "Enregistrer comme conception S5.4"
 
@@ -7058,8 +7128,10 @@ msgid "Ref."
 msgstr "N°"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__reference
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__reference
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Reference"
 msgstr "Référence"
 
@@ -7139,8 +7211,11 @@ msgid "Relying on controls needs a tested control covering this assertion (S2.1)
 msgstr "L'appui sur les contrôles suppose un contrôle testé couvrant cette assertion (S2.1) et des ITGC qui le permettent (S2.5), ou un fondement RC écrit (ISA 330 ¶8)."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__remaining_value
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tod_result_wizard__remaining_value
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Remaining population"
 msgstr "Population restante"
 
@@ -7231,8 +7306,12 @@ msgid "Restricted to the entries containing both accounts. The ratio is account 
 msgstr "Limité aux écritures contenant les deux comptes. Le ratio est le compte A sur le compte B, signe conservé."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test__result
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_test_wizard__result
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Result"
 msgstr "Résultat"
 
@@ -7540,8 +7619,10 @@ msgid "Sample size"
 msgstr "Taille de l'échantillon"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__sample_value
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tod_result_wizard__sample_value
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
 msgid "Sample value"
 msgstr "Valeur de l'échantillon"
 
@@ -7557,9 +7638,11 @@ msgstr "Échantillons tirés :"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/sampling.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_sampling
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Sampling"
 msgstr "Échantillonnage"
 
@@ -7955,6 +8038,7 @@ msgstr "Relevés face au grand livre fournisseurs."
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_risk__status
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__status
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__status
 msgid "Status"
 msgstr "État"
 
@@ -8252,14 +8336,18 @@ msgstr "Les tests ont commencé sur cet échantillon : seul un manager ou un ran
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/sampling.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_wp_template__category__test-of-controls
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Tests of controls"
 msgstr "Tests des contrôles"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_sampling_board
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Tests of details"
 msgstr "Tests de détail"
 
@@ -8441,8 +8529,10 @@ msgid "The key-item threshold must be an amount above zero."
 msgstr "Le seuil des éléments clés doit être un montant supérieur à zéro."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_gl_catalogue
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "The ledgers"
 msgstr "Les grands livres"
 
@@ -9294,6 +9384,7 @@ msgstr "Le plus élevé (échantillonnage)"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_design__yes
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_fscp__je_controls_implemented__yes
@@ -9305,6 +9396,7 @@ msgstr "Le plus élevé (échantillonnage)"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__wt_design__yes
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__wt_implemented__yes
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__implemented__yes
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Yes"
 msgstr "Oui"
 
@@ -9942,7 +10034,9 @@ msgstr "Probabilité contre ampleur, avec l'échelle et la légende."
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/wizards/je_studio.py:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "Journal entries"
 msgstr "Écritures de journal"
 
@@ -11107,6 +11201,7 @@ msgstr "plus de"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 msgid "FCFA"
 msgstr "FCFA"
 
@@ -11197,6 +11292,8 @@ msgstr "Liste Excel"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/cra_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 msgid "Read only: this engagement is archived."
 msgstr "Lecture seule : cette mission est archivée."
 
@@ -11373,3 +11470,676 @@ msgstr "Affichage :"
 #: code:addons/ea_audit_tools/models/risk.py:0
 msgid "Show all risks"
 msgstr "Afficher tous les risques"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "E3.1 Journal entry testing"
+msgstr "E3.1 Test des écritures de journal"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Run the criteria"
+msgstr "Appliquer les critères"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Read only: your role reads the entries but does not change them."
+msgstr "Lecture seule : votre rôle lit les écritures sans les modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Ledger checks passed"
+msgstr "Contrôles du grand livre réussis"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Yes ✓"
+msgstr "Oui ✓"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "To look at"
+msgstr "À examiner"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Entries selected"
+msgstr "Écritures retenues"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Entries with a problem"
+msgstr "Écritures avec un problème"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "1 Ledger"
+msgstr "1 Grand livre"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "2 Criteria"
+msgstr "2 Critères"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "on"
+msgstr "actifs"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "3 Selected entries"
+msgstr "3 Écritures retenues"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "4 Conclusion"
+msgstr "4 Conclusion"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Ledger tested"
+msgstr "Grand livre testé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "No general ledger is imported for this file yet. Import it from the ledgers, then come back."
+msgstr "Aucun grand livre n'est encore importé pour ce dossier. Importez-le depuis les grands livres, puis revenez ici."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "The ledger is imported but not prepared yet. Open it from the ledgers and run the console once."
+msgstr "Le grand livre est importé mais pas encore préparé. Ouvrez-le depuis les grands livres et lancez la console une fois."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Check"
+msgstr "Contrôle"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Turn a criterion on or off: the entries it catches are counted at once."
+msgstr "Activez ou désactivez un critère : les écritures qu'il retient sont comptées aussitôt."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Thresholds and own rules"
+msgstr "Seuils et règles propres"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Criteria (entries caught)"
+msgstr "Critères (écritures retenues)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "No entry is selected: turn a criterion on."
+msgstr "Aucune écriture n'est retenue : activez un critère."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Date"
+msgstr "Date"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Posted by"
+msgstr "Saisie par"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Amount (FCFA)"
+msgstr "Montant (FCFA)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Why selected"
+msgstr "Motifs de sélection"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Docs"
+msgstr "Pièces"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "The list shows the entries of the first 500 lines selected. Tighten the criteria to see them all."
+msgstr "La liste montre les écritures des 500 premières lignes retenues. Resserrez les critères pour les voir toutes."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Dr"
+msgstr "D"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Cr"
+msgstr "C"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Finding raised:"
+msgstr "Constat ouvert :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_review__status__cleared
+msgid "Cleared"
+msgstr "Levée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_review__status__problem
+msgid "Problem"
+msgstr "Problème"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Back to clear"
+msgstr "Remettre à lever"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Raise a finding"
+msgstr "Ouvrir un constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "What you checked and what you found. A note is needed to mark the entry."
+msgstr "Ce que vous avez vérifié et constaté. Une note est nécessaire pour marquer l'écriture."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Drop support here or"
+msgstr "Déposez les justificatifs ici ou"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "choose files"
+msgstr "choisissez des fichiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Kind of finding"
+msgstr "Nature du constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Misstatement (goes to the audit differences)"
+msgstr "Anomalie (va aux écarts d'audit)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Record it even if it is below the clearly trivial threshold"
+msgstr "L'enregistrer même s'il est sous le seuil manifestement négligeable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Raise the finding"
+msgstr "Ouvrir le constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "With a problem"
+msgstr "Avec un problème"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Still to clear"
+msgstr "Encore à lever"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Selection designs recorded (S5.4)"
+msgstr "Conceptions de sélection enregistrées (S5.4)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Every selected entry is cleared."
+msgstr "Toutes les écritures retenues sont levées."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+msgid "Our rule:"
+msgstr "Notre règle :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: code:addons/ea_audit_tools/models/sampling.py:0
+msgid "Samples"
+msgstr "Échantillons"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Controls to test"
+msgstr "Contrôles à tester"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Export the samples"
+msgstr "Exporter les échantillons"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Plan by lead index"
+msgstr "Planifier par indice"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Read only: your role reads the samples but does not change them."
+msgstr "Lecture seule : votre rôle lit les échantillons sans les modifier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "No control is selected for testing yet. Select the controls to test in the SCOTs (S2.1), then draw each sample here."
+msgstr "Aucun contrôle n'est encore retenu pour les tests. Retenez les contrôles à tester dans les flux (S2.1), puis tirez chaque échantillon ici."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "No test of details yet. Draw a sample from a dataset, or record a result by lead index."
+msgstr "Aucun test de détail pour l'instant. Tirez un échantillon d'un jeu de données, ou enregistrez un résultat par indice."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "items"
+msgstr "éléments"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "errors"
+msgstr "erreurs"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "result"
+msgstr "résultat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "projected"
+msgstr "extrapolé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "items tested"
+msgstr "éléments testés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Occurrences to test:"
+msgstr "Occurrences à tester :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Import the test grid once they are tested."
+msgstr "Importez la grille de test une fois les tests faits."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "The sample is not drawn yet."
+msgstr "L'échantillon n'est pas encore tiré."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Why chosen"
+msgstr "Motif du choix"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Book value (FCFA)"
+msgstr "Valeur comptable (FCFA)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Audited value"
+msgstr "Valeur auditée"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "How tested"
+msgstr "Mode de test"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Confirmation, invoice…"
+msgstr "Confirmation, facture…"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "items · sample value"
+msgstr "éléments · valeur de l'échantillon"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Result of"
+msgstr "Résultat de"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Population (occurrences)"
+msgstr "Population (occurrences)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Items to test"
+msgstr "Éléments à tester"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__item_results
+msgid "Items tested"
+msgstr "Éléments testés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "The controls cannot be relied on as planned: extend the test or plan more tests of details, and record the deficiency."
+msgstr "On ne peut pas s'appuyer sur ce contrôle comme prévu : étendez le test ou prévoyez davantage de tests de détail, et consignez la déficience."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "The test supports reliance on this control."
+msgstr "Le test permet de s'appuyer sur ce contrôle."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Open the control"
+msgstr "Ouvrir le contrôle"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__purpose
+msgid "Procedure or purpose"
+msgstr "Procédure ou objet"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Which substantive procedure this sample serves"
+msgstr "La procédure de corroboration que sert cet échantillon"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Errors found in the sample"
+msgstr "Erreurs trouvées dans l'échantillon"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Projected to the population"
+msgstr "Extrapolé à la population"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Total likely (with key items)"
+msgstr "Total probable (avec éléments clés)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Tolerable misstatement"
+msgstr "Anomalie tolérable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Projected error exceeds tolerable"
+msgstr "L'erreur extrapolée dépasse le tolérable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Above tolerable: extend the sample or ask the client to review all the balances. The projected error is on the audit differences (C1.1)."
+msgstr "Au-dessus du tolérable : étendez l'échantillon ou demandez au client de revoir tous les soldes. L'erreur extrapolée figure aux écarts d'audit (C1.1)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Within tolerable: the projected error stays below the tolerable misstatement."
+msgstr "Dans le tolérable : l'erreur extrapolée reste sous l'anomalie tolérable."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "The projection is raised on the audit differences (C1.1)."
+msgstr "L'extrapolation est portée aux écarts d'audit (C1.1)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Materiality is not approved yet: the tolerable misstatement is unknown."
+msgstr "Le seuil de signification n'est pas encore approuvé : l'anomalie tolérable est inconnue."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Record the conclusion"
+msgstr "Enregistrer la conclusion"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Extend the sample"
+msgstr "Étendre l'échantillon"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Workbook"
+msgstr "Classeur"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Enter the audited value of every item to record the conclusion."
+msgstr "Saisissez la valeur auditée de chaque élément pour enregistrer la conclusion."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
+msgid "Drop documents here or"
+msgstr "Déposez les documents ici ou"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+msgid "%(cleared)s of %(total)s selected entries cleared · %(problems)s with a problem"
+msgstr "%(cleared)s écritures levées sur %(total)s retenues · %(problems)s avec un problème"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+msgid "An entry caught by several criteria is counted once (%s in all)."
+msgstr "Une écriture retenue par plusieurs critères est comptée une fois (%s au total)."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_review__status__to_clear
+msgid "To clear"
+msgstr "À lever"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/je_page.js:0
+msgid "Journal entry %s"
+msgstr "Écriture %s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "%(evaluated)s of %(total)s samples evaluated · %(above)s projected error(s) above tolerable"
+msgstr "%(evaluated)s échantillons évalués sur %(total)s · %(above)s erreur(s) extrapolée(s) au-dessus du tolérable"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "Pop."
+msgstr "Pop."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "Size"
+msgstr "Taille"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "Test"
+msgstr "Test"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "Agreed"
+msgstr "Concordant"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "To test"
+msgstr "À tester"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "Pass"
+msgstr "Conforme"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sampling_page.js:0
+msgid "Fail"
+msgstr "Non conforme"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/ws_pages.py:0
+msgid "Tolerable %s"
+msgstr "Tolérable %s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Write a short note saying why before you mark this entry."
+msgstr "Écrivez une courte note qui dit pourquoi avant de marquer cette écriture."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Enter the audited value of every item before you record the conclusion."
+msgstr "Saisissez la valeur auditée de chaque élément avant d'enregistrer la conclusion."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "The conclusion of this sample is recorded: its items can no longer be changed."
+msgstr "La conclusion de cet échantillon est enregistrée : ses éléments ne peuvent plus être modifiés."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
+msgid "Back to the journal-entry page"
+msgstr "Retour à la page des écritures"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_je_review
+msgid "Journal entry reviewed"
+msgstr "Écriture revue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__reviewed_by_id
+msgid "Reviewed by"
+msgstr "Revue par"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__reviewed_at
+msgid "Reviewed on"
+msgstr "Revue le"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_automation_run__purpose
+msgid "The substantive procedure this sample serves, in a few words."
+msgstr "La procédure de corroboration que sert cet échantillon, en quelques mots."

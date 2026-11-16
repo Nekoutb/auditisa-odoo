@@ -123,6 +123,9 @@ MESSAGES = {
     "file-type": _lt("That type of file cannot enter an audit file."),
     "email-taken": _lt("This address is already a contact of this client."),
     "tool-not-available": _lt("This tool is not available yet on this version."),
+    "je-note-required": _lt("Write a short note saying why before you mark this entry."),
+    "sample-not-tested": _lt("Enter the audited value of every item before you record the conclusion."),
+    "sample-concluded": _lt("The conclusion of this sample is recorded: its items can no longer be changed."),
 }
 
 

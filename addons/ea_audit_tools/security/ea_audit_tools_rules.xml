@@ -198,6 +198,11 @@
         <field name="model_id" ref="model_ea_audit_je_design"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_je_review_team_only" model="ir.rule">
+        <field name="name">ea.audit.je.review: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_je_review"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
     <record id="rule_firm_holiday" model="ir.rule">
         <field name="name">ea.audit.firm.holiday: firm-wide, or the team of the file</field>
         <field name="model_id" ref="model_ea_audit_firm_holiday"/>

@@ -113,3 +113,4 @@ access_import_delete_wizard_writer,ea.audit.import.delete.wizard writer,model_ea
 access_import_field_member,ea.audit.import.field member,model_ea_audit_import_field,ea_audit_core.group_member,1,0,0,0
 access_import_matching_member,ea.audit.import.matching member,model_ea_audit_import_matching,ea_audit_core.group_member,1,0,0,0
 access_significance_wizard_writer,ea.audit.significance.wizard writer,model_ea_audit_significance_wizard,ea_audit_core.group_writer,1,1,1,1
+access_je_review_member,ea.audit.je.review member,model_ea_audit_je_review,ea_audit_core.group_member,1,0,0,0

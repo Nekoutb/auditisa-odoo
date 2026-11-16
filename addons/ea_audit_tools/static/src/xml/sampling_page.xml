@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.SamplingPage">
+        <div class="o_ea_ws" t-if="p" data-ea="sampling-page">
+            <div class="o_ea_ws_card">
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · <span>Sampling</span></div>
+                        <h1>Samples</h1>
+                    </div>
+                    <div class="o_ea_ws_tools">
+                        <t t-if="state.tab === 'toc'">
+                            <button type="button" class="btn btn-primary btn-sm" t-on-click="() => this.open('action_sampling_controls')">Controls to test</button>
+                            <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_export_toc_samples')">Export the samples</button>
+                        </t>
+                        <t t-else="">
+                            <button type="button" class="btn btn-primary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('action_open_sampling_wizard')">Draw from a dataset</button>
+                            <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_open_tod_wizard')">Plan by lead index</button>
+                            <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('action_open_tod_result_wizard')">Record a result</button>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the samples but does not change them.</t>
+                </div>
+
+                <div class="o_ea_ws_progress">
+                    <span class="o_ea_ws_meter"><i class="is-good" t-att-style="barStyle('done')"/><i class="is-bad" t-att-style="barStyle('above')"/></span>
+                    <span t-esc="progressText"/>
+                </div>
+                <div class="o_ea_ws_prereq">
+                    <span t-foreach="p.prerequisites" t-as="item" t-key="item_index" t-attf-class="o_ea_ws_chip {{ item.ok ? 'is-good' : 'is-warn' }}" t-esc="item.label"/>
+                </div>
+
+                <div class="o_ea_ws_tabs" role="tablist">
+                    <button type="button" t-attf-class="{{ state.tab === 'toc' ? 'is-on' : '' }}" t-on-click="() => this.setTab('toc')">
+                        Tests of controls <span class="o_ea_ws_count is-good" t-esc="p.toc.length"/>
+                    </button>
+                    <button type="button" t-attf-class="{{ state.tab === 'tod' ? 'is-on' : '' }}" t-on-click="() => this.setTab('tod')">
+                        Tests of details <span class="o_ea_ws_count is-warn" t-esc="p.tod.length"/>
+                    </button>
+                </div>
+
+                <p class="o_ea_ws_empty" t-if="!cards.length and state.tab === 'toc'">No control is selected for testing yet. Select the controls to test in the SCOTs (S2.1), then draw each sample here.</p>
+                <p class="o_ea_ws_empty" t-if="!cards.length and state.tab === 'tod'">No test of details yet. Draw a sample from a dataset, or record a result by lead index.</p>
+
+                <div class="o_ea_ws_cards" t-if="cards.length">
+                    <button type="button" t-foreach="cards" t-as="c" t-key="keyOf(c)"
+                            t-attf-class="o_ea_ws_sample is-{{ c.state }} {{ keyOf(c) === state.current ? 'is-current' : '' }}" t-on-click="() => this.select(c)">
+                        <b class="o_ea_ws_sample_title" t-esc="c.title"/>
+                        <span class="o_ea_ws_muted o_ea_ws_sample_sub" t-esc="c.sub"/>
+                        <span class="o_ea_ws_steps">
+                            <span t-foreach="c.steps" t-as="step" t-key="step.key" t-attf-class="o_ea_ws_step is-{{ step.state }}" t-esc="stepLabel(step)"/>
+                        </span>
+                        <span class="o_ea_ws_stats">
+                            <span><b t-esc="count(c.stats.items)"/><small>items</small></span>
+                            <span><b t-esc="count(c.stats.errors)"/><small>errors</small></span>
+                            <span t-if="c.kind === 'toc'"><b t-esc="c.stats.result or '—'"/><small>result</small></span>
+                            <span t-else=""><b t-esc="fmt(c.stats.projected)"/><small>projected</small></span>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="o_ea_ws_split is-result" t-if="card">
+                    <!-- the items tested -->
+                    <div class="o_ea_ws_main">
+                        <div class="o_ea_ws_caption"><t t-esc="card.title"/> · <span>items tested</span></div>
+
+                        <t t-if="card.kind === 'toc'">
+                            <p class="o_ea_ws_empty" t-if="!card.rows.length">
+                                <t t-if="card.drawnOn"><span>Occurrences to test:</span> <t t-esc="card.itemsLabel"/> · <span>Import the test grid once they are tested.</span></t>
+                                <t t-else="">The sample is not drawn yet.</t>
+                            </p>
+                            <div class="o_ea_ws_scroll" t-if="card.rows.length">
+                                <table class="o_ea_ws_grid">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-end">#</th><th>Reference</th><th>Date</th><th>Description</th>
+                                            <th t-foreach="card.attributes" t-as="attribute" t-key="attribute_index" t-esc="attribute"/>
+                                            <th>Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="card.rows" t-as="row" t-key="row.position">
+                                            <td class="o_ea_ws_num" t-esc="row.position"/>
+                                            <td t-esc="row.ref"/><td t-esc="row.date"/><td t-esc="row.desc"/>
+                                            <td t-foreach="row.results" t-as="value" t-key="value_index"><span t-attf-class="o_ea_ws_tag is-{{ value or 'none' }}" t-esc="attributeLabel(value)"/></td>
+                                            <td><span t-attf-class="o_ea_ws_tag is-{{ row.result }}" t-esc="resultLabel(row.result)"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+
+                        <t t-if="card.kind === 'tod'">
+                            <div class="o_ea_ws_scroll">
+                                <table class="o_ea_ws_grid">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-end">#</th><th>Item</th><th>Why chosen</th><th class="text-end">Book value (FCFA)</th>
+                                            <th class="text-end">Audited value</th><th class="text-end">Difference</th><th>How tested</th><th>Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="card.rows" t-as="row" t-key="row.rowNo">
+                                            <td class="o_ea_ws_num" t-esc="row.position"/>
+                                            <td t-esc="row.label"/>
+                                            <td t-esc="row.reason"/>
+                                            <td class="o_ea_ws_num" t-esc="fmt(row.book)"/>
+                                            <td class="o_ea_ws_num">
+                                                <input t-if="!p.readonly and !card.concluded" type="text" class="o_ea_ws_input text-end" t-att-value="row.audited === null ? '' : row.audited"
+                                                       t-on-change="(ev) => this.saveItem(row, 'audited', ev)"/>
+                                                <t t-else="" t-esc="fmt(row.audited)"/>
+                                            </td>
+                                            <td class="o_ea_ws_num" t-esc="row.difference ? fmt(row.difference) : '—'"/>
+                                            <td>
+                                                <input t-if="!p.readonly and !card.concluded" type="text" class="o_ea_ws_input" t-att-value="row.how"
+                                                       placeholder="Confirmation, invoice…" t-on-change="(ev) => this.saveItem(row, 'how', ev)"/>
+                                                <t t-else="" t-esc="row.how"/>
+                                            </td>
+                                            <td><span t-attf-class="o_ea_ws_tag is-{{ row.result }}" t-esc="resultLabel(row.result)"/></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3"><t t-esc="card.totals.count"/> <span>items · sample value</span></td>
+                                            <td class="o_ea_ws_num" t-esc="fmt(card.totals.book)"/>
+                                            <td class="o_ea_ws_num" t-esc="fmt(card.totals.audited)"/>
+                                            <td class="o_ea_ws_num" t-esc="fmt(card.totals.difference)"/>
+                                            <td colspan="2"/>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </t>
+
+                        <t t-if="card.kind === 'tod-result'">
+                            <table class="o_ea_ws_grid o_ea_ws_facts">
+                                <tbody>
+                                    <tr t-foreach="card.measures" t-as="m" t-key="m_index">
+                                        <td t-esc="measureLabel(m.measure)"/><td class="o_ea_ws_num" t-esc="fmt(m.amount)"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+
+                    <!-- the result -->
+                    <aside class="o_ea_ws_result" data-ea="sample-result">
+                        <div class="o_ea_ws_caption">Result of <t t-esc="card.title"/></div>
+
+                        <t t-if="card.kind === 'toc'">
+                            <table class="o_ea_ws_grid o_ea_ws_facts">
+                                <tbody>
+                                    <tr><td>Population (occurrences)</td><td class="o_ea_ws_num" t-esc="fmt(card.population)"/></tr>
+                                    <tr><td>Items to test</td><td class="o_ea_ws_num" t-esc="fmt(card.stats.items)"/></tr>
+                                    <tr><td>Items tested</td><td class="o_ea_ws_num" t-esc="fmt(card.tested)"/></tr>
+                                    <tr><td>Deviations</td><td class="o_ea_ws_num" t-esc="fmt(card.stats.errors)"/></tr>
+                                    <tr class="o_ea_ws_total"><td>Evaluation</td><td class="text-end" t-esc="card.evaluationLabel or '—'"/></tr>
+                                    <tr><td>Operating conclusion</td><td class="text-end" t-esc="card.operating or '—'"/></tr>
+                                </tbody>
+                            </table>
+                            <div class="o_ea_ws_message is-bad" t-if="card.state === 'bad'">The controls cannot be relied on as planned: extend the test or plan more tests of details, and record the deficiency.</div>
+                            <div class="o_ea_ws_message is-good" t-if="card.state === 'done'">The test supports reliance on this control.</div>
+                            <div class="o_ea_ws_tools">
+                                <button type="button" class="btn btn-primary btn-sm" t-on-click="() => this.open('action_open_full', card.id)">Open the control</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('action_open_draw', card.id)">Draw the sample</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly and card.drawnOn" t-on-click="() => this.open('action_open_grid_import', card.id)">Import the test grid</button>
+                            </div>
+                        </t>
+
+                        <t t-else="">
+                            <label class="o_ea_ws_label" t-if="card.kind === 'tod' or card.purpose">Procedure or purpose</label>
+                            <input t-if="!p.readonly" type="text" class="form-control form-control-sm" t-model="state.purpose" t-on-change="() => this.savePurpose()"
+                                   placeholder="Which substantive procedure this sample serves"/>
+                            <div t-elif="card.purpose" t-esc="card.purpose"/>
+                            <table class="o_ea_ws_grid o_ea_ws_facts">
+                                <tbody>
+                                    <tr t-if="card.kind === 'tod'"><td>Population</td><td class="o_ea_ws_num" t-esc="fmt(card.population)"/></tr>
+                                    <tr t-else=""><td>Remaining population</td><td class="o_ea_ws_num" t-esc="fmt(card.population)"/></tr>
+                                    <tr t-if="card.kind === 'tod'"><td>Errors found in the sample</td><td class="o_ea_ws_num" t-esc="fmt(card.totals.difference)"/></tr>
+                                    <tr><td>Projected to the population</td><td class="o_ea_ws_num" t-esc="fmt(card.projected)"/></tr>
+                                    <tr t-if="card.kind === 'tod-result'"><td>Total likely (with key items)</td><td class="o_ea_ws_num" t-esc="fmt(card.total)"/></tr>
+                                    <tr><td>Tolerable misstatement</td><td class="o_ea_ws_num" t-esc="fmt(card.tolerable)"/></tr>
+                                    <tr class="o_ea_ws_total">
+                                        <td>Projected error exceeds tolerable</td>
+                                        <td class="text-end">
+                                            <b t-if="card.exceeds === true" class="text-danger">Yes</b>
+                                            <b t-elif="card.exceeds === false">No</b>
+                                            <span t-else="">—</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="o_ea_ws_message is-bad" t-if="card.exceeds === true">Above tolerable: extend the sample or ask the client to review all the balances. The projected error is on the audit differences (C1.1).</div>
+                            <div class="o_ea_ws_message is-good" t-if="card.exceeds === false">Within tolerable: the projected error stays below the tolerable misstatement.</div>
+                            <div class="o_ea_ws_muted" t-if="card.raised">The projection is raised on the audit differences (C1.1).</div>
+                            <div class="o_ea_ws_muted" t-if="card.tolerable === null">Materiality is not approved yet: the tolerable misstatement is unknown.</div>
+                            <div class="o_ea_ws_tools">
+                                <button type="button" class="btn btn-primary btn-sm" t-if="card.kind === 'tod' and !card.concluded and !p.readonly" t-att-disabled="!card.allTested or state.busy"
+                                        t-on-click="() => this.conclude()">Record the conclusion</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-on-click="() => this.open('action_open_sampling_wizard')">Extend the sample</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-if="card.kind === 'tod'" t-on-click="() => this.open('run_export', card.id)">Workbook</button>
+                            </div>
+                            <div class="o_ea_ws_muted" t-if="card.kind === 'tod' and !card.concluded and !card.allTested">Enter the audited value of every item to record the conclusion.</div>
+                        </t>
+
+                        <div t-attf-class="o_ea_ws_drop {{ state.dragging ? 'is-over' : '' }}" t-if="!p.readonly"
+                             t-on-dragover="onDragOver" t-on-dragleave="() => this.state.dragging = false" t-on-drop="onDrop">
+                            <span>Drop documents here or</span>
+                            <label class="o_ea_ws_link">choose files<input type="file" multiple="multiple" class="d-none" t-on-change="onFiles"/></label>
+                        </div>
+                        <div class="o_ea_ws_files" t-if="card.files.length">
+                            <a t-foreach="card.files" t-as="file" t-key="file.id" t-att-href="fileUrl(file)" target="_blank" t-esc="file.name"/>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
