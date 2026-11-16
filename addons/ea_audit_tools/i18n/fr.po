@@ -714,6 +714,7 @@ msgid "Amortisation of intangibles"
 msgstr "Amortissements des immobilisations incorporelles"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/models/materiality.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__amount
@@ -721,6 +722,7 @@ msgstr "Amortissements des immobilisations incorporelles"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_wizard__amount
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_misstatement__amount
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__amount
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
 msgid "Amount"
 msgstr "Montant"
 
@@ -2370,6 +2372,7 @@ msgstr "Version courante"
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__closing
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__closing
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
 msgid "Current year"
 msgstr "Exercice N"
 
@@ -6312,8 +6315,10 @@ msgid "Per index: closing against threshold, decision, assertions."
 msgstr "Par indice : solde face au seuil, décision, assertions."
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality__percentage
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_materiality_wizard__percentage
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
 msgid "Percentage"
 msgstr "Pourcentage"
 
@@ -6606,6 +6611,7 @@ msgstr "N-1"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__timing__prior_year
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__timing__prior_year
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_tb_version__timing__prior_year
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__prior_closing
 msgid "Prior year"
 msgstr "Exercice N-1"
 
@@ -9056,12 +9062,14 @@ msgstr "Valeur"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__variance
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__variance
 msgid "Variance"
 msgstr "Variation"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_line__variance_pct
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_lead_schedule__variance_pct
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__variance_pct_label
 msgid "Variance %"
 msgstr "Variation %"
 
@@ -10695,8 +10703,11 @@ msgid "month/day/year"
 msgstr "mois/jour/année"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__significance_flag_mode__or
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
 msgid "or"
 msgstr "ou"
 
@@ -10851,11 +10862,6 @@ msgstr "Changer le statut"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
 msgid "Change between Significant and Not significant, with the reason"
 msgstr "Passer de Significatif à Non significatif, ou l'inverse, avec le motif"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
-msgid "Required when the status departs from the default"
-msgstr "Obligatoire si le statut s'écarte du statut par défaut"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
@@ -11065,3 +11071,109 @@ msgstr "Commentaire en lecture seule"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_team_member__ea_role_locked
 msgid "Role read-only"
 msgstr "Rôle en lecture seule"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__variance_pct
+msgid "Variance % (figure)"
+msgstr "Variation % (chiffre)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_significance__variance_pct_label
+msgid "The change over the prior year's balance. New: no balance in the prior year. The flag marks a change above the thresholds set at the top of the list."
+msgstr "La variation par rapport au solde de l'exercice N-1. Nouveau : aucun solde en N-1. Le drapeau signale une variation au-delà des seuils fixés en haut de la liste."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__variance_new
+msgid "New account"
+msgstr "Nouveau compte"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__flagged
+msgid "Flagged"
+msgstr "Signalé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/significance.py:0
+msgid "new"
+msgstr "nouveau"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_flag_mode
+msgid "Flag when"
+msgstr "Signaler quand"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_engagement__significance_flag_mode
+msgid "and: flag a movement only when both limits are passed. or: when either one is."
+msgstr "et : signaler un mouvement seulement quand les deux limites sont dépassées. ou : quand l'une d'elles l'est."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_flag_pct
+msgid "Flag above (%)"
+msgstr "Signaler au-delà de (%)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__significance_flag_amount
+msgid "Flag above (FCFA)"
+msgstr "Signaler au-delà de (FCFA)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_engagement__significance_flag_mode__and
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "and"
+msgstr "et"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_list
+msgid "Required when the status departs from the one proposed"
+msgstr "Obligatoire si le statut s'écarte de celui proposé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "Flag a significant movement"
+msgstr "Signaler un mouvement significatif"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "when the change is more than"
+msgstr "lorsque la variation dépasse"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "more than"
+msgstr "plus de"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "FCFA"
+msgstr "FCFA"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "account flagged"
+msgstr "compte signalé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "accounts flagged"
+msgstr "comptes signalés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "and: flag only when both limits are passed. or: flag when either one is. A new account (no prior-year balance) counts as above the percentage."
+msgstr "et : signaler seulement quand les deux limites sont dépassées. ou : quand l'une d'elles l'est. Un nouveau compte (sans solde en N-1) compte comme au-delà du pourcentage."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
+msgid "Set by the team members who can edit this file. and: both limits are passed; or: either one is."
+msgstr "Fixé par les membres de l'équipe qui peuvent modifier ce dossier. et : les deux limites sont dépassées ; ou : l'une d'elles l'est."

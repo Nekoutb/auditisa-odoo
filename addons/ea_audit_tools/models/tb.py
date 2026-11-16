@@ -8,6 +8,7 @@ from ..services.errors import ServiceError
 from ..services.fs_captions import asset_basis_label, bilan_totals
 from ..services.import_matching import TB_KIND, apply_reading_options
 from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_schedule_alerts, sub_index_for
+from ..services.significance_variance import sums_by_index
 from ..services.tb_reasons import explain_tb_summary
 from ..services.tb import extract_tb_rows, infer_tb_mapping, left_out_rows, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
 from .tool_record import grouped, is_french, upload_stamp
@@ -635,13 +636,18 @@ class EngagementTb(models.Model):
 
     def _ea_closings_by_index(self):
         """Closing per lead index, with the client's overrides, as significantAccounts sums them."""
-        index_of = index_resolver(self._ea_lead_overrides())
-        out = {}
-        for balance in self._ea_tb_balances():
-            index = index_of(balance["account"])
-            if index:
-                out[index] = out.get(index, 0) + balance["value"]
-        return out
+        return self._ea_sum_by_index((balance["account"], balance["value"]) for balance in self._ea_tb_balances())
+
+    def _ea_sum_by_index(self, balances):
+        """(account, amount) pairs summed per lead index, with the client's overrides: the one
+        mapping of the current year and of the prior year on the significant accounts."""
+        return sums_by_index(balances, index_resolver(self._ea_lead_overrides()))
+
+    def _ea_prior_by_index(self):
+        """(source, {index: prior-year balance}) from the file's one comparative (F012)."""
+        self.ensure_one()
+        source, balances = self.sudo()._ea_comparatives()
+        return source, self.sudo()._ea_sum_by_index(balances.items())
 
     def save_lead_index_override(self, account_prefix, index_code):
         """saveLeadIndexOverride. Refused unless the caller is on this client's file."""

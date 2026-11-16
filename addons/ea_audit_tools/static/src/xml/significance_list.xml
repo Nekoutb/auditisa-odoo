@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- the list view with the flag bar above the rows -->
+    <t t-name="ea_audit_tools.SignificanceListView" t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <SignificanceFlagBar t-if="eaEngagementId" engagementId="eaEngagementId" reload.bind="eaReload"/>
+        </xpath>
+    </t>
+
+    <t t-name="ea_audit_tools.SignificanceFlagBar">
+        <div class="o_ea_flag_bar" t-if="state.loaded">
+            <div class="o_ea_flag_bar_card">
+                <div class="o_ea_flag_bar_row">
+                    <strong class="o_ea_flag_bar_title">Flag a significant movement</strong>
+                    <span>when the change is more than</span>
+                    <span class="o_ea_flag_input">
+                        <input type="text" inputmode="decimal" class="o_ea_flag_pct" t-att-value="pctText"
+                               t-att-readonly="!state.canEdit" t-att-disabled="state.busy"
+                               t-on-change="onPctChange" t-on-keydown="onKeydown" aria-label="Percentage"/>
+                        <span>%</span>
+                    </span>
+                    <span class="o_ea_flag_mode" role="group">
+                        <button type="button" t-att-class="state.mode === 'and' ? 'active' : ''"
+                                t-att-disabled="!state.canEdit or state.busy" t-on-click="() => this.save({ mode: 'and' })">and</button>
+                        <button type="button" t-att-class="state.mode === 'or' ? 'active' : ''"
+                                t-att-disabled="!state.canEdit or state.busy" t-on-click="() => this.save({ mode: 'or' })">or</button>
+                    </span>
+                    <span>more than</span>
+                    <span class="o_ea_flag_input">
+                        <input type="text" inputmode="numeric" class="o_ea_flag_amount" t-att-value="amountText"
+                               t-att-readonly="!state.canEdit" t-att-disabled="state.busy"
+                               t-on-change="onAmountChange" t-on-keydown="onKeydown" aria-label="Amount"/>
+                        <span>FCFA</span>
+                    </span>
+                    <span class="o_ea_flag_count" t-att-class="state.flagged ? 'o_ea_flag_count_on' : ''">
+                        <i class="fa fa-flag" aria-hidden="true"/>
+                        <t t-esc="state.flagged"/>
+                        <t t-if="state.flagged === 1"> account flagged</t>
+                        <t t-else=""> accounts flagged</t>
+                    </span>
+                </div>
+                <div class="o_ea_flag_bar_note">
+                    <t t-if="state.canEdit">and: flag only when both limits are passed. or: flag when either one is. A new account (no prior-year balance) counts as above the percentage.</t>
+                    <t t-else="">Set by the team members who can edit this file. and: both limits are passed; or: either one is.</t>
+                </div>
+            </div>
+            <div class="o_ea_flag_source" t-if="state.source"><t t-esc="state.source"/></div>
+        </div>
+    </t>
+</templates>

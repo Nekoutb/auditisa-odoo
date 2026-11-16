@@ -159,7 +159,9 @@ class EngagementTools(models.Model):
         rows = []
         for record in self.env["ea.audit.significance"].sudo().search([("engagement_id", "=", self.id)]):
             rows.append([
-                record.index_code, record.closing,
+                record.index_code, record.closing, record.prior_closing, record.variance,
+                "new" if record.variance_new else ("" if not record.prior_closing else record.variance_pct),
+                "yes" if record.flagged else "",
                 record.tx_count if record.activity_dataset else "",
                 record.preparer_count if record.preparer_known else "",
                 record.reviewer_count if record.reviewer_known else "",
@@ -300,6 +302,6 @@ class EngagementTools(models.Model):
 
 # The columns of the three registers that come back in: the same words in and out.
 # transactions, preparers and reviewers are counted from the ledger: an import reads them not
-SIGNIFICANCE_HEAD = ["index", "closing", "transactions", "preparers", "reviewers", "status", "default", "justification", "assertions", "specific_te", "risk_assertions"]
+SIGNIFICANCE_HEAD = ["index", "closing", "prior_year", "variance", "variance_pct", "flagged", "transactions", "preparers", "reviewers", "status", "default", "justification", "assertions", "specific_te", "risk_assertions"]
 RISK_HEAD = ["description", "category", "level", "likelihood", "magnitude", "rating", "significant", "rebutted", "status", "indexes", "steps"]
 CRA_HEAD = ["index", "assertion", "relevant", "ir", "ir_basis", "cr", "cr_basis", "level", "tod"]

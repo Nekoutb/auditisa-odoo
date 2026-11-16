@@ -101,7 +101,9 @@ class TestSignificance(ToolsCase):
         _filename, content = self.as_staff.ea_export_xlsx("significance")
         sheet = load_workbook(io.BytesIO(content)).active
         head = [cell.value for cell in sheet[1]]
-        self.assertEqual(head[:6], ["index", "closing", "transactions", "preparers", "reviewers", "status"])
+        self.assertEqual(head[:10], [
+            "index", "closing", "prior_year", "variance", "variance_pct", "flagged", "transactions", "preparers", "reviewers", "status",
+        ])
         count = self.as_staff.ea_import_xlsx("significance", "s.xlsx", workbook([
             ["index", "status", "justification", "assertions", "specific_te"],
             ["E", "significant", "Key account", "C,E,RO", ""],

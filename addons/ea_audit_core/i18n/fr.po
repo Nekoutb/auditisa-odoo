@@ -5541,3 +5541,14 @@ msgstr "Les soldes seulement, à la clôture, ou cochez ce que vous ferez d'autr
 msgid "Yes adds P1.2, contact with the predecessor auditor."
 msgstr "Oui ajoute P1.2, prise de contact avec l'auditeur précédent."
 
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Significant accounts: movements flagged above %(pct)s and above %(amount)s FCFA, set by %(name)s"
+msgstr "Comptes significatifs : mouvements signalés au-delà de %(pct)s et au-delà de %(amount)s FCFA, fixé par %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Significant accounts: movements flagged above %(pct)s or above %(amount)s FCFA, set by %(name)s"
+msgstr "Comptes significatifs : mouvements signalés au-delà de %(pct)s ou au-delà de %(amount)s FCFA, fixé par %(name)s"
