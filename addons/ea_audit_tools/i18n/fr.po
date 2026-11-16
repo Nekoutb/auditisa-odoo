@@ -15098,3 +15098,10 @@ msgstr "Repris de"
 #: code:addons/ea_audit_tools/static/src/xml/page_kit.xml:0
 msgid "Mark as reviewed"
 msgstr "Marquer comme revu"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+#: code:addons/ea_audit_tools/models/procedure_design.py:0
+msgid "Carried forward from %(year)s: to update"
+msgstr "Repris de %(year)s : à mettre à jour"

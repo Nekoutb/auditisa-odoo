@@ -480,6 +480,9 @@ class EngagementProcedureDesign(models.Model):
             "selected": selected, "locked": locked, "started": started, "dots": dots,
             "why": why, "why_tone": why_tone, "sample": sample, "sample_mode": mode,
             "state": state, "state_label": dict(_state_labels(self.env)).get(state, "") if state else "",
+            # roll forward: chosen last year, carried as a draft
+            "carried": self.env._("Carried forward from %(year)s: to update", year=proc.carried_from_year)
+            if proc and proc.carried_from_year else False,
         }
 
     def _ea_design_why(self, item, rule, proc, hint, selected, fr, levels_label):

@@ -64,6 +64,10 @@ class TestRollforward(ToolsCase):
         removed = self.upload("E4.1", "ancien.txt", b"old")
         self.env["ea.audit.task.attachment"].browse(removed).with_user(self.manager).remove()
         self.scot.with_user(self.staff).upload_document("flux.txt", b64(b"flowchart"), "flowchart", self.control.id)
+        # someone of last year's team who has since left the firm
+        self.seat(self.engagement, self.outsider, "staff", state="declined")
+        if self._testMethodName == "test_only_from_a_closed_file":
+            return
         # an issued, archived file: from here on no row of it may change (archive trigger)
         self.env.flush_all()
         self.cr.execute("UPDATE ea_audit_engagement SET archived_at = now(), phase = 'archived' WHERE id = %s", [source.id])
@@ -125,22 +129,17 @@ class TestRollforward(ToolsCase):
         target.with_user(self.senior)._ea_require_access()
 
     def test_who_left_the_firm_is_listed_unticked(self):
-        self.env.flush_all()
-        self.cr.execute("UPDATE ea_audit_engagement SET archived_at = NULL WHERE id = %s", [self.engagement.id])
-        self.seat(self.engagement, self.outsider, "staff")
-        self.cr.execute("UPDATE ea_audit_engagement SET archived_at = now() WHERE id = %s", [self.engagement.id])
-        self.env.invalidate_all()
         self.outsider.active = False
         wizard = self.env["ea.audit.rollforward.wizard"].with_user(self.partner).with_context(
             default_source_id=self.engagement.id).create({})
         line = wizard.member_ids.filtered(lambda l: l.email == self.outsider.login)
         self.assertFalse(line.invite)
+        self.assertEqual(line.note, "No longer in the firm: not carried")
         self.assertTrue(line.note)
 
     def test_only_from_a_closed_file(self):
-        self.env.flush_all()
-        self.cr.execute("UPDATE ea_audit_engagement SET archived_at = NULL, phase = 'planning' WHERE id = %s", [self.engagement.id])
-        self.env.invalidate_all()
+        """This test's file is left open (setUp): no issued report, not archived."""
+        self.assertFalse(self.engagement.sudo().archived_at)
         if "report_date" in self.engagement._fields:
             self.assertFalse(self.engagement.sudo().report_date)
         self.assertCode("rollforward-not-closed", self.as_partner.action_rollforward_next_year)
@@ -217,6 +216,7 @@ class TestRollforward(ToolsCase):
         )
         self.assertEqual(control.wcgw_ids, scot.wcgw_ids)
         self.assertEqual(scot.wcgw_ids.description, "Ventes non enregistrées")
+        self.assertIn("2025", scot.ea_card["carried"])
         self.assertFalse(self.rows("ea.audit.scot", self.without("scots")))
 
     def test_risks_and_their_lead_indexes_to_reconfirm(self):

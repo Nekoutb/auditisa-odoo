@@ -37,7 +37,8 @@ class MaterialityWizard(models.TransientModel):
     @api.model
     def default_get(self, field_names):
         values = super().default_get(field_names)
-        carried = self._ea_carried(self.env["ea.audit.engagement"].browse(values.get("engagement_id")))
+        engagement_id = values.get("engagement_id") or self.env.context.get("default_engagement_id")
+        carried = self._ea_carried(self.env["ea.audit.engagement"].browse(engagement_id))
         for name in ("benchmark", "percentage", "performance_pct", "trivial_pct", "justification", "performance_justification"):
             if carried.get(name) not in (None, False) and name in field_names:
                 values[name] = carried[name]

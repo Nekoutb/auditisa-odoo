@@ -13,6 +13,7 @@
                         <div t-attf-class="o_ea_scot_card o_ea_scot_card_#{record.ea_card.raw_value.border}">
                             <div class="o_ea_scot_card_name"><field name="name"/></div>
                             <div class="o_ea_scot_card_sub" t-esc="record.ea_card.raw_value.subtitle"/>
+                            <div t-if="record.ea_card.raw_value.carried"><span class="badge text-bg-warning" t-esc="record.ea_card.raw_value.carried"/></div>
                             <div class="o_ea_scot_card_tags">
                                 <span t-foreach="record.ea_card.raw_value.tags" t-as="tag" t-key="tag.code" class="o_ea_scot_tag">
                                     <b t-esc="tag.code"/> <t t-esc="tag.label"/>
