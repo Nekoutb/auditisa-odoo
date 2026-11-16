@@ -380,6 +380,8 @@ class FileItem(models.Model):
         signature.write({
             "voided_at": fields.Datetime.now(), "voided_by_id": user.id, "void_reason": SIGNOFF_REMOVED_REASON,
         })
+        # the one-active-signature index reads the database: a new signature may follow at once
+        signature.flush_recordset()
         item._ea_restate_from_signoffs()
         engagement._ea_log("signoff_removed", "%s sign-off as %s removed by %s" % (item.code, role, user.name))
         return role
