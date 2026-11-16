@@ -12,6 +12,7 @@ from . import dataset
 from . import import_matching
 from . import gl_console
 from . import scot
+from . import scot_documents
 from . import control_test
 from . import sampling
 from . import je_selection

@@ -4188,12 +4188,6 @@ msgid "IT applications at each step"
 msgstr "Applications informatiques à chaque étape"
 
 #. module: ea_audit_tools
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_wizard__control_type__it_dependent
-#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__control_type__it_dependent
-msgid "IT-dependent"
-msgstr "Dépendant de l'informatique"
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_itgc_wizard__state
 msgid "ITGC conclusion"
 msgstr "Conclusion sur les CGI"
@@ -11177,3 +11171,678 @@ msgstr "et : signaler seulement quand les deux limites sont dépassées. ou : qu
 #: code:addons/ea_audit_tools/static/src/xml/significance_list.xml:0
 msgid "Set by the team members who can edit this file. and: both limits are passed; or: either one is."
 msgstr "Fixé par les membres de l'équipe qui peuvent modifier ce dossier. et : les deux limites sont dépassées ; ou : l'une d'elles l'est."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency
+msgid "Frequency as first typed"
+msgstr "Fréquence telle que saisie à l'origine"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency_code
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__frequency
+msgid "Frequency"
+msgstr "Fréquence"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency_other
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__frequency_other
+msgid "Why another frequency"
+msgstr "Pourquoi une autre fréquence"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__reliance
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__reliance
+msgid "Reliance"
+msgstr "Confiance"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_scot_control__reliance
+msgid "Heavy: the audit relies heavily on this control, or it answers a significant risk."
+msgstr "Forte : l'audit s'appuie fortement sur ce contrôle, ou il répond à un risque important."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frozen_size
+msgid "Size frozen at the first result"
+msgstr "Taille figée au premier résultat"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency_effective
+msgid "Frequency (read)"
+msgstr "Fréquence (lue)"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__frequency_display
+msgid "Frequency shown"
+msgstr "Fréquence affichée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__code
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot_control__result_state
+msgid "Result"
+msgstr "Résultat"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__multiple_daily
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__multiple_daily
+msgid "Multiple times a day"
+msgstr "Plusieurs fois par jour"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__daily
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__daily
+msgid "Daily"
+msgstr "Quotidien"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__weekly
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__weekly
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__twice_monthly
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__twice_monthly
+msgid "Twice a month"
+msgstr "Deux fois par mois"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__monthly
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__monthly
+msgid "Monthly"
+msgstr "Mensuel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__quarterly
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__quarterly
+msgid "Quarterly"
+msgstr "Trimestriel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__semi_annually
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__semi_annually
+msgid "Semi-annually"
+msgstr "Semestriel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__annually
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__annually
+msgid "Annually"
+msgstr "Annuel"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__event
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__event
+msgid "Event-driven (each time it happens)"
+msgstr "À chaque événement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_code__other
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__frequency_effective__other
+msgid "Other"
+msgstr "Autre"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__control_type__it_dependent
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_wizard__control_type__it_dependent
+msgid "IT-dependent manual"
+msgstr "Manuel dépendant de l'informatique"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__reliance__normal
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_wizard__reliance__normal
+msgid "Normal"
+msgstr "Normale"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__reliance__heavy
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_control_wizard__reliance__heavy
+msgid "Heavy / significant risk"
+msgstr "Forte / risque important"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__result_state__effective
+msgid "Effective"
+msgstr "Efficace"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__result_state__not_effective
+msgid "Not effective"
+msgstr "Non efficace"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot_control__result_state__to_test
+msgid "To test"
+msgstr "À tester"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__control_type
+msgid "Control type"
+msgstr "Type de contrôle"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__occurrences
+msgid "How many times in the year?"
+msgstr "Combien de fois dans l'année ?"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__needs_occurrences
+msgid "Needs Occurrences"
+msgstr "Nombre requis"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_control_wizard__suggestion
+msgid "Suggested test"
+msgstr "Test suggéré"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw_wizard__suggested_size
+msgid "Suggested size"
+msgstr "Taille suggérée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_toc_draw_wizard__below_reason
+msgid "Why a smaller test than suggested"
+msgstr "Pourquoi un test plus petit que suggéré"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__scot_id
+msgid "SCOT"
+msgstr "SCOT"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__control_id
+msgid "Control"
+msgstr "Contrôle"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__doc_type
+msgid "Document type"
+msgstr "Type de document"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__flowchart
+msgid "Flowchart"
+msgstr "Logigramme"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__narrative
+msgid "Process narrative"
+msgstr "Description du processus"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__policy
+msgid "Policy"
+msgstr "Procédure interne"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__walkthrough
+msgid "Walkthrough evidence"
+msgstr "Preuve du test de cheminement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__test
+msgid "Test evidence"
+msgstr "Preuve de test"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_task_attachment__doc_type__other
+msgid "Other"
+msgstr "Autre"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__document_ids
+msgid "SCOT documents"
+msgstr "Documents du SCOT"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__document_count
+msgid "Number of documents"
+msgstr "Nombre de documents"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__index_count
+msgid "Number of lead indexes"
+msgstr "Nombre d'indices"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__answered_count
+msgid "Risks answered"
+msgstr "Risques couverts"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__completeness
+msgid "Progress"
+msgstr "Avancement"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__completeness__complete
+msgid "Complete"
+msgstr "Terminé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__completeness__partial
+msgid "To finish"
+msgstr "À terminer"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_scot__completeness__empty
+msgid "Not started"
+msgstr "Non commencé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_scot__ea_card
+msgid "Card"
+msgstr "Carte"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "SCOT"
+msgstr "SCOT"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "1 Lead indexes"
+msgstr "1 Indices"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "2 What can go wrong"
+msgstr "2 Risques d'anomalie"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "3 Controls"
+msgstr "3 Contrôles"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "4 Walkthrough"
+msgstr "4 Test de cheminement"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "5 Documents"
+msgstr "5 Documents"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Code"
+msgstr "Code"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Control"
+msgstr "Contrôle"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Type"
+msgstr "Type"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Frequency"
+msgstr "Fréquence"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Design"
+msgstr "Conception"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "To test"
+msgstr "À tester"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Sample"
+msgstr "Échantillon"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Result"
+msgstr "Résultat"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Open"
+msgstr "Ouvrir"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Add a control"
+msgstr "Ajouter un contrôle"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Add what can go wrong"
+msgstr "Ajouter un risque d'anomalie"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Assign the SCOT"
+msgstr "Affecter le SCOT"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Link a lead index"
+msgstr "Lier un indice"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
+msgid "Remove"
+msgstr "Retirer"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
+msgid "Please choose"
+msgstr "Veuillez choisir"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_form
+msgid "Occurrences in the year"
+msgstr "Occurrences dans l'année"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_sampling_list
+msgid "Frequency"
+msgstr "Fréquence"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot.py:0
+msgid "Automated: test of one"
+msgstr "Automatisé : test unique"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot.py:0
+msgid "Please choose"
+msgstr "Veuillez choisir"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Indexes"
+msgstr "Indices"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Risks"
+msgstr "Risques"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Controls"
+msgstr "Contrôles"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Walkthrough"
+msgstr "Cheminement"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Docs"
+msgstr "Docs"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "risks answered"
+msgstr "risques couverts"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "to test"
+msgstr "à tester"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "tested, effective"
+msgstr "testés, efficaces"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Controls approach"
+msgstr "Approche par les contrôles"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Substantive"
+msgstr "Substantif"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "not assigned"
+msgstr "non affecté"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "Owner:"
+msgstr "Responsable :"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "No risk recorded yet"
+msgstr "Aucun risque enregistré"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/scot_documents.py:0
+msgid "start with \"What can go wrong\""
+msgstr "commencez par « Risques d'anomalie »"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/scot_wizards.py:0
+msgid "Choose a frequency"
+msgstr "Choisissez une fréquence"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/scot_wizards.py:0
+msgid "No suggestion for another frequency: the reason is required."
+msgstr "Pas de suggestion pour une autre fréquence : le motif est requis."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/scot_wizards.py:0
+msgid "Say how many times in the year"
+msgstr "Indiquez combien de fois dans l'année"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/scot_wizards.py:0
+msgid "Suggested test: %(size)s (%(rule)s)"
+msgstr "Test suggéré : %(size)s (%(rule)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This test is smaller than the suggested size: write why (at least three characters)."
+msgstr "Ce test est plus petit que la taille suggérée : indiquez pourquoi (au moins trois caractères)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Frequency \"Other\": write why none of the listed frequencies fits."
+msgstr "Fréquence « Autre » : indiquez pourquoi aucune fréquence de la liste ne convient."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Say how many times the control happens in the year: the test size depends on it."
+msgstr "Indiquez combien de fois le contrôle a lieu dans l'année : la taille du test en dépend."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "That document is not one of this SCOT's."
+msgstr "Ce document n'appartient pas à ce SCOT."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/scot.js:0
+msgid "The action failed."
+msgstr "L'action a échoué."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "New SCOT"
+msgstr "Nouveau SCOT"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Export to Excel"
+msgstr "Exporter vers Excel"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "SCOTs"
+msgstr "SCOT"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "controls"
+msgstr "contrôles"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "to test"
+msgstr "à tester"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "significant accounts without a SCOT"
+msgstr "comptes significatifs sans SCOT"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Green = complete, amber = to finish, red = not started. Click a card to open the SCOT."
+msgstr "Vert = terminé, orange = à terminer, rouge = non commencé. Cliquez sur une carte pour ouvrir le SCOT."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Which control answers which risk"
+msgstr "Quel contrôle répond à quel risque"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "What can go wrong"
+msgstr "Risque d'anomalie"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "A risk row with no ● turns red: nothing answers it yet."
+msgstr "Une ligne de risque sans ● devient rouge : aucun contrôle n'y répond encore."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Click a cell to link or unlink."
+msgstr "Cliquez sur une case pour lier ou délier."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Drop files here or"
+msgstr "Déposez les fichiers ici ou"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "choose files"
+msgstr "choisissez des fichiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Type"
+msgstr "Type"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Linked to"
+msgstr "Lié à"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "No control"
+msgstr "Aucun contrôle"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "flowchart, process narrative, walkthrough evidence, policies"
+msgstr "logigramme, description du processus, preuve du cheminement, procédures"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "No document yet."
+msgstr "Aucun document pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "· linked to"
+msgstr "· lié à"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Remove"
+msgstr "Retirer"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Removed (restorable for 30 days)"
+msgstr "Retirés (restaurables pendant 30 jours)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Restore"
+msgstr "Restaurer"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Control"
+msgstr "Contrôle"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/scot.xml:0
+msgid "Each file can be tagged and linked to a control. Files also appear on the S1.3 task. Removed files can be restored for 30 days."
+msgstr "Chaque fichier peut être typé et lié à un contrôle. Les fichiers apparaissent aussi sur la tâche S1.3. Un fichier retiré peut être restauré pendant 30 jours."

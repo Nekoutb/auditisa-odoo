@@ -3,10 +3,16 @@ import base64
 from odoo import api, fields, models
 
 from ..models.sampling import METHOD_SELECTION
-from ..models.scot import CONTROL_TYPE_SELECTION, ITGC_STATE_SELECTION, OBJECTIVE_SELECTION, STRATEGY_SELECTION, TYPE_SELECTION
+from ..models.scot import (
+    CONTROL_TYPE_SELECTION, ITGC_STATE_SELECTION, OBJECTIVE_SELECTION, RELIANCE_SELECTION, STRATEGY_SELECTION, TYPE_SELECTION,
+)
+from ..models.tool_record import is_french
 from ..rules import rule_error
 from ..services.errors import ServiceError
 from ..services.sampling_params import ATTRIBUTE_SAMPLE_SIZES, CONFIDENCE_FACTORS
+from ..services.toc_sampling import (
+    FREQUENCY_CODES, OCCURRENCE_FREQUENCIES, effective_frequency, frequency_choice_sizes, frequency_label, toc_suggested,
+)
 from ..tabular import parse_table
 
 _RELOAD = {"type": "ir.actions.client", "tag": "soft_reload"}
@@ -69,14 +75,44 @@ class ControlWizard(models.TransientModel):
     scot_id = fields.Many2one("ea.audit.scot", required=True)
     name = fields.Char(required=True)
     owner = fields.Char()
-    control_type = fields.Selection(CONTROL_TYPE_SELECTION, default="manual", required=True)
-    frequency = fields.Char()
+    control_type = fields.Selection(CONTROL_TYPE_SELECTION, string="Control type", default="manual", required=True)
+    frequency = fields.Selection(selection="_ea_frequency_choices", string="Frequency")
+    frequency_other = fields.Char(string="Why another frequency")
+    occurrences = fields.Integer(string="How many times in the year?")
+    reliance = fields.Selection(RELIANCE_SELECTION, string="Reliance", default="normal", required=True)
+    needs_occurrences = fields.Boolean(compute="_compute_suggestion")
+    suggestion = fields.Char(string="Suggested test", compute="_compute_suggestion")
     objective = fields.Selection(OBJECTIVE_SELECTION, default="prevent", required=True)
     wcgw_ids = fields.Many2many("ea.audit.wcgw", string="What it answers", domain="[('scot_id', '=', scot_id)]")
 
+    @api.model
+    def _ea_frequency_choices(self):
+        """The fixed list, each choice with its test sizes "normal · heavy" or what it needs."""
+        fr = is_french(self.env)
+        return [(code, "%s   (%s)" % (frequency_label(code, fr), frequency_choice_sizes(code, fr))) for code in FREQUENCY_CODES]
+
+    @api.depends("control_type", "frequency", "reliance", "occurrences")
+    @api.depends_context("lang")
+    def _compute_suggestion(self):
+        fr = is_french(self.env)
+        _ = self.env._
+        for wizard in self:
+            wizard.needs_occurrences = wizard.control_type != "automated" and wizard.frequency in OCCURRENCE_FREQUENCIES
+            found = toc_suggested(wizard.control_type, wizard.frequency or None, wizard.occurrences or None, False, fr, wizard.reliance)
+            if not found:
+                wizard.suggestion = _("Choose a frequency") if wizard.frequency != "other" else _("No suggestion for another frequency: the reason is required.")
+            elif "size" not in found:
+                wizard.suggestion = _("Say how many times in the year")
+            else:
+                wizard.suggestion = _("Suggested test: %(size)s (%(rule)s)", size=found["size"], rule=found["rule"])
+
     def action_add(self):
         self.ensure_one()
-        self.scot_id.add_control(self.name, self.owner, self.control_type, self.frequency, self.objective, self.wcgw_ids)
+        frequency = False if self.control_type == "automated" else self.frequency
+        self.scot_id.add_control(
+            self.name, self.owner, self.control_type, frequency, self.objective, self.wcgw_ids,
+            reliance=self.reliance, occurrences=self.occurrences, frequency_other=self.frequency_other,
+        )
         return _RELOAD
 
 
@@ -123,6 +159,8 @@ class TocDrawWizard(models.TransientModel):
     suggested_rule = fields.Char(string="Rule", readonly=True)
     draw_count = fields.Integer(string="Earlier draws", readonly=True)
     reason = fields.Char(string="Reason for the redraw")
+    suggested_size = fields.Integer(string="Suggested size", readonly=True)
+    below_reason = fields.Char(string="Why a smaller test than suggested")
 
     @api.model
     def default_get(self, field_names):
@@ -133,6 +171,7 @@ class TocDrawWizard(models.TransientModel):
             values.update({
                 "population": as_root.toc_population, "sample_size": as_root.suggested_size or as_root.sample_size,
                 "suggested_rule": as_root.suggested_rule, "draw_count": len(as_root.draw_ids),
+                "suggested_size": as_root.suggested_size,
             })
         return values
 
@@ -140,17 +179,17 @@ class TocDrawWizard(models.TransientModel):
     def _onchange_population(self):
         """The minimum follows the population: the source's table depends on it."""
         as_root = self.control_id.sudo()
-        if as_root and self.population:
-            from ..services.toc_sampling import toc_suggested
-
-            suggestion = toc_suggested(as_root.control_type, as_root.frequency, self.population, as_root.sole_control, (self.env.lang or "").startswith("fr"))
+        if as_root and self.population and not as_root.frozen_size and not as_root.testing_started:
+            frequency = effective_frequency(as_root.frequency_code, as_root.frequency)
+            suggestion = toc_suggested(as_root.control_type, frequency, self.population, as_root.sole_control, is_french(self.env), as_root.reliance or "normal")
             if suggestion and "size" in suggestion:
                 self.sample_size = suggestion["size"]
+                self.suggested_size = suggestion["size"]
                 self.suggested_rule = suggestion["rule"]
 
     def action_draw(self):
         self.ensure_one()
-        self.control_id.draw_toc_sample(self.population, self.sample_size, self.suggested_rule, self.reason)
+        self.control_id.draw_toc_sample(self.population, self.sample_size, self.suggested_rule, self.reason, self.below_reason)
         return _RELOAD
 
 

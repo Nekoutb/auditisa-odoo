@@ -5,6 +5,7 @@ computed, not typed (R17); every exception projects (R18).
 """
 from ._js import is_number, js_ceil, js_round, js_str
 from .errors import ServiceError
+from .toc_sampling import FREQUENCY_SIZES, LARGE_POPULATION_SIZES
 
 #: Required confidence to MUS confidence factor (section 4.1).
 CONFIDENCE_FACTORS = {
@@ -14,9 +15,17 @@ CONFIDENCE_FACTORS = {
 
 RISK_BAND_CONFIDENCE = {"high": 95, "moderate": 85, "low": 70}
 
-#: Minimum sample by control frequency. Many-times-daily controls use the 10/30/60
-#: plans, 30 by default; monthly band 2-4 (we take 4); automated = 1 while GITC holds.
-ATTRIBUTE_SAMPLE_SIZES = {"daily": 30, "weekly": 10, "monthly": 4, "quarterly": 2, "annual": 1, "automated": 1}
+#: Minimum sample by control frequency, read from the single table in toc_sampling (owner's
+#: ruling of 2026-11-16). The A2 attribute plan keeps its keys and takes the heavy-reliance
+#: column, as it always took the top of each band; many-times-daily uses the > 250 plan.
+ATTRIBUTE_SAMPLE_SIZES = {
+    "daily": LARGE_POPULATION_SIZES["heavy"],
+    "weekly": FREQUENCY_SIZES["weekly"][1],
+    "monthly": FREQUENCY_SIZES["monthly"][1],
+    "quarterly": FREQUENCY_SIZES["quarterly"][1],
+    "annual": FREQUENCY_SIZES["annually"][1],
+    "automated": 1,
+}
 
 _BY_KEY = {js_str(k): v for k, v in CONFIDENCE_FACTORS.items()}
 
@@ -54,7 +63,14 @@ def mus_plan(plan_input):
     return {"interval": interval, "sampleSize": max(1, js_ceil(population / interval)), "factor": factor}
 
 
-def attribute_plan(frequency):
+def attribute_plan(frequency, reliance="heavy"):
+    """The A2 attribute plan. ``reliance="normal"`` reads the normal column of the same table."""
+    if reliance == "normal":
+        if frequency == "daily":
+            return {"sampleSize": LARGE_POPULATION_SIZES["normal"]}
+        key = "annually" if frequency == "annual" else frequency
+        if key in FREQUENCY_SIZES:
+            return {"sampleSize": FREQUENCY_SIZES[key][0]}
     return {"sampleSize": ATTRIBUTE_SAMPLE_SIZES[frequency]}
 
 

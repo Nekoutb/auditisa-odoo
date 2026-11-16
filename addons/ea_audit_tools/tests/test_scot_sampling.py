@@ -220,8 +220,7 @@ class TestTocDraw(ScotCase):
         self.select()
         self.assertEqual(self.control.sudo().suggested_size, 2)
         self.assertTrue(self.control.sudo().sole_control)
-        daily = self.scot.add_control("Quotidien", frequency="daily", wcgws=self.wcgw)
-        daily.sudo().write({"toc_population": 300})
+        daily = self.scot.add_control("Quotidien", frequency="daily", wcgws=self.wcgw, occurrences=300)
         self.assertEqual(daily.sudo().suggested_size, 25)
 
     def test_the_extract(self):

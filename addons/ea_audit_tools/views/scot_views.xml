@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_scot_kanban" model="ir.ui.view">
+        <field name="name">ea.audit.scot.kanban</field>
+        <field name="model">ea.audit.scot</field>
+        <field name="arch" type="xml">
+            <kanban create="0" delete="0" js_class="ea_scot_kanban" class="o_ea_scot_kanban">
+                <field name="name"/>
+                <field name="ea_card"/>
+                <field name="completeness"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="o_ea_scot_card o_ea_scot_card_#{record.ea_card.raw_value.border}">
+                            <div class="o_ea_scot_card_name"><field name="name"/></div>
+                            <div class="o_ea_scot_card_sub" t-esc="record.ea_card.raw_value.subtitle"/>
+                            <div class="o_ea_scot_card_tags">
+                                <span t-foreach="record.ea_card.raw_value.tags" t-as="tag" t-key="tag.code" class="o_ea_scot_tag">
+                                    <b t-esc="tag.code"/> <t t-esc="tag.label"/>
+                                </span>
+                            </div>
+                            <div class="o_ea_scot_steps">
+                                <span t-foreach="record.ea_card.raw_value.steps" t-as="step" t-key="step.key"
+                                      t-attf-class="o_ea_scot_step o_ea_scot_step_#{step.state}">
+                                    <t t-esc="step.label"/>
+                                    <t t-if="step.count !== null"> <t t-esc="step.count"/></t>
+                                    <t t-elif="step.state === 'done'"> ✓</t>
+                                </span>
+                            </div>
+                            <div class="o_ea_scot_kpis" t-if="record.ea_card.raw_value.kpis.length">
+                                <span t-foreach="record.ea_card.raw_value.kpis" t-as="kpi" t-key="kpi_index" class="o_ea_scot_kpi">
+                                    <b t-att-class="kpi.warn ? 'o_ea_warn' : ''" t-esc="kpi.value"/>
+                                    <small t-esc="kpi.label"/>
+                                </span>
+                            </div>
+                            <div class="o_ea_scot_empty" t-if="record.ea_card.raw_value.empty">
+                                <b t-esc="record.ea_card.raw_value.empty"/>
+                                <small t-esc="record.ea_card.raw_value.emptyHint"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
     <record id="view_scot_list" model="ir.ui.view">
         <field name="name">ea.audit.scot.list</field>
         <field name="model">ea.audit.scot</field>
@@ -26,14 +68,13 @@
         <field name="name">ea.audit.scot.form</field>
         <field name="model">ea.audit.scot</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form create="0" class="o_ea_scot_form">
                 <header>
-                    <button name="action_open_index_wizard" type="object" string="Link a lead index" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_assign" type="object" string="Assign the SCOT" groups="ea_audit_core.group_writer"/>
-                    <button name="action_open_wcgw_wizard" type="object" string="Add what can go wrong" groups="ea_audit_core.group_writer"/>
-                    <button name="action_open_control_wizard" type="object" string="Add a control" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_index_wizard" type="object" string="Link a lead index" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>
+                    <div class="o_ea_card_label">SCOT</div>
                     <div class="o_ea_title"><field name="name"/></div>
                     <group>
                         <group>
@@ -46,8 +87,14 @@
                             <field name="description"/>
                         </group>
                     </group>
-                    <notebook>
-                        <page string="Lead indexes (S1.1)">
+                    <field name="index_count" invisible="1"/>
+                    <field name="wcgw_count" invisible="1"/>
+                    <field name="control_count" invisible="1"/>
+                    <field name="walkthrough_open" invisible="1"/>
+                    <field name="document_count" invisible="1"/>
+                    <widget name="ea_scot_tab_counts"/>
+                    <notebook class="o_ea_scot_notebook">
+                        <page string="1 Lead indexes" name="indexes">
                             <field name="index_ids" readonly="1" nolabel="1">
                                 <list>
                                     <field name="index_code"/>
@@ -56,9 +103,12 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="What can go wrong (S1.2)">
+                        <page string="2 What can go wrong" name="risks">
+                            <div class="o_ea_scot_actions">
+                                <button name="action_open_wcgw_wizard" type="object" string="Add what can go wrong" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                            </div>
                             <field name="wcgw_ids" readonly="1" nolabel="1">
-                                <list>
+                                <list decoration-danger="not answered">
                                     <field name="description"/>
                                     <field name="assertion_ids" widget="many2many_tags"/>
                                     <field name="control_ids" widget="many2many_tags"/>
@@ -66,22 +116,29 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Controls (S1.2, S2.1, S2.2)">
-                            <field name="control_ids" readonly="1" nolabel="1">
+                        <page string="3 Controls" name="controls">
+                            <div class="o_ea_scot_actions">
+                                <button name="action_open_control_wizard" type="object" string="Add a control" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                                <button name="action_open_wcgw_wizard" type="object" string="Add what can go wrong" groups="ea_audit_core.group_writer"/>
+                            </div>
+                            <field name="control_ids" readonly="1" nolabel="1" class="o_ea_scot_controls">
                                 <list>
-                                    <field name="name"/>
-                                    <field name="control_type"/>
-                                    <field name="frequency"/>
-                                    <field name="objective"/>
-                                    <field name="wcgw_ids" widget="many2many_tags"/>
-                                    <field name="selected_for_testing"/>
-                                    <field name="design_eval"/>
-                                    <field name="operating_eval"/>
+                                    <field name="code" string="Code"/>
+                                    <field name="name" string="Control"/>
+                                    <field name="control_type" string="Type"/>
+                                    <field name="frequency_display" string="Frequency"/>
+                                    <field name="design_eval" string="Design"/>
+                                    <field name="selected_for_testing" string="To test"/>
+                                    <field name="sample_size" string="Sample"/>
+                                    <field name="result_state" string="Result" widget="badge"
+                                           decoration-success="result_state == 'effective'" decoration-warning="result_state == 'to_test'"
+                                           decoration-danger="result_state == 'not_effective'"/>
                                     <button name="action_open_full" type="object" string="Open" class="btn-link"/>
                                 </list>
                             </field>
+                            <widget name="ea_scot_grid"/>
                         </page>
-                        <page string="Walkthrough (S1.3)">
+                        <page string="4 Walkthrough" name="walkthrough">
                             <group string="A. Understanding the flow">
                                 <field name="flow_initiation"/>
                                 <field name="flow_recording"/>
@@ -100,6 +157,9 @@
                                 <field name="wt_implemented"/>
                                 <field name="wt_conclusion"/>
                             </group>
+                        </page>
+                        <page string="5 Documents" name="documents">
+                            <widget name="ea_scot_documents"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -124,9 +184,13 @@
                         <group string="The control (S1.2)">
                             <field name="scot_id" readonly="1"/>
                             <field name="owner"/>
-                            <field name="control_type"/>
-                            <field name="frequency"/>
-                            <field name="objective"/>
+                            <field name="control_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="frequency_code" invisible="control_type == 'automated'" placeholder="Please choose"/>
+                            <field name="frequency" readonly="1" invisible="not frequency or frequency_code"/>
+                            <field name="frequency_other" invisible="frequency_code != 'other' or control_type == 'automated'"
+                                   required="frequency_code == 'other' and control_type != 'automated'"/>
+                            <field name="reliance" widget="radio" options="{'horizontal': true}" invisible="control_type == 'automated'"/>
+                            <field name="objective" widget="radio" options="{'horizontal': true}"/>
                             <field name="wcgw_ids" widget="many2many_tags" readonly="1"/>
                             <field name="assertion_summary"/>
                         </group>
@@ -140,7 +204,8 @@
                     </group>
                     <group string="Sampling and results (E1.2)">
                         <group>
-                            <field name="toc_population"/>
+                            <field name="toc_population" string="Occurrences in the year"/>
+                            <field name="frozen_size" invisible="not frozen_size"/>
                             <field name="sole_control"/>
                             <field name="suggested_size"/>
                             <field name="suggested_rule"/>
@@ -197,7 +262,7 @@
             <list create="0" delete="0" edit="0">
                 <field name="name"/>
                 <field name="scot_id"/>
-                <field name="frequency"/>
+                <field name="frequency_display" string="Frequency"/>
                 <field name="control_type"/>
                 <field name="assertion_summary"/>
                 <field name="sole_control"/>
@@ -434,15 +499,23 @@
         <field name="name">ea.audit.control.wizard.form</field>
         <field name="model">ea.audit.control.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_ea_control_dialog">
                 <field name="scot_id" invisible="1"/>
+                <field name="needs_occurrences" invisible="1"/>
                 <group>
                     <field name="name"/>
                     <field name="owner"/>
-                    <field name="control_type"/>
-                    <field name="frequency"/>
-                    <field name="objective"/>
-                    <field name="wcgw_ids" widget="many2many_tags"/>
+                    <field name="control_type" widget="radio" options="{'horizontal': true}" class="o_ea_segmented"/>
+                    <field name="frequency" invisible="control_type == 'automated'" required="control_type != 'automated'"/>
+                    <field name="occurrences" invisible="not needs_occurrences" required="needs_occurrences"/>
+                    <field name="frequency_other" invisible="frequency != 'other' or control_type == 'automated'"
+                           required="frequency == 'other' and control_type != 'automated'"/>
+                    <field name="reliance" widget="radio" options="{'horizontal': true}" class="o_ea_segmented" invisible="control_type == 'automated'"/>
+                </group>
+                <div class="o_ea_suggestion"><field name="suggestion" readonly="1" nolabel="1"/></div>
+                <group>
+                    <field name="objective" widget="radio" options="{'horizontal': true}" class="o_ea_segmented"/>
+                    <field name="wcgw_ids" widget="many2many_checkboxes"/>
                 </group>
                 <footer>
                     <button name="action_add" type="object" string="Add" class="btn-primary"/>
@@ -513,6 +586,9 @@
                     <field name="population"/>
                     <field name="sample_size"/>
                     <field name="suggested_rule"/>
+                    <field name="suggested_size"/>
+                    <field name="below_reason" invisible="not suggested_size or sample_size &gt;= suggested_size"
+                           required="suggested_size and sample_size &lt; suggested_size"/>
                     <field name="draw_count"/>
                     <field name="reason" invisible="draw_count == 0" required="draw_count &gt; 0"/>
                 </group>

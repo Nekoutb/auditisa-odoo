@@ -395,8 +395,25 @@ def _load():
     return params
 
 
+#: Recorded cases the owner's sample table of 2026-11-16 replaced on purpose: semi-annual is 1
+#: (normal reliance), "twice a month" is its own line (3), "biannually" is ambiguous (no
+#: suggestion), many-times-a-day has its own label, and the A2 daily plan reads the heavy column (40).
+#: test_toc_table.py states the new answers.
+_SUPERSEDED_FREQUENCIES = {"semi_annually", "Semestriel", "Semi-annually", "bimensuel", "biannually", "semi-monthly", "Many times a day", "continuous"}
+
+
+def _superseded(module, case):
+    if module == "toc_sampling" and case["fn"] == "tocSuggested":
+        return case["args"][1] in _SUPERSEDED_FREQUENCIES
+    if module == "sampling_params":
+        return case["fn"] == "ATTRIBUTE_SAMPLE_SIZES" or (case["fn"] == "attributePlan" and case["args"] == ["daily"])
+    return False
+
+
 @pytest.mark.parametrize("module,case", _load())
 def test_parity(module, case):
+    if _superseded(module, case):
+        pytest.skip("replaced by the owner's sample table of 2026-11-16")
     adapter = ADAPTERS[module][case["fn"]]
     args = dec(case["args"])
     if "throws" in case:

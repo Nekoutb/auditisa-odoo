@@ -576,7 +576,7 @@ class EngagementSampling(models.Model):
         ]):
             controls.append({
                 "controlName": control.name, "scotName": control.scot_id.name, "controlType": control.control_type,
-                "frequency": control.frequency, "assertions": control._ea_assertions(), "population": control.toc_population or None,
+                "frequency": control.frequency_effective or control.frequency, "assertions": control._ea_assertions(), "population": control.toc_population or None,
                 "sampleSize": control.sample_size or control.suggested_size or None, "rule": control.suggested_rule or None,
                 "items": control.toc_sample_items or [], "drawnAt": french_date(control.toc_sample_drawn_at),
             })

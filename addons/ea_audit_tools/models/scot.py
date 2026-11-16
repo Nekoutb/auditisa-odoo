@@ -15,12 +15,19 @@ from ..services.engines import seeded_random
 from ..services.itgc_model import IT_STRATEGIES, new_app_key
 from ..services.scot_forms import FSCP_FIELDS, WALKTHROUGH_FIELDS
 from ..services.toc_grid import toc_rows_planned, toc_rows_tested
-from ..services.toc_sampling import draw_toc_sample, seeded_rng, toc_evaluate, toc_suggested, toc_testing_started
+from ..services.toc_sampling import (
+    FREQUENCY_CODES, FREQUENCY_LABELS, OCCURRENCE_FREQUENCIES, draw_toc_sample, effective_frequency, frequency_code_from_text,
+    frequency_label,
+    seeded_rng, toc_evaluate, toc_suggested, toc_testing_started,
+)
 from .tool_record import french_date, is_french
 
 TYPE_SELECTION = [("routine", "Routine"), ("non_routine", "Non-routine"), ("estimation", "Estimation")]
 STRATEGY_SELECTION = [("controls", "Controls"), ("substantive", "Substantive")]
-CONTROL_TYPE_SELECTION = [("manual", "Manual"), ("it_dependent", "IT-dependent"), ("automated", "Automated")]
+CONTROL_TYPE_SELECTION = [("manual", "Manual"), ("it_dependent", "IT-dependent manual"), ("automated", "Automated")]
+FREQUENCY_SELECTION = [(code, FREQUENCY_LABELS[code][0]) for code in FREQUENCY_CODES]
+RELIANCE_SELECTION = [("normal", "Normal"), ("heavy", "Heavy / significant risk")]
+RESULT_SELECTION = [("effective", "Effective"), ("not_effective", "Not effective"), ("to_test", "To test")]
 OBJECTIVE_SELECTION = [("prevent", "Prevent"), ("detect", "Detect")]
 YES_NO = [("yes", "Yes"), ("no", "No")]
 ITGC_STATE_SELECTION = [("support", "Support reliance"), ("not_support", "Do not support reliance"), ("mixed", "Mixed")]
@@ -176,8 +183,10 @@ class Scot(models.Model):
         as_root.engagement_id._ea_invalidate_signoffs("S1.2")
         return wcgw.with_env(self.env)
 
-    def add_control(self, name, owner=None, control_type=None, frequency=None, objective=None, wcgws=None):
-        """addControl: an unknown type is manual, an unknown objective is prevent."""
+    def add_control(self, name, owner=None, control_type=None, frequency=None, objective=None, wcgws=None,
+                    reliance=None, occurrences=None, frequency_other=None):
+        """addControl: an unknown type is manual, an unknown objective is prevent. A frequency of the
+        fixed list is stored as its code; any other text stays as typed (read through the parser)."""
         self.ensure_one()
         self._ea_guard()
         name = (name or "").strip()
@@ -187,11 +196,21 @@ class Scot(models.Model):
         wcgws = (wcgws or self.env["ea.audit.wcgw"]).sudo()
         if wcgws.engagement_id - as_root.engagement_id:
             raise rule_error(self.env, "not-found")
+        control_type = control_type if control_type in dict(CONTROL_TYPE_SELECTION) else "manual"
+        text = (frequency or "").strip()
+        code = text if text in FREQUENCY_CODES else False
+        occurrences = max(0, round(occurrences)) if occurrences else 0
+        frequency_other = (frequency_other or "").strip()
+        _check_frequency(self.env, control_type, code, frequency_other, occurrences)
         control = self.env["ea.audit.scot.control"].sudo().create({
             "engagement_id": as_root.engagement_id.id, "scot_id": as_root.id, "name": name,
             "owner": (owner or "").strip() or False,
-            "control_type": control_type if control_type in dict(CONTROL_TYPE_SELECTION) else "manual",
-            "frequency": (frequency or "").strip() or False,
+            "control_type": control_type,
+            "frequency": False if code else (text or False),
+            "frequency_code": code,
+            "frequency_other": frequency_other or False,
+            "reliance": "heavy" if reliance == "heavy" else "normal",
+            "toc_population": occurrences or False,
             "objective": "detect" if objective == "detect" else "prevent",
             "wcgw_ids": [(6, 0, wcgws.ids)],
         })
@@ -222,6 +241,17 @@ class Scot(models.Model):
 
     def action_open_index_wizard(self):
         return _wizard(self, "ea.audit.scot.index.wizard", self.env._("Link a lead index"), {"default_scot_id": self.id})
+
+
+def _check_frequency(env, control_type, code, other_reason, occurrences):
+    """The fixed list's rules: "other" says why; daily, many-times-daily and event-driven say how
+    many times in the year. An automated control is tested once, whatever its frequency."""
+    if control_type == "automated":
+        return
+    if code == "other" and len((other_reason or "").strip()) < 3:
+        raise rule_error(env, "frequency-reason-required")
+    if code in OCCURRENCE_FREQUENCIES and not occurrences:
+        raise rule_error(env, "occurrences-required")
 
 
 def _wizard(record, model, name, context):
@@ -314,7 +344,18 @@ class ScotControl(models.Model):
     name = fields.Char(required=True)
     owner = fields.Char()
     control_type = fields.Selection(CONTROL_TYPE_SELECTION, default="manual", required=True)
-    frequency = fields.Char()
+    # The free text of the controls recorded before the fixed list (2026-11-16). Never rewritten:
+    # an archived file keeps it as it was; the list reads it through the keyword parser.
+    frequency = fields.Char(string="Frequency as first typed")
+    frequency_code = fields.Selection(FREQUENCY_SELECTION, string="Frequency")
+    frequency_other = fields.Char(string="Why another frequency")
+    reliance = fields.Selection(RELIANCE_SELECTION, string="Reliance", default="normal",
+                                help="Heavy: the audit relies heavily on this control, or it answers a significant risk.")
+    frozen_size = fields.Integer(string="Size frozen at the first result", readonly=True, copy=False)
+    frequency_effective = fields.Selection(FREQUENCY_SELECTION, string="Frequency (read)", compute="_compute_frequency_read")
+    frequency_display = fields.Char(string="Frequency shown", compute="_compute_frequency_read")
+    code = fields.Char(string="Code", compute="_compute_code")
+    result_state = fields.Selection(RESULT_SELECTION, string="Result", compute="_compute_code")
     objective = fields.Selection(OBJECTIVE_SELECTION, default="prevent", required=True)
     selected_for_testing = fields.Boolean()
     test_design = fields.Text()
@@ -343,7 +384,34 @@ class ScotControl(models.Model):
         string="Evaluation of the deviations", compute="_compute_sampling", compute_sudo=True,
     )
 
-    @api.depends("toc_sample_items", "toc_population", "wcgw_ids", "selected_for_testing", "frequency", "control_type", "toc_grid")
+    @api.depends("frequency", "frequency_code", "control_type", "toc_population")
+    @api.depends_context("lang")
+    def _compute_frequency_read(self):
+        fr = is_french(self.env)
+        for control in self:
+            code = effective_frequency(control.frequency_code, control.frequency)
+            control.frequency_effective = code or False
+            if control.control_type == "automated":
+                control.frequency_display = self.env._("Automated: test of one")
+            elif not code:
+                control.frequency_display = self.env._("Please choose")
+            elif code in OCCURRENCE_FREQUENCIES and control.toc_population:
+                control.frequency_display = "%s · %d" % (frequency_label(code, fr), control.toc_population)
+            else:
+                control.frequency_display = frequency_label(code, fr)
+
+    @api.depends("scot_id.control_ids", "selected_for_testing", "operating_eval")
+    def _compute_code(self):
+        for control in self:
+            ids = control.scot_id.control_ids.ids
+            control.code = "C%d" % (ids.index(control.id) + 1) if control.id in ids else "C"
+            if control.operating_eval:
+                control.result_state = control.operating_eval
+            else:
+                control.result_state = "to_test" if control.selected_for_testing else False
+
+    @api.depends("toc_sample_items", "toc_population", "wcgw_ids", "selected_for_testing", "frequency", "frequency_code",
+                 "reliance", "frozen_size", "control_type", "toc_grid")
     @api.depends_context("lang")
     def _compute_sampling(self):
         fr = is_french(self.env)
@@ -355,7 +423,15 @@ class ScotControl(models.Model):
             sole = bool(control.selected_for_testing) and any(
                 counts.get(control.engagement_id.id, {}).get(code, 0) == 1 for code in covered
             )
-            suggestion = toc_suggested(control.control_type, control.frequency or None, control.toc_population or None, sole, fr)
+            frequency = effective_frequency(control.frequency_code, control.frequency)
+            suggestion = toc_suggested(control.control_type, frequency, control.toc_population or None, sole, fr, control.reliance or "normal")
+            # Once results are recorded the size stays as it was (owner's ruling of 2026-11-16); a
+            # control tested before the ruling keeps its drawn size.
+            frozen = control.frozen_size or (control.sample_size if toc_testing_started(control.toc_grid) else 0)
+            if frozen:
+                suggestion = {"size": frozen, "rule": (
+                    "Figé à %d dès le premier résultat" if fr else "Frozen at %d once results were recorded"
+                ) % frozen}
             control.items_label = ", ".join(str(item) for item in control.toc_sample_items or [])
             control.assertion_summary = ", ".join(covered)
             control.sole_control = sole
@@ -378,6 +454,7 @@ class ScotControl(models.Model):
         self._ea_only(vals, {
             "selected_for_testing", "test_design", "design_eval", "implemented", "operating_notes",
             "sample_note", "operating_eval", "toc_population", "name", "owner", "frequency", "control_type", "objective",
+            "frequency_code", "frequency_other", "reliance",
         })
         for control in self:
             control.update_control(vals)
@@ -404,14 +481,24 @@ class ScotControl(models.Model):
         values = {key: patch[key] for key in (
             "selected_for_testing", "test_design", "design_eval", "implemented", "operating_notes", "sample_note",
             "operating_eval", "name", "owner", "frequency", "control_type", "objective",
+            "frequency_code", "frequency_other", "reliance",
         ) if key in patch}
+        if values.get("frequency_code") and values["frequency_code"] not in FREQUENCY_CODES:
+            raise rule_error(self.env, "invalid-value")
+        if "reliance" in values and values["reliance"] not in ("normal", "heavy"):
+            raise rule_error(self.env, "invalid-value")
         if patch.get("sample_size") not in (None, False):
             values["sample_size"] = max(1, round(patch["sample_size"]))
         if patch.get("toc_population") not in (None, False):
             values["toc_population"] = max(0, round(patch["toc_population"]))
         if patch.get("toc_grid"):
             values["toc_grid"] = patch["toc_grid"]
+        if {"frequency_code", "frequency_other", "control_type", "toc_population"} & set(values):
+            after = {key: values.get(key, as_root[key]) for key in ("control_type", "frequency_code", "frequency_other", "toc_population")}
+            _check_frequency(self.env, after["control_type"], after["frequency_code"], after["frequency_other"], after["toc_population"])
         as_root.write(values)
+        if toc_testing_started(as_root.toc_grid):
+            as_root._ea_freeze_size()
         conclusion = patch.get("operating_eval")
         if conclusion == "effective":
             # A conclusion on evidence: the planned sample tested, every attribute answered (UAT B84, B15).
@@ -426,7 +513,7 @@ class ScotControl(models.Model):
         codes = []
         if "selected_for_testing" in patch:
             codes.append("S2.1")
-        if {"test_design", "design_eval", "implemented", "sample_size", "sample_note"} & set(patch):
+        if {"test_design", "design_eval", "implemented", "sample_size", "sample_note", "frequency_code", "reliance"} & set(patch):
             codes.append("S2.2")
         if {"operating_notes", "operating_eval", "toc_population", "toc_grid"} & set(patch):
             codes.append("E1.2")
@@ -484,9 +571,55 @@ class ScotControl(models.Model):
             elif basis.endswith(suffix):
                 cell.write({"cr_basis": basis[: -len(suffix)]})
 
-    def draw_toc_sample(self, population, sample_size, rule=None, reason=None):
+    @api.model
+    def _ea_backfill_frequency_codes(self):
+        """One-off (2026-11-16): the code of the fixed list for the free text of OPEN files' controls,
+        where the keyword parser reads it without doubt. Archived files are left untouched (the archive
+        trigger refuses their rows), and so is anything unclear. Returns how many controls got a code."""
+        cr = self.env.cr
+        cr.execute("""
+            SELECT c.id, c.frequency
+              FROM ea_audit_scot_control c
+              JOIN ea_audit_engagement e ON e.id = c.engagement_id
+             WHERE e.archived_at IS NULL AND COALESCE(e.phase, '') != 'archived'
+               AND c.frequency_code IS NULL AND COALESCE(c.frequency, '') != ''
+        """)
+        by_code = {}
+        for control_id, text in cr.fetchall():
+            code = frequency_code_from_text(text)
+            if code:
+                by_code.setdefault(code, []).append(control_id)
+        for code, ids in by_code.items():
+            cr.execute("UPDATE ea_audit_scot_control SET frequency_code = %s WHERE id = ANY(%s) AND frequency_code IS NULL", [code, ids])
+        self.invalidate_model(["frequency_code"])
+        return sum(len(ids) for ids in by_code.values())
+
+    def _ea_suggested_for(self, population):
+        """The suggested size for a draw over ``population``: the frozen size once results exist."""
+        self.ensure_one()
+        control = self.sudo()
+        frozen = control.frozen_size or (control.sample_size if toc_testing_started(control.toc_grid) else 0)
+        if frozen:
+            return frozen
+        found = toc_suggested(
+            control.control_type, effective_frequency(control.frequency_code, control.frequency), population or None,
+            control.sole_control, False, control.reliance or "normal",
+        )
+        return found.get("size", 0) if found else 0
+
+    def _ea_freeze_size(self):
+        """The size in force when the first result is recorded: the drawn size, else the table's.
+        It no longer follows the table or the frequency afterwards."""
+        for control in self.sudo():
+            if not control.frozen_size:
+                size = control.sample_size or control.suggested_size
+                if size:
+                    control.frozen_size = size
+
+    def draw_toc_sample(self, population, sample_size, rule=None, reason=None, below_reason=None):
         """drawTocSampleForControl (F061): the server draws from a stored seed and keeps every draw.
-        The first draw needs no reason; a redraw does, and once testing started a manager's rank."""
+        The first draw needs no reason; a redraw does, and once testing started a manager's rank.
+        A size below the suggested one needs its own written reason (owner's ruling of 2026-11-16)."""
         self.ensure_one()
         self._ea_guard()
         try:
@@ -498,8 +631,15 @@ class ScotControl(models.Model):
         if size < 1:
             raise rule_error(self.env, "toc-size-invalid")
         reason = (reason or "").strip()
+        below_reason = (below_reason or "").strip()
         self.env.cr.execute("SELECT id FROM ea_audit_scot_control WHERE id = %s FOR UPDATE", [self.id])
         as_root = self.sudo()
+        suggested = as_root._ea_suggested_for(population)
+        below = bool(suggested) and size < suggested
+        if below and len(below_reason) < 3:
+            raise rule_error(self.env, "below-suggestion-reason-required")
+        if below:
+            rule = "%s · %s" % (rule, below_reason) if rule else below_reason
         engagement = as_root.engagement_id
         Draw = self.env["ea.audit.toc.draw"].sudo()
         draw_no = Draw.search_count([("control_id", "=", self.id)]) + 1
@@ -834,7 +974,7 @@ class EngagementScot(models.Model):
     def action_tool_scot(self):
         return self._ea_list(
             "ea.audit.scot", self.env._("SCOTs and controls"),
-            [("ea_audit_tools.view_scot_list", "list"), ("ea_audit_tools.view_scot_form", "form")],
+            [("ea_audit_tools.view_scot_kanban", "kanban"), ("ea_audit_tools.view_scot_list", "list"), ("ea_audit_tools.view_scot_form", "form")],
             {"context": {"ea_engagement_id": self.id, "create": False}},
         )
 
@@ -891,7 +1031,7 @@ class EngagementScot(models.Model):
             for control in scot.control_ids or [self.env["ea.audit.scot.control"]]:
                 rows.append([
                     scot.name, scot.transaction_type, scot.strategy, scot.index_summary or "",
-                    control.name or "", control.control_type or "", control.frequency or "", control.objective or "",
+                    control.name or "", control.control_type or "", control.frequency_display or "", control.objective or "",
                     "yes" if control.selected_for_testing else "no", control.assertion_summary or "",
                     control.sample_size or "", control.items_label or "", control.operating_eval or "",
                 ])
