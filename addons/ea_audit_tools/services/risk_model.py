@@ -40,3 +40,38 @@ def inherent_rating(likelihood, magnitude):
 def risk_title(description, presumed_type, locale):
     presumed = PRESUMED_TITLES.get(presumed_type) if presumed_type else None
     return presumed[locale] if presumed else description
+
+
+RATING_LEVELS = ("low", "medium", "high")
+
+
+def risk_overview(rows):
+    """One risk page (owner's mock-up of 2026-11-16): the heat map above the register and a
+    short summary. rows: one dict per risk of the register, with likelihood, magnitude,
+    significant, rebutted, indexes (lead indexes linked) and steps (program steps linked).
+    The grid reads likelihood from high (top row) to low, magnitude from low to high. A
+    rebutted risk needs no lead index nor step, so it is not counted as missing them."""
+    grid = []
+    for likelihood in reversed(RATING_LEVELS):
+        cells = []
+        for magnitude in RATING_LEVELS:
+            here = [r for r in rows if r["likelihood"] == likelihood and r["magnitude"] == magnitude]
+            cells.append({
+                "likelihood": likelihood,
+                "magnitude": magnitude,
+                "rating": inherent_rating(likelihood, magnitude),
+                "count": len(here),
+                "significant": len([r for r in here if r["significant"]]),
+            })
+        grid.append({"likelihood": likelihood, "cells": cells})
+    live = [r for r in rows if not r["rebutted"]]
+    return {
+        "grid": grid,
+        "summary": {
+            "total": len(rows),
+            "significant": len([r for r in rows if r["significant"]]),
+            "rebutted": len([r for r in rows if r["rebutted"]]),
+            "no_index": len([r for r in live if not r["indexes"]]),
+            "no_step": len([r for r in live if not r["steps"]]),
+        },
+    }

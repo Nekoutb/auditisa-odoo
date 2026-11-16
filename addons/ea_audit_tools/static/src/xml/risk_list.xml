@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- One risk page (owner's mock-up of 2026-11-16): heat map and summary above the register. -->
+    <t t-name="ea_audit_tools.RiskListView" t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <RiskHeatPanel t-if="eaEngagementId" engagementId="eaEngagementId" cell="eaRisk.cell" onPick.bind="eaPick"/>
+        </xpath>
+    </t>
+
+    <t t-name="ea_audit_tools.RiskHeatPanel">
+        <t t-set="data" t-value="state.data"/>
+        <div class="o_ea_risk_panel" t-if="data">
+            <div class="o_ea_risk_cards">
+                <section class="o_ea_risk_map">
+                    <h3 t-esc="data.labels.heatMap"/>
+                    <p class="o_ea_risk_hint" t-esc="data.labels.hint"/>
+                    <div class="o_ea_risk_grid_wrap">
+                        <span class="o_ea_risk_axis_y" t-esc="data.labels.likelihood"/>
+                        <table class="o_ea_risk_grid" role="grid">
+                            <tbody>
+                                <tr t-foreach="data.grid" t-as="row" t-key="row.likelihood">
+                                    <th scope="row" t-esc="row.label"/>
+                                    <td t-foreach="row.cells" t-as="cell" t-key="cell.magnitude">
+                                        <button type="button" t-att-class="'o_ea_risk_cell is-' + cell.rating + (isOn(cell) ? ' is-on' : '')"
+                                                t-att-data-ea-cell="cell.likelihood + '-' + cell.magnitude"
+                                                t-att-title="cell.title" t-att-aria-pressed="isOn(cell) ? 'true' : 'false'"
+                                                t-on-click="() => props.onPick({ likelihood: cell.likelihood, magnitude: cell.magnitude })">
+                                            <b t-esc="cell.count"/>
+                                            <small t-if="cell.significantLabel" t-esc="cell.significantLabel"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th/>
+                                    <th t-foreach="data.magnitudes" t-as="m" t-key="m.value" class="o_ea_risk_tick" t-esc="m.label"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="o_ea_risk_axis_x" t-esc="data.labels.magnitude"/>
+                </section>
+                <section class="o_ea_risk_summary">
+                    <h3 t-esc="data.labels.summary"/>
+                    <table class="o_ea_risk_sum">
+                        <tbody>
+                            <tr><th t-esc="data.labels.total"/><td data-ea-sum="total" t-esc="data.summary.total"/></tr>
+                            <tr><th t-esc="data.labels.significant"/><td data-ea-sum="significant" t-esc="data.summary.significant"/></tr>
+                            <tr><th t-esc="data.labels.rebutted"/><td data-ea-sum="rebutted" t-esc="data.summary.rebutted"/></tr>
+                            <tr><th t-esc="data.labels.noIndex"/><td data-ea-sum="no_index" t-esc="data.summary.no_index"/></tr>
+                            <tr><th t-esc="data.labels.noStep"/><td data-ea-sum="no_step" t-esc="data.summary.no_step"/></tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <button type="button" class="o_ea_risk_chip" t-if="picked" t-att-aria-label="data.labels.showAll"
+                    t-att-title="data.labels.showAll" t-on-click="() => props.onPick(props.cell)">
+                <span t-esc="chipText"/><span class="o_ea_risk_chip_x" aria-hidden="true" t-esc="'✕'"/>
+            </button>
+        </div>
+    </t>
+</templates>
