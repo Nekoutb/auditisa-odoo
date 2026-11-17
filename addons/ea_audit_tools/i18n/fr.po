@@ -420,6 +420,7 @@ msgstr "Accepté par"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__drill_account
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_account__account
@@ -16278,11 +16279,21 @@ msgstr "La personne qui a préparé un ajustement ne peut pas le valider. Modifi
 msgid "1. Finding"
 msgstr "1. Constat"
 
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Map the account column of the register to compare account by account."
+msgstr "Associez la colonne de compte du fichier des immobilisations pour comparer compte par compte."
+
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "The issue"
 msgstr "Le problème"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "No account"
+msgstr "Sans compte"
 
 #. module: ea_audit_tools
 #. odoo-javascript
@@ -16293,8 +16304,20 @@ msgstr "Comment et où cela s'est produit"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "In the ledger only"
+msgstr "Au grand livre seulement"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "What the test found, where, and what the client said"
 msgstr "Ce que le test a relevé, où, et ce que le client a répondu"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Cost accounts"
+msgstr "Comptes d'immobilisation"
 
 #. module: ea_audit_tools
 #. odoo-javascript
@@ -16305,9 +16328,21 @@ msgstr "2. Ajustement à comptabiliser"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Amounts of the register that differ from the dates:"
+msgstr "Montants du fichier qui diffèrent des dates :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 msgid "goes to the summary of audit differences by itself when you save"
 msgstr "va au sommaire des écarts d'audit dès l'enregistrement"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Per the ledger (the register's depreciation expense accounts)"
+msgstr "Selon le grand livre (comptes de dotation du fichier)"
 
 #. module: ea_audit_tools
 #. odoo-javascript
@@ -16362,3 +16397,51 @@ msgstr "Passifs courants"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__expenditure
 msgid "Expenditure"
 msgstr "Charges"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Depreciation expense account"
+msgstr "Compte de dotation"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Worked out"
+msgstr "Calculé"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "Some assets have no account in the register: they are compared in total only."
+msgstr "Certaines immobilisations n'ont pas de compte dans le fichier : elles ne sont comparées qu'en total."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "The register's amount does not agree with the asset's dates or cost."
+msgstr "Le montant du fichier ne concorde pas avec les dates ou le coût de l'immobilisation."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "The population is the register's additions (acquired in the year) and disposals (disposed of in the year), at the amounts of its additions and disposals at cost columns when these are filled. Every item above the key-item threshold is taken, then a sample of the rest sized by the combined risk of the account and performance materiality. It also shows on the Sampling page."
+msgstr "La population est faite des acquisitions (acquises dans l'exercice) et des cessions (cédées dans l'exercice) du fichier, aux montants de ses colonnes d'acquisitions et de cessions à la valeur brute lorsqu'elles sont remplies. Tout élément au-dessus du seuil des éléments clés est retenu, puis un échantillon du reste, dimensionné selon le risque combiné du compte et le seuil de signification de planification. Il apparaît aussi sur la page Échantillonnage."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "each cost account of the register against the ledger accounts that start with it"
+msgstr "chaque compte d'immobilisation du fichier, comparé aux comptes du grand livre qui commencent par ce numéro"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "each depreciation account against the ledger: the register's own, else 28 + the 2nd and 3rd digits of the cost account (2441 → 2844)"
+msgstr "chaque compte d'amortissement comparé au grand livre : celui du fichier, sinon 28 + les 2e et 3e chiffres du compte d'immobilisation (2441 → 2844)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
+msgid "%(count)s assets: the register's additions or disposals at cost do not agree with their dates; the register's amounts are used (%(items)s)."
+msgstr "%(count)s immobilisations : les acquisitions ou cessions à la valeur brute du fichier ne concordent pas avec leurs dates ; les montants du fichier sont retenus (%(items)s)."

@@ -260,12 +260,17 @@ export class ProcedurePaper extends Component {
     // ---- K-M1 ----------------------------------------------------------------------
 
     get farSections() {
+        const byAccount = this.p.far && this.p.far.byAccount;
         return [
-            { key: "cost", title: _t("1. Gross book value (cost)"), ledger: _t("against classes 21 to 25"), columns: [
+            { key: "cost", title: _t("1. Gross book value (cost)"), ledger: byAccount
+                ? _t("each cost account of the register against the ledger accounts that start with it")
+                : _t("against classes 21 to 25"), columns: [
                 { key: "opening", label: _t("Opening") }, { key: "additions", label: _t("Additions") },
                 { key: "disposals", label: _t("Disposals") }, { key: "closing", label: _t("Closing per register") },
             ] },
-            { key: "depreciation", title: _t("2. Accumulated depreciation"), ledger: _t("against classes 28 and 29"), columns: [
+            { key: "depreciation", title: _t("2. Accumulated depreciation"), ledger: byAccount
+                ? _t("each depreciation account against the ledger: the register's own, else 28 + the 2nd and 3rd digits of the cost account (2441 → 2844)")
+                : _t("against classes 28 and 29"), columns: [
                 { key: "opening", label: _t("Opening") }, { key: "charge", label: _t("Charge of the year") },
                 { key: "disposals", label: _t("On disposals") }, { key: "closing", label: _t("Closing per register") },
             ] },
@@ -279,6 +284,12 @@ export class ProcedurePaper extends Component {
     get farYearText() {
         return _t("Worked out from each asset's acquisition date, cost, depreciation rate and disposal date, for the year from %(start)s to %(end)s. Straight-line depreciation, pro rata to the days held.", {
             start: this.p.far.yearStart, end: this.p.far.yearEnd,
+        });
+    }
+
+    get farNoticeText() {
+        return _t("%(count)s assets: the register's additions or disposals at cost do not agree with their dates; the register's amounts are used (%(items)s).", {
+            count: this.p.far.noticeCount, items: (this.p.far.notices || []).slice(0, 10).join(", "),
         });
     }
 

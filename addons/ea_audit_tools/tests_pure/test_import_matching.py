@@ -238,3 +238,34 @@ def test_the_register_rows_are_checked_one_by_one():
     found = far_check({"headers": list(mapping.values()), "rows": rows}, mapping, "2025-12-31")
     rows_of = {key: [item["row"] for item in items] for key, items in found.items()}
     assert rows_of == {"noCategory": [2], "badDate": [3], "futureDate": [2], "badRate": [3], "fractionRate": [2]}
+
+
+# ---- the register's optional account and disposals columns (owner's request of 2026-11-17) ----
+
+def test_the_three_account_columns_are_optional_and_kept_apart():
+    from services.dataset_mapping import guess_map
+    from services.import_matching import missing_fields as missing
+    labels = {f["key"]: (f["en"], f["fr"], f.get("required")) for f in fields_of("fixed_asset_register")}
+    assert labels["account"][:2] == ("Cost account (optional)", "Compte d'immobilisation (optionnel)")
+    assert labels["depAccount"][1] == "Compte d'amortissement (optionnel)" and labels["chargeAccount"][1] == "Compte de dotation (optionnel)"
+    assert not any(labels[key][2] for key in ("account", "depAccount", "chargeAccount", "disposalsCost"))
+    full = {"item": "N", "itemDescription": "D", "amount": "C", "category": "Cat", "acquisitionDate": "Dt", "depreciationRate": "T"}
+    assert missing("fixed_asset_register", full) == []
+    base = ["Code", "Désignation", "Valeur brute", "Date d'acquisition", "Taux", "Famille"]
+    mapping = guess_map("fixed_asset_register", base + ["Compte", "Compte d'amortissement", "Compte de dotation"])
+    assert (mapping["account"], mapping["depAccount"], mapping["chargeAccount"]) == ("Compte", "Compte d'amortissement", "Compte de dotation")
+    loose = guess_map("fixed_asset_register", base + ["Compte amort. cumulés", "Compte dotation 2025", "N° compte"])
+    assert loose["account"] == "N° compte" and loose.get("chargeAccount") == "Compte dotation 2025"
+    assert loose.get("account") != "Compte amort. cumulés"
+
+
+def test_the_two_disposals_columns_are_kept_apart():
+    from services.dataset_mapping import guess_map
+    labels = {f["key"]: (f["en"], f["fr"]) for f in fields_of("fixed_asset_register")}
+    assert labels["disposals"] == ("Disposals at net book value (optional)", "Cessions à la valeur nette comptable (optionnel)")
+    assert labels["disposalsCost"] == ("Disposals at cost (optional)", "Cessions à la valeur brute (optionnel)")
+    base = ["Code", "Désignation", "Valeur brute", "Date d'acquisition", "Taux", "Famille"]
+    mapping = guess_map("fixed_asset_register", base + ["Cessions brutes", "Cessions VNC", "Acquisitions"])
+    assert (mapping["disposalsCost"], mapping["disposals"], mapping["additions"]) == ("Cessions brutes", "Cessions VNC", "Acquisitions")
+    loose = guess_map("fixed_asset_register", base + ["Cessions de l'exercice (brut)", "Cessions"])
+    assert loose["disposals"] == "Cessions" and loose.get("disposalsCost") != "Cessions"

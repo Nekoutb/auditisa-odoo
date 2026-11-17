@@ -599,7 +599,8 @@ class EngagementProcedureExecution(models.Model):
             cost = float(amount) if amount is not None else far_number(value("amount"))
             assets.append({
                 "row": row_no, "item": text("item"), "label": text("itemDescription"), "category": text("category"),
-                "account": text("account"), "cost": cost,
+                "account": text("account"), "depAccount": text("depAccount"), "chargeAccount": text("chargeAccount"),
+                "cost": cost, "additions": far_number(value("additions")), "disposalsCost": far_number(value("disposalsCost")),
                 "acquired": parse_date_iso(value("acquisitionDate")), "disposed": parse_date_iso(value("disposalDate")),
                 "rate": depreciation_rate(value("depreciationRate")), "proceeds": far_number(value("proceeds")),
                 "charge": far_number(value("charge")),
@@ -619,7 +620,9 @@ class EngagementProcedureExecution(models.Model):
         if far.get("explanation") and not texts.get("nbv"):
             # the single explanation of the first K-M1 stays with the net book value
             texts["nbv"] = far["explanation"]
-        result = far_schedule(assets, balances, start.isoformat() if start else None, end.isoformat() if end else None, texts)
+        columns = {key: bool(mapping.get(key)) for key in ("account", "chargeAccount")}
+        result = far_schedule(assets, balances, start.isoformat() if start else None, end.isoformat() if end else None, texts,
+                              columns=columns)
         missing = [key for key in ("acquisitionDate", "depreciationRate") if not mapping.get(key)] if dataset else []
         if not dataset:
             result["state"] = "no-register"
@@ -695,7 +698,7 @@ class EngagementProcedureExecution(models.Model):
             m = by_key[key]
             sheet_rows.append([
                 key, reason, m["side"], m["item"], m["label"], m["category"], m["date"],
-                m["amount"], m["rate"], m["proceeds"], m["nbv"], m["gainLoss"],
+                m["amount"], m["rate"], m["proceeds"], m["nbv"], m["gainLoss"], bool(m.get("notice")),
             ])
         values = {
             "engagement_id": root.id, "title": "Additions and disposals", "engine": "sampling", "method": VOUCH_METHOD,
@@ -709,7 +712,7 @@ class EngagementProcedureExecution(models.Model):
                 "keyItems": len(plan["keyItems"]), "sampleSize": len(sheet_rows),
                 "sampledValue": js_sum(abs(r[7] or 0) for r in sheet_rows),
             },
-            "sheet_header": ["key", "reason", "side", "item", "label", "category", "date", "amount", "rate", "proceeds", "nbv", "gainLoss"],
+            "sheet_header": ["key", "reason", "side", "item", "label", "category", "date", "amount", "rate", "proceeds", "nbv", "gainLoss", "notice"],
             "sheet_rows": sheet_rows, "item_results": {},
         }
         if run:
@@ -730,7 +733,7 @@ class EngagementProcedureExecution(models.Model):
             items.append({
                 "position": position, "key": key, "reason": row[1], "side": side, "item": row[3], "label": row[4],
                 "category": row[5], "date": row[6], "amount": row[7], "rate": row[8], "proceeds": row[9], "nbv": row[10],
-                "gainLoss": row[11], "answers": {name: found.get(name) or "" for name in VOUCH_CHECKS.get(side, ())},
+                "gainLoss": row[11], "notice": bool(row[12]) if len(row) > 12 else False, "answers": {name: found.get(name) or "" for name in VOUCH_CHECKS.get(side, ())},
                 "note": found.get("note") or "", "finding": found.get("finding") or False, "state": vouch_state(side, found),
             })
         summary = (run.summary or {}) if run else {}
