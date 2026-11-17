@@ -55,8 +55,8 @@ class Engagement(models.Model):
 class FileItem(models.Model):
     _inherit = "ea.audit.file.item"
 
-    def add_review_note(self, body):
-        note_id = super().add_review_note(body)
+    def add_review_note(self, body, task_key=False):
+        note_id = super().add_review_note(body, task_key)
         note = self.env["ea.audit.review.note"].sudo().browse(note_id)
         if note.assignee_id:
             reader = self._ea_ui_for_reader(note.assignee_id)

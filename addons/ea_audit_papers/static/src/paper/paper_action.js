@@ -10,19 +10,6 @@ import { AUTO_SOURCES, CHIP_LETTER, LABELS } from "./labels";
 
 const NA = "na";
 const SAVED_AT_WINDOW_MS = 10 * 60 * 1000;
-const PART_TITLE = /^(?:Partie|Part)\s+(\S+)\s+—\s+(.*)$/;
-const PAPER_CODE = /^[A-Z]\d+(?:\.\d+)+$/;
-
-/** A tab's short name: the part's letter and first word. Several sections of one part open
- *  with the same paper code (E6.10.1 Checklist A, B...): the words after it tell them apart. */
-function partLabel(letter, rest) {
-    const words = rest.split(/\s+/);
-    if (PAPER_CODE.test(words[0]) && words.length > 2) {
-        return `${letter} ${words[1]} ${words[2].replace(/:$/, "")}`;
-    }
-    return `${letter} ${words[0]}`;
-}
-
 const norm = (text) => (text ?? "").replace(/\r\n/g, "\n");
 const filled = (text) => Boolean((text ?? "").trim());
 
@@ -50,13 +37,18 @@ export class PaperAction extends Component {
         this.state = useState({
             payload: null,
             values: {},
-            tab: "status",
+            mode: "prepare",
+            filter: null,
+            open: {},
+            tipsClosed: {},
+            showReq: false,
+            noteDrafts: {},
+            noteFor: false,
             saving: false,
             error: false,
             notice: false,
             conflicts: {},
             undo: false,
-            noteDraft: "",
             replyDrafts: {},
             renaming: false,
             renameDraft: "",
@@ -175,74 +167,158 @@ export class PaperAction extends Component {
     }
 
     // ---- the paper's structure -----------------------------------------
+    // One scrolling page (owner-approved layout of 2026-11-17): 1 Objective, 2 Tasks required,
+    // 3 Conclusion and sign-off. A definition without the new keys reads the same way.
 
     get def() {
         return this.state.payload.definition;
     }
 
-    get parts() {
-        const parts = [];
+    get L() {
+        return this.state.payload.layout;
+    }
+
+    get converted() {
+        return Boolean(this.L?.converted);
+    }
+
+    get depth() {
+        return this.L?.depth || "complex";
+    }
+
+    /** Tasks (procedures and, for older papers, blocks of fields), statements and extra boxes. */
+    get structure() {
+        const tasks = [];
+        const statements = [];
+        const extras = [];
         if (this.state.payload.embed_only) {
-            return parts;
+            return { tasks, statements, extras };
         }
-        (this.def.sections || []).forEach((section, index) => {
-            const title = this.pick(section, "title");
-            const match = PART_TITLE.exec(title);
-            const letter = match ? match[1] : "";
-            const label = match ? partLabel(letter, match[2]) : title;
-            const prefix = letter ? `${letter}.` : "";
-            let items = [];
-            if (section.kind === "proc") {
-                items = section.procs.map((proc, i) => ({
-                    kind: "proc",
-                    id: `p:${proc.key}`,
-                    num: `${prefix}${i + 1}`,
-                    text: this.fr ? proc.fr : proc.en,
-                    src: this.pick(proc, "src"),
-                    tip: this.pick(proc, "tip"),
-                    resKey: `p_${proc.key}`,
-                    naKey: `p_${proc.key}_na`,
-                    whyKey: `p_${proc.key}_x`,
-                }));
-            } else if (section.kind === "yn") {
-                items = section.items.map((item, i) => ({
-                    kind: "yn",
-                    id: `q:${item.key}`,
-                    num: `${prefix}${i + 1}`,
-                    text: this.fr ? item.fr : item.en,
-                    tip: this.pick(item, "tip"),
-                    ansKey: `q_${item.key}`,
-                    whyKey: `q_${item.key}_x`,
-                }));
-            } else if (this.collapsed(section)) {
-                // One line (owner's decision of 2026-11-16): the deciding answer, then why the rest is closed.
-                const rule = section.collapse;
-                items = section.fields.filter((field) => field.key === rule.key).map((field) => this.fieldItem(field));
-                items.push({ kind: "note", id: `n:${rule.key}`, text: this.pick(rule, "note") });
-            } else {
-                // an auto field marked hideEmpty (P1.5's reminder and conclusion) shows only with a value
-                items = section.fields
-                    .filter((field) => !(field.hideEmpty && !this.state.payload.auto_values[field.key]))
-                    .map((field) => this.fieldItem(field));
+        const sections = this.def.sections || [];
+        const hasProc = sections.some((section) => section.kind === "proc");
+        const owned = {};
+        for (const section of sections) {
+            for (const proc of section.procs || []) {
+                for (const key of proc.fieldKeys || []) {
+                    owned[key] = proc.key;
+                }
             }
-            parts.push({
-                id: `s${index}`,
-                label: label.length > 26 ? `${label.slice(0, 24)}…` : label,
-                title,
-                intro: this.pick(section, "intro"),
-                items,
-            });
+        }
+        const fieldsByKey = {};
+        for (const section of sections) {
+            for (const field of section.fields || []) {
+                fieldsByKey[field.key] = field;
+            }
+        }
+        let count = 0;
+        sections.forEach((section, index) => {
+            const title = this.pick(section, "title");
+            if (section.kind === "proc") {
+                for (const proc of section.procs) {
+                    count += 1;
+                    tasks.push(this.procTask(proc, `2.${count}`, fieldsByKey));
+                }
+            } else if (section.kind === "yn") {
+                const items = section.items.map((item, i) => this.statement(item, i));
+                if (hasProc || this.converted) {
+                    statements.push({ id: `y${index}`, title: sections.filter((s) => s.kind === "yn").length > 1 ? title : "", items });
+                } else {
+                    count += 1;
+                    tasks.push({ kind: "group", id: `s${index}`, key: `s${index}`, num: `2.${count}`, short: title, title, intro: this.pick(section, "intro"), items });
+                }
+            } else {
+                const items = this.sectionItems(section).filter((item) => !(item.kind === "field" && owned[item.field.key]));
+                if (this.converted) {
+                    extras.push(...items);
+                } else if (items.length) {
+                    count += 1;
+                    tasks.push({ kind: "group", id: `s${index}`, key: `s${index}`, num: `2.${count}`, short: title, title, intro: this.pick(section, "intro"), items });
+                }
+            }
         });
         if (this.def.fields?.length) {
-            parts.push({
-                id: "fields",
-                label: this.t("work"),
-                title: this.t("work"),
-                intro: false,
+            count += 1;
+            tasks.push({
+                kind: "group", id: "fields", key: "fields", num: `2.${count}`, short: this.t("work"), title: this.t("work"), intro: false,
                 items: this.def.fields.map((field) => this.fieldItem(field)),
             });
         }
-        return parts;
+        return { tasks, statements, extras };
+    }
+
+    sectionItems(section) {
+        if (this.collapsed(section)) {
+            // One line (owner's decision of 2026-11-16): the deciding answer, then why the rest is closed.
+            const rule = section.collapse;
+            const items = section.fields.filter((field) => field.key === rule.key).map((field) => this.fieldItem(field));
+            items.push({ kind: "note", id: `n:${rule.key}`, text: this.pick(rule, "note") });
+            return items;
+        }
+        // an auto field marked hideEmpty (P1.5's reminder and conclusion) shows only with a value
+        return section.fields
+            .filter((field) => !(field.hideEmpty && !this.state.payload.auto_values[field.key]))
+            .map((field) => this.fieldItem(field));
+    }
+
+    procTask(proc, num, fieldsByKey) {
+        const tips = this.pick(proc, "tips") || (this.pick(proc, "tip") ? [this.pick(proc, "tip")] : []);
+        const text = this.fr ? proc.fr : proc.en;
+        return {
+            kind: "proc",
+            id: `p:${proc.key}`,
+            key: proc.key,
+            num,
+            short: this.pick(proc, "short") || (text.length > 70 ? `${text.slice(0, 68)}…` : text),
+            text,
+            isa: proc.isa || "",
+            tips: tips.slice(0, 3),
+            src: this.pick(proc, "src"),
+            std: this.pick(proc, "std") || "",
+            sourceHint: proc.sourceHint || "",
+            mode: proc._mode || "full",
+            tool: proc._tool || "",
+            toolPending: Boolean(proc.toolDone) && proc._mode !== "tool",
+            resKey: `p_${proc.key}`,
+            naKey: `p_${proc.key}_na`,
+            whyKey: `p_${proc.key}_x`,
+            markKey: `p_${proc.key}_m`,
+            srcKey: `p_${proc.key}_src`,
+            fields: (proc.fieldKeys || []).filter((key) => fieldsByKey[key]).map((key) => this.fieldItem(fieldsByKey[key])),
+        };
+    }
+
+    statement(item, index) {
+        const check = this.state.payload.checks?.[item.key] || null;
+        return {
+            kind: "yn",
+            id: `q:${item.key}`,
+            key: item.key,
+            num: String(index + 1),
+            text: this.fr ? item.fr : item.en,
+            tip: this.pick(item, "tip"),
+            ansKey: `q_${item.key}`,
+            whyKey: `q_${item.key}_x`,
+            allowNa: !this.converted || Boolean(item.na),
+            check,
+            refs: this.taskRefs(item.tasks || []),
+        };
+    }
+
+    /** "2.1–2.7" for a run of tasks, "2.2, 2.5" otherwise. */
+    taskRefs(keys) {
+        if (!keys.length) {
+            return "";
+        }
+        const procs = (this.def.sections || []).filter((s) => s.kind === "proc").flatMap((s) => s.procs);
+        const positions = keys.map((key) => procs.findIndex((proc) => proc.key === key)).filter((i) => i >= 0).sort((a, b) => a - b);
+        if (!positions.length) {
+            return "";
+        }
+        const run = positions.every((p, i) => i === 0 || p === positions[i - 1] + 1);
+        if (run && positions.length > 2) {
+            return `2.${positions[0] + 1}–2.${positions.at(-1) + 1}`;
+        }
+        return positions.map((p) => `2.${p + 1}`).join(", ");
     }
 
     /** A block folded by an answer, or by a fact the server knows (sent in auto_values). */
@@ -279,7 +355,26 @@ export class PaperAction extends Component {
     answered(item) {
         const v = (key) => this.state.values[key];
         if (item.kind === "proc") {
-            return v(item.naKey) === NA ? filled(v(item.whyKey)) : filled(v(item.resKey));
+            if (v(item.naKey) === NA) {
+                return filled(v(item.whyKey));
+            }
+            if (item.mode === "tool") {
+                return true;
+            }
+            const mark = (v(item.markKey) || "").trim();
+            if (item.mode === "tick" && mark === "tick") {
+                return true;
+            }
+            if (mark === "nx" && this.state.payload.warnings.length) {
+                return false;
+            }
+            if (item.mode === "exception" && mark === "nx" && !filled(v(item.srcKey))) {
+                return false;
+            }
+            return filled(v(item.resKey));
+        }
+        if (item.kind === "group") {
+            return item.items.every((sub) => this.answered(sub));
         }
         if (item.kind === "note") {
             return true;
@@ -289,6 +384,29 @@ export class PaperAction extends Component {
             return answer === NA || answer === "no" ? filled(v(item.whyKey)) : filled(answer);
         }
         return item.field.kind === "auto" || !this.asked(item.field) || filled(v(item.field.key));
+    }
+
+    /** done, na, tool or open: the dot of the step list and the collapsed line. */
+    status(task) {
+        if (task.kind === "proc" && this.val(task.naKey) === NA && filled(this.val(task.whyKey))) {
+            return "na";
+        }
+        if (task.kind === "proc" && task.mode === "tool") {
+            return "tool";
+        }
+        return this.answered(task) ? "done" : "open";
+    }
+
+    finished(task) {
+        return this.status(task) !== "open";
+    }
+
+    expanded(task) {
+        return !this.finished(task) || Boolean(this.state.open[task.id]);
+    }
+
+    toggle(task) {
+        this.state.open[task.id] = !this.state.open[task.id];
     }
 
     get conclusions() {
@@ -305,70 +423,176 @@ export class PaperAction extends Component {
         return boards.get(this.state.payload.code, null);
     }
 
-    get hasBoardTab() {
-        return Boolean(this.board) || this.state.payload.embed_only;
+    /** The tool's own board (P7.2, C6.1, the E4 lead schedules...) where no card replaces it. */
+    get showBoard() {
+        return !this.state.payload.tool_card && (Boolean(this.board) || this.state.payload.embed_only);
     }
 
-    get tabs() {
-        const tabs = [{ id: "status", label: this.t("status"), title: this.t("statusTitle"), done: true }];
-        if (this.hasBoardTab) {
-            const label = this.board?.label ? String(this.board.label) : this.t("work");
-            tabs.push({ id: "board", label, title: label, done: false });
-        }
-        for (const part of this.parts) {
-            tabs.push({
-                id: part.id,
-                label: part.label,
-                title: part.title,
-                done: part.items.every((item) => this.answered(item)),
-            });
-        }
-        if (!this.state.payload.embed_only) {
-            const conclusions = this.conclusions;
-            tabs.push({
-                id: "conclusion",
-                label: this.t("conclusion"),
-                title: this.t("conclusion"),
-                done:
-                    conclusions.length > 0 &&
-                    conclusions.every(({ key, whyKey }) => {
-                        const answer = this.state.values[key];
-                        return filled(answer) && (answer !== "no" || filled(this.state.values[whyKey]));
-                    }),
-            });
-        }
-        return tabs;
+    // ---- what the page shows -------------------------------------------
+
+    get tasks() {
+        return this.structure.tasks;
     }
 
-    get currentPart() {
-        return this.parts.find((part) => part.id === this.state.tab) || null;
+    get shownTasks() {
+        const filter = this.state.filter;
+        return this.tasks.filter((task) => {
+            if (filter === "open" && this.finished(task)) {
+                return false;
+            }
+            if (filter === "notes" && !this.openNotes(task.key)) {
+                return false;
+            }
+            return true;
+        });
     }
 
-    get tabIndex() {
-        return this.tabs.findIndex((tab) => tab.id === this.state.tab);
+    get counts() {
+        const tasks = this.tasks;
+        const statuses = tasks.map((task) => this.status(task));
+        return {
+            total: tasks.length,
+            done: statuses.filter((s) => s !== "open").length,
+            na: statuses.filter((s) => s === "na").length,
+            tool: statuses.filter((s) => s === "tool").length,
+            exception: tasks.filter((task) => task.kind === "proc" && this.val(task.markKey) === "nx" && this.val(task.naKey) !== NA).length,
+            notes: this.state.payload.notes.filter((note) => note.state === "open").length,
+        };
     }
 
-    go(delta) {
-        const next = this.tabs[this.tabIndex + delta];
-        if (next) {
-            this.state.tab = next.id;
+    get signedLine() {
+        const signed = this.chips.filter((chip) => chip.state === "signed");
+        if (!signed.length) {
+            return this.t("notSignedYet");
+        }
+        return `${this.t("signedBy")}${signed.map((chip) => this.t(chip.role).toLowerCase()).join(", ")}`;
+    }
+
+    get depthLabel() {
+        if (!this.converted) {
+            return "";
+        }
+        return this.t(`depth_${this.L.profile}`);
+    }
+
+    get depthNote() {
+        if (!this.converted) {
+            return "";
+        }
+        if (this.L.depth_reason) {
+            return this.t(`depthReason_${this.L.depth_reason}`);
+        }
+        return this.t(`depthMode_${this.depth}`);
+    }
+
+    get objectiveText() {
+        return this.pick(this.def, "objective") || "";
+    }
+
+    get requirements() {
+        return this.pick(this.def, "req") || [];
+    }
+
+    jump(id) {
+        const target = document.getElementById(`eap-${id}`);
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
         }
     }
 
-    get tips() {
-        const part = this.currentPart;
-        if (!part) {
-            return [];
+    setFilter(filter) {
+        this.state.filter = this.state.filter === filter ? null : filter;
+    }
+
+    tipsOpen(task) {
+        return this.state.mode === "prepare" && this.state.tipsClosed[task.id] !== true;
+    }
+
+    // ---- depth: no exceptions / exceptions / tick ------------------------
+
+    mark(task) {
+        return (this.val(task.markKey) || "").trim();
+    }
+
+    choose(task, choice) {
+        if (choice === "na") {
+            this.set(task.naKey, NA);
+            return;
         }
-        const tips = part.items.filter((item) => item.tip).map((item) => ({ id: item.id, text: item.tip }));
-        if (tips.length) {
-            return tips.slice(0, 4);
+        this.set(task.naKey, "");
+        if (choice === "done") {
+            return;
         }
-        // papers without bespoke tips fall back to their procedures' expected sources
-        return part.items
-            .filter((item) => item.src)
-            .slice(0, 4)
-            .map((item) => ({ id: item.id, text: `${item.num} ${item.src}` }));
+        if (choice === "tick") {
+            this.set(task.markKey, this.mark(task) === "tick" ? "" : "tick");
+            return;
+        }
+        if (choice === "nx") {
+            this.set(task.markKey, "nx");
+            if (!filled(this.val(task.resKey)) || this.mark(task) !== "nx") {
+                this.set(task.resKey, task.std || this.t("noExceptionsDefault"));
+            }
+            return;
+        }
+        if (choice === "ex") {
+            if (this.mark(task) === "nx" && norm(this.val(task.resKey)) === norm(task.std)) {
+                this.set(task.resKey, "");
+            }
+            this.set(task.markKey, "ex");
+        }
+    }
+
+    exceptionBlocked() {
+        return this.state.payload.warnings.length > 0;
+    }
+
+    /** What a "No exceptions noted" may cite: the tools, the linked tasks, the attachments. */
+    get sourceOptions() {
+        const p = this.state.payload;
+        const out = [];
+        for (const tool of p.tools || []) {
+            out.push(this.fr ? tool.fr : tool.en);
+        }
+        for (const task of p.linked_tasks) {
+            out.push(`${task.code} ${task.title}`);
+        }
+        for (const row of p.attachments.live) {
+            out.push(`${row.ref} ${row.name}`);
+        }
+        return out;
+    }
+
+    useStandardConclusion() {
+        const text = this.pick(this.def, "conclStd");
+        if (text) {
+            this.set("conclusion", text);
+        }
+    }
+
+    // ---- review notes on a task ------------------------------------------
+
+    notesOf(key) {
+        return this.state.payload.notes.filter((note) => (note.task_key || "") === key);
+    }
+
+    openNotes(key) {
+        return this.notesOf(key).filter((note) => note.state === "open").length;
+    }
+
+    /** Notes raised before tasks carried notes, or on the conclusion. */
+    get paperNotes() {
+        const keys = new Set(this.tasks.map((task) => task.key));
+        return this.state.payload.notes.filter((note) => !note.task_key || !keys.has(note.task_key));
+    }
+
+    async addNote(key = "") {
+        const text = this.state.noteDrafts[key] || "";
+        const done = await this.guarded(() => this.callItem("add_review_note", [text, key || false]));
+        if (done.ok) {
+            this.state.noteDrafts[key] = "";
+            this.state.noteFor = false;
+            await this.refresh();
+        }
     }
 
     // ---- answers -------------------------------------------------------
@@ -379,6 +603,11 @@ export class PaperAction extends Component {
 
     set(key, value) {
         this.state.values[key] = value;
+        const match = /^p_(.+)$/.exec(key);
+        if (match && this.state.payload.warnings.length && (this.state.values[`${key}_m`] || "") === "nx") {
+            // a warning closed "No exceptions noted": the result written now is the preparer's own
+            this.state.values[`${key}_m`] = "";
+        }
     }
 
     ro(key) {
@@ -465,6 +694,14 @@ export class PaperAction extends Component {
 
     get chips() {
         return this.state.payload.signing.chips;
+    }
+
+    /** Very simple: preparer, then partner. A reviewer's signature already given still shows. */
+    get signChips() {
+        if (this.depth !== "very_simple") {
+            return this.chips;
+        }
+        return this.chips.filter((chip) => chip.role !== "reviewer" || chip.state === "signed");
     }
 
     get signedRows() {
@@ -606,14 +843,6 @@ export class PaperAction extends Component {
             this.callItem("set_not_applicable", [clear ? "" : this.state.naDraft, clear]),
         );
         if (done.ok) {
-            await this.refresh();
-        }
-    }
-
-    async addNote() {
-        const done = await this.guarded(() => this.callItem("add_review_note", [this.state.noteDraft]));
-        if (done.ok) {
-            this.state.noteDraft = "";
             await this.refresh();
         }
     }

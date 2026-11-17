@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
+<!-- One scrolling page (owner-approved layout of 2026-11-17): Objective, Tasks required,
+     Conclusion and sign-off, with the steps on the left and the rail on the right. -->
 <t t-name="ea_audit_papers.PaperAction">
-    <div class="o_ea_paper" t-if="state.payload" t-att-data-code="state.payload.code">
+    <div class="o_ea_paper" t-if="state.payload" t-att-data-code="state.payload.code" t-att-data-depth="depth"
+         t-att-class="{'is-review': state.mode === 'review'}">
         <t t-set="p" t-value="state.payload"/>
+        <t t-set="c" t-value="counts"/>
         <a class="eap-back" href="#" t-on-click.prevent="() => this.back()">← <t t-esc="backLabel"/></a>
-        <div class="eap-head">
-            <div>
-                <h1><t t-esc="p.code"/> <t t-esc="p.short_title"/></h1>
-                <div t-if="p.carried"><span class="badge text-bg-warning" data-eap="carried" t-esc="p.carried"/></div>
+        <div class="eap-head eap-card">
+            <div class="eap-head-main">
+                <h1><t t-esc="p.code"/> <t t-esc="p.short_title"/> <span class="eap-depth" t-if="depthLabel" data-eap="depth" t-esc="depthLabel"/></h1>
                 <div class="eap-sub">
                     <span t-esc="p.client"/>
                     <span><t t-esc="t('fiscalYear')"/><t t-esc="p.fiscal_year"/></span>
@@ -18,76 +21,282 @@
                         <t t-esc="t('deadline')"/><t t-esc="p.deadline.date"/><t t-if="p.deadline.late_text"> (<t t-esc="p.deadline.late_text"/>)</t>
                     </span>
                 </div>
+                <div t-if="p.carried"><span class="badge text-bg-warning" data-eap="carried" t-esc="p.carried"/></div>
             </div>
-            <div class="eap-chips" t-if="state.tab !== 'conclusion'">
-                <t t-foreach="chips" t-as="chip" t-key="chip.role">
-                    <button type="button" class="eap-chip" t-att-data-chip="chip.role"
-                            t-att-class="{'is-signed': chip.state === 'signed', 'is-open': chip.state === 'open', 'is-refused': chip.state === 'refused', 'is-mine': chip.removable}"
-                            t-att-disabled="chip.state !== 'open' and !chip.removable" t-att-title="chipTitle(chip)"
-                            t-on-click="() => this.chipClick(chip)" t-esc="chipText(chip)"/>
-                </t>
-                <t t-foreach="p.tool_links" t-as="link" t-key="link_index">
-                    <button type="button" class="eap-chip is-tool" t-att-disabled="!link.action" t-on-click="() => this.openTool(link)"
-                            t-att-data-eap="link.plain ? 'template-link' : null" t-att-title="(fr ? link.note_fr : link.note_en) or null">
-                        <t t-if="!link.plain" t-esc="t('linkedTool')"/><t t-esc="fr ? link.fr : link.en"/>
-                    </button>
-                </t>
-            </div>
-            <t t-if="state.tab !== 'conclusion'">
-                <t t-foreach="p.tool_links" t-as="link" t-key="'note' + link_index">
-                    <div class="eap-template-note" t-if="link.note_en" data-eap="template-note" t-esc="fr ? link.note_fr : link.note_en"/>
-                </t>
-            </t>
-        </div>
-
-        <div class="eap-banner is-info" t-if="p.readonly" data-eap="readonly" t-esc="p.readonly_reason"/>
-        <div class="eap-banner is-error" t-if="state.error" data-eap="error" role="alert" t-esc="state.error"/>
-        <div class="eap-banner is-warn" t-if="state.notice" data-eap="notice" t-esc="state.notice"/>
-
-        <div class="eap-grid">
-            <div class="eap-card eap-main">
-                <div class="eap-tabs" role="tablist">
-                    <t t-foreach="tabs" t-as="tab" t-key="tab.id">
-                        <button type="button" role="tab" class="eap-tab" t-att-class="{'is-on': tab.id === state.tab}"
-                                t-att-data-tab="tab.id" t-att-title="tab.title" t-on-click="() => { state.tab = tab.id; }">
-                            <t t-esc="tab.label"/><span class="eap-tick" t-if="tab.done"> ✓</span>
-                        </button>
-                    </t>
+            <div class="eap-head-side">
+                <p class="eap-progress" data-eap="progress">
+                    <b><t t-esc="c.done"/> <t t-esc="t('of')"/> <t t-esc="c.total"/></b> <t t-esc="t('tasksDone')"/>
+                    <t t-if="c.tool"> · <t t-esc="c.tool"/> <t t-esc="t('fromTool')"/></t>
+                    <t t-if="c.exception"> · <t t-esc="c.exception"/> <t t-esc="t('byException')"/></t>
+                    <t t-if="c.notes"> · <span class="eap-red"><t t-esc="c.notes"/> <t t-esc="t('openNotes')"/></span></t>
+                    · <t t-esc="signedLine"/>
+                </p>
+                <div class="eap-switch" role="group">
+                    <button type="button" data-eap="mode-prepare" t-att-class="{'is-on': state.mode === 'prepare'}" t-on-click="() => { state.mode = 'prepare'; }" t-esc="t('modePrepare')"/>
+                    <button type="button" data-eap="mode-review" t-att-class="{'is-on': state.mode === 'review'}" t-on-click="() => { state.mode = 'review'; }" t-esc="t('modeReview')"/>
                 </div>
-
-                <t t-if="state.tab === 'status'"><t t-call="ea_audit_papers.PaperStatus"/></t>
-                <t t-elif="state.tab === 'board'">
-                    <div class="eap-row">
-                        <t t-if="board" t-component="board.Component" payload="p" fileItemId="p.file_item_id"
-                           readonly="p.readonly" reload.bind="refresh"/>
-                        <p class="eap-muted" t-else="" data-eap="board-missing" t-esc="t('boardMissing')"/>
-                    </div>
-                </t>
-                <t t-elif="state.tab === 'conclusion'"><t t-call="ea_audit_papers.PaperConclusion"/></t>
-                <t t-elif="currentPart">
-                    <div class="eap-part-head" t-if="currentPart.intro">
-                        <p class="eap-muted" t-esc="currentPart.intro"/>
-                    </div>
-                    <t t-foreach="currentPart.items" t-as="item" t-key="item.id">
-                        <t t-call="ea_audit_papers.PaperItem"/>
-                    </t>
-                </t>
-
-                <div class="eap-foot">
+                <div class="eap-savebar">
                     <span class="eap-saved" t-att-class="{'is-dirty': dirty, 'is-saved': !dirty and savedLabel}" data-eap="save-indicator">
                         <t t-if="dirty" t-esc="t('unsaved')"/>
                         <t t-elif="savedLabel" t-esc="savedLabel"/>
                     </span>
-                    <span class="eap-spacer"/>
-                    <button type="button" class="eap-btn" t-if="tabIndex > 0" data-eap="prev" t-on-click="() => this.go(-1)" t-esc="t('previous')"/>
-                    <button type="button" class="eap-btn" t-if="tabIndex &lt; tabs.length - 1" data-eap="next" t-on-click="() => this.go(1)" t-esc="t('next')"/>
                     <button type="button" class="eap-btn is-primary" t-if="!p.readonly and !p.embed_only" data-eap="save"
                             t-att-disabled="state.saving or !dirty" t-att-title="dirty ? '' : t('allSavedHint')" t-on-click="() => this.save()"
                             t-esc="state.saving ? t('saving') : t('save')"/>
                 </div>
             </div>
-            <div class="eap-rail"><t t-call="ea_audit_papers.PaperRail"/></div>
         </div>
+
+        <div class="eap-banner is-info" t-if="p.readonly" data-eap="readonly" t-esc="p.readonly_reason"/>
+        <div class="eap-banner is-error" t-if="state.error" data-eap="error" role="alert" t-esc="state.error"/>
+        <div class="eap-banner is-warn" t-if="state.notice" data-eap="notice" t-esc="state.notice"/>
+        <div class="eap-banner is-info" t-if="state.mode === 'review' and c.exception" data-eap="review-badge">
+            <t t-esc="c.exception"/> <t t-esc="t('reviewByException')"/>
+        </div>
+
+        <div class="eap-layout">
+            <nav class="eap-steps eap-card" data-eap="steps">
+                <a href="#" class="eap-step" t-on-click.prevent="() => this.jump('objective')"><span class="eap-dot is-done"/>1 <t t-esc="t('objective')"/></a>
+                <p class="eap-step-head">2 <t t-esc="t('tasksRequired')"/></p>
+                <t t-foreach="tasks" t-as="task" t-key="task.id">
+                    <t t-set="st" t-value="status(task)"/>
+                    <a href="#" class="eap-step is-task" t-att-data-step="task.id" t-on-click.prevent="() => this.jump(task.id)">
+                        <span t-att-class="'eap-dot is-' + st"/>
+                        <span><t t-esc="task.num"/> <t t-esc="task.short"/></span>
+                        <span class="eap-red" t-if="openNotes(task.key)"> ● <t t-esc="openNotes(task.key)"/></span>
+                    </a>
+                </t>
+                <a href="#" class="eap-step" t-on-click.prevent="() => this.jump('conclusion')"><span class="eap-dot"/>3 <t t-esc="t('conclusionSignoff')"/></a>
+                <p class="eap-step-head eap-gap" t-esc="t('showOnly')"/>
+                <div class="eap-filters">
+                    <button type="button" class="eap-btn" data-eap="filter-open" t-att-class="{'is-on': state.filter === 'open'}" t-on-click="() => this.setFilter('open')" t-esc="t('filterNotDone')"/>
+                    <button type="button" class="eap-btn" data-eap="filter-notes" t-att-class="{'is-on': state.filter === 'notes'}" t-on-click="() => this.setFilter('notes')" t-esc="t('filterNotes')"/>
+                </div>
+            </nav>
+
+            <main class="eap-main">
+                <section class="eap-card eap-section" id="eap-objective" data-eap="objective"><t t-call="ea_audit_papers.PaperObjective"/></section>
+                <section class="eap-card eap-section" id="eap-tasks" data-eap="tasks"><t t-call="ea_audit_papers.PaperTasks"/></section>
+                <section class="eap-card eap-section" id="eap-conclusion" data-eap="conclusion"><t t-call="ea_audit_papers.PaperConclusion"/></section>
+            </main>
+
+            <aside class="eap-rail"><t t-call="ea_audit_papers.PaperRail"/></aside>
+        </div>
+    </div>
+</t>
+
+<t t-name="ea_audit_papers.PaperObjective">
+    <h2>1 <t t-esc="t('objective')"/></h2>
+    <p class="eap-objective">
+        <t t-if="objectiveText"><t t-esc="objectiveText"/> </t>
+        <t t-elif="pick(def, 'owns')"><t t-esc="t('owns')"/><t t-esc="pick(def, 'owns')"/>. </t>
+        <t t-foreach="p.isa" t-as="link" t-key="link_index">
+            <a t-if="link.url" class="eap-isa" t-att-href="link.url" target="_blank" rel="noopener noreferrer" data-eap="isa-link"><t t-esc="link.label"/> ↗</a>
+            <span t-else="" class="eap-isa" t-esc="link.label"/>
+            <t t-esc="' '"/>
+        </t>
+        <a href="#" class="eap-link" t-if="requirements.length and state.mode === 'prepare'" data-eap="full-requirements"
+           t-on-click.prevent="() => { state.showReq = !state.showReq; }"><t t-esc="t('fullRequirements')"/> <t t-esc="state.showReq ? '▾' : '▸'"/></a>
+    </p>
+    <div class="eap-req-list" t-if="state.showReq and state.mode === 'prepare'">
+        <t t-foreach="requirements" t-as="line" t-key="line_index"><p class="eap-req" t-esc="line"/></t>
+    </div>
+    <p class="eap-muted eap-small eap-gap" t-if="depthNote" data-eap="depth-note" t-esc="depthNote"/>
+</t>
+
+<t t-name="ea_audit_papers.PaperTasks">
+    <h2>2 <t t-esc="t('tasksRequired')"/></h2>
+    <p class="eap-muted eap-intro" t-if="converted and depth === 'non_complex'" t-esc="t('introException')"/>
+    <p class="eap-muted eap-intro" t-if="converted and depth === 'very_simple'" t-esc="t('introVerySimple')"/>
+    <t t-foreach="p.warnings" t-as="warning" t-key="warning_index">
+        <div class="eap-banner is-warn" data-eap="warning" t-esc="warning"/>
+    </t>
+    <t t-if="p.tool_card"><t t-call="ea_audit_papers.PaperToolCard"/></t>
+    <div class="eap-board" t-if="showBoard">
+        <t t-if="board" t-component="board.Component" payload="p" fileItemId="p.file_item_id" readonly="p.readonly" reload.bind="refresh"/>
+        <p class="eap-muted" t-else="" data-eap="board-missing" t-esc="t('boardMissing')"/>
+    </div>
+    <t t-if="depth === 'very_simple'">
+        <div class="eap-ticks" data-eap="tick-list">
+            <t t-foreach="shownTasks" t-as="task" t-key="task.id"><t t-call="ea_audit_papers.PaperTick"/></t>
+        </div>
+        <div class="eap-box-card" data-eap="summary">
+            <b t-esc="t('summary')"/>
+            <t t-set="bkey" t-value="'summary'"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('summaryHint')"/>
+            <t t-call="ea_audit_papers.PaperBox"/>
+        </div>
+    </t>
+    <t t-else="">
+        <t t-foreach="shownTasks" t-as="task" t-key="task.id"><t t-call="ea_audit_papers.PaperTask"/></t>
+    </t>
+    <p class="eap-muted" t-if="!tasks.length and !showBoard and !p.tool_card" t-esc="t('noTasks')"/>
+</t>
+
+<t t-name="ea_audit_papers.PaperToolCard">
+    <t t-set="card" t-value="p.tool_card"/>
+    <div class="eap-toolcard" data-eap="tool-card">
+        <p class="eap-toolcard-title"><b t-esc="card.title"/> <span class="eap-muted" t-if="card.subtitle" t-esc="card.subtitle"/></p>
+        <p class="eap-muted" t-if="card.empty and !card.facts.length" t-esc="card.empty"/>
+        <div class="eap-facts" t-if="card.facts.length">
+            <t t-foreach="card.facts" t-as="fact" t-key="fact_index">
+                <div class="eap-factbox"><small t-esc="fact.label"/><b t-esc="fact.value"/></div>
+            </t>
+        </div>
+        <table class="eap-table" t-if="card.rows.length">
+            <thead><tr><t t-foreach="card.head" t-as="h" t-key="h_index"><th t-esc="h"/></t></tr></thead>
+            <tbody>
+                <t t-foreach="card.rows" t-as="row" t-key="row_index">
+                    <tr><t t-foreach="row" t-as="cell" t-key="cell_index"><td t-esc="cell"/></t></tr>
+                </t>
+            </tbody>
+        </table>
+        <p class="eap-muted eap-small" t-if="card.more" t-esc="card.more"/>
+        <p class="eap-small" t-if="card.note" t-esc="card.note"/>
+        <button type="button" class="eap-btn" t-if="card.action" data-eap="open-tool" t-on-click="() => this.action.doAction(card.action)" t-esc="card.open_label"/>
+    </div>
+</t>
+
+<!-- Very simple: one line per task, ticked done or not applicable. -->
+<t t-name="ea_audit_papers.PaperTick">
+    <t t-set="st" t-value="status(task)"/>
+    <div class="eap-tick-row" t-att-id="'eap-' + task.id" t-att-data-item="task.id">
+        <t t-if="task.kind === 'proc'">
+            <button type="button" class="eap-tickbox" t-att-class="{'is-on': st === 'done' or st === 'tool'}" t-att-disabled="p.readonly or task.mode === 'tool'"
+                    t-att-data-value="'tick'" t-on-click="() => this.choose(task, 'tick')"><t t-if="st === 'done' or st === 'tool'">✓</t></button>
+            <button type="button" class="eap-tickbox is-na" t-att-class="{'is-on': val(task.naKey) === 'na'}" t-att-disabled="p.readonly or task.mode === 'tool'"
+                    t-att-data-value="'na'" t-on-click="() => this.choose(task, val(task.naKey) === 'na' ? 'done' : 'na')">n/a</button>
+            <span class="eap-tick-text"><b t-esc="task.num"/> <t t-esc="task.short"/>
+                <t t-if="task.mode === 'tool'"> <span class="eap-tooltag" t-esc="t('doneInTool')"/> <span class="eap-muted" t-esc="task.tool"/></t>
+            </span>
+            <span class="eap-isa-ref" t-esc="task.isa"/>
+            <span class="eap-red" t-if="openNotes(task.key)"> ● <t t-esc="openNotes(task.key)"/></span>
+            <div class="eap-tick-why" t-if="val(task.naKey) === 'na'">
+                <t t-set="bkey" t-value="task.whyKey"/><t t-set="amber" t-value="true"/><t t-set="hint" t-value="t('naHint')"/>
+                <t t-call="ea_audit_papers.PaperBox"/>
+            </div>
+            <div class="eap-tick-why" t-if="notesOf(task.key).length or state.noteFor === task.key"><t t-call="ea_audit_papers.PaperTaskNotes"/></div>
+        </t>
+        <t t-else="">
+            <span t-att-class="'eap-dot is-' + st"/> <span class="eap-tick-text"><b t-esc="task.num"/> <t t-esc="task.short"/></span>
+            <div class="eap-tick-why"><t t-foreach="task.items" t-as="item" t-key="item.id"><t t-call="ea_audit_papers.PaperItem"/></t></div>
+        </t>
+    </div>
+</t>
+
+<t t-name="ea_audit_papers.PaperTask">
+    <t t-set="st" t-value="status(task)"/>
+    <div class="eap-task" t-att-id="'eap-' + task.id" t-att-data-item="task.id" t-att-class="{'is-collapsed': !expanded(task), 'is-open': expanded(task)}">
+        <t t-if="!expanded(task)">
+            <div class="eap-task-line" t-on-click="() => this.toggle(task)">
+                <span t-att-class="'eap-dot is-' + st"/><b t-esc="task.num"/> <t t-esc="task.short"/>
+                <t t-if="st === 'tool'"><span class="eap-tooltag" t-esc="t('doneInTool')"/><span class="eap-muted" t-esc="task.tool"/></t>
+                <span class="eap-muted" t-elif="st === 'na'"> — <t t-esc="t('notApplicable')"/>: <t t-esc="val(task.whyKey)"/></span>
+                <span class="eap-muted" t-else=""> — <t t-esc="t('done')"/></span>
+                <span class="eap-red" t-if="openNotes(task.key)"> ● <t t-esc="openNotes(task.key)"/></span>
+                <span class="eap-spacer"/><span class="eap-isa-ref" t-esc="task.isa"/>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="eap-task-head">
+                <p class="eap-q" t-on-click="() => finished(task) and this.toggle(task)">
+                    <b class="eap-num" t-esc="task.num"/> <t t-if="task.kind === 'proc'"><b t-esc="task.text"/></t><t t-else=""><b t-esc="task.title"/></t>
+                </p>
+                <span class="eap-isa-ref" t-esc="task.isa"/>
+            </div>
+            <t t-if="task.kind === 'group'">
+                <p class="eap-muted" t-if="task.intro" t-esc="task.intro"/>
+                <t t-foreach="task.items" t-as="item" t-key="item.id"><t t-call="ea_audit_papers.PaperItem"/></t>
+            </t>
+            <t t-else="">
+                <t t-call="ea_audit_papers.PaperProc"/>
+            </t>
+            <t t-call="ea_audit_papers.PaperTaskNotes"/>
+        </t>
+    </div>
+</t>
+
+<t t-name="ea_audit_papers.PaperProc">
+    <t t-set="naOn" t-value="val(task.naKey) === 'na'"/>
+    <p class="eap-src" t-if="task.src and !converted"><t t-esc="t('sources')"/><t t-esc="task.src"/></p>
+    <div class="eap-tip" t-if="task.tips.length and state.mode === 'prepare'" data-eap="tip">
+        <a href="#" class="eap-tip-head" t-on-click.prevent="() => { state.tipsClosed[task.id] = tipsOpen(task); }"><t t-esc="t('tip')"/> <t t-esc="tipsOpen(task) ? '▾' : '▸'"/></a>
+        <ul t-if="tipsOpen(task)"><t t-foreach="task.tips" t-as="tip" t-key="tip_index"><li t-esc="tip"/></t></ul>
+    </div>
+    <p class="eap-muted eap-small" t-if="task.mode === 'tool'"><span class="eap-tooltag" t-esc="t('doneInTool')"/> <t t-esc="task.tool"/></p>
+    <p class="eap-muted eap-small" t-elif="task.toolPending" data-eap="tool-pending"><t t-esc="t('toolPending')"/></p>
+    <t t-if="task.mode === 'exception'">
+        <t t-set="m" t-value="mark(task)"/>
+        <div class="eap-choices">
+            <button type="button" class="eap-choice" t-att-class="{'is-on': m === 'nx' and !naOn}" t-att-disabled="ro(task.markKey) or exceptionBlocked()"
+                    t-att-title="exceptionBlocked() ? t('nxBlocked') : ''" t-att-data-value="'nx'" t-on-click="() => this.choose(task, 'nx')" t-esc="t('noExceptions')"/>
+            <button type="button" class="eap-choice is-no" t-att-class="{'is-on': m === 'ex' and !naOn}" t-att-disabled="ro(task.markKey)"
+                    t-att-data-value="'ex'" t-on-click="() => this.choose(task, 'ex')" t-esc="t('exceptionsNoted')"/>
+            <button type="button" class="eap-choice is-na" t-att-class="{'is-on': naOn}" t-att-disabled="ro(task.naKey)"
+                    t-att-data-value="'na'" t-on-click="() => this.choose(task, 'na')" t-esc="t('notApplicable')"/>
+        </div>
+        <t t-if="naOn">
+            <t t-set="bkey" t-value="task.whyKey"/><t t-set="amber" t-value="true"/><t t-set="hint" t-value="t('naHint')"/>
+            <t t-call="ea_audit_papers.PaperBox"/>
+        </t>
+        <div class="eap-std" t-elif="m === 'nx'" data-eap="standard-answer">
+            <p><b t-esc="t('standardAnswer')"/> <t t-esc="val(task.resKey)"/></p>
+            <label class="eap-source"><t t-esc="t('source')"/>
+                <input class="eap-input" t-att-list="'eap-src-' + task.key" t-att-value="val(task.srcKey)" t-att-readonly="ro(task.srcKey)"
+                       t-att-data-key="task.srcKey" t-att-placeholder="task.sourceHint or t('sourceHint')" t-on-input="(ev) => this.set(task.srcKey, ev.target.value)"/>
+                <datalist t-att-id="'eap-src-' + task.key"><t t-foreach="sourceOptions" t-as="option" t-key="option_index"><option t-att-value="option"/></t></datalist>
+            </label>
+            <p class="eap-missing" t-if="!val(task.srcKey).trim()" t-esc="t('sourceRequired')"/>
+        </div>
+        <t t-elif="m === 'ex'">
+            <t t-set="bkey" t-value="task.resKey"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('exceptionHint')"/>
+            <t t-call="ea_audit_papers.PaperBox"/>
+        </t>
+    </t>
+    <t t-elif="task.mode !== 'tool'">
+        <div class="eap-choices">
+            <button type="button" class="eap-choice" t-att-class="{'is-on': !naOn and val(task.resKey).trim()}" t-att-disabled="ro(task.naKey)"
+                    t-att-data-value="'done'" t-on-click="() => this.choose(task, 'done')" t-esc="t('done')"/>
+            <button type="button" class="eap-choice is-na" t-att-class="{'is-on': naOn}" t-att-disabled="ro(task.naKey)"
+                    t-att-data-value="'na'" t-on-click="() => this.choose(task, 'na')" t-esc="t('notApplicable')"/>
+        </div>
+        <p class="eap-missing" t-if="mark(task) === 'nx' and p.warnings.length and !naOn" t-esc="t('nxReopened')"/>
+        <t t-if="naOn">
+            <span class="eap-label" t-esc="t('naReason')"/>
+            <t t-set="bkey" t-value="task.whyKey"/><t t-set="amber" t-value="true"/><t t-set="hint" t-value="t('naHint')"/>
+            <t t-call="ea_audit_papers.PaperBox"/>
+        </t>
+        <t t-else="">
+            <t t-set="bkey" t-value="task.resKey"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('resultHint')"/>
+            <t t-call="ea_audit_papers.PaperBox"/>
+        </t>
+    </t>
+    <t t-foreach="task.fields" t-as="item" t-key="item.id"><t t-call="ea_audit_papers.PaperItem"/></t>
+</t>
+
+<t t-name="ea_audit_papers.PaperTaskNotes">
+    <t t-foreach="notesOf(task.key)" t-as="note" t-key="note.id"><t t-call="ea_audit_papers.PaperNote"/></t>
+    <t t-if="p.can_write_notes">
+        <div class="eap-note-new" t-if="state.noteFor === task.key">
+            <textarea class="eap-input" rows="1" data-eap="note-draft" t-att-placeholder="t('noteHint')" t-att-value="state.noteDrafts[task.key] || ''"
+                      t-on-input="(ev) => { state.noteDrafts[task.key] = ev.target.value; }"/>
+            <button type="button" class="eap-link" data-eap="note-add" t-on-click="() => this.addNote(task.key)" t-esc="t('noteAdd')"/>
+            <button type="button" class="eap-link" t-on-click="() => { state.noteFor = false; }" t-esc="t('cancel')"/>
+        </div>
+        <button type="button" class="eap-link eap-small" t-else="" data-eap="note-raise" t-on-click="() => { state.noteFor = task.key; }" t-esc="t('noteRaise')"/>
+    </t>
+</t>
+
+<t t-name="ea_audit_papers.PaperNote">
+    <div class="eap-note" t-att-class="{'is-cleared': note.state === 'cleared'}" t-att-data-note="note.id">
+        <p><b><t t-esc="t('reviewNote')"/> (<t t-esc="note.author"/>):</b> <t t-esc="note.body"/></p>
+        <p class="eap-muted eap-small"><t t-esc="note.date"/><t t-if="note.state === 'cleared'"> · <t t-esc="t('noteCleared')"/></t></p>
+        <p class="eap-reply" t-if="note.response" t-esc="note.response"/>
+        <t t-if="note.state === 'open' and !p.readonly">
+            <textarea class="eap-input" rows="1" t-att-placeholder="t('noteReplyHint')" t-att-value="state.replyDrafts[note.id] || ''"
+                      t-on-input="(ev) => { state.replyDrafts[note.id] = ev.target.value; }"/>
+            <button type="button" class="eap-link" t-on-click="() => this.noteAct(note, 'respond')" t-esc="t('noteReply')"/>
+            <button type="button" class="eap-link" t-on-click="() => this.noteAct(note, 'clear')" t-esc="t('noteClear')"/>
+        </t>
     </div>
 </t>
 
@@ -108,29 +317,42 @@
     <t t-call="ea_audit_papers.PaperConflict"/>
 </t>
 
+<!-- A statement of the conclusion (the former Part B): Yes / No, a No explained. -->
+<t t-name="ea_audit_papers.PaperStatement">
+    <div class="eap-statement" t-att-data-item="item.id">
+        <t t-set="answer" t-value="val(item.ansKey)"/>
+        <div class="eap-statement-row">
+            <div class="eap-choices">
+                <button type="button" class="eap-choice" t-att-class="{'is-on': answer === 'yes'}" t-att-disabled="ro(item.ansKey)"
+                        t-att-data-value="'yes'" t-on-click="() => this.set(item.ansKey, 'yes')" t-esc="t('yes')"/>
+                <button type="button" class="eap-choice is-no" t-att-class="{'is-on': answer === 'no'}" t-att-disabled="ro(item.ansKey)"
+                        t-att-data-value="'no'" t-on-click="() => this.set(item.ansKey, 'no')" t-esc="t('no')"/>
+                <button type="button" class="eap-choice is-na" t-if="item.allowNa" t-att-class="{'is-on': answer === 'na'}" t-att-disabled="ro(item.ansKey)"
+                        t-att-data-value="'na'" t-on-click="() => this.set(item.ansKey, 'na')" t-esc="t('na')"/>
+            </div>
+            <p class="eap-statement-text">
+                <t t-esc="item.text"/>
+                <span class="eap-tooltag" t-if="item.check and item.check.ok === true" data-eap="checked-by-tool" t-esc="t('checkedByTool')"/>
+                <span class="eap-tooltag is-warn" t-if="item.check and item.check.ok === false" data-eap="tool-disagrees">
+                    <t t-esc="t('toolDisagrees')"/><t t-if="item.check.note">: <t t-esc="item.check.note"/></t>
+                </span>
+            </p>
+            <a href="#" class="eap-ref" t-if="item.refs" t-on-click.prevent="() => this.jump('tasks')" t-esc="item.refs"/>
+        </div>
+        <t t-if="answer === 'no' or answer === 'na'">
+            <span class="eap-label" t-if="answer === 'na'" t-esc="t('naReason')"/>
+            <t t-set="bkey" t-value="item.whyKey"/><t t-set="amber" t-value="true"/>
+            <t t-set="hint" t-value="answer === 'na' ? t('naHint') : t('noHint')"/>
+            <t t-call="ea_audit_papers.PaperBox"/>
+        </t>
+        <t t-set="ckey" t-value="item.ansKey"/>
+        <t t-call="ea_audit_papers.PaperConflict"/>
+    </div>
+</t>
+
 <t t-name="ea_audit_papers.PaperItem">
     <div class="eap-row" t-att-data-item="item.id">
-        <t t-if="item.kind === 'proc'">
-            <t t-set="naOn" t-value="val(item.naKey) === 'na'"/>
-            <p class="eap-q"><b class="eap-num" t-esc="item.num"/> <t t-esc="item.text"/></p>
-            <p class="eap-src" t-if="item.src"><t t-esc="t('sources')"/><t t-esc="item.src"/></p>
-            <div class="eap-choices">
-                <button type="button" class="eap-choice" t-att-class="{'is-on': procIsDone(item)}" t-att-disabled="ro(item.naKey)"
-                        t-att-data-value="'done'" t-on-click="() => this.set(item.naKey, '')" t-esc="t('done')"/>
-                <button type="button" class="eap-choice is-na" t-att-class="{'is-on': naOn}" t-att-disabled="ro(item.naKey)"
-                        t-att-data-value="'na'" t-on-click="() => this.set(item.naKey, 'na')" t-esc="t('na')"/>
-            </div>
-            <t t-if="naOn">
-                <span class="eap-label" t-esc="t('naReason')"/>
-                <t t-set="bkey" t-value="item.whyKey"/><t t-set="amber" t-value="true"/><t t-set="hint" t-value="t('naHint')"/>
-                <t t-call="ea_audit_papers.PaperBox"/>
-            </t>
-            <t t-else="">
-                <t t-set="bkey" t-value="item.resKey"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('resultHint')"/>
-                <t t-call="ea_audit_papers.PaperBox"/>
-            </t>
-        </t>
-        <t t-elif="item.kind === 'yn'">
+        <t t-if="item.kind === 'yn'">
             <t t-set="answer" t-value="val(item.ansKey)"/>
             <p class="eap-q"><b class="eap-num" t-esc="item.num"/> <t t-esc="item.text"/></p>
             <div class="eap-choices">
@@ -201,86 +423,51 @@
     </div>
 </t>
 
-<t t-name="ea_audit_papers.PaperStatus">
-    <div class="eap-row" data-eap="status">
-        <div class="eap-status-head">
-            <span class="eap-caps" t-esc="t('statusTitle')"/>
-            <span class="eap-muted" t-esc="t('edition_' + p.edition)"/>
-        </div>
-        <ul class="eap-concl-list" t-if="conclusions.length">
-            <t t-foreach="conclusions" t-as="c" t-key="c.key">
-                <li>
-                    <span t-esc="c.text"/>
-                    <t t-set="v" t-value="val(c.key)"/>
-                    <span class="eap-pill" t-att-class="{'is-yes': v === 'yes', 'is-no': v === 'no'}"
-                          t-esc="v === 'yes' ? t('yes') : v === 'no' ? t('no') : t('notConcluded')"/>
-                </li>
-            </t>
-        </ul>
-        <div class="eap-sigs">
-            <t t-foreach="chips" t-as="chip" t-key="chip.role">
-                <span class="eap-sig" t-att-data-sig="chip.role">
-                    <span class="eap-muted" t-esc="t(chip.role)"/>
-                    <t t-if="chip.state === 'signed'">
-                        <b><t t-esc="chip.by"/>, <t t-esc="chip.date"/></b>
-                        <span class="eap-flag" t-if="chip.non_assignee" t-esc="t('nonAssignee')"/>
-                        <span class="eap-flag" t-if="chip.definition_changed" t-esc="t('wordingChanged')"/>
-                    </t>
-                    <span class="eap-muted" t-else="" t-esc="t('notSigned')"/>
-                </span>
-            </t>
-        </div>
-        <p class="eap-muted" data-eap="progress"><t t-esc="p.progress.done"/>/<t t-esc="p.progress.total"/> <t t-esc="t('answered')"/></p>
-        <p class="eap-missing" t-if="p.missing_parts.length" data-eap="missing-parts">
-            <t t-esc="t('missingParts')"/>
-            <t t-foreach="p.missing_parts" t-as="part" t-key="part_index">
-                <t t-if="part_index">, </t><t t-esc="fr ? part.fr : part.en"/>
-            </t>
-        </p>
-        <button type="button" class="eap-link" t-if="!p.readonly and !p.embed_only" data-eap="to-conclusion"
-                t-on-click="() => { state.tab = 'conclusion'; }" t-esc="t('toConclusion')"/>
-    </div>
-    <div class="eap-row" t-if="pick(def, 'owns')">
-        <p><t t-esc="t('owns')"/><t t-esc="pick(def, 'owns')"/>.</p>
-    </div>
-    <div class="eap-row" t-if="(pick(def, 'req') || []).length">
-        <p class="eap-q"><b t-esc="t('standards')"/></p>
-        <t t-foreach="pick(def, 'req')" t-as="line" t-key="line_index"><p class="eap-req" t-esc="line"/></t>
-    </div>
-    <div class="eap-row" t-if="p.signing.voided.length" data-eap="voided">
-        <p class="eap-q"><b t-esc="t('voided')"/></p>
-        <t t-foreach="p.signing.voided" t-as="row" t-key="row_index">
-            <p class="eap-muted"><t t-esc="t(row.role)"/> : <t t-esc="row.by"/>, <t t-esc="row.date"/>. <t t-esc="row.reason"/></p>
-        </t>
-    </div>
-</t>
-
 <t t-name="ea_audit_papers.PaperConclusion">
-    <t t-foreach="conclusions" t-as="c" t-key="c.key">
-        <div class="eap-row" t-att-data-item="c.key">
-            <t t-set="answer" t-value="val(c.key)"/>
-            <p class="eap-q"><b t-esc="c.text"/></p>
-            <div class="eap-choices">
-                <button type="button" class="eap-choice" t-att-class="{'is-on': answer === 'yes'}" t-att-disabled="ro(c.key)"
-                        t-att-data-value="'yes'" t-on-click="() => this.set(c.key, 'yes')" t-esc="t('yes')"/>
-                <button type="button" class="eap-choice is-no" t-att-class="{'is-on': answer === 'no'}" t-att-disabled="ro(c.key)"
-                        t-att-data-value="'no'" t-on-click="() => this.set(c.key, 'no')" t-esc="t('no')"/>
+    <t t-set="parts" t-value="structure"/>
+    <h2>3 <t t-esc="t('conclusionSignoff')"/></h2>
+    <t t-foreach="parts.statements" t-as="group" t-key="group.id">
+        <p class="eap-caps" t-if="group.title" t-esc="group.title"/>
+        <t t-foreach="group.items" t-as="item" t-key="item.id"><t t-call="ea_audit_papers.PaperStatement"/></t>
+    </t>
+    <p class="eap-muted eap-small" t-if="parts.statements.length" t-esc="t('noNeedsWhy')"/>
+    <t t-foreach="conclusions" t-as="cc" t-key="cc.key">
+        <div class="eap-statement" t-att-data-item="cc.key">
+            <t t-set="answer" t-value="val(cc.key)"/>
+            <div class="eap-statement-row">
+                <div class="eap-choices">
+                    <button type="button" class="eap-choice" t-att-class="{'is-on': answer === 'yes'}" t-att-disabled="ro(cc.key)"
+                            t-att-data-value="'yes'" t-on-click="() => this.set(cc.key, 'yes')" t-esc="t('yes')"/>
+                    <button type="button" class="eap-choice is-no" t-att-class="{'is-on': answer === 'no'}" t-att-disabled="ro(cc.key)"
+                            t-att-data-value="'no'" t-on-click="() => this.set(cc.key, 'no')" t-esc="t('no')"/>
+                </div>
+                <p class="eap-statement-text"><b t-esc="cc.text"/></p>
             </div>
             <t t-if="answer === 'no'">
-                <t t-set="bkey" t-value="c.whyKey"/><t t-set="amber" t-value="true"/><t t-set="hint" t-value="t('conclNoHint')"/>
+                <t t-set="bkey" t-value="cc.whyKey"/><t t-set="amber" t-value="true"/><t t-set="hint" t-value="t('conclNoHint')"/>
                 <t t-call="ea_audit_papers.PaperBox"/>
             </t>
-            <t t-set="ckey" t-value="c.key"/>
+            <t t-set="ckey" t-value="cc.key"/>
             <t t-call="ea_audit_papers.PaperConflict"/>
         </div>
     </t>
-    <div class="eap-row">
-        <p class="eap-q"><b t-esc="t('keyFindings')"/></p>
+    <t t-foreach="parts.extras" t-as="item" t-key="item.id">
+        <div class="eap-box-card"><t t-call="ea_audit_papers.PaperItem"/></div>
+    </t>
+    <div class="eap-box-card" t-if="converted" data-eap="conclusion-text">
+        <b t-esc="t('conclusion')"/>
+        <a href="#" class="eap-link eap-small" t-if="pick(def, 'conclStd') and !val('conclusion').trim() and !p.readonly"
+           data-eap="standard-conclusion" t-on-click.prevent="() => this.useStandardConclusion()" t-esc="t('useStandardConclusion')"/>
+        <t t-set="bkey" t-value="'conclusion'"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="pick(def, 'conclStd') or t('conclusionHint')"/>
+        <t t-call="ea_audit_papers.PaperBox"/>
+    </div>
+    <div class="eap-box-card" t-if="!converted or val('key_findings').trim()">
+        <b t-esc="t('keyFindings')"/>
         <t t-set="bkey" t-value="'key_findings'"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('keyFindingsHint')"/>
         <t t-call="ea_audit_papers.PaperBox"/>
     </div>
-    <div class="eap-row" t-if="p.section_conclusion" data-eap="section-conclusion">
-        <p class="eap-q"><b t-esc="t('sectionConclusion')"/></p>
+    <div class="eap-box-card" t-if="p.section_conclusion" data-eap="section-conclusion">
+        <b t-esc="t('sectionConclusion')"/>
         <textarea class="eap-input" rows="2" t-att-value="state.section.conclusion" t-att-readonly="p.readonly"
                   t-att-placeholder="t('sectionHint')" t-on-input="(ev) => { state.section.conclusion = ev.target.value; }"/>
         <label class="eap-check">
@@ -306,110 +493,117 @@
             </t>
         </div>
     </div>
-    <div class="eap-row" data-eap="signatures">
-        <p class="eap-q"><b t-esc="t('signatures')"/></p>
+    <div class="eap-paper-notes" t-if="paperNotes.length or p.can_write_notes" data-eap="notes">
+        <t t-foreach="paperNotes" t-as="note" t-key="note.id"><t t-call="ea_audit_papers.PaperNote"/></t>
+        <t t-if="p.can_write_notes">
+            <div class="eap-note-new" t-if="state.noteFor === ''">
+                <textarea class="eap-input" rows="1" data-eap="note-draft" t-att-placeholder="t('noteHint')" t-att-value="state.noteDrafts[''] || ''"
+                          t-on-input="(ev) => { state.noteDrafts[''] = ev.target.value; }"/>
+                <button type="button" class="eap-link" data-eap="note-add" t-on-click="() => this.addNote('')" t-esc="t('noteAdd')"/>
+                <button type="button" class="eap-link" t-on-click="() => { state.noteFor = false; }" t-esc="t('cancel')"/>
+            </div>
+            <button type="button" class="eap-link eap-small" t-else="" data-eap="note-raise-conclusion" t-on-click="() => { state.noteFor = ''; }" t-esc="t('noteRaiseConclusion')"/>
+        </t>
+    </div>
+    <div class="eap-signatures" data-eap="signatures">
         <div class="eap-sign-row">
-            <t t-foreach="chips" t-as="chip" t-key="chip.role">
+            <t t-foreach="signChips" t-as="chip" t-key="chip.role">
                 <button type="button" class="eap-chip is-signed is-mine" t-if="chip.state === 'signed' and chip.removable" t-att-data-chip="chip.role"
                         t-att-title="chipTitle(chip)" t-on-click="() => this.unsign(chip)" t-esc="chipText(chip)"/>
                 <span class="eap-chip is-signed" t-elif="chip.state === 'signed'" t-att-data-chip="chip.role"
                       t-att-title="chipTitle(chip)" t-esc="chipText(chip)"/>
                 <button type="button" class="eap-btn is-primary" t-elif="chip.state === 'open'" t-att-data-chip="chip.role"
                         t-on-click="() => this.sign(chip)" t-esc="t('sign_' + chip.role)"/>
-                <span class="eap-refused" t-else="" t-att-data-chip="chip.role">
-                    <span class="eap-chip is-refused" t-esc="chipText(chip)"/>
-                    <span class="eap-muted" t-esc="chip.reason"/>
-                </span>
+                <span class="eap-chip is-refused" t-else="" t-att-data-chip="chip.role" t-att-title="chip.reason" t-esc="chipText(chip)"/>
             </t>
         </div>
-        <p class="eap-muted eap-small" t-esc="t('signatureRule')"/>
+        <p class="eap-missing" t-if="p.missing_parts.length" data-eap="missing-parts">
+            <t t-esc="t('missingParts')"/>
+            <t t-foreach="p.missing_parts" t-as="part" t-key="part_index">
+                <t t-if="part_index">, </t><t t-esc="fr ? part.fr : part.en"/>
+            </t>
+        </p>
+        <t t-foreach="signChips" t-as="chip" t-key="'why' + chip.role">
+            <p class="eap-muted eap-small" t-if="chip.state === 'refused' and chip.reason"><b t-esc="t(chip.role)"/>: <t t-esc="chip.reason"/></p>
+        </t>
+        <p class="eap-muted eap-small" data-eap="rule">
+            <t t-esc="t('preparer')"/> : <t t-esc="t('role_' + p.signing.rule.min_preparer)"/><t t-esc="t('ruleMin')"/> ·
+            <t t-esc="t('reviewer')"/> : <t t-esc="t('role_' + p.signing.rule.min_reviewer)"/><t t-esc="t('ruleMin')"/> ·
+            <t t-esc="t('partner')"/> : <t t-esc="p.signing.rule.partner_required ? t('rulePartnerYes') : t('rulePartnerNo')"/>
+            <t t-if="myRoleLine"> · <t t-esc="t('youAre')"/><t t-esc="myRoleLine.role"/><t t-esc="t('onTeam')"/><t t-if="myRoleLine.can"><t t-esc="t('canSignAs')"/><t t-esc="myRoleLine.can"/></t></t>
+        </p>
+        <p class="eap-muted eap-small" t-esc="depth === 'very_simple' ? t('signatureRuleVerySimple') : t('signatureRule')"/>
+        <div t-if="p.signing.voided.length" data-eap="voided">
+            <p class="eap-small"><b t-esc="t('voided')"/></p>
+            <t t-foreach="p.signing.voided" t-as="row" t-key="row_index">
+                <p class="eap-muted eap-small"><t t-esc="t(row.role)"/> : <t t-esc="row.by"/>, <t t-esc="row.date"/>. <t t-esc="row.reason"/></p>
+            </t>
+        </div>
+        <t t-foreach="signedRows" t-as="chip" t-key="'flag' + chip.role">
+            <p class="eap-small" t-if="chip.non_assignee or chip.definition_changed">
+                <t t-esc="t(chip.role)"/>:
+                <span class="eap-flag" t-if="chip.non_assignee" t-esc="t('nonAssignee')"/>
+                <span class="eap-flag" t-if="chip.definition_changed" t-esc="t('wordingChanged')"/>
+            </p>
+        </t>
     </div>
 </t>
 
 <t t-name="ea_audit_papers.PaperRail">
-    <t t-if="state.tab === 'conclusion'">
-        <div class="eap-card eap-side" data-eap="rule">
-            <h3 t-esc="t('ruleTitle')"/>
-            <p><t t-esc="t('preparer')"/> : <t t-esc="t('role_' + p.signing.rule.min_preparer)"/><t t-esc="t('ruleMin')"/></p>
-            <p><t t-esc="t('reviewer')"/> : <t t-esc="t('role_' + p.signing.rule.min_reviewer)"/><t t-esc="t('ruleMin')"/></p>
-            <p><t t-esc="t('partner')"/> : <t t-esc="p.signing.rule.partner_required ? t('rulePartnerYes') : t('rulePartnerNo')"/></p>
-            <p class="eap-gap" t-if="myRoleLine">
-                <b><t t-esc="t('youAre')"/><t t-esc="myRoleLine.role"/><t t-esc="t('onTeam')"/></b>
-                <t t-if="myRoleLine.can"><t t-esc="t('canSignAs')"/><t t-esc="myRoleLine.can"/></t>.
-            </p>
-        </div>
-    </t>
-    <t t-else="">
-        <div class="eap-card eap-side" t-if="tips.length" data-eap="tips">
-            <h3 t-esc="t('tips')"/>
-            <t t-foreach="tips" t-as="tip" t-key="tip.id"><p t-esc="tip.text"/></t>
-        </div>
-        <div class="eap-card eap-side" t-if="p.linked_tasks.length" data-eap="linked">
-            <h3 t-esc="t('linkedTasks')"/>
-            <t t-foreach="p.linked_tasks" t-as="task" t-key="task.id">
-                <a href="#" class="eap-linked" t-on-click.prevent="() => this.openLinked(task)">
-                    <code t-esc="task.code"/> <t t-esc="task.title"/>
-                </a>
-            </t>
-        </div>
-        <div class="eap-card eap-side" data-eap="assignment">
-            <h3 t-esc="t('assignment')"/>
-            <label class="eap-assign"><t t-esc="t('preparer')"/>
-                <select data-assign="preparer" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.assign('preparer', ev.target.value)">
-                    <option value="" t-att-selected="!p.assignment.preparer_id" t-esc="t('unassigned')"/>
-                    <t t-foreach="p.assignment.preparer_options" t-as="o" t-key="o.id">
-                        <option t-att-value="o.id" t-att-selected="o.id === p.assignment.preparer_id" t-esc="o.name"/>
-                    </t>
-                </select>
-            </label>
-            <label class="eap-assign"><t t-esc="t('reviewer')"/>
-                <select data-assign="approver" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.assign('approver', ev.target.value)">
-                    <option value="" t-att-selected="!p.assignment.approver_id" t-esc="t('unassigned')"/>
-                    <t t-foreach="p.assignment.approver_options" t-as="o" t-key="o.id">
-                        <option t-att-value="o.id" t-att-selected="o.id === p.assignment.approver_id" t-esc="o.name"/>
-                    </t>
-                </select>
-            </label>
-            <label class="eap-assign" t-if="p.deadline" data-eap="deadline"><t t-esc="t('deadlineLabel')"/>
-                <input type="date" data-assign="due" t-att-value="p.deadline.own" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.setDeadline(ev.target.value)"/>
-            </label>
-            <p class="eap-muted eap-small" t-if="p.deadline and p.deadline.date and !p.deadline.own" t-esc="t('deadlineFromPhase')"/>
-            <p class="eap-muted" t-if="!state.undo" t-esc="t('assignHint')"/>
-            <p class="eap-muted" t-else="" data-eap="undo-line">
-                <t t-esc="t('assigned')"/>
-                <button type="button" class="eap-link" data-eap="undo" t-on-click="() => this.undoAssign()" t-esc="t('undo')"/>
-            </p>
-            <t t-if="p.not_applicable.can_set or p.not_applicable.active">
-                <span class="eap-label eap-gap" t-esc="t('taskNa')"/>
-                <textarea class="eap-input is-amber" rows="1" t-att-value="state.naDraft" t-att-readonly="!p.not_applicable.can_set or p.not_applicable.active"
-                          t-att-placeholder="t('taskNaHint')" t-on-input="(ev) => { state.naDraft = ev.target.value; }"/>
-                <t t-if="p.not_applicable.can_set">
-                    <button type="button" class="eap-link" t-if="!p.not_applicable.active" t-on-click="() => this.setTaskNa(false)" t-esc="t('taskNaSet')"/>
-                    <button type="button" class="eap-link" t-else="" t-on-click="() => this.setTaskNa(true)" t-esc="t('taskNaClear')"/>
-                </t>
-            </t>
-        </div>
-    </t>
-    <div class="eap-card eap-side" data-eap="notes">
-        <h3 t-esc="t('notes')"/>
-        <p class="eap-muted" t-if="!p.notes.length" t-esc="t('noNotes')"/>
-        <t t-foreach="p.notes" t-as="note" t-key="note.id">
-            <div class="eap-note" t-att-class="{'is-cleared': note.state === 'cleared'}" t-att-data-note="note.id">
-                <p t-esc="note.body"/>
-                <p class="eap-muted eap-small"><t t-esc="note.author"/>, <t t-esc="note.date"/><t t-if="note.state === 'cleared'"> · <t t-esc="t('noteCleared')"/></t></p>
-                <p class="eap-reply" t-if="note.response" t-esc="note.response"/>
-                <t t-if="note.state === 'open' and !p.readonly">
-                    <textarea class="eap-input" rows="1" t-att-placeholder="t('noteReplyHint')" t-att-value="state.replyDrafts[note.id] || ''"
-                              t-on-input="(ev) => { state.replyDrafts[note.id] = ev.target.value; }"/>
-                    <button type="button" class="eap-link" t-on-click="() => this.noteAct(note, 'respond')" t-esc="t('noteReply')"/>
-                    <button type="button" class="eap-link" t-on-click="() => this.noteAct(note, 'clear')" t-esc="t('noteClear')"/>
-                </t>
-            </div>
+    <div class="eap-card eap-side" t-if="p.tools.length" data-eap="tools">
+        <h3 t-esc="t('tools')"/>
+        <t t-foreach="p.tools" t-as="link" t-key="link_index">
+            <button type="button" class="eap-tool" t-att-disabled="!link.action" t-on-click="() => this.openTool(link)"
+                    t-att-data-eap="link.plain ? 'template-link' : 'tool-link'">
+                <b><t t-esc="fr ? link.fr : link.en"/> ↗</b>
+                <small t-if="link.note_en" t-esc="fr ? link.note_fr : link.note_en"/>
+            </button>
         </t>
-        <t t-if="p.can_write_notes">
-            <textarea class="eap-input" rows="1" data-eap="note-draft" t-att-placeholder="t('noteHint')" t-att-value="state.noteDraft"
-                      t-on-input="(ev) => { state.noteDraft = ev.target.value; }"/>
-            <button type="button" class="eap-link" data-eap="note-add" t-on-click="() => this.addNote()" t-esc="t('noteAdd')"/>
+    </div>
+    <div class="eap-card eap-side" t-if="p.linked_tasks.length" data-eap="linked">
+        <h3 t-esc="t('linkedTasks')"/>
+        <t t-foreach="p.linked_tasks" t-as="task" t-key="task.id">
+            <a href="#" class="eap-linked" t-on-click.prevent="() => this.openLinked(task)">
+                <code t-esc="task.code"/> <t t-esc="task.title"/> ↗
+            </a>
+        </t>
+        <p class="eap-muted eap-small" t-esc="t('linkedHint')"/>
+    </div>
+    <div class="eap-card eap-side" data-eap="assignment">
+        <h3 t-esc="t('assignment')"/>
+        <label class="eap-assign"><t t-esc="t('preparer')"/>
+            <select data-assign="preparer" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.assign('preparer', ev.target.value)">
+                <option value="" t-att-selected="!p.assignment.preparer_id" t-esc="t('unassigned')"/>
+                <t t-foreach="p.assignment.preparer_options" t-as="o" t-key="o.id">
+                    <option t-att-value="o.id" t-att-selected="o.id === p.assignment.preparer_id" t-esc="o.name"/>
+                </t>
+            </select>
+        </label>
+        <label class="eap-assign"><t t-esc="depth === 'very_simple' ? t('partner') : t('reviewer')"/>
+            <select data-assign="approver" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.assign('approver', ev.target.value)">
+                <option value="" t-att-selected="!p.assignment.approver_id" t-esc="t('unassigned')"/>
+                <t t-foreach="p.assignment.approver_options" t-as="o" t-key="o.id">
+                    <option t-att-value="o.id" t-att-selected="o.id === p.assignment.approver_id" t-esc="o.name"/>
+                </t>
+            </select>
+        </label>
+        <label class="eap-assign" t-if="p.deadline" data-eap="deadline"><t t-esc="t('deadlineLabel')"/>
+            <input type="date" data-assign="due" t-att-value="p.deadline.own" t-att-disabled="!p.assignment.can_assign" t-on-change="(ev) => this.setDeadline(ev.target.value)"/>
+        </label>
+        <p class="eap-muted eap-small" t-if="p.deadline and p.deadline.date and !p.deadline.own" t-esc="t('deadlineFromPhase')"/>
+        <p class="eap-muted" t-if="!state.undo" t-esc="t('assignHint')"/>
+        <p class="eap-muted" t-else="" data-eap="undo-line">
+            <t t-esc="t('assigned')"/>
+            <button type="button" class="eap-link" data-eap="undo" t-on-click="() => this.undoAssign()" t-esc="t('undo')"/>
+        </p>
+        <t t-if="p.not_applicable.can_set or p.not_applicable.active">
+            <span class="eap-label eap-gap" t-esc="t('taskNa')"/>
+            <textarea class="eap-input is-amber" rows="1" t-att-value="state.naDraft" t-att-readonly="!p.not_applicable.can_set or p.not_applicable.active"
+                      t-att-placeholder="t('taskNaHint')" t-on-input="(ev) => { state.naDraft = ev.target.value; }"/>
+            <t t-if="p.not_applicable.can_set">
+                <button type="button" class="eap-link" t-if="!p.not_applicable.active" t-on-click="() => this.setTaskNa(false)" t-esc="t('taskNaSet')"/>
+                <button type="button" class="eap-link" t-else="" t-on-click="() => this.setTaskNa(true)" t-esc="t('taskNaClear')"/>
+            </t>
         </t>
     </div>
     <div class="eap-card eap-side" data-eap="attachments">
@@ -422,6 +616,7 @@
                     <button type="button" class="eap-link" t-on-click="() => this.finishRename(row)" t-esc="t('renameDone')"/>
                 </t>
                 <t t-else="">
+                    <span class="eap-ref-chip" data-eap="attachment-ref" t-esc="row.ref"/>
                     <a t-att-href="downloadUrl(row.attachment_id)"><t t-esc="row.name"/> (v<t t-esc="row.version"/>)</a>
                     <span class="eap-muted eap-small"><t t-esc="row.by"/>, <t t-esc="row.date"/></span>
                     <span t-if="row.carried and !row.carriedReviewed" class="badge text-bg-warning text-wrap text-start" t-esc="row.carried"/>
@@ -441,7 +636,7 @@
         <p class="eap-muted eap-small" t-if="p.attachments.can_remove and p.attachments.removed.length">
             <t t-esc="t('removedFiles')"/>
             <t t-foreach="p.attachments.removed" t-as="row" t-key="row.id">
-                <t t-esc="row.name"/> <button type="button" class="eap-link" t-on-click="() => this.restore(row)" t-esc="t('restore')"/>
+                <t t-esc="row.ref"/> <t t-esc="row.name"/> <button type="button" class="eap-link" t-on-click="() => this.restore(row)" t-esc="t('restore')"/>
             </t>
         </p>
         <t t-if="p.attachments.can_upload and !p.readonly">
@@ -450,6 +645,7 @@
                 <input type="file" data-eap="upload" t-on-change="(ev) => this.upload(ev)"/>
             </label>
             <button type="button" class="eap-btn eap-upload" data-eap="attach-existing" t-on-click="() => this.pickExisting()" t-esc="t('attachExisting')"/>
+            <p class="eap-muted eap-small" t-esc="t('citeHint')"/>
             <p class="eap-muted eap-small" t-if="signedRows.length" t-esc="t('uploadVoids')"/>
         </t>
     </div>

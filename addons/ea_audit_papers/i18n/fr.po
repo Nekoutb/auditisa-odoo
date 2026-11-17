@@ -1977,3 +1977,345 @@ msgstr "Repris de %(year)s : à mettre à jour"
 #: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_paper__carried_from_year
 msgid "Answers carried from last year's file as drafts: to update."
 msgstr "Réponses reprises du dossier de l'an dernier, en brouillon : à mettre à jour."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Objective"
+msgstr "Objectif"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Tasks required"
+msgstr "Travaux requis"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Conclusion and sign-off"
+msgstr "Conclusion et signatures"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "of"
+msgstr "sur"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "tasks done"
+msgstr "travaux faits"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "from the tool"
+msgstr "depuis l'outil"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "by exception"
+msgstr "par exception"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "open review notes"
+msgstr "notes de revue ouvertes"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "signed: "
+msgstr "signé : "
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Prepare"
+msgstr "Préparer"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Review"
+msgstr "Revoir"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "answers closed by \"No exceptions noted\": check their sources."
+msgstr "réponses closes par « Aucune exception relevée » : vérifier leurs sources."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Show only:"
+msgstr "Afficher seulement :"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Not done"
+msgstr "Non faits"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Open notes"
+msgstr "Notes ouvertes"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Full requirements"
+msgstr "Exigences complètes"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Document by exception: one click when no exceptions are noted, with its source. A text box opens when exceptions are noted."
+msgstr "Documentation par exception : un clic quand aucune exception n'est relevée, avec sa source. Une zone de texte s'ouvre quand des exceptions sont relevées."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Tick each task; record the work in one summary. If a warning sign appears, the paper opens in full documentation."
+msgstr "Cochez chaque travail ; consignez les travaux dans une seule synthèse. Si un signal d'alerte apparaît, le papier s'ouvre en documentation complète."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Summary of work performed"
+msgstr "Synthèse des travaux réalisés"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "What was done, with whom, the documents seen and the result"
+msgstr "Ce qui a été fait, avec qui, les documents vus et le résultat"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No task on this paper."
+msgstr "Aucun travail sur ce papier."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Done in the tool"
+msgstr "Fait dans l'outil"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Not done in the tool yet: document the work here, or complete it in the tool."
+msgstr "Pas encore fait dans l'outil : documentez les travaux ici, ou terminez-les dans l'outil."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Tip"
+msgstr "Conseil"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "No exceptions noted"
+msgstr "Aucune exception relevée"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Exceptions noted"
+msgstr "Exceptions relevées"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Not applicable"
+msgstr "Non applicable"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A tool has raised a warning on this paper: describe the work instead."
+msgstr "Un outil a signalé une alerte sur ce papier : décrivez plutôt les travaux."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "This task was closed as \"No exceptions noted\" before a tool raised a warning: write the result."
+msgstr "Ce travail a été clos par « Aucune exception relevée » avant qu'un outil ne signale une alerte : rédigez le résultat."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Performed; no exceptions noted."
+msgstr "Réalisé ; aucune exception relevée."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Standard answer:"
+msgstr "Réponse type :"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Source"
+msgstr "Source"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A tool, a linked task or an attachment, e.g. A2"
+msgstr "Un outil, un travail lié ou une pièce jointe, p. ex. A2"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A source is required."
+msgstr "Une source est requise."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Describe the exceptions, their effect and what was done"
+msgstr "Décrivez les exceptions, leur incidence et ce qui a été fait"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "+ Review note on this task"
+msgstr "+ Note de revue sur ce travail"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "+ Review note on the conclusion"
+msgstr "+ Note de revue sur la conclusion"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "checked by the tool"
+msgstr "vérifié par l'outil"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "the tool shows otherwise"
+msgstr "l'outil indique le contraire"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A \"No\" requires an explanation."
+msgstr "Un « Non » doit être expliqué."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Conclusion on the objective of this paper"
+msgstr "Conclusion sur l'objectif de ce papier"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Use the standard wording"
+msgstr "Reprendre la formulation type"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Very simple engagement: the preparer signs, then the partner. A preparer can never review their own paper."
+msgstr "Mission très simple : le préparateur signe, puis l'associé. Un préparateur ne revoit jamais son propre papier."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Tools"
+msgstr "Outils"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Opens the task; Back returns here."
+msgstr "Ouvre le travail ; Retour ramène ici."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Cite a file in your work by its reference, e.g. [A2]."
+msgstr "Citez un fichier dans vos travaux par sa référence, p. ex. [A2]."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Complex · full documentation"
+msgstr "Complexe · documentation complète"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Non-complex · document by exception"
+msgstr "Non complexe · documentation par exception"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Very simple · tick list and summary"
+msgstr "Très simple · liste à cocher et synthèse"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Full documentation: one box per task."
+msgstr "Documentation complète : une zone par travail."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Document by exception: text only where exceptions are noted."
+msgstr "Documentation par exception : du texte seulement là où des exceptions sont relevées."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Tick list and one summary of the work performed."
+msgstr "Liste à cocher et une synthèse des travaux réalisés."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Full documentation: this paper is never lightened, whatever the profile."
+msgstr "Documentation complète : ce papier n'est jamais allégé, quel que soit le profil."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Full documentation: a tool has raised a warning on this paper."
+msgstr "Documentation complète : un outil a signalé une alerte sur ce papier."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Full documentation: a statement is answered \"No\"."
+msgstr "Documentation complète : une affirmation est répondue « Non »."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "\"No exceptions noted\" is not available on this paper: a tool has raised a warning. Describe the work and its result in the box instead."
+msgstr "« Aucune exception relevée » n'est pas disponible sur ce papier : un outil a signalé une alerte. Décrivez plutôt les travaux et leur résultat dans la zone prévue."
+
+#. module: ea_audit_papers
+#. odoo-python
+#: code:addons/ea_audit_papers/models/errors.py:0
+msgid "The tool's figures do not support a \"Yes\" to this statement. Check the tool, or answer No and explain."
+msgstr "Les chiffres de l'outil ne permettent pas de répondre « Oui » à cette affirmation. Vérifiez l'outil, ou répondez Non et expliquez."

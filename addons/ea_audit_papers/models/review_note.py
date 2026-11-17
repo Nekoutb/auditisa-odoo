@@ -20,6 +20,7 @@ class ReviewNote(models.Model):
     code = fields.Char(related="file_item_id.code", store=True, index=True)
     author_id = fields.Many2one("res.users", required=True, ondelete="restrict")
     assignee_id = fields.Many2one("res.users", string="Addressed to", index=True, ondelete="restrict")
+    task_key = fields.Char(string="Task of the paper", help="The procedure of the paper the note is raised on; empty for the conclusion.")
     body = fields.Text(required=True)
     response = fields.Text()
     state = fields.Selection([("open", "Open"), ("cleared", "Cleared")], required=True, default="open", index=True)
@@ -95,6 +96,7 @@ class ReviewNote(models.Model):
         return [
             {
                 "id": note.id, "body": note.body, "response": note.response or "", "state": note.state,
+                "task_key": note.task_key or "",
                 "author": note.author_id.name,
                 "assignee": note.assignee_id.name or "",
                 "date": fields.Datetime.context_timestamp(self.with_context(tz="Africa/Douala"), note.create_date).strftime("%d/%m/%Y %H:%M"),

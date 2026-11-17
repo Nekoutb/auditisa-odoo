@@ -139,10 +139,16 @@ class TaskAttachment(models.Model):
     @api.model
     def _ea_payload(self, item):
         rows = self.sudo().search([("file_item_id", "=", item.id)])
+        # A1, A2...: one reference per file in the order first attached, kept when a file is
+        # removed, so that a text citing [A2] keeps pointing at the same file.
+        first = {}
+        for row in rows:
+            first[row.name] = min(first.get(row.name, row.id), row.id)
+        refs = {name: "A%d" % rank for rank, name in enumerate(sorted(first, key=first.get), start=1)}
         latest = {}
         for row in rows.filtered(lambda r: not r.deleted_at):
             entry = latest.setdefault(row.name, {
-                "id": row.id, "name": row.name, "version": row.version, "size": row.size_bytes,
+                "id": row.id, "name": row.name, "ref": refs[row.name], "version": row.version, "size": row.size_bytes,
                 "attachment_id": row.attachment_id.id, "by": row.uploaded_by_id.name,
                 "date": row.uploaded_at.strftime("%d/%m/%Y"), "history": [],
                 **row._ea_carry_info(),
@@ -152,10 +158,10 @@ class TaskAttachment(models.Model):
         floor = fields.Datetime.now() - timedelta(days=RESTORE_WINDOW_DAYS)
         removed = {}
         for row in rows.filtered(lambda r: r.deleted_at and r.deleted_at >= floor):
-            removed.setdefault(row.name, {"id": row.id, "name": row.name, "by": row.deleted_by_id.name or ""})
+            removed.setdefault(row.name, {"id": row.id, "name": row.name, "ref": refs[row.name], "by": row.deleted_by_id.name or ""})
         role = self.env.user._ea_firm_role()
         return {
-            "live": list(latest.values()),
+            "live": sorted(latest.values(), key=lambda entry: int(entry["ref"][1:])),
             "removed": list(removed.values()),
             "can_upload": at_least(role, "staff"),
             "can_remove": at_least(role, "manager"),

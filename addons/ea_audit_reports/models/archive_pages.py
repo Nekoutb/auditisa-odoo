@@ -617,9 +617,14 @@ class Engagement(models.Model):
                     labels[key] = text
                     labels[key + "_x"] = text + " — note"
                     labels[key + "_na"] = text + (" — sans objet" if fr else " — not applicable")
+                    # the layout of 2026-11-17: how the task was closed, and the source cited
+                    labels[key + "_m"] = text + (" — mode de documentation" if fr else " — how documented")
+                    labels[key + "_src"] = text + (" — source" if fr else " — source")
             for field in section.get("fields") or []:
                 if field.get("key"):
                     labels[field["key"]] = _pick(field, fr, "label")
+        labels["summary"] = "Synthèse des travaux réalisés" if fr else "Summary of work performed"
+        labels["conclusion"] = "Conclusion"
         for index, text in enumerate(definition.get("conclFr" if fr else "conclEn") or []):
             labels["c_%d" % index] = text
             labels["c_%d_x" % index] = text

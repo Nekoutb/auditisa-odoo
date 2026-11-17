@@ -2,7 +2,7 @@ import logging
 
 from odoo import api, fields, models
 
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 
 from odoo.addons.ea_audit_core.services.errors import AuditRuleError, rule_error
 from odoo.addons.ea_audit_core.services.signoff_rules import EQR_PAPER, can_review, can_write
@@ -11,6 +11,13 @@ from ..services import (
     EQR_C42_KEYS,
     StaleEdit,
     all_paper_keys,
+    by_exception_count,
+    exception_refusal,
+    is_converted,
+    isa_links,
+    load_isa_links,
+    procs_of,
+    shape,
     answer_changed,
     base_digests,
     completeness_exempt,
@@ -30,6 +37,7 @@ from ..services import (
     same_answer,
 )
 from ..services.completeness import EMBED_ONLY_PAPERS, EQR_DECISION, eqr_decided
+from ..services.layout import items_of
 from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
 from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 
@@ -127,9 +135,23 @@ class Paper(models.Model):
     def _ea_unresolved(self):
         self.ensure_one()
         row = self.env["ea.audit.paper.def"]._ea_current(self.code)
+        pinned = self._ea_pinned_definition(row)
+        if pinned:
+            return pinned.definition
         if row:
             return row.definition
         return load_definition(self.code) if has_bespoke_paper(self.code) else default_definition(self.code)
+
+    def _ea_pinned_definition(self, current):
+        """A paper signed on an earlier text keeps reading that text while a signature stands
+        (owner's ruling of 2026-11-17: existing files keep their wording). Once no signature
+        is left, the paper moves to the current text."""
+        signed = self.sudo()._ea_active_signoffs().filtered("definition_hash").sorted("id", reverse=True)[:1]
+        if not signed or not current or signed.definition_hash == current.definition_hash:
+            return False
+        return self.env["ea.audit.paper.def"].sudo().search(
+            [("code", "=", self.code), ("definition_hash", "=", signed.definition_hash)], limit=1,
+        )
 
     def _ea_resolved(self):
         """The paper as this file reads it. Edition and form are read each time."""
@@ -304,6 +326,25 @@ class Paper(models.Model):
                 raise paper_error(self.env, "tieout-unexplained")
         if self.code == "C5.8" and values.get("q_above") == "yes" and self._ea_equity_breach():
             raise paper_error(self.env, "c58-equity-contradicts")
+        self._ea_refuse_against_tools(values)
+
+    def _ea_refuse_against_tools(self, values):
+        """Converted papers: "No exceptions noted" is closed while a tool reports a warning, and a
+        "Yes" is refused on a statement the tool shows to be untrue."""
+        definition = self.sudo()._ea_resolved()
+        if not is_converted(definition):
+            return
+        marks = any(key.endswith("_m") for key in values)
+        checked = [item for item in items_of(definition) if item.get("autoCheck") and values.get("q_%s" % item["key"]) == "yes"]
+        if not marks and not checked:
+            return
+        hooks = self._ea_hook_state(definition)
+        refusal = exception_refusal(definition, values, hooks["warnings"])
+        if refusal:
+            raise paper_error(self.env, refusal)
+        for item in checked:
+            if (hooks["checks"].get(item["key"]) or {}).get("ok") is False:
+                raise paper_error(self.env, "autocheck-contradicts")
 
     # Extension points of ea_audit_tools. No tool yet, so no figures to contradict.
     def _ea_tieout_failed(self):
@@ -447,6 +488,81 @@ class Paper(models.Model):
         else:
             values["profile_level"] = _("The questionnaire is not finished yet.")
         return values
+
+    # ------------------------------------------------------------------
+    # Tool hooks of converted papers (ea_audit_tools/models/paper_hooks.py)
+    # ------------------------------------------------------------------
+
+    def _ea_hook(self, kind, name):
+        """A hook by name: ea_audit_tools defines ``_ea_hook_<kind>_<name>``. Kinds: card (the
+        read-only "From the tool" card), done (a task closed in the tool), check (a statement
+        checked by the tool), warn (flags that force full documentation). A name no addon
+        defines returns None, so a definition can name a hook before its tool exists."""
+        if not name or not isinstance(name, str):
+            return None
+        method = getattr(self, "_ea_hook_%s_%s" % (kind, name.replace(".", "_").replace("-", "_")), None)
+        return method() if method else None
+
+    def _ea_hook_state(self, definition):
+        """Everything the hooks of a resolved definition say about this file."""
+        self.ensure_one()
+        empty = {"card": None, "done": {}, "checks": {}, "warnings": []}
+        if not is_converted(definition):
+            return empty
+        card = self._ea_hook("card", definition.get("toolCard")) or None
+        warnings = list((card or {}).get("warnings") or [])
+        names = definition.get("warnings") or []
+        for name in [names] if isinstance(names, str) else names:
+            warnings.extend(self._ea_hook("warn", name) or [])
+        done = {}
+        for proc in procs_of(definition):
+            result = self._ea_hook("done", proc.get("toolDone"))
+            if result:
+                done[proc["key"]] = result
+        checks = {}
+        for item in items_of(definition):
+            result = self._ea_hook("check", item.get("autoCheck"))
+            if result:
+                checks[item["key"]] = result
+        return {"card": card, "done": done, "checks": checks, "warnings": warnings}
+
+    def _ea_shaped(self):
+        """(definition, hooks): the paper as this engagement documents it (services/layout.py)."""
+        self.ensure_one()
+        paper = self.sudo()
+        definition = paper._ea_resolved()
+        hooks = self._ea_hook_state(definition)
+        shaped = shape(
+            definition, paper.code, paper.engagement_id.complexity, paper._ea_gauge_values(),
+            hooks["warnings"], hooks["done"],
+        )
+        return shaped, hooks
+
+    def _ea_rail_tools(self, definition):
+        """The rail's Tools: the definition's list, each opening its engagement method; else the
+        header chips of the older papers. A template download (C3.1) always stays."""
+        self.ensure_one()
+        engagement = self.sudo().engagement_id.with_env(self.env)
+        out = []
+        for entry in definition.get("tools") or []:
+            if not isinstance(entry, dict):
+                continue
+            method = entry.get("action") or ""
+            action = None
+            if method.startswith("action_tool_") and hasattr(engagement, method):
+                try:
+                    action = getattr(engagement, method)()
+                except (AccessError, UserError):
+                    action = None
+            out.append({
+                "en": entry.get("en") or "", "fr": entry.get("fr") or entry.get("en") or "",
+                "note_en": entry.get("noteEn") or "", "note_fr": entry.get("noteFr") or entry.get("noteEn") or "",
+                "action": action,
+            })
+        links = self._ea_tool_links()
+        if not out:
+            return links
+        return out + [link for link in links if link.get("plain")]
 
     def _ea_tool_links(self):
         """The header chips: label and, once the tool exists, the action it opens."""
@@ -617,7 +733,9 @@ class Paper(models.Model):
             return {"mine": True, "removable": False, "remove_reason": _refusal_text(error)}
         return {"mine": True, "removable": True, "remove_reason": ""}
 
-    def _ea_signing_payload(self):
+    def _ea_signing_payload(self, very_simple=False):
+        """The chips. On a very simple engagement the chain reads preparer, then partner (owner's
+        ruling of 2026-11-17); core's chain is unchanged, so no self-review either way."""
         self.ensure_one()
         sudo_self = self.sudo()
         item = sudo_self.file_item_id
@@ -625,7 +743,7 @@ class Paper(models.Model):
         rule = env["ea.audit.signoff.policy"].sudo()._ea_effective_rule(item.code)
         active = sudo_self._ea_active_signoffs()
         roles = ["preparer", "reviewer"]
-        if rule["partner_required"] or "partner" in active.mapped("role"):
+        if rule["partner_required"] or very_simple or "partner" in active.mapped("role"):
             roles.append("partner")
         if item.code == EQR_PAPER:
             roles.append("eqr")
@@ -647,13 +765,14 @@ class Paper(models.Model):
             "my_team_role": member.team_role if member else False,
         }
 
-    def _ea_linked_tasks(self):
+    def _ea_linked_tasks(self, definition=None):
         self.ensure_one()
-        wanted = list(CROSS_LINKS.get(self.code, E4_LINKS if self.code.startswith("E4.") else []))
+        own = (definition or {}).get("links")
+        wanted = list(own or CROSS_LINKS.get(self.code, E4_LINKS if self.code.startswith("E4.") else []))
         for code in group_siblings(self.code):
             if code not in wanted:
                 wanted.append(code)
-        wanted = wanted[:6]
+        wanted = wanted[:8 if own else 6]
         items = self.env["ea.audit.file.item"].sudo().with_context(self.env.context).search(
             [("engagement_id", "=", self.sudo().engagement_id.id), ("code", "in", wanted)]
         ).filtered(lambda item: not (item.conditional and item.code in RETIRED_CODES))
@@ -675,7 +794,8 @@ class Paper(models.Model):
         item = paper.file_item_id.with_context(env.context)
         user = env.user
         firm_role = user._ea_firm_role()
-        definition = paper._ea_resolved()
+        definition, hooks = paper.with_env(env)._ea_shaped()
+        converted = is_converted(definition)
         values = paper._ea_values()
         gauge = paper._ea_gauge_values()
         readonly_code = False
@@ -685,7 +805,7 @@ class Paper(models.Model):
             readonly_code = "read-only-role"
         elif engagement._ea_acts_as_eqr(user) and paper.code != EQR_PAPER:
             readonly_code = "eqr-read-only"
-        exempt = completeness_exempt(paper.code, has_bespoke_paper(paper.code))
+        exempt = completeness_exempt(paper.code, has_bespoke_paper(paper.code), converted)
         latest = paper.answer_ids.sorted("write_date", reverse=True)[:1]
         return {
             "paper_id": paper.id,
@@ -715,10 +835,23 @@ class Paper(models.Model):
             "readonly_reason": rule_error(env, readonly_code).args[0] if readonly_code else False,
             "locked_keys": self.with_env(env)._ea_locked_keys(),
             "auto_values": paper._ea_auto_values(),
-            "embed_only": paper.code in EMBED_ONLY_PAPERS,
-            "signing": self.with_env(env)._ea_signing_payload(),
+            "embed_only": paper.code in EMBED_ONLY_PAPERS and not converted,
+            "layout": {
+                "converted": converted,
+                "depth": definition.get("_depth") or "complex",
+                "depth_reason": definition.get("_depthReason") or False,
+                "profile": definition.get("_profile") or (engagement.complexity or "complex"),
+                "by_exception": by_exception_count(definition, values) if converted else 0,
+            },
+            "tool_card": self._ea_card_payload(hooks["card"]),
+            "tool_done": hooks["done"],
+            "checks": hooks["checks"],
+            "warnings": hooks["warnings"],
+            "tools": self.with_env(env)._ea_rail_tools(definition),
+            "isa": isa_links(definition, load_isa_links()),
+            "signing": self.with_env(env)._ea_signing_payload(definition.get("_depth") == "very_simple"),
             "tool_links": paper._ea_tool_links(),
-            "linked_tasks": self.with_env(env)._ea_linked_tasks(),
+            "linked_tasks": self.with_env(env)._ea_linked_tasks(definition),
             "assignment": item.with_env(env)._ea_assignment_payload(),
             "deadline": item.with_env(env)._ea_deadline_payload(),
             "not_applicable": item.with_env(env)._ea_na_payload(),
@@ -727,6 +860,18 @@ class Paper(models.Model):
             "section_conclusion": env["ea.audit.section.conclusion"]._ea_payload(item),
             "can_review": can_review(firm_role),
             "can_write_notes": bool(can_write(firm_role)) and not engagement._ea_is_archived(),
+        }
+
+    def _ea_card_payload(self, card):
+        """The tool card as the renderer reads it: nothing but text, numbers and one action."""
+        if not card:
+            return False
+        return {
+            "title": card.get("title") or "", "subtitle": card.get("subtitle") or "",
+            "facts": card.get("facts") or [], "head": card.get("head") or [], "rows": card.get("rows") or [],
+            "more": card.get("more") or "", "note": card.get("note") or "", "empty": card.get("empty") or "",
+            "open_label": card.get("open_label") or "", "action": card.get("action") or False,
+            "warnings": card.get("warnings") or [],
         }
 
     def get_answer_history(self):

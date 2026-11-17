@@ -14,7 +14,7 @@ from odoo.addons.ea_audit_core.services.signoff_rules import (
     team_rank,
 )
 
-from ..services import MAX_BYTES, UnsafeFile, check_upload, completeness_exempt, has_bespoke_paper, missing_parts
+from ..services import MAX_BYTES, UnsafeFile, check_upload, completeness_exempt, has_bespoke_paper, is_converted, missing_parts
 from .errors import incomplete_error, paper_error
 
 # What each of these codes refuses until ea_audit_tools reads the real records. Until
@@ -92,9 +92,10 @@ class FileItem(models.Model):
 
     def _ea_paper_refusal(self, role):
         self.ensure_one()
-        if not completeness_exempt(self.code, has_bespoke_paper(self.code)):
-            paper = self._ea_paper()
-            parts = missing_parts(paper._ea_resolved(), paper._ea_gauge_values())
+        paper = self._ea_paper()
+        definition, _hooks = paper.with_env(self.env)._ea_shaped()
+        if not completeness_exempt(self.code, has_bespoke_paper(self.code), is_converted(definition)):
+            parts = missing_parts(definition, paper._ea_gauge_values())
             if parts:
                 raise incomplete_error(self.env, parts)
         gap = self._ea_tool_gap()
@@ -208,9 +209,11 @@ class FileItem(models.Model):
     # Review notes
     # ------------------------------------------------------------------
 
-    def add_review_note(self, body):
+    def add_review_note(self, body, task_key=False):
         """addTaskNote and addReviewNote as one: addressed to the active preparer, else the
-        task's owner. The EQR reads and raises notes, so this is open to them."""
+        task's owner. The EQR reads and raises notes, so this is open to them. ``task_key``
+        names the task of the paper the note is raised on (a procedure's key); none for a note
+        on the conclusion."""
         self.ensure_one()
         env = self.env
         env["ea.audit.engagement"]._ea_require_write()
@@ -228,6 +231,7 @@ class FileItem(models.Model):
         addressee = preparer or item.preparer_id or item.assignee_id
         note = env["ea.audit.review.note"].sudo().create({
             "file_item_id": item.id, "author_id": env.user.id, "assignee_id": addressee.id, "body": text,
+            "task_key": (task_key or "").strip()[:64] or False,
         })
         paper.with_env(env)._ea_trail("review_note_raised", "Review note raised on %s" % item.code)
         paper.with_env(env)._ea_notify_users(addressee, lambda reader: reader._("%(code)s: review note", code=item.code), text[:400])
