@@ -105,7 +105,7 @@ class TestUiData(EaAuditCase):
         self.assertTrue(data["archived"])
 
     def test_late_tasks_read_from_the_task_or_its_phase(self):
-        today = fields.Date.context_today(self.env["ea.audit.ui"])
+        today = self.env["ea.audit.ui"]._ea_ui_today()  # the firm's clock, as the dashboard counts (late at night UTC it is already tomorrow in Douala)
         self.engagement.sudo().file_item_ids.write({"due_date": today + timedelta(days=20)})
         self.item(self.engagement, "E6.3").write({"due_date": today - timedelta(days=5)})
         data = self.ui(self.partner).ea_ui_dashboard(self.engagement.id)
