@@ -51,7 +51,7 @@ class TestHeartbeatEndpoint(PlatformMixin, HttpCase):
         self.assertEqual(answer.headers[heartbeat.HEADER_RESPONSE_SIGNATURE], expected)
         self.assertLessEqual(
             set(json.loads(answer.content)),
-            {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256"},
+            {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256", "mail_reply_to"},
         )
 
     def test_no_session_cookie_is_set(self):

@@ -180,7 +180,7 @@ class TestFirmMail(PlatformCase):
         wizard = self._wizard("cabinet-m")
         for _screen in range(3):
             wizard.action_next()
-        wizard.write({**MAILBOX, "mail_port": 25, "mail_password": PASSWORD})
+        wizard.write({**MAILBOX, "mail_choice": "own", "mail_port": 25, "mail_password": PASSWORD})
         wizard.action_next()
         self.assertEqual(wizard.step, "preflight")
         self.assertIn("smtp.office365.com:25", wizard.preview_mail)
@@ -200,6 +200,6 @@ class TestFirmMail(PlatformCase):
         wizard = self._wizard("cabinet-h")
         for _screen in range(3):
             wizard.action_next()
-        wizard.write({"mail_host": "smtp.office365.com"})
+        wizard.write({"mail_choice": "own", "mail_host": "smtp.office365.com"})
         with self.assertRaisesRegex(UserError, "Sender address"):
             wizard.action_next()
