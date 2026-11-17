@@ -4,6 +4,8 @@ from openpyxl import load_workbook
 
 from odoo.tests import tagged
 
+from odoo.addons.ea_audit_tools.services.document_requests import PARAM
+
 from .common import ToolsCase
 
 
@@ -304,6 +306,14 @@ class TestHubAndGates(ToolsCase):
         self.assertCode("tool-not-available", coming.with_context(ea_engagement_id=self.engagement.id).action_open_tool)
 
     def test_every_tile_with_a_method_opens(self):  # the hub and the analyzers
+        # document requests answer only while the firm's switch is on (owner ruling 2026-11-17):
+        # off, their tile is refused with the switch's code; on, it opens like every other tool
+        gated = self.env["ea.audit.tool.tile"].sudo().search([("method", "=", "action_tool_pbc")])
+        self.assertTrue(gated)
+        self.env["ir.config_parameter"].sudo().set_param(PARAM, "False")
+        for tile in gated:
+            self.assertCode("document-requests-off", tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool)
+        self.env["ir.config_parameter"].sudo().set_param(PARAM, "True")
         for tile in self.env["ea.audit.tool.tile"].sudo().search([("method", "!=", False)]):
             action = tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
             # the CRA, the findings, the SAD, the journal entries and sampling open their one page
