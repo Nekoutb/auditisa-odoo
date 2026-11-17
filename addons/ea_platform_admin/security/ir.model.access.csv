@@ -37,3 +37,4 @@ access_practice_first_login_operator,platform.practice.first.login operator,mode
 access_practice_release_owner,platform.practice.release.wizard owner,model_platform_practice_release_wizard,group_platform_owner,1,1,1,1
 access_howto_viewer,platform.howto viewer,model_platform_howto,group_platform_viewer,1,0,0,0
 access_firm_mail_wizard_operator,platform.firm.mail.wizard operator,model_platform_firm_mail_wizard,group_platform_operator,1,1,1,1
+access_mail_test_wizard_operator,platform.mail.test.wizard operator,model_platform_mail_test_wizard,group_platform_operator,1,1,1,1

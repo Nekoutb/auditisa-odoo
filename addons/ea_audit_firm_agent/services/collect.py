@@ -9,6 +9,8 @@ import os
 import re
 import shutil
 
+from .recipients import valid_reply_to
+
 _INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 _DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _RELEASE = re.compile(r"^[0-9a-f]{7,40}$")
@@ -213,4 +215,9 @@ def parse_desired(body):
     mail = mail_request(data.get("mail_request"))
     if mail is not None:
         desired["mail_request"] = mail
+    # The platform email address's reply address (the firm's contact email), or "" for none. The agent
+    # keeps it as a setting of its own; it never reaches root's spool.
+    reply_to = data.get("mail_reply_to")
+    if valid_reply_to(reply_to):
+        desired["mail_reply_to"] = reply_to
     return desired

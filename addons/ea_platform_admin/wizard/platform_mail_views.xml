@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Send a test email, from the firm's platform address. -->
+    <record id="view_mail_test_wizard_form" model="ir.ui.view">
+        <field name="name">platform.mail.test.wizard.form</field>
+        <field name="model">platform.mail.test.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send a test email">
+                <p>One short email goes from the firm's platform address to the address below. It carries the firm's name only.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="sender"/>
+                    <field name="address" placeholder="owner@example.com"/>
+                    <field name="practice"/>
+                    <field name="allowlist" invisible="not practice" readonly="1"/>
+                    <div colspan="2" class="alert alert-warning py-1" role="status" invisible="not practice or allowlist">The list "Practice spaces may email only these addresses" is empty: practice spaces send no email at all. Add the address in Platform &gt; Settings first.</div>
+                    <field name="result" invisible="not result" class="fw-bold"/>
+                </group>
+                <footer>
+                    <button name="action_send" type="object" string="Send the test email" class="btn-primary"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- The firm's page: the platform address, its state, and what the operator can do. -->
+    <record id="view_firm_form_platform_mail" model="ir.ui.view">
+        <field name="name">platform.firm.form.platform.mail</field>
+        <field name="model">platform.firm</field>
+        <field name="inherit_id" ref="view_firm_form_mail"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_mail_switch_off']" position="before">
+                <button name="action_pmail_give" type="object" string="Give this firm a platform email address"
+                        invisible="state not in ('active', 'provisioning') or pmail_state != 'none'"
+                        groups="ea_platform_admin.group_platform_operator"
+                        confirm="AuditISA will make the address support@ for this firm at MailerSend, write its DNS records at Cloudflare, and send the sending settings to the firm's server. Go on?"/>
+            </xpath>
+            <xpath expr="//page[@name='email']/group" position="before">
+                <group>
+                    <group string="Platform email address">
+                        <field name="mail_choice"/>
+                        <field name="pmail_status"/>
+                        <field name="pmail_state" widget="badge"
+                               decoration-success="pmail_state == 'on'"
+                               decoration-info="pmail_state in ('setting_up', 'verifying', 'sending')"
+                               decoration-warning="pmail_state == 'problem'"/>
+                        <field name="pmail_message" nolabel="1" colspan="2" class="text-muted"/>
+                        <field name="pmail_problem" invisible="not pmail_problem" class="text-warning"/>
+                    </group>
+                    <group string="The address" invisible="pmail_state == 'none'">
+                        <field name="pmail_sender"/>
+                        <field name="pmail_reply_to"/>
+                        <field name="pmail_domain"/>
+                        <field name="pmail_verified"/>
+                        <field name="pmail_checked_at"/>
+                        <field name="pmail_next_check_at" invisible="not pmail_next_check_at"/>
+                        <field name="pmail_test" invisible="not pmail_test"/>
+                        <field name="pmail_test_at" invisible="not pmail_test_at"/>
+                    </group>
+                </group>
+                <div class="d-flex flex-wrap gap-2 mb-3" groups="ea_platform_admin.group_platform_operator">
+                    <button name="action_pmail_check_now" type="object" string="Check again now" class="btn-secondary"
+                            invisible="pmail_state not in ('setting_up', 'verifying', 'problem')"/>
+                    <button name="action_open_firm_wizard" type="object" string="Send a test email" class="btn-secondary"
+                            context="{'firm_wizard': 'platform.mail.test.wizard'}"
+                            invisible="not pmail_verified"/>
+                    <button name="action_open_firm_wizard" type="object" string="Use the firm's own mailbox instead"
+                            class="btn-secondary" context="{'firm_wizard': 'platform.firm.mail.wizard'}"
+                            invisible="state not in ('active', 'provisioning') or pmail_state == 'none'"/>
+                    <button name="action_pmail_remove" type="object" string="Remove the platform address" class="btn-danger"
+                            invisible="pmail_state == 'none'"
+                            confirm="The address, its SMTP user at MailerSend and its DNS records at Cloudflare will be deleted. If the firm sends from this address, sending is switched off on its server. Remove the platform address?"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- The New firm form's Email step: three choices. -->
+    <record id="view_onboarding_form_platform_mail" model="ir.ui.view">
+        <field name="name">platform.onboarding.wizard.form.platform.mail</field>
+        <field name="model">platform.onboarding.wizard</field>
+        <field name="inherit_id" ref="view_onboarding_form_mail"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@invisible=&quot;step != 'email'&quot;]/p[2]" position="replace">
+                <group>
+                    <field name="mail_choice" widget="radio"/>
+                </group>
+                <div class="alert alert-info py-1" role="status" invisible="mail_choice != 'platform'">
+                    <p>Recommended: the console makes this address during provisioning, so the firm can send email as soon as it is live. Replies go to the firm's contact email.</p>
+                    <group>
+                        <field name="preview_platform_address" class="fw-bold"/>
+                    </group>
+                </div>
+                <p invisible="mail_choice != 'none'">No email for now: password resets and invitations by email stay off. It can be set later from the firm's page.</p>
+                <p invisible="mail_choice != 'own'">The firm's own mailbox sends its emails (password resets, invitations). Filled in now, the settings go to the firm's server as soon as it is live; it tests them without sending any message, and switches sending on only if the test passes.</p>
+            </xpath>
+            <xpath expr="//div[@invisible=&quot;step != 'email'&quot;]/group[last()]" position="attributes">
+                <attribute name="invisible">mail_choice != 'own'</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Platform settings: the sending service for firms, and the practice spaces' list. -->
+    <record id="view_settings_form_platform_mail" model="ir.ui.view">
+        <field name="name">platform.settings.form.platform.mail</field>
+        <field name="model">platform.settings</field>
+        <field name="inherit_id" ref="view_settings_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_save']" position="after">
+                <button name="action_mail_test" type="object" string="Test the connection"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Sending service for firms (MailerSend and Cloudflare)">
+                    <div colspan="2" class="text-muted">Each firm can get the address support@ followed by its slug and the parent domain, sent through MailerSend. The two tokens are not typed here: like the console's other tokens, they are files only root can read on this server. See docs/runbook/PLATFORM-EMAIL.md.</div>
+                    <field name="mailersend_received"/>
+                    <field name="cloudflare_mail_received"/>
+                    <field name="mail_parent_domain" placeholder="cm-ea.com"/>
+                    <field name="mail_zone_name" placeholder="cm-ea.com"/>
+                    <field name="mail_zone_ref"/>
+                    <field name="mail_local_part" placeholder="support"/>
+                    <field name="mail_reply_to_policy" widget="radio"/>
+                    <field name="mail_check_result" invisible="not mail_check_result"/>
+                </group>
+                <group string="Practice spaces">
+                    <field name="practice_mail_allowlist" placeholder="one address per line"/>
+                    <div colspan="2" class="text-muted">Empty (the default): practice spaces send no email at all. Filled: a practice space sends only to these addresses; every other recipient is dropped and logged. The test site test.auditisa.com never sends, whatever this list says.</div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

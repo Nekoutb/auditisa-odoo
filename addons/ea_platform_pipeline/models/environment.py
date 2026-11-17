@@ -8,6 +8,7 @@ from markupsafe import Markup
 from odoo import api, fields, models, release as odoo_release
 from odoo.exceptions import UserError
 
+from odoo.addons.ea_platform_admin.services import platform_mail
 from odoo.addons.ea_platform_admin.services.messages import _
 from ..services import environments as envs
 from .i18n import t
@@ -502,6 +503,11 @@ class PlatformEnvironment(models.Model):
                     if state is not None else t(env, _("Unknown"))]]
         if state is not None:
             monitor.append([t(env, _("Outgoing mail closed")), t(env, _("Yes")) if remote.get("mail_off") else t(env, _("No"))])
+        allowed = platform_mail.parse_allowlist(
+            self.env["ir.config_parameter"].sudo().get_param("ea_platform.practice_mail_allowlist") or "")[0]
+        monitor.append([t(env, _("Practice spaces may email")), t(env, _(
+            "%(count)s address(es) only (Platform > Settings)", count=len(allowed)) if allowed else _(
+            "Nobody: no email at all (the default)"))])
         if computer:
             monitor.append([t(env, _("Practice computer's last heartbeat")), _when(computer.last_heartbeat_at) or t(env, _("Never"))])
             monitor.append([t(env, _("Real-data guard")), dict(computer._fields["guard_state"]._description_selection(env)).get(computer.guard_state)])

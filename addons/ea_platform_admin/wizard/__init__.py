@@ -4,3 +4,5 @@ from . import settings
 from . import addons
 from . import practice
 from . import firm_mail
+from . import settings_mail
+from . import platform_mail

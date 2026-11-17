@@ -359,6 +359,9 @@ LoadCredential=vultr-token:$ETC/vultr.token
 LoadCredential=cloudflare-token:$ETC/cloudflare.token
 LoadCredential=wasabi-key:$ETC/wasabi.key
 LoadCredential=wasabi-secret:$ETC/wasabi.secret
+# The sending service for firms (docs/runbook/PLATFORM-EMAIL.md), given with set-mail-token.sh.
+LoadCredential=mailersend-token:$ETC/mailersend.token
+LoadCredential=cloudflare-mail-token:$ETC/cloudflare-mail.token
 Restart=on-failure
 RestartSec=5
 MemoryHigh=$SERVICE_MEM_HIGH
@@ -390,7 +393,7 @@ if [ "$DRY_RUN" = 1 ]; then
   printf '+ odoo-bin -i ea_platform_admin,ea_platform_pipeline,auth_totp --load-language=fr_FR --stop-after-init (no demo data)\n'
   printf '+ admin: a random password in %s/admin.password (root, 600), never shown\n' "$ETC"
 else
-  for token in vultr.token cloudflare.token wasabi.key wasabi.secret; do
+  for token in vultr.token cloudflare.token wasabi.key wasabi.secret mailersend.token cloudflare-mail.token; do
     # An empty placeholder keeps the service starting in simulation mode, before the owner has any.
     [ -e "$ETC/$token" ] || install -m 600 /dev/null "$ETC/$token"
   done

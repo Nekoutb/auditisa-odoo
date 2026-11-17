@@ -31,7 +31,11 @@ Mettez un mot de passe dessus, copiez le fichier sans extension dans votre coffr
 
 **4. Écran « Modules ».** Allumez les modules propres à ce client, s'il en a, et dites pourquoi : le motif va au journal. Rien à choisir sinon : le code commun est toujours là, et cela peut changer plus tard. Voir CLIENT-ADDONS.md.
 
-Puis l'écran **« Messagerie »**, facultatif : la boîte de messagerie du cabinet, voir l'étape 10. Laissé vide, cela se fait plus tard depuis la fiche du cabinet.
+Puis l'écran **« Messagerie »**, avec trois choix :
+
+- **« AuditISA envoie pour ce cabinet (adresse de la plateforme) »**, recommandé, et choisi d'avance une fois le service d'envoi réglé (PLATFORM-EMAIL.md). Le cabinet envoie depuis `support@<identifiant>.cm-ea.com`, les réponses vont à l'e-mail de contact du formulaire. La console crée l'adresse pendant l'installation (étape « Mise en place de l'e-mail du cabinet ») : le cabinet peut envoyer dès sa mise en service. Rien d'autre à faire.
+- **« La boîte e-mail du cabinet »** : les réglages de sa propre boîte, voir l'étape 10.
+- **« Pas d'e-mail pour l'instant »** : cela se fait plus tard depuis la fiche du cabinet.
 
 **5. Écran « Vérification ».** Relisez : l'adresse, le serveur, les modules, les adresses autorisées sur le port 22, le coût mensuel estimé. Le bandeau dit SIMULATION ou RÉEL. Cochez la confirmation, puis **Créer le serveur**. Rien n'est créé avant.
 
@@ -59,7 +63,9 @@ Copiez la valeur dans votre coffre, puis cliquez **Clé de sauvegarde mise au co
 
 **9. Transmettez le lien du premier administrateur.** Sur la fiche, **Afficher le lien du premier administrateur**. Il ne s'affiche **qu'une fois**. Donnez-le au contact par un canal privé (appel, messagerie chiffrée). Il expire après 72 heures et ne sert qu'une fois. Le contact y choisit lui-même son mot de passe : **personne ne reçoit de mot de passe par e-mail, et vous ne le connaissez pas.**
 
-**10. Réglez la messagerie du cabinet, depuis la console.** Les e-mails du cabinet (réinitialisation de mot de passe, invitations) partent de sa propre boîte de messagerie (décision du propriétaire, 17 novembre 2026). Aucun utilisateur du cabinet, même son administrateur, ne voit ni ne change ce réglage. Demandez au contact, ou à son prestataire informatique, les réglages de sa boîte : fournisseur, serveur, port, chiffrement (STARTTLS ou SSL), identifiant, mot de passe, adresse d'expédition.
+**10. La messagerie du cabinet.** Avec l'adresse de la plateforme (choix recommandé), il n'y a rien à faire : l'onglet **Messagerie** de la fiche montre l'adresse, la vérification du domaine, puis « L'envoi est activé, depuis support@… ». **Envoyer un e-mail de test** en envoie un à l'adresse de votre choix pour le prouver. Pour un cabinet déjà en service : **Donner une adresse e-mail de la plateforme à ce cabinet**, sur sa fiche. Tout est expliqué dans PLATFORM-EMAIL.md.
+
+Avec la boîte du cabinet, réglez-la depuis la console, comme suit (bouton **Utiliser plutôt la boîte e-mail du cabinet** si une adresse de la plateforme existe déjà). Les e-mails du cabinet (réinitialisation de mot de passe, invitations) partent de sa propre boîte de messagerie (décision du propriétaire, 17 novembre 2026). Aucun utilisateur du cabinet, même son administrateur, ne voit ni ne change ce réglage. Demandez au contact, ou à son prestataire informatique, les réglages de sa boîte : fournisseur, serveur, port, chiffrement (STARTTLS ou SSL), identifiant, mot de passe, adresse d'expédition.
 
 Sur la fiche du cabinet, cliquez **Messagerie de ce cabinet**. Choisissez le fournisseur (Microsoft 365, Google Workspace, Hostinger, MailerSend) : le serveur, le port et le chiffrement se remplissent seuls. Sinon choisissez « Autre fournisseur » et remplissez-les. Saisissez l'identifiant, le mot de passe et l'adresse d'expédition, puis **Enregistrer et tester**. Une ligne d'aide sous chaque champ dit quoi y mettre. Un champ mal rempli est refusé tout de suite, en clair, et rien ne part.
 
@@ -160,7 +166,11 @@ Give it a passphrase and copy the file without an extension to your safe. The `.
 
 **4. Screen "Add-ons".** Switch on any add-ons of this client's own and say why: the reason goes in the log. Otherwise there is nothing to choose: the shared code is always there, and this can change later. See CLIENT-ADDONS.md.
 
-Then the **"Email"** screen, optional: the firm's mailbox, see step 10. Left empty, it is done later from the firm's page.
+Then the **"Email"** screen, with three choices:
+
+- **"AuditISA sends for this firm (platform address)"**, recommended, and chosen in advance once the sending service is set up (PLATFORM-EMAIL.md). The firm sends from `support@<slug>.cm-ea.com`; replies go to the contact email of the form. The console makes the address during provisioning (step "Set up the firm's email"): the firm can send as soon as it is live. Nothing else to do.
+- **"The firm's own mailbox"**: its own mailbox settings, see step 10.
+- **"No email for now"**: it is done later from the firm's page.
 
 **5. Screen "Review".** Read it through: address, server, add-ons, addresses allowed on port 22, estimated monthly cost. The band says SIMULATION or REAL. Tick the confirmation, then **Create the server**. Nothing is created before that.
 
@@ -188,7 +198,9 @@ Copy the value to your safe, then click **Backup key is in the safe**. The firm 
 
 **9. Pass on the first administrator's link.** On the firm's page, **Show the first administrator's link**. It shows **once only**. Give it to the contact over a private channel (a call, encrypted messaging). It expires after 72 hours and works once. The contact chooses their own password there: **nobody receives a password by email, and you do not know it.**
 
-**10. Set up the firm's email, from the console.** The firm's emails (password resets, invitations) go out from its own mailbox (owner's ruling, 17 November 2026). No firm user, not even its administrator, sees or changes this setting. Ask the contact, or their IT provider, for their mailbox settings: provider, server, port, encryption (STARTTLS or SSL), username, password, sender address.
+**10. The firm's email.** With the platform address (the recommended choice) there is nothing to do: the firm page's **Email** tab shows the address, the domain check, then "Sending is on, from support@...". **Send a test email** sends one to an address of your choice, as proof. For a firm already live: **Give this firm a platform email address**, on its page. Everything is in PLATFORM-EMAIL.md.
+
+With the firm's own mailbox, set it up from the console as follows (button **Use the firm's own mailbox instead** if a platform address already exists). The firm's emails (password resets, invitations) go out from its own mailbox (owner's ruling, 17 November 2026). No firm user, not even its administrator, sees or changes this setting. Ask the contact, or their IT provider, for their mailbox settings: provider, server, port, encryption (STARTTLS or SSL), username, password, sender address.
 
 On the firm's page, click **Email for this firm**. Choose the provider (Microsoft 365, Google Workspace, Hostinger, MailerSend): the server, the port and the encryption fill in by themselves. Otherwise choose "Another provider" and fill them in. Enter the username, the password and the sender address, then **Save and test**. A help line under each field says what goes there. A field filled in wrongly is refused at once, in plain words, and nothing is sent.
 

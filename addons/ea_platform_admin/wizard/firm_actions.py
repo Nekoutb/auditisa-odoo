@@ -204,8 +204,10 @@ class PlatformDestroyWizard(models.TransientModel):
         provider, dns, probe = self.env["platform.services"]._outside()
         keys = ("ssh_key_id", "firewall_id", "storage_id", "server_id", "server_ip")
         resources = {key: firm[key] for key in keys if firm[key]}
+        # The firm's platform email address (MailerSend domain, SMTP user, DNS records) goes too.
         ctx = engine.Context(
-            provider, dns, probe, resources, {}, {"slug": firm.slug, "host": firm.platform_host},
+            provider, dns, probe, resources, {"platform_mail_undo": firm._pmail_undo},
+            {"slug": firm.slug, "host": firm.platform_host},
             fields.Datetime.now(),
         )
         leftovers = engine.destroy_resources(ctx)

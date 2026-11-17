@@ -104,6 +104,7 @@ msgstr "%(firm)s : %(reason)s"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provider.py:0
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
 msgid "%(method)s: simulated fault (temporary)"
 msgstr "%(method)s : panne simulée (temporaire)"
 
@@ -134,18 +135,21 @@ msgstr "le compte a atteint son nombre maximal de serveurs. Demandez au support 
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provider_vultr.py:0
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
 msgid "%(service)s refused %(call)s (%(status)s)."
 msgstr "%(service)s a refusé %(call)s (%(status)s)."
 
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provider_vultr.py:0
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
 msgid "%(service)s: temporary error %(status)s."
 msgstr "%(service)s : erreur temporaire %(status)s."
 
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/provider_vultr.py:0
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
 msgid "%(service)s: unreadable answer."
 msgstr "%(service)s : réponse illisible."
 
@@ -983,6 +987,7 @@ msgstr "Demandé coupé, le cabinet dit allumé"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__desired_since
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_started_at
 msgid "Asked on"
 msgstr "Demandé allumé"
 
@@ -1487,6 +1492,7 @@ msgstr "Cliquez sur **Afficher le lien**, copiez-le, envoyez-le au contact, puis
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_mail_test_wizard_form
 msgid "Close"
 msgstr "Fermer"
 
@@ -2110,6 +2116,7 @@ msgstr "Pare-feu chez le fournisseur"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__firm_id
 msgid "Firm"
 msgstr "Cabinet"
 
@@ -3136,6 +3143,7 @@ msgstr "Nom (source)"
 #: model:ir.ui.menu,name:ea_platform_admin.menu_attention
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_search
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_state__problem
 msgid "Needs attention"
 msgstr "À surveiller"
 
@@ -3860,6 +3868,8 @@ msgstr "Plateforme > Supervision : tous les cabinets et tous leurs chiffres sur 
 #. odoo-python
 #: code:addons/ea_platform_admin/controllers/supervision.py:0
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__platform_host
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_platform_address
 msgid "Platform address"
 msgstr "Adresse plateforme"
 
@@ -3954,6 +3964,7 @@ msgstr "Remise à zéro de l'espace d'entraînement demandée"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__space_ids
 #: model:ir.ui.menu,name:ea_platform_admin.menu_practice
 #: model:ir.ui.menu,name:ea_platform_admin.menu_practice_spaces
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
 msgid "Practice spaces"
 msgstr "Espaces d'entraînement"
 
@@ -6465,6 +6476,7 @@ msgstr "À quoi il sert"
 #: code:addons/ea_platform_admin/services/howto.py:0
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_message
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__current_message
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_message
 msgid "What it means"
 msgstr "Ce que cela veut dire"
 
@@ -7189,6 +7201,8 @@ msgstr "Messagerie de ce cabinet"
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__step__email
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_mail
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_status
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_choice
 msgid "Email"
 msgstr "Messagerie"
 
@@ -7199,6 +7213,7 @@ msgstr "Dernière demande"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_ref
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_request_ref
 msgid "Request reference"
 msgstr "Référence de la demande"
 
@@ -7300,6 +7315,7 @@ msgstr "En attente du serveur du cabinet"
 #. module: ea_platform_admin
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__on
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__on
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_state__on
 msgid "Sending is on"
 msgstr "Envoi actif"
 
@@ -7556,3 +7572,728 @@ msgstr "Vous pouvez le faire plus tard depuis la fiche du cabinet."
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
 msgid "Optional: the firm's own mailbox, which sends its emails (password resets, invitations). Filled in now, the settings go to the firm's server as soon as it is live; it tests them without sending any message, and switches sending on only if the test passes."
 msgstr "Facultatif : la boîte de messagerie du cabinet, qui envoie ses e-mails (réinitialisations de mot de passe, invitations). Remplis maintenant, les réglages partent vers le serveur du cabinet dès sa mise en service ; il les teste sans envoyer aucun message, et n'active l'envoi que si le test réussit."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "This firm has no platform email address. Use \"Give this firm a platform email address\" to make one."
+msgstr "Ce cabinet n'a pas d'adresse e-mail de la plateforme. Utilisez « Donner une adresse e-mail de la plateforme à ce cabinet » pour en créer une."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "The console is making the address at MailerSend and its DNS records at Cloudflare."
+msgstr "La console crée l'adresse chez MailerSend et ses enregistrements DNS chez Cloudflare."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "The DNS records are written. MailerSend checks them: this usually takes a few minutes, sometimes an hour. The console checks again by itself."
+msgstr "Les enregistrements DNS sont écrits. MailerSend les vérifie : cela prend en général quelques minutes, parfois une heure. La console vérifie de nouveau d'elle-même."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "The domain is verified. The sending settings went to the firm's server, which tests them at its next check-in (within 15 minutes)."
+msgstr "Le domaine est vérifié. Les réglages d'envoi sont partis vers le serveur du cabinet, qui les teste à son prochain contact (dans les 15 minutes)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Sending is on: the firm's server sends its email from this address."
+msgstr "L'envoi est activé : le serveur du cabinet envoie ses e-mails depuis cette adresse."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Something stopped the set-up: see the message below, then use \"Check again now\"."
+msgstr "Un problème a arrêté la mise en place : lisez le message ci-dessous, puis utilisez « Vérifier de nouveau maintenant »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Parent domain: a domain name such as cm-ea.com."
+msgstr "Domaine parent : un nom de domaine comme cm-ea.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Sender name: letters, digits, dots or dashes only, for example support."
+msgstr "Nom d'expéditeur : lettres, chiffres, points ou tirets seulement, par exemple support."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "At most %(count)s addresses."
+msgstr "Au plus %(count)s adresses."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Not an email address: %(item)s"
+msgstr "Ce n'est pas une adresse e-mail : %(item)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "%(service)s refused the token: check that it is right and has the permissions listed in docs/runbook/PLATFORM-EMAIL.md."
+msgstr "%(service)s a refusé le jeton : vérifiez qu'il est exact et qu'il a les permissions indiquées dans docs/runbook/PLATFORM-EMAIL.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend: unreadable answer."
+msgstr "MailerSend : réponse illisible."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend no longer has this firm's domain."
+msgstr "MailerSend n'a plus le domaine de ce cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Cloudflare: the token is not active."
+msgstr "Cloudflare : le jeton n'est pas actif."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "Cloudflare: the zone of the parent domain is not known. Use \"Test the connection\" in the platform settings."
+msgstr "Cloudflare : la zone du domaine parent n'est pas connue. Utilisez « Tester la connexion » dans les réglages de la plateforme."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend refused the sender address: the firm's domain is not verified yet."
+msgstr "MailerSend a refusé l'adresse d'expéditeur : le domaine du cabinet n'est pas encore vérifié."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend domain: %(reason)s"
+msgstr "Domaine MailerSend : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend SMTP user: %(reason)s"
+msgstr "Utilisateur SMTP MailerSend : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "DNS record %(name)s: %(reason)s"
+msgstr "Enregistrement DNS %(name)s : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend: the account has reached its plan's number of sending domains. Upgrade the plan, or remove the address of a firm that left, then check again."
+msgstr "MailerSend : le compte a atteint le nombre de domaines d'envoi de son abonnement. Passez à un abonnement supérieur, ou retirez l'adresse d'un cabinet parti, puis vérifiez de nouveau."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend: this domain is already in another MailerSend account."
+msgstr "MailerSend : ce domaine est déjà dans un autre compte MailerSend."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/platform_mail.py:0
+msgid "MailerSend: the account has reached its plan's number of SMTP users. Upgrade the plan, then check again."
+msgstr "MailerSend : le compte a atteint le nombre d'utilisateurs SMTP de son abonnement. Passez à un abonnement supérieur, puis vérifiez de nouveau."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "Set up the firm's email"
+msgstr "Mise en place de l'e-mail du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/provisioning.py:0
+msgid "email address"
+msgstr "adresse e-mail"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Platform email address: problem"
+msgstr "Adresse e-mail de la plateforme : problème"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "A platform address goes only to a firm that is live or being set up."
+msgstr "Une adresse de la plateforme ne va qu'à un cabinet en service ou en cours d'installation."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+#: code:addons/ea_platform_admin/wizard/firm_mail.py:0
+msgid "The sending service for firms is not set up: see Platform > Settings, and docs/runbook/PLATFORM-EMAIL.md."
+msgstr "Le service d'envoi pour les cabinets n'est pas réglé : voyez Plateforme > Réglages, et docs/runbook/PLATFORM-EMAIL.md."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Platform email address asked"
+msgstr "Adresse e-mail de la plateforme demandée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Platform email address verified: settings sent to the firm's server"
+msgstr "Adresse e-mail de la plateforme vérifiée : réglages envoyés au serveur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Platform email address removed"
+msgstr "Adresse e-mail de la plateforme retirée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "MailerSend accepted the test email for %(address)s. It usually arrives within a minute or two; if not, look in the spam folder."
+msgstr "MailerSend a accepté l'e-mail de test pour %(address)s. Il arrive en général en une ou deux minutes ; sinon, regardez dans les courriers indésirables."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Test email"
+msgstr "E-mail de test"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "To an address at %(domain)s"
+msgstr "Vers une adresse chez %(domain)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Sending is on, from %(address)s"
+msgstr "L'envoi est activé, depuis %(address)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Platform email address: sending is on"
+msgstr "Adresse e-mail de la plateforme : l'envoi est activé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Platform email address: removal INCOMPLETE"
+msgstr "Adresse e-mail de la plateforme : retrait INCOMPLET"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Not sent: %(reason)s"
+msgstr "Non envoyé : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Being set up: %(address)s"
+msgstr "En cours de mise en place : %(address)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Only an operator can do this."
+msgstr "Seul un opérateur peut faire cela."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "MailerSend has not verified %(domain)s after %(hours)s hours. Check its DNS records at Cloudflare (docs/runbook/PLATFORM-EMAIL.md), then use \"Check again now\"."
+msgstr "MailerSend n'a pas vérifié %(domain)s après %(hours)s heures. Contrôlez ses enregistrements DNS chez Cloudflare (docs/runbook/PLATFORM-EMAIL.md), puis utilisez « Vérifier de nouveau maintenant »."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "The settings could not be sent to the firm's server: %(reason)s"
+msgstr "Les réglages n'ont pas pu être envoyés au serveur du cabinet : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Type one email address, for example owner@example.com."
+msgstr "Saisissez une adresse e-mail, par exemple owner@example.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "This firm's platform address is not verified yet: nothing was sent."
+msgstr "L'adresse de la plateforme de ce cabinet n'est pas encore vérifiée : rien n'a été envoyé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Needs attention: %(address)s"
+msgstr "À surveiller : %(address)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Not started: %(reason)s"
+msgstr "Non commencé : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Removal incomplete"
+msgstr "Retrait incomplet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "Not sent: this address is not on the list \"Practice spaces may email only these addresses\" (Platform > Settings)."
+msgstr "Non envoyé : cette adresse n'est pas sur la liste « Les espaces d'entraînement ne peuvent écrire qu'à ces adresses » (Plateforme > Réglages)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_choice__own
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_choice__own
+msgid "The firm's own mailbox"
+msgstr "La boîte e-mail du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_choice__none
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_choice__none
+msgid "No email for now"
+msgstr "Pas d'e-mail pour l'instant"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_choice
+msgid "How the firm sends email"
+msgstr "Comment le cabinet envoie ses e-mails"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_choice__platform
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_choice__platform
+msgid "AuditISA sends for this firm (platform address)"
+msgstr "AuditISA envoie pour ce cabinet (adresse de la plateforme)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_state__none
+msgid "No platform address"
+msgstr "Pas d'adresse de la plateforme"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_state__setting_up
+msgid "Being set up"
+msgstr "En cours de mise en place"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_state__verifying
+msgid "Waiting for the domain check"
+msgstr "En attente de la vérification du domaine"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_state__sending
+msgid "Settings sent to the firm's server"
+msgstr "Réglages envoyés au serveur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_problem_raw
+msgid "Last problem (source)"
+msgstr "Dernier problème (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_problem
+msgid "Last problem"
+msgstr "Dernier problème"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_domain
+msgid "Sending domain"
+msgstr "Domaine d'envoi"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_sender
+msgid "Sending address"
+msgstr "Adresse d'envoi"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_reply_to
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_reply_to_policy
+msgid "Replies go to"
+msgstr "Les réponses vont à"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_verified
+msgid "Domain verified by MailerSend"
+msgstr "Domaine vérifié par MailerSend"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_domain_ref
+msgid "MailerSend domain reference"
+msgstr "Référence du domaine chez MailerSend"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_user_ref
+msgid "MailerSend SMTP user reference"
+msgstr "Référence de l'utilisateur SMTP chez MailerSend"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_login
+msgid "SMTP username"
+msgstr "Identifiant SMTP"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_dns_raw
+msgid "DNS records written"
+msgstr "Enregistrements DNS écrits"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_renew
+msgid "New password to make"
+msgstr "Nouveau mot de passe à créer"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_renewals
+msgid "Settings sent again"
+msgstr "Réglages renvoyés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_tries
+msgid "Checks so far"
+msgstr "Vérifications faites"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_checked_at
+msgid "Last checked on"
+msgstr "Dernière vérification le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_next_check_at
+msgid "Next check"
+msgstr "Prochaine vérification"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_test_raw
+msgid "Last test email (source)"
+msgstr "Dernier e-mail de test (source)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_test
+msgid "Last test email"
+msgstr "Dernier e-mail de test"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_test_at
+msgid "Last test email on"
+msgstr "Dernier e-mail de test le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Cloudflare zone: %(problem)s"
+msgstr "Zone Cloudflare : %(problem)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "The parent domain must be inside the Cloudflare zone."
+msgstr "Le domaine parent doit être dans la zone Cloudflare."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Practice spaces' email list changed"
+msgstr "Liste d'e-mails des espaces d'entraînement modifiée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Simulation: no real call was made. Both services answer as if all were right."
+msgstr "Simulation : aucun appel réel n'a été fait. Les deux services répondent comme si tout était en ordre."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "%(count)s address(es) allowed"
+msgstr "%(count)s adresse(s) autorisée(s)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Not tested: %(reason)s"
+msgstr "Non testé : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "MailerSend: connected. The token can read the sending domains."
+msgstr "MailerSend : connecté. Le jeton peut lire les domaines d'envoi."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "MailerSend: %(reason)s"
+msgstr "MailerSend : %(reason)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Cloudflare: connected. The zone %(zone)s was found."
+msgstr "Cloudflare : connecté. La zone %(zone)s a été trouvée."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Cloudflare: connected, but this token cannot see the zone %(zone)s. Give the token the permission Zone, DNS, Edit on that zone."
+msgstr "Cloudflare : connecté, mais ce jeton ne voit pas la zone %(zone)s. Donnez au jeton la permission Zone, DNS, Edit sur cette zone."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/settings_mail.py:0
+msgid "Cloudflare: %(reason)s"
+msgstr "Cloudflare : %(reason)s"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_parent_domain
+msgid "Parent domain"
+msgstr "Domaine parent"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_settings__mail_parent_domain
+msgid "Each firm gets the address support@<the firm's slug>.<this domain>."
+msgstr "Chaque cabinet reçoit l'adresse support@<identifiant du cabinet>.<ce domaine>."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_zone_name
+msgid "Cloudflare zone"
+msgstr "Zone Cloudflare"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_settings__mail_zone_name
+msgid "The domain as Cloudflare names it, usually the parent domain itself. Its id is looked up by \"Test the connection\"."
+msgstr "Le domaine tel que Cloudflare le nomme, en général le domaine parent lui-même. Son identifiant est cherché par « Tester la connexion »."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_zone_ref
+msgid "Cloudflare zone id (looked up)"
+msgstr "Identifiant de la zone Cloudflare (cherché)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_local_part
+msgid "Sender name"
+msgstr "Nom d'expéditeur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_settings__mail_local_part
+msgid "What comes before the @ in every firm's address. Usually support."
+msgstr "Ce qui précède le @ dans l'adresse de chaque cabinet. En général support."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_settings__mail_reply_to_policy
+msgid "Where an answer to a firm's email goes. Recommended: the firm's contact email."
+msgstr "Où va une réponse à un e-mail du cabinet. Recommandé : l'e-mail de contact du cabinet."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__mail_reply_to_policy__contact
+msgid "The firm's contact email (from the New firm form)"
+msgstr "L'e-mail de contact du cabinet (du formulaire Nouveau cabinet)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__mail_reply_to_policy__none
+msgid "No separate reply address"
+msgstr "Pas d'adresse de réponse distincte"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mailersend_received
+msgid "MailerSend token received"
+msgstr "Jeton MailerSend reçu"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__cloudflare_mail_received
+msgid "Cloudflare token received"
+msgstr "Jeton Cloudflare reçu"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_check_result
+msgid "Connection test"
+msgstr "Test de connexion"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__practice_mail_allowlist
+msgid "Practice spaces may email only these addresses"
+msgstr "Les espaces d'entraînement ne peuvent écrire qu'à ces adresses"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_settings__practice_mail_allowlist
+msgid "One address per line. A practice space sends to these addresses only; every other recipient is dropped and logged. Empty: practice spaces send no email at all (the default)."
+msgstr "Une adresse par ligne. Un espace d'entraînement n'écrit qu'à ces adresses ; tout autre destinataire est écarté et journalisé. Vide : les espaces d'entraînement n'envoient aucun e-mail (par défaut)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_mail.py:0
+msgid "AuditISA sends for this firm from %(address)s: set up during provisioning"
+msgstr "AuditISA envoie pour ce cabinet depuis %(address)s : mis en place pendant l'installation"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_choice
+msgid "Recommended: AuditISA sends for this firm from its own platform address, ready as soon as the firm is live. Or the firm's own mailbox, or no email for now (it can be set later from the firm's page)."
+msgstr "Recommandé : AuditISA envoie pour ce cabinet depuis sa propre adresse de la plateforme, prête dès la mise en service. Ou la boîte e-mail du cabinet, ou pas d'e-mail pour l'instant (à régler plus tard depuis la page du cabinet)."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__sender
+msgid "From"
+msgstr "De"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__address
+msgid "Send to"
+msgstr "Envoyer à"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_test_wizard__address
+msgid "One email address, for example your own."
+msgstr "Une adresse e-mail, par exemple la vôtre."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__practice
+msgid "As a practice space would"
+msgstr "Comme le ferait un espace d'entraînement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_test_wizard__practice
+msgid "Ticked: the email goes only if the address is on the list \"Practice spaces may email only these addresses\" (Platform > Settings)."
+msgstr "Coché : l'e-mail ne part que si l'adresse est sur la liste « Les espaces d'entraînement ne peuvent écrire qu'à ces adresses » (Plateforme > Réglages)."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__allowlist
+msgid "Addresses practice spaces may email"
+msgstr "Adresses auxquelles les espaces d'entraînement peuvent écrire"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__result
+msgid "Result"
+msgstr "Résultat"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_mail_test_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_mail_test_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "Send a test email"
+msgstr "Envoyer un e-mail de test"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_mail_test_wizard_form
+msgid "One short email goes from the firm's platform address to the address below. It carries the firm's name only."
+msgstr "Un court e-mail part de l'adresse de la plateforme du cabinet vers l'adresse ci-dessous. Il ne contient que le nom du cabinet."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_mail_test_wizard_form
+msgid "owner@example.com"
+msgstr "owner@example.com"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_mail_test_wizard_form
+msgid "The list \"Practice spaces may email only these addresses\" is empty: practice spaces send no email at all. Add the address in Platform &gt; Settings first."
+msgstr "La liste « Les espaces d'entraînement ne peuvent écrire qu'à ces adresses » est vide : les espaces d'entraînement n'envoient aucun e-mail. Ajoutez d'abord l'adresse dans Plateforme &gt; Réglages."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_mail_test_wizard_form
+msgid "Send the test email"
+msgstr "Envoyer l'e-mail de test"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "Give this firm a platform email address"
+msgstr "Donner une adresse e-mail de la plateforme à ce cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "AuditISA will make the address support@ for this firm at MailerSend, write its DNS records at Cloudflare, and send the sending settings to the firm's server. Go on?"
+msgstr "AuditISA va créer l'adresse support@ de ce cabinet chez MailerSend, écrire ses enregistrements DNS chez Cloudflare et envoyer les réglages d'envoi au serveur du cabinet. Continuer ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "Platform email address"
+msgstr "Adresse e-mail de la plateforme"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "The address"
+msgstr "L'adresse"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "Check again now"
+msgstr "Vérifier de nouveau maintenant"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "Use the firm's own mailbox instead"
+msgstr "Utiliser plutôt la boîte e-mail du cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "Remove the platform address"
+msgstr "Retirer l'adresse de la plateforme"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_platform_mail
+msgid "The address, its SMTP user at MailerSend and its DNS records at Cloudflare will be deleted. If the firm sends from this address, sending is switched off on its server. Remove the platform address?"
+msgstr "L'adresse, son utilisateur SMTP chez MailerSend et ses enregistrements DNS chez Cloudflare seront supprimés. Si le cabinet envoie depuis cette adresse, l'envoi est coupé sur son serveur. Retirer l'adresse de la plateforme ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_platform_mail
+msgid "Recommended: the console makes this address during provisioning, so the firm can send email as soon as it is live. Replies go to the firm's contact email."
+msgstr "Recommandé : la console crée cette adresse pendant l'installation, et le cabinet peut envoyer des e-mails dès sa mise en service. Les réponses vont à l'e-mail de contact du cabinet."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_platform_mail
+msgid "No email for now: password resets and invitations by email stay off. It can be set later from the firm's page."
+msgstr "Pas d'e-mail pour l'instant : la réinitialisation des mots de passe et les invitations par e-mail restent coupées. À régler plus tard depuis la page du cabinet."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_platform_mail
+msgid "The firm's own mailbox sends its emails (password resets, invitations). Filled in now, the settings go to the firm's server as soon as it is live; it tests them without sending any message, and switches sending on only if the test passes."
+msgstr "La boîte e-mail du cabinet envoie ses e-mails (réinitialisation des mots de passe, invitations). Remplis maintenant, les réglages partent vers le serveur du cabinet dès sa mise en service ; il les teste sans envoyer de message et n'active l'envoi que si le test réussit."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "Test the connection"
+msgstr "Tester la connexion"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "Sending service for firms (MailerSend and Cloudflare)"
+msgstr "Service d'envoi pour les cabinets (MailerSend et Cloudflare)"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "Each firm can get the address support@ followed by its slug and the parent domain, sent through MailerSend. The two tokens are not typed here: like the console's other tokens, they are files only root can read on this server. See docs/runbook/PLATFORM-EMAIL.md."
+msgstr "Chaque cabinet peut recevoir l'adresse support@ suivie de son identifiant et du domaine parent, envoyée par MailerSend. Les deux jetons ne se saisissent pas ici : comme les autres jetons de la console, ce sont des fichiers que seul root peut lire sur ce serveur. Voyez docs/runbook/PLATFORM-EMAIL.md."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "cm-ea.com"
+msgstr "cm-ea.com"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "support"
+msgstr "support"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "one address per line"
+msgstr "une adresse par ligne"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
+msgid "Empty (the default): practice spaces send no email at all. Filled: a practice space sends only to these addresses; every other recipient is dropped and logged. The test site test.auditisa.com never sends, whatever this list says."
+msgstr "Vide (par défaut) : les espaces d'entraînement n'envoient aucun e-mail. Remplie : un espace d'entraînement n'écrit qu'à ces adresses ; tout autre destinataire est écarté et journalisé. Le site de test test.auditisa.com n'envoie jamais rien, quoi que dise cette liste."

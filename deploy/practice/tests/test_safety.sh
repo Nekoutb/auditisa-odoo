@@ -238,5 +238,24 @@ assert tuple(re.search(r'^PROGRESS_REASONS = \(([^)]*)\)', console, re.M | re.S)
 PY
 then ok; else bad "the progress lists differ between the scripts, the heartbeat and the control room"; fi
 
+echo "== practice email: a recipient list, off by default"
+G=$HERE/practice-guard.sh
+has "$G" "ea_firm_agent.recipient_gate"
+has "$G" 'PRACTICE_MAIL_ALLOWED:-0'
+has "$HERE/sample.env" "PRACTICE_MAIL_ALLOWED='0'"
+has "$HERE/practice-lib.sh" 'PRACTICE_MAIL_ALLOWED:=0'
+has "$HERE/practice-template.sh" 'recipient_gate", "1"'
+has "$HERE/practice-space.sh" 'recipient_gate", "1"'
+has "$HERE/install-practice-server.sh" "reject out 25,465,587,2525"
+# The guard's SQL for a list: only addresses that pass the pattern, and never a quote.
+mkdir -p "$WORK/var"
+printf "owner@exemple.cm\nbad'; drop table x; --@x.cm\nnot-an-address\n" > "$WORK/var/mail-allowlist"
+sql=$(PRACTICE_VAR=$WORK/var bash -c '. "$1"; recipient_sql' _ <(sed -n '/^allowlist_addresses()/,/^}/p; /^recipient_sql()/,/^}/p' "$G"))
+case "$sql" in *"'owner@exemple.cm'"*) ok ;; *) bad "the guard's SQL lacks the allowed address: $sql" ;; esac
+case "$sql" in *drop*|*not-an-address*) bad "the guard's SQL holds a refused line: $sql" ;; *) ok ;; esac
+rm -f "$WORK/var/mail-allowlist"
+sql=$(PRACTICE_VAR=$WORK/var bash -c '. "$1"; recipient_sql' _ <(sed -n '/^allowlist_addresses()/,/^}/p; /^recipient_sql()/,/^}/p' "$G"))
+case "$sql" in *"'ea_firm_agent.recipient_allowlist', ''"*) ok ;; *) bad "no list must give an empty list: $sql" ;; esac
+
 printf '%d passed, %d failed\n' "$PASSED" "$FAILED"
 [ "$FAILED" = 0 ]

@@ -125,6 +125,8 @@ env.invalidate_all()
 env["ir.mail_server"].sudo().search([]).write({"active": False})
 params.set_param("mail.catchall.domain", False)
 params.set_param("ea_firm_agent.mail_gate", "1")
+# A practice space emails only the console's allowed addresses (none by default): practice-guard keeps the list.
+params.set_param("ea_firm_agent.recipient_gate", "1")
 for key in ("ea_firm_agent.mail_tested", "ea_firm_agent.heartbeat_url", "ea_firm_agent.slug"):
     params.search([("key", "=", key)]).unlink()
 # Odoo's own demo and portal accounts, if any: archived.

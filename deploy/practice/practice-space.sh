@@ -202,6 +202,8 @@ params.set_param("web.base.url.freeze", "True")
 params.set_param("report.url", os.environ["P_LOCAL_URL"])
 # Mail, again: nothing leaves a practice space.
 params.set_param("ea_firm_agent.mail_gate", "1")
+# A practice space emails only the console's allowed addresses (none by default): practice-guard keeps the list.
+params.set_param("ea_firm_agent.recipient_gate", "1")
 for key in ("ea_firm_agent.mail_tested", "ea_firm_agent.heartbeat_url", "ea_firm_agent.slug"):
     params.search([("key", "=", key)]).unlink()
 env["ir.mail_server"].sudo().with_context(active_test=False).search([]).write({"active": False})

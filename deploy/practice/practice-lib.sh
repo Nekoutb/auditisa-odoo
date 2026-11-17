@@ -118,6 +118,8 @@ load_practice_env() {
   : "${PRACTICE_PREVIEW:=0}" "${PRACTICE_STRICT_CLUSTER:=1}" "${PRACTICE_LANG:=fr_FR}"
   : "${PRACTICE_HEARTBEAT_URL:=}" "${PRACTICE_UPDATE_MEM:=1400M}" "${PRACTICE_RELEASE_BASE_URL:=}"
   : "${PRACTICE_ENTRY_URL:=$PRACTICE_PUBLIC_URL/web/login}"
+  # Practice email stays off unless the owner decides otherwise (docs/runbook/PLATFORM-EMAIL.md).
+  : "${PRACTICE_MAIL_ALLOWED:=0}"
   ODOO_CONF=$PRACTICE_PREFIX$PRACTICE_CONF
   # Written by the odoo-practice user: its own folder, not root's.
   ODOO_LOGS=$PRACTICE_PREFIX/var/log/$PRACTICE_SERVICE

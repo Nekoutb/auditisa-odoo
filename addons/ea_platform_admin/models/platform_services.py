@@ -4,6 +4,7 @@ import os
 
 from odoo import api, models, modules
 
+from ..services import platform_mail
 from ..services.messages import _
 from ..services.provider import DryRunDns, DryRunProbe, DryRunProvider, ProviderError
 from ..services.provider_vultr import CloudflareDns, UrllibProbe, VultrProvider, read_secret_file
@@ -30,6 +31,17 @@ CREDENTIAL_CLOUDFLARE = "cloudflare-token"
 CREDENTIAL_WASABI_KEY = "wasabi-key"
 CREDENTIAL_WASABI_SECRET = "wasabi-secret"
 CREDENTIALS = (CREDENTIAL_VULTR, CREDENTIAL_CLOUDFLARE, CREDENTIAL_WASABI_KEY, CREDENTIAL_WASABI_SECRET)
+# The platform email address (services/platform_mail.py). Optional: without them, no firm gets one.
+CREDENTIAL_MAILERSEND = "mailersend-token"
+CREDENTIAL_CLOUDFLARE_MAIL = "cloudflare-mail-token"
+MAIL_CREDENTIALS = (CREDENTIAL_MAILERSEND, CREDENTIAL_CLOUDFLARE_MAIL)
+PARAM_MAIL_DRY_STATE = "ea_platform.mail_dry_run_state"
+PARAM_MAIL_PARENT = "ea_platform.mail_parent_domain"
+PARAM_MAIL_ZONE = "ea_platform.mail_zone_name"
+PARAM_MAIL_ZONE_ID = "ea_platform.mail_zone_id"
+PARAM_MAIL_LOCAL = "ea_platform.mail_local_part"
+PARAM_MAIL_REPLY = "ea_platform.mail_reply_to_policy"
+PARAM_PRACTICE_ALLOWLIST = "ea_platform.practice_mail_allowlist"
 
 
 def _credential_path(name):
@@ -76,6 +88,61 @@ class PlatformServices(models.AbstractModel):
             raise ProviderError(_("No DNS zone set."))
         dns = CloudflareDns(read_secret_file(_credential_path(CREDENTIAL_CLOUDFLARE)), zone)
         return provider, dns, UrllibProbe()
+
+    # ------------------------------------------------------------------ the platform email address
+
+    @api.model
+    def _mail_credential_present(self, name):
+        """True when the service received this token file, not empty. Never reads it."""
+        folder = os.environ.get("CREDENTIALS_DIRECTORY")
+        path = os.path.join(folder, name) if folder else ""
+        return bool(path) and os.path.isfile(path) and os.path.getsize(path) > 0
+
+    @api.model
+    def _mail_config(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        parent = platform_mail.clean_parent(get_param(PARAM_MAIL_PARENT) or platform_mail.DEFAULT_PARENT)
+        return {
+            "parent": parent,
+            "zone": platform_mail.clean_parent(get_param(PARAM_MAIL_ZONE) or parent),
+            "zone_id": get_param(PARAM_MAIL_ZONE_ID) or "",
+            "local_part": get_param(PARAM_MAIL_LOCAL) or platform_mail.DEFAULT_LOCAL_PART,
+            "reply_to_policy": get_param(PARAM_MAIL_REPLY) or "contact",
+        }
+
+    @api.model
+    def _mail_ready(self):
+        """Can a firm be given a platform address now? Once the operator has applied the "Sending service for
+        firms" settings (the parent domain is saved); outside simulation, also both tokens and the zone's id."""
+        if not self.env["ir.config_parameter"].sudo().get_param(PARAM_MAIL_PARENT):
+            return False
+        if self._is_simulation():
+            return True
+        return bool(self._mail_config()["zone_id"]) and all(self._mail_credential_present(n) for n in MAIL_CREDENTIALS)
+
+    @api.model
+    def _mail_dry_state(self):
+        raw = self.env["ir.config_parameter"].sudo().get_param(PARAM_MAIL_DRY_STATE)
+        return json.loads(raw) if raw else {"mailersend": {}, "zone": {}}
+
+    @api.model
+    def _mail_outside(self, zone_id=None):
+        """(mailersend, zone). Simulation: the DryRun classes, no network. The real ones are only built here."""
+        if self._is_simulation():
+            state = self._mail_dry_state()
+            return platform_mail.DryRunMailerSend(state["mailersend"]), platform_mail.DryRunZone(state["zone"])
+        mailersend = platform_mail.MailerSend(read_secret_file(_credential_path(CREDENTIAL_MAILERSEND)))
+        zone = platform_mail.CloudflareZone(
+            read_secret_file(_credential_path(CREDENTIAL_CLOUDFLARE_MAIL)),
+            zone_id if zone_id is not None else self._mail_config()["zone_id"],
+        )
+        return mailersend, zone
+
+    @api.model
+    def _save_mail_dry_state(self, mailersend, zone):
+        if mailersend.is_simulation:
+            state = {"mailersend": mailersend.state, "zone": zone.state}
+            self.env["ir.config_parameter"].sudo().set_param(PARAM_MAIL_DRY_STATE, json.dumps(state))
 
     @api.model
     def _storage(self):

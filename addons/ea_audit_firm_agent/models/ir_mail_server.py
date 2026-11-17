@@ -1,7 +1,12 @@
+import logging
+
 from odoo import api, models
 from odoo.addons.base.models.ir_mail_server import MailDeliveryException
 
-from .firm_agent import PARAM_MAIL_TESTED
+from ..services import recipients
+from .firm_agent import PARAM_MAIL_REPLY_TO, PARAM_MAIL_TESTED
+
+_logger = logging.getLogger(__name__)
 
 PARAM_MAIL_GATE = "ea_firm_agent.mail_gate"
 # Changing one of these means the mail settings have to prove themselves again. Switching the
@@ -15,6 +20,9 @@ _SMTP_FIELDS = frozenset({
 _MAIL_CRONS = ("mail.ir_cron_mail_scheduler_action", "mail.ir_cron_mail_gateway_action")
 # "Forgot your password?" sends a mail: offered only while mail is open (test-firm run, 2026-11-09).
 PARAM_RESET_PASSWORD = "auth_signup.reset_password"
+# A practice space: emails go only to the allowed addresses (services/recipients.py). Set by deploy/practice.
+PARAM_RECIPIENT_GATE = "ea_firm_agent.recipient_gate"
+PARAM_RECIPIENT_ALLOWLIST = "ea_firm_agent.recipient_allowlist"
 
 
 class IrMailServer(models.Model):
@@ -61,7 +69,34 @@ class IrMailServer(models.Model):
     def send_email(self, message, *args, **kwargs):
         if self._ea_mail_gate_closed():
             raise self._ea_mail_closed()
+        params = self.env["ir.config_parameter"].sudo()
+        if params.get_param(PARAM_RECIPIENT_GATE) == "1":
+            allowlist = recipients.parse_allowlist(params.get_param(PARAM_RECIPIENT_ALLOWLIST) or "")
+            kept, dropped = recipients.filter_message(message, allowlist)
+            if dropped:
+                _logger.warning(
+                    "Practice space: %s recipient(s) dropped, not on the allowed list: %s",
+                    len(dropped), ", ".join(recipients.mask(address) for address in dropped),
+                )
+            if not kept:
+                _logger.warning("Practice space: email not sent, no allowed recipient")
+                return message["Message-Id"]
         return super().send_email(message, *args, **kwargs)
+
+    @api.model
+    def build_email(self, email_from, email_to, subject, body, *args, **kwargs):
+        """With the console's platform address, replies go to the firm's contact email (owner, 2026-11-18),
+        unless the email already names another reply address."""
+        reply_to = self.env["ir.config_parameter"].sudo().get_param(PARAM_MAIL_REPLY_TO)
+        if reply_to:
+            args = list(args)
+            current = args[2] if len(args) > 2 else kwargs.get("reply_to")
+            if not current or current == email_from:
+                if len(args) > 2:
+                    args[2] = reply_to
+                else:
+                    kwargs["reply_to"] = reply_to
+        return super().build_email(email_from, email_to, subject, body, *args, **kwargs)
 
     def test_smtp_connection(self, autodetect_max_email_size=False):
         result = super(IrMailServer, self.with_context(ea_mail_gate_testing=True)).test_smtp_connection(
