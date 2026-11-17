@@ -1,0 +1,62 @@
+<section class="ch" id="ch01" data-title="Welcome and finding your way" data-part="Getting started">
+  <h1>Welcome and finding your way</h1>
+  <p class="lead">This chapter shows you what AuditISA does and how its screens are laid out, so that you always know where you are and how to get where you want to go.</p>
+  <p class="who">Who: everyone in the firm.</p>
+
+  <h2 id="ch01-s1">What AuditISA does</h2>
+  <p>AuditISA holds your firm's audit files. Each engagement (one client, one financial year) has its own file, built on the International Standards on Auditing (ISA) and on the OHADA rules. The file lists every task of the audit, from accepting the client to archiving the file. You prepare each task, a more senior colleague reviews it, and the partner signs where the firm's rules ask for it. Only the people on an engagement's team can open that engagement: your role in the firm alone does not give you access to a file.</p>
+
+  <h2 id="ch01-s2">The top bar</h2>
+  <p>The bar at the top of the screen stays in place on every page. From left to right it holds:</p>
+  <table class="ref">
+    <tr><th>Item</th><th>What it does</th></tr>
+    <tr><td>The <b>A</b> logo and your firm's name</td><td>Takes you back to your home page (<b>Dashboard</b>) from anywhere.</td></tr>
+    <tr><td><b>Dashboard</b> and <b>Engagements</b></td><td>Shown when you are not inside an engagement. <b>Engagements</b> lists all the engagements you are a team member of.</td></tr>
+    <tr><td><b>Planning</b>, <b>Strategy and risks</b>, <b>Execution</b>, <b>Conclusion</b>, <b>Tasks</b></td><td>Shown when you are inside an engagement. Each phase name opens that part of the engagement's dashboard. <b>Tasks</b> lists every task of the file.</td></tr>
+    <tr><td><b>ENGAGEMENTS</b> switcher</td><td>Shows the engagement you are in (or <b>Select engagement</b>). Click it to see your <b>Recent engagements</b> and jump to another one, or click <b>All engagements</b>.</td></tr>
+    <tr><td><b>Search…</b></td><td>Type at least two letters. Results come in four groups: <b>Engagements</b>, <b>Tasks</b>, <b>In the methodology</b> (the guidance text) and <b>In the answers</b> (what the team has written).</td></tr>
+    <tr><td>Engagement tools (four squares)</td><td>Shown inside an engagement. Opens the engagement's tools, such as the trial balance, the analytics and the lists of findings.</td></tr>
+    <tr><td>Timesheet (clock)</td><td>Shown outside an engagement. Opens your timesheet (see <a href="#ch17">Recording your time</a>).</td></tr>
+    <tr><td><b>Apps</b> (nine dots)</td><td>Lists the parts of AuditISA you may open: <b>Audit</b> (engagements and files), <b>Timesheet</b>, and, for the firm administrator, <b>Users</b> and <b>Settings</b>.</td></tr>
+    <tr><td><b>Notifications</b> (bell)</td><td>A red figure shows how many messages you have not read. Click a message to go straight to the task, engagement or invitation it is about. <b>See all notifications</b> opens the full list.</td></tr>
+    <tr><td><b>Settings</b> (cog)</td><td>A short menu. Inside an engagement it starts with <b>Engagement record</b>, <b>Log time on this engagement</b> and <b>Budget and actual</b>. It always holds <b>Clients</b>, <b>My invitations</b> and <b>Preferences</b>. Partners also see the firm's sign-off rules and file index; the firm administrator also sees the audit log, <b>Users</b> and <b>Settings</b>.</td></tr>
+    <tr><td><b>EN</b> / <b>FR</b></td><td>Switches the whole tool between English and French. The page reloads in the language you chose, and AuditISA remembers it next time.</td></tr>
+    <tr><td>Your name, role and initials</td><td>Shows who is signed in and your role in the firm (for example <b>Manager</b> or <b>Quality reviewer</b>).</td></tr>
+    <tr><td><b>Sign out</b></td><td>Ends your session. Always sign out on a shared computer.</td></tr>
+  </table>
+  <!-- CHECK: the brief mentions a "user menu"; in the code the name, role and initials are display only (no drop-down). Profile settings are under Settings (cog) > Preferences. -->
+  <figure class="shot" data-screen="ch01-top-bar"><div class="ph">The top bar inside an engagement: firm name, the four phases and Tasks, the engagement switcher, search, tools, apps, bell with an unread count, cog, EN/FR, the user's name and Sign out</div><figcaption>The top bar, inside an engagement</figcaption></figure>
+  <div class="tip"><b>Tip</b> Press <b>Esc</b> or click anywhere else to close an open panel (switcher, bell, cog, apps or search results).</div>
+
+  <h2 id="ch01-s3">Your home page</h2>
+  <p>When you sign in, AuditISA opens your home page. It greets you by name (<b>Welcome</b>) and lists <b>Your engagements</b>:</p>
+  <ul>
+    <li><b>To do</b>: what is waiting for you, for example <b>Working papers awaiting review</b> or <b>Acceptance awaiting the partner's sign-off</b>, with the engagement it belongs to. Click a line to go there.</li>
+    <li>One card per engagement: the client, the period end and the kind of engagement; the current phase and its <b>Phase deadline</b>; <b>Report due by</b>; the engagement partner; and whether the acceptance is signed (<b>Acceptance signed</b> or <b>Acceptance to sign</b>).</li>
+    <li>A bar and a percentage show how far the file has got. Click <b>Continue</b> to open the engagement.</li>
+    <li>An archived engagement shows <b>Archived on</b> a date and <b>File locked</b>. Click <b>Open</b> to read it; nothing in it can be changed.</li>
+  </ul>
+  <!-- CHECK: the owner asked on 2026-11-15 to remove the "To do" card from the home page (branch feat/admin-read, not yet on main 8d70fb2). Drop this bullet if that change is released. -->
+  <p>If you see <b>No engagements</b>, you are not yet on any team: ask the engagement partner or manager to add you. The <b>+ New engagement</b> button appears for everyone except read-only users.</p>
+  <figure class="shot" data-screen="ch01-home"><div class="ph">The home page: "Welcome, [first name]", the + New engagement button and two or three engagement cards with phase, deadlines, partner, progress bar and Continue</div><figcaption>Your home page lists the engagements you work on</figcaption></figure>
+
+  <h2 id="ch01-s4">How an audit file is organised</h2>
+  <p>Every file follows the same four phases, in the order of the audit. The engagement's dashboard shows one ring per phase, with the percentage done, and the groups of tasks beside it.</p>
+  <table class="ref">
+    <tr><th>Phase (top bar)</th><th>On the dashboard</th><th>Task groups</th></tr>
+    <tr><td><b>Planning</b></td><td>Planning and Risk Identification</td><td>P1 to P7: acceptance and continuance, independence and team, understanding the business, entity-level controls and IT, fraud risks, materiality, planning review and approval</td></tr>
+    <tr><td><b>Strategy and risks</b></td><td>Strategy and Risk Assessment</td><td>S1 to S6: transactions and walkthroughs, controls and IT, combined risk assessment, specific risk areas, audit procedure design, audit strategy memorandum</td></tr>
+    <tr><td><b>Execution</b></td><td>Execution</td><td>E1 to E6: tests of controls, control updates, substantive procedures, specific procedures, registers and opening balances</td></tr>
+    <tr><td><b>Conclusion</b></td><td>Conclusion and Reporting</td><td>C1 to C6: audit differences, final review, representations, review and approval, statutory reports and communications, documentation and archiving</td></tr>
+  </table>
+  <p>Each task has a code (for example <b>P6.1</b>) that stays the same on every file, so the whole team speaks the same language. Click a group to see its <b>Task list</b> with each task's status and due date. Some papers are <b>Conditional papers</b>: they only come onto the file, and into the percentage, when an answer elsewhere calls for them.</p>
+  <p>The engagement dashboard also shows <b>My tasks</b> (what is open and assigned to you), <b>Review notes and findings</b> (<b>Notes for me</b>, <b>Notes by me</b>, <b>Deficiencies</b>, <b>Misstatements</b>) and a <b>Calendar</b> of the next deadlines, with the overdue ones counted. If some tasks have nobody to prepare them, a warning says so, with <b>Assign them</b>.</p>
+  <div class="note"><b>Good to know</b> If the dashboard says <b>Profile not finished: finish it to get your tasks</b>, the engagement profile still needs answers. Click <b>Finish the profile</b>: the profile decides which tasks the file needs.</div>
+  <figure class="shot" data-screen="ch01-engagement-dashboard"><div class="ph">An engagement dashboard: client and fiscal year, phase, period end, report due date, overall percentage, the four rings with their task groups (done/total), My tasks, Review notes and findings, Calendar</div><figcaption>The engagement dashboard: one ring per phase</figcaption></figure>
+
+  <h2 id="ch01-s5">When the screen is working</h2>
+  <p>When AuditISA needs a moment to fetch or save something, a thin moving bar appears along the very top of the screen. Wait until it disappears before you click again. Quick actions do not show the bar at all.</p>
+
+  <p class="see">See also: <a href="#ch02">Signing in for the first time</a>, <a href="#ch17">Recording your time</a></p>
+  <div class="context" data-screens="ea_audit_ui.action_home, ea_audit_core.action_engagement, ea_audit_ui.action_notifications"></div>
+</section>

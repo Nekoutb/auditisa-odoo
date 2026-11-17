@@ -1,0 +1,14 @@
+ch04-client-list	Gear > Clients (ea_audit_core.action_client)	List with 4-5 clients incl. ELIMELEC SARL; search box and New button visible
+ch04-client-form	Gear > Clients > open ELIMELEC SARL (ea.audit.client form)	All fields filled: name, legal form, sector, framework, governance, registration, NIU, address, share capital, mandate; Portal contacts panel at bottom
+ch05-new-engagement	Dashboard > + New engagement (ea_audit_core.action_engagement_create_wizard)	Wizard filled: client, name 'Statutory audit 2025', Statutory audit, partner, 01/01-31/12/2025, English; note above Create
+ch05-profile	Engagement record > Profile questionnaire (client action ea_audit_core.profile)	IT section open, some High answers; right panel 'Level so far' Complex + Provisional, reasons and Added by your answers tags
+ch06-team-tile	Inside engagement > Engagement tools > Engagement team tile (action_tool_team)	4 members with statuses Accepted/Invited/Declined; Invite a member button
+ch06-invite	Engagement team > Invite a member (ea.audit.team.invite.wizard)	Email, Name, Team Role = Senior filled; Invite button
+ch06-my-invitation	Gear > My invitations > open an invitation (ea.audit.team.member form), as the invited user	Blue independence line, Accept and Decline buttons, engagement name/client/fiscal year
+ch07-dashboard	Engagement dashboard (client action, Continue from home)	Planning ring open on P1-P7 groups; no-preparer warning; REQUIRES YOUR ATTENTION chips; My tasks, Review notes and findings, Calendar with overdue pill
+ch07-tasks	Inside engagement > Tasks (top bar)	Mine/All/Open filters; table with P/R/A chips, one row Overdue by N d in red, mixed status pills
+ch08-match	Engagement tools > Data analytics > Payroll analyzer > Import a dataset, step 2	Column list with Matched automatically badges, one Not recognised line, message all mandatory fields matched
+ch08-versions	Engagement tools > Data analytics > Payroll analyzer (dataset list)	Two payroll uploads: newest In use, older greyed with Superseded on; bin icons
+ch16-portal-contact	Client record > Portal contacts > New portal contact > Create and get the link	Invitation link field with copy button and the 14-day sentence
+ch16-client-portal	Portal /my/pbc signed in as a client portal contact	Two requests: one Requested with file field + Upload, one Uploaded with file name
+ch16-client-documents	Engagement record > Client documents (action_view_pbc)	Three requests Requested/Uploaded/Accepted, Uploaded row highlighted, Send a reminder button

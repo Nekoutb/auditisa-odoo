@@ -1,0 +1,85 @@
+<section class="ch" id="ch11" data-title="Execution" data-part="The audit, phase by phase">
+  <h1>Execution</h1>
+  <p class="lead">This chapter shows you how to design your procedures, perform them account by account, draw samples, test journal entries and controls, and use the data tools that do part of the work from the client's files.</p>
+  <p class="who">Who: the team performs the work. Roles that only read (for example the quality reviewer) see every page in read-only mode.</p>
+
+  <h2 id="ch11-s1">What the phase holds</h2>
+  <p>Click <b>Execution</b> in the top bar. The ring <b>Execution</b> holds <b>Tests of controls</b> (E1), <b>Control updates</b> (E2), <b>Substantive procedures</b> (E4 and E5), <b>Specific procedures (E3, E6)</b> and <b>Registers, opening balances</b> (E6). Journal entry testing (E3.1) sits in the specific procedures group under its own code.</p>
+  <p>Clicking <b>Substantive procedures</b> opens the Substantive procedures page directly, not a task list. The figure in brackets beside it shows how many accounts are designed in S5.5.</p>
+  <p>Work in this order: design the procedures, draw the samples, perform the work account by account, then record the conclusions.</p>
+
+  <h2 id="ch11-s2">Procedure design (S5.5)</h2>
+  <p><b>Procedure design</b> sets what you will test before you test it. It has two tabs:</p>
+  <ul>
+    <li><b>1 Design of tests of controls</b>: every control ticked <b>To test</b> on its class of transactions, with its <b>Suggested size</b> (from frequency and reliance) and your <b>Planned size</b>. A smaller planned size asks for a reason.</li>
+    <li><b>2 Design of tests of details</b>: one block per significant account, with its combined risk. It is empty until accounts are significant and assessed.</li>
+  </ul>
+  <p>In tab 2, <b>MSP</b> means mandatory substantive procedure: it is ticked and locked for every relevant assertion. <b>ASP</b> means alternative substantive procedure: you tick the ones you choose. The tool highlights the alternatives suggested by the combined risk (red High, amber Moderate, green Low).</p>
+  <ol class="steps">
+    <li>Check the mandatory procedures of each account.</li>
+    <li>Tick the alternatives you need. A High combined risk needs at least one alternative on that assertion before the account counts as designed.</li>
+    <li>Click <b>Add another procedure</b> for a procedure of your own, and tick the assertions it answers.</li>
+    <li>Click <b>Draw the sample</b> on a row that needs one: the sampling tool opens already filled with that account and its population.</li>
+  </ol>
+  <div class="note"><b>Good to know</b> You can untick an alternative only until work on it starts. The library covers receivables, payables, inventory, fixed assets, cash, equity and borrowings; for other accounts you add your own procedures.</div>
+
+  <h2 id="ch11-s3">Substantive procedures</h2>
+  <p>The <b>Substantive procedures</b> page shows one card per significant account: green all done, amber in progress, grey not started, with the number of findings. Only procedures chosen in Procedure design appear.</p>
+  <ol class="steps">
+    <li>Click an account. It opens with one tab per procedure, in working order (mandatory first, then alternatives, then your own).</li>
+    <li>Work through the <b>Steps</b> of the tab and record what you did.</li>
+    <li>For a problem, click <b>Raise a finding</b>: describe <b>The issue</b> and, if needed, the <b>Adjustment to book</b>. An adjustment goes to the summary of audit differences by itself when you save.</li>
+    <li>Choose the result (<b>No exception</b> or <b>Exceptions found</b>) and click <b>Mark as done</b>. Click <b>Reopen</b> to change it later.</li>
+  </ol>
+  <p>Some procedures are prepared by the tool from your uploads: the sub-ledger compared with the general ledger, the entries around year end for cut-off, the payments and invoices after year end (search for unrecorded liabilities), customer and supplier confirmations, the fixed asset register against the ledger (K-M1), the vouching of additions and disposals (K-M2) and the test counts and roll-forward of the inventory count (F-M1). When a file is missing, the tab says <b>Data missing</b> and offers <b>Open the uploads</b>.</p>
+  <p><b>Lead schedules</b> show the balances by index, with <b>By account, with commentary</b>, <b>Open the general-ledger entries</b> and <b>Extract to Excel</b>.</p>
+  <figure class="shot" data-screen="ch11-substantive-account"><div class="ph">An account open on the Substantive procedures page (for example K Property, plant and equipment) with one tab per procedure, the K-M1 comparison of the register with the general ledger, and the Mark as done button.</div><figcaption>One account, one tab per procedure, in working order.</figcaption></figure>
+
+  <h2 id="ch11-s4">Sampling</h2>
+  <p>The <b>Sampling</b> page holds every sample of the file, with its reason, so each draw can be explained and repeated.</p>
+  <ol class="steps">
+    <li>Click <b>Draw from a dataset</b> (or <b>Draw the sample</b> from Procedure design, which fills it for you).</li>
+    <li>Choose the <b>Dataset</b> and the method: <b>Random</b>, <b>Systematic</b>, <b>Monetary unit (MUS)</b> or <b>Key items + random</b>. Set the <b>Sample size</b>, and the <b>Key-item threshold</b>, <b>Confidence</b> and <b>Expected misstatement</b> where asked.</li>
+    <li>To force a size, fill <b>Size typed by hand</b> and <b>Why the size is typed by hand</b>.</li>
+    <li>Click <b>Draw</b>. Then enter the <b>Audited value</b> of every item.</li>
+    <li>Click <b>Record the conclusion</b>, or <b>Extend the sample</b> if the projected error is above the tolerable misstatement. A projected error goes to the audit differences (C1.1).</li>
+  </ol>
+
+  <h2 id="ch11-s5">Journal entries (E3.1)</h2>
+  <p>The <b>Journal entries</b> page has four tabs:</p>
+  <ol class="steps">
+    <li><b>1 Ledger</b>: the ledger tested and its checks. If no ledger is ready, click <b>The ledgers</b>.</li>
+    <li><b>2 Criteria</b>: turn each criterion on or off; the entries it catches are counted at once. <b>Thresholds and own rules</b> sets amounts and your own rules. Click <b>Run the criteria</b>.</li>
+    <li><b>3 Selected entries</b>: open each entry, look at its documents, then clear it or click <b>Raise a finding</b> (<b>Misstatement</b>, <b>Matter for attention</b> or <b>Control deficiency</b>).</li>
+    <li><b>4 Conclusion</b>: the counts cleared and with a problem. Click <b>Record as the S5.4 design</b> to keep the selection as the design, and <b>Export the E3.1 workbook</b> for the file.</li>
+  </ol>
+  <figure class="shot" data-screen="ch11-je-criteria"><div class="ph">The Journal entries page on tab 2 Criteria: the criteria with their on/off switches and entry counts, the Run the criteria button and the progress bar.</div><figcaption>Journal entries: switch criteria on and see what they catch.</figcaption></figure>
+
+  <h2 id="ch11-s6">Analytics and the data tools</h2>
+  <p><b>Substantive analytics</b> records an analytical procedure as evidence: lead index, assertion, expectation, actual figure, threshold (a share of performance materiality, set by risk), difference and conclusion. Click <b>Save a procedure</b> to add one.</p>
+  <p>The <b>Data analytics</b> tile opens the analysers. Each one lists the uploads of its kind, with <b>Import a dataset</b> and <b>Download the template</b>:</p>
+  <table class="ref">
+    <tr><th>Analyser</th><th>What it holds</th></tr>
+    <tr><td><b>Trial balance analyzer</b></td><td>Upload, check and map the trial balance.</td></tr>
+    <tr><td><b>General ledger analyzer</b></td><td>The journal-entry population, its checks and <b>The thirty analytics</b>.</td></tr>
+    <tr><td><b>Accounts receivable analyzer</b> / <b>Accounts payable analyzer</b></td><td>Open items and ageing, <b>Reconcile to the control account</b>, <b>Export the aging</b>.</td></tr>
+    <tr><td><b>Supplier statements</b></td><td>Statements against the payables ledger.</td></tr>
+    <tr><td><b>Bank analyzer</b></td><td>Bank statements and outstanding items.</td></tr>
+    <tr><td><b>Inventory analyzer</b></td><td>The inventory listing, used for the test counts.</td></tr>
+    <tr><td><b>Fixed assets analyzer</b></td><td>The register, used by K-M1 and K-M2.</td></tr>
+    <tr><td><b>Payroll analyzer</b></td><td>The payroll register and its agreement to the balance.</td></tr>
+  </table>
+  <!-- CHECK: payroll has an analyser but no library procedures yet (the VB payroll design awaits the owner). -->
+
+  <h2 id="ch11-s7">Tests of controls (E1.2)</h2>
+  <p>On the <b>Sampling</b> page, the <b>Controls to test</b> section lists every control ticked <b>To test</b>.</p>
+  <ol class="steps">
+    <li>Enter the <b>Occurrences in the year</b> on the control, then click <b>Draw the sample</b>.</li>
+    <li>Test the occurrences drawn. Click <b>Import the test grid</b> (columns: reference, date, description, then one column per attribute with pass, fail or na), or <b>Record a test</b> one at a time.</li>
+    <li>Read the <b>Operating conclusion</b>.</li>
+  </ol>
+  <div class="warn"><b>Careful</b> If a tested control is not effective, the combined risk of the assertions it supports moves to <b>Not rely</b>, and Procedure design suggests more tests of details. Record the deficiency as a finding.</div>
+
+  <p class="see">See also: <a href="#ch10">Strategy and risks</a> · <a href="#ch09">Planning</a></p>
+  <div class="context" data-screens="ea.audit.engagement action_tool_dsp, ea.audit.engagement action_tool_substantive, ea.audit.engagement action_tool_sampling, ea.audit.engagement action_tool_je, ea.audit.engagement action_tool_sap, ea.audit.engagement action_tool_data_analytics, ea.audit.engagement action_tool_lead, Top bar &gt; Execution"></div>
+</section>
