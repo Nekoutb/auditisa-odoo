@@ -95,6 +95,12 @@ _ENTRIES = (
     [r"^Current task scope applied by (?P<name>.+) \(scope (?P<old>\S+) to (?P<new>\S+)\)\. Added: (?P<added>.*)\. "
      r"Taken off, holding no work: (?P<hidden>.*)\. Kept, holding work: (?P<kept>.*)$",
      _lt("Current task scope applied by %(name)s (scope %(old)s to %(new)s). Added: %(added)s. Taken off, holding no work: %(hidden)s. Kept, holding work: %(kept)s")],
+    # the controls tasks follow the reliance on controls (ea_audit_tools, 2026-11-17)
+    [r"^The strategy no longer relies on controls\. Taken off the file, holding no work: (?P<hidden>.*)\. "
+     r"Kept as not applicable, holding work: (?P<kept>.*)$",
+     _lt("The strategy no longer relies on controls. Taken off the file, holding no work: %(hidden)s. Kept as not applicable, holding work: %(kept)s")],
+    [r"^The strategy relies on controls again\. Applicable again, work kept: (?P<codes>.+)$",
+     _lt("The strategy relies on controls again. Applicable again, work kept: %(codes)s")],
     [r"^Acceptance gates passed: engagement moved to planning$",
      _lt("Acceptance gates passed: engagement moved to planning")],
     [r"^Planning closed: snapshot taken, engagement moved to execution$",

@@ -6115,3 +6115,15 @@ msgstr "Périmètre actuel des tâches appliqué par %(name)s, aucune tâche enc
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Current task scope applied by %(name)s (scope %(old)s to %(new)s). Added: %(added)s. Taken off, holding no work: %(hidden)s. Kept, holding work: %(kept)s"
 msgstr "Périmètre actuel des tâches appliqué par %(name)s (périmètre %(old)s vers %(new)s). Ajoutées : %(added)s. Retirées, sans travaux : %(hidden)s. Conservées, avec travaux : %(kept)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "The strategy no longer relies on controls. Taken off the file, holding no work: %(hidden)s. Kept as not applicable, holding work: %(kept)s"
+msgstr "La stratégie ne s'appuie plus sur les contrôles. Retirées du dossier, sans travaux : %(hidden)s. Conservées comme non applicables, avec travaux : %(kept)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "The strategy relies on controls again. Applicable again, work kept: %(codes)s"
+msgstr "La stratégie s'appuie de nouveau sur les contrôles. De nouveau applicables, travaux conservés : %(codes)s"

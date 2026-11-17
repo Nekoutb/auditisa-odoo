@@ -16467,3 +16467,13 @@ msgstr "L'interrupteur du cabinet pour les demandes de documents et le portail d
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "Document requests are switched off for now. The requests already made are kept."
 msgstr "Les demandes de documents sont désactivées pour le moment. Les demandes déjà faites sont conservées."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__controls_na
+msgid "Not applicable because the strategy no longer relies on controls"
+msgstr "Non applicable car la stratégie ne s'appuie plus sur les contrôles"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_file_item__controls_na
+msgid "Set and cleared by the file itself: the task becomes applicable again when the strategy relies on controls."
+msgstr "Posé et retiré par le dossier lui-même : la tâche redevient applicable quand la stratégie s'appuie sur les contrôles."

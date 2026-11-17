@@ -33,3 +33,4 @@ from . import test_paper_hooks_plan
 from . import test_paper_hooks_strat
 from . import test_paper_layout_exec
 from . import test_paper_layout_compl
+from . import test_controls_scope
