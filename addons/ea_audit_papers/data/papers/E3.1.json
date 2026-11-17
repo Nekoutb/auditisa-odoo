@@ -6,156 +6,381 @@
   "ownsEn": "the testing of journal entries and other adjustments, and the responses to the risk of management override of controls",
   "ownsFr": "le test des écritures comptables et autres ajustements et les réponses au risque de contournement des contrôles par la direction",
   "tools": [
-   "journal-entry-testing"
+   {
+    "action": "action_tool_je",
+    "en": "Journal entry testing",
+    "fr": "Tests des écritures de journal",
+    "noteEn": "Criteria, entries selected and the test of each entry",
+    "noteFr": "Critères, écritures sélectionnées et test de chaque écriture"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Matters raised from the entries tested",
+    "noteFr": "Points relevés sur les écritures testées"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Récapitulatif des écarts d'audit",
+    "noteEn": "Adjustments proposed from the entries tested, posted by the reviewer",
+    "noteFr": "Ajustements proposés sur les écritures testées, validés par le réviseur"
+   }
   ],
   "reqEn": [
    "Irrespective of our assessment of the risk of management override, we design and perform procedures to test the appropriateness of journal entries and other adjustments, to review accounting estimates for bias, and to evaluate the business rationale of significant transactions outside the normal course of business ({{ISA240.override}}). These procedures are performed on every engagement. They are not conditional on a fraud risk having been identified elsewhere.",
    "Management is uniquely placed to commit fraud by overriding controls that otherwise appear to operate effectively. The level of that risk varies between entities but it is present in all of them, and because the way an override may occur cannot be predicted, it is treated as a significant risk ({{ISA240.override}}).",
    "The objective is not to conclude that a population is free of material error. It is to test the entries that could carry a material misstatement, which is why the selection is directed by criteria and why a random sample of a fixed number of entries — twenty-five, for instance — is not appropriate for journal entry testing ({{ISA240.jeCriteria}}). Testing the entries identified by inquiry alone is not appropriate either.",
    "Entries recorded at the end of the reporting period are tested in every case ({{ISA240.jePeriodEnd}}), and the need to test entries recorded throughout the period is considered and the conclusion recorded ({{ISA240.jeThroughout}}). An element of unpredictability is introduced in the nature, timing and extent of the procedures ({{ISA240.unpredictability}}).",
-   "We obtain an understanding of the controls the entity has over the preparation and recording of journal entries, which is where the four controls in Part B come from (ISA 315 (Revised 2019) ¶26)."
+   "We obtain an understanding of the controls the entity has over the preparation and recording of journal entries, which is where the four controls of the controls task come from (ISA 315 (Revised 2019) ¶26)."
   ],
   "reqFr": [
    "Quelle que soit notre évaluation du risque de contournement, nous concevons et mettons en œuvre des procédures pour tester le caractère approprié des écritures et des autres ajustements, examiner les estimations comptables à la recherche de biais et apprécier la justification économique des opérations significatives hors du cours normal des affaires ({{ISA240.override}}). Ces procédures sont mises en œuvre sur toute mission, indépendamment de l'identification d'un risque de fraude par ailleurs.",
    "La direction est dans une position unique pour commettre une fraude en contournant des contrôles qui paraissent par ailleurs fonctionner efficacement. Le niveau de ce risque varie d'une entité à l'autre mais il reste présent dans toutes, et parce que les modalités d'un contournement ne peuvent être anticipées, il est traité comme un risque important ({{ISA240.override}}).",
    "L'objectif n'est pas de conclure qu'une population est exempte d'erreur significative, mais de tester les écritures susceptibles de contenir une anomalie significative : c'est pourquoi la sélection est orientée par des critères et pourquoi une sélection aléatoire d'un nombre fixe d'écritures — vingt-cinq, par exemple — n'est pas appropriée pour le test des écritures ({{ISA240.jeCriteria}}). Tester les écritures identifiées par le seul entretien n'est pas davantage approprié.",
    "Les écritures enregistrées en fin de période sont testées dans tous les cas ({{ISA240.jePeriodEnd}}), et la nécessité de tester les écritures enregistrées tout au long de la période est appréciée et la conclusion consignée ({{ISA240.jeThroughout}}). Un élément d'imprévisibilité est introduit dans la nature, le calendrier et l'étendue des procédures ({{ISA240.unpredictability}}).",
-   "Nous prenons connaissance des contrôles mis en place par l'entité sur la préparation et l'enregistrement des écritures : c'est de là que proviennent les quatre contrôles de la partie B (ISA 315 révisée 2019, ¶26)."
-  ],
-  "conclEn": [
-   "The journal entries and other adjustments selected are appropriate: each is supported by a business rationale, was authorised at the correct level, is correctly accounted for and is recorded in the correct period.",
-   "No indication of management override of controls giving rise to a material misstatement due to fraud was identified. Where misstatements were identified, we have considered whether they may indicate fraud and what they mean for the other aspects of the audit, in particular the reliability of management's representations.",
-   "The procedures performed, taken with the review of estimates for bias and the review of significant unusual transactions, respond to the presumed significant risk of management override; any residual specific risk has been answered by the additional procedures cross-referenced above."
-  ],
-  "conclFr": [
-   "Les écritures et autres ajustements sélectionnés sont appropriés : chacun repose sur une justification économique, a été autorisé au niveau approprié, est correctement comptabilisé et correctement rattaché à l'exercice.",
-   "Aucun indice de contournement des contrôles par la direction donnant lieu à une anomalie significative résultant de fraudes n'a été relevé. Lorsque des anomalies ont été identifiées, nous avons apprécié si elles pouvaient révéler une fraude et ce qu'elles impliquent pour les autres aspects de l'audit, en particulier la fiabilité des déclarations de la direction.",
-   "Les procédures mises en œuvre, avec l'examen des estimations à la recherche de biais et la revue des opérations significatives inhabituelles, répondent au risque important présumé de contournement des contrôles ; tout risque spécifique résiduel a été couvert par les procédures complémentaires référencées ci-dessus."
+   "Nous prenons connaissance des contrôles mis en place par l'entité sur la préparation et l'enregistrement des écritures : c'est de là que proviennent les quatre contrôles de la tâche sur les contrôles (ISA 315 révisée 2019, ¶26)."
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed. The selection is risk-directed: state the criteria used and the reason each item was picked, never a sample size on its own.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier. La sélection est orientée par le risque : énoncer les critères utilisés et le motif de sélection de chaque élément, jamais une taille d'échantillon isolée.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "inquiry",
       "en": "Make inquiries of the individuals involved in the financial reporting process about inappropriate or unusual activity in the processing of journal entries and other adjustments, and record who was asked and what they said.",
       "fr": "S'entretenir avec les personnes intervenant dans le processus d'élaboration de l'information financière au sujet d'activités inappropriées ou inhabituelles dans le traitement des écritures et des ajustements, et consigner qui a été interrogé et ce qui a été dit.",
-      "srcEn": "Inquiry memoranda · {{ISA240.jeInquiry}}",
-      "srcFr": "Comptes rendus d'entretien · {{ISA240.jeInquiry}}",
-      "tipEn": "[Draft] Ask the people who post, not only the finance director: the accountant who keys the closing entries, the person who runs the month-end, the IT administrator who holds the accounting system's rights. Ask concretely — entries requested by management without documents, entries reversed after the close, pressure to book a figure — and record each answer with the name and the date. The inquiry points the selection; it never replaces it.",
-      "tipFr": "[Projet] Interroger ceux qui saisissent, pas seulement le directeur financier : le comptable qui passe les écritures de clôture, la personne qui conduit l'arrêté mensuel, l'administrateur informatique qui détient les droits du logiciel comptable. Poser des questions concrètes — écritures demandées par la direction sans pièces, écritures annulées après la clôture, pression pour atteindre un chiffre — et consigner chaque réponse avec le nom et la date. L'entretien oriente la sélection ; il ne la remplace jamais."
+      "shortEn": "Inquiries about journal entries",
+      "shortFr": "Entretiens sur les écritures",
+      "isa": "{{ISA240.jeInquiry}}",
+      "tipsEn": [
+       "Ask the people who post entries, not only the finance director.",
+       "Ask about entries made without documents or reversed after the close.",
+       "Inquiry points the selection; it never replaces it."
+      ],
+      "tipsFr": [
+       "Interroger ceux qui saisissent, pas seulement le directeur financier.",
+       "Demander les écritures passées sans pièce ou extournées après la clôture.",
+       "L'entretien oriente la sélection ; il ne la remplace jamais."
+      ],
+      "stdEn": "Inquiries made of the people involved in financial reporting; no inappropriate or unusual activity reported.",
+      "stdFr": "Entretiens menés avec les personnes intervenant dans l'information financière ; aucune activité inappropriée ou inhabituelle signalée.",
+      "sourceHint": "Inquiry notes"
      },
      {
       "key": "understanding",
       "en": "Record the types of journal entry the entity uses, where each type comes from, and how the period-end closing process runs, and consider management's incentive and opportunity to override the controls that surround them.",
       "fr": "Consigner les types d'écritures utilisés par l'entité, l'origine de chacun et le déroulement du processus de clôture, et apprécier les incitations et les possibilités qu'a la direction de contourner les contrôles qui les encadrent.",
-      "srcEn": "Financial statement close process understanding (S1.4) · ISA 315 (Revised 2019) ¶26 · closing calendar",
-      "srcFr": "Compréhension du FSCP (S1.4) · ISA 315 (révisée 2019) ¶26 · calendrier de clôture",
-      "tipEn": "[Draft] Draw a one-page map of the journals: automatic entries from the sub-ledgers, recurring manual entries (depreciation, accruals), non-recurring manual entries, consolidation and top-side adjustments, and who may post each. Walk one closing with the accountant and note where a manual entry can change the result without a second pair of eyes. That place is where the selection criteria of procedure 5 will look.",
-      "tipFr": "[Projet] Dresser une carte d'une page des journaux : écritures automatiques issues des auxiliaires, écritures manuelles récurrentes (amortissements, charges à payer), écritures manuelles non récurrentes, ajustements de consolidation et « top-side », et qui peut saisir chacune. Dérouler une clôture avec le comptable et noter l'endroit où une écriture manuelle peut changer le résultat sans second regard. C'est là que les critères de sélection de la procédure 5 iront chercher."
+      "shortEn": "Types of entries and the closing process",
+      "shortFr": "Types d'écritures et processus de clôture",
+      "isa": "{{ISA240.jeTesting}} · ISA 315 ¶26",
+      "tipsEn": [
+       "Map the journals: automatic, recurring manual, one-off manual and adjustments.",
+       "Note where a manual entry can change the result without a second review."
+      ],
+      "tipsFr": [
+       "Cartographier les journaux : automatiques, manuels récurrents, manuels ponctuels et ajustements.",
+       "Repérer où une écriture manuelle peut modifier le résultat sans seconde revue."
+      ],
+      "stdEn": "Types of entries and the closing process understood and recorded; no exceptions noted.",
+      "stdFr": "Types d'écritures et processus de clôture compris et consignés ; aucune exception relevée.",
+      "sourceHint": "Linked task S1.4"
      },
      {
       "key": "controls",
       "en": "Identify and record the controls over the preparation and recording of journal entries, covering the four that may be present: segregation of duties over authorising, posting, reviewing and reconciling entries; access rights governing who may record and who may approve an entry in the accounting system; oversight of the posting process by management, internal audit or others, including post-entry review; and regular testing of those controls by the entity's internal auditors, where there are any. Where a control is absent, say so — its absence is part of the answer.",
       "fr": "Identifier et consigner les contrôles portant sur la préparation et l'enregistrement des écritures, en couvrant les quatre qui peuvent exister : la séparation des tâches entre l'autorisation, la saisie, la revue et le rapprochement des écritures ; les droits d'accès déterminant qui peut saisir et qui peut approuver une écriture dans le système comptable ; la supervision du processus de saisie par la direction, l'audit interne ou d'autres, y compris la revue a posteriori des écritures ; et le test régulier de ces contrôles par l'audit interne, lorsqu'il existe. Lorsqu'un contrôle est absent, l'écrire : son absence fait partie de la réponse.",
-      "srcEn": "Financial statement close process walkthrough (S1.3) · S1.4 evaluation · S2.2 control design",
-      "srcFr": "Test de cheminement FSCP (S1.3) · évaluation S1.4 · S2.2 conception des contrôles",
-      "tipEn": "[Draft] Obtain the list of user profiles from the accounting system and read it yourself: who can create, modify and validate an entry, and who holds the administrator profile. In most OHADA SMEs the chief accountant does all four and the managing director has a profile he never uses — write exactly that in Part B. A control that exists on paper but is not evidenced by the system is recorded as absent for the purpose of the selection.",
-      "tipFr": "[Projet] Obtenir la liste des profils utilisateurs du logiciel comptable et la lire soi-même : qui peut créer, modifier et valider une écriture, et qui détient le profil administrateur. Dans la plupart des PME OHADA, le chef comptable fait les quatre et le dirigeant possède un profil qu'il n'utilise jamais — écrire exactement cela en partie B. Un contrôle qui existe sur le papier mais que le système ne démontre pas est consigné comme absent aux fins de la sélection."
+      "shortEn": "Controls over journal entries",
+      "shortFr": "Contrôles sur les écritures",
+      "isa": "ISA 315 ¶26(a)(ii)",
+      "tipsEn": [
+       "Read the user profiles of the accounting system yourself.",
+       "A control the system does not evidence counts as absent."
+      ],
+      "tipsFr": [
+       "Lire soi-même les profils utilisateurs du logiciel comptable.",
+       "Un contrôle que le système ne prouve pas est traité comme absent."
+      ],
+      "stdEn": "Controls over journal entries recorded for the four areas; no exceptions noted.",
+      "stdFr": "Contrôles sur les écritures consignés pour les quatre domaines ; aucune exception relevée.",
+      "sourceHint": "User profiles of the accounting system",
+      "fieldKeys": [
+       "ctrl_sod",
+       "ctrl_access",
+       "ctrl_oversight",
+       "ctrl_ia_testing"
+      ]
      },
      {
       "key": "population",
       "en": "Obtain the journal entry population as an extract from the general ledger and establish its completeness and accuracy before anything is selected from it. The population is information produced by the entity: agree its total movement and its record count to the ledger, state the parameters the extract was run with, and trace a sample of lines back to the system.",
       "fr": "Obtenir la population des écritures par extraction du grand livre et en établir l'exhaustivité et l'exactitude avant toute sélection. Cette population est une information produite par l'entité : rapprocher le total des mouvements et le nombre d'enregistrements du grand livre, énoncer les paramètres d'extraction retenus et rattacher un échantillon de lignes au système.",
-      "srcEn": "General ledger extract · General Ledger Analyzer population checks · E1.2 information produced by the entity",
-      "srcFr": "Extraction du grand livre · contrôles de population du GL Analyzer · IPE de E1.2",
-      "tipEn": "[Draft] Be present when the extract is run, or obtain the exact parameters (period, journals, companies, statuses) and the system's own control totals. Agree total debits, total credits and the record count to the trial balance and the ledger, and trace five lines from the extract to the screen and five from the screen to the extract. An extract whose totals do not agree is not a population — resolve the difference before any criterion runs.",
-      "tipFr": "[Projet] Assister à l'extraction, ou obtenir les paramètres exacts (période, journaux, sociétés, statuts) et les totaux de contrôle du système lui-même. Rapprocher le total des débits, le total des crédits et le nombre d'enregistrements de la balance et du grand livre, puis rattacher cinq lignes de l'extraction à l'écran et cinq lignes de l'écran à l'extraction. Une extraction dont les totaux ne concordent pas n'est pas une population — résoudre l'écart avant de lancer le moindre critère."
+      "shortEn": "Population of entries",
+      "shortFr": "Population des écritures",
+      "isa": "{{ISA240.jeTesting}} · ISA 500 ¶9",
+      "tipsEn": [
+       "Agree total debits, total credits and the line count to the trial balance.",
+       "Resolve any difference before the criteria run."
+      ],
+      "tipsFr": [
+       "Rapprocher le total des débits, des crédits et le nombre de lignes de la balance.",
+       "Résoudre tout écart avant de lancer les critères."
+      ],
+      "stdEn": "Population of entries complete and agreed to the ledger; no exceptions noted.",
+      "stdFr": "Population des écritures exhaustive et rapprochée du grand livre ; aucune exception relevée.",
+      "sourceHint": "General ledger in use in the tool",
+      "toolDone": "je_population"
      },
      {
       "key": "criteria",
       "en": "Set the criteria the selection is directed by, with the parameters used for each and the reason it was chosen on this engagement: entries posted on a weekend, entries posted on a public holiday of the client's country, entries carrying no description at all, entries whose description is present but uninformative, round-number amounts, unusual account pairings within one entry, the largest entries dated near the year end, entries where the preparer and the reviewer are the same person, and any rule of the auditor's own built from a ledger column, an operator and a value. Record the criteria considered and not applied, and why.",
       "fr": "Arrêter les critères qui orientent la sélection, avec pour chacun les paramètres retenus et la raison de son choix sur cette mission : écritures comptabilisées un week-end, écritures comptabilisées un jour férié du pays du client, écritures sans aucun libellé, écritures dont le libellé existe mais n'apprend rien, montants ronds, couples de comptes inhabituels au sein d'une même écriture, écritures les plus volumineuses datées près de la clôture, écritures dont le préparateur et le réviseur sont la même personne, et toute règle propre à l'auditeur construite à partir d'une colonne du grand livre, d'un opérateur et d'une valeur. Consigner les critères examinés et non retenus, et pourquoi.",
-      "srcEn": "Journal entry testing tool · {{ISA240.jeCriteria}}",
-      "srcFr": "Outil de test des écritures · {{ISA240.jeCriteria}}",
-      "tipEn": "[Draft] Choose each criterion from a fact of this engagement — weekend postings because the system is open to everybody at any hour, round amounts because the inquiries mentioned entries 'to balance', unusual pairings because revenue is the presumed fraud risk — and record the parameter (threshold, period, accounts). Write down the criteria you rejected and why: that line is the evidence the selection was designed, not pulled from a default list. The number of items falls out of the criteria; it is never the starting point.",
-      "tipFr": "[Projet] Choisir chaque critère à partir d'un fait de la mission — comptabilisations le week-end parce que le système est ouvert à tous à toute heure, montants ronds parce que les entretiens ont évoqué des écritures « pour équilibrer », couples de comptes inhabituels parce que les produits portent le risque de fraude présumé — et consigner le paramètre (seuil, période, comptes). Écrire les critères écartés et pourquoi : cette ligne prouve que la sélection a été conçue, pas tirée d'une liste par défaut. Le nombre d'éléments découle des critères ; il n'est jamais le point de départ."
+      "shortEn": "Selection criteria",
+      "shortFr": "Critères de sélection",
+      "isa": "{{ISA240.jeCriteria}}",
+      "tipsEn": [
+       "Tie each criterion to a fact of this engagement.",
+       "Record the criteria considered and not used, with the reason.",
+       "The number of entries follows from the criteria, never the reverse."
+      ],
+      "tipsFr": [
+       "Rattacher chaque critère à un fait de la mission.",
+       "Consigner les critères examinés et non retenus, avec leur raison.",
+       "Le nombre d'écritures découle des critères, jamais l'inverse."
+      ],
+      "stdEn": "Criteria set and run in the tool; no exceptions noted.",
+      "stdFr": "Critères arrêtés et appliqués dans l'outil ; aucune exception relevée.",
+      "sourceHint": "Criteria in the tool, linked task S5.4",
+      "toolDone": "je_criteria"
      },
      {
       "key": "period_end",
       "en": "Select the entries and other adjustments recorded at the end of the reporting period, including post-closing entries and the top-side adjustments made to the closing trial balance outside the accounting system. This selection is required, whatever the other criteria return.",
       "fr": "Sélectionner les écritures et autres ajustements enregistrés en fin de période, y compris les écritures postérieures à la clôture et les ajustements « top-side » passés sur la balance de clôture hors du système comptable. Cette sélection est requise, quels que soient les résultats des autres critères.",
-      "srcEn": "General ledger · closing entry schedule · trial balance · P4.3 · {{ISA240.jePeriodEnd}}",
-      "srcFr": "Grand livre · état des écritures de clôture · balance générale · P4.3 · {{ISA240.jePeriodEnd}}",
-      "tipEn": "[Draft] Define 'end of the reporting period' for this client in days — the last week of the year and every entry dated in the closing period after it — and extract them all, then reconcile the final trial balance to the ledger: every difference is a top-side adjustment made outside the system and belongs in the selection with the spreadsheet that carries it. Ask explicitly for the entries posted after the statements were drafted; those are the ones nobody mentions.",
-      "tipFr": "[Projet] Définir la « fin de période » pour ce client en jours — la dernière semaine de l'exercice et toute écriture datée de la période de clôture qui la suit — et les extraire toutes, puis rapprocher la balance définitive du grand livre : chaque écart est un ajustement « top-side » passé hors du système, qui entre dans la sélection avec le tableur qui le porte. Demander expressément les écritures passées après l'établissement du projet d'états financiers ; ce sont celles dont personne ne parle."
+      "shortEn": "Entries at the end of the period",
+      "shortFr": "Écritures de fin de période",
+      "isa": "{{ISA240.jePeriodEnd}}",
+      "tipsEn": [
+       "Include entries posted after the close and adjustments made outside the system.",
+       "Agree the final trial balance to the ledger to find those adjustments."
+      ],
+      "tipsFr": [
+       "Inclure les écritures postérieures à la clôture et les ajustements hors du système.",
+       "Rapprocher la balance définitive du grand livre pour trouver ces ajustements."
+      ],
+      "stdEn": "Entries and adjustments at the end of the period selected; no exceptions noted.",
+      "stdFr": "Écritures et ajustements de fin de période sélectionnés ; aucune exception relevée.",
+      "sourceHint": "Year-end criterion in the tool",
+      "toolDone": "je_period_end"
      },
      {
       "key": "throughout",
       "en": "Consider whether entries recorded throughout the period also need to be tested, and record the conclusion reached and the reasoning behind it. A decision not to extend the testing beyond the closing period is a decision, and it is documented here.",
       "fr": "Apprécier si les écritures enregistrées tout au long de la période doivent également être testées, et consigner la conclusion retenue ainsi que son raisonnement. La décision de ne pas étendre les tests au-delà de la période de clôture est une décision : elle est documentée ici.",
-      "srcEn": "General ledger for the full period · S3.1 strategy · {{ISA240.jeThroughout}}",
-      "srcFr": "Grand livre de la période entière · S3.1 stratégie · {{ISA240.jeThroughout}}",
-      "tipEn": "[Draft] Decide from the risk, not from the budget: a higher likelihood of override, weak controls in Part B, interim figures reported to a bank or a parent, or a fraud risk in a flow that posts all year (cash sales) all argue for testing entries throughout the period. Write the decision and its reason in Part C in two sentences. 'Not extended, closing period judged sufficient' without a reason is the sentence a reviewer rejects.",
-      "tipFr": "[Projet] Décider à partir du risque, pas du budget : une probabilité de contournement élevée, des contrôles faibles en partie B, des situations intermédiaires communiquées à une banque ou à une maison mère, ou un risque de fraude sur un flux qui s'enregistre toute l'année (ventes au comptant) plaident pour tester les écritures de toute la période. Écrire la décision et sa raison en partie C en deux phrases. « Non étendu, période de clôture jugée suffisante » sans motif est la phrase qu'un réviseur refuse."
+      "shortEn": "Entries throughout the period",
+      "shortFr": "Écritures de toute la période",
+      "isa": "{{ISA240.jeThroughout}}",
+      "tipsEn": [
+       "Decide from the risk, not from the budget.",
+       "Weak controls or a higher risk of override argue for wider testing.",
+       "Record the reason, even when the testing is not extended."
+      ],
+      "tipsFr": [
+       "Décider selon le risque, non selon le budget.",
+       "Des contrôles faibles ou un risque de contournement élevé justifient d'élargir les tests.",
+       "Consigner la raison, même lorsque les tests ne sont pas étendus."
+      ],
+      "stdEn": "Need to test entries throughout the period considered and the decision recorded; no exceptions noted.",
+      "stdFr": "Nécessité de tester les écritures de toute la période appréciée et décision consignée ; aucune exception relevée.",
+      "sourceHint": "Linked task S3.1",
+      "fieldKeys": [
+       "throughout_decision"
+      ]
      },
      {
       "key": "unpredictability",
       "en": "Introduce an element of unpredictability, and record which of the four levers was used and how: varying the amounts and the types of entry selected, varying the timing of the testing, varying the locations or organisational units tested, and varying the extent of the procedures according to the assessed risk of material misstatement due to fraud.",
       "fr": "Introduire un élément d'imprévisibilité et consigner lequel des quatre leviers a été actionné et comment : faire varier les montants et les types d'écritures retenus, faire varier le moment des tests, faire varier les sites ou les unités organisationnelles testés, et faire varier l'étendue des procédures selon le risque d'anomalies significatives résultant de fraudes évalué.",
-      "srcEn": "{{ISA240.unpredictability}} · prior-year selection",
-      "srcFr": "{{ISA240.unpredictability}} · sélection de l'exercice précédent",
-      "tipEn": "[Draft] Open last year's selection before designing this one and change something the client could notice: a threshold below last year's, a journal not tested before, a visit to the branch instead of head office, a selection run in a month management does not expect. Record the lever and the change in Part C. Unpredictability is measured against what the client has seen, so the prior-year file is the reference.",
-      "tipFr": "[Projet] Ouvrir la sélection de l'an dernier avant de concevoir celle-ci et changer quelque chose que le client pourrait remarquer : un seuil inférieur à celui de l'an dernier, un journal jamais testé, une visite à l'agence plutôt qu'au siège, une sélection lancée à un mois que la direction n'attend pas. Consigner le levier et le changement en partie C. L'imprévisibilité se mesure par rapport à ce que le client a vu ; le dossier de l'exercice précédent est donc la référence."
+      "shortEn": "Element of unpredictability",
+      "shortFr": "Élément d'imprévisibilité",
+      "isa": "{{ISA240.unpredictability}}",
+      "tipsEn": [
+       "Change something the client could notice compared with last year.",
+       "Read last year's selection before designing this one."
+      ],
+      "tipsFr": [
+       "Changer un élément que le client pourrait remarquer par rapport à l'an dernier.",
+       "Lire la sélection de l'an dernier avant de concevoir celle-ci."
+      ],
+      "stdEn": "Element of unpredictability introduced and recorded; no exceptions noted.",
+      "stdFr": "Élément d'imprévisibilité introduit et consigné ; aucune exception relevée.",
+      "sourceHint": "Prior-year selection",
+      "fieldKeys": [
+       "unpred_amount_type",
+       "unpred_timing",
+       "unpred_location",
+       "unpred_extent"
+      ]
      },
      {
       "key": "test_items",
       "en": "Test each item selected on the four points: that it is supported by an underlying business rationale, that it was authorised at the correct level, that it is correctly accounted for, and that it is recorded in the correct period. Read the supporting documentation and discuss the purpose of the entry with management. Inquiry on its own is not a test.",
       "fr": "Tester chaque élément sélectionné sur quatre points : l'existence d'une justification économique sous-jacente, l'autorisation au niveau hiérarchique approprié, la correcte comptabilisation et le correct rattachement à l'exercice. Lire les pièces justificatives et discuter de l'objet de l'écriture avec la direction. L'entretien seul ne constitue pas un test.",
-      "srcEn": "Supporting documents · discussion notes · journal entries workbook, Selection tab",
-      "srcFr": "Pièces justificatives · notes d'entretien · classeur JE, onglet Sélection",
-      "tipEn": "[Draft] For each entry, obtain the document that caused it — an invoice, a contract, a calculation, a board decision — and record the four answers in the workbook columns with the reference. 'Explained by the chief accountant' is a note, not a result. An entry with no document and a plausible oral explanation is an exception until a document is found; an entry that reclassifies a loss into an asset at the year end is an exception whatever is said about it.",
-      "tipFr": "[Projet] Pour chaque écriture, obtenir la pièce qui l'a motivée — facture, contrat, calcul, décision du conseil — et consigner les quatre réponses dans les colonnes du classeur avec la référence. « Expliqué par le chef comptable » est une note, pas un résultat. Une écriture sans pièce et avec une explication orale plausible est une exception tant qu'une pièce n'est pas trouvée ; une écriture qui reclasse une perte en actif à la clôture est une exception quoi qu'on en dise."
+      "shortEn": "Test of the entries selected",
+      "shortFr": "Test des écritures sélectionnées",
+      "isa": "{{ISA240.jeTesting}}",
+      "tipsEn": [
+       "Obtain the document behind each entry: invoice, contract, calculation or decision.",
+       "An explanation without a document is an exception until one is found.",
+       "Inquiry on its own is not a test."
+      ],
+      "tipsFr": [
+       "Obtenir la pièce à l'origine de chaque écriture : facture, contrat, calcul ou décision.",
+       "Une explication sans pièce est une exception tant qu'aucune pièce n'est trouvée.",
+       "L'entretien seul ne constitue pas un test."
+      ],
+      "stdEn": "Every entry selected tested on the four questions; no exceptions noted.",
+      "stdFr": "Chaque écriture sélectionnée testée sur les quatre questions ; aucune exception relevée.",
+      "sourceHint": "Entry tests in the tool",
+      "toolDone": "je_tested"
      },
      {
       "key": "estimates",
       "en": "Review the accounting estimates for indicators of management bias and perform the retrospective review of the significant estimates of the prior period. The work itself belongs to the estimates paper; cross-reference its conclusion here, because {{ISA240.jeEstimates}} treats it as part of the same response.",
       "fr": "Examiner les estimations comptables à la recherche d'indices de biais de la direction et procéder à la revue rétrospective des estimations importantes de l'exercice précédent. Ces travaux relèvent du papier sur les estimations ; leur conclusion est référencée ici, l'{{ISA240.jeEstimates}} les traitant comme un volet de la même réponse.",
-      "srcEn": "E6.7 · S4.4 · prior-period financial statements · {{ISA240.jeEstimates}}",
-      "srcFr": "E6.7 · S4.4 · états financiers de l'exercice précédent · {{ISA240.jeEstimates}}",
-      "tipEn": "[Draft] Bring the E6.7 conclusion here in one paragraph: the estimates reviewed, the direction of each difference between last year's estimate and its outcome, and whether the differences point one way. A pattern of estimates always favourable to the result is an indicator of bias and feeds the override conclusion of this paper, even where each estimate alone is reasonable.",
-      "tipFr": "[Projet] Reporter ici la conclusion de E6.7 en un paragraphe : les estimations revues, le sens de chaque écart entre l'estimation de l'an dernier et son dénouement, et si les écarts vont tous dans la même direction. Un profil d'estimations toujours favorables au résultat est un indice de biais et alimente la conclusion de cette feuille sur le contournement, même lorsque chaque estimation prise isolément est raisonnable."
+      "shortEn": "Accounting estimates and bias",
+      "shortFr": "Estimations comptables et biais",
+      "isa": "{{ISA240.jeEstimates}}",
+      "tipsEn": [
+       "Bring the conclusion of E6.7 here in one paragraph.",
+       "Estimates that always favour the result point to bias."
+      ],
+      "tipsFr": [
+       "Reprendre ici la conclusion de E6.7 en un paragraphe.",
+       "Des estimations toujours favorables au résultat indiquent un biais."
+      ],
+      "stdEn": "Estimates reviewed for bias in E6.7; no indicator of management bias.",
+      "stdFr": "Estimations revues en E6.7 à la recherche de biais ; aucun indice de biais de la direction.",
+      "sourceHint": "Linked task E6.7"
      },
      {
       "key": "unusual",
       "en": "For the significant transactions outside the normal course of business, or otherwise unusual, identified during the audit, evaluate whether the business rationale — or the absence of one — suggests the transaction was entered into to misstate the financial statements or to conceal a misappropriation of assets.",
       "fr": "Pour les opérations significatives hors du cours normal des affaires, ou par ailleurs inhabituelles, relevées au cours de l'audit, apprécier si leur justification économique — ou son absence — suggère qu'elles ont été conclues pour fausser les états financiers ou dissimuler un détournement d'actifs.",
-      "srcEn": "{{ISA240.unusual}} · E6.2 · contracts · board minutes",
-      "srcFr": "{{ISA240.unusual}} · E6.2 · contrats · procès-verbaux du conseil",
-      "tipEn": "[Draft] Take the E6.2 list and the related party register and ask of each transaction: who benefits, was it approved by the board, is the form of the transaction more complex than its purpose requires, does it involve a party nobody had heard of? Read the contract, not the summary. Record the conclusion per transaction and carry any unanswered rationale to C1.2 and, where fraud is indicated, to P5.1 procedure 9.",
-      "tipFr": "[Projet] Reprendre la liste de E6.2 et le registre des parties liées et se demander pour chaque opération : à qui profite-t-elle, a-t-elle été approuvée par le conseil, sa forme est-elle plus complexe que son objet ne l'exige, implique-t-elle une partie dont personne n'avait entendu parler ? Lire le contrat, pas le résumé. Consigner la conclusion opération par opération et reporter toute justification restée sans réponse en C1.2 et, si une fraude est indiquée, en P5.1 procédure 9."
+      "shortEn": "Significant unusual transactions",
+      "shortFr": "Opérations significatives inhabituelles",
+      "isa": "{{ISA240.unusual}}",
+      "tipsEn": [
+       "Ask who benefits and whether the board approved the transaction.",
+       "Read the contract, not a summary of it."
+      ],
+      "tipsFr": [
+       "Demander à qui profite l'opération et si le conseil l'a approuvée.",
+       "Lire le contrat, non son résumé."
+      ],
+      "stdEn": "Every significant unusual transaction has a business rationale; no exceptions noted.",
+      "stdFr": "Chaque opération significative inhabituelle a une justification économique ; aucune exception relevée.",
+      "sourceHint": "Linked task E6.2"
      },
      {
       "key": "approval",
       "en": "Have the engagement partner approve the strategy adopted to answer the management-override risk before the testing runs, and where the likelihood of override is assessed as higher, have the procedures performed and their conclusion formally reviewed. Where the identified risk is not fully answered by the procedures above, design and perform the additional procedures and cross-reference them.",
       "fr": "Faire approuver par l'associé responsable la stratégie retenue pour couvrir le risque de contournement avant la mise en œuvre des tests et, lorsque la probabilité de contournement est évaluée comme élevée, faire formaliser une revue des procédures mises en œuvre et de leur conclusion. Lorsque le risque identifié n'est pas entièrement couvert par les procédures ci-dessus, concevoir et mettre en œuvre les procédures complémentaires et les référencer.",
-      "srcEn": "Partner approval on S3.1 · additional programme of other substantive tests and procedures · {{ISA240.otherProcedures}}",
-      "srcFr": "Approbation de l'associé en S3.1 · programme complémentaire d'autres tests et procédures de substance · {{ISA240.otherProcedures}}",
-      "tipEn": "[Draft] Put the criteria, the thresholds and the decision on entries throughout the period in front of the partner before the selection runs, and record the approval on S3.1 with its date; an approval given after the test is a ratification, not a strategy. Where the likelihood of override is higher, the partner's review of the procedures and the conclusion is written on this paper. Any specific risk the criteria did not cover — a branch, a flow — gets its own additional procedure, referenced here.",
-      "tipFr": "[Projet] Soumettre les critères, les seuils et la décision sur les écritures de toute la période à l'associé avant de lancer la sélection, et consigner l'approbation en S3.1 avec sa date ; une approbation donnée après le test est une ratification, pas une stratégie. Lorsque la probabilité de contournement est élevée, la revue par l'associé des procédures et de leur conclusion est formalisée sur cette feuille. Tout risque spécifique non couvert par les critères — une agence, un flux — reçoit sa propre procédure complémentaire, référencée ici."
+      "shortEn": "Partner approval and further procedures",
+      "shortFr": "Approbation de l'associé et procédures complémentaires",
+      "isa": "{{ISA240.otherProcedures}}",
+      "tipsEn": [
+       "Show the criteria and the settings to the partner before the selection runs.",
+       "An approval given after the test is not a strategy."
+      ],
+      "tipsFr": [
+       "Présenter les critères et les paramètres à l'associé avant la sélection.",
+       "Une approbation donnée après le test n'est pas une stratégie."
+      ],
+      "stdEn": "Strategy approved by the engagement partner before the testing; no further procedure needed.",
+      "stdFr": "Stratégie approuvée par l'associé responsable avant les tests ; aucune procédure complémentaire nécessaire.",
+      "sourceHint": "Linked task S3.1"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "population_established",
+      "en": "The journal entry population was extracted from the system and its completeness and accuracy established before any selection was made.",
+      "fr": "La population des écritures a été extraite du système et son exhaustivité et son exactitude établies avant toute sélection.",
+      "tasks": [
+       "population"
+      ]
+     },
+     {
+      "key": "inquiries_made",
+      "en": "Inquiries were made of the individuals involved in the financial reporting process about inappropriate or unusual journal entry activity.",
+      "fr": "Les personnes intervenant dans le processus d'élaboration de l'information financière ont été interrogées sur les activités inappropriées ou inhabituelles en matière d'écritures.",
+      "tasks": [
+       "inquiry"
+      ]
+     },
+     {
+      "key": "period_end_covered",
+      "en": "Entries recorded at or near the end of the reporting period, post-closing entries and top-side adjustments to the closing trial balance are all in the selection.",
+      "fr": "Les écritures enregistrées à la clôture ou peu avant, les écritures postérieures à la clôture et les ajustements « top-side » sur la balance de clôture figurent tous dans la sélection.",
+      "tasks": [
+       "period_end"
+      ]
+     },
+     {
+      "key": "throughout_considered",
+      "en": "The need to test entries recorded throughout the period was considered and the conclusion documented.",
+      "fr": "La nécessité de tester les écritures enregistrées tout au long de la période a été appréciée et la conclusion documentée.",
+      "tasks": [
+       "throughout"
+      ]
+     },
+     {
+      "key": "unpredictability_applied",
+      "en": "An element of unpredictability was introduced through at least one of the four levers — amount and type, timing, location or organisational unit, extent.",
+      "fr": "Un élément d'imprévisibilité a été introduit par au moins l'un des quatre leviers : montant et type, moment, site ou unité organisationnelle, étendue.",
+      "tasks": [
+       "unpredictability"
+      ]
+     },
+     {
+      "key": "four_tests_done",
+      "en": "For each entry selected, the supporting document was obtained and agreed, the approval by a person other than its preparer checked, the business reason understood, and the accounts, period and amount verified.",
+      "fr": "Pour chaque écriture sélectionnée, la pièce justificative a été obtenue et rapprochée, l'approbation par une personne autre que celle qui l'a préparée vérifiée, la justification économique comprise, et les comptes, la période et le montant vérifiés.",
+      "tasks": [
+       "test_items"
+      ]
+     },
+     {
+      "key": "not_random",
+      "en": "The selection is risk-directed rather than a random sample of a fixed number of entries, and the testing rests on more than inquiry.",
+      "fr": "La sélection est orientée par le risque et non constituée d'un échantillon aléatoire d'un nombre fixe d'écritures, et les tests reposent sur autre chose que des entretiens.",
+      "tasks": [
+       "criteria",
+       "test_items"
+      ]
+     },
+     {
+      "key": "partner_approved",
+      "en": "The engagement partner approved the strategy and, where the likelihood of override is higher, formally reviewed the procedures performed and their conclusion.",
+      "fr": "L'associé responsable a approuvé la stratégie et, lorsque la probabilité de contournement est élevée, a formalisé une revue des procédures mises en œuvre et de leur conclusion.",
+      "tasks": [
+       "approval"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Controls over journal entries",
-    "titleFr": "Partie B — Contrôles sur les écritures comptables",
-    "introEn": "Record what exists for each of the four controls, who performs it and how we know it operates. Where a control is absent, write that down and say what the selection did in answer.",
-    "introFr": "Consigner ce qui existe pour chacun des quatre contrôles, qui l'exécute et comment nous savons qu'il fonctionne. Lorsqu'un contrôle est absent, l'écrire et indiquer ce que la sélection a fait en réponse.",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "ctrl_sod",
@@ -180,16 +405,7 @@
       "kind": "input",
       "labelEn": "Regular testing of those controls by the entity's internal auditors, where there are any",
       "labelFr": "Test régulier de ces contrôles par l'audit interne de l'entité, lorsqu'il existe"
-     }
-    ]
-   },
-   {
-    "kind": "fields",
-    "titleEn": "Part C — Unpredictability and the extent of the testing",
-    "titleFr": "Partie C — Imprévisibilité et étendue des tests",
-    "introEn": "Say which levers were pulled this year and how they differ from last year. A lever left alone is recorded as such, with the reason.",
-    "introFr": "Indiquer quels leviers ont été actionnés cette année et en quoi ils diffèrent de l'exercice précédent. Un levier non actionné est consigné comme tel, avec sa raison.",
-    "fields": [
+     },
      {
       "key": "unpred_amount_type",
       "kind": "input",
@@ -219,77 +435,41 @@
       "kind": "input",
       "labelEn": "Entries throughout the period — the decision taken, and the reasoning behind it",
       "labelFr": "Écritures de l'ensemble de la période — décision prise et raisonnement qui la fonde"
-     }
-    ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part D — Evaluation",
-    "titleFr": "Partie D — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
-    "items": [
-     {
-      "key": "population_established",
-      "en": "The journal entry population was extracted from the system and its completeness and accuracy established before any selection was made (procedure 4).",
-      "fr": "La population des écritures a été extraite du système et son exhaustivité et son exactitude établies avant toute sélection (procédure 4)."
      },
-     {
-      "key": "inquiries_made",
-      "en": "Inquiries were made of the individuals involved in the financial reporting process about inappropriate or unusual journal entry activity (procedure 1).",
-      "fr": "Les personnes intervenant dans le processus d'élaboration de l'information financière ont été interrogées sur les activités inappropriées ou inhabituelles en matière d'écritures (procédure 1)."
-     },
-     {
-      "key": "period_end_covered",
-      "en": "Entries recorded at or near the end of the reporting period, post-closing entries and top-side adjustments to the closing trial balance are all in the selection (procedure 6).",
-      "fr": "Les écritures enregistrées à la clôture ou peu avant, les écritures postérieures à la clôture et les ajustements « top-side » sur la balance de clôture figurent tous dans la sélection (procédure 6)."
-     },
-     {
-      "key": "throughout_considered",
-      "en": "The need to test entries recorded throughout the period was considered and the conclusion documented (procedure 7).",
-      "fr": "La nécessité de tester les écritures enregistrées tout au long de la période a été appréciée et la conclusion documentée (procédure 7)."
-     },
-     {
-      "key": "unpredictability_applied",
-      "en": "An element of unpredictability was introduced through at least one of the four levers — amount and type, timing, location or organisational unit, extent (procedure 8).",
-      "fr": "Un élément d'imprévisibilité a été introduit par au moins l'un des quatre leviers : montant et type, moment, site ou unité organisationnelle, étendue (procédure 8)."
-     },
-     {
-      "key": "four_tests_done",
-      "en": "For each item selected, the business rationale was corroborated, the level of authorisation checked, the accounting verified and the period of recording verified (procedure 9).",
-      "fr": "Pour chaque élément sélectionné, la justification économique a été corroborée, le niveau d'autorisation vérifié, la comptabilisation contrôlée et le rattachement à l'exercice vérifié (procédure 9)."
-     },
-     {
-      "key": "not_random",
-      "en": "The selection is risk-directed rather than a random sample of a fixed number of entries, and the testing rests on more than inquiry (procedures 5 and 9).",
-      "fr": "La sélection est orientée par le risque et non constituée d'un échantillon aléatoire d'un nombre fixe d'écritures, et les tests reposent sur autre chose que des entretiens (procédures 5 et 9)."
-     },
-     {
-      "key": "partner_approved",
-      "en": "The engagement partner approved the strategy and, where the likelihood of override is higher, formally reviewed the procedures performed and their conclusion (procedure 12).",
-      "fr": "L'associé responsable a approuvé la stratégie et, lorsque la probabilité de contournement est élevée, a formalisé une revue des procédures mises en œuvre et de leur conclusion (procédure 12)."
-     }
-    ]
-   },
-   {
-    "kind": "fields",
-    "titleEn": "Part E — Outcome",
-    "titleFr": "Partie E — Résultat",
-    "fields": [
      {
       "key": "exceptions",
       "kind": "input",
       "labelEn": "Exceptions identified, whether each may indicate fraud, the misstatement raised in C1.1 for each, and how each was resolved",
-      "labelFr": "Exceptions relevées, indication éventuelle d'une fraude, anomalie portée en C1.1 pour chacune, et leur résolution"
+      "labelFr": "Exceptions relevées, indication éventuelle d'une fraude, anomalie portée en C1.1 pour chacune, et leur résolution",
+      "optional": true
      },
      {
       "key": "carried",
       "kind": "input",
       "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen, including any effect on the reliability of management's representations",
-      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion), y compris l'incidence sur la fiabilité des déclarations de la direction"
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion), y compris l'incidence sur la fiabilité des déclarations de la direction",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Respond to the risk of management override of controls: test the appropriateness of journal entries recorded in the general ledger and of other adjustments made in preparing the financial statements, review accounting estimates for bias, and evaluate the business rationale of significant unusual transactions.",
+  "objectiveFr": "Répondre au risque de contournement des contrôles par la direction : tester le bien-fondé des écritures enregistrées dans le grand livre et des autres ajustements faits pour établir les états financiers, examiner les estimations comptables à la recherche de biais et apprécier la justification économique des opérations significatives inhabituelles.",
+  "isa": [
+   {
+    "std": "ISA 240"
+   }
+  ],
+  "links": [
+   "S5.4",
+   "P5.1",
+   "E6.7",
+   "E6.2",
+   "C1.1"
+  ],
+  "toolCard": "je_testing",
+  "neverLight": true,
+  "conclStdEn": "The entries selected by the criteria were tested and are appropriate; no indication of management override of controls was found, and the responses to that risk are complete.",
+  "conclStdFr": "Les écritures sélectionnées par les critères ont été testées et sont appropriées ; aucun indice de contournement des contrôles par la direction n'a été relevé, et les réponses à ce risque sont complètes."
  }
 }

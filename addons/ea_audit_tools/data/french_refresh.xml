@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- F033: one word for clearly trivial, in French, on a running firm too. -->
-    <function model="res.lang" name="_ea_refresh_french" eval="['ea_audit_tools', 'findings-2026-11-06']"/>
+    <!-- F033 (clearly trivial), then the renamed Journal entry testing tile: the French of a running firm follows. -->
+    <function model="res.lang" name="_ea_refresh_french" eval="['ea_audit_tools', 'je-testing-2026-11-18']"/>
 </odoo>

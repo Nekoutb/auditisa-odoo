@@ -1,5 +1,5 @@
 """The strategy papers (group "strat") in the working-paper layout of 2026-11-17: S2.1 to S2.5, S4.1,
-S4.3, S4.4, S5.1 to S5.3, S5.6 and S6.1 converted, in plain English with no abbreviation, every hook
+S4.3, S4.4, S5.1 to S5.4, S5.6 and S6.1 converted, in plain English with no abbreviation, every hook
 they name defined in the tools, and every answer stored before the conversion still readable."""
 import hashlib
 import json
@@ -23,8 +23,8 @@ from services import (
 
 ADDON = pathlib.Path(__file__).resolve().parent.parent
 MODELS = ADDON.parent / "ea_audit_tools" / "models"
-HOOKS = "".join((MODELS / name).read_text(encoding="utf-8") for name in ("paper_hooks.py", "paper_hooks_strat.py"))
-STRAT = ("S2.1", "S2.2", "S2.3", "S2.4", "S2.5", "S4.1", "S4.3", "S4.4", "S5.1", "S5.2", "S5.3", "S5.6", "S6.1")
+HOOKS = "".join((MODELS / name).read_text(encoding="utf-8") for name in ("paper_hooks.py", "paper_hooks_strat.py", "paper_hooks_je.py"))
+STRAT = ("S2.1", "S2.2", "S2.3", "S2.4", "S2.5", "S4.1", "S4.3", "S4.4", "S5.1", "S5.2", "S5.3", "S5.4", "S5.6", "S6.1")
 
 # Owner's request of 2026-11-17: English text says the words out (standard names stay).
 ABBREVIATIONS = re.compile(
@@ -137,6 +137,7 @@ def test_stored_answers_keep_their_keys():
         "S2.5": {"itgc_state", "evaluations_register", "responses_register", "deficiencies", "p_ladder", "q_wcgw"},
         "S4.1": {"p_tax_social", "p_strategy", "q_legal_letter", "q_carried"},
         "S4.3": {"p_identity", "p_outside", "q_independent"},
+        "S5.4": {"rationale", "timing"},
         "S5.6": {"p_opening", "p_governance", "q_assigned", "q_linked"},
         "S6.1": {"p_prior", "direction", "changes", "uses_expert", "uses_service_org", "has_internal_audit",
                  "assess_control_env", "assess_it_env", "dir_review_areas", "dir_supervision", "dir_consult", "q_carried"},
@@ -178,3 +179,13 @@ def test_very_simple_keeps_the_boxes_that_decide():
     assert s61["sections"][-1]["collapse"]["key"] == "dir_sole"
     items = [i["key"] for s in s61["sections"] if s["kind"] == "yn" for i in s["items"]]
     assert items == ["deadline", "risk_weight", "carried"]
+
+
+def test_s5_4_design_is_the_criteria_and_settings_of_the_tool():
+    definition = load_definition("S5.4")
+    assert definition["toolCard"] == "je_testing"
+    assert {p["key"]: p["toolDone"] for p in procs(definition)} == {"criteria": "je_criteria", "thresholds": "je_settings"}
+    tool = {"criteria": {"done": True, "result": "set"}, "thresholds": {"done": True, "result": "set"}}
+    shaped = shape(resolved("S5.4"), "S5.4", "non_complex", {}, (), tool)
+    assert {p["_mode"] for p in procs(shaped)} == {"tool"}
+    assert {"rationale", "timing"} <= set(required_keys(shaped))

@@ -2,11 +2,12 @@ import { Component, onWillStart, useState } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { amount } from "@ea_audit_tools/js/figures";
+import { EaAdjustment } from "./adjustment_editor";
 import { EaCrumbs, EaDocsPane } from "./page_kit";
 
 const ENGAGEMENT = "ea.audit.engagement";
-const STUDIO = "ea.audit.je.studio";
+// the rows drawn at once; the counts above are always over the whole selection
+const SHOWN = 300;
 
 /** A file read as base64, without its data: prefix. */
 export function readAsBase64(file) {
@@ -19,25 +20,35 @@ export function readAsBase64(file) {
 }
 
 /**
- * Journal entries on one page (owner's mock-up of 2026-11-16, "mock-ws-je"): the four steps
- * as tabs, each criterion with the entries it catches, the selected entries in a grid with
- * their reasons as tags, and, for the entry opened, clear it with a note, file its support or
- * raise a finding in place. The selection itself is the existing engine's (je_run_selection).
+ * The entries shown: those found by any ticked criterion; nothing ticked, the whole selection
+ * (services/je_testing.py filter_selection, the same rule).
+ */
+export function filterSelection(rows, ticked) {
+    const wanted = new Set(ticked || []);
+    if (!wanted.size) {
+        return rows;
+    }
+    return rows.filter((row) => row.reasons.some((key) => wanted.has(key)));
+}
+
+/**
+ * Journal entry testing, one screen (owner's mock-up approved 18/11, ISA 240): the summary
+ * boxes, the criteria with the entries each finds, the selected entries with the test of the
+ * one opened, the findings and adjustments raised from them, and the sign-off of E3.1.
  */
 export class JePage extends Component {
     static template = "ea_audit_tools.JePage";
     static props = ["*"];
-    static components = { EaCrumbs, EaDocsPane };
+    static components = { EaCrumbs, EaDocsPane, EaAdjustment };
 
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
         const { params = {}, context = {} } = this.props.action || {};
         this.engagementId = Number(params.engagement_id || context.active_id || context.ea_engagement_id);
-        this.studioId = Number(params.studio_id || 0) || false;
         this.state = useState({
-            p: null, tab: "entries", current: null, note: "", busy: false, dragging: false,
-            finding: null,
+            p: null, ticked: [], current: null, busy: false,
+            test: null, finding: null, settings: null, holiday: { date: "", label: "" },
         });
         onWillStart(() => this.load());
     }
@@ -46,7 +57,7 @@ export class JePage extends Component {
         return this.state.p;
     }
 
-    async call(method, args) {
+    async call(method, args = []) {
         this.state.busy = true;
         try {
             return await this.orm.call(ENGAGEMENT, method, [[this.engagementId], ...args]);
@@ -57,151 +68,240 @@ export class JePage extends Component {
 
     show(page) {
         this.state.p = page;
-        this.studioId = page.studioId;
-        if (page.missing) {
-            this.state.tab = "ledger";
-        }
-        const still = page.entries.find((entry) => entry.je === this.state.current);
-        if (!still) {
-            this.state.current = page.entries.length ? page.entries[0].je : null;
-            this.state.note = page.entries.length ? page.entries[0].note : "";
-            this.state.finding = null;
+        if (this.state.current) {
+            const row = page.rows.find((r) => r.key === this.state.current);
+            if (row) {
+                this.state.test = this.blankTest(row);
+            } else {
+                this.state.current = null;
+                this.state.test = null;
+            }
         }
     }
 
     async load() {
-        this.show(await this.call("ea_je_page", [this.studioId]));
+        this.show(await this.call("ea_jet_page"));
     }
 
-    // ---- reading -----------------------------------------------------------
+    // ---- the criteria ------------------------------------------------------
 
-    get entry() {
-        return this.p.entries.find((entry) => entry.je === this.state.current) || null;
+    isTicked(key) {
+        return this.state.ticked.includes(key);
     }
 
-    get progressText() {
-        const { total, cleared, problems } = this.p.progress;
-        return _t("%(cleared)s of %(total)s selected entries cleared · %(problems)s with a problem", { cleared, total, problems });
+    tick(key) {
+        const ticked = this.state.ticked;
+        this.state.ticked = ticked.includes(key) ? ticked.filter((k) => k !== key) : [...ticked, key];
     }
 
-    barStyle(kind) {
-        const { total, cleared, problems } = this.p.progress;
-        const share = kind === "cleared" ? cleared : problems;
-        return `width: ${Math.round((100 * share) / (total || 1))}%`;
+    clearCriteria() {
+        this.state.ticked = [];
     }
 
-    get countedOnce() {
-        return _t("An entry caught by several criteria is counted once (%s in all).", this.p.selectedEntries);
+    get visible() {
+        return filterSelection(this.p.rows, this.state.ticked);
     }
 
-    get criteriaOn() {
-        return this.p.criteria.filter((c) => c.on).length;
+    get shown() {
+        return this.visible.slice(0, SHOWN);
     }
 
-    get problems() {
-        return this.p.entries.filter((entry) => entry.status === "problem");
+    get moreText() {
+        return _t("The list shows the first %(shown)s of %(total)s entries: tick criteria to narrow it.", {
+            shown: SHOWN, total: this.visible.length,
+        });
     }
 
-    fmt(value) {
-        return amount(value);
+    reasonName(row, key) {
+        return `${this.criterionNo(key)} ${row.reasonNames[row.reasons.indexOf(key)]}`;
     }
 
-    date(iso) {
-        return iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : "";
+    criterionNo(key) {
+        for (const group of this.p.groups) {
+            const found = group.criteria.find((c) => c.key === key);
+            if (found) {
+                return found.no;
+            }
+        }
+        return "";
     }
 
-    statusLabel(status) {
-        return { cleared: _t("Cleared"), problem: _t("Problem"), to_clear: _t("To clear") }[status];
+    // ---- the settings, set once for the engagement --------------------------
+
+    openSettings() {
+        const s = this.p.settings;
+        this.state.settings = {
+            roundStep: String(s.roundStep), approvalLimit: String(s.approvalLimit), approvalBand: String(s.approvalBand),
+            cashLimit: String(s.cashLimit), yearEndDays: String(s.yearEndDays), rarePosterShare: String(s.rarePosterShare),
+            rareAccountEntries: String(s.rareAccountEntries), vagueMinChars: String(s.vagueMinChars),
+            vagueWords: (s.vagueWords || []).join(", "),
+            holidays: this.p.holidays.map((h) => ({ date: h.date, label: h.label, text: h.text })),
+        };
+        this.state.holiday = { date: "", label: "" };
     }
 
-    checkLabel(status) {
-        return { passed: _t("Passed"), warning: _t("To look at"), failed: _t("Failed") }[status] || status;
+    number(text) {
+        return Number(String(text || "").replace(/[\s  ]/g, "").replace(",", "."));
     }
 
-    fileUrl(file) {
-        return `/web/content/${file.id}?download=true`;
+    addHoliday() {
+        const { date, label } = this.state.holiday;
+        if (!date) {
+            return;
+        }
+        const list = this.state.settings.holidays.filter((h) => h.date !== date);
+        list.push({ date, label, text: `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)}` });
+        list.sort((a, b) => (a.date < b.date ? -1 : 1));
+        this.state.settings.holidays = list;
+        this.state.holiday = { date: "", label: "" };
     }
 
-    // ---- choosing ----------------------------------------------------------
-
-    setTab(tab) {
-        this.state.tab = tab;
+    removeHoliday(date) {
+        this.state.settings.holidays = this.state.settings.holidays.filter((h) => h.date !== date);
     }
 
-    open(entry) {
-        this.state.current = entry.je;
-        this.state.note = entry.note;
+    async saveSettings() {
+        const s = this.state.settings;
+        const values = {
+            roundStep: this.number(s.roundStep), approvalLimit: this.number(s.approvalLimit),
+            approvalBand: this.number(s.approvalBand), cashLimit: this.number(s.cashLimit),
+            yearEndDays: this.number(s.yearEndDays), rarePosterShare: this.number(s.rarePosterShare),
+            rareAccountEntries: this.number(s.rareAccountEntries), vagueMinChars: this.number(s.vagueMinChars),
+            vagueWords: s.vagueWords, holidays: s.holidays.map((h) => ({ date: h.date, label: h.label })),
+        };
+        this.show(await this.call("ea_jet_save_settings", [values]));
+        this.state.settings = null;
+    }
+
+    // ---- one entry's test ---------------------------------------------------
+
+    testOf(row) {
+        return this.p.tests[row.key] || null;
+    }
+
+    blankTest(row) {
+        const saved = this.testOf(row) || {};
+        const test = { work: saved.work || "" };
+        for (const attribute of this.p.attributes) {
+            test[attribute.key] = saved[attribute.key] || "";
+        }
+        return test;
+    }
+
+    get row() {
+        return this.p.rows.find((r) => r.key === this.state.current) || null;
+    }
+
+    get saved() {
+        const row = this.row;
+        return row ? this.testOf(row) : null;
+    }
+
+    open(row) {
+        if (this.state.current === row.key) {
+            this.state.current = null;
+            this.state.test = null;
+            return;
+        }
+        this.state.current = row.key;
+        this.state.test = this.blankTest(row);
         this.state.finding = null;
     }
 
-    async toggle(criterion) {
-        if (this.state.busy) {
+    async answer(key, value) {
+        if (this.p.readonly) {
             return;
         }
-        this.show(await this.call("ea_je_toggle", [this.studioId, criterion.key]));
+        this.state.test[key] = value;
+        await this.saveTest();
     }
 
-    async chooseDataset(ev) {
-        this.show(await this.call("ea_je_dataset", [this.studioId, Number(ev.target.value)]));
-    }
-
-    async mark(status) {
-        const entry = this.entry;
-        if (!entry || this.p.readonly) {
+    async saveTest() {
+        const row = this.row;
+        if (!row || this.p.readonly) {
             return;
         }
-        this.show(await this.call("ea_je_review", [this.studioId, entry.je, status, this.state.note]));
+        const answers = {};
+        for (const attribute of this.p.attributes) {
+            answers[attribute.key] = this.state.test[attribute.key] || false;
+        }
+        this.show(await this.call("ea_jet_save_test", [row.key, answers, this.state.test.work]));
+    }
+
+    statusLabel(status) {
+        return this.p.statusLabels[status] || status;
     }
 
     startFinding() {
-        const entry = this.entry;
+        const row = this.row;
         this.state.finding = {
-            type: "b5",
-            description: this.state.note || _t("Journal entry %s", entry.je),
-            amount: entry.amount,
+            type: "misstatement",
+            description: this.state.test.work || _t("Journal entry %s", row.je),
+            amount: String(row.amount),
             trivial: false,
         };
     }
 
     async raiseFinding() {
-        const entry = this.entry;
+        const row = this.row;
         const form = this.state.finding;
-        const value = Number(String(form.amount).replace(/[\s ]/g, "").replace(",", "."));
-        this.show(await this.call("ea_je_finding", [
-            this.studioId, entry.je, form.description, form.type, form.type === "b5" ? value : false, form.trivial,
+        this.show(await this.call("ea_jet_finding", [
+            row.key, form.description, form.type, form.type === "misstatement" ? this.number(form.amount) : false, form.trivial,
         ]));
         this.state.finding = null;
     }
 
-    // the support of the entry opened, in the pane at the right
+    async startAdjustment() {
+        this.show(await this.call("ea_jet_adjustment_start", [this.row.key]));
+    }
+
+    async saveAdjustment(lines, nature) {
+        this.show(await this.call("ea_jet_adjust", [this.row.key, lines, nature]));
+    }
+
     async attach(files) {
-        const entry = this.entry;
-        if (!entry || this.p.readonly) {
+        const row = this.row;
+        if (!row || this.p.readonly) {
             return;
         }
         for (const file of files) {
-            this.show(await this.call("ea_je_attach", [this.studioId, entry.je, file.name, file.content]));
+            this.show(await this.call("ea_jet_attach", [row.key, file.name, file.content]));
         }
     }
 
     async attachExisting(ids) {
-        const entry = this.entry;
-        if (!entry || this.p.readonly) {
+        const row = this.row;
+        if (!row || this.p.readonly) {
             return;
         }
-        this.show(await this.call("ea_je_attach_existing", [this.studioId, entry.je, ids]));
+        this.show(await this.call("ea_jet_attach_existing", [row.key, ids]));
     }
 
-    // ---- leaving -----------------------------------------------------------
+    // ---- leaving and signing ------------------------------------------------
 
-    async studio(method) {
-        const action = await this.orm.call(STUDIO, "ea_open", [[this.studioId], method]);
+    async exportSelection() {
+        const action = await this.call("ea_jet_export_action", [this.state.ticked]);
         return this.action.doAction(action);
     }
 
-    async record() {
-        await this.orm.call(STUDIO, "action_record", [[this.studioId]]);
-        return this.load();
+    async openLedgers() {
+        const action = await this.call("action_tool_gl");
+        return this.action.doAction(action);
+    }
+
+    async sign(chip) {
+        if (chip.state !== "open") {
+            return;
+        }
+        this.show(await this.call("ea_jet_sign", [chip.role]));
+    }
+
+    signLabel(chip) {
+        return chip.role === "preparer" ? _t("Sign as preparer") : _t("Sign as reviewer");
+    }
+
+    signedText(chip) {
+        return _t("Signed by %(name)s on %(date)s", { name: chip.by, date: chip.date });
     }
 }
 

@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Working Papers",
     "summary": "Paper definitions, answers and history, review notes, conclusions, evidence and the paper renderer",
-    "version": "19.0.1.8.0",  # release 2026-11-23: plan, strat, exec, compl papers; old-file fallbacks
+    "version": "19.0.1.8.1",  # E3.1 and S5.4 in the new layout, closed in Journal entry testing
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

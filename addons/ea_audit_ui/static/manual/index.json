@@ -1,5 +1,5 @@
 {
- "build": "50d2ed37f463",
+ "build": "e18733e03d78",
  "parts": [
   {
    "key": "1",
@@ -503,8 +503,8 @@
    "id": "journal-entries",
    "part": "5",
    "title": {
-    "en": "Journal entries",
-    "fr": "Écritures de journal"
+    "en": "Journal entry testing",
+    "fr": "Tests des écritures de journal"
    },
    "screens": [
     "tag:ea_audit_tools.je_page",

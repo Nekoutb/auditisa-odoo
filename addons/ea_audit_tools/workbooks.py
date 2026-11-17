@@ -280,6 +280,26 @@ def je_workbook(view, fr):
     return to_bytes(book)
 
 
+def je_client_workbook(view, fr):
+    """Journal entry testing: the selection for the client, one row per entry with every reason
+    it was selected, and a column for the document the client sends."""
+    book = new_book()
+    sheet = book.create_sheet(tab("Sélection" if fr else "Selection"))
+    sheet.append(["Écritures sélectionnées pour justification" if fr else "Journal entries selected for support"])
+    sheet["A1"].font = Font(bold=True, size=14)
+    kv(sheet, "Client", view["clientName"])
+    kv(sheet, "Exercice" if fr else "Fiscal year", view["fiscalYear"])
+    kv(sheet, "Clôture" if fr else "Period end", view["periodEnd"])
+    kv(sheet, "Critères" if fr else "Criteria", "; ".join(view["criteria"]) or ("Tous" if fr else "All"))
+    sheet.append([])
+    row_of(sheet, view["head"], bold=True, background=HDR)
+    widths(sheet, [16, 12, 12, 10, 40, 30, 18, 18, 18, 70, 30])
+    for row in view["rows"]:
+        cells = row_of(sheet, row)
+        cells[6].number_format = "#,##0"
+    return to_bytes(book)
+
+
 def substantive_workbook(code, title, fr):
     """The generic substantive paper (F062): population, selection, tests, exceptions, conclusion."""
     book = new_book()

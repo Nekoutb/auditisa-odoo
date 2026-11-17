@@ -1,17 +1,46 @@
 <article class="ea-help-page" data-id="journal-entries" data-part="The audit, phase by phase" data-part-order="5" data-order="5.14" data-screens="tag:ea_audit_tools.je_page, model:ea.audit.je.studio, view:ea_audit_tools.view_engagement_overrides_board">
-  <h1>Journal entries</h1>
-  <p class="lead">Select journal entries with risk criteria, look at each one selected, and conclude on journal entry testing (E3.1).</p>
+  <h1>Journal entry testing</h1>
+  <p class="lead">Select the journal entries that show signs of possible management override, test each one on the same screen, and conclude on journal entry testing (E3.1).</p>
   <p class="who"><b>Who:</b> the engagement team. Roles that only read (for example the quality reviewer) see the page in read-only mode.</p>
 
-  <h2>Journal entries (E3.1)</h2>
-  <p>The <b>Journal entries</b> page has four tabs:</p>
+  <h2>One screen</h2>
+  <p>Open <b>Engagement dashboard</b> › <b>Tools</b> › <b>Journal entry testing</b>. Everything is on one screen, without tabs. This is the work ISA 240 asks for on journal entries.</p>
+  <p>Four boxes at the top give the summary:</p>
+  <table class="ref">
+    <tr><th>Box</th><th>What it shows</th></tr>
+    <tr><td><b>General ledger in use</b></td><td>Its lines, its entries and when it was loaded.</td></tr>
+    <tr><td><b>Entries selected</b></td><td>The entries found by at least one criterion.</td></tr>
+    <tr><td><b>Tested</b></td><td>How many of the selection are tested, without exceptions and with exceptions.</td></tr>
+    <tr><td><b>Findings raised</b></td><td>The findings, and the adjustments sent to the summary of audit differences.</td></tr>
+  </table>
+
+  <h2>Criteria</h2>
+  <p>On the left, <b>Criteria</b> lists each criterion with a tick box and the number of entries it finds, in four groups:</p>
+  <table class="ref">
+    <tr><th>Group</th><th>Criteria</th></tr>
+    <tr><td><b>When it was posted</b></td><td><b>Posted on a Sunday</b>, <b>Posted on a Saturday</b>, <b>Posted on a public holiday</b>, <b>Last</b> 5 <b>days of the year or first</b> 5 <b>days after</b> (5 by default).</td></tr>
+    <tr><td><b>Who posted it</b></td><td><b>Same person prepared and approved</b>, <b>No approver recorded</b>, <b>Posted by a person who rarely posts entries</b>.</td></tr>
+    <tr><td><b>What it says</b></td><td><b>Round amounts</b>, <b>Just below an approval limit</b>, <b>Missing or vague description</b>, <b>Rarely used or suspense accounts</b>.</td></tr>
+    <tr><td><b>Unusual account pairings</b></td><td><b>Revenue against cash</b>, <b>Expenses paid in cash above a limit</b>, <b>Fixed assets against revenue</b>, <b>Payables against receivables</b>, <b>Revenue debited after year end</b>, <b>Equity against income or expense</b>.</td></tr>
+  </table>
+  <p>The selection is every entry found by at least one criterion. Tick criteria to show only the entries they find; with nothing ticked, the table shows the whole selection. <b>Clear the criteria</b> removes the ticks.</p>
+  <p>Under the criteria, one line gives the settings, set once for the engagement: the round amount (1 000 000), the approval limit (5 000 000, with a band of 10 %), the cash expense limit (500 000), the days around the year end (5), the rare poster (below 2 % of the entries), the rare account (fewer than 3 entries), the public holidays of the year (Cameroon calendar) and the vague words. Click <b>Change the settings</b> to adjust them.</p>
+
+  <h2>The selected entries</h2>
+  <p>On the right, the table shows each selected entry: <b>Entry</b>, <b>Date</b> (with the weekday), <b>Journal</b>, <b>Accounts</b> (debit → credit), <b>Amount</b>, <b>Prepared / approved</b>, <b>Why selected</b> and <b>Test</b> (<b>To test</b>, <b>No exception</b> or <b>Exception</b>). Click <b>Export the selection for the client (Excel)</b> to send the list to the client.</p>
   <ol class="steps">
-    <li><b>1 Ledger</b>: the ledger tested and its checks. If no ledger is ready, click <b>The ledgers</b>.</li>
-    <li><b>2 Criteria</b>: turn each criterion on or off; the entries it catches are counted at once. <b>Thresholds and own rules</b> sets amounts and your own rules. Click <b>Run the criteria</b>.</li>
-    <li><b>3 Selected entries</b>: open each entry, look at its documents, then clear it or click <b>Raise a finding</b> (<b>Misstatement</b>, <b>Matter for attention</b> or <b>Control deficiency</b>).</li>
-    <li><b>4 Conclusion</b>: the counts cleared and with a problem. Click <b>Record as the S5.4 design</b> to keep the selection as the design, and <b>Export the E3.1 workbook</b> for the engagement file.</li>
+    <li>Click an entry: its test opens below it.</li>
+    <li>Answer the four questions, each <b>Yes</b>, <b>No</b> or <b>Not applicable</b>: <b>Supporting document obtained and agreed to the entry (amount, date, accounts)</b>; <b>Entry approved by an appropriate person, other than its preparer</b>; <b>Business reason understood and consistent with our knowledge of the entity</b>; <b>Recorded in the right accounts, period and amount</b>.</li>
+    <li>Write what you did in <b>Work done and result</b>. Cite the attachments as [A1], [A2].</li>
+    <li>If something is wrong, click <b>Raise a finding</b> (the finding goes to the Findings tool, linked to the entry and to E3.1) or <b>Add an adjustment</b> (it goes to the summary of audit differences and waits for the reviewer).</li>
   </ol>
-  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/t-je.webp" alt="The Journal entries page on tab 2 Criteria: the criteria with their on/off switches and entry counts, the Run the criteria button and the progress bar" loading="lazy"/><figcaption>Journal entries: switch criteria on and see what they catch.</figcaption></figure>
+  <p>The entry's conclusion follows the answers: <b>Exception</b> as soon as one answer is <b>No</b>; <b>No exception</b> when all four are answered and none is <b>No</b>.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/t-je.webp" alt="The Journal entry testing screen: the four summary boxes, the criteria in four groups with their tick boxes and counts on the left, and the table of selected entries on the right" loading="lazy"/><figcaption>Journal entry testing: tick criteria, then test each selected entry.</figcaption></figure>
+
+  <h2>Findings, adjustments and sign-off</h2>
+  <p>At the bottom, <b>Findings from journal entry testing</b> lists the findings raised (<b>Finding</b>, <b>Entry</b>, <b>Kind</b>, <b>Stage</b>), and <b>Adjustments to the summary of audit differences</b> lists the adjustments (<b>Entry</b>, <b>Heading</b>, <b>Adjustment proposed</b>, <b>Amount</b>, <b>Status</b>).</p>
+  <p>Under <b>Conclusion and sign-off</b>, click <b>Sign as preparer</b>; the reviewer then clicks <b>Sign as reviewer</b>. This signs working paper E3.1, with the usual sign-off rules.</p>
+  <div class="tip"><b>Tip</b> Entries reviewed before this screen keep their review: Cleared reads as <b>No exception</b>, Problem as <b>Exception</b>, and the note as <b>Work done and result</b>.</div>
 
   <p class="see">See also: <a href="#data-tools">Analytics and the data tools</a> · <a href="#findings">Findings</a> · <a href="#execution">The Execution phase and tests of controls</a></p>
 </article>

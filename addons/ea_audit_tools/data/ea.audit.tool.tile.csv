@@ -12,7 +12,7 @@ tile_sad,sad,Audit differences,"Misstatements by caption, linked to the papers."
 tile_findings,findings,Findings,"The register: deficiencies, matters and misstatements.","C1.1,C5.11",action_tool_findings,95,hub
 tile_sap,sap,Substantive analytics,"Expectation, threshold by risk, difference, conclusion.","S5.5,E4.1",action_tool_sap,100,hub
 tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and its reason.","E4.1,E1.2",action_tool_sampling,110,hub
-tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,action_tool_je,120,hub
+tile_je_selection,je-selection,Journal entry testing,"ISA 240: criteria, selected entries and their tests.",E3.1,action_tool_je,120,hub
 tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,action_tool_templates,130,hub
 tile_pbc,pbc,Document requests,Documents requested and reminders.,"P2.2,E1.1",action_tool_pbc,140,retired
 tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",action_tool_legal,150,hub

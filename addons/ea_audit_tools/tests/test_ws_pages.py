@@ -18,7 +18,10 @@ class TestJePage(ToolsCase):
         self.as_staff.gl_build_projection(self.dataset)
         action = self.as_staff.action_tool_je()
         self.assertEqual(action["tag"], "ea_audit_tools.je_page")
-        self.studio = action["params"]["studio_id"]
+        # since 18/11 the screen is Journal entry testing (models/je_testing.py); the studio stays for the older calls
+        self.studio = self.env["ea.audit.je.studio"].with_user(self.staff).create({
+            "engagement_id": self.engagement.id, "dataset_id": self.dataset,
+        }).id
 
     def page(self, actor=None):
         return self.engagement.with_user(actor or self.staff).ea_je_page(self.studio)

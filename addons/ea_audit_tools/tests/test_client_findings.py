@@ -406,7 +406,7 @@ class TestRisksAndDesign(ToolsCase):
         item = self.item(self.engagement, "S3.1")
         self.assertIn("/odoo/%d/ea_audit_paper" % item.id, html)
         self.assertIn("prerequisites_html", self.env.ref("ea_audit_tools.view_je_studio_form").arch)
-        self.assertEqual(studio.display_name, "Journal entries")
+        self.assertEqual(studio.display_name, "Journal entry testing")
 
 
 @tagged("post_install", "-at_install")

@@ -344,13 +344,16 @@ class EngagementJe(models.Model):
         return record.with_env(self.env)
 
     def action_tool_je(self):
-        """The journal-entry page (owner's mock-up of 2026-11-16): ledger, criteria, selected
-        entries, conclusion. Its studio holds the criteria; it opens on the file's latest ledger."""
+        """Journal entry testing (owner's mock-up approved 18/11): one screen, ISA 240. The
+        criteria and their settings are the engagement's (models/je_testing.py), not a studio's."""
         self.ensure_one()
         self._ea_require_access()
-        dataset = self._ea_current_dataset("journal_entries")
-        wizard = self.env["ea.audit.je.studio"].create({"engagement_id": self.id, "dataset_id": dataset.id or False})
-        return wizard.action_open_page()
+        return {
+            "type": "ir.actions.client", "tag": "ea_audit_tools.je_page", "target": "current",
+            "name": self.env._("Journal entry testing"),
+            "params": {"engagement_id": self.id},
+            "context": {"active_id": self.id, "ea_engagement_id": self.id},
+        }
 
     def action_open_je_designs(self):
         return self._ea_list(

@@ -1052,6 +1052,90 @@
     "q_itgc_rf_x"
    ]
   },
+  "E3.1": {
+   "conclEn": [
+    "The journal entries and other adjustments selected are appropriate: each is supported by a business rationale, was authorised at the correct level, is correctly accounted for and is recorded in the correct period.",
+    "No indication of management override of controls giving rise to a material misstatement due to fraud was identified. Where misstatements were identified, we have considered whether they may indicate fraud and what they mean for the other aspects of the audit, in particular the reliability of management's representations.",
+    "The procedures performed, taken with the review of estimates for bias and the review of significant unusual transactions, respond to the presumed significant risk of management override; any residual specific risk has been answered by the additional procedures cross-referenced above."
+   ],
+   "conclFr": [
+    "Les écritures et autres ajustements sélectionnés sont appropriés : chacun repose sur une justification économique, a été autorisé au niveau approprié, est correctement comptabilisé et correctement rattaché à l'exercice.",
+    "Aucun indice de contournement des contrôles par la direction donnant lieu à une anomalie significative résultant de fraudes n'a été relevé. Lorsque des anomalies ont été identifiées, nous avons apprécié si elles pouvaient révéler une fraude et ce qu'elles impliquent pour les autres aspects de l'audit, en particulier la fiabilité des déclarations de la direction.",
+    "Les procédures mises en œuvre, avec l'examen des estimations à la recherche de biais et la revue des opérations significatives inhabituelles, répondent au risque important présumé de contournement des contrôles ; tout risque spécifique résiduel a été couvert par les procédures complémentaires référencées ci-dessus."
+   ],
+   "keys": [
+    "c_0",
+    "c_0_x",
+    "c_1",
+    "c_1_x",
+    "c_2",
+    "c_2_x",
+    "carried",
+    "ctrl_access",
+    "ctrl_ia_testing",
+    "ctrl_oversight",
+    "ctrl_sod",
+    "exceptions",
+    "key_findings",
+    "p_approval",
+    "p_approval_na",
+    "p_approval_x",
+    "p_controls",
+    "p_controls_na",
+    "p_controls_x",
+    "p_criteria",
+    "p_criteria_na",
+    "p_criteria_x",
+    "p_estimates",
+    "p_estimates_na",
+    "p_estimates_x",
+    "p_inquiry",
+    "p_inquiry_na",
+    "p_inquiry_x",
+    "p_period_end",
+    "p_period_end_na",
+    "p_period_end_x",
+    "p_population",
+    "p_population_na",
+    "p_population_x",
+    "p_test_items",
+    "p_test_items_na",
+    "p_test_items_x",
+    "p_throughout",
+    "p_throughout_na",
+    "p_throughout_x",
+    "p_understanding",
+    "p_understanding_na",
+    "p_understanding_x",
+    "p_unpredictability",
+    "p_unpredictability_na",
+    "p_unpredictability_x",
+    "p_unusual",
+    "p_unusual_na",
+    "p_unusual_x",
+    "q_four_tests_done",
+    "q_four_tests_done_x",
+    "q_inquiries_made",
+    "q_inquiries_made_x",
+    "q_not_random",
+    "q_not_random_x",
+    "q_partner_approved",
+    "q_partner_approved_x",
+    "q_period_end_covered",
+    "q_period_end_covered_x",
+    "q_population_established",
+    "q_population_established_x",
+    "q_throughout_considered",
+    "q_throughout_considered_x",
+    "q_unpredictability_applied",
+    "q_unpredictability_applied_x",
+    "throughout_decision",
+    "unpred_amount_type",
+    "unpred_extent",
+    "unpred_location",
+    "unpred_timing"
+   ]
+  },
   "E6.1": {
    "conclEn": [
     "The laws and regulations relevant to the financial statements have been considered, and any non-compliance identified has been evaluated, communicated and reflected in the financial statements."
@@ -3211,6 +3295,21 @@
     "q_reperformed_x",
     "q_systematic",
     "q_systematic_x"
+   ]
+  },
+  "S5.4": {
+   "conclEn": [
+    "The selection criteria recorded above respond to the fraud risk factors identified on this engagement and were fixed before the entries were tested."
+   ],
+   "conclFr": [
+    "Les critères de sélection consignés ci-dessus répondent aux facteurs de risque de fraude identifiés sur la mission et ont été arrêtés avant le test des écritures."
+   ],
+   "keys": [
+    "c_0",
+    "c_0_x",
+    "key_findings",
+    "rationale",
+    "timing"
    ]
   },
   "S5.6": {
