@@ -29,6 +29,15 @@ _MAIL_REF = re.compile(r"^[0-9a-f]{16}$")
 MAIL_RESULTS = ("on", "off", "login", "connect", "tls", "sender", "staging", "refused", "failed")
 _MAIL_SET_KEYS = frozenset({"ref", "action", "host", "port", "encryption", "user", "password", "from"})
 _MAIL_TEXT_LIMITS = {"host": 253, "encryption": 8, "user": 254, "password": 512, "from": 320}
+# What the console's "Add / Replace the firm administrator" may ask, and what this server answers. Same
+# rules as ea_platform_admin/services/admin_change.py: the console refuses a figure of another shape.
+_ADMIN_REF = re.compile(r"^[0-9a-f]{16}$")
+_ADMIN_EMAIL = re.compile(r"^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,253}\.[A-Za-z]{2,63}$")
+ADMIN_ACTIONS = ("add", "replace")
+ADMIN_RESULTS = ("done", "email", "domain", "account", "unavailable", "failed")
+ADMIN_LINK = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/web/signup\?[A-Za-z0-9._~%&=+-]{1,1000}$")
+_ADMIN_MAX_NAME = 128
+_ADMIN_MAX_EMAIL = 254
 
 
 def _text(pattern):
@@ -122,7 +131,7 @@ def disk_figures(path="/"):
 
 
 def build_figures(status, memory, disk, users_active, engagements_active, mail_enabled, addons_on=(),
-                  errors=None, support_visit=None):
+                  errors=None, support_visit=None, admin_answer=None):
     """The whole body. `release` is left out if unknown, which the receiver rejects, on purpose.
 
     `addons_on` holds technical names and nothing else. Past the cap they are not sent at all, since
@@ -145,7 +154,36 @@ def build_figures(status, memory, disk, users_active, engagements_active, mail_e
         figures["errors"] = errors
     if support_visit is not None:
         figures["support_visit"] = support_visit
+    figures.update(admin_figures(admin_answer))
     return figures
+
+
+def admin_figures(answer):
+    """The answer to the console's firm administrator request, or nothing. Absent until a first request,
+    so an older console, which refuses a figure it does not know, keeps working."""
+    if not isinstance(answer, dict):
+        return {}
+    ref, result, link = answer.get("ref"), answer.get("result"), answer.get("link")
+    if not (isinstance(ref, str) and _ADMIN_REF.match(ref) and result in ADMIN_RESULTS):
+        return {}
+    figures = {"admin_request_ref": ref, "admin_request_result": result}
+    if result == "done" and isinstance(link, str) and ADMIN_LINK.match(link):
+        figures["admin_request_link"] = link
+    return figures
+
+
+def admin_request(data):
+    """The console's "Add / Replace the firm administrator" request, or None."""
+    if not isinstance(data, dict) or set(data) != {"ref", "action", "name", "email"}:
+        return None
+    ref, action, name, email = data["ref"], data["action"], data["name"], data["email"]
+    if not (isinstance(ref, str) and _ADMIN_REF.match(ref) and action in ADMIN_ACTIONS):
+        return None
+    if not isinstance(name, str) or not 0 < len(name) <= _ADMIN_MAX_NAME or any(ord(c) < 32 for c in name):
+        return None
+    if not isinstance(email, str) or len(email) > _ADMIN_MAX_EMAIL or not _ADMIN_EMAIL.match(email):
+        return None
+    return {"ref": ref, "action": action, "name": name, "email": email.lower()}
 
 
 def mail_request(data):
@@ -215,6 +253,10 @@ def parse_desired(body):
     mail = mail_request(data.get("mail_request"))
     if mail is not None:
         desired["mail_request"] = mail
+    # Handled by the agent itself, in Odoo: it never reaches root's spool.
+    admin = admin_request(data.get("admin_request"))
+    if admin is not None:
+        desired["admin_request"] = admin
     # The platform email address's reply address (the firm's contact email), or "" for none. The agent
     # keeps it as a setting of its own; it never reaches root's spool.
     reply_to = data.get("mail_reply_to")

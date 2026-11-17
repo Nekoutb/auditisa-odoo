@@ -1,6 +1,7 @@
 import json
 import time
 from datetime import datetime
+from unittest.mock import patch
 
 from odoo.tests import HttpCase, tagged
 
@@ -53,6 +54,17 @@ class TestHeartbeatEndpoint(PlatformMixin, HttpCase):
             set(json.loads(answer.content)),
             {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256", "mail_reply_to"},
         )
+
+    def test_a_firm_administrator_request_rides_in_the_answer_with_nothing_else(self):
+        with patch.object(type(self.env["platform.firm"]), "_admin_change_simulate_answer", lambda _self: None):
+            self.firm._admin_change_request("add", "Paul Mbida", self.firm.contact_email)
+        answer = json.loads(self._send().content)
+        self.assertLessEqual(
+            set(answer),
+            {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256", "mail_reply_to",
+             "admin_request"},
+        )
+        self.assertEqual(set(answer["admin_request"]), {"ref", "action", "name", "email"})
 
     def test_no_session_cookie_is_set(self):
         self.assertNotIn("session_id", self._send().headers.get("Set-Cookie", ""))

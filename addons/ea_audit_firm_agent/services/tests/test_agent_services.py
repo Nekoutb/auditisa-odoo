@@ -2,7 +2,7 @@ import hashlib
 import json
 from datetime import datetime, timedelta
 
-from ..collect import STATUS_FILES, build_figures, memory_figures, parse_desired, read_status
+from ..collect import STATUS_FILES, admin_figures, admin_request, build_figures, memory_figures, parse_desired, read_status
 from ..first_admin import is_expired, password_problem, token_hash, token_matches
 from ..signing import encode, response_is_authentic, sign
 
@@ -179,3 +179,27 @@ def test_the_email_answer_is_read_from_its_two_status_files(tmp_path):
     assert read_status(str(tmp_path)) == {"mail_request_ref": "0123456789abcdef", "mail_request_result": "login"}
     (tmp_path / "mail_request_result").write_text("Authentication failed for x@y\n")
     assert "mail_request_result" not in read_status(str(tmp_path))
+
+
+ADMIN = {"ref": "0123456789abcdef", "action": "add", "name": "Awa Ngono", "email": "Awa@Exemple.cm"}
+
+
+def test_the_console_s_administrator_request_is_checked_and_kept_apart():
+    desired = parse_desired(json.dumps({"admin_request": ADMIN, "export_requested": False}).encode())
+    assert desired["admin_request"] == {**ADMIN, "email": "awa@exemple.cm"}
+    for bad in ({**ADMIN, "action": "remove"}, {**ADMIN, "email": "x"}, {**ADMIN, "name": "a" * 129},
+                {**ADMIN, "extra": 1}, {**ADMIN, "ref": "ABC"}, "add"):
+        assert admin_request(bad) is None
+        assert "admin_request" not in parse_desired(json.dumps({"admin_request": bad}).encode())
+
+
+def test_the_administrator_answer_is_a_reference_a_word_and_maybe_a_link():
+    link = "https://cabinet-a.auditisa.com/web/signup?db=cabinet_a&token=abc123"
+    answer = {"ref": "0123456789abcdef", "result": "done", "link": link}
+    assert admin_figures(answer) == {
+        "admin_request_ref": "0123456789abcdef", "admin_request_result": "done", "admin_request_link": link}
+    assert "admin_request_link" not in admin_figures({**answer, "link": None})
+    assert "admin_request_link" not in admin_figures({**answer, "link": "http://localhost:8069/web/signup?token=a"})
+    assert admin_figures({**answer, "result": "something else"}) == {}
+    figures = build_figures({"release": "abcdef1"}, {}, {}, 1, 0, False)
+    assert not [key for key in figures if key.startswith("admin_request")]

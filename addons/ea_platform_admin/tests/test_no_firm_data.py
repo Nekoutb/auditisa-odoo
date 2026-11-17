@@ -19,8 +19,9 @@ FORBIDDEN_FIELD_WORDS = re.compile(
     r"password|passwd|pgpass|db_user|db_pass|db_host|dsn|connection_string|private_key|secret_key|access_key|"
     r"s3_|restic|backup_key(?!_escrowed)|master|smtp|client_|engagement_(?!s_active)|trial_balance|signature(?!_)"
 )
-# The only two secrets on the platform, both listed in SECURITY-MODEL.md. Neither opens a firm's database.
-ALLOWED_SECRET_FIELDS = {"heartbeat_token", "first_admin_token"}
+# The only secrets on the platform, all listed in SECURITY-MODEL.md. None opens a firm's database. The third
+# (2026-11-18) is a new firm administrator's one-time link, kept until it is shown once, 72 hours at most.
+ALLOWED_SECRET_FIELDS = {"heartbeat_token", "first_admin_token", "admin_link_token"}
 # The practice computer's: its heartbeat token, and a practice space's one-time first-login link.
 PRACTICE_SECRET_FIELDS = {"platform.practice.computer": {"heartbeat_token"}, "platform.practice.space": {"first_login_token"}}
 SECRET_WORDS = re.compile(r"token|secret|key(?!_id|_fingerprint|_escrowed)")
@@ -86,7 +87,7 @@ class TestNoFirmData(PlatformCase):
             model, name = qualified.rsplit(".", 1)
             self.assertEqual(self.env[model]._fields[name].type, "boolean", qualified)
 
-    def test_the_only_secret_fields_are_the_two_declared(self):
+    def test_the_only_secret_fields_are_the_ones_declared(self):
         firm_fields = self.env["platform.firm"]._fields
         secrets = {
             name for name in firm_fields

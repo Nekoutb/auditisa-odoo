@@ -9,7 +9,7 @@ from odoo.exceptions import UserError
 from odoo.tools.translate import LazyTranslate
 
 from odoo.addons.base.models.ir_mail_server import MailDeliveryException
-from odoo.addons.ea_audit_core.services.email_domains import is_valid_email
+from odoo.addons.ea_audit_core.services.email_domains import email_domain_allowed, is_valid_email
 from odoo.addons.ea_audit_core.services.signoff_rules import TEAM_LADDER, may_hold_partner_seat
 
 from ..services import deadlines
@@ -254,14 +254,76 @@ class FirmAdmin(models.AbstractModel):
             raise refuse(self.env, "fa-last-admin")
         if not may_hold_partner_seat(role) and self._ea_fa_partner_seats(user):
             raise refuse(self.env, "fa-holds-partner-seat")
-        firm_groups = [self.env.ref(xmlid).id for xmlid in (*_ROLE_XMLIDS.values(), *_PLUMBING)]
-        user.write({
-            "group_ids": [(3, gid) for gid in firm_groups] + [(4, self.env.ref(_ROLE_XMLIDS[role]).id)],
-        })
+        self._ea_fa_put_role(user, role)
         self.env["ea.audit.firm.log"]._ea_append(
             "role_changed", user, "%s > %s" % (self._ea_fa_role_label(current), self._ea_fa_role_label(role)),
         )
         return True
+
+    @api.model
+    def _ea_fa_put_role(self, user, role):
+        """The one firm role `role` in place of any other. Engagement seats and work are not touched."""
+        firm_groups = [self.env.ref(xmlid).id for xmlid in (*_ROLE_XMLIDS.values(), *_PLUMBING)]
+        user.sudo().write({
+            "group_ids": [(3, gid) for gid in firm_groups] + [(4, self.env.ref(_ROLE_XMLIDS[role]).id)],
+        })
+
+    # ------------------------------------------------------------------
+    # Asked by the AuditISA console (owner, 2026-11-18): "Add a firm administrator" and "Replace the
+    # firm administrator". The request comes in the signed answer to this server's heartbeat; the
+    # agent (ea_audit_firm_agent) calls this once per request and reports the result.
+    # ------------------------------------------------------------------
+
+    @api.model
+    def _ea_fa_from_platform(self, action, name, email):
+        """Returns (result, link): result is one word for the console, link a one-time invitation link
+        (72 hours, one use) when the person has never signed in, else None. Never logged.
+
+        "add": the person gets the firm administrator role; an account is made if none has this address.
+        "replace": the same, then every other firm administrator becomes Partner. They keep their account,
+        their engagement seats and all their work: nobody is deactivated and nothing is deleted."""
+        if not self.env.su:
+            raise refuse(self.env, "fa-forbidden")
+        if action not in ("add", "replace"):
+            return "failed", None
+        email = (email or "").strip().lower()
+        if not is_valid_email(email):
+            return "email", None
+        if not email_domain_allowed(email, self.env["res.company"]._ea_allowed_domains()):
+            return "domain", None
+        platform = self.env.ref("base.user_root")
+        platform_name = self.env._("AuditISA platform")
+        Log = self.env["ea.audit.firm.log"]
+        Users = self.env["res.users"].sudo().with_context(active_test=False)
+        user = (Users.search([("login", "=ilike", email)], order="id", limit=1)
+                or Users.search([("email", "=ilike", email), ("share", "=", False)], order="id", limit=1))
+        if user and (user.share or user == platform):
+            return "account", None
+        admin_label = self._ea_fa_role_label("firm_admin")
+        if not user:
+            user = Users.with_context(no_reset_password=True, active_test=True).create({
+                "name": (name or "").strip() or email,
+                "login": email,
+                "email": email,
+                "group_ids": [(6, 0, [self.env.ref(_ROLE_XMLIDS["firm_admin"]).id])],
+            })
+            user._ea_ts_ensure_employee()
+            Log._ea_append("platform_admin_added", user, admin_label, actor=platform, actor_name=platform_name)
+        else:
+            before = user._ea_firm_role()
+            if not user.active:
+                user.active = True
+            if before != "firm_admin":
+                self._ea_fa_put_role(user, "firm_admin")
+            Log._ea_append("platform_admin_added", user, "%s > %s" % (self._ea_fa_role_label(before), admin_label),
+                           actor=platform, actor_name=platform_name)
+        if action == "replace":
+            partner_label = self._ea_fa_role_label("partner")
+            for previous in self._ea_fa_other_active_admins(user).filtered(lambda u: not u.share and u != platform):
+                self._ea_fa_put_role(previous, "partner")
+                Log._ea_append("platform_admin_removed", previous, "%s > %s" % (admin_label, partner_label),
+                               actor=platform, actor_name=platform_name)
+        return "done", (None if user.login_date else self._ea_fa_link(user))
 
     @api.model
     def _ea_fa_partner_seats(self, user):

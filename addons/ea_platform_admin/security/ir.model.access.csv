@@ -38,3 +38,5 @@ access_practice_release_owner,platform.practice.release.wizard owner,model_platf
 access_howto_viewer,platform.howto viewer,model_platform_howto,group_platform_viewer,1,0,0,0
 access_firm_mail_wizard_operator,platform.firm.mail.wizard operator,model_platform_firm_mail_wizard,group_platform_operator,1,1,1,1
 access_mail_test_wizard_operator,platform.mail.test.wizard operator,model_platform_mail_test_wizard,group_platform_operator,1,1,1,1
+access_admin_change_wizard_operator,platform.firm.admin.change.wizard operator,model_platform_firm_admin_change_wizard,group_platform_operator,1,1,1,1
+access_admin_link_operator,platform.firm.admin.link operator,model_platform_firm_admin_link,group_platform_operator,1,1,1,1

@@ -6,3 +6,4 @@ from . import practice
 from . import firm_mail
 from . import settings_mail
 from . import platform_mail
+from . import firm_admin_change

@@ -899,6 +899,7 @@ msgstr "Tout est normal."
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__allowed_email_domains
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__allowed_email_domains
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__allowed_email_domains
 msgid "Allowed email domains"
 msgstr "Domaines de messagerie autorisés"
 
@@ -974,6 +975,7 @@ msgstr "Demandez à votre technicien une nouvelle clé pour ce cabinet."
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_by
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_by
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_by
 msgid "Asked by"
 msgstr "Demandée par"
 
@@ -988,8 +990,9 @@ msgstr "Demandé coupé, le cabinet dit allumé"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__desired_since
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_started_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_at
 msgid "Asked on"
-msgstr "Demandé allumé"
+msgstr "Demandé le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_addon__status__differs_on
@@ -1351,6 +1354,8 @@ msgstr "Cabinet témoin"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1653,6 +1658,8 @@ msgstr "Créer le serveur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -1689,6 +1696,8 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__create_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__create_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__create_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -1851,6 +1860,8 @@ msgstr "Disque utilisé (%)"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__display_name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__display_name
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__display_name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -1872,6 +1883,7 @@ msgstr "Domaines"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_provision_step__state__done
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__done
 msgid "Done"
 msgstr "Fait"
 
@@ -2000,6 +2012,7 @@ msgstr "Sortie demandée le"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__expires_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__expires_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__expires_at
 msgid "Expires on"
 msgstr "Expire le"
 
@@ -2117,6 +2130,8 @@ msgstr "Pare-feu chez le fournisseur"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__firm_id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__firm_id
 msgid "Firm"
 msgstr "Cabinet"
 
@@ -2497,6 +2512,7 @@ msgstr "Je confirme la création de ce serveur et son coût mensuel estimé."
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
 msgid "I have copied the link"
 msgstr "J'ai copié le lien"
 
@@ -2539,6 +2555,8 @@ msgstr "Je veux créer de vrais serveurs, facturés par le fournisseur."
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__id
 msgid "ID"
 msgstr "ID"
 
@@ -2811,6 +2829,8 @@ msgstr "Dernière connexion SSH"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
@@ -2847,6 +2867,8 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit_wizard__write_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_suspend_wizard__write_date
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_ticket__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__write_date
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -3129,6 +3151,7 @@ msgstr "La plupart des messages disent quoi faire. Cherchez le vôtre dans le ta
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_addon__name_text
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__name
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__name
 msgid "Name"
 msgstr "Nom"
 
@@ -3587,6 +3610,8 @@ msgstr "Une seule clé publique est attendue, au format ssh-ed25519."
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__link
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__link
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__link
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
 msgid "One-time link"
 msgstr "Lien à usage unique"
 
@@ -4471,6 +4496,7 @@ msgstr "Durée de conservation après l'export (jours)"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_first_admin_link__revealed
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_first_login__revealed
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__revealed
 msgid "Revealed"
 msgstr "Affiché"
 
@@ -4794,6 +4820,7 @@ msgstr "Afficher la première connexion"
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_first_admin_link_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_practice_first_login_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
 msgid "Show the link"
 msgstr "Afficher le lien"
 
@@ -6477,6 +6504,7 @@ msgstr "À quoi il sert"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_message
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__current_message
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_message
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_message
 msgid "What it means"
 msgstr "Ce que cela veut dire"
 
@@ -7208,12 +7236,14 @@ msgstr "Messagerie"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_action
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_action
 msgid "Last request"
 msgstr "Dernière demande"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_ref
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_request_ref
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_ref
 msgid "Request reference"
 msgstr "Référence de la demande"
 
@@ -7292,11 +7322,13 @@ msgstr "Adresse d'expéditeur"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_delivered_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_delivered_at
 msgid "Collected by the firm's server on"
 msgstr "Récupéré par le serveur du cabinet le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_answered_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_answered_at
 msgid "Answer received on"
 msgstr "Réponse reçue le"
 
@@ -8319,3 +8351,312 @@ msgid ""
 msgstr ""
 "Ceci est un e-mail de test d'AuditISA pour %(name)s. Il prouve que cette "
 "adresse peut envoyer. Aucune réponse n'est nécessaire."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Nothing has been asked from the console."
+msgstr "Rien n'a été demandé depuis la console."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Waiting for the firm's next check-in (within 15 minutes). The result shows here; reload the page to see it."
+msgstr "En attente du prochain signal du cabinet (sous 15 minutes). Le résultat s'affiche ici ; rechargez la page pour le voir."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Not done: the firm's server refused this email address. Check it, then ask again."
+msgstr "Non fait : le serveur du cabinet a refusé cette adresse e-mail. Vérifiez-la, puis demandez à nouveau."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Not done: this email address is not in the firm's allowed email domains. Use an address of the firm, or have the firm administrator add the domain first."
+msgstr "Non fait : cette adresse e-mail n'est pas dans les domaines de messagerie autorisés du cabinet. Utilisez une adresse du cabinet, ou faites d'abord ajouter le domaine par l'administrateur du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Not done: this email address belongs to an account that cannot be a firm administrator (for example a client's account). Use another address."
+msgstr "Non fait : cette adresse e-mail appartient à un compte qui ne peut pas être administrateur du cabinet (par exemple le compte d'un client). Utilisez une autre adresse."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Not done: the firm's server runs an older release that cannot do this. Update it, then ask again."
+msgstr "Non fait : le serveur du cabinet a une version plus ancienne qui ne sait pas le faire. Mettez-le à jour, puis demandez à nouveau."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Not done: the firm's server could not make the change. Ask again; if it fails again, tell the developer."
+msgstr "Non fait : le serveur du cabinet n'a pas pu faire le changement. Demandez à nouveau ; si cela échoue encore, prévenez le développeur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Give the person's name."
+msgstr "Indiquez le nom de la personne."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "The name is too long, or it holds an invisible character."
+msgstr "Le nom est trop long, ou il contient un caractère invisible."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "Give one email address, for example awa@cabinet.cm."
+msgstr "Indiquez une adresse e-mail, par exemple awa@cabinet.cm."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/admin_change.py:0
+msgid "This email address is not in the firm's allowed email domains (%(domains)s). Use an address of the firm."
+msgstr "Cette adresse e-mail n'est pas dans les domaines de messagerie autorisés du cabinet (%(domains)s). Utilisez une adresse du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Contact's name"
+msgstr "Nom du contact"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Contact's email"
+msgstr "E-mail du contact"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Contact's phone"
+msgstr "Téléphone du contact"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_action__add
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_admin_change_wizard__change_action__add
+msgid "Add a firm administrator"
+msgstr "Ajouter un administrateur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_action__replace
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_admin_change_wizard__change_action__replace
+msgid "Replace the firm administrator"
+msgstr "Remplacer l'administrateur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Done: %(name)s is now the firm administrator. The previous firm administrator keeps their account, their engagements and all their work, with the Partner role."
+msgstr "Fait : %(name)s est désormais l'administrateur du cabinet. L'administrateur précédent garde son compte, ses missions et tout son travail, avec le rôle Associé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Done: %(name)s is now the firm administrator."
+msgstr "Fait : %(name)s est désormais l'administrateur du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "%(field)s: %(old)s → %(new)s"
+msgstr "%(field)s : %(old)s → %(new)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Contact details changed"
+msgstr "Coordonnées du contact modifiées"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Choose to add or to replace the firm administrator."
+msgstr "Choisissez d'ajouter ou de remplacer l'administrateur du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "The firm administrator can be changed only on a live firm."
+msgstr "L'administrateur du cabinet ne peut être changé que pour un cabinet en service."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Add a firm administrator: %(name)s, %(email)s"
+msgstr "Ajouter un administrateur du cabinet : %(name)s, %(email)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Replace the firm administrator: %(name)s, %(email)s"
+msgstr "Remplacer l'administrateur du cabinet : %(name)s, %(email)s"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Firm administrator: change asked"
+msgstr "Administrateur du cabinet : changement demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "%(name)s is now the firm administrator"
+msgstr "%(name)s est désormais l'administrateur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_admin_change.py:0
+msgid "Firm administrator: the firm's server answered"
+msgstr "Administrateur du cabinet : le serveur du cabinet a répondu"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_admin_change.py:0
+msgid "This link is no longer available: it has already been shown or it has expired. The firm administrator can make a new invitation link on the firm's Users screen."
+msgstr "Ce lien n'est plus disponible : il a déjà été affiché ou il a expiré. L'administrateur du cabinet peut créer un nouveau lien d'invitation dans l'écran Utilisateurs du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_admin_change.py:0
+msgid "Administrator's link shown"
+msgstr "Lien de l'administrateur affiché"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_state
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Firm administrator"
+msgstr "Administrateur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_name
+msgid "Person's name"
+msgstr "Nom de la personne"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_email
+msgid "Person's email"
+msgstr "E-mail de la personne"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_link_token
+#: model:ir.model,name:ea_platform_admin.model_platform_firm_admin_link
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
+msgid "Administrator's link"
+msgstr "Lien de l'administrateur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_link_expires_at
+msgid "The administrator's link expires on"
+msgstr "Le lien de l'administrateur expire le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_link_revealed_at
+msgid "Administrator's link shown on"
+msgstr "Lien de l'administrateur affiché le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_link_ready
+msgid "Administrator's link available"
+msgstr "Lien de l'administrateur disponible"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__none
+msgid "Nothing asked from the console"
+msgstr "Rien de demandé depuis la console"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__waiting
+msgid "Waiting for the firm's next check-in"
+msgstr "En attente du prochain signal du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__email
+msgid "Email address refused"
+msgstr "Adresse e-mail refusée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__domain
+msgid "Outside the allowed email domains"
+msgstr "Hors des domaines de messagerie autorisés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__account
+msgid "This account cannot be a firm administrator"
+msgstr "Ce compte ne peut pas être administrateur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__unavailable
+msgid "Not possible on this firm's release"
+msgstr "Impossible avec la version de ce cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__admin_change_state__failed
+msgid "Not done"
+msgstr "Non fait"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form
+msgid "Show the administrator's link"
+msgstr "Afficher le lien de l'administrateur"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_firm_admin_change_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
+msgid "Change the firm administrator"
+msgstr "Changer l'administrateur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__change_action
+msgid "Request"
+msgstr "Demande"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__email
+msgid "Email address"
+msgstr "Adresse e-mail"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__person
+msgid "For"
+msgstr "Pour"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
+msgid "This person gets the firm administrator role on the firm's server. The current firm administrators keep theirs."
+msgstr "Cette personne reçoit le rôle d'administrateur du cabinet sur le serveur du cabinet. Les administrateurs actuels gardent le leur."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
+msgid "This person becomes the firm administrator. The current firm administrators lose that role and become Partner: they keep their account, their engagements and all their work. Nothing is deleted."
+msgstr "Cette personne devient l'administrateur du cabinet. Les administrateurs actuels perdent ce rôle et deviennent Associé : ils gardent leur compte, leurs missions et tout leur travail. Rien n'est supprimé."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
+msgid "The request goes to the firm's server at its next check-in (within 15 minutes). If the person has no account there yet, one is made, and you can then show its one-time link here, once (it works once, for 72 hours)."
+msgstr "La demande part vers le serveur du cabinet à son prochain signal (sous 15 minutes). Si la personne n'y a pas encore de compte, il est créé, et vous pourrez alors afficher ici son lien à usage unique, une fois (il fonctionne une fois, pendant 72 heures)."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
+msgid "Send to the firm"
+msgstr "Envoyer au cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
+msgid "The link shows <strong>once only</strong>, then it is erased from here. Have your way of passing it to the person ready (a call, encrypted messaging). Do not send it with the firm's name in a plain email."
+msgstr "Le lien ne s'affiche <strong>qu'une seule fois</strong>, puis il est effacé d'ici. Préparez le moyen de le transmettre à la personne (appel, messagerie chiffrée). Ne l'envoyez pas avec le nom du cabinet dans un e-mail ouvert."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
+msgid "Copy this link now and pass it to the person. It works once and expires on the date shown. They choose their own password there."
+msgstr "Copiez ce lien maintenant et transmettez-le à la personne. Il fonctionne une fois et expire à la date indiquée. Elle y choisit elle-même son mot de passe."
