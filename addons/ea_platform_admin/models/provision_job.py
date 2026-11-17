@@ -131,6 +131,8 @@ class PlatformProvisionJob(models.Model):
             "heartbeat_seen": self._heartbeat_seen,
             "figures_problems": self._figures_problems,
             "activate": self._activate,
+            "platform_mail": firm._pmail_provision_step,
+            "platform_mail_undo": firm._pmail_undo,
         }
         return engine.Context(provider, dns, probe, resources, hooks, config, fields.Datetime.now())
 

@@ -17,7 +17,12 @@
 # a finding too, whatever its name. On the preview, which shares staging's PostgreSQL, only the
 # practice_ and tpl_practice_ names are looked at.
 #
-# Each run also switches every mail server of every space off again.
+# Each run also sets every space's recipient gate (ea_firm_agent.recipient_gate = 1) and copies the
+# console's list "Practice spaces may email only these addresses" ($PRACTICE_VAR/mail-allowlist) into
+# it: a space's Odoo drops, and logs, every recipient not on the list (ea_audit_firm_agent). And it
+# switches every mail server of every space off again, unless root allowed practice email on this
+# computer (PRACTICE_MAIL_ALLOWED=1 in practice.env) AND the list holds at least one address. Both are
+# off by default: the owner decides (docs/runbook/PLATFORM-EMAIL.md).
 
 set -euo pipefail
 SCRIPT_NAME=practice-guard
@@ -102,8 +107,12 @@ check_all() {
       fi
       audit_line "guard finding db=$db: $verdict"
     elif [ -n "$slug" ] && [ "$registered" = 1 ]; then
-      # Mail off, every time.
-      psql_q "UPDATE ir_mail_server SET active = false WHERE active; DELETE FROM ir_config_parameter WHERE key = 'ea_firm_agent.mail_tested'" "$db" >/dev/null 2>&1 || true
+      # The recipient gate and its list, every time.
+      psql_q "$(recipient_sql)" "$db" >/dev/null 2>&1 || true
+      # Mail off, every time, unless practice email is allowed here and the list is not empty.
+      if [ "$MAIL_OPEN" != 1 ]; then
+        psql_q "UPDATE ir_mail_server SET active = false WHERE active; DELETE FROM ir_config_parameter WHERE key = 'ea_firm_agent.mail_tested'" "$db" >/dev/null 2>&1 || true
+      fi
     fi
   done < <(cluster_databases)
   mkdir -p "$PRACTICE_STATUS"
@@ -114,14 +123,35 @@ check_all() {
   fi
 }
 
+# ---------------------------------------------------------------------------- the recipient list
+
+# The addresses of $PRACTICE_VAR/mail-allowlist that pass the same pattern as the console's, one per line.
+allowlist_addresses() {
+  [ -r "$PRACTICE_VAR/mail-allowlist" ] || return 0
+  grep -E '^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,253}\.[A-Za-z]{2,63}$' "$PRACTICE_VAR/mail-allowlist" | head -n 50 || true
+}
+
+# The SQL that sets the gate and the list in one space. The addresses passed the pattern above: no quote.
+recipient_sql() {
+  local list
+  list=$(allowlist_addresses | tr '\n' ' ')
+  printf "INSERT INTO ir_config_parameter (key, value, create_date, write_date) VALUES ('ea_firm_agent.recipient_gate', '1', now(), now()), ('ea_firm_agent.recipient_allowlist', '%s', now(), now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_date = now();" "${list% }"
+}
+
+mail_open() {
+  if [ "${PRACTICE_MAIL_ALLOWED:-0}" = 1 ] && [ -n "$(allowlist_addresses)" ]; then MAIL_OPEN=1; else MAIL_OPEN=0; fi
+}
+
 case "${1:-watch}" in
   check)
     load_practice_env
+    mail_open
     check_all
     [ "$FINDINGS" = 0 ] || pl_die "$FINDINGS database(s) refused: the practice service will not serve them"
     ;;
   watch)
     load_practice_env
+    mail_open
     # A space half-way through practice-space has no marks yet: the timer waits for its next run.
     # (`check` takes no lock: it runs when the service starts, which those scripts may do.)
     exec 7>/run/lock/practice-space.lock

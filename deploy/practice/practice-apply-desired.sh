@@ -11,7 +11,10 @@
 #   - for each firm's space: its name, its first administrator's login, its language, its optional
 #     add-ons (checked against the release), a reset number (a reset when it grows), and the hash of
 #     a one-time link for the first administrator;
-#   - spaces to remove, by slug.
+#   - spaces to remove, by slug;
+#   - the only addresses a practice space may email ("Practice spaces may email only these addresses"
+#     on the console). Written to $PRACTICE_VAR/mail-allowlist; practice-guard copies it into every space.
+#     Empty, the default: no email at all.
 # It cannot name a database, a file or a command: each action goes through practice-space, whose
 # name gate refuses anything but practice_<slug>.
 
@@ -44,6 +47,7 @@ LOGIN = re.compile(r"^[A-Za-z0-9._+-]{1,64}(@[A-Za-z0-9.-]{1,190})?$")
 LANG = re.compile(r"^[a-z]{2,3}_[A-Z]{2}$")
 ADDON = re.compile(r"^[a-z][a-z0-9_]{2,39}$")
 INSTANT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+EMAIL = re.compile(r"^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,253}\.[A-Za-z]{2,63}$")
 URL = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/[A-Za-z0-9._~%/-]{1,512}(\?[A-Za-z0-9._~%&=-]{1,1500})?$")
 
 with open(sys.argv[1], encoding="utf-8") as handle:
@@ -80,6 +84,12 @@ for space in data.get("spaces", [])[:500] if isinstance(data.get("spaces"), list
 for slug in data.get("remove", [])[:500] if isinstance(data.get("remove"), list) else []:
     if isinstance(slug, str) and SLUG.match(slug):
         print("REMOVE\t%s" % slug)
+allowlist = data.get("mail_allowlist")
+if isinstance(allowlist, list):
+    print("ALLOWLIST\t-")
+    for address in allowlist[:50]:
+        if isinstance(address, str) and EMAIL.match(address):
+            print("ALLOW\t%s" % address.lower())
 PY
 ) || pl_die "the spool file cannot be read"
 
@@ -142,10 +152,29 @@ apply_space() {
   fi
 }
 
+ALLOWLIST_GIVEN=0
+ALLOWLIST_TEXT=
 while IFS=$'\t' read -r kind a b c d e f g h; do
   case "$kind" in
     RELEASE) apply_release "$a" "$b" "$c" ;;
     SPACE) ( apply_space "$a" "$b" "$c" "$d" "$e" "$f" "$g" "$h" ) || pl_warn "space $a: not applied" ;;
     REMOVE) [ ! -e "$(space_file "$a")" ] || act "$HERE/practice-space.sh" delete --slug "$a" --yes ;;
+    ALLOWLIST) ALLOWLIST_GIVEN=1 ;;
+    ALLOW) ALLOWLIST_TEXT+="$a"$'\n' ;;
   esac
 done <<<"$parsed"
+
+# The practice spaces' recipient list. practice-guard copies it into every space at its next run.
+if [ "$ALLOWLIST_GIVEN" = 1 ]; then
+  target=$PRACTICE_VAR/mail-allowlist
+  if [ "$DRY_RUN" = 1 ]; then
+    pl_log "DRY RUN: practice spaces may email $(printf '%s' "$ALLOWLIST_TEXT" | grep -c . || true) address(es)"
+  elif [ "$(cat "$target" 2>/dev/null || true)" != "${ALLOWLIST_TEXT%$'\n'}" ]; then
+    tmp=$(mktemp "$PRACTICE_VAR/.mail-allowlist.XXXXXX")
+    printf '%s' "$ALLOWLIST_TEXT" > "$tmp"
+    chmod 600 "$tmp"
+    mv -f "$tmp" "$target"
+    audit_line "mail allowlist: $(grep -c . "$target" || true) address(es)"
+    pl_log "practice spaces may email $(grep -c . "$target" || true) address(es)"
+  fi
+fi

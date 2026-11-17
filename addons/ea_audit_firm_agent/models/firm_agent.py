@@ -25,6 +25,8 @@ TIMEOUT_SECONDS = 20
 PARAM_URL = "ea_firm_agent.heartbeat_url"
 PARAM_SLUG = "ea_firm_agent.slug"
 PARAM_MAIL_TESTED = "ea_firm_agent.mail_tested"
+# Where replies to this firm's emails go, when the console's platform address sends for it.
+PARAM_MAIL_REPLY_TO = "ea_firm_agent.mail_reply_to"
 
 
 class EaFirmAgent(models.AbstractModel):
@@ -124,8 +126,18 @@ class EaFirmAgent(models.AbstractModel):
             return False
         desired = collect.parse_desired(response.content)
         if desired is not None:
+            self._apply_reply_to(desired.pop("mail_reply_to", None))
             self._write_spool(desired)
         return True
+
+    @api.model
+    def _apply_reply_to(self, reply_to):
+        """None: the console said nothing (an older console). "": no reply address. Checked by collect.py."""
+        if reply_to is None:
+            return
+        params = self.env["ir.config_parameter"].sudo()
+        if (params.get_param(PARAM_MAIL_REPLY_TO) or "") != reply_to:
+            params.set_param(PARAM_MAIL_REPLY_TO, reply_to or False)
 
     @api.model
     def _write_spool(self, desired):

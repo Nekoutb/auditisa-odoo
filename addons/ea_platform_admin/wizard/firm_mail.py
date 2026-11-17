@@ -10,8 +10,10 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..models.i18n import t
-from ..services import mail_handoff, mail_settings
+from ..models.firm_platform_mail import MAIL_CHOICES
+from ..services import mail_handoff, mail_settings, platform_mail
 from ..services.messages import _
+from ..services.validation import normalise_slug
 
 
 class PlatformMailForm(models.AbstractModel):
@@ -155,24 +157,51 @@ class PlatformFirmMailWizard(models.TransientModel):
 
 
 class PlatformOnboardingWizard(models.TransientModel):
-    """The New firm form's optional Email step, between the add-ons and the review."""
+    """The New firm form's Email step, between the add-ons and the review: the platform address
+    (recommended), the firm's own mailbox, or no email for now."""
 
     _name = "platform.onboarding.wizard"
     _inherit = ["platform.onboarding.wizard", "platform.mail.form"]
 
     step = fields.Selection(selection_add=[("email", "Email"), ("preflight",)], ondelete={"email": "set default"})
+    mail_choice = fields.Selection(
+        MAIL_CHOICES, "Email", default=lambda self: self._default_mail_choice(),
+        help="Recommended: AuditISA sends for this firm from its own platform address, ready as soon as the firm "
+             "is live. Or the firm's own mailbox, or no email for now (it can be set later from the firm's page).",
+    )
     preview_mail = fields.Char("Email", compute="_compute_preview_mail")
+    preview_platform_address = fields.Char("Platform address", compute="_compute_preview_mail")
 
-    @api.depends("mail_host", "mail_port", "mail_encryption", "mail_user", "mail_sender", "mail_password_kept")
+    @api.model
+    def _default_mail_choice(self):
+        return "platform" if self.env["platform.services"]._mail_ready() else "none"
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # A form filled with a mailbox (an older screen, a test) means the firm's own mailbox.
+        for vals in vals_list:
+            if "mail_choice" not in vals and any(vals.get(key) for key in ("mail_host", "mail_user", "mail_sender")):
+                vals["mail_choice"] = "own"
+        return super().create(vals_list)
+
+    @api.depends("mail_choice", "slug", "mail_host", "mail_port", "mail_encryption", "mail_user", "mail_sender",
+                 "mail_password_kept")
     @api.depends_context("lang")
     def _compute_preview_mail(self):
+        config = self.env["platform.services"]._mail_config()
         for wizard in self:
+            address = platform_mail.sender(
+                config["local_part"], platform_mail.subdomain(normalise_slug(wizard.slug) or "slug", config["parent"]))
+            wizard.preview_platform_address = address
             values = {
                 "host": wizard.mail_host, "port": wizard.mail_port, "encryption": wizard.mail_encryption,
                 "user": wizard.mail_user, "sender": wizard.mail_sender,
                 "password": "x" if wizard.mail_password_kept else "",
             }
-            if mail_settings.filled(values):
+            if wizard.mail_choice == "platform":
+                wizard.preview_mail = t(self.env, _(
+                    "AuditISA sends for this firm from %(address)s: set up during provisioning", address=address))
+            elif wizard.mail_choice == "own" and mail_settings.filled(values):
                 wizard.preview_mail = t(self.env, _(
                     "%(settings)s: sent to the firm's server and tested as soon as it is live",
                     settings=mail_settings.summary(values),
@@ -182,11 +211,17 @@ class PlatformOnboardingWizard(models.TransientModel):
 
     def _mail_filled(self):
         values = self._mail_values()
+        if self.mail_choice != "own":
+            return False, values
         return mail_settings.filled(values), values
 
     def action_next(self):
         self.ensure_one()
         if self.step == "email":
+            if self.mail_choice == "platform" and not self.env["platform.services"]._mail_ready():
+                raise UserError(t(self.env, _(
+                    "The sending service for firms is not set up: see Platform > Settings, "
+                    "and docs/runbook/PLATFORM-EMAIL.md.")))
             filled, values = self._mail_filled()
             if filled:
                 self._mail_raise_errors(values)
@@ -208,6 +243,9 @@ class PlatformOnboardingWizard(models.TransientModel):
     def _after_firm_created(self, firm):
         super()._after_firm_created(firm)
         filled, values = self._mail_filled()
-        if filled:
+        if self.mail_choice == "platform":
+            # The provisioning step "Set up the firm's email" makes the address.
+            firm.sudo().mail_choice = "platform"
+        elif filled:
             firm._mail_send_settings(values, user=self.env.user)
         self._mail_forget_password()

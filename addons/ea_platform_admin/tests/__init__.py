@@ -14,3 +14,4 @@ from . import test_signup
 from . import test_howto
 from . import test_firm_keys
 from . import test_firm_mail
+from . import test_platform_mail

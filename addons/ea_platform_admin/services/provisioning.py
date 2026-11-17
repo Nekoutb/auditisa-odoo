@@ -164,6 +164,21 @@ def _undo_dns(ctx):
     ctx.resources.pop("dns_record", None)
 
 
+def _do_platform_mail(ctx):
+    """The firm's platform email address (services/platform_mail.py), early, so that MailerSend's domain
+    check runs while the server installs. The hook never fails the firm for an email problem: it
+    asks for a retry twice, then records the problem on the firm, whose own checks carry on."""
+    hook = ctx.hooks.get("platform_mail")
+    if hook:
+        hook()
+
+
+def _undo_platform_mail(ctx):
+    hook = ctx.hooks.get("platform_mail_undo")
+    if hook:
+        hook()
+
+
 def _do_wait_install(ctx):
     if not ctx.hooks["heartbeat_seen"]():
         raise Wait(_("Installing on the server: waiting for the first heartbeat."))
@@ -214,6 +229,7 @@ PIPELINE = (
     Step("server", _("Creating the server"), _do_server, _undo_server),
     Step("wait_server", _("Starting the server"), _do_wait_server, timeout_minutes=15),
     Step("dns", _("The firm's address (DNS)"), _do_dns, _undo_dns),
+    Step("platform_mail", _("Set up the firm's email"), _do_platform_mail, _undo_platform_mail),
     Step("wait_install", _("Install (Odoo, PostgreSQL, HTTPS, backups)"), _do_wait_install, timeout_minutes=60),
     Step("health_check", _("Automatic health check"), _do_health_check, timeout_minutes=30),
     Step("activate", _("Going live"), _do_activate),
@@ -314,6 +330,7 @@ def destroy_resources(ctx):
     """Offboarding: everything the steps made, in reverse. Returns what could not be removed."""
     leftovers = []
     for undo, label in (
+        (_undo_platform_mail, _("email address")),
         (_undo_dns, _("DNS")),
         (_undo_server, _("server")),
         (_undo_storage, _("storage")),

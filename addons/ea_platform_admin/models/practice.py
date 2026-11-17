@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
-from ..services import practice
+from ..services import platform_mail, practice
 from ..services.heartbeat import HeartbeatRejected
 from ..services.messages import _
 from .i18n import t
@@ -182,6 +182,9 @@ class PlatformPracticeComputer(models.Model):
         """What the practice computer may be asked: a release (with its fingerprint), and each firm's space."""
         self.ensure_one()
         answer = {"ok": True, "spaces": [], "remove": []}
+        # The only addresses a practice space may email (Platform > Settings). Empty, the default: none at all.
+        answer["mail_allowlist"] = platform_mail.parse_allowlist(
+            self.env["ir.config_parameter"].sudo().get_param("ea_platform.practice_mail_allowlist") or "")[0]
         release = self.desired_release_id
         if release:
             answer["release"] = {"sha": release.sha, "bundle_sha256": release.bundle_sha256}

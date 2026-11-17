@@ -3613,3 +3613,27 @@ msgstr "Site de test du développeur : l'ouvre dans un nouvel onglet. Espaces d'
 #: model:ir.model.fields,field_description:ea_platform_pipeline.field_platform_environment__release_busy
 msgid "Release Busy"
 msgstr "Promotion en cours"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/firm.py:0
+msgid "The staging server (test.auditisa.com) never sends email: it gets no platform address."
+msgstr "Le serveur de préproduction (test.auditisa.com) n'envoie jamais d'e-mail : il ne reçoit pas d'adresse de la plateforme."
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "Practice spaces may email"
+msgstr "Les espaces d'entraînement peuvent écrire à"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "%(count)s address(es) only (Platform > Settings)"
+msgstr "%(count)s adresse(s) seulement (Plateforme > Réglages)"
+
+#. module: ea_platform_pipeline
+#. odoo-python
+#: code:addons/ea_platform_pipeline/models/environment.py:0
+msgid "Nobody: no email at all (the default)"
+msgstr "Personne : aucun e-mail (par défaut)"

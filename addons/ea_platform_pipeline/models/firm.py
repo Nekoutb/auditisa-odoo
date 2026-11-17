@@ -6,6 +6,7 @@ import struct
 from odoo import api, fields, models
 
 from odoo.addons.ea_platform_admin.services import heartbeat
+from odoo.addons.ea_platform_admin.services.messages import _
 
 from ..services import pipeline
 
@@ -46,6 +47,12 @@ class PlatformFirm(models.Model):
         if rebuild and self.state == "active":
             answer["anon_export_ref"] = rebuild.request_ref
         return answer
+
+    def _pmail_refusal(self):
+        """The staging server (test.auditisa.com) never sends email: no platform address for it, ever."""
+        if self.pipeline_role == "staging":
+            return _("The staging server (test.auditisa.com) never sends email: it gets no platform address.")
+        return super()._pmail_refusal()
 
     def _alert(self, reasons):
         # Staging keeps no backups and tests no restore: that is no alarm.
