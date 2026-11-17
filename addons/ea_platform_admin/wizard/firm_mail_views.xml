@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Email for this firm: the operator enters the firm's mailbox; the firm's server tests it. -->
+    <record id="view_firm_mail_wizard_form" model="ir.ui.view">
+        <field name="name">platform.firm.mail.wizard.form</field>
+        <field name="model">platform.firm.mail.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Email for this firm">
+                <p>The firm's own mailbox sends its emails: password resets, invitations. Ask the firm, or its IT provider, for these settings. The firm's server tests them without sending any message, and switches sending on only if the test passes.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="current_state" widget="badge"/>
+                    <field name="current_message" nolabel="1" colspan="2" class="text-muted"/>
+                </group>
+                <group string="The firm's mailbox">
+                    <field name="mail_preset" widget="radio" options="{'horizontal': true}"/>
+                    <div colspan="2" class="text-muted small">Choose the firm's email provider: the server, the port and the encryption fill in by themselves.</div>
+                    <field name="mail_host" placeholder="smtp.office365.com"/>
+                    <div colspan="2" class="text-muted small">The provider's outgoing mail server (SMTP).</div>
+                    <field name="mail_port"/>
+                    <div colspan="2" class="text-muted small">Usually 587 with STARTTLS, or 465 with SSL.</div>
+                    <field name="mail_encryption" widget="radio" options="{'horizontal': true}"/>
+                    <div colspan="2" class="text-muted small">How the connection is protected. A password never travels unencrypted.</div>
+                    <field name="mail_user" placeholder="cabinet@example.com"/>
+                    <div colspan="2" class="text-muted small">Usually the full email address of the mailbox.</div>
+                    <field name="mail_password" password="True"/>
+                    <div colspan="2" class="text-muted small">The mailbox's password, or an app password (Microsoft 365 and Google often ask for one). It goes to the firm's server once. The console never keeps it and never shows it again.</div>
+                    <field name="mail_password_kept" invisible="1"/>
+                    <div colspan="2" class="alert alert-info py-1" role="status" invisible="not mail_password_kept">A password is kept for this form: leave the field empty to use it, or type it again.</div>
+                    <field name="mail_sender" placeholder="cabinet@example.com"/>
+                    <div colspan="2" class="text-muted small">The address the firm's emails come from: usually the same mailbox.</div>
+                </group>
+                <footer>
+                    <button name="action_save_and_test" type="object" string="Save and test" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- The firm's page: the buttons, and what the console knows of the firm's email. -->
+    <record id="view_firm_form_mail" model="ir.ui.view">
+        <field name="name">platform.firm.form.mail</field>
+        <field name="model">platform.firm</field>
+        <field name="inherit_id" ref="view_firm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <button name="action_open_firm_wizard" type="object" string="Email for this firm"
+                        context="{'firm_wizard': 'platform.firm.mail.wizard'}"
+                        invisible="state not in ('active', 'provisioning')"
+                        groups="ea_platform_admin.group_platform_operator"/>
+                <button name="action_mail_switch_off" type="object" string="Switch sending off"
+                        invisible="state != 'active' or not (mail_enabled or mail_request_state == 'on')"
+                        groups="ea_platform_admin.group_platform_operator"
+                        confirm="The firm's server will stop sending email: no more password resets or invitations by email. Switch sending off?"/>
+            </xpath>
+            <xpath expr="//page[@name='security']" position="before">
+                <page string="Email" name="email">
+                    <group>
+                        <group string="The firm's email">
+                            <field name="mail_enabled"/>
+                            <field name="mail_request_state" widget="badge"
+                                   decoration-success="mail_request_state == 'on'"
+                                   decoration-info="mail_request_state == 'waiting'"
+                                   decoration-warning="mail_request_state in ('login', 'connect', 'tls', 'sender', 'refused', 'failed', 'expired', 'no_answer')"/>
+                            <field name="mail_request_message" nolabel="1" colspan="2"/>
+                        </group>
+                        <group string="Last request from the console" invisible="not mail_request_at">
+                            <field name="mail_request_action"/>
+                            <field name="mail_request_summary"/>
+                            <field name="mail_request_at"/>
+                            <field name="mail_request_by"/>
+                            <field name="mail_request_delivered_at"/>
+                            <field name="mail_request_answered_at"/>
+                        </group>
+                    </group>
+                    <p class="text-muted">The console never keeps the password. To change the settings, or the password, use Email for this firm again: the firm's server tests the new settings before it sends anything.</p>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- The New firm form's optional Email step, between the add-ons and the review. -->
+    <record id="view_onboarding_form_mail" model="ir.ui.view">
+        <field name="name">platform.onboarding.wizard.form.mail</field>
+        <field name="model">platform.onboarding.wizard</field>
+        <field name="inherit_id" ref="view_onboarding_form_addons"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='step']" position="attributes">
+                <attribute name="statusbar_visible">identity,technical,addons,email,preflight</attribute>
+            </xpath>
+            <xpath expr="//div[@invisible=&quot;step != 'preflight'&quot;]" position="before">
+                <div invisible="step != 'email'">
+                    <p class="fw-bold">You can do this later from the firm's page.</p>
+                    <p>Optional: the firm's own mailbox, which sends its emails (password resets, invitations). Filled in now, the settings go to the firm's server as soon as it is live; it tests them without sending any message, and switches sending on only if the test passes.</p>
+                    <group>
+                        <field name="mail_preset" widget="radio" options="{'horizontal': true}"/>
+                        <div colspan="2" class="text-muted small">Choose the firm's email provider: the server, the port and the encryption fill in by themselves.</div>
+                        <field name="mail_host" placeholder="smtp.office365.com"/>
+                        <div colspan="2" class="text-muted small">The provider's outgoing mail server (SMTP).</div>
+                        <field name="mail_port"/>
+                        <div colspan="2" class="text-muted small">Usually 587 with STARTTLS, or 465 with SSL.</div>
+                        <field name="mail_encryption" widget="radio" options="{'horizontal': true}"/>
+                        <div colspan="2" class="text-muted small">How the connection is protected. A password never travels unencrypted.</div>
+                        <field name="mail_user" placeholder="cabinet@example.com"/>
+                        <div colspan="2" class="text-muted small">Usually the full email address of the mailbox.</div>
+                        <field name="mail_password" password="True"/>
+                        <div colspan="2" class="text-muted small">The mailbox's password, or an app password (Microsoft 365 and Google often ask for one). It goes to the firm's server once. The console never keeps it and never shows it again.</div>
+                        <field name="mail_password_kept" invisible="1"/>
+                        <div colspan="2" class="alert alert-info py-1" role="status" invisible="not mail_password_kept">A password is kept for this form: leave the field empty to use it, or type it again.</div>
+                        <field name="mail_sender" placeholder="cabinet@example.com"/>
+                        <div colspan="2" class="text-muted small">The address the firm's emails come from: usually the same mailbox.</div>
+                    </group>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='preview_allowlist']" position="after">
+                <field name="preview_mail"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

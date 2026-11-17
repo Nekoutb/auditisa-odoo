@@ -4,10 +4,13 @@ from odoo.addons.base.models.ir_mail_server import MailDeliveryException
 from .firm_agent import PARAM_MAIL_TESTED
 
 PARAM_MAIL_GATE = "ea_firm_agent.mail_gate"
-# Changing one of these means the mail settings have to prove themselves again.
+# Changing one of these means the mail settings have to prove themselves again. Switching the
+# server off closes the gate too; switching it on does not reopen it, and does not close it either:
+# root's firm-mail-server switches the server on right after the test passed, and until 2026-11-17
+# that very write closed the gate again, so a firm's mail never opened (and no "Forgot your password?").
 _SMTP_FIELDS = frozenset({
     "smtp_host", "smtp_port", "smtp_user", "smtp_pass", "smtp_encryption", "smtp_authentication",
-    "from_filter", "active",
+    "from_filter",
 })
 _MAIL_CRONS = ("mail.ir_cron_mail_scheduler_action", "mail.ir_cron_mail_gateway_action")
 # "Forgot your password?" sends a mail: offered only while mail is open (test-firm run, 2026-11-09).
@@ -76,7 +79,7 @@ class IrMailServer(models.Model):
 
     def write(self, vals):
         result = super().write(vals)
-        if _SMTP_FIELDS & set(vals):
+        if _SMTP_FIELDS & set(vals) or ("active" in vals and not vals["active"]):
             params = self.env["ir.config_parameter"].sudo()
             if params.get_param(PARAM_MAIL_GATE) == "1" and params.get_param(PARAM_MAIL_TESTED) == "1":
                 params.set_param(PARAM_MAIL_TESTED, "0")

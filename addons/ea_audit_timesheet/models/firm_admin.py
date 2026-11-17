@@ -1,11 +1,14 @@
 import ipaddress
+import smtplib
 import socket
+import ssl
 from urllib.parse import urlencode
 
 from odoo import SUPERUSER_ID, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import LazyTranslate
 
+from odoo.addons.base.models.ir_mail_server import MailDeliveryException
 from odoo.addons.ea_audit_core.services.email_domains import is_valid_email
 from odoo.addons.ea_audit_core.services.signoff_rules import TEAM_LADDER, may_hold_partner_seat
 
@@ -98,6 +101,7 @@ class FirmAdmin(models.AbstractModel):
             })
         company = self.env.company.sudo()
         return {
+            "mail_on": self._ea_fm_can_send(),
             "users": rows,
             "roles": [{"key": key, "label": self.env._(label)} for key, label, _xmlid in ROLES],
             "domains": company.ea_allowed_email_domains or "",
@@ -215,6 +219,29 @@ class FirmAdmin(models.AbstractModel):
         return {"link": self._ea_fa_link(user, "reset"), "hours": PASSWORD_LINK_HOURS}
 
     @api.model
+    def ea_fa_send_link(self, user_id):
+        """Sends the invitation to the person by email, from the firm's own mailbox. Offered only
+        while the firm's sending is on (set from the AuditISA console, never from here). The email
+        holds a link that sets a password chosen by the person: no password travels."""
+        self._ea_fa_require()
+        user = self._ea_fa_target(user_id)
+        if not user.active:
+            raise refuse(self.env, "fa-user-inactive")
+        if user.login_date:
+            raise refuse(self.env, "fa-already-joined")
+        if not self._ea_fm_can_send():
+            raise refuse(self.env, "fa-mail-off")
+        if not user.email:
+            raise refuse(self.env, "fa-email-invalid")
+        try:
+            # create_user: Odoo's invitation email ("set your password"), not the reset one.
+            user.with_context(create_user=1, lang=user.lang or self.env.lang).action_reset_password()
+        except (UserError, MailDeliveryException):
+            raise refuse(self.env, "fa-mail-failed") from None
+        self.env["ea.audit.firm.log"]._ea_append("link_emailed", user)
+        return {"sent_to": user.email}
+
+    @api.model
     def ea_fa_set_role(self, user_id, role):
         self._ea_fa_require()
         if role not in _ROLE_XMLIDS:
@@ -325,6 +352,14 @@ class FirmAdmin(models.AbstractModel):
         if server.active:
             return "on"
         return "tested" if self.env.company.sudo().ea_mail_tested_at else "untested"
+
+    @api.model
+    def _ea_fm_can_send(self):
+        """True when this firm's own mailbox sends: set, tested, switched on, and not a test environment."""
+        if self._ea_fm_staging() or self._ea_fm_state() != "on":
+            return False
+        gate_closed = getattr(self.env["ir.mail_server"].sudo(), "_ea_mail_gate_closed", None)
+        return not (gate_closed and gate_closed())
 
     @api.model
     def ea_fm_get(self):
@@ -448,10 +483,32 @@ class FirmAdmin(models.AbstractModel):
             company.ea_mail_tested_at = False
             server.active = False
             self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail=self.env._("Failed"))
-            return {"ok": False, "message": str(error)[:400], "state": self._ea_fm_root_get()}
+            return {"ok": False, "message": str(error)[:400], "kind": self._ea_fm_failure_kind(error),
+                    "state": self._ea_fm_root_get()}
         company.ea_mail_tested_at = fields.Datetime.now()
         self.env["ea.audit.firm.log"]._ea_append("mail_tested", detail=self.env._("Passed"))
         return {"ok": True, "message": self.env._("Connection passed. No message was sent."), "state": self._ea_fm_root_get()}
+
+    @api.model
+    def _ea_fm_failure_kind(self, error):
+        """One word for the console, which says it in plain language: login, connect, tls, sender or
+        failed. Read from the exception Odoo's test wrapped, never from its translated message."""
+        if getattr(error, "code", None) == "fm-host":
+            return "connect"
+        seen = set()
+        current = error
+        while current is not None and id(current) not in seen:
+            seen.add(id(current))
+            if isinstance(current, smtplib.SMTPAuthenticationError):
+                return "login"
+            if isinstance(current, (smtplib.SMTPSenderRefused, smtplib.SMTPRecipientsRefused)):
+                return "sender"
+            if isinstance(current, (ssl.SSLError, smtplib.SMTPNotSupportedError, smtplib.SMTPServerDisconnected)):
+                return "tls"
+            if isinstance(current, (socket.gaierror, TimeoutError, ConnectionError, smtplib.SMTPConnectError)):
+                return "connect"
+            current = current.__cause__ or current.__context__
+        return "failed"
 
     @api.model
     def _ea_fm_root_enable(self):

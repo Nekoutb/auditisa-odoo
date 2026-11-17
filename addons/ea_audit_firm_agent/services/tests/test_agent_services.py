@@ -153,3 +153,29 @@ def test_a_left_over_signer_list_number_is_not_reported(tmp_path):
     """Servers set up before 2026-11-10 keep a status/signers_serial file: nothing reads it any more."""
     (tmp_path / "signers_serial").write_text("3\n", encoding="ascii")
     assert "signers_serial" not in read_status(str(tmp_path))
+
+
+MAIL_SET = {
+    "ref": "0123456789abcdef", "action": "set", "host": "smtp.office365.com", "port": 587,
+    "encryption": "starttls", "user": "cabinet@exemple.cm", "password": "pw: été #1", "from": "cabinet@exemple.cm",
+}
+
+
+def test_the_console_s_email_request_is_kept_whole_and_checked():
+    assert parse_desired(json.dumps({"mail_request": MAIL_SET}).encode())["mail_request"] == MAIL_SET
+    off = {"ref": "0123456789abcdef", "action": "off"}
+    assert parse_desired(json.dumps({"mail_request": off}).encode())["mail_request"] == off
+    for bad in (
+        dict(MAIL_SET, ref="XYZ"), dict(MAIL_SET, action="run"), dict(MAIL_SET, port="587"),
+        dict(MAIL_SET, password="a\nMAIL_HOST=10.0.0.5"), dict(MAIL_SET, host="x" * 300), dict(MAIL_SET, extra=1),
+        dict(off, host="smtp.example.com"), "set", None,
+    ):
+        assert "mail_request" not in parse_desired(json.dumps({"mail_request": bad}).encode())
+
+
+def test_the_email_answer_is_read_from_its_two_status_files(tmp_path):
+    (tmp_path / "mail_request_ref").write_text("0123456789abcdef\n")
+    (tmp_path / "mail_request_result").write_text("login\n")
+    assert read_status(str(tmp_path)) == {"mail_request_ref": "0123456789abcdef", "mail_request_result": "login"}
+    (tmp_path / "mail_request_result").write_text("Authentication failed for x@y\n")
+    assert "mail_request_result" not in read_status(str(tmp_path))

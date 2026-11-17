@@ -20,6 +20,7 @@ body.ea-shell .ea-ts {
   .ea-ts-alert-rose { background: var(--ea-rosebg); border: 1px solid #ecc9d0; color: var(--ea-rose); }
   .ea-ts-alert-green { background: var(--ea-greenbg); border: 1px solid #c4e2d6; color: var(--ea-green); }
   .ea-ts-link code { display: block; margin-top: 4px; word-break: break-all; font-size: 12px; }
+  .ea-ts-link-acts { display: flex; gap: 6px; flex-shrink: 0; align-items: flex-start; }
 
   .ea-ts-entry {
     display: flex; gap: 12px; align-items: flex-end; padding: 12px 16px; margin-bottom: 12px; flex-wrap: wrap;

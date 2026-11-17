@@ -19,7 +19,8 @@ export class EaFirmUsers extends Component {
         shell.openSection = null;
         shell.screen = "users";
         this.state = useState({
-            data: null, error: null, notice: null, link: null, linkFor: "", linkKind: "invite", copied: false,
+            data: null, error: null, notice: null, link: null, linkFor: "", linkKind: "invite", linkUser: null,
+            copied: false, emailed: false,
             invite: { email: "", name: "", role: "staff", engagement: "", teamRole: "staff" },
             domains: "",
         });
@@ -50,7 +51,7 @@ export class EaFirmUsers extends Component {
             const result = await this.orm.call(MODEL, "ea_fa_invite", [
                 form.email, form.name, form.role, engagementId, engagementId ? form.teamRole : false,
             ]);
-            this.showLink(result.link, form.email, "invite");
+            this.showLink(result.link, form.email, "invite", result.user_id);
             form.email = "";
             form.name = "";
             form.engagement = "";
@@ -60,30 +61,41 @@ export class EaFirmUsers extends Component {
         });
     }
 
-    showLink(link, login, kind) {
+    showLink(link, login, kind, userId) {
         this.state.link = link;
         this.state.linkFor = login;
         this.state.linkKind = kind;
+        // Only an invitation can be sent by email (a signed-in person is refused by ea_fa_send_link).
+        this.state.linkUser = kind === "invite" ? userId : null;
         this.state.copied = false;
+        this.state.emailed = false;
     }
 
     newLink(row) {
         return this.run(async () => {
             const result = await this.orm.call(MODEL, "ea_fa_link", [row.id]);
-            this.showLink(result.link, row.login, "invite");
+            this.showLink(result.link, row.login, "invite", row.id);
         });
     }
 
     passwordLink(row) {
         return this.run(async () => {
             const result = await this.orm.call(MODEL, "ea_fa_password_link", [row.id]);
-            this.showLink(result.link, row.login, "password");
+            this.showLink(result.link, row.login, "password", row.id);
         });
     }
 
     async copyLink() {
         await navigator.clipboard?.writeText(this.state.link);
         this.state.copied = true;
+    }
+
+    // Shown only while the firm's own email is on (set by AuditISA from its console).
+    sendLink() {
+        return this.run(async () => {
+            await this.orm.call(MODEL, "ea_fa_send_link", [this.state.linkUser]);
+            this.state.emailed = true;
+        }, _t("Invitation sent by email."));
     }
 
     setRole(row, ev) {

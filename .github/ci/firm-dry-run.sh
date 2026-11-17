@@ -117,6 +117,28 @@ chmod 600 "$MAIL_FILE"
 sed -i 's/^MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=none/' "$MAIL_FILE"
 if FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-mail-server.sh --dry-run >/dev/null 2>&1; then fail "firm-mail-server took an unencrypted password"; fi
 rm -f "$MAIL_FILE"
+
+echo "== the firm's outgoing mail, sent from the console: read once, erased, written for root only"
+MAIL_SPOOL=$A/var/lib/auditisa-firm/spool/mail.json
+mkdir -p "$(dirname "$MAIL_SPOOL")"
+request() { printf '{"ref":"0123456789abcdef","action":"set","host":"%s","port":587,"encryption":"starttls","user":"cabinet@example.cm","password":"%s","from":"cabinet@example.cm"}' "$1" "$MAIL_PW" > "$MAIL_SPOOL"; }
+request smtp.example.cm
+FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-apply-desired.sh --dry-run > "$WORK/apply-mail.log" 2>&1
+has "$WORK/apply-mail.log" 'would apply the email settings the console sent'
+lacks "$WORK/apply-mail.log" "$MAIL_PW"
+"$PYTHON" -I deploy/firm/firm_mail.py request "$MAIL_SPOOL" "$MAIL_FILE" > "$WORK/request.log" 2>&1
+has "$WORK/request.log" '^0123456789abcdef set$'
+lacks "$WORK/request.log" "$MAIL_PW"
+[ ! -e "$MAIL_SPOOL" ] || fail "the console's request was not erased"
+[ "$(stat -c %a "$MAIL_FILE")" = 600 ] || fail "the settings file is not for root only"
+FIRM_PREFIX=$A ODOO_PY=$PYTHON bash deploy/firm/firm-mail-server.sh --dry-run > "$WORK/mail-request.log" 2>&1
+has "$WORK/mail-request.log" 'smtp.example.cm:587 STARTTLS'
+request 10.0.0.5
+"$PYTHON" -I deploy/firm/firm_mail.py request "$MAIL_SPOOL" "$WORK/refused.env" > "$WORK/request-bad.log" 2>/dev/null
+has "$WORK/request-bad.log" '^0123456789abcdef refused$'
+[ ! -e "$WORK/refused.env" ] || fail "a refused request wrote settings"
+[ ! -e "$MAIL_SPOOL" ] || fail "a refused request was not erased"
+rm -f "$MAIL_FILE"
 lacks "$A/etc/systemd/system/odoo.service" 'ReadWritePaths=.*auditisa-firm/addons'
 
 echo "== the isolation test finds every planted fault"

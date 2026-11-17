@@ -2,6 +2,10 @@
 
     firm_mail.py check FILE      prints what will be set, without the password
     firm_mail.py payload FILE    prints the settings for Odoo, base64 (root keeps it in a variable)
+    firm_mail.py request SPOOL FILE
+                                 reads what the console asked (the "Email for this firm" screen),
+                                 erases SPOOL, writes FILE (chmod 600) when settings were sent, and
+                                 prints "REF set", "REF off" or "REF refused"
 
 The file is read, never sourced or run. It must be a plain file owned by the user running this
 (root on a server) and readable by nobody else (chmod 600). One setting per line, KEY=value:
@@ -33,6 +37,11 @@ HOST = re.compile(r"^(?=.{1,253}$)%s(?:\.%s)+$" % (_LABEL, _LABEL))
 SENDER = re.compile(r"^(?:[A-Za-z0-9._%%+-]{1,64}@)?(?=.{1,253}$)%s(?:\.%s)+$" % (_LABEL, _LABEL))
 USER = re.compile(r"^[^\s\x00-\x1f]{1,254}$")
 MAX_PASSWORD = 512
+# What the console's heartbeat answer may carry (see ea_audit_firm_agent/services/collect.py).
+REF = re.compile(r"^[0-9a-f]{16}$")
+REQUEST_SET_KEYS = frozenset({"ref", "action", "host", "port", "encryption", "user", "password", "from"})
+REQUEST_OFF_KEYS = frozenset({"ref", "action"})
+MAX_REQUEST_BYTES = 4096
 
 
 class MailFileError(ValueError):
@@ -113,13 +122,120 @@ def describe(settings):
     )
 
 
+def env_text(host, port, encryption, user, password, sender):
+    """The settings file, as an operator would write it by hand. Refuses a line break in a value."""
+    values = (host, str(port), encryption, user, password, sender)
+    if any("\n" in value or "\r" in value for value in values):
+        raise MailFileError("a value holds a line break")
+    return "".join("%s=%s\n" % pair for pair in zip(KEYS, values))
+
+
+def read_request(text):
+    """(ref, action, file text or None) from the console's request, or MailFileError.
+
+    The request was checked by the console, by the agent, and is checked here again with the same
+    rules as a file written by hand: the spool folder is writable by the odoo user.
+    """
+    try:
+        data = json.loads(text)
+    except ValueError:
+        raise MailFileError("the request is not JSON") from None
+    if not isinstance(data, dict) or not isinstance(data.get("ref"), str) or not REF.match(data["ref"]):
+        raise MailFileError("the request has no reference")
+    action = data.get("action")
+    if action == "off":
+        if set(data) != REQUEST_OFF_KEYS:
+            raise RequestRefused(data["ref"], "unexpected keys")
+        return data["ref"], "off", None
+    if action != "set" or set(data) != REQUEST_SET_KEYS:
+        raise RequestRefused(data["ref"], "not a request this script knows")
+    port = data["port"]
+    strings = [data[key] for key in ("host", "encryption", "user", "password", "from")]
+    if type(port) is not int or not all(isinstance(value, str) for value in strings):
+        raise RequestRefused(data["ref"], "a value of the wrong type")
+    try:
+        text = env_text(data["host"], port, data["encryption"], data["user"], data["password"], data["from"])
+        parse(text)
+    except MailFileError as error:
+        raise RequestRefused(data["ref"], str(error)) from None
+    return data["ref"], "set", text
+
+
+class RequestRefused(MailFileError):
+    """A request whose reference is known: the console is told it was refused."""
+
+    def __init__(self, ref, reason):
+        super().__init__(reason)
+        self.ref = ref
+
+
+def take_request(spool):
+    """The spool file's text, then the file is erased whatever it holds. MailFileError if unusable."""
+    try:
+        try:
+            info = os.lstat(spool)
+        except OSError:
+            raise MailFileError("no request") from None
+        if stat.S_ISLNK(info.st_mode) or not stat.S_ISREG(info.st_mode):
+            raise MailFileError("the request is not a plain file")
+        if info.st_size > MAX_REQUEST_BYTES:
+            raise MailFileError("the request is too large")
+        try:
+            # No link followed, even one swapped in after the check above.
+            handle = os.open(spool, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+            with os.fdopen(handle, encoding="utf-8") as stream:
+                return stream.read(MAX_REQUEST_BYTES + 1)
+        except UnicodeDecodeError:
+            raise MailFileError("the request is not UTF-8 text") from None
+        except OSError:
+            raise MailFileError("the request cannot be read") from None
+    finally:
+        try:
+            os.unlink(spool)
+        except FileNotFoundError:
+            pass
+
+
+def write_private(path, text):
+    """Writes FILE for the user running this only (chmod 600), in one step."""
+    folder = os.path.dirname(os.path.abspath(path))
+    temporary = os.path.join(folder, ".mail.env.%d" % os.getpid())
+    handle = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    try:
+        with os.fdopen(handle, "w", encoding="utf-8") as out:
+            out.write(text)
+        os.replace(temporary, path)
+    except BaseException:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+        raise
+
+
+def request_main(spool, path):
+    try:
+        ref, action, text = read_request(take_request(spool))
+    except RequestRefused as error:
+        print("refused: %s" % error, file=sys.stderr)
+        print("%s refused" % error.ref)
+        return 0
+    except MailFileError as error:
+        print("refused: %s" % error, file=sys.stderr)
+        return 2
+    if text is not None:
+        write_private(path, text)
+    print("%s %s" % (ref, action))
+    return 0
+
+
 def payload(settings):
     return base64.b64encode(json.dumps(settings).encode("utf-8")).decode("ascii")
 
 
 def main(argv):
+    if len(argv) == 4 and argv[1] == "request":
+        return request_main(argv[2], argv[3])
     if len(argv) != 3 or argv[1] not in ("check", "payload"):
-        print("usage: firm_mail.py check|payload FILE", file=sys.stderr)
+        print("usage: firm_mail.py check|payload FILE, or firm_mail.py request SPOOL FILE", file=sys.stderr)
         return 2
     path = argv[2]
     try:

@@ -1,5 +1,8 @@
 """The firm administrator: what they run without the technical account, and every way
 they might try to reach beyond it."""
+import smtplib
+import socket
+import ssl
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse
 
@@ -439,3 +442,79 @@ class TestMail(FirmAdminCase):
         self.assertCode("ts-project-not-chargeable", self.charge, self.staff, project=project)
         self.assertCode("ts-project-not-chargeable", self.fa().ea_fa_project_active, self.project.id, False)
         self.assertCode("fa-project-name", self.fa().ea_fa_project_add, "   ")
+
+
+@tagged("post_install", "-at_install")
+class TestMailFromTheConsole(FirmAdminCase):
+    """Stream E (owner, 2026-11-17): the operator sets the firm's email from the console; then the
+    firm's own mailbox sends the invitations and the password resets."""
+
+    def root(self):
+        return self.env["ea.audit.firm.admin"]
+
+    def switch_on(self):
+        with patch.object(type(self.root()), "_ea_fm_probe", lambda _self, _server: None):
+            result = self.root()._ea_fm_root_configure(MAIL)
+        self.assertTrue(result["ok"])
+
+    def invited(self):
+        result = self.fa().ea_fa_invite("invite@gov.example.com", "Invité", "staff")
+        return self.env["res.users"].sudo().browse(result["user_id"])
+
+    def test_a_failed_test_says_why_in_one_word(self):
+        self.root()._ea_fm_root_save(MAIL)
+        cases = [
+            (smtplib.SMTPAuthenticationError(535, b"5.7.8 bad credentials"), "login"),
+            (smtplib.SMTPSenderRefused(553, b"not yours", "x@example.com"), "sender"),
+            (ssl.SSLError("wrong version number"), "tls"),
+            (smtplib.SMTPServerDisconnected("closed"), "tls"),
+            (socket.gaierror(-2, "Name or service not known"), "connect"),
+            (TimeoutError("timed out"), "connect"),
+            (ValueError("anything else"), "failed"),
+        ]
+        for cause, kind in cases:
+            def probe(_self, _server, cause=cause):
+                # As Odoo's test does: every error becomes a UserError raised while handling it.
+                try:
+                    raise cause
+                except Exception:  # noqa: BLE001
+                    raise UserError("Connection Test Failed!")  # noqa: B904
+            with patch.object(type(self.root()), "_ea_fm_probe", probe):
+                result = self.root()._ea_fm_root_test()
+            self.assertFalse(result["ok"])
+            self.assertEqual(result["kind"], kind, cause)
+        self.assertNotIn(MAIL["password"], str(result))
+
+    def test_send_by_email_is_offered_only_while_sending_is_on(self):
+        self.assertFalse(self.fa().ea_fa_users()["mail_on"])
+        user = self.invited()
+        self.assertCode("fa-mail-off", self.fa().ea_fa_send_link, user.id)
+        self.switch_on()
+        self.assertTrue(self.fa().ea_fa_users()["mail_on"])
+        self.env["ir.config_parameter"].sudo().set_param("ea_audit.staging_band", "1")
+        self.assertFalse(self.fa().ea_fa_users()["mail_on"])
+        self.assertCode("fa-mail-off", self.fa().ea_fa_send_link, user.id)
+
+    def test_send_by_email_sends_odoo_s_invitation_and_is_logged(self):
+        self.switch_on()
+        user = self.invited()
+        calls = []
+
+        def send(users):
+            calls.append((users.ids, users.env.context.get("create_user")))
+        with patch.object(type(self.env["res.users"]), "action_reset_password", send):
+            self.assertEqual(self.fa().ea_fa_send_link(user.id), {"sent_to": "invite@gov.example.com"})
+        self.assertEqual(calls, [([user.id], 1)])
+        self.assertTrue(self.Log.search_count([("kind", "=", "link_emailed"), ("target_id", "=", user.id)]))
+
+    def test_send_by_email_refusals(self):
+        self.switch_on()
+        user = self.invited()
+
+        def fails(_users):
+            raise UserError("Could not contact the mail server")
+        with patch.object(type(self.env["res.users"]), "action_reset_password", fails):
+            self.assertCode("fa-mail-failed", self.fa().ea_fa_send_link, user.id)
+        self.assertCode("fa-forbidden", self.fa(self.staff).ea_fa_send_link, user.id)
+        user.with_user(user)._update_last_login()
+        self.assertCode("fa-already-joined", self.fa().ea_fa_send_link, user.id)

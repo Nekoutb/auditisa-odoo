@@ -43,6 +43,8 @@ class TestOnboarding(PlatformCase):
         wizard.action_next()
         self.assertEqual(wizard.step, "addons")
         wizard.action_next()
+        self.assertEqual(wizard.step, "email")
+        wizard.action_next()
         self.assertEqual(wizard.step, "preflight")
         self.assertEqual(wizard.preview_total_cost, 41.0)
         self.assertIn("SIMULATION", wizard.preview_mode)

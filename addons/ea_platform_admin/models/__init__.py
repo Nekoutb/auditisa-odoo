@@ -10,3 +10,4 @@ from . import firm_addons
 from . import support
 from . import practice
 from . import howto
+from . import firm_mail

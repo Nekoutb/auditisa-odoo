@@ -28,6 +28,12 @@ SECRET_WORDS = re.compile(r"token|secret|key(?!_id|_fingerprint|_escrowed)")
 # transient wizard, shown once and blanked on close. Never a firm's credential; only its hash leaves the
 # console (docs/runbook/ENVIRONMENTS.md).
 SHOWN_ONCE_FIELDS = {"platform.environment.account.wizard.password"}
+# A firm's mail password, typed on the "Email for this firm" form (owner, 2026-11-17). Not a column: taken
+# out of what the screen sends before anything is written, kept encrypted outside the database until the
+# firm's heartbeat collects it (services/mail_handoff.py). The flag only says that one is waiting.
+_MAIL_FORMS = ("platform.mail.form", "platform.firm.mail.wizard", "platform.onboarding.wizard")
+NEVER_STORED_FIELDS = {f"{model}.mail_password" for model in _MAIL_FORMS}
+FLAG_FIELDS = {f"{model}.mail_password_kept" for model in _MAIL_FORMS}
 
 FORBIDDEN_IMPORTS = {"paramiko", "fabric", "xmlrpc", "odoorpc", "asyncssh", "subprocess", "socket", "ftplib", "smtplib", "telnetlib"}
 FORBIDDEN_CALLS = re.compile(r"psycopg2\.connect|db_connect|sql_db\.|os\.system|os\.popen")
@@ -67,9 +73,18 @@ class TestNoFirmData(PlatformCase):
         wrong = []
         for model in self._platform_models():
             for name in self.env[model]._fields:
-                if FORBIDDEN_FIELD_WORDS.search(name) and f"{model}.{name}" not in SHOWN_ONCE_FIELDS:
+                exempt = SHOWN_ONCE_FIELDS | NEVER_STORED_FIELDS | FLAG_FIELDS
+                if FORBIDDEN_FIELD_WORDS.search(name) and f"{model}.{name}" not in exempt:
                     wrong.append(f"{model}.{name}")
         self.assertEqual(wrong, [])
+
+    def test_the_mail_password_is_never_a_column(self):
+        for qualified in NEVER_STORED_FIELDS:
+            model, name = qualified.rsplit(".", 1)
+            self.assertFalse(self.env[model]._fields[name].store, qualified)
+        for qualified in FLAG_FIELDS:
+            model, name = qualified.rsplit(".", 1)
+            self.assertEqual(self.env[model]._fields[name].type, "boolean", qualified)
 
     def test_the_only_secret_fields_are_the_two_declared(self):
         firm_fields = self.env["platform.firm"]._fields

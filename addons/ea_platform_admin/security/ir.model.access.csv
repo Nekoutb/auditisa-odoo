@@ -36,3 +36,4 @@ access_practice_reset_operator,platform.practice.reset.wizard operator,model_pla
 access_practice_first_login_operator,platform.practice.first.login operator,model_platform_practice_first_login,group_platform_operator,1,1,1,1
 access_practice_release_owner,platform.practice.release.wizard owner,model_platform_practice_release_wizard,group_platform_owner,1,1,1,1
 access_howto_viewer,platform.howto viewer,model_platform_howto,group_platform_viewer,1,0,0,0
+access_firm_mail_wizard_operator,platform.firm.mail.wizard operator,model_platform_firm_mail_wizard,group_platform_operator,1,1,1,1

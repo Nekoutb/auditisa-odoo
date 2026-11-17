@@ -1530,3 +1530,44 @@ msgstr "Choisissez un rôle dans l'équipe de la mission."
 #: code:addons/ea_audit_timesheet/models/firm_admin.py:0
 msgid "%(role)s; invited to %(engagement)s"
 msgstr "%(role)s ; invité(e) à %(engagement)s"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "This firm's email is not on: copy the link and send it yourself."
+msgstr "La messagerie de ce cabinet n'est pas active : copiez le lien et envoyez-le vous-même."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "The email could not be sent. Copy the link and send it yourself; AuditISA can check the firm's email settings."
+msgstr "L'e-mail n'a pas pu être envoyé. Copiez le lien et envoyez-le vous-même ; AuditISA peut vérifier les réglages de messagerie du cabinet."
+
+#. module: ea_audit_timesheet
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__link_emailed
+msgid "Invitation sent by email"
+msgstr "Invitation envoyée par e-mail"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/js/users.js:0
+msgid "Invitation sent by email."
+msgstr "Invitation envoyée par e-mail."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Send by email"
+msgstr "Envoyer par e-mail"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Sent"
+msgstr "Envoyé"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Copy it, or have it sent to this person by email from the firm's mailbox. They choose their own password: none is created or sent. The link works once and expires after 72 hours."
+msgstr "Copiez-le, ou faites-le envoyer par e-mail à cette personne depuis la boîte du cabinet. Elle choisit son mot de passe : aucun n'est créé ni envoyé. Le lien ne sert qu'une fois et expire après 72 heures."

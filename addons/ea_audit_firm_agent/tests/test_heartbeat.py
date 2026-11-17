@@ -152,6 +152,29 @@ class TestHeartbeat(TransactionCase):
         with open(self.spool, encoding="ascii") as handle:
             return json.load(handle)
 
+    def test_the_email_request_gets_a_file_of_its_own_readable_by_this_user_only(self):
+        mail_spool = os.path.join(self.folder, "mail.json")
+        request = {
+            "ref": "0123456789abcdef", "action": "set", "host": "smtp.office365.com", "port": 587,
+            "encryption": "starttls", "user": "cabinet@exemple.cm", "password": "pw-of-the-firm", "from": "cabinet@exemple.cm",
+        }
+        with patch.object(firm_agent, "MAIL_SPOOL_FILE", mail_spool):
+            spool = self._signed_answer({"mail_request": request, "export_requested": False})
+        self.assertNotIn("mail_request", spool)
+        with open(self.spool, encoding="ascii") as handle:
+            self.assertNotIn("pw-of-the-firm", handle.read())
+        with open(mail_spool, encoding="utf-8") as handle:
+            self.assertEqual(json.load(handle), request)
+        self.assertEqual(os.stat(mail_spool).st_mode & 0o777, 0o600)
+
+    def test_the_email_answer_goes_back_as_a_reference_and_one_word(self):
+        for name, value in (("mail_request_ref", "0123456789abcdef"), ("mail_request_result", "on")):
+            with open(os.path.join(self.status, name), "w", encoding="ascii") as out:
+                out.write(value + "\n")
+        figures = self.agent._build_figures()
+        self.assertEqual(figures["mail_request_ref"], "0123456789abcdef")
+        self.assertEqual(figures["mail_request_result"], "on")
+
     def test_the_add_ons_asked_reach_the_spool(self):
         spool = self._signed_answer({"desired_addons": ["ea_client_b", "ea_client_a"]})
         self.assertEqual(spool["addons"], ["ea_client_a", "ea_client_b"])

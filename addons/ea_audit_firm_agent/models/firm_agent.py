@@ -17,6 +17,9 @@ _logger = logging.getLogger(__name__)
 TOKEN_FILE = "/etc/auditisa-firm/secrets/heartbeat.token"
 STATUS_DIR = "/var/lib/auditisa-firm/status"
 SPOOL_FILE = "/var/lib/auditisa-firm/spool/desired.json"
+# The console's email request has a file of its own: it holds a password, and root's firm-mail-server
+# erases it as it reads it. desired.json, read every five minutes, never holds it.
+MAIL_SPOOL_FILE = "/var/lib/auditisa-firm/spool/mail.json"
 TIMEOUT_SECONDS = 20
 
 PARAM_URL = "ea_firm_agent.heartbeat_url"
@@ -127,11 +130,22 @@ class EaFirmAgent(models.AbstractModel):
     @api.model
     def _write_spool(self, desired):
         """Handed to root's firm-apply-desired.sh, which validates it again and acts on it."""
-        folder = os.path.dirname(SPOOL_FILE)
+        mail = desired.pop("mail_request", None)
+        if mail is not None:
+            self._write_file(MAIL_SPOOL_FILE, ".mail-", mail, ensure_ascii=False)
+        self._write_file(SPOOL_FILE, ".desired-", desired)
+
+    @api.model
+    def _write_file(self, target, prefix, data, ensure_ascii=True):
+        """One step, readable by this user only (mkstemp makes it 600). Only the error's class is logged."""
+        folder = os.path.dirname(target)
+        path = None
         try:
-            handle, path = tempfile.mkstemp(dir=folder, prefix=".desired-")
-            with os.fdopen(handle, "w", encoding="ascii") as out:
-                json.dump(desired, out, sort_keys=True)
-            os.replace(path, SPOOL_FILE)
+            handle, path = tempfile.mkstemp(dir=folder, prefix=prefix)
+            with os.fdopen(handle, "w", encoding="utf-8") as out:
+                json.dump(data, out, sort_keys=True, ensure_ascii=ensure_ascii)
+            os.replace(path, target)
         except OSError as error:
             _logger.warning("Could not hand over the control plane's answer: %s", type(error).__name__)
+            if path and os.path.exists(path):
+                os.unlink(path)

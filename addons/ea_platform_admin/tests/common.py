@@ -56,9 +56,10 @@ class PlatformMixin:
         return model.create(self._request(slug, **changes))
 
     def _through_steps(self, wizard):
-        wizard.action_next()
-        wizard.action_next()
-        wizard.action_next()
+        for _screen in range(6):
+            if wizard.step == "preflight":
+                break
+            wizard.action_next()
         wizard.confirmed = True
         return wizard
 
