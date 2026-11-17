@@ -217,7 +217,7 @@
                             subject="card ? card.title : ''"
                             idleText.translate="Open a sample or a control to see and file its documents."
                             hint.translate="Support of the items tested: invoices, confirmations, extracts."
-                            canUpload="Boolean(card) and !p.readonly"
+                            canUpload="!!card and !p.readonly"
                             onUpload.bind="attach" onAttach.bind="attachExisting"/>
                 </div>
             </div>

@@ -181,7 +181,7 @@
                             subject="current ? current.ref + ' · ' + current.title : ''"
                             idleText.translate="Click a finding to see and add its documents."
                             hint.translate="Evidence of the finding: letters, extracts, screenshots."
-                            canUpload="Boolean(current) and !p.readonly" canRemove="Boolean(p.canRemove)"
+                            canUpload="!!current and !p.readonly" canRemove="!!p.canRemove"
                             onUpload.bind="upload" onAttach.bind="attachExisting" onRemove.bind="remove"/>
                 </div>
             </div>

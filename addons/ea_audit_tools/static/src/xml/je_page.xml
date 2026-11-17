@@ -209,7 +209,7 @@
                 <EaDocsPane engagementId="engagementId" docs="entry ? entry.fileList : undefined"
                             title.translate="Support" subject="entry ? entry.je + ' · ' + (entry.description or '') : ''"
                             idleText.translate="Open an entry in Selected entries to see and file its support."
-                            canUpload="Boolean(entry) and !p.readonly"
+                            canUpload="!!entry and !p.readonly"
                             onUpload.bind="attach" onAttach.bind="attachExisting"/>
                 </div>
             </div>
