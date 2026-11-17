@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_firm_admin_change_form" model="ir.ui.view">
+        <field name="name">platform.firm.admin.change.wizard.form</field>
+        <field name="model">platform.firm.admin.change.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change the firm administrator">
+                <p invisible="change_action != 'add'">This person gets the firm administrator role on the firm's server. The current firm administrators keep theirs.</p>
+                <p invisible="change_action != 'replace'">This person becomes the firm administrator. The current firm administrators lose that role and become Partner: they keep their account, their engagements and all their work. Nothing is deleted.</p>
+                <p>The request goes to the firm's server at its next check-in (within 15 minutes). If the person has no account there yet, one is made, and you can then show its one-time link here, once (it works once, for 72 hours).</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="change_action"/>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="allowed_email_domains"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Send to the firm" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_firm_admin_link_form" model="ir.ui.view">
+        <field name="name">platform.firm.admin.link.form</field>
+        <field name="model">platform.firm.admin.link</field>
+        <field name="arch" type="xml">
+            <form string="Administrator's link">
+                <field name="revealed" invisible="1"/>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="person"/>
+                </group>
+                <div invisible="revealed">
+                    <p>The link shows <strong>once only</strong>, then it is erased from here. Have your way of passing it to the person ready (a call, encrypted messaging). Do not send it with the firm's name in a plain email.</p>
+                </div>
+                <div invisible="not revealed">
+                    <p>Copy this link now and pass it to the person. It works once and expires on the date shown. They choose their own password there.</p>
+                    <group>
+                        <field name="link" widget="CopyClipboardChar"/>
+                        <field name="expires_at"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_reveal" type="object" string="Show the link" class="btn-primary" invisible="revealed"/>
+                    <button name="action_close" type="object" string="I have copied the link" class="btn-primary" invisible="not revealed"/>
+                    <button special="cancel" string="Cancel" invisible="revealed"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

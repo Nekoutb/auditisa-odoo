@@ -27,6 +27,11 @@ PARAM_SLUG = "ea_firm_agent.slug"
 PARAM_MAIL_TESTED = "ea_firm_agent.mail_tested"
 # Where replies to this firm's emails go, when the console's platform address sends for it.
 PARAM_MAIL_REPLY_TO = "ea_firm_agent.mail_reply_to"
+# The console's last "Add / Replace the firm administrator" request: its reference and result, kept so that
+# each request is acted on once; and the one-time invitation link, kept only until a heartbeat delivers it.
+PARAM_ADMIN_REF = "ea_firm_agent.admin_request_ref"
+PARAM_ADMIN_RESULT = "ea_firm_agent.admin_request_result"
+PARAM_ADMIN_LINK = "ea_firm_agent.admin_request_link"
 
 
 class EaFirmAgent(models.AbstractModel):
@@ -78,7 +83,42 @@ class EaFirmAgent(models.AbstractModel):
             self.env["ea.addon.switch"]._codes_on(),
             self._error_figures(),
             self.env["ea.firm.support.visit"]._current_figure(),
+            self._admin_answer(),
         )
+
+    @api.model
+    def _admin_answer(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        ref = get_param(PARAM_ADMIN_REF)
+        if not ref:
+            return None
+        return {"ref": ref, "result": get_param(PARAM_ADMIN_RESULT), "link": get_param(PARAM_ADMIN_LINK)}
+
+    @api.model
+    def _apply_admin_request(self, request):
+        """The console's "Add / Replace the firm administrator", once per reference. The console sends it
+        at each answer until this server reports, so a repeat is expected and changes nothing.
+
+        The work is ea_audit_timesheet's (the firm administrator's screens): this addon does not depend
+        on it, so a server without it answers "unavailable". Only the error's class is logged."""
+        params = self.env["ir.config_parameter"].sudo()
+        if params.get_param(PARAM_ADMIN_REF) == request["ref"]:
+            return
+        link = None
+        if "ea.audit.firm.admin" not in self.env:
+            result = "unavailable"
+        else:
+            try:
+                with self.env.cr.savepoint():
+                    result, link = self.env["ea.audit.firm.admin"].sudo()._ea_fa_from_platform(
+                        request["action"], request["name"], request["email"],
+                    )
+            except Exception as error:  # noqa: BLE001  the heartbeat must carry on, and report it
+                _logger.warning("Firm administrator request not applied: %s", type(error).__name__)
+                result, link = "failed", None
+        params.set_param(PARAM_ADMIN_REF, request["ref"])
+        params.set_param(PARAM_ADMIN_RESULT, result)
+        params.set_param(PARAM_ADMIN_LINK, link or False)
 
     @api.model
     def _cron_send_heartbeat(self):
@@ -99,6 +139,10 @@ class EaFirmAgent(models.AbstractModel):
         if sent:
             for path in files:
                 self.env["ea.firm.error.capture"]._delivered(path)
+            # The console has the link: it is erased here, unless a newer request has made another one.
+            params = self.env["ir.config_parameter"].sudo()
+            if "admin_request_link" in figures and params.get_param(PARAM_ADMIN_REF) == figures["admin_request_ref"]:
+                params.set_param(PARAM_ADMIN_LINK, False)
         return sent
 
     @api.model
@@ -127,6 +171,9 @@ class EaFirmAgent(models.AbstractModel):
         desired = collect.parse_desired(response.content)
         if desired is not None:
             self._apply_reply_to(desired.pop("mail_reply_to", None))
+            admin = desired.pop("admin_request", None)
+            if admin is not None:
+                self._apply_admin_request(admin)
             self._write_spool(desired)
         return True
 

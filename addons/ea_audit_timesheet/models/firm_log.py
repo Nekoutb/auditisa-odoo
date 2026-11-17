@@ -19,6 +19,8 @@ KINDS = [
     ("mail_disabled", "Sending disabled"),
     ("project_changed", "Internal project"),
     ("week_reopened", "Week reopened"),
+    ("platform_admin_added", "Firm administrator named by the platform"),
+    ("platform_admin_removed", "Firm administrator role removed by the platform"),
 ]
 
 
@@ -50,12 +52,12 @@ class FirmLog(models.Model):
         raise refuse(self.env, "fa-forbidden")
 
     @api.model
-    def _ea_append(self, kind, target=None, detail=None, actor=None):
+    def _ea_append(self, kind, target=None, detail=None, actor=None, actor_name=None):
         actor = (actor or self.env.user).sudo()
         return self.sudo().create({
             "kind": kind,
             "actor_id": actor.id,
-            "actor_name": actor.name,
+            "actor_name": actor_name or actor.name,
             "target_id": target.id if target else False,
             "target_name": target.sudo().name if target else False,
             "detail": (detail or "")[:500] or False,

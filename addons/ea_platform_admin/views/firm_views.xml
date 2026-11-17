@@ -105,6 +105,15 @@
                     <button name="action_open_firm_wizard" type="object" string="Show the first administrator's link"
                             class="btn-primary" context="{'firm_wizard': 'platform.first.admin.link'}"
                             invisible="not first_admin_ready" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_open_firm_wizard" type="object" string="Show the administrator's link"
+                            class="btn-primary" context="{'firm_wizard': 'platform.firm.admin.link'}"
+                            invisible="not admin_link_ready" groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_admin_change_open" type="object" string="Add a firm administrator"
+                            context="{'admin_change_action': 'add'}" invisible="state != 'active'"
+                            groups="ea_platform_admin.group_platform_operator"/>
+                    <button name="action_admin_change_open" type="object" string="Replace the firm administrator"
+                            context="{'admin_change_action': 'replace'}" invisible="state != 'active'"
+                            groups="ea_platform_admin.group_platform_operator"/>
                     <button name="action_confirm_key_escrow" type="object" string="Backup key is in the safe"
                             invisible="backup_key_escrowed_at or state != 'active'"
                             groups="ea_platform_admin.group_platform_operator"
@@ -214,6 +223,21 @@
                                     <field name="city"/>
                                     <field name="country_id"/>
                                 </group>
+                            </group>
+                            <group string="Firm administrator" name="admin_change" invisible="admin_change_state == 'none'">
+                                <field name="admin_change_state" widget="badge"
+                                       decoration-success="admin_change_state == 'done'"
+                                       decoration-info="admin_change_state == 'waiting'"
+                                       decoration-warning="admin_change_state not in ('none', 'waiting', 'done')"/>
+                                <field name="admin_change_message" nolabel="1" colspan="2"/>
+                                <field name="admin_change_action"/>
+                                <field name="admin_change_name"/>
+                                <field name="admin_change_email"/>
+                                <field name="admin_change_at"/>
+                                <field name="admin_change_by"/>
+                                <field name="admin_change_answered_at"/>
+                                <field name="admin_link_expires_at" invisible="not admin_link_ready"/>
+                                <field name="admin_link_ready" invisible="1"/>
                             </group>
                         </page>
                         <page string="Security" name="security">

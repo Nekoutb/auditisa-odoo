@@ -138,6 +138,11 @@ _ANON_REF = re.compile(r"^[0-9a-f]{16}$")
 _MAIL_REF = re.compile(r"^[0-9a-f]{16}$")
 # Same words as ea_audit_firm_agent/services/collect.py MAIL_RESULTS and services/mail_settings.py RESULTS.
 MAIL_RESULTS = ("on", "off", "login", "connect", "tls", "sender", "staging", "refused", "failed")
+# The answer to "Add / Replace the firm administrator": the request's reference, one word and, for a new
+# account, its one-time invitation link. Same rules as services/admin_change.py.
+_ADMIN_REF = re.compile(r"^[0-9a-f]{16}$")
+ADMIN_RESULTS = ("done", "email", "domain", "account", "unavailable", "failed")
+_ADMIN_LINK = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/web/signup\?[A-Za-z0-9._~%&=+-]{1,1000}$")
 
 # The complete list of what a firm may tell the control plane.
 FIGURES = {
@@ -178,6 +183,9 @@ FIGURES = {
     # The answer to the console's "Email for this firm" screen: the request's reference and one word.
     "mail_request_ref": _optional(_pattern(_MAIL_REF, 16)),
     "mail_request_result": _optional(_choice(*MAIL_RESULTS)),
+    "admin_request_ref": _optional(_pattern(_ADMIN_REF, 16)),
+    "admin_request_result": _optional(_choice(*ADMIN_RESULTS)),
+    "admin_request_link": _optional(_pattern(_ADMIN_LINK, 1300)),
 }
 
 REQUIRED = frozenset({

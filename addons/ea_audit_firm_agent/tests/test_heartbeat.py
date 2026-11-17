@@ -175,6 +175,48 @@ class TestHeartbeat(TransactionCase):
         self.assertEqual(figures["mail_request_ref"], "0123456789abcdef")
         self.assertEqual(figures["mail_request_result"], "on")
 
+    def test_the_administrator_request_is_applied_once_and_answered_with_its_link(self):
+        if "ea.audit.firm.admin" not in self.env:
+            self.skipTest("the firm administrator's screens are not installed")
+        link = "https://cabinet-a.auditisa.com/web/signup?db=cabinet_a&token=Abc-123_x"
+        request = {"ref": "0123456789abcdef", "action": "replace", "name": "Paul Mbida", "email": "paul@exemple.cm"}
+        calls = []
+
+        def apply(_self, action, name, email):
+            calls.append((action, name, email))
+            return "done", link
+
+        with patch.object(type(self.env["ea.audit.firm.admin"]), "_ea_fa_from_platform", apply):
+            spool = self._signed_answer({"admin_request": request, "export_requested": False})
+            self.assertNotIn("admin_request", spool)
+            self.assertEqual(calls, [("replace", "Paul Mbida", "paul@exemple.cm")])
+            figures = self.agent._build_figures()
+            self.assertEqual(figures["admin_request_ref"], "0123456789abcdef")
+            self.assertEqual(figures["admin_request_result"], "done")
+            self.assertEqual(figures["admin_request_link"], link)
+            # The console sends the request again until it hears the answer: nothing is done twice, and once
+            # a heartbeat has carried the link, the firm's server forgets it.
+            self._signed_answer({"admin_request": request})
+            self.assertEqual(len(calls), 1)
+        figures = self.agent._build_figures()
+        self.assertEqual(figures["admin_request_result"], "done")
+        self.assertNotIn("admin_request_link", figures)
+        self.assertFalse(self.env["ir.config_parameter"].sudo().get_param(firm_agent.PARAM_ADMIN_LINK))
+
+    def test_a_failed_administrator_request_is_reported_without_details(self):
+        if "ea.audit.firm.admin" not in self.env:
+            self.skipTest("the firm administrator's screens are not installed")
+        request = {"ref": "fedcba9876543210", "action": "add", "name": "Paul", "email": "paul@exemple.cm"}
+
+        def apply(_self, action, name, email):
+            raise ValueError("Paul paul@exemple.cm")
+
+        with patch.object(type(self.env["ea.audit.firm.admin"]), "_ea_fa_from_platform", apply):
+            self._signed_answer({"admin_request": request})
+        figures = self.agent._build_figures()
+        self.assertEqual((figures["admin_request_ref"], figures["admin_request_result"]), ("fedcba9876543210", "failed"))
+        self.assertNotIn("admin_request_link", figures)
+
     def test_the_add_ons_asked_reach_the_spool(self):
         spool = self._signed_answer({"desired_addons": ["ea_client_b", "ea_client_a"]})
         self.assertEqual(spool["addons"], ["ea_client_a", "ea_client_b"])

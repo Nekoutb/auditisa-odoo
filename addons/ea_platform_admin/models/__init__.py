@@ -12,3 +12,4 @@ from . import practice
 from . import howto
 from . import firm_mail
 from . import firm_platform_mail
+from . import firm_admin_change

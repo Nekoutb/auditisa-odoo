@@ -137,6 +137,16 @@ Le script fait le même test et n'affiche jamais le mot de passe. `firm-mail-ser
 
 Le cabinet crée un CNAME de `audit.cabinet.cm` vers `cabinet-exemple.auditisa.com`. Après un accès d'urgence enregistré : `ssh ... root@cabinet-exemple.auditisa.com firm-add-domain audit.cabinet.cm`, puis renseignez « Domaine propre » sur la fiche. L'adresse d'origine continue de fonctionner.
 
+### Changer ou ajouter l'administrateur du cabinet
+
+Au départ, l'administrateur du cabinet est le contact donné à la mise en service. Tout se fait sur la fiche du cabinet, sans SSH :
+
+- **Coordonnées du contact** (onglet Identité) : nom, e-mail et téléphone se modifient directement. Chaque changement est noté dans le journal (qui, quoi, ancienne et nouvelle valeur).
+- **Ajouter un administrateur du cabinet** : la personne reçoit le rôle ; les administrateurs actuels gardent le leur.
+- **Remplacer l'administrateur du cabinet** : la personne reçoit le rôle ; les administrateurs actuels le perdent et deviennent Associé. Ils gardent leur compte, leurs missions et tout leur travail : rien n'est désactivé ni supprimé.
+
+Saisissez le nom et l'e-mail de la personne. L'adresse doit appartenir aux domaines autorisés du cabinet. La demande part avec la réponse au prochain signal du serveur du cabinet (sous 15 minutes) ; la fiche affiche « En attente du prochain signal du cabinet », puis « Fait : … est désormais l'administrateur du cabinet », ou la raison du refus. Rechargez la page pour voir le résultat. Si la personne a déjà un compte, il est réutilisé. Sinon, un compte est créé et **Afficher le lien de l'administrateur** donne son lien à usage unique (72 heures, une seule utilisation). Il ne s'affiche **qu'une fois** : transmettez-le comme le lien du premier administrateur. Le journal d'administration du cabinet note le changement « par la plateforme ». Un cabinet de simulation répond tout de suite.
+
 ## English
 
 **Time:** 10 minutes of yours, then 20 to 45 minutes of waiting. That is an estimate: it has never been measured on a real server.
@@ -271,3 +281,13 @@ The script runs the same test and never prints the password. `firm-mail-server -
 ### The firm's own domain (optional)
 
 The firm creates a CNAME from `audit.cabinet.cm` to `cabinet-exemple.auditisa.com`. After recording a break-glass access: `ssh ... root@cabinet-exemple.auditisa.com firm-add-domain audit.cabinet.cm`, then fill in "The firm's own domain" on the firm's page. The original address keeps working.
+
+### Changing or adding the firm administrator
+
+At first the firm administrator is the contact given at onboarding. Everything is done on the firm's page, without SSH:
+
+- **The contact's details** (Identity tab): name, email and phone can be edited there. Each change is in the log (who, what, old and new value).
+- **Add a firm administrator**: the person gets the role; the current administrators keep theirs.
+- **Replace the firm administrator**: the person gets the role; the current administrators lose it and become Partner. They keep their account, their engagements and all their work: nobody is deactivated, nothing is deleted.
+
+Type the person's name and email. The address must be in the firm's allowed email domains. The request goes in the answer to the firm's server's next check-in (within 15 minutes); the page shows "Waiting for the firm's next check-in", then "Done: ... is now the firm administrator", or the reason it was refused. Reload the page to see the result. If the person already has an account, it is reused. If not, one is made, and **Show the administrator's link** gives its one-time link (72 hours, one use). It shows **once only**: pass it on like the first administrator's link. The firm's administration log records the change as made "by the platform". A simulation firm answers at once.

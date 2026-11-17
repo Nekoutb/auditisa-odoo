@@ -46,10 +46,11 @@
 
 **Le contrôle peut demander des modules clients, sans les imposer :** la réponse au heartbeat donne une liste de codes, et le script root du cabinet la refuse entière si un seul code n'est pas un module optionnel de la version signée en service. Une intrusion sur le contrôle peut donc allumer ou couper un module que cette version contient, avec au plus une installation et son arrêt de quelques minutes ; elle ne peut ni ajouter du code, ni toucher une fonction de base, ni rien désinstaller. Voir CLIENT-ADDONS.md.
 
-### Les deux secrets que garde le contrôle
+### Les secrets que garde le contrôle
 
 - **Le jeton de heartbeat de chaque cabinet.** Il permet de se faire passer pour lui auprès du contrôle. Il n'ouvre rien chez le cabinet.
 - **Le lien du premier administrateur**, seulement entre sa création et son affichage (72 heures au plus). **Risque connu :** une intrusion sur le contrôle pendant ce délai pourrait prendre le compte administrateur d'un cabinet tout neuf, encore vide. Pour l'écarter : générez le lien sur le serveur (`firm-first-admin-link`).
+- **Le lien d'un nouvel administrateur du cabinet** (« Ajouter / Remplacer l'administrateur du cabinet », 18/11/2026), seulement entre la réponse du serveur du cabinet et son affichage (72 heures au plus). **Risque connu :** une intrusion sur le contrôle peut demander un administrateur du cabinet à une adresse des domaines autorisés et obtenir son lien. Le journal d'administration du cabinet note chaque changement « par la plateforme ».
 
 Et, hors d'Odoo, en fichiers lisibles par root seul : le jeton Vultr, le jeton DNS, et la clé et le secret Wasabi de l'utilisateur `auditisa-console`. Cette clé Wasabi ne touche que les buckets `auditisa-*` et les utilisateurs `auditisa-firm-*`, ne peut écrire aucune politique sur un utilisateur et ne lit aucune sauvegarde (WASABI.md). La clé de stockage de chaque cabinet n'est gardée nulle part sur le contrôle.
 
@@ -138,10 +139,11 @@ Double authentification sur Vultr, Cloudflare, GitHub et le contrôle ; surveill
 
 **The control plane can ask for client add-ons, not impose them:** the heartbeat answer gives a list of codes, and the firm's root script refuses all of it if a single code is not an optional add-on of the signed release in use. An intrusion on the control plane can therefore switch on or off an add-on that release carries, at most causing an install and its outage of a few minutes; it cannot add code, touch a base feature or uninstall anything. See CLIENT-ADDONS.md.
 
-### The two secrets the control plane keeps
+### The secrets the control plane keeps
 
 - **Each firm's heartbeat token.** It lets someone impersonate that firm to the control plane. It opens nothing at the firm.
 - **The first administrator's link**, only between its creation and its display (72 hours at most). **Known risk:** an intrusion on the control plane in that window could take the administrator account of a brand-new, still empty firm. To rule it out: generate the link on the server (`firm-first-admin-link`).
+- **A new firm administrator's link** ("Add / Replace the firm administrator", 18/11/2026), only between the firm's server's answer and its display (72 hours at most). **Known risk:** an intrusion on the control plane can ask for a firm administrator at an address of the allowed domains and get their link. The firm's administration log records each change as made "by the platform".
 
 And, outside Odoo, in root-only files: the Vultr token, the DNS token, and the Wasabi key and secret of the user `auditisa-console`. That Wasabi key touches only the `auditisa-*` buckets and the `auditisa-firm-*` users, cannot write a policy on any user and reads no backup (WASABI.md). Each firm's storage key is kept nowhere on the control plane.
 
