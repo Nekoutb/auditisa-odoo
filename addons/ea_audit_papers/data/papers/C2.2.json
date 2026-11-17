@@ -13,135 +13,245 @@
    "Les procédures sur les événements postérieurs couvrent la période jusqu'à la date du rapport et sont mises en œuvre au plus près de celle-ci (ISA 560 ¶7). Après cette date, un fait qui nous aurait conduits à modifier le rapport appelle une action (ISA 560 ¶10–13).",
    "La conclusion sur la continuité détermine le caractère approprié de la base comptable et l'existence d'une incertitude significative ({{ISA570.conclusions}})."
   ],
-  "conclEn": [
-   "The subsequent events procedures extend to the date of the auditor's report and every event identified has been adjusted or disclosed as required.",
-   "The conclusions on going concern and their effect on the auditor's report have been determined and carried to C5.1."
-  ],
-  "conclFr": [
-   "Les procédures sur les événements postérieurs couvrent la période jusqu'à la date du rapport et chaque événement relevé a été ajusté ou mentionné.",
-   "Les conclusions sur la continuité et leur effet sur le rapport ont été déterminés et reportés en C5.1."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "extend",
       "en": "Extend the procedures performed in E6.6 to the date of the auditor's report, and record the date to which they extend.",
       "fr": "Prolonger les procédures de E6.6 jusqu'à la date du rapport et consigner la date de fin de couverture.",
-      "srcEn": "E6.6 · inquiry · post year-end records",
-      "srcFr": "E6.6 · entretien · enregistrements postérieurs",
-      "tipEn": "[Draft] Read the bank statements, the sales and purchase journals and the cash book up to the week the report is signed, and write the exact date your reading stops. A gap of several weeks between that date and the report date is the classic review point; if signature slips, come back and extend. Evidence filed: the last bank statement read, the last journal page, the date.",
-      "tipFr": "[Projet] Lire les relevés bancaires, les journaux des ventes et des achats et le livre de caisse jusqu'à la semaine de signature du rapport, et écrire la date exacte à laquelle la lecture s'arrête. Un écart de plusieurs semaines entre cette date et la date du rapport est le point de revue classique ; si la signature glisse, revenir et prolonger. Pièces à classer : le dernier relevé lu, la dernière page de journal, la date."
+      "shortEn": "Procedures to the report date",
+      "shortFr": "Travaux jusqu'à la date du rapport",
+      "isa": "ISA 560 ¶6–7",
+      "tipsEn": [
+       "Write the exact date your reading of the records stops.",
+       "A gap of weeks before the report date is a review point."
+      ],
+      "tipsFr": [
+       "Noter la date exacte à laquelle s'arrête la lecture des documents.",
+       "Un écart de plusieurs semaines avant la date du rapport est un point de revue."
+      ],
+      "stdEn": "The E6.6 procedures are extended to the date of the report; no further event noted.",
+      "stdFr": "Les procédures de E6.6 sont étendues jusqu'à la date du rapport ; aucun autre événement relevé.",
+      "sourceHint": "E6.6"
      },
      {
       "key": "inquire",
       "en": "Inquire of management and of those charged with governance immediately before the report is dated about any event since the last inquiry.",
       "fr": "S'enquérir auprès de la direction et de la gouvernance, juste avant la date du rapport, de tout événement survenu depuis le dernier entretien.",
-      "srcEn": "Final inquiry note · ISA 560 ¶7(b)",
-      "srcFr": "Note d'entretien final · ISA 560 ¶7(b)",
-      "tipEn": "[Draft] Hold the final inquiry in the last days before signature, from a short written list: new commitments or borrowings, disposals, litigation, destroyed or seized assets, changes in capital, events affecting estimates. Record who answered and when; the written representation of C3.1 confirms the same points on the same date.",
-      "tipFr": "[Projet] Mener l'entretien final dans les derniers jours avant la signature, à partir d'une courte liste écrite : nouveaux engagements ou emprunts, cessions, litiges, actifs détruits ou saisis, mouvements de capital, événements affectant les estimations. Consigner qui a répondu et quand ; la déclaration écrite de C3.1 confirme les mêmes points à la même date."
+      "shortEn": "Final inquiry",
+      "shortFr": "Entretien final",
+      "isa": "ISA 560 ¶7(b)",
+      "tipsEn": [
+       "Use a short written list: borrowings, disposals, litigation, capital, estimates.",
+       "Record who answered and when."
+      ],
+      "tipsFr": [
+       "Utiliser une courte liste écrite : emprunts, cessions, litiges, capital, estimations.",
+       "Consigner qui a répondu et quand."
+      ],
+      "stdEn": "Final inquiry held shortly before the report date; no event reported since the last inquiry.",
+      "stdFr": "Entretien final tenu peu avant la date du rapport ; aucun événement signalé depuis le précédent.",
+      "sourceHint": "Final inquiry note"
      },
      {
       "key": "minutes",
       "en": "Read the minutes of any meeting held since the last reading, up to the date of the report.",
       "fr": "Examiner les procès-verbaux des réunions tenues depuis le dernier examen, jusqu'à la date du rapport.",
-      "srcEn": "Post year-end minutes (E6.4)",
-      "srcFr": "Procès-verbaux postérieurs (E6.4)",
-      "tipEn": "[Draft] Ask for the minutes of every board, shareholder and committee meeting held after the date reached in E6.4, and for the agenda of any meeting not yet minuted. Note each decision with a financial effect — dividend, borrowing, disposal, litigation — and where it lands in the financial statements. No meeting held is itself a fact to record, with the person who confirmed it.",
-      "tipFr": "[Projet] Demander les procès-verbaux de chaque réunion du conseil, de l'assemblée et des comités tenue après la date atteinte en E6.4, et l'ordre du jour de toute réunion non encore retranscrite. Relever chaque décision à effet financier — dividende, emprunt, cession, litige — et l'endroit où elle se traduit dans les états financiers. L'absence de réunion est elle-même un fait à consigner, avec la personne qui l'a confirmée."
+      "shortEn": "Minutes since the last reading",
+      "shortFr": "Procès-verbaux depuis la dernière lecture",
+      "isa": "ISA 560 ¶7(c)",
+      "tipsEn": [
+       "Ask for the agenda of any meeting not yet minuted."
+      ],
+      "tipsFr": [
+       "Demander l'ordre du jour de toute réunion dont le procès-verbal n'est pas encore établi."
+      ],
+      "stdEn": "Minutes read up to the date of the report; no exceptions noted.",
+      "stdFr": "Procès-verbaux lus jusqu'à la date du rapport ; aucune exception relevée.",
+      "sourceHint": "Post year-end minutes"
      },
      {
       "key": "classify",
       "en": "Classify each event identified as adjusting or non-adjusting, and confirm the treatment or disclosure in the financial statements.",
       "fr": "Classer chaque événement identifié en ajustant ou non ajustant et vérifier son traitement ou sa mention.",
-      "srcEn": "IAS 10 / SYSCOHADA · draft financial statements",
-      "srcFr": "IAS 10 / SYSCOHADA · projet d'états financiers",
-      "tipEn": "[Draft] For each event ask one question: did the condition exist at the balance sheet date? A customer's bankruptcy in February on a December receivable adjusts; a fire in February does not, but is disclosed if material. Trace adjusting events to the entries in the final trial balance and non-adjusting ones to the note, and raise a misstatement in C1.1 for anything neither adjusted nor disclosed.",
-      "tipFr": "[Projet] Pour chaque événement, une seule question : la situation existait-elle à la date de clôture ? La faillite en février d'un client débiteur au 31 décembre est ajustante ; un incendie en février ne l'est pas, mais se mentionne s'il est significatif. Rattacher les événements ajustants aux écritures de la balance définitive et les non ajustants à la note de l'annexe, et porter en C1.1 une anomalie pour tout événement ni ajusté ni mentionné."
+      "shortEn": "Adjusting or not",
+      "shortFr": "Ajustement ou information",
+      "isa": "ISA 560 ¶8",
+      "tipsEn": [
+       "Ask one question: did the condition exist at the balance sheet date?"
+      ],
+      "tipsFr": [
+       "Se poser une question : la situation existait-elle à la date de clôture ?"
+      ],
+      "stdEn": "No subsequent event requires adjustment or disclosure.",
+      "stdFr": "Aucun événement postérieur n'exige d'ajustement ni d'information.",
+      "sourceHint": "Subsequent events list"
      },
      {
       "key": "gc_conclude",
       "en": "Conclude on going concern from the work in E6.3: whether the basis of accounting is appropriate and whether a material uncertainty exists.",
       "fr": "Conclure sur la continuité à partir des travaux de E6.3 : caractère approprié de la base comptable et existence d'une incertitude significative.",
-      "srcEn": "E6.3 · management's assessment · {{ISA570.basis}}",
-      "srcFr": "E6.3 · évaluation de la direction · {{ISA570.basis}}",
-      "tipEn": "[Draft] Write the conclusion in two sentences, each with its basis: the going concern basis is appropriate because …; a material uncertainty does / does not exist because …. Both rest on E6.3 — do not re-perform the work here, reference it. The conclusion is the partner's: have it reviewed before the report is drafted.",
-      "tipFr": "[Projet] Rédiger la conclusion en deux phrases, chacune avec son fondement : la base de continuité est appropriée parce que … ; une incertitude significative existe / n'existe pas parce que …. Les deux reposent sur E6.3 — ne pas refaire les travaux ici, les référencer. La conclusion appartient à l'associé : la faire revoir avant la rédaction du rapport."
+      "shortEn": "Going concern conclusion",
+      "shortFr": "Conclusion sur la continuité",
+      "isa": "{{ISA570.basis}}",
+      "tipsEn": [
+       "Two sentences, each with its basis: the basis is appropriate because…; a material uncertainty does or does not exist because…",
+       "Refer to E6.3; do not perform the work again here."
+      ],
+      "tipsFr": [
+       "Deux phrases, chacune avec son fondement : le principe est approprié parce que… ; une incertitude significative existe ou non parce que…",
+       "Renvoyer à E6.3 ; ne pas refaire les travaux ici."
+      ],
+      "neverLight": true
      },
      {
       "key": "gc_disclosure",
       "en": "Where a material uncertainty exists, confirm the financial statements adequately disclose the events and conditions and state that a material uncertainty exists.",
       "fr": "En cas d'incertitude significative, vérifier que les états financiers décrivent de façon appropriée les événements et conditions et mentionnent l'existence de cette incertitude.",
-      "srcEn": "Draft financial statements · {{ISA570.muSection}}",
-      "srcFr": "Projet d'états financiers · {{ISA570.muSection}}",
-      "tipEn": "[Draft] Confirm the note names the events, management's plans and the material uncertainty in those words, and that it is referred to from the report section drafted on C5.1. Where management refuses the wording, the opinion is modified — record the refusal and its date, because the sequence matters for the report.",
-      "tipFr": "[Projet] Vérifier que la note nomme les événements, les plans de la direction et l'incertitude significative en ces termes, et que la section du rapport rédigée en C5.1 y renvoie. Si la direction refuse la formulation, l'opinion est modifiée — consigner le refus et sa date, car la chronologie compte pour le rapport."
+      "shortEn": "Disclosure of an uncertainty",
+      "shortFr": "Information sur une incertitude",
+      "isa": "{{ISA570.muSection}}",
+      "tipsEn": [
+       "The note names the events, management's plans and the material uncertainty in those words."
+      ],
+      "tipsFr": [
+       "La note nomme les événements, les plans de la direction et l'incertitude significative en ces termes."
+      ],
+      "stdEn": "No material uncertainty exists; no specific disclosure is required.",
+      "stdFr": "Il n'existe pas d'incertitude significative ; aucune information particulière n'est requise.",
+      "sourceHint": "E6.3"
      },
      {
       "key": "representation",
       "en": "Obtain the written representation covering subsequent events and management's plans for future action on going concern.",
       "fr": "Obtenir la déclaration écrite couvrant les événements postérieurs et les plans d'action de la direction sur la continuité.",
-      "srcEn": "C3.1 · {{ISA570.representation}}",
-      "srcFr": "C3.1 · {{ISA570.representation}}",
-      "tipEn": "[Draft] Check the C3.1 letter carries both representations: that all subsequent events requiring adjustment or disclosure have been adjusted or disclosed, and that management's plans for future action are feasible and are those described in the notes. The letter is dated the day of the report; a letter signed a week earlier does not cover the last inquiry.",
-      "tipFr": "[Projet] Vérifier que la lettre de C3.1 porte les deux déclarations : tous les événements postérieurs appelant ajustement ou mention ont été ajustés ou mentionnés, et les plans d'action de la direction sont réalisables et sont ceux décrits dans l'annexe. La lettre est datée du jour du rapport ; une lettre signée une semaine plus tôt ne couvre pas le dernier entretien."
+      "shortEn": "Written representations",
+      "shortFr": "Déclarations écrites",
+      "isa": "ISA 560 ¶9 · {{ISA570.representation}}",
+      "tipsEn": [
+       "Check the C3.1 letter carries both representations."
+      ],
+      "tipsFr": [
+       "Vérifier que la lettre de C3.1 comporte les deux déclarations."
+      ],
+      "stdEn": "Representations on subsequent events and on going concern obtained in C3.1.",
+      "stdFr": "Déclarations sur les événements postérieurs et la continuité obtenues en C3.1.",
+      "sourceHint": "C3.1"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "to_date",
-      "en": "The procedures extend to the date of the auditor's report (procedures 1 to 3).",
-      "fr": "Les procédures couvrent la période jusqu'à la date du rapport (procédures 1 à 3)."
+      "en": "The procedures extend to the date of the auditor's report.",
+      "fr": "Les procédures s'étendent jusqu'à la date du rapport de l'auditeur.",
+      "tasks": [
+       "extend",
+       "inquire",
+       "minutes"
+      ]
      },
      {
       "key": "treated",
-      "en": "Every adjusting event has been reflected and every non-adjusting event of significance has been disclosed (procedure 4).",
-      "fr": "Chaque événement ajustant a été traduit dans les comptes et chaque événement non ajustant significatif a été mentionné (procédure 4)."
+      "en": "Every adjusting event is reflected and every significant non-adjusting event is disclosed.",
+      "fr": "Chaque événement donnant lieu à ajustement est traité et chaque événement significatif sans ajustement est mentionné.",
+      "tasks": [
+       "classify"
+      ]
      },
      {
       "key": "basis",
-      "en": "The going concern basis of accounting is appropriate (procedure 5).",
-      "fr": "La base comptable de continuité d'exploitation est appropriée (procédure 5)."
+      "en": "The going concern basis of accounting is appropriate.",
+      "fr": "Le principe de continuité d'exploitation est approprié.",
+      "tasks": [
+       "gc_conclude"
+      ]
      },
      {
       "key": "no_uncertainty",
-      "en": "No material uncertainty related to going concern exists (procedure 5). A “No” requires the disclosure and the report section to be prepared.",
-      "fr": "Aucune incertitude significative liée à la continuité n'existe (procédure 5). Un « Non » impose l'annexe et la section correspondante du rapport."
+      "en": "No material uncertainty related to going concern exists. A “No” requires the disclosure and the report section to be prepared.",
+      "fr": "Il n'existe pas d'incertitude significative liée à la continuité d'exploitation. Un « Non » impose de préparer l'information en annexe et la section du rapport.",
+      "tasks": [
+       "gc_conclude",
+       "gc_disclosure"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Obtain sufficient appropriate evidence that the events occurring between the date of the financial statements and the date of the auditor's report that require adjustment or disclosure are appropriately reflected, and conclude on the appropriateness of management's use of the going concern basis of accounting and on whether a material uncertainty exists.",
+  "objectiveFr": "Obtenir des éléments probants suffisants et appropriés que les événements survenus entre la date des états financiers et la date du rapport de l'auditeur, qui exigent un ajustement ou une information, sont correctement traités, et conclure sur le caractère approprié de l'utilisation par la direction du principe de continuité d'exploitation et sur l'existence d'une incertitude significative.",
+  "isa": [
+   {
+    "std": "ISA 560"
+   },
+   {
+    "std": "ISA 570"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_financial",
+    "en": "Financial analysis",
+    "fr": "Analyse financière",
+    "noteEn": "Equity, ratios and trends against the prior year",
+    "noteFr": "Capitaux propres, ratios et tendances par rapport à l'exercice précédent"
+   },
+   {
+    "action": "action_tool_gl",
+    "en": "General ledger",
+    "fr": "Grand livre",
+    "noteEn": "Entries after the year end",
+    "noteFr": "Écritures postérieures à la clôture"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "E6.6",
+   "E6.3",
+   "E6.4",
+   "S4.2",
+   "C5.1",
+   "C5.5",
+   "C3.1"
+  ],
+  "toolCard": "going_concern",
+  "conclStdEn": "The subsequent events procedures extend to the date of the auditor's report and every event identified is adjusted or disclosed as required. The going concern basis of accounting is appropriate and no material uncertainty exists; the conclusion is carried to C5.1.",
+  "conclStdFr": "Les procédures sur les événements postérieurs s'étendent jusqu'à la date du rapport et chaque événement relevé est ajusté ou mentionné comme requis. Le principe de continuité d'exploitation est approprié et il n'existe pas d'incertitude significative ; la conclusion est reportée en C5.1."
  }
 }

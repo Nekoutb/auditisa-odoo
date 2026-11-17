@@ -45,6 +45,10 @@ def _fixture(name):
 # The working-paper layout of 2026-11-17 converts the reference papers (services/layout.py).
 DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.14", "E4.15", "E6.4"} | {
     "S4.2", "P6.1", "P6.2", "S1.1", "S1.2", "S1.3", "S1.4", "S3.1",
+} | {
+    # group compl: the completion papers converted to the same layout
+    "C1.1", "C1.2", "C1.3", "C2.1", "C2.2", "C3.1", "C4.1", "C5.3", "C5.4", "C5.5", "C5.6", "C5.7", "C5.9",
+    "C5.11", "C6.2",
 }
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")

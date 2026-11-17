@@ -13,133 +13,290 @@
    "Nous apprécions si les états financiers sont établis, dans tous leurs aspects significatifs, conformément au référentiel applicable et s'ils y font référence de manière appropriée (ISA 700 révisée ¶13–15).",
    "L'appréciation porte sur la présentation, la structure et le contenu des états et des notes, et sur la traduction fidèle des opérations sous-jacentes."
   ],
-  "conclEn": [
-   "The financial statements are prepared, in all material respects, in accordance with the applicable financial reporting framework and agree to the audited record."
-  ],
-  "conclFr": [
-   "Les états financiers sont établis, dans tous leurs aspects significatifs, conformément au référentiel applicable et concordent avec le dossier audité."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "analytics",
       "en": "Perform final analytical procedures at the financial statement level, and evaluate whether the statements as a whole are consistent with our understanding of the entity.",
       "fr": "Mettre en œuvre des procédures analytiques finales au niveau des états financiers et apprécier leur cohérence d'ensemble avec notre connaissance de l'entité.",
-      "srcEn": "Final trial balance · prior financial statements · P3.2 expectations · ISA 520 ¶6",
-      "srcFr": "Balance définitive · états financiers antérieurs · attentes P3.2 · ISA 520 ¶6"
+      "shortEn": "Final analytical review",
+      "shortFr": "Revue analytique finale",
+      "isa": "ISA 520 ¶6",
+      "tipsEn": [
+       "Compare with the prior year and the expectations set in P3.2.",
+       "Explain each movement that the file does not already explain."
+      ],
+      "tipsFr": [
+       "Comparer à l'exercice précédent et aux attentes fixées en P3.2.",
+       "Expliquer chaque variation que le dossier n'explique pas déjà."
+      ],
+      "stdEn": "Final analytical review performed; the statements are consistent with our understanding of the entity.",
+      "stdFr": "Revue analytique finale réalisée ; les états financiers sont cohérents avec notre connaissance de l'entité.",
+      "sourceHint": "Analytical review"
      },
      {
       "key": "tieout",
       "en": "Agree every figure in the primary statements to the final trial balance as adjusted, and confirm the statements cast and cross-cast.",
       "fr": "Rapprocher chaque montant des états de synthèse de la balance définitive ajustée et vérifier les totaux en lignes et en colonnes.",
-      "srcEn": "Final trial balance · adjustment schedule · lead schedules",
-      "srcFr": "Balance définitive · état des ajustements · feuilles maîtresses"
+      "shortEn": "Statements agree to the trial balance",
+      "shortFr": "Concordance avec la balance",
+      "isa": "ISA 330 ¶20(a)",
+      "tipsEn": [
+       "Use the final trial balance, after the posted adjustments.",
+       "Check that the statements cast and cross-cast."
+      ],
+      "tipsFr": [
+       "Utiliser la balance définitive, après les ajustements comptabilisés.",
+       "Vérifier les totaux verticaux et horizontaux."
+      ],
+      "stdEn": "Every figure of the primary statements agrees to the final trial balance; casts checked.",
+      "stdFr": "Chaque montant des états de synthèse concorde avec la balance définitive ; totaux vérifiés.",
+      "sourceHint": "Final trial balance"
      },
      {
       "key": "notes",
       "en": "Agree every figure in the notes to the primary statements and to the supporting working paper.",
       "fr": "Rapprocher chaque montant des notes des états de synthèse et de la feuille de travail correspondante.",
-      "srcEn": "Draft notes · working papers",
-      "srcFr": "Projet de notes · feuilles de travail"
+      "shortEn": "Notes agree",
+      "shortFr": "Concordance des notes",
+      "isa": "ISA 330 ¶20(a)",
+      "tipsEn": [
+       "Tick each note figure to the statements and to its working paper."
+      ],
+      "tipsFr": [
+       "Pointer chaque montant des notes avec les états et avec sa feuille de travail."
+      ],
+      "stdEn": "Every figure in the notes agrees to the statements and to the working papers.",
+      "stdFr": "Chaque montant des notes concorde avec les états et avec les feuilles de travail.",
+      "sourceHint": "Draft notes · working papers"
      },
      {
       "key": "adjustments",
       "en": "Confirm that every adjustment agreed with management in C1.1 has been posted, and that none has been posted that was not agreed.",
       "fr": "Vérifier que chaque ajustement convenu avec la direction en C1.1 a été comptabilisé et qu'aucun autre ne l'a été.",
-      "srcEn": "C1.1 · final trial balance · journal entries",
-      "srcFr": "C1.1 · balance définitive · écritures"
+      "shortEn": "Adjustments posted",
+      "shortFr": "Ajustements comptabilisés",
+      "isa": "ISA 450 ¶8 · ISA 330 ¶20(b)",
+      "tipsEn": [
+       "Compare the posted entries with the corrected lines of the summary in C1.1."
+      ],
+      "tipsFr": [
+       "Rapprocher les écritures passées des lignes corrigées du récapitulatif de C1.1."
+      ],
+      "stdEn": "Every agreed adjustment is posted and no other adjustment was posted.",
+      "stdFr": "Chaque ajustement convenu est comptabilisé et aucun autre ajustement n'a été passé.",
+      "sourceHint": "C1.1 · final trial balance"
      },
      {
       "key": "presentation",
       "en": "Test the presentation, structure and content of the statements against the framework, including the format prescribed by SYSCOHADA where it applies.",
       "fr": "Tester la présentation, la structure et le contenu des états au regard du référentiel, y compris le format SYSCOHADA le cas échéant.",
-      "srcEn": "SYSCOHADA / IFRS presentation requirements",
-      "srcFr": "Exigences de présentation SYSCOHADA / IFRS"
+      "shortEn": "Presentation and structure",
+      "shortFr": "Présentation et structure",
+      "isa": "ISA 700 ¶13–15",
+      "tipsEn": [
+       "Check the format the framework prescribes, statement by statement."
+      ],
+      "tipsFr": [
+       "Vérifier la présentation prescrite par le référentiel, état par état."
+      ],
+      "stdEn": "Presentation, structure and content conform to the framework.",
+      "stdFr": "La présentation, la structure et le contenu sont conformes au référentiel.",
+      "sourceHint": "Framework presentation requirements"
      },
      {
       "key": "disclosure",
       "en": "Complete the disclosure checklist for the framework, and test each disclosure the entity is required to make.",
       "fr": "Renseigner la liste de contrôle des informations à fournir et tester chaque mention obligatoire.",
-      "srcEn": "Disclosure checklist · framework · draft statements",
-      "srcFr": "Liste de contrôle · référentiel · projet d'états"
+      "shortEn": "Disclosure checklist",
+      "shortFr": "Liste de contrôle des informations",
+      "isa": "ISA 700 ¶13(a), (e)",
+      "tipsEn": [
+       "Complete the checklist for the framework that applies.",
+       "Mark each item not applicable with its reason."
+      ],
+      "tipsFr": [
+       "Remplir la liste de contrôle du référentiel applicable.",
+       "Motiver chaque rubrique sans objet."
+      ],
+      "stdEn": "Disclosure checklist completed; every required disclosure is made.",
+      "stdFr": "Liste de contrôle remplie ; chaque information requise est fournie.",
+      "sourceHint": "Disclosure checklist"
      },
      {
       "key": "comparatives",
       "en": "Agree the comparative figures to the prior period financial statements, and cross-refer to E6.5.",
       "fr": "Rapprocher les chiffres comparatifs des états financiers antérieurs et renvoyer à E6.5.",
-      "srcEn": "Prior financial statements · E6.5",
-      "srcFr": "États financiers antérieurs · E6.5"
+      "shortEn": "Comparatives",
+      "shortFr": "Chiffres comparatifs",
+      "isa": "ISA 710 ¶7",
+      "tipsEn": [
+       "Agree to the signed prior-year statements, not to a draft."
+      ],
+      "tipsFr": [
+       "Rapprocher des états signés de l'exercice précédent, pas d'un projet."
+      ],
+      "stdEn": "Comparative figures agree to the prior-period financial statements; see E6.5.",
+      "stdFr": "Les chiffres comparatifs concordent avec les états financiers de l'exercice précédent ; voir E6.5.",
+      "sourceHint": "E6.5"
      },
      {
       "key": "consistency",
       "en": "Read the other information issued with the financial statements, including the management report, and identify any material inconsistency with the statements or with our knowledge.",
       "fr": "Examiner les autres informations diffusées avec les états financiers, dont le rapport de gestion, et relever toute incohérence significative.",
-      "srcEn": "Management report · ISA 720 (Revised)",
-      "srcFr": "Rapport de gestion · ISA 720 révisée"
+      "shortEn": "Other information",
+      "shortFr": "Autres informations",
+      "isa": "ISA 720 ¶14–15",
+      "tipsEn": [
+       "Read the management report against the audited figures."
+      ],
+      "tipsFr": [
+       "Lire le rapport de gestion au regard des chiffres audités."
+      ],
+      "stdEn": "Other information read; no material inconsistency identified.",
+      "stdFr": "Autres informations lues ; aucune incohérence significative relevée.",
+      "sourceHint": "Management report"
      },
      {
       "key": "terminology",
       "en": "Confirm the terminology used, including the title of each statement and the description of the framework.",
       "fr": "Vérifier la terminologie employée, dont l'intitulé de chaque état et la désignation du référentiel.",
-      "srcEn": "Framework · draft statements",
-      "srcFr": "Référentiel · projet d'états"
+      "shortEn": "Titles and terminology",
+      "shortFr": "Titres et terminologie",
+      "isa": "ISA 700 ¶13(f), ¶15",
+      "tipsEn": [
+       "Check the title of each statement and the name of the framework."
+      ],
+      "tipsFr": [
+       "Vérifier le titre de chaque état et la dénomination du référentiel."
+      ],
+      "stdEn": "Titles and terminology are appropriate and the framework is described correctly.",
+      "stdFr": "Les titres et la terminologie sont appropriés et le référentiel est correctement désigné.",
+      "sourceHint": "Draft statements"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "ties",
-      "en": "Every figure in the statements and the notes agrees to the audited record (procedures 1, 2).",
-      "fr": "Chaque montant des états et des notes concorde avec le dossier audité (procédures 1, 2)."
+      "en": "Every figure in the statements and the notes agrees to the audited record.",
+      "fr": "Chaque montant des états et des notes concorde avec les données auditées.",
+      "tasks": [
+       "tieout",
+       "notes"
+      ]
      },
      {
       "key": "adjustments",
-      "en": "Every agreed adjustment has been posted, and no unagreed adjustment has been (procedure 3).",
-      "fr": "Chaque ajustement convenu a été comptabilisé et aucun ajustement non convenu ne l'a été (procédure 3)."
+      "en": "Every agreed adjustment is posted, and no adjustment that was not agreed has been.",
+      "fr": "Chaque ajustement convenu est comptabilisé, et aucun ajustement non convenu ne l'a été.",
+      "tasks": [
+       "adjustments"
+      ]
      },
      {
       "key": "disclosures",
-      "en": "The disclosure checklist is complete and every required disclosure is made (procedure 5).",
-      "fr": "La liste de contrôle est complète et chaque information requise est fournie (procédure 5)."
+      "en": "The disclosure checklist is complete and every required disclosure is made.",
+      "fr": "La liste de contrôle est remplie et chaque information requise est fournie.",
+      "tasks": [
+       "presentation",
+       "disclosure"
+      ]
      },
      {
       "key": "other_info",
-      "en": "The other information contains no material inconsistency with the financial statements or with our knowledge (procedure 7).",
-      "fr": "Les autres informations ne présentent aucune incohérence significative avec les états financiers ni avec notre connaissance (procédure 7)."
+      "en": "The other information contains no material inconsistency with the financial statements or with our knowledge.",
+      "fr": "Les autres informations ne comportent aucune incohérence significative avec les états financiers ou avec notre connaissance.",
+      "tasks": [
+       "consistency"
+      ],
+      "vs": false
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Evaluate whether the financial statements, including the disclosures, are prepared in accordance with the applicable financial reporting framework and agree with the underlying accounting records, and perform analytical procedures near the end of the audit to form an overall conclusion on their consistency with our understanding of the entity.",
+  "objectiveFr": "Apprécier si les états financiers, notes comprises, sont établis conformément au référentiel comptable applicable et concordent avec les documents comptables sous-jacents, et mettre en œuvre des procédures analytiques en fin d'audit pour conclure sur leur cohérence avec notre connaissance de l'entité.",
+  "isa": [
+   {
+    "std": "ISA 700"
+   },
+   {
+    "std": "ISA 330"
+   },
+   {
+    "std": "ISA 520"
+   },
+   {
+    "std": "ISA 720"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_tb",
+    "en": "Trial balance",
+    "fr": "Balance",
+    "noteEn": "Final balances after the adjustments",
+    "noteFr": "Soldes définitifs après ajustements"
+   },
+   {
+    "action": "action_tool_lead",
+    "en": "Lead schedules",
+    "fr": "Feuilles maîtresses",
+    "noteEn": "Balances by caption, current and prior year",
+    "noteFr": "Soldes par rubrique, exercice et exercice précédent"
+   },
+   {
+    "action": "action_tool_analytics",
+    "en": "Analytical review",
+    "fr": "Revue analytique",
+    "noteEn": "Final analytical procedures",
+    "noteFr": "Procédures analytiques finales"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Récapitulatif des anomalies",
+    "noteEn": "Adjustments from the working papers, posted by the reviewer",
+    "noteFr": "Ajustements issus des feuilles de travail, validés par le réviseur"
+   }
+  ],
+  "links": [
+   "C1.1",
+   "E6.5",
+   "P3.2",
+   "C5.1"
+  ],
+  "conclStdEn": "The financial statements are prepared, in all material respects, in accordance with the applicable financial reporting framework and agree to the audited record.",
+  "conclStdFr": "Les états financiers sont établis, dans tous leurs aspects significatifs, conformément au référentiel comptable applicable et concordent avec les données auditées."
  }
 }

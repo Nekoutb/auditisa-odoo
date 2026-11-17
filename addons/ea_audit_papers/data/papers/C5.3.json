@@ -2,7 +2,7 @@
  "code": "C5.3",
  "source": "lib/papers/conclusion.ts",
  "definition": {
-  "std": "AUSCGIE arts. 438–448 (SA) · arts. 350–358 (SARL) · art. 853-14 (SAS) · arts. 450 / 356 (conventions interdites) — à valider · ISA 550",
+  "std": "OHADA arts. 438–448 (SA) · arts. 350–358 (SARL) · art. 853-14 (SAS) · arts. 450 / 356 (conventions interdites) — à valider · ISA 550",
   "ownsEn": "the register of regulated agreements and the special report",
   "ownsFr": "le registre des conventions réglementées et le rapport spécial",
   "reqEn": [
@@ -17,221 +17,405 @@
    "Certaines conventions sont interdites, quelle que soit l'autorisation : les emprunts, découverts, cautions et avals consentis par la société à ses administrateurs, directeurs généraux, administrateur général ou gérant, à leurs conjoints, ascendants et descendants et à toute personne interposée (SA art. 450, SARL art. 356 — à valider). Une convention interdite est nulle, et elle est signalée.",
    "Le rapport spécial décrit chaque convention, les personnes concernées, les conditions et le motif de sa conclusion, afin que l'[[lf.meeting]] statue en connaissance de cause. Le registre de ce dossier est tenu dans l'outil juridique (/legal, registre C5.3), dont le rapport spécial est généré."
   ],
-  "conclEn": [
-   "The regulated agreements have been identified for the client's legal form, no forbidden agreement exists or each one found is reported, and the special report covers each regulated agreement, including any entered into without the authorisation or approval the Act requires."
-  ],
-  "conclFr": [
-   "Les conventions réglementées ont été identifiées pour la forme sociale du client, aucune convention interdite n'existe ou chacune relevée est signalée, et le rapport spécial couvre chaque convention réglementée, y compris celles conclues sans l'autorisation ou l'approbation requise par l'Acte."
-  ],
   "tools": [
-   "legal"
+   {
+    "action": "action_tool_legal",
+    "en": "Legal tool",
+    "fr": "Outil juridique",
+    "noteEn": "Register of regulated agreements and the special report",
+    "noteFr": "Registre des conventions réglementées et rapport spécial"
+   },
+   {
+    "action": "action_tool_gl",
+    "en": "General ledger",
+    "fr": "Grand livre",
+    "noteEn": "Search the counterparties, accounts 46, 47 and 27",
+    "noteFr": "Recherche des contreparties, comptes 46, 47 et 27"
+   }
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "candidates",
-      "en": "List the persons the regime catches for this [[lf.form]] — the [[lf.officers]], the [[lf.holders]], their spouses, ascendants and descendants, and the companies they run or own — from the RCCM extract, the statutes, the register of securities and the related-party register, then list every agreement in force or concluded in the period with any of them, from the ledger, the contracts and the minutes.",
+      "en": "List the persons the regime catches for this [[lf.form]] — the [[lf.officers]], the [[lf.holders]], their spouses, ascendants and descendants, and the companies they run or own — from the trade register extract, the statutes, the register of securities and the related-party register, then list every agreement in force or concluded in the period with any of them, from the ledger, the contracts and the minutes.",
       "fr": "Recenser les personnes visées par le régime pour cette [[lf.form]] — les [[lf.officers]], les [[lf.holders]], leurs conjoints, ascendants et descendants, et les sociétés qu'ils dirigent ou détiennent — à partir de l'extrait RCCM, des statuts, du registre des titres et du registre des parties liées, puis recenser toute convention en vigueur ou conclue sur l'exercice avec l'un d'eux, à partir du grand livre, des contrats et des procès-verbaux.",
-      "srcEn": "RCCM extract · statutes · register of securities (C5.7) · S4.3 · E6.2 · general ledger · AUSCGIE arts. 438 / 350 / 853-14 (à valider)",
-      "srcFr": "Extrait RCCM · statuts · registre des titres (C5.7) · S4.3 · E6.2 · grand livre · AUSCGIE arts. 438 / 350 / 853-14 (à valider)",
-      "tipEn": "[Draft] Build the list of persons first and the list of agreements second, never the other way round: an agreement is regulated because of who the counterparty is. Run the counterparty names of the ledger (accounts 40, 41, 46, 47) against the list, including spouses and the companies a director controls — the ten per cent threshold counts indirect holdings through a holding or a family company. Record the candidates found and those excluded, with the reason.",
-      "tipFr": "[Projet] Dresser d'abord la liste des personnes, ensuite celle des conventions, jamais l'inverse : une convention est réglementée à cause de l'identité du cocontractant. Croiser les noms des tiers du grand livre (comptes 40, 41, 46, 47) avec la liste, y compris les conjoints et les sociétés qu'un administrateur contrôle — le seuil de dix pour cent compte les détentions indirectes par une holding ou une société familiale. Consigner les candidates trouvées et celles écartées, avec le motif."
+      "shortEn": "Persons and agreements caught",
+      "shortFr": "Personnes et conventions visées",
+      "isa": "OHADA arts. 438 / 350 · ISA 550 ¶13 (à valider)",
+      "tipsEn": [
+       "List the persons first, then the agreements: the counterparty decides.",
+       "Use the trade register extract, the statutes and the register of securities."
+      ],
+      "tipsFr": [
+       "Lister d'abord les personnes, puis les conventions : c'est la contrepartie qui décide.",
+       "Utiliser l'extrait RCCM, les statuts et le registre des titres."
+      ],
+      "stdEn": "Persons and agreements identified from the registers, the ledger and the minutes; none beyond those in the register.",
+      "stdFr": "Personnes et conventions identifiées à partir des registres, du grand livre et des procès-verbaux ; aucune autre que celles du registre.",
+      "sourceHint": "Legal tool register"
      },
      {
       "key": "notify",
-      "en": "Obtain from the [[lf.officers]] the list of agreements they were required to notify, with the date of each notification, and compare it with the candidates of procedure 1.",
-      "fr": "Obtenir des [[lf.officers]] la liste des conventions qu'ils étaient tenus de communiquer, avec la date de chaque communication, et la comparer aux candidates de la procédure 1.",
-      "srcEn": "Notifications of the [[lf.officers]] · minutes of the [[lf.board]] · AUSCGIE arts. 438 al. 2 / 350 (à valider)",
-      "srcFr": "Communications des [[lf.officers]] · procès-verbaux de l'[[lf.board]] · AUSCGIE arts. 438 al. 2 / 350 (à valider)"
+      "en": "Obtain from the [[lf.officers]] the list of agreements they were required to notify, with the date of each notification, and compare it with the agreements identified in the first task.",
+      "fr": "Obtenir des [[lf.officers]] la liste des conventions qu'ils étaient tenus de communiquer, avec la date de chaque communication, et la comparer aux conventions recensées à la première tâche.",
+      "shortEn": "Agreements notified",
+      "shortFr": "Conventions communiquées",
+      "isa": "OHADA arts. 438 / 350 (à valider)",
+      "tipsEn": [
+       "Compare the officers' list with your own; a gap is a finding."
+      ],
+      "tipsFr": [
+       "Comparer la liste des dirigeants avec la vôtre ; un écart est un constat."
+      ],
+      "stdEn": "The officers' notifications agree with the agreements identified.",
+      "stdFr": "Les communications des dirigeants concordent avec les conventions identifiées.",
+      "sourceHint": "Officers' notifications"
      },
      {
       "key": "ordinary_course",
       "en": "Exclude the agreements concluded on normal terms in the ordinary course of business [conventions courantes à des conditions normales], recording for each the facts that make it ordinary and normal — the same terms as with third parties, the same volume, the same payment conditions — and keep in the regime any agreement where one of those facts is missing.",
       "fr": "Écarter les conventions courantes conclues à des conditions normales, en consignant pour chacune les faits qui la rendent courante et normale — mêmes conditions qu'avec les tiers, même volume, mêmes conditions de règlement — et maintenir dans le régime toute convention où l'un de ces faits manque.",
-      "srcEn": "Price lists · comparable third-party contracts · AUSCGIE art. 439 (à valider)",
-      "srcFr": "Tarifs · contrats comparables avec des tiers · AUSCGIE art. 439 (à valider)",
-      "tipEn": "[Draft] 'Normal terms' is a comparison, so file the comparison: the price charged to the director's company beside the price charged to an unrelated customer of the same size. A rent, a management fee or a consultancy contract with the chairman's company is rarely 'ordinary course' — the burden of showing it is on the entity, not on the auditor.",
-      "tipFr": "[Projet] « Conditions normales » est une comparaison : classer la comparaison, le prix facturé à la société de l'administrateur à côté du prix facturé à un client indépendant de même taille. Un loyer, des honoraires de gestion ou un contrat de conseil avec la société du président sont rarement « courants » — la charge de le démontrer pèse sur l'entité, pas sur l'auditeur."
+      "shortEn": "Ordinary course, normal terms",
+      "shortFr": "Conventions courantes",
+      "isa": "OHADA art. 439 (à valider)",
+      "tipsEn": [
+       "Normal terms is a comparison: file it."
+      ],
+      "tipsFr": [
+       "« Conditions normales » est une comparaison : la classer au dossier."
+      ],
+      "stdEn": "Each agreement excluded as ordinary course carries the comparison that shows it.",
+      "stdFr": "Chaque convention exclue comme courante porte la comparaison qui le démontre.",
+      "sourceHint": "Price lists · third-party contracts"
      },
      {
       "key": "forbidden",
       "en": "Detect the forbidden agreements: loans, overdrafts, sureties and guarantees granted by the company to the [[lf.officers]], to their spouses, ascendants and descendants or to any intermediary — in the ledger (accounts 46, 47, 27, off-balance-sheet commitments), the bank confirmations and the guarantee register — and where one exists, record its nullity and report it to the [[lf.meeting]] and, where the facts call for it, assess it on C5.6.",
       "fr": "Détecter les conventions interdites : emprunts, découverts, cautions et avals consentis par la société aux [[lf.officers]], à leurs conjoints, ascendants et descendants ou à toute personne interposée — dans le grand livre (comptes 46, 47, 27, engagements hors bilan), les confirmations bancaires et le registre des garanties — et, lorsqu'il en existe une, consigner sa nullité, la signaler à l'[[lf.meeting]] et, si les faits l'exigent, l'apprécier en C5.6.",
-      "srcEn": "Accounts 46/47/27 · bank confirmations · guarantee register · S4.1 · AUSCGIE arts. 450 (SA) / 356 (SARL) (à valider)",
-      "srcFr": "Comptes 46/47/27 · confirmations bancaires · registre des garanties · S4.1 · AUSCGIE arts. 450 (SA) / 356 (SARL) (à valider)",
-      "tipEn": "[Draft] The current account of a director in debit at any date of the year is a loan from the company, however it is labelled; a company guarantee on a director's personal bank loan is a surety. Read the bank confirmations for guarantees given, not only for balances. A forbidden agreement is void whatever the board decided, so no authorisation cures it: it is a report matter and often a C5.6 matter.",
-      "tipFr": "[Projet] Le compte courant d'un administrateur débiteur à une date quelconque de l'exercice est un prêt de la société, quel que soit son libellé ; une garantie de la société sur l'emprunt personnel d'un dirigeant est un aval. Lire les confirmations bancaires pour les garanties données, pas seulement pour les soldes. Une convention interdite est nulle quoi qu'ait décidé le conseil, aucune autorisation ne la couvre : c'est un point du rapport et souvent un point de C5.6."
+      "shortEn": "Forbidden agreements",
+      "shortFr": "Conventions interdites",
+      "isa": "OHADA arts. 450 / 356 (à valider)",
+      "tipsEn": [
+       "An officer's current account in debit at any date is a loan.",
+       "Read the bank confirmations for guarantees given."
+      ],
+      "tipsFr": [
+       "Un compte courant de dirigeant débiteur à une date quelconque est un prêt.",
+       "Lire les confirmations bancaires pour les garanties données."
+      ],
+      "stdEn": "No loan, overdraft, surety or guarantee to an officer or a relative was found.",
+      "stdFr": "Aucun prêt, découvert, cautionnement ou aval au profit d'un dirigeant ou d'un proche n'a été relevé.",
+      "sourceHint": "Accounts 46, 47, 27 · bank confirmations"
      },
      {
       "key": "authorisation",
       "en": "For each regulated agreement, confirm the prior authorisation of the board of directors — the minutes, the date before the agreement, the interested director not taking part in the vote — and the chairman's notification to us within one month of the conclusion.",
       "fr": "Pour chaque convention réglementée, vérifier l'autorisation préalable du conseil d'administration — le procès-verbal, la date antérieure à la convention, l'abstention de l'administrateur intéressé — et l'avis du président dans le mois de la conclusion.",
-      "srcEn": "Board minutes · attendance register · chairman's notification · AUSCGIE arts. 438 and 440 (à valider)",
-      "srcFr": "Procès-verbaux du conseil · feuille de présence · avis du président · AUSCGIE arts. 438 et 440 (à valider)",
       "forms": [
        "SA"
-      ]
+      ],
+      "shortEn": "Prior authorisation by the board",
+      "shortFr": "Autorisation préalable du conseil",
+      "isa": "OHADA arts. 438, 440 (à valider)",
+      "tipsEn": [
+       "Check the date of the minutes against the date of the agreement."
+      ],
+      "tipsFr": [
+       "Comparer la date du procès-verbal à celle de la convention."
+      ],
+      "stdEn": "Each regulated agreement was authorised beforehand, the interested director not voting.",
+      "stdFr": "Chaque convention réglementée a été autorisée au préalable, l'administrateur intéressé ne votant pas.",
+      "sourceHint": "Board minutes"
      },
      {
       "key": "authorisation_ag",
       "en": "For each regulated agreement, confirm the prior authorisation of the general meeting of shareholders — the SA has no board: the administrateur général submits the agreement to the ordinary general meeting, which decides on our special report — and the notification made to us.",
       "fr": "Pour chaque convention réglementée, vérifier l'autorisation préalable de l'assemblée générale des actionnaires — la SA n'a pas de conseil : l'administrateur général soumet la convention à l'assemblée générale ordinaire, qui statue sur notre rapport spécial — et l'avis qui nous a été donné.",
-      "srcEn": "AGO minutes · administrateur général's notification · AUSCGIE arts. 502–503 (à valider)",
-      "srcFr": "Procès-verbal d'AGO · avis de l'administrateur général · AUSCGIE arts. 502–503 (à valider)",
       "forms": [
        "SA_AG"
-      ]
+      ],
+      "shortEn": "Authorisation by the general meeting",
+      "shortFr": "Autorisation par l'assemblée générale",
+      "isa": "OHADA arts. 502–503 (à valider)",
+      "tipsEn": [
+       "The meeting decides on our special report."
+      ],
+      "tipsFr": [
+       "L'assemblée statue sur notre rapport spécial."
+      ],
+      "stdEn": "Each regulated agreement was authorised by the general meeting.",
+      "stdFr": "Chaque convention réglementée a été autorisée par l'assemblée générale.",
+      "sourceHint": "General meeting minutes"
      },
      {
       "key": "approval",
       "en": "For each regulated agreement, confirm it was submitted to the members' approval on our special report at the meeting deciding on the accounts, the interested gérant or member not taking part in the vote; record that no prior authorisation is required on a SARL, and the consequence of a refused approval (the agreement stands, the gérant or member answering for its harmful consequences).",
       "fr": "Pour chaque convention réglementée, vérifier qu'elle a été soumise à l'approbation des associés sur notre rapport spécial lors de l'assemblée statuant sur les comptes, le gérant ou l'associé intéressé ne prenant pas part au vote ; consigner qu'aucune autorisation préalable n'est requise dans la SARL, et la conséquence d'un refus d'approbation (la convention produit ses effets, le gérant ou l'associé répondant de ses conséquences dommageables).",
-      "srcEn": "Minutes of the members' meeting · our special report · AUSCGIE arts. 350–354 (à valider)",
-      "srcFr": "Procès-verbal de l'assemblée des associés · notre rapport spécial · AUSCGIE arts. 350–354 (à valider)",
       "forms": [
        "SARL"
-      ]
+      ],
+      "shortEn": "Approval by the members",
+      "shortFr": "Approbation par les associés",
+      "isa": "OHADA arts. 350–354 (à valider)",
+      "tipsEn": [
+       "No prior authorisation on this form: the members approve afterwards."
+      ],
+      "tipsFr": [
+       "Pas d'autorisation préalable dans cette forme : les associés approuvent a posteriori."
+      ],
+      "stdEn": "Each regulated agreement was submitted to the members' approval on our special report.",
+      "stdFr": "Chaque convention réglementée a été soumise à l'approbation des associés sur notre rapport spécial.",
+      "sourceHint": "Members' meeting minutes"
      },
      {
       "key": "statutes_sas",
       "en": "Read the statutes for the regime they organise and the organ they entrust with the control of the agreements, apply it, and record how art. 853-14 and the statutes articulate.",
       "fr": "Lire les statuts pour le régime qu'ils organisent et l'organe auquel ils confient le contrôle des conventions, l'appliquer, et consigner l'articulation entre l'article 853-14 et les statuts.",
-      "srcEn": "Statutes · decisions of the organ the statutes designate · AUSCGIE art. 853-14 (à valider)",
-      "srcFr": "Statuts · décisions de l'organe désigné par les statuts · AUSCGIE art. 853-14 (à valider)",
       "forms": [
        "SAS"
-      ]
+      ],
+      "shortEn": "Regime set by the statutes",
+      "shortFr": "Régime fixé par les statuts",
+      "isa": "OHADA art. 853-14 (à valider)",
+      "tipsEn": [
+       "Name the organ the statutes entrust with the control."
+      ],
+      "tipsFr": [
+       "Nommer l'organe auquel les statuts confient le contrôle."
+      ],
+      "stdEn": "The regime of the statutes is applied and its link with the Act is recorded.",
+      "stdFr": "Le régime statutaire est appliqué et son articulation avec l'Acte est consignée.",
+      "sourceHint": "Statutes"
      },
      {
       "key": "terms",
       "en": "Obtain the terms of each agreement: the parties, the object, the price, the duration, and the amounts recorded in the period.",
       "fr": "Obtenir les conditions de chaque convention : parties, objet, prix, durée et montants comptabilisés sur l'exercice.",
-      "srcEn": "Agreements · general ledger · E6.2",
-      "srcFr": "Conventions · grand livre · E6.2"
+      "shortEn": "Terms of each agreement",
+      "shortFr": "Conditions de chaque convention",
+      "isa": "ISA 550 ¶23",
+      "tipsEn": [
+       "Agree the amounts recorded to the general ledger."
+      ],
+      "tipsFr": [
+       "Rapprocher les montants comptabilisés du grand livre."
+      ],
+      "stdEn": "Terms and amounts obtained for each agreement and agreed to the ledger.",
+      "stdFr": "Conditions et montants obtenus pour chaque convention et rapprochés du grand livre.",
+      "sourceHint": "Agreements · general ledger"
      },
      {
       "key": "continuing",
       "en": "Identify the agreements authorised or approved in prior periods that continued in force during this one, and confirm each is included in the report.",
       "fr": "Identifier les conventions autorisées ou approuvées lors d'exercices antérieurs et poursuivies sur celui-ci, et vérifier leur inclusion dans le rapport.",
-      "srcEn": "Prior special reports · agreements",
-      "srcFr": "Rapports spéciaux antérieurs · conventions"
+      "shortEn": "Agreements continuing from prior years",
+      "shortFr": "Conventions poursuivies",
+      "isa": "OHADA art. 440 (à valider)",
+      "tipsEn": [
+       "Start from last year's special report."
+      ],
+      "tipsFr": [
+       "Partir du rapport spécial de l'exercice précédent."
+      ],
+      "stdEn": "Agreements approved in prior periods and still in force are included in the report.",
+      "stdFr": "Les conventions approuvées antérieurement et toujours en vigueur figurent dans le rapport.",
+      "sourceHint": "Prior special report"
      },
      {
       "key": "register",
       "en": "Record every regulated agreement in the register of the legal tool (/legal, C5.3 register) — parties, interested person and capacity, nature, terms, amounts, continuing or new, authorisation or approval reference, notification date — so the special report is generated from the register and not retyped.",
       "fr": "Enregistrer chaque convention réglementée dans le registre de l'outil juridique (/legal, registre C5.3) — parties, personne intéressée et qualité, nature, conditions, montants, poursuivie ou nouvelle, référence de l'autorisation ou de l'approbation, date de communication — afin que le rapport spécial soit généré depuis le registre et non ressaisi.",
-      "srcEn": "Legal tool → C5.3 register (linked tool on this task)",
-      "srcFr": "Outil juridique → registre C5.3 (outil lié sur cette tâche)"
+      "shortEn": "Register in the legal tool",
+      "shortFr": "Registre dans l'outil juridique",
+      "isa": "OHADA art. 440 (à valider)",
+      "tipsEn": [
+       "The special report is generated from the register, never retyped."
+      ],
+      "tipsFr": [
+       "Le rapport spécial est généré depuis le registre, jamais ressaisi."
+      ],
+      "stdEn": "Every regulated agreement is recorded in the register of the legal tool.",
+      "stdFr": "Chaque convention réglementée est inscrite au registre de l'outil juridique.",
+      "sourceHint": "Legal tool register"
      },
      {
       "key": "draft",
       "en": "Generate and review the special report describing each agreement, the persons concerned, the terms and the reason it was entered into, and the agreements entered into without the authorisation or approval the Act requires.",
       "fr": "Générer et revoir le rapport spécial décrivant chaque convention, les personnes concernées, les conditions et le motif de sa conclusion, ainsi que les conventions conclues sans l'autorisation ou l'approbation requise par l'Acte.",
-      "srcEn": "Our special report (generated from the register) · AUSCGIE arts. 440–442 / 353 (à valider)",
-      "srcFr": "Notre rapport spécial (généré depuis le registre) · AUSCGIE arts. 440–442 / 353 (à valider)"
+      "shortEn": "Special report",
+      "shortFr": "Rapport spécial",
+      "isa": "OHADA arts. 440 / 353 (à valider)",
+      "tipsEn": [
+       "Generate the report from the legal tool and review it against the register."
+      ],
+      "tipsFr": [
+       "Générer le rapport depuis l'outil juridique et le revoir au regard du registre."
+      ],
+      "stdEn": "Special report generated from the register and reviewed.",
+      "stdFr": "Rapport spécial généré depuis le registre et revu.",
+      "sourceHint": "Legal tool"
      },
      {
       "key": "unauthorised",
       "en": "Where an agreement was entered into without the prior authorisation or the approval the Act requires for this [[lf.form]], record it, state the consequence (nullity curable by the [[lf.meeting]] on an SA; liability of the interested person on a SARL) and report it to the [[lf.meeting]].",
       "fr": "Lorsqu'une convention a été conclue sans l'autorisation préalable ou l'approbation que l'Acte requiert pour cette [[lf.form]], la consigner, en indiquer la conséquence (nullité couvrable par l'[[lf.meeting]] dans la SA ; responsabilité de la personne intéressée dans la SARL) et la signaler à l'[[lf.meeting]].",
-      "srcEn": "AUSCGIE arts. 447 / 354 (à valider) · our special report",
-      "srcFr": "AUSCGIE arts. 447 / 354 (à valider) · notre rapport spécial"
+      "shortEn": "Agreements without authorisation",
+      "shortFr": "Conventions non autorisées",
+      "isa": "OHADA arts. 441 / 354 (à valider)",
+      "tipsEn": [
+       "State the consequence for this legal form in the report."
+      ],
+      "tipsFr": [
+       "Indiquer dans le rapport la conséquence propre à cette forme juridique."
+      ],
+      "stdEn": "No agreement was entered into without the authorisation or approval the Act requires.",
+      "stdFr": "Aucune convention n'a été conclue sans l'autorisation ou l'approbation requise par l'Acte.",
+      "sourceHint": "Legal tool register"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "notified",
-      "en": "Every agreement identified was notified by the [[lf.officers]] as required (procedures 1, 2).",
-      "fr": "Chaque convention identifiée a été communiquée par les [[lf.officers]] comme requis (procédures 1, 2)."
+      "en": "Every agreement identified was notified by the [[lf.officers]] as required.",
+      "fr": "Chaque convention identifiée a été communiquée par les [[lf.officers]] comme requis.",
+      "tasks": [
+       "candidates",
+       "notify"
+      ]
      },
      {
       "key": "ordinary_excluded",
-      "en": "Every agreement excluded as ordinary course on normal terms carries the comparison that shows it (procedure 3).",
-      "fr": "Chaque convention écartée comme courante à des conditions normales porte la comparaison qui le démontre (procédure 3).",
-      "na": true
+      "en": "Every agreement excluded as ordinary course on normal terms carries the comparison that shows it.",
+      "fr": "Chaque convention exclue comme courante et conclue à des conditions normales porte la comparaison qui le démontre.",
+      "na": true,
+      "tasks": [
+       "ordinary_course"
+      ],
+      "vs": false
      },
      {
       "key": "no_forbidden",
-      "en": "No forbidden agreement — loan, overdraft, surety or guarantee to an officer or a relative — exists (procedure 4).",
-      "fr": "Aucune convention interdite — prêt, découvert, caution ou aval à un dirigeant ou à un proche — n'existe (procédure 4)."
+      "en": "No forbidden agreement exists: no loan, overdraft, surety or guarantee to an officer or a relative.",
+      "fr": "Aucune convention interdite n'existe : ni prêt, ni découvert, ni cautionnement ou aval au profit d'un dirigeant ou d'un proche.",
+      "tasks": [
+       "forbidden"
+      ]
      },
      {
       "key": "authorised",
-      "en": "Every regulated agreement received the prior authorisation of the board of directors (procedure 5).",
-      "fr": "Chaque convention réglementée a reçu l'autorisation préalable du conseil d'administration (procédure 5).",
+      "en": "Every regulated agreement received the prior authorisation of the board of directors.",
+      "fr": "Chaque convention réglementée a reçu l'autorisation préalable du conseil d'administration.",
       "forms": [
        "SA"
+      ],
+      "tasks": [
+       "authorisation"
       ]
      },
      {
       "key": "abstained",
-      "en": "The interested director abstained from the vote on each agreement (procedure 5).",
-      "fr": "L'administrateur intéressé s'est abstenu lors du vote sur chaque convention (procédure 5).",
+      "en": "The interested director abstained from the vote on each agreement.",
+      "fr": "L'administrateur intéressé s'est abstenu lors du vote sur chaque convention.",
       "na": true,
       "forms": [
        "SA"
-      ]
+      ],
+      "tasks": [
+       "authorisation"
+      ],
+      "vs": false
      },
      {
       "key": "authorised_ag",
-      "en": "Every regulated agreement was authorised by the general meeting of shareholders (procedure 5).",
-      "fr": "Chaque convention réglementée a été autorisée par l'assemblée générale des actionnaires (procédure 5).",
+      "en": "Every regulated agreement was authorised by the general meeting of shareholders.",
+      "fr": "Chaque convention réglementée a été autorisée par l'assemblée générale des actionnaires.",
       "forms": [
        "SA_AG"
+      ],
+      "tasks": [
+       "authorisation_ag"
       ]
      },
      {
       "key": "approved",
-      "en": "Every regulated agreement was submitted to the members' approval on our special report, the interested person not voting (procedure 5).",
-      "fr": "Chaque convention réglementée a été soumise à l'approbation des associés sur notre rapport spécial, la personne intéressée ne votant pas (procédure 5).",
+      "en": "Every regulated agreement was submitted to the members' approval on our special report, the interested person not voting.",
+      "fr": "Chaque convention réglementée a été soumise à l'approbation des associés sur notre rapport spécial, l'intéressé ne votant pas.",
       "forms": [
        "SARL"
+      ],
+      "tasks": [
+       "approval"
       ]
      },
      {
       "key": "registered",
-      "en": "Every regulated agreement is in the legal tool's register, from which the special report was generated (procedures 8, 9).",
-      "fr": "Chaque convention réglementée figure au registre de l'outil juridique, dont le rapport spécial a été généré (procédures 8, 9)."
+      "en": "Every regulated agreement is in the legal tool's register, from which the special report was generated.",
+      "fr": "Chaque convention réglementée figure au registre de l'outil juridique, à partir duquel le rapport spécial a été généré.",
+      "tasks": [
+       "register",
+       "draft"
+      ]
      },
      {
       "key": "complete",
-      "en": "The special report covers every agreement in force during the period, including those authorised or approved in prior periods (procedures 7, 9).",
-      "fr": "Le rapport spécial couvre chaque convention en vigueur sur l'exercice, y compris celles autorisées ou approuvées antérieurement (procédures 7, 9)."
+      "en": "The special report covers every agreement in force during the period, including those authorised or approved in prior periods.",
+      "fr": "Le rapport spécial couvre chaque convention en vigueur pendant l'exercice, y compris celles autorisées ou approuvées antérieurement.",
+      "tasks": [
+       "continuing",
+       "draft"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Identify, for the client's legal form, the agreements between the company and its officers, significant shareholders or the entities they control that the OHADA Uniform Act on commercial companies regulates; check the authorisation or approval each required; detect the forbidden agreements; and report on them to the members in the special report.",
+  "objectiveFr": "Identifier, selon la forme juridique du client, les conventions entre la société et ses dirigeants, ses associés significatifs ou les entités qu'ils contrôlent que l'Acte uniforme réglemente ; vérifier l'autorisation ou l'approbation requise pour chacune ; détecter les conventions interdites ; et en rendre compte aux associés dans le rapport spécial.",
+  "isa": [
+   {
+    "std": "ISA 550"
+   },
+   {
+    "std": "ISA 250"
+   }
+  ],
+  "links": [
+   "E6.2",
+   "S4.3",
+   "C5.7",
+   "C5.6",
+   "C5.1"
+  ],
+  "conclStdEn": "The regulated agreements are identified for the client's legal form, no forbidden agreement exists, and the special report covers each regulated agreement, including those authorised or approved in prior periods.",
+  "conclStdFr": "Les conventions réglementées sont identifiées selon la forme juridique du client, aucune convention interdite n'existe, et le rapport spécial couvre chaque convention réglementée, y compris celles autorisées ou approuvées au cours d'exercices antérieurs."
  }
 }

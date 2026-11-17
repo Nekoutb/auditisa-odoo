@@ -2,126 +2,225 @@
  "code": "C5.4",
  "source": "lib/papers/conclusion.ts",
  "definition": {
-  "std": "AUSCGIE art. 715 (à valider)",
+  "std": "OHADA art. 715 (à valider)",
   "ownsEn": "the report of our observations to the [[lf.board]]",
   "ownsFr": "le rapport de nos observations à l'[[lf.board]]",
   "reqEn": [
-   "Article 715 of the AUSCGIE (to validate) has the commissaire aux comptes report to the [[lf.board]] on four matters: the verifications carried out and the sampling performed; the items of the balance sheet and the other accounting documents needing modification, with the useful observations on the valuation methods used in preparing them; the irregularities and inaccuracies discovered; and the conclusions drawn from those observations and corrections on the results of the period compared with the prior period.",
+   "Article 715 of the OHADA Uniform Act on commercial companies (to validate) has the commissaire aux comptes report to the [[lf.board]] on four matters: the verifications carried out and the sampling performed; the items of the balance sheet and the other accounting documents needing modification, with the useful observations on the valuation methods used in preparing them; the irregularities and inaccuracies discovered; and the conclusions drawn from those observations and corrections on the results of the period compared with the prior period.",
    "The report is made in writing, to the meeting of the [[lf.board]] that draws up the accounts, so that the [[lf.board]] has the matters before it before the accounts are put to the [[lf.meeting]]. The legal tool generates it from the file (/legal, C5.4)."
   ],
   "reqFr": [
    "L'article 715 de l'AUSCGIE (à valider) fait rendre compte par le commissaire aux comptes à l'[[lf.board]] de quatre points : les contrôles et vérifications effectués et les sondages opérés ; les postes du bilan et des autres documents comptables auxquels des modifications paraissent devoir être apportées, avec les observations utiles sur les méthodes d'évaluation utilisées pour leur établissement ; les irrégularités et inexactitudes découvertes ; et les conclusions tirées de ces observations et rectifications sur les résultats de l'exercice comparés à ceux de l'exercice précédent.",
    "Ce rapport est écrit et destiné à la réunion de l'[[lf.board]] qui arrête les comptes, afin que l'[[lf.board]] dispose de ces éléments avant la présentation des comptes à l'[[lf.meeting]]. L'outil juridique le génère à partir du dossier (/legal, C5.4)."
   ],
-  "conclEn": [
-   "Our observations have been reported to the [[lf.board]] as article 715 of the Uniform Act requires, before the accounts were put to the [[lf.meeting]]."
-  ],
-  "conclFr": [
-   "Nos observations ont été portées à la connaissance de l'[[lf.board]] comme l'exige l'article 715 de l'Acte uniforme, avant la présentation des comptes à l'[[lf.meeting]]."
-  ],
   "tools": [
-   "legal"
+   {
+    "action": "action_tool_legal",
+    "en": "Legal tool",
+    "fr": "Outil juridique",
+    "noteEn": "Article 715 report",
+    "noteFr": "Rapport de l'article 715"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Récapitulatif des anomalies",
+    "noteEn": "Adjustments from the working papers, posted by the reviewer",
+    "noteFr": "Ajustements issus des feuilles de travail, validés par le réviseur"
+   }
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "verifications",
       "en": "Record the verifications carried out, the sampling performed and the items of the financial statements examined.",
       "fr": "Consigner les contrôles et vérifications effectués, les sondages opérés et les postes des états financiers examinés.",
-      "srcEn": "Audit programme · working papers · C4.1 · AUSCGIE art. 715 (à valider)",
-      "srcFr": "Programme de travail · feuilles de travail · C4.1 · AUSCGIE art. 715 (à valider)"
+      "shortEn": "Verifications performed",
+      "shortFr": "Vérifications effectuées",
+      "isa": "OHADA art. 715 (à valider)",
+      "tipsEn": [
+       "Summarise the work by cycle and the samples drawn."
+      ],
+      "tipsFr": [
+       "Résumer les travaux par cycle et les échantillons tirés."
+      ],
+      "stdEn": "The verifications and samples performed are set out in the report.",
+      "stdFr": "Les vérifications et sondages effectués sont exposés dans le rapport.",
+      "sourceHint": "Audit programs"
      },
      {
       "key": "fs_modifications",
       "en": "List the items of the balance sheet and the other accounting documents that need modification, each with its cross-reference to the misstatement in C1.1, and the observations on the valuation methods used in preparing them — the estimates of E6.7, the policies of P3.1, any change of method.",
       "fr": "Recenser les postes du bilan et des autres documents comptables auxquels des modifications paraissent devoir être apportées, chacun avec son renvoi à l'anomalie de C1.1, et les observations sur les méthodes d'évaluation utilisées pour leur établissement — les estimations de E6.7, les méthodes de P3.1, tout changement de méthode.",
-      "srcEn": "C1.1 summary of audit differences · E6.7 · P3.1 · AUSCGIE art. 715 (à valider)",
-      "srcFr": "C1.1 récapitulatif des écarts d'audit · E6.7 · P3.1 · AUSCGIE art. 715 (à valider)"
+      "shortEn": "Items to modify and valuation methods",
+      "shortFr": "Postes à modifier et méthodes d'évaluation",
+      "isa": "OHADA art. 715 · ISA 450 ¶8 (à valider)",
+      "tipsEn": [
+       "Cross-refer each item to its line in the summary of C1.1."
+      ],
+      "tipsFr": [
+       "Renvoyer chaque poste à sa ligne du récapitulatif de C1.1."
+      ],
+      "stdEn": "No item of the financial statements needs modification and the valuation methods call for no observation.",
+      "stdFr": "Aucun poste des états financiers n'appelle de modification et les méthodes d'évaluation n'appellent pas d'observation.",
+      "sourceHint": "C1.1"
      },
      {
       "key": "irregularities",
       "en": "List the irregularities and inaccuracies discovered, and cross-refer each to the working paper that records it.",
       "fr": "Recenser les irrégularités et inexactitudes découvertes et les renvoyer à la feuille de travail correspondante.",
-      "srcEn": "C1.1 · C1.2 · E6.1 · working papers · AUSCGIE art. 715 (à valider)",
-      "srcFr": "C1.1 · C1.2 · E6.1 · feuilles de travail · AUSCGIE art. 715 (à valider)"
+      "shortEn": "Irregularities and inaccuracies",
+      "shortFr": "Irrégularités et inexactitudes",
+      "isa": "OHADA art. 715 (à valider)",
+      "tipsEn": [
+       "Cross-refer each one to the working paper that records it."
+      ],
+      "tipsFr": [
+       "Renvoyer chacune à la feuille de travail qui la consigne."
+      ],
+      "stdEn": "No irregularity or inaccuracy was discovered.",
+      "stdFr": "Aucune irrégularité ni inexactitude n'a été découverte.",
+      "sourceHint": "Findings"
      },
      {
       "key": "comparison",
       "en": "Set out the conclusions drawn from the observations and corrections on the results of the period compared with the prior period.",
       "fr": "Exposer les conclusions tirées des observations et rectifications sur les résultats de l'exercice comparés à ceux de l'exercice précédent.",
-      "srcEn": "C2.1 · analytical review · prior financial statements · AUSCGIE art. 715 (à valider)",
-      "srcFr": "C2.1 · revue analytique · états financiers antérieurs · AUSCGIE art. 715 (à valider)"
+      "shortEn": "Results against the prior year",
+      "shortFr": "Résultats par rapport à l'exercice précédent",
+      "isa": "OHADA art. 715 (à valider)",
+      "tipsEn": [
+       "State the effect of the corrections on the result of the year."
+      ],
+      "tipsFr": [
+       "Indiquer l'effet des corrections sur le résultat de l'exercice."
+      ],
+      "stdEn": "The conclusions on the results compared with the prior period are set out.",
+      "stdFr": "Les conclusions sur les résultats comparés à l'exercice précédent sont exposées.",
+      "sourceHint": "Financial analysis"
      },
      {
       "key": "changes",
       "en": "Record any change in presentation or in accounting method, and its effect.",
       "fr": "Consigner tout changement de présentation ou de méthode comptable et son incidence.",
-      "srcEn": "P3.1 · C2.1 · policy note · AUSCGIE art. 715 (à valider)",
-      "srcFr": "P3.1 · C2.1 · note de méthodes · AUSCGIE art. 715 (à valider)"
+      "shortEn": "Changes of presentation or method",
+      "shortFr": "Changements de présentation ou de méthode",
+      "isa": "OHADA art. 715 · ISA 710 (à valider)",
+      "tipsEn": [
+       "Use the accounting policies of P3.1."
+      ],
+      "tipsFr": [
+       "S'appuyer sur les méthodes comptables de P3.1."
+      ],
+      "stdEn": "No change in presentation or accounting method occurred.",
+      "stdFr": "Aucun changement de présentation ni de méthode comptable n'est intervenu.",
+      "sourceHint": "P3.1"
      },
      {
       "key": "send",
       "en": "Generate the report from the legal tool, send it to the [[lf.board]] and record the date it was sent and the meeting at which it was considered.",
       "fr": "Générer le rapport depuis l'outil juridique, l'adresser à l'[[lf.board]] et consigner sa date d'envoi et la réunion au cours de laquelle il a été examiné.",
-      "srcEn": "Our report (legal tool, C5.4) · minutes of the [[lf.board]] (E6.4) · AUSCGIE art. 715 (à valider)",
-      "srcFr": "Notre rapport (outil juridique, C5.4) · procès-verbal de l'[[lf.board]] (E6.4) · AUSCGIE art. 715 (à valider)"
+      "shortEn": "Report sent",
+      "shortFr": "Rapport transmis",
+      "isa": "OHADA art. 715 (à valider)",
+      "tipsEn": [
+       "Generate the report from the legal tool and keep the proof of sending."
+      ],
+      "tipsFr": [
+       "Générer le rapport depuis l'outil juridique et conserver la preuve de l'envoi."
+      ],
+      "stdEn": "Report generated and sent before the meeting; date of sending recorded.",
+      "stdFr": "Rapport généré et transmis avant la réunion ; date d'envoi consignée.",
+      "sourceHint": "Legal tool"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "complete",
-      "en": "The report covers the verifications carried out and every irregularity and inaccuracy discovered (procedures 1, 3).",
-      "fr": "Le rapport couvre les contrôles effectués et chaque irrégularité et inexactitude découverte (procédures 1, 3)."
+      "en": "The report covers the verifications carried out and every irregularity and inaccuracy discovered.",
+      "fr": "Le rapport couvre les vérifications effectuées et chaque irrégularité et inexactitude découverte.",
+      "tasks": [
+       "verifications",
+       "irregularities"
+      ]
      },
      {
       "key": "modifications",
-      "en": "The items needing modification and the observations on the valuation methods are set out, each cross-referenced to C1.1 (procedure 2).",
-      "fr": "Les postes appelant des modifications et les observations sur les méthodes d'évaluation sont exposés, chacun renvoyant à C1.1 (procédure 2)."
+      "en": "The items needing modification and the observations on the valuation methods are set out, each cross-referred to C1.1.",
+      "fr": "Les postes à modifier et les observations sur les méthodes d'évaluation sont exposés, chacun renvoyé à C1.1.",
+      "tasks": [
+       "fs_modifications",
+       "changes"
+      ]
      },
      {
       "key": "comparison",
-      "en": "The conclusions on the results compared with the prior period are included (procedure 4).",
-      "fr": "Les conclusions sur les résultats comparés à l'exercice précédent y figurent (procédure 4)."
+      "en": "The conclusions on the results compared with the prior period are included.",
+      "fr": "Les conclusions sur les résultats comparés à l'exercice précédent sont incluses.",
+      "tasks": [
+       "comparison"
+      ],
+      "vs": false
      },
      {
       "key": "sent",
-      "en": "The report was sent to the [[lf.board]] before the accounts were put to the [[lf.meeting]] (procedure 6).",
-      "fr": "Le rapport a été adressé à l'[[lf.board]] avant la présentation des comptes à l'[[lf.meeting]] (procédure 6)."
+      "en": "The report was sent to the [[lf.board]] before the accounts were put to the [[lf.meeting]].",
+      "fr": "Le rapport a été transmis au [[lf.board]] avant que les comptes ne soient soumis à l'[[lf.meeting]].",
+      "tasks": [
+       "send"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Report to the [[lf.board]], as article 715 of the OHADA Uniform Act on commercial companies requires, the verifications performed, the items of the financial statements needing modification with our observations on the valuation methods, the irregularities and inaccuracies found, and the conclusions on the results compared with the prior period, before the accounts are put to the [[lf.meeting]].",
+  "objectiveFr": "Porter à la connaissance du [[lf.board]], comme l'exige l'article 715 de l'Acte uniforme, les vérifications effectuées, les postes des états financiers à modifier avec nos observations sur les méthodes d'évaluation, les irrégularités et inexactitudes découvertes, et les conclusions sur les résultats comparés à l'exercice précédent, avant que les comptes ne soient soumis à l'[[lf.meeting]].",
+  "isa": [
+   {
+    "std": "ISA 260"
+   },
+   {
+    "std": "ISA 450"
+   }
+  ],
+  "links": [
+   "C1.1",
+   "E6.7",
+   "P3.1",
+   "C5.1",
+   "C5.11"
+  ],
+  "conclStdEn": "Our observations have been reported to the [[lf.board]] as article 715 of the Uniform Act requires, before the accounts were put to the [[lf.meeting]].",
+  "conclStdFr": "Nos observations ont été portées à la connaissance du [[lf.board]] comme l'exige l'article 715 de l'Acte uniforme, avant que les comptes ne soient soumis à l'[[lf.meeting]]."
  }
 }

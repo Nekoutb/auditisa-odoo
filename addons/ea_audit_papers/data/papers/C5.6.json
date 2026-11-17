@@ -2,11 +2,11 @@
  "code": "C5.6",
  "source": "lib/papers/conclusion.ts",
  "definition": {
-  "std": "AUSCGIE art. 716 (révélation des faits délictueux) · art. 899 (sanction de la non-révélation) — à valider · ISA 250 (Revised) ¶28–29",
+  "std": "OHADA art. 716 (révélation des faits délictueux) · art. 899 (sanction de la non-révélation) — à valider · ISA 250 (Revised) ¶28–29",
   "ownsEn": "the assessment of whether facts require disclosure to the public prosecutor",
   "ownsFr": "l'appréciation de l'obligation de révélation des faits délictueux",
   "reqEn": [
-   "The statutory auditor is required to disclose to the public prosecutor the criminal offences of which they become aware in the course of the engagement, without their liability being engaged by the disclosure (AUSCGIE art. 716 — to validate). The obligation is personal and is not discharged by reporting the matter to management. Its breach is itself an offence: the commissaire who, knowing of criminal facts, does not disclose them to the public prosecutor incurs the penalties the national criminal law attaches to article 899 of the Act (to validate), on the same footing as the commissaire who knowingly confirms untrue information.",
+   "The statutory auditor is required to disclose to the public prosecutor the criminal offences of which they become aware in the course of the engagement, without their liability being engaged by the disclosure (Uniform Act art. 716 — to validate). The obligation is personal and is not discharged by reporting the matter to management. Its breach is itself an offence: the commissaire who, knowing of criminal facts, does not disclose them to the public prosecutor incurs the penalties the national criminal law attaches to article 899 of the Act (to validate), on the same footing as the commissaire who knowingly confirms untrue information.",
    "The assessment records the facts, why they are or are not characterised as an offence, the advice obtained, and the decision taken with its date.",
    "The facts come from the audit itself: the fraud identified or suspected and communicated under ISA 240 on P5.1 (procedures 9 to 12, with the findings register filtered on fraud), the management-override exceptions of E3.1 and the non-compliance findings of E6.1. This paper is where the ISA 240 question — is a report to a party outside the entity required by law? — receives the statutory auditor's answer; the communications to management and governance themselves are filed on C5.11."
   ],
@@ -15,138 +15,212 @@
    "L'appréciation consigne les faits, leur qualification ou non en infraction, les avis obtenus, et la décision prise avec sa date.",
    "Les faits proviennent de l'audit lui-même : la fraude identifiée ou suspectée et communiquée au titre de l'ISA 240 en P5.1 (procédures 9 à 12, avec le registre des constats filtré sur la fraude), les exceptions de contournement de E3.1 et les constats de non-conformité de E6.1. Cette feuille est le lieu où la question de l'ISA 240 — un signalement à un tiers extérieur à l'entité est-il imposé par la loi ? — reçoit la réponse du commissaire aux comptes ; les communications à la direction et à la gouvernance elles-mêmes sont classées en C5.11."
   ],
-  "conclEn": [
-   "The facts identified during the engagement have been assessed against the obligation to disclose criminal offences, and the decision taken is recorded with its reasons."
-  ],
-  "conclFr": [
-   "Les faits relevés au cours de la mission ont été appréciés au regard de l'obligation de révélation, et la décision prise est consignée avec ses motifs."
-  ],
   "tools": [
-   "legal"
+   {
+    "action": "action_tool_legal",
+    "en": "Legal tool",
+    "fr": "Outil juridique",
+    "noteEn": "Disclosure letter to the prosecutor (partner only)",
+    "noteFr": "Lettre de révélation au procureur (associé seulement)"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Fraud and non-compliance findings",
+    "noteFr": "Constats de fraude et de non-conformité"
+   }
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "facts",
       "en": "Record the facts identified during the engagement that may constitute a criminal offence, and the evidence for each — starting from the findings register filtered on fraud and the fraud communications recorded on P5.1 (procedures 9 to 12).",
       "fr": "Consigner les faits relevés au cours de la mission susceptibles de constituer une infraction et les éléments qui les établissent — à partir du registre des constats filtré sur la fraude et des communications relatives à la fraude consignées en P5.1 (procédures 9 à 12).",
-      "srcEn": "Findings register filtered on fraud · P5.1 procedures 9–12 · E3.1 · E6.1 · C1.2 · working papers",
-      "srcFr": "Registre des constats filtré sur la fraude · P5.1 procédures 9 à 12 · E3.1 · E6.1 · C1.2 · feuilles de travail",
-      "tipEn": "[Draft] Open the findings register filtered on fraud and the P5.1 communications first: every fraud identified or suspected during the audit must appear here with its decision, even where the answer is that no offence is characterised. Add the E6.1 non-compliance findings and the E3.1 exceptions that indicated override. For each fact, write what was observed, the documents that establish it and their reference; a fact without evidence cannot be disclosed, and one with evidence cannot be ignored.",
-      "tipFr": "[Projet] Ouvrir d'abord le registre des constats filtré sur la fraude et les communications de P5.1 : chaque fraude identifiée ou suspectée au cours de l'audit doit figurer ici avec sa décision, même lorsque la réponse est qu'aucune infraction n'est caractérisée. Ajouter les constats de non-conformité de E6.1 et les exceptions de E3.1 qui ont révélé un contournement. Pour chaque fait, écrire ce qui a été observé, les pièces qui l'établissent et leur référence ; un fait sans preuve ne peut être révélé, un fait prouvé ne peut être ignoré."
+      "shortEn": "Facts identified",
+      "shortFr": "Faits relevés",
+      "isa": "OHADA art. 716 · ISA 250 ¶18 (à valider)",
+      "tipsEn": [
+       "Start from the findings register filtered on fraud and the P5.1 communications."
+      ],
+      "tipsFr": [
+       "Partir du registre des constats filtré sur la fraude et des communications de P5.1."
+      ]
      },
      {
       "key": "characterise",
       "en": "Assess whether the facts are capable of being characterised as an offence, distinguishing an irregularity from a criminal act.",
       "fr": "Apprécier si les faits sont susceptibles de recevoir une qualification pénale, en distinguant l'irrégularité de l'acte délictueux.",
-      "srcEn": "Applicable criminal law · legal advice",
-      "srcFr": "Textes pénaux applicables · avis juridique",
-      "tipEn": "[Draft] The usual offences in the OHADA zone are those of the Uniform Act's penal provisions as sanctioned by national law: misuse of company assets or powers, distribution of fictitious dividends, publication of untrue financial statements, obstruction of the auditor, plus forgery and embezzlement under the penal code. The auditor does not judge — the test is whether the facts are capable of the characterisation, with its material and intentional elements. Record the reasoning for each fact, offence by offence.",
-      "tipFr": "[Projet] Les infractions usuelles dans l'espace OHADA sont celles des dispositions pénales de l'Acte uniforme, sanctionnées par la loi nationale : abus des biens ou du crédit de la société, distribution de dividendes fictifs, publication d'états financiers infidèles, entrave à la mission du commissaire aux comptes, auxquelles s'ajoutent le faux et l'abus de confiance du code pénal. Le commissaire aux comptes ne juge pas — le critère est que les faits soient susceptibles de la qualification, avec ses éléments matériel et intentionnel. Consigner le raisonnement pour chaque fait, infraction par infraction."
+      "shortEn": "Offence or irregularity",
+      "shortFr": "Infraction ou irrégularité",
+      "isa": "OHADA art. 716 (à valider)",
+      "tipsEn": [
+       "Distinguish an error or a weak control from a criminal act."
+      ],
+      "tipsFr": [
+       "Distinguer une erreur ou un contrôle défaillant d'un acte délictueux."
+      ]
      },
      {
       "key": "advice",
       "en": "Obtain legal advice where the characterisation is not clear, and record the advice and its author.",
       "fr": "Obtenir un avis juridique lorsque la qualification n'est pas évidente et consigner cet avis et son auteur.",
-      "srcEn": "Legal opinion · C1.3 consultation record",
-      "srcFr": "Avis juridique · registre des consultations C1.3",
-      "tipEn": "[Draft] Consult a lawyer independent of the entity, or the firm's own legal desk, on the facts as established — not on management's version — and obtain the advice in writing with its author, date and the texts relied on. Record the consultation in C1.3. Legal advice informs the decision; it does not take it, and it does not suspend the duty.",
-      "tipFr": "[Projet] Consulter un avocat indépendant de l'entité, ou le service juridique du cabinet, sur les faits tels qu'établis — non sur la version de la direction — et obtenir l'avis par écrit avec son auteur, sa date et les textes visés. Consigner la consultation en C1.3. L'avis éclaire la décision ; il ne la prend pas, et il ne suspend pas l'obligation."
+      "shortEn": "Legal advice",
+      "shortFr": "Avis juridique",
+      "isa": "ISA 250 ¶19 · ISA 220 ¶35",
+      "tipsEn": [
+       "Obtain the advice in writing, on the facts as established."
+      ],
+      "tipsFr": [
+       "Obtenir l'avis par écrit, sur les faits tels qu'établis."
+      ]
      },
      {
       "key": "materiality",
       "en": "Record that the obligation does not depend on the amount involved being material to the financial statements, and that a non-disclosure is sanctioned under article 899 (to validate) by the penalties of the national criminal law whatever the amount.",
       "fr": "Consigner que l'obligation ne dépend pas du caractère significatif du montant en cause pour les états financiers, et qu'une non-révélation est sanctionnée au titre de l'article 899 (à valider) par les peines de la loi pénale nationale quel que soit le montant.",
-      "srcEn": "AUSCGIE arts. 716 and 899 (à valider) · national criminal law · professional obligations",
-      "srcFr": "AUSCGIE arts. 716 et 899 (à valider) · loi pénale nationale · obligations professionnelles",
-      "tipEn": "[Draft] Write it on the paper for the facts of this file: a misappropriation of a few hundred thousand francs by a cashier is below any audit threshold and is still a fact to assess for disclosure. Materiality governs the opinion, not the statutory duty. Do not let the SAD threshold filter the list of procedure 1.",
-      "tipFr": "[Projet] L'écrire sur la feuille au regard des faits du dossier : un détournement de quelques centaines de milliers de francs par un caissier est en dessous de tout seuil d'audit et reste un fait à apprécier pour la révélation. Le seuil de signification gouverne l'opinion, pas l'obligation légale. Ne pas laisser le seuil du SAD filtrer la liste de la procédure 1."
+      "shortEn": "Amount does not matter",
+      "shortFr": "Le montant est indifférent",
+      "isa": "OHADA arts. 716, 899 (à valider)",
+      "tipsEn": [
+       "Materiality governs the opinion, not the legal duty."
+      ],
+      "tipsFr": [
+       "Le seuil gouverne l'opinion, pas l'obligation légale."
+      ]
      },
      {
       "key": "decision",
       "en": "Record the decision to disclose or not to disclose, the reasons, the date, and the partner who took it.",
       "fr": "Consigner la décision de révéler ou non, ses motifs, sa date et l'associé qui l'a prise.",
-      "srcEn": "Partner decision note",
-      "srcFr": "Note de décision de l'associé",
-      "tipEn": "[Draft] The decision is the engagement partner's, taken in writing on a dated note that states the facts, the characterisation retained or rejected, the advice obtained and the conclusion. Where disclosure is not made, the reasons must hold against the test of procedure 2 — the facts are not capable of characterisation — and never rest on the amount, the relationship with the client or a correction made afterwards. The firm's second partner reads the note where the firm's policy so requires.",
-      "tipFr": "[Projet] La décision appartient à l'associé de la mission, prise par écrit sur une note datée qui expose les faits, la qualification retenue ou écartée, l'avis obtenu et la conclusion. Lorsque la révélation n'est pas faite, les motifs doivent tenir face au critère de la procédure 2 — les faits ne sont pas susceptibles de qualification — et jamais reposer sur le montant, la relation avec le client ou une régularisation intervenue ensuite. Un second associé du cabinet lit la note lorsque la politique du cabinet l'exige."
+      "shortEn": "Decision and reasons",
+      "shortFr": "Décision et motifs",
+      "isa": "OHADA art. 716 (à valider)",
+      "tipsEn": [
+       "The engagement partner decides, on a dated note."
+      ],
+      "tipsFr": [
+       "L'associé responsable décide, sur une note datée."
+      ]
      },
      {
       "key": "disclosure",
       "en": "Where disclosure is required, make it to the public prosecutor from the legal tool (/legal, C5.6 — partner only) and retain the evidence of the filing.",
       "fr": "Lorsque la révélation est requise, l'adresser au procureur de la République depuis l'outil juridique (/legal, C5.6 — réservé à l'associé) et conserver la preuve de l'envoi.",
-      "srcEn": "Our letter (legal tool) · proof of filing · AUSCGIE art. 716 (à valider)",
-      "srcFr": "Notre lettre (outil juridique) · preuve de dépôt · AUSCGIE art. 716 (à valider)",
-      "tipEn": "[Draft] Address the letter to the public prosecutor of the court with jurisdiction over the registered office, setting out the facts and the documents that establish them, without characterising them more than necessary and without delay once the decision is taken. Deliver it against a stamped receipt or by registered mail and file the proof. Inform the chairman of the board of the disclosure where the applicable text so provides, and record that information too.",
-      "tipFr": "[Projet] Adresser la lettre au procureur de la République près le tribunal compétent du siège social, en exposant les faits et les pièces qui les établissent, sans les qualifier au-delà du nécessaire et sans délai une fois la décision prise. La déposer contre récépissé ou l'envoyer en recommandé et classer la preuve. Informer le président du conseil de la révélation lorsque le texte applicable le prévoit, et consigner aussi cette information."
+      "shortEn": "Disclosure made",
+      "shortFr": "Révélation effectuée",
+      "isa": "OHADA art. 716 (à valider)",
+      "tipsEn": [
+       "Facts and supporting documents only, without delay once decided."
+      ],
+      "tipsFr": [
+       "Les faits et les pièces justificatives seulement, sans délai une fois la décision prise."
+      ]
      },
      {
       "key": "confidentiality",
       "en": "Record that professional secrecy does not prevent the disclosure required by law, and that the disclosure was limited to what the obligation requires.",
       "fr": "Consigner que le secret professionnel ne fait pas obstacle à la révélation imposée par la loi et que celle-ci s'est limitée à ce qu'exige l'obligation.",
-      "srcEn": "Professional obligations · our letter",
-      "srcFr": "Obligations professionnelles · notre lettre",
-      "tipEn": "[Draft] The Uniform Act lifts professional secrecy for the disclosure to the prosecutor and for nothing else: the letter contains the facts and the supporting documents, not the whole file, and nothing is said to the press, to third parties or to other clients. Record who at the firm knows of the disclosure and that the working papers are kept with restricted access. The disclosure made in good faith carries no liability; an incomplete or excessive one may.",
-      "tipFr": "[Projet] L'Acte uniforme lève le secret professionnel pour la révélation au procureur et pour rien d'autre : la lettre contient les faits et les pièces qui les étayent, pas le dossier entier, et rien n'est dit à la presse, à des tiers ou à d'autres clients. Consigner qui, au cabinet, a connaissance de la révélation et que les feuilles de travail sont conservées à accès restreint. La révélation faite de bonne foi n'engage pas la responsabilité du commissaire ; une révélation incomplète ou excessive peut l'engager."
+      "shortEn": "Professional secrecy",
+      "shortFr": "Secret professionnel",
+      "isa": "OHADA art. 716 · ISA 250 ¶29 (à valider)",
+      "tipsEn": [
+       "Secrecy is lifted for this disclosure and nothing else."
+      ],
+      "tipsFr": [
+       "Le secret n'est levé que pour cette révélation."
+      ]
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "none",
-      "en": "No fact capable of being characterised as a criminal offence came to our attention (procedures 1, 2).",
-      "fr": "Aucun fait susceptible d'une qualification pénale n'est venu à notre connaissance (procédures 1, 2)."
+      "en": "No fact capable of being characterised as a criminal offence came to our attention.",
+      "fr": "Aucun fait susceptible d'être qualifié d'infraction n'a été porté à notre connaissance.",
+      "tasks": [
+       "facts",
+       "characterise"
+      ]
      },
      {
       "key": "advice",
-      "en": "Where the characterisation was not clear, legal advice was obtained (procedure 3).",
-      "fr": "Lorsque la qualification n'était pas évidente, un avis juridique a été obtenu (procédure 3).",
-      "na": true
+      "en": "Where the characterisation was not clear, legal advice was obtained.",
+      "fr": "Lorsque la qualification n'était pas évidente, un avis juridique a été obtenu.",
+      "na": true,
+      "tasks": [
+       "advice"
+      ]
      },
      {
       "key": "decided",
-      "en": "The decision to disclose or not to disclose is recorded, with its reasons and its date (procedure 5).",
-      "fr": "La décision de révéler ou non est consignée, avec ses motifs et sa date (procédure 5)."
+      "en": "The decision to disclose or not to disclose is recorded, with its reasons and its date.",
+      "fr": "La décision de révéler ou non est consignée, avec ses motifs et sa date.",
+      "tasks": [
+       "decision",
+       "materiality"
+      ]
      },
      {
       "key": "filed",
-      "en": "Where disclosure was required, it was made and the evidence of filing is on the file (procedure 6).",
-      "fr": "Lorsque la révélation était requise, elle a été faite et la preuve d'envoi figure au dossier (procédure 6).",
-      "na": true
+      "en": "Where disclosure was required, it was made and the evidence of filing is on the file.",
+      "fr": "Lorsque la révélation était requise, elle a été faite et la preuve du dépôt figure au dossier.",
+      "na": true,
+      "tasks": [
+       "disclosure",
+       "confidentiality"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Assess the facts identified during the engagement that may constitute a criminal offence and, where the OHADA Uniform Act on commercial companies requires it, disclose them to the public prosecutor; respond to identified or suspected non-compliance with laws and regulations as ISA 250 requires.",
+  "objectiveFr": "Apprécier les faits relevés au cours de la mission susceptibles de constituer une infraction et, lorsque l'Acte uniforme l'exige, les révéler au procureur de la République ; répondre aux cas avérés ou suspectés de non-respect des textes légaux et réglementaires comme l'exige l'ISA 250.",
+  "isa": [
+   {
+    "std": "ISA 250"
+   },
+   {
+    "std": "ISA 240"
+   }
+  ],
+  "links": [
+   "P5.1",
+   "E6.1",
+   "C1.3",
+   "C5.11"
+  ],
+  "neverLight": true,
+  "conclStdEn": "The facts identified during the engagement have been assessed against the obligation to disclose criminal offences, and the decision taken is recorded with its reasons.",
+  "conclStdFr": "Les faits relevés au cours de la mission ont été appréciés au regard de l'obligation de révélation des faits délictueux, et la décision prise est consignée avec ses motifs."
  }
 }

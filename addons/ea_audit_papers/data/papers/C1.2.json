@@ -13,113 +13,219 @@
    "Nous documentons les points significatifs relevés, les conclusions retenues et les jugements professionnels importants exercés (ISA 230 ¶8(c)).",
    "Lorsque des questions clés de l'audit doivent figurer dans le rapport, elles sont retenues parmi les points communiqués à la gouvernance, comme ayant requis l'attention la plus importante (ISA 701 ¶9–10)."
   ],
-  "conclEn": [
-   "Every significant matter arising has been concluded on, and the conclusions are supported by the evidence in the file."
-  ],
-  "conclFr": [
-   "Chaque point significatif a fait l'objet d'une conclusion, et ces conclusions sont étayées par les éléments du dossier."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "collect",
       "en": "Collect the significant matters from the file: the areas of significant risk, the significant judgements, the difficulties encountered and the disagreements with management.",
       "fr": "Recenser les points significatifs du dossier : zones de risque important, jugements importants, difficultés rencontrées et désaccords avec la direction.",
-      "srcEn": "Working papers · S3.1 · review notes",
-      "srcFr": "Feuilles de travail · S3.1 · notes de revue"
+      "shortEn": "Significant matters",
+      "shortFr": "Points significatifs",
+      "isa": "ISA 230 ¶8(c)",
+      "tipsEn": [
+       "Start from the significant risks of S3.1 and the review notes.",
+       "Include the difficulties met and the disagreements with management."
+      ],
+      "tipsFr": [
+       "Partir des risques importants de S3.1 et des notes de revue.",
+       "Inclure les difficultés rencontrées et les désaccords avec la direction."
+      ],
+      "stdEn": "Significant matters collected from the risks, the review notes and the findings; none beyond those listed.",
+      "stdFr": "Points significatifs recensés à partir des risques, des notes de revue et des constats ; aucun autre que ceux listés.",
+      "sourceHint": "S3.1 · review notes"
      },
      {
       "key": "conclusion",
       "en": "For each matter, record the conclusion reached and the evidence and reasoning that support it.",
       "fr": "Pour chaque point, consigner la conclusion retenue et les éléments et raisonnements qui l'étayent.",
-      "srcEn": "Working papers · consultation record C1.3",
-      "srcFr": "Feuilles de travail · registre des consultations C1.3"
+      "shortEn": "Conclusions reached",
+      "shortFr": "Conclusions retenues",
+      "isa": "ISA 230 ¶8(c)",
+      "tipsEn": [
+       "One line per matter: the conclusion, the evidence and the paper that holds it."
+      ],
+      "tipsFr": [
+       "Une ligne par point : la conclusion, les éléments probants et le papier qui les porte."
+      ],
+      "stdEn": "Each matter carries its conclusion and the reference of the supporting paper.",
+      "stdFr": "Chaque point porte sa conclusion et la référence du papier qui l'étaye.",
+      "sourceHint": "Working papers"
      },
      {
       "key": "judgements",
       "en": "Record the significant professional judgements made, including the alternatives considered and why the position taken was adopted.",
       "fr": "Consigner les jugements professionnels importants, y compris les options envisagées et le motif du choix retenu.",
-      "srcEn": "Working papers · C1.3 · partner review",
-      "srcFr": "Feuilles de travail · C1.3 · revue de l'associé"
+      "shortEn": "Significant judgements",
+      "shortFr": "Jugements importants",
+      "isa": "ISA 230 ¶8(c) · ¶A10",
+      "tipsEn": [
+       "State the alternatives considered and why the position was retained."
+      ],
+      "tipsFr": [
+       "Indiquer les options envisagées et pourquoi la position a été retenue."
+      ],
+      "stdEn": "The significant judgements are recorded in the papers concerned; no exceptions noted.",
+      "stdFr": "Les jugements importants sont consignés dans les papiers concernés ; aucune exception relevée.",
+      "sourceHint": "Working papers"
      },
      {
       "key": "disagreements",
       "en": "Record any disagreement with management and how it was resolved, including any matter escalated within the firm.",
       "fr": "Consigner tout désaccord avec la direction et sa résolution, y compris les points remontés au sein du cabinet.",
-      "srcEn": "Correspondence · C1.3 · firm policy",
-      "srcFr": "Correspondance · C1.3 · politique du cabinet"
+      "shortEn": "Disagreements with management",
+      "shortFr": "Désaccords avec la direction",
+      "isa": "ISA 230 ¶10 · ISA 260 ¶16",
+      "tipsEn": [
+       "Escalated matters go through the consultation of C1.3."
+      ],
+      "tipsFr": [
+       "Les points remontés passent par la consultation de C1.3."
+      ],
+      "stdEn": "No disagreement with management arose during the audit.",
+      "stdFr": "Aucun désaccord avec la direction n'est survenu au cours de l'audit.",
+      "sourceHint": "Meetings with management"
      },
      {
       "key": "communicate",
       "en": "Communicate the significant findings to those charged with governance, including our views on the qualitative aspects of the entity's accounting practices.",
       "fr": "Communiquer les constats significatifs aux responsables de la gouvernance, y compris notre appréciation des aspects qualitatifs des pratiques comptables.",
-      "srcEn": "ISA 260 (Revised) ¶16 · governance communication",
-      "srcFr": "ISA 260 révisée ¶16 · communication à la gouvernance"
+      "shortEn": "Communicated to governance",
+      "shortFr": "Communication à la gouvernance",
+      "isa": "ISA 260 ¶16",
+      "tipsEn": [
+       "Include our view of the accounting practices and the difficulties met."
+      ],
+      "tipsFr": [
+       "Inclure notre appréciation des pratiques comptables et les difficultés rencontrées."
+      ],
+      "stdEn": "The significant findings were communicated to those charged with governance; see C5.11.",
+      "stdFr": "Les constatations importantes ont été communiquées aux responsables de la gouvernance ; voir C5.11.",
+      "sourceHint": "C5.11"
      },
      {
       "key": "kam",
       "en": "Where key audit matters apply, select them from the matters communicated to those charged with governance and draft the description of each.",
       "fr": "Lorsque des questions clés s'appliquent, les sélectionner parmi les points communiqués à la gouvernance et rédiger la description de chacune.",
-      "srcEn": "ISA 701 ¶9–13 · C5.11",
-      "srcFr": "ISA 701 ¶9–13 · C5.11"
+      "shortEn": "Key audit matters",
+      "shortFr": "Points clés de l'audit",
+      "isa": "ISA 701 ¶9–10",
+      "tipsEn": [
+       "Only where ISA 701 applies: a listed entity, the law, or the firm's decision."
+      ],
+      "tipsFr": [
+       "Uniquement si l'ISA 701 s'applique : entité cotée, loi ou décision du cabinet."
+      ],
+      "stdEn": "Key audit matters do not apply to this engagement.",
+      "stdFr": "Les points clés de l'audit ne s'appliquent pas à cette mission.",
+      "sourceHint": "Engagement letter"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "collected",
-      "en": "Every significant matter arising during the audit is recorded here (procedure 1).",
-      "fr": "Chaque point significatif relevé au cours de l'audit est consigné ici (procédure 1)."
+      "en": "Every significant matter arising during the audit is recorded here.",
+      "fr": "Chaque point significatif relevé au cours de l'audit est consigné ici.",
+      "tasks": [
+       "collect"
+      ]
      },
      {
       "key": "concluded",
-      "en": "Each matter carries the conclusion reached and the reasoning that supports it (procedures 2, 3).",
-      "fr": "Chaque point porte la conclusion retenue et le raisonnement qui l'étaye (procédures 2, 3)."
+      "en": "Each matter carries the conclusion reached and the reasoning that supports it.",
+      "fr": "Chaque point porte la conclusion retenue et le raisonnement qui l'étaye.",
+      "tasks": [
+       "conclusion",
+       "judgements"
+      ]
      },
      {
       "key": "resolved",
-      "en": "Every disagreement with management has been resolved (procedure 4).",
-      "fr": "Chaque désaccord avec la direction a été résolu (procédure 4).",
-      "na": true
+      "en": "Every disagreement with management is resolved.",
+      "fr": "Chaque désaccord avec la direction est résolu.",
+      "na": true,
+      "tasks": [
+       "disagreements"
+      ]
      },
      {
       "key": "communicated",
-      "en": "The significant findings have been communicated to those charged with governance (procedure 5).",
-      "fr": "Les constats significatifs ont été communiqués aux responsables de la gouvernance (procédure 5)."
+      "en": "The significant findings are communicated to those charged with governance.",
+      "fr": "Les constatations importantes sont communiquées aux responsables de la gouvernance.",
+      "tasks": [
+       "communicate"
+      ],
+      "vs": false
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Document the significant matters arising during the audit, the conclusions reached on them and the significant professional judgements made in reaching those conclusions, and communicate the significant findings to those charged with governance.",
+  "objectiveFr": "Documenter les points significatifs relevés au cours de l'audit, les conclusions auxquelles ils ont donné lieu et les jugements professionnels importants exercés pour y parvenir, et communiquer les constatations importantes aux responsables de la gouvernance.",
+  "isa": [
+   {
+    "std": "ISA 230"
+   },
+   {
+    "std": "ISA 260"
+   },
+   {
+    "std": "ISA 701"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_review_notes",
+    "en": "Review notes",
+    "fr": "Notes de revue",
+    "noteEn": "Open notes across the file",
+    "noteFr": "Notes ouvertes sur l'ensemble du dossier"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "C1.1",
+   "C1.3",
+   "S3.1",
+   "C5.11",
+   "C5.1"
+  ],
+  "conclStdEn": "Every significant matter arising has been concluded on, and the conclusions are supported by the evidence in the file.",
+  "conclStdFr": "Chaque point significatif relevé a fait l'objet d'une conclusion, étayée par les éléments probants du dossier."
  }
 }

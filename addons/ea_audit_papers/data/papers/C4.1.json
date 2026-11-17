@@ -13,113 +13,306 @@
    "Avant la date du rapport, l'associé responsable s'assure que des éléments probants suffisants et appropriés ont été obtenus pour étayer les conclusions et permettre l'émission du rapport (ISA 220 révisée ¶36).",
    "La documentation est constituée en dossier définitif dans un délai raisonnable après la date du rapport et n'est pas supprimée avant la fin de la période de conservation (ISA 230 ¶14–16)."
   ],
-  "conclEn": [
-   "The file is complete, the work planned has been performed, and sufficient appropriate audit evidence has been obtained to support the opinion to be expressed."
-  ],
-  "conclFr": [
-   "Le dossier est complet, les travaux prévus ont été réalisés, et des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion à exprimer."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "programme",
       "en": "Confirm that every planned procedure in the audit programme has been performed, or that the reason for not performing it is recorded and approved.",
       "fr": "Vérifier que chaque procédure prévue au programme a été mise en œuvre, ou que le motif de sa non-réalisation est consigné et approuvé.",
-      "srcEn": "Audit programme · task list · partner approval",
-      "srcFr": "Programme de travail · liste des tâches · approbation de l'associé"
+      "shortEn": "Planned procedures performed",
+      "shortFr": "Procédures prévues réalisées",
+      "isa": "ISA 220 ¶30 · ISA 330 ¶26",
+      "tipsEn": [
+       "Read the status of each program; an omitted step needs its approved reason."
+      ],
+      "tipsFr": [
+       "Lire l'avancement de chaque programme ; une étape omise exige un motif approuvé."
+      ],
+      "stdEn": "Every planned procedure is performed or its omission is approved.",
+      "stdFr": "Chaque procédure prévue est réalisée ou son omission est approuvée.",
+      "sourceHint": "Audit programs"
      },
      {
       "key": "signoffs",
       "en": "Confirm that every working paper carries a preparer sign-off and, where required, a reviewer sign-off.",
       "fr": "Vérifier que chaque feuille de travail porte la signature du préparateur et, le cas échéant, du réviseur.",
-      "srcEn": "Sign-off register · task list",
-      "srcFr": "Registre des signatures · liste des tâches"
+      "shortEn": "Papers signed off",
+      "shortFr": "Papiers signés",
+      "isa": "ISA 220 ¶31 · ISA 230 ¶9",
+      "tipsEn": [
+       "The file index shows the papers still unsigned."
+      ],
+      "tipsFr": [
+       "L'index du dossier montre les papiers encore non signés."
+      ],
+      "stdEn": "Every working paper carries its preparer and, where required, reviewer sign-off.",
+      "stdFr": "Chaque feuille de travail porte la signature du préparateur et, le cas échéant, du réviseur.",
+      "sourceHint": "File index"
+     },
+     {
+      "key": "points",
+      "en": "Collect the points outstanding from every working paper and from the review notes, record the working paper each relates to, assign each to a person with the date by which it is required, and follow up those not cleared by their date, escalating to the engagement partner those that put the reporting deadline at risk.",
+      "fr": "Recenser les points en suspens de chaque feuille de travail et des notes de revue, consigner la feuille concernée, affecter chaque point à une personne avec son échéance, et relancer les points non levés à l'échéance en remontant à l'associé responsable ceux qui compromettent la date de reporting.",
+      "shortEn": "Points outstanding listed",
+      "shortFr": "Points en suspens recensés",
+      "isa": "ISA 220 ¶31 · ISA 230 ¶8",
+      "tipsEn": [
+       "Include every open review note and every point raised in a paper's conclusion.",
+       "One owner and one date per point."
+      ],
+      "tipsFr": [
+       "Inclure chaque note de revue ouverte et chaque point soulevé dans la conclusion d'un papier.",
+       "Un responsable et une échéance par point."
+      ],
+      "stdEn": "The points outstanding are listed, assigned and followed up; none is overdue.",
+      "stdFr": "Les points en suspens sont recensés, affectés et relancés ; aucun n'est en retard.",
+      "sourceHint": "Review notes",
+      "fieldKeys": [
+       "points_list"
+      ]
+     },
+     {
+      "key": "points_clear",
+      "en": "Clear each point by filing the evidence that resolves it, and cross-refer the clearance to the working paper concerned.",
+      "fr": "Lever chaque point en classant l'élément qui le résout, et renvoyer la levée à la feuille de travail concernée.",
+      "shortEn": "Points cleared by evidence",
+      "shortFr": "Points levés par des éléments probants",
+      "isa": "ISA 230 ¶8",
+      "tipsEn": [
+       "A point closed by a conversation nobody wrote down is still open."
+      ],
+      "tipsFr": [
+       "Un point clos par un échange que personne n'a consigné reste ouvert."
+      ],
+      "stdEn": "Each point is cleared by evidence filed and cross-referred to its working paper.",
+      "stdFr": "Chaque point est levé par un élément classé et renvoyé à sa feuille de travail.",
+      "sourceHint": "Working papers"
      },
      {
       "key": "outstanding",
-      "en": "Confirm that every point in C4.3 has been cleared, or that the reason a point remains open is recorded and does not prevent the report from being issued.",
-      "fr": "Vérifier que chaque point de C4.3 est levé, ou que le motif de son maintien est consigné et n'empêche pas l'émission du rapport.",
-      "srcEn": "C4.3 points outstanding",
-      "srcFr": "C4.3 points en suspens"
+      "en": "Confirm that no point outstanding remains open at the date of the report or, for a point still open, record why it does not prevent the opinion from being expressed, or carry it to C5.1 as a limitation.",
+      "fr": "Vérifier qu'aucun point en suspens ne reste ouvert à la date du rapport ou, pour un point encore ouvert, consigner pourquoi il n'empêche pas l'expression de l'opinion, ou le reporter en C5.1 comme limitation.",
+      "shortEn": "Nothing open at the report date",
+      "shortFr": "Rien d'ouvert à la date du rapport",
+      "isa": "ISA 220 ¶32",
+      "tipsEn": [
+       "A point still open goes to C5.1 as a limitation, or its reason is approved by the partner."
+      ],
+      "tipsFr": [
+       "Un point encore ouvert va en C5.1 comme limitation, ou son motif est approuvé par l'associé."
+      ],
+      "stdEn": "No point remains open at the date of the report.",
+      "stdFr": "Aucun point ne reste ouvert à la date du rapport.",
+      "sourceHint": "Review notes"
      },
      {
       "key": "misstatements",
       "en": "Confirm that the misstatements in C1.1 have been evaluated and that the effect on the opinion is determined.",
       "fr": "Vérifier que les anomalies de C1.1 ont été évaluées et que leur incidence sur l'opinion est déterminée.",
-      "srcEn": "C1.1 · C5.1",
-      "srcFr": "C1.1 · C5.1"
+      "shortEn": "Misstatements evaluated",
+      "shortFr": "Anomalies évaluées",
+      "isa": "ISA 450 ¶11",
+      "tipsEn": [
+       "Read the conclusion of C1.1 and its effect on the opinion in C5.1."
+      ],
+      "tipsFr": [
+       "Lire la conclusion de C1.1 et son effet sur l'opinion en C5.1."
+      ],
+      "stdEn": "The misstatements in C1.1 are evaluated and their effect on the opinion is determined.",
+      "stdFr": "Les anomalies de C1.1 sont évaluées et leur effet sur l'opinion est déterminé.",
+      "sourceHint": "C1.1"
      },
      {
       "key": "consultation",
       "en": "Confirm that every matter on which consultation was required has been consulted on, and that the conclusion reached has been implemented.",
       "fr": "Vérifier que chaque point appelant une consultation en a fait l'objet et que la conclusion a été mise en œuvre.",
-      "srcEn": "C1.3 consultation record · firm policy",
-      "srcFr": "C1.3 registre des consultations · politique du cabinet"
+      "shortEn": "Consultations implemented",
+      "shortFr": "Consultations mises en œuvre",
+      "isa": "ISA 220 ¶35",
+      "tipsEn": [
+       "Check C1.3 where a consultation was needed."
+      ],
+      "tipsFr": [
+       "Vérifier C1.3 lorsqu'une consultation était nécessaire."
+      ],
+      "stdEn": "No consultation was required, or each one is concluded and implemented in C1.3.",
+      "stdFr": "Aucune consultation n'était requise, ou chacune est conclue et mise en œuvre en C1.3.",
+      "sourceHint": "C1.3"
      },
      {
       "key": "eqr",
       "en": "Where an engagement quality review is required, confirm it has been completed and that the reviewer has raised no unresolved matter.",
       "fr": "Lorsqu'une revue de qualité est requise, vérifier son achèvement et l'absence de point non résolu soulevé par le responsable.",
-      "srcEn": "C4.2 · ISQM 2 ¶25 · P1.5",
-      "srcFr": "C4.2 · ISQM 2 ¶25 · P1.5"
+      "shortEn": "Quality review complete",
+      "shortFr": "Revue de qualité achevée",
+      "isa": "ISA 220 ¶36 · ISQM 2 ¶25",
+      "tipsEn": [
+       "The report is not dated before the reviewer's completion in C4.2."
+      ],
+      "tipsFr": [
+       "Le rapport n'est pas daté avant l'achèvement de la revue en C4.2."
+      ],
+      "stdEn": "No engagement quality review is required for this engagement.",
+      "stdFr": "Aucune revue de qualité de la mission n'est requise pour cette mission.",
+      "sourceHint": "P1.5"
      },
      {
       "key": "evidence",
       "en": "Confirm that the evidence obtained supports each conclusion in the file, and that no conclusion rests on a procedure that was not performed.",
       "fr": "Vérifier que les éléments obtenus étayent chaque conclusion du dossier et qu'aucune conclusion ne repose sur une procédure non réalisée.",
-      "srcEn": "Working papers · partner review notes",
-      "srcFr": "Feuilles de travail · notes de revue de l'associé"
+      "shortEn": "Evidence supports the conclusions",
+      "shortFr": "Les éléments probants étayent les conclusions",
+      "isa": "ISA 220 ¶32 · ISA 330 ¶26",
+      "tipsEn": [
+       "Ask per significant risk: which evidence answers it, and where is it filed?"
+      ],
+      "tipsFr": [
+       "Pour chaque risque important : quel élément y répond, et où est-il classé ?"
+      ],
+      "stdEn": "The evidence obtained supports each conclusion in the file.",
+      "stdFr": "Les éléments obtenus étayent chaque conclusion du dossier.",
+      "sourceHint": "Partner review"
      },
      {
       "key": "assembly",
       "en": "Record the date by which the final file is to be assembled, and the retention period that applies.",
       "fr": "Consigner la date d'achèvement de la constitution du dossier définitif et la durée de conservation applicable.",
-      "srcEn": "ISA 230 ¶14 · firm policy",
-      "srcFr": "ISA 230 ¶14 · politique du cabinet"
+      "shortEn": "Assembly date and retention",
+      "shortFr": "Date de constitution et conservation",
+      "isa": "ISA 230 ¶14",
+      "tipsEn": [
+       "Sixty days after the report date at the latest."
+      ],
+      "tipsFr": [
+       "Soixante jours au plus tard après la date du rapport."
+      ],
+      "stdEn": "Assembly is planned within sixty days of the report date; the firm's retention period applies.",
+      "stdFr": "La constitution est prévue dans les soixante jours suivant la date du rapport ; la durée de conservation du cabinet s'applique.",
+      "sourceHint": "Firm policy"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "performed",
-      "en": "Every planned procedure has been performed or its omission is approved (procedure 1).",
-      "fr": "Chaque procédure prévue a été réalisée ou son omission est approuvée (procédure 1)."
+      "en": "Every planned procedure is performed or its omission is approved.",
+      "fr": "Chaque procédure prévue est réalisée ou son omission est approuvée.",
+      "tasks": [
+       "programme"
+      ]
      },
      {
       "key": "signed",
-      "en": "Every working paper is signed off by its preparer and, where required, its reviewer (procedure 2).",
-      "fr": "Chaque feuille de travail est signée par son préparateur et, le cas échéant, par son réviseur (procédure 2)."
+      "en": "Every working paper is signed off by its preparer and, where required, its reviewer.",
+      "fr": "Chaque feuille de travail est signée par son préparateur et, le cas échéant, par son réviseur.",
+      "tasks": [
+       "signoffs"
+      ]
      },
      {
       "key": "cleared",
-      "en": "Every point in C4.3 has been cleared (procedure 3).",
-      "fr": "Chaque point de C4.3 a été levé (procédure 3)."
+      "en": "Every point outstanding is cleared, and no review note remains open.",
+      "fr": "Chaque point en suspens est levé, et aucune note de revue ne reste ouverte.",
+      "tasks": [
+       "points",
+       "points_clear",
+       "outstanding"
+      ],
+      "autoCheck": "review_notes_cleared"
      },
      {
       "key": "eqr",
-      "en": "Where required, the engagement quality review is complete and no matter remains unresolved (procedure 6).",
-      "fr": "Lorsqu'elle est requise, la revue de qualité est achevée et aucun point ne reste non résolu (procédure 6).",
-      "na": true
+      "en": "Where required, the engagement quality review is complete and no matter remains unresolved.",
+      "fr": "Lorsqu'elle est requise, la revue de qualité est achevée et aucun point ne reste non résolu.",
+      "na": true,
+      "tasks": [
+       "eqr"
+      ]
      },
      {
       "key": "sufficient",
-      "en": "Sufficient appropriate audit evidence has been obtained to support the opinion (procedure 7).",
-      "fr": "Des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion (procédure 7)."
+      "en": "Sufficient appropriate audit evidence has been obtained to support the opinion.",
+      "fr": "Des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion.",
+      "tasks": [
+       "evidence",
+       "misstatements",
+       "consultation"
+      ]
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
+    "fields": [
+     {
+      "key": "points_list",
+      "kind": "input",
+      "optional": true,
+      "labelEn": "Points outstanding: the point, the working paper, who clears it, by when, and how it was cleared",
+      "labelFr": "Points en suspens : le point, la feuille de travail, qui le lève, pour quand, et comment il a été levé",
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "On or before the date of the auditor's report, the engagement partner determines, through review of the audit documentation and discussion with the engagement team, that sufficient appropriate audit evidence has been obtained, that the points outstanding are cleared, and that the file supports the conclusions reached and the report to be issued.",
+  "objectiveFr": "Au plus tard à la date du rapport de l'auditeur, l'associé responsable s'assure, par la revue de la documentation et l'échange avec l'équipe, que des éléments probants suffisants et appropriés ont été obtenus, que les points en suspens sont levés et que le dossier étaye les conclusions retenues et le rapport à émettre.",
+  "isa": [
+   {
+    "std": "ISA 220"
+   },
+   {
+    "std": "ISA 230"
+   },
+   {
+    "std": "ISA 330"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_review_notes",
+    "en": "Review notes",
+    "fr": "Notes de revue",
+    "noteEn": "Open notes across the file",
+    "noteFr": "Notes ouvertes sur l'ensemble du dossier"
+   },
+   {
+    "action": "action_tool_programs",
+    "en": "Audit programs",
+    "fr": "Programmes de travail",
+    "noteEn": "Planned procedures and their status",
+    "noteFr": "Procédures prévues et leur avancement"
+   },
+   {
+    "action": "action_tool_team",
+    "en": "Team",
+    "fr": "Équipe",
+    "noteEn": "Who has the knowledge and the role",
+    "noteFr": "Qui a les compétences et le rôle"
+   }
+  ],
+  "links": [
+   "C1.1",
+   "C1.3",
+   "C4.2",
+   "C5.1",
+   "C6.1",
+   "C6.2"
+  ],
+  "conclStdEn": "The file is complete, every point outstanding is cleared, the work planned has been performed, and sufficient appropriate audit evidence has been obtained to support the opinion to be expressed.",
+  "conclStdFr": "Le dossier est complet, chaque point en suspens est levé, les travaux prévus ont été réalisés et des éléments probants suffisants et appropriés ont été obtenus pour étayer l'opinion à exprimer."
  }
 }

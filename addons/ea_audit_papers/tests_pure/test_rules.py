@@ -123,7 +123,8 @@ def test_definitions_on_disk_match_the_index():
 
 def test_draft_marks_are_kept_as_written():
     marks = load_index()["marks"]
-    assert marks == {"[Projet]": 91, "[Draft]": 91, "(à valider)": 86}
+    # the converted papers replaced their long draft tips with short ones (layout of 2026-11-17)
+    assert marks == {"[Projet]": 40, "[Draft]": 40, "(à valider)": 70}
     found = dict.fromkeys(marks, 0)
     for path in glob.glob(os.path.join(DATA_DIR, "papers*", "*.json")):
         if os.path.basename(path) == "index.json":
