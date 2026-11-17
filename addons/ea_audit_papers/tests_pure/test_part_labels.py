@@ -25,10 +25,12 @@ def labels(definition, key):
     return out
 
 
-def test_the_script_holds_the_same_rule():
+def test_the_page_has_no_tabs_and_names_a_block_by_its_full_title():
+    # The layout of 2026-11-17 is one page: a block of an older paper is listed in the steps under
+    # its whole title, so the short tab names below only have to stay apart as headings.
     script = (ADDON / "static/src/paper/paper_action.js").read_text(encoding="utf-8")
-    assert "const label = match ? partLabel(letter, match[2]) : title;" in script
-    assert r"const PAPER_CODE = /^[A-Z]\d+(?:\.\d+)+$/;" in script
+    assert "partLabel" not in script
+    assert "short: title, title," in script
 
 
 def test_e6_10_checklist_tabs_read_apart():

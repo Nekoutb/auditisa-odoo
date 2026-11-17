@@ -3,11 +3,28 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶28–34 · ISA 330 ¶5–15 · ISA 240",
-  "ownsEn": "the assessed risks and the planned response to each",
-  "ownsFr": "les risques évalués et la réponse prévue pour chacun",
   "tools": [
-   "what-can-go-wrong",
-   "strategy"
+   {
+    "action": "action_tool_cra",
+    "en": "Combined risk assessment",
+    "fr": "Évaluation combinée des risques",
+    "noteEn": "Account × assertion grid",
+    "noteFr": "Grille compte × assertion"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks and their significance",
+    "noteFr": "Risques et leur importance"
+   },
+   {
+    "action": "action_tool_dsp",
+    "en": "Procedure design",
+    "fr": "Conception des procédures",
+    "noteEn": "Responses per risk",
+    "noteFr": "Réponses par risque"
+   }
   ],
   "reqEn": [
    "We identify and assess the risks of material misstatement at the financial statement level and at the assertion level for classes of transactions, account balances and disclosures (ISA 315 (Revised 2019) ¶28). Inherent risk and control risk are assessed separately (ISA 315 ¶34).",
@@ -23,154 +40,205 @@
    "Le risque inhérent et le risque lié au contrôle sont évalués séparément (ISA 315 (Révisée 2019) ¶34). Le risque lié au contrôle ne peut être évalué en dessous du maximum que si nous prévoyons de tester l'efficacité du fonctionnement des contrôles ; à défaut, l'évaluation du risque d'anomalies significatives est la même que celle du risque inhérent (ISA 315 ¶34). L'évaluation combinée commande ensuite le dosage des procédures complémentaires selon ISA 330 ¶7 : plus le risque évalué est élevé, plus les éléments probants doivent être convaincants — échantillons plus larges, éléments d'origine externe plus fiables, travaux déplacés à la clôture ou après plutôt qu'à une date intercalaire.",
    "La matrice consigne les deux évaluations par assertion pertinente de chaque compte significatif et les combine en quatre niveaux : risque inhérent faible avec appui sur les contrôles donne minimal ; faible sans appui donne modéré ; élevé avec appui donne faible ; élevé sans appui donne élevé. Un risque important n'ajoute aucun cinquième niveau — il superpose des diligences particulières au niveau atteint, et impose toujours un test de détail parmi les réponses (ISA 330 ¶21). Le niveau par compte alimente l'outil d'échantillonnage, la conception S5.5 et les papiers E4 ; la colonne du risque lié au contrôle écoute les contrôles retenus en S2.1, leurs résultats en E1.1 et la conclusion ITGC de S2.5."
   ],
-  "conclEn": [
-   "Every assessed risk has a planned response recorded against it, and every significant risk has a test of details among its responses.",
-   "The overall responses at financial statement level reflect the control environment conclusion in P4.2 and include an element of unpredictability."
-  ],
-  "conclFr": [
-   "Chaque risque évalué dispose d'une réponse prévue, et chaque risque important comporte un test de détail parmi ses réponses.",
-   "Les réponses globales reflètent la conclusion de P4.2 sur l'environnement de contrôle et comportent une part d'imprévisibilité."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "gather",
       "en": "Bring together the risks identified in the earlier papers: the team discussion, the preliminary analytics, internal control, fraud, going concern, related parties and estimates.",
       "fr": "Rassembler les risques identifiés dans les feuilles précédentes : réunion d'équipe, analyses préliminaires, contrôle interne, fraude, continuité, parties liées et estimations.",
-      "srcEn": "P5.2 · P3.2 · P4.1 · P5.1 · S4.2 · S4.3 · S4.4",
-      "srcFr": "P5.2 · P3.2 · P4.1 · P5.1 · S4.2 · S4.3 · S4.4",
-      "tipEn": "Open the risk register beside P5.2, P3.2, P4.1, P5.1 and S4.2 to S4.4 and copy each risk across with the reference of the paper it came from, so one register carries everything. Where two papers describe the same exposure — the fraud discussion and the preliminary analytics both pointing at revenue cut-off, say — merge them into one line and keep both source references. A risk with no source paper behind it was invented at this stage; go back and anchor it to the work that supports it.",
-      "tipFr": "Ouvrir le registre des risques à côté de P5.2, P3.2, P4.1, P5.1 et S4.2 à S4.4 et y reporter chaque risque avec la référence du papier de travail d'origine, pour que tout tienne dans un seul registre. Quand deux papiers décrivent la même exposition — la discussion fraude et l'examen analytique préliminaire visant tous deux la séparation des exercices sur les ventes — fusionner en une seule ligne en conservant les deux références. Un risque sans papier de travail d'origine a été inventé à ce stade ; retourner l'ancrer aux travaux qui le fondent."
+      "shortEn": "Risks together",
+      "shortFr": "Risques rassemblés",
+      "isa": "ISA 315 ¶28",
+      "toolDone": "cra.gather"
      },
      {
       "key": "assertion",
       "en": "For each significant class of transactions, balance and disclosure, identify what can go wrong and state the assertion affected.",
       "fr": "Pour chaque flux, solde et note significatifs, identifier ce qui peut mal tourner et préciser l'assertion concernée.",
-      "srcEn": "Significant account analysis · what-can-go-wrong tool",
-      "srcFr": "Analyse des comptes significatifs · outil des risques d'erreur",
-      "tipEn": "Work down the trial balance account by account: for each significant line, write what can go wrong in one plain sentence — 'sales invoiced before delivery' — then name the single assertion it hits: cut-off, existence, valuation. Resist ticking every assertion; a risk said to affect everything has not been thought through. The mapping decides which execution programme picks the risk up, so be precise.",
-      "tipFr": "Descendre la balance générale compte par compte : pour chaque ligne significative, écrire ce qui peut mal tourner en une phrase simple — 'ventes facturées avant livraison' — puis nommer l'assertion touchée : séparation des exercices, existence, évaluation. Résister à la tentation de cocher toutes les assertions ; un risque censé tout affecter n'a pas été analysé. Ce rattachement détermine quel programme d'exécution reprendra le risque, donc être précis."
+      "shortEn": "Per assertion",
+      "shortFr": "Par assertion",
+      "isa": "ISA 315 ¶28",
+      "toolDone": "cra.assertion"
      },
      {
       "key": "separate",
       "en": "Assess inherent risk and control risk separately for each risk identified, and record the basis for each assessment.",
       "fr": "Évaluer séparément le risque inhérent et le risque lié au contrôle pour chaque risque identifié et consigner le fondement de chaque appréciation.",
-      "srcEn": "ISA 315 (Revised 2019) ¶34 · P4.1 · P4.2",
-      "srcFr": "ISA 315 révisée ¶34 · P4.1 · P4.2",
-      "tipEn": "Rate inherent risk first, on the facts from the entity understanding and P5.1, before looking at any control. Then rate control risk from P4.1 and P4.2: it stays at maximum unless the control has been identified and you plan to test it. Write one sentence of basis for each rating — 'cash sales, no independent reconciliation' — not just an H, M or L.",
-      "tipFr": "Coter d'abord le risque inhérent, sur les faits tirés de la connaissance de l'entité et de P5.1, avant de regarder le moindre contrôle. Coter ensuite le risque lié au contrôle à partir de P4.1 et P4.2 : il reste au maximum tant que le contrôle n'a pas été identifié et que son test n'est pas prévu. Écrire une phrase de justification pour chaque cotation — 'ventes au comptant, aucun rapprochement indépendant' — pas seulement une lettre E, M ou F."
+      "shortEn": "Inherent and control risk",
+      "shortFr": "Risque inhérent et lié au contrôle",
+      "isa": "ISA 315 ¶31, ¶34",
+      "toolDone": "cra.separate",
+      "fieldKeys": [
+       "separate"
+      ]
      },
      {
       "key": "significant",
-      "en": "Determine which risks are significant risks, having regard to the inherent risk factors and where the risk sits on the spectrum of inherent risk.",
-      "fr": "Déterminer quels risques sont des risques importants, au regard des facteurs de risque inhérent et de leur position sur le spectre.",
-      "srcEn": "ISA 315 (Revised 2019) ¶32 · P5.1 · S4.3 · S4.4",
-      "srcFr": "ISA 315 révisée ¶32 · P5.1 · S4.3 · S4.4",
-      "tipEn": "For each risk, ask how likely the misstatement is and how large it would be if it happened; a risk near the top on both counts is a significant risk. Test it against the inherent risk factors — complexity, subjectivity, change, uncertainty, susceptibility to bias: revenue split across cash and mobile money, or a provision built on management's own assumptions, will usually qualify. Remember the presumed fraud risk in revenue recognition from P5.1 is significant without further debate.",
-      "tipFr": "Pour chaque risque, se demander quelle est la probabilité de l'anomalie et quelle serait son ampleur si elle survenait ; un risque haut sur les deux échelles est un risque important. Le confronter aux facteurs de risque inhérent — complexité, subjectivité, changement, incertitude, propension au biais : un chiffre d'affaires réparti entre espèces et mobile money, ou une provision assise sur les seules hypothèses de la direction, se qualifieront le plus souvent. Se rappeler que le risque de fraude présumé sur la comptabilisation des produits, issu de P5.1, est important sans autre débat."
+      "en": "Determine which risks are significant, with the basis for each.",
+      "fr": "Déterminer quels risques sont importants, avec le fondement de chacun.",
+      "shortEn": "Significant risks",
+      "shortFr": "Risques importants",
+      "isa": "ISA 315 ¶32",
+      "neverLight": true,
+      "tipsEn": [
+       "Revenue fraud risk is presumed; rebut it only with a written reason."
+      ],
+      "tipsFr": [
+       "Le risque de fraude sur les produits est présumé ; ne l'écarter qu'avec un motif écrit."
+      ]
      },
      {
       "key": "fs_level",
-      "en": "Identify the risks at financial statement level and set the overall responses, including team composition, supervision, and an element of unpredictability.",
-      "fr": "Identifier les risques au niveau des états financiers et arrêter les réponses globales : composition de l'équipe, supervision et part d'imprévisibilité.",
-      "srcEn": "ISA 330 ¶5 · ISA 240 ¶29 · P4.2",
-      "srcFr": "ISA 330 ¶5 · ISA 240 ¶29 · P4.2",
-      "tipEn": "Pervasive exposures — management override, going concern doubt, a weak control environment — belong here rather than against a single account. Respond with the make-up of the team (a more experienced senior, EQR involvement), closer supervision and review, and something the client cannot predict: an unannounced cash count, a site visit off the usual list, journal entries drawn from an odd period. Write the unpredictable element down now; it is the first thing dropped in execution.",
-      "tipFr": "Les expositions transversales — contournement des contrôles par la direction, doute sur la continuité, environnement de contrôle faible — se traitent ici plutôt que sur un compte isolé. Répondre par la composition de l'équipe (un chef de mission plus expérimenté, revue EQR), une supervision et une revue resserrées, et un élément que le client ne peut pas prévoir : un comptage de caisse inopiné, une visite de site hors liste habituelle, des écritures de journal tirées d'une période inhabituelle. Consigner l'élément d'imprévisibilité dès maintenant ; c'est le premier abandonné en exécution."
+      "en": "Identify risks at financial statement level and set the overall responses, including supervision and unpredictability.",
+      "fr": "Identifier les risques au niveau des états financiers et arrêter les réponses globales, dont la supervision et l'imprévisibilité.",
+      "shortEn": "Overall responses",
+      "shortFr": "Réponses globales",
+      "isa": "ISA 330 ¶5",
+      "tipsEn": [
+       "Think of management override, going concern, staff turnover."
+      ],
+      "tipsFr": [
+       "Penser au contournement par la direction, à la continuité, à la rotation du personnel."
+      ],
+      "stdEn": "No risk at financial statement level beyond management override; standard overall responses apply.",
+      "stdFr": "Aucun risque au niveau des états financiers au-delà du contournement par la direction ; les réponses globales usuelles s'appliquent.",
+      "fieldKeys": [
+       "fs_level"
+      ]
      },
      {
       "key": "strategy",
       "en": "Set the strategy for each assertion-level risk: controls reliance or fully substantive, and record why. A controls-reliance strategy requires tests of operating effectiveness.",
       "fr": "Arrêter la stratégie pour chaque risque au niveau des assertions : appui sur les contrôles ou approche substantive, avec les motifs. L'appui sur les contrôles impose des tests d'efficacité.",
-      "srcEn": "ISA 330 ¶8 · P4.1 · E1.1/E1.2",
-      "srcFr": "ISA 330 ¶8 · P4.1 · E1.1/E1.2",
-      "tipEn": "Choose reliance only where P4.1 shows the control exists and was implemented, and where testing it costs less than the substantive work it would save — rare with the manual controls of a small OHADA entity. Record the why in one line per assertion: 'automated three-way match in Sage, operating effectiveness tested in E1.1'. Where no test of controls is planned, hold control risk at maximum and let the substantive procedures carry the assertion alone.",
-      "tipFr": "Ne retenir une stratégie d'appui sur les contrôles que là où P4.1 montre que le contrôle existe et a été mis en oeuvre, et où son test coûte moins que le travail substantif qu'il éviterait — rare avec les contrôles manuels d'une petite entité OHADA. Consigner le pourquoi en une ligne par assertion : 'rapprochement automatique commande-livraison-facture dans Sage, efficacité testée en E1.1'. Si aucun test de contrôles n'est prévu, maintenir le risque lié au contrôle au maximum et laisser les procédures substantives porter seules l'assertion."
+      "shortEn": "Strategy",
+      "shortFr": "Stratégie",
+      "isa": "ISA 330 ¶7–8",
+      "toolDone": "cra.strategy"
      },
      {
       "key": "details",
       "en": "For every significant risk, plan substantive procedures that include tests of details.",
-      "fr": "Pour chaque risque important, prévoir des procédures de substance comprenant des tests de détail.",
-      "srcEn": "ISA 330 ¶21 · execution programme",
-      "srcFr": "ISA 330 ¶21 · programme d'exécution",
-      "tipEn": "For every significant risk, name the actual test of details in the execution programme now: the population, the documents (invoices, delivery notes, bank statements), the direction of testing. Analytical procedures alone cannot carry a significant risk, however persuasive they look. Cross-refer the register line to the programme step so a reviewer can walk from risk to response without asking.",
-      "tipFr": "Pour chaque risque important, nommer dès maintenant le test de détail dans le programme d'exécution : la population, les documents (factures, bons de livraison, relevés bancaires), le sens du test. Les procédures analytiques seules ne peuvent pas porter un risque important, si convaincantes soient-elles. Renvoyer la ligne du registre vers l'étape du programme pour qu'un réviseur passe du risque à la réponse sans poser de question."
+      "fr": "Pour chaque risque important, prévoir des procédures de fond comprenant des tests de détail.",
+      "shortEn": "Tests of details",
+      "shortFr": "Tests de détail",
+      "isa": "ISA 330 ¶21",
+      "tipsEn": [
+       "Check in Procedure design that each significant risk has a test of details."
+      ],
+      "tipsFr": [
+       "Vérifier dans la conception des procédures que chaque risque important a un test de détail."
+      ],
+      "stdEn": "Each significant risk has a test of details in Procedure design.",
+      "stdFr": "Chaque risque important a un test de détail dans la conception des procédures.",
+      "sourceHint": "Procedure design"
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Register",
-    "titleFr": "Partie B — Registre",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
-     {
-      "key": "register",
-      "kind": "auto",
-      "labelEn": "Assertion-level risks and the strategy set against each",
-      "labelFr": "Risques par assertion et stratégie retenue",
-      "source": "strategy"
-     },
      {
       "key": "fs_level",
       "kind": "input",
       "labelEn": "Financial statement level risks and the overall responses, including the unpredictability element",
-      "labelFr": "Risques au niveau des états financiers et réponses globales, dont la part d'imprévisibilité"
+      "labelFr": "Risques au niveau des états financiers et réponses globales, dont la part d'imprévisibilité",
+      "optional": true
      },
      {
       "key": "separate",
       "kind": "input",
       "labelEn": "Where inherent risk and control risk were assessed differently, the reasons",
-      "labelFr": "Motifs lorsque le risque inhérent et le risque lié au contrôle diffèrent"
+      "labelFr": "Motifs lorsque le risque inhérent et le risque lié au contrôle diffèrent",
+      "optional": true
      },
      {
       "key": "revisions",
       "kind": "input",
-      "labelEn": "Revisions to the assessment during execution, and the effect on the procedures already performed",
-      "labelFr": "Révisions de l'évaluation en cours d'exécution et effet sur les procédures déjà réalisées"
+      "labelEn": "Revisions during execution: changes to the assessment and their effect on work already done",
+      "labelFr": "Révisions en cours d'exécution : changements de l'évaluation et effet sur les travaux déjà réalisés",
+      "optional": true
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part C — Evaluation",
-    "titleFr": "Partie C — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "assertions",
-      "en": "Every risk in the register names the account and the assertion it affects (procedure 2).",
-      "fr": "Chaque risque du registre nomme le compte et l'assertion concernés (procédure 2)."
+      "en": "Every risk names the account and assertion it affects.",
+      "fr": "Chaque risque indique le compte et l'assertion concernés.",
+      "tasks": [
+       "assertion"
+      ],
+      "autoCheck": "cra_assertions"
      },
      {
       "key": "separately",
-      "en": "Inherent risk and control risk have been assessed separately (procedure 3).",
-      "fr": "Le risque inhérent et le risque lié au contrôle ont été évalués séparément (procédure 3)."
+      "en": "Inherent and control risk are assessed separately.",
+      "fr": "Le risque inhérent et le risque lié au contrôle sont évalués séparément.",
+      "tasks": [
+       "separate"
+      ],
+      "autoCheck": "cra_separate"
      },
      {
       "key": "reliance",
-      "en": "Where a controls-reliance strategy is set, tests of operating effectiveness are planned (procedure 6).",
-      "fr": "Lorsqu'une stratégie d'appui sur les contrôles est retenue, des tests d'efficacité sont prévus (procédure 6).",
-      "na": true
+      "en": "Where controls are relied on, tests of operating effectiveness are planned.",
+      "fr": "Lorsque l'on s'appuie sur les contrôles, des tests de leur efficacité sont prévus.",
+      "na": true,
+      "tasks": [
+       "strategy"
+      ],
+      "autoCheck": "cra_reliance"
      },
      {
       "key": "details",
-      "en": "Every significant risk has a test of details among its planned responses (procedure 7).",
-      "fr": "Chaque risque important comporte un test de détail parmi les réponses prévues (procédure 7)."
+      "en": "Every significant risk has a test of details among its responses.",
+      "fr": "Chaque risque important a un test de détail parmi ses réponses.",
+      "tasks": [
+       "details"
+      ]
      },
      {
       "key": "unpredictable",
-      "en": "An element of unpredictability is built into the planned procedures (procedure 5).",
-      "fr": "Une part d'imprévisibilité est intégrée aux procédures prévues (procédure 5)."
+      "en": "An element of unpredictability is built into the plan.",
+      "fr": "Un élément d'imprévisibilité est intégré au plan.",
+      "tasks": [
+       "fs_level"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Identify and assess the risks of material misstatement at the financial statement and assertion levels, determine the significant risks, and set the audit responses.",
+  "objectiveFr": "Identifier et évaluer les risques d'anomalies significatives au niveau des états financiers et des assertions, déterminer les risques importants et arrêter les réponses d'audit.",
+  "isa": [
+   {
+    "std": "ISA 315"
+   },
+   {
+    "std": "ISA 330"
+   },
+   {
+    "std": "ISA 240"
+   }
+  ],
+  "links": [
+   "P6.2",
+   "S1.2",
+   "P5.1",
+   "E6.8"
+  ],
+  "toolCard": "cra",
+  "conclStdEn": "The risks of material misstatement are assessed; every significant risk has a test of details among its planned responses.",
+  "conclStdFr": "Les risques d'anomalies significatives sont évalués ; chaque risque important a un test de détail parmi les réponses prévues."
  }
 }

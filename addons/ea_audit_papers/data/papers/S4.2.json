@@ -19,101 +19,243 @@
    "ISA 570 (Révisée) ¶A3 regroupe les événements ou conditions en trois familles : financiers (situation nette négative ou passif courant net, emprunts arrivant à échéance sans perspective réaliste de renouvellement, flux de trésorerie d'exploitation négatifs, arriérés de paiement), opérationnels (intention de la direction de liquider ou de cesser l'activité, perte de dirigeants clés, d'un marché principal, d'une franchise ou d'un fournisseur, conflits sociaux) et autres (non-respect d'exigences de capital ou d'autres exigences légales, procédures judiciaires ou réglementaires en cours que l'entité ne pourrait pas supporter). Un indicateur isolé est rarement décisif ; c'est la combinaison, et la capacité de la direction à y répondre, qui compte — la portée de tels événements ou conditions peut souvent être atténuée par d'autres facteurs (ISA 570 ¶A4).",
    "Dans l'espace OHADA, la perte de la moitié du capital est aussi un événement juridique : lorsque les capitaux propres deviennent inférieurs à la moitié du capital social, les articles 664 et 665 de l'AUSCGIE (371 et 372 pour la SARL) imposent de convoquer l'assemblée générale extraordinaire dans les quatre mois suivant l'approbation des comptes ayant fait apparaître la perte, pour statuer sur la dissolution anticipée. Si la continuation est décidée, les capitaux propres doivent être reconstitués à hauteur d'au moins la moitié du capital au plus tard à la clôture du deuxième exercice suivant, faute de quoi le capital doit être réduit. Le non-respect d'une telle exigence légale est en soi un indicateur de la famille 'autres' au sens d'ISA 570 ¶A3, et l'état de la procédure se documente en C5.8."
   ],
-  "conclEn": [
-   "The events and conditions that may cast significant doubt on the entity's ability to continue as a going concern have been identified, and the work required at completion is set out below."
-  ],
-  "conclFr": [
-   "Les événements et conditions susceptibles de jeter un doute important sur la continuité ont été identifiés, et les travaux requis à l'achèvement sont définis ci-dessous."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "indicators",
-      "en": "Review the financial indicators: net liability position, recurring losses, negative operating cash flow, adverse key ratios and arrears.",
-      "fr": "Examiner les indicateurs financiers : situation nette négative, pertes récurrentes, flux de trésorerie d'exploitation négatifs, ratios défavorables et arriérés.",
-      "srcEn": "Trial balance · prior financial statements · P3.2",
-      "srcFr": "Balance · états financiers antérieurs · P3.2",
-      "tipEn": "Compute the ratios yourself from the trial balance: equity against capital, working capital, operating cash flow from the TAFIRE or cash flow statement, and days of arrears from the aged supplier balance. Set each against the prior DSF to see the direction of travel, not just the level. Flag arrears to the CNPS and the tax administration specifically — they are a cash symptom and a penalties risk at once.",
-      "tipFr": "Calculer soi-même les ratios à partir de la balance : capitaux propres contre capital, fonds de roulement, flux de trésorerie d'exploitation d'après le TAFIRE ou le tableau des flux, et jours de retard sur la balance âgée fournisseurs. Comparer chaque ratio à la DSF de l'exercice précédent pour voir la tendance, pas seulement le niveau. Signaler expressément les arriérés envers la CNPS et l'administration fiscale — à la fois symptôme de trésorerie et risque de pénalités."
+      "en": "Review the financial indicators for events or conditions that may cast significant doubt on going concern: net liabilities or net current liabilities, recurring operating losses, negative operating cash flows, adverse key ratios, arrears to creditors.",
+      "fr": "Examiner les indicateurs financiers d'événements ou de conditions susceptibles de jeter un doute important sur la continuité d'exploitation : capitaux propres ou fonds de roulement négatifs, pertes d'exploitation récurrentes, flux de trésorerie d'exploitation négatifs, ratios clés défavorables, arriérés envers les créanciers.",
+      "shortEn": "Financial indicators",
+      "shortFr": "Indicateurs financiers",
+      "isa": "ISA 570 A3",
+      "tipsEn": [
+       "Use the Financial analysis: ratios and trends against the prior year.",
+       "Look at arrears to tax and social security authorities."
+      ],
+      "tipsFr": [
+       "Utiliser l'analyse financière : ratios et tendances par rapport à l'exercice précédent.",
+       "Regarder les arriérés envers l'administration fiscale et la sécurité sociale."
+      ],
+      "stdEn": "Financial indicators reviewed; no exceptions noted.",
+      "stdFr": "Indicateurs financiers examinés ; aucune exception relevée.",
+      "sourceHint": "Financial analysis"
      },
      {
       "key": "operating",
-      "en": "Review the operating and other indicators: loss of a principal market or supplier, key personnel departures, labour difficulties and pending legal proceedings.",
-      "fr": "Examiner les indicateurs opérationnels et autres : perte d'un marché ou d'un fournisseur majeur, départs de personnel clé, conflits sociaux et procédures en cours.",
-      "srcEn": "Inquiry of management · minutes · S4.1",
-      "srcFr": "Entretien avec la direction · procès-verbaux · S4.1",
-      "tipEn": "Ask the managing director which customers or contracts carry the business and what happens if the largest walks — one buyer above 30% of turnover is an indicator on its own. Probe departures of key people, strikes or social unrest, and licences or agréments coming up for renewal. Cross-check against the disputes found in S4.1; a case big enough to sink the entity belongs on both papers.",
-      "tipFr": "Demander au dirigeant quels clients ou contrats font vivre l'affaire et ce qui arrive si le plus gros s'en va — un acheteur au-delà de 30 % du chiffre d'affaires est un indicateur à lui seul. Sonder les départs de personnes clés, les grèves ou tensions sociales, et les licences ou agréments à renouveler. Recouper avec les litiges relevés en S4.1 ; une affaire capable de couler l'entité figure sur les deux papiers."
+      "en": "Review the operating indicators: loss of key management, a major market, customer, supplier or licence; labour difficulties; shortages of important supplies.",
+      "fr": "Examiner les indicateurs opérationnels : perte de dirigeants clés, d'un marché, d'un client, d'un fournisseur ou d'une licence importants ; conflits sociaux ; pénuries d'approvisionnements importants.",
+      "shortEn": "Operating indicators",
+      "shortFr": "Indicateurs opérationnels",
+      "isa": "ISA 570 A3",
+      "tipsEn": [
+       "One customer above 30% of revenue is an indicator on its own.",
+       "Ask about key staff departures, strikes, licences due for renewal."
+      ],
+      "tipsFr": [
+       "Un client au-delà de 30 % du chiffre d'affaires est un indicateur à lui seul.",
+       "Demander les départs de personnes clés, les grèves, les licences à renouveler."
+      ],
+      "stdEn": "Operating indicators discussed with management; no exceptions noted.",
+      "stdFr": "Indicateurs opérationnels examinés avec la direction ; aucune exception relevée.",
+      "sourceHint": "Meeting with management"
      },
      {
       "key": "borrowings",
-      "en": "Identify the borrowings falling due within twelve months, and the covenants attached to them.",
-      "fr": "Identifier les emprunts échéant dans les douze mois et les covenants qui y sont attachés.",
-      "srcEn": "Loan agreements · bank confirmations · maturity schedule",
-      "srcFr": "Contrats de prêt · confirmations bancaires · échéancier",
-      "tipEn": "Build a maturity table from the loan agreements and bank confirmations: each facility, its due date, and any covenant (ratio, minimum equity) with the headroom computed. Ask the finance director whether the overdrafts and short-term lines are committed in writing or repayable on demand — most OHADA overdrafts are on demand and should be treated as current. A facility maturing within twelve months with no renewal letter is the classic indicator.",
-      "tipFr": "Construire un échéancier à partir des contrats de prêt et des confirmations bancaires : chaque concours, son échéance, et tout covenant (ratio, capitaux propres minimum) avec la marge calculée. Demander au directeur financier si les découverts et lignes courtes sont confirmés par écrit ou remboursables à vue — la plupart des découverts OHADA sont à vue et doivent être traités comme exigibles. Un concours arrivant à échéance sous douze mois sans lettre de renouvellement est l'indicateur classique."
+      "en": "Identify the borrowings falling due within twelve months and the covenants attached to them, and whether renewal or refinancing is realistic.",
+      "fr": "Identifier les emprunts arrivant à échéance dans les douze mois et les engagements qui y sont attachés, et si leur renouvellement ou refinancement est réaliste.",
+      "shortEn": "Borrowings due within 12 months",
+      "shortFr": "Emprunts échéant sous 12 mois",
+      "isa": "ISA 570 A3",
+      "tipsEn": [
+       "Overdrafts repayable on demand count as due within twelve months.",
+       "Compute the headroom on each covenant."
+      ],
+      "tipsFr": [
+       "Les découverts remboursables à vue sont exigibles sous douze mois.",
+       "Calculer la marge sur chaque engagement (covenant)."
+      ],
+      "stdEn": "Borrowings and covenants reviewed; no exceptions noted.",
+      "stdFr": "Emprunts et engagements examinés ; aucune exception relevée.",
+      "sourceHint": "Bank confirmations"
      },
      {
       "key": "capital",
-      "en": "For a SYSCOHADA entity, compare net equity against half of the share capital and record whether the article 664 procedure is engaged.",
-      "fr": "Pour une entité SYSCOHADA, comparer les capitaux propres à la moitié du capital social et indiquer si la procédure de l'article 664 est engagée.",
-      "srcEn": "Trial balance · statutes · C5.8",
-      "srcFr": "Balance · statuts · C5.8",
-      "tipEn": "Take equity straight from the trial balance, result for the period included, and set it against half of the share capital per the statutes and the RCCM extract. If it falls short, ask for the minutes of the extraordinary general meeting deciding on continuation — article 664 AUSCGIE allows four months from the meeting that approved the loss-making accounts. Record the position in C5.8 as well; for the statutory auditor this is a legal trigger, not just an audit indicator.",
-      "tipFr": "Prendre les capitaux propres directement dans la balance, résultat de l'exercice compris, et les rapporter à la moitié du capital social selon les statuts et l'extrait RCCM. S'ils sont inférieurs, demander le procès-verbal de l'assemblée générale extraordinaire statuant sur la continuation — l'article 664 de l'AUSCGIE laisse quatre mois à compter de l'assemblée ayant approuvé les comptes déficitaires. Consigner aussi la situation en C5.8 ; pour le commissaire aux comptes c'est un déclencheur légal, pas seulement un indicateur d'audit."
+      "en": "Compare equity with half of the share capital and, where it is lower, check that the shareholders decided on the continuation of the company.",
+      "fr": "Comparer les capitaux propres à la moitié du capital social et, s'ils sont inférieurs, vérifier que les associés ont statué sur la poursuite de l'activité.",
+      "shortEn": "Equity and share capital",
+      "shortFr": "Capitaux propres et capital social",
+      "isa": "OHADA art. 664 / 371",
+      "tipsEn": [
+       "Include the result of the year in equity.",
+       "If below half: obtain the general meeting minutes deciding on continuation."
+      ],
+      "tipsFr": [
+       "Inclure le résultat de l'exercice dans les capitaux propres.",
+       "S'ils sont inférieurs à la moitié : obtenir le procès-verbal de l'assemblée statuant sur la continuation."
+      ],
+      "stdEn": "Equity is above half of the share capital.",
+      "stdFr": "Les capitaux propres sont supérieurs à la moitié du capital social.",
+      "sourceHint": "Pre-filled from the trial balance"
      },
      {
       "key": "mgmt_assess",
-      "en": "Establish whether management has made its preliminary assessment, the period it covers — {{ISA570.horizon}} — and the support behind it.",
-      "fr": "Établir si la direction a réalisé son appréciation préliminaire, la période couverte — {{ISA570.horizon}} — et les éléments qui l'étayent.",
-      "srcEn": "Inquiry of management · cash flow forecast · budget",
-      "srcFr": "Entretien avec la direction · prévisions de trésorerie · budget",
-      "tipEn": "Ask the finance director for the cash flow forecast or budget behind management's view, and check the period runs {{ISA570.horizon}} — {{ISA570.horizonClock}}. Test the arithmetic and tie the opening cash to the latest bank statement, then ask what the forecast assumes about the biggest customer and the bank lines. If nothing written exists, say so plainly — that fact alone shapes the E6.3 work.",
-      "tipFr": "Demander au directeur financier la prévision de trésorerie ou le budget qui fonde la position de la direction, et vérifier que la période couvre {{ISA570.horizon}} — {{ISA570.horizonClock}}. Tester les calculs et rattacher la trésorerie d'ouverture au dernier relevé bancaire, puis demander ce que la prévision suppose du plus gros client et des lignes bancaires. S'il n'existe rien d'écrit, le dire clairement — ce constat suffit à orienter les travaux d'E6.3."
+      "en": "Obtain management's assessment of going concern and review the cash flow forecasts and budgets for at least the next twelve months.",
+      "fr": "Obtenir l'appréciation de la continuité d'exploitation par la direction et examiner les prévisions de trésorerie et budgets couvrant au moins les douze mois suivants.",
+      "shortEn": "Management's assessment, cash flow forecasts and budgets",
+      "shortFr": "Appréciation de la direction, prévisions et budgets",
+      "isa": "ISA 570 ¶12–13",
+      "tipsEn": [
+       "Agree opening cash to the bank statement.",
+       "Check the key assumptions: main customer, bank lines."
+      ],
+      "tipsFr": [
+       "Rapprocher la trésorerie d'ouverture du relevé bancaire.",
+       "Vérifier les hypothèses clés : principal client, lignes bancaires."
+      ],
+      "stdEn": "Forecast and budget obtained and reviewed; no exceptions noted.",
+      "stdFr": "Prévisions et budget obtenus et examinés ; aucune exception relevée.",
+      "sourceHint": "A1 Cash flow forecast"
      },
      {
-      "key": "plan",
-      "en": "Set the work required at completion, including the period the assessment must cover and the evidence to obtain on any mitigating plan.",
-      "fr": "Arrêter les travaux requis à l'achèvement, dont la période à couvrir et les éléments à obtenir sur tout plan d'atténuation.",
-      "srcEn": "E6.3 · C2.2 · {{ISA570.period}}",
-      "srcFr": "E6.3 · C2.2 · {{ISA570.period}}",
-      "tipEn": "Write down now what E6.3 and C2.2 must obtain at completion: the period the assessment must reach, the mitigating plan to evidence — a shareholder support letter, a signed renewal, a planned disposal — and who will provide it. Ask the parent for a lettre de soutien early; obtaining one at signature date is always harder. If the article 664 procedure is engaged, add the AGE documents to the completion list.",
-      "tipFr": "Écrire dès maintenant ce que E6.3 et C2.2 devront obtenir à l'achèvement : la période que l'évaluation doit couvrir, le plan d'atténuation à documenter — lettre de soutien de l'actionnaire, renouvellement signé, cession projetée — et qui le fournira. Demander tôt la lettre de soutien à la maison mère ; l'obtenir à la date de signature est toujours plus difficile. Si la procédure de l'article 664 est engagée, ajouter les documents de l'AGE à la liste d'achèvement."
+      "key": "nonfin",
+      "en": "Review non-financial information: minutes of board and general meetings, changes in law or regulation, loss of key licences.",
+      "fr": "Examiner les informations non financières : procès-verbaux du conseil et des assemblées, évolutions légales ou réglementaires, perte de licences importantes.",
+      "shortEn": "Non-financial information",
+      "shortFr": "Informations non financières",
+      "isa": "ISA 570 A3",
+      "tipsEn": [
+       "Read the minutes held during and after the year.",
+       "Note any regulatory change affecting the business."
+      ],
+      "tipsFr": [
+       "Lire les procès-verbaux de l'exercice et postérieurs.",
+       "Relever toute évolution réglementaire touchant l'activité."
+      ],
+      "stdEn": "Minutes read; no exceptions noted.",
+      "stdFr": "Procès-verbaux lus ; aucune exception relevée.",
+      "sourceHint": "Minutes of the year"
+     },
+     {
+      "key": "litigation",
+      "en": "Assess the impact of pending litigation and claims that could negatively affect the entity's operations.",
+      "fr": "Apprécier l'incidence des litiges et réclamations en cours susceptibles d'affecter défavorablement l'activité de l'entité.",
+      "shortEn": "Litigation and claims",
+      "shortFr": "Litiges et réclamations",
+      "isa": "ISA 570 A3 · see S4.1",
+      "tipsEn": [
+       "Use the lawyers' letters obtained in S4.1.",
+       "Consider claims large enough to threaten continuity."
+      ],
+      "tipsFr": [
+       "Utiliser les lettres d'avocats obtenues en S4.1.",
+       "Considérer les réclamations assez importantes pour menacer la continuité."
+      ],
+      "stdEn": "Lawyers' letters reviewed; no exceptions noted.",
+      "stdFr": "Lettres d'avocats examinées ; aucune exception relevée.",
+      "sourceHint": "Linked task S4.1"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "none",
-      "en": "No event or condition was identified that may cast significant doubt on the entity's ability to continue as a going concern (procedures 1 to 4). A “No” sets the extended work in E6.3.",
-      "fr": "Aucun événement ou condition susceptible de jeter un doute important n'a été identifié (procédures 1 à 4). Un « Non » déclenche les travaux étendus en E6.3."
+      "en": "No event or condition was identified that may cast significant doubt on the entity's ability to continue as a going concern.",
+      "fr": "Aucun événement ou condition susceptible de jeter un doute important sur la capacité de l'entité à poursuivre son exploitation n'a été identifié.",
+      "tasks": [
+       "indicators",
+       "operating",
+       "borrowings",
+       "capital",
+       "mgmt_assess",
+       "nonfin",
+       "litigation"
+      ]
      },
      {
       "key": "assessment",
-      "en": "Management's assessment covers {{ISA570.horizon}} (procedure 5).",
-      "fr": "L'appréciation de la direction couvre {{ISA570.horizon}} (procédure 5)."
+      "en": "Management's assessment covers at least twelve months from the date of the financial statements.",
+      "fr": "L'appréciation de la direction couvre au moins douze mois à compter de la date des états financiers.",
+      "tasks": [
+       "mgmt_assess"
+      ]
      },
      {
       "key": "capital",
-      "en": "Net equity exceeds half of the share capital, so the article 664 procedure is not engaged (procedure 4).",
-      "fr": "Les capitaux propres excèdent la moitié du capital social ; la procédure de l'article 664 n'est pas engagée (procédure 4).",
-      "na": true
+      "en": "Equity is not less than half of the share capital.",
+      "fr": "Les capitaux propres ne sont pas inférieurs à la moitié du capital social.",
+      "tasks": [
+       "capital"
+      ],
+      "vs": false,
+      "autoCheck": "going_concern_equity"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
+    "fields": [
+     {
+      "key": "p_plan",
+      "kind": "input",
+      "optional": true,
+      "labelEn": "Work required at completion (E6.3): period to cover, mitigating plans to evidence, who provides it",
+      "labelFr": "Travaux requis à l'achèvement (E6.3) : période à couvrir, plans d'atténuation à étayer, qui les fournit",
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "When performing risk assessment procedures, consider whether events or conditions exist that may cast significant doubt on the entity's ability to continue as a going concern, and whether management has performed a preliminary assessment. In the OHADA zone, equity below half of the share capital also triggers a legal procedure.",
+  "objectiveFr": "Lors des procédures d'évaluation des risques, examiner s'il existe des événements ou conditions susceptibles de jeter un doute important sur la capacité de l'entité à poursuivre son exploitation, et si la direction a procédé à une appréciation préliminaire. Dans l'espace OHADA, des capitaux propres inférieurs à la moitié du capital social déclenchent aussi une procédure légale.",
+  "isa": [
+   {
+    "std": "ISA 570"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_financial",
+    "en": "Financial analysis",
+    "fr": "Analyse financière",
+    "noteEn": "Ratios and trends against the prior year",
+    "noteFr": "Ratios et tendances par rapport à l'exercice précédent"
+   },
+   {
+    "action": "action_tool_significance",
+    "en": "Significant accounts",
+    "fr": "Comptes significatifs",
+    "noteEn": "Balances, screen and decisions",
+    "noteFr": "Soldes, filtre et décisions"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "S4.1",
+   "E6.3",
+   "C2.2",
+   "C5.5"
+  ],
+  "toolCard": "going_concern",
+  "conclStdEn": "No event or condition has been identified that may cast significant doubt on going concern at this stage. The position is updated in E6.3 and C2.2.",
+  "conclStdFr": "Aucun événement ou condition susceptible de jeter un doute important sur la continuité d'exploitation n'a été identifié à ce stade. La position est mise à jour en E6.3 et C2.2."
  }
 }

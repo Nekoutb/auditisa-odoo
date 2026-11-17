@@ -3,8 +3,6 @@
  "source": "lib/papers/gam.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶25(a) · ¶A136–A143",
-  "ownsEn": "the list of significant classes of transactions and the IT applications that process them",
-  "ownsFr": "la liste des catégories significatives de transactions et des applications qui les traitent",
   "reqEn": [
    "We identify the significant classes of transactions (SCOTs): the transaction streams that feed the significant accounts identified in P6.2. Each is classified as routine (high volume, recurring), non-routine (unusual, period-end) or estimation (judgement-driven), because the classification drives where misstatements are likely to arise and what the audit response looks like.",
    "For each SCOT we identify the IT applications and other technology through which the transactions are initiated, recorded, processed and reported (ISA 315 ¶25(a), ¶26(b)). This list is the bridge to the IT work: the applications named here define the scope of ITGC testing (E1.1) and application-control work (E1.2), and connect to the IT environment understanding in P4.3."
@@ -13,96 +11,149 @@
    "Nous identifions les catégories significatives de transactions (SCOT) : les flux qui alimentent les comptes significatifs de P6.2. Chacune est classée routinière, non routinière ou estimation, car cette classification détermine où les anomalies peuvent naître et la réponse d'audit.",
    "Pour chaque SCOT, nous identifions les applications informatiques par lesquelles les transactions sont initiées, enregistrées, traitées et restituées (ISA 315 ¶25(a), ¶26(b)). Cette liste définit le périmètre des travaux ITGC (E1.1) et des contrôles applicatifs (E1.2), en lien avec P4.3."
   ],
-  "conclEn": [
-   "The significant classes of transactions and their related applications have been identified completely."
-  ],
-  "conclFr": [
-   "Les catégories significatives de transactions et leurs applications associées ont été identifiées de manière exhaustive."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "streams",
       "en": "From the significant accounts in P6.2, identify every transaction stream that feeds them, and name each SCOT.",
       "fr": "À partir des comptes significatifs de P6.2, identifier chaque flux de transactions qui les alimente et nommer chaque SCOT.",
-      "srcEn": "P6.2 scoping matrix · discussion with finance",
-      "srcFr": "Matrice P6.2 · échange avec la direction financière",
-      "tipEn": "Print the balance des comptes and work through it class by class: for each significant account, ask the chef comptable which journal feeds it — ventes, achats, banque, caisse, OD. In Sage/SAARI the journal codes map almost exactly to the significant transaction streams; a stream that only ever appears in the OD journal is a warning sign, not a stream.",
-      "tipFr": "Imprimer la balance des comptes et la parcourir classe par classe : pour chaque compte significatif, demander au chef comptable quel journal l'alimente — ventes, achats, banque, caisse, OD. Dans Sage/SAARI, les codes journaux correspondent presque exactement aux flux significatifs ; un flux qui n'apparaît que dans le journal des OD est un signal d'alerte, pas un flux."
+      "shortEn": "Classes identified",
+      "shortFr": "Flux identifiés",
+      "isa": "ISA 315 ¶25(a)",
+      "toolDone": "scot.classes"
      },
      {
       "key": "classify",
       "en": "Classify each SCOT as routine, non-routine or estimation, and record the volume and frequency.",
       "fr": "Classer chaque SCOT (routinière, non routinière, estimation) et consigner volume et fréquence.",
-      "srcEn": "Management inquiry · system reports",
-      "srcFr": "Entretiens · états systèmes",
-      "tipEn": "Pull a count of entries per journal per month from Sage/SAARI — a simple export of the brouillard is enough. Steady monthly volumes point to routine; entries clustered in December and January point to non-routine; anything that starts from a spreadsheet calculation — amortissements, the provision for congés payés, doubtful-debt provisions — is estimation regardless of volume.",
-      "tipFr": "Extraire de Sage/SAARI le nombre d'écritures par journal et par mois — un simple export du brouillard suffit. Des volumes mensuels stables signalent le routinier ; des écritures concentrées en décembre-janvier signalent le non-routinier ; tout ce qui part d'un calcul sur tableur — amortissements, provision pour congés payés, provisions clients — relève de l'estimation, quel que soit le volume."
+      "shortEn": "Type and volume",
+      "shortFr": "Nature et volume",
+      "isa": "ISA 315 A136",
+      "toolDone": "scot.classified"
      },
      {
       "key": "apps",
       "en": "For each SCOT, identify the applications and interfaces through which transactions are initiated, recorded, processed and reported.",
       "fr": "Pour chaque SCOT, identifier les applications et interfaces d'initiation, d'enregistrement, de traitement et de restitution.",
-      "srcEn": "IT inquiry (P4.3) · system landscape diagram",
-      "srcFr": "Entretiens IT (P4.3) · cartographie des systèmes",
-      "tipEn": "Ask where each transaction is born, not just where it is booked: many entities invoice in Excel or a billing tool and re-key into Sage, and mobile money collections may live only in the operator's portal until a monthly summary entry. Note every re-keying point and every interface as a step of its own — that is exactly where E1.2 will look.",
-      "tipFr": "Demander où naît chaque transaction, pas seulement où elle est comptabilisée : beaucoup d'entités facturent sous Excel ou un logiciel de facturation puis ressaisissent dans Sage, et les encaissements mobile money ne figurent que dans le portail de l'opérateur jusqu'à une écriture récapitulative mensuelle. Noter chaque point de ressaisie et chaque interface comme une étape à part entière — c'est précisément là que porteront les travaux E1.2."
+      "shortEn": "Applications",
+      "shortFr": "Applications",
+      "isa": "ISA 315 ¶25(a)",
+      "toolDone": "scot.apps"
      },
      {
       "key": "accounts",
       "en": "Map each SCOT to the significant accounts it affects, and verify every significant account is reached by at least one SCOT or scoped as a non-transactional balance.",
       "fr": "Relier chaque SCOT aux comptes significatifs concernés et vérifier que chaque compte significatif est couvert.",
-      "srcEn": "P6.2 matrix",
-      "srcFr": "Matrice P6.2",
-      "tipEn": "Do the tick both ways: take the P6.2 list and tie each account to a transaction stream, then take each stream and tick off the accounts it hits in the grand livre. Balances with no stream — provisions, capital, subventions — should be marked non-transactional on purpose, not left blank.",
-      "tipFr": "Faire le pointage dans les deux sens : prendre la liste P6.2 et rattacher chaque compte à un flux, puis prendre chaque flux et pointer les comptes qu'il touche dans le grand livre. Les soldes sans flux — provisions, capital, subventions — doivent être marqués non transactionnels volontairement, pas laissés en blanc."
+      "shortEn": "Accounts reached",
+      "shortFr": "Comptes couverts",
+      "isa": "ISA 315 ¶25(a)",
+      "toolDone": "scot.accounts"
      },
      {
       "key": "itscope",
-      "en": "Confirm the applications listed here are inside the ITGC scope (E1.1), or record why not.",
-      "fr": "Vérifier que les applications recensées entrent dans le périmètre ITGC (E1.1), ou consigner pourquoi non.",
-      "srcEn": "E1.1 scope note",
-      "srcFr": "Note de périmètre E1.1",
-      "tipEn": "Compare your application list line by line against the E1.1 scope note and initial each match. Where an application sits outside scope — the operator's mobile money portal, a standalone payroll tool — write the one-sentence reason (for example: output re-keyed and reconciled manually) so the reviewer sees a decision, not an omission.",
-      "tipFr": "Comparer ligne à ligne la liste des applications avec la note de périmètre E1.1 et viser chaque correspondance. Quand une application est hors périmètre — portail mobile money de l'opérateur, logiciel de paie isolé — écrire la raison en une phrase (par exemple : sorties ressaisies et rapprochées manuellement) pour que le réviseur voie une décision, pas un oubli."
+      "en": "Confirm the applications listed are inside the IT general controls scope, or record why not.",
+      "fr": "Confirmer que les applications recensées entrent dans le périmètre des contrôles généraux informatiques, ou noter pourquoi.",
+      "shortEn": "ITGC scope",
+      "shortFr": "Périmètre CGI",
+      "isa": "ISA 315 ¶26(b)",
+      "tipsEn": [
+       "Compare with the IT environment in P4.3.",
+       "Spreadsheets used for reporting are in scope too."
+      ],
+      "tipsFr": [
+       "Comparer avec l'environnement informatique de P4.3.",
+       "Les tableurs utilisés pour la production des comptes sont aussi dans le périmètre."
+      ],
+      "stdEn": "All applications are in the ITGC scope.",
+      "stdFr": "Toutes les applications sont dans le périmètre des CGI.",
+      "sourceHint": "P4.3 IT environment"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Confirmations",
-    "titleFr": "Partie B — Confirmations",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "complete",
-      "en": "Every significant account from P6.2 is fed by an identified SCOT or documented as non-transactional.",
-      "fr": "Chaque compte significatif de P6.2 est alimenté par une SCOT identifiée ou documenté comme non transactionnel."
+      "en": "Every significant account is fed by a class of transactions or documented as non-transactional.",
+      "fr": "Chaque compte significatif est alimenté par un flux de transactions ou documenté comme non transactionnel.",
+      "tasks": [
+       "accounts"
+      ],
+      "autoCheck": "scot_accounts"
      },
      {
       "key": "classified",
-      "en": "Each SCOT carries a routine / non-routine / estimation classification.",
-      "fr": "Chaque SCOT est classée routinière / non routinière / estimation."
+      "en": "Each class is classified as routine, non-routine or estimation.",
+      "fr": "Chaque flux est qualifié de courant, non courant ou d'estimation.",
+      "tasks": [
+       "classify"
+      ],
+      "autoCheck": "scot_classified"
      },
      {
       "key": "apps_listed",
-      "en": "The related applications are identified for every SCOT.",
-      "fr": "Les applications associées sont identifiées pour chaque SCOT."
+      "en": "The applications are identified for every class.",
+      "fr": "Les applications sont identifiées pour chaque flux.",
+      "tasks": [
+       "apps"
+      ],
+      "autoCheck": "scot_apps"
      },
      {
       "key": "it_aligned",
-      "en": "The application list agrees with the IT environment understanding in P4.3.",
-      "fr": "La liste des applications concorde avec la connaissance de l'environnement informatique (P4.3)."
+      "en": "The application list agrees with the IT environment in P4.3.",
+      "fr": "La liste des applications concorde avec l'environnement informatique de P4.3.",
+      "tasks": [
+       "itscope"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Obtain an understanding of the information system relevant to the preparation of the financial statements, starting with the significant classes of transactions and the applications that process them.",
+  "objectiveFr": "Prendre connaissance du système d'information pertinent pour l'établissement des états financiers, en commençant par les flux de transactions significatifs et les applications qui les traitent.",
+  "isa": [
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_scot",
+    "en": "SCOTs and controls",
+    "fr": "Flux et contrôles",
+    "noteEn": "Classes, flows, controls and walkthroughs",
+    "noteFr": "Flux, risques, contrôles et tests de cheminement"
+   },
+   {
+    "action": "action_tool_significance",
+    "en": "Significant accounts",
+    "fr": "Comptes significatifs",
+    "noteEn": "Balances, screen and decisions",
+    "noteFr": "Soldes, filtre et décisions"
+   },
+   {
+    "action": "action_tool_itgc",
+    "en": "IT applications",
+    "fr": "Applications informatiques",
+    "noteEn": "Scope of the IT general controls",
+    "noteFr": "Périmètre des contrôles généraux informatiques"
+   }
+  ],
+  "links": [
+   "P6.2",
+   "S1.2",
+   "P4.3"
+  ],
+  "toolCard": "scot",
+  "conclStdEn": "The significant classes of transactions are identified, covering every significant account, with the applications that process them.",
+  "conclStdFr": "Les flux de transactions significatifs sont identifiés, couvrent chaque compte significatif, avec les applications qui les traitent."
  }
 }

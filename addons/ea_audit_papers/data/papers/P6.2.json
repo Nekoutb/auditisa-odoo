@@ -3,8 +3,6 @@
  "source": "lib/papers/gam.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶28–29 · ISA 320 ¶10–11",
-  "ownsEn": "the scoping matrix: significant accounts, disclosures and their relevant assertions",
-  "ownsFr": "la matrice de périmètre : comptes significatifs, informations à fournir et assertions pertinentes",
   "reqEn": [
    "For each class of transactions, account balance and disclosure, we determine whether it is significant: whether there is a reasonable possibility of a material misstatement, judged before considering controls (ISA 315 ¶28–29). The quantitative screen compares the item to performance materiality from P6.1; the qualitative screen considers susceptibility to fraud, estimation uncertainty, related-party involvement, changes in the business, and complexity of the accounting requirement.",
    "For every significant item we then identify the relevant assertions — those for which a material misstatement is reasonably possible. Assertions for classes of transactions are occurrence, completeness, accuracy, cutoff, classification and presentation; for balances they are existence, rights and obligations, completeness, accuracy-valuation-allocation, classification and presentation (ISA 315 ¶A190).",
@@ -15,98 +13,188 @@
    "Pour chaque élément significatif, nous identifions les assertions pertinentes — celles pour lesquelles une anomalie significative est raisonnablement possible (ISA 315 ¶A190).",
    "La matrice établie ici pilote la suite : chaque compte significatif est relié aux cycles qui l'alimentent (S1.1) et aux programmes d'exécution qui traiteront ses assertions. Une exclusion est documentée avec le même soin qu'une inclusion."
   ],
-  "conclEn": [
-   "Significant accounts, disclosures and their relevant assertions have been identified, and the resulting scope is complete."
-  ],
-  "conclFr": [
-   "Les comptes significatifs, informations à fournir et assertions pertinentes ont été identifiés, et le périmètre qui en résulte est complet."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "tb",
       "en": "Obtain the trial balance or latest financial statements and list every class of transactions, account balance and disclosure.",
       "fr": "Obtenir la balance ou les derniers états financiers et recenser chaque flux, solde et information à fournir.",
-      "srcEn": "Trial balance import · prior-year financial statements",
-      "srcFr": "Import de balance · états financiers N-1"
+      "shortEn": "Accounts listed",
+      "shortFr": "Comptes recensés",
+      "isa": "ISA 315 ¶28",
+      "toolDone": "significance.listed",
+      "stdEn": "All classes, balances and disclosures listed from the trial balance.",
+      "stdFr": "Toutes les catégories, soldes et informations recensés depuis la balance."
      },
      {
       "key": "quant",
       "en": "Apply the quantitative screen: flag every item above performance materiality (P6.1), and record the threshold used.",
       "fr": "Appliquer le filtre quantitatif : signaler tout élément supérieur au seuil de planification (P6.1) et consigner le seuil retenu.",
-      "srcEn": "P6.1 materiality paper · trial balance",
-      "srcFr": "Papier P6.1 · balance"
+      "shortEn": "Quantitative screen",
+      "shortFr": "Filtre quantitatif",
+      "isa": "ISA 315 ¶28",
+      "toolDone": "significance.quant",
+      "stdEn": "Quantitative screen applied in the tool.",
+      "stdFr": "Filtre quantitatif appliqué dans l'outil."
      },
      {
       "key": "qual",
-      "en": "Apply the qualitative screen to items below the threshold: fraud susceptibility, estimation uncertainty, related parties, business changes, accounting complexity. Add any item flagged.",
-      "fr": "Appliquer le filtre qualitatif aux éléments sous le seuil : fraude, incertitude d'estimation, parties liées, évolutions, complexité comptable. Ajouter tout élément signalé.",
-      "srcEn": "P5.1 fraud risks · S4.3 related parties · P3.1 understanding",
-      "srcFr": "P5.1 · S4.3 · P3.1"
+      "en": "Consider fraud susceptibility, estimation uncertainty, related parties, business changes and accounting changes for items below the threshold.",
+      "fr": "Pour les éléments sous le seuil, considérer l'exposition à la fraude, l'incertitude d'estimation, les parties liées, les changements d'activité et de méthodes comptables.",
+      "shortEn": "Qualitative screen",
+      "shortFr": "Filtre qualitatif",
+      "isa": "ISA 315 A231",
+      "tipsEn": [
+       "Bring in any account a user would care about whatever its size.",
+       "Record why each was brought in or left out."
+      ],
+      "tipsFr": [
+       "Retenir tout compte qui intéresse un utilisateur, quelle que soit sa taille.",
+       "Noter pourquoi chacun est retenu ou écarté."
+      ],
+      "stdEn": "No item below the threshold needs to be brought in.",
+      "stdFr": "Aucun élément sous le seuil n'est à retenir."
      },
      {
       "key": "assertions",
       "en": "For each significant item, identify the relevant assertions and record the reason each assertion is (or is not) relevant.",
       "fr": "Pour chaque élément significatif, identifier les assertions pertinentes et le motif de leur pertinence (ou non).",
-      "srcEn": "Risk assessment discussions · cycle knowledge",
-      "srcFr": "Échanges d'évaluation des risques · connaissance des cycles"
+      "shortEn": "Relevant assertions",
+      "shortFr": "Assertions pertinentes",
+      "isa": "ISA 315 ¶29",
+      "toolDone": "significance.assertions",
+      "stdEn": "Relevant assertions recorded per account.",
+      "stdFr": "Assertions pertinentes consignées par compte."
      },
      {
       "key": "map",
-      "en": "Map each significant account to the transaction cycles that feed it, and confirm every one is carried by a SCOT identified in S1.1.",
-      "fr": "Relier chaque compte significatif aux cycles qui l'alimentent et vérifier que chacun est porté par une SCOT identifiée en S1.1.",
-      "srcEn": "S1.1 SCOT listing",
-      "srcFr": "Liste des SCOT (S1.1)"
+      "en": "Confirm each significant account is fed by a class of transactions identified in S1.1.",
+      "fr": "Confirmer que chaque compte significatif est alimenté par un flux de transactions identifié en S1.1.",
+      "shortEn": "Link to classes of transactions",
+      "shortFr": "Lien avec les flux de transactions",
+      "isa": "ISA 315 ¶25",
+      "tipsEn": [
+       "The SCOTs tool shows any account not yet linked."
+      ],
+      "tipsFr": [
+       "L'outil des flux montre tout compte non encore rattaché."
+      ],
+      "stdEn": "Every significant account is linked to a class of transactions.",
+      "stdFr": "Chaque compte significatif est rattaché à un flux de transactions.",
+      "sourceHint": "SCOTs and controls tool"
      },
      {
       "key": "disclosures",
-      "en": "Identify significant disclosures, including those not derived from the trial balance (commitments, related parties, going concern).",
-      "fr": "Identifier les informations à fournir significatives, y compris celles hors balance (engagements, parties liées, continuité).",
-      "srcEn": "Framework disclosure checklist · prior-year notes",
-      "srcFr": "Liste des informations du référentiel · annexe N-1"
+      "en": "Identify significant disclosures not derived from the trial balance: commitments, related parties, going concern.",
+      "fr": "Identifier les informations significatives qui ne proviennent pas de la balance : engagements, parties liées, continuité d'exploitation.",
+      "shortEn": "Disclosures outside the trial balance",
+      "shortFr": "Informations hors balance",
+      "isa": "ISA 315 ¶28",
+      "tipsEn": [
+       "Use S4.1 commitments and S4.3 related parties."
+      ],
+      "tipsFr": [
+       "Utiliser les engagements de S4.1 et les parties liées de S4.3."
+      ],
+      "stdEn": "No significant disclosure outside the trial balance.",
+      "stdFr": "Aucune information significative hors balance."
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Scoping confirmations",
-    "titleFr": "Partie B — Confirmations de périmètre",
-    "introEn": "Explain each “No” in the box beneath it.",
-    "introFr": "Expliquer chaque « Non » dans l'encadré au-dessous.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "above_pm",
-      "en": "Every account and disclosure above performance materiality has been scoped in or its exclusion justified.",
-      "fr": "Chaque compte et information au-dessus du seuil de planification est inclus, ou son exclusion est justifiée."
+      "en": "Every account above performance materiality is significant or its exclusion is justified.",
+      "fr": "Chaque compte au-dessus du seuil de travail est significatif ou son exclusion est justifiée.",
+      "tasks": [
+       "quant"
+      ],
+      "autoCheck": "significance_screen"
      },
      {
       "key": "qual_done",
       "en": "Qualitative factors were considered for items below the threshold.",
-      "fr": "Les facteurs qualitatifs ont été examinés pour les éléments sous le seuil."
+      "fr": "Les facteurs qualitatifs ont été considérés pour les éléments sous le seuil.",
+      "tasks": [
+       "qual"
+      ]
      },
      {
       "key": "assert_each",
-      "en": "Relevant assertions are recorded for every significant account and disclosure.",
-      "fr": "Les assertions pertinentes sont consignées pour chaque élément significatif."
+      "en": "Relevant assertions are recorded for every significant account.",
+      "fr": "Les assertions pertinentes sont consignées pour chaque compte significatif.",
+      "tasks": [
+       "assertions"
+      ],
+      "autoCheck": "significance_assertions"
      },
      {
       "key": "linked",
-      "en": "Every significant account is linked to at least one execution program that addresses its relevant assertions.",
-      "fr": "Chaque compte significatif est relié à au moins un programme d'exécution traitant ses assertions."
-     },
-     {
-      "key": "partner",
-      "en": "The engagement partner has reviewed and agreed the scoping matrix.",
-      "fr": "L'associé responsable a revu et approuvé la matrice de périmètre."
+      "en": "Every significant account is linked to a class of transactions and a procedure.",
+      "fr": "Chaque compte significatif est rattaché à un flux de transactions et à une procédure.",
+      "tasks": [
+       "map"
+      ],
+      "autoCheck": "significance_linked"
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Identify the significant classes of transactions, account balances and disclosures and their relevant assertions, as the basis for assessing the risks of material misstatement.",
+  "objectiveFr": "Identifier les catégories d'opérations, soldes de comptes et informations significatifs et leurs assertions pertinentes, comme base de l'évaluation des risques d'anomalies significatives.",
+  "isa": [
+   {
+    "std": "ISA 315"
+   },
+   {
+    "std": "ISA 320"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_significance",
+    "en": "Significant accounts",
+    "fr": "Comptes significatifs",
+    "noteEn": "Balances, screen and decisions",
+    "noteFr": "Soldes, filtre et décisions"
+   },
+   {
+    "action": "action_tool_materiality",
+    "en": "Materiality",
+    "fr": "Matérialité",
+    "noteEn": "Calculate, version and approve",
+    "noteFr": "Calculer, versionner et approuver"
+   },
+   {
+    "action": "action_tool_scot",
+    "en": "SCOTs and controls",
+    "fr": "Flux et contrôles",
+    "noteEn": "Classes, flows, controls and walkthroughs",
+    "noteFr": "Flux, risques, contrôles et tests de cheminement"
+   },
+   {
+    "action": "action_tool_cra",
+    "en": "Combined risk assessment",
+    "fr": "Évaluation combinée des risques",
+    "noteEn": "Account × assertion grid",
+    "noteFr": "Grille compte × assertion"
+   }
+  ],
+  "links": [
+   "P6.1",
+   "S1.1",
+   "S3.1"
+  ],
+  "toolCard": "significance",
+  "conclStdEn": "The significant accounts and disclosures are identified with their relevant assertions and carried to the combined risk assessment (S3.1).",
+  "conclStdFr": "Les comptes et informations significatifs sont identifiés avec leurs assertions pertinentes et reportés dans l'évaluation combinée des risques (S3.1)."
  }
 }

@@ -41,6 +41,9 @@ class TestPaperIncomplete(PaperCase):
         for code, refusal in gaps.items():
             self.assertCode(refusal, self.sign, self.senior, self.engagement, code, "preparer")
         self.patch(type(self.env["ea.audit.file.item"]), "_ea_tool_gap", lambda _self: None)
+        # S1.2 is a paper of its own since the layout of 2026-11-17: its tasks are answered first
+        self.assertCode("paper-incomplete", self.sign, self.senior, self.engagement, "S1.2", "preparer")
+        self.complete(self.senior, "S1.2")
         self.assertEqual(self.sign(self.senior, self.engagement, "S1.2", "preparer"), "preparer")
 
 

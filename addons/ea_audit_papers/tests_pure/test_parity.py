@@ -42,7 +42,10 @@ def _fixture(name):
 # (owner's ruling of 2026-11-16: appointing a reviewer is always the firm's decision).
 # C5.2 is no longer a paper of the file (owner's decision of 2026-11-16): C4.3, C5.1, C5.10, E4.14,
 # E4.15 and E6.4 no longer send the reader to it.
-DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.14", "E4.15", "E6.4"}
+# The working-paper layout of 2026-11-17 converts the reference papers (services/layout.py).
+DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.14", "E4.15", "E6.4"} | {
+    "S4.2", "P6.1", "P6.2", "S1.1", "S1.2", "S1.3", "S1.4", "S3.1",
+}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")

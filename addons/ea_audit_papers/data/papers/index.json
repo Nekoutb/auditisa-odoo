@@ -291,11 +291,11 @@
   },
   "P6.1": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "c2c3e15536e410adb0dfd23f4f49786b495be12938bba949c2036fb9fcadf2e3"
+   "definition_hash": "881c37b5048ff92e247ed60c6199f94e097d9394468fde307809af508bc2f97a"
   },
   "P6.2": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "4b40d8b29e92e87ad6c22c49b650871e32dc115064e2298f59651b83c797a8fc"
+   "definition_hash": "e79ba8b1a1e7a5c8249d39499d39c84b633fe97f8c24cd13f3a4b48c3687effa"
   },
   "P7.1": {
    "source": "lib/papers/gam.ts",
@@ -303,19 +303,19 @@
   },
   "S1.1": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "17ff5578dd04a0848d4777972fc846427d81a5441330c777b1ddfe828bf57b42"
+   "definition_hash": "f34da03db48bc19af7536b2f09ec6966120f43054bb6fc9c6b99fc97ec0abfeb"
   },
   "S1.2": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "731efc477f24151e81f3eb9c052feff2785634f28f8765b09f4308645e9b70ad"
+   "definition_hash": "a7e38e437f9f27ac81fe9b1098d7d65b5bb27b59c9b8c5e0295d88119f312d97"
   },
   "S1.3": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "e1ea08b2dbade38beeea1ea440e79fe42cbd5d89e4a537c151770f68460d4312"
+   "definition_hash": "fd90b034cbda39c5e7e5861703bb72308a35cfa3fe6cb5aa110acba923b7b163"
   },
   "S1.4": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "131cbb9bcf57260534dcb19245a396f748f0cb4f85726acc28361b053094ca29"
+   "definition_hash": "828dcc700077106afd0ccaac0ae9979dda8be1a837b056e7907ab64745a39d1c"
   },
   "S2.1": {
    "source": "lib/papers/gam.ts",
@@ -339,7 +339,7 @@
   },
   "S3.1": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "9dd01393785cdf1637668483e5d273719900ee6ed1c77b9806b3c9b14cfdc1ab"
+   "definition_hash": "c9dc97c81600c66f0187519b7563697f192d0f183f8d959589488bc8a19f2ef7"
   },
   "S4.1": {
    "source": "lib/papers/strategy.ts",
@@ -347,7 +347,7 @@
   },
   "S4.2": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "28f17534b5a0dc24244c8d897384efe068d9c1d745b62093a8be3e00dee8cc13"
+   "definition_hash": "dfd18f166237ea3538a5d62312a3050fecca655a7b740fba4e4ec34b15bcc9b3"
   },
   "S4.3": {
    "source": "lib/papers/strategy.ts",
