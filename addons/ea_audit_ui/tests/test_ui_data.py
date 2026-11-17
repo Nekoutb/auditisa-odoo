@@ -192,6 +192,48 @@ class TestUiData(EaAuditCase):
         self.assertEqual(self.ui(self.partner).ea_ui_home()["invitations"], [])
 
     # ------------------------------------------------------------------
+    # empty screens: why they are empty and what to do next
+    # ------------------------------------------------------------------
+
+    def test_an_empty_home_says_why_and_what_to_do(self):
+        waiting = "You are in the firm. Your engagements appear here once a manager adds you to a team and you accept."
+        staff_home = self.ui(self.outsider).ea_ui_home()
+        self.assertEqual(staff_home["missions"], [])
+        self.assertEqual(staff_home["empty_lines"], [waiting])
+        self.assertEqual(self.ui(self.partner2).ea_ui_home()["empty_lines"], [waiting, "Start with + New engagement."])
+        self.assertEqual(self.ui(self.reader).ea_ui_home()["empty_lines"], [waiting])
+
+    def open_with_questionnaire(self):
+        wizard = self.env["ea.audit.engagement.create.wizard"].with_user(self.partner).create({
+            "client_id": self.client.id, "name": "Empty states 2026", "nature": "statutory_audit",
+            "fiscal_year": 2026, "period_start": date(2026, 1, 1), "period_end": date(2026, 12, 31),
+            "engagement_partner_id": self.partner.id,
+        })
+        wizard.action_create()
+        engagement = self.env["ea.audit.engagement"].sudo().search([("name", "=", "Empty states 2026")], limit=1)
+        self.seat(engagement, self.staff, "staff")
+        return engagement
+
+    def test_my_tasks_wait_for_the_questionnaire_with_its_count(self):
+        engagement = self.open_with_questionnaire()
+        profile = engagement.sudo()._ea_profile().with_user(self.partner)
+        profile.ea_profile_save({"q1_listed": "no", "q2_pie": "none"})
+        expected = "No tasks yet: the partner has answered 2 of 19 questions in the engagement questionnaire."
+        dashboard = self.ui(self.staff).ea_ui_dashboard(engagement.id)
+        self.assertTrue(dashboard["profile_pending"])
+        self.assertEqual(dashboard["my_tasks"]["empty"], expected)
+        self.assertEqual(self.ui(self.staff).ea_ui_all_tasks(engagement.id)["mine_empty"], expected)
+
+    def test_my_tasks_ask_for_an_assignment_once_the_file_has_tasks(self):
+        expected = "Nothing is assigned to you yet. Ask the manager to set you as preparer."
+        dashboard = self.ui(self.staff).ea_ui_dashboard(self.engagement.id)
+        self.assertEqual((dashboard["my_tasks"]["count"], dashboard["my_tasks"]["empty"]), (0, expected))
+        self.assertEqual(self.ui(self.staff).ea_ui_all_tasks(self.engagement.id)["mine_empty"], expected)
+        self.item(self.engagement, "E6.2").with_user(self.partner).assign_tasks(self.staff.id, "preparer")
+        dashboard = self.ui(self.staff).ea_ui_dashboard(self.engagement.id)
+        self.assertEqual(dashboard["my_tasks"]["empty"], "Nothing open is assigned to you on this file.")
+
+    # ------------------------------------------------------------------
     # the task list
     # ------------------------------------------------------------------
 

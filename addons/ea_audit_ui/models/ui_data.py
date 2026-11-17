@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 from odoo.http import request
 from odoo.tools import ormcache
 
+from odoo.addons.ea_audit_core.services import engagement_profile as profile_tree
 from odoo.addons.ea_audit_core.services.firm_time import FIRM_TZ, FIRM_TZ_LABEL
 from odoo.addons.ea_audit_core.services.phases import phase_of_task
 
@@ -19,7 +20,9 @@ from ..services.presentation import (
     STATUS_WORDS,
     first_name,
     fmt_date,
+    home_empty_lines,
     initials,
+    my_tasks_empty,
     percent,
     phase_deadline,
     report_due,
@@ -473,15 +476,33 @@ class AuditUi(models.AbstractModel):
                 "total": len(own),
                 "pct": percent(done, len(own)),
             })
+        role = self.env.user._ea_firm_role()
+        empty = [self.env._(line) for line in home_empty_lines(role, role and role != "read_only")]
         return {
             "todo": self._ea_ui_home_todo(engagements, items, today),
             "missions": missions,
             "invitations": self._ea_ui_home_invitations(),
+            # what the page says while no engagement is visible
+            "empty_lines": empty,
         }
 
     # ------------------------------------------------------------------
     # The engagement dashboard
     # ------------------------------------------------------------------
+
+    @api.model
+    def _ea_ui_profile_answered(self, engagement):
+        """(answered, total) of the engagement questionnaire, 0 answered while it has none."""
+        profile = engagement.sudo().profile_ids[:1]
+        answered = profile_tree.answered_count(profile._ea_answers()) if profile else 0
+        return answered, len(profile_tree.QUESTION_NUMBERS)
+
+    @api.model
+    def _ea_ui_my_tasks_empty(self, engagement, any_mine):
+        """Why My tasks is empty and what to do next."""
+        answered, total = self._ea_ui_profile_answered(engagement)
+        source, params = my_tasks_empty(engagement.profile_pending, answered, total, any_mine)
+        return self.env._(source, **params)
 
     @api.model
     def _ea_ui_visible_engagement(self, engagement_id):
@@ -604,8 +625,12 @@ class AuditUi(models.AbstractModel):
 
         # F021: the tile counts what the Tasks page calls Mine and Open
         mine = []
+        any_mine = False
         for item in items:
-            if self._ea_ui_is_mine(item, user, is_partner, policy) and self._ea_ui_is_open(item):
+            if not self._ea_ui_is_mine(item, user, is_partner, policy):
+                continue
+            any_mine = True
+            if self._ea_ui_is_open(item):
                 word = self._ea_ui_my_word(item, user, is_partner, policy)
                 mine.append({
                     "id": item.id, "code": item.code, "title": item.short_title or item.title,
@@ -638,7 +663,10 @@ class AuditUi(models.AbstractModel):
             "rings": rings,
             "unassigned_ids": unassigned.ids,
             "attention": chips,
-            "my_tasks": {"count": len(mine), "rows": mine[:_MY_TASK_ROWS], "e4": e4},
+            "my_tasks": {
+                "count": len(mine), "rows": mine[:_MY_TASK_ROWS], "e4": e4,
+                "empty": self._ea_ui_my_tasks_empty(engagement, any_mine),
+            },
             "notes": self._ea_ui_notes_tile(engagement),
             "calendar": {"late": len(late), "rows": calendar_rows},
             # a file opened with the questionnaire has no task until its profile is concluded
@@ -752,4 +780,6 @@ class AuditUi(models.AbstractModel):
             "mission": self._ea_ui_mission(engagement),
             "designed": self._ea_ui_e4_designed(engagement)["text"],
             "rows": rows,
+            # what Mine says while nothing is mine
+            "mine_empty": self._ea_ui_my_tasks_empty(engagement, any(row["mine"] for row in rows)),
         }

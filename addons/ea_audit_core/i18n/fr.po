@@ -5110,9 +5110,7 @@ msgid "Still to answer: %s questions. The level can still change."
 msgstr "Reste à répondre : %s questions. Le niveau peut encore changer."
 
 #. module: ea_audit_core
-#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Available once all 19 questions are answered."
 msgstr "Disponible une fois les 19 questions répondues."
 
@@ -6149,3 +6147,14 @@ msgstr "Avertissement sur l'équipe"
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_invite_wizard
 msgid "Only people already in the firm can be invited. Someone new is added first by the firm administrator, on the Users screen."
 msgstr "Seules les personnes déjà dans le cabinet peuvent être invitées. Une nouvelle personne est d'abord ajoutée par l'administrateur du cabinet, sur l'écran Utilisateurs."
+
+#. module: ea_audit_core
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answer 1 more question to conclude."
+msgstr "Répondez à encore 1 question pour conclure."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answer %s more questions to conclude."
+msgstr "Répondez à encore %s questions pour conclure."

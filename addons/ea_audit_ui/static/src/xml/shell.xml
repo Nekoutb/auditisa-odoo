@@ -202,8 +202,8 @@
                         <div class="ea-pct"><t t-esc="mission.pct"/>%</div>
                         <div class="ea-go"><t t-if="mission.archived">Open</t><t t-else="">Continue</t> &#8594;</div>
                     </a>
-                    <div t-if="!state.missions.length" class="ea-empty">
-                        No engagements. You only see the engagements whose team you belong to.
+                    <div t-if="!state.missions.length" class="ea-empty" data-ea="home-empty">
+                        <div t-foreach="state.empty_lines or []" t-as="line" t-key="line_index" t-esc="line"/>
                     </div>
                 </div>
             </div>
@@ -273,7 +273,7 @@
                             <span><t t-esc="row.code"/> <t t-esc="row.title"/></span>
                             <span class="ea-tl-r" t-esc="row.word"/>
                         </a>
-                        <div t-if="!d.my_tasks.rows.length" class="ea-empty">Nothing open is assigned to you on this file.</div>
+                        <div t-if="!d.my_tasks.rows.length" class="ea-empty" data-ea="my-tasks-empty" t-esc="d.my_tasks.empty"/>
                         <div class="ea-note-line" data-ea="my-tasks-e4">Substantive procedures: <t t-esc="d.my_tasks.e4.text"/> (S5.5)</div>
                     </div>
                     <div class="ea-card ea-tile">
@@ -415,7 +415,8 @@
                                     </td>
                                     <td><span class="ea-st" t-att-class="row.tone" t-esc="row.pill"/></td>
                                 </tr>
-                                <tr t-if="!rows.length" class="ea-norow"><td colspan="6" class="ea-empty">No tasks under this filter.</td></tr>
+                                <tr t-if="!rows.length and state.scope === 'mine' and !mineCount" class="ea-norow"><td colspan="6" class="ea-empty" data-ea="mine-empty" t-esc="d.mine_empty"/></tr>
+                                <tr t-elif="!rows.length" class="ea-norow"><td colspan="6" class="ea-empty">No tasks under this filter.</td></tr>
                             </tbody>
                         </table>
                     </div>

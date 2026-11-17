@@ -78,7 +78,6 @@
 "NOT APPLICABLE": "SANS OBJET",
 "NOT STARTED": "NON COMMENCÉE",
 "No active tasks in this group.": "Aucune tâche active dans ce groupe.",
-"No engagements. You only see the engagements whose team you belong to.": "Aucune mission. Vous ne voyez que les missions dont vous êtes membre de l'équipe.",
 "No engagements: you are not a member of any team.": "Aucune mission : vous n'êtes membre d'aucune équipe.",
 "No notifications.": "Aucune notification.",
 "No open deadlines.": "Aucune échéance ouverte.",
@@ -212,5 +211,9 @@
 "Mine (": "À moi (",
 "All (": "Toutes (",
 "Open (": "Ouvertes (",
-"No tasks under this filter.": "Aucune tâche avec ce filtre."
+"No tasks under this filter.": "Aucune tâche avec ce filtre.",
+"You are in the firm. Your engagements appear here once a manager adds you to a team and you accept.": "Vous faites partie du cabinet. Vos missions apparaissent ici dès qu'un manager vous ajoute à une équipe et que vous acceptez.",
+"Start with + New engagement.": "Commencez par + Nouvelle mission.",
+"No tasks yet: the partner has answered %(n)s of %(total)s questions in the engagement questionnaire.": "Pas encore de tâches : l'associé a répondu à %(n)s questions sur %(total)s du questionnaire de la mission.",
+"Nothing is assigned to you yet. Ask the manager to set you as preparer.": "Rien ne vous est encore affecté. Demandez au manager de vous désigner comme préparateur."
 }

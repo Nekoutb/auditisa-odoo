@@ -110,3 +110,35 @@ def initials(name):
     if len(words) == 1:
         return words[0][:2].upper()
     return (words[0][0] + words[-1][0]).upper()
+
+
+# What an empty screen says: why it is empty and what to do next.
+HOME_EMPTY = _lt("You are in the firm. Your engagements appear here once a manager adds you to a team and you accept.")
+HOME_EMPTY_START = _lt("Start with + New engagement.")
+TASKS_AWAIT_PROFILE = _lt(
+    "No tasks yet: the partner has answered %(n)s of %(total)s questions in the engagement questionnaire."
+)
+TASKS_NONE_MINE = _lt("Nothing is assigned to you yet. Ask the manager to set you as preparer.")
+TASKS_NONE_OPEN = _lt("Nothing open is assigned to you on this file.")
+
+# the firm roles that open engagements themselves
+_STARTER_ROLES = ("firm_admin", "partner", "manager")
+
+
+def home_empty_lines(role, can_write):
+    """The lines of the Home page when no engagement is visible, English sources."""
+    lines = [HOME_EMPTY]
+    if can_write and role in _STARTER_ROLES:
+        lines.append(HOME_EMPTY_START)
+    return lines
+
+
+def my_tasks_empty(profile_pending, answered, total, any_mine=False):
+    """(English source, parameters) of an empty My tasks: waiting for the questionnaire
+    while it is not concluded, waiting for someone to hand a task out while nothing is
+    mine, and only then "nothing open"."""
+    if profile_pending:
+        return TASKS_AWAIT_PROFILE, {"n": answered, "total": total}
+    if not any_mine:
+        return TASKS_NONE_MINE, {}
+    return TASKS_NONE_OPEN, {}
