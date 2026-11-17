@@ -12,6 +12,7 @@ body.ea-shell .ea-top .ea-help-btn {
 
 body.ea-shell .ea-page.ea-help {
   .ea-help-head { align-items: center; }
+  > .o_ea_crumbs { margin: 12px 0 0; }
   .ea-help-toggle { display: none; }
   .ea-help-grid {
     display: grid; grid-template-columns: minmax(220px, 280px) minmax(0, 1fr); gap: 14px; align-items: start;

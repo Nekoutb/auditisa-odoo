@@ -4,6 +4,7 @@
     <!-- The user manual: contents by part, a search, the page; "Help on this page" leads back to the screen's page. -->
     <t t-name="ea_audit_ui.Help">
         <div class="ea-page ea-help" t-ref="root">
+            <EaCrumbs/>
             <div class="ea-head ea-help-head">
                 <div>
                     <h1>User manual</h1>

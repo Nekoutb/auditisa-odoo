@@ -5,6 +5,7 @@ import { registry } from "@web/core/registry";
 import { user } from "@web/core/user";
 import { debounce } from "@web/core/utils/timing";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
+import { EaCrumbs } from "@ea_audit_tools/js/page_kit";
 import { shellSession } from "./context_service";
 
 /** The user manual ships with the add-on: static pages in English and French, one index. */
@@ -185,6 +186,8 @@ export function searchPages(index, words, lang, query) {
 export class EaHelp extends Component {
     static template = "ea_audit_ui.Help";
     static props = { ...standardActionServiceProps };
+    // a way back to the screen the manual was opened from, as on every other page (owner, 2026-11-17)
+    static components = { EaCrumbs };
     static path = "ea-help";
     static displayName = _t("User manual");
 
