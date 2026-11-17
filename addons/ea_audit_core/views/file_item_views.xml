@@ -16,6 +16,7 @@
                 <field name="not_applicable" optional="hide"/>
                 <field name="conditional" optional="hide"/>
                 <field name="conditional_trigger" optional="hide"/>
+                <field name="merged_note" optional="hide"/>
             </list>
         </field>
     </record>
@@ -34,6 +35,9 @@
                 <sheet>
                     <div class="alert alert-warning" role="alert" invisible="not tool_outputs_missing">
                         <field name="tool_outputs_missing" readonly="1"/>
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="not merged_note">
+                        <field name="merged_note" readonly="1"/>
                     </div>
                     <group>
                         <group>

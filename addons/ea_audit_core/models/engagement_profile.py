@@ -11,7 +11,7 @@ from odoo.tools.translate import LazyTranslate
 
 from ..services import engagement_profile as tree
 from ..services.errors import rule_error
-from ..services.file_scope import code_in_scope, nature_has_audit_programme
+from ..services.file_scope import nature_has_audit_programme, retired_codes
 from ..services.signoff_rules import can_write
 from ..services.standards_edition import period_start_of
 
@@ -497,12 +497,9 @@ class EngagementProfile(models.Model):
         self.ensure_one()
         engagement = self.engagement_id.sudo()
         templates = self.env["ea.audit.task.template"].sudo().search([])
-        form, nature = engagement.client_id.legal_form, engagement.nature
-        codes = {
-            t.code for t in templates
-            if not t.conditional and code_in_scope(t.code, t.tier, t.conditional, level or tree.VERY_SIMPLE, form, nature)
-        }
-        added = tree.task_codes(answers) & set(templates.mapped("code"))
+        codes = set(engagement._ea_scoped_templates(active_only=True, complexity=level or tree.VERY_SIMPLE).mapped("code"))
+        merged = retired_codes(engagement._ea_scope_version())
+        added = (tree.task_codes(answers) - merged) & set(templates.mapped("code"))
         codes |= added
         if self.state == "concluded":
             codes |= set(engagement.file_item_ids.filtered(lambda i: not i.conditional).mapped("code"))

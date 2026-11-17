@@ -64,7 +64,11 @@ class EaAuditCase(TransactionCase):
 
     def make_engagement(self, year=2025, partner=None, actor=None, client=None, **vals):
         actor = actor or partner or self.partner
-        return self.Engagement.with_user(actor).create({
+        model = self.Engagement.with_user(actor)
+        if "scope_version" in vals:
+            # a file of an older scope: only the superuser states one (a migration, or this test)
+            model = model.sudo()
+        return model.create({
             "client_id": (client or self.client).id,
             "fiscal_year": year,
             "period_end": date(year, 12, 31),

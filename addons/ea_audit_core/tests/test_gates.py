@@ -209,14 +209,15 @@ class TestPlanningGates(GateCase):
 
 @tagged("post_install", "-at_install")
 class TestTasksFollowFacts(GateCase):
-    def test_signs_c43_in_execution_refuses_c62(self):
+    def test_signs_c41_in_execution_refuses_c62(self):
         self.set_phase(self.engagement, "execution")
-        self.assertEqual(self.sign(self.senior, self.engagement, "C4.3", "preparer"), "preparer")
+        self.assertEqual(self.sign(self.senior, self.engagement, "C4.1", "preparer"), "preparer")
         self.assertCode("execution-open", self.sign, self.manager, self.engagement, "C6.2", "preparer")
 
     def test_p12_from_a_first_year_audit_on_a_very_simple_file(self):
         plain = self.make_engagement(2026, complexity="very_simple")
-        self.assertFalse(self.item(plain, "P1.2"))
+        # on the file at every complexity since 2026-11-17, waiting for its fact
+        self.assertTrue(self.item(plain, "P1.2").conditional)
         first = self.make_engagement(2027, complexity="very_simple", first_year=True)
         self.assertFalse(self.item(first, "P1.2").conditional)
         self.assertTrue(self.item(first, "P1.2"))
@@ -226,7 +227,7 @@ class TestTasksFollowFacts(GateCase):
 
     def test_c42_follows_the_eqr_not_the_tier(self):
         simple = self.make_engagement(2026, complexity="non_complex")
-        self.assertFalse(self.item(simple, "C4.2"))
+        self.assertTrue(self.item(simple, "C4.2").conditional)
         simple.with_user(self.partner).assign_team_member(self.eqr.id, "eqr_reviewer", True)
         self.assertTrue(self.item(simple, "C4.2"))
         self.assertFalse(self.item(simple, "C4.2").conditional)

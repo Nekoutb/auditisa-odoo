@@ -16447,3 +16447,8 @@ msgstr "chaque compte d'amortissement comparé au grand livre : celui du fichier
 #: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "%(count)s assets: the register's additions or disposals at cost do not agree with their dates; the register's amounts are used (%(items)s)."
 msgstr "%(count)s immobilisations : les acquisitions ou cessions à la valeur brute du fichier ne concordent pas avec leurs dates ; les montants du fichier sont retenus (%(items)s)."
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_reliance_watch
+msgid "Reliance on controls watch"
+msgstr "Suivi de l'appui sur les contrôles"

@@ -6,7 +6,7 @@ from datetime import date
 from odoo.tests import tagged
 
 from .common import EaAuditCase
-from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
+from odoo.addons.ea_audit_core.services.file_scope import ALL_SIZES, RETIRED_CODES, SA_ONLY
 
 PLAIN = {
     "q1_listed": "no", "q2_pie": "none", "q3_controls_law": "no", "q4_group": "standalone",
@@ -103,8 +103,10 @@ class TestEngagementProfile(EaAuditCase):
         profile = self.conclude(engagement)
         self.assertEqual((profile.state, profile.level, engagement.complexity), ("concluded", "very_simple", "very_simple"))
         core = self.env["ea.audit.task.template"].search([("tier", "=", "core"), ("conditional", "=", False)])
-        # P7.1 and S6.2 are merged into P1.4 and S6.1 (2026-11-16): no new file gets them
-        self.assertEqual(self.active_codes(engagement), set(core.mapped("code")) - RETIRED_CODES)
+        # P7.1 and S6.2 are merged into P1.4 and S6.1 (2026-11-16), P4.2, C5.8 and C4.3 into P4.1, E6.3
+        # and C4.1 (2026-11-17): no new file gets them. The table of 2026-11-17 adds the tasks every
+        # audit needs, and the papers an SA owes.
+        self.assertEqual(self.active_codes(engagement), (set(core.mapped("code")) - RETIRED_CODES) | ALL_SIZES | SA_ONLY)
         self.assertFalse(engagement.profile_pending)
         self.assertIn("ISA for LCE", profile.lce_note)
         self.assertIn("may be documented", profile.lce_note)
@@ -116,7 +118,8 @@ class TestEngagementProfile(EaAuditCase):
         self.assertIn("Q11 known or suspected fraud", profile.reasons_text)
         self.assertLessEqual({"P5.1", "E3.1", "E6.1"}, self.active_codes(engagement))
         self.assertIn("Q16 doubt about going concern", profile.reasons_text)
-        self.assertNotIn("extended", engagement.file_item_ids.template_id.mapped("tier"))
+        # the extended tasks of a Non-complex file wait for their fact (C4.2, P2.3, C5.5, C5.9)
+        self.assertNotIn("extended", engagement.file_item_ids.filtered(lambda i: not i.conditional).template_id.mapped("tier"))
 
     def test_complex_lists_every_reason(self):
         engagement, _action = self.open_new()

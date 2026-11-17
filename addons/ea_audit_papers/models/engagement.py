@@ -2,13 +2,21 @@ from fnmatch import fnmatchcase
 
 from odoo import fields, models
 
-from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
+from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
+from odoo.addons.ea_audit_core.services.file_scope import FACT_CODES, RETIRED_2026_11_16
 
 from ..services import acceptance_verdict, document_library, is_blank, paper_for
 from odoo.addons.ea_audit_core.services.rollforward_plan import evidence_to_copy
 
 from ..services.completeness import NOT_CARRIED_PAPERS, eqr_decided
 from ..services.definitions import carried_paper_keys
+
+
+# The answers that say continuity may be threatened: "No" to "no event or condition was identified"
+# (S4.2) or to "no material uncertainty exists" (E6.3, C2.2).
+GOING_CONCERN_FACTS = (("S4.2", "q_none"), ("E6.3", "q_no_uncertainty"), ("C2.2", "q_no_uncertainty"))
+# The papers whose save may bring a task onto the file.
+FACT_PAPERS = frozenset({"S6.1", "P1.5", "S4.2", "E6.3", "C2.2", "E6.1"})
 
 
 class Engagement(models.Model):
@@ -80,7 +88,7 @@ class Engagement(models.Model):
 
     def _ea_retire_merged_tasks(self):
         """P7.1 and S6.2 are merged into P1.4 and S6.1, and C5.2 is no longer a paper of the file
-        (owner's decisions of 2026-11-16: file_scope.RETIRED_CODES). On the
+        (owner's decisions of 2026-11-16: file_scope.RETIRED_2026_11_16). On the
         open files among ``self`` (all open files when empty), each of them still active and
         holding no answer, evidence, conclusion or sign-off leaves the file. A task with work
         stays, and an archived file is never read for writing (archive trigger). Returns the
@@ -89,11 +97,31 @@ class Engagement(models.Model):
         engagements = self.sudo() if self else Engagement.search([])
         engagements = engagements.filtered(lambda e: not e.archived_at and e.phase != "archived")
         items = self.env["ea.audit.file.item"].sudo().search([
-            ("engagement_id", "in", engagements.ids), ("code", "in", sorted(RETIRED_CODES)), ("conditional", "=", False),
+            ("engagement_id", "in", engagements.ids), ("code", "in", sorted(RETIRED_2026_11_16)), ("conditional", "=", False),
         ])
         retired = items.filtered(lambda item: not item.engagement_id._ea_task_holds_work(item))
         retired.write({"conditional": True})
         return len(retired)
+
+    def _ea_fact_codes(self):
+        """The facts the papers record (owner's table of 2026-11-17): the S6.1 questions (expert,
+        service organisation, internal audit), the firm's P1.5 decision or a seated reviewer (C4.2),
+        events that may threaten continuity (S4.2, E6.3, C2.2: alert procedure C5.5) and
+        non-compliance found (E6.1: disclosure of offences C5.6)."""
+        facts = super()._ea_fact_codes()
+        s61 = self._ea_paper_values("S6.1")
+        for key, code in S61_TRIGGERS.items():
+            if code in FACT_CODES and s61.get(key) == "yes":
+                facts.setdefault(code, "S6.1 %s Yes" % key)
+        if self._ea_eqr_required():
+            facts.setdefault("C4.2", "P1.5 quality review decided")
+        for code, key in GOING_CONCERN_FACTS:
+            if (self._ea_paper_values(code).get(key) or "").strip() == "no":
+                facts.setdefault("C5.5", "%s: events that may threaten continuity" % code)
+                break
+        if (self._ea_paper_values("E6.1").get("q_none") or "").strip() == "no":
+            facts.setdefault("C5.6", "E6.1: non-compliance identified or suspected")
+        return facts
 
     def _ea_task_holds_work(self, item):
         paper = item._ea_paper()
@@ -232,7 +260,7 @@ class Engagement(models.Model):
             ])
             if not hidden:
                 continue
-            scoped = engagement._ea_scoped_templates().filtered(lambda t: not t.conditional)
+            scoped = engagement._ea_scoped_templates(active_only=True)
             holding = self.env["ea.audit.task.attachment"].sudo().search([
                 ("file_item_id", "in", hidden.ids), ("carried_from_year", "!=", False), ("deleted_at", "=", False),
             ]).file_item_id | self.env["ea.audit.paper"].sudo().search([

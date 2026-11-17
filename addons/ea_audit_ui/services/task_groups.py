@@ -53,7 +53,10 @@ TASK_GROUPS = (
     {"id": "c2", "code": "C2", "section": "conclusion", "title": _lt("Final review of the financial statements"), "members": ("C2.1", "C2.2")},
     {"id": "c3", "code": "C3", "section": "conclusion", "title": _lt("Representations"), "members": ("C3.1",)},
     {"id": "c4", "code": "C4", "section": "conclusion", "title": _lt("Review & approval"), "members": ("C4.1", "C4.2", "C4.3")},
-    {"id": "c5", "code": "C5", "section": "conclusion", "title": _lt("Communications & statutory reports"), "members": ("C5.1", "C5.11", "C5.2", "C5.3", "C5.4", "C5.5", "C5.6", "C5.7", "C5.8", "C5.9", "C5.10")},
+    # The reports the law asks of the statutory auditor, kept as separate tasks under one heading
+    # (owner's table of 2026-11-17): the opinion, the special report, the art. 715 report, art. 525.
+    {"id": "c5r", "code": "C5", "section": "conclusion", "title": _lt("Statutory reports"), "members": ("C5.1", "C5.3", "C5.4", "C5.10")},
+    {"id": "c5", "code": "C5", "section": "conclusion", "title": _lt("Communications & legal procedures"), "members": ("C5.11", "C5.2", "C5.5", "C5.6", "C5.7", "C5.8", "C5.9")},
     {"id": "c6", "code": "C6", "section": "conclusion", "title": _lt("Documentation & archiving"), "members": ("C6.1", "C6.2")},
 )
 

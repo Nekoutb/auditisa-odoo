@@ -5,7 +5,15 @@ from odoo import api, fields, models
 from .client import FRAMEWORK_SELECTION
 from ..services.email_domains import email_domain_allowed, is_valid_email
 from ..services.errors import rule_error, gate_label
-from ..services.file_scope import code_in_scope, nature_has_audit_programme
+from ..services.file_scope import (
+    FACT_CODES,
+    SCOPE_CURRENT,
+    SCOPE_LEGACY,
+    code_in_scope,
+    nature_has_audit_programme,
+    retired_codes,
+    starts_dormant,
+)
 from ..services.signoff_rules import (
     EQR_ROLE,
     TEAM_LADDER,
@@ -47,7 +55,13 @@ _ENGINE_FIELDS = {
     # set at creation; the period and set-up screen (F073) brings their own rules
     "client_id", "fiscal_year", "period_end", "duration_months", "nature", "first_year",
     "period_start",
+    # the task scope of the file: the partner applies the current one (action_rescope)
+    "scope_version",
 }
+# The questions whose answer brings a task onto a file of the current scope (owner's table of
+# 2026-11-17): field -> task.
+_FACT_FIELDS = {"consultation_needed": "C1.3", "joint_auditors": "C5.9"}
+YES_NO_SELECTION = [("yes", "Yes"), ("no", "No")]
 _CREATOR_SEAT = {"manager": "manager", "senior": "senior", "staff": "staff"}
 
 
@@ -94,6 +108,19 @@ class Engagement(models.Model):
         tracking=True, help="The language of the audit report, the letters, the legal documents and the exports of this engagement.",
     )
     first_year = fields.Boolean(string="First-year audit")
+    scope_version = fields.Integer(
+        string="Task scope", readonly=True, copy=False,
+        help="1 (or empty): the tasks chosen when the file was opened, before 2026-11-17. 2: the current "
+             "scope, where facts decide whether a task applies and the complexity how deep it goes.",
+    )
+    consultation_needed = fields.Selection(
+        YES_NO_SELECTION, string="Was a consultation needed?", tracking=True, copy=False,
+        help="Compulsory before the report. Yes brings C1.3 (consultation record) onto the file.",
+    )
+    joint_auditors = fields.Selection(
+        YES_NO_SELECTION, string="Are there joint auditors?", tracking=True, copy=False,
+        help="Yes brings C5.9 (joint auditor coordination file) onto the file.",
+    )
     complexity = fields.Selection(COMPLEXITY_SELECTION, default="complex", tracking=True)
     phase = fields.Selection(PHASE_SELECTION, required=True, default="acceptance", index=True, tracking=True)
     standards_edition = fields.Selection(EDITION_SELECTION, required=True, default="current", tracking=True)
@@ -308,6 +335,10 @@ class Engagement(models.Model):
             self._ea_require_write()
         partners = []
         for vals in vals_list:
+            # every new file gets the current scope; only a migration or a test of an older file
+            # (superuser) states another one
+            if not self.env.su or not vals.get("scope_version"):
+                vals["scope_version"] = SCOPE_CURRENT
             partner_id = vals.pop("engagement_partner_id", False)
             if not partner_id:
                 raise rule_error(self.env, "engagement-partner-required")
@@ -360,28 +391,40 @@ class Engagement(models.Model):
                 })
         return records
 
-    def _ea_scoped_templates(self):
+    def _ea_scope_version(self):
+        self.ensure_one()
+        return self.sudo().scope_version or SCOPE_LEGACY
+
+    def _ea_scoped_templates(self, active_only=False, complexity=None):
+        """The tasks of the file's scope at its complexity (or ``complexity``); with ``active_only``,
+        without those that wait for their fact."""
         self.ensure_one()
         form = self.client_id.legal_form
+        level = complexity or self.complexity
+        scope = self._ea_scope_version()
         return self.env["ea.audit.task.template"].sudo().search([]).filtered(
-            lambda t: code_in_scope(t.code, t.tier, t.conditional, self.complexity, form, self.nature)
+            lambda t: code_in_scope(t.code, t.tier, t.conditional, level, form, self.nature, scope)
+            and not (active_only and starts_dormant(t.code, t.conditional, scope))
         )
 
     def _ea_instantiate_file_index(self):
         """Inserts only the codes missing, so a re-assessment adds and never removes."""
         self.ensure_one()
         have = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", self.id)]).template_id
+        scope = self._ea_scope_version()
         self.env["ea.audit.file.item"].sudo().create([
-            {"engagement_id": self.id, "template_id": t.id, "conditional": t.conditional}
+            {"engagement_id": self.id, "template_id": t.id, "conditional": starts_dormant(t.code, t.conditional, scope)}
             for t in self._ea_scoped_templates() - have
         ])
+        self._ea_apply_scope_facts()
 
     def _ea_ensure_task(self, code):
         """ensureTaskTx: put a task on the file when a trigger makes it apply, or
-        activate it. Idempotent; an archived file is left alone."""
+        activate it. Idempotent; an archived file is left alone, and a task merged into
+        another one (file_scope.retired_codes) never comes back."""
         self.ensure_one()
         template = self.env["ea.audit.task.template"].sudo().search([("code", "=", code)], limit=1)
-        if not template or self._ea_is_archived():
+        if not template or self._ea_is_archived() or code in retired_codes(self._ea_scope_version()):
             return False
         Item = self.env["ea.audit.file.item"].sudo()
         item = Item.search([("engagement_id", "=", self.id), ("template_id", "=", template.id)], limit=1)
@@ -407,8 +450,120 @@ class Engagement(models.Model):
         item = self.env["ea.audit.file.item"].sudo().search(
             [("engagement_id", "=", self.id), ("code", "=", code), ("conditional", "=", False)], limit=1,
         )
-        if item and not self._ea_task_holds_work(item) and code not in self._ea_profile_task_codes():
+        if (
+            item and not self._ea_task_holds_work(item) and code not in self._ea_profile_task_codes()
+            and not self._ea_required_by_scope(code)
+        ):
             item.conditional = True
+
+    def _ea_required_by_scope(self, code):
+        """A task the current scope puts on every file of this kind (P4.3 since 2026-11-17): an answer
+        elsewhere does not take it off."""
+        self.ensure_one()
+        if self._ea_scope_version() < SCOPE_CURRENT:
+            return False
+        return code in self._ea_scoped_templates(active_only=True).mapped("code")
+
+    # ------------------------------------------------------------------
+    # Facts decide whether a task applies (owner's table of 2026-11-17)
+    # ------------------------------------------------------------------
+
+    def _ea_fact_codes(self):
+        """{code: why} of the "if applicable" tasks whose fact exists on this file. The later addons
+        add theirs: ea_audit_papers (S6.1 answers, the P1.5 decision, going-concern facts,
+        non-compliance), ea_audit_tools (reliance on controls), ea_audit_legal (alert procedure,
+        criminal facts, joint auditor file)."""
+        self.ensure_one()
+        root = self.sudo()
+        facts = {}
+        if root.first_year:
+            facts["P1.2"] = "first-year audit"
+        for field, code in _FACT_FIELDS.items():
+            if root[field] == "yes":
+                facts[code] = "%s Yes" % self._fields[field].string
+        for code in sorted(self._ea_profile_task_codes() & FACT_CODES):
+            facts.setdefault(code, "profile questionnaire")
+        return facts
+
+    def _ea_apply_scope_facts(self):
+        """Brings onto each file of the current scope the tasks whose fact now exists. Adds only, and
+        only tasks of the file's scope; each addition is written to the activity trail. A file of the
+        older scope is left as it is until its partner applies the current one."""
+        for engagement in self:
+            root = engagement.sudo()
+            if root._ea_scope_version() < SCOPE_CURRENT or root._ea_is_archived() or not root.complexity:
+                continue
+            facts = root._ea_fact_codes()
+            if not facts:
+                continue
+            scoped = set(root._ea_scoped_templates().mapped("code"))
+            added = [code for code in sorted(facts) if code in scoped and root._ea_ensure_task(code)]
+            if added:
+                engagement._ea_log("tasks_from_facts", "Tasks brought onto the file by their facts: %s" % ", ".join(added))
+        return True
+
+    def _ea_answer_facts(self, answered):
+        """A question of _FACT_FIELDS answered: Yes brings its task, No takes it off again unless it
+        holds work (as the S6.1 questions do). The task follows on a file of the current scope only."""
+        for engagement in self:
+            root = engagement.sudo()
+            for field in sorted(answered):
+                value = root[field]
+                engagement._ea_log("scope_fact", "Scope question %s answered %s" % (field, value or "blank"))
+                if root._ea_scope_version() >= SCOPE_CURRENT and not root._ea_is_archived() and value == "no":
+                    root._ea_set_task_active(_FACT_FIELDS[field], False)
+            root._ea_apply_scope_facts()
+
+    def action_rescope(self):
+        """The partner applies the current task scope to a file opened before it (owner's ruling of
+        2026-11-17: no task comes or goes on a live file by itself). Adds the tasks the scope brings;
+        takes off, as hidden tasks, only those that hold no work and that the scope no longer asks for
+        or whose fact does not exist; keeps every task holding work. Logged in the activity trail."""
+        self.ensure_one()
+        self._ea_require_write()
+        self._ea_require_access()
+        self._ea_assert_mutable()
+        if not at_least(self.env.user._ea_firm_role(), "partner") or self._ea_acts_as_eqr(self.env.user):
+            raise rule_error(self.env, "forbidden")
+        root = self.sudo()
+        before = root._ea_scope_version()
+        root.write({"scope_version": SCOPE_CURRENT})
+        if not root.complexity:
+            self._ea_log("scope_applied", "Current task scope applied by %s, no task yet: the profile decides" % self.env.user.name)
+            return True
+        Item = self.env["ea.audit.file.item"].sudo()
+        items = Item.search([("engagement_id", "=", root.id)])
+        scope = {t: starts_dormant(t.code, t.conditional, SCOPE_CURRENT) for t in root._ea_scoped_templates()}
+        keep = set(root._ea_fact_codes()) | root._ea_profile_task_codes()
+        added, hidden, kept = [], [], []
+        for item in items.filtered(lambda i: not i.conditional):
+            template = item.template_id
+            if template in scope and not (scope[template] and item.code not in keep):
+                continue
+            if root._ea_task_holds_work(item):
+                kept.append(item.code)
+            else:
+                item.conditional = True
+                hidden.append(item.code)
+        by_template = {item.template_id: item for item in items}
+        for template, dormant in scope.items():
+            item = by_template.get(template)
+            if not item:
+                Item.create({"engagement_id": root.id, "template_id": template.id, "conditional": dormant})
+                if not dormant:
+                    added.append(template.code)
+            elif item.conditional and not dormant and item.code not in hidden:
+                item.conditional = False
+                added.append(template.code)
+        self._ea_log("scope_applied", (
+            "Current task scope applied by %s (scope %s to %s). Added: %s. Taken off, holding no work: %s. "
+            "Kept, holding work: %s"
+        ) % (
+            self.env.user.name, before, SCOPE_CURRENT, ", ".join(sorted(added)) or "-", ", ".join(sorted(hidden)) or "-",
+            ", ".join(sorted(kept)) or "-",
+        ))
+        root._ea_apply_scope_facts()
+        return True
 
     # ------------------------------------------------------------------
     # The profile questionnaire (owner's rulings of 2026-11-15)
@@ -672,6 +827,13 @@ class Engagement(models.Model):
         }
 
     def write(self, vals):
+        answered = set(vals or {}) & set(_FACT_FIELDS)
+        result = self._ea_write(vals)
+        if answered:
+            self._ea_answer_facts(answered)
+        return result
+
+    def _ea_write(self, vals):
         if self.env.su or not vals:
             return super().write(vals)
         self._ea_require_write()

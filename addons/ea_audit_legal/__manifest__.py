@@ -1,7 +1,7 @@
 {
     "name": "AuditISA OHADA Legal Register",
     "summary": "Statutory deadlines, regulated agreements, art. 715 report, alert procedure, criminal facts, securities attestation, equity monitoring, joint auditor file, art. 525 certification",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

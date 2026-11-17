@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Reports",
     "summary": "Completion gates, opinion and auditor's report, letters, archive, retention and legal hold, export bundle",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
