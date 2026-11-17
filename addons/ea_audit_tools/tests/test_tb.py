@@ -272,7 +272,7 @@ class TestBilan(ToolsCase):
         self.assertEqual(as_root.bilan_class1, 5000)
         self.assertEqual(as_root.bilan_class4_credit, 600)
         self.assertEqual(as_root.bilan_total_assets, as_root.bilan_total_equity_liabilities)
-        self.assertIn("TB of ", as_root.bilan_label)
+        self.assertIn("trial balance of ", as_root.bilan_label)
         self.assertNotIn("v1", as_root.bilan_label)
 
     def test_tb_mapped_gate_reads_unknown_accounts(self):

@@ -110,7 +110,7 @@ class TestMatching(ImportCase):
         self.assertIn("Debit (movements) *", balance.mapped("display_name"))
         self.assertIn("Closing (signed)", balance.mapped("display_name"))
         ledger = Field.search([("kind", "=", "journal_entries")]).mapped("display_name")
-        self.assertIn("JE number *", ledger)
+        self.assertIn("Journal entry number *", ledger)
         self.assertIn("Amount *", ledger)
         self.assertIn("Debit", ledger)
         self.assertEqual(len(ledger), 19)

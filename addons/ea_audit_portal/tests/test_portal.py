@@ -113,7 +113,7 @@ class TestPbcFlow(PortalCase):
         task = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", self.engagement.id), ("code", "=", "E4.1")])
         document = self.req.with_user(self.senior).accept(task.with_user(self.senior))
         self.assertEqual(document.kind, "workpaper")
-        self.assertIn("PBC", document.title)
+        self.assertIn("Document request", document.title)
         self.assertEqual(document.code, "E4.1")
         self.assertEqual(document.sudo().current_version_id.attachment_id.raw, CSV)
         self.assertEqual(row.status, "accepted")
