@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The firm's switch for document requests and the client portal (owner ruling 2026-11-17:
+     off for now, it comes back later). Set the value to True under Settings > Technical >
+     System Parameters to bring every screen back; the requests already made are kept either way.
+     noupdate: an upgrade never turns a firm's choice back. -->
+<odoo noupdate="1">
+    <record id="param_document_requests" model="ir.config_parameter">
+        <field name="key">ea_audit_portal.document_requests</field>
+        <field name="value">False</field>
+    </record>
+</odoo>

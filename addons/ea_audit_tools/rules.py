@@ -133,6 +133,7 @@ MESSAGES = {
     "sap-override-reason-required": _lt("Overriding the firm percentage needs a reason."),
     "invalid-conclusion": _lt("Choose a conclusion from the options offered."),
     "no-portal-contact": _lt("This client has no portal contact: a reminder nobody can receive is not a chase."),
+    "document-requests-off": _lt("Document requests are switched off for now. The requests already made are kept."),
     "wrong-status": _lt("This action does not apply to the request in its present state."),
     "attach-required": _lt("Choose the task the upload is filed under: an upload attached nowhere is unreachable from the file."),
     "file-type": _lt("That type of file cannot enter an audit file."),

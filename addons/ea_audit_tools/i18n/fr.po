@@ -16451,3 +16451,19 @@ msgstr "Colonnes facultatives qui améliorent l'analyse : %(matched)s sur %(tota
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_import_wizard
 msgid "The columns marked \"Improves the analysis\" are optional. Give them when your file has them: the payroll analytical review uses them to compare the year with the prior year (gross pay, headcount, components of salary, joiners and leavers, average salary, taxes on salary)."
 msgstr "Les colonnes marquées « Améliore l'analyse » sont facultatives. Renseignez-les lorsque votre fichier les contient : la revue analytique de la paie s'en sert pour comparer l'exercice à l'exercice précédent (salaire brut, effectif, éléments du salaire, entrées et sorties, salaire moyen, impôts et taxes sur salaires)."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__document_requests_enabled
+msgid "Document requests switched on"
+msgstr "Demandes de documents activées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_engagement__document_requests_enabled
+msgid "The firm's switch for document requests and the client portal (system parameter ea_audit_portal.document_requests)."
+msgstr "L'interrupteur du cabinet pour les demandes de documents et le portail du client (paramètre système ea_audit_portal.document_requests)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Document requests are switched off for now. The requests already made are kept."
+msgstr "Les demandes de documents sont désactivées pour le moment. Les demandes déjà faites sont conservées."

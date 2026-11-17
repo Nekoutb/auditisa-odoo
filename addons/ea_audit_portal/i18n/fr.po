@@ -500,3 +500,13 @@ msgstr ""
 #: code:addons/ea_audit_portal/models/pbc.py:0
 msgid "ea_audit_portal.view_pbc_item_list"
 msgstr ""
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,field_description:ea_audit_portal.field_ea_audit_client__document_requests_enabled
+msgid "Document requests switched on"
+msgstr "Demandes de documents activées"
+
+#. module: ea_audit_portal
+#: model:ir.model.fields,help:ea_audit_portal.field_ea_audit_client__document_requests_enabled
+msgid "The firm's switch for document requests and the client portal (system parameter ea_audit_portal.document_requests)."
+msgstr "L'interrupteur du cabinet pour les demandes de documents et le portail du client (paramètre système ea_audit_portal.document_requests)."

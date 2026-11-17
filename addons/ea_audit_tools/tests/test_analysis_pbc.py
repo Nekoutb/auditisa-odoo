@@ -6,13 +6,26 @@ from openpyxl import load_workbook
 
 from odoo.tests import tagged
 
+from odoo.addons.ea_audit_tools.services.document_requests import PARAM
+
 from .common import ToolsCase
 
 PDF = b"%PDF-1.4 test"
 
 
+def switch_document_requests(env, on):
+    """The firm's switch (owner ruling 2026-11-17: off for now, back later)."""
+    env["ir.config_parameter"].sudo().set_param(PARAM, "True" if on else "False")
+
+
 @tagged("post_install", "-at_install")
 class TestPbc(ToolsCase):
+    """Everything as before once the firm switches document requests on."""
+
+    def setUp(self):
+        super().setUp()
+        switch_document_requests(self.env, True)
+
     def item(self, title="Relevés bancaires"):
         return self.as_staff.add_pbc_item(title, "Tous les comptes")
 
@@ -228,3 +241,52 @@ class TestTemplates(ToolsCase):
             self.as_outsider.ea_export_xlsx("wp_%d" % template.id)
         with self.assertRaisesRegex(Exception, "not-found"):
             self.as_staff.ea_export_xlsx("wp_999999")
+
+
+@tagged("post_install", "-at_install")
+class TestDocumentRequestsSwitchedOff(ToolsCase):
+    """Owner ruling 2026-11-17: document requests off for now. Nothing is deleted; every way in is
+    closed, and a request already made stays as it was."""
+
+    def setUp(self):
+        super().setUp()
+        switch_document_requests(self.env, True)
+        self.kept = self.as_staff.add_pbc_item("Relevés bancaires", "Tous les comptes")
+        switch_document_requests(self.env, False)
+        self.engagement.invalidate_recordset(["document_requests_enabled"])
+
+    def test_off_by_default(self):
+        self.env["ir.config_parameter"].sudo().search([("key", "=", PARAM)]).unlink()
+        self.engagement.invalidate_recordset(["document_requests_enabled"])
+        self.assertFalse(self.as_staff.document_requests_enabled)
+        self.assertCode("document-requests-off", self.as_staff.add_pbc_item, "Grand livre")
+
+    def test_every_way_in_is_refused(self):
+        self.assertFalse(self.as_staff.document_requests_enabled)
+        self.assertCode("document-requests-off", self.as_staff.add_pbc_item, "Grand livre")
+        self.assertCode("document-requests-off", self.as_staff.action_tool_pbc)
+        self.assertCode("document-requests-off", self.engagement.with_user(self.manager).add_portal_contact, "Paul", "paul@client.example.com")
+        item = self.kept.with_user(self.staff)
+        self.assertCode("document-requests-off", item.chase)
+        self.assertCode("document-requests-off", item.upload_pbc, "bon.pdf", PDF)
+        task = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", self.engagement.id)], limit=1)
+        self.assertCode("document-requests-off", item.with_user(self.senior).accept, task)
+        self.assertCode("document-requests-off", item.action_open_upload)
+        self.assertCode("document-requests-off", item.with_context(ea_engagement_id=self.engagement.id).action_list_add_pbc)
+        name, content = self.as_staff.ea_export_xlsx("pbc")  # reading what was asked stays open
+        self.assertCode("document-requests-off", self.as_staff.ea_import_xlsx, "pbc", name, content)
+        tile = self.env.ref("ea_audit_tools.tile_pbc").with_user(self.staff).with_context(ea_engagement_id=self.engagement.id)
+        self.assertCode("document-requests-off", tile.action_open_tool)
+
+    def test_the_request_already_made_is_kept(self):
+        row = self.kept.sudo()
+        self.assertEqual((row.title, row.note, row.status), ("Relevés bancaires", "Tous les comptes", "requested"))
+        self.assertEqual(self.env["ea.audit.pbc.item"].sudo().search_count([("engagement_id", "=", self.engagement.id)]), 1)
+
+    def test_switching_on_again_brings_it_back(self):
+        switch_document_requests(self.env, True)
+        self.engagement.invalidate_recordset(["document_requests_enabled"])
+        self.assertTrue(self.as_staff.document_requests_enabled)
+        self.assertEqual(self.as_staff.action_tool_pbc()["type"], "ir.actions.act_window")
+        self.as_staff.add_pbc_item("Grand livre")
+        self.assertEqual(self.env["ea.audit.pbc.item"].sudo().search_count([("engagement_id", "=", self.engagement.id)]), 2)

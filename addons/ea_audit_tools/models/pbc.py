@@ -8,12 +8,24 @@ from odoo import fields, models
 from odoo.addons.ea_audit_core.services.signoff_rules import can_review
 
 from ..rules import rule_error
+from ..services import document_requests
 from ..services.errors import ServiceError
 from ..services.upload_safety import check_upload
 from .tool_record import french_date
 
 MAX_PBC_BYTES = 25 * 1024 * 1024
 STATUS_SELECTION = [("requested", "Requested"), ("uploaded", "Uploaded"), ("accepted", "Accepted")]
+
+
+def document_requests_enabled(env):
+    """The firm's switch (services/document_requests.py): off unless the parameter says on."""
+    return document_requests.reads_as_on(env["ir.config_parameter"].sudo().get_param(document_requests.PARAM))
+
+
+def require_document_requests(env):
+    """Every way to make, chase, receive or file a request goes through here while the switch is off."""
+    if not document_requests_enabled(env):
+        raise rule_error(env, "document-requests-off")
 
 
 class PbcItem(models.Model):
@@ -51,6 +63,7 @@ class PbcItem(models.Model):
     def chase(self):
         """chasePbc: a reminder nobody can receive is not a chase (UAT run 2 B76)."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_guard()
         as_root = self.sudo()
         engagement = as_root.engagement_id
@@ -66,6 +79,7 @@ class PbcItem(models.Model):
         """uploadPbc: the portal's entry, and the firm's when a document arrives another way. The stored
         name and MIME come from what the bytes are. An accepted item is not replaced."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_guard()
         if not content:
             raise rule_error(self.env, "empty-file")
@@ -88,6 +102,7 @@ class PbcItem(models.Model):
         return True
 
     def _ea_require_reviewer(self):
+        require_document_requests(self.env)
         self._ea_guard()
         if not can_review(self.env.user._ea_firm_role()):
             raise rule_error(self.env, "forbidden")
@@ -140,12 +155,14 @@ class PbcItem(models.Model):
         return attachment
 
     def action_chase(self):
+        require_document_requests(self.env)
         for item in self:
             item.chase()
         return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def action_open_accept(self):
         self.ensure_one()
+        require_document_requests(self.env)
         return {
             "type": "ir.actions.act_window", "name": self.env._("File the upload"), "res_model": "ea.audit.pbc.accept.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_item_id": self.id, "default_engagement_id": self.sudo().engagement_id.id},
@@ -153,12 +170,14 @@ class PbcItem(models.Model):
 
     def action_open_upload(self):
         self.ensure_one()
+        require_document_requests(self.env)
         return {
             "type": "ir.actions.act_window", "name": self.env._("Record a document received"), "res_model": "ea.audit.pbc.upload.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "context": {"default_item_id": self.id},
         }
 
     def action_list_add_pbc(self):
+        require_document_requests(self.env)
         engagement = self._ea_context_engagement()
         return {
             "type": "ir.actions.act_window", "name": self.env._("Request a document"), "res_model": "ea.audit.pbc.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
@@ -190,6 +209,16 @@ class PortalContact(models.Model):
 class EngagementPbc(models.Model):
     _inherit = "ea.audit.engagement"
 
+    document_requests_enabled = fields.Boolean(
+        string="Document requests switched on", compute="_compute_document_requests_enabled",
+        help="The firm's switch for document requests and the client portal (system parameter ea_audit_portal.document_requests).",
+    )
+
+    def _compute_document_requests_enabled(self):
+        enabled = document_requests_enabled(self.env)
+        for engagement in self:
+            engagement.document_requests_enabled = enabled
+
     def _ea_portal_contacts(self):
         self.ensure_one()
         return self.env["ea.audit.portal.contact"].sudo().search([("client_id", "=", self.sudo().client_id.id)])
@@ -197,6 +226,7 @@ class EngagementPbc(models.Model):
     def add_pbc_item(self, title, note=""):
         """addPbcItem: on the trail (UAT run 2 B74). The portal's notice comes with ea_audit_portal."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_tool_guard()
         title = (title or "").strip()
         if not title:
@@ -208,6 +238,7 @@ class EngagementPbc(models.Model):
     def add_portal_contact(self, name, email):
         """addPortalContact, the firm's half. Reviewer and above."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_tool_guard()
         if not can_review(self.env.user._ea_firm_role()):
             raise rule_error(self.env, "forbidden")
@@ -221,6 +252,7 @@ class EngagementPbc(models.Model):
         return Contact.create({"client_id": client.id, "name": name.strip(), "email": email})
 
     def action_tool_pbc(self):
+        require_document_requests(self.env)
         return self._ea_list(
             "ea.audit.pbc.item", self.env._("Document requests"), [("ea_audit_tools.view_pbc_list", "list")],
             {"context": {"ea_engagement_id": self.id, "create": False}},
