@@ -566,7 +566,7 @@
         <t t-foreach="p.tools" t-as="link" t-key="link_index">
             <button type="button" class="eap-tool" t-att-disabled="!link.action" t-on-click="() => this.openTool(link)"
                     t-att-data-eap="link.plain ? 'template-link' : 'tool-link'">
-                <b><t t-esc="fr ? link.fr : link.en"/> ↗</b>
+                <b><t t-esc="fr ? link.fr : link.en"/>&#160;↗</b>
                 <small t-if="link.note_en" t-esc="fr ? link.note_fr : link.note_en"/>
             </button>
         </t>
@@ -575,7 +575,7 @@
         <h3 t-esc="t('linkedTasks')"/>
         <t t-foreach="p.linked_tasks" t-as="task" t-key="task.id">
             <a href="#" class="eap-linked" t-on-click.prevent="() => this.openLinked(task)">
-                <code t-esc="task.code"/> <t t-esc="task.title"/> ↗
+                <code t-esc="task.code"/><span class="eap-linked-t"><t t-esc="task.title"/></span><span class="eap-arrow">↗</span>
             </a>
         </t>
         <p class="eap-muted eap-small" t-esc="t('linkedHint')"/>

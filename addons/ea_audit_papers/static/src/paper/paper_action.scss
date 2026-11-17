@@ -59,7 +59,8 @@
 
     // One page: steps, main, rail (layout of 2026-11-17)
     .eap-head { position: sticky; top: -16px; z-index: 5; padding: 12px 18px; margin: 10px 0 12px; align-items: center; }
-    .eap-head-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .eap-head-main { flex: 1 1 420px; min-width: 0; }
+    .eap-head-side { flex: 0 0 auto; margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
     .eap-progress { font-size: 13px; color: var(--eap-soft); b { color: var(--eap-green); } }
     .eap-red { color: var(--eap-rose); font-weight: 600; }
     .eap-depth { font-size: 12px; font-weight: 600; color: var(--eap-blue); background: var(--eap-bluebg); border-radius: 10px; padding: 2px 9px; vertical-align: middle; }
@@ -222,7 +223,9 @@
         &:disabled { opacity: .55; cursor: not-allowed; }
     }
     .eap-link { border: 0; background: transparent; padding: 2px 6px 2px 0; color: var(--eap-green); font-size: 13px; font-weight: 600; cursor: pointer; }
-    .eap-linked { display: block; padding: 2px 0; color: var(--eap-soft); text-decoration: none; code { background: var(--eap-greenbg); color: var(--eap-green); border-radius: 9px; padding: 0 7px; margin-right: 6px; font-size: 11.5px; font-weight: 700; } }
+    .eap-linked-t { flex: 0 1 auto; min-width: 0; }
+    .eap-arrow { flex: none; }
+    .eap-linked { display: flex; align-items: baseline; gap: 4px; padding: 2px 0; color: var(--eap-soft); text-decoration: none; code { background: var(--eap-greenbg); color: var(--eap-green); border-radius: 9px; padding: 0 7px; margin-right: 6px; font-size: 11.5px; font-weight: 700; } }
     .eap-assign {
         display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; font-size: 13px;
         select { min-width: 0; max-width: 170px; padding: 4px 8px; border: 1px solid var(--eap-line2); border-radius: 7px; background: var(--eap-card); font: inherit; }
