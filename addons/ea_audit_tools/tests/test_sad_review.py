@@ -70,20 +70,26 @@ class TestSadReview(ToolsCase):
         self.assertEqual(entry.cr_caption_effective, "non_current_asset")
 
     def test_no_self_review(self):
-        """The senior who raised and saved the adjustment cannot post it; the manager can."""
-        _finding, entry = self.adjusted(actor=self.engagement.with_user(self.senior))
-        as_senior = self.engagement.with_user(self.senior)
-        self.assertCode("sad-self-review", as_senior.ea_sad_page_review, entry.id, "post")
-        self.assertCode("sad-self-review", as_senior.ea_sad_page_review, entry.id, "note", "Look again")
-        row = self.row(entry, as_senior)
+        """The manager who raised and saved the adjustment cannot post it; the partner can. A
+        senior is below the firm's minimum reviewer of C1.1 (the sign-off role matrix)."""
+        _finding, entry = self.adjusted(actor=self.as_manager)
+        self.assertCode("sad-self-review", self.as_manager.ea_sad_page_review, entry.id, "post")
+        self.assertCode("sad-self-review", self.as_manager.ea_sad_page_review, entry.id, "note", "Look again")
+        row = self.row(entry, self.as_manager)
         self.assertFalse(row["canPost"])
         self.assertTrue(row["hint"])
+        rule = self.env["ea.audit.signoff.policy"].sudo()._ea_effective_rule("C1.1")
+        if rule["min_reviewer"] != "senior":
+            self.assertCode(
+                "role-below-task-minimum-%s" % rule["min_reviewer"].replace("_", "-"),
+                self.engagement.with_user(self.senior).ea_sad_page_review, entry.id, "post",
+            )
         # whoever saves the adjustment counts as its preparer too
         finding2, entry2 = self.adjusted("Depreciation", DEPRECIATION)
-        as_senior.ea_findings_page_adjust(finding2.id, LINES, None)
-        self.assertCode("sad-self-review", as_senior.ea_sad_page_review, entry2.id, "post")
-        self.as_manager.ea_sad_page_review(entry.id, "post")
-        self.assertEqual(entry._ea_review_status(), "posted")
+        self.as_manager.ea_findings_page_adjust(finding2.id, LINES, None)
+        self.assertCode("sad-self-review", self.as_manager.ea_sad_page_review, entry2.id, "post")
+        self.as_partner.ea_sad_page_review(entry.id, "post")
+        self.assertEqual((entry._ea_review_status(), entry.reviewed_by_id), ("posted", self.partner))
 
     def test_a_review_note_sends_it_back_to_the_preparer(self):
         finding, entry = self.adjusted()

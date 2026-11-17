@@ -242,6 +242,12 @@ _ENTRIES = (
     [r"^Finding (?P<ref>.+) reopened: (?P<reason>.+)$", _lt("Finding %(ref)s reopened: %(reason)s")],
     [r"^Adjustment of finding (?P<ref>\S+) booked on the summary of audit differences: (?P<accounts>.+) for (?P<amount>\S+)$",
      _lt("Adjustment of finding %(ref)s booked on the summary of audit differences: %(accounts)s for %(amount)s")],
+    # the summary of audit differences reviewed (owner's mock-up of 2026-11-17, "wp-finding-sad")
+    [r"^Adjustment of finding (?P<ref>\S+) saved and sent to the summary of audit differences, to review: (?P<accounts>.+) for (?P<amount>\S+)$",
+     _lt("Adjustment of finding %(ref)s saved and sent to the summary of audit differences, to review: %(accounts)s for %(amount)s")],
+    [r"^Audit difference (?P<name>.+) unposted$", _lt("Audit difference %(name)s unposted")],
+    [r"^Audit difference (?P<name>.+) posted$", _lt("Audit difference %(name)s posted")],
+    [r"^Review note raised on audit difference (?P<name>.+)$", _lt("Review note raised on audit difference %(name)s")],
     [r"^(?P<code>\S+): (?P<file>.+) v(?P<version>\S+)$", _lt("%(code)s: evidence uploaded, %(file)s v%(version)s")],
     [r"^(?P<code>\S+): (?P<old>.+) renamed to (?P<new>.+)$", _lt("%(code)s: evidence %(old)s renamed to %(new)s")],
     [r"^(?P<code>\S+): Deleted: (?P<file>.+) \(restorable for (?P<days>\S+) days\)$",
