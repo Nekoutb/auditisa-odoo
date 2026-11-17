@@ -16940,6 +16940,7 @@ msgstr "Vous avez signé comme préparateur : un autre membre de l'équipe doit 
 
 #. module: ea_audit_tools
 #. odoo-javascript
+#. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 #: code:addons/ea_audit_tools/static/src/xml/ipe_page.xml:0
 msgid "No file of this kind and timing is uploaded."
