@@ -5110,9 +5110,7 @@ msgid "Still to answer: %s questions. The level can still change."
 msgstr "Reste à répondre : %s questions. Le niveau peut encore changer."
 
 #. module: ea_audit_core
-#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-#: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Available once all 19 questions are answered."
 msgstr "Disponible une fois les 19 questions répondues."
 
@@ -6127,3 +6125,15 @@ msgstr "La stratégie ne s'appuie plus sur les contrôles. Retirées du dossier,
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "The strategy relies on controls again. Applicable again, work kept: %(codes)s"
 msgstr "La stratégie s'appuie de nouveau sur les contrôles. De nouveau applicables, travaux conservés : %(codes)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answer 1 more question to conclude."
+msgstr "Répondez à encore 1 question pour conclure."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Answer %s more questions to conclude."
+msgstr "Répondez à encore %s questions pour conclure."

@@ -106,6 +106,7 @@
                 <div class="eapr-note is-info" t-if="p.panel.lce_note" t-esc="p.panel.lce_note"/>
                 <t t-if="p.conclude.show">
                     <button type="button" class="eapr-btn is-primary eapr-conclude" t-att-disabled="!p.conclude.can"
+                            t-att-title="p.conclude.can ? false : p.conclude.hint"
                             t-on-click="() => this.conclude()" t-esc="p.words.conclude"/>
                     <div class="eapr-small" t-esc="p.conclude.hint"/>
                 </t>

@@ -2,7 +2,21 @@ import csv
 from datetime import date
 from pathlib import Path
 
-from ..presentation import fmt_date, initials, percent, phase_deadline, report_due, short_name
+from ..presentation import (
+    HOME_EMPTY,
+    HOME_EMPTY_START,
+    TASKS_AWAIT_PROFILE,
+    TASKS_NONE_MINE,
+    TASKS_NONE_OPEN,
+    fmt_date,
+    home_empty_lines,
+    initials,
+    my_tasks_empty,
+    percent,
+    phase_deadline,
+    report_due,
+    short_name,
+)
 from ..task_groups import GROUP_BY_ID, SECTION_OF_PHASE, TASK_GROUPS, group_of_code, phase_label
 
 TEMPLATES = Path(__file__).parents[3] / "ea_audit_core" / "data" / "ea.audit.task.template.csv"
@@ -57,3 +71,27 @@ def test_phases_map_to_the_rings():
     assert phase_label("planning") == "Strategy and risks"
     assert phase_label("archived") == "Archived"
     assert GROUP_BY_ID["e4"]["short"] == "Substantive procedures"
+
+
+def test_an_empty_home_tells_everyone_why_and_starters_what_to_do():
+    assert home_empty_lines("staff", True) == [HOME_EMPTY]
+    assert home_empty_lines("senior", True) == [HOME_EMPTY]
+    assert home_empty_lines("read_only", False) == [HOME_EMPTY]
+    for role in ("partner", "manager", "firm_admin"):
+        assert home_empty_lines(role, True) == [HOME_EMPTY, HOME_EMPTY_START]
+    assert home_empty_lines(False, False) == [HOME_EMPTY]
+
+
+def test_empty_my_tasks_waits_for_the_questionnaire_with_its_count():
+    source, params = my_tasks_empty(True, 7, 19)
+    assert source == TASKS_AWAIT_PROFILE
+    assert source % params == (
+        "No tasks yet: the partner has answered 7 of 19 questions in the engagement questionnaire."
+    )
+    # the questionnaire wins even if a task were somehow mine
+    assert my_tasks_empty(True, 0, 19, any_mine=True)[0] == TASKS_AWAIT_PROFILE
+
+
+def test_empty_my_tasks_after_the_questionnaire_asks_for_an_assignment():
+    assert my_tasks_empty(False, 19, 19) == (TASKS_NONE_MINE, {})
+    assert my_tasks_empty(False, 19, 19, any_mine=True) == (TASKS_NONE_OPEN, {})

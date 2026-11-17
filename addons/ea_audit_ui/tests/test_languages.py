@@ -11,7 +11,18 @@ from odoo.addons.ea_audit_reports.services.gates import GATE_LABELS, gate_label
 from odoo.addons.ea_audit_reports.services.opinion import OPINIONS, report_blocks
 from odoo.addons.ea_audit_tools.models.tool_record import fcfa, grouped
 
-from ..services.presentation import FIRM_ROLE_LABELS, NATURE_LABELS, STATUS_PILLS, STATUS_WORDS, TEAM_ROLE_LABELS
+from ..services.presentation import (
+    FIRM_ROLE_LABELS,
+    HOME_EMPTY,
+    HOME_EMPTY_START,
+    NATURE_LABELS,
+    STATUS_PILLS,
+    STATUS_WORDS,
+    TASKS_AWAIT_PROFILE,
+    TASKS_NONE_MINE,
+    TASKS_NONE_OPEN,
+    TEAM_ROLE_LABELS,
+)
 from ..services.task_groups import SECTION_LABELS, SECTION_SHORT_LABELS, TASK_GROUPS
 from .french_scan import scan_addons, scan_js, scan_python
 
@@ -115,6 +126,8 @@ class TestBothLanguages(TransactionCase):
         words += list(STATUS_WORDS.values()) + [pill for pill, _tone in STATUS_PILLS.values()]
         words += list(SECTION_LABELS.values()) + list(SECTION_SHORT_LABELS.values())
         words += [group["title"] for group in TASK_GROUPS] + [group["short"] for group in TASK_GROUPS if group.get("short")]
+        # what an empty screen says
+        words += [HOME_EMPTY, HOME_EMPTY_START, TASKS_AWAIT_PROFILE, TASKS_NONE_MINE, TASKS_NONE_OPEN]
         Ui = self.env["ea.audit.ui"]
         french_env = Ui.with_env(self.fr).env
         for word in words:

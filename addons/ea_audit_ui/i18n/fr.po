@@ -677,12 +677,6 @@ msgstr "Aucune tâche active dans ce groupe."
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
-msgid "No engagements. You only see the engagements whose team you belong to."
-msgstr "Aucune mission. Vous ne voyez que les missions dont vous êtes membre de l'équipe."
-
-#. module: ea_audit_ui
-#. odoo-javascript
-#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
 msgid "No engagements: you are not a member of any team."
 msgstr "Aucune mission : vous n'êtes membre d'aucune équipe."
 
@@ -741,8 +735,8 @@ msgid "Notes for me"
 msgstr "Notes pour moi"
 
 #. module: ea_audit_ui
-#. odoo-javascript
-#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "Nothing open is assigned to you on this file."
 msgstr "Rien d'ouvert ne vous est affecté sur ce dossier."
 
@@ -1651,3 +1645,27 @@ msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "non-statutory audit"
 msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "You are in the firm. Your engagements appear here once a manager adds you to a team and you accept."
+msgstr "Vous faites partie du cabinet. Vos missions apparaissent ici dès qu'un manager vous ajoute à une équipe et que vous acceptez."
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Start with + New engagement."
+msgstr "Commencez par + Nouvelle mission."
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "No tasks yet: the partner has answered %(n)s of %(total)s questions in the engagement questionnaire."
+msgstr "Pas encore de tâches : l'associé a répondu à %(n)s questions sur %(total)s du questionnaire de la mission."
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/presentation.py:0
+msgid "Nothing is assigned to you yet. Ask the manager to set you as preparer."
+msgstr "Rien ne vous est encore affecté. Demandez au manager de vous désigner comme préparateur."

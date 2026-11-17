@@ -341,7 +341,8 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(screen["panel"]["level_label"], "Not settled yet")
         self.assertIn("Very simple is still possible", screen["panel"]["intro"])
         self.assertFalse(screen["conclude"]["can"])
-        self.assertEqual(screen["conclude"]["hint"], "Available once all 19 questions are answered.")
+        self.assertEqual(screen["conclude"]["hint"], "Answer 19 more questions to conclude.")
+        self.assertEqual(screen["conclude"]["still"], 19)
 
     def test_the_level_so_far_follows_each_answer(self):
         engagement, _action = self.open_new()
@@ -372,6 +373,8 @@ class TestEngagementProfile(EaAuditCase):
         self.assertEqual(screen["progress"]["answered"], 18)
         self.assertFalse(screen["conclude"]["can"])
         self.assertIn("1 question", screen["panel"]["still_open"])
+        # the greyed button says what it waits for
+        self.assertEqual(screen["conclude"]["hint"], "Answer 1 more question to conclude.")
         self.assertCode("profile-incomplete", profile.ea_profile_conclude)
         self.assertFalse(engagement.file_item_ids)
         screen = profile.ea_profile_save({"q20_first_year": "no"})

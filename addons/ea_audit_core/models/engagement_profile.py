@@ -235,7 +235,8 @@ _TASKS_SO_FAR = _lt("%s tasks so far")
 _TASKS_ALL = _lt("%s tasks")
 _STILL_ONE = _lt("Still to answer: 1 question. The level can still change.")
 _STILL_MANY = _lt("Still to answer: %s questions. The level can still change.")
-_CONCLUDE_WAIT = _lt("Available once all 19 questions are answered.")
+_CONCLUDE_WAIT_ONE = _lt("Answer 1 more question to conclude.")
+_CONCLUDE_WAIT_MANY = _lt("Answer %s more questions to conclude.")
 _CONCLUDE_READY = _lt("Puts the tasks on the file. You can reopen the questionnaire later.")
 _CONCLUDED = _lt("Concluded on %(date)s by %(name)s. Changing an answer works the level out again and only adds tasks.")
 _READ_ONLY = {
@@ -613,11 +614,22 @@ class EngagementProfile(models.Model):
             "conclude": {
                 "can": complete and not reason and self.state != "concluded",
                 "show": self.state != "concluded",
-                "hint": (_CONCLUDE_READY if complete else _CONCLUDE_WAIT)._translate(lang),
+                "hint": self._ea_conclude_hint(still, lang),
+                # how many questions still stand between the reader and Conclude
+                "still": still,
             },
             "concluded_note": concluded_note,
             "words": words,
         }
+
+    @staticmethod
+    def _ea_conclude_hint(still, lang):
+        """What the Conclude button says about itself: how many answers it still waits for."""
+        if not still:
+            return _CONCLUDE_READY._translate(lang)
+        if still == 1:
+            return _CONCLUDE_WAIT_ONE._translate(lang)
+        return _CONCLUDE_WAIT_MANY._translate(lang) % still
 
     def ea_profile_save(self, values):
         """Saves answers as they are given. A concluded profile concludes again on every change,
