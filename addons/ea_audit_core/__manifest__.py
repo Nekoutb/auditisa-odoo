@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Core",
     "summary": "Firm roles, engagements, teams, file index, sign-off governance and gates",
-    "version": "19.0.1.7.2",  # trail lines of Data quality (IPE)
+    "version": "19.0.1.7.3",  # trail lines of Data quality (IPE) and of Journal entry testing
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

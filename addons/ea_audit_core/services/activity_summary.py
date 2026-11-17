@@ -64,6 +64,9 @@ WORDS = {
     "yes": _lt("Yes"),
     "no": _lt("No"),
     "blank": _lt("not answered"),
+    # The conclusion of a journal entry test (ea_audit_tools services/je_testing.STATUS_LABELS)
+    "No exception": _lt("No exception"),
+    "To test": _lt("To test"),
 }
 
 # The line, in order, as lists: the translation export reads a string in a tuple after a _lt as a term.
@@ -243,6 +246,14 @@ _ENTRIES = (
      _lt("Journal entry %(entry)s marked as a problem: %(note)s")],
     [r"^Journal entry (?P<entry>.+) put back to clear$",
      _lt("Journal entry %(entry)s put back to clear")],
+    # Journal entry testing (ea_audit_tools, owner's mock-up of 18/11)
+    [r"^Journal entry testing settings saved$", _lt("Journal entry testing settings saved")],
+    [r"^Journal entry (?P<entry>.+?) tested: (?P<status>.+)$",
+     _lt("Journal entry %(entry)s tested: %(status)s")],
+    [r"^Finding (?P<ref>.+?) raised from journal entry (?P<entry>.+)$",
+     _lt("Finding %(ref)s raised from journal entry %(entry)s")],
+    [r"^Adjustment started on journal entry (?P<entry>.+?) \((?P<ref>[^()]+)\)$",
+     _lt("Adjustment started on journal entry %(entry)s (%(ref)s)")],
     [r"^Substantive analytical procedure saved on (?P<index>\S+) / (?P<assertion>\S+): expected (?P<amount>.+)$",
      _lt("Substantive analytical procedure saved on %(index)s / %(assertion)s: expected %(amount)s")],
     [r"^Test-of-controls sample drawn: (?P<done>\d+) of (?P<total>\d+)$",

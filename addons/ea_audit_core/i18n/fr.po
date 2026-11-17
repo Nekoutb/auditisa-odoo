@@ -6251,3 +6251,39 @@ msgstr "%(ref)s : signatures annulées après une modification"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "%(code)s signed as %(role)s by %(name)s although %(ref)s is marked Not reliable in IPE: %(why)s"
 msgstr "%(code)s signée comme %(role)s par %(name)s alors que %(ref)s est marqué Non fiable dans l'IPE : %(why)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "No exception"
+msgstr "Aucune exception"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "To test"
+msgstr "À tester"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Journal entry testing settings saved"
+msgstr "Paramètres des tests des écritures de journal enregistrés"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Journal entry %(entry)s tested: %(status)s"
+msgstr "Écriture %(entry)s testée : %(status)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Finding %(ref)s raised from journal entry %(entry)s"
+msgstr "Constat %(ref)s soulevé depuis l'écriture %(entry)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Adjustment started on journal entry %(entry)s (%(ref)s)"
+msgstr "Ajustement commencé sur l'écriture %(entry)s (%(ref)s)"

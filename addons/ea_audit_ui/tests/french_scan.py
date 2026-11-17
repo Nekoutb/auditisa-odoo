@@ -129,7 +129,7 @@ class _Scan(ast.NodeVisitor):
             for arg in node.args:
                 if isinstance(arg, ast.Constant):
                     self.skip.add(id(arg))
-        if name == "t" and len(node.args) == 3:  # t(locale, english, french)
+        if name in ("t", "pick") and len(node.args) == 3:  # t(locale, english, french), pick(locale, english, french)
             self._skip_tree(node.args[2])
         for keyword in node.keywords:
             if keyword.arg and _is_fr_key(keyword.arg):

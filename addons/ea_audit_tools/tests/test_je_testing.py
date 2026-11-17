@@ -61,7 +61,9 @@ class TestJeTesting(ToolsCase):
         self.assertIn("revenue-cash", self.row(page, "VE001")["reasons"])
         self.assertIn("vague", self.row(page, "NO001")["reasons"])
         self.assertIn("vague", self.row(page, "OD001")["reasons"])
-        self.assertNotIn("RO001", [row["je"] for row in page["rows"]])  # 200 000 is not a round million
+        # 200 000 is not a round million (RO001 is still selected: every entry of this ledger pairs 411 with 401)
+        self.assertEqual(self.count(page, "round"), 0)
+        self.assertNotIn("round", self.row(page, "RO001")["reasons"])
         self.assertEqual(page["totals"]["selected"], len(page["rows"]))
         self.assertEqual({row["test"] for row in page["rows"]}, {"to_test"})
 
