@@ -1,0 +1,40 @@
+<article class="ea-help-page" data-id="archiving" data-part="Revue et achèvement de la mission" data-part-order="6" data-order="6.7">
+  <h1>Archiver le dossier de la mission</h1>
+  <p class="lead">Assembler et archiver le dossier de la mission une fois le rapport émis, puis n'y ajouter quelque chose que par addendum.</p>
+  <p class="who"><b>Qui :</b> tout membre de l'équipe ayant accepté son invitation et disposant du droit d'écriture peut archiver (sauf le réviseur qualité de la mission). Une conservation légale exige un manager ou un rôle supérieur.</p>
+
+  <h2>La période d'assemblage</h2>
+  <p>Après la date du rapport, vous disposez de soixante jours pour assembler le dossier définitif de la mission (ISA 230). Ouvrez C6.2 et cliquez sur <b>Assembler et archiver</b>. La page indique le nombre de jours restants. Le compteur passe à l'orange lorsqu'il reste moins de quinze jours. Pendant cette période, ne faites que des travaux d'assemblage : rangez les feuilles de travail, classez les documents signés et soldez ce qui reste. Voir <a href="#completing">Achever l'audit</a> pour les travaux après la date du rapport.</p>
+
+  <h2>Archiver le dossier de la mission</h2>
+  <ol class="steps">
+    <li>Sur la page <b>Assembler et archiver</b>, vérifiez la colonne de gauche. Toutes les lignes doivent être vertes.</li>
+    <li>Sous <b>Avant l'archivage</b>, répondez aux deux confirmations par <b>Oui</b> avec une note : le rapport signé, les états financiers et la lettre d'affirmation sont classés, et le dossier permanent est à jour.</li>
+    <li>Lisez <b>Ce que fait l'archivage</b>.</li>
+    <li>Saisissez le nom du client dans la case pour confirmer, puis cliquez sur <b>Archiver le dossier</b>.</li>
+    <li>Si les soixante jours sont dépassés, AuditISA demande le motif du retard d'archivage. Le motif est conservé dans l'historique.</li>
+  </ol>
+  <div class="warn"><b>Attention</b> L'archivage est irréversible. Un dossier de mission archivé ne peut être rouvert qu'en lecture seule.</div>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/archive-1.webp" alt="La page Assembler et archiver : le compteur de 60 jours, les lignes vertes, les confirmations avant l'archivage, ce que fait l'archivage et le bouton Archiver le dossier" loading="lazy"/><figcaption>Assembler et archiver</figcaption></figure>
+
+  <h2>Ce que fait l'archivage</h2>
+  <ul>
+    <li>Tout le dossier de la mission passe en lecture seule : rien ne peut être modifié ni supprimé. Chaque page affiche <b>Lecture seule : cette mission est archivée.</b></li>
+    <li>Une copie scellée est créée. Elle contient chaque feuille de travail (en PDF si possible, sinon en page web), tous les éléments probants, et une empreinte (SHA-256) de chaque fichier. L'empreinte prouve plus tard que rien n'a changé.</li>
+    <li>La copie scellée est conservée sur le serveur et dans les sauvegardes. Un membre de l'équipe peut cliquer sur <b>Télécharger la copie scellée</b>. Chaque téléchargement est journalisé.</li>
+    <li>L'équipe et les contrôleurs peuvent toujours ouvrir et lire le dossier de la mission. Chaque ouverture est listée dans le <b>Journal des accès</b>.</li>
+  </ul>
+
+  <h2>Ajouter un élément après l'archivage : les addenda</h2>
+  <p>Il faut parfois ajouter un élément après la clôture du dossier de la mission, par exemple un document tardif ou une réponse à un contrôleur. Vous ne modifiez pas l'archive : vous ajoutez un addendum (ISA 230 ¶16).</p>
+  <ol class="steps">
+    <li>Sur la page d'archivage, sous <b>Addenda après l'archivage (ISA 230 ¶16)</b>, cliquez sur <b>Ajouter un addendum</b>.</li>
+    <li>Indiquez pourquoi : ce qui est ajouté, et à la demande de qui. Joignez le document s'il y en a un.</li>
+    <li>Cliquez sur <b>Ajouter l'addendum</b>.</li>
+  </ol>
+  <p>Un addendum complète le dossier de la mission. Il ne modifie ni ne retire jamais ce qui a été archivé. La liste indique qui l'a ajouté, quand et pourquoi.</p>
+
+  <h2>Conservation et conservation légale</h2>
+  <p>Un dossier de mission archivé est conservé au moins dix ans à compter de la date du rapport, comme l'exige la pratique OHADA. Il ne peut pas être supprimé avant cette date. Si un litige ou une enquête est à prévoir, un manager ou un rôle supérieur peut cliquer sur <b>Placer une conservation légale</b> et indiquer un motif. Tant que la conservation légale est active, le dossier de la mission ne peut pas être supprimé, même après sa durée de conservation. <b>Lever la conservation légale</b> la retire.</p>
+  <p class="see">Voir aussi : <a href="#completion-checklist">La liste d'achèvement et l'émission du rapport</a>, <a href="#roll-forward">Reconduire la mission l'année suivante</a></p>
+</article>

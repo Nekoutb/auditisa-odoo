@@ -1,0 +1,63 @@
+<article class="ea-help-page" data-id="timesheet" data-part="Au quotidien" data-part-order="4" data-order="4.7">
+  <h1>Saisir votre temps</h1>
+  <p class="lead">Saisissez vos heures sur les missions et les projets internes, et soumettez votre semaine avant l'échéance.</p>
+  <p class="who"><b>Qui :</b> chacun saisit ses propres heures. Les associés et l'administrateur du cabinet peuvent rouvrir une semaine verrouillée.</p>
+
+  <h2>Ouvrir votre feuille de temps</h2>
+  <p>Il existe trois accès :</p>
+  <ul>
+    <li>Cliquez sur l'horloge dans la barre du haut (affichée lorsque vous n'êtes pas dans une mission).</li>
+    <li>Ouvrez la grille des <b>Applications</b> (neuf points) et cliquez sur <b>Feuille de temps</b>.</li>
+    <li>Dans une mission, cliquez sur l'engrenage et choisissez <b>Saisir du temps sur cette mission</b>. Cette mission est alors déjà choisie pour vous.</li>
+  </ul>
+  <p>La page <b>Feuille de temps</b> affiche une semaine, du lundi au dimanche. Utilisez les flèches pour aller à la <b>Semaine précédente</b> ou à la <b>Semaine suivante</b>, et <b>Cette semaine</b> pour revenir. <b>Retour à l'audit</b> vous ramène à vos missions.</p>
+
+  <h2>Où imputer du temps</h2>
+  <p>La liste <b>Mission ou projet</b> comporte deux parties :</p>
+  <ul>
+    <li><b>Mes missions</b> : uniquement les missions dont vous faites partie de l'équipe et dont vous avez accepté l'invitation. Vous ne pouvez pas imputer de temps sur une mission à laquelle vous n'avez pas été invité, et une mission archivée n'accepte plus d'heures.</li>
+    <li><b>Projets internes</b> : les travaux propres au cabinet, tels que <b>Formation</b>, <b>Congés</b> et <b>Administration</b>. L'administrateur du cabinet les ajoute ou les archive dans <b>Paramètres</b>.</li>
+  </ul>
+  <div class="note"><b>Bon à savoir</b> Chacun saisit uniquement ses propres heures. Personne ne peut saisir du temps pour quelqu'un d'autre.</div>
+
+  <h2>Saisir des heures</h2>
+  <ol class="steps">
+    <li>Choisissez la <b>Date</b> (aujourd'hui ou un jour antérieur de la semaine affichée ; les jours à venir ne sont pas proposés).</li>
+    <li>Choisissez la <b>Mission ou projet</b>.</li>
+    <li>Si vous le souhaitez, choisissez la <b>Tâche (facultatif)</b> sur laquelle vous avez travaillé. Sinon, laissez <b>Aucune</b>.</li>
+    <li>Saisissez les <b>Heures</b>, par exemple 2,5.</li>
+    <li>Ajoutez une courte <b>Note</b> si elle aide votre manager à comprendre le temps passé.</li>
+    <li>Cliquez sur <b>Imputer</b>. Le message <b>Heures imputées.</b> le confirme, et les heures apparaissent dans la grille de la semaine.</li>
+  </ol>
+  <p>Vous pouvez aussi corriger les heures directement dans la grille : cliquez sur la case d'un jour sur une ligne, modifiez le chiffre et cliquez ailleurs. La grille affiche un total par ligne, par jour et pour la semaine.</p>
+  <div class="warn"><b>Attention</b> Les heures doivent être comprises entre 0 et 24, et le total d'une journée ne peut pas dépasser 24 heures.</div>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/ts-sheet.webp" alt="La page Feuille de temps : la ligne de saisie avec la date, la mission ou le projet, la tâche, les heures, la note et le bouton Imputer, la grille de la semaine avec deux lignes de mission et une ligne de projet interne, le statut Ouverte, la ligne d'échéance et le bouton Soumettre la semaine" loading="lazy"/><figcaption>Votre semaine : saisir les heures, vérifier les totaux, soumettre</figcaption></figure>
+
+  <h2>Soumettre votre semaine</h2>
+  <p>Lorsque la semaine est complète, cliquez sur <b>Soumettre la semaine</b>. Le statut passe à <b>Soumise</b> et la page indique quand vous l'avez soumise. Si vous remarquez une erreur, cliquez sur <b>Reprendre</b>, corrigez-la et soumettez de nouveau. Vous pouvez le faire jusqu'à l'échéance.</p>
+  <p>L'échéance d'une semaine est le mardi qui suit, à 23:59, heure de Douala. La page l'affiche toujours (<b>Délai : …, heure de Douala</b>), et une ligne jaune vous le rappelle lorsque la semaine précédente attend encore d'être soumise.</p>
+  <table class="ref">
+    <tr><th>Statut</th><th>Signification</th></tr>
+    <tr><td><b>Ouverte</b></td><td>Vous pouvez saisir et modifier des heures.</td></tr>
+    <tr><td><b>Soumise</b></td><td>Envoyée ; reprenez-la avant l'échéance pour la modifier.</td></tr>
+    <tr><td><b>Verrouillée, soumise</b></td><td>Soumise et l'échéance est passée : définitive.</td></tr>
+    <tr><td><b>Verrouillée, non soumise</b></td><td>L'échéance est passée avant votre soumission : la semaine est désormais en lecture seule.</td></tr>
+    <tr><td><b>Rouverte</b></td><td>Un associé ou l'administrateur du cabinet l'a rouverte pour vous, pour 48 heures.</td></tr>
+    <tr><td><b>À venir</b></td><td>Une semaine encore à venir.</td></tr>
+  </table>
+  <p>Les semaines manquées sont listées sous <b>En retard, non soumises</b>. Cliquez sur l'une d'elles pour l'ouvrir.</p>
+  <div class="tip"><b>Astuce</b> Saisissez vos heures chaque soir et soumettez chaque vendredi. Les rapports de temps et les budgets dépendent de semaines complètes.</div>
+
+  <h2>Rouvrir une semaine verrouillée</h2>
+  <p class="who"><b>Qui :</b> l'administrateur du cabinet, ou un associé de l'une des missions de la personne.</p>
+  <p>Adressez-vous à un associé ou à l'administrateur du cabinet ; vous ne pouvez pas rouvrir votre propre semaine. Il ouvre <b>Rapports</b> sur la page Feuille de temps et, sous <b>Rouvrir une semaine verrouillée</b> :</p>
+  <ol class="steps">
+    <li>Choisissez la <b>Personne</b>.</li>
+    <li>Saisissez <b>Une date de la semaine</b> (JJ/MM/AAAA).</li>
+    <li>Indiquez un <b>Motif écrit</b> (au moins 10 caractères).</li>
+    <li>Cliquez sur <b>Rouvrir pour 48 heures</b>.</li>
+  </ol>
+  <p>Chaque réouverture est conservée dans une liste avec le motif, l'auteur de la réouverture et sa date limite. La personne dispose alors de 48 heures pour compléter et soumettre la semaine.</p>
+
+  <p class="see">Voir aussi : <a href="#time-reports">Rapports de temps</a> · <a href="#budget">Budget et réalisé</a> · <a href="#firm-settings">Paramètres du cabinet et e-mails</a></p>
+</article>

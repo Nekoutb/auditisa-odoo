@@ -5,6 +5,7 @@ import { useBus, useService } from "@web/core/utils/hooks";
 import { user } from "@web/core/user";
 import { debounce } from "@web/core/utils/timing";
 import { shellSession } from "./context_service";
+import { helpKeys } from "./help";
 
 const PHASES = [
     { key: "acceptance", label: _t("Planning") },
@@ -197,6 +198,21 @@ export class EaTopBar extends Component {
     openTools() {
         this.state.open = null;
         return this.ctx.openTool(this.ctxState.mission.id, "action_open_tools");
+    }
+
+    /** The user manual, open on the page of the screen on display (the contents when it has none). */
+    openHelp() {
+        this.state.open = null;
+        const controller = this.action.currentController;
+        if (controller?.action?.tag === "ea_audit_ui.help") {
+            return;
+        }
+        return this.action.doAction({
+            type: "ir.actions.client",
+            tag: "ea_audit_ui.help",
+            name: _t("User manual"),
+            params: { keys: helpKeys(controller) },
+        });
     }
 
     goHome() {

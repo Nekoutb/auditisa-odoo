@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- The user manual: contents by part, a search, the page; "Help on this page" leads back to the screen's page. -->
+    <t t-name="ea_audit_ui.Help">
+        <div class="ea-page ea-help" t-ref="root">
+            <div class="ea-head ea-help-head">
+                <div>
+                    <h1>User manual</h1>
+                    <div class="ea-sub">How to use AuditISA, screen by screen.</div>
+                </div>
+                <button t-if="state.index" type="button" class="ea-help-toggle" t-att-aria-expanded="state.contentsOpen ? 'true' : 'false'" t-on-click="toggleContents">Contents</button>
+            </div>
+
+            <div t-if="!state.index and state.failed" class="ea-card ea-help-none">The manual could not be loaded. Reload the page and try again.</div>
+            <div t-elif="state.index" class="ea-help-grid" t-att-class="{'is-open': state.contentsOpen}">
+                <aside class="ea-card ea-help-side">
+                    <input class="ea-help-search" type="search" placeholder="Search the manual…" aria-label="Search the manual"
+                           t-att-value="state.query" t-on-input="onSearchInput"/>
+                    <a t-if="state.screenPage and !onScreenPage" class="ea-help-here" href="#" role="button"
+                       t-on-click.prevent="() => this.openPage(state.screenPage)">&#8592; Help on this page</a>
+                    <t t-if="state.results">
+                        <div class="ea-help-h">Search results</div>
+                        <a t-foreach="state.results" t-as="result" t-key="result.id" class="ea-help-result" t-att-href="'#' + result.id"
+                           t-on-click.prevent="() => this.pickResult(result)">
+                            <b t-esc="result.title"/>
+                            <small t-esc="result.snippet"/>
+                        </a>
+                        <div t-if="!state.results.length" class="ea-help-none">No page matches your search.</div>
+                    </t>
+                    <nav t-else="" class="ea-help-toc" aria-label="Contents">
+                        <a class="ea-help-link" t-att-class="{on: !state.page}" href="#" role="button" t-on-click.prevent="showContents">Contents</a>
+                        <t t-foreach="parts" t-as="part" t-key="part.key">
+                            <div class="ea-help-h" t-esc="part.title"/>
+                            <a t-foreach="part.pages" t-as="item" t-key="item.id" class="ea-help-link" t-att-class="{on: item.id === state.page}"
+                               t-att-href="'#' + item.id" t-on-click.prevent="() => this.openPage(item.id)" t-esc="item.title"/>
+                        </t>
+                    </nav>
+                </aside>
+
+                <main class="ea-card ea-help-main">
+                    <t t-if="state.page">
+                        <div class="ea-help-crumb">
+                            <a href="#" role="button" t-on-click.prevent="showContents">Contents</a>
+                            <span class="ea-help-sep" aria-hidden="true"/><span t-esc="partTitle"/>
+                            <span t-if="onScreenPage" class="ea-help-chip">Help on this page</span>
+                        </div>
+                        <div class="ea-help-article" t-on-click="onArticleClick" t-out="state.html"/>
+                        <nav class="ea-help-pager" aria-label="Previous and next page">
+                            <a t-if="neighbours.previous" href="#" role="button" t-on-click.prevent="() => this.openPage(neighbours.previous.id)">
+                                <small>Previous</small><b t-esc="neighbours.previous.title"/>
+                            </a>
+                            <span t-else=""/>
+                            <a t-if="neighbours.next" class="ea-help-next" href="#" role="button" t-on-click.prevent="() => this.openPage(neighbours.next.id)">
+                                <small>Next</small><b t-esc="neighbours.next.title"/>
+                            </a>
+                        </nav>
+                    </t>
+                    <t t-else="">
+                        <div t-if="noScreenPage" class="ea-help-none">There is no page for this screen yet. Here are the contents.</div>
+                        <div t-if="state.failed" class="ea-help-none">This page could not be loaded. Choose it again in the contents.</div>
+                        <div class="ea-help-parts">
+                            <section t-foreach="parts" t-as="part" t-key="part.key" class="ea-help-part">
+                                <h2 t-esc="part.title"/>
+                                <a t-foreach="part.pages" t-as="item" t-key="item.id" class="ea-help-link" t-att-href="'#' + item.id"
+                                   t-on-click.prevent="() => this.openPage(item.id)" t-esc="item.title"/>
+                            </section>
+                        </div>
+                    </t>
+                </main>
+            </div>
+        </div>
+    </t>
+
+</templates>

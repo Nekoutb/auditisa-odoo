@@ -1,0 +1,47 @@
+<article class="ea-help-page" data-id="firm-users" data-part="For the firm administrator" data-part-order="2" data-order="2.1" data-screens="ea_audit_timesheet.action_users, tag:ea_audit_timesheet.users">
+  <h1>Users of the firm</h1>
+  <p class="lead">Bring your colleagues into AuditISA, give each the right role, and stop someone's access when needed.</p>
+  <p class="who"><b>Who:</b> the firm administrator. Partners see some of the firm settings too (see the table below).</p>
+
+  <h2>Where the firm settings are</h2>
+  <p>Click the cog (<b>Settings</b>) in the top bar. What you see depends on your role:</p>
+  <table class="ref">
+    <tr><th>Item under the cog</th><th>What it is for</th><th>Who sees it</th></tr>
+    <tr><td><b>Sign-off policy</b></td><td>The firm-wide sign-off rules</td><td>Partners and the firm administrator</td></tr>
+    <tr><td><b>Sign-off matrix</b></td><td>Who prepares, reviews and signs each task</td><td>Partners and the firm administrator</td></tr>
+    <tr><td><b>File index</b></td><td>The list of every task an engagement file can hold</td><td>Partners and the firm administrator</td></tr>
+    <tr><td><b>Audit log</b></td><td>Every change made in the firm's engagement files</td><td>Firm administrator only</td></tr>
+    <tr><td><b>Users</b></td><td>Invite people, set roles, deactivate</td><td>Firm administrator only</td></tr>
+    <tr><td><b>Settings</b></td><td>Email sending status and internal projects</td><td>Firm administrator only</td></tr>
+  </table>
+  <p><b>Users</b> and <b>Settings</b> are also in the <b>Apps</b> grid (nine dots).</p>
+
+  <h2>Adding a team member to the firm</h2>
+  <ol class="steps">
+    <li>Open <b>Users</b>.</li>
+    <li>In the top box, type the person's <b>Email</b> and <b>Name</b>, and choose their <b>Role</b> (see the table below).</li>
+    <li>Click <b>Invite</b>. A green box appears with the <b>Invitation link</b>.</li>
+    <li>Click <b>Copy</b> and send the link to the person yourself, by email or a private message. They choose their own password: none is created or sent. The link expires after 6 days.</li>
+  </ol>
+  <p>The person appears in the list as <b>Invited</b>, then <b>Active</b> once they have signed in, with their <b>Last login</b>. If their link expired or was lost, click <b>New link</b> on their row (only possible until they first sign in). To change a role, choose another one in their row. To stop someone's access, click <b>Deactivate</b>; <b>Reactivate</b> undoes it. Nothing they did is deleted.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/users.webp" alt="The Users screen: the Email, Name, Role and Invite box, the green Invitation link box with Copy, and the list of people with their role, status and last login" loading="lazy"/><figcaption>Users: invite a colleague and copy their link</figcaption></figure>
+  <table class="ref">
+    <tr><th>Role</th><th>What the person can do</th></tr>
+    <tr><td><b>Firm administrator</b></td><td>Everything a partner can, plus users, firm settings, the audit log and the analytics thresholds.</td></tr>
+    <tr><td><b>Partner</b></td><td>Can be the engagement partner of an engagement and give partner sign-offs; sets the sign-off rules; sees the whole firm's time reports.</td></tr>
+    <tr><td><b>Manager</b></td><td>Runs engagements, reviews work, sets time budgets; sees the whole firm's time reports.</td></tr>
+    <tr><td><b>Senior</b></td><td>Prepares work and can review the work of others, depending on your firm's sign-off policy.</td></tr>
+    <tr><td><b>Staff</b></td><td>Prepares working papers.</td></tr>
+    <tr><td><b>Engagement quality reviewer</b></td><td>Reviews the engagements they are asked to review and signs the quality review; does not change the engagement file.</td></tr>
+    <tr><td><b>Read only</b></td><td>Reads the engagement files of their teams; changes nothing.</td></tr>
+  </table>
+  <div class="note"><b>Good to know</b> A role gives no access to an engagement: only the engagement's team does. After inviting someone to the firm, the engagement partner or manager still adds them to each engagement team.</div>
+  <div class="warn"><b>Careful</b> Some changes are refused, to protect the firm: you cannot change your own access; the firm must keep at least one active administrator; and a person who is the engagement partner of an engagement cannot be deactivated or moved below partner until that role is transferred.</div>
+  <p>Further down the <b>Users</b> screen:</p>
+  <ul>
+    <li><b>Allowed email domains</b>: one per line (for example your firm's own domain). Only addresses in these domains can be invited. Empty means no restriction. Click <b>Save</b>.</li>
+    <li><b>Administration log</b>: who invited whom, role changes, new links, deactivations. A row marked <b>Technical support</b> shows when AuditISA support entered the firm.</li>
+  </ul>
+
+  <p class="see">See also: <a href="#first-sign-in">Signing in for the first time</a>, <a href="#firm-settings">Firm settings and email</a>, <a href="#signoff-policy">Sign-off policy</a>, <a href="#engagement-team">Your engagement team</a></p>
+</article>

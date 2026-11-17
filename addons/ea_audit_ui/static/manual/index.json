@@ -1,0 +1,658 @@
+{
+ "build": "ec4c949eecfd",
+ "parts": [
+  {
+   "key": "1",
+   "en": "Getting started",
+   "fr": "Premiers pas"
+  },
+  {
+   "key": "2",
+   "en": "For the firm administrator",
+   "fr": "Pour l'administrateur du cabinet"
+  },
+  {
+   "key": "3",
+   "en": "Starting an engagement",
+   "fr": "Démarrer une mission"
+  },
+  {
+   "key": "4",
+   "en": "Day to day",
+   "fr": "Au quotidien"
+  },
+  {
+   "key": "5",
+   "en": "The audit, phase by phase",
+   "fr": "L'audit, phase par phase"
+  },
+  {
+   "key": "6",
+   "en": "Review and completion",
+   "fr": "Revue et achèvement de la mission"
+  },
+  {
+   "key": "7",
+   "en": "Help",
+   "fr": "Aide"
+  }
+ ],
+ "pages": [
+  {
+   "id": "welcome",
+   "part": "1",
+   "title": {
+    "en": "Welcome to AuditISA",
+    "fr": "Bienvenue dans AuditISA"
+   },
+   "screens": []
+  },
+  {
+   "id": "top-bar",
+   "part": "1",
+   "title": {
+    "en": "The top bar",
+    "fr": "La barre du haut"
+   },
+   "screens": []
+  },
+  {
+   "id": "home",
+   "part": "1",
+   "title": {
+    "en": "Your home page",
+    "fr": "Votre page d'accueil"
+   },
+   "screens": [
+    "ea_audit_ui.action_home",
+    "tag:ea_audit_ui.home",
+    "ea_audit_core.action_engagement"
+   ]
+  },
+  {
+   "id": "first-sign-in",
+   "part": "1",
+   "title": {
+    "en": "Signing in for the first time",
+    "fr": "Première connexion"
+   },
+   "screens": []
+  },
+  {
+   "id": "preferences",
+   "part": "1",
+   "title": {
+    "en": "Your preferences and sign-in security",
+    "fr": "Vos préférences et la sécurité de connexion"
+   },
+   "screens": [
+    "base.action_res_users_my",
+    "model:res.users:form"
+   ]
+  },
+  {
+   "id": "firm-users",
+   "part": "2",
+   "title": {
+    "en": "Users of the firm",
+    "fr": "Les utilisateurs du cabinet"
+   },
+   "screens": [
+    "ea_audit_timesheet.action_users",
+    "tag:ea_audit_timesheet.users"
+   ]
+  },
+  {
+   "id": "firm-settings",
+   "part": "2",
+   "title": {
+    "en": "Firm settings and email",
+    "fr": "Paramètres du cabinet et e-mails"
+   },
+   "screens": [
+    "ea_audit_timesheet.action_settings",
+    "tag:ea_audit_timesheet.settings"
+   ]
+  },
+  {
+   "id": "signoff-policy",
+   "part": "2",
+   "title": {
+    "en": "Sign-off policy",
+    "fr": "Politique de signature"
+   },
+   "screens": [
+    "ea_audit_core.action_signoff_policy_open",
+    "model:ea.audit.signoff.policy"
+   ]
+  },
+  {
+   "id": "signoff-matrix",
+   "part": "2",
+   "title": {
+    "en": "Sign-off matrix",
+    "fr": "Matrice de signature"
+   },
+   "screens": [
+    "ea_audit_core.action_signoff_matrix"
+   ]
+  },
+  {
+   "id": "file-index",
+   "part": "2",
+   "title": {
+    "en": "The audit file index",
+    "fr": "L'index du dossier d'audit"
+   },
+   "screens": [
+    "ea_audit_core.action_task_template",
+    "model:ea.audit.task.template"
+   ]
+  },
+  {
+   "id": "audit-log",
+   "part": "2",
+   "title": {
+    "en": "Audit log",
+    "fr": "Journal d'audit"
+   },
+   "screens": [
+    "ea_audit_core.action_firm_audit_log",
+    "model:ea.audit.activity"
+   ]
+  },
+  {
+   "id": "analytics-thresholds",
+   "part": "2",
+   "title": {
+    "en": "Substantive analytics thresholds",
+    "fr": "Seuils des procédures analytiques de corroboration"
+   },
+   "screens": [
+    "ea_audit_tools.action_sap_thresholds",
+    "model:ea.audit.sap.threshold.wizard"
+   ]
+  },
+  {
+   "id": "clients",
+   "part": "3",
+   "title": {
+    "en": "Your clients",
+    "fr": "Vos clients"
+   },
+   "screens": [
+    "ea_audit_core.action_client"
+   ]
+  },
+  {
+   "id": "client-record",
+   "part": "3",
+   "title": {
+    "en": "The client record",
+    "fr": "La fiche client"
+   },
+   "screens": [
+    "model:ea.audit.client:form"
+   ]
+  },
+  {
+   "id": "new-engagement",
+   "part": "3",
+   "title": {
+    "en": "Opening a new engagement",
+    "fr": "Ouvrir une nouvelle mission"
+   },
+   "screens": [
+    "ea_audit_core.action_engagement_create_wizard",
+    "model:ea.audit.engagement.create.wizard"
+   ]
+  },
+  {
+   "id": "engagement-questionnaire",
+   "part": "3",
+   "title": {
+    "en": "The engagement questionnaire",
+    "fr": "Le questionnaire de la mission"
+   },
+   "screens": [
+    "tag:ea_audit_core.profile"
+   ]
+  },
+  {
+   "id": "acceptance",
+   "part": "3",
+   "title": {
+    "en": "Acceptance and the engagement partner",
+    "fr": "L'acceptation et l'associé signataire"
+   },
+   "screens": [
+    "model:ea.audit.engagement:form"
+   ]
+  },
+  {
+   "id": "engagement-team",
+   "part": "3",
+   "title": {
+    "en": "Your engagement team",
+    "fr": "Votre équipe de mission"
+   },
+   "screens": [
+    "model:ea.audit.team.member",
+    "model:ea.audit.team.invite.wizard",
+    "ea_audit_core.action_team_invite_wizard"
+   ]
+  },
+  {
+   "id": "my-invitations",
+   "part": "3",
+   "title": {
+    "en": "Answering an invitation",
+    "fr": "Répondre à une invitation"
+   },
+   "screens": [
+    "ea_audit_core.action_my_invitations"
+   ]
+  },
+  {
+   "id": "engagement-dashboard",
+   "part": "4",
+   "title": {
+    "en": "The engagement dashboard",
+    "fr": "Le tableau de bord de la mission"
+   },
+   "screens": [
+    "tag:ea_audit_ui.dashboard",
+    "tag:ea_audit_ui.tasks"
+   ]
+  },
+  {
+   "id": "tasks",
+   "part": "4",
+   "title": {
+    "en": "The Tasks screen and deadlines",
+    "fr": "L'écran Tâches et les échéances"
+   },
+   "screens": [
+    "tag:ea_audit_ui.all_tasks",
+    "model:ea.audit.file.item"
+   ]
+  },
+  {
+   "id": "notifications",
+   "part": "4",
+   "title": {
+    "en": "Notifications",
+    "fr": "Notifications"
+   },
+   "screens": [
+    "ea_audit_ui.action_notifications",
+    "model:ea.audit.notification"
+   ]
+  },
+  {
+   "id": "file-scope",
+   "part": "4",
+   "title": {
+    "en": "Bringing an older engagement up to the current scope",
+    "fr": "Mettre une ancienne mission au périmètre actuel"
+   },
+   "screens": []
+  },
+  {
+   "id": "uploading-data",
+   "part": "4",
+   "title": {
+    "en": "Uploading the client's data",
+    "fr": "Importer les données du client"
+   },
+   "screens": [
+    "model:ea.audit.import.wizard",
+    "view:ea_audit_tools.view_engagement_tb_board"
+   ]
+  },
+  {
+   "id": "data-versions",
+   "part": "4",
+   "title": {
+    "en": "Versions of an upload",
+    "fr": "Les versions d'un import"
+   },
+   "screens": [
+    "model:ea.audit.dataset"
+   ]
+  },
+  {
+   "id": "timesheet",
+   "part": "4",
+   "title": {
+    "en": "Recording your time",
+    "fr": "Saisir votre temps"
+   },
+   "screens": [
+    "ea_audit_timesheet.action_sheet",
+    "tag:ea_audit_timesheet.sheet"
+   ]
+  },
+  {
+   "id": "time-reports",
+   "part": "4",
+   "title": {
+    "en": "Time reports",
+    "fr": "Rapports de temps"
+   },
+   "screens": [
+    "ea_audit_timesheet.action_reports",
+    "tag:ea_audit_timesheet.reports"
+   ]
+  },
+  {
+   "id": "budget",
+   "part": "4",
+   "title": {
+    "en": "Budget and actual",
+    "fr": "Budget et réalisé"
+   },
+   "screens": [
+    "tag:ea_audit_timesheet.budget"
+   ]
+  },
+  {
+   "id": "planning",
+   "part": "5",
+   "title": {
+    "en": "The Planning phase",
+    "fr": "La phase Planification"
+   },
+   "screens": []
+  },
+  {
+   "id": "materiality",
+   "part": "5",
+   "title": {
+    "en": "Materiality",
+    "fr": "Seuil de signification"
+   },
+   "screens": [
+    "view:ea_audit_tools.view_engagement_materiality_board",
+    "model:ea.audit.materiality",
+    "model:ea.audit.materiality.wizard"
+   ]
+  },
+  {
+   "id": "financial-analysis",
+   "part": "5",
+   "title": {
+    "en": "Financial analysis and analytical procedures",
+    "fr": "Analyse financière et procédures analytiques"
+   },
+   "screens": [
+    "model:ea.audit.fa.ratio",
+    "view:ea_audit_tools.view_engagement_analytics_board"
+   ]
+  },
+  {
+   "id": "significant-accounts",
+   "part": "5",
+   "title": {
+    "en": "Significant accounts",
+    "fr": "Comptes significatifs"
+   },
+   "screens": [
+    "model:ea.audit.significance"
+   ]
+  },
+  {
+   "id": "strategy",
+   "part": "5",
+   "title": {
+    "en": "The Strategy and risks phase",
+    "fr": "La phase Stratégie et risques"
+   },
+   "screens": []
+  },
+  {
+   "id": "risk-register",
+   "part": "5",
+   "title": {
+    "en": "The risk register",
+    "fr": "Le registre des risques"
+   },
+   "screens": [
+    "model:ea.audit.risk"
+   ]
+  },
+  {
+   "id": "transactions-controls",
+   "part": "5",
+   "title": {
+    "en": "Classes of transactions and controls",
+    "fr": "Catégories d'opérations et contrôles"
+   },
+   "screens": [
+    "model:ea.audit.scot"
+   ]
+  },
+  {
+   "id": "it-close",
+   "part": "5",
+   "title": {
+    "en": "IT applications and the close process",
+    "fr": "Applications informatiques et processus de clôture"
+   },
+   "screens": [
+    "view:ea_audit_tools.view_engagement_itgc_board",
+    "model:ea.audit.fscp"
+   ]
+  },
+  {
+   "id": "combined-risk",
+   "part": "5",
+   "title": {
+    "en": "The combined risk assessment",
+    "fr": "L'évaluation combinée des risques"
+   },
+   "screens": [
+    "tag:ea_audit_tools.cra_page"
+   ]
+  },
+  {
+   "id": "execution",
+   "part": "5",
+   "title": {
+    "en": "The Execution phase and tests of controls",
+    "fr": "La phase Exécution et les tests des contrôles"
+   },
+   "screens": []
+  },
+  {
+   "id": "procedure-design",
+   "part": "5",
+   "title": {
+    "en": "Procedure design",
+    "fr": "Conception des procédures"
+   },
+   "screens": [
+    "tag:ea_audit_tools.procedure_design"
+   ]
+  },
+  {
+   "id": "substantive",
+   "part": "5",
+   "title": {
+    "en": "Substantive procedures",
+    "fr": "Procédures de corroboration"
+   },
+   "screens": [
+    "tag:ea_audit_tools.substantive_page",
+    "tag:ea_audit_tools.procedure_paper"
+   ]
+  },
+  {
+   "id": "sampling",
+   "part": "5",
+   "title": {
+    "en": "Sampling",
+    "fr": "Échantillonnage"
+   },
+   "screens": [
+    "tag:ea_audit_tools.sampling_page",
+    "view:ea_audit_tools.view_engagement_sampling_board"
+   ]
+  },
+  {
+   "id": "journal-entries",
+   "part": "5",
+   "title": {
+    "en": "Journal entries",
+    "fr": "Écritures de journal"
+   },
+   "screens": [
+    "tag:ea_audit_tools.je_page",
+    "model:ea.audit.je.studio",
+    "view:ea_audit_tools.view_engagement_overrides_board"
+   ]
+  },
+  {
+   "id": "data-tools",
+   "part": "5",
+   "title": {
+    "en": "Analytics and the data tools",
+    "fr": "L'analytique et les outils de données"
+   },
+   "screens": [
+    "view:ea_audit_tools.view_engagement_lead_board",
+    "view:ea_audit_tools.view_engagement_sap_board",
+    "view:ea_audit_tools.view_engagement_gl_catalogue",
+    "model:ea.audit.sap.procedure"
+   ]
+  },
+  {
+   "id": "working-paper",
+   "part": "5",
+   "title": {
+    "en": "Working on a working paper",
+    "fr": "Travailler sur une feuille de travail"
+   },
+   "screens": [
+    "tag:ea_audit_paper"
+   ]
+  },
+  {
+   "id": "review-notes",
+   "part": "6",
+   "title": {
+    "en": "Review notes",
+    "fr": "Les notes de revue"
+   },
+   "screens": [
+    "model:ea.audit.review.note"
+   ]
+  },
+  {
+   "id": "signing",
+   "part": "6",
+   "title": {
+    "en": "Signing a working paper",
+    "fr": "Signer une feuille de travail"
+   },
+   "screens": []
+  },
+  {
+   "id": "findings",
+   "part": "6",
+   "title": {
+    "en": "Findings",
+    "fr": "Les constats"
+   },
+   "screens": [
+    "tag:ea_audit_tools.findings_page",
+    "model:ea.audit.finding",
+    "model:ea.audit.finding.wizard"
+   ]
+  },
+  {
+   "id": "audit-differences",
+   "part": "6",
+   "title": {
+    "en": "The summary of audit differences",
+    "fr": "Le récapitulatif des anomalies"
+   },
+   "screens": [
+    "tag:ea_audit_tools.sad_page"
+   ]
+  },
+  {
+   "id": "completing",
+   "part": "6",
+   "title": {
+    "en": "Completing the audit",
+    "fr": "Achever l'audit"
+   },
+   "screens": [
+    "view:ea_audit_reports.view_engagement_conclusion_form",
+    "view:ea_audit_legal.view_engagement_legal_form",
+    "model:ea.audit.completion.wizard"
+   ]
+  },
+  {
+   "id": "completion-checklist",
+   "part": "6",
+   "title": {
+    "en": "The completion checklist and issuing the report",
+    "fr": "La liste d'achèvement et l'émission du rapport"
+   },
+   "screens": [
+    "tag:ea_audit_reports.checklist_page"
+   ]
+  },
+  {
+   "id": "archiving",
+   "part": "6",
+   "title": {
+    "en": "Archiving the engagement file",
+    "fr": "Archiver le dossier de la mission"
+   },
+   "screens": [
+    "tag:ea_audit_reports.archive_page"
+   ]
+  },
+  {
+   "id": "roll-forward",
+   "part": "6",
+   "title": {
+    "en": "Rolling forward to next year",
+    "fr": "Reconduire la mission l'année suivante"
+   },
+   "screens": [
+    "model:ea.audit.rollforward.wizard"
+   ]
+  },
+  {
+   "id": "faq",
+   "part": "7",
+   "title": {
+    "en": "Frequently asked questions",
+    "fr": "Questions fréquentes"
+   },
+   "screens": []
+  },
+  {
+   "id": "words",
+   "part": "7",
+   "title": {
+    "en": "Words used in AuditISA",
+    "fr": "Les mots d'AuditISA"
+   },
+   "screens": []
+  },
+  {
+   "id": "glossary",
+   "part": "7",
+   "title": {
+    "en": "English-French glossary",
+    "fr": "Glossaire anglais-français"
+   },
+   "screens": []
+  }
+ ]
+}

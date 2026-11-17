@@ -34,3 +34,9 @@ class Engagement(models.Model):
             "type": "ir.actions.client", "tag": "ea_audit_ui.all_tasks",
             "name": self.env._("Tasks"), "params": {"resId": self.id},
         }
+
+    def _ea_board(self, view_xmlid, name):
+        """A tool board names its view, so "? Help" in the top bar opens the page of that board."""
+        action = super()._ea_board(view_xmlid, name)
+        action["context"] = dict(action.get("context") or {}, ea_help_view=view_xmlid)
+        return action
