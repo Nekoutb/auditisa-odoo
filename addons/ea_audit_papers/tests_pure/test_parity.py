@@ -45,6 +45,9 @@ def _fixture(name):
 # The working-paper layout of 2026-11-17 converts the reference papers (services/layout.py).
 DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.14", "E4.15", "E6.4"} | {
     "S4.2", "P6.1", "P6.2", "S1.1", "S1.2", "S1.3", "S1.4", "S3.1",
+} | {
+    # the plan group (P1-P5), with P4.2's control environment in P4.1
+    "P1.2", "P1.3", "P2.1", "P2.2", "P2.3", "P3.1", "P3.2", "P4.1", "P4.3", "P5.1", "P5.2",
 }
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")

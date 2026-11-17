@@ -3,8 +3,6 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶17–18 · ISA 240 ¶16",
-  "ownsEn": "the team discussion and the susceptibility of the statements to material misstatement",
-  "ownsFr": "la réunion d'équipe et la sensibilité des comptes aux anomalies significatives",
   "reqEn": [
    "The engagement partner and other key team members discuss the application of the applicable financial reporting framework and the susceptibility of the entity's financial statements to material misstatement (ISA 315 (Revised 2019) ¶17). The discussion is held even where the team is small, and the partner determines what is communicated to members not involved.",
    "The discussion includes an exchange of ideas about how and where the financial statements may be susceptible to material misstatement due to fraud, including how it might occur. It is held setting aside any belief that management and those charged with governance are honest (ISA 240 ¶16).",
@@ -17,88 +15,151 @@
    "Ordre du jour : (1) l'activité, le secteur et les changements de l'exercice ; (2) l'application du référentiel et les points de jugement ; (3) les comptes et informations les plus exposés et les assertions concernées ; (4) la fraude — incitations, opportunités, rationalisations, manipulation du chiffre d'affaires, détournement d'actifs ; (5) le contournement des contrôles par la direction et les écritures utilisées ; (6) les parties liées et les opérations inhabituelles ; (7) les indices de continuité d'exploitation ; (8) les textes légaux applicables, dont les obligations OHADA.",
    "Et la conduite de la mission : (9) le seuil de signification et son effet sur le périmètre ; (10) l'appui prévu sur les contrôles et les travaux de tiers ; (11) l'environnement informatique et le besoin d'un spécialiste IT ; (12) les spécialistes à impliquer — fiscal, évaluation, actuariel ; (13) l'équipe, ses compétences et le temps disponible ; (14) les constats et notes de revue de l'exercice précédent à ne pas répéter ; (15) le calendrier, les livrables et les responsabilités."
   ],
-  "conclEn": [
-   "The discussion covered the susceptibility of the financial statements to material misstatement, including from fraud, and the matters raised have been carried into the risk assessment."
-  ],
-  "conclFr": [
-   "L'échange a couvert la sensibilité des états financiers aux anomalies significatives, y compris de fraude, et les points soulevés sont repris dans l'évaluation des risques."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "hold",
       "en": "Hold the discussion with the engagement partner and the key team members. Record the date, the attendees and the absentees.",
       "fr": "Tenir la réunion avec l'associé responsable et les membres clés. Consigner la date, les présents et les absents.",
-      "srcEn": "Meeting note · team page",
-      "srcFr": "Note de réunion · page Équipe"
+      "shortEn": "Discussion held",
+      "shortFr": "Tenue de l'échange",
+      "isa": "ISA 315 ¶17",
+      "tipsEn": [
+       "Record the date, the attendees and the absentees.",
+       "The partner takes part, even on a team of two."
+      ],
+      "tipsFr": [
+       "Consigner la date, les présents et les absents.",
+       "L'associé y participe, même dans une équipe de deux."
+      ]
      },
      {
       "key": "framework",
       "en": "Discuss how the applicable financial reporting framework applies to the entity's facts, and where its application calls for judgement.",
       "fr": "Examiner l'application du référentiel comptable aux faits de l'entité et les points appelant un jugement.",
-      "srcEn": "P3.1 · accounting policies · prior file",
-      "srcFr": "P3.1 · méthodes comptables · dossier antérieur"
+      "shortEn": "Application of the framework",
+      "shortFr": "Application du référentiel",
+      "isa": "ISA 315 ¶17"
      },
      {
       "key": "fraud",
       "en": "Exchange ideas on how and where the financial statements may be susceptible to material misstatement due to fraud, including the manner in which assets could be misappropriated.",
       "fr": "Échanger sur les modalités et les zones possibles d'anomalies résultant de fraude, y compris le détournement d'actifs.",
-      "srcEn": "ISA 240 ¶16 · P5.1 · prior findings",
-      "srcFr": "ISA 240 ¶16 · P5.1 · constats antérieurs"
+      "shortEn": "Susceptibility to fraud",
+      "shortFr": "Vulnérabilité à la fraude",
+      "isa": "{{ISA240.discussion}}",
+      "tipsEn": [
+       "Set aside any belief that management is honest.",
+       "Discuss how assets could be misappropriated."
+      ],
+      "tipsFr": [
+       "Écarter toute conviction sur l'honnêteté de la direction.",
+       "Examiner comment des actifs pourraient être détournés."
+      ]
      },
      {
       "key": "override",
       "en": "Discuss how management could override controls, and the accounting entries that would be used.",
       "fr": "Examiner comment la direction pourrait contourner les contrôles et les écritures qui seraient utilisées.",
-      "srcEn": "ISA 240 ¶31 · E3.1",
-      "srcFr": "ISA 240 ¶31 · E3.1"
+      "shortEn": "Management override",
+      "shortFr": "Contournement par la direction",
+      "isa": "{{ISA240.override}}",
+      "tipsEn": [
+       "Which entries would management use, and when?"
+      ],
+      "tipsFr": [
+       "Quelles écritures la direction utiliserait-elle, et quand ?"
+      ]
      },
      {
       "key": "absent",
       "en": "Determine what is to be communicated to team members who did not attend, and record that it was done.",
       "fr": "Déterminer ce qui doit être communiqué aux membres absents et consigner que cela a été fait.",
-      "srcEn": "Team page · circulated note",
-      "srcFr": "Page Équipe · note diffusée"
+      "shortEn": "Members not present",
+      "shortFr": "Membres absents",
+      "isa": "ISA 315 ¶18"
      },
      {
       "key": "carry",
       "en": "Carry each matter raised into the risk register, or record why it does not give rise to an assessed risk.",
       "fr": "Reporter chaque point soulevé dans le registre des risques, ou consigner pourquoi il ne donne pas lieu à un risque évalué.",
-      "srcEn": "S3.1 risk register",
-      "srcFr": "Registre des risques S3.1"
+      "shortEn": "Into the risk register",
+      "shortFr": "Au registre des risques",
+      "isa": "ISA 315 ¶28"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "partner",
-      "en": "The engagement partner took part in the discussion (procedure 1).",
-      "fr": "L'associé responsable a pris part à l'échange (procédure 1)."
+      "en": "The engagement partner took part in the discussion.",
+      "fr": "L'associé responsable a pris part à l'échange.",
+      "tasks": [
+       "hold"
+      ]
      },
      {
       "key": "fraud_covered",
-      "en": "Fraud, including management override, was discussed and not merely noted (procedures 3, 4).",
-      "fr": "La fraude, y compris le contournement des contrôles, a été discutée et pas seulement mentionnée (procédures 3, 4)."
+      "en": "Fraud, including management override, was discussed and not merely noted.",
+      "fr": "La fraude, y compris le contournement des contrôles, a été discutée et pas seulement mentionnée.",
+      "tasks": [
+       "fraud",
+       "override"
+      ]
      },
      {
       "key": "registered",
-      "en": "Every matter raised is reflected in the risk register or explained (procedure 6).",
-      "fr": "Chaque point soulevé figure au registre des risques ou est justifié (procédure 6)."
+      "en": "Every matter raised is reflected in the risk register or explained.",
+      "fr": "Chaque point soulevé figure au registre des risques ou est justifié.",
+      "tasks": [
+       "carry"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Hold a discussion among the engagement partner and key team members on the application of the financial reporting framework and on the susceptibility of the financial statements to material misstatement, including due to fraud (ISA 315 (Revised 2019) ¶17; {{ISA240.discussion}}).",
+  "objectiveFr": "Tenir un échange entre l'associé et les membres clés de l'équipe sur l'application du référentiel comptable et sur la vulnérabilité des états financiers aux anomalies significatives, y compris provenant de fraudes (ISA 315 révisée 2019 ¶17 ; {{ISA240.discussion}}).",
+  "isa": [
+   {
+    "std": "ISA 315"
+   },
+   {
+    "std": "ISA 240"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks and their significance",
+    "noteFr": "Risques et leur importance"
+   },
+   {
+    "action": "action_tool_team",
+    "en": "Engagement team",
+    "fr": "Équipe de mission",
+    "noteEn": "Who is on the file and in which role",
+    "noteFr": "Qui est sur le dossier et dans quel rôle"
+   }
+  ],
+  "links": [
+   "P5.1",
+   "P3.1",
+   "S3.1",
+   "S6.1"
+  ],
+  "neverLight": true,
+  "conclStdEn": "The discussion covered the susceptibility of the financial statements to material misstatement, including from fraud, and the matters raised are carried into the risk assessment.",
+  "conclStdFr": "L'échange a couvert la vulnérabilité des états financiers aux anomalies significatives, y compris provenant de fraudes, et les points soulevés sont repris dans l'évaluation des risques."
  }
 }

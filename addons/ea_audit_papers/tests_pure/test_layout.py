@@ -46,10 +46,10 @@ def full_values(definition, **extra):
 
 
 def test_an_older_definition_is_left_as_it_is():
-    definition = resolved("P3.1")
+    definition = resolved("E4.1")
     assert not is_converted(definition)
-    assert shape(definition, "P3.1", "very_simple", {}) is definition
-    assert depth_of(definition, "P3.1", "very_simple", {}) == ("complex", None)
+    assert shape(definition, "E4.1", "very_simple", {}) is definition
+    assert depth_of(definition, "E4.1", "very_simple", {}) == ("complex", None)
     assert not {k for k in paper_keys(definition) if k.endswith(("_m", "_src"))}
 
 

@@ -3,8 +3,6 @@
  "source": "lib/papers/acceptance.ts",
  "definition": {
   "std": "IESBA Code Parts 1 and 4A · ISA 220 (Revised) ¶16–21 · ISQM 1 ¶29",
-  "ownsEn": "the independence conclusion, and the threats and safeguards log",
-  "ownsFr": "la conclusion d'indépendance et le registre des risques et sauvegardes",
   "reqEn": [
    "We comply with relevant ethical requirements, including those on independence (ISA 220 (Revised) ¶16). The engagement partner obtains information from the firm and, where relevant, from network firms, and determines that the requirements applicable to the engagement have been fulfilled (ISA 220 (Revised) ¶21; ISQM 1 ¶29).",
    "The International Ethics Standards Board for Accountants (IESBA) Code applies a conceptual framework: identify threats to compliance with the fundamental principles, evaluate whether those threats are at an acceptable level, and address them by eliminating the circumstance, applying a safeguard, or declining the engagement (§120). Threats are classified under five categories: self-interest, self-review, advocacy, familiarity and intimidation.",
@@ -19,86 +17,217 @@
    "Un service impliquant la prise en charge d'une responsabilité de direction n'est jamais autorisé pour un client d'audit (§600.7 A3).",
    "L'indépendance est requise tout au long de la mission, et non à la seule acceptation (§400.80 et suivants)."
   ],
-  "conclEn": [
-   "We are independent of the entity at firm, network and engagement-team level, for the purposes of the IESBA Code and applicable local requirements.",
-   "The threats recorded below have been reduced to an acceptable level by the safeguards applied."
-  ],
-  "conclFr": [
-   "Nous sommes indépendants de l'entité au niveau du cabinet, du réseau et de l'équipe affectée.",
-   "Les risques consignés ci-dessous ont été ramenés à un niveau acceptable par les sauvegardes appliquées."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, naming the register searched or the person who responded, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat, en nommant le registre consulté ou la personne ayant répondu, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "declare",
       "en": "Obtain, outside the system, the signed independence declaration of every person assigned to the engagement, including the engagement partner and any auditor's expert. File each signed declaration on this paper as an attachment and record the date it was obtained.",
       "fr": "Obtenir, en dehors du système, la déclaration d'indépendance signée de toute personne affectée à la mission, y compris l'associé responsable et tout expert de l'auditeur. Classer chaque déclaration signée sur ce papier en pièce jointe et consigner la date d'obtention.",
-      "srcEn": "Signed declarations obtained outside the system · attachments to this paper · team page",
-      "srcFr": "Déclarations signées obtenues en dehors du système · pièces jointes de ce papier · page Équipe"
+      "shortEn": "Team declarations",
+      "shortFr": "Déclarations de l'équipe",
+      "isa": "ISA 220 ¶16–17",
+      "tipsEn": [
+       "Include the engagement partner and any auditor's expert.",
+       "Attach each signed declaration and cite it as [A1]."
+      ],
+      "tipsFr": [
+       "Inclure l'associé et tout expert de l'auditeur.",
+       "Joindre chaque déclaration signée et la citer comme [A1]."
+      ],
+      "fieldKeys": [
+       "declarations_filed",
+       "outstanding"
+      ]
      },
      {
       "key": "interests",
       "en": "Search the firm's register of interests for financial interests in the entity or its related entities held by the firm, its partners, or their immediate family.",
       "fr": "Consulter le registre des intérêts du cabinet à la recherche d'intérêts financiers dans l'entité ou ses entités liées détenus par le cabinet, ses associés ou les membres de leur famille proche.",
-      "srcEn": "Firm register of interests · partner declarations",
-      "srcFr": "Registre des intérêts du cabinet · déclarations des associés"
+      "shortEn": "Financial interests",
+      "shortFr": "Intérêts financiers",
+      "isa": "IESBA §510",
+      "tipsEn": [
+       "Cover immediate family members too."
+      ],
+      "tipsFr": [
+       "Couvrir aussi les membres de la famille proche."
+      ]
      },
      {
       "key": "nas",
       "en": "Identify every non-assurance service provided to the entity by the firm or a network firm in the current and prior period. Record the service, the fee and the period.",
       "fr": "Recenser chaque service autre que d'assurance fourni à l'entité par le cabinet ou un cabinet du réseau sur l'exercice et l'exercice précédent. Consigner la prestation, les honoraires et la période.",
-      "srcEn": "Billing records · network firm confirmations · engagement register",
-      "srcFr": "Facturation · confirmations des cabinets du réseau · registre des missions"
+      "shortEn": "Non-assurance services",
+      "shortFr": "Services autres que l'audit",
+      "isa": "IESBA §600",
+      "tipsEn": [
+       "Preparing the accounts or the payroll for an audit client is a self-review threat."
+      ],
+      "tipsFr": [
+       "Établir les comptes ou la paie d'un client d'audit crée une menace d'autorévision."
+      ],
+      "fieldKeys": [
+       "nas_list"
+      ]
      },
      {
       "key": "fees",
       "en": "Obtain the fee history for the entity over the last three periods and calculate the fees as a proportion of the office's and the firm's total fees.",
       "fr": "Obtenir l'historique des honoraires de l'entité sur les trois derniers exercices et calculer leur part dans le total des honoraires du bureau et du cabinet.",
-      "srcEn": "Billing records · practice management system",
-      "srcFr": "Facturation · système de gestion du cabinet"
+      "shortEn": "Fee dependence",
+      "shortFr": "Dépendance aux honoraires",
+      "isa": "IESBA §410",
+      "tipsEn": [
+       "Compare with the office's and the firm's total fees."
+      ],
+      "tipsFr": [
+       "Comparer aux honoraires totaux du bureau et du cabinet."
+      ]
      },
      {
       "key": "rotation",
       "en": "Determine how long the engagement partner and any engagement quality reviewer have served on this engagement, and compare that against the rotation limits applicable to the entity.",
       "fr": "Déterminer depuis combien d'exercices l'associé responsable et tout responsable de la revue de qualité interviennent sur la mission, et comparer aux durées de rotation applicables à l'entité.",
-      "srcEn": "Prior engagement files · partner rotation register",
-      "srcFr": "Dossiers antérieurs · registre de rotation des associés"
+      "shortEn": "Long association",
+      "shortFr": "Durée de la relation",
+      "isa": "IESBA §540"
      },
      {
       "key": "relations",
       "en": "Inquire whether any member of the team has been employed by the entity, seconded to it, or has a close business, family or personal relationship with it.",
       "fr": "S'enquérir de tout membre de l'équipe ayant été employé par l'entité, détaché auprès d'elle, ou entretenant avec elle une relation d'affaires, familiale ou personnelle étroite.",
-      "srcEn": "Independence declarations · inquiry of team members",
-      "srcFr": "Déclarations d'indépendance · entretiens avec les membres de l'équipe"
+      "shortEn": "Employment and relationships",
+      "shortFr": "Emplois et relations",
+      "isa": "IESBA §520–524"
      },
      {
       "key": "loans",
       "en": "Identify any loan, guarantee or overdue fee between the firm and the entity.",
       "fr": "Recenser tout prêt, garantie ou honoraire échu impayé entre le cabinet et l'entité.",
-      "srcEn": "Firm accounts · receivables ledger",
-      "srcFr": "Comptes du cabinet · grand livre clients"
+      "shortEn": "Loans, guarantees, overdue fees",
+      "shortFr": "Prêts, garanties, honoraires impayés",
+      "isa": "IESBA §511, §410"
      },
      {
       "key": "evaluate",
       "en": "Where a threat is identified, evaluate its significance and record the safeguard applied. Where no safeguard reduces the threat to an acceptable level, record the decision to decline or to withdraw.",
       "fr": "Lorsqu'un risque est identifié, en évaluer l'importance et consigner la mesure de sauvegarde appliquée. Si aucune mesure ne ramène le risque à un niveau acceptable, consigner la décision de refuser la mission ou de s'en démettre.",
-      "srcEn": "IESBA Code Part 4A · record of consultation",
-      "srcFr": "Code IESBA partie 4A · trace de la consultation"
+      "shortEn": "Threats and safeguards",
+      "shortFr": "Menaces et sauvegardes",
+      "isa": "IESBA §120",
+      "tipsEn": [
+       "Name the threat category and the safeguard applied.",
+       "Where no safeguard works, decline or withdraw."
+      ],
+      "tipsFr": [
+       "Nommer la catégorie de menace et la sauvegarde appliquée.",
+       "À défaut de sauvegarde efficace, refuser ou se retirer."
+      ],
+      "fieldKeys": [
+       "threats"
+      ]
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "financial",
+      "en": "No member of the team, and no part of the firm, holds a direct financial interest or a material indirect financial interest in the entity (§510).",
+      "fr": "Aucun membre de l'équipe ni aucune entité du cabinet ne détient d'intérêt financier direct ou indirect significatif dans l'entité (§510).",
+      "tasks": [
+       "interests"
+      ]
+     },
+     {
+      "key": "loans",
+      "en": "No loan or guarantee exists between the firm and the entity, other than on normal commercial terms with a financial-institution client (§511).",
+      "fr": "Aucun prêt ni garantie entre le cabinet et l'entité, hors conditions commerciales normales avec un client établissement financier (§511).",
+      "na": true,
+      "tasks": [
+       "loans"
+      ]
+     },
+     {
+      "key": "business",
+      "en": "No close business relationship exists between the firm or a team member and the entity (§520).",
+      "fr": "Aucune relation d'affaires étroite entre le cabinet ou un membre de l'équipe et l'entité (§520).",
+      "tasks": [
+       "relations"
+      ]
+     },
+     {
+      "key": "family",
+      "en": "No family or close personal relationship exists between a team member and a director, officer or influential employee of the entity (§521).",
+      "fr": "Aucun lien familial ou personnel étroit entre un membre de l'équipe et un dirigeant ou salarié influent (§521).",
+      "tasks": [
+       "relations"
+      ]
+     },
+     {
+      "key": "employment",
+      "en": "No team member has recently been employed by the entity or is in employment discussions with it (§524).",
+      "fr": "Aucun membre de l'équipe n'a récemment été employé par l'entité ni n'est en pourparlers d'embauche (§524).",
+      "tasks": [
+       "relations"
+      ]
+     },
+     {
+      "key": "rotation",
+      "en": "The long-association and rotation thresholds for senior personnel are not exceeded (§540).",
+      "fr": "Les seuils d'association de longue durée et de rotation ne sont pas dépassés (§540).",
+      "tasks": [
+       "rotation"
+      ]
+     },
+     {
+      "key": "overdue",
+      "en": "No significant fee is overdue from the entity, and no fee is contingent (§410).",
+      "fr": "Aucun honoraire significatif n'est impayé et aucun honoraire n'est conditionnel (§410).",
+      "tasks": [
+       "loans",
+       "fees"
+      ]
+     },
+     {
+      "key": "dependence",
+      "en": "The total fees from the entity remain within acceptable dependence thresholds, taking the firm and its network together (§410).",
+      "fr": "Le total des honoraires reste dans les seuils de dépendance acceptables, cabinet et réseau réunis (§410).",
+      "tasks": [
+       "fees"
+      ]
+     },
+     {
+      "key": "nas",
+      "en": "Every non-assurance service provided has been evaluated, involves no assumption of a management responsibility, is permitted for this class of client, and is supported by the safeguards recorded (§600).",
+      "fr": "Chaque service autre que d'assurance a été évalué, n'implique aucune responsabilité de direction, est autorisé pour cette catégorie de client, et est assorti des sauvegardes consignées (§600).",
+      "na": true,
+      "tasks": [
+       "nas",
+       "evaluate"
+      ]
+     },
+     {
+      "key": "gifts",
+      "en": "No gift or hospitality other than trivial and inconsequential has been accepted from the entity (§420).",
+      "fr": "Aucun cadeau ni marque d'hospitalité autre que négligeable n'a été accepté (§420).",
+      "tasks": [
+       "declare"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Team declarations",
-    "titleFr": "Partie B — Déclarations de l'équipe",
-    "introEn": "Independence declarations are obtained outside the system. Each team member's signed declaration is uploaded to this paper as an attachment, and the engagement partner signs the paper once every declaration is filed and evaluated.",
-    "introFr": "Les déclarations d'indépendance sont obtenues en dehors du système. La déclaration signée de chaque membre de l'équipe est chargée sur ce papier en pièce jointe, et l'associé responsable signe le papier une fois toutes les déclarations classées et évaluées.",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "declarations_filed",
@@ -110,78 +239,9 @@
       "key": "outstanding",
       "kind": "input",
       "labelEn": "Where a declaration is outstanding at the date of this paper, the reason and the action taken",
-      "labelFr": "Si une déclaration reste en attente à la date de ce document, le motif et les mesures prises"
-     }
-    ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part C — Evaluation of independence",
-    "titleFr": "Partie C — Évaluation de l'indépendance",
-    "introEn": "Evaluate each statement at firm, network and engagement-team level. The bracketed references are to the IESBA Code. Explain each “No” in the box beneath it and record the resulting threat in Part C.",
-    "introFr": "Évaluer chaque affirmation au niveau du cabinet, du réseau et de l'équipe. Les références entre parenthèses renvoient au Code IESBA.",
-    "items": [
-     {
-      "key": "financial",
-      "en": "No member of the team, and no part of the firm, holds a direct financial interest or a material indirect financial interest in the entity (§510).",
-      "fr": "Aucun membre de l'équipe ni aucune entité du cabinet ne détient d'intérêt financier direct ou indirect significatif dans l'entité (§510)."
+      "labelFr": "Si une déclaration reste en attente à la date de ce document, le motif et les mesures prises",
+      "optional": true
      },
-     {
-      "key": "loans",
-      "en": "No loan or guarantee exists between the firm and the entity, other than on normal commercial terms with a financial-institution client (§511).",
-      "fr": "Aucun prêt ni garantie entre le cabinet et l'entité, hors conditions commerciales normales avec un client établissement financier (§511).",
-      "na": true
-     },
-     {
-      "key": "business",
-      "en": "No close business relationship exists between the firm or a team member and the entity (§520).",
-      "fr": "Aucune relation d'affaires étroite entre le cabinet ou un membre de l'équipe et l'entité (§520)."
-     },
-     {
-      "key": "family",
-      "en": "No family or close personal relationship exists between a team member and a director, officer or influential employee of the entity (§521).",
-      "fr": "Aucun lien familial ou personnel étroit entre un membre de l'équipe et un dirigeant ou salarié influent (§521)."
-     },
-     {
-      "key": "employment",
-      "en": "No team member has recently been employed by the entity or is in employment discussions with it (§524).",
-      "fr": "Aucun membre de l'équipe n'a récemment été employé par l'entité ni n'est en pourparlers d'embauche (§524)."
-     },
-     {
-      "key": "rotation",
-      "en": "The long-association and rotation thresholds for senior personnel are not exceeded (§540).",
-      "fr": "Les seuils d'association de longue durée et de rotation ne sont pas dépassés (§540)."
-     },
-     {
-      "key": "overdue",
-      "en": "No significant fee is overdue from the entity, and no fee is contingent (§410).",
-      "fr": "Aucun honoraire significatif n'est impayé et aucun honoraire n'est conditionnel (§410)."
-     },
-     {
-      "key": "dependence",
-      "en": "The total fees from the entity remain within acceptable dependence thresholds, taking the firm and its network together (§410).",
-      "fr": "Le total des honoraires reste dans les seuils de dépendance acceptables, cabinet et réseau réunis (§410)."
-     },
-     {
-      "key": "nas",
-      "en": "Every non-assurance service provided has been evaluated, involves no assumption of a management responsibility, is permitted for this class of client, and is supported by the safeguards recorded in Part C (§600).",
-      "fr": "Chaque service autre que d'assurance a été évalué, n'implique aucune responsabilité de direction, est autorisé, et est assorti des sauvegardes consignées en partie C (§600).",
-      "na": true
-     },
-     {
-      "key": "gifts",
-      "en": "No gift or hospitality other than trivial and inconsequential has been accepted from the entity (§420).",
-      "fr": "Aucun cadeau ni marque d'hospitalité autre que négligeable n'a été accepté (§420)."
-     }
-    ]
-   },
-   {
-    "kind": "fields",
-    "titleEn": "Part D — Threats and safeguards",
-    "titleFr": "Partie D — Risques et sauvegardes",
-    "introEn": "Record each threat identified, its category, the safeguard applied and whether the residual threat is at an acceptable level. Where it is not, the engagement is not accepted.",
-    "introFr": "Consigner chaque risque identifié, sa catégorie, la sauvegarde appliquée et le caractère acceptable du risque résiduel. À défaut, la mission n'est pas acceptée.",
-    "fields": [
      {
       "key": "threats",
       "kind": "input",
@@ -192,10 +252,43 @@
       "key": "nas_list",
       "kind": "input",
       "labelEn": "Non-assurance services provided in the period, with the basis on which each is permitted",
-      "labelFr": "Services autres que d'assurance fournis sur la période, et base de leur autorisation"
+      "labelFr": "Services autres que d'assurance fournis sur la période, et base de leur autorisation",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Determine that the firm, its network and every member of the engagement team comply with the relevant ethical requirements, including independence, and that any threat identified is eliminated or reduced to an acceptable level (ISA 220 (Revised) ¶16–21; IESBA Code Part 4A).",
+  "objectiveFr": "Déterminer que le cabinet, son réseau et chaque membre de l'équipe respectent les règles d'éthique applicables, indépendance comprise, et que toute menace identifiée est éliminée ou ramenée à un niveau acceptable (ISA 220 révisée ¶16–21 ; Code IESBA partie 4A).",
+  "isa": [
+   {
+    "std": "ISA 220"
+   },
+   {
+    "label": "IESBA Code",
+    "url": "https://www.ethicsboard.org/iesba-code"
+   },
+   {
+    "std": "ISQM 1"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_team",
+    "en": "Engagement team",
+    "fr": "Équipe de mission",
+    "noteEn": "Who is on the file and in which role",
+    "noteFr": "Qui est sur le dossier et dans quel rôle"
+   }
+  ],
+  "links": [
+   "P2.2",
+   "P1.1",
+   "P1.5",
+   "C5.11"
+  ],
+  "neverLight": true,
+  "conclStdEn": "We are independent of the entity at firm, network and team level; every threat identified is reduced to an acceptable level by the safeguards recorded.",
+  "conclStdFr": "Nous sommes indépendants de l'entité au niveau du cabinet, du réseau et de l'équipe ; chaque menace identifiée est ramenée à un niveau acceptable par les sauvegardes consignées."
  }
 }

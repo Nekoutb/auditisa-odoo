@@ -17,7 +17,8 @@ class TestPaperIncomplete(PaperCase):
             self.sign(self.senior, self.engagement, "P3.1", "preparer")
         self.assertEqual(caught.exception.code, "paper-incomplete")
         message = caught.exception.args[0]
-        self.assertIn("Part B", message)
+        # P3.1 is in the layout of 2026-11-17: after one task, the statements are still to answer
+        self.assertIn("Conclusion: statements", message)
         self.assertIn("Conclusion", message)
         self.assertTrue(message.endswith("[paper-incomplete]"))
 
@@ -156,7 +157,7 @@ class TestChips(PaperCase):
     def test_grey_with_the_reason_and_nothing_is_written(self):
         chips = self.chips(self.senior)
         self.assertEqual(chips["preparer"]["code"], "paper-incomplete")
-        self.assertIn("Part A", chips["preparer"]["reason"])
+        self.assertIn("Tasks required", chips["preparer"]["reason"])
         self.assertFalse(chips["preparer"]["reason"].endswith("]"))
         self.assertEqual(chips["reviewer"]["code"], "role-below-task-minimum-manager")
         self.assertEqual(self.chips(self.manager)["reviewer"]["code"], "preparer-first")

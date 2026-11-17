@@ -3,11 +3,9 @@
  "source": "lib/papers/acceptance.ts",
  "definition": {
   "std": "ISQM 1 ¶30 · ISA 220 (Revised) ¶22–24 · IESBA Code §320",
-  "ownsEn": "the client risk rating and the integrity conclusion",
-  "ownsFr": "la notation du risque client et la conclusion sur l'intégrité",
   "reqEn": [
    "The firm may accept or continue a client relationship only where it has obtained information about the nature and circumstances of the engagement and about the integrity and ethical values of the client, including its management, its owners and those charged with governance (ISQM 1 ¶30(a)). The engagement partner determines that the firm's acceptance procedures have been followed, and remains alert throughout for information that would have caused the firm to decline (ISA 220 (Revised) ¶22–24).",
-   "The IESBA Code treats doubt over a client's integrity as a source of threats to compliance with the fundamental principles, and requires those threats to be identified and evaluated before an appointment is accepted (IESBA Code §320). Part A obtains that information from registry records, screening results, media coverage, third-party references and the predecessor auditor's response.",
+   "The IESBA Code treats doubt over a client's integrity as a source of threats to compliance with the fundamental principles, and requires those threats to be identified and evaluated before an appointment is accepted (IESBA Code §320). The tasks below obtain that information from registry records, screening results, media coverage, third-party references and the predecessor auditor's response.",
    "The reason for the change of auditor is corroborated with the predecessor auditor and is not accepted on management's account alone, particularly where the change follows a disagreement over an accounting or auditing matter or a restriction on the previous auditor's work (ISA 300 ¶13; procedures performed under P1.2).",
    "For each screening performed, record the database searched, the date, the terms used and the disposition of every match. A match dismissed without a recorded reason is an unresolved matter for the purposes of the risk rating."
   ],
@@ -27,11 +25,245 @@
   ],
   "sections": [
    {
+    "kind": "proc",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
+    "procs": [
+     {
+      "key": "docs",
+      "en": "Obtain and inspect the entity's constitutive and registration documents. Record the legal form, registered office and registration numbers.",
+      "fr": "Obtenir et examiner les statuts et documents d'immatriculation. Consigner la forme juridique, le siège et les numéros d'immatriculation.",
+      "shortEn": "Legal documents",
+      "shortFr": "Documents juridiques",
+      "isa": "ISQM 1 ¶30(a)",
+      "tipsEn": [
+       "Use a trade register extract less than three months old.",
+       "Agree the legal form and registered office to the statutes."
+      ],
+      "tipsFr": [
+       "Utiliser un extrait RCCM de moins de trois mois.",
+       "Rapprocher la forme juridique et le siège des statuts."
+      ]
+     },
+     {
+      "key": "owners",
+      "en": "Obtain the ownership structure down to the ultimate beneficial owners. Agree it to the share register and the shareholder minutes.",
+      "fr": "Obtenir la structure de l'actionnariat jusqu'aux bénéficiaires effectifs. La rapprocher du registre des titres et des procès-verbaux.",
+      "shortEn": "Owners and beneficial owners",
+      "shortFr": "Actionnaires et bénéficiaires effectifs",
+      "isa": "ISQM 1 ¶30(a)",
+      "tipsEn": [
+       "Follow holding companies up to the natural persons."
+      ],
+      "tipsFr": [
+       "Remonter les sociétés holding jusqu'aux personnes physiques."
+      ]
+     },
+     {
+      "key": "activities",
+      "en": "Inquire of management about the entity's activities, operating locations and principal customers and suppliers. Corroborate the responses against independent information.",
+      "fr": "S'enquérir auprès de la direction des activités, implantations et principaux clients et fournisseurs. Corroborer par des informations indépendantes.",
+      "shortEn": "Activities, customers and suppliers",
+      "shortFr": "Activités, clients et fournisseurs",
+      "isa": "ISA 220 ¶22",
+      "tipsEn": [
+       "Corroborate the answers with a site visit or public information."
+      ],
+      "tipsFr": [
+       "Corroborer les réponses par une visite de site ou des informations publiques."
+      ]
+     },
+     {
+      "key": "licences",
+      "en": "Identify the regulators and licences that apply to the entity's sector. Inspect the licences held and the most recent correspondence with each regulator.",
+      "fr": "Identifier les régulateurs et agréments applicables au secteur. Examiner les agréments détenus et la correspondance récente.",
+      "shortEn": "Regulators and licences",
+      "shortFr": "Régulateurs et agréments",
+      "isa": "ISQM 1 ¶30(a)",
+      "tipsEn": [
+       "Note the expiry date of each licence held."
+      ],
+      "tipsFr": [
+       "Relever la date d'expiration de chaque agrément détenu."
+      ]
+     },
+     {
+      "key": "screening",
+      "en": "Screen the entity, its principal owners, directors and key management against sanctions lists, politically exposed person lists and adverse media. Record each search, with the database, date and terms used, and the disposition of every match.",
+      "fr": "Cribler l'entité, ses propriétaires, dirigeants et cadres dirigeants au regard des listes de sanctions, des listes de personnes politiquement exposées et des médias défavorables. Consigner chaque recherche et le traitement de chaque correspondance.",
+      "shortEn": "Sanctions and politically exposed persons",
+      "shortFr": "Filtrage sanctions et PPE",
+      "isa": "IESBA §320",
+      "tipsEn": [
+       "Record the database, date, terms and outcome of each search.",
+       "A match dismissed without a written reason stays open."
+      ],
+      "tipsFr": [
+       "Consigner la base, la date, les termes et le résultat de chaque recherche.",
+       "Une correspondance écartée sans motif écrit reste ouverte."
+      ]
+     },
+     {
+      "key": "media",
+      "en": "Search press and internet sources for indications of fraud, litigation, insolvency or regulatory action against the entity or its principals. Record the terms and dates of the searches.",
+      "fr": "Rechercher dans la presse et sur internet des indices de fraude, litige, insolvabilité ou action réglementaire. Consigner les termes et dates.",
+      "shortEn": "Press and internet searches",
+      "shortFr": "Recherches presse et internet",
+      "isa": "ISQM 1 ¶30(a)",
+      "tipsEn": [
+       "Search the entity and each principal by name, in French and English."
+      ],
+      "tipsFr": [
+       "Rechercher l'entité et chaque dirigeant par leur nom, en français et en anglais."
+      ]
+     },
+     {
+      "key": "predecessor",
+      "en": "Communicate with the predecessor auditor on matters bearing on integrity. The communication is performed and filed in P1.2; carry any integrity finding into the statements below.",
+      "fr": "Communiquer avec l'auditeur prédécesseur sur les questions touchant à l'intégrité. La communication est réalisée et classée en P1.2 ; reporter tout constat sur l'intégrité dans les affirmations ci-dessous.",
+      "shortEn": "Predecessor auditor",
+      "shortFr": "Auditeur prédécesseur",
+      "isa": "ISA 300 ¶13 · see P1.2",
+      "tipsEn": [
+       "Not applicable where the firm audited the prior year."
+      ],
+      "tipsFr": [
+       "Sans objet lorsque le cabinet a audité l'exercice précédent."
+      ],
+      "fieldKeys": [
+       "profile_first_year"
+      ]
+     },
+     {
+      "key": "refs",
+      "en": "Obtain references on the entity and its principals from their bankers or legal advisers where the circumstances warrant it.",
+      "fr": "Obtenir des références auprès des banquiers ou conseils juridiques lorsque les circonstances le justifient.",
+      "shortEn": "References",
+      "shortFr": "Références",
+      "isa": "ISQM 1 ¶30(a)",
+      "tipsEn": [
+       "Seek them where little public information exists on a new client."
+      ],
+      "tipsFr": [
+       "Les demander lorsqu'il existe peu d'informations publiques sur un nouveau client."
+      ]
+     },
+     {
+      "key": "priorfs",
+      "en": "Inspect the prior period financial statements and auditor's reports. Note any modification, going concern reference, restatement or late filing.",
+      "fr": "Examiner les états financiers et rapports d'audit antérieurs. Relever toute modification, mention de continuité, retraitement ou dépôt tardif.",
+      "shortEn": "Prior financial statements and reports",
+      "shortFr": "États financiers et rapports antérieurs",
+      "isa": "ISA 220 ¶23",
+      "tipsEn": [
+       "Note any modified opinion, restatement or late filing."
+      ],
+      "tipsFr": [
+       "Relever toute opinion modifiée, tout retraitement ou dépôt tardif."
+      ]
+     },
+     {
+      "key": "why",
+      "en": "Inquire why the auditor is being changed and what the entity expects as to scope, timing and fees. Compare the answer with the predecessor's account.",
+      "fr": "S'enquérir du motif du changement d'auditeur et des attentes en matière d'étendue, de calendrier et d'honoraires. Comparer avec la version du prédécesseur.",
+      "shortEn": "Reason for the change and expectations",
+      "shortFr": "Motif du changement et attentes",
+      "isa": "ISA 300 ¶13",
+      "tipsEn": [
+       "Compare management's reason with the predecessor's reply in P1.2."
+      ],
+      "tipsFr": [
+       "Comparer le motif donné par la direction avec la réponse du prédécesseur en P1.2."
+      ]
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "reputation",
+      "en": "The identity and business reputation of the principal owners, key management and those charged with governance raise no concern.",
+      "fr": "L'identité et la réputation des propriétaires, cadres dirigeants et responsables de la gouvernance n'appellent pas de réserve.",
+      "tasks": [
+       "owners",
+       "screening",
+       "media",
+       "refs"
+      ]
+     },
+     {
+      "key": "operations",
+      "en": "The nature of the entity's operations and its business practices raise no concern.",
+      "fr": "La nature des activités et les pratiques commerciales n'appellent pas de réserve.",
+      "tasks": [
+       "activities",
+       "licences",
+       "media"
+      ]
+     },
+     {
+      "key": "attitude",
+      "en": "There is no indication of an aggressive attitude towards the application of accounting standards or towards internal control.",
+      "fr": "Aucun indice d'une attitude agressive envers l'application des normes comptables ou le contrôle interne.",
+      "tasks": [
+       "predecessor",
+       "priorfs",
+       "why"
+      ]
+     },
+     {
+      "key": "fees",
+      "en": "There is no undue concern with minimising our fees or with limiting the scope of our work.",
+      "fr": "Aucune préoccupation excessive de minimiser nos honoraires ou de limiter l'étendue de nos travaux.",
+      "tasks": [
+       "why"
+      ]
+     },
+     {
+      "key": "laundering",
+      "en": "There is no indication that the entity or its principals are involved in money laundering or other criminal activity.",
+      "fr": "Aucun indice d'implication dans le blanchiment ou une autre activité criminelle.",
+      "tasks": [
+       "screening",
+       "media",
+       "refs"
+      ]
+     },
+     {
+      "key": "change",
+      "en": "The reasons given for the change of auditor are consistent with the predecessor's account.",
+      "fr": "Les motifs du changement d'auditeur concordent avec la version du prédécesseur.",
+      "tasks": [
+       "predecessor",
+       "why"
+      ]
+     },
+     {
+      "key": "scope",
+      "en": "Management has suggested no limitation on the scope of our work.",
+      "fr": "La direction n'a suggéré aucune limitation de l'étendue de nos travaux.",
+      "tasks": [
+       "why"
+      ]
+     },
+     {
+      "key": "related",
+      "en": "The reputation of related entities and business associates raises no concern.",
+      "fr": "La réputation des entités liées et partenaires n'appelle pas de réserve.",
+      "tasks": [
+       "owners",
+       "media"
+      ]
+     }
+    ]
+   },
+   {
     "kind": "fields",
-    "titleEn": "Engagement profile",
-    "titleFr": "Profil de la mission",
-    "introEn": "Taken from the engagement profile questionnaire, read only. To change an answer, reopen the questionnaire from the engagement.",
-    "introFr": "Repris du questionnaire de profil de la mission, en lecture seule. Pour modifier une réponse, rouvrir le questionnaire depuis la mission.",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "profile_first_year",
@@ -46,144 +278,7 @@
       "labelEn": "Engagement level",
       "labelFr": "Niveau de la mission",
       "source": "engagement profile"
-     }
-    ]
-   },
-   {
-    "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed. Where an expected source is not available, record the alternative used and why it is sufficient.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
-    "procs": [
-     {
-      "key": "docs",
-      "en": "Obtain and inspect the entity's constitutive and registration documents. Record the legal form, registered office and registration numbers.",
-      "fr": "Obtenir et examiner les statuts et documents d'immatriculation. Consigner la forme juridique, le siège et les numéros d'immatriculation.",
-      "srcEn": "Statutes · RCCM extract · tax registration certificate",
-      "srcFr": "Statuts · extrait RCCM · attestation d'immatriculation fiscale"
      },
-     {
-      "key": "owners",
-      "en": "Obtain the ownership structure down to the ultimate beneficial owners. Agree it to the share register and the shareholder minutes.",
-      "fr": "Obtenir la structure de l'actionnariat jusqu'aux bénéficiaires effectifs. La rapprocher du registre des titres et des procès-verbaux.",
-      "srcEn": "Share register · statutes · shareholder minutes · inquiry of management",
-      "srcFr": "Registre des titres · statuts · procès-verbaux · entretien avec la direction"
-     },
-     {
-      "key": "activities",
-      "en": "Inquire of management about the entity's activities, operating locations and principal customers and suppliers. Corroborate the responses against independent information.",
-      "fr": "S'enquérir auprès de la direction des activités, implantations et principaux clients et fournisseurs. Corroborer par des informations indépendantes.",
-      "srcEn": "Interview with management · prior financial statements · entity website · site visit",
-      "srcFr": "Entretien · états financiers antérieurs · site internet · visite de site"
-     },
-     {
-      "key": "licences",
-      "en": "Identify the regulators and licences that apply to the entity's sector. Inspect the licences held and the most recent correspondence with each regulator.",
-      "fr": "Identifier les régulateurs et agréments applicables au secteur. Examiner les agréments détenus et la correspondance récente.",
-      "srcEn": "Licence documents · regulator correspondence · firm sector knowledge",
-      "srcFr": "Agréments · correspondance des régulateurs · connaissance sectorielle"
-     },
-     {
-      "key": "screening",
-      "en": "Screen the entity, its principal owners, directors and key management against sanctions lists, politically exposed person lists and adverse media. Record each search, with the database, date and terms used, and the disposition of every match.",
-      "fr": "Cribler l'entité, ses propriétaires, dirigeants et cadres dirigeants au regard des listes de sanctions, des listes de personnes politiquement exposées et des médias défavorables. Consigner chaque recherche et le traitement de chaque correspondance.",
-      "srcEn": "Sanctions and PEP screening service · adverse media databases",
-      "srcFr": "Service de criblage sanctions et PPE · bases de presse défavorable"
-     },
-     {
-      "key": "media",
-      "en": "Search press and internet sources for indications of fraud, litigation, insolvency or regulatory action against the entity or its principals. Record the terms and dates of the searches.",
-      "fr": "Rechercher dans la presse et sur internet des indices de fraude, litige, insolvabilité ou action réglementaire. Consigner les termes et dates.",
-      "srcEn": "Press archives · internet search",
-      "srcFr": "Archives de presse · moteurs de recherche"
-     },
-     {
-      "key": "predecessor",
-      "en": "Communicate with the predecessor auditor on matters bearing on integrity. The communication itself is performed and filed under P1.2. Carry any integrity finding into Part B.",
-      "fr": "Communiquer avec l'auditeur précédent sur les questions touchant à l'intégrité. La communication est réalisée et classée en P1.2.",
-      "srcEn": "Written response of the predecessor auditor (P1.2)",
-      "srcFr": "Réponse écrite de l'auditeur précédent (P1.2)"
-     },
-     {
-      "key": "refs",
-      "en": "Obtain references on the entity and its principals from their bankers or legal advisers where the circumstances warrant it.",
-      "fr": "Obtenir des références auprès des banquiers ou conseils juridiques lorsque les circonstances le justifient.",
-      "srcEn": "Banker's reference · legal adviser's reference",
-      "srcFr": "Référence bancaire · référence du conseil juridique"
-     },
-     {
-      "key": "priorfs",
-      "en": "Inspect the prior period financial statements and auditor's reports. Note any modification, going concern reference, restatement or late filing.",
-      "fr": "Examiner les états financiers et rapports d'audit antérieurs. Relever toute modification, mention de continuité, retraitement ou dépôt tardif.",
-      "srcEn": "Prior financial statements · prior auditor's reports · filing records",
-      "srcFr": "États financiers antérieurs · rapports antérieurs · dépôts"
-     },
-     {
-      "key": "why",
-      "en": "Inquire why the auditor is being changed and what the entity expects as to scope, timing and fees. Compare the answer with the predecessor's account.",
-      "fr": "S'enquérir du motif du changement d'auditeur et des attentes en matière d'étendue, de calendrier et d'honoraires. Comparer avec la version du prédécesseur.",
-      "srcEn": "Inquiry of management · response obtained under P1.2",
-      "srcFr": "Entretien avec la direction · réponse obtenue en P1.2"
-     }
-    ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part B — Evaluation of integrity",
-    "titleFr": "Partie B — Évaluation de l'intégrité",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it and reflect it in the risk rating.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue et en tenir compte dans la notation.",
-    "items": [
-     {
-      "key": "reputation",
-      "en": "The identity and business reputation of the principal owners, key management and those charged with governance raise no concern (procedures 2, 5 to 8).",
-      "fr": "L'identité et la réputation des propriétaires, cadres dirigeants et responsables de la gouvernance n'appellent pas de réserve (procédures 2, 5 à 8)."
-     },
-     {
-      "key": "operations",
-      "en": "The nature of the entity's operations and its business practices raise no concern (procedures 3, 4, 6).",
-      "fr": "La nature des activités et les pratiques commerciales n'appellent pas de réserve (procédures 3, 4, 6)."
-     },
-     {
-      "key": "attitude",
-      "en": "There is no indication of an aggressive attitude towards the application of accounting standards or towards internal control (procedures 7, 9, 10).",
-      "fr": "Aucun indice d'une attitude agressive envers l'application des normes comptables ou le contrôle interne (procédures 7, 9, 10)."
-     },
-     {
-      "key": "fees",
-      "en": "There is no undue concern with minimising our fees or with limiting the scope of our work (procedure 10).",
-      "fr": "Aucune préoccupation excessive de minimiser nos honoraires ou de limiter l'étendue de nos travaux (procédure 10)."
-     },
-     {
-      "key": "laundering",
-      "en": "There is no indication that the entity or its principals are involved in money laundering or other criminal activity (procedures 5, 6, 8).",
-      "fr": "Aucun indice d'implication dans le blanchiment ou une autre activité criminelle (procédures 5, 6, 8)."
-     },
-     {
-      "key": "change",
-      "en": "The reasons given for the change of auditor are consistent with the predecessor's account (procedures 7, 10).",
-      "fr": "Les motifs du changement d'auditeur concordent avec la version du prédécesseur (procédures 7, 10)."
-     },
-     {
-      "key": "scope",
-      "en": "Management has suggested no limitation on the scope of our work (procedure 10).",
-      "fr": "La direction n'a suggéré aucune limitation de l'étendue de nos travaux (procédure 10)."
-     },
-     {
-      "key": "related",
-      "en": "The reputation of related entities and business associates raises no concern (procedures 2, 6).",
-      "fr": "La réputation des entités liées et partenaires n'appelle pas de réserve (procédures 2, 6)."
-     }
-    ]
-   },
-   {
-    "kind": "fields",
-    "titleEn": "Part C — Client risk rating",
-    "titleFr": "Partie C — Notation du risque client",
-    "introEn": "Weigh the Part B evaluation. A “No” answer, an unresolved screening match or an unanswered predecessor inquiry precludes a Low rating. Refer a High rating to the engagement partner before giving the client any commitment.",
-    "introFr": "Peser l'évaluation de la partie B. Un « Non », une correspondance de criblage non résolue ou une demande sans réponse auprès du prédécesseur exclut une notation Faible.",
-    "fields": [
      {
       "key": "rating",
       "kind": "select",
@@ -210,11 +305,44 @@
      {
       "key": "rating_why",
       "kind": "input",
-      "labelEn": "Reasons for the rating, citing the Part A evidence, and its effect on the engagement: the review requirement under P1.5, the fraud risk baseline, staffing and supervision",
-      "labelFr": "Motifs de la notation, éléments de la partie A à l'appui, et effet sur la mission : exigence de revue (P1.5), base d'évaluation du risque de fraude, dotation et supervision"
+      "labelEn": "Reasons for the rating, citing the evidence above, and its effect on the engagement: the review decision in P1.5, the fraud risk baseline, staffing and supervision",
+      "labelFr": "Motifs de la notation, éléments ci-dessus à l'appui, et effet sur la mission : décision de revue (P1.5), base d'évaluation du risque de fraude, dotation et supervision"
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Before accepting or continuing the client relationship, obtain the information needed to conclude that nothing indicates a lack of integrity of the client, its owners, management or those charged with governance, and that the firm's acceptance and continuance procedures have been followed (ISA 220 (Revised) ¶22–24; ISQM 1 ¶30).",
+  "objectiveFr": "Avant d'accepter ou de poursuivre la relation client, obtenir les informations permettant de conclure que rien n'indique un défaut d'intégrité du client, de ses propriétaires, de sa direction ou des responsables de la gouvernance, et que les procédures d'acceptation et de maintien du cabinet ont été suivies (ISA 220 révisée ¶22–24 ; ISQM 1 ¶30).",
+  "isa": [
+   {
+    "std": "ISA 220"
+   },
+   {
+    "std": "ISQM 1"
+   },
+   {
+    "label": "IESBA Code",
+    "url": "https://www.ethicsboard.org/iesba-code"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "P1.2",
+   "P1.3",
+   "P1.5",
+   "P2.1",
+   "P5.1"
+  ],
+  "neverLight": true,
+  "conclStdEn": "Nothing indicates a lack of integrity of the client; acceptance of the engagement is appropriate and the client risk rating is supported by the work above.",
+  "conclStdFr": "Rien n'indique un défaut d'intégrité du client ; l'acceptation de la mission est appropriée et la notation du risque client est étayée par les travaux ci-dessus."
  }
 }

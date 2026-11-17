@@ -39,8 +39,10 @@ class TestPaperLayout(ToolsCase):
         self.assertEqual(self.payload("S4.2")["layout"]["depth_reason"], "no_answer")
 
     def test_an_older_paper_reads_in_full_whatever_the_profile(self):
+        # P3.1 is converted since the plan group's papers (2026-11-17); E4.1 stays with the Substantive tool
+        self.engagement.sudo()._ea_ensure_task("E4.1")
         self.engagement.sudo().complexity = "very_simple"
-        payload = self.payload("P3.1")
+        payload = self.payload("E4.1")
         self.assertEqual((payload["layout"]["converted"], payload["layout"]["depth"]), (False, "complex"))
         self.assertFalse(payload["tool_card"])
 
