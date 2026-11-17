@@ -138,6 +138,8 @@ export class ProcedurePaper extends Component {
         page.toTick = page.toTick || { steps: 0, items: 0, explain: false };
         this.state.p = page;
         this.state.note = page.note || "";
+        // the top breadcrumb follows the open tab (it kept the first tab's code, 2026-11-17)
+        this.env.config?.setDisplayName?.(`${page.code} ${page.title}`.trim());
         if (page.vouch) {
             page.vouch.items = page.vouch.items || [];
         }
