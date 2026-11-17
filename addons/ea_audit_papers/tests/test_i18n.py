@@ -46,5 +46,6 @@ class TestFrench(PaperCase):
             item.action_sign("preparer")
         except Exception as error:  # noqa: BLE001
             message = error.args[0]
-        self.assertIn("Partie A", message)
+        # P3.1 is in the layout of 2026-11-17: its parts are the tasks and the conclusion
+        self.assertIn("Travaux requis", message)
         self.assertIn("Reste à compléter", message)
