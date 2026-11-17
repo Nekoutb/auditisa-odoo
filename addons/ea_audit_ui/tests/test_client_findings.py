@@ -19,22 +19,23 @@ class TestSearchReachesContent(EaAuditCase):
         return {row["code"] for row in self.ui.ea_ui_search(term)["methodology"]}
 
     def test_f079_dsf_and_505_find_the_papers_that_hold_them(self):
-        self.assertIn("E6.10", self.codes("DSF"))
+        # the English text spells out the annual tax and statistical return (owner, 2026-11-17)
+        self.assertIn("E6.10", self.codes("statistical"))
         self.assertTrue(self.codes("505"), "ISA 505 is cited in the confirmations papers")
         self.assertTrue(self.codes("ISA 240"))
 
     def test_f079_a_hit_shows_where_the_word_is(self):
-        row = next(row for row in self.ui.ea_ui_search("DSF")["methodology"] if row["code"] == "E6.10")
-        self.assertIn("DSF", row["snippet"])
+        row = next(row for row in self.ui.ea_ui_search("statistical")["methodology"] if row["code"] == "E6.10")
+        self.assertIn("statistical", row["snippet"])
         self.assertLessEqual(len(row["snippet"]), 180)
         self.assertEqual(row["id"], self.item(self.engagement, "E6.10").id)
 
     def test_f079_one_row_per_paper_on_the_open_mission(self):
         newer = self.make_engagement(2026, partner=self.partner, nature="statutory_audit")
         self.seat(newer, self.staff, "staff")
-        rows = [row for row in self.ui.ea_ui_search("DSF")["methodology"] if row["code"] == "E6.10"]
+        rows = [row for row in self.ui.ea_ui_search("statistical")["methodology"] if row["code"] == "E6.10"]
         self.assertEqual([row["id"] for row in rows], [self.item(newer, "E6.10").id])
-        rows = [row for row in self.ui.ea_ui_search("DSF", self.engagement.id)["methodology"] if row["code"] == "E6.10"]
+        rows = [row for row in self.ui.ea_ui_search("statistical", self.engagement.id)["methodology"] if row["code"] == "E6.10"]
         self.assertEqual([row["id"] for row in rows], [self.item(self.engagement, "E6.10").id])
 
     def test_f079_whole_words_not_parts(self):
