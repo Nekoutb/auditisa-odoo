@@ -8,6 +8,8 @@ bypasses the record rules: each entry point checks the team first and filters on
 """
 from datetime import date
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import models
 
 from ..rules import rule_error
@@ -34,6 +36,9 @@ class EngagementEagla(models.Model):
     def _ea_eagla_year(self, dataset):
         """(first day, last day, the twelve (year, month)) of the year audited."""
         start, end = self._ea_gl_period(dataset.timing)
+        if start and dataset.timing == "prior_year":
+            # a prior-year ledger is read over its own year, not the year audited
+            start, end = start - relativedelta(years=1), start - relativedelta(days=1)
         if not start:
             today = date.today()
             start, end = date(today.year, 1, 1), date(today.year, 12, 31)

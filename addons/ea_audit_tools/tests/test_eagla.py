@@ -88,6 +88,14 @@ class TestDataBankAndEagla(ConsoleCase):
         self.assertCode("invalid-accounts", self.as_staff.eagla_two_way, self.dataset_id, "70%", "411")
         self.assertCode("not-on-this-engagement", self.engagement.with_user(self.outsider).eagla_two_way, self.dataset_id, "70", "411")
 
+    def test_a_prior_year_ledger_is_read_over_its_own_year(self):
+        dataset = self.env["ea.audit.dataset"].browse(self.dataset_id)
+        start, end, _keys = self.engagement._ea_eagla_year(dataset)
+        dataset.sudo().timing = "prior_year"
+        prior_start, prior_end, _keys = self.engagement._ea_eagla_year(dataset)
+        self.assertEqual((prior_start.year, prior_end.year), (start.year - 1, end.year - 1))
+        self.assertEqual((prior_start.month, prior_start.day), (start.month, start.day))
+
     def test_scot_identification(self):
         result = self.as_staff.eagla_scot(self.dataset_id, "revenue")
         flows = {(flow["source"], flow["target"]): flow for flow in result["flows"]}
