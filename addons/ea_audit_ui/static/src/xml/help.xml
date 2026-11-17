@@ -24,7 +24,7 @@
                         <a t-foreach="state.results" t-as="result" t-key="result.id" class="ea-help-result" t-att-href="'#' + result.id"
                            t-on-click.prevent="() => this.pickResult(result)">
                             <b t-esc="result.title"/>
-                            <small t-esc="result.snippet"/>
+                            <small t-if="result.snippet"><t t-foreach="result.parts" t-as="part" t-key="part_index"><mark t-if="part.hit" t-esc="part.text"/><t t-else="" t-esc="part.text"/></t></small>
                         </a>
                         <div t-if="!state.results.length" class="ea-help-none">No page matches your search.</div>
                     </t>

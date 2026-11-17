@@ -1544,8 +1544,14 @@ msgstr "Dans la méthodologie"
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/js/rule_error_dialog.js:0
-msgid "Invalid Operation"
-msgstr ""
+msgid "Not possible"
+msgstr "Impossible"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/rule_error_dialog.js:0
+msgid "Not possible yet"
+msgstr "Pas encore possible"
 
 #. module: ea_audit_ui
 #. odoo-javascript
@@ -1718,6 +1724,7 @@ msgid "Accepting means you confirm that you are independent of this client for t
 msgstr "En acceptant, vous confirmez être indépendant de ce client pour cet exercice."
 
 #. module: ea_audit_ui
+#. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/help.xml:0
 msgid "Help on this page"
 msgstr "Aide sur cette page"

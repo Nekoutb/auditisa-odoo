@@ -58,10 +58,101 @@ export function pageForKeys(index, keys) {
     return null;
 }
 
-/** Lower case, without accents: "écart" is found by "ecart". */
-function fold(text) {
-    return (text || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+/**
+ * Lower case, without accents: "écart" is found by "ecart". Letter for letter, so a place found in
+ * the folded text is the same place in the text shown (the pages are written precomposed).
+ */
+export function fold(text) {
+    return (text || "")
+        .split("")
+        .map((ch) => {
+            const plainCh = ch.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+            return plainCh.length === 1 ? plainCh : ch;
+        })
+        .join("");
 }
+
+/** How long a line of context may be, in characters. */
+export const SNIPPET_LENGTH = 160;
+
+/** The sentences of a page's words: cut after . ! or ? and a space ("P1.4" stays whole). */
+function sentences(raw) {
+    return raw.replace(/([.!?])\s+/g, "$1\u0001").split("\u0001").filter((s) => s.trim());
+}
+
+/** A sentence that is mostly a list of labels ("To prepare, In progress, To review, ...") reads badly as context. */
+function isLabelList(sentence) {
+    return (sentence.match(/[,;·]/g) || []).length > 3;
+}
+
+/**
+ * The line of context of a result: the sentence that holds most of the words typed, a list of
+ * labels last; a long sentence is cut around the first word found, at spaces, to about 160 characters.
+ */
+export function snippetFor(raw, terms) {
+    let best = null;
+    for (const sentence of sentences(raw || "")) {
+        const folded = fold(sentence);
+        const hits = terms.filter((t) => folded.includes(t)).length;
+        if (!hits) {
+            continue;
+        }
+        const score = hits * 2 - (isLabelList(sentence) ? 3 : 0);
+        if (!best || score > best.score) {
+            best = { sentence: sentence.trim(), score };
+        }
+    }
+    if (!best) {
+        return "";
+    }
+    const text = best.sentence;
+    if (text.length <= SNIPPET_LENGTH) {
+        return text;
+    }
+    const folded = fold(text);
+    const found = terms.map((t) => folded.indexOf(t)).filter((i) => i >= 0);
+    const at = found.length ? Math.min(...found) : 0;
+    let start = Math.max(0, at - 50);
+    if (start > 0) {
+        const space = text.lastIndexOf(" ", start);
+        start = space > 0 ? space + 1 : 0;
+    }
+    let end = start + SNIPPET_LENGTH;
+    if (end < text.length) {
+        const space = text.lastIndexOf(" ", end);
+        end = space > start ? space : end;
+    } else {
+        end = text.length;
+    }
+    const cut = text.slice(start, end).replace(/[\s,;:]+$/, "");
+    return `${start > 0 ? "… " : ""}${cut}${end < text.length ? " …" : ""}`;
+}
+
+/** The snippet in pieces, the words typed marked: [{text, hit}]. */
+export function markTerms(text, terms) {
+    const folded = fold(text);
+    const marks = new Array(text.length).fill(false);
+    for (const term of terms) {
+        let at = folded.indexOf(term);
+        while (at >= 0) {
+            marks.fill(true, at, at + term.length);
+            at = folded.indexOf(term, at + term.length);
+        }
+    }
+    const parts = [];
+    for (let i = 0; i < text.length; i++) {
+        const last = parts[parts.length - 1];
+        if (last && last.hit === marks[i]) {
+            last.text += text[i];
+        } else {
+            parts.push({ text: text[i], hit: marks[i] });
+        }
+    }
+    return parts;
+}
+
+// The folded words of each page, worked out once per loaded search file.
+const foldedWords = new WeakMap();
 
 /** Pages whose title or words hold every word typed, title matches first, with a line of context. */
 export function searchPages(index, words, lang, query) {
@@ -69,19 +160,24 @@ export function searchPages(index, words, lang, query) {
     if (!terms.length) {
         return [];
     }
+    if (!foldedWords.has(words)) {
+        foldedWords.set(words, {});
+    }
+    const folded = foldedWords.get(words);
     const results = [];
     for (const page of index.pages) {
         const title = fold(page.title[lang]);
         const raw = words[page.id] || "";
-        const body = fold(raw);
+        if (!(page.id in folded)) {
+            folded[page.id] = fold(raw);
+        }
+        const body = folded[page.id];
         if (!terms.every((t) => title.includes(t) || body.includes(t))) {
             continue;
         }
-        const at = body.indexOf(terms[0]);
-        const start = Math.max(0, at - 50);
-        const snippet = at < 0 ? "" : `${start ? "…" : ""}${raw.slice(start, at + 90)}…`;
+        const snippet = snippetFor(raw, terms);
         const score = terms.filter((t) => title.includes(t)).length;
-        results.push({ id: page.id, title: page.title[lang], snippet, score });
+        results.push({ id: page.id, title: page.title[lang], snippet, parts: markTerms(snippet, terms), score });
     }
     return results.sort((a, b) => b.score - a.score);
 }

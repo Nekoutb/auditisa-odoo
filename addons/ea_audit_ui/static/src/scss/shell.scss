@@ -424,7 +424,8 @@ body.ea-shell .ea-page {
 @media (max-width: 760px) {
   body.ea-shell .ea-top {
     gap: 8px;
-    .ea-brand { order: 1; flex: 1 1 auto; min-width: 0; gap: 8px; margin: 0; }
+    // the brand leads the first line, the buttons follow it
+    .ea-brand { order: 0; flex: 1 1 auto; min-width: 0; gap: 8px; margin: 0; }
     .ea-firm { overflow: hidden; text-overflow: ellipsis; }
     .ea-anchor[data-ea-panel="bell"] { order: 2; }
     .ea-anchor[data-ea-panel="gear"] { order: 3; }
@@ -462,6 +463,19 @@ body.ea-shell .ea-page {
     .ea-ring { width: 96px; height: 96px; > div { width: 72px; height: 72px; font-size: 17px; } }
     .ea-tiles { grid-template-columns: minmax(0, 1fr); }
     .ea-table { min-width: 860px; }
+  }
+}
+
+// A phone (review of 2026-11-17): one line of firm, "? Help", bell, cog and sign out; then the
+// engagement switcher and the search, each a line; then the menu with the other buttons. The
+// switcher's small heading, EN/FR (also in Preferences) and the person's name and initials give way.
+@media (max-width: 600px) {
+  body.ea-shell .ea-top {
+    .ea-lang, .ea-who, .ea-av { display: none; }
+    > .ea-ic:not(.ea-help-btn), .ea-anchor[data-ea-panel="apps"] { order: 9; }
+    .ea-nav { flex: 1 1 0; }
+    .ea-sel { padding: 7px 10px; }
+    .ea-sel small { display: none; }
   }
 }
 

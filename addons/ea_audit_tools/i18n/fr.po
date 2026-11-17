@@ -5954,6 +5954,7 @@ msgstr "Non courant"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_program_step__status__na
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_step_wizard__mode__na

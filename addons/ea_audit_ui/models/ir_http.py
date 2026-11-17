@@ -7,7 +7,10 @@ class IrHttp(models.AbstractModel):
     def session_info(self):
         info = super().session_info()
         if info.get("uid"):
-            shell = self.env["ea.audit.ui"]._ea_ui_shell_session()
+            # In the person's own language: the session's context can still hold the language of the
+            # sign-in after EN/FR was switched, and the top bar would keep "Partner" in English.
+            lang = self.env["res.users"].context_get().get("lang") or self.env.lang
+            shell = self.env["ea.audit.ui"].with_context(lang=lang)._ea_ui_shell_session()
             if shell:
                 info["ea_audit_shell"] = shell
                 # the audit home is the landing action, unless the user chose one

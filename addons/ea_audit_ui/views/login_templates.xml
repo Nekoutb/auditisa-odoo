@@ -6,6 +6,30 @@
     <!-- No "Powered by Odoo" under the card. A database-manager link, where one is allowed,
          keeps its footer; otherwise there is no footer at all. -->
     <template id="login_layout_no_odoo" inherit_id="web.login_layout" name="AuditISA sign-in footer">
+        <!-- The firm's emerald on these pages' buttons and links, not Odoo's violet (review of
+             2026-11-17). Inline, so it needs no asset bundle and reaches these three pages only;
+             the same green as the application (ea-green in static/src/scss/shell.scss). -->
+        <xpath expr="//div[@t-if='not disable_footer']" position="before">
+            <style class="ea-login-colours">
+                .oe_login_form .btn-primary, .oe_signup_form .btn-primary, .oe_reset_password_form .btn-primary {
+                    --btn-bg: #0f6e56; --btn-border-color: #0f6e56;
+                    --btn-hover-bg: #0b5a46; --btn-hover-border-color: #0b5a46;
+                    --btn-active-bg: #0b5a46; --btn-active-border-color: #0b5a46;
+                    background-color: #0f6e56; border-color: #0f6e56; color: #fff;
+                }
+                .oe_login_form .btn-primary:hover, .oe_signup_form .btn-primary:hover, .oe_reset_password_form .btn-primary:hover,
+                .oe_login_form .btn-primary:focus, .oe_signup_form .btn-primary:focus, .oe_reset_password_form .btn-primary:focus {
+                    background-color: #0b5a46; border-color: #0b5a46; color: #fff;
+                }
+                .oe_login_form a:not(.btn), .oe_signup_form a:not(.btn), .oe_reset_password_form a:not(.btn),
+                .o_database_list a:not(.btn), .btn-link { color: #0f6e56; }
+                .oe_login_form a:not(.btn):hover, .oe_signup_form a:not(.btn):hover, .oe_reset_password_form a:not(.btn):hover,
+                .o_database_list a:not(.btn):hover, .btn-link:hover { color: #0b5a46; }
+                .oe_login_form .form-control:focus, .oe_signup_form .form-control:focus, .oe_reset_password_form .form-control:focus {
+                    border-color: #0f6e56; box-shadow: 0 0 0 .2rem rgba(15, 110, 86, .2);
+                }
+            </style>
+        </xpath>
         <xpath expr="//a[contains(@href, 'www.odoo.com')]" position="replace"/>
         <xpath expr="//div[@t-if='not disable_footer']" position="attributes">
             <attribute name="t-if">not disable_footer and not disable_database_manager</attribute>

@@ -30,7 +30,7 @@ def collect():
             if not (meta["title"] and meta["part"] and meta["order"] and meta["part_order"]):
                 errors.append("%s/%s.html: needs an <h1>, data-part, data-part-order and data-order" % (lang, name))
                 continue
-            pages.setdefault(name, {})[lang] = dict(meta, text=manual_lib.plain(text))
+            pages.setdefault(name, {})[lang] = dict(meta, text=manual_lib.search_text(text))
     for name, langs in sorted(pages.items()):
         for lang in manual_lib.LANGS:
             if lang not in langs:

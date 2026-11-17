@@ -37,6 +37,7 @@ ABBREVIATIONS = re.compile(
 FRENCH_LABEL_EXCEPTIONS = {
     "Actions", "Désarchiver",  # Odoo's own list menu (client list)
     "Changer le mot de passe", "Mettre à jour les préférences",  # Odoo's Preferences window
+    "Mot de passe oublié ?",  # Odoo's sign-in page, shown while the firm's email sending is on
     "Formation", "Congés", "Administration",  # the firm's internal timesheet projects (ea_audit_timesheet/hooks.py)
     "MSP", "ASP",  # kept names, the same in both languages
     "n/a",  # written as is on the working paper, in both languages
@@ -166,3 +167,30 @@ def test_every_picture_shipped_is_shown():
     used = {src.rsplit("/", 1)[-1] for text in PAGES.values() for src in manual_lib.images(text)}
     shipped = set(os.listdir(os.path.join(manual_lib.MANUAL, "img")))
     assert not shipped - used, sorted(shipped - used)
+
+
+def test_screen_words_reach_the_browser_in_french():
+    """Odoo hands a fr.po entry to the screens only when it is marked "#. odoo-javascript": without it,
+    "Help on this page" stayed English in the French manual (review of 2026-11-17)."""
+    import glob
+
+    unmarked = []
+    for path in sorted(glob.glob(os.path.join(manual_lib.ADDONS, "*", "i18n", "fr.po"))):
+        with open(path, encoding="utf-8") as handle:
+            for block in handle.read().split("\n\n"):
+                lines = block.splitlines()
+                if any(line.startswith("#: code:") and "/static/src/" in line for line in lines) and "#. odoo-javascript" not in lines:
+                    msgid = next((line for line in lines if line.startswith("msgid ")), "")
+                    unmarked.append("%s: %s" % (os.path.basename(os.path.dirname(os.path.dirname(path))), msgid))
+    assert not unmarked, unmarked
+
+
+def test_the_search_quotes_the_page_as_it_reads():
+    """No title repeated at the start of a result, no space before a comma after a bold label."""
+    page = ('<article><h1>Review notes</h1><p class="lead">Raise a note.</p>'
+            '<p>Filters <b>To prepare</b>, <b>In progress</b>.</p><div class="tip"><b>Tip</b> Clear it.</div></article>')
+    assert manual_lib.search_text(page) == "Raise a note. Filters To prepare, In progress. Clear it."
+    with open(os.path.join(manual_lib.MANUAL, "search-en.json"), encoding="utf-8") as handle:
+        words = json.load(handle)
+    assert not words["review-notes"].startswith("Review notes")
+    assert " ," not in " ".join(words.values())

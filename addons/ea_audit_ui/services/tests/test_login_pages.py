@@ -59,3 +59,17 @@ def test_every_new_line_has_its_french():
                  "Choose a new password for your account.", "Set my password", "Save my new password"):
         assert french.get(text), text
     assert french["Set my password"] == "Enregistrer mon mot de passe"
+
+
+def test_the_sign_in_pages_wear_the_firm_green():
+    """Review of 2026-11-17: primary buttons and links in the application's green, not Odoo's violet."""
+    footer = _templates()["login_layout_no_odoo"]
+    shell = (ADDON / "static" / "src" / "scss" / "shell.scss").read_text(encoding="utf-8")
+    green = re.search(r"--ea-green:\s*(#[0-9a-f]{6})", shell).group(1)
+    style = footer.find("xpath/style")
+    assert style is not None and green in style.text
+    assert ".btn-primary" in style.text and "a:not(.btn)" in style.text
+    # placed before the footer's condition is rewritten, while the xpath still finds it
+    exprs = [(x.get("expr"), x.get("position")) for x in footer.iter("xpath")]
+    footer_div = "//div[@t-if='not disable_footer']"
+    assert exprs.index((footer_div, "before")) < exprs.index((footer_div, "attributes"))

@@ -54,12 +54,26 @@ def page_meta(text):
     }
 
 
+# Tags inside a line of text join their words as the page shows them ("<b>Mine</b>, ..." reads
+# "Mine, ..."); a block tag (a paragraph, a list item, a cell) parts them with a space.
+_INLINE_TAGS = re.compile(r"</?(?:a|b|i|em|strong|code|small|span|mark|abbr|kbd)\b[^>]*>")
+
+
 def plain(fragment):
     """The words of an HTML fragment, for the search."""
     fragment = re.sub(r"<!--.*?-->", " ", fragment, flags=re.S)
     fragment = re.sub(r"<(script|style)\b.*?</\1>", " ", fragment, flags=re.S)
+    fragment = _INLINE_TAGS.sub("", fragment)
     fragment = re.sub(r"<[^>]+>", " ", fragment)
     return re.sub(r"\s+", " ", html.unescape(fragment)).strip()
+
+
+def search_text(page):
+    """The words the manual's search reads and quotes: the page without its title (the result
+    shows it already) and without the one-word heading of a Tip, Good to know or Careful box."""
+    page = re.sub(r"<h1\b.*?</h1>", " ", page, flags=re.S)
+    page = re.sub(r'(<div class="(?:tip|note|warn)">)\s*<b>[^<]*</b>', r"\1", page)
+    return plain(page)
 
 
 def images(text):
