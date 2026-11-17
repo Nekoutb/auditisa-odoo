@@ -13,86 +13,187 @@
    "Lorsque l'efficacité a été testée à une date intérimaire, nous obtenons des éléments sur la période restante : ce qui a changé depuis l'intérim et si la conclusion intérimaire peut être prolongée (ISA 330 ¶12). Un changement significatif du contrôle, de son exécutant ou de son application remet le test à zéro.",
    "Pour les ITGC, la même logique s'applique à la gestion des changements, aux accès et à l'exploitation : l'appui en clôture sur un contrôle automatisé suppose une application inchangée de façon maîtrisée depuis les travaux ITGC d'intérim (E1.1)."
   ],
-  "conclEn": [
-   "The controls evidence covers the full period: interim conclusions were validly rolled forward or the tests extended."
-  ],
-  "conclFr": [
-   "La preuve sur les contrôles couvre toute la période : conclusions intérimaires valablement prolongées ou tests étendus."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "period",
       "en": "Determine the remaining period for each control tested at interim and the additional evidence it requires.",
       "fr": "Déterminer la période restante pour chaque contrôle testé à l'intérim et la preuve complémentaire requise.",
-      "srcEn": "S2.2 timing plan",
-      "srcFr": "Plan de calendrier S2.2"
+      "shortEn": "Remaining period",
+      "shortFr": "Période restante",
+      "isa": "ISA 330 ¶12(b)",
+      "tipsEn": [
+       "Measure the period from the interim test date to the year end.",
+       "The longer the period, the more evidence you need."
+      ],
+      "tipsFr": [
+       "Mesurer la période de la date du test intérimaire à la clôture.",
+       "Plus la période est longue, plus il faut d'éléments."
+      ],
+      "stdEn": "Remaining period and additional evidence set for each control; no exceptions noted.",
+      "stdFr": "Période restante et éléments complémentaires arrêtés pour chaque contrôle ; aucune exception relevée.",
+      "sourceHint": "Test dates in the tool"
      },
      {
       "key": "changes",
       "en": "Inquire and inspect for changes since the interim: control redesign, new performers, application changes, organisational moves.",
       "fr": "Rechercher les changements depuis l'intérim : refonte du contrôle, nouveaux exécutants, évolutions applicatives, réorganisations.",
-      "srcEn": "Management inquiry · change logs · HR moves",
-      "srcFr": "Entretiens · journaux de changements · mouvements RH"
+      "shortEn": "Changes since the interim",
+      "shortFr": "Changements depuis l'intérim",
+      "isa": "ISA 330 ¶12(a)",
+      "tipsEn": [
+       "Ask the process owners and inspect the change logs.",
+       "A significant change means testing again."
+      ],
+      "tipsFr": [
+       "Interroger les responsables des processus et inspecter les journaux de modifications.",
+       "Un changement important impose de tester à nouveau."
+      ],
+      "stdEn": "No change to the controls since the interim.",
+      "stdFr": "Aucun changement des contrôles depuis l'intérim.",
+      "sourceHint": "Inquiry and change logs"
      },
      {
       "key": "extend",
       "en": "Extend the tests over the remaining period where required — changed controls are retested, unchanged high-frequency controls receive a reduced roll-forward sample.",
       "fr": "Étendre les tests sur la période restante si nécessaire — contrôles modifiés retestés, contrôles inchangés à haute fréquence couverts par un échantillon réduit.",
-      "srcEn": "Control evidence of the remaining period",
-      "srcFr": "Preuves de contrôle de la période restante"
+      "shortEn": "Roll-forward testing",
+      "shortFr": "Tests de mise à jour",
+      "isa": "ISA 330 ¶12 · A31",
+      "tipsEn": [
+       "Retest changed controls in full.",
+       "Use a smaller roll-forward sample for unchanged frequent controls."
+      ],
+      "tipsFr": [
+       "Retester entièrement les contrôles modifiés.",
+       "Un échantillon de mise à jour réduit suffit pour les contrôles fréquents inchangés."
+      ],
+      "stdEn": "Roll-forward tests performed; no exceptions noted.",
+      "stdFr": "Tests de mise à jour réalisés ; aucune exception relevée.",
+      "sourceHint": "SCOTs and controls"
      },
      {
       "key": "itgc",
       "en": "Roll forward the ITGC conclusions: review the change-management and access logs for the remaining period for the in-scope applications.",
       "fr": "Prolonger les conclusions ITGC : revue des journaux de changements et d'accès de la période restante pour les applications du périmètre.",
-      "srcEn": "E1.1 papers · system logs",
-      "srcFr": "Papiers E1.1 · journaux systèmes"
+      "shortEn": "ITGCs over the remaining period",
+      "shortFr": "ITGC sur la période restante",
+      "isa": "ISA 315 ¶26 · ISA 330 ¶12",
+      "tipsEn": [
+       "Review the change and access logs from the interim to the year end.",
+       "Cover every application in scope."
+      ],
+      "tipsFr": [
+       "Revoir les journaux de modifications et d'accès de l'intérim à la clôture.",
+       "Couvrir chaque application du périmètre."
+      ],
+      "stdEn": "Change and access logs reviewed for the remaining period; no exceptions noted.",
+      "stdFr": "Journaux de modifications et d'accès revus sur la période restante ; aucune exception relevée.",
+      "sourceHint": "Linked task E1.1"
      },
      {
       "key": "conclude",
       "en": "Conclude on operating effectiveness for the full period, and carry any failure to E6.8 and to the substantive response.",
       "fr": "Conclure sur l'efficacité pour l'ensemble de la période et reporter toute défaillance vers E6.8 et la réponse substantive.",
-      "srcEn": "This paper · E6.8",
-      "srcFr": "Ce papier · E6.8"
+      "shortEn": "Conclusion for the whole period",
+      "shortFr": "Conclusion sur toute la période",
+      "isa": "ISA 330 ¶16–17",
+      "tipsEn": [
+       "Carry any failure to E6.8 and to the substantive response."
+      ],
+      "tipsFr": [
+       "Reporter tout échec en E6.8 et dans la réponse substantive."
+      ],
+      "stdEn": "Controls effective for the whole period.",
+      "stdFr": "Contrôles efficaces sur toute la période.",
+      "sourceHint": "SCOTs and controls"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Confirmations",
-    "titleFr": "Partie B — Confirmations",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "all_interim",
       "en": "Every control relied upon and tested at interim has a roll-forward conclusion.",
-      "fr": "Chaque contrôle d'appui testé à l'intérim dispose d'une conclusion de prolongation."
+      "fr": "Chaque contrôle d'appui testé à l'intérim dispose d'une conclusion de prolongation.",
+      "tasks": [
+       "period",
+       "extend",
+       "conclude"
+      ]
      },
      {
       "key": "changes_checked",
       "en": "Changes since the interim were actively searched, not assumed absent.",
-      "fr": "Les changements depuis l'intérim ont été recherchés activement, non présumés absents."
+      "fr": "Les changements depuis l'intérim ont été recherchés activement, non présumés absents.",
+      "tasks": [
+       "changes"
+      ]
      },
      {
       "key": "itgc_rf",
       "en": "ITGC conclusions cover the full period for every in-scope application.",
-      "fr": "Les conclusions ITGC couvrent toute la période pour chaque application du périmètre."
+      "fr": "Les conclusions ITGC couvrent toute la période pour chaque application du périmètre.",
+      "tasks": [
+       "itgc"
+      ]
      },
      {
       "key": "failures_fed",
       "en": "Roll-forward failures are carried to E6.8 and the substantive response.",
-      "fr": "Les échecs de prolongation sont reportés vers E6.8 et la réponse substantive."
+      "fr": "Les échecs de prolongation sont reportés vers E6.8 et la réponse substantive.",
+      "tasks": [
+       "conclude"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Where the operating effectiveness of controls was tested at an interim date, obtain audit evidence about significant changes to those controls after the interim and determine the additional evidence needed for the remaining period.",
+  "objectiveFr": "Lorsque l'efficacité du fonctionnement des contrôles a été testée à une date intérimaire, obtenir des éléments probants sur les changements importants de ces contrôles après l'intérim et déterminer les éléments complémentaires nécessaires pour la période restante.",
+  "isa": [
+   {
+    "std": "ISA 330"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_scot",
+    "en": "SCOTs and controls",
+    "fr": "Flux et contrôles",
+    "noteEn": "Populations, samples, test grids and conclusions",
+    "noteFr": "Populations, échantillons, grilles de test et conclusions"
+   },
+   {
+    "action": "action_tool_itgc",
+    "en": "IT applications",
+    "fr": "Applications informatiques",
+    "noteEn": "Applications, layers and IT strategy",
+    "noteFr": "Applications, couches et stratégie informatique"
+   },
+   {
+    "action": "action_tool_cra",
+    "en": "Combined risk assessment",
+    "fr": "Évaluation combinée des risques",
+    "noteEn": "Account × assertion grid",
+    "noteFr": "Grille compte × assertion"
+   }
+  ],
+  "links": [
+   "E1.2",
+   "E1.1",
+   "E6.8",
+   "S3.1"
+  ],
+  "toolCard": "toc",
+  "conclStdEn": "The controls evidence covers the whole period: interim conclusions were rolled forward on evidence, or the tests were extended.",
+  "conclStdFr": "La preuve sur les contrôles couvre toute la période : les conclusions intérimaires ont été prolongées sur preuve, ou les tests étendus."
  }
 }

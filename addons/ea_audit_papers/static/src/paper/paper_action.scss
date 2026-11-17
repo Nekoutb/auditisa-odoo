@@ -126,6 +126,8 @@
     .eap-statement { padding: 8px 0; border-bottom: 1px solid var(--eap-line); }
     .eap-statement-row { display: flex; gap: 12px; align-items: flex-start; .eap-choices { flex: none; margin: 0; } }
     .eap-statement-text { flex: 1; font-size: 13.5px; }
+    .eap-checklist { margin-top: 8px; border: 1px solid var(--eap-line); border-radius: 6px; padding: 6px 10px; }
+    .eap-checklist-head { display: block; color: inherit; text-decoration: none; }
     .eap-ref { flex: none; font-size: 12px; color: var(--eap-blue); }
     .eap-paper-notes { margin-top: 10px; }
     .eap-signatures { margin-top: 14px; }

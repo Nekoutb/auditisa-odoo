@@ -210,18 +210,36 @@ export class PaperAction extends Component {
                 fieldsByKey[field.key] = field;
             }
         }
+        // A block of statements a converted paper hands to one of its tasks (``task``: E6.10's
+        // checklist) reads inside that task, in folding groups, and never in the conclusion.
+        const procKeys = new Set(sections.filter((s) => s.kind === "proc").flatMap((s) => s.procs.map((proc) => proc.key)));
+        const ownedBlock = (section) => this.converted && section.kind === "yn" && procKeys.has(section.task);
+        const checklists = {};
+        sections.forEach((section, index) => {
+            if (ownedBlock(section)) {
+                (checklists[section.task] ||= []).push({
+                    id: `g${index}`,
+                    title: this.pick(section, "title"),
+                    intro: this.pick(section, "intro"),
+                    items: section.items.map((item, i) => this.statement(item, i)),
+                });
+            }
+        });
+        const statementBlocks = sections.filter((s) => s.kind === "yn" && !ownedBlock(s)).length;
         let count = 0;
         sections.forEach((section, index) => {
             const title = this.pick(section, "title");
             if (section.kind === "proc") {
                 for (const proc of section.procs) {
                     count += 1;
-                    tasks.push(this.procTask(proc, `2.${count}`, fieldsByKey));
+                    tasks.push(this.procTask(proc, `2.${count}`, fieldsByKey, checklists[proc.key] || []));
                 }
+            } else if (ownedBlock(section)) {
+                // read inside its task
             } else if (section.kind === "yn") {
                 const items = section.items.map((item, i) => this.statement(item, i));
                 if (hasProc || this.converted) {
-                    statements.push({ id: `y${index}`, title: sections.filter((s) => s.kind === "yn").length > 1 ? title : "", items });
+                    statements.push({ id: `y${index}`, title: statementBlocks > 1 ? title : "", items });
                 } else {
                     count += 1;
                     tasks.push({ kind: "group", id: `s${index}`, key: `s${index}`, num: `2.${count}`, short: title, title, intro: this.pick(section, "intro"), items });
@@ -260,7 +278,7 @@ export class PaperAction extends Component {
             .map((field) => this.fieldItem(field));
     }
 
-    procTask(proc, num, fieldsByKey) {
+    procTask(proc, num, fieldsByKey, checklist = []) {
         const tips = this.pick(proc, "tips") || (this.pick(proc, "tip") ? [this.pick(proc, "tip")] : []);
         const text = this.fr ? proc.fr : proc.en;
         return {
@@ -284,7 +302,24 @@ export class PaperAction extends Component {
             markKey: `p_${proc.key}_m`,
             srcKey: `p_${proc.key}_src`,
             fields: (proc.fieldKeys || []).filter((key) => fieldsByKey[key]).map((key) => this.fieldItem(fieldsByKey[key])),
+            checklist,
         };
+    }
+
+    /** A group of a task's checklist: folded until opened, its progress on the heading. */
+    groupOpen(group) {
+        return Boolean(this.state.open[group.id]);
+    }
+
+    toggleGroup(group) {
+        this.state.open[group.id] = !this.groupOpen(group);
+    }
+
+    groupLine(group) {
+        const done = group.items.filter((item) => this.answered(item)).length;
+        const no = group.items.filter((item) => this.val(item.ansKey) === "no").length;
+        const line = `${done} / ${group.items.length} ${this.t("checklistAnswered")}`;
+        return no ? `${line} · ${no} ${this.t("checklistNo")}` : line;
     }
 
     statement(item, index) {
@@ -357,6 +392,9 @@ export class PaperAction extends Component {
         if (item.kind === "proc") {
             if (v(item.naKey) === NA) {
                 return filled(v(item.whyKey));
+            }
+            if ((item.checklist || []).some((group) => !group.items.every((sub) => this.answered(sub)))) {
+                return false;
             }
             if (item.mode === "tool") {
                 return true;

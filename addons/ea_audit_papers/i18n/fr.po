@@ -2314,3 +2314,14 @@ msgstr "Documentation complète : une affirmation est répondue « Non »."
 msgid "\"No exceptions noted\" is not available on this paper: a tool has raised a warning. Describe the work and its result in the box instead."
 msgstr "« Aucune exception relevée » n'est pas disponible sur ce papier : un outil a signalé une alerte. Décrivez plutôt les travaux et leur résultat dans la zone prévue."
 
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "answered"
+msgstr "renseignés"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "with a \"No\""
+msgstr "avec un « Non »"

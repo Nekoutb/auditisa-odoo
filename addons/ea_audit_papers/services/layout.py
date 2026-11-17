@@ -29,6 +29,9 @@ procs[i]:
 fields[i] (a fields section):
     optional                       true: a box nobody has to fill
     profiles                       as for a procedure
+sections[i] of kind yn:
+    task                           a procedure key: the block is that task's checklist, read inside
+                                   the task in folding groups (E6.10), not in the conclusion
 items[i]:
     vs                             false: dropped on a very simple engagement (default true)
     autoCheck                      hook name: "checked by the tool"

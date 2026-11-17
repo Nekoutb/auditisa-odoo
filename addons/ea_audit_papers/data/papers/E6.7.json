@@ -13,131 +13,280 @@
    "Pour chaque estimation, nous obtenons des éléments sur le caractère approprié de la méthode, des hypothèses importantes et des données, et sur leur application cohérente (ISA 540 révisée ¶23–26).",
    "Nous examinons les jugements de la direction à la recherche d'indices de biais et apprécions si, pris ensemble, ils constituent un risque d'anomalie résultant de fraude (ISA 540 ¶32)."
   ],
-  "conclEn": [
-   "Sufficient appropriate audit evidence has been obtained over the accounting estimates, and each is reasonable in the context of the applicable financial reporting framework."
-  ],
-  "conclFr": [
-   "Des éléments probants suffisants et appropriés ont été obtenus sur les estimations comptables, chacune étant raisonnable au regard du référentiel applicable."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "inventory",
       "en": "Bring forward the inventory of estimates and the approach set for each in S4.4.",
       "fr": "Reprendre l'inventaire des estimations et l'approche arrêtée pour chacune en S4.4.",
-      "srcEn": "S4.4 · draft financial statements",
-      "srcFr": "S4.4 · projet d'états financiers"
+      "shortEn": "Estimates and approach from S4.4",
+      "shortFr": "Estimations et approche issues de S4.4",
+      "isa": "ISA 540 ¶13",
+      "tipsEn": [
+       "Start from the list of estimates in S4.4.",
+       "Confirm the approach chosen for each."
+      ],
+      "tipsFr": [
+       "Partir de la liste des estimations de S4.4.",
+       "Confirmer l'approche retenue pour chacune."
+      ],
+      "stdEn": "Inventory of estimates confirmed; no exceptions noted.",
+      "stdFr": "Inventaire des estimations confirmé ; aucune exception relevée.",
+      "sourceHint": "Linked task S4.4"
      },
      {
       "key": "method",
       "en": "Test the method applied: whether it is appropriate in the circumstances and applied consistently with the prior period, and that any change is justified.",
       "fr": "Tester la méthode appliquée : caractère approprié, permanence par rapport à l'exercice précédent et justification de tout changement.",
-      "srcEn": "Management's calculation · policy note · prior file",
-      "srcFr": "Calcul de la direction · note de méthode · dossier antérieur"
+      "shortEn": "Method",
+      "shortFr": "Méthode",
+      "isa": "ISA 540 ¶23",
+      "tipsEn": [
+       "Compare with last year's method.",
+       "Ask why any change was made."
+      ],
+      "tipsFr": [
+       "Comparer avec la méthode de l'an dernier.",
+       "Demander la raison de tout changement."
+      ],
+      "stdEn": "Methods appropriate and applied consistently; no exceptions noted.",
+      "stdFr": "Méthodes appropriées et appliquées de façon cohérente ; aucune exception relevée.",
+      "sourceHint": "Management's calculations"
      },
      {
       "key": "assumptions",
       "en": "Test each significant assumption for reasonableness, and for consistency with the assumptions used elsewhere in the financial statements and with the evidence obtained in the rest of the file.",
       "fr": "Tester le caractère raisonnable de chaque hypothèse importante et sa cohérence avec les autres hypothèses des comptes et les éléments du dossier.",
-      "srcEn": "Management's support · market data · E6.3 · E4.5",
-      "srcFr": "Justificatifs de la direction · données de marché · E6.3 · E4.5"
+      "shortEn": "Significant assumptions",
+      "shortFr": "Hypothèses importantes",
+      "isa": "ISA 540 ¶24",
+      "tipsEn": [
+       "Compare with the assumptions used elsewhere, such as the budget.",
+       "Challenge the assumptions the estimate is most sensitive to."
+      ],
+      "tipsFr": [
+       "Comparer avec les hypothèses utilisées ailleurs, par exemple le budget.",
+       "Remettre en cause les hypothèses auxquelles l'estimation est la plus sensible."
+      ],
+      "stdEn": "Significant assumptions reasonable; no exceptions noted.",
+      "stdFr": "Hypothèses importantes raisonnables ; aucune exception relevée.",
+      "sourceHint": "Management's assumptions"
      },
      {
       "key": "data",
       "en": "Test the data used: its relevance and reliability, and agree it to the underlying records.",
       "fr": "Tester les données utilisées : pertinence et fiabilité, et rapprochement des enregistrements sous-jacents.",
-      "srcEn": "Source records · E1.2 for system reports",
-      "srcFr": "Enregistrements sources · E1.2 pour les états système"
+      "shortEn": "Data",
+      "shortFr": "Données",
+      "isa": "ISA 540 ¶25",
+      "tipsEn": [
+       "Agree the data to the ledger or the source records.",
+       "Check the data is complete and accurate."
+      ],
+      "tipsFr": [
+       "Rapprocher les données de la comptabilité ou des pièces sources.",
+       "Vérifier leur exhaustivité et leur exactitude."
+      ],
+      "stdEn": "Data agreed to the underlying records; no exceptions noted.",
+      "stdFr": "Données rapprochées des pièces sous-jacentes ; aucune exception relevée.",
+      "sourceHint": "Ledger and source records"
      },
      {
       "key": "approach",
       "en": "Apply the approach set in S4.4: test how management made the estimate, test events up to the date of the report, or develop our own point estimate or range.",
       "fr": "Appliquer l'approche arrêtée en S4.4 : tester le processus de la direction, utiliser les événements jusqu'à la date du rapport, ou développer notre propre estimation ou fourchette.",
-      "srcEn": "ISA 540 ¶23–29 · our independent estimate",
-      "srcFr": "ISA 540 ¶23–29 · notre estimation indépendante"
+      "shortEn": "Testing approach applied",
+      "shortFr": "Approche de test appliquée",
+      "isa": "ISA 540 ¶18",
+      "tipsEn": [
+       "Events after the year end often give the best evidence.",
+       "Our own range must be narrow enough to be useful."
+      ],
+      "tipsFr": [
+       "Les événements postérieurs fournissent souvent la meilleure preuve.",
+       "Notre propre fourchette doit être assez étroite pour être utile."
+      ],
+      "stdEn": "Approach applied as planned; no exceptions noted.",
+      "stdFr": "Approche appliquée comme prévu ; aucune exception relevée.",
+      "sourceHint": "Linked task S4.4"
      },
      {
       "key": "range",
       "en": "Where the estimate falls outside our range, or the point estimate differs materially from management's, raise the difference as a misstatement in C1.1.",
       "fr": "Lorsque l'estimation sort de notre fourchette ou diffère significativement de la nôtre, porter l'écart en anomalie en C1.1.",
-      "srcEn": "Our range · C1.1",
-      "srcFr": "Notre fourchette · C1.1"
+      "shortEn": "Differences against our estimate",
+      "shortFr": "Écarts avec notre estimation",
+      "isa": "ISA 540 ¶28–29 · ISA 450",
+      "tipsEn": [
+       "Raise the difference to the nearest point of our range in C1.1."
+      ],
+      "tipsFr": [
+       "Porter en C1.1 l'écart jusqu'au point le plus proche de notre fourchette."
+      ],
+      "stdEn": "Every estimate falls within our range.",
+      "stdFr": "Chaque estimation se situe dans notre fourchette.",
+      "sourceHint": "Summary of audit differences"
      },
      {
       "key": "bias",
       "en": "Review the judgements and decisions made across the estimates for indicators of management bias, including a pattern of estimates falling at the favourable end of the range.",
       "fr": "Examiner les jugements portés sur l'ensemble des estimations à la recherche d'indices de biais, dont une tendance systématique vers l'extrémité favorable de la fourchette.",
-      "srcEn": "ISA 540 ¶32 · all estimates tested · E3.1",
-      "srcFr": "ISA 540 ¶32 · ensemble des estimations testées · E3.1"
+      "shortEn": "Indicators of management bias",
+      "shortFr": "Indices de biais de la direction",
+      "isa": "ISA 540 ¶32 · ISA 240 ¶33(b)",
+      "tipsEn": [
+       "Look for estimates that all sit at the favourable end.",
+       "Compare last year's estimates with their outcome."
+      ],
+      "tipsFr": [
+       "Repérer les estimations toutes situées du côté favorable.",
+       "Comparer les estimations de l'an dernier à leur dénouement."
+      ],
+      "stdEn": "No indicator of management bias.",
+      "stdFr": "Aucun indice de biais de la direction.",
+      "sourceHint": "Retrospective review"
      },
      {
       "key": "disclosure",
       "en": "Test the disclosure of the estimation uncertainty, and whether it conveys the range of possible outcomes.",
       "fr": "Tester l'information relative à l'incertitude d'estimation et sa capacité à traduire l'éventail des issues possibles.",
-      "srcEn": "Draft financial statements · ISA 540 ¶31",
-      "srcFr": "Projet d'états financiers · ISA 540 ¶31"
+      "shortEn": "Disclosure of estimation uncertainty",
+      "shortFr": "Information sur l'incertitude d'estimation",
+      "isa": "ISA 540 ¶26, ¶31",
+      "tipsEn": [
+       "Check the notes describe the key assumptions.",
+       "Check the range of outcomes is disclosed where significant."
+      ],
+      "tipsFr": [
+       "Vérifier que l'annexe décrit les hypothèses clés.",
+       "Vérifier que la fourchette des issues possibles est indiquée lorsqu'elle est significative."
+      ],
+      "stdEn": "Disclosure of estimation uncertainty adequate; no exceptions noted.",
+      "stdFr": "Information sur l'incertitude d'estimation adéquate ; aucune exception relevée.",
+      "sourceHint": "Notes to the financial statements"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "method",
-      "en": "The method applied to each estimate is appropriate and has been applied consistently (procedure 2).",
-      "fr": "La méthode appliquée à chaque estimation est appropriée et appliquée de façon permanente (procédure 2)."
+      "en": "The method applied to each estimate is appropriate and has been applied consistently.",
+      "fr": "La méthode appliquée à chaque estimation est appropriée et appliquée de façon permanente.",
+      "tasks": [
+       "method"
+      ]
      },
      {
       "key": "assumptions",
-      "en": "The significant assumptions are reasonable and consistent with the rest of the file (procedure 3).",
-      "fr": "Les hypothèses importantes sont raisonnables et cohérentes avec le reste du dossier (procédure 3)."
+      "en": "The significant assumptions are reasonable and consistent with the rest of the file.",
+      "fr": "Les hypothèses importantes sont raisonnables et cohérentes avec le reste du dossier.",
+      "tasks": [
+       "assumptions",
+       "data"
+      ]
      },
      {
       "key": "within",
-      "en": "Each estimate falls within the range we consider reasonable (procedures 5, 6).",
-      "fr": "Chaque estimation se situe dans la fourchette que nous jugeons raisonnable (procédures 5, 6)."
+      "en": "Each estimate falls within the range we consider reasonable.",
+      "fr": "Chaque estimation se situe dans la fourchette que nous jugeons raisonnable.",
+      "tasks": [
+       "approach",
+       "range"
+      ]
      },
      {
       "key": "bias",
-      "en": "The judgements made across the estimates show no indicator of management bias (procedure 7).",
-      "fr": "Les jugements portés sur l'ensemble des estimations ne révèlent aucun indice de biais de la direction (procédure 7)."
+      "en": "The judgements made across the estimates show no indicator of management bias.",
+      "fr": "Les jugements portés sur l'ensemble des estimations ne révèlent aucun indice de biais de la direction.",
+      "tasks": [
+       "bias"
+      ]
      },
      {
       "key": "disclosure",
-      "en": "The disclosure of estimation uncertainty is adequate (procedure 8).",
-      "fr": "L'information sur l'incertitude d'estimation est appropriée (procédure 8)."
+      "en": "The disclosure of estimation uncertainty is adequate.",
+      "fr": "L'information sur l'incertitude d'estimation est appropriée.",
+      "tasks": [
+       "disclosure"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "exceptions",
       "kind": "input",
       "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
-      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      },
      {
       "key": "carried",
       "kind": "input",
       "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
-      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Obtain sufficient appropriate audit evidence about whether the accounting estimates and the related disclosures are reasonable in the context of the applicable financial reporting framework, and evaluate the indicators of possible management bias.",
+  "objectiveFr": "Obtenir des éléments probants suffisants et appropriés sur le caractère raisonnable des estimations comptables et des informations correspondantes au regard du référentiel applicable, et apprécier les indices de biais possible de la direction.",
+  "isa": [
+   {
+    "std": "ISA 540"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Synthèse des anomalies",
+    "noteEn": "Misstatements raised and their evaluation",
+    "noteFr": "Anomalies relevées et leur évaluation"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   },
+   {
+    "action": "action_tool_analytics",
+    "en": "Analytical review",
+    "fr": "Revue analytique",
+    "noteEn": "Movements and unexpected relationships",
+    "noteFr": "Variations et relations inattendues"
+   }
+  ],
+  "links": [
+   "S4.4",
+   "C1.1",
+   "E3.1",
+   "C3.1"
+  ],
+  "conclStdEn": "Sufficient appropriate audit evidence has been obtained over the accounting estimates; each is reasonable in the context of the applicable framework and no indicator of management bias was found.",
+  "conclStdFr": "Des éléments probants suffisants et appropriés ont été obtenus sur les estimations comptables ; chacune est raisonnable au regard du référentiel applicable et aucun indice de biais de la direction n'a été relevé."
  }
 }

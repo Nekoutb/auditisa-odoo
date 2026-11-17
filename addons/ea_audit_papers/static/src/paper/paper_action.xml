@@ -271,6 +271,15 @@
         </t>
     </t>
     <t t-foreach="task.fields" t-as="item" t-key="item.id"><t t-call="ea_audit_papers.PaperItem"/></t>
+    <div class="eap-checklist" t-foreach="task.checklist" t-as="group" t-key="group.id" t-att-data-group="group.id">
+        <a href="#" class="eap-checklist-head" t-on-click.prevent="() => this.toggleGroup(group)">
+            <span t-esc="groupOpen(group) ? '▾' : '▸'"/> <b t-esc="group.title"/> <span class="eap-muted eap-small" t-esc="groupLine(group)"/>
+        </a>
+        <t t-if="groupOpen(group)">
+            <p class="eap-muted eap-small" t-if="group.intro and state.mode === 'prepare'" t-esc="group.intro"/>
+            <t t-foreach="group.items" t-as="item" t-key="item.id"><t t-call="ea_audit_papers.PaperStatement"/></t>
+        </t>
+    </div>
 </t>
 
 <t t-name="ea_audit_papers.PaperTaskNotes">
