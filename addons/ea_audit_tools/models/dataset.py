@@ -18,7 +18,7 @@ from ..services.import_matching import (
     BALANCE_TOLERANCE, amount_check, apply_reading_options, clean_mapping, far_check, gl_population, missing_fields,
 )
 from ..services.subledger_kinds import SUB_LEDGER_KINDS, is_sub_ledger_kind
-from ..services.subledgers import detect_amount_column
+from ..services.subledgers import detect_amount_column, source_row_of
 from ..services.subsequent import SUBSEQUENT
 from ..tabular import parse_table
 from .tool_record import french_date, grouped, is_french, upload_stamp
@@ -191,6 +191,7 @@ class DatasetRow(models.Model):
 
     dataset_id = fields.Many2one("ea.audit.dataset", required=True, ondelete="cascade", index=True)
     row_no = fields.Integer(required=True)
+    file_row = fields.Integer(string="File line", help="The line of the file the row was read from.")
     data = fields.Json()
     amount = fields.Float(digits=(18, 2))
 
@@ -450,7 +451,7 @@ class EngagementDataset(models.Model):
         total = None
         rows = table["rows"]
         for start in range(0, len(rows), INGEST_BATCH):
-            numbers, datas, amounts = [], [], []
+            numbers, file_rows, datas, amounts = [], [], [], []
             for offset, row in enumerate(rows[start:start + INGEST_BATCH], start=start + 1):
                 if signed_pair:
                     amount = (parse_amount(row.get(debit_col)) or 0) - (parse_amount(row.get(credit_col)) or 0)
@@ -459,13 +460,14 @@ class EngagementDataset(models.Model):
                 if amount is not None:
                     total = (total or 0) + amount
                 numbers.append(offset)
+                file_rows.append(source_row_of(row))
                 datas.append(json.dumps(dict(row), ensure_ascii=False))
                 amounts.append(amount)
             self.env.cr.execute(
-                """INSERT INTO ea_audit_dataset_row (engagement_id, dataset_id, row_no, data, amount, create_uid, write_uid, create_date, write_date)
-                   SELECT %s, %s, r, d::jsonb, a, %s, %s, now() at time zone 'UTC', now() at time zone 'UTC'
-                     FROM unnest(%s::int[], %s::text[], %s::numeric[]) AS t(r, d, a)""",
-                [self.id, dataset.id, self.env.uid, self.env.uid, numbers, datas, amounts],
+                """INSERT INTO ea_audit_dataset_row (engagement_id, dataset_id, row_no, file_row, data, amount, create_uid, write_uid, create_date, write_date)
+                   SELECT %s, %s, r, f, d::jsonb, a, %s, %s, now() at time zone 'UTC', now() at time zone 'UTC'
+                     FROM unnest(%s::int[], %s::int[], %s::text[], %s::numeric[]) AS t(r, f, d, a)""",
+                [self.id, dataset.id, self.env.uid, self.env.uid, numbers, file_rows, datas, amounts],
             )
         dataset.write({"total_amount": total or 0, "has_total": total is not None})
         self._ea_log("dataset_imported", "%s imported (%s, %s, %d rows)" % (filename, kind, timing, len(rows)))

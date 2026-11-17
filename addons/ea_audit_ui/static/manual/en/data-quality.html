@@ -1,0 +1,48 @@
+<article class="ea-help-page" data-id="data-quality" data-part="The audit, phase by phase" data-part-order="5" data-order="5.15.1" data-screens="tag:ea_audit_tools.ipe_page">
+  <h1>Data quality (IPE)</h1>
+  <p class="lead">Check that each file the client gives us is complete and accurate before the working papers rely on it.</p>
+  <p class="who"><b>Who:</b> the engagement team records and concludes; a senior or above reviews. Roles that only read (for example the quality reviewer) see the page in read-only mode.</p>
+
+  <h2>What the page shows</h2>
+  <p>Open the engagement's tools, then <b>Data quality (IPE)</b>. The same tile is on the <b>Data analytics</b> page, and every upload screen has a <b>Data quality (IPE)</b> button.</p>
+  <p>IPE means information produced by the entity: the trial balance, the general ledger, the registers and listings the client extracts from its systems (ISA 500, paragraph 9). At the top, a table shows each kind of file against each timing (prior year, pre-audit, post-audit, subsequent period). Each box shows its reference, for example IPE-GL-PRE for the pre-audit general ledger, and its status:</p>
+  <ul>
+    <li><b>Reliable</b> · 13/13: concluded reliable; 13 of the 13 checks that apply have no exception.</li>
+    <li><b>3 to explain</b>: three checks found exceptions that nobody has explained yet.</li>
+    <li><b>To conclude</b>: every exception is explained, the conclusion is still to choose.</li>
+    <li><b>Not reliable</b>: the team concluded that the file cannot be relied on.</li>
+    <li><b>Not uploaded</b>: no file of that kind and timing.</li>
+  </ul>
+  <p>Click a box to open it below the table.</p>
+
+  <h2>The checks</h2>
+  <p>The checks run by themselves when a file is uploaded. <b>Run the checks again</b> runs them once more on the same file. Each check reads <b>Passed</b>, a number of exceptions, <b>Not applicable</b> (the file has not the columns it needs) or <b>Information</b> (figures to read, nothing to explain).</p>
+  <p>Every file gets the same first checks: every line read, mandatory cells filled, values valid, dates inside the period of the file, no duplicated lines, totals that add down and across, and the same code always with the same name. Then each kind has its own:</p>
+  <table class="ref">
+    <tr><th>File</th><th>Its own checks</th></tr>
+    <tr><td>Trial balance</td><td>Debits equal credits; opening + debit − credit = closing for each account; account codes used once and in SYSCOHADA form; no balance without a name; opening balances equal to last year's closing balances; waiting and suspense accounts (class 47) with a balance, for information.</td></tr>
+    <tr><td>General ledger</td><td>Every entry balances, and the whole ledger; entry numbers follow each other within each journal (gaps and numbers used twice are listed); no line with both a debit and a credit, no zero line; no entry after the extraction date; preparer and approver filled; totals by account and month, for information.</td></tr>
+    <tr><td>Fixed assets</td><td>Asset numbers used once; cost − accumulated depreciation = net value; the roll forward of the net value; depreciation not above cost; disposal dates; rates between 0 and 100 %; the year's charge recomputed from cost × rate × time.</td></tr>
+    <tr><td>Payroll</td><td>Each employee at most once per month; gross not below net; gross and net recomputed from their parts; hire and leaving dates; no zero or negative pay.</td></tr>
+    <tr><td>Receivables and payables</td><td>Invoice numbers used once (per supplier for payables); receivables numbers in sequence; items older than 12 months; credit notes negative and invoices positive; no zero item; totals by customer or supplier.</td></tr>
+    <tr><td>Bank statements</td><td>Opening + movements = closing, line by line when the statement has a balance column; dates in order.</td></tr>
+    <tr><td>Inventory</td><td>Item codes used once per location; quantity × unit price = amount; no negative quantity or price; items at zero cost, for information.</td></tr>
+    <tr><td>Supplier statements</td><td>Supplier codes used once; totals recomputed.</td></tr>
+  </table>
+  <p>Click a check to see its exceptions, with the line of the file each one comes from. <b>Download the exceptions (Excel)</b> gives them all.</p>
+
+  <h2>Documenting the file</h2>
+  <ol class="steps">
+    <li>Under <b>Where the data comes from</b>, fill <b>Accounting system</b>, <b>Report or query</b>, <b>Extracted by</b>, <b>Extraction date</b>, <b>Parameters used</b>, <b>How obtained</b> (<b>Extraction observed by the team</b>, <b>Received from the client</b> or <b>Downloaded by the team</b>) and <b>Purpose in the audit</b>.</li>
+    <li>For each check with exceptions, write the <b>Explanation</b>: why the exceptions do not stop us relying on the file, or what was done about them.</li>
+    <li>Choose the <b>Conclusion</b>: <b>Reliable for our purpose</b>, <b>Reliable with limitations</b> or <b>Not reliable: ask the client for a new extraction</b>. The first two need an explanation for every check with exceptions.</li>
+    <li>Click <b>Sign as preparer</b>. A senior or above who did not prepare it clicks <b>Sign as reviewer</b>.</li>
+  </ol>
+  <div class="note"><b>Good to know</b> A new upload of the same kind and timing runs the checks again, clears the explanations and the conclusion, and voids the signatures. Any change after signing voids them too.</div>
+
+  <h2>The working papers that rely on the file</h2>
+  <p>At the right, <b>Used in these working papers</b> lists the papers that use the file: for example E3.1 and S5.4 for the general ledger, P6.1, P6.2 and the account papers for the trial balance, E4.4 for fixed assets. On each of these papers, the card <b>Data relied on</b> shows the references and their status, with <b>Open data quality (IPE)</b>.</p>
+  <p>A reviewer can sign a paper that relies on a file marked <b>Not reliable</b>, but reads a warning first and clicks <b>Sign anyway</b>. The warning is recorded on the activity trail with the signature.</p>
+
+  <p class="see">See also: <a href="#uploading-data">Uploading the client's data</a> · <a href="#data-versions">Versions of an upload</a> · <a href="#data-tools">Analytics and the data tools</a> · <a href="#working-paper">The working paper</a></p>
+</article>

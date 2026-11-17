@@ -260,4 +260,19 @@
         <field name="model_id" ref="model_ea_audit_finding_adjustment"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_ipe_team_only" model="ir.rule">
+        <field name="name">ea.audit.ipe: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_ipe"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_ipe_check_team_only" model="ir.rule">
+        <field name="name">ea.audit.ipe.check: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_ipe_check"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_ipe_line_team_only" model="ir.rule">
+        <field name="name">ea.audit.ipe.line: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_ipe_line"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>

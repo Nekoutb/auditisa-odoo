@@ -149,6 +149,12 @@ MESSAGES = {
     "procedure-not-finished": _lt("Choose a result, write the conclusion, tick every step and answer every selected entry before you mark the procedure as done."),
     "selection-frozen": _lt("An entry of this selection already has an answer: the selection is frozen."),
     "selection-on-paper": _lt("This selection is answered on its procedure's working paper."),
+    # Data quality (IPE), 2026-11-17
+    "ipe-explanation-required": _lt("Explain every check with exceptions before you conclude that the data is reliable: %(codes)s."),
+    "ipe-conclusion-required": _lt("Choose the conclusion before you sign."),
+    "ipe-preparer-first": _lt("The preparer signs first, then the reviewer."),
+    "ipe-self-review": _lt("You signed as preparer: another member of the team must review."),
+    "ipe-no-file": _lt("No file of this kind and timing is uploaded."),
 }
 
 

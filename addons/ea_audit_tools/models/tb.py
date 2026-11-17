@@ -9,8 +9,9 @@ from ..services.fs_captions import asset_basis_label, bilan_totals
 from ..services.import_matching import TB_KIND, apply_reading_options
 from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_schedule_alerts, sub_index_for
 from ..services.significance_variance import sums_by_index
+from ..services.subledgers import source_row_of
 from ..services.tb_reasons import explain_tb_summary
-from ..services.tb import extract_tb_rows, infer_tb_mapping, left_out_rows, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
+from ..services.tb import tb_file_facts, extract_tb_rows, infer_tb_mapping, left_out_rows, preview_trial_balance, readability_of, validate_mapping, validate_tb_rows
 from .tool_record import grouped, is_french, upload_stamp
 
 TIMING_SELECTION = [
@@ -61,6 +62,9 @@ class TbVersion(models.Model):
     total_debit = fields.Float(digits=(18, 2))
     total_credit = fields.Float(digits=(18, 2))
     validation_summary = fields.Json()
+    #: what the data quality checks need of the file itself (ipe.py): its lines read, and the
+    #: lines the import left out (titles, totals, lines with no account) with their figures
+    file_facts = fields.Json()
     superseded_at = fields.Datetime()
     line_ids = fields.One2many("ea.audit.tb.line", "version_id", string="Accounts")
     is_current = fields.Boolean(string="Drives the file", compute="_compute_is_current", compute_sudo=True)
@@ -117,6 +121,7 @@ class TbLine(models.Model):
 
     version_id = fields.Many2one("ea.audit.tb.version", required=True, ondelete="cascade", index=True)
     row_no = fields.Integer()
+    file_row = fields.Integer(string="File line")
     account_code = fields.Char(string="Account", required=True, index=True)
     account_name = fields.Char(string="Description")
     opening_debit = fields.Float(digits=(18, 2))
@@ -502,11 +507,13 @@ class EngagementTb(models.Model):
             "total_debit": summary["checks"]["balanced"]["totalDebit"],
             "total_credit": summary["checks"]["balanced"]["totalCredit"],
             "validation_summary": summary,
+            "file_facts": tb_file_facts(table, mapping),
         })
         self.env["ea.audit.tb.line"].sudo().create([{
             "engagement_id": self.id,
             "version_id": version.id,
             "row_no": row_no,
+            "file_row": source_row_of(row["raw"]),
             "account_code": row["account"],
             "account_name": row["label"],
             "opening_debit": row["openingDebit"],

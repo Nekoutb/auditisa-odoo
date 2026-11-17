@@ -168,8 +168,9 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
+    <!-- Substantive analytics gave way to Data quality (IPE) on 2026-11-17: no way in any more. -->
     <menuitem id="menu_sap_thresholds" name="Substantive analytics thresholds" parent="ea_audit_core.menu_settings"
-              action="action_sap_thresholds" sequence="40" groups="ea_audit_core.group_firm_admin"/>
+              action="action_sap_thresholds" sequence="40" groups="ea_audit_core.group_firm_admin" active="False"/>
     <record id="view_engagement_sap_board" model="ir.ui.view">
         <field name="name">ea.audit.engagement.sap.board</field>
         <field name="model">ea.audit.engagement</field>

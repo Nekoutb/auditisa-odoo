@@ -24,6 +24,10 @@
         <field name="model">ea.audit.tb.version</field>
         <field name="arch" type="xml">
             <form create="0" delete="0" edit="0">
+                <header>
+                    <field name="superseded_at" invisible="1"/>
+                    <button name="action_open_ipe" type="object" string="Data quality (IPE)" invisible="superseded_at or validation_status != 'valid'"/>
+                </header>
                 <sheet>
                     <group>
                         <group>

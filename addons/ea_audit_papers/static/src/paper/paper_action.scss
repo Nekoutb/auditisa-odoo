@@ -208,6 +208,12 @@
     .eap-sigs { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 8px; font-size: 13px; }
     .eap-sig { display: inline-flex; gap: 6px; align-items: baseline; }
     .eap-flag { background: var(--eap-goldbg); color: var(--eap-gold); border-radius: 10px; padding: 0 7px; font-size: 11px; font-weight: 600; }
+    // Data relied on (Data quality, IPE)
+    .eap-ipe { border-radius: 10px; padding: 0 7px; font-size: 11px; font-weight: 600; background: var(--eap-grey); color: var(--eap-muted); }
+    .eap-ipe.is-green { background: var(--eap-greenbg); color: var(--eap-green); }
+    .eap-ipe.is-amber { background: var(--eap-goldbg); color: var(--eap-gold); }
+    .eap-ipe.is-red { background: var(--eap-rosebg); color: var(--eap-rose); }
+    .eap-ipe-warning { color: var(--eap-rose); }
     .eap-missing { color: var(--eap-gold); font-size: 13px; margin: 4px 0 6px; }
 
     .eap-sign-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }

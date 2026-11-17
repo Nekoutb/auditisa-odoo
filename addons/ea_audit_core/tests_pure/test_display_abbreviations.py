@@ -3,7 +3,8 @@
 Read without Odoo: the English source of every screen text (the msgids of each addon's fr.po, which
 cover the Python, JavaScript and XML strings and the data records), the task templates and other
 data files, and the English keys of the working-paper definitions. French text is not checked.
-Kept on purpose: ISA, ISQM, IESBA, IAASB, IFRS, IAS, OHADA, SYSCOHADA, IT, VAT, MSP/ASP.
+Kept on purpose: ISA, ISQM, IESBA, IAASB, IFRS, IAS, OHADA, SYSCOHADA, IT, VAT, MSP/ASP, and IPE (information
+produced by the entity, the name of the Data quality (IPE) tool, owner 2026-11-17).
 """
 import csv
 import glob
@@ -18,7 +19,7 @@ ADDONS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 # The abbreviations the owner asked to spell out, as whole words.
 LISTED = re.compile(
     r"(?<![\w/])(Prelim\.?|Rep\.|FS|vs\.?|SCOTs?|WCGWs?|FSCPs?|ITGCs?|ToCs?|ToDs?|JEs?|EQRs?|TCWG|NOCLAR|SAD|CRAs?|IR|CR|"
-    r"PBC|TB|GL|AP|RPs?|KAMs?|HR|IPE|CEO|CFO|MD|PCA|DG|PDG|AGO|AGE|AGM|EGM|AUSCGIE|TFT|DSF|CNPS|RCCM|Docs|Ref\.?|Pct|"
+    r"PBC|TB|GL|AP|RPs?|KAMs?|HR|CEO|CFO|MD|PCA|DG|PDG|AGO|AGE|AGM|EGM|AUSCGIE|TFT|DSF|CNPS|RCCM|Docs|Ref\.?|Pct|"
     r"Recon|Min\.?|Q[0-9]{1,2})(?![\w/])"
     r"|PP&E|N/A|n/a|(?<=\w) & (?=\w)"
 )
@@ -112,7 +113,7 @@ def test_the_pattern_catches_the_listed_abbreviations(sample):
     assert LISTED.search(sample)
 
 
-@pytest.mark.parametrize("sample", ["ISA 315", "IT general controls", "SYSCOHADA", "VAT", "IFRS 16", "OHADA Uniform Act", "MSP"])
+@pytest.mark.parametrize("sample", ["ISA 315", "IT general controls", "SYSCOHADA", "VAT", "IFRS 16", "OHADA Uniform Act", "MSP", "Data quality (IPE)"])
 def test_kept_names_pass(sample):
     assert not LISTED.search(sample)
 

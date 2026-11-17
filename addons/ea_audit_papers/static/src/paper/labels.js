@@ -209,6 +209,11 @@ export const AUTO_SOURCES = {
     "engagement record": _t("the engagement record"),
     "engagement profile": _t("the engagement profile questionnaire, not answered yet"),
     "team discussion": _t("the team discussion (P5.2), not answered yet"),
+    // Data quality (IPE), 2026-11-17: the files the paper relies on
+    dataRelied: _t("Data relied on"),
+    openIpe: _t("Open data quality (IPE)"),
+    ipeWarningTitle: _t("A file this paper relies on is not reliable"),
+    ipeSignAnyway: _t("Sign anyway"),
 };
 
 export const CHIP_LETTER = { preparer: "P", reviewer: "R", partner: "A", eqr: "Q" };
