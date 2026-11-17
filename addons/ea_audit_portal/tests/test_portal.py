@@ -7,15 +7,23 @@ from odoo.tests import HttpCase, tagged
 
 from odoo.addons.ea_audit_reports.tests.common import ReportsCase
 
+from odoo.addons.ea_audit_tools.services.document_requests import PARAM
+
 from ..models.pbc import password_problem
 
 CSV = "Compte;Montant\n411;100".encode("utf-8")
 GOOD_PASSWORD = "Choisi-Par-Le-Client-2026"
 
 
+def switch_document_requests(env, on):
+    """The firm's switch (owner ruling 2026-11-17: off for now, back later)."""
+    env["ir.config_parameter"].sudo().set_param(PARAM, "True" if on else "False")
+
+
 class PortalCase(ReportsCase):
     def setUp(self):
         super().setUp()
+        switch_document_requests(self.env, True)
         self.client2 = self.env["ea.audit.client"].create({"name": "Other SA"})
         self.contact, self.link = self.client.with_user(self.senior).add_portal_contact("Contact@Client.example.com", "Mme Contact")
         self.portal_user = self.contact.sudo().user_id
@@ -221,6 +229,7 @@ class TestInviteOverHttp(HttpCase):
 
     def setUp(self):
         super().setUp()
+        switch_document_requests(self.env, True)
         self.env["res.users"].with_context(no_reset_password=True).create({
             "name": "Sen", "login": "sen@flow.example.com", "email": "sen@flow.example.com",
             "group_ids": [(6, 0, [self.env.ref("ea_audit_core.group_senior").id])],

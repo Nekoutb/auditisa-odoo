@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Client Portal",
     "summary": "List of documents requested from the client, and their uploads by client contacts invited by a one-time link",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

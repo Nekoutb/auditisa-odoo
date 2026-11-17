@@ -203,6 +203,8 @@ class TestScotDocuments(ScotCase):
 @tagged("post_install", "-at_install")
 class TestToolsPage(ScotCase):
     def test_three_tiles_are_hidden_and_their_tools_kept(self):
+        # document requests answer only while the firm's switch is on (owner ruling 2026-11-17)
+        self.env["ir.config_parameter"].sudo().set_param("ea_audit_portal.document_requests", "True")
         action = self.as_staff.action_open_tools()
         codes = self.env["ea.audit.tool.tile"].with_user(self.staff).search(action["domain"]).mapped("code")
         for hidden in ("potential", "deficiencies", "pbc"):

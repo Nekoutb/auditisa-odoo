@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.signoff_rules import can_review
 from odoo.addons.ea_audit_papers.services.upload_safety import UnsafeFile, check_upload
+from odoo.addons.ea_audit_tools.models.pbc import document_requests_enabled, require_document_requests
 
 from ..rules import rule_error
 
@@ -64,6 +65,7 @@ class PortalContact(models.Model):
     def resend_invite(self):
         """Senior and above; refused once the contact has chosen a password."""
         self.ensure_one()
+        require_document_requests(self.env)
         self.env["ea.audit.client"]._ea_require_contact_manager()
         if not self.sudo().pending:
             raise rule_error(self.env, "already-active")
@@ -119,6 +121,15 @@ class Client(models.Model):
     _inherit = "ea.audit.client"
 
     portal_contact_ids = fields.One2many("ea.audit.portal.contact", "client_id", string="Portal contacts")
+    document_requests_enabled = fields.Boolean(
+        string="Document requests switched on", compute="_compute_document_requests_enabled",
+        help="The firm's switch for document requests and the client portal (system parameter ea_audit_portal.document_requests).",
+    )
+
+    def _compute_document_requests_enabled(self):
+        enabled = document_requests_enabled(self.env)
+        for client in self:
+            client.document_requests_enabled = enabled
 
     @api.model
     def _ea_require_contact_manager(self):
@@ -130,6 +141,7 @@ class Client(models.Model):
         """addPortalContact: (contact, link). No email goes out here: the link is handed to the
         caller, who passes it on until the firm turns mail on."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_require_contact_manager()
         email = (email or "").strip().lower()
         name = (name or "").strip()
@@ -158,6 +170,7 @@ class Client(models.Model):
 
     def action_add_portal_contact(self):
         self.ensure_one()
+        require_document_requests(self.env)
         return {
             "type": "ir.actions.act_window", "res_model": "ea.audit.portal.contact.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("New portal contact"), "context": {"default_client_id": self.id},
@@ -198,6 +211,7 @@ class PbcItem(models.Model):
         firm records a document received another way through the tools' half (A30), and its bytes end
         up in the same place."""
         self.ensure_one()
+        require_document_requests(self.env)
         if self.env.user.has_group("ea_audit_core.group_member"):
             result = super().upload_pbc(filename, content)
             row = self.sudo()
@@ -242,6 +256,7 @@ class PbcItem(models.Model):
     def chase(self):
         """chasePbc (UAT B112): a reminder nobody can receive is not a chase (UAT run 2 B76)."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_guard()
         row = self.sudo()
         users = row._ea_contacts_of_client()
@@ -256,6 +271,7 @@ class PbcItem(models.Model):
 
     def _ea_review_guard(self, item):
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_guard()
         if not can_review(self.env.user._ea_firm_role()):
             raise rule_error(self.env, "forbidden")
@@ -313,6 +329,7 @@ class PbcItem(models.Model):
 
     def action_open_accept(self):
         self.ensure_one()
+        require_document_requests(self.env)
         return {
             "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("Accept and file the upload"),
@@ -345,6 +362,7 @@ class Engagement(models.Model):
     def add_pbc_item(self, title, note=""):
         """addPbcItem: the request goes on the trail (UAT run 2 B74) and the contacts see it."""
         self.ensure_one()
+        require_document_requests(self.env)
         self._ea_tool_guard()
         title = (title or "").strip()
         if not title:
@@ -357,6 +375,7 @@ class Engagement(models.Model):
 
     def action_view_pbc(self):
         self.ensure_one()
+        require_document_requests(self.env)
         return self._ea_list(
             "ea.audit.pbc.item", self.env._("Client-provided documents"),
             [("ea_audit_portal.view_pbc_item_list", "list"), ("ea_audit_portal.view_pbc_item_form", "form")],
@@ -364,6 +383,7 @@ class Engagement(models.Model):
 
     def action_open_pbc_request(self):
         self.ensure_one()
+        require_document_requests(self.env)
         return {
             "type": "ir.actions.act_window", "res_model": "ea.audit.portal.pbc.wizard", "view_mode": "form", "views": [(False, "form")], "target": "new",
             "name": self.env._("New request"), "context": {"default_engagement_id": self.id},

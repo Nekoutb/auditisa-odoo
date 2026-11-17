@@ -16428,3 +16428,19 @@ msgstr "%(count)s immobilisations : les acquisitions ou cessions à la valeur br
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_reliance_watch
 msgid "Reliance on controls watch"
 msgstr "Suivi de l'appui sur les contrôles"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__document_requests_enabled
+msgid "Document requests switched on"
+msgstr "Demandes de documents activées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_engagement__document_requests_enabled
+msgid "The firm's switch for document requests and the client portal (system parameter ea_audit_portal.document_requests)."
+msgstr "L'interrupteur du cabinet pour les demandes de documents et le portail du client (paramètre système ea_audit_portal.document_requests)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Document requests are switched off for now. The requests already made are kept."
+msgstr "Les demandes de documents sont désactivées pour le moment. Les demandes déjà faites sont conservées."

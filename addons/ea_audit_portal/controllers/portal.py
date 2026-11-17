@@ -4,11 +4,23 @@ from odoo import http
 from odoo.http import request
 
 from odoo.addons.ea_audit_core.services.errors import AuditRuleError
+from odoo.addons.ea_audit_tools.models.pbc import document_requests_enabled
 from odoo.addons.ea_audit_tools.models.tool_record import french_date
 from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
+def _require_switch_on():
+    """While the firm's switch for document requests is off, the client's pages answer 404."""
+    if not document_requests_enabled(request.env):
+        raise request.not_found()
+
+
 class PbcPortal(CustomerPortal):
+    def _prepare_portal_layout_values(self):
+        values = super()._prepare_portal_layout_values()
+        values["ea_document_requests"] = document_requests_enabled(request.env)
+        return values
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         if "pbc_count" in counters:
@@ -16,12 +28,13 @@ class PbcPortal(CustomerPortal):
             contact = Contact.search([("user_id", "=", request.env.uid)], limit=1)
             values["pbc_count"] = request.env["ea.audit.pbc.item"].sudo().search_count(
                 [("client_id", "=", contact.client_id.id), ("status", "=", "requested")]
-            ) if contact else 0
+            ) if contact and document_requests_enabled(request.env) else 0
         return values
 
     @http.route("/my/pbc", type="http", auth="user", website=True, methods=["GET"])
     def pbc_list(self, error=None, **_kw):
         """9.1: PBC requests only, never the audit file."""
+        _require_switch_on()
         Item = request.env["ea.audit.pbc.item"]
         try:
             items = Item.list_portal_items()
@@ -45,6 +58,7 @@ class PbcPortal(CustomerPortal):
     @http.route("/my/pbc/<int:item_id>/upload", type="http", auth="user", website=True, methods=["POST"], csrf=True)
     def pbc_upload(self, item_id, upload=None, **_kw):
         """The rules are the model's. A refusal comes back to the list, in the reader's language."""
+        _require_switch_on()
         item = request.env["ea.audit.pbc.item"].browse(item_id)
         content = upload.read() if upload else b""
         try:
@@ -65,6 +79,7 @@ class PortalInvite(http.Controller):
 
     @http.route("/ea_audit/portal/invite/<string:token>", type="http", auth="public", methods=["GET"], sitemap=False)
     def invite_form(self, token, **_kw):
+        _require_switch_on()
         response = self._render(token)
         response.headers["Referrer-Policy"] = "no-referrer"
         response.headers["Cache-Control"] = "no-store"
@@ -73,6 +88,7 @@ class PortalInvite(http.Controller):
     @http.route("/ea_audit/portal/invite/<string:token>", type="http", auth="public", methods=["POST"], csrf=True, sitemap=False)
     def invite_accept(self, token, password="", confirm="", **_kw):
         """Choose the password. No login is performed here: the contact signs in with it."""
+        _require_switch_on()
         try:
             contact = request.env["ea.audit.portal.contact"].accept_invite(token, password, confirm)
         except AuditRuleError as refusal:

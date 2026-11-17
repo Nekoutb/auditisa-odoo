@@ -23,7 +23,8 @@
 
     <template id="portal_my_home_pbc" inherit_id="portal.portal_my_home" name="Client-provided documents">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            <t t-call="portal.portal_docs_entry">
+            <!-- Hidden while the firm's switch for document requests is off (owner ruling 2026-11-17). -->
+            <t t-if="ea_document_requests" t-call="portal.portal_docs_entry">
                 <t t-set="title">Documents requested by your auditor</t>
                 <t t-set="text">See what is requested and upload it</t>
                 <t t-set="url" t-value="'/my/pbc'"/>

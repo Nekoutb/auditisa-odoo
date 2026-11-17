@@ -100,7 +100,9 @@
         <field name="inherit_id" ref="ea_audit_core.view_client_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
-                <div class="o_ea_panel">
+                <field name="document_requests_enabled" invisible="1"/>
+                <!-- Hidden while the firm's switch for document requests is off (owner ruling 2026-11-17). -->
+                <div class="o_ea_panel" invisible="not document_requests_enabled">
                     <h4>Portal contacts</h4>
                     <button name="action_add_portal_contact" type="object" string="New portal contact" class="btn btn-secondary" groups="ea_audit_core.group_senior"/>
                     <field name="portal_contact_ids" readonly="1" nolabel="1">
@@ -122,8 +124,10 @@
         <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header/field[@name='phase']" position="before">
-                <button name="action_view_pbc" type="object" string="Client documents"/>
-                <button name="action_open_pbc_request" type="object" string="New document request" invisible="archived_at"/>
+                <field name="document_requests_enabled" invisible="1"/>
+                <!-- Hidden while the firm's switch for document requests is off (owner ruling 2026-11-17). -->
+                <button name="action_view_pbc" type="object" string="Client documents" invisible="not document_requests_enabled"/>
+                <button name="action_open_pbc_request" type="object" string="New document request" invisible="archived_at or not document_requests_enabled"/>
             </xpath>
         </field>
     </record>
