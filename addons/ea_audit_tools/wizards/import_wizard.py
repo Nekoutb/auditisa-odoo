@@ -12,7 +12,9 @@ from ..models.import_matching import IMPORT_KIND_SELECTION
 from ..models.tool_record import grouped, is_french, upload_stamp
 from ..rules import rule_error
 from ..services.dataset_mapping import JE_KEY, JE_KEY_MAX, encode_je_key, je_key_columns
-from ..services.import_matching import JE_KEY_LABEL, TB_KIND, fields_of, groups_of, mandatory_marks, missing_fields, required_keys
+from ..services.import_matching import (
+    JE_KEY_LABEL, TB_KIND, analysis_keys, fields_of, groups_of, mandatory_marks, missing_fields, required_keys,
+)
 
 _RELOAD = {"type": "ir.actions.client", "tag": "soft_reload"}
 _SEPARATOR = {";": ";", ",": ",", "tab": "\t", "|": "|"}
@@ -154,9 +156,18 @@ class ImportWizard(models.TransientModel):
                     used = [key for alternative in group["alternatives"] for key in alternative if key in marks]
                     titles = je_key_columns(mapping) if used == [JE_KEY] else [mapping[key] for key in used]
                     chips.append(chip.format(css="o_ea_chip_good", text="%s ← %s" % (group[language], " + ".join(titles))))
-                wizard.match_html = Markup("<div class='alert alert-success mb-2' role='status'><b>{head}</b><div class='mt-1'>{chips}</div></div>").format(
+                hinted = analysis_keys(kind)
+                optional = Markup("")
+                if hinted:
+                    optional = Markup("<div class='mt-1'>{}</div>").format(self.env._(
+                        "Optional columns that improve the analysis: %(matched)s of %(total)s matched.",
+                        matched=sum(1 for key in hinted if mapping.get(key)), total=len(hinted),
+                    ))
+                wizard.match_html = Markup(
+                    "<div class='alert alert-success mb-2' role='status'><b>{head}</b><div class='mt-1'>{chips}</div>{optional}</div>"
+                ).format(
                     head=self.env._("All mandatory fields are matched. %(count)s lines in the file.", count=grouped(wizard.row_count, self.env.lang)),
-                    chips=Markup("").join(chips),
+                    chips=Markup("").join(chips), optional=optional,
                 )
                 continue
             lines, chips = [], []
@@ -273,6 +284,9 @@ class ImportWizard(models.TransientModel):
                 mark = self.env._("mandatory") if line.field_id.key in marks and not line.field_id.skip else False
                 if line.mandatory != mark:
                     line.mandatory = mark
+                hint = self.env._("Improves the analysis") if line.field_id.improves_analysis and not mark else False
+                if line.analysis_hint != hint:
+                    line.analysis_hint = hint
 
     def write(self, vals):
         result = super().write(vals)
@@ -447,6 +461,8 @@ class ImportWizardColumn(models.TransientModel):
     )
     detected_field_id = fields.Many2one("ea.audit.import.field", ondelete="cascade", readonly=True)
     mandatory = fields.Char(string="Mandatory", readonly=True)
+    #: beside an optional column the analysis uses, set with the mark (owner, 2026-11-17)
+    analysis_hint = fields.Char(string="Optional", readonly=True)
     match_state = fields.Selection(
         [("auto", "Matched automatically"), ("you", "Chosen by you"), ("none", "Not recognised")],
         string="How it was matched", compute="_compute_match_state",

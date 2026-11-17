@@ -16,6 +16,7 @@ from .services.sad_view import MAIN_TYPES, entry_amount, grid_totals, is_trivial
 HDR = "D9D9D9"
 BAND = "C0C0C0"
 YEL = "FFFF99"
+NOTE = "DDEBF7"
 MONEY = "#,##0;(#,##0)"
 PCT = "0.00%"
 
@@ -52,8 +53,10 @@ def _tab_name(text):
     return re.sub(r"[\\/*?:\[\]]", " ", text)[:31]
 
 
-def simple_workbook(sheet_name, headers, rows, title=None):
-    """A flat register: header row, one line per record, frozen, filterable."""
+def simple_workbook(sheet_name, headers, rows, title=None, notes=None):
+    """A flat register: header row, one line per record, frozen, filterable. ``notes`` maps a
+    column's position (from 0) to a note on its title: the title stays as it is, so a template
+    is read back as before, and the column is shaded."""
     style = _styles()
     book = _book()
     sheet = book.create_sheet(_tab_name(sheet_name))
@@ -67,6 +70,13 @@ def simple_workbook(sheet_name, headers, rows, title=None):
         cell.font = style["Font"](bold=True)
         cell.fill = style["fill"](HDR)
         cell.border = style["box"]
+    if notes:
+        from openpyxl.comments import Comment
+
+        for position, text in notes.items():
+            cell = sheet.cell(head_row, position + 1)
+            cell.comment = Comment(text, "AuditISA")
+            cell.fill = style["fill"](NOTE)
     for row in rows:
         sheet.append(list(row))
     for index, header in enumerate(headers, start=1):

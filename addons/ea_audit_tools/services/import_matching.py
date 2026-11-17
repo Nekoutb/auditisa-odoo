@@ -10,7 +10,7 @@ import re
 
 from ._js import cell_str, is_number, js_str, js_trim, u16_slice
 from .amount import parse_amount
-from .dataset_mapping import JE_KEY, all_fields, encode_je_key, guess_map, je_key_columns, norm
+from .dataset_mapping import JE_KEY, all_fields, encode_je_key, guess_map, hint_keys, je_key_columns, norm
 from .gl_line import TOLERANCE, mapped_fields, parse_date_iso, population_checks, projector
 from .subledger_kinds import SUB_LEDGER_KINDS
 from .subledgers import source_row_of
@@ -56,8 +56,11 @@ SKIP_LABEL = {"en": "Do not import", "fr": "Ne pas importer"}
 _AMOUNT_KEYS = {
     "openingDebit", "openingCredit", "opening", "debit", "credit", "closingDebit", "closingCredit", "closing",
     "amount", "quantity", "unitPrice", "depreciation", "nbv", "net", "proceeds",
+    # the payroll's optional columns (2026-11-17)
+    "baseSalary", "allowances", "benefitsInKind", "overtime", "incomeTax", "socialEmployee", "socialEmployer",
+    "otherEmployerCharges",
 }
-_DATE_KEYS = {"date", "journalDate", "jeDate", "acquisitionDate", "disposalDate"}
+_DATE_KEYS = {"date", "journalDate", "jeDate", "acquisitionDate", "disposalDate", "hireDate", "leavingDate"}
 
 #: How far a ledger's debits may be from its credits, in total and per entry, before it is refused:
 #: the trial balance's own tolerance (owner's ruling of 2026-11-15, "an unbalanced general ledger
@@ -76,6 +79,11 @@ _YEAR_FIRST = re.compile(r"^\d{4}[/.\-]")
 def fields_of(kind):
     """The fields a kind offers: [{key, en, fr, required}]."""
     return TB_FIELDS if kind == TB_KIND else all_fields(kind)
+
+
+def analysis_keys(kind):
+    """The optional fields the screen marks "Improves the analysis"."""
+    return [] if kind == TB_KIND else hint_keys(kind)
 
 
 def groups_of(kind):

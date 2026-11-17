@@ -447,7 +447,63 @@ EXTRA_FIELDS = {
         {"key": "location", "en": "Location (optional)", "fr": "Emplacement (optionnel)",
          "aliases": ["emplacement", "magasin", "location", "depot", "entrepot", "lieu"]},
     ],
+    # optional columns for the payroll analytical review, prior year against current year (owner,
+    # 2026-11-17): gross, headcount, components of salary, joiners and leavers, average salary and
+    # the taxes on salary. The mandatory fields stay the source's. Each one's own labels are among
+    # its aliases, so the downloadable template is read back column for column.
+    "payroll_register": [
+        {"key": "category", "en": "Employee category or grade", "fr": "Catégorie ou grade", "hint": "analysis",
+         "aliases": ["employeecategoryorgrade", "categorieougrade", "categorie", "category", "grade", "echelon",
+                     "classification", "qualification"]},
+        {"key": "department", "en": "Department", "fr": "Département ou service", "hint": "analysis",
+         "aliases": ["department", "departementouservice", "departement", "service", "direction", "division", "section"],
+         "not": ["date", "entree", "anciennete"]},
+        {"key": "hireDate", "en": "Hire date", "fr": "Date d'embauche", "hint": "analysis",
+         "aliases": ["hiredate", "datedembauche", "dateembauche", "dateentree", "datedentree", "startdate", "joiningdate",
+                     "embauche", "entree"],
+         "not": ["sortie", "depart", "leaving"]},
+        {"key": "leavingDate", "en": "Leaving date", "fr": "Date de sortie", "hint": "analysis",
+         "aliases": ["leavingdate", "datedesortie", "datesortie", "datedepart", "datededepart", "leavedate", "enddate",
+                     "terminationdate", "sortie", "depart"],
+         "not": ["departement", "department"]},
+        {"key": "baseSalary", "en": "Base salary", "fr": "Salaire de base", "hint": "analysis",
+         "aliases": ["basesalary", "salairedebase", "salairebase", "basicsalary", "basepay", "basic"]},
+        {"key": "allowances", "en": "Allowances and bonuses", "fr": "Indemnités et primes", "hint": "analysis",
+         "aliases": ["allowancesandbonuses", "indemnitesetprimes", "primesetindemnites", "primes", "indemnites",
+                     "allowances", "bonuses", "prime", "indemnite", "bonus"]},
+        {"key": "benefitsInKind", "en": "Benefits in kind", "fr": "Avantages en nature", "hint": "analysis",
+         "aliases": ["benefitsinkind", "avantagesennature", "avantagennature", "avantagenature", "avantages"]},
+        {"key": "overtime", "en": "Overtime", "fr": "Heures supplémentaires", "hint": "analysis",
+         "aliases": ["overtime", "heuressupplementaires", "heuresupplementaire", "heuressup", "supplementaires"]},
+        {"key": "incomeTax", "en": "Income tax withheld", "fr": "IRPP retenu", "hint": "analysis",
+         "aliases": ["incometaxwithheld", "irppretenu", "retenueirpp", "irpp", "incometax", "impotsurlerevenu",
+                     "impotsurlesrevenus"]},
+        {"key": "socialEmployee", "en": "Social security, employee share", "fr": "CNPS, part salariale", "hint": "analysis",
+         "aliases": ["socialsecurityemployeeshare", "cnpspartsalariale", "cnpssalariale", "cnpssalarie", "cnpssalarial",
+                     "retenuecnps", "partsalariale", "cotisationsalariale", "cotisationssalariales", "employeecontribution",
+                     "employeecontributions"],
+         "not": ["patron", "employeur", "employer"]},
+        {"key": "socialEmployer", "en": "Social security, employer share", "fr": "CNPS, part patronale", "hint": "analysis",
+         "aliases": ["socialsecurityemployershare", "cnpspartpatronale", "cnpspatronale", "cnpspatronal", "cnpsemployeur",
+                     "partpatronale", "cotisationpatronale", "cotisationspatronales", "employercontribution",
+                     "employercontributions"]},
+        {"key": "otherEmployerCharges", "en": "Other employer charges", "fr": "Autres charges patronales", "hint": "analysis",
+         "aliases": ["otheremployercharges", "autreschargespatronales", "autrescharges", "chargespatronales",
+                     "employercharges"],
+         "not": ["cnps"]},
+        {"key": "period", "en": "Month or period", "fr": "Mois ou période", "hint": "analysis",
+         "aliases": ["monthorperiod", "moisouperiode", "mois", "periode", "period", "month", "moisdepaie"],
+         "not": ["13", "treizieme", "salaire", "prime"]},
+    ],
 }
+
+#: The hint beside an optional column the analysis uses (owner, 2026-11-17).
+ANALYSIS_HINT = {"en": "Improves the analysis", "fr": "Améliore l'analyse"}
+
+
+def hint_keys(kind):
+    """The optional fields of a kind marked "Improves the analysis"."""
+    return [field["key"] for field in EXTRA_FIELDS.get(kind, []) if field.get("hint") == "analysis"]
 
 
 def all_fields(kind):

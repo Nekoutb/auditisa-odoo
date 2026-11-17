@@ -54,9 +54,11 @@
                             <field name="sample" force_save="1"/>
                             <field name="field_id" widget="selection" width="220px"/>
                             <field name="mandatory" decoration-danger="mandatory" width="100px" force_save="1"/>
+                            <field name="analysis_hint" decoration-info="analysis_hint" width="170px" force_save="1"/>
                             <field name="match_state" widget="badge" decoration-success="match_state == 'auto'" decoration-info="match_state == 'you'" decoration-muted="match_state == 'none'" width="190px"/>
                         </list>
                     </field>
+                    <div class="o_ea_legend" invisible="kind != 'payroll_register'">The columns marked "Improves the analysis" are optional. Give them when your file has them: the payroll analytical review uses them to compare the year with the prior year (gross pay, headcount, components of salary, joiners and leavers, average salary, taxes on salary).</div>
                     <div class="o_ea_legend">Each line is one column of your file. Open the list on a line to choose another field, or "Do not import" to leave the column out. A column not recognised is left out unless you choose a field for it.</div>
                     <group invisible="kind != 'journal_entries'">
                         <field name="je_key_column_ids" widget="many2many_tags" options="{'no_create': True}"/>

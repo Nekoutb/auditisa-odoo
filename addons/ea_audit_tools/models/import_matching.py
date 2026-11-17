@@ -4,9 +4,10 @@ from odoo import api, fields, models
 
 from ..rules import rule_error
 from ..services.import_matching import (
-    IMPORT_KINDS, SKIP_LABEL, TB_KIND, amount_columns, date_columns, detect_mapping, fields_of, found_date_format,
-    found_decimal, remember_payload, starred_keys,
+    IMPORT_KINDS, SKIP_LABEL, TB_KIND, amount_columns, analysis_keys, date_columns, detect_mapping, fields_of,
+    found_date_format, found_decimal, remember_payload, starred_keys,
 )
+from ..services.dataset_mapping import ANALYSIS_HINT
 from ..tabular import found_delimiter, sheet_names
 from .dataset import KIND_SELECTION
 from .tool_record import is_french
@@ -35,40 +36,49 @@ class ImportField(models.Model):
     label_fr = fields.Char(required=True, readonly=True)
     starred = fields.Boolean(readonly=True)
     skip = fields.Boolean(readonly=True)
+    #: an optional column the analysis uses: marked "Improves the analysis" (owner, 2026-11-17)
+    improves_analysis = fields.Boolean(string="Improves the analysis", readonly=True)
 
     _kind_key_uniq = models.Constraint("UNIQUE(kind, key)", "A field is listed once for a kind of file.")
 
-    @api.depends("label_en", "label_fr", "starred")
+    @api.depends("label_en", "label_fr", "starred", "improves_analysis")
     @api.depends_context("lang")
     def _compute_display_name(self):
         french = is_french(self.env)
+        hint = ANALYSIS_HINT["fr" if french else "en"]
         for field in self:
             label = field.label_fr if french else field.label_en
-            field.display_name = "%s *" % label if field.starred else label
+            if field.starred:
+                label = "%s *" % label
+            elif field.improves_analysis:
+                label = "%s (%s)" % (label, hint)
+            field.display_name = label
 
     def init(self):
         """The catalogue of the services, as rows a dropdown can list."""
         cr = self.env.cr
         wanted = {}
         for kind in IMPORT_KINDS:
-            starred = starred_keys(kind)
-            wanted[(kind, SKIP_KEY)] = (0, SKIP_LABEL["en"], SKIP_LABEL["fr"], False, True)
+            starred, hinted = starred_keys(kind), set(analysis_keys(kind))
+            wanted[(kind, SKIP_KEY)] = (0, SKIP_LABEL["en"], SKIP_LABEL["fr"], False, True, False)
             for position, field in enumerate(fields_of(kind), start=1):
-                wanted[(kind, field["key"])] = (position, field["en"], field["fr"], field["key"] in starred, False)
+                key = field["key"]
+                wanted[(kind, key)] = (position, field["en"], field["fr"], key in starred, False, key in hinted)
         cr.execute("SELECT id, kind, key FROM ea_audit_import_field")
         known = {(kind, key): record_id for record_id, kind, key in cr.fetchall()}
-        for (kind, key), (sequence, label_en, label_fr, starred, skip) in wanted.items():
-            values = [sequence, label_en, label_fr, starred, skip]
+        for (kind, key), values in wanted.items():
+            values = list(values)
             if (kind, key) in known:
                 cr.execute(
                     """UPDATE ea_audit_import_field SET sequence = %s, label_en = %s, label_fr = %s, starred = %s, skip = %s,
-                              write_date = now() at time zone 'UTC' WHERE id = %s""",
+                              improves_analysis = %s, write_date = now() at time zone 'UTC' WHERE id = %s""",
                     values + [known[(kind, key)]],
                 )
             else:
                 cr.execute(
-                    """INSERT INTO ea_audit_import_field (kind, key, sequence, label_en, label_fr, starred, skip, create_date, write_date)
-                       VALUES (%s, %s, %s, %s, %s, %s, %s, now() at time zone 'UTC', now() at time zone 'UTC')""",
+                    """INSERT INTO ea_audit_import_field (kind, key, sequence, label_en, label_fr, starred, skip, improves_analysis,
+                                                         create_date, write_date)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now() at time zone 'UTC', now() at time zone 'UTC')""",
                     [kind, key] + values,
                 )
         gone = [record_id for pair, record_id in known.items() if pair not in wanted]

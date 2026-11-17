@@ -9,7 +9,7 @@ from odoo import api, fields, models
 
 from ..rules import rule_error
 from ..services.aging import aging
-from ..services.dataset_mapping import all_fields
+from ..services.dataset_mapping import ANALYSIS_HINT, all_fields
 from ..services.engines import RECON_PREFIXES, recon_preview, run_reconciliation, run_supplier_recon
 from ..services.errors import ServiceError
 from ..services.subledger_kinds import SUB_LEDGER_KINDS
@@ -254,11 +254,15 @@ class EngagementAnalyzer(models.Model):
         return None
 
     def _ea_export_dataset_template(self, kind, fr):
-        """The expected layout, before any file is read (F066): the headers of the kind."""
+        """The expected layout, before any file is read (F066): the headers of the kind. An optional
+        column the analysis uses carries the note "Improves the analysis" on its title."""
         from ..exports import simple_workbook
 
-        head = [field["fr" if fr else "en"] for field in all_fields(kind)]
-        return "%s_%s.xlsx" % (kind, "modele" if fr else "template"), simple_workbook("Modèle" if fr else "Template", head, [])
+        language = "fr" if fr else "en"
+        fields_ = all_fields(kind)
+        head = [field[language] for field in fields_]
+        notes = {position: ANALYSIS_HINT[language] for position, field in enumerate(fields_) if field.get("hint") == "analysis"}
+        return "%s_%s.xlsx" % (kind, "modele" if fr else "template"), simple_workbook("Modèle" if fr else "Template", head, [], notes=notes)
 
     def _ea_export_aging_grid(self, kind, fr):
         from ..exports import simple_workbook

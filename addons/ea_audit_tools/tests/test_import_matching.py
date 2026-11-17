@@ -875,3 +875,53 @@ class TestMigration(ImportCase):
         self.assertTrue(dataset.is_current)
         self.as_staff.delete_tb_version(invalid.id)
         self.assertEqual(self.versions().ids, [valid])
+
+
+#: A payroll register with the four columns of old and three of the optional ones.
+PAYROLL_CSV = """Matricule;Nom;Salaire brut;Net;Service;Date d'embauche;CNPS patronale
+E1;Awa;300000;250000;Ventes;01/02/2020;50000
+E2;Paul;200000;170000;Atelier;15/06/2021;33000
+"""
+
+
+@tagged("post_install", "-at_install")
+class TestPayrollColumns(ImportCase):
+    """Optional payroll columns (owner, 2026-11-17): the mandatory fields stay, the optional ones
+    are marked "Improves the analysis" on the matching screen and in the template."""
+
+    def test_the_mandatory_fields_stay_and_the_optional_ones_carry_the_hint(self):
+        Field = self.env["ea.audit.import.field"].with_user(self.staff)
+        payroll = Field.search([("kind", "=", "payroll_register")])
+        self.assertEqual(payroll.filtered("starred").mapped("key"), ["party", "partyName", "amount"])
+        hinted = payroll.filtered("improves_analysis")
+        self.assertEqual(len(hinted), 13)
+        self.assertFalse(hinted & payroll.filtered("starred"))
+        self.assertIn("Department (Improves the analysis)", payroll.mapped("display_name"))
+        self.assertIn("Income tax withheld (Improves the analysis)", payroll.mapped("display_name"))
+        self.assertFalse(Field.search([("kind", "!=", "payroll_register"), ("improves_analysis", "=", True)]))
+
+    def test_the_matching_screen_marks_the_optional_columns(self):
+        wizard = self.read(PAYROLL_CSV, filename="paie.csv", kind="payroll_register")
+        self.assertEqual(wizard.missing_count, 0)
+        self.assertEqual((self.line(wizard, "Matricule").mandatory, self.line(wizard, "Matricule").analysis_hint), ("mandatory", False))
+        service = self.line(wizard, "Service")
+        self.assertEqual((service.field_id.key, service.mandatory, service.analysis_hint), ("department", False, "Improves the analysis"))
+        self.assertEqual(self.line(wizard, "Date d'embauche").field_id.key, "hireDate")
+        self.assertEqual(self.line(wizard, "CNPS patronale").field_id.key, "socialEmployer")
+        self.assertFalse(self.line(wizard, "Net").analysis_hint)
+        self.assertIn("Optional columns that improve the analysis: 3 of 13 matched.", str(wizard.match_html))
+        self.choose(wizard, "Service")
+        self.assertFalse(self.line(wizard, "Service").analysis_hint)
+        result = self.as_staff.create_dataset("payroll_register", "paie.csv", to_bytes(PAYROLL_CSV))
+        dataset = self.env["ea.audit.dataset"].sudo().browse(result["datasetId"])
+        self.assertEqual((dataset.mapping["amount"], dataset.mapping["department"]), ("Salaire brut", "Service"))
+
+    def test_the_template_notes_the_optional_columns_and_keeps_its_titles(self):
+        for fr, hint in ((False, "Improves the analysis"), (True, "Améliore l'analyse")):
+            _name, content = self.engagement.sudo()._ea_export_dataset_template("payroll_register", fr)
+            head = list(load_workbook(io.BytesIO(content)).active.iter_rows(max_row=1))[0]
+            titles = [cell.value for cell in head]
+            self.assertEqual(titles[:4], ["Matricule", "Nom du salarié", "Salaire brut", "Salaire net"] if fr else ["Employee number", "Employee name", "Gross pay", "Net pay"])
+            self.assertEqual(len(titles), 17)
+            self.assertEqual([cell.comment for cell in head[:4]], [None] * 4)
+            self.assertTrue(all(cell.comment and cell.comment.text == hint for cell in head[4:]))
