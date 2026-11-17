@@ -14,18 +14,38 @@ export class EaHome extends Component {
     setup() {
         this.shell = shellSession;
         this.ctx = useService("ea_audit_context");
-        this.state = useState({ todo: [], missions: [], loaded: false });
+        this.action = useService("action");
+        this.state = useState({ todo: [], missions: [], invitations: [], loaded: false });
         onWillStart(async () => {
             this.ctx.enterHome();
-            const data = await this.ctx.call("ea_ui_home");
-            Object.assign(this.state, data, { loaded: true });
+            await this.load();
+        });
+    }
+
+    async load() {
+        const data = await this.ctx.call("ea_ui_home");
+        Object.assign(this.state, data, { loaded: true });
+    }
+
+    // Accept opens the invitation itself: its form carries the independence confirmation.
+    acceptInvitation(invitation) {
+        return this.action.doAction({
+            type: "ir.actions.act_window",
+            res_model: "ea.audit.team.member",
+            res_id: invitation.id,
+            views: [[false, "form"]],
+            target: "current",
+        });
+    }
+
+    declineInvitation(invitation) {
+        return this.action.doAction("ea_audit_core.action_team_decline_wizard", {
+            additionalContext: { default_member_id: invitation.id },
+            onClose: () => this.load(),
         });
     }
 
     openTodo(row) {
-        if (row.invitation) {
-            return this.ctx.openXmlid("ea_audit_core.action_my_invitations");
-        }
         if (row.tool) {
             return this.ctx.openTool(row.engagement_id, row.tool);
         }

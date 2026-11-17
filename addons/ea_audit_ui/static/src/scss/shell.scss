@@ -265,6 +265,18 @@ body.ea-shell .ea-page {
     font-size: 13.5px;
     &:hover { background: var(--ea-greenbg); }
   }
+  // a pending engagement invitation: large, at the top of the home page
+  .ea-invite {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 16px 18px; margin-bottom: 14px; border-color: var(--ea-green); background: var(--ea-greenbg);
+    .ea-invite-text > b { font-size: 16px; }
+    .ea-m { color: var(--ea-muted); font-size: 13px; margin-top: 4px; }
+    .ea-invite-actions { display: flex; gap: 8px; }
+  }
+  .ea-btn.ea-btn-ghost {
+    background: var(--ea-card); color: var(--ea-green); border: 1px solid var(--ea-green);
+    &:hover { background: var(--ea-card); color: #0c5a46; }
+  }
   .ea-missions { margin-top: 14px; overflow: hidden; }
   .ea-missions > .ea-empty { padding: 18px; }
   .ea-mis {

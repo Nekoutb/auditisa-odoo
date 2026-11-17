@@ -423,13 +423,25 @@ class AuditUi(models.AbstractModel):
                     "engagement_id": engagement.id,
                     "tool": "action_tool_deficiencies",
                 })
-        invitations = self.env["ea.audit.team.member"].search([("user_id", "=", user.id), ("state", "=", "invited")])
+        # pending invitations have their own large card at the top of the home page
+        return rows
+
+    @api.model
+    def _ea_ui_home_invitations(self):
+        """The signed-in user's open invitations, for the card at the top of the home page
+        (owner, 2026-11-17: a new colleague meets theirs on first sign-in, not under the cog)."""
+        Member = self.env["ea.audit.team.member"]
+        roles = dict(Member._fields["team_role"]._description_selection(self.env))
+        invitations = Member.search([("user_id", "=", self.env.user.id), ("state", "=", "invited")], order="invited_at desc, id desc")
+        rows = []
         for invitation in invitations:
+            mission = self.env._("%(client)s, fiscal year %(year)s", client=invitation.invitation_client_name, year=invitation.invitation_fiscal_year)
+            role = roles.get(invitation.team_role, invitation.team_role)
             rows.append({
-                "title": self.env._("Invitation to answer"),
-                "mission": self.env._("%(client)s, fiscal year %(year)s", client=invitation.invitation_client_name, year=invitation.invitation_fiscal_year),
-                "count": 0,
-                "invitation": True,
+                "id": invitation.id,
+                "mission": mission,
+                "role": role,
+                "title": self.env._("You are invited to %(mission)s as %(role)s", mission=mission, role=role),
             })
         return rows
 
@@ -461,7 +473,11 @@ class AuditUi(models.AbstractModel):
                 "total": len(own),
                 "pct": percent(done, len(own)),
             })
-        return {"todo": self._ea_ui_home_todo(engagements, items, today), "missions": missions}
+        return {
+            "todo": self._ea_ui_home_todo(engagements, items, today),
+            "missions": missions,
+            "invitations": self._ea_ui_home_invitations(),
+        }
 
     # ------------------------------------------------------------------
     # The engagement dashboard

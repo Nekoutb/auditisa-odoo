@@ -6,6 +6,7 @@ from ..models.engagement import NEW_NATURE_SELECTION, REPORT_LANGUAGE_SELECTION
 from ..models.signoff_policy import LADDER_SELECTION
 from ..models.team_member import TEAM_ROLE_SELECTION
 from ..services.errors import rule_error
+from ..services.signoff_rules import may_hold_partner_seat
 
 
 class EngagementCreateWizard(models.TransientModel):
@@ -33,6 +34,25 @@ class EngagementCreateWizard(models.TransientModel):
         "res.users", string="Engagement partner",
         domain=lambda self: [("all_group_ids", "in", self.env.ref("ea_audit_core.group_partner").ids)],
     )
+
+    # owner, 2026-11-17: a partner who opens a file for another partner is not on its team
+    # (team-only access), and is told so before creating it. No rule changes here.
+    partner_warning = fields.Char(string="Team warning", compute="_compute_partner_warning")
+
+    @api.depends("engagement_partner_id")
+    @api.depends_context("uid")
+    def _compute_partner_warning(self):
+        creator = self.env.user
+        creator_is_partner = may_hold_partner_seat(creator._ea_firm_role())
+        for wizard in self:
+            chosen = wizard.engagement_partner_id
+            if creator_is_partner and chosen and chosen != creator:
+                wizard.partner_warning = self.env._(
+                    "You will not be on this engagement's team. To open it later, ask %(partner)s to add you.",
+                    partner=chosen.name,
+                )
+            else:
+                wizard.partner_warning = False
 
     @api.onchange("period_end")
     def _onchange_period_end(self):

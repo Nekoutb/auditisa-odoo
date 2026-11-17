@@ -171,7 +171,7 @@ class TestEqrEligibility(EaAuditCase):
 
     def test_refuses_an_account_the_team_page_would_provision(self):
         code = self.attempt(self.as_partner.invite_team_member, "unknown-eqr@gov.example.com", "eqr_reviewer", None, True)
-        self.assertEqual(code, "eqr-rank")
+        self.assertEqual(code, "not-in-firm-yet")
         self.assertFalse(self.env["res.users"].search([("login", "=", "unknown-eqr@gov.example.com")]))
 
     def test_refuses_a_member_of_the_team_in_another_role(self):

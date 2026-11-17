@@ -73,6 +73,7 @@ MESSAGES = {
     "already-on-team": _lt("This person is already on the engagement team. To change their role, use the team assignment on the planning page."),
     "invalid-email": _lt("Enter a valid email address."),
     "email-taken": _lt("A user with this email already exists."),
+    "not-in-firm-yet": _lt("This person is not in the firm yet. Ask your firm administrator to add them first (Users screen); they can add them to this engagement at the same time."),
     "reason-required": _lt("A reason is required."),
     "invalid-year": _lt("The new fiscal year must be after the current one."),
     "rollforward-not-closed": _lt("Roll forward from a closed file: issue its report or archive it first."),

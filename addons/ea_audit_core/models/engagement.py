@@ -996,9 +996,10 @@ class Engagement(models.Model):
         return member.with_env(self.env)
 
     def invite_team_member(self, email, team_role, display_name=None, eqr_declaration=False):
-        """Port of addTeamMemberByEmail: the domain rule comes first, before any
-        account is provisioned. An unknown address gets a staff account with no
-        password; a colleague already in the firm keeps theirs."""
+        """Port of addTeamMemberByEmail, without its account creation (owner, 2026-11-17): only
+        the firm administrator adds people to the firm, on the Users screen. The domain rule comes
+        first; then the address must be an active colleague already in the firm.
+        ``display_name`` stays for the callers' signature and is no longer used."""
         self.ensure_one()
         if team_role not in TEAM_LADDER and team_role != EQR_ROLE:
             raise rule_error(self.env, "invalid-team-role")
@@ -1008,34 +1009,23 @@ class Engagement(models.Model):
         if not is_valid_email(email):
             raise rule_error(self.env, "invalid-email")
         self._ea_assert_member_domain(email)
-        Users = self.env["res.users"].sudo().with_context(active_test=False)
-        user = Users.search(["|", ("login", "=ilike", email), ("email", "=ilike", email)], limit=1)
-        provisioned = False
-        if user:
-            if not user._ea_firm_role():
-                # someone outside the firm (a portal contact): never attach
-                raise rule_error(self.env, "email-taken")
-            if team_role == "partner" and not may_hold_partner_seat(user._ea_firm_role()):
-                raise rule_error(self.env, "partner-role-requires-partner-rank")
-        else:
-            if team_role == "partner":
-                raise rule_error(self.env, "partner-role-requires-partner-rank")
-            if team_role == EQR_ROLE:
-                raise rule_error(self.env, "eqr-rank")
-            name = (display_name or "").strip() or email.split("@")[0].replace(".", " ").replace("_", " ").replace("-", " ").title()
-            user = self._ea_provision_staff_user(email, name)
-            provisioned = True
+        user = self._ea_firm_colleague(email)
+        if not user:
+            raise rule_error(self.env, "not-in-firm-yet")
+        if team_role == "partner" and not may_hold_partner_seat(user._ea_firm_role()):
+            raise rule_error(self.env, "partner-role-requires-partner-rank")
         member = self._ea_seat_invitation(user, team_role, eqr_declaration)
-        self._ea_send_team_invitation(member, provisioned)
+        self._ea_send_team_invitation(member, False)
         return member
 
-    def _ea_provision_staff_user(self, email, name):
-        # res.users refuses group commands from a plain sudo; the rank given is
-        # fixed here, not taken from the caller.
-        staff = self.env.ref("ea_audit_core.group_staff")
-        return self.env["res.users"].with_user(self.env.ref("base.user_root")).with_context(no_reset_password=True).create({
-            "name": name, "login": email, "email": email, "group_ids": [(6, 0, [staff.id])],
-        }).with_env(self.env)
+    def _ea_firm_colleague(self, email):
+        """The active internal user of the firm signing in with ``email``, or an empty
+        recordset: a portal contact, an archived account or a stranger is not one."""
+        Users = self.env["res.users"].sudo()
+        user = Users.search(["|", ("login", "=ilike", email), ("email", "=ilike", email)], limit=1)
+        if not user or user.share or not user._ea_firm_role():
+            return Users.browse()
+        return user.with_env(self.env)
 
     def remove_team_member(self, user_id):
         """Port of removeTeamMember. Their tasks go back to the unassigned pool."""

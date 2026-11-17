@@ -136,12 +136,6 @@ class TestGovFindings(ToolsCase):
         })
         self.assertEqual(chosen.lang, "en_US")
 
-    def test_f086_an_invited_account_too(self):
-        self.company_partner.lang = "fr_FR"
-        self.as_partner.invite_team_member("invited.one@gov.example.com", "staff", "Invited One")
-        user = self.env["res.users"].search([("login", "=", "invited.one@gov.example.com")])
-        self.assertEqual(user.lang, "fr_FR")
-
     def test_f086_the_firm_admin_sets_the_language(self):
         self.company_partner.lang = "en_US"
         with self.assertRaises(AuditRuleError):
