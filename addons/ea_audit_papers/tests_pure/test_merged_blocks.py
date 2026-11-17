@@ -13,7 +13,8 @@ def resolved(code):
 
 def test_p14_asks_the_governance_block_until_answered():
     definition = resolved("P1.4")
-    assert definition["sections"][-1]["titleEn"].startswith("Part D")
+    # the planning communication block, last of the paper, folds on one answer
+    assert definition["sections"][-1]["collapse"]["key"] == "tcwg_is_mgmt"
     assert required_keys(definition)[-len(P14_BLOCK) - 1:-1] == P14_BLOCK
     assert set(P14_BLOCK) <= set(unanswered_keys(definition, {}))
 

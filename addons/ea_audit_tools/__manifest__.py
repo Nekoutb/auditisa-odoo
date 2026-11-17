@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, CRA, findings, SAD and the tools hub",
-    "version": "19.0.1.21.0",
+    "version": "19.0.1.21.1",  # P: plan papers' hooks (paper_hooks_plan.py)
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

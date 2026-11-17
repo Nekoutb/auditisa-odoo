@@ -3,8 +3,6 @@
  "source": "lib/papers/acceptance.ts",
  "definition": {
   "std": "ISA 600 (Revised) ¶17–31 · ISA 300 ¶8",
-  "ownsEn": "the components in scope and the work planned at each",
-  "ownsFr": "les composants inclus dans le périmètre et les travaux prévus sur chacun",
   "reqEn": [
    "Where the financial statements include the financial information of components — branches, subsidiaries, divisions or other locations — the auditor determines the components on which work is to be performed, the nature of that work, and the involvement of any component auditor (ISA 600 (Revised)).",
    "A component is scoped in for its significance to the group figures or for its assessed risk, not for its convenience. For components where no specific work is planned, analytical procedures at the aggregated level respond to the residual risk.",
@@ -15,82 +13,147 @@
    "Un composant entre dans le périmètre pour son importance dans les chiffres d'ensemble ou pour son risque évalué, non pour sa commodité. Pour les composants sans travaux spécifiques, des procédures analytiques au niveau agrégé répondent au risque résiduel.",
    "Lorsqu'un autre auditeur intervient sur un composant, l'auditeur du groupe dirige et supervise ces travaux, en apprécie le caractère suffisant et communique les points requis — la responsabilité de l'auditeur du groupe n'est pas réduite par la délégation."
   ],
-  "conclEn": [
-   "The components within the scope of the audit have been identified, the work at each is planned in proportion to its significance and risk, and any component auditor's involvement is directed and supervised."
-  ],
-  "conclFr": [
-   "Les composants du périmètre d'audit ont été identifiés, les travaux sur chacun sont proportionnés à son importance et à son risque, et l'intervention de tout auditeur de composant est dirigée et supervisée."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result with the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat avec la référence des éléments classés.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "map",
       "en": "List every component whose financial information reaches the financial statements: branches, subsidiaries, sites, divisions. Record for each its location, its activity, and the balances or flows it contributes.",
       "fr": "Recenser chaque composant dont l'information financière alimente les états financiers : succursales, filiales, sites, divisions. Consigner pour chacun sa localisation, son activité et les soldes ou flux qu'il apporte.",
-      "srcEn": "Group structure · consolidation schedules · management reports",
-      "srcFr": "Organigramme du groupe · tableaux de consolidation · rapports de gestion"
+      "shortEn": "Components",
+      "shortFr": "Composantes",
+      "isa": "ISA 600",
+      "tipsEn": [
+       "Include branches and sites, not only subsidiaries."
+      ],
+      "tipsFr": [
+       "Inclure les succursales et sites, pas seulement les filiales."
+      ],
+      "stdEn": "Components listed with their location, activity and contribution.",
+      "stdFr": "Composantes listées avec leur implantation, activité et contribution.",
+      "sourceHint": "Group structure"
      },
      {
       "key": "significance",
       "en": "Determine which components are significant, by their share of the entity's totals or by the risks they carry, and record the threshold or reasoning applied.",
       "fr": "Déterminer les composants importants, par leur part dans les totaux de l'entité ou par les risques qu'ils portent, et consigner le seuil ou le raisonnement appliqué.",
-      "srcEn": "Consolidation schedules vs materiality (P6.1)",
-      "srcFr": "Tableaux de consolidation vs seuil (P6.1)"
+      "shortEn": "Significant components",
+      "shortFr": "Composantes significatives",
+      "isa": "ISA 600",
+      "tipsEn": [
+       "Compare each component's share with materiality in P6.1."
+      ],
+      "tipsFr": [
+       "Comparer la part de chaque composante au seuil de P6.1."
+      ],
+      "stdEn": "Components assessed against materiality and risk; threshold recorded.",
+      "stdFr": "Composantes appréciées au regard du seuil et du risque ; seuil consigné.",
+      "sourceHint": "Linked task P6.1"
      },
      {
       "key": "work",
       "en": "Set the work to be performed at each component: an audit of its financial information, specified procedures on particular balances, or analytical procedures at the aggregated level — and record why that response fits the component's significance and risk.",
       "fr": "Arrêter les travaux à réaliser sur chaque composant : audit de son information financière, procédures spécifiées sur des soldes déterminés, ou procédures analytiques au niveau agrégé — et consigner pourquoi cette réponse correspond à son importance et à son risque.",
-      "srcEn": "Component risk profile · S3.1",
-      "srcFr": "Profil de risque du composant · S3.1"
+      "shortEn": "Work at each component",
+      "shortFr": "Travaux par composante",
+      "isa": "ISA 600",
+      "stdEn": "Work set for each component, consistent with its significance and risk.",
+      "stdFr": "Travaux fixés pour chaque composante, en cohérence avec son importance et son risque.",
+      "sourceHint": "Linked task S3.1"
      },
      {
       "key": "auditors",
       "en": "Where a component auditor is involved, record who they are, evaluate their competence and independence, and set how their work will be directed, supervised and reviewed, including the materiality allocated to them.",
       "fr": "Lorsqu'un auditeur de composant intervient, consigner son identité, apprécier sa compétence et son indépendance, et fixer comment ses travaux seront dirigés, supervisés et revus, y compris le seuil qui lui est alloué.",
-      "srcEn": "Component auditor confirmations · group instructions",
-      "srcFr": "Confirmations de l'auditeur de composant · instructions du groupe"
+      "shortEn": "Component auditors",
+      "shortFr": "Auditeurs des composantes",
+      "isa": "ISA 600",
+      "stdEn": "No component auditor involved; the team performs all the work.",
+      "stdFr": "Aucun auditeur de composante n'intervient ; l'équipe réalise tous les travaux.",
+      "sourceHint": "Group instructions"
      },
      {
       "key": "access",
       "en": "Confirm access to the components' records and people, including any restriction from a different jurisdiction, and record how a restriction is overcome or its effect on the opinion.",
       "fr": "Confirmer l'accès aux livres et aux personnes des composants, y compris toute restriction tenant à une autre juridiction, et consigner comment une restriction est levée ou son incidence sur l'opinion.",
-      "srcEn": "Engagement letter · correspondence with component management",
-      "srcFr": "Lettre de mission · correspondance avec la direction du composant"
+      "shortEn": "Access to components",
+      "shortFr": "Accès aux composantes",
+      "isa": "ISA 600",
+      "stdEn": "Full access to the components' records and people confirmed.",
+      "stdFr": "Accès complet aux documents et aux personnes des composantes confirmé.",
+      "sourceHint": "Engagement letter"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Scoping confirmations",
-    "titleFr": "Partie B — Confirmations de périmètre",
-    "introEn": "Answer each item. Explain a “No” in the field beneath it.",
-    "introFr": "Répondre à chaque point. Expliquer un « Non » dans le champ situé dessous.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "coverage",
       "en": "The components scoped in account for the predominant part of each significant account, or the residual is addressed by analytical procedures.",
-      "fr": "Les composants retenus couvrent l'essentiel de chaque compte significatif, ou le résidu est traité par procédures analytiques."
+      "fr": "Les composants retenus couvrent l'essentiel de chaque compte significatif, ou le résidu est traité par procédures analytiques.",
+      "tasks": [
+       "significance",
+       "work"
+      ]
      },
      {
       "key": "risk_led",
       "en": "No component with a significant risk has been left outside the scope of specific work.",
-      "fr": "Aucun composant porteur d'un risque important n'est resté hors du périmètre de travaux spécifiques."
+      "fr": "Aucun composant porteur d'un risque important n'est resté hors du périmètre de travaux spécifiques.",
+      "tasks": [
+       "work"
+      ]
      },
      {
       "key": "directed",
       "en": "Any component auditor's work is directed and supervised by this team, with the communications required by ISA 600 recorded.",
       "fr": "Les travaux de tout auditeur de composant sont dirigés et supervisés par la présente équipe, avec les communications requises par l'ISA 600 consignées.",
-      "na": true
+      "na": true,
+      "tasks": [
+       "auditors"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Where the financial statements include the financial information of components, determine the components on which work is performed, the nature of that work and the involvement of component auditors, in proportion to each component's significance and risk (ISA 600 (Revised)).",
+  "objectiveFr": "Lorsque les états financiers incluent l'information financière de composantes, déterminer les composantes sur lesquelles des travaux sont réalisés, la nature de ces travaux et l'intervention des auditeurs de composantes, en proportion de l'importance et du risque de chacune (ISA 600 révisée).",
+  "isa": [
+   {
+    "std": "ISA 600"
+   },
+   {
+    "std": "ISA 300"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_materiality",
+    "en": "Materiality",
+    "fr": "Matérialité",
+    "noteEn": "Calculate, version and approve",
+    "noteFr": "Calculer, versionner et approuver"
+   },
+   {
+    "action": "action_tool_significance",
+    "en": "Significant accounts",
+    "fr": "Comptes significatifs",
+    "noteEn": "Balances, screen and decisions",
+    "noteFr": "Soldes, filtre et décisions"
+   }
+  ],
+  "links": [
+   "P6.1",
+   "P6.2",
+   "S3.1"
+  ],
+  "conclStdEn": "The components in scope are identified, the work at each is planned in proportion to its significance and risk, and any component auditor's work is directed and supervised.",
+  "conclStdFr": "Les composantes du périmètre sont identifiées, les travaux sur chacune sont proportionnés à leur importance et à leur risque, et les travaux de tout auditeur de composante sont dirigés et supervisés."
  }
 }

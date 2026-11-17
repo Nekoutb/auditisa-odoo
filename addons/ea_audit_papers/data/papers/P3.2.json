@@ -3,8 +3,6 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶14(b) · ISA 520 ¶2",
-  "ownsEn": "the preliminary analytical procedures and the risk indicators they raise",
-  "ownsFr": "les procédures analytiques préliminaires et les indices de risque relevés",
   "reqEn": [
    "Analytical procedures performed as risk assessment procedures help identify matters of which we were not aware, and assist in assessing the risks of material misstatement (ISA 315 (Revised 2019) ¶14(b)). They are performed on the entity's data before the detailed programme is set.",
    "An expectation is formed before the data is examined. A relationship that does not behave as expected is investigated, and the explanation obtained from management is corroborated against other evidence before it is accepted."
@@ -13,92 +11,173 @@
    "Les procédures analytiques mises en œuvre en évaluation des risques aident à identifier des éléments non encore connus (ISA 315 révisée ¶14(b)).",
    "Une attente est formée avant l'examen des données. Toute relation inattendue est investiguée et l'explication de la direction est corroborée avant d'être retenue."
   ],
-  "conclEn": [
-   "The preliminary analytical procedures have been performed, every unexpected relationship has been investigated, and the indicators identified are reflected in the risk assessment."
-  ],
-  "conclFr": [
-   "Les procédures analytiques préliminaires ont été mises en œuvre, chaque relation inattendue a été investiguée, et les indices relevés sont repris dans l'évaluation des risques."
-  ],
-  "tools": [
-   "trial-balance",
-   "analytics"
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "expect",
       "en": "Form and record the expectation for each relationship to be examined, before looking at the current period figures.",
       "fr": "Former et consigner l'attente pour chaque relation examinée, avant de consulter les chiffres de l'exercice.",
-      "srcEn": "Prior financial statements · budget · sector data",
-      "srcFr": "États financiers antérieurs · budget · données sectorielles"
+      "shortEn": "Expectations",
+      "shortFr": "Attentes",
+      "isa": "ISA 315 ¶14(b)",
+      "tipsEn": [
+       "Write the expectation before opening the current figures."
+      ],
+      "tipsFr": [
+       "Écrire l'attente avant d'ouvrir les chiffres de l'exercice."
+      ],
+      "stdEn": "Expectations recorded before the current figures were examined.",
+      "stdFr": "Attentes consignées avant l'examen des chiffres de l'exercice.",
+      "sourceHint": "Budget"
      },
      {
       "key": "compare",
       "en": "Compare the current period trial balance with the prior period and with the budget, by account and by class.",
       "fr": "Comparer la balance de l'exercice avec l'exercice précédent et le budget, par compte et par classe.",
-      "srcEn": "Trial balance import · prior financial statements",
-      "srcFr": "Import de la balance · états financiers antérieurs"
+      "shortEn": "Against prior year and budget",
+      "shortFr": "Comparaison N-1 et budget",
+      "isa": "ISA 315 ¶14(b)",
+      "toolDone": "plan_analytics.compare",
+      "stdEn": "Compared in the Analytical procedures; movements above performance materiality listed.",
+      "stdFr": "Comparaison faite dans les procédures analytiques ; variations au-delà du seuil de travail listées.",
+      "sourceHint": "Analytical procedures"
      },
      {
       "key": "ratios",
       "en": "Calculate the ratios relevant to the entity's sector, including margin, receivable and payable days, inventory turnover and gearing.",
       "fr": "Calculer les ratios pertinents pour le secteur : marge, délais clients et fournisseurs, rotation des stocks et endettement.",
-      "srcEn": "Trial balance · prior financial statements",
-      "srcFr": "Balance · états financiers antérieurs"
+      "shortEn": "Ratios",
+      "shortFr": "Ratios",
+      "isa": "ISA 520 ¶5",
+      "toolDone": "plan_analytics.ratios",
+      "stdEn": "Ratios calculated in the Financial analysis.",
+      "stdFr": "Ratios calculés dans l'analyse financière.",
+      "sourceHint": "Financial analysis"
      },
      {
       "key": "nonfin",
       "en": "Compare financial data against non-financial data, such as volumes, headcount, floor area or production.",
       "fr": "Comparer les données financières aux données non financières : volumes, effectifs, surfaces ou production.",
-      "srcEn": "Management reports · operational records",
-      "srcFr": "Rapports de gestion · données d'exploitation"
+      "shortEn": "Non-financial data",
+      "shortFr": "Données non financières",
+      "isa": "ISA 520 A5",
+      "tipsEn": [
+       "Revenue against volumes; payroll against headcount."
+      ],
+      "tipsFr": [
+       "Chiffre d'affaires et volumes ; masse salariale et effectifs."
+      ],
+      "stdEn": "Revenue and payroll consistent with volumes and headcount.",
+      "stdFr": "Chiffre d'affaires et masse salariale cohérents avec les volumes et les effectifs.",
+      "sourceHint": "Management reports"
      },
      {
       "key": "investigate",
       "en": "Investigate each relationship that differs from the expectation. Record the explanation obtained and the evidence that corroborates it.",
       "fr": "Investiguer chaque relation s'écartant de l'attente. Consigner l'explication obtenue et l'élément qui la corrobore.",
-      "srcEn": "Inquiry of management · supporting documents",
-      "srcFr": "Entretien avec la direction · pièces justificatives"
+      "shortEn": "Unexpected relationships",
+      "shortFr": "Relations inattendues",
+      "isa": "ISA 520 ¶7",
+      "tipsEn": [
+       "Corroborate each explanation with a document, not inquiry alone."
+      ],
+      "tipsFr": [
+       "Corroborer chaque explication par un document, pas seulement par l'entretien."
+      ],
+      "stdEn": "No relationship differs from the expectations.",
+      "stdFr": "Aucune relation ne s'écarte des attentes.",
+      "sourceHint": "Analytical procedures"
      },
      {
       "key": "carry",
       "en": "Carry each indicator into the risk register, identifying the account and the assertion affected.",
       "fr": "Reporter chaque indice au registre des risques, en identifiant le compte et l'assertion concernés.",
-      "srcEn": "S3.1 risk register",
-      "srcFr": "Registre des risques S3.1"
+      "shortEn": "Into the risk register",
+      "shortFr": "Au registre des risques",
+      "isa": "ISA 315 ¶28",
+      "stdEn": "Each indicator carried into the risk register with its account and assertion.",
+      "stdFr": "Chaque indice reporté au registre des risques avec son compte et son assertion.",
+      "sourceHint": "Risk register"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "before",
-      "en": "The expectation was formed before the current period figures were examined (procedure 1).",
-      "fr": "L'attente a été formée avant l'examen des chiffres de l'exercice (procédure 1)."
+      "en": "The expectation was formed before the current period figures were examined.",
+      "fr": "L'attente a été formée avant l'examen des chiffres de l'exercice.",
+      "tasks": [
+       "expect"
+      ]
      },
      {
       "key": "corroborated",
-      "en": "Every explanation accepted from management is corroborated by other evidence (procedure 5).",
-      "fr": "Chaque explication retenue de la direction est corroborée par un autre élément (procédure 5)."
+      "en": "Every explanation accepted from management is corroborated by other evidence.",
+      "fr": "Chaque explication retenue de la direction est corroborée par un autre élément.",
+      "tasks": [
+       "investigate"
+      ]
      },
      {
       "key": "registered",
-      "en": "Every indicator identified is reflected in the risk register (procedure 6).",
-      "fr": "Chaque indice relevé figure au registre des risques (procédure 6)."
+      "en": "Every indicator identified is reflected in the risk register.",
+      "fr": "Chaque indice relevé figure au registre des risques.",
+      "tasks": [
+       "carry"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Perform analytical procedures as risk assessment procedures, to identify unusual amounts, ratios and trends that may indicate risks of material misstatement (ISA 315 (Revised 2019) ¶14(b); ISA 520).",
+  "objectiveFr": "Mettre en œuvre des procédures analytiques en tant que procédures d'évaluation des risques, pour repérer les montants, ratios et tendances inhabituels pouvant révéler des risques d'anomalies significatives (ISA 315 révisée 2019 ¶14(b) ; ISA 520).",
+  "isa": [
+   {
+    "std": "ISA 315"
+   },
+   {
+    "std": "ISA 520"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_analytics",
+    "en": "Analytical procedures",
+    "fr": "Procédures analytiques",
+    "noteEn": "Trial balance against the prior year, by section",
+    "noteFr": "Balance comparée à l'exercice précédent, par rubrique"
+   },
+   {
+    "action": "action_tool_financial",
+    "en": "Financial analysis",
+    "fr": "Analyse financière",
+    "noteEn": "Ratios and trends against the prior year",
+    "noteFr": "Ratios et tendances par rapport à l'exercice précédent"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks and their significance",
+    "noteFr": "Risques et leur importance"
+   }
+  ],
+  "links": [
+   "P3.1",
+   "P5.1",
+   "P6.2",
+   "S3.1"
+  ],
+  "toolCard": "plan_analytics",
+  "conclStdEn": "The preliminary analytical procedures are performed, every unexpected relationship is investigated, and the indicators found are reflected in the risk assessment.",
+  "conclStdFr": "Les procédures analytiques préliminaires sont réalisées, chaque relation inattendue est analysée, et les indices relevés sont repris dans l'évaluation des risques."
  }
 }

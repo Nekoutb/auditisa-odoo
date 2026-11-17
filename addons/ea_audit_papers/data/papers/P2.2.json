@@ -3,8 +3,6 @@
  "source": "lib/papers/acceptance.ts",
  "definition": {
   "std": "ISA 220 (Revised) ¶25–28 · ISQM 1 ¶32 · ISA 620 ¶9–12",
-  "ownsEn": "the competence, capability and resources conclusion",
-  "ownsFr": "la conclusion sur la compétence, la capacité et les ressources",
   "reqEn": [
    "The firm obtains, develops, uses and maintains sufficient and appropriate resources — human, technological and intellectual — so that engagements are performed in accordance with professional standards (ISQM 1 ¶32). At engagement level the engagement partner determines that the resources assigned are sufficient and appropriate, and available when needed (ISA 220 (Revised) ¶25–28).",
    "Competence is assessed for the team as a whole, including any auditor's expert: its knowledge of the industry, of the applicable financial reporting framework, and of the legal and regulatory environment. A gap in one member is not a deficiency where it is covered elsewhere in the team and the work is directed and reviewed accordingly.",
@@ -17,91 +15,195 @@
    "Le temps fait partie des ressources évaluées. Si l'échéance ne peut être tenue sans compromettre la qualité, le calendrier est renégocié avant acceptation.",
    "Lorsqu'un expert est requis, nous devons pouvoir évaluer sa compétence, ses capacités et son objectivité (ISA 620 ¶9–12)."
   ],
-  "conclEn": [
-   "The engagement team, together with any auditor's expert, has the competence, capability and time to perform this engagement in accordance with professional standards and applicable legal and regulatory requirements, and the resources required are available."
-  ],
-  "conclFr": [
-   "L'équipe affectée, avec tout expert de l'auditeur, dispose de la compétence, de la capacité et du temps nécessaires, et les ressources requises sont disponibles."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "partner",
       "en": "Inquire of the engagement partner about their availability across the reporting period and about competing commitments.",
       "fr": "S'enquérir auprès de l'associé responsable de sa disponibilité sur la période et de ses engagements concurrents.",
-      "srcEn": "Inquiry of the engagement partner · firm resource plan",
-      "srcFr": "Entretien avec l'associé responsable · plan de charge du cabinet"
+      "shortEn": "Partner's availability",
+      "shortFr": "Disponibilité de l'associé",
+      "isa": "ISA 220 ¶25",
+      "stdEn": "The engagement partner is available throughout the reporting period.",
+      "stdFr": "L'associé responsable est disponible sur toute la période.",
+      "sourceHint": "Firm resource plan"
      },
      {
       "key": "sector",
       "en": "Compare the proposed team's sector experience against the entity's sector. Record each member's grade, the relevant engagements performed and the years worked in the sector.",
       "fr": "Comparer l'expérience sectorielle de l'équipe proposée au secteur de l'entité. Consigner le grade de chaque membre, les missions pertinentes réalisées et l'ancienneté dans le secteur.",
-      "srcEn": "Team page · staff records · prior engagement files",
-      "srcFr": "Page Équipe · dossiers du personnel · dossiers de missions antérieures"
+      "shortEn": "Sector experience",
+      "shortFr": "Expérience du secteur",
+      "isa": "ISA 220 ¶26",
+      "stdEn": "The team has audited entities of this sector before.",
+      "stdFr": "L'équipe a déjà audité des entités de ce secteur.",
+      "sourceHint": "Team page",
+      "fieldKeys": [
+       "sector",
+       "scope"
+      ]
      },
      {
       "key": "framework",
       "en": "Determine whether the team has applied the entity's financial reporting framework before, and record where that experience was obtained.",
       "fr": "Déterminer si l'équipe a déjà appliqué le référentiel comptable de l'entité et consigner où cette expérience a été acquise.",
-      "srcEn": "Staff records · prior files · training records",
-      "srcFr": "Dossiers du personnel · dossiers antérieurs · registre de formation"
+      "shortEn": "Framework experience",
+      "shortFr": "Expérience du référentiel",
+      "isa": "ISA 220 ¶26",
+      "stdEn": "The team has applied this framework on other engagements.",
+      "stdFr": "L'équipe a appliqué ce référentiel sur d'autres missions.",
+      "sourceHint": "Staff records",
+      "fieldKeys": [
+       "framework"
+      ]
      },
      {
       "key": "expert",
       "en": "Identify the specialised areas that require an auditor's expert, such as valuations, actuarial work, tax or information technology. Record the area and why the team cannot cover it.",
       "fr": "Identifier les domaines spécialisés requérant un expert de l'auditeur, tels que les évaluations, l'actuariat, la fiscalité ou l'informatique. Consigner le domaine et la raison pour laquelle l'équipe ne peut le couvrir.",
-      "srcEn": "Prior year file · discussion with the engagement partner",
-      "srcFr": "Dossier antérieur · échange avec l'associé responsable"
+      "shortEn": "Need for an auditor's expert",
+      "shortFr": "Besoin d'un expert de l'auditeur",
+      "isa": "ISA 620 ¶7",
+      "tipsEn": [
+       "Typical areas: valuation, actuarial, tax, IT."
+      ],
+      "tipsFr": [
+       "Domaines typiques : évaluation, actuariat, fiscalité, informatique."
+      ],
+      "stdEn": "No area needs an auditor's expert.",
+      "stdFr": "Aucun domaine ne requiert d'expert de l'auditeur.",
+      "sourceHint": "Meeting with the partner",
+      "fieldKeys": [
+       "experts"
+      ]
      },
      {
       "key": "expertev",
       "en": "Where an expert is required, obtain evidence of that expert's competence, capability and objectivity, and agree the nature, scope and objectives of the work in writing.",
       "fr": "Lorsqu'un expert est requis, obtenir les éléments attestant de sa compétence, de sa capacité et de son objectivité, et convenir par écrit de la nature, de l'étendue et des objectifs des travaux.",
-      "srcEn": "Expert's professional credentials · written terms with the expert · independence confirmation",
-      "srcFr": "Titres professionnels de l'expert · termes écrits convenus · confirmation d'indépendance"
+      "shortEn": "Expert's competence and terms",
+      "shortFr": "Compétence et termes de l'expert",
+      "isa": "ISA 620 ¶9–11",
+      "stdEn": "Expert's competence, capabilities and objectivity evaluated; terms agreed in writing.",
+      "stdFr": "Compétence, capacités et objectivité de l'expert évaluées ; termes convenus par écrit.",
+      "sourceHint": "Written terms with the expert"
      },
      {
       "key": "mgmt_expert",
       "en": "Determine whether the entity employs or has engaged its own experts — valuers, actuaries, legal counsel, engineers — whose work feeds the financial statements, and whether we can use that work as audit evidence: evaluate each expert's competence, capability and objectivity (ISA 500 ¶8).",
       "fr": "Déterminer si l'entité emploie ou a mandaté ses propres experts — évaluateurs, actuaires, conseils juridiques, ingénieurs — dont les travaux alimentent les états financiers, et si nous pouvons utiliser ces travaux comme éléments probants : apprécier la compétence, la capacité et l'objectivité de chaque expert (ISA 500 ¶8).",
-      "srcEn": "Inquiry of management · expert's report and credentials · engagement terms with the expert",
-      "srcFr": "Entretien avec la direction · rapport et titres de l'expert · termes de la mission de l'expert"
+      "shortEn": "Management's experts",
+      "shortFr": "Experts de la direction",
+      "isa": "ISA 500 ¶8",
+      "stdEn": "No figure in the financial statements rests on a management's expert.",
+      "stdFr": "Aucun chiffre des états financiers ne repose sur un expert de la direction.",
+      "sourceHint": "Meeting with management"
      },
      {
       "key": "hours",
       "en": "Compare the budgeted hours by grade against the reporting deadline and against the prior period outturn. Record the effect of any shortfall.",
       "fr": "Comparer les heures budgétées par grade à l'échéance de reporting et au réalisé de l'exercice précédent. Consigner l'effet de tout écart défavorable.",
-      "srcEn": "Budget · prior period time records · agreed timetable",
-      "srcFr": "Budget · temps passés de l'exercice précédent · calendrier convenu"
+      "shortEn": "Time budget",
+      "shortFr": "Budget de temps",
+      "isa": "ISA 220 ¶25",
+      "stdEn": "Budget by grade consistent with the deadlines and last year's actual hours.",
+      "stdFr": "Budget par grade cohérent avec les échéances et les heures réelles de l'an dernier.",
+      "sourceHint": "Budget",
+      "fieldKeys": [
+       "deadlines"
+      ]
      },
      {
       "key": "tech",
       "en": "Determine the technology the engagement needs, including audit software, data analysis tools and the confirmation platform, and confirm access is in place before fieldwork begins.",
       "fr": "Déterminer les moyens technologiques nécessaires, y compris le logiciel d'audit, les outils d'analyse de données et la plateforme de circularisation, et confirmer que les accès sont ouverts avant le début des travaux.",
-      "srcEn": "Firm IT function · licence records",
-      "srcFr": "Service informatique du cabinet · registre des licences"
+      "shortEn": "Technology",
+      "shortFr": "Outils technologiques",
+      "isa": "ISA 220 ¶25",
+      "stdEn": "Audit software and data tools are available to the team.",
+      "stdFr": "Les logiciels d'audit et outils de données sont disponibles pour l'équipe.",
+      "sourceHint": "Firm IT"
      },
      {
       "key": "action",
       "en": "Where the resources required are not available, record the action taken: reallocation, recruitment, use of an expert, or renegotiation of the timetable with the entity.",
       "fr": "Lorsque les ressources requises ne sont pas disponibles, consigner l'action retenue : réaffectation, recrutement, recours à un expert, ou renégociation du calendrier avec l'entité.",
-      "srcEn": "Firm resource plan · correspondence with the entity",
-      "srcFr": "Plan de charge du cabinet · correspondance avec l'entité"
+      "shortEn": "Action where resources fall short",
+      "shortFr": "Mesures si les ressources manquent",
+      "isa": "ISA 220 ¶25–28",
+      "stdEn": "No shortfall; no action needed.",
+      "stdFr": "Aucun manque ; aucune mesure nécessaire.",
+      "sourceHint": "Firm resource plan"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "industry",
+      "en": "The team has appropriate knowledge of the industry and experience of the applicable financial reporting framework.",
+      "fr": "L'équipe possède une connaissance appropriée du secteur et l'expérience du référentiel applicable.",
+      "tasks": [
+       "sector",
+       "framework"
+      ]
+     },
+     {
+      "key": "partner_time",
+      "en": "The engagement partner has sufficient time for appropriate involvement in, and direction of, the engagement.",
+      "fr": "L'associé responsable dispose du temps suffisant pour une implication et une direction appropriées.",
+      "tasks": [
+       "partner"
+      ]
+     },
+     {
+      "key": "expert",
+      "en": "Any auditor's expert identified is available, and we are able to direct and evaluate that work.",
+      "fr": "Tout expert identifié est disponible, et nous pouvons diriger et évaluer ses travaux.",
+      "na": true,
+      "tasks": [
+       "expert",
+       "expertev"
+      ]
+     },
+     {
+      "key": "budget",
+      "en": "The time budget is consistent with the reporting deadlines, the assessed risk profile and the team assembled.",
+      "fr": "Le budget-temps est cohérent avec les échéances, le profil de risque et l'équipe constituée.",
+      "tasks": [
+       "hours"
+      ]
+     },
+     {
+      "key": "eqr",
+      "en": "Where P1.5 requires an engagement quality review, an eligible reviewer is available.",
+      "fr": "Lorsque P1.5 exige une revue de qualité, un réviseur éligible est disponible.",
+      "na": true,
+      "tasks": [],
+      "vs": false
+     },
+     {
+      "key": "jurisdiction",
+      "en": "The team covers the language and jurisdiction requirements of the engagement, including OHADA filing obligations.",
+      "fr": "L'équipe couvre les exigences linguistiques et juridictionnelles, y compris les obligations de dépôt OHADA.",
+      "tasks": [
+       "sector"
+      ],
+      "vs": false
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Engagement profile",
-    "titleFr": "Partie B — Profil de la mission",
-    "introEn": "Record the engagement profile here, from the engagement record, the prior year file and discussion with the engagement partner.",
-    "introFr": "Consigner ici le profil de la mission, à partir du dossier, du dossier de l'exercice précédent et de l'échange avec l'associé responsable.",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "sector",
@@ -125,7 +227,11 @@
       "key": "scope",
       "kind": "input",
       "labelEn": "Locations and components within the scope of the audit",
-      "labelFr": "Implantations et composants inclus dans le périmètre"
+      "labelFr": "Implantations et composants inclus dans le périmètre",
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      },
      {
       "key": "experts",
@@ -134,48 +240,36 @@
       "labelFr": "Besoin d'un expert identifié : informatique, fiscal, évaluation, actuariel, juridique"
      }
     ]
+   }
+  ],
+  "objectiveEn": "Determine that the engagement team, with any auditor's expert, has the competence, capabilities and time to perform the engagement, and that the resources it needs are available (ISA 220 (Revised) ¶25–28; ISA 620 ¶7–12).",
+  "objectiveFr": "Déterminer que l'équipe, avec tout expert de l'auditeur, dispose des compétences, des capacités et du temps nécessaires à la mission, et que les ressources requises sont disponibles (ISA 220 révisée ¶25–28 ; ISA 620 ¶7–12).",
+  "isa": [
+   {
+    "std": "ISA 220"
    },
    {
-    "kind": "yn",
-    "titleEn": "Part C — Evaluation of capability",
-    "titleFr": "Partie C — Évaluation de la capacité",
-    "introEn": "Set the team up in the engagement's team management before completing this part. Evaluate each statement against the profile in Part B and the team assembled. Explain each “No” in the box beneath it.",
-    "introFr": "Constituer l'équipe dans la gestion d'équipe de la mission avant de compléter cette partie. Évaluer chaque affirmation au regard du profil (partie B) et de l'équipe constituée.",
-    "items": [
-     {
-      "key": "industry",
-      "en": "The team has appropriate knowledge of the industry and experience of the applicable financial reporting framework.",
-      "fr": "L'équipe possède une connaissance appropriée du secteur et l'expérience du référentiel applicable."
-     },
-     {
-      "key": "partner_time",
-      "en": "The engagement partner has sufficient time for appropriate involvement in, and direction of, the engagement.",
-      "fr": "L'associé responsable dispose du temps suffisant pour une implication et une direction appropriées."
-     },
-     {
-      "key": "expert",
-      "en": "Any auditor's expert identified in Part A is available, and we are able to direct and evaluate that work.",
-      "fr": "Tout expert identifié en partie A est disponible, et nous pouvons diriger et évaluer ses travaux.",
-      "na": true
-     },
-     {
-      "key": "budget",
-      "en": "The time budget is consistent with the reporting deadlines, the assessed risk profile and the team assembled.",
-      "fr": "Le budget-temps est cohérent avec les échéances, le profil de risque et l'équipe constituée."
-     },
-     {
-      "key": "eqr",
-      "en": "Where P1.5 requires an engagement quality review, an eligible reviewer is available.",
-      "fr": "Lorsque P1.5 exige une revue de qualité, un réviseur éligible est disponible.",
-      "na": true
-     },
-     {
-      "key": "jurisdiction",
-      "en": "The team covers the language and jurisdiction requirements of the engagement, including OHADA filing obligations.",
-      "fr": "L'équipe couvre les exigences linguistiques et juridictionnelles, y compris les obligations de dépôt OHADA."
-     }
-    ]
+    "std": "ISA 620"
+   },
+   {
+    "std": "ISQM 1"
    }
-  ]
+  ],
+  "tools": [
+   {
+    "action": "action_tool_team",
+    "en": "Engagement team",
+    "fr": "Équipe de mission",
+    "noteEn": "Who is on the file and in which role",
+    "noteFr": "Qui est sur le dossier et dans quel rôle"
+   }
+  ],
+  "links": [
+   "P2.1",
+   "P1.5",
+   "S6.1"
+  ],
+  "conclStdEn": "The team, with any auditor's expert, has the competence, capabilities and time required, and the resources needed are available.",
+  "conclStdFr": "L'équipe, avec tout expert de l'auditeur, dispose des compétences, des capacités et du temps nécessaires, et les ressources requises sont disponibles."
  }
 }

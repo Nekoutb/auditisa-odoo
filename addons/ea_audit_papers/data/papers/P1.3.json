@@ -3,8 +3,6 @@
  "source": "lib/papers/acceptance.ts",
  "definition": {
   "std": "ISA 210 ¶4, ¶6–8",
-  "ownsEn": "the preconditions conclusion and the framework selection",
-  "ownsFr": "la conclusion sur les conditions préalables et le choix du référentiel",
   "reqEn": [
    "The preconditions for an audit are two: that management uses an acceptable financial reporting framework in preparing the financial statements, and that management agrees to the premise on which an audit is conducted (ISA 210 ¶4, ¶6). Both must be present before the engagement is accepted.",
    "Acceptability of the framework is judged by reference to the nature of the entity, the purpose of the financial statements, the nature of the statements themselves, and whether law or regulation prescribes the framework (ISA 210 ¶A4–A10). A framework prescribed by law for general purpose financial statements, as SYSCOHADA is throughout the OHADA region, is ordinarily acceptable for that purpose. Record the basis even where it is straightforward, because the framework selected here governs the wording of the auditor's report.",
@@ -17,70 +15,173 @@
    "Le postulat est la reconnaissance par la direction de sa responsabilité pour l'établissement des états financiers, pour le contrôle interne nécessaire, et pour l'accès aux informations et aux personnes (ISA 210 ¶6(b)).",
    "En l'absence d'une condition préalable, la mission n'est pas acceptée sauf obligation légale (ISA 210 ¶7–8)."
   ],
-  "conclEn": [
-   "The preconditions for an audit are present."
-  ],
-  "conclFr": [
-   "Les conditions préalables à l'audit sont réunies."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure before accepting the engagement and record the result. An acknowledgement obtained orally is confirmed in the engagement letter.",
-    "introFr": "Mettre en œuvre chaque procédure avant l'acceptation et consigner le résultat. Une reconnaissance obtenue oralement est confirmée dans la lettre de mission.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "framework",
       "en": "Determine the financial reporting framework the entity will apply, and whether it is acceptable for the purpose of the financial statements. Record the basis for that determination.",
       "fr": "Déterminer le référentiel comptable que l'entité appliquera et son caractère acceptable au regard de la finalité des états financiers. Consigner le fondement de cette conclusion.",
-      "srcEn": "Statutes · OHADA Uniform Act · regulator requirements",
-      "srcFr": "Statuts · Acte uniforme OHADA · exigences du régulateur"
+      "shortEn": "Financial reporting framework",
+      "shortFr": "Référentiel comptable",
+      "isa": "ISA 210 ¶6(a)",
+      "tipsEn": [
+       "A framework prescribed by law, as SYSCOHADA is across the OHADA zone, is ordinarily acceptable."
+      ],
+      "tipsFr": [
+       "Un référentiel imposé par la loi, comme le SYSCOHADA dans l'espace OHADA, est en principe acceptable."
+      ],
+      "stdEn": "The framework is prescribed by law and acceptable for general purpose financial statements.",
+      "stdFr": "Le référentiel est imposé par la loi et acceptable pour des états financiers à usage général.",
+      "sourceHint": "OHADA Uniform Act",
+      "fieldKeys": [
+       "framework",
+       "acceptable"
+      ]
      },
      {
       "key": "law",
       "en": "Inquire whether law or regulation prescribes the framework, the presentation of the financial statements, or the wording of our report.",
       "fr": "Rechercher si la loi ou la réglementation impose le référentiel, la présentation des états financiers ou la formulation de notre rapport.",
-      "srcEn": "Applicable law · regulator guidance",
-      "srcFr": "Textes applicables · doctrine du régulateur"
+      "shortEn": "Law and regulation",
+      "shortFr": "Lois et règlements",
+      "isa": "ISA 210 ¶A4–A10",
+      "tipsEn": [
+       "Check sector rules: banking, insurance, microfinance."
+      ],
+      "tipsFr": [
+       "Vérifier les règles sectorielles : banque, assurance, microfinance."
+      ],
+      "stdEn": "No law or regulation adds to the framework or to the wording of our report.",
+      "stdFr": "Aucun texte ne complète le référentiel ni la formulation de notre rapport.",
+      "sourceHint": "Applicable law"
      },
      {
       "key": "prep",
       "en": "Obtain management's acknowledgement of its responsibility for the preparation of the financial statements in accordance with that framework.",
       "fr": "Obtenir de la direction la reconnaissance de sa responsabilité dans l'établissement des états financiers conformément à ce référentiel.",
-      "srcEn": "Discussion with management · draft engagement letter",
-      "srcFr": "Échange avec la direction · projet de lettre de mission"
+      "shortEn": "Responsibility for the financial statements",
+      "shortFr": "Responsabilité des états financiers",
+      "isa": "ISA 210 ¶6(b)(i)",
+      "stdEn": "Acknowledged by management and recorded in the engagement letter.",
+      "stdFr": "Reconnue par la direction et consignée dans la lettre de mission.",
+      "sourceHint": "Linked task P1.4"
      },
      {
       "key": "control",
       "en": "Obtain management's acknowledgement of its responsibility for the internal control it determines is necessary to prepare financial statements free from material misstatement.",
       "fr": "Obtenir de la direction la reconnaissance de sa responsabilité au titre du contrôle interne qu'elle juge nécessaire pour établir des états financiers exempts d'anomalies significatives.",
-      "srcEn": "Discussion with management · draft engagement letter",
-      "srcFr": "Échange avec la direction · projet de lettre de mission"
+      "shortEn": "Responsibility for internal control",
+      "shortFr": "Responsabilité du contrôle interne",
+      "isa": "ISA 210 ¶6(b)(ii)",
+      "stdEn": "Acknowledged by management and recorded in the engagement letter.",
+      "stdFr": "Reconnue par la direction et consignée dans la lettre de mission.",
+      "sourceHint": "Linked task P1.4"
      },
      {
       "key": "access",
       "en": "Obtain management's agreement to provide access to all information relevant to the financial statements, to any additional information we request, and to unrestricted access to persons within the entity.",
       "fr": "Obtenir l'accord de la direction pour donner accès à toute information utile aux états financiers, à toute information complémentaire demandée, et sans restriction aux personnes au sein de l'entité.",
-      "srcEn": "Discussion with management · draft engagement letter",
-      "srcFr": "Échange avec la direction · projet de lettre de mission"
+      "shortEn": "Access to information and people",
+      "shortFr": "Accès aux informations et aux personnes",
+      "isa": "ISA 210 ¶6(b)(iii)",
+      "stdEn": "Agreed by management and recorded in the engagement letter.",
+      "stdFr": "Accepté par la direction et consigné dans la lettre de mission.",
+      "sourceHint": "Linked task P1.4"
      },
      {
       "key": "limitation",
       "en": "Inquire whether management or those charged with governance intend to impose any limitation on the scope of our work. Record the limitation and whether it would result in a disclaimer of opinion.",
       "fr": "Rechercher si la direction ou les responsables de la gouvernance entendent imposer une limitation à l'étendue de nos travaux. Consigner la limitation et si elle conduirait à une impossibilité d'exprimer une opinion.",
-      "srcEn": "Discussion with management and those charged with governance · proposal correspondence",
-      "srcFr": "Échanges avec la direction et les responsables de la gouvernance · correspondance de la proposition"
+      "shortEn": "Limitation on scope",
+      "shortFr": "Limitation de l'étendue",
+      "isa": "ISA 210 ¶7",
+      "tipsEn": [
+       "A limitation leading to a disclaimer prevents acceptance, unless law requires it."
+      ],
+      "tipsFr": [
+       "Une limitation conduisant à une impossibilité d'opinion empêche l'acceptation, sauf obligation légale."
+      ],
+      "stdEn": "No limitation on the scope of our work was proposed.",
+      "stdFr": "Aucune limitation de l'étendue de nos travaux n'a été proposée.",
+      "sourceHint": "Meeting with management"
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "prep",
+      "en": "Preparing the financial statements in accordance with the applicable framework, including fair presentation where the framework requires it (¶6(b)(i)).",
+      "fr": "Établir les états financiers conformément au référentiel applicable, y compris l'image fidèle lorsque celui-ci l'exige (¶6(b)(i)).",
+      "tasks": [
+       "prep"
+      ]
+     },
+     {
+      "key": "control",
+      "en": "Maintaining the internal control that management determines is necessary to enable the preparation of financial statements free from material misstatement, whether due to fraud or error (¶6(b)(ii)).",
+      "fr": "Maintenir le contrôle interne nécessaire à l'établissement d'états financiers exempts d'anomalies significatives (¶6(b)(ii)).",
+      "tasks": [
+       "control"
+      ]
+     },
+     {
+      "key": "access_info",
+      "en": "Providing us with access to all information of which management is aware that is relevant to the preparation of the financial statements (¶6(b)(iii)a).",
+      "fr": "Nous donner accès à toutes les informations pertinentes dont elle a connaissance (¶6(b)(iii)a).",
+      "tasks": [
+       "access"
+      ]
+     },
+     {
+      "key": "additional",
+      "en": "Providing any additional information that we request for the purpose of the audit (¶6(b)(iii)b).",
+      "fr": "Nous fournir toute information complémentaire demandée pour les besoins de l'audit (¶6(b)(iii)b).",
+      "tasks": [
+       "access"
+      ],
+      "vs": false
+     },
+     {
+      "key": "access_people",
+      "en": "Providing unrestricted access to persons within the entity from whom we determine it necessary to obtain audit evidence (¶6(b)(iii)c).",
+      "fr": "Nous donner un accès sans restriction aux personnes auprès desquelles nous jugeons nécessaire d'obtenir des éléments probants (¶6(b)(iii)c).",
+      "tasks": [
+       "access"
+      ],
+      "vs": false
+     },
+     {
+      "key": "in_letter",
+      "en": "These acknowledgements are recorded in the engagement letter (P1.4).",
+      "fr": "Ces reconnaissances figurent dans la lettre de mission (P1.4).",
+      "tasks": [
+       "prep",
+       "control",
+       "access"
+      ]
+     },
+     {
+      "key": "no_limitation",
+      "en": "Management has imposed no limitation on the scope of our work of a nature likely to result in a disclaimer of opinion.",
+      "fr": "La direction n'a imposé aucune limitation de nature à conduire à une impossibilité d'exprimer une opinion.",
+      "tasks": [
+       "limitation"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Applicable financial reporting framework",
-    "titleFr": "Partie B — Référentiel comptable applicable",
-    "introEn": "Record the framework and the basis on which it is acceptable. The reporting templates lock to the framework selected here.",
-    "introFr": "Consigner le référentiel et la base de son acceptabilité. Les modèles de rapport sont liés à ce choix.",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "framework",
@@ -96,60 +197,30 @@
       "labelFr": "Base de l'acceptabilité : nature de l'entité, objet des états financiers, utilisateurs visés, prescription légale éventuelle"
      }
     ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part C — Management's acknowledgements",
-    "titleFr": "Partie C — Reconnaissances de la direction",
-    "introEn": "Confirm by discussion with management that it acknowledges and understands each responsibility. The bracketed references are to ISA 210. Explain each “No” in the box beneath it.",
-    "introFr": "Confirmer par entretien que la direction reconnaît et comprend chacune de ces responsabilités. Les références renvoient à l'ISA 210.",
-    "items": [
-     {
-      "key": "prep",
-      "en": "Preparing the financial statements in accordance with the applicable framework, including fair presentation where the framework requires it (¶6(b)(i)).",
-      "fr": "Établir les états financiers conformément au référentiel applicable, y compris l'image fidèle lorsque celui-ci l'exige (¶6(b)(i))."
-     },
-     {
-      "key": "control",
-      "en": "Maintaining the internal control that management determines is necessary to enable the preparation of financial statements free from material misstatement, whether due to fraud or error (¶6(b)(ii)).",
-      "fr": "Maintenir le contrôle interne nécessaire à l'établissement d'états financiers exempts d'anomalies significatives (¶6(b)(ii))."
-     },
-     {
-      "key": "access_info",
-      "en": "Providing us with access to all information of which management is aware that is relevant to the preparation of the financial statements (¶6(b)(iii)a).",
-      "fr": "Nous donner accès à toutes les informations pertinentes dont elle a connaissance (¶6(b)(iii)a)."
-     },
-     {
-      "key": "additional",
-      "en": "Providing any additional information that we request for the purpose of the audit (¶6(b)(iii)b).",
-      "fr": "Nous fournir toute information complémentaire demandée pour les besoins de l'audit (¶6(b)(iii)b)."
-     },
-     {
-      "key": "access_people",
-      "en": "Providing unrestricted access to persons within the entity from whom we determine it necessary to obtain audit evidence (¶6(b)(iii)c).",
-      "fr": "Nous donner un accès sans restriction aux personnes auprès desquelles nous jugeons nécessaire d'obtenir des éléments probants (¶6(b)(iii)c)."
-     },
-     {
-      "key": "in_letter",
-      "en": "These acknowledgements are recorded in the engagement letter (P1.4).",
-      "fr": "Ces reconnaissances figurent dans la lettre de mission (P1.4)."
-     }
-    ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part D — Limitation on scope",
-    "titleFr": "Partie D — Limitation de l'étendue",
-    "introEn": "Explain a “No” answer in the box beneath it. Where management imposes a limitation of this kind and the audit is not required by law or regulation, we do not accept the engagement.",
-    "introFr": "Expliquer une réponse « Non » dans la zone prévue. Une telle limitation, hors obligation légale, empêche l'acceptation.",
-    "items": [
-     {
-      "key": "no_limitation",
-      "en": "Management has imposed no limitation on the scope of our work of a nature likely to result in a disclaimer of opinion.",
-      "fr": "La direction n'a imposé aucune limitation de nature à conduire à une impossibilité d'exprimer une opinion."
-     }
-    ]
    }
-  ]
+  ],
+  "objectiveEn": "Determine whether the preconditions for an audit are present: an acceptable financial reporting framework, and management's agreement to the premise on which an audit is conducted (ISA 210 ¶6).",
+  "objectiveFr": "Déterminer si les conditions préalables à un audit sont réunies : un référentiel comptable acceptable, et l'accord de la direction sur le principe sur lequel repose un audit (ISA 210 ¶6).",
+  "isa": [
+   {
+    "std": "ISA 210"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "P1.1",
+   "P1.4",
+   "C3.1"
+  ],
+  "conclStdEn": "The framework is acceptable and management has acknowledged its responsibilities: the preconditions for an audit are present.",
+  "conclStdFr": "Le référentiel est acceptable et la direction a reconnu ses responsabilités : les conditions préalables à un audit sont réunies."
  }
 }

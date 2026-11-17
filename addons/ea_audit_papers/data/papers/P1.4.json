@@ -3,128 +3,187 @@
  "source": "lib/papers/acceptance.ts",
  "definition": {
   "std": "ISA 210 ¶9–13, ¶A29 · ISA 260 ¶13–17",
-  "ownsEn": "the agreed terms of the engagement",
-  "ownsFr": "les termes convenus de la mission",
   "reqEn": [
    "We agree the terms of the audit engagement with management or those charged with governance, and record the agreed terms in an engagement letter or other suitable form of written agreement (ISA 210 ¶9–10). Agreement is reached before the audit work begins.",
    "The letter sets out the objective and scope of the audit, our responsibilities, the responsibilities of management, the applicable financial reporting framework, and reference to the expected form and content of any reports, together with a statement that circumstances may require a report to differ from that expected form (ISA 210 ¶10).",
    "Where law or regulation prescribes the terms in sufficient detail, we need not record them in the letter, but we do record that the law applies and that management acknowledges its responsibilities under the premise (ISA 210 ¶11–12).",
    "On a recurring engagement we assess each period whether the terms require revision and whether the entity should be reminded of the existing terms (ISA 210 ¶13). Indicators include a change of senior management, a significant change in ownership, a significant change in the nature or size of the business, a change in legal or reporting requirements, a change in the framework, and any indication that management misunderstands the objective and scope of the audit (ISA 210 ¶A29).",
-   "Before fieldwork, we tell those charged with governance how we plan to carry out the audit: its scope, its timing and the significant risks we have identified, and for a listed entity our statement on independence (ISA 260 ¶15–17). When the people who govern the entity are the same people who manage it, a matter discussed with them as managers need not be raised with them a second time (ISA 260 ¶13). Part D records what was said, how, when, and the reply."
+   "Before fieldwork, we tell those charged with governance how we plan to carry out the audit: its scope, its timing and the significant risks we have identified, and for a listed entity our statement on independence (ISA 260 ¶15–17). When the people who govern the entity are the same people who manage it, a matter discussed with them as managers need not be raised with them a second time (ISA 260 ¶13). The planning communication block records what was said, how, when, and the reply."
   ],
   "reqFr": [
    "Les termes de la mission sont convenus avec la direction ou les responsables de la gouvernance et consignés dans une lettre de mission avant le début des travaux (ISA 210 ¶9–10).",
    "La lettre précise l'objectif et l'étendue, nos responsabilités, celles de la direction, le référentiel applicable et la forme attendue des rapports (ISA 210 ¶10).",
    "Lorsque la loi fixe les termes de façon suffisamment détaillée, il suffit de le consigner (ISA 210 ¶11–12).",
    "Pour une mission récurrente, apprécier chaque exercice si les termes doivent être révisés (ISA 210 ¶13, ¶A29).",
-   "Avant les travaux, nous indiquons aux responsables de la gouvernance comment nous prévoyons de conduire l'audit : son étendue, son calendrier et les risques importants relevés, et pour une entité cotée notre déclaration d'indépendance (ISA 260 ¶15–17). Lorsque les personnes qui gouvernent l'entité sont aussi celles qui la dirigent, un point vu avec elles en tant que dirigeants n'a pas à leur être présenté une seconde fois (ISA 260 ¶13). La partie D consigne ce qui a été dit, sous quelle forme, à quelle date, et la réponse reçue."
-  ],
-  "conclEn": [
-   "A signed engagement letter recording the agreed terms is on file, and planning work has not begun before that date."
-  ],
-  "conclFr": [
-   "Une lettre de mission signée figure au dossier, et les travaux de planification n'ont pas débuté avant cette date."
+   "Avant les travaux, nous indiquons aux responsables de la gouvernance comment nous prévoyons de conduire l'audit : son étendue, son calendrier et les risques importants relevés, et pour une entité cotée notre déclaration d'indépendance (ISA 260 ¶15–17). Lorsque les personnes qui gouvernent l'entité sont aussi celles qui la dirigent, un point vu avec elles en tant que dirigeants n'a pas à leur être présenté une seconde fois (ISA 260 ¶13). Le bloc de communication de planification consigne ce qui a été dit, sous quelle forme, à quelle date, et la réponse reçue."
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result. The letter is signed and filed before fieldwork begins.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat. La lettre est signée et classée avant le début des travaux.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "draft",
       "en": "Prepare the engagement letter covering the objective and scope of the audit, our responsibilities, management's responsibilities, the applicable financial reporting framework, and the expected form and content of our report.",
       "fr": "Établir la lettre de mission couvrant l'objectif et l'étendue de l'audit, nos responsabilités, celles de la direction, le référentiel comptable applicable, ainsi que la forme et le contenu attendus de notre rapport.",
-      "srcEn": "Firm template · ISA 210 ¶10",
-      "srcFr": "Modèle du cabinet · ISA 210 ¶10"
+      "shortEn": "Draft the letter",
+      "shortFr": "Rédaction de la lettre",
+      "isa": "ISA 210 ¶10",
+      "tipsEn": [
+       "Start from the firm's template and adapt it to the entity."
+      ],
+      "tipsFr": [
+       "Partir du modèle du cabinet et l'adapter à l'entité."
+      ],
+      "stdEn": "Letter drafted from the firm's template with every element of ISA 210 ¶10.",
+      "stdFr": "Lettre rédigée à partir du modèle du cabinet avec chaque élément d'ISA 210 ¶10.",
+      "sourceHint": "Firm template"
      },
      {
       "key": "statutory",
       "en": "Include the elements required by law or by the entity's statutes for a statutory appointment, including the term of the mandate.",
       "fr": "Inclure les éléments requis par la loi ou les statuts au titre d'un mandat légal, y compris sa durée.",
-      "srcEn": "OHADA Uniform Act · statutes · appointment resolution",
-      "srcFr": "Acte uniforme OHADA · statuts · résolution de nomination"
+      "shortEn": "Statutory appointment",
+      "shortFr": "Mandat légal",
+      "isa": "ISA 210 ¶A25",
+      "tipsEn": [
+       "Quote the appointment resolution and the length of the mandate."
+      ],
+      "tipsFr": [
+       "Citer la décision de nomination et la durée du mandat."
+      ],
+      "stdEn": "Appointment resolution and term of the mandate stated in the letter.",
+      "stdFr": "Décision de nomination et durée du mandat mentionnées dans la lettre.",
+      "sourceHint": "Appointment resolution"
      },
      {
       "key": "terms",
       "en": "Agree the fee basis, the timetable, and the involvement of any auditor's expert, component auditor or internal audit function.",
       "fr": "Convenir de la base des honoraires, du calendrier, et de l'intervention de tout expert de l'auditeur, auditeur de composant ou service d'audit interne.",
-      "srcEn": "Budget · agreed timetable · P2.2",
-      "srcFr": "Budget · calendrier convenu · P2.2"
+      "shortEn": "Fees, timetable and others involved",
+      "shortFr": "Honoraires, calendrier et intervenants",
+      "isa": "ISA 210 ¶A24",
+      "stdEn": "Fees and timetable agreed; no expert, component auditor or internal auditor involved.",
+      "stdFr": "Honoraires et calendrier convenus ; aucun expert, auditeur de composant ou auditeur interne n'intervient.",
+      "sourceHint": "Budget and timetable"
      },
      {
       "key": "sign",
-      "en": "Obtain the signature of the person with authority to bind the entity. Record the name, position and dates in Part C.",
-      "fr": "Obtenir la signature de la personne habilitée à engager l'entité. Consigner son nom, sa fonction et les dates en partie C.",
-      "srcEn": "Signed letter · appointment resolution",
-      "srcFr": "Lettre signée · résolution de nomination"
+      "en": "Obtain the signature of the person with authority to bind the entity, and record the name, position and dates.",
+      "fr": "Obtenir la signature de la personne habilitée à engager l'entité, et consigner le nom, la fonction et les dates.",
+      "shortEn": "Signature for the entity",
+      "shortFr": "Signature pour l'entité",
+      "isa": "ISA 210 ¶9",
+      "stdEn": "Signed by the legal representative, who has authority to bind the entity.",
+      "stdFr": "Signée par le représentant légal, habilité à engager l'entité.",
+      "sourceHint": "A1 Signed engagement letter",
+      "fieldKeys": [
+       "dated"
+      ]
      },
      {
       "key": "recurring",
-      "en": "For a recurring engagement, assess whether the circumstances require the terms to be revised, and whether the entity needs to be reminded of the existing terms. Record the assessment in Part C.",
-      "fr": "Pour une mission récurrente, apprécier si les circonstances imposent de réviser les termes et s'il y a lieu de rappeler à l'entité les termes en vigueur. Consigner l'appréciation en partie C.",
-      "srcEn": "Prior engagement letter · ISA 210 ¶13",
-      "srcFr": "Lettre de mission antérieure · ISA 210 ¶13"
+      "en": "For a recurring engagement, assess whether the circumstances require the terms to be revised, and whether the entity needs to be reminded of the existing terms.",
+      "fr": "Pour une mission récurrente, apprécier si les circonstances imposent de réviser les termes, et s'il faut rappeler à l'entité les termes existants.",
+      "shortEn": "Recurring engagement: revise or remind",
+      "shortFr": "Mission récurrente : révision ou rappel",
+      "isa": "ISA 210 ¶13",
+      "tipsEn": [
+       "Look for a change of management, ownership, size or legal requirements."
+      ],
+      "tipsFr": [
+       "Rechercher un changement de direction, d'actionnariat, de taille ou d'obligations légales."
+      ],
+      "stdEn": "No change calls for revised terms; the existing letter still applies.",
+      "stdFr": "Aucun changement n'appelle une révision ; la lettre existante reste applicable.",
+      "sourceHint": "Prior engagement letter",
+      "fieldKeys": [
+       "recurring"
+      ]
      },
      {
       "key": "filed",
       "en": "File the signed letter before fieldwork begins. Where fieldwork has begun without it, record the reason and the date the letter was obtained.",
       "fr": "Classer la lettre signée avant le début des travaux. Si les travaux ont commencé sans elle, consigner le motif et la date d'obtention.",
-      "srcEn": "Engagement file",
-      "srcFr": "Dossier de mission"
+      "shortEn": "Filed before fieldwork",
+      "shortFr": "Classée avant les travaux",
+      "isa": "ISA 210 ¶9",
+      "stdEn": "Signed letter filed before fieldwork began.",
+      "stdFr": "Lettre signée classée avant le début des travaux.",
+      "sourceHint": "A1 Signed engagement letter"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Contents of the letter",
-    "titleFr": "Partie B — Contenu de la lettre",
-    "introEn": "Read the signed letter and confirm that it contains each of the following. The bracketed references are to ISA 210. Explain each “No” in the box beneath it.",
-    "introFr": "Lire la lettre signée et confirmer qu'elle contient chacun des éléments suivants. Les références renvoient à l'ISA 210.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "objective",
       "en": "The objective and scope of the audit of the financial statements (¶10(a)).",
-      "fr": "L'objectif et l'étendue de l'audit des états financiers (¶10(a))."
+      "fr": "L'objectif et l'étendue de l'audit des états financiers (¶10(a)).",
+      "tasks": [
+       "draft"
+      ]
      },
      {
       "key": "auditor_resp",
       "en": "The responsibilities of the auditor (¶10(b)).",
-      "fr": "Les responsabilités de l'auditeur (¶10(b))."
+      "fr": "Les responsabilités de l'auditeur (¶10(b)).",
+      "tasks": [
+       "draft"
+      ]
      },
      {
       "key": "mgmt_resp",
-      "en": "The responsibilities of management, including the acknowledgements recorded in P1.3 Part B (¶10(c)).",
-      "fr": "Les responsabilités de la direction, y compris les reconnaissances de P1.3 partie B (¶10(c))."
+      "en": "The responsibilities of management, including the acknowledgements recorded in P1.3 (¶10(c)).",
+      "fr": "Les responsabilités de la direction, y compris les reconnaissances consignées en P1.3 (¶10(c)).",
+      "tasks": [
+       "draft"
+      ]
      },
      {
       "key": "framework",
       "en": "Identification of the applicable financial reporting framework (¶10(d)).",
-      "fr": "L'identification du référentiel comptable applicable (¶10(d))."
+      "fr": "L'identification du référentiel comptable applicable (¶10(d)).",
+      "tasks": [
+       "draft"
+      ]
      },
      {
       "key": "report_form",
       "en": "Reference to the expected form and content of our reports, and a statement that circumstances may require a report to differ from that form (¶10(e)).",
-      "fr": "La référence à la forme attendue des rapports, et la mention que les circonstances peuvent l'affecter (¶10(e))."
+      "fr": "La référence à la forme attendue des rapports, et la mention que les circonstances peuvent l'affecter (¶10(e)).",
+      "tasks": [
+       "draft"
+      ]
      },
      {
       "key": "fees",
       "en": "The basis on which fees are charged and the billing arrangements.",
-      "fr": "La base de facturation des honoraires et les modalités de règlement."
+      "fr": "La base de facturation des honoraires et les modalités de règlement.",
+      "tasks": [
+       "terms"
+      ],
+      "vs": false
      },
      {
       "key": "access",
       "en": "The arrangements for access to, and inspection of, the audit documentation.",
-      "fr": "Les modalités d'accès et d'examen de la documentation d'audit."
+      "fr": "Les modalités d'accès et d'examen de la documentation d'audit.",
+      "tasks": [
+       "draft"
+      ],
+      "vs": false
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Execution and recurring engagements",
-    "titleFr": "Partie C — Signature et missions récurrentes",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "dated",
@@ -136,16 +195,15 @@
       "key": "recurring",
       "kind": "input",
       "labelEn": "Recurring engagements: the factors assessed in deciding whether the terms require revision, and the conclusion reached",
-      "labelFr": "Missions récurrentes : facteurs appréciés pour décider d'une révision des termes, et conclusion"
+      "labelFr": "Missions récurrentes : facteurs appréciés pour décider d'une révision des termes, et conclusion",
+      "optional": true
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part D — Planning communication with those charged with governance",
-    "titleFr": "Partie D — Communication de planification aux responsables de la gouvernance",
-    "introEn": "Planning evidence: record what was communicated before fieldwork. Where management also governs the entity, answer Yes to the first line and the block closes.",
-    "introFr": "Élément probant de planification : consigner ce qui a été communiqué avant les travaux. Si la direction gouverne aussi l'entité, répondre Oui à la première ligne et le bloc se referme.",
+    "titleEn": "Planning communication with those charged with governance",
+    "titleFr": "Communication de planification aux responsables de la gouvernance",
     "collapse": {
      "key": "tcwg_is_mgmt",
      "value": "yes",
@@ -226,6 +284,33 @@
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Agree the terms of the audit engagement with management or those charged with governance and record them in an engagement letter signed before the work begins; tell those charged with governance the planned scope and timing of the audit (ISA 210 ¶9–13; ISA 260 ¶15).",
+  "objectiveFr": "Convenir des termes de la mission d'audit avec la direction ou les responsables de la gouvernance et les consigner dans une lettre de mission signée avant le début des travaux ; communiquer aux responsables de la gouvernance l'étendue et le calendrier prévus de l'audit (ISA 210 ¶9–13 ; ISA 260 ¶15).",
+  "isa": [
+   {
+    "std": "ISA 210"
+   },
+   {
+    "std": "ISA 260"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "P1.3",
+   "P1.5",
+   "S6.1",
+   "C5.11"
+  ],
+  "conclStdEn": "A signed engagement letter recording the agreed terms was on file before planning began, and the planned scope and timing were communicated to those charged with governance.",
+  "conclStdFr": "Une lettre de mission signée consignant les termes convenus figurait au dossier avant le début de la planification, et l'étendue et le calendrier prévus ont été communiqués aux responsables de la gouvernance."
  }
 }

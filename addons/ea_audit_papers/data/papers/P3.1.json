@@ -3,8 +3,6 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶19(a)–(c), ¶22",
-  "ownsEn": "the understanding of the entity, its environment and the framework",
-  "ownsFr": "la connaissance de l'entité, de son environnement et du référentiel",
   "reqEn": [
    "We obtain an understanding of the entity's organisational structure, ownership and governance, its business model, the industry, regulatory and other external factors, and the applicable financial reporting framework and the entity's accounting policies (ISA 315 (Revised 2019) ¶19).",
    "The understanding is obtained to identify risks, not for its own sake. Each matter recorded is either carried into the risk assessment or noted as giving rise to no risk (ISA 315 ¶31: the evaluation of whether the understanding provides an appropriate basis).",
@@ -17,146 +15,254 @@
    "Les procédures d'évaluation des risques combinent entretiens, procédures analytiques, observation et inspection — l'entretien seul ne suffit pas (ISA 315 ¶14). La discussion d'équipe (P5.2) partage la connaissance de chacun.",
    "Le modèle économique et les indicateurs de performance de la direction méritent une attention particulière : ils révèlent où naît la pression d'altérer les comptes et quels soldes portent estimation ou jugement (ISA 315 ¶A62–A67)."
   ],
-  "conclEn": [
-   "The understanding obtained is sufficient to identify and assess the risks of material misstatement, and each matter identified has been carried into the risk assessment or recorded as giving rise to no risk."
-  ],
-  "conclFr": [
-   "La connaissance acquise suffit à identifier et évaluer les risques d'anomalies significatives, et chaque élément relevé est repris dans l'évaluation des risques ou consigné comme n'en générant aucun."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "model",
       "en": "Obtain the entity's business model: what it sells, to whom, through which channels, and how it earns and collects.",
       "fr": "Obtenir le modèle économique : ce que l'entité vend, à qui, par quels canaux, et comment elle facture et encaisse.",
-      "srcEn": "Inquiry of management · management reports · site visit",
-      "srcFr": "Entretien avec la direction · rapports de gestion · visite de site",
-      "tipEn": "Sit with the general manager or sales director and have them walk you through one sale end-to-end: order, delivery, invoice, collection. Ask for the latest management report and note the main product lines, the five largest customers and how customers pay (cash, credit, mobile money). A short site visit tells you more than an organigram.",
-      "tipFr": "S'asseoir avec le dirigeant ou le directeur commercial et suivre une vente de bout en bout : commande, livraison, facture, encaissement. Demander le dernier rapport de gestion, relever les lignes de produits, les cinq plus gros clients et les modes de paiement. Une courte visite de site en dit plus qu'un organigramme."
+      "shortEn": "Business model",
+      "shortFr": "Modèle économique",
+      "isa": "ISA 315 ¶19(a)(i)",
+      "tipsEn": [
+       "Ask what is sold, to whom, and how customers pay: cash, mobile money, credit."
+      ],
+      "tipsFr": [
+       "Demander ce qui est vendu, à qui, et comment les clients paient : espèces, mobile money, crédit."
+      ],
+      "stdEn": "Business model understood from the meeting with management; no new risk.",
+      "stdFr": "Modèle économique compris lors de l'entretien avec la direction ; aucun risque nouveau.",
+      "sourceHint": "Meeting with management"
      },
      {
       "key": "structure",
       "en": "Obtain the ownership, the group structure and the governance arrangements, including the composition of the board.",
       "fr": "Obtenir l'actionnariat, la structure du groupe et les organes de gouvernance, dont la composition du conseil.",
-      "srcEn": "Statutes · share register · RCCM extract · minutes",
-      "srcFr": "Statuts · registre des titres · extrait RCCM · procès-verbaux",
-      "tipEn": "Read the minutes of the last board and shareholders' meetings, inspect the share register, and pull a fresh RCCM extract. Meet the entity's legal representative (or counsel) to confirm who actually controls decisions — related parties often surface here first.",
-      "tipFr": "Lire les procès-verbaux du dernier conseil et de la dernière assemblée, consulter le registre des titres et un extrait RCCM récent. Rencontrer le représentant légal (ou le conseil juridique) pour confirmer qui contrôle réellement les décisions — les parties liées apparaissent souvent ici en premier."
+      "shortEn": "Ownership and governance",
+      "shortFr": "Actionnariat et gouvernance",
+      "isa": "ISA 315 ¶19(a)(i)",
+      "tipsEn": [
+       "Reuse the trade register extract and share register from P1.1."
+      ],
+      "tipsFr": [
+       "Réutiliser l'extrait RCCM et le registre des titres de P1.1."
+      ],
+      "stdEn": "Ownership and governance unchanged from last year.",
+      "stdFr": "Actionnariat et gouvernance inchangés par rapport à l'an dernier.",
+      "sourceHint": "Share register"
      },
      {
       "key": "external",
       "en": "Identify the industry, regulatory and other external factors affecting the entity, including the sector's competitive conditions and any recent change in law.",
       "fr": "Identifier les facteurs sectoriels, réglementaires et externes affectant l'entité, dont les conditions de concurrence et les évolutions législatives récentes.",
-      "srcEn": "Sector publications · regulator guidance · firm sector knowledge",
-      "srcFr": "Publications sectorielles · doctrine du régulateur · connaissance sectorielle",
-      "tipEn": "Ask management which regulator, tax regime and sector body govern them, and what changed this year (tariffs, exchange controls, minimum wage, sector price rules). Cross-check against the firm's knowledge of other clients in the same sector and any finance-law changes affecting the period.",
-      "tipFr": "Demander à la direction quels régulateur, régime fiscal et organismes sectoriels s'appliquent, et ce qui a changé cette année (tarifs, contrôle des changes, SMIG, prix réglementés). Recouper avec la connaissance du cabinet sur le secteur et les changements de loi de finances de l'exercice."
+      "shortEn": "Industry and regulation",
+      "shortFr": "Secteur et réglementation",
+      "isa": "ISA 315 ¶19(a)(ii)",
+      "tipsEn": [
+       "Note any change in tax law or sector regulation this year."
+      ],
+      "tipsFr": [
+       "Relever toute évolution fiscale ou réglementaire de l'exercice."
+      ],
+      "stdEn": "No industry or regulatory change affects the financial statements.",
+      "stdFr": "Aucune évolution sectorielle ou réglementaire n'affecte les états financiers.",
+      "sourceHint": "Sector knowledge"
      },
      {
       "key": "framework",
       "en": "Establish the applicable financial reporting framework and the entity's accounting policies, and evaluate whether the policies are appropriate to its business.",
       "fr": "Établir le référentiel comptable applicable et les méthodes comptables, et apprécier leur pertinence au regard de l'activité.",
-      "srcEn": "Prior financial statements · policy note · SYSCOHADA / IFRS",
-      "srcFr": "États financiers antérieurs · note de méthodes · SYSCOHADA / IFRS",
-      "tipEn": "Read the notes to the prior financial statements — the accounting-policies note is the quickest map of what the entity applies. Test two or three policies against what the business actually does (revenue timing vs. delivery terms, depreciation lives vs. asset use).",
-      "tipFr": "Lire l'annexe des états financiers antérieurs — la note sur les méthodes comptables est la carte la plus rapide. Confronter deux ou trois méthodes à la réalité de l'activité (fait générateur du chiffre d'affaires vs conditions de livraison, durées d'amortissement vs usage des actifs)."
+      "shortEn": "Framework and accounting policies",
+      "shortFr": "Référentiel et méthodes comptables",
+      "isa": "ISA 315 ¶19(b)",
+      "tipsEn": [
+       "Compare the policies with SYSCOHADA and last year's notes."
+      ],
+      "tipsFr": [
+       "Comparer les méthodes au SYSCOHADA et aux notes de l'an dernier."
+      ],
+      "stdEn": "Policies appropriate to the business and unchanged from last year.",
+      "stdFr": "Méthodes appropriées à l'activité et inchangées par rapport à l'an dernier.",
+      "sourceHint": "Prior financial statements"
      },
      {
       "key": "changes",
       "en": "Identify the changes in accounting policy, in the business or in the environment since the prior period, and the reason for each.",
       "fr": "Identifier les changements de méthode, d'activité ou d'environnement depuis l'exercice précédent et leur motif.",
-      "srcEn": "Inquiry of management · prior file · minutes",
-      "srcFr": "Entretien avec la direction · dossier antérieur · procès-verbaux",
-      "tipEn": "Compare this year's accounting-policies note with last year's, line by line. Ask the finance manager for any accounting memos issued in the year and read board minutes for new activities, financing or restructurings. Every difference needs a reason recorded.",
-      "tipFr": "Comparer la note de méthodes de cette année à celle de l'an dernier, ligne à ligne. Demander au responsable financier les mémos comptables émis dans l'année et lire les procès-verbaux pour les nouvelles activités, financements ou restructurations. Chaque écart doit avoir un motif consigné."
+      "shortEn": "Changes since last year",
+      "shortFr": "Changements depuis l'an dernier",
+      "isa": "ISA 315 ¶19(b)",
+      "tipsEn": [
+       "New products, sites, systems or key staff."
+      ],
+      "tipsFr": [
+       "Nouveaux produits, sites, systèmes ou personnes clés."
+      ],
+      "stdEn": "No change in policy, business or environment since last year.",
+      "stdFr": "Aucun changement de méthode, d'activité ou d'environnement depuis l'an dernier.",
+      "sourceHint": "Meeting with management"
      },
      {
       "key": "measures",
       "en": "Obtain the measures management uses to assess performance, and identify the pressure they may create to misstate.",
       "fr": "Obtenir les indicateurs utilisés par la direction pour apprécier la performance et identifier la pression qu'ils peuvent créer.",
-      "srcEn": "Management reports · bonus arrangements · budget",
-      "srcFr": "Rapports de gestion · dispositifs de primes · budget",
-      "tipEn": "Get the budget and the monthly reporting pack, and ask what the owners or lenders watch (margin, covenant ratios, dividend capacity). Ask HR or the manager how bonuses are computed — a target tied to a number is pressure on that number.",
-      "tipFr": "Obtenir le budget et le reporting mensuel, et demander ce que suivent actionnaires ou prêteurs (marge, covenants, capacité de dividende). Demander aux RH ou au dirigeant comment se calculent les primes — un objectif adossé à un chiffre crée une pression sur ce chiffre."
+      "shortEn": "Performance measures",
+      "shortFr": "Mesures de la performance",
+      "isa": "ISA 315 ¶19(a)(iii)",
+      "tipsEn": [
+       "Bonuses tied to sales or profit create pressure."
+      ],
+      "tipsFr": [
+       "Des primes liées aux ventes ou au résultat créent une pression."
+      ],
+      "stdEn": "The measures used create no pressure to misstate.",
+      "stdFr": "Les mesures utilisées ne créent aucune pression à fausser les comptes.",
+      "sourceHint": "Management reports"
      },
      {
       "key": "objectives",
       "en": "Obtain the entity's objectives and strategies, and identify the business risks that may result in a risk of material misstatement.",
       "fr": "Obtenir les objectifs et les stratégies de l'entité, et identifier les risques liés à l'activité pouvant engendrer un risque d'anomalie significative.",
-      "srcEn": "Business plan · board minutes · financing agreements",
-      "srcFr": "Plan d'affaires · procès-verbaux du conseil · conventions de financement",
-      "tipEn": "Ask the owner or general manager what the entity is trying to achieve over the next two or three years — growth, a new line, new financing, succession — and what could stop it. Each strategy carries risks: expansion strains working capital and cut-off, new financing brings covenants, a planned sale creates pressure on the numbers. Write the objective, the risk it creates, and the account it lands on.",
-      "tipFr": "Demander au propriétaire ou au dirigeant ce que l'entité veut atteindre d'ici deux ou trois ans — croissance, nouvelle activité, financement, transmission — et ce qui pourrait l'en empêcher. Chaque stratégie porte ses risques : l'expansion tend le besoin en fonds de roulement et la séparation des exercices, un financement apporte des covenants, une cession en vue crée une pression sur les chiffres. Noter l'objectif, le risque créé et le compte concerné."
+      "shortEn": "Objectives, strategies and business risks",
+      "shortFr": "Objectifs, stratégies et risques",
+      "isa": "ISA 315 ¶19(a)(i), A62",
+      "tipsEn": [
+       "Read the business plan, the budget and the financing agreements."
+      ],
+      "tipsFr": [
+       "Lire le plan d'affaires, le budget et les contrats de financement."
+      ],
+      "stdEn": "Objectives and strategies create no business risk affecting the financial statements.",
+      "stdFr": "Les objectifs et stratégies ne créent aucun risque affectant les états financiers.",
+      "sourceHint": "Business plan"
      },
      {
       "key": "related",
       "en": "Obtain the list of related parties and the nature of the relationships and transactions with each, and carry it forward to S4.4.",
       "fr": "Obtenir la liste des parties liées, la nature des relations et des opérations avec chacune, et la reporter en S4.4.",
-      "srcEn": "Inquiry of management · share register · board minutes · S4.4",
-      "srcFr": "Entretien avec la direction · registre des titres · procès-verbaux · S4.4",
-      "tipEn": "Build the list while you are already holding the share register and the minutes from procedure 2: shareholders and their other companies, directors and their businesses, family members in the entity, group companies. Ask management to confirm it is complete and to describe the transactions with each — loans to shareholders and management fees are where OHADA audits find them.",
-      "tipFr": "Établir la liste pendant que le registre des titres et les procès-verbaux de la procédure 2 sont encore sous la main : actionnaires et leurs autres sociétés, dirigeants et leurs affaires, membres de la famille dans l'entité, sociétés du groupe. Faire confirmer par la direction que la liste est complète et décrire les opérations avec chacune — comptes courants d'associés et frais de gestion sont là où les audits OHADA les trouvent."
+      "shortEn": "Related parties",
+      "shortFr": "Parties liées",
+      "isa": "ISA 550 ¶13",
+      "stdEn": "Related party list obtained and carried to S4.4.",
+      "stdFr": "Liste des parties liées obtenue et reportée en S4.4.",
+      "sourceHint": "Linked task S4.4"
      },
      {
       "key": "gc_status",
       "en": "Obtain the status of management's assessment of the entity's ability to continue as a going concern, and note the events or conditions already known.",
       "fr": "Obtenir l'état de l'évaluation par la direction de la capacité de l'entité à poursuivre son exploitation, et relever les événements ou circonstances déjà connus.",
-      "srcEn": "Inquiry of management · cash-flow forecast · S4.2",
-      "srcFr": "Entretien avec la direction · prévision de trésorerie · S4.2",
-      "tipEn": "Ask management whether they have assessed going concern and over what period, and whether a forecast exists. Note what is already visible: negative equity (and any AGM decision under the OHADA net-asset rule), overdue tax or social liabilities, a lost customer or financing due for renewal. The full assessment is S4.2's work — here you record its status and the known warning signs.",
-      "tipFr": "Demander à la direction si elle a évalué la continuité d'exploitation, sur quelle période, et si une prévision existe. Relever ce qui est déjà visible : capitaux propres négatifs (et toute décision d'AG au titre de la règle OHADA de l'actif net), dettes fiscales ou sociales en retard, client perdu ou financement à renouveler. L'évaluation complète relève de S4.2 — ici on consigne son état et les signaux connus."
+      "shortEn": "Going concern status",
+      "shortFr": "État de la continuité",
+      "isa": "ISA 570 ¶10",
+      "stdEn": "Status of management's going concern assessment noted and carried to S4.2.",
+      "stdFr": "État de l'appréciation de la continuité par la direction noté et reporté en S4.2.",
+      "sourceHint": "Linked task S4.2"
      },
      {
       "key": "carry",
       "en": "Carry each matter identified into the risk register, or record why it gives rise to no risk of material misstatement.",
       "fr": "Reporter chaque élément relevé au registre des risques ou consigner pourquoi il ne génère aucun risque d'anomalie significative.",
-      "srcEn": "S3.1 risk register",
-      "srcFr": "Registre des risques S3.1",
-      "tipEn": "Work through your notes from procedures 1–6 one by one: open the risk register (Tools → Risk Register) and either add a risk with the assertion it threatens, or write one line here explaining why no risk arises. Nothing identified stays unrouted.",
-      "tipFr": "Reprendre les notes des procédures 1 à 6 une à une : ouvrir le registre des risques (Outils → Registre) et soit ajouter un risque avec l'assertion menacée, soit consigner ici pourquoi aucun risque n'en découle. Aucun élément relevé ne reste sans suite."
+      "shortEn": "Into the risk register",
+      "shortFr": "Au registre des risques",
+      "isa": "ISA 315 ¶28",
+      "tipsEn": [
+       "One line per matter: the risk raised, or why there is none."
+      ],
+      "tipsFr": [
+       "Une ligne par élément : le risque relevé, ou pourquoi il n'y en a pas."
+      ],
+      "stdEn": "Each matter carried into the risk register or explained.",
+      "stdFr": "Chaque élément repris au registre des risques ou justifié.",
+      "sourceHint": "Risk register"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "policies",
-      "en": "The accounting policies are appropriate to the entity's business and consistent with the framework (procedure 4).",
-      "fr": "Les méthodes comptables sont appropriées à l'activité et conformes au référentiel (procédure 4)."
+      "en": "The accounting policies are appropriate to the entity's business and consistent with the framework.",
+      "fr": "Les méthodes comptables sont appropriées à l'activité et conformes au référentiel.",
+      "tasks": [
+       "framework"
+      ]
      },
      {
       "key": "objectives",
-      "en": "The entity's objectives and strategies have been understood, and the business risks they create have been assessed for their effect on the financial statements (procedure 7).",
-      "fr": "Les objectifs et stratégies de l'entité ont été compris, et les risques liés à l'activité qu'ils créent ont été appréciés quant à leur incidence sur les états financiers (procédure 7)."
+      "en": "The entity's objectives and strategies have been understood, and the business risks they create have been assessed for their effect on the financial statements.",
+      "fr": "Les objectifs et stratégies de l'entité ont été compris, et les risques liés à l'activité qu'ils créent ont été appréciés quant à leur incidence sur les états financiers.",
+      "tasks": [
+       "objectives",
+       "measures"
+      ]
      },
      {
       "key": "related_gc",
-      "en": "The related-party list has been carried to S4.4, and the status of management's going-concern assessment recorded for S4.2 (procedures 8, 9).",
-      "fr": "La liste des parties liées a été reportée en S4.4, et l'état de l'évaluation de la continuité d'exploitation consigné pour S4.2 (procédures 8, 9)."
+      "en": "The related-party list has been carried to S4.4, and the status of management's going-concern assessment recorded for S4.2.",
+      "fr": "La liste des parties liées a été reportée en S4.4, et l'état de l'évaluation de la continuité d'exploitation consigné pour S4.2.",
+      "tasks": [
+       "related",
+       "gc_status"
+      ],
+      "vs": false
      },
      {
       "key": "changes",
-      "en": "Each change since the prior period has been understood and its accounting effect identified (procedure 5).",
-      "fr": "Chaque changement depuis l'exercice précédent est compris et son effet comptable identifié (procédure 5)."
+      "en": "Each change since the prior period has been understood and its accounting effect identified.",
+      "fr": "Chaque changement depuis l'exercice précédent est compris et son effet comptable identifié.",
+      "tasks": [
+       "changes"
+      ]
      },
      {
       "key": "carried",
-      "en": "Each matter identified has been carried into the risk register or explained (procedure 7).",
-      "fr": "Chaque élément relevé est repris au registre des risques ou justifié (procédure 7)."
+      "en": "Each matter identified has been carried into the risk register or explained.",
+      "fr": "Chaque élément relevé est repris au registre des risques ou justifié.",
+      "tasks": [
+       "carry"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Obtain an understanding of the entity and its environment and of the applicable financial reporting framework and accounting policies, sufficient to identify and assess the risks of material misstatement (ISA 315 (Revised 2019) ¶19).",
+  "objectiveFr": "Prendre connaissance de l'entité et de son environnement ainsi que du référentiel comptable et des méthodes comptables, de manière suffisante pour identifier et évaluer les risques d'anomalies significatives (ISA 315 révisée 2019 ¶19).",
+  "isa": [
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks and their significance",
+    "noteFr": "Risques et leur importance"
+   },
+   {
+    "action": "action_tool_financial",
+    "en": "Financial analysis",
+    "fr": "Analyse financière",
+    "noteEn": "Ratios and trends against the prior year",
+    "noteFr": "Ratios et tendances par rapport à l'exercice précédent"
+   }
+  ],
+  "links": [
+   "P3.2",
+   "P5.2",
+   "S3.1",
+   "S4.2",
+   "S4.4"
+  ],
+  "conclStdEn": "The understanding obtained is sufficient to identify and assess the risks of material misstatement; each matter is carried into the risk register or explained.",
+  "conclStdFr": "La connaissance acquise suffit à identifier et évaluer les risques d'anomalies significatives ; chaque élément est repris au registre des risques ou justifié."
  }
 }

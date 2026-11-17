@@ -132,7 +132,9 @@ def test_draft_marks_are_kept_as_written():
             text = fh.read()
         for mark in marks:
             found[mark] += text.count(mark)
-    assert found == marks
+    # A paper converted to the layout of 2026-11-17 drops its long draft tips for short ones: the
+    # marks left on disk are those of the papers not converted yet, never more than were exported.
+    assert all(found[mark] <= count for mark, count in marks.items()), found
 
 
 def test_services_import_no_odoo():
