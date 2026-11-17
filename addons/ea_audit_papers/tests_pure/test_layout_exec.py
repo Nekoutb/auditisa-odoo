@@ -133,3 +133,29 @@ def test_e6_6_reads_the_next_year_ledger():
     definition = load_definition("E6.6")
     assert definition["toolCard"] == "subsequent"
     assert any(tool["action"] == "action_tool_gl" for tool in definition["tools"])
+
+
+# Owner's decision of 2026-11-17: the English text spells things out. A French term of art in
+# [square brackets] may keep its own abbreviation; the statement line codes of E6.10 (TB, RP...)
+# are codes of the OHADA models, not abbreviations, and are not on this list.
+ABBREVIATIONS = re.compile(
+    r"\b(?:SCOTs?|WCGWs?|ITGCs?|ToC|ToD|JEs?|EQR|TCWG|NOCLAR|SAD|CRA|GL|FS|TFT|DSF|CNPS|RCCM|AGO|AGE|AUSCGIE|AUDCIF"
+    r"|IPEs?|SOCD|SMT|PCGO|HAO|N/A|vs|EBITDA|FIFO)\b|&"
+)
+
+
+def _english(node, key=""):
+    if isinstance(node, dict):
+        for k, value in node.items():
+            yield from _english(value, k)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _english(value, key)
+    elif isinstance(node, str) and (key in ("en", "isa", "sourceHint") or key.endswith("En")):
+        yield re.sub(r"\[[^\]]*\]", "", node)
+
+
+@pytest.mark.parametrize("code", EXEC)
+def test_exec_english_text_has_no_abbreviations(code):
+    found = [m.group(0) for text in _english(load_definition(code)) for m in ABBREVIATIONS.finditer(text)]
+    assert not found, (code, sorted(set(found)))

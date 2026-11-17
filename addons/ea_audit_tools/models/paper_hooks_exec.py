@@ -1,5 +1,5 @@
 """The tool hooks of the execution papers converted to the layout of 2026-11-17 (group "exec"):
-E1.1 (ITGC), E1.2 and E2.1 (tests of controls), E6.6 (the next-year ledger), E6.8 (changes to the
+E1.1 (IT general controls), E1.2 and E2.1 (tests of controls), E6.6 (the next-year ledger), E6.8 (changes to the
 combined risk assessment since planning) and E6.10 (the tie-out of the statements).
 
 Same contracts as paper_hooks.py (card, done, check, warn). E6.3 reads the going concern hooks of
@@ -37,18 +37,18 @@ class PaperExecHooks(models.Model):
         engagement = self.sudo().engagement_id
         apps = self._ea_it_apps()
         card = {
-            "title": self._ea_pick("From the IT applications and ITGC tool", "Depuis l'outil des applications informatiques et ITGC"),
-            "open_label": self._ea_pick("Open IT applications and ITGC", "Ouvrir les applications informatiques et ITGC"),
+            "title": self._ea_pick("From the IT applications and IT general controls tool", "Depuis l'outil des applications informatiques et ITGC"),
+            "open_label": self._ea_pick("Open IT applications and IT general controls", "Ouvrir les applications informatiques et ITGC"),
             "action": self._ea_open("action_tool_itgc"),
             "note": self._ea_pick(
-                "The applications and the IT strategy are recorded in the tool; this paper records the ITGC testing and its conclusion.",
+                "The applications and the IT strategy are recorded in the tool; this paper records the testing of the IT general controls and its conclusion.",
                 "Les applications et la stratégie informatique sont consignées dans l'outil ; ce papier documente les tests ITGC et leur conclusion.",
             ),
             "warnings": self._ea_hook_warn_itgc(),
         }
         if not apps:
             card["empty"] = self._ea_pick(
-                "No IT application recorded yet: open the tool to list them from the SCOTs.",
+                "No IT application recorded yet: open the tool to list them from the classes of transactions.",
                 "Aucune application informatique consignée : ouvrir l'outil pour les reprendre des flux.",
             )
             return card
@@ -57,16 +57,16 @@ class PaperExecHooks(models.Model):
         card["subtitle"] = self._ea_pick("%d IT applications", "%d applications informatiques") % len(apps)
         card["facts"] = [
             {"label": self._ea_pick("IT applications", "Applications informatiques"), "value": str(len(apps))},
-            {"label": self._ea_pick("Rely on the IT processes (test the ITGCs)", "Appui sur les processus informatiques (tests ITGC)"),
+            {"label": self._ea_pick("Rely on the IT processes (test the IT general controls)", "Appui sur les processus informatiques (tests ITGC)"),
              "value": str(len(apps.filtered(lambda app: app.strategy == "rely_itgc")))},
             {"label": self._ea_pick("Strategy still to decide", "Stratégie à décider"),
              "value": str(len(apps.filtered(lambda app: not app.strategy)))},
-            {"label": self._ea_pick("ITGC conclusion (S2.5)", "Conclusion ITGC (S2.5)"),
+            {"label": self._ea_pick("IT general controls conclusion (S2.5)", "Conclusion ITGC (S2.5)"),
              "value": states.get(engagement.itgc_state) or self._ea_pick("not recorded yet", "pas encore consignée")},
         ]
         card["head"] = [
             self._ea_pick("Application", "Application"), self._ea_pick("Layers", "Couches"),
-            self._ea_pick("SCOTs", "Flux"), self._ea_pick("Strategy", "Stratégie"),
+            self._ea_pick("Classes of transactions", "Flux"), self._ea_pick("Strategy", "Stratégie"),
         ]
         card["rows"] = [
             [app.name, app.layers or "—", app.scot_names or "—", strategies.get(app.strategy) or "—"]
@@ -78,7 +78,7 @@ class PaperExecHooks(models.Model):
     def _ea_hook_warn_itgc(self):
         if self.sudo().engagement_id.itgc_state in ("not_support", "mixed"):
             return [self._ea_pick(
-                "The ITGC conclusion (S2.5) does not support reliance on every IT process.",
+                "The IT general controls conclusion (S2.5) does not support reliance on every IT process.",
                 "La conclusion ITGC (S2.5) ne soutient pas l'appui sur chaque processus informatique.",
             )]
         return []
@@ -117,8 +117,8 @@ class PaperExecHooks(models.Model):
     def _ea_hook_card_toc(self):
         controls = self._ea_toc_controls()
         card = {
-            "title": self._ea_pick("From the SCOTs and controls tool · tests of controls", "Depuis l'outil des flux et contrôles · tests des contrôles"),
-            "open_label": self._ea_pick("Open the SCOTs and controls tool", "Ouvrir l'outil des flux et contrôles"),
+            "title": self._ea_pick("From the classes of transactions and controls tool · tests of controls", "Depuis l'outil des flux et contrôles · tests des contrôles"),
+            "open_label": self._ea_pick("Open the classes of transactions and controls tool", "Ouvrir l'outil des flux et contrôles"),
             "action": self._ea_open("action_tool_scot"),
             "note": self._ea_pick(
                 "Populations, samples, test grids and conclusions are recorded in the tool; this paper records the judgements around them.",

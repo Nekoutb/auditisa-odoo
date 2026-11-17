@@ -36,7 +36,7 @@
       ],
       "stdEn": "No control deviation affects the assessment.",
       "stdFr": "Aucune déviation de contrôle n'affecte l'évaluation.",
-      "sourceHint": "SCOTs and controls"
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "misstatements",

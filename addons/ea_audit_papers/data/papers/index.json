@@ -103,15 +103,15 @@
   },
   "E1.1": {
    "source": "lib/papers/itgc.ts",
-   "definition_hash": "6772c1a6895cd2e82fabc0ffe9eadc0a70ea7e74fc9838c60719473a7fffd1f9"
+   "definition_hash": "0da1e92d643409707e2fdd8e9ad0889c8662a2496285ed7c1f50756d47ecca6a"
   },
   "E1.2": {
    "source": "lib/papers/execution.ts",
-   "definition_hash": "9535fb0b4c3da8c86c87c06092d3b561c20524a8ae182c31abb5601c009dbd51"
+   "definition_hash": "48ed95c8d48da6fc6c2e5897b4d25d36392c3c5210822b4b7e3f9756ea3aecee"
   },
   "E2.1": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "0782c2c525b4fe71f0ce19ddc18a2f11022848d35a3c393d06a107fae24f784c"
+   "definition_hash": "6e70834967b7087c3cd48a2b6347fd0a0e742b30eb722e2aa60e3f34a8253cd8"
   },
   "E3.1": {
    "source": "lib/papers/journal-entries.ts",
@@ -203,7 +203,7 @@
   },
   "E6.4": {
    "source": "lib/papers/execution.ts",
-   "definition_hash": "65ba53cdaac02938e5069673284018412aa0cde976789f151cf172bf6018141c"
+   "definition_hash": "25423b8201aecd9f0bf047548d913684356e8a32e0878416944d9f3bcc436368"
   },
   "E6.5": {
    "source": "lib/papers/execution.ts",
@@ -219,7 +219,7 @@
   },
   "E6.8": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "612a02e1a36402980ba0fbbe95e208edbc1b4eca2cd92ab17df7eeabc780e830"
+   "definition_hash": "5ee353c45a82175d1b32bf0846c5e6870e79f917536d50fcdfc630f0cf86f317"
   },
   "E6.9": {
    "source": "lib/papers/execution.ts",
@@ -227,7 +227,7 @@
   },
   "E6.10": {
    "source": "lib/papers/financial-statements.ts",
-   "definition_hash": "3a25dce616cd29e9d560f6d8954e344f6726f000ca2bdd95e363177856596989"
+   "definition_hash": "3b02500b0e3d5d0fc463fa7c5c4261a1d5e0618237c24b959e3f55782d5ee299"
   },
   "P1.1": {
    "source": "lib/papers/acceptance.ts",

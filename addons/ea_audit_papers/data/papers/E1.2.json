@@ -8,7 +8,7 @@
   "reqEn": [
    "A controls-reliance strategy carries the hypothesis that there are no or very few control exceptions in the population; tests of controls confirm that hypothesis by discovery sampling, and any exception found calls the reliance itself into question.",
    "Inquiry alone never provides sufficient evidence of operating effectiveness — it is combined with inspection, observation, reperformance or data analysis.",
-   "Minimum sample sizes follow the frequency of the control: daily/many-times 25 (60 when it is the only control on its assertion), weekly 5, monthly and quarterly 2, annually 1; 50–250 occurrences → 10%, under 50 → 5, under 5 → all; an automated control supported by effective ITGCs takes a test of one.",
+   "Minimum sample sizes follow the frequency of the control: daily/many-times 25 (60 when it is the only control on its assertion), weekly 5, monthly and quarterly 2, annually 1; 50–250 occurrences → 10%, under 50 → 5, under 5 → all; an automated control supported by effective IT general controls takes a test of one.",
    "Tests are performed on every sampling unit selected; an item that cannot be tested and has no valid replacement is a control exception, never a skip."
   ],
   "reqFr": [
@@ -40,7 +40,7 @@
       ],
       "stdEn": "Controls selected address each risk and assertion; no exceptions noted.",
       "stdFr": "Les contrôles retenus couvrent chaque risque et assertion ; aucune exception relevée.",
-      "sourceHint": "SCOTs and controls",
+      "sourceHint": "Classes of transactions and controls",
       "toolDone": "toc_selection"
      },
      {
@@ -98,7 +98,7 @@
       ],
       "stdEn": "Population and sample recorded for each control; no exceptions noted.",
       "stdFr": "Population et échantillon consignés pour chaque contrôle ; aucune exception relevée.",
-      "sourceHint": "SCOTs and controls",
+      "sourceHint": "Classes of transactions and controls",
       "toolDone": "toc_population"
      },
      {
@@ -123,20 +123,20 @@
      },
      {
       "key": "automated",
-      "en": "For automated and IT-dependent controls, confirm the E1.1 ITGC conclusion supports each application for the whole period (then a test of one suffices), and test the accuracy and completeness of any report the control or the test relies on.",
+      "en": "For automated and IT-dependent controls, confirm the E1.1 IT general control conclusion supports each application for the whole period (then a test of one suffices), and test the accuracy and completeness of any report the control or the test relies on.",
       "fr": "Pour les contrôles automatisés et dépendants de l'informatique, confirmer que la conclusion E1.1 soutient chaque application sur toute la période (un test unique suffit alors), et tester l'exactitude et l'exhaustivité des états utilisés.",
       "shortEn": "Automated and IT-dependent controls",
       "shortFr": "Contrôles automatisés et dépendants de l'informatique",
       "isa": "ISA 330 ¶10(b) · ISA 500 ¶9",
       "tipsEn": [
-       "With effective ITGCs (E1.1), one test of an automated control is enough.",
+       "With effective IT general controls (E1.1), one test of an automated control is enough.",
        "Test the completeness and accuracy of the reports used."
       ],
       "tipsFr": [
        "Avec des ITGC efficaces (E1.1), un test unique d'un contrôle automatisé suffit.",
        "Tester l'exhaustivité et l'exactitude des états utilisés."
       ],
-      "stdEn": "ITGC support confirmed and reports tested; no exceptions noted.",
+      "stdEn": "IT general control support confirmed and reports tested; no exceptions noted.",
       "stdFr": "Soutien des ITGC confirmé et états testés ; aucune exception relevée.",
       "sourceHint": "Linked task E1.1"
      },
@@ -157,7 +157,7 @@
       ],
       "stdEn": "No deviation found; every control concluded effective.",
       "stdFr": "Aucune déviation relevée ; chaque contrôle conclu efficace.",
-      "sourceHint": "SCOTs and controls",
+      "sourceHint": "Classes of transactions and controls",
       "toolDone": "toc_exceptions"
      },
      {
@@ -231,7 +231,7 @@
      },
      {
       "key": "automated",
-      "en": "For each automated or IT-dependent control, ITGC support was confirmed and the reports used were tested.",
+      "en": "For each automated or IT-dependent control, IT general control support was confirmed and the reports used were tested.",
       "fr": "Pour chaque contrôle automatisé ou dépendant de l'informatique, le soutien des ITGC a été confirmé et les états utilisés testés.",
       "na": true,
       "tasks": [
@@ -302,7 +302,7 @@
   "tools": [
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Classes of transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Populations, samples, test grids and conclusions",
     "noteFr": "Populations, échantillons, grilles de test et conclusions"

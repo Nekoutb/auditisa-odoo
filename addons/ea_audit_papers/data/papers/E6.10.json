@@ -2,7 +2,7 @@
  "code": "E6.10",
  "source": "lib/papers/financial-statements.ts",
  "definition": {
-  "std": "ISA 700 (Revised) ¶10–15 · ISA 450 ¶5–13 · ISA 710 ¶7–9 · ISA 510 ¶5–8 · ISA 330 ¶30 · AUDCIF art. 34 · AUSCGIE art. 710",
+  "std": "ISA 700 (Revised) ¶10–15 · ISA 450 ¶5–13 · ISA 710 ¶7–9 · ISA 510 ¶5–8 · ISA 330 ¶30 · Uniform Act on accounting and financial reporting art. 34 · Uniform Act on commercial companies art. 710",
   "ownsEn": "the tie-out of the financial statements and notes to the final lead schedules and to the prior-year accounts, the bridge from audited to definitive accounts, and the review of content and presentation against the framework",
   "ownsFr": "le pointage des états financiers et des notes annexes aux leads définitifs et aux comptes de l'exercice précédent, le passage des comptes audités aux comptes définitifs et la revue du contenu et de la présentation au regard du référentiel",
   "tools": [
@@ -36,10 +36,10 @@
    }
   ],
   "reqEn": [
-   "The annual financial statements — balance sheet, income statement, cash-flow statement and notes — form an indivisible whole [tout indissociable]. Before the report is signed, every figure and every disclosure in them is tied to the audited accounting: column N to the final lead schedules, marked in each lead so that no account is left untied, and column N-1 to the definitive accounts attached to our prior-year report, because the opening balance sheet is the prior closing one and its presentation may not change from one year to the next (AUDCIF art. 34; ISA 510 ¶5–8; ISA 710 ¶7–9; ISA 330 ¶30).",
+   "The annual financial statements — balance sheet, income statement, cash-flow statement and notes — form an indivisible whole [tout indissociable]. Before the report is signed, every figure and every disclosure in them is tied to the audited accounting: column N to the final lead schedules, marked in each lead so that no account is left untied, and column N-1 to the definitive accounts attached to our prior-year report, because the opening balance sheet is the prior closing one and its presentation may not change from one year to the next (Uniform Act on accounting and financial reporting art. 34; ISA 510 ¶5–8; ISA 710 ¶7–9; ISA 330 ¶30).",
    "The audit points of the final phase are brought to bear on the definitive accounts: the summary review memorandum and the summary of audit differences are linked to this work, every adjustment agreed is confirmed as posted, and reclassifications — credit balances on customers, debit balances on suppliers — are watched for, because they are where a posted adjustment most often fails to reach the statements (ISA 450 ¶5–13).",
    "The bridge from the audited accounts to the definitive accounts [passage comptes audités → comptes définitifs] is systematically formalised and concluded on, every significant difference explained. A point on the bridge that is not cleared is not left on the paper: it is reported to the senior (ISA 450 ¶8).",
-   "Content and presentation are reviewed critically against the framework: whether the level of information in the notes and the way it is presented give a true and fair view, whether an adjustment is called for, and whether the answer bears on the opinion (ISA 700 (Revised) ¶12–14; AUSCGIE art. 710). A number of disclosures are mandatory, and the review of the notes is formalised in the disclosure checklist [questionnaire de contrôle de l'annexe] — the E6.10 OHADA financial statement checklist on this file — every 'No' commented and the significant ones carried to the summary of audit differences (ISA 450 ¶5–8).",
+   "Content and presentation are reviewed critically against the framework: whether the level of information in the notes and the way it is presented give a true and fair view, whether an adjustment is called for, and whether the answer bears on the opinion (ISA 700 (Revised) ¶12–14; Uniform Act on commercial companies art. 710). A number of disclosures are mandatory, and the review of the notes is formalised in the disclosure checklist [questionnaire de contrôle de l'annexe] — the E6.10 OHADA financial statement checklist on this file — every 'No' commented and the significant ones carried to the summary of audit differences (ISA 450 ¶5–8).",
    "The object of the whole procedure is to identify presentation or method anomalies, errors and omissions and report them to the senior or manager. Prior-year answers are not copied and questions not understood are not answered 'not applicable'; where the note wording was tied to N-1, the preparer steps back to confirm no change was needed; the reasoning is by significance and relevance; and the N-1 figures AND the matrix of the notes are validated against our N-1 report, not against the client's draft (ISA 710 ¶7)."
   ],
   "reqFr": [
@@ -209,9 +209,9 @@
       "fr": "Compléter ci-dessous le questionnaire OHADA des états financiers, groupe par groupe — chaque exigence renseignée, chaque « Non » expliqué — et reporter les « Non » significatifs et toute information manquante au récapitulatif des écarts d'audit comme anomalies d'information.",
       "shortEn": "OHADA financial statement checklist",
       "shortFr": "Questionnaire OHADA des états financiers",
-      "isa": "ISA 700 ¶13(a) · OHADA AUDCIF",
+      "isa": "ISA 700 ¶13(a) · OHADA Uniform Act on accounting and financial reporting",
       "tipsEn": [
-       "Answer group by group; mark N/A what does not apply.",
+       "Answer group by group; mark not applicable what does not apply.",
        "Explain every 'No' in its box.",
        "Carry significant gaps to the summary of audit differences."
       ],
@@ -226,7 +226,7 @@
      },
      {
       "key": "dsf",
-      "en": "Agree the DSF filed [déclaration statistique et fiscale] to the definitive financial statements — balance sheet, income statement, TFT and notes, figure for figure — and reconcile the fiscal result to the accounting result through the tax computation (reintegrations, deductions, losses carried forward); explain every difference and carry an unexplained one to the senior.",
+      "en": "Agree the annual tax and statistical return filed [déclaration statistique et fiscale] to the definitive financial statements — balance sheet, income statement, cash flow statement and notes, figure for figure — and reconcile the fiscal result to the accounting result through the tax computation (reintegrations, deductions, losses carried forward); explain every difference and carry an unexplained one to the senior.",
       "fr": "Rapprocher la DSF déposée (déclaration statistique et fiscale) des états financiers définitifs — bilan, compte de résultat, TFT et notes, chiffre par chiffre — et rapprocher le résultat fiscal du résultat comptable au travers du tableau de détermination (réintégrations, déductions, déficits reportables) ; expliquer chaque écart et faire remonter au senior un écart inexpliqué.",
       "shortEn": "Annual tax return",
       "shortFr": "Déclaration statistique et fiscale",
@@ -303,7 +303,7 @@
     "titleEn": "Checklist A — The statements and the system that applies",
     "titleFr": "Questionnaire A — Les états financiers et le système applicable",
     "task": "checklist",
-    "introEn": "Tests that the entity has produced the right set of statements under the right system, for the right period, on the prescribed models, with comparatives. The système minimal de trésorerie [SMT] has its own reduced set; rows that apply to it are marked SMT in their text.",
+    "introEn": "Tests that the entity has produced the right set of statements under the right system, for the right period, on the prescribed models, with comparatives. The minimal cash-basis system [système minimal de trésorerie] has its own reduced set; the rows that apply to it name it at their start.",
     "introFr": "Vérifie que l'entité a produit le bon jeu d'états financiers, dans le système qui lui est applicable, pour la bonne période, sur les modèles prescrits et avec les chiffres comparatifs. Le système minimal de trésorerie [SMT] dispose d'un jeu réduit qui lui est propre ; les lignes qui le concernent portent la mention SMT.",
     "items": [
      {
@@ -320,25 +320,25 @@
      },
      {
       "key": "ohada_A_3",
-      "en": "A.3 — The entity reports under one of the two admitted systems, the Système normal or the Système minimal de trésorerie, and the Système normal applies by default to every entity unless its size allows the SMT. (Art. 11)",
+      "en": "A.3 — The entity reports under one of the two admitted systems, the Système normal or the Système minimal de trésorerie, and the Système normal applies by default to every entity unless its size allows the minimal cash-basis system. (Art. 11)",
       "fr": "A.3 — L'entité applique l'un des deux systèmes admis, le Système normal ou le Système minimal de trésorerie ; toute entité est soumise au Système normal sauf exception liée à sa taille. (Art. 11)",
       "na": true
      },
      {
       "key": "ohada_A_4",
-      "en": "A.4 — SMT: where the SMT is applied, annual turnover excluding tax is below the threshold for the entity's activity (60 million FCFA for trading, 40 million for artisanal, 30 million for services, or the equivalent in the legal-tender unit); a small entity that has opted for the Système normal applies it in full. (Art. 13)",
+      "en": "A.4 — Minimal cash-basis system: where the minimal cash-basis system is applied, annual turnover excluding tax is below the threshold for the entity's activity (60 million FCFA for trading, 40 million for artisanal, 30 million for services, or the equivalent in the legal-tender unit); a small entity that has opted for the Système normal applies it in full. (Art. 13)",
       "fr": "A.4 — SMT : lorsque le SMT est appliqué, le chiffre d'affaires hors taxes annuel est inférieur au seuil propre à l'activité (60 millions de FCFA pour le négoce, 40 millions pour l'artisanat, 30 millions pour les services, ou l'équivalent dans l'unité monétaire légale) ; la petite entité qui a opté pour le Système normal l'applique intégralement. (Art. 13)",
       "na": true
      },
      {
       "key": "ohada_A_5",
-      "en": "A.5 — SMT: the statements are drawn from the cash-basis books [comptabilité de trésorerie] on the SMT models and consist of a balance sheet, an income statement and notes; the Act also names a cash-flow statement, whereas the PCGO models for the SMT provide none, so its absence is not a finding but its presence must follow the Act. Significant variations in stocks, receivables and payables are taken into the result and the balance sheet. (Art. 28 ; PCGO Titre X)",
+      "en": "A.5 — Minimal cash-basis system: the statements are drawn from the cash-basis books [comptabilité de trésorerie] on the minimal cash-basis system models and consist of a balance sheet, an income statement and notes; the Act also names a cash-flow statement, whereas the OHADA chart of accounts models for the minimal cash-basis system provide none, so its absence is not a finding but its presence must follow the Act. Significant variations in stocks, receivables and payables are taken into the result and the balance sheet. (Art. 28 ; OHADA chart of accounts Titre X)",
       "fr": "A.5 — SMT : les états financiers sont dressés à partir de la comptabilité de trésorerie sur les modèles du SMT et comprennent un Bilan, un Compte de résultat et des Notes annexes ; l'Acte cite en outre un Tableau des flux de trésorerie que les modèles du PCGO pour le SMT ne prévoient pas, de sorte que son absence n'est pas une anomalie. Les variations significatives des stocks, des créances et des dettes sont prises en compte dans le résultat et le Bilan. (Art. 28 ; PCGO Titre X)",
       "na": true
      },
      {
       "key": "ohada_A_6",
-      "en": "A.6 — SMT: the notes are the four SMT notes — Note 1 tracking of equipment, furniture and deposits [suivi du matériel, du mobilier et des cautions], Note 2 stock statement [état des stocks], Note 3 statement of receivables and payables not yet due [état des créances et des dettes non échues] with opening and closing amounts and variation, and Note 4 cash journal [journal de trésorerie] — each on its prescribed table. (PCGO Titre X)",
+      "en": "A.6 — Minimal cash-basis system: the notes are the four minimal cash-basis system notes — Note 1 tracking of equipment, furniture and deposits [suivi du matériel, du mobilier et des cautions], Note 2 stock statement [état des stocks], Note 3 statement of receivables and payables not yet due [état des créances et des dettes non échues] with opening and closing amounts and variation, and Note 4 cash journal [journal de trésorerie] — each on its prescribed table. (OHADA chart of accounts Titre X)",
       "fr": "A.6 — SMT : les Notes annexes sont les quatre notes du SMT — Note 1 tableau de suivi du matériel, du mobilier et des cautions, Note 2 état des stocks, Note 3 état des créances et des dettes non échues avec montants d'ouverture, de clôture et variation, Note 4 journal de trésorerie — chacune sur son tableau prescrit. (PCGO Titre X)",
       "na": true
      },
@@ -368,13 +368,13 @@
      },
      {
       "key": "ohada_A_11",
-      "en": "A.11 — The entity complies with the common rules on communicating information to shareholders, partners or members and on publishing the annual statements, including the half-year publication required of companies making a public offering under the AUSCGIE. (Art. 73)",
+      "en": "A.11 — The entity complies with the common rules on communicating information to shareholders, partners or members and on publishing the annual statements, including the half-year publication required of companies making a public offering under the Uniform Act on commercial companies. (Art. 73)",
       "fr": "A.11 — L'entité se conforme aux mesures communes de communication des informations aux actionnaires, associés ou membres et de publicité des états financiers annuels, y compris la publication semestrielle exigée des sociétés faisant appel public à l'épargne par l'AUSCGIE. (Art. 73)",
       "na": true
      },
      {
       "key": "ohada_A_12",
-      "en": "A.12 — The books and the statements are kept in the official language and in the monetary unit that is legal tender in the State party, and every page of the published statements shows the entity's name and identifiers, the closing date and the period covered, and the monetary unit used. (Art. 17-1° ; PCGO Titre IX §2.4)",
+      "en": "A.12 — The books and the statements are kept in the official language and in the monetary unit that is legal tender in the State party, and every page of the published statements shows the entity's name and identifiers, the closing date and the period covered, and the monetary unit used. (Art. 17-1° ; OHADA chart of accounts Titre IX §2.4)",
       "fr": "A.12 — La comptabilité et les états financiers sont tenus dans la langue officielle et dans l'unité monétaire ayant cours légal dans l'État partie, et chaque page des états financiers publiés porte le nom de l'entité et ses moyens d'identification, la date d'arrêté et la période couverte, ainsi que l'unité monétaire utilisée. (Art. 17-1° ; PCGO Titre IX §2.4)",
       "na": true
      },
@@ -398,13 +398,13 @@
      },
      {
       "key": "ohada_A_16",
-      "en": "A.16 — Each statement other than the notes follows the SYSCOHADA model [tracé] for the system applied, laid out in successive headings [rubriques] subdivided into lines [postes], each carrying its alphabetic code (AE, AF, … ; TA, RA, … ; ZA, FA, …); no heading is created outside the model, and nil or unused lines may be left out. (Art. 25 ; PCGO Titre IX §2.4)",
+      "en": "A.16 — Each statement other than the notes follows the SYSCOHADA model [tracé] for the system applied, laid out in successive headings [rubriques] subdivided into lines [postes], each carrying its alphabetic code (AE, AF, … ; TA, RA, … ; ZA, FA, …); no heading is created outside the model, and nil or unused lines may be left out. (Art. 25 ; OHADA chart of accounts Titre IX §2.4)",
       "fr": "A.16 — Chaque état autre que les Notes annexes suit le tracé SYSCOHADA du système appliqué, présenté en rubriques successives subdivisées en postes portant chacun son code alphabétique (AE, AF, … ; TA, RA, … ; ZA, FA, …) ; aucune rubrique n'est créée en dehors du modèle, et les postes nuls ou non utilisés peuvent être omis. (Art. 25 ; PCGO Titre IX §2.4)",
       "na": true
      },
      {
       "key": "ohada_A_17",
-      "en": "A.17 — The filed set [liasse] is complete: cover page, identification sheets R1 to R4 (identification, activity, directors and officers, recap of the notes presented), then balance sheet, income statement, cash-flow statement and the notes that are documented. (PCGO Titre IX ch. 2)",
+      "en": "A.17 — The filed set [liasse] is complete: cover page, identification sheets R1 to R4 (identification, activity, directors and officers, recap of the notes presented), then balance sheet, income statement, cash-flow statement and the notes that are documented. (OHADA chart of accounts Titre IX ch. 2)",
       "fr": "A.17 — La liasse est complète : page de garde, fiches R1 à R4 (identification, activité, dirigeants et administrateurs, récapitulatif des Notes annexes présentées), puis Bilan, Compte de résultat, Tableau des flux de trésorerie et les Notes annexes documentées. (PCGO Titre IX ch. 2)",
       "na": true
      }
@@ -456,7 +456,7 @@
      },
      {
       "key": "ohada_B_7",
-      "en": "B.7 — Going concern [continuité d'exploitation]: the statements are prepared on that basis; where the entity intends or is obliged to liquidate or to reduce its activities substantially, the valuation of its assets is reconsidered, and the uncertainties and the basis actually used are stated and justified. (Art. 35 ; Art. 39 ; PCGO Titre IX §2.1)",
+      "en": "B.7 — Going concern [continuité d'exploitation]: the statements are prepared on that basis; where the entity intends or is obliged to liquidate or to reduce its activities substantially, the valuation of its assets is reconsidered, and the uncertainties and the basis actually used are stated and justified. (Art. 35 ; Art. 39 ; OHADA chart of accounts Titre IX §2.1)",
       "fr": "B.7 — Continuité d'exploitation : les états financiers sont établis sur cette base ; lorsque l'entité a manifesté l'intention ou se trouve dans l'obligation de se mettre en liquidation ou de réduire sensiblement ses activités, l'évaluation de ses biens est reconsidérée, et les incertitudes ainsi que la base retenue sont indiquées et justifiées. (Art. 35 ; Art. 39 ; PCGO Titre IX §2.1)",
       "na": true
      },
@@ -468,7 +468,7 @@
      },
      {
       "key": "ohada_B_9",
-      "en": "B.9 — Materiality [importance significative]: the notes carry every significant item not evident elsewhere that could influence the users' judgement of the entity's assets, financial position and result; the PCGO's indicative thresholds are a guide, not a substitute for that judgement. (Art. 33 ; PCGO Titre V §4.1.2.5)",
+      "en": "B.9 — Materiality [importance significative]: the notes carry every significant item not evident elsewhere that could influence the users' judgement of the entity's assets, financial position and result; the OHADA chart of accounts' indicative thresholds are a guide, not a substitute for that judgement. (Art. 33 ; OHADA chart of accounts Titre V §4.1.2.5)",
       "fr": "B.9 — Importance significative : les Notes annexes comportent tous les éléments significatifs non mis en évidence ailleurs et susceptibles d'influencer le jugement des utilisateurs sur le patrimoine, la situation financière et le résultat ; les seuils indicatifs du PCGO guident ce jugement sans s'y substituer. (Art. 33 ; PCGO Titre V §4.1.2.5)",
       "na": true
      },
@@ -480,13 +480,13 @@
      },
      {
       "key": "ohada_B_11",
-      "en": "B.11 — Substance over form [prééminence de la réalité sur l'apparence] is applied in the four cases the PCGO limits it to: goods sold with retention of title [réserve de propriété], assets held under finance leases [location-acquisition], discounted bills not yet due [effets escomptés non échus], and external staff [personnel extérieur]. (PCGO Titre V §4.1.1.5)",
+      "en": "B.11 — Substance over form [prééminence de la réalité sur l'apparence] is applied in the four cases the OHADA chart of accounts limits it to: goods sold with retention of title [réserve de propriété], assets held under finance leases [location-acquisition], discounted bills not yet due [effets escomptés non échus], and external staff [personnel extérieur]. (OHADA chart of accounts Titre V §4.1.1.5)",
       "fr": "B.11 — La prééminence de la réalité sur l'apparence est appliquée dans les quatre cas auxquels le PCGO la limite : biens vendus avec clause de réserve de propriété, biens pris en location-acquisition, effets escomptés non échus et personnel extérieur. (PCGO Titre V §4.1.1.5)",
       "na": true
      },
      {
       "key": "ohada_B_12",
-      "en": "B.12 — Entity and accrual postulates [postulat de l'entité, comptabilité d'engagement]: the statements cover the entity alone, distinct from its owners, and record transactions when they occur rather than when cash moves, except under the SMT which is cash-based by design. (PCGO Titre V §4.1.1.1–4.1.1.2 ; Art. 28)",
+      "en": "B.12 — Entity and accrual postulates [postulat de l'entité, comptabilité d'engagement]: the statements cover the entity alone, distinct from its owners, and record transactions when they occur rather than when cash moves, except under the minimal cash-basis system which is cash-based by design. (OHADA chart of accounts Titre V §4.1.1.1–4.1.1.2 ; Art. 28)",
       "fr": "B.12 — Postulats de l'entité et de la comptabilité d'engagement : les états financiers couvrent la seule entité, distincte de ses propriétaires, et enregistrent les opérations à leur naissance et non lors des mouvements de trésorerie, sauf dans le SMT, fondé par construction sur la comptabilité de trésorerie. (PCGO Titre V §4.1.1.1–4.1.1.2 ; Art. 28)",
       "na": true
      }
@@ -497,7 +497,7 @@
     "titleEn": "Checklist C — Balance sheet, income statement and cash flow statement",
     "titleFr": "Questionnaire C — Bilan, compte de résultat et tableau des flux de trésorerie",
     "task": "checklist",
-    "introEn": "Tests the three primary statements against the Act's structure and the PCGO models, line by line and total by total, including the arithmetic controls the models build in.",
+    "introEn": "Tests the three primary statements against the Act's structure and the OHADA chart of accounts models, line by line and total by total, including the arithmetic controls the models build in.",
     "introFr": "Confronte les trois états de synthèse à la structure fixée par l'Acte et aux modèles du PCGO, poste par poste et total par total, y compris les contrôles arithmétiques que les modèles intègrent.",
     "items": [
      {
@@ -508,19 +508,19 @@
      },
      {
       "key": "ohada_C_2",
-      "en": "C.2 — The asset side follows the model lines and codes: intangibles AD–AH, tangibles AI–AN with land and buildings each split to show investment property [dont immeuble de placement], advances on fixed assets AP, financial fixed assets AQ–AS, total AZ; HAO current assets BA, stocks BB, receivables BG–BJ, total BK; investment securities BQ, items for collection BR, banks and cash BS, total BT; translation difference BU; grand total BZ. (PCGO Titre IX ch. 3)",
+      "en": "C.2 — The asset side follows the model lines and codes: intangibles AD–AH, tangibles AI–AN with land and buildings each split to show investment property [dont immeuble de placement], advances on fixed assets AP, financial fixed assets AQ–AS, total AZ; current assets outside ordinary activities BA, stocks BB, receivables BG–BJ, total BK; investment securities BQ, items for collection BR, banks and cash BS, total BT; translation difference BU; grand total BZ. (OHADA chart of accounts Titre IX ch. 3)",
       "fr": "C.2 — L'actif suit les postes et codes du modèle : immobilisations incorporelles AD–AH, corporelles AI–AN avec terrains et bâtiments ventilés pour faire apparaître les immeubles de placement, avances et acomptes sur immobilisations AP, immobilisations financières AQ–AS, total AZ ; actif circulant HAO BA, stocks BB, créances BG–BJ, total BK ; titres de placement BQ, valeurs à encaisser BR, banques et caisse BS, total BT ; écart de conversion-actif BU ; total général BZ. (PCGO Titre IX ch. 3)",
       "na": true
      },
      {
       "key": "ohada_C_3",
-      "en": "C.3 — The liability side follows the model lines and codes: capital CA, uncalled capital CB, premiums CD, revaluation differences CE, reserves CF–CG, retained earnings CH, result CJ, investment grants CL, regulated provisions CM, total equity CP; borrowings DA, finance-lease debts DB, provisions for risks and charges DC, total financial debts DD, stable resources DF; HAO debts DH, customer advances DI, suppliers DJ, tax and social debts DK, other debts DM, short-term provisions DN, total DP; cash liabilities DQ–DR, total DT; translation difference DV; grand total DZ, before appropriation of the result. (PCGO Titre IX ch. 3)",
+      "en": "C.3 — The liability side follows the model lines and codes: capital CA, uncalled capital CB, premiums CD, revaluation differences CE, reserves CF–CG, retained earnings CH, result CJ, investment grants CL, regulated provisions CM, total equity CP; borrowings DA, finance-lease debts DB, provisions for risks and charges DC, total financial debts DD, stable resources DF; debts outside ordinary activities DH, customer advances DI, suppliers DJ, tax and social debts DK, other debts DM, short-term provisions DN, total DP; cash liabilities DQ–DR, total DT; translation difference DV; grand total DZ, before appropriation of the result. (OHADA chart of accounts Titre IX ch. 3)",
       "fr": "C.3 — Le passif suit les postes et codes du modèle : capital CA, capital non appelé CB, primes CD, écarts de réévaluation CE, réserves CF–CG, report à nouveau CH, résultat CJ, subventions d'investissement CL, provisions réglementées CM, total capitaux propres CP ; emprunts DA, dettes de location-acquisition DB, provisions pour risques et charges DC, total dettes financières DD, ressources stables DF ; dettes HAO DH, clients avances reçues DI, fournisseurs DJ, dettes fiscales et sociales DK, autres dettes DM, provisions pour risques à court terme DN, total DP ; trésorerie-passif DQ–DR, total DT ; écart de conversion-passif DV ; total général DZ, avant répartition du résultat. (PCGO Titre IX ch. 3)",
       "na": true
      },
      {
       "key": "ohada_C_4",
-      "en": "C.4 — Each balance-sheet line shows gross, depreciation and impairment, net for the year and net for the prior year [brut, amortissements et dépréciations, net N, net N-1], and carries the reference of the note that details it; the model's totals foot and the two sides agree. (Art. 33 ; Art. 34 ; PCGO Titre IX ch. 3)",
+      "en": "C.4 — Each balance-sheet line shows gross, depreciation and impairment, net for the year and net for the prior year [brut, amortissements et dépréciations, net N, net N-1], and carries the reference of the note that details it; the model's totals foot and the two sides agree. (Art. 33 ; Art. 34 ; OHADA chart of accounts Titre IX ch. 3)",
       "fr": "C.4 — Chaque poste du Bilan présente le brut, les amortissements et dépréciations, le net de l'exercice et le net de l'exercice précédent, et porte la référence de la note qui le détaille ; les totaux du modèle sont justes et l'actif égale le passif. (Art. 33 ; Art. 34 ; PCGO Titre IX ch. 3)",
       "na": true
      },
@@ -532,13 +532,13 @@
      },
      {
       "key": "ohada_C_6",
-      "en": "C.6 — The income statement follows the model lines and mandatory sub-totals: sales of goods TA less purchases RA and stock variation RB give the commercial margin XA; TB–TD give turnover XB; production and other income TE–TI less purchases, transport, external services, taxes and other charges RC–RJ give value added XC; less staff costs RK gives EBITDA [excédent brut d'exploitation] XD; with reversals TJ and charges RL gives the operating result XE; financial items TK–TM and RM–RN give the financial result XF; XG is the result of ordinary activities; disposals and other HAO items TN–TO and RO–RP give the HAO result XH; after employee participation RQ and income tax RS comes the net result XI. (Art. 31 ; PCGO Titre IX ch. 4)",
+      "en": "C.6 — The income statement follows the model lines and mandatory sub-totals: sales of goods TA less purchases RA and stock variation RB give the commercial margin XA; TB–TD give turnover XB; production and other income TE–TI less purchases, transport, external services, taxes and other charges RC–RJ give value added XC; less staff costs RK gives gross operating surplus [excédent brut d'exploitation] XD; with reversals TJ and charges RL gives the operating result XE; financial items TK–TM and RM–RN give the financial result XF; XG is the result of ordinary activities; disposals and other items outside ordinary activities TN–TO and RO–RP give the result outside ordinary activities XH; after employee participation RQ and income tax RS comes the net result XI. (Art. 31 ; OHADA chart of accounts Titre IX ch. 4)",
       "fr": "C.6 — Le Compte de résultat suit les postes et les sous-totaux obligatoires du modèle : ventes de marchandises TA moins achats RA et variation de stocks RB donnent la marge commerciale XA ; TB–TD donnent le chiffre d'affaires XB ; production et autres produits TE–TI moins achats, transports, services extérieurs, impôts et autres charges RC–RJ donnent la valeur ajoutée XC ; moins charges de personnel RK, l'excédent brut d'exploitation XD ; avec reprises TJ et dotations RL, le résultat d'exploitation XE ; les éléments financiers TK–TM et RM–RN donnent le résultat financier XF ; XG est le résultat des activités ordinaires ; cessions et autres éléments HAO TN–TO et RO–RP donnent le résultat HAO XH ; après participation des travailleurs RQ et impôts sur le résultat RS vient le résultat net XI. (Art. 31 ; PCGO Titre IX ch. 4)",
       "na": true
      },
      {
       "key": "ohada_C_7",
-      "en": "C.7 — Each income-statement line shows the year and the prior year and carries the reference of the note that details it; the net result XI agrees to the balance-sheet result CJ. (Art. 34 ; PCGO Titre IX ch. 4)",
+      "en": "C.7 — Each income-statement line shows the year and the prior year and carries the reference of the note that details it; the net result XI agrees to the balance-sheet result CJ. (Art. 34 ; OHADA chart of accounts Titre IX ch. 4)",
       "fr": "C.7 — Chaque poste du Compte de résultat présente l'exercice et l'exercice précédent et porte la référence de la note qui le détaille ; le résultat net XI est égal au résultat du Bilan CJ. (Art. 34 ; PCGO Titre IX ch. 4)",
       "na": true
      },
@@ -550,25 +550,25 @@
      },
      {
       "key": "ohada_C_9",
-      "en": "C.9 — The cash-flow statement follows the model lines and codes: ZA opening net cash (A); FA global self-financing capacity [CAFG] computed from EBITDA and FB–FE working-capital variations giving ZB operating flows (B); FF–FJ acquisitions and disposals giving ZC investing flows (C); FK–FN capital increases, investment grants, withdrawals and dividends giving ZD (D); FO–FQ borrowings, other financial debts and repayments giving ZE (E); ZF financing (D+E); ZG variation (B+C+F); ZH closing net cash (G+A). (Art. 32 ; PCGO Titre IX ch. 5)",
+      "en": "C.9 — The cash-flow statement follows the model lines and codes: ZA opening net cash (A); FA global self-financing capacity [CAFG] computed from gross operating surplus and FB–FE working-capital variations giving ZB operating flows (B); FF–FJ acquisitions and disposals giving ZC investing flows (C); FK–FN capital increases, investment grants, withdrawals and dividends giving ZD (D); FO–FQ borrowings, other financial debts and repayments giving ZE (E); ZF financing (D+E); ZG variation (B+C+F); ZH closing net cash (G+A). (Art. 32 ; OHADA chart of accounts Titre IX ch. 5)",
       "fr": "C.9 — Le Tableau des flux de trésorerie suit les postes et codes du modèle : ZA trésorerie nette au 1er janvier (A) ; FA capacité d'autofinancement globale (CAFG) calculée à partir de l'EBE et FB–FE variations du besoin de financement donnant ZB flux opérationnels (B) ; FF–FJ acquisitions et cessions donnant ZC flux d'investissement (C) ; FK–FN augmentations de capital, subventions d'investissement, prélèvements et dividendes donnant ZD (D) ; FO–FQ emprunts, autres dettes financières et remboursements donnant ZE (E) ; ZF financement (D+E) ; ZG variation (B+C+F) ; ZH trésorerie nette au 31 décembre (G+A). (Art. 32 ; PCGO Titre IX ch. 5)",
       "na": true
      },
      {
       "key": "ohada_C_10",
-      "en": "C.10 — The cash-flow statement's control holds: opening and closing net cash each equal cash assets less cash liabilities [trésorerie-actif − trésorerie-passif] on the corresponding balance sheet, and the closing figure agrees to Note 34. (PCGO Titre IX ch. 5)",
+      "en": "C.10 — The cash-flow statement's control holds: opening and closing net cash each equal cash assets less cash liabilities [trésorerie-actif − trésorerie-passif] on the corresponding balance sheet, and the closing figure agrees to Note 34. (OHADA chart of accounts Titre IX ch. 5)",
       "fr": "C.10 — Le contrôle du Tableau des flux de trésorerie est satisfait : la trésorerie nette d'ouverture et de clôture est égale à la trésorerie-actif moins la trésorerie-passif du Bilan correspondant, et le montant de clôture concorde avec la Note 34. (PCGO Titre IX ch. 5)",
       "na": true
      },
      {
       "key": "ohada_C_11",
-      "en": "C.11 — Every line of the statements maps to the accounts the PCGO assigns to it in the correspondence table [tableau de correspondance postes / comptes]; a balance carried on the wrong line is a presentation finding even when the total is right. (PCGO Titre IX ch. 7)",
+      "en": "C.11 — Every line of the statements maps to the accounts the OHADA chart of accounts assigns to it in the correspondence table [tableau de correspondance postes / comptes]; a balance carried on the wrong line is a presentation finding even when the total is right. (OHADA chart of accounts Titre IX ch. 7)",
       "fr": "C.11 — Chaque poste des états financiers est alimenté par les comptes que le PCGO lui affecte dans le tableau de correspondance postes / comptes ; un solde porté sur un poste erroné constitue une anomalie de présentation même si le total est juste. (PCGO Titre IX ch. 7)",
       "na": true
      },
      {
       "key": "ohada_C_12",
-      "en": "C.12 — SMT: the balance sheet and income statement are presented on the SMT models of the PCGO, and where the entity holds fixed assets it keeps the fixed-asset register (SMT Note 1) with a straight-line depreciation schedule for each asset, without time apportionment [sans prorata temporis]. (Art. 28 ; PCGO Titre X)",
+      "en": "C.12 — Minimal cash-basis system: the balance sheet and income statement are presented on the minimal cash-basis system models of the OHADA chart of accounts, and where the entity holds fixed assets it keeps the fixed-asset register (minimal cash-basis system Note 1) with a straight-line depreciation schedule for each asset, without time apportionment [sans prorata temporis]. (Art. 28 ; OHADA chart of accounts Titre X)",
       "fr": "C.12 — SMT : le Bilan et le Compte de résultat sont présentés sur les modèles SMT du PCGO, et l'entité qui possède des immobilisations tient le registre des immobilisations (Note 1 SMT) avec, pour chaque bien, un tableau d'amortissement linéaire sans prorata temporis. (Art. 28 ; PCGO Titre X)",
       "na": true
      }
@@ -579,36 +579,36 @@
     "titleEn": "Checklist D1 — The notes: general rules",
     "titleFr": "Questionnaire D1 — Notes annexes : règles générales",
     "task": "checklist",
-    "introEn": "Tests the notes of the Système normal one by one against the SYSCOHADA models: the general rules first, then each of the thirty-six numbered notes and their sub-notes, stating what each must contain and, where the PCGO prescribes a table, that the table is used. A note that is not documented is not attached but is ticked N/A on sheet R4.",
+    "introEn": "Tests the notes of the Système normal one by one against the SYSCOHADA models: the general rules first, then each of the thirty-six numbered notes and their sub-notes, stating what each must contain and, where the OHADA chart of accounts prescribes a table, that the table is used. A note that is not documented is not attached but is ticked not applicable on sheet R4.",
     "introFr": "Vérifie une à une les Notes annexes du Système normal au regard des modèles SYSCOHADA : les règles générales d'abord, puis chacune des trente-six notes numérotées et de leurs sous-notes, en précisant ce que chacune doit contenir et, lorsque le PCGO prescrit un tableau, que ce tableau est utilisé. Une note non documentée n'est pas jointe mais est cochée N/A sur la fiche R4.",
     "items": [
      {
       "key": "ohada_D_1",
-      "en": "D.1 — The notes are an integral part of the statements and are organised by cross-reference [référence croisée] to the related information: every element of the balance sheet, income statement and cash-flow statement points to the note that completes it, and every note points back. (Art. 33 ; PCGO Titre IX §1.2)",
+      "en": "D.1 — The notes are an integral part of the statements and are organised by cross-reference [référence croisée] to the related information: every element of the balance sheet, income statement and cash-flow statement points to the note that completes it, and every note points back. (Art. 33 ; OHADA chart of accounts Titre IX §1.2)",
       "fr": "D.1 — Les Notes annexes font partie intégrante des états financiers et sont organisées par référence croisée avec l'information liée : chaque élément du Bilan, du Compte de résultat et du Tableau des flux de trésorerie renvoie à la note qui le complète, et chaque note y renvoie en retour. (Art. 33 ; PCGO Titre IX §1.2)",
       "na": true
      },
      {
       "key": "ohada_D_2",
-      "en": "D.2 — The notes complete and explain the other statements without substituting for recognition in them, do not repeat figures already shown in the balance sheet or income statement, and their figures are prepared on the same principles and in the same conditions as those statements. (Art. 33 ; PCGO Titre IX §1.1)",
+      "en": "D.2 — The notes complete and explain the other statements without substituting for recognition in them, do not repeat figures already shown in the balance sheet or income statement, and their figures are prepared on the same principles and in the same conditions as those statements. (Art. 33 ; OHADA chart of accounts Titre IX §1.1)",
       "fr": "D.2 — Les Notes annexes complètent et commentent les autres états sans se substituer à une inscription au Bilan ou au Compte de résultat, ne reprennent pas les informations déjà portées dans ces états, et leurs éléments chiffrés sont établis selon les mêmes principes et dans les mêmes conditions que ceux du Bilan et du Compte de résultat. (Art. 33 ; PCGO Titre IX §1.1)",
       "na": true
      },
      {
       "key": "ohada_D_3",
-      "en": "D.3 — The notes contain an explicit declaration of compliance with the Plan comptable général OHADA [déclaration explicite de conformité au PCGO], and the statements are declared compliant only if they comply with every provision of the SYSCOHADA. (PCGO Titre IX §1.1 ; Note 2)",
+      "en": "D.3 — The notes contain an explicit declaration of compliance with the Plan comptable général OHADA [déclaration explicite de conformité au PCGO], and the statements are declared compliant only if they comply with every provision of the SYSCOHADA. (OHADA chart of accounts Titre IX §1.1 ; Note 2)",
       "fr": "D.3 — Les Notes annexes comportent une déclaration explicite de conformité au Plan comptable général OHADA, et les états financiers ne sont déclarés conformes au SYSCOHADA que s'ils respectent toutes les dispositions du Système comptable OHADA. (PCGO Titre IX §1.1 ; Note 2)",
       "na": true
      },
      {
       "key": "ohada_D_4",
-      "en": "D.4 — Only documented notes are attached; a model note with nothing to report is left out of the set and marked N/A on the recap sheet R4, and every note that is attached is marked A there, so that R4 agrees to the notes actually presented. (PCGO Titre IX §1.2 ; Fiche R4)",
+      "en": "D.4 — Only documented notes are attached; a model note with nothing to report is left out of the set and marked not applicable on the recap sheet R4, and every note that is attached is marked A there, so that R4 agrees to the notes actually presented. (OHADA chart of accounts Titre IX §1.2 ; Fiche R4)",
       "fr": "D.4 — Seules les notes documentées sont jointes ; un modèle de note sans contenu est écarté de la liasse et coché N/A sur la fiche récapitulative R4, et chaque note jointe y est cochée A, de sorte que la fiche R4 concorde avec les notes effectivement présentées. (PCGO Titre IX §1.2 ; Fiche R4)",
       "na": true
      },
      {
       "key": "ohada_D_5",
-      "en": "D.5 — Every note carries its heading block: entity name, identification number, year-end date [exercice clos le] and period length in months [durée en mois], and every note with figures shows the year and the prior year. (PCGO Titre IX §2.4 ; Art. 34)",
+      "en": "D.5 — Every note carries its heading block: entity name, identification number, year-end date [exercice clos le] and period length in months [durée en mois], and every note with figures shows the year and the prior year. (OHADA chart of accounts Titre IX §2.4 ; Art. 34)",
       "fr": "D.5 — Chaque note porte son en-tête : désignation de l'entité, numéro d'identification, date de clôture de l'exercice et durée en mois, et chaque note chiffrée présente l'exercice et l'exercice précédent. (PCGO Titre IX §2.4 ; Art. 34)",
       "na": true
      }
@@ -702,7 +702,7 @@
      },
      {
       "key": "ohada_N_3F",
-      "en": "N-3F — Note 3F (printed as Note 8A in the PCGO models) presents the spreading schedule of capitalised charges [tableau d'étalement des charges immobilisées] — formation costs, deferred charges and redemption premiums carried at 1 January 2018 through the transitional account 475: amount at that date, spreading period and annual amounts by account until cleared. (Note 3F ; Art. 111-1)",
+      "en": "N-3F — Note 3F (printed as Note 8A in the OHADA chart of accounts models) presents the spreading schedule of capitalised charges [tableau d'étalement des charges immobilisées] — formation costs, deferred charges and redemption premiums carried at 1 January 2018 through the transitional account 475: amount at that date, spreading period and annual amounts by account until cleared. (Note 3F ; Art. 111-1)",
       "fr": "N-3F — La Note 3F (imprimée comme Note 8A dans les modèles du PCGO) présente le tableau d'étalement des charges immobilisées — frais d'établissement, charges à répartir et primes de remboursement portés au 1er janvier 2018 par le compte transitoire 475 : montant à cette date, durée d'étalement et montants annuels par compte jusqu'à apurement. (Note 3F ; Art. 111-1)",
       "na": true
      },
@@ -728,19 +728,19 @@
     "items": [
      {
       "key": "ohada_N_5",
-      "en": "N-5 — Note 5 presents HAO current assets [actif circulant HAO] (receivables on disposals of fixed assets, other) and HAO current liabilities [dettes circulantes HAO] (suppliers of fixed assets, amounts unpaid on securities, other) in the prescribed table with year, prior year, variation and impairment, and states the dates and nature of the assets bought or sold. (Note 5)",
+      "en": "N-5 — Note 5 presents current assets outside ordinary activities [actif circulant HAO] (receivables on disposals of fixed assets, other) and current liabilities outside ordinary activities [dettes circulantes HAO] (suppliers of fixed assets, amounts unpaid on securities, other) in the prescribed table with year, prior year, variation and impairment, and states the dates and nature of the assets bought or sold. (Note 5)",
       "fr": "N-5 — La Note 5 présente l'actif circulant HAO (créances sur cessions d'immobilisations, autres) et les dettes circulantes HAO (fournisseurs d'investissements, versements restant à effectuer sur titres, autres) dans le tableau prescrit avec exercice, exercice précédent, variation et dépréciations, et indique les dates et la nature des biens acquis ou cédés. (Note 5)",
       "na": true
      },
      {
       "key": "ohada_N_6",
-      "en": "N-6 — Note 6 presents stocks and work in progress [stocks et en-cours] in the prescribed table by category, including goods in transit, on consignment and in deposit, with impairment; HAO stocks are shown on line BA only when they exceed 5 per cent of current assets. (Note 6 ; Art. 44)",
+      "en": "N-6 — Note 6 presents stocks and work in progress [stocks et en-cours] in the prescribed table by category, including goods in transit, on consignment and in deposit, with impairment; stocks outside ordinary activities are shown on line BA only when they exceed 5 per cent of current assets. (Note 6 ; Art. 44)",
       "fr": "N-6 — La Note 6 présente les stocks et en-cours dans le tableau prescrit par catégorie, y compris les biens en route, en consignation et en dépôt, avec les dépréciations ; les stocks HAO ne figurent au poste BA que s'ils dépassent 5 % de l'actif circulant. (Note 6 ; Art. 44)",
       "na": true
      },
      {
       "key": "ohada_N_6_2",
-      "en": "N-6.2 — Note 6's commentary states the physical inventory date and procedure, the valuation methods applied (FIFO or weighted average cost, and any cost technique such as standard cost), and details the impaired stock and the reasons for the impairment. (Note 6 ; Art. 44)",
+      "en": "N-6.2 — Note 6's commentary states the physical inventory date and procedure, the valuation methods applied (first in, first out or weighted average cost, and any cost technique such as standard cost), and details the impaired stock and the reasons for the impairment. (Note 6 ; Art. 44)",
       "fr": "N-6.2 — Le commentaire de la Note 6 indique la date et la procédure de l'inventaire physique, les méthodes de valorisation appliquées (PEPS ou coût moyen pondéré, et toute technique de coût telle que le coût standard), et détaille les stocks dépréciés et les motifs de la dépréciation. (Note 6 ; Art. 44)",
       "na": true
      },
@@ -868,7 +868,7 @@
      },
      {
       "key": "ohada_N_16C",
-      "en": "N-16C — Note 16C presents contingent assets and liabilities [actifs et passifs éventuels] in the prescribed table (litigation and other, year and prior year) and describes their main characteristics, the expected timing of the inflows or outflows and any reimbursement expected; a contingent liability whose outflow is remote need not be disclosed. (Note 16C ; PCGO ch. 30)",
+      "en": "N-16C — Note 16C presents contingent assets and liabilities [actifs et passifs éventuels] in the prescribed table (litigation and other, year and prior year) and describes their main characteristics, the expected timing of the inflows or outflows and any reimbursement expected; a contingent liability whose outflow is remote need not be disclosed. (Note 16C ; OHADA chart of accounts ch. 30)",
       "fr": "N-16C — La Note 16C présente les actifs et passifs éventuels dans le tableau prescrit (litiges et autres, exercice et exercice précédent) et décrit leurs principales caractéristiques, l'horizon auquel les encaissements ou décaissements sont attendus et les éventuels remboursements à percevoir ; un passif éventuel dont la sortie de ressources est improbable n'a pas à être mentionné. (Note 16C ; PCGO ch. 30)",
       "na": true
      },
@@ -954,7 +954,7 @@
      },
      {
       "key": "ohada_N_28",
-      "en": "N-28 — Note 28 presents provisions and impairment recognised in the balance sheet [provisions et dépréciations inscrites au bilan] in the prescribed movement table for each category (regulated provisions, provisions for risks and charges, impairment of fixed assets, stocks, HAO assets, suppliers, customers, other receivables, securities and the rest): opening, charges split operating / financial / HAO, reversals split the same way, closing; the commentary states the events that motivated each charge and reversal. (Note 28 ; Art. 46 ; Art. 49)",
+      "en": "N-28 — Note 28 presents provisions and impairment recognised in the balance sheet [provisions et dépréciations inscrites au bilan] in the prescribed movement table for each category (regulated provisions, provisions for risks and charges, impairment of fixed assets, stocks, assets outside ordinary activities, suppliers, customers, other receivables, securities and the rest): opening, charges split operating / financial / outside ordinary activities, reversals split the same way, closing; the commentary states the events that motivated each charge and reversal. (Note 28 ; Art. 46 ; Art. 49)",
       "fr": "N-28 — La Note 28 présente les provisions et dépréciations inscrites au Bilan dans le tableau de mouvements prescrit pour chaque catégorie (provisions réglementées, provisions pour risques et charges, dépréciations des immobilisations, des stocks, de l'actif HAO, des fournisseurs, des clients, des autres créances, des titres et autres) : ouverture, dotations ventilées exploitation / financières / HAO, reprises ventilées de même, clôture ; le commentaire expose les événements ayant motivé chaque dotation et chaque reprise. (Note 28 ; Art. 46 ; Art. 49)",
       "na": true
      },
@@ -966,7 +966,7 @@
      },
      {
       "key": "ohada_N_30",
-      "en": "N-30 — Note 30 presents other HAO charges and income [autres charges et produits hors activités ordinaires] in the prescribed table by nature — donations, debt waivers, balancing grants, employee participation, HAO provisions and reversals — with a commentary on significant variations. (Note 30 ; Art. 31)",
+      "en": "N-30 — Note 30 presents other charges and income outside ordinary activities [autres charges et produits hors activités ordinaires] in the prescribed table by nature — donations, debt waivers, balancing grants, employee participation, provisions outside ordinary activities and reversals — with a commentary on significant variations. (Note 30 ; Art. 31)",
       "fr": "N-30 — La Note 30 présente les autres charges et produits hors activités ordinaires dans le tableau prescrit par nature — dons, abandons de créances, subventions d'équilibre, participation des travailleurs, provisions et reprises HAO — avec un commentaire sur les variations significatives. (Note 30 ; Art. 31)",
       "na": true
      }
@@ -998,13 +998,13 @@
      },
      {
       "key": "ohada_N_34",
-      "en": "N-34 — Note 34 gives the summary of key financial indicators [fiche de synthèse des principaux indicateurs financiers], expressed in thousands of francs — the only statement the PCGO expresses in thousands — with the intermediate balances, operating and global self-financing capacity, self-financing, economic and financial return, working capital, operating and HAO financing needs, net cash with its control to the balance sheet, cash variation and net financial debt. (Note 34)",
+      "en": "N-34 — Note 34 gives the summary of key financial indicators [fiche de synthèse des principaux indicateurs financiers], expressed in thousands of francs — the only statement the OHADA chart of accounts expresses in thousands — with the intermediate balances, operating and global self-financing capacity, self-financing, economic and financial return, working capital, financing needs of operations and outside ordinary activities, net cash with its control to the balance sheet, cash variation and net financial debt. (Note 34)",
       "fr": "N-34 — La Note 34 fournit la fiche de synthèse des principaux indicateurs financiers, exprimée en milliers de francs — seul état que le PCGO exprime en milliers — avec les soldes intermédiaires de gestion, la CAF d'exploitation et la CAFG, l'autofinancement, les rentabilités économique et financière, le fonds de roulement, les besoins de financement d'exploitation et HAO, la trésorerie nette avec son contrôle au Bilan, la variation de trésorerie et l'endettement financier net. (Note 34)",
       "na": true
      },
      {
       "key": "ohada_N_35",
-      "en": "N-35 — Note 35 gives the social, environmental and societal information [informations sociales, environnementales et sociétales] for entities above the headcount threshold — which the Note 35 model states as more than 250 employees and PCGO chapter 30 as more than 500, so the paper records which reading was applied — covering employment, labour relations, health and safety, training, equal treatment, environmental policy, pollution and waste, sustainable use of resources, climate change, biodiversity and societal commitments. (Note 35 ; PCGO ch. 30 §1.4.3)",
+      "en": "N-35 — Note 35 gives the social, environmental and societal information [informations sociales, environnementales et sociétales] for entities above the headcount threshold — which the Note 35 model states as more than 250 employees and OHADA chart of accounts chapter 30 as more than 500, so the paper records which reading was applied — covering employment, labour relations, health and safety, training, equal treatment, environmental policy, pollution and waste, sustainable use of resources, climate change, biodiversity and societal commitments. (Note 35 ; OHADA chart of accounts ch. 30 §1.4.3)",
       "fr": "N-35 — La Note 35 fournit les informations sociales, environnementales et sociétales pour les entités dépassant le seuil d'effectif — que le modèle de la Note 35 fixe à plus de 250 salariés et le chapitre 30 du PCGO à plus de 500, de sorte que le papier consigne la lecture retenue — couvrant l'emploi, les relations sociales, la santé et la sécurité, la formation, l'égalité de traitement, la politique environnementale, la pollution et les déchets, l'utilisation durable des ressources, le changement climatique, la biodiversité et les engagements sociétaux. (Note 35 ; PCGO ch. 30 §1.4.3)",
       "na": true
      },
@@ -1032,13 +1032,13 @@
      },
      {
       "key": "ohada_E_2",
-      "en": "E.2 — A change of accounting estimate [changement d'estimation] is applied prospectively to the current and future periods only, and its nature and effect are disclosed when significant. (PCGO Titre V §4.1.1.4)",
+      "en": "E.2 — A change of accounting estimate [changement d'estimation] is applied prospectively to the current and future periods only, and its nature and effect are disclosed when significant. (OHADA chart of accounts Titre V §4.1.1.4)",
       "fr": "E.2 — Tout changement d'estimation comptable est appliqué de manière prospective aux exercices en cours et futurs seulement, et sa nature et son incidence sont mentionnées lorsqu'elles sont significatives. (PCGO Titre V §4.1.1.4)",
       "na": true
      },
      {
       "key": "ohada_E_3",
-      "en": "E.3 — Errors [corrections d'erreurs]: an error of the current year is corrected only by negative entries of the wrong elements followed by the correct entry; a significant prior-year error is corrected through retained earnings, and any prior-year error is disclosed in the notes. (Art. 20 ; PCGO Titre V §4.1.1.4)",
+      "en": "E.3 — Errors [corrections d'erreurs]: an error of the current year is corrected only by negative entries of the wrong elements followed by the correct entry; a significant prior-year error is corrected through retained earnings, and any prior-year error is disclosed in the notes. (Art. 20 ; OHADA chart of accounts Titre V §4.1.1.4)",
       "fr": "E.3 — Corrections d'erreurs : une erreur de l'exercice en cours est corrigée exclusivement par inscription en négatif des éléments erronés puis enregistrement exact ; une erreur significative d'un exercice antérieur est corrigée par le report à nouveau, et toute erreur d'exercice antérieur est mentionnée dans les Notes annexes. (Art. 20 ; PCGO Titre V §4.1.1.4)",
       "na": true
      },
@@ -1050,25 +1050,25 @@
      },
      {
       "key": "ohada_E_5",
-      "en": "E.5 — Events after the reporting date [événements postérieurs à la clôture]: risks, charges and income known between the closing date and the date the accounts are closed are taken into account; the notes state the date of closing and the body that authorised it, and for each category of non-adjusting event its nature and financial effect or the fact that it cannot be estimated; dividends declared after closing are disclosed in the notes only. (Art. 49 ; Art. 71 ; PCGO ch. 31)",
+      "en": "E.5 — Events after the reporting date [événements postérieurs à la clôture]: risks, charges and income known between the closing date and the date the accounts are closed are taken into account; the notes state the date of closing and the body that authorised it, and for each category of non-adjusting event its nature and financial effect or the fact that it cannot be estimated; dividends declared after closing are disclosed in the notes only. (Art. 49 ; Art. 71 ; OHADA chart of accounts ch. 31)",
       "fr": "E.5 — Événements postérieurs à la clôture : les risques, charges et produits connus entre la date de clôture et celle de l'arrêté des comptes sont pris en compte ; les Notes annexes indiquent la date d'arrêté et l'organe qui l'a autorisé, et pour chaque catégorie d'événement ne donnant pas lieu à ajustement sa nature et son incidence financière ou l'impossibilité de l'estimer ; les dividendes décidés après la clôture ne sont mentionnés que dans les Notes annexes. (Art. 49 ; Art. 71 ; PCGO ch. 31)",
       "na": true
      },
      {
       "key": "ohada_E_6",
-      "en": "E.6 — Where going concern is in doubt, the notes indicate and justify the uncertainties and state the basis on which the statements were closed, and the management report addresses the prospects for continuing the activity. (Art. 39 ; Art. 71 ; PCGO Titre IX §2.1)",
+      "en": "E.6 — Where going concern is in doubt, the notes indicate and justify the uncertainties and state the basis on which the statements were closed, and the management report addresses the prospects for continuing the activity. (Art. 39 ; Art. 71 ; OHADA chart of accounts Titre IX §2.1)",
       "fr": "E.6 — Lorsque la continuité d'exploitation est compromise, les Notes annexes indiquent et justifient les incertitudes et précisent la base sur laquelle les états financiers ont été arrêtés, et le rapport de gestion traite des perspectives de continuation de l'activité. (Art. 39 ; Art. 71 ; PCGO Titre IX §2.1)",
       "na": true
      },
      {
       "key": "ohada_E_7",
-      "en": "E.7 — Related-party transactions [transactions entre parties liées] are disclosed: designation of the related party, nature of the asset or service, amount of the transaction and any other information needed to assess the entity's financial position. (PCGO ch. 30 §1.4.2)",
+      "en": "E.7 — Related-party transactions [transactions entre parties liées] are disclosed: designation of the related party, nature of the asset or service, amount of the transaction and any other information needed to assess the entity's financial position. (OHADA chart of accounts ch. 30 §1.4.2)",
       "fr": "E.7 — Les transactions entre parties liées sont mentionnées : désignation de la partie liée, nature du bien ou du service, montant de la transaction et toute autre information nécessaire à l'appréciation de la situation financière de l'entité. (PCGO ch. 30 §1.4.2)",
       "na": true
      },
      {
       "key": "ohada_E_8",
-      "en": "E.8 — Off-balance-sheet commitments given and received [engagements donnés et reçus] are tracked by the entity within its accounting organisation and, when significant, disclosed in the notes (Note 1 table), valued at the contract amount or the residual amount, or described in words where they cannot be quantified. (Art. 33 ; PCGO ch. 30 §1.3–1.4)",
+      "en": "E.8 — Off-balance-sheet commitments given and received [engagements donnés et reçus] are tracked by the entity within its accounting organisation and, when significant, disclosed in the notes (Note 1 table), valued at the contract amount or the residual amount, or described in words where they cannot be quantified. (Art. 33 ; OHADA chart of accounts ch. 30 §1.3–1.4)",
       "fr": "E.8 — Les engagements donnés et reçus hors bilan sont suivis par l'entité dans le cadre de son organisation comptable et, lorsqu'ils sont significatifs, mentionnés dans les Notes annexes (tableau de la Note 1), évalués au montant du contrat ou au montant résiduel, ou décrits lorsqu'ils ne peuvent être chiffrés. (Art. 33 ; PCGO ch. 30 §1.3–1.4)",
       "na": true
      },
@@ -1126,19 +1126,19 @@
      },
      {
       "key": "ohada_F_2",
-      "en": "F.2 — The closing date [date d'arrêté] is within four months of the year-end and is stated on every transmission of the statements; on sheet R1 it appears as the effective closing date (ZB) beside the period (ZA) and the prior period (ZC). (Art. 23 ; PCGO Fiche R1)",
+      "en": "F.2 — The closing date [date d'arrêté] is within four months of the year-end and is stated on every transmission of the statements; on sheet R1 it appears as the effective closing date (ZB) beside the period (ZA) and the prior period (ZC). (Art. 23 ; OHADA chart of accounts Fiche R1)",
       "fr": "F.2 — La date d'arrêté se situe dans les quatre mois de la clôture et est mentionnée dans toute transmission des états financiers ; sur la fiche R1 elle figure comme date d'arrêté effectif des comptes (ZB) à côté de l'exercice (ZA) et de l'exercice précédent (ZC). (Art. 23 ; PCGO Fiche R1)",
       "na": true
      },
      {
       "key": "ohada_F_3",
-      "en": "F.3 — Sheet R1 identifies the professional who prepared the statements — the entity's salaried professional, or the name, address and telephone of the firm or professional registered with the national institute of chartered accountants [Ordre national des experts-comptables et des comptables agréés] — and bears the visa of the expert-comptable or comptable agréé. (PCGO Fiche R1)",
+      "en": "F.3 — Sheet R1 identifies the professional who prepared the statements — the entity's salaried professional, or the name, address and telephone of the firm or professional registered with the national institute of chartered accountants [Ordre national des experts-comptables et des comptables agréés] — and bears the visa of the expert-comptable or comptable agréé. (OHADA chart of accounts Fiche R1)",
       "fr": "F.3 — La fiche R1 identifie le professionnel ayant établi les états financiers — le professionnel salarié de l'entité, ou le nom, l'adresse et le téléphone du cabinet ou du professionnel inscrit à l'Ordre national des experts-comptables et des comptables agréés — et porte le visa de l'expert-comptable ou du comptable agréé. (PCGO Fiche R1)",
       "na": true
      },
      {
       "key": "ohada_F_4",
-      "en": "F.4 — Sheet R1 records whether the statements have been approved by the general meeting [états financiers approuvés par l'assemblée générale], and the approval falls within six months of the year-end. (PCGO Fiche R1 ; Art. 72)",
+      "en": "F.4 — Sheet R1 records whether the statements have been approved by the general meeting [états financiers approuvés par l'assemblée générale], and the approval falls within six months of the year-end. (OHADA chart of accounts Fiche R1 ; Art. 72)",
       "fr": "F.4 — La fiche R1 indique si les états financiers ont été approuvés par l'assemblée générale, et l'approbation intervient dans les six mois de la clôture. (PCGO Fiche R1 ; Art. 72)",
       "na": true
      },
@@ -1150,7 +1150,7 @@
      },
      {
       "key": "ohada_F_6",
-      "en": "F.6 — The presentation and publication of the statements are accompanied by the verification opinion of an independent professional. (PCGO Titre IX §2.4)",
+      "en": "F.6 — The presentation and publication of the statements are accompanied by the verification opinion of an independent professional. (OHADA chart of accounts Titre IX §2.4)",
       "fr": "F.6 — La présentation et la publication des états financiers sont accompagnées de l'opinion de vérification d'un professionnel indépendant. (PCGO Titre IX §2.4)",
       "na": true
      },
@@ -1186,7 +1186,7 @@
      },
      {
       "key": "tft_tied",
-      "en": "The cash flow statement (TFT) of the definitive statements is the version tied and recomputed on E4.36.",
+      "en": "The cash flow statement of the definitive statements is the version tied and recomputed on E4.36.",
       "fr": "Le tableau des flux de trésorerie (TFT) des états définitifs est la version rapprochée et recalculée en E4.36.",
       "tasks": [
        "tft"

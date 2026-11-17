@@ -3,7 +3,7 @@
  "source": "lib/papers/itgc.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶26 · ISA 330 ¶13(c), ¶14(b)",
-  "ownsEn": "the ITGC testing over the IT processes supporting the audit-relevant applications — scope, walkthroughs, tests, the deficiency diagnostic, and the per-domain and IT-process conclusions",
+  "ownsEn": "the IT general control testing over the IT processes supporting the audit-relevant applications — scope, walkthroughs, tests, the deficiency diagnostic, and the per-domain and IT-process conclusions",
   "ownsFr": "les tests des contrôles informatiques généraux sur les processus informatiques des applications pertinentes pour l'audit — périmètre, tests de cheminement, tests, diagnostic des déficiences, conclusions par domaine et sur le processus informatique",
   "tools": [
    {
@@ -15,7 +15,7 @@
    },
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Classes of transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes, flows, controls and walkthroughs",
     "noteFr": "Flux, risques, contrôles et tests de cheminement"
@@ -37,12 +37,12 @@
   ],
   "reqEn": [
    "General IT controls are the controls over the entity's IT processes that support the continued proper operation of the IT environment, including the continued effective functioning of the information processing controls, and the protection of the completeness, accuracy and validity of the information held in the entity's information system.",
-   "All ITGC work answers two generic IT risks: the data is not processed correctly by the IT application, and the data is not the right data. A control is tested here because it addresses one of the two, and the conclusion on it is expressed against them.",
+   "All IT general control work answers two generic IT risks: the data is not processed correctly by the IT application, and the data is not the right data. A control is tested here because it addresses one of the two, and the conclusion on it is expressed against them.",
    "Four IT process domains are covered — Changes, Access (Accès), IT Operations and Support. Each concludes on its own as Effective, Reliable or Ineffective. The IT process then concludes to Support IT, and the strategy for the controls that depend on it is to rely on them, or to Not support IT, and it is not.",
-   "An ineffective ITGC does not necessarily make the IT process ineffective. The two conclusions are reached separately, on the diagnostic performed for each deficiency across its three axes — nature, timing and extent.",
-   "Where the ITGCs are not effective, three routes are open: a compensating control at IT-process level; a compensating control inside the SCOT; or substantive procedures inside the SCOT, including direct testing of the application controls, the IT-dependent manual controls and the IPEs the application supports. The objective of an IT-substantive procedure is to establish that the facts which could result from the uncovered IT risk did not occur.",
+   "An ineffective IT general control does not necessarily make the IT process ineffective. The two conclusions are reached separately, on the diagnostic performed for each deficiency across its three axes — nature, timing and extent.",
+   "Where the IT general controls are not effective, three routes are open: a compensating control at IT-process level; a compensating control inside the class of transactions; or substantive procedures inside the class of transactions, including direct testing of the application controls, the IT-dependent manual controls and the information produced by the entity the application supports. The objective of an IT-substantive procedure is to establish that the facts which could result from the uncovered IT risk did not occur.",
    "Where processing is highly automated with little or no manual intervention, and financial information is initiated, recorded, processed or reported electronically in an integrated system, substantive procedures alone are not sufficient: those controls are both evaluated and tested.",
-   "The reliability of an IPE is its completeness and its accuracy together. The accuracy sample is 25 items, reduced to 10 when the eight criteria are met, and extended to 60 where the circumstances require it.",
+   "The reliability of information produced by the entity is its completeness and its accuracy together. The accuracy sample is 25 items, reduced to 10 when the eight criteria are met, and extended to 60 where the circumstances require it.",
    "Where nothing relevant has changed, a control relied on is tested at least once every three audits and some controls are tested every audit; a control relied on in a significant-risk area is tested in the current period (ISA 330 ¶14(b))."
   ],
   "reqFr": [
@@ -102,9 +102,9 @@
      },
      {
       "key": "di",
-      "en": "Where a relevant control — one responding to a significant risk, or to the risks over the recording of journal entries — has an automated part that depends on an application, additionally test that the ITGCs over that application's IT processes are designed and implemented, against the two generic IT risks.",
+      "en": "Where a relevant control — one responding to a significant risk, or to the risks over the recording of journal entries — has an automated part that depends on an application, additionally test that the IT general controls over that application's IT processes are designed and implemented, against the two generic IT risks.",
       "fr": "Lorsqu'un contrôle pertinent — répondant à un risque important ou aux risques liés à l'enregistrement des écritures comptables — comporte une partie automatisée dépendant d'une application, tester en outre que les ITGC des processus informatiques de cette application sont correctement conçus et mis en œuvre, au regard des deux risques génériques.",
-      "shortEn": "ITGCs over automated parts of relevant controls",
+      "shortEn": "IT general controls over relevant controls",
       "shortFr": "ITGC des parties automatisées des contrôles pertinents",
       "isa": "ISA 315 ¶26(c)",
       "tipsEn": [
@@ -115,15 +115,15 @@
        "Partir des contrôles automatisés et dépendants de l'informatique retenus en S2.2.",
        "Conception et mise en œuvre seulement ; les tests de fonctionnement suivent."
       ],
-      "stdEn": "Design and implementation of the supporting ITGCs evaluated; no exceptions noted.",
+      "stdEn": "Design and implementation of the supporting IT general controls evaluated; no exceptions noted.",
       "stdFr": "Conception et mise en œuvre des ITGC concernés évaluées ; aucune exception relevée.",
       "sourceHint": "Linked task S2.2"
      },
      {
       "key": "walkthrough",
-      "en": "Walk each ITGC through and identify its attributes: who performs it, when, on what, how, with what, and why.",
+      "en": "Walk each IT general control through and identify its attributes: who performs it, when, on what, how, with what, and why.",
       "fr": "Dérouler chaque ITGC en test de cheminement et en identifier les attributs : qui l'exécute, quand, sur quoi, comment, avec quel outil et pourquoi.",
-      "shortEn": "ITGC walkthroughs",
+      "shortEn": "IT general control walkthroughs",
       "shortFr": "Tests de cheminement des ITGC",
       "isa": "ISA 315 ¶26(d)",
       "tipsEn": [
@@ -134,28 +134,28 @@
        "Consigner qui, quand, sur quoi, comment et avec quelle preuve.",
        "Conserver les captures d'écran ou journaux consultés."
       ],
-      "stdEn": "Each ITGC walked through and its attributes recorded; no exceptions noted.",
+      "stdEn": "Each IT general control walked through and its attributes recorded; no exceptions noted.",
       "stdFr": "Chaque ITGC déroulé en test de cheminement et ses attributs consignés ; aucune exception relevée.",
       "sourceHint": "Walkthrough notes"
      },
      {
       "key": "extent",
-      "en": "Determine the nature, the timing — the period the test covers, including the update test between the interim and the year end — and the extent of the ITGC testing according to the nature of the control: a test of one, or a wider test where the number of occurrences of the control is high.",
+      "en": "Determine the nature, the timing — the period the test covers, including the update test between the interim and the year end — and the extent of the IT general control testing according to the nature of the control: a test of one, or a wider test where the number of occurrences of the control is high.",
       "fr": "Déterminer la nature, le calendrier — la période couverte par le test, y compris le test de mise à jour entre l'intérim et la clôture — et l'étendue des tests ITGC selon la nature du contrôle : test unique, ou test élargi lorsque le nombre d'occurrences du contrôle est élevé.",
       "shortEn": "Nature, timing and extent of the tests",
       "shortFr": "Nature, calendrier et étendue des tests",
       "isa": "ISA 330 ¶8, ¶12",
       "tipsEn": [
-       "An automated control with effective ITGCs needs a test of one.",
+       "An automated control with effective IT general controls needs a test of one.",
        "Cover the period from the interim to the year end (E2.1)."
       ],
       "tipsFr": [
        "Un contrôle automatisé avec des ITGC efficaces : un test unique suffit.",
        "Couvrir la période de l'intérim à la clôture (E2.1)."
       ],
-      "stdEn": "Nature, timing and extent set for each ITGC; no exceptions noted.",
+      "stdEn": "Nature, timing and extent set for each IT general control; no exceptions noted.",
       "stdFr": "Nature, calendrier et étendue arrêtés pour chaque ITGC ; aucune exception relevée.",
-      "sourceHint": "ITGC test plan"
+      "sourceHint": "IT general control test plan"
      },
      {
       "key": "population",
@@ -178,9 +178,9 @@
      },
      {
       "key": "test",
-      "en": "Test the control attributes, analyse each exception — its nature, systematic or exceptional, and its origin — and conclude on the effect for the evaluation of the IT control, or of the IPE it supports.",
+      "en": "Test the control attributes, analyse each exception — its nature, systematic or exceptional, and its origin — and conclude on the effect for the evaluation of the IT control, or of the information produced by the entity it supports.",
       "fr": "Tester les attributs du contrôle, analyser chaque exception — sa nature, systématique ou exceptionnelle, et son origine — et conclure sur l'incidence pour l'évaluation du contrôle informatique ou de l'IPE qu'il supporte.",
-      "shortEn": "Tests of the ITGCs and exceptions",
+      "shortEn": "Tests of the IT general controls and exceptions",
       "shortFr": "Tests des ITGC et exceptions",
       "isa": "ISA 330 ¶10, ¶16–17",
       "tipsEn": [
@@ -191,13 +191,13 @@
        "Pour chaque exception : systématique ou ponctuelle, et pourquoi.",
        "Indiquer l'incidence sur les contrôles et états qui en dépendent."
       ],
-      "stdEn": "ITGCs tested; no exception found.",
+      "stdEn": "IT general controls tested; no exception found.",
       "stdFr": "ITGC testés ; aucune exception relevée.",
-      "sourceHint": "ITGC test grid"
+      "sourceHint": "IT general control test grid"
      },
      {
       "key": "service_org",
-      "en": "For the service organisations in the IT environment, document the nature and materiality of the services, the contractual relationship and the degree of interaction. Where the audit relies on them, obtain a SOC or ISAE 3402 type 1 or type 2 report and validate the issuing firm's competence, the framework used and the scope covered — the right IT environment and the right databases — and ask management whether the service organisation has reported any fraud, non-compliance or uncorrected error.",
+      "en": "For the service organisations in the IT environment, document the nature and materiality of the services, the contractual relationship and the degree of interaction. Where the audit relies on them, obtain an ISAE 3402 type 1 or type 2 report, or an equivalent assurance report and validate the issuing firm's competence, the framework used and the scope covered — the right IT environment and the right databases — and ask management whether the service organisation has reported any fraud, non-compliance or uncorrected error.",
       "fr": "Pour les prestataires de services intervenant dans l'environnement informatique, documenter la nature et l'importance des services, la relation contractuelle et le degré d'interaction. Lorsque l'audit s'appuie sur eux, obtenir un rapport SOC ou ISAE 3402 de type 1 ou 2 et valider la compétence du cabinet émetteur, le référentiel utilisé et le périmètre couvert — le bon environnement informatique et les bonnes bases de données — et demander à la direction si le prestataire a signalé une fraude, une non-conformité ou une erreur non corrigée.",
       "shortEn": "Service organisations",
       "shortFr": "Prestataires de services",
@@ -216,7 +216,7 @@
      },
      {
       "key": "deficiency",
-      "en": "For each ITGC deficiency, perform the diagnostic on its three axes — nature, timing and extent — then take one of the three routes: a compensating control at IT-process level, a compensating control inside the class of transactions, or substantive procedures including direct testing of the application controls, the IT-dependent manual controls and the information produced by the entity that it supports. Assess the residual risk, record the effect on the control risk assessment, and record the deficiency in the summary of control deficiencies.",
+      "en": "For each IT general control deficiency, perform the diagnostic on its three axes — nature, timing and extent — then take one of the three routes: a compensating control at IT-process level, a compensating control inside the class of transactions, or substantive procedures including direct testing of the application controls, the IT-dependent manual controls and the information produced by the entity that it supports. Assess the residual risk, record the effect on the control risk assessment, and record the deficiency in the summary of control deficiencies.",
       "fr": "Pour chaque déficience ITGC, poser le diagnostic sur ses trois axes — nature, calendrier et étendue — puis retenir l'une des trois voies : un contrôle compensatoire au niveau du processus informatique, un contrôle compensatoire au sein du flux, ou des procédures de substance incluant le test direct des contrôles applicatifs, des contrôles manuels dépendants de l'informatique et des informations produites par l'entité qu'il supporte. Apprécier le risque résiduel, consigner l'incidence sur l'évaluation du risque lié au contrôle et porter la déficience au récapitulatif des déficiences de contrôle.",
       "shortEn": "Deficiencies and response",
       "shortFr": "Déficiences et réponse",
@@ -229,7 +229,7 @@
        "Choisir : contrôle informatique compensatoire, contrôle compensatoire dans le flux, ou travaux de substance.",
        "Consigner chaque déficience dans l'outil des déficiences de contrôle."
       ],
-      "stdEn": "No ITGC deficiency identified.",
+      "stdEn": "No IT general control deficiency identified.",
       "stdFr": "Aucune déficience ITGC relevée.",
       "sourceHint": "Control deficiencies",
       "fieldKeys": [
@@ -254,7 +254,7 @@
      },
      {
       "key": "domains",
-      "en": "An ITGC covering each of Changes, Access, IT Operations and Support has been identified, walked through and concluded on for each relevant application.",
+      "en": "An IT general control covering each of Changes, Access, IT Operations and Support has been identified, walked through and concluded on for each relevant application.",
       "fr": "Un ITGC couvrant chacun des domaines Changements, Accès, Exploitation et Support a été identifié, déroulé en test de cheminement et conclu pour chaque application pertinente.",
       "tasks": [
        "adequacy",
@@ -264,7 +264,7 @@
      },
      {
       "key": "di",
-      "en": "The ITGCs supporting the automated part of each relevant control are designed effectively and implemented.",
+      "en": "The IT general controls supporting the automated part of each relevant control are designed effectively and implemented.",
       "fr": "Les ITGC supportant la partie automatisée de chaque contrôle pertinent sont efficacement conçus et mis en œuvre.",
       "na": true,
       "tasks": [
@@ -273,7 +273,7 @@
      },
      {
       "key": "population",
-      "en": "The population used for the ITGC testing was extracted from the system and confirmed complete and appropriate before any selection was made.",
+      "en": "The population used for the IT general control testing was extracted from the system and confirmed complete and appropriate before any selection was made.",
       "fr": "La population utilisée pour les tests ITGC a été extraite du système et confirmée complète et appropriée avant toute sélection.",
       "tasks": [
        "population"
@@ -290,7 +290,7 @@
      },
      {
       "key": "service_org",
-      "en": "For each service organisation relied on, a SOC or ISAE 3402 report covering the right environment and the audit period was obtained and its scope validated.",
+      "en": "For each service organisation relied on, an ISAE 3402 or equivalent assurance report covering the right environment and the audit period was obtained and its scope validated.",
       "fr": "Pour chaque prestataire de services sur lequel l'audit s'appuie, un rapport SOC ou ISAE 3402 couvrant le bon environnement et la période auditée a été obtenu et son périmètre validé.",
       "na": true,
       "tasks": [
@@ -299,7 +299,7 @@
      },
      {
       "key": "response",
-      "en": "Where the ITGCs are ineffective, a compensating control or an IT-substantive procedure has been identified and performed, and the residual risk assessed.",
+      "en": "Where the IT general controls are ineffective, a compensating control or an IT-substantive procedure has been identified and performed, and the residual risk assessed.",
       "fr": "Lorsque les ITGC sont inefficaces, un contrôle compensatoire ou une procédure de substance informatique a été identifié et mis en œuvre, et le risque résiduel apprécié.",
       "na": true,
       "tasks": [
@@ -442,7 +442,7 @@
      {
       "key": "dependencies",
       "kind": "input",
-      "labelEn": "The IT dependencies this conclusion carries — application controls, IT-dependent manual controls and IPEs — and the SCOTs affected",
+      "labelEn": "The IT dependencies this conclusion carries — application controls, IT-dependent manual controls and information produced by the entity — and the classes of transactions affected",
       "labelFr": "Les dépendances informatiques portées par cette conclusion — contrôles applicatifs, contrôles manuels dépendants de l'informatique et IPE — et les SCOT concernés"
      },
      {
@@ -486,7 +486,7 @@
    "E2.1"
   ],
   "toolCard": "itgc",
-  "conclStdEn": "The IT processes supporting the relevant applications address the two generic IT risks; the ITGCs tested operated effectively throughout the period and support the planned reliance.",
+  "conclStdEn": "The IT processes supporting the relevant applications address the two generic IT risks; the IT general controls tested operated effectively throughout the period and support the planned reliance.",
   "conclStdFr": "Les processus informatiques des applications pertinentes répondent aux deux risques informatiques génériques ; les ITGC testés ont fonctionné efficacement sur toute la période et permettent l'appui prévu."
  }
 }

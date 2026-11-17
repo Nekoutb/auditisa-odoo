@@ -7,7 +7,7 @@
   "ownsFr": "la mise à jour post-intérim : preuve sur les contrôles étendue de l'intérim à la clôture",
   "reqEn": [
    "When operating effectiveness was tested at an interim date, we obtain evidence about the remaining period: what changed in the controls since the interim, and whether the interim conclusion can be rolled forward (ISA 330 ¶12). Significant changes to a control, its performer, or its application reset the test.",
-   "For ITGCs the same logic applies at the level of change management, access and operations: a period-end reliance on an automated control assumes the application did not change uncontrolled after the interim ITGC work (E1.1)."
+   "For IT general controls the same logic applies at the level of change management, access and operations: a period-end reliance on an automated control assumes the application did not change uncontrolled after the interim IT general control work (E1.1)."
   ],
   "reqFr": [
    "Lorsque l'efficacité a été testée à une date intérimaire, nous obtenons des éléments sur la période restante : ce qui a changé depuis l'intérim et si la conclusion intérimaire peut être prolongée (ISA 330 ¶12). Un changement significatif du contrôle, de son exécutant ou de son application remet le test à zéro.",
@@ -74,13 +74,13 @@
       ],
       "stdEn": "Roll-forward tests performed; no exceptions noted.",
       "stdFr": "Tests de mise à jour réalisés ; aucune exception relevée.",
-      "sourceHint": "SCOTs and controls"
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "itgc",
-      "en": "Roll forward the ITGC conclusions: review the change-management and access logs for the remaining period for the in-scope applications.",
+      "en": "Roll forward the IT general control conclusions: review the change-management and access logs for the remaining period for the in-scope applications.",
       "fr": "Prolonger les conclusions ITGC : revue des journaux de changements et d'accès de la période restante pour les applications du périmètre.",
-      "shortEn": "ITGCs over the remaining period",
+      "shortEn": "IT general controls over the remaining period",
       "shortFr": "ITGC sur la période restante",
       "isa": "ISA 315 ¶26 · ISA 330 ¶12",
       "tipsEn": [
@@ -110,7 +110,7 @@
       ],
       "stdEn": "Controls effective for the whole period.",
       "stdFr": "Contrôles efficaces sur toute la période.",
-      "sourceHint": "SCOTs and controls"
+      "sourceHint": "Classes of transactions and controls"
      }
     ]
    },
@@ -139,7 +139,7 @@
      },
      {
       "key": "itgc_rf",
-      "en": "ITGC conclusions cover the full period for every in-scope application.",
+      "en": "IT general control conclusions cover the full period for every in-scope application.",
       "fr": "Les conclusions ITGC couvrent toute la période pour chaque application du périmètre.",
       "tasks": [
        "itgc"
@@ -166,7 +166,7 @@
   "tools": [
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Classes of transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Populations, samples, test grids and conclusions",
     "noteFr": "Populations, échantillons, grilles de test et conclusions"
