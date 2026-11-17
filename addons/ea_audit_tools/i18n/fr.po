@@ -16279,6 +16279,8 @@ msgstr "La personne qui a préparé un ajustement ne peut pas le valider. Modifi
 msgid "1. Finding"
 msgstr "1. Constat"
 
+#. module: ea_audit_tools
+#. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 msgid "Map the account column of the register to compare account by account."
 msgstr "Associez la colonne de compte du fichier des immobilisations pour comparer compte par compte."
