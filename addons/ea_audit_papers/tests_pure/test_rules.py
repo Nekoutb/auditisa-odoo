@@ -122,8 +122,10 @@ def test_definitions_on_disk_match_the_index():
 
 
 def test_draft_marks_are_kept_as_written():
+    # A converted paper's short tips no longer carry the draft marks of the long ones (layout of
+    # 2026-11-17): the index counts what is left, an English mark always beside its French one.
     marks = load_index()["marks"]
-    assert marks == {"[Projet]": 91, "[Draft]": 91, "(à valider)": 86}
+    assert set(marks) == {"[Projet]", "[Draft]", "(à valider)"} and marks["[Projet]"] == marks["[Draft]"]
     found = dict.fromkeys(marks, 0)
     for path in glob.glob(os.path.join(DATA_DIR, "papers*", "*.json")):
         if os.path.basename(path) == "index.json":

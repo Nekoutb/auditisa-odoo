@@ -161,6 +161,8 @@ export const LABELS = {
     summaryHint: _t("What was done, with whom, the documents seen and the result"),
     noTasks: _t("No task on this paper."),
     doneInTool: _t("Done in the tool"),
+    checklistAnswered: _t("answered"),
+    checklistNo: _t("with a \"No\""),
     toolPending: _t("Not done in the tool yet: document the work here, or complete it in the tool."),
     tip: _t("Tip"),
     noExceptions: _t("No exceptions noted"),

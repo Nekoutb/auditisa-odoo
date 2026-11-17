@@ -33,14 +33,15 @@ def test_the_page_has_no_tabs_and_names_a_block_by_its_full_title():
     assert "short: title, title," in script
 
 
-def test_e6_10_checklist_tabs_read_apart():
+def test_e6_10_checklist_groups_read_apart():
+    # E6.10's checklist is a set of folding groups inside its task (layout of 2026-11-17): each group
+    # is named by its own letter, in both languages.
     definition = json.loads((ADDON / "data/papers/E6.10.json").read_text(encoding="utf-8"))["definition"]
-    assert labels(definition, "titleEn")[-6:] == [
-        "G Checklist A", "G Checklist B", "G Checklist C", "G Checklist D", "G Checklist E", "G Checklist F",
-    ]
-    assert labels(definition, "titleFr")[-6:] == [
-        "G Questionnaire A", "G Questionnaire B", "G Questionnaire C", "G Questionnaire D", "G Questionnaire E", "G Questionnaire F",
-    ]
+    groups = [section for section in definition["sections"] if section.get("task") == "checklist"]
+    for key, word in (("titleEn", "Checklist"), ("titleFr", "Questionnaire")):
+        names = [section[key].split(" — ")[0] for section in groups]
+        assert all(name.startswith(word + " ") for name in names)
+        assert len(names) == len(set(names)) == 12
 
 
 def test_no_paper_repeats_a_tab():

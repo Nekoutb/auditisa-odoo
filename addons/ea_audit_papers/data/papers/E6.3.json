@@ -15,180 +15,404 @@
    "Lorsque des événements ou conditions peuvent jeter un doute important, nous obtenons des éléments suffisants pour déterminer s'il existe une incertitude significative, y compris la faisabilité des plans de la direction ({{ISA570.plans}}).",
    "Des événements ou conditions identifiés sans incertitude significative — le « cas limite » — appellent encore un jugement sur l'information fournie : les états financiers doivent décrire de façon appropriée ces événements ou conditions, l'appréciation de la direction et ses plans, et les jugements importants exercés ({{ISA570.closeCall}}). Les événements ou conditions identifiés, qu'ils constituent ou non une incertitude significative, sont communiqués à la gouvernance (¶25) — en C5.11."
   ],
-  "conclEn": [
-   "The use of the going concern basis of accounting is appropriate.",
-   "The effect of our conclusion on the auditor's report — the “Material uncertainty related to going concern” section ({{ISA570.muSection}}) or a modified opinion (¶23) — has been determined and recorded in C5.1."
-  ],
-  "conclFr": [
-   "L'application du principe de continuité d'exploitation est appropriée.",
-   "L'effet de notre conclusion sur le rapport — section « Incertitude significative liée à la continuité d'exploitation » ({{ISA570.muSection}}) ou opinion modifiée (¶23) — a été déterminé et consigné en C5.1."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "carry",
       "en": "Bring forward the events and conditions identified in S4.2 and confirm the position on each.",
       "fr": "Reprendre les événements et conditions identifiés en S4.2 et confirmer leur situation.",
-      "srcEn": "S4.2 · inquiry of management",
-      "srcFr": "S4.2 · entretien avec la direction",
-      "tipEn": "[Draft] Open S4.2 beside this paper and take each indicator one by one — equity against half the capital, arrears, facilities maturing, the lost customer — and write what became of it at the year end: resolved, unchanged, worse. Add anything new since planning. The carry-forward is the frame of the whole evaluation; an indicator dropped silently is the finding a reviewer looks for.",
-      "tipFr": "[Projet] Ouvrir S4.2 à côté de cette feuille et reprendre chaque indicateur un par un — capitaux propres contre la moitié du capital, arriérés, concours arrivant à échéance, client perdu — en écrivant ce qu'il est devenu à la clôture : résolu, inchangé, aggravé. Ajouter tout élément nouveau depuis la planification, en interrogeant la direction sur les faits survenus pendant l'exercice. Ce report cadre toute l'appréciation ; un indicateur abandonné sans explication est précisément ce qu'un réviseur cherchera."
+      "shortEn": "Events and conditions from S4.2",
+      "shortFr": "Événements et conditions issus de S4.2",
+      "isa": "{{ISA570.riskAssessment}}",
+      "tipsEn": [
+       "Start from the indicators recorded in S4.2.",
+       "Update each one to the date of this work."
+      ],
+      "tipsFr": [
+       "Partir des indicateurs consignés en S4.2.",
+       "Mettre chacun à jour à la date de ces travaux."
+      ],
+      "stdEn": "Position on each event or condition updated; no new indicator.",
+      "stdFr": "Situation de chaque événement ou condition mise à jour ; aucun nouvel indicateur.",
+      "sourceHint": "Linked task S4.2"
+     },
+     {
+      "key": "capital",
+      "shortEn": "Equity and half of the share capital",
+      "shortFr": "Capitaux propres et moitié du capital social",
+      "isa": "OHADA art. 664 / 371",
+      "tipsEn": [
+       "Take equity from the audited trial balance, result included.",
+       "Take the capital from the client record, or account 101 by default."
+      ],
+      "tipsFr": [
+       "Prendre les capitaux propres dans la balance auditée, résultat compris.",
+       "Prendre le capital sur la fiche client, ou à défaut au compte 101."
+      ],
+      "stdEn": "Equity is above half of the share capital.",
+      "stdFr": "Les capitaux propres sont supérieurs à la moitié du capital social.",
+      "sourceHint": "Pre-filled from the trial balance",
+      "en": "Compare equity, the result of the year included, with half of the share capital, and establish whether the threshold was already crossed at the prior year end and what was decided then.",
+      "fr": "Comparer les capitaux propres, résultat de l'exercice compris, à la moitié du capital social, et établir si le seuil était déjà franchi à la clôture précédente et la décision alors prise."
+     },
+     {
+      "key": "capital_procedure",
+      "shortEn": "Loss of half of the capital: legal procedure",
+      "shortFr": "Perte de la moitié du capital : procédure légale",
+      "isa": "OHADA art. 664–665 / 371–372",
+      "tipsEn": [
+       "Obtain the minutes of the extraordinary meeting and its decision.",
+       "Check the filing and publication of the decision.",
+       "Note the deadline to restore equity."
+      ],
+      "tipsFr": [
+       "Obtenir le procès-verbal de l'assemblée extraordinaire et sa décision.",
+       "Vérifier le dépôt au RCCM et la publication de la décision.",
+       "Noter l'échéance de reconstitution des capitaux propres."
+      ],
+      "stdEn": "Equity is not below half of the share capital: no legal procedure applies.",
+      "stdFr": "Les capitaux propres ne sont pas inférieurs à la moitié du capital social : aucune procédure légale ne s'applique.",
+      "sourceHint": "Pre-filled from the trial balance",
+      "en": "Where equity is below half of the share capital, confirm the extraordinary [[lf.meeting]] was convened by the [[lf.board]] within the four months following the approval of the accounts showing the loss, obtain its decision — early dissolution or continuation — and confirm it was published and filed with the trade register; where continuation was decided, establish the regularisation deadline (the end of the second financial year after the loss) and the plan to meet it. Record the effect on our report and whether the alert procedure (C5.5) is engaged.",
+      "fr": "Lorsque les capitaux propres sont inférieurs à la moitié du capital social, vérifier la convocation de l'[[lf.meeting]] extraordinaire par l'[[lf.board]] dans les quatre mois suivant l'approbation des comptes ayant fait apparaître la perte, obtenir sa décision — dissolution anticipée ou poursuite de l'activité — et vérifier sa publication et son dépôt au RCCM ; si la poursuite a été décidée, établir l'échéance de régularisation (la clôture du deuxième exercice suivant la perte) et le plan pour la respecter. Consigner l'effet sur notre rapport et l'engagement éventuel de la procédure d'alerte (C5.5)."
      },
      {
       "key": "assessment",
       "en": "Obtain management's assessment. Confirm the period it covers extends {{ISA570.horizon}} — record the date the period is measured from and the end of the period assessed; where it falls short, request management to extend it.",
       "fr": "Obtenir l'évaluation de la direction et vérifier qu'elle couvre {{ISA570.horizon}} — consigner la date à partir de laquelle la période se mesure et la fin de la période appréciée ; si elle est insuffisante, demander à la direction de l'étendre.",
-      "srcEn": "Management's assessment · expected approval date · board approval",
-      "srcFr": "Évaluation de la direction · date d'approbation prévue · approbation du conseil",
-      "tipEn": "[Draft] Ask for the assessment in writing — a board paper, a forecast with a covering note — and record two dates: the one the twelve months run from under the engagement's standards edition, and the last month the forecast covers. A forecast that stops at the next year end is almost always too short; request the extension in writing and keep the reply. Where management has made no assessment at all, say so: the standard then requires us to discuss the need for one and to consider the effect on the report.",
-      "tipFr": "[Projet] Demander l'évaluation par écrit — une note au conseil, une prévision avec sa note de présentation — et consigner deux dates : celle à partir de laquelle les douze mois courent selon l'édition des normes de la mission, et le dernier mois couvert par la prévision. Une prévision qui s'arrête à la clôture suivante est presque toujours trop courte ; demander l'extension par écrit et conserver la réponse. Si la direction n'a fait aucune évaluation, l'écrire : la norme impose alors d'en discuter la nécessité avec elle et d'en tirer les conséquences pour le rapport."
+      "shortEn": "Management's assessment and its period",
+      "shortFr": "Appréciation de la direction et sa période",
+      "isa": "{{ISA570.period}}",
+      "tipsEn": [
+       "Record the dates the period runs from and to.",
+       "Ask management to extend an assessment that falls short."
+      ],
+      "tipsFr": [
+       "Consigner les dates de début et de fin de la période.",
+       "Demander à la direction d'étendre une appréciation trop courte."
+      ],
+      "stdEn": "Management's assessment obtained; it covers the required period.",
+      "stdFr": "Appréciation de la direction obtenue ; elle couvre la période requise.",
+      "sourceHint": "Management's assessment"
      },
      {
       "key": "forecast",
       "en": "Test the cash flow forecast underlying the assessment: the reliability of the data, the assumptions applied, and the arithmetic.",
       "fr": "Tester les prévisions de trésorerie sous-jacentes : fiabilité des données, hypothèses retenues et exactitude arithmétique.",
-      "srcEn": "Cash flow forecast · budget · management accounts",
-      "srcFr": "Prévisions de trésorerie · budget · situations intermédiaires",
-      "tipEn": "[Draft] Re-perform the arithmetic in your own spreadsheet and tie the opening cash to the last bank statement. Challenge the three or four assumptions that drive the result — sales growth, collection days, the renewal of the overdraft, payroll — against the current year's actuals and the signed contracts. Note every assumption you could not corroborate; the uncertainty of the evaluation is the sum of those.",
-      "tipFr": "[Projet] Refaire les calculs dans un tableur propre et rattacher la trésorerie d'ouverture au dernier relevé bancaire. Confronter les trois ou quatre hypothèses qui font le résultat — croissance des ventes, délai de recouvrement, renouvellement du découvert, masse salariale — aux réalisations de l'exercice et aux contrats signés. Noter chaque hypothèse qui n'a pu être corroborée ; l'incertitude de l'appréciation est la somme de celles-là."
+      "shortEn": "Cash flow forecast",
+      "shortFr": "Prévisions de trésorerie",
+      "isa": "{{ISA570.plans}}",
+      "tipsEn": [
+       "Agree opening cash to the bank statements.",
+       "Test the key assumptions against the rest of the file.",
+       "Recompute the totals."
+      ],
+      "tipsFr": [
+       "Rapprocher la trésorerie d'ouverture des relevés bancaires.",
+       "Confronter les hypothèses clés au reste du dossier.",
+       "Recalculer les totaux."
+      ],
+      "stdEn": "Forecast tested; no exceptions noted.",
+      "stdFr": "Prévisions testées ; aucune exception relevée.",
+      "sourceHint": "Cash flow forecast"
      },
      {
       "key": "history",
       "en": "Compare the prior period forecasts with what actually happened, and evaluate the reliability of management's forecasting.",
       "fr": "Comparer les prévisions de l'exercice précédent aux réalisations et apprécier la fiabilité des prévisions de la direction.",
-      "srcEn": "Prior forecasts · actual results",
-      "srcFr": "Prévisions antérieures · réalisations",
-      "tipEn": "[Draft] Take last year's forecast or budget from the prior file and set it against the trial balance of this year, line by line for revenue, margin and closing cash. A systematic optimism — sales always ten per cent short, cash always lower — is a measured bias to apply to this year's forecast, not a footnote. Where no prior forecast exists, record it and lean harder on procedure 3.",
-      "tipFr": "[Projet] Reprendre la prévision ou le budget de l'an dernier dans le dossier antérieur et le comparer à la balance de cet exercice, ligne à ligne pour le chiffre d'affaires, la marge et la trésorerie de clôture. Un optimisme systématique — ventes toujours dix pour cent en retrait, trésorerie toujours inférieure — est un biais mesuré à appliquer à la prévision de cette année, pas une note de bas de page. En l'absence de prévision antérieure, le consigner et appuyer davantage la procédure 3."
+      "shortEn": "Reliability of past forecasts",
+      "shortFr": "Fiabilité des prévisions passées",
+      "isa": "{{ISA570.plans}}",
+      "tipsEn": [
+       "Compare last year's forecast with the actual results.",
+       "Large misses reduce the weight of this year's forecast."
+      ],
+      "tipsFr": [
+       "Comparer la prévision de l'an dernier aux réalisations.",
+       "De gros écarts réduisent le crédit de la prévision de cette année."
+      ],
+      "stdEn": "Past forecasts proved reliable; no exceptions noted.",
+      "stdFr": "Les prévisions passées se sont révélées fiables ; aucune exception relevée.",
+      "sourceHint": "Prior-year forecast"
      },
      {
       "key": "facilities",
       "en": "Confirm the borrowing facilities available: the amount, the expiry, the covenants and whether they are committed.",
       "fr": "Confirmer les concours bancaires disponibles : montant, échéance, covenants et caractère confirmé.",
-      "srcEn": "Bank confirmations (E4.8) · facility letters",
-      "srcFr": "Confirmations bancaires (E4.8) · lettres d'autorisation",
-      "tipEn": "[Draft] Read the facility letters themselves, not management's summary: amount, expiry, covenants and whether the line is committed or repayable on demand. Compute the covenant headroom at the year end and at the tightest point of the forecast. A line the forecast relies on that expires within the period needs a written renewal or it is not available.",
-      "tipFr": "[Projet] Lire les lettres d'autorisation elles-mêmes, pas le résumé de la direction : montant, échéance, covenants, et caractère confirmé ou remboursable à vue — la plupart des découverts OHADA sont à vue. Calculer la marge sur chaque covenant à la clôture et au point le plus tendu de la prévision. Une ligne sur laquelle la prévision s'appuie et qui expire dans la période n'est disponible qu'avec un renouvellement écrit ; sinon la retirer de la prévision."
+      "shortEn": "Borrowing facilities",
+      "shortFr": "Concours bancaires",
+      "isa": "{{ISA570.plans}}",
+      "tipsEn": [
+       "Confirm amounts, expiry dates and covenants with the bank.",
+       "Check whether the facilities are committed in writing."
+      ],
+      "tipsFr": [
+       "Confirmer montants, échéances et engagements auprès de la banque.",
+       "Vérifier si les concours sont confirmés par écrit."
+      ],
+      "stdEn": "Facilities confirmed and sufficient; no exceptions noted.",
+      "stdFr": "Concours confirmés et suffisants ; aucune exception relevée.",
+      "sourceHint": "Bank confirmations"
      },
      {
       "key": "plans",
       "en": "Evaluate management's plans for future action, and obtain evidence that each plan is feasible and that the outcome improves the situation.",
       "fr": "Apprécier les plans d'action de la direction et obtenir les éléments attestant de leur faisabilité et de leur effet favorable.",
-      "srcEn": "Board minutes · signed agreements · shareholder support",
-      "srcFr": "Procès-verbaux · accords signés · soutien des actionnaires",
-      "tipEn": "[Draft] List each plan — disposal, capital increase, cost cuts, new contract — and, for each, the evidence that it is feasible (a signed agreement, a board resolution, a buyer identified) and the effect on cash in the forecast. An intention without a document is not a plan; a plan whose effect falls after the assessment period does not help. Record which plans the conclusion rests on.",
-      "tipFr": "[Projet] Lister chaque plan — cession, augmentation de capital, réduction des charges, nouveau contrat — et, pour chacun, la preuve de sa faisabilité (accord signé, résolution du conseil, acquéreur identifié) et son effet sur la trésorerie dans la prévision. Une intention sans document n'est pas un plan ; un plan dont l'effet tombe après la période d'appréciation n'aide pas. Consigner sur quels plans la conclusion repose."
+      "shortEn": "Management's plans",
+      "shortFr": "Plans de la direction",
+      "isa": "{{ISA570.plans}}",
+      "tipsEn": [
+       "Obtain evidence that each plan is feasible.",
+       "Check the plan actually improves the cash position."
+      ],
+      "tipsFr": [
+       "Obtenir des éléments sur la faisabilité de chaque plan.",
+       "Vérifier que le plan améliore réellement la trésorerie."
+      ],
+      "stdEn": "Management's plans evaluated and feasible; no exceptions noted.",
+      "stdFr": "Plans de la direction appréciés et réalisables ; aucune exception relevée.",
+      "sourceHint": "Board minutes and plans"
      },
      {
       "key": "support",
       "en": "Where the entity relies on support from a shareholder or a group company, obtain written confirmation of that support and evaluate the supporter's ability to provide it.",
       "fr": "Lorsque l'entité s'appuie sur le soutien d'un actionnaire ou d'une société du groupe, obtenir la confirmation écrite de ce soutien et apprécier la capacité du garant à l'apporter.",
-      "srcEn": "Letter of support · supporter's financial statements",
-      "srcFr": "Lettre de soutien · états financiers du garant",
-      "tipEn": "[Draft] Obtain the letter of support signed by somebody with authority at the supporter, covering the whole assessment period and stating the amount or the commitment not to call its loans. Then evaluate the supporter's own ability — its latest financial statements, its own going concern position, exchange-control constraints on a transfer from abroad. A letter from a parent that is itself in difficulty supports nothing.",
-      "tipFr": "[Projet] Obtenir la lettre de soutien signée par une personne habilitée chez le garant, couvrant toute la période d'appréciation et précisant le montant ou l'engagement de ne pas exiger le remboursement de ses avances. Apprécier ensuite la capacité du garant lui-même — ses derniers états financiers, sa propre situation de continuité, les contraintes de change sur un transfert depuis l'étranger. Une lettre d'une maison mère elle-même en difficulté ne soutient rien."
+      "shortEn": "Support from a shareholder or group",
+      "shortFr": "Soutien d'un actionnaire ou du groupe",
+      "isa": "{{ISA570.plans}}",
+      "tipsEn": [
+       "Obtain the letter of support, signed and dated.",
+       "Check the supporter is able to pay."
+      ],
+      "tipsFr": [
+       "Obtenir la lettre de soutien, signée et datée.",
+       "Vérifier la capacité financière de celui qui soutient."
+      ],
+      "stdEn": "No reliance on outside support.",
+      "stdFr": "Aucun appui sur un soutien extérieur.",
+      "sourceHint": "Letter of support"
      },
      {
       "key": "disclosure",
       "en": "Where a material uncertainty exists, test the adequacy of the disclosure of the events and conditions and of management's plans.",
       "fr": "En cas d'incertitude significative, tester le caractère approprié de l'information relative aux événements, conditions et plans de la direction.",
-      "srcEn": "Draft financial statements · {{ISA570.muDisclosure}}",
-      "srcFr": "Projet d'états financiers · {{ISA570.muDisclosure}}",
-      "tipEn": "[Draft] Read the note against the three elements the standard requires: the principal events or conditions, management's plans to deal with them, and the clear statement that a material uncertainty exists which may cast significant doubt and that the entity may be unable to realise its assets and discharge its liabilities in the normal course. A note that describes the plans but omits the words 'material uncertainty' is inadequate, and procedure 9 of C5.1 then modifies the opinion.",
-      "tipFr": "[Projet] Lire la note de l'annexe au regard des trois éléments exigés : les principaux événements ou conditions, les plans de la direction pour y faire face, et la mention claire qu'une incertitude significative existe, susceptible de jeter un doute important, et que l'entité pourrait ne pas réaliser ses actifs ni régler ses dettes dans le cours normal de son activité. Une note qui décrit les plans mais omet les mots « incertitude significative » est insuffisante, et la procédure 5 de C5.1 conduit alors à modifier l'opinion."
+      "shortEn": "Disclosure of a material uncertainty",
+      "shortFr": "Information sur une incertitude significative",
+      "isa": "{{ISA570.muDisclosure}}",
+      "tipsEn": [
+       "Check the note describes the events and management's plans.",
+       "Check it says clearly that a material uncertainty exists."
+      ],
+      "tipsFr": [
+       "Vérifier que la note décrit les événements et les plans de la direction.",
+       "Vérifier qu'elle indique clairement l'existence d'une incertitude significative."
+      ],
+      "stdEn": "No material uncertainty: no disclosure required.",
+      "stdFr": "Pas d'incertitude significative : aucune information requise.",
+      "sourceHint": "Notes to the financial statements"
      },
      {
       "key": "close_call",
       "en": "Close call — where events or conditions were identified but no material uncertainty exists, evaluate whether the financial statements adequately disclose those events or conditions, management's evaluation of their significance, its plans and the significant judgements made in concluding that no material uncertainty exists.",
       "fr": "Cas limite — lorsque des événements ou conditions ont été identifiés sans incertitude significative, apprécier si les états financiers décrivent de façon appropriée ces événements ou conditions, l'appréciation de leur portée par la direction, ses plans et les jugements importants exercés pour conclure à l'absence d'incertitude significative.",
-      "srcEn": "Draft notes · management's assessment · {{ISA570.closeCall}}, A28–A29",
-      "srcFr": "Projet d'annexe · évaluation de la direction · {{ISA570.closeCall}}, A28–A29",
-      "tipEn": "[Draft] A close call is a conclusion, not an absence of one: write down the events identified, why management and we concluded that they do not amount to a material uncertainty, and the judgement that tipped the balance (a renewal signed, a support letter obtained). Then check the notes say as much — SYSCOHADA entities rarely volunteer this disclosure and management will resist; the standard still requires it. Carry the judgement to C1.2 as a significant matter.",
-      "tipFr": "[Projet] Un cas limite est une conclusion, pas une absence de conclusion : écrire les événements identifiés, pourquoi la direction et nous avons conclu qu'ils ne constituent pas une incertitude significative, et le jugement qui a fait pencher la balance (un renouvellement signé, une lettre de soutien obtenue). Vérifier ensuite que l'annexe le dit — les entités SYSCOHADA fournissent rarement cette information d'elles-mêmes et la direction résistera ; la norme l'exige néanmoins. Reporter le jugement en C1.2 comme point significatif."
+      "shortEn": "Close call: disclosure without material uncertainty",
+      "shortFr": "Cas limite : information sans incertitude significative",
+      "isa": "{{ISA570.closeCall}}",
+      "tipsEn": [
+       "Check the notes describe the events and management's plans.",
+       "Record the judgement that no material uncertainty exists."
+      ],
+      "tipsFr": [
+       "Vérifier que l'annexe décrit les événements et les plans de la direction.",
+       "Consigner le jugement concluant à l'absence d'incertitude significative."
+      ],
+      "stdEn": "No event or condition identified: no disclosure required.",
+      "stdFr": "Aucun événement ou condition identifié : aucune information requise.",
+      "sourceHint": "Notes to the financial statements"
      },
      {
       "key": "communicate",
       "en": "Communicate the events or conditions identified to those charged with governance — whether or not they constitute a material uncertainty, whether the basis of accounting is appropriate, the adequacy of the disclosures and, where applicable, the effect on the report — and record the communication on C5.11.",
       "fr": "Communiquer à la gouvernance les événements ou conditions identifiés — qu'ils constituent ou non une incertitude significative, le caractère approprié de la base comptable, le caractère adéquat de l'information fournie et, le cas échéant, l'effet sur le rapport — et consigner la communication en C5.11.",
-      "srcEn": "C5.11 · completion report to governance · {{ISA570.communicate}}",
-      "srcFr": "C5.11 · rapport à la gouvernance (achèvement) · {{ISA570.communicate}}",
-      "tipEn": "[Draft] Put the going concern conclusion in the completion report to governance even when it is favourable: the events identified, the conclusion on the basis of accounting, the adequacy of the disclosure and the effect on the report. Where the alert procedure of C5.5 is engaged, the two communications must agree. Record the date and the recipients on C5.11.",
-      "tipFr": "[Projet] Porter la conclusion sur la continuité dans le rapport à la gouvernance même lorsqu'elle est favorable : les événements identifiés, la conclusion sur la base comptable, le caractère adéquat de l'information fournie et l'effet sur le rapport. Lorsque la procédure d'alerte de C5.5 est engagée, les deux communications doivent concorder — même faits, même appréciation. Consigner la date et les destinataires en C5.11."
+      "shortEn": "Communication to those charged with governance",
+      "shortFr": "Communication aux responsables de la gouvernance",
+      "isa": "{{ISA570.communicate}}",
+      "tipsEn": [
+       "Record the communication on C5.11."
+      ],
+      "tipsFr": [
+       "Consigner la communication en C5.11."
+      ],
+      "stdEn": "No event or condition to communicate.",
+      "stdFr": "Aucun événement ou condition à communiquer.",
+      "sourceHint": "Linked task C5.11"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "period",
-      "en": "Management's assessment covers {{ISA570.horizon}}, or has been extended to reach it (procedure 2).",
-      "fr": "L'évaluation de la direction couvre {{ISA570.horizon}}, ou a été étendue pour l'atteindre (procédure 2)."
+      "en": "Management's assessment covers {{ISA570.horizon}}, or has been extended to reach it.",
+      "fr": "L'appréciation de la direction couvre {{ISA570.horizon}}, ou a été étendue pour y parvenir.",
+      "tasks": [
+       "assessment"
+      ]
      },
      {
       "key": "forecast",
-      "en": "The cash flow forecast is supported by the evidence obtained and its assumptions are consistent with the rest of the file (procedure 3).",
-      "fr": "Les prévisions de trésorerie sont étayées par les éléments obtenus et leurs hypothèses concordent avec le reste du dossier (procédure 3)."
+      "en": "The cash flow forecast is supported by the evidence obtained and its assumptions are consistent with the rest of the file.",
+      "fr": "Les prévisions de trésorerie sont étayées par les éléments obtenus et leurs hypothèses concordent avec le reste du dossier.",
+      "tasks": [
+       "forecast"
+      ]
      },
      {
       "key": "reliable",
-      "en": "Management's forecasting has proved reliable in the prior periods (procedure 4).",
-      "fr": "Les prévisions de la direction se sont révélées fiables lors des exercices précédents (procédure 4)."
+      "en": "Management's forecasting has proved reliable in the prior periods.",
+      "fr": "Les prévisions de la direction se sont révélées fiables lors des exercices précédents.",
+      "tasks": [
+       "history"
+      ]
      },
      {
       "key": "no_uncertainty",
-      "en": "No material uncertainty related to going concern exists (procedures 1 to 7). A “No” requires the disclosure to be tested and the report paragraph to be prepared.",
-      "fr": "Aucune incertitude significative liée à la continuité n'existe (procédures 1 à 7). Un « Non » impose de tester l'annexe et de préparer le paragraphe du rapport."
+      "en": "No material uncertainty related to going concern exists.",
+      "fr": "Il n'existe pas d'incertitude significative liée à la continuité d'exploitation.",
+      "tasks": [
+       "carry",
+       "assessment",
+       "forecast",
+       "history",
+       "facilities",
+       "plans",
+       "support"
+      ]
      },
      {
       "key": "disclosure",
-      "en": "Where a material uncertainty exists, the disclosure is adequate (procedure 8).",
-      "fr": "En cas d'incertitude significative, l'information fournie est appropriée (procédure 8).",
-      "na": true
+      "en": "Where a material uncertainty exists, the disclosure is adequate.",
+      "fr": "En cas d'incertitude significative, l'information fournie est appropriée.",
+      "na": true,
+      "tasks": [
+       "disclosure"
+      ]
      },
      {
       "key": "close_call",
-      "en": "Where events or conditions were identified but no material uncertainty exists, the notes adequately disclose them, management's evaluation and plans, and the judgements made (procedure 9, {{ISA570.closeCall}}).",
-      "fr": "Lorsque des événements ou conditions ont été identifiés sans incertitude significative, l'annexe les décrit de façon appropriée, ainsi que l'appréciation et les plans de la direction et les jugements exercés (procédure 9, {{ISA570.closeCall}}).",
-      "na": true
+      "en": "Where events or conditions were identified but no material uncertainty exists, the notes adequately disclose them, management's evaluation and plans, and the judgements made.",
+      "fr": "Lorsque des événements ou conditions ont été identifiés sans incertitude significative, l'annexe les présente de façon adéquate, ainsi que l'appréciation et les plans de la direction et les jugements exercés.",
+      "na": true,
+      "tasks": [
+       "close_call"
+      ]
      },
      {
       "key": "communicated",
-      "en": "The events or conditions identified have been communicated to those charged with governance and the communication is recorded on C5.11 (procedure 10, {{ISA570.communicate}}).",
-      "fr": "Les événements ou conditions identifiés ont été communiqués à la gouvernance et la communication est consignée en C5.11 (procédure 10, {{ISA570.communicate}}).",
-      "na": true
+      "en": "The events or conditions identified have been communicated to those charged with governance, and the communication is recorded on C5.11.",
+      "fr": "Les événements ou conditions identifiés ont été communiqués aux responsables de la gouvernance, et la communication est consignée en C5.11.",
+      "na": true,
+      "tasks": [
+       "communicate"
+      ]
+     },
+     {
+      "key": "capital",
+      "en": "Equity is not less than half of the share capital.",
+      "fr": "Les capitaux propres ne sont pas inférieurs à la moitié du capital social.",
+      "tasks": [
+       "capital"
+      ],
+      "vs": false,
+      "autoCheck": "going_concern_equity"
+     },
+     {
+      "key": "capital_procedure",
+      "na": true,
+      "en": "Where equity is below half of the share capital, the legal procedure has been respected: meeting held in time, decision filed and published, regularisation deadline not exceeded.",
+      "fr": "Lorsque les capitaux propres sont inférieurs à la moitié du capital social, la procédure légale a été respectée : assemblée tenue dans les délais, décision déposée et publiée, échéance de régularisation non dépassée.",
+      "tasks": [
+       "capital_procedure"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "exceptions",
       "kind": "input",
       "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
-      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      },
      {
       "key": "carried",
       "kind": "input",
       "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
-      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Evaluate management's assessment of the entity's ability to continue as a going concern, conclude whether a material uncertainty exists and whether the going concern basis of accounting is appropriate, and determine the effect on the auditor's report. In the OHADA zone, also establish whether equity has fallen below half of the share capital and whether the legal procedure that follows has been respected.",
+  "objectiveFr": "Apprécier l'évaluation par la direction de la capacité de l'entité à poursuivre son exploitation, conclure sur l'existence d'une incertitude significative et sur le caractère approprié du principe de continuité d'exploitation, et en déterminer l'effet sur le rapport. Dans l'espace OHADA, établir aussi si les capitaux propres sont devenus inférieurs à la moitié du capital social et si la procédure légale qui s'ensuit a été respectée.",
+  "isa": [
+   {
+    "std": "ISA 570"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_financial",
+    "en": "Financial analysis",
+    "fr": "Analyse financière",
+    "noteEn": "Ratios and trends against the prior year",
+    "noteFr": "Ratios et tendances par rapport à l'exercice précédent"
+   },
+   {
+    "action": "action_tool_legal",
+    "en": "OHADA legal register",
+    "fr": "Registre juridique OHADA",
+    "noteEn": "Share capital, meetings and filings",
+    "noteFr": "Capital social, assemblées et dépôts"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   }
+  ],
+  "links": [
+   "S4.2",
+   "C2.2",
+   "C5.1",
+   "C5.11",
+   "C5.5"
+  ],
+  "toolCard": "going_concern",
+  "conclStdEn": "The use of the going concern basis of accounting is appropriate and no material uncertainty exists; equity is not below half of the share capital. The effect on the report is recorded in C5.1.",
+  "conclStdFr": "L'application du principe de continuité d'exploitation est appropriée et il n'existe pas d'incertitude significative ; les capitaux propres ne sont pas inférieurs à la moitié du capital social. L'effet sur le rapport est consigné en C5.1."
  }
 }

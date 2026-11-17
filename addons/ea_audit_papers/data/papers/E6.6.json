@@ -13,108 +13,229 @@
    "Nous mettons en œuvre des procédures visant à obtenir des éléments suffisants attestant que tous les événements survenus entre la date des états financiers et celle du rapport et appelant un ajustement ou une mention ont été identifiés (ISA 560 ¶6).",
    "Les procédures couvrent la période jusqu'à la date du rapport. C2.2 consigne la position finale à l'achèvement."
   ],
-  "conclEn": [
-   "The subsequent events procedures performed during execution identified every event requiring adjustment or disclosure up to the date of this work, and the position is carried to C2.2."
-  ],
-  "conclFr": [
-   "Les procédures sur les événements postérieurs mises en œuvre en exécution ont identifié tout événement à ajuster ou à mentionner jusqu'à la date de ces travaux, et la position est reportée en C2.2."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "understand",
       "en": "Obtain an understanding of the procedures management has established to identify subsequent events.",
       "fr": "Prendre connaissance des procédures mises en place par la direction pour identifier les événements postérieurs.",
-      "srcEn": "Inquiry of management · closing procedures",
-      "srcFr": "Entretien avec la direction · procédures de clôture"
+      "shortEn": "Management's procedures",
+      "shortFr": "Procédures de la direction",
+      "isa": "ISA 560 ¶7(a)",
+      "tipsEn": [
+       "Ask how management identifies events after the year end."
+      ],
+      "tipsFr": [
+       "Demander comment la direction identifie les événements postérieurs à la clôture."
+      ],
+      "stdEn": "Management's procedures understood; no exceptions noted.",
+      "stdFr": "Procédures de la direction comprises ; aucune exception relevée.",
+      "sourceHint": "Meeting with management"
      },
      {
       "key": "inquire",
       "en": "Inquire of management and of those charged with governance about new commitments, borrowings, guarantees, disposals, litigation and any event affecting the assumptions used in the financial statements.",
       "fr": "S'enquérir auprès de la direction et des responsables de la gouvernance des nouveaux engagements, emprunts, garanties, cessions, litiges et de tout événement affectant les hypothèses retenues.",
-      "srcEn": "Inquiry · ISA 560 ¶7(b)",
-      "srcFr": "Entretien · ISA 560 ¶7(b)"
+      "shortEn": "Inquiries of management",
+      "shortFr": "Entretiens avec la direction",
+      "isa": "ISA 560 ¶7(b)",
+      "tipsEn": [
+       "Ask about new borrowings, guarantees, disposals and litigation.",
+       "Ask about events that change the year-end estimates."
+      ],
+      "tipsFr": [
+       "Demander les nouveaux emprunts, garanties, cessions et litiges.",
+       "Demander les événements qui modifient les estimations de clôture."
+      ],
+      "stdEn": "Inquiries made; no event reported.",
+      "stdFr": "Entretiens menés ; aucun événement signalé.",
+      "sourceHint": "Meeting with management"
      },
      {
       "key": "minutes",
       "en": "Read the minutes of the meetings held after the date of the financial statements.",
       "fr": "Examiner les procès-verbaux des réunions tenues après la date des états financiers.",
-      "srcEn": "Post year-end minutes (E6.4)",
-      "srcFr": "Procès-verbaux postérieurs (E6.4)"
+      "shortEn": "Minutes",
+      "shortFr": "Procès-verbaux",
+      "isa": "ISA 560 ¶7(c)",
+      "tipsEn": [
+       "Read the minutes held after the year end (E6.4).",
+       "Ask for a summary of meetings with no minutes yet."
+      ],
+      "tipsFr": [
+       "Lire les procès-verbaux postérieurs à la clôture (E6.4).",
+       "Demander un résumé des réunions sans procès-verbal à ce jour."
+      ],
+      "stdEn": "Minutes after the year end read; no event noted.",
+      "stdFr": "Procès-verbaux postérieurs à la clôture lus ; aucun événement relevé.",
+      "sourceHint": "Linked task E6.4"
      },
      {
       "key": "interim",
       "en": "Read the entity's latest interim financial information and management accounts.",
       "fr": "Examiner la dernière situation intermédiaire et les états de gestion de l'entité.",
-      "srcEn": "Interim accounts · management reports",
-      "srcFr": "Situation intermédiaire · états de gestion"
+      "shortEn": "Interim financial information",
+      "shortFr": "Informations financières intermédiaires",
+      "isa": "ISA 560 ¶7(d)",
+      "tipsEn": [
+       "Compare the latest management accounts with the year end."
+      ],
+      "tipsFr": [
+       "Comparer les derniers comptes de gestion à la clôture."
+      ],
+      "stdEn": "Latest management accounts read; no exceptions noted.",
+      "stdFr": "Derniers comptes de gestion lus ; aucune exception relevée.",
+      "sourceHint": "Management accounts"
      },
      {
       "key": "transactions",
-      "en": "Review the transactions recorded after the year end for items indicating a condition that existed at the year end, including receipts, payments, credit notes and journal entries.",
-      "fr": "Examiner les opérations enregistrées après la clôture révélant une situation existant à la clôture : encaissements, paiements, avoirs et écritures.",
-      "srcEn": "Post year-end ledger · bank statements",
-      "srcFr": "Grand livre postérieur · relevés bancaires"
+      "en": "Review the transactions recorded after the year end for conditions that existed at the year end: receipts, payments, credit notes and journal entries.",
+      "fr": "Revoir les opérations enregistrées après la clôture à la recherche de situations existant à la clôture : encaissements, paiements, avoirs et écritures.",
+      "shortEn": "Transactions after the year end",
+      "shortFr": "Opérations postérieures à la clôture",
+      "isa": "ISA 560 ¶6",
+      "tipsEn": [
+       "Upload the next-year ledger (subsequent period).",
+       "Look for credit notes and large payments in the first months.",
+       "Raise a finding for any adjusting event."
+      ],
+      "tipsFr": [
+       "Importer le grand livre de l'exercice suivant (période postérieure).",
+       "Rechercher les avoirs et paiements importants des premiers mois.",
+       "Signaler un constat pour tout événement à ajuster."
+      ],
+      "stdEn": "Entries after the year end reviewed; no event indicating a condition that existed at the year end.",
+      "stdFr": "Écritures postérieures à la clôture revues ; aucun événement révélant une situation existant à la clôture.",
+      "sourceHint": "General ledger · subsequent period"
      },
      {
       "key": "classify",
-      "en": "Classify each event identified as adjusting or non-adjusting, and confirm the treatment applied in the financial statements.",
-      "fr": "Classer chaque événement identifié en ajustant ou non ajustant et vérifier le traitement retenu dans les comptes.",
-      "srcEn": "IAS 10 / SYSCOHADA · draft financial statements",
-      "srcFr": "IAS 10 / SYSCOHADA · projet d'états financiers"
+      "en": "Classify each event as adjusting or non-adjusting, and check its treatment in the financial statements.",
+      "fr": "Classer chaque événement comme à ajuster ou non, et vérifier son traitement dans les états financiers.",
+      "shortEn": "Classification",
+      "shortFr": "Classement",
+      "isa": "ISA 560 ¶8",
+      "tipsEn": [
+       "Adjusting: the condition existed at the year end.",
+       "Non-adjusting but material: disclose it in the notes."
+      ],
+      "tipsFr": [
+       "À ajuster : la situation existait à la clôture.",
+       "Sans ajustement mais significatif : le mentionner en annexe."
+      ],
+      "stdEn": "No subsequent event identified.",
+      "stdFr": "Aucun événement postérieur identifié.",
+      "sourceHint": "Linked task C2.2"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "period",
-      "en": "The procedures cover the whole period from the date of the financial statements to the date of this work (procedures 2 to 5).",
-      "fr": "Les procédures couvrent toute la période depuis la date des états financiers jusqu'à la date de ces travaux (procédures 2 à 5)."
+      "en": "The procedures cover the whole period from the date of the financial statements to the date of this work.",
+      "fr": "Les procédures couvrent toute la période depuis la date des états financiers jusqu'à la date de ces travaux.",
+      "tasks": [
+       "inquire",
+       "minutes",
+       "interim",
+       "transactions"
+      ]
      },
      {
       "key": "classified",
-      "en": "Each event identified is classified as adjusting or non-adjusting and treated accordingly (procedure 6).",
-      "fr": "Chaque événement identifié est classé en ajustant ou non ajustant et traité en conséquence (procédure 6).",
-      "na": true
+      "en": "Each event identified is classified as adjusting or non-adjusting and treated accordingly.",
+      "fr": "Chaque événement identifié est classé en ajustant ou non ajustant et traité en conséquence.",
+      "na": true,
+      "tasks": [
+       "classify"
+      ]
      },
      {
       "key": "carried",
-      "en": "Each event identified has been carried to C2.2 for the position at the date of the report (procedure 6).",
-      "fr": "Chaque événement identifié est reporté en C2.2 pour la position à la date du rapport (procédure 6)."
+      "en": "Each event identified has been carried to C2.2 for the position at the date of the report.",
+      "fr": "Chaque événement identifié est reporté en C2.2 pour la position à la date du rapport.",
+      "tasks": [
+       "classify"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "exceptions",
       "kind": "input",
       "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
-      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      },
      {
       "key": "carried",
       "kind": "input",
       "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
-      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Obtain sufficient appropriate audit evidence about whether events occurring between the date of the financial statements and the date of the auditor's report that require adjustment of, or disclosure in, the financial statements are appropriately reflected.",
+  "objectiveFr": "Obtenir des éléments probants suffisants et appropriés indiquant si les événements survenus entre la date des états financiers et la date du rapport, qui nécessitent un ajustement des états financiers ou une information en annexe, sont correctement traduits.",
+  "isa": [
+   {
+    "std": "ISA 560"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_gl",
+    "en": "General ledger · subsequent period",
+    "fr": "Grand livre · période postérieure",
+    "noteEn": "Upload the next-year ledger",
+    "noteFr": "Importer le grand livre de l'exercice suivant"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise an adjusting event",
+    "noteFr": "Signaler un événement à ajuster"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Synthèse des anomalies",
+    "noteEn": "Adjustments to review",
+    "noteFr": "Ajustements à revoir"
+   }
+  ],
+  "links": [
+   "C2.2",
+   "C1.1",
+   "C1.2",
+   "E6.4"
+  ],
+  "toolCard": "subsequent",
+  "conclStdEn": "The procedures performed up to the date of this work identified no event requiring adjustment or disclosure other than those recorded; the position is carried to C2.2.",
+  "conclStdFr": "Les procédures mises en œuvre jusqu'à la date de ces travaux n'ont identifié aucun événement à ajuster ou à mentionner autre que ceux consignés ; la position est reportée en C2.2."
  }
 }

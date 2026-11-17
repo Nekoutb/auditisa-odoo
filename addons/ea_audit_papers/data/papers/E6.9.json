@@ -13,120 +13,258 @@
    "Nous mettons en œuvre des procédures pour identifier les litiges et réclamations pouvant engendrer un risque d'anomalie significative et, le cas échéant, cherchons à communiquer directement avec les conseils juridiques externes (ISA 501 ¶9–10).",
    "Le risque porte sur l'exhaustivité. Les éléments identifiés en S4.1 constituent le point de départ, non la population."
   ],
-  "conclEn": [
-   "Sufficient appropriate audit evidence has been obtained over commitments and contingencies, and each is recognised or disclosed as the framework requires."
-  ],
-  "conclFr": [
-   "Des éléments probants suffisants et appropriés ont été obtenus sur les engagements et passifs éventuels, chacun étant comptabilisé ou mentionné conformément au référentiel."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating the population, what was tested, the basis of selection, and the working-paper reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : la population, l'objet du test, la base de sélection et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "carry",
       "en": "Bring forward the items identified in S4.1 and confirm the position on each at the year end.",
       "fr": "Reprendre les éléments identifiés en S4.1 et confirmer leur situation à la clôture.",
-      "srcEn": "S4.1 · inquiry of management",
-      "srcFr": "S4.1 · entretien avec la direction"
+      "shortEn": "Matters from S4.1",
+      "shortFr": "Points issus de S4.1",
+      "isa": "ISA 501 ¶9",
+      "tipsEn": [
+       "Update the position on each matter to the year end."
+      ],
+      "tipsFr": [
+       "Mettre à jour la situation de chaque point à la clôture."
+      ],
+      "stdEn": "Matters from S4.1 updated; no change.",
+      "stdFr": "Points de S4.1 mis à jour ; aucun changement.",
+      "sourceHint": "Linked task S4.1"
      },
      {
       "key": "legal_letter",
       "en": "Send the letter of inquiry to each of the entity's external legal advisers, asking for the matters they are handling, their status and their estimate of the outcome.",
       "fr": "Adresser la lettre de demande à chaque conseil juridique externe : affaires traitées, état d'avancement et estimation de l'issue.",
-      "srcEn": "Our letter of inquiry · ISA 501 ¶10",
-      "srcFr": "Notre lettre de demande · ISA 501 ¶10"
+      "shortEn": "Letters to legal advisers",
+      "shortFr": "Lettres aux avocats",
+      "isa": "ISA 501 ¶10",
+      "tipsEn": [
+       "The entity signs the letter; the reply comes to us directly.",
+       "Ask for the status and likely outcome of each matter."
+      ],
+      "tipsFr": [
+       "L'entité signe la lettre ; la réponse nous parvient directement.",
+       "Demander l'état et l'issue probable de chaque affaire."
+      ],
+      "stdEn": "Replies received from each legal adviser; no exceptions noted.",
+      "stdFr": "Réponses reçues de chaque avocat ; aucune exception relevée.",
+      "sourceHint": "Lawyers' letters"
      },
      {
       "key": "followup",
       "en": "Where a reply is not received or is qualified, follow up and, where necessary, meet the adviser with management's permission.",
       "fr": "En cas de réponse absente ou réservée, relancer et, si nécessaire, rencontrer le conseil avec l'accord de la direction.",
-      "srcEn": "Correspondence · ISA 501 ¶11",
-      "srcFr": "Correspondance · ISA 501 ¶11"
+      "shortEn": "Follow-up of replies",
+      "shortFr": "Suivi des réponses",
+      "isa": "ISA 501 ¶11–12",
+      "tipsEn": [
+       "Chase missing replies.",
+       "A refusal to reply limits the scope of the audit."
+      ],
+      "tipsFr": [
+       "Relancer les réponses manquantes.",
+       "Un refus de répondre constitue une limitation de l'étendue des travaux."
+      ],
+      "stdEn": "All replies received and unqualified.",
+      "stdFr": "Toutes les réponses reçues, sans réserve.",
+      "sourceHint": "Lawyers' letters"
      },
      {
       "key": "minutes",
       "en": "Read the minutes of the general meetings and of the board up to the date of our report for commitments and disputes.",
       "fr": "Examiner les procès-verbaux d'assemblée et du conseil jusqu'à la date de notre rapport : engagements et litiges.",
-      "srcEn": "Minutes (E6.4)",
-      "srcFr": "Procès-verbaux (E6.4)"
+      "shortEn": "Minutes",
+      "shortFr": "Procès-verbaux",
+      "isa": "ISA 501 ¶9(b)",
+      "tipsEn": [
+       "Look for disputes, guarantees and commitments in the minutes (E6.4)."
+      ],
+      "tipsFr": [
+       "Rechercher litiges, garanties et engagements dans les procès-verbaux (E6.4)."
+      ],
+      "stdEn": "Minutes read; no new matter.",
+      "stdFr": "Procès-verbaux lus ; aucun nouveau point.",
+      "sourceHint": "Linked task E6.4"
      },
      {
       "key": "bank",
       "en": "Identify from the bank confirmations the guarantees, sureties and pledges given, and agree each to the disclosure.",
       "fr": "Identifier dans les confirmations bancaires les garanties, cautions et nantissements donnés et les rapprocher de l'annexe.",
-      "srcEn": "Bank confirmations (E4.7) · draft disclosures",
-      "srcFr": "Confirmations bancaires (E4.7) · projet d'annexe"
+      "shortEn": "Guarantees and pledges",
+      "shortFr": "Cautions et nantissements",
+      "isa": "ISA 505 · ISA 501 ¶9",
+      "tipsEn": [
+       "Read the guarantees section of each bank confirmation.",
+       "Agree each guarantee to the commitments note."
+      ],
+      "tipsFr": [
+       "Lire la rubrique des garanties de chaque confirmation bancaire.",
+       "Rapprocher chaque garantie de la note sur les engagements."
+      ],
+      "stdEn": "Guarantees and pledges agree to the disclosure; no exceptions noted.",
+      "stdFr": "Cautions et nantissements concordent avec l'annexe ; aucune exception relevée.",
+      "sourceHint": "Bank confirmations"
      },
      {
       "key": "contracts",
       "en": "Read the significant contracts entered into in the period for capital commitments, penalty clauses and take-or-pay obligations.",
       "fr": "Examiner les contrats significatifs conclus sur l'exercice : engagements d'investissement, clauses pénales et obligations d'enlèvement.",
-      "srcEn": "Contract file · board approvals",
-      "srcFr": "Chrono des contrats · approbations du conseil"
+      "shortEn": "Significant contracts",
+      "shortFr": "Contrats importants",
+      "isa": "ISA 500 ¶6",
+      "tipsEn": [
+       "Look for capital commitments, penalty clauses and take-or-pay obligations."
+      ],
+      "tipsFr": [
+       "Rechercher engagements d'investissement, clauses de pénalité et obligations d'achat ferme."
+      ],
+      "stdEn": "Significant contracts read; no undisclosed commitment.",
+      "stdFr": "Contrats importants lus ; aucun engagement non mentionné.",
+      "sourceHint": "Contracts"
      },
      {
       "key": "representation",
       "en": "Obtain management's written representation that all known actual or possible litigation and claims have been disclosed to us.",
       "fr": "Obtenir la déclaration écrite de la direction attestant que tous les litiges connus, réels ou possibles, nous ont été communiqués.",
-      "srcEn": "Representation letter (C3.1) · ISA 501 ¶12",
-      "srcFr": "Lettre d'affirmation (C3.1) · ISA 501 ¶12"
+      "shortEn": "Written representation",
+      "shortFr": "Déclaration écrite",
+      "isa": "ISA 501 ¶12 · ISA 580",
+      "tipsEn": [
+       "Include litigation and claims in the representation letter (C3.1)."
+      ],
+      "tipsFr": [
+       "Inclure les litiges et réclamations dans la lettre d'affirmation (C3.1)."
+      ],
+      "stdEn": "Representation on litigation and claims obtained.",
+      "stdFr": "Déclaration sur les litiges et réclamations obtenue.",
+      "sourceHint": "Linked task C3.1"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including the misstatement raised in C1.1.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris l'anomalie portée en C1.1.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "legal_reply",
-      "en": "A reply was received from each legal adviser to whom an inquiry was sent (procedures 2, 3).",
-      "fr": "Une réponse a été reçue de chaque conseil juridique interrogé (procédures 2, 3).",
-      "na": true
+      "en": "A reply was received from each legal adviser to whom an inquiry was sent.",
+      "fr": "Une réponse a été reçue de chaque conseil juridique interrogé.",
+      "na": true,
+      "tasks": [
+       "legal_letter",
+       "followup"
+      ]
      },
      {
       "key": "recognised",
-      "en": "Each matter is recognised, disclosed or neither, consistently with the framework (procedures 1 to 6).",
-      "fr": "Chaque élément est comptabilisé, mentionné ou ni l'un ni l'autre, conformément au référentiel (procédures 1 à 6)."
+      "en": "Each matter is recognised, disclosed or neither, consistently with the framework.",
+      "fr": "Chaque élément est comptabilisé, mentionné ou ni l'un ni l'autre, conformément au référentiel.",
+      "tasks": [
+       "carry",
+       "legal_letter",
+       "followup",
+       "minutes",
+       "bank",
+       "contracts"
+      ]
      },
      {
       "key": "guarantees",
-      "en": "Every guarantee and security identified is disclosed (procedure 5).",
-      "fr": "Chaque garantie et sûreté identifiée est mentionnée (procédure 5)."
+      "en": "Every guarantee and security identified is disclosed.",
+      "fr": "Chaque garantie et sûreté identifiée est mentionnée.",
+      "tasks": [
+       "bank"
+      ]
      },
      {
       "key": "representation",
-      "en": "The written representation on litigation and claims has been obtained (procedure 7).",
-      "fr": "La déclaration écrite sur les litiges et réclamations a été obtenue (procédure 7)."
+      "en": "The written representation on litigation and claims has been obtained.",
+      "fr": "La déclaration écrite sur les litiges et réclamations a été obtenue.",
+      "tasks": [
+       "representation"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "exceptions",
       "kind": "input",
       "labelEn": "Exceptions identified, the misstatement raised in C1.1 for each, and how each was resolved",
-      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution"
+      "labelFr": "Exceptions relevées, anomalie portée en C1.1 pour chacune, et leur résolution",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      },
      {
       "key": "carried",
       "kind": "input",
       "labelEn": "Matters carried to C1.2 significant matters, or to the points forward on the Conclusion screen",
-      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)"
+      "labelFr": "Points reportés en C1.2 (points significatifs) ou en points reportés (écran Conclusion)",
+      "optional": true,
+      "profiles": [
+       "complex",
+       "non_complex"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Design and perform audit procedures to identify litigation and claims that may give rise to a risk of material misstatement, obtain evidence on commitments and contingencies, and evaluate whether each is recognised or disclosed as the framework requires.",
+  "objectiveFr": "Concevoir et mettre en œuvre des procédures d'audit pour identifier les litiges et réclamations pouvant engendrer un risque d'anomalie significative, obtenir des éléments sur les engagements et passifs éventuels, et apprécier si chacun est comptabilisé ou mentionné conformément au référentiel.",
+  "isa": [
+   {
+    "std": "ISA 501"
+   },
+   {
+    "std": "ISA 505"
+   },
+   {
+    "std": "ISA 580"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_bank",
+    "en": "Bank",
+    "fr": "Banque",
+    "noteEn": "Confirmations, guarantees and pledges",
+    "noteFr": "Confirmations, cautions et nantissements"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Synthèse des anomalies",
+    "noteEn": "Misstatements raised and their evaluation",
+    "noteFr": "Anomalies relevées et leur évaluation"
+   }
+  ],
+  "links": [
+   "S4.1",
+   "E6.4",
+   "C3.1",
+   "C2.2"
+  ],
+  "conclStdEn": "Sufficient appropriate audit evidence has been obtained over commitments and contingencies, and each is recognised or disclosed as the framework requires.",
+  "conclStdFr": "Des éléments probants suffisants et appropriés ont été obtenus sur les engagements et passifs éventuels, chacun étant comptabilisé ou mentionné conformément au référentiel."
  }
 }

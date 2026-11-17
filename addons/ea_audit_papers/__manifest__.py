@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Working Papers",
     "summary": "Paper definitions, answers and history, review notes, conclusions, evidence and the paper renderer",
-    "version": "19.0.1.6.0",
+    "version": "19.0.1.7.0",  # exec: grouped checklist inside a task (E6.10)
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

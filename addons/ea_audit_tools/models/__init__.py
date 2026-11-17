@@ -27,6 +27,7 @@ from . import tool_tile
 from . import paper_hooks
 from . import paper_hooks_plan
 from . import paper_hooks_strat
+from . import paper_hooks_exec
 from . import team
 from . import worksheet_pages
 from . import subsequent

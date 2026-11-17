@@ -13,86 +13,199 @@
    "L'évaluation des risques n'est pas figée. Lorsque les éléments obtenus en exécution contredisent l'évaluation initiale — déviations de contrôles, anomalies, résultats analytiques inattendus, informations nouvelles — nous révisons l'évaluation et modifions les procédures prévues (ISA 315 ¶37, ISA 330 ¶25).",
    "Ce papier est le point de contrôle formel : après les tests de contrôles et avant de conclure les travaux substantifs, chaque évaluation combinée du registre (S3.1) est confrontée aux constats de l'exécution."
   ],
-  "conclEn": [
-   "The combined risk assessments remain appropriate, or have been revised and the procedures adjusted."
-  ],
-  "conclFr": [
-   "Les évaluations combinées demeurent appropriées, ou ont été révisées avec ajustement des procédures."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "deviations",
       "en": "List the control deviations found (E1.1/E1.2/E2.1 and cycle tests) and assess the effect of each on the related combined risk assessment.",
       "fr": "Recenser les déviations de contrôles constatées (E1.1/E1.2/E2.1 et tests de cycles) et leur effet sur l'évaluation combinée concernée.",
-      "srcEn": "Controls testing papers",
-      "srcFr": "Papiers de tests de contrôles"
+      "shortEn": "Control deviations",
+      "shortFr": "Déviations de contrôles",
+      "isa": "ISA 330 ¶16–17",
+      "tipsEn": [
+       "Start from the controls concluded not effective in E1.2.",
+       "Each of them moves its cells to no reliance."
+      ],
+      "tipsFr": [
+       "Partir des contrôles conclus non efficaces en E1.2.",
+       "Chacun fait passer ses cellules sans appui."
+      ],
+      "stdEn": "No control deviation affects the assessment.",
+      "stdFr": "Aucune déviation de contrôle n'affecte l'évaluation.",
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "misstatements",
       "en": "Review the misstatements accumulated to date (C1.1) for what they say about the assessed risks that should have caught them.",
       "fr": "Analyser les anomalies cumulées (C1.1) au regard des risques évalués qui auraient dû les prévenir.",
-      "srcEn": "C1.1 summary of audit differences",
-      "srcFr": "Récapitulatif C1.1"
+      "shortEn": "Misstatements found",
+      "shortFr": "Anomalies relevées",
+      "isa": "ISA 450 ¶6",
+      "tipsEn": [
+       "Ask why the planned risk did not anticipate a misstatement.",
+       "Several small misstatements may signal a higher risk."
+      ],
+      "tipsFr": [
+       "Se demander pourquoi le risque prévu n'anticipait pas l'anomalie.",
+       "Plusieurs petites anomalies peuvent signaler un risque plus élevé."
+      ],
+      "stdEn": "Misstatements found are consistent with the assessed risks.",
+      "stdFr": "Les anomalies relevées sont cohérentes avec les risques évalués.",
+      "sourceHint": "Summary of audit differences"
      },
      {
       "key": "analytics",
       "en": "Consider unexpected relationships from substantive analytics against the risk assessment.",
       "fr": "Confronter les corrélations inattendues des procédures analytiques à l'évaluation des risques.",
-      "srcEn": "Cycle analytics",
-      "srcFr": "Analytiques de cycles"
+      "shortEn": "Unexpected analytical results",
+      "shortFr": "Résultats analytiques inattendus",
+      "isa": "ISA 520 ¶7 · ISA 315 ¶37",
+      "tipsEn": [
+       "Look at the movements the substantive analytics did not explain."
+      ],
+      "tipsFr": [
+       "Examiner les variations que la revue analytique de substance n'a pas expliquées."
+      ],
+      "stdEn": "No unexpected relationship inconsistent with the assessment.",
+      "stdFr": "Aucune relation inattendue contraire à l'évaluation.",
+      "sourceHint": "Analytical review"
      },
      {
       "key": "register",
-      "en": "Update the risk register (S3.1): revise each affected assessment and record the reason.",
-      "fr": "Mettre à jour le registre (S3.1) : réviser chaque évaluation touchée en motivant.",
-      "srcEn": "S3.1 risk register",
-      "srcFr": "Registre S3.1"
+      "en": "Update the combined risk assessment (S3.1): revise each affected assessment in the tool and record the reason.",
+      "fr": "Mettre à jour l'évaluation combinée des risques (S3.1) : réviser chaque évaluation concernée dans l'outil et consigner la raison.",
+      "shortEn": "Revised assessments",
+      "shortFr": "Évaluations révisées",
+      "isa": "ISA 315 ¶37",
+      "tipsEn": [
+       "Revise the cell in the tool and record the reason.",
+       "A confirmed assessment needs no change."
+      ],
+      "tipsFr": [
+       "Réviser la cellule dans l'outil et consigner la raison.",
+       "Une évaluation confirmée ne demande aucun changement."
+      ],
+      "stdEn": "No assessment needed revision.",
+      "stdFr": "Aucune évaluation n'a dû être révisée.",
+      "sourceHint": "Combined risk assessment"
      },
      {
       "key": "procedures",
       "en": "Modify the nature, timing or extent of remaining procedures where an assessment rose, and record what changed.",
       "fr": "Modifier la nature, le calendrier ou l'étendue des procédures restantes lorsque l'évaluation augmente, en consignant les changements.",
-      "srcEn": "Execution programs",
-      "srcFr": "Programmes d'exécution"
+      "shortEn": "Changes to further procedures",
+      "shortFr": "Changements des procédures complémentaires",
+      "isa": "ISA 330 ¶7, ¶25",
+      "tipsEn": [
+       "A higher risk calls for more or different substantive work.",
+       "Record what changed and where."
+      ],
+      "tipsFr": [
+       "Un risque plus élevé appelle des travaux de substance accrus ou différents.",
+       "Consigner ce qui a changé et où."
+      ],
+      "stdEn": "No change to the planned procedures was needed.",
+      "stdFr": "Aucun changement des procédures prévues n'a été nécessaire.",
+      "sourceHint": "Procedure design"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Confirmations",
-    "titleFr": "Partie B — Confirmations",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "confronted",
       "en": "Every combined risk assessment was confronted with the execution evidence.",
-      "fr": "Chaque évaluation combinée a été confrontée aux constats d'exécution."
+      "fr": "Chaque évaluation combinée a été confrontée aux constats d'exécution.",
+      "tasks": [
+       "deviations",
+       "misstatements",
+       "analytics"
+      ]
      },
      {
       "key": "deviations_fed",
       "en": "Control deviations are reflected in the affected assessments.",
-      "fr": "Les déviations de contrôles sont répercutées dans les évaluations concernées."
+      "fr": "Les déviations de contrôles sont répercutées dans les évaluations concernées.",
+      "tasks": [
+       "deviations",
+       "register"
+      ]
      },
      {
       "key": "procs_adjusted",
       "en": "Procedures were adjusted wherever an assessment was revised upward.",
-      "fr": "Les procédures ont été ajustées pour chaque révision à la hausse."
+      "fr": "Les procédures ont été ajustées pour chaque révision à la hausse.",
+      "tasks": [
+       "procedures"
+      ]
      },
      {
       "key": "documented",
       "en": "Each revision (or confirmation) is documented with its reason.",
-      "fr": "Chaque révision (ou confirmation) est documentée avec son motif."
+      "fr": "Chaque révision (ou confirmation) est documentée avec son motif.",
+      "tasks": [
+       "register"
+      ],
+      "autoCheck": "cra_reasons"
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Evaluate, before the audit is concluded, whether the assessments of the risks of material misstatement at the assertion level remain appropriate in the light of the audit evidence obtained, and revise the assessments and the planned further procedures where they do not.",
+  "objectiveFr": "Apprécier, avant de conclure l'audit, si les évaluations des risques d'anomalies significatives au niveau des assertions restent appropriées au vu des éléments probants obtenus, et réviser ces évaluations et les procédures complémentaires prévues lorsqu'elles ne le sont plus.",
+  "isa": [
+   {
+    "std": "ISA 315"
+   },
+   {
+    "std": "ISA 330"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_cra",
+    "en": "Combined risk assessment",
+    "fr": "Évaluation combinée des risques",
+    "noteEn": "Revise a cell and record the reason",
+    "noteFr": "Réviser une cellule et consigner la raison"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks and their significance",
+    "noteFr": "Risques et leur importance"
+   },
+   {
+    "action": "action_tool_dsp",
+    "en": "Procedure design",
+    "fr": "Conception des procédures",
+    "noteEn": "Responses per risk",
+    "noteFr": "Réponses par risque"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Synthèse des anomalies",
+    "noteEn": "Misstatements raised and their evaluation",
+    "noteFr": "Anomalies relevées et leur évaluation"
+   }
+  ],
+  "links": [
+   "S3.1",
+   "E1.2",
+   "E2.1",
+   "C1.1"
+  ],
+  "toolCard": "cra_changes",
+  "conclStdEn": "The combined risk assessments remain appropriate, or have been revised with their reasons and the remaining procedures adjusted.",
+  "conclStdFr": "Les évaluations combinées des risques demeurent appropriées, ou ont été révisées avec leurs raisons et les procédures restantes ajustées."
  }
 }
