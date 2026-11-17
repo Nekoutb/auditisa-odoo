@@ -16428,3 +16428,13 @@ msgstr "%(count)s immobilisations : les acquisitions ou cessions à la valeur br
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_reliance_watch
 msgid "Reliance on controls watch"
 msgstr "Suivi de l'appui sur les contrôles"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_file_item__controls_na
+msgid "Not applicable because the strategy no longer relies on controls"
+msgstr "Non applicable car la stratégie ne s'appuie plus sur les contrôles"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_file_item__controls_na
+msgid "Set and cleared by the file itself: the task becomes applicable again when the strategy relies on controls."
+msgstr "Posé et retiré par le dossier lui-même : la tâche redevient applicable quand la stratégie s'appuie sur les contrôles."
