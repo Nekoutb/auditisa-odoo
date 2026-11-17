@@ -36,6 +36,8 @@ MESSAGES = {
     "fa-already-joined": _lt("This person has already activated their account: no invitation link."),
     "fa-user-inactive": _lt("This account is deactivated."),
     "fa-project-name": _lt("Give the project a name."),
+    "fa-mail-off": _lt("This firm's email is not on: copy the link and send it yourself."),
+    "fa-mail-failed": _lt("The email could not be sent. Copy the link and send it yourself; AuditISA can check the firm's email settings."),
     "fm-host": _lt("Enter a valid server. Local or private addresses are refused."),
     "fm-port": _lt("Port refused: 25, 465, 587 or 2525."),
     "fm-encryption": _lt("Choose an encryption."),

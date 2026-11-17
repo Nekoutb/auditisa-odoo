@@ -135,6 +135,9 @@ UPDATE_STATES = ("idle", "updating", "ok", "failed", "rolled_back")
 EXPORT_STATES = ("none", "running", "done", "failed")
 ANON_EXPORT_STATES = ("running", "done", "failed", "refused")
 _ANON_REF = re.compile(r"^[0-9a-f]{16}$")
+_MAIL_REF = re.compile(r"^[0-9a-f]{16}$")
+# Same words as ea_audit_firm_agent/services/collect.py MAIL_RESULTS and services/mail_settings.py RESULTS.
+MAIL_RESULTS = ("on", "off", "login", "connect", "tls", "sender", "staging", "refused", "failed")
 
 # The complete list of what a firm may tell the control plane.
 FIGURES = {
@@ -172,6 +175,9 @@ FIGURES = {
     "signers_serial": _optional(_integer(0, 1000000)),
     "errors": _errors,
     "support_visit": _support_visit,
+    # The answer to the console's "Email for this firm" screen: the request's reference and one word.
+    "mail_request_ref": _optional(_pattern(_MAIL_REF, 16)),
+    "mail_request_result": _optional(_choice(*MAIL_RESULTS)),
 }
 
 REQUIRED = frozenset({

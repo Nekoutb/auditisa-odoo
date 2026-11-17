@@ -31,6 +31,8 @@ Mettez un mot de passe dessus, copiez le fichier sans extension dans votre coffr
 
 **4. Écran « Modules ».** Allumez les modules propres à ce client, s'il en a, et dites pourquoi : le motif va au journal. Rien à choisir sinon : le code commun est toujours là, et cela peut changer plus tard. Voir CLIENT-ADDONS.md.
 
+Puis l'écran **« Messagerie »**, facultatif : la boîte de messagerie du cabinet, voir l'étape 10. Laissé vide, cela se fait plus tard depuis la fiche du cabinet.
+
 **5. Écran « Vérification ».** Relisez : l'adresse, le serveur, les modules, les adresses autorisées sur le port 22, le coût mensuel estimé. Le bandeau dit SIMULATION ou RÉEL. Cochez la confirmation, puis **Créer le serveur**. Rien n'est créé avant.
 
 **6. Le journal des étapes s'affiche.** Onze lignes, de « À faire » à « Fait » :
@@ -57,7 +59,26 @@ Copiez la valeur dans votre coffre, puis cliquez **Clé de sauvegarde mise au co
 
 **9. Transmettez le lien du premier administrateur.** Sur la fiche, **Afficher le lien du premier administrateur**. Il ne s'affiche **qu'une fois**. Donnez-le au contact par un canal privé (appel, messagerie chiffrée). Il expire après 72 heures et ne sert qu'une fois. Le contact y choisit lui-même son mot de passe : **personne ne reçoit de mot de passe par e-mail, et vous ne le connaissez pas.**
 
-**10. Réglez la messagerie sortante du cabinet.** C'est une étape de la mise en service, faite par vous : aucun utilisateur du cabinet, même son administrateur, ne voit ni ne change ce réglage (décision du propriétaire, 7 novembre 2026). Demandez au contact les réglages de son fournisseur de messagerie : serveur, port, chiffrement (STARTTLS ou SSL), identifiant, mot de passe, adresse ou domaine d'expédition. Après un accès d'urgence enregistré, écrivez-les dans un fichier que seul root peut lire, puis lancez le script :
+**10. Réglez la messagerie du cabinet, depuis la console.** Les e-mails du cabinet (réinitialisation de mot de passe, invitations) partent de sa propre boîte de messagerie (décision du propriétaire, 17 novembre 2026). Aucun utilisateur du cabinet, même son administrateur, ne voit ni ne change ce réglage. Demandez au contact, ou à son prestataire informatique, les réglages de sa boîte : fournisseur, serveur, port, chiffrement (STARTTLS ou SSL), identifiant, mot de passe, adresse d'expédition.
+
+Sur la fiche du cabinet, cliquez **Messagerie de ce cabinet**. Choisissez le fournisseur (Microsoft 365, Google Workspace, Hostinger, MailerSend) : le serveur, le port et le chiffrement se remplissent seuls. Sinon choisissez « Autre fournisseur » et remplissez-les. Saisissez l'identifiant, le mot de passe et l'adresse d'expédition, puis **Enregistrer et tester**. Une ligne d'aide sous chaque champ dit quoi y mettre. Un champ mal rempli est refusé tout de suite, en clair, et rien ne part.
+
+Ce qui se passe ensuite, sans rien faire de votre part :
+
+- La console n'ouvre jamais de session sur le serveur du cabinet. Les réglages partent dans la réponse signée au prochain signal (heartbeat) du serveur du cabinet, une seule fois, sous 15 minutes.
+- Le serveur du cabinet les vérifie de nouveau, enregistre le serveur d'envoi coupé, teste la connexion sans envoyer aucun message, et n'ouvre l'envoi que si le test réussit.
+- Le résultat revient au signal suivant : onglet **Messagerie** de la fiche, sous 30 minutes. Rechargez la page. Il est dit en clair : « Envoi actif », « Identifiant ou mot de passe refusé », « Serveur de messagerie injoignable », « Chiffrement ou port à vérifier », « Adresse d'expéditeur refusée », etc., avec quoi faire. Corrigez et cliquez de nouveau **Messagerie de ce cabinet** : le formulaire s'ouvre sur les derniers réglages, sauf le mot de passe.
+- Une fois l'envoi actif, la page de connexion du cabinet montre « Mot de passe oublié ? », et l'écran Utilisateurs propose **Envoyer par e-mail** à côté de **Copier** pour les liens d'invitation.
+
+**Le mot de passe** n'est jamais enregistré dans la base de la console, jamais écrit dans un journal, jamais affiché de nouveau. Il attend, chiffré, dans un fichier que seul le service de la console peut lire (`/var/lib/odoo/firm-mail`), jusqu'au signal du serveur du cabinet. Il est effacé à ce moment-là, et au plus tard après 6 heures (le résultat dit alors « Pas récupéré à temps » : saisissez-le de nouveau). Le journal de la plateforme garde qui a envoyé quels réglages et quand, sans le mot de passe. Aucun accès d'urgence n'est nécessaire : rien ne passe par le port 22, le cabinet ne passe pas à l'orange.
+
+**Couper l'envoi** (sur la fiche, quand l'envoi est actif) arrête tout envoi et masque « Mot de passe oublié ? ». Le résultat revient de la même façon.
+
+**Pendant la création d'un cabinet**, l'écran facultatif « Messagerie » du formulaire Nouveau cabinet prend les mêmes réglages (« Vous pouvez le faire plus tard depuis la fiche du cabinet »). Remplis, ils partent au serveur du cabinet dès sa mise en service, puis tout se passe comme ci-dessus.
+
+L'environnement de test (test.auditisa.com) n'envoie jamais de courrier : sa réponse est « Environnement de test : n'envoie jamais ». Un serveur de cabinet d'une version antérieure au 17 novembre 2026 ne sait pas encore lire ces réglages (« Pas de réponse du serveur du cabinet ») : mettez-le à jour d'abord.
+
+**En dernier recours, à la main** (par exemple si la console est indisponible) : après un accès d'urgence enregistré, écrivez les réglages dans un fichier que seul root peut lire, puis lancez le script.
 
 ```
 ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com
@@ -77,7 +98,7 @@ MAIL_PASSWORD=...
 MAIL_FROM=cabinet@exemple.cm
 ```
 
-Le script enregistre le serveur coupé, teste la connexion (sans envoyer de message) et n'ouvre l'envoi que si le test réussit. Il n'affiche jamais le mot de passe. S'il répond « sending stays off », corrigez le fichier et relancez-le. `firm-mail-server --dry-run` vérifie le fichier sans rien changer. L'écran Paramètres du cabinet dit seulement « Envoi activé » ou « Envoi désactivé ». L'environnement de test (test.auditisa.com) n'envoie jamais de courrier : le script y est refusé.
+Le script fait le même test et n'affiche jamais le mot de passe. `firm-mail-server --dry-run` vérifie le fichier sans rien changer ; `firm-mail-server --off` coupe l'envoi.
 
 ### Vérifier
 
@@ -139,6 +160,8 @@ Give it a passphrase and copy the file without an extension to your safe. The `.
 
 **4. Screen "Add-ons".** Switch on any add-ons of this client's own and say why: the reason goes in the log. Otherwise there is nothing to choose: the shared code is always there, and this can change later. See CLIENT-ADDONS.md.
 
+Then the **"Email"** screen, optional: the firm's mailbox, see step 10. Left empty, it is done later from the firm's page.
+
 **5. Screen "Review".** Read it through: address, server, add-ons, addresses allowed on port 22, estimated monthly cost. The band says SIMULATION or REAL. Tick the confirmation, then **Create the server**. Nothing is created before that.
 
 **6. The step log appears.** Eleven lines going from "To do" to "Done":
@@ -165,7 +188,26 @@ Copy the value to your safe, then click **Backup key is in the safe**. The firm 
 
 **9. Pass on the first administrator's link.** On the firm's page, **Show the first administrator's link**. It shows **once only**. Give it to the contact over a private channel (a call, encrypted messaging). It expires after 72 hours and works once. The contact chooses their own password there: **nobody receives a password by email, and you do not know it.**
 
-**10. Set up the firm's outgoing mail.** This is an onboarding step, done by you: no firm user, not even its administrator, sees or changes this setting (owner's ruling, 7 November 2026). Ask the contact for their mail provider's settings: server, port, encryption (STARTTLS or SSL), username, password, sender address or domain. After recording a break-glass access, write them to a file only root can read, then run the script:
+**10. Set up the firm's email, from the console.** The firm's emails (password resets, invitations) go out from its own mailbox (owner's ruling, 17 November 2026). No firm user, not even its administrator, sees or changes this setting. Ask the contact, or their IT provider, for their mailbox settings: provider, server, port, encryption (STARTTLS or SSL), username, password, sender address.
+
+On the firm's page, click **Email for this firm**. Choose the provider (Microsoft 365, Google Workspace, Hostinger, MailerSend): the server, the port and the encryption fill in by themselves. Otherwise choose "Another provider" and fill them in. Enter the username, the password and the sender address, then **Save and test**. A help line under each field says what goes there. A field filled in wrongly is refused at once, in plain words, and nothing is sent.
+
+What happens next, with nothing to do on your side:
+
+- The console never logs in to the firm's server. The settings travel in the signed answer to the firm's server's next heartbeat, once, within 15 minutes.
+- The firm's server checks them again, saves the mail server switched off, tests the connection without sending any message, and opens sending only if the test passes.
+- The result comes back with the following heartbeat: the **Email** tab of the firm's page, within 30 minutes. Reload the page. It is said in plain words: "Sending is on", "Username or password refused", "Mail server not reached", "Encryption or port to check", "Sender address refused", and so on, with what to do. Correct and click **Email for this firm** again: the form opens on the last settings, the password excepted.
+- Once sending is on, the firm's login page shows "Forgot your password?", and the Users screen offers **Send by email** next to **Copy** for invitation links.
+
+**The password** is never saved in the console's database, never written to a log, never shown again. It waits, encrypted, in a file only the console's service can read (`/var/lib/odoo/firm-mail`), until the firm's server's heartbeat. It is erased then, and after 6 hours at the latest (the result then says "Not collected in time": enter it again). The platform log keeps who sent which settings and when, without the password. No break-glass access is needed: nothing goes through port 22, and the firm does not turn amber.
+
+**Switch sending off** (on the firm's page, when sending is on) stops all sending and hides "Forgot your password?". The result comes back the same way.
+
+**While creating a firm**, the New firm form's optional "Email" screen takes the same settings ("You can do this later from the firm's page"). Filled in, they go to the firm's server as soon as it is live, then everything happens as above.
+
+The test environment (test.auditisa.com) never sends email: its answer is "Test environment: never sends". A firm server on a release older than 17 November 2026 cannot read these settings yet ("No answer from the firm's server"): update it first.
+
+**As a last resort, by hand** (for example if the console is down): after recording a break-glass access, write the settings to a file only root can read, then run the script.
 
 ```
 ssh -i ~/.ssh/auditisa-cabinet-exemple root@cabinet-exemple.auditisa.com
@@ -185,7 +227,7 @@ MAIL_PASSWORD=...
 MAIL_FROM=cabinet@exemple.cm
 ```
 
-The script saves the server switched off, tests the connection (no message is sent) and opens sending only if the test passes. It never prints the password. If it answers "sending stays off", correct the file and run it again. `firm-mail-server --dry-run` checks the file and changes nothing. The firm's Settings screen only says "Sending on" or "Sending off". The test environment (test.auditisa.com) never sends email: the script is refused there.
+The script runs the same test and never prints the password. `firm-mail-server --dry-run` checks the file and changes nothing; `firm-mail-server --off` switches sending off.
 
 ### How to verify
 

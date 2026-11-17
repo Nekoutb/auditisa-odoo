@@ -76,3 +76,21 @@ class TestMailGate(TransactionCase):
         self.params.set_param(PARAM_MAIL_TESTED, "1")
         self.server.write({"name": "Autre nom"})
         self.assertFalse(self.server._ea_mail_gate_closed())
+
+    def test_switching_the_tested_server_on_keeps_it_open(self):
+        """What firm-mail-server does: save (off), test, then switch on. The last step must not close it."""
+        self.params.set_param(PARAM_MAIL_GATE, "1")
+        self.server.write({"active": False})
+        with patch.object(IrMail_Server, "test_smtp_connection", return_value=True):
+            self.server.test_smtp_connection()
+        self.server.write({"active": True})
+        self.assertFalse(self.server._ea_mail_gate_closed())
+        self.assertEqual(self.params.get_param(PARAM_RESET_PASSWORD), "True")
+
+    def test_switching_the_server_off_closes_it_and_hides_the_reset_link(self):
+        self.params.set_param(PARAM_MAIL_GATE, "1")
+        self.params.set_param(PARAM_MAIL_TESTED, "1")
+        self.params.set_param(PARAM_RESET_PASSWORD, "True")
+        self.server.write({"active": False})
+        self.assertTrue(self.server._ea_mail_gate_closed())
+        self.assertEqual(self.params.get_param(PARAM_RESET_PASSWORD), "False")

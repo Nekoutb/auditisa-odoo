@@ -7,8 +7,10 @@
 # untrusted here: every value is checked again. All it can ask for is a release (installed only if its
 # SHA-256 is the digest the console gave), an export, an anonymised copy (which stays on this
 # server, and only if this firm allows it), the operator's addresses on port 22 (which still need
-# this firm's SSH key), and which optional add-ons to switch on (which firm-addons checks against the
-# manifests of the release in use). It cannot run anything.
+# this firm's SSH key), which optional add-ons to switch on (which firm-addons checks against the
+# manifests of the release in use), and this firm's outgoing mail settings (spool/mail.json, a file
+# of its own because it holds a password: firm-mail-server checks it again and erases it). It cannot
+# run anything.
 
 set -euo pipefail
 SCRIPT_NAME=firm-apply-desired
@@ -18,6 +20,17 @@ HERE=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)
 DRY_RUN=0
 [ "${1:-}" != "--dry-run" ] || DRY_RUN=1
 load_firm_env
+
+# The firm's outgoing mail, asked from the console's "Email for this firm" screen. Once per request:
+# firm-mail-server erases the file as it reads it, whatever the result.
+MAIL_SPOOL=$FIRM_SPOOL/mail.json
+if [ -e "$MAIL_SPOOL" ] || [ -L "$MAIL_SPOOL" ]; then
+  if [ "$DRY_RUN" = 1 ]; then
+    fl_log "DRY RUN: would apply the email settings the console sent"
+  else
+    "$HERE/firm-mail-server.sh" --request "$MAIL_SPOOL" || fl_warn "the email settings sent did not switch sending on"
+  fi
+fi
 
 SPOOL=$FIRM_SPOOL/desired.json
 [ -s "$SPOOL" ] || exit 0

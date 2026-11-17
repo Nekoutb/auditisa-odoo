@@ -22,6 +22,11 @@ _OPERATOR = re.compile(r"^[\w .'-]{1,64}$")
 # characters SigV4 uses. Root checks it again; the release's signature still decides.
 _RELEASE_URL = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/[A-Za-z0-9._~%/-]{1,512}(\?[A-Za-z0-9._~%&=-]{1,1500})?$")
 MAX_ADDON_CODES = 24
+# What the console's "Email for this firm" screen may ask. Root's firm_mail.py checks the settings again.
+_MAIL_REF = re.compile(r"^[0-9a-f]{16}$")
+MAIL_RESULTS = ("on", "off", "login", "connect", "tls", "sender", "staging", "refused", "failed")
+_MAIL_SET_KEYS = frozenset({"ref", "action", "host", "port", "encryption", "user", "password", "from"})
+_MAIL_TEXT_LIMITS = {"host": 253, "encryption": 8, "user": 254, "password": 512, "from": 320}
 
 
 def _text(pattern):
@@ -66,6 +71,10 @@ STATUS_FILES = {
     "ssh_sessions_24h": _count,
     "last_ssh_at": _text(_INSTANT),
     "addons_refused": _count,
+    # Absent until the console first sends this firm its email settings: an older console, which
+    # refuses a figure it does not know, keeps working.
+    "mail_request_ref": _text(_MAIL_REF),
+    "mail_request_result": _word(*MAIL_RESULTS),
 }
 
 DEFAULTS = {
@@ -137,6 +146,21 @@ def build_figures(status, memory, disk, users_active, engagements_active, mail_e
     return figures
 
 
+def mail_request(data):
+    """The console's email request, or None. A password travels this way, once, and only here."""
+    if not isinstance(data, dict) or not isinstance(data.get("ref"), str) or not _MAIL_REF.match(data["ref"]):
+        return None
+    if data.get("action") == "off":
+        return {"ref": data["ref"], "action": "off"} if set(data) == {"ref", "action"} else None
+    if data.get("action") != "set" or set(data) != _MAIL_SET_KEYS or type(data["port"]) is not int:
+        return None
+    for key, limit in _MAIL_TEXT_LIMITS.items():
+        value = data[key]
+        if not isinstance(value, str) or len(value) > limit or any(ord(c) < 32 for c in value):
+            return None
+    return dict(data)
+
+
 def parse_desired(body):
     """What the control plane asks, validated. Unknown keys are dropped.
 
@@ -186,4 +210,7 @@ def parse_desired(body):
     ended = data.get("support_visit_end")
     if type(ended) is int and 0 < ended < 10 ** 9:
         desired["support_visit_end"] = ended
+    mail = mail_request(data.get("mail_request"))
+    if mail is not None:
+        desired["mail_request"] = mail
     return desired

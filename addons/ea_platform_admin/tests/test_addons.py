@@ -184,7 +184,7 @@ class TestWizardStep(AddonCase):
         self.assertTrue(wizard.catalogue_missing)
         self.assertFalse(wizard.addon_line_ids)
         wizard.action_next()
-        self.assertEqual(wizard.step, "preflight")
+        self.assertEqual(wizard.step, "email")
 
     def test_choosing_needs_a_reason_then_it_reaches_the_firm(self):
         wizard = self._at_addons()
@@ -193,6 +193,7 @@ class TestWizardStep(AddonCase):
             wizard.action_next()
         wizard.addons_reason = "In the contract"
         wizard.action_next()
+        wizard.action_next()  # the Email screen, left empty
         self.assertEqual(wizard.preview_addons, "SAMPLE: Client notes")
         wizard.confirmed = True
         result = wizard.action_confirm()

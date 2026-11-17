@@ -969,6 +969,7 @@ msgstr "Demandez à votre technicien une nouvelle clé pour ce cabinet."
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_by
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_by
 msgid "Asked by"
 msgstr "Demandée par"
 
@@ -981,6 +982,7 @@ msgstr "Demandé coupé, le cabinet dit allumé"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_addon__desired
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_addons
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__desired_since
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_at
 msgid "Asked on"
 msgstr "Demandé allumé"
 
@@ -1343,6 +1345,7 @@ msgstr "Cabinet témoin"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_suspend_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_toggle_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_visit_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2106,6 +2109,7 @@ msgstr "Pare-feu chez le fournisseur"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_supervision_search
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_ticket_search
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__firm_id
 msgid "Firm"
 msgstr "Cabinet"
 
@@ -3431,6 +3435,7 @@ msgstr "Rien : l'étape réessaie seule toutes les 2 minutes."
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__current_state
 msgid "Now"
 msgstr "Maintenant"
 
@@ -6458,6 +6463,8 @@ msgstr "À quoi il sert"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/howto.py:0
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_message
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__current_message
 msgid "What it means"
 msgstr "Ce que cela veut dire"
 
@@ -6984,3 +6991,568 @@ msgstr "Mise à jour : code du motif"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_practice_computer__progress_at
 msgid "Update: reported on"
 msgstr "Mise à jour : signalé le"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Nothing has been sent from the console yet. Use Email for this firm to enter the firm's mailbox settings."
+msgstr "Rien n'a encore été envoyé depuis la console. Utilisez « Messagerie de ce cabinet » pour saisir les réglages de la boîte du cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Sent. The firm's server collects the settings at its next check-in (within 15 minutes), tests them without sending any message, and the result shows here (within 30 minutes). Reload the page to see it."
+msgstr "Envoyé. Le serveur du cabinet récupère les réglages à son prochain signal (sous 15 minutes), les teste sans envoyer aucun message, et le résultat s'affiche ici (sous 30 minutes). Rechargez la page pour le voir."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Test passed: the firm's server now sends its email (password resets, invitations) from this mailbox."
+msgstr "Test réussi : le serveur du cabinet envoie désormais ses e-mails (réinitialisations de mot de passe, invitations) depuis cette boîte."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Sending is off: the firm's server sends no email. \"Forgot your password?\" is hidden on its login page."
+msgstr "L'envoi est coupé : le serveur du cabinet n'envoie aucun e-mail. « Mot de passe oublié ? » est masqué sur sa page de connexion."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The mailbox refused the username or the password. Check them with the firm. Microsoft 365 and Google often need an app password, or SMTP sending switched on for this mailbox. Sending stays off."
+msgstr "La boîte a refusé l'identifiant ou le mot de passe. Vérifiez-les avec le cabinet. Microsoft 365 et Google demandent souvent un mot de passe d'application, ou l'envoi SMTP activé pour cette boîte. L'envoi reste coupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The firm's server could not reach the mail server. Check the server name and the port. Sending stays off."
+msgstr "Le serveur du cabinet n'a pas pu joindre le serveur de messagerie. Vérifiez le nom du serveur et le port. L'envoi reste coupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The connection did not work with this encryption and this port. Usually: STARTTLS with port 587, or SSL with port 465. Sending stays off."
+msgstr "La connexion n'a pas fonctionné avec ce chiffrement et ce port. En général : STARTTLS avec le port 587, ou SSL avec le port 465. L'envoi reste coupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The mail server refused the sender address. Use the mailbox's own address. Sending stays off."
+msgstr "Le serveur de messagerie a refusé l'adresse d'expéditeur. Utilisez l'adresse de la boîte elle-même. L'envoi reste coupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "This is a test environment: it never sends email, by policy. Nothing was changed."
+msgstr "C'est un environnement de test : il n'envoie jamais d'e-mail, par principe. Rien n'a été changé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The firm's server refused these settings. Check each field and send them again. Sending stays off."
+msgstr "Le serveur du cabinet a refusé ces réglages. Vérifiez chaque champ et renvoyez-les. L'envoi reste coupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The connection test did not pass. Check the settings with the firm, then send them again. Sending stays off."
+msgstr "Le test de connexion n'a pas réussi. Vérifiez les réglages avec le cabinet, puis renvoyez-les. L'envoi reste coupé."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The firm's server did not collect the settings in time, so the console erased them. Enter them again once the firm's server is running."
+msgstr "Le serveur du cabinet n'a pas récupéré les réglages à temps : la console les a donc effacés. Saisissez-les de nouveau quand le serveur du cabinet fonctionne."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "The firm's server collected the settings but has not answered. Its release may be older than this screen: update it, then send the settings again."
+msgstr "Le serveur du cabinet a récupéré les réglages mais n'a pas répondu. Sa version est peut-être plus ancienne que cet écran : mettez-la à jour, puis renvoyez les réglages."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Server: a local or private address is refused. Use the provider's server name."
+msgstr "Serveur : une adresse locale ou privée est refusée. Indiquez le nom du serveur du fournisseur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Server: give the provider's server name, for example smtp.office365.com."
+msgstr "Serveur : indiquez le nom du serveur du fournisseur, par exemple smtp.office365.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Port: 587 or 465 (25 and 2525 also work)."
+msgstr "Port : 587 ou 465 (25 et 2525 fonctionnent aussi)."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Encryption: choose STARTTLS or SSL."
+msgstr "Chiffrement : choisissez STARTTLS ou SSL."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Username and password go together: fill in both, or neither."
+msgstr "L'identifiant et le mot de passe vont ensemble : remplissez les deux, ou aucun."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Username: no spaces."
+msgstr "Identifiant : sans espace."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Password: too long, or it holds an invisible character."
+msgstr "Mot de passe : trop long, ou il contient un caractère invisible."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/services/mail_settings.py:0
+msgid "Sender address: an address such as cabinet@example.com."
+msgstr "Adresse d'expéditeur : une adresse comme cabinet@exemple.com."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "The console has no database secret: tell the developer."
+msgstr "La console n'a pas de secret de base de données : prévenez le développeur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "The console could not keep the password until the firm's server collects it (its folder cannot be written). Nothing was sent. Tell the developer."
+msgstr "La console n'a pas pu garder le mot de passe jusqu'à ce que le serveur du cabinet le récupère (son dossier ne peut pas être écrit). Rien n'a été envoyé. Prévenez le développeur."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "Email settings go only to a firm that is live or being set up."
+msgstr "Les réglages de messagerie ne vont qu'à un cabinet en service ou en cours de mise en service."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "Email settings sent to the firm's server"
+msgstr "Réglages de messagerie envoyés au serveur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "Sending can be switched off only on a live firm."
+msgstr "L'envoi ne peut être coupé que sur un cabinet en service."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "Email: switching sending off asked"
+msgstr "Messagerie : coupure de l'envoi demandée"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_mail.py:0
+msgid "Email: the firm's server answered"
+msgstr "Messagerie : le serveur du cabinet a répondu"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_mail.py:0
+msgid "%(settings)s: sent to the firm's server and tested as soon as it is live"
+msgstr "%(settings)s : envoyé au serveur du cabinet et testé dès sa mise en service"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_mail.py:0
+msgid "Not set: it can be done later from the firm's page"
+msgstr "Non réglée : cela peut se faire plus tard depuis la fiche du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_mail_form
+msgid "A firm's outgoing mail settings, as typed"
+msgstr "Réglages d'envoi d'un cabinet, tels que saisis"
+
+#. module: ea_platform_admin
+#: model:ir.model,name:ea_platform_admin.model_platform_firm_mail_wizard
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "Email for this firm"
+msgstr "Messagerie de ce cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_state
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__step__email
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__preview_mail
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "Email"
+msgstr "Messagerie"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_action
+msgid "Last request"
+msgstr "Dernière demande"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_ref
+msgid "Request reference"
+msgstr "Référence de la demande"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_summary
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_action__set
+msgid "Settings sent"
+msgstr "Réglages envoyés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__mail_request_summary
+msgid "Server, port, encryption, username and sender address. The password is never kept by the console."
+msgstr "Serveur, port, chiffrement, identifiant et adresse d'expéditeur. La console ne garde jamais le mot de passe."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_action__off
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "Switch sending off"
+msgstr "Couper l'envoi"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_host
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_host
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_host
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_host
+msgid "Mail server"
+msgstr "Serveur de messagerie"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_port
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_port
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_port
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_port
+msgid "Port"
+msgstr "Port"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_encryption
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_encryption
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_encryption
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_encryption
+msgid "Encryption"
+msgstr "Chiffrement"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_encryption__starttls
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_encryption__starttls
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_encryption__starttls
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_encryption__starttls
+msgid "STARTTLS"
+msgstr "STARTTLS"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_encryption__ssl
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_encryption__ssl
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_encryption__ssl
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_encryption__ssl
+msgid "SSL"
+msgstr "SSL"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_user
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_user
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_user
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_user
+msgid "Username"
+msgstr "Identifiant"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_sender
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_sender
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_sender
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_sender
+msgid "Sender address"
+msgstr "Adresse d'expéditeur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_delivered_at
+msgid "Collected by the firm's server on"
+msgstr "Récupéré par le serveur du cabinet le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_answered_at
+msgid "Answer received on"
+msgstr "Réponse reçue le"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__none
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__none
+msgid "Not set from the console"
+msgstr "Pas réglée depuis la console"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__waiting
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__waiting
+msgid "Waiting for the firm's server"
+msgstr "En attente du serveur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__on
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__on
+msgid "Sending is on"
+msgstr "Envoi actif"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__off
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__off
+msgid "Sending is off"
+msgstr "Envoi coupé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__login
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__login
+msgid "Username or password refused"
+msgstr "Identifiant ou mot de passe refusé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__connect
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__connect
+msgid "Mail server not reached"
+msgstr "Serveur de messagerie injoignable"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__tls
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__tls
+msgid "Encryption or port to check"
+msgstr "Chiffrement ou port à vérifier"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__sender
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__sender
+msgid "Sender address refused"
+msgstr "Adresse d'expéditeur refusée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__staging
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__staging
+msgid "Test environment: never sends"
+msgstr "Environnement de test : n'envoie jamais"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__refused
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__refused
+msgid "Settings refused"
+msgstr "Réglages refusés"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__failed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__failed
+msgid "Test failed"
+msgstr "Test échoué"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__expired
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__expired
+msgid "Not collected in time"
+msgstr "Pas récupéré à temps"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__no_answer
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__no_answer
+msgid "No answer from the firm's server"
+msgstr "Pas de réponse du serveur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_preset
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_preset
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_preset
+msgid "Email provider"
+msgstr "Fournisseur de messagerie"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_preset
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_preset
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_preset
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "Choose the firm's email provider: the server, the port and the encryption fill in by themselves."
+msgstr "Choisissez le fournisseur de messagerie du cabinet : le serveur, le port et le chiffrement se remplissent tout seuls."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_preset__microsoft365
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_preset__microsoft365
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_preset__microsoft365
+msgid "Microsoft 365"
+msgstr "Microsoft 365"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_preset__google
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_preset__google
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_preset__google
+msgid "Google Workspace"
+msgstr "Google Workspace"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_preset__hostinger
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_preset__hostinger
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_preset__hostinger
+msgid "Hostinger"
+msgstr "Hostinger"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_preset__mailersend
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_preset__mailersend
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_preset__mailersend
+msgid "MailerSend"
+msgstr "MailerSend"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_mail_form__mail_preset__other
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__mail_preset__other
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_onboarding_wizard__mail_preset__other
+msgid "Another provider"
+msgstr "Autre fournisseur"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_host
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_host
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_host
+msgid "The provider's outgoing mail server (SMTP), for example smtp.office365.com."
+msgstr "Le serveur d'envoi du fournisseur (SMTP), par exemple smtp.office365.com."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_port
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_port
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_port
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "Usually 587 with STARTTLS, or 465 with SSL."
+msgstr "En général 587 avec STARTTLS, ou 465 avec SSL."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_encryption
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_encryption
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_encryption
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "How the connection is protected. A password never travels unencrypted."
+msgstr "Comment la connexion est protégée. Un mot de passe ne circule jamais en clair."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_user
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_user
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_user
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "Usually the full email address of the mailbox."
+msgstr "En général l'adresse e-mail complète de la boîte."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_password
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_password
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_password
+msgid "Password"
+msgstr "Mot de passe"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_password
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_password
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_password
+msgid "The mailbox's password, or an app password (Microsoft 365 and Google often ask for one). It goes to the firm's server once, and is never kept or shown by the console."
+msgstr "Le mot de passe de la boîte, ou un mot de passe d'application (Microsoft 365 et Google en demandent souvent un). Il part une seule fois vers le serveur du cabinet ; la console ne le garde ni ne l'affiche jamais."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_form__mail_password_kept
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__mail_password_kept
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_onboarding_wizard__mail_password_kept
+msgid "A password is kept for this form"
+msgstr "Un mot de passe est gardé pour ce formulaire"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_mail_form__mail_sender
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm_mail_wizard__mail_sender
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_onboarding_wizard__mail_sender
+msgid "The address the firm's emails come from: usually the same mailbox, for example cabinet@example.com."
+msgstr "L'adresse d'où partent les e-mails du cabinet : en général la même boîte, par exemple cabinet@exemple.com."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+msgid "The firm's own mailbox sends its emails: password resets, invitations. Ask the firm, or its IT provider, for these settings. The firm's server tests them without sending any message, and switches sending on only if the test passes."
+msgstr "La boîte de messagerie du cabinet envoie ses e-mails : réinitialisations de mot de passe, invitations. Demandez ces réglages au cabinet, ou à son prestataire informatique. Le serveur du cabinet les teste sans envoyer aucun message, et n'active l'envoi que si le test réussit."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+msgid "The firm's mailbox"
+msgstr "La boîte du cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "smtp.office365.com"
+msgstr "smtp.office365.com"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "cabinet@example.com"
+msgstr "cabinet@exemple.com"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "The provider's outgoing mail server (SMTP)."
+msgstr "Le serveur d'envoi du fournisseur (SMTP)."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "The mailbox's password, or an app password (Microsoft 365 and Google often ask for one). It goes to the firm's server once. The console never keeps it and never shows it again."
+msgstr "Le mot de passe de la boîte, ou un mot de passe d'application (Microsoft 365 et Google en demandent souvent un). Il part une seule fois vers le serveur du cabinet. La console ne le garde jamais et ne l'affiche plus jamais."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "A password is kept for this form: leave the field empty to use it, or type it again."
+msgstr "Un mot de passe est gardé pour ce formulaire : laissez le champ vide pour l'utiliser, ou saisissez-le de nouveau."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "The address the firm's emails come from: usually the same mailbox."
+msgstr "L'adresse d'où partent les e-mails du cabinet : en général la même boîte."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
+msgid "Save and test"
+msgstr "Enregistrer et tester"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "The firm's server will stop sending email: no more password resets or invitations by email. Switch sending off?"
+msgstr "Le serveur du cabinet n'enverra plus d'e-mail : plus de réinitialisation de mot de passe ni d'invitation par e-mail. Couper l'envoi ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "The firm's email"
+msgstr "La messagerie du cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "Last request from the console"
+msgstr "Dernière demande de la console"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+msgid "The console never keeps the password. To change the settings, or the password, use Email for this firm again: the firm's server tests the new settings before it sends anything."
+msgstr "La console ne garde jamais le mot de passe. Pour changer les réglages, ou le mot de passe, utilisez de nouveau « Messagerie de ce cabinet » : le serveur du cabinet teste les nouveaux réglages avant d'envoyer quoi que ce soit."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "You can do this later from the firm's page."
+msgstr "Vous pouvez le faire plus tard depuis la fiche du cabinet."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_mail
+msgid "Optional: the firm's own mailbox, which sends its emails (password resets, invitations). Filled in now, the settings go to the firm's server as soon as it is live; it tests them without sending any message, and switches sending on only if the test passes."
+msgstr "Facultatif : la boîte de messagerie du cabinet, qui envoie ses e-mails (réinitialisations de mot de passe, invitations). Remplis maintenant, les réglages partent vers le serveur du cabinet dès sa mise en service ; il les teste sans envoyer aucun message, et n'active l'envoi que si le test réussit."

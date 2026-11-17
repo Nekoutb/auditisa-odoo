@@ -252,10 +252,14 @@
                 <div>
                     <b>Invitation link</b>
                     <span class="ea-muted"> <t t-esc="state.linkFor"/></span>
-                    <div class="ea-muted">Send it to this person yourself. They choose their own password: none is created or sent. The link expires after 6 days.</div>
+                    <div class="ea-muted" t-if="state.data.mail_on">Copy it, or have it sent to this person by email from the firm's mailbox. They choose their own password: none is created or sent. The link expires after 6 days.</div>
+                    <div class="ea-muted" t-else="">Send it to this person yourself. They choose their own password: none is created or sent. The link expires after 6 days.</div>
                     <code t-esc="state.link"/>
                 </div>
-                <button type="button" class="ea-ts-ghost" t-on-click="copyLink"><t t-if="state.copied">Copied</t><t t-else="">Copy</t></button>
+                <div class="ea-ts-link-acts">
+                    <button type="button" class="ea-ts-ghost" t-on-click="copyLink"><t t-if="state.copied">Copied</t><t t-else="">Copy</t></button>
+                    <button type="button" class="ea-ts-ghost" t-if="state.data.mail_on and state.linkUser" t-att-disabled="state.emailed" t-on-click="sendLink"><t t-if="state.emailed">Sent</t><t t-else="">Send by email</t></button>
+                </div>
             </div>
             <div class="ea-card">
                 <table class="ea-ts-grid ea-ts-report">
