@@ -14,6 +14,7 @@ from ..services.signoff_rules import (
     effective_task_rule,
     is_ladder_role,
 )
+from ..services.work_allocation import ROLE_WORDS, rule_text
 
 LADDER_SELECTION = [
     ("staff", "Staff"),
@@ -179,6 +180,16 @@ class SignoffPolicy(models.Model):
         policy = policy or self._ea_policy()
         rules = self.env["ea.audit.signoff.task.rule"]._ea_rules([code])
         return effective_task_rule(policy, rules, code)
+
+    @api.model
+    def _ea_rule_words(self, rule):
+        """A task's rule in plain words, in the reader's language (work allocation)."""
+        return rule_text(rule, lambda source: self.env._(source))
+
+    @api.model
+    def _ea_sentence_role_words(self):
+        """Each rung of the ladder as it reads inside a sentence: "a senior or above"."""
+        return {role: self.env._(word) for role, word in ROLE_WORDS.items()}
 
     @api.model
     def save_policy(self, min_reviewer_role, require_partner_on, require_distinct_preparer_approver):

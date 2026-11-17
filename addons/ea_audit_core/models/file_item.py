@@ -23,7 +23,8 @@ SIGNOFF_REMOVED_REASON = "Removed by the person who signed"
 
 # file_item column -> who the task's preparer rules apply to
 _ASSIGNMENT_FIELD = {"preparer": "preparer_id", "approver": "approver_id", "assignee": "assignee_id"}
-_ENGINE_FIELDS = {"state", "template_id", "engagement_id", "conditional", "code", "section"}
+# partner_approver_id follows the policy and the engagement partner (work allocation, 2026-11-18): never typed
+_ENGINE_FIELDS = {"state", "template_id", "engagement_id", "conditional", "code", "section", "partner_approver_id"}
 
 
 class FileItem(models.Model):
@@ -58,6 +59,10 @@ class FileItem(models.Model):
     preparer_id = fields.Many2one("res.users", string="Preparer", index=True, ondelete="restrict")
     approver_id = fields.Many2one("res.users", string="Reviewer", index=True, ondelete="restrict")
     assignee_id = fields.Many2one("res.users", string="Assignee", index=True, ondelete="restrict")
+    partner_approver_id = fields.Many2one(
+        "res.users", string="Partner approval", index="btree_not_null", ondelete="restrict", readonly=True,
+        help="The engagement partner, set automatically on every task the sign-off policy gives to the partner.",
+    )
     due_date = fields.Date()
     signoff_ids = fields.One2many("ea.audit.signoff", "file_item_id", string="Sign-offs")
     tool_outputs_missing = fields.Char(
@@ -163,9 +168,22 @@ class FileItem(models.Model):
                     raise rule_error(self.env, "eqr-read-only")
         return super().write(vals) if vals else True
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        items = super().create(vals_list)
+        # a task that comes onto the file later (scope, a trigger) goes to the partner at once
+        items.engagement_id._ea_sync_partner_approval(items)
+        return items
+
     def assign_tasks(self, user_id, role="assignee"):
         """Port of assignTasks / assignTask, with assertAssignmentRulesTx. False
         unassigns. Returns how many tasks were repointed."""
+        return self._ea_assign_tasks(user_id, role)
+
+    def _ea_assign_tasks(self, user_id, role="assignee", below_minimum_warns=False):
+        """assign_tasks itself. Work allocation (owner's ruling of 2026-11-18) passes
+        ``below_minimum_warns``: a person below the task's minimum is then saved and the screen
+        warns, signing still following the sign-off policy. Private: no RPC caller reaches it."""
         if not self:
             return 0
         if role not in _ASSIGNMENT_FIELD:
@@ -190,7 +208,7 @@ class FileItem(models.Model):
                     raise rule_error(self.env, "eqr-not-assignable")
                 rule = self.env["ea.audit.signoff.policy"]._ea_effective_rule(item.code, policy)
                 minimum = rule["min_reviewer"] if role == "approver" else rule["min_preparer"]
-                if team_rank(member.team_role) < team_rank(minimum):
+                if team_rank(member.team_role) < team_rank(minimum) and not below_minimum_warns:
                     raise rule_error(self.env, below_minimum_code(minimum))
                 if policy["require_distinct_preparer_approver"]:
                     clash = (

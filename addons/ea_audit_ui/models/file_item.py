@@ -71,8 +71,8 @@ class FileItem(models.Model):
             )
         return role
 
-    def assign_tasks(self, user_id, role="assignee"):
-        count = super().assign_tasks(user_id, role)
+    def _ea_assign_tasks(self, user_id, role="assignee", below_minimum_warns=False):
+        count = super()._ea_assign_tasks(user_id, role, below_minimum_warns)
         if user_id and user_id != self.env.uid:
             addressee = self.env["res.users"].sudo().browse(user_id)
             reader = self._ea_ui_for_reader(addressee)

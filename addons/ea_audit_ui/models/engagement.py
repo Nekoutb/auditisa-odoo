@@ -35,6 +35,10 @@ class Engagement(models.Model):
             "name": self.env._("Tasks"), "params": {"resId": self.id},
         }
 
+    def _ea_wa_deadline(self, item):
+        """Work allocation shows the one deadline the task lists and the dashboard show (F011)."""
+        return item._ea_deadline_payload()["date"]
+
     def _ea_board(self, view_xmlid, name):
         """A tool board names its view, so "? Help" in the top bar opens the page of that board."""
         action = super()._ea_board(view_xmlid, name)

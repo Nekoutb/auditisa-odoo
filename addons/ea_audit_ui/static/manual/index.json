@@ -1,5 +1,5 @@
 {
- "build": "c471f4b46b82",
+ "build": "c52fc331a53d",
  "parts": [
   {
    "key": "1",
@@ -251,6 +251,17 @@
    },
    "screens": [
     "ea_audit_core.action_my_invitations"
+   ]
+  },
+  {
+   "id": "work-allocation",
+   "part": "3",
+   "title": {
+    "en": "Work allocation",
+    "fr": "Répartition des travaux"
+   },
+   "screens": [
+    "tag:ea_audit_tools.work_allocation_page"
    ]
   },
   {
@@ -508,8 +519,7 @@
    },
    "screens": [
     "tag:ea_audit_tools.je_page",
-    "model:ea.audit.je.studio",
-    "view:ea_audit_tools.view_engagement_overrides_board"
+    "model:ea.audit.je.studio"
    ]
   },
   {

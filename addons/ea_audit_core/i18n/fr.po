@@ -3808,6 +3808,7 @@ msgstr "édition en vigueur"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+#: code:addons/ea_audit_core/services/work_allocation.py:0
 msgid "director"
 msgstr "directeur"
 
@@ -3832,12 +3833,14 @@ msgstr "invalide"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+#: code:addons/ea_audit_core/services/work_allocation.py:0
 msgid "manager"
 msgstr "manager"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+#: code:addons/ea_audit_core/services/work_allocation.py:0
 msgid "partner"
 msgstr "associé"
 
@@ -3910,12 +3913,14 @@ msgstr "ligne %(row)s : valeur %(value)s en colonne K, attendu Oui ou Non"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+#: code:addons/ea_audit_core/services/work_allocation.py:0
 msgid "senior"
 msgstr "senior"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+#: code:addons/ea_audit_core/services/work_allocation.py:0
 msgid "senior manager"
 msgstr "senior manager"
 
@@ -3928,6 +3933,7 @@ msgstr "signé"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+#: code:addons/ea_audit_core/services/work_allocation.py:0
 msgid "staff member"
 msgstr "assistant audit"
 
@@ -6187,3 +6193,43 @@ msgstr "Répondez à encore 1 question pour conclure."
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
 msgid "Answer %s more questions to conclude."
 msgstr "Répondez à encore %s questions pour conclure."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__partner_approver_id
+msgid "Partner approval"
+msgstr "Approbation de l'associé"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_file_item__partner_approver_id
+msgid "The engagement partner, set automatically on every task the sign-off policy gives to the partner."
+msgstr "L'associé responsable, désigné automatiquement sur chaque tâche que la politique de signature confie à l'associé."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/work_allocation.py:0
+msgid "Prepared by a %(role)s or above"
+msgstr "Préparé par un %(role)s ou plus"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/work_allocation.py:0
+msgid "reviewed by a %(role)s or above"
+msgstr "revu par un %(role)s ou plus"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/work_allocation.py:0
+msgid "partner approves"
+msgstr "l'associé approuve"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(count)s task(s) for partner approval assigned to %(name)s: %(codes)s"
+msgstr "%(count)s tâche(s) à approuver par l'associé confiée(s) à %(name)s : %(codes)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(count)s task(s) no longer need partner approval: %(codes)s"
+msgstr "%(count)s tâche(s) sans approbation de l'associé désormais : %(codes)s"

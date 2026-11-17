@@ -1,0 +1,25 @@
+// Work allocation (owner's mock-up of 2026-11-18). The page uses the findings page's kit (.o_ea_ws).
+.o_ea_wa {
+    .o_ea_wa_split { grid-template-columns: minmax(0, 3fr) minmax(240px, 1fr); }
+    @media (max-width: 1100px) { .o_ea_wa_split { grid-template-columns: 1fr; } }
+    .o_ea_wa_grid {
+        tbody tr { cursor: default; }
+        tr.o_ea_wa_phase td { background: var(--eaws-head); }
+    }
+    .o_ea_wa_select { min-width: 170px; max-width: 230px; }
+    .o_ea_wa_problem { margin-top: 3px; max-width: 230px; color: var(--eaws-red); font-size: 12px; }
+    .o_ea_wa_bulk {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; padding: 8px 10px;
+        border-radius: 6px; background: var(--eaws-pale);
+        label { display: flex; align-items: center; gap: 6px; margin: 0; }
+    }
+    .o_ea_wa_person {
+        display: flex; flex-direction: column; gap: 2px; width: 100%; margin-top: 8px; padding: 8px; text-align: left;
+        border: 1px solid var(--eaws-line); border-radius: 8px; background: #fff;
+        &.is-active { border-color: var(--eaws-green); background: var(--eaws-pale); }
+    }
+    .o_ea_wa_bar {
+        display: block; height: 6px; margin-top: 4px; border-radius: 4px; background: #dfe5e8; overflow: hidden;
+        i { display: block; height: 100%; background: var(--eaws-green); }
+    }
+}

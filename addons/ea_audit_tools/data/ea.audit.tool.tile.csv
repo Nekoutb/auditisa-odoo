@@ -33,7 +33,7 @@ tile_an_financial,an-financial,Financial analysis,"Current, quick and cash ratio
 tile_an_analytics,an-analytics,Analytical procedures,"Current against prior, by lead schedule.","P3.2,C2.1",action_tool_analytics,300,analyzers
 tile_dsp,dsp,Procedure design,"Tests of controls and tests of details: the mandatory and alternative procedures, per account.","S5.5,E4.x",action_tool_dsp,108,hub
 tile_programs,programs,Audit programs,"Generated from the library and the risks of the section.","E4.x,E3.1,E6.x",action_tool_programs,109,hub
-tile_overrides,overrides,Client overrides,"Which index or section an account of this client feeds.","P6.2,S4.1",action_tool_overrides,170,hub
+tile_work_allocation,work-allocation,Work allocation,"Who prepares and who reviews each task.",,action_tool_work_allocation,170,hub
 tile_potential,potential,Potential risks,"Raised from the papers, promoted or dismissed.","P5.2,S3.1",action_tool_potential,180,retired
 tile_team,team,Engagement team,"Who is on this file, their role, and inviting a member.",,action_tool_team,45,hub
 tile_substantive,substantive,Substantive procedures,"The procedures designed, by account: their working papers, samples, conclusions and findings.",E4.x,action_tool_substantive,109,hub

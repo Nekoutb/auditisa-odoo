@@ -19,9 +19,11 @@ from ..services.signoff_rules import (
     TEAM_LADDER,
     at_least,
     can_write,
+    effective_task_rule,
     may_hold_partner_seat,
 )
 from ..services.engagement_profile import relies_on_controls as profile_relies_on_controls
+from ..services.work_allocation import check_row, refused
 from ..services.engagement_profile import task_codes as profile_task_codes
 from ..services.rollforward_plan import ROLLFORWARD_KEYS, invitations, uses_last_year_tasks
 from ..services.standards_edition import STANDARDS_EDITIONS, default_standards_edition, edition_for_period
@@ -1109,6 +1111,125 @@ class Engagement(models.Model):
             ),
         )
         return True
+
+    # ------------------------------------------------------------------
+    # Work allocation (owner's mock-up of 2026-11-18)
+    # ------------------------------------------------------------------
+
+    def _ea_allocation_partner(self):
+        """The engagement partner, as the dashboard names them: the accepted seat, else the invited one."""
+        self.ensure_one()
+        seats = self.env["ea.audit.team.member"].sudo().search([
+            ("engagement_id", "=", self.id), ("team_role", "=", "partner"), ("state", "!=", "declined"),
+        ])
+        return (seats.filtered(lambda m: m.state == "accepted") or seats)[:1].user_id
+
+    def _ea_allocation_rules(self, items):
+        """{task id: its rule from the sign-off policy}, the policy and the firm's rules read once."""
+        policy = self.env["ea.audit.signoff.policy"].sudo()._ea_policy()
+        own = self.env["ea.audit.signoff.task.rule"].sudo()._ea_rules(set(items.mapped("code")))
+        return {item.id: effective_task_rule(policy, own, item.code) for item in items}
+
+    def _ea_sync_partner_approval(self, items=None, log=True):
+        """Partner approval goes to the engagement partner by itself, on every task whose rule asks
+        for it, and on no other. Runs when tasks come onto the file, when the partner seat changes
+        hands and when the allocation is saved. An archived file is left as it is."""
+        Item = self.env["ea.audit.file.item"].sudo()
+        for engagement in self.sudo():
+            if engagement._ea_is_archived():
+                continue
+            own = Item.search([("engagement_id", "=", engagement.id)]) if items is None else (
+                items.sudo().filtered(lambda i: i.engagement_id == engagement)
+            )
+            if not own:
+                continue
+            partner = engagement._ea_allocation_partner()
+            rules = engagement._ea_allocation_rules(own)
+            targets = {}
+            for item in own:
+                target = partner if rules[item.id]["partner_required"] else self.env["res.users"]
+                if item.partner_approver_id != target:
+                    targets.setdefault(target, Item)
+                    targets[target] |= item
+            for target, group in targets.items():
+                group.write({"partner_approver_id": target.id or False})
+                if not log:
+                    continue
+                codes = ", ".join(group.mapped("code")[:12])
+                if target:
+                    engagement._ea_log(
+                        "partner_approval_assigned",
+                        "%d task(s) for partner approval assigned to %s: %s" % (len(group), target.name, codes),
+                    )
+                elif partner:
+                    # without a partner seat the change of seat is itself on the trail
+                    engagement._ea_log(
+                        "partner_approval_removed", "%d task(s) no longer need partner approval: %s" % (len(group), codes),
+                    )
+        return True
+
+    def ea_allocate_tasks(self, changes):
+        """Saves the Work allocation screen. ``changes`` holds one dict per task changed: its id, and
+        preparer_id and/or approver_id (a user id, or False for an empty box). Only accepted members
+        of the team, the quality reviewer apart. A reviewer who is also the preparer refuses the whole
+        save (F001); a person below the task's minimum is saved, and the answer lists the warnings
+        (owner's ruling of 2026-11-18: signing still follows the sign-off policy). Each change goes
+        through the assignment of the tasks screen: the same notifications, the same trail lines.
+        Signatures already given are never touched."""
+        self.ensure_one()
+        self._ea_require_write()
+        self._ea_require_team_manager()
+        self._ea_assert_mutable()
+        if self._ea_acts_as_eqr(self.env.user):
+            raise rule_error(self.env, "eqr-read-only")
+        Item = self.env["ea.audit.file.item"].sudo()
+        wanted = {}
+        for change in changes or []:
+            item = Item.browse(int(change.get("id") or 0)).exists()
+            if not item or item.engagement_id != self.sudo() or item.conditional:
+                raise rule_error(self.env, "not-found")
+            wanted[item.id] = {
+                field: int(change[field]) if change[field] else False
+                for field in ("preparer_id", "approver_id") if field in change
+            }
+        items = Item.browse(list(wanted))
+        members = self.sudo().team_member_ids.filtered(lambda m: m.state == "accepted" and m.team_role != EQR_ROLE)
+        roles = {member.user_id.id: member.team_role for member in members}
+        if any(uid and uid not in roles for values in wanted.values() for uid in values.values()):
+            raise rule_error(self.env, "not-found")
+        rules = self._ea_allocation_rules(items)
+        rows = []
+        for item in items:
+            values = wanted[item.id]
+            rows.append({
+                "id": item.id,
+                "min_preparer": rules[item.id]["min_preparer"],
+                "min_reviewer": rules[item.id]["min_reviewer"],
+                "preparer": values.get("preparer_id", item.preparer_id.id) or None,
+                "reviewer": values.get("approver_id", item.approver_id.id) or None,
+                "assignee": item.assignee_id.id or None,
+            })
+        if refused(rows, roles):
+            raise rule_error(self.env, "preparer-equals-approver")
+        # the reviewer who becomes the preparer leaves the reviewer box first: no step sees one person twice
+        handover = items.filtered(
+            lambda i: wanted[i.id].get("preparer_id") and wanted[i.id]["preparer_id"] == i.approver_id.id
+        )
+        if handover:
+            handover.with_env(self.env)._ea_assign_tasks(False, "approver")
+        for field, role in (("preparer_id", "preparer"), ("approver_id", "approver")):
+            targets = {}
+            for item in items:
+                if field in wanted[item.id] and (item[field].id or False) != wanted[item.id][field]:
+                    targets.setdefault(wanted[item.id][field], []).append(item.id)
+            for uid, ids in targets.items():
+                Item.browse(ids).with_env(self.env)._ea_assign_tasks(uid, role, below_minimum_warns=True)
+        self._ea_sync_partner_approval()
+        warnings = [
+            {"id": row["id"], "box": box, "role": role}
+            for row in rows for box, _kind, _blocking, role in check_row(row, roles)
+        ]
+        return {"saved": len(items), "warnings": warnings}
 
     def set_partner_delegate(self, delegate_user_id):
         """Port of setPartnerDelegate. The engagement partner or a firm
