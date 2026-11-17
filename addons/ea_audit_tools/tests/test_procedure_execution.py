@@ -381,8 +381,13 @@ class TestFixedAssetReconciliation(SubstantiveTwoCase):
         cost, dep, nbv = (far["sections"][name] for name in ("cost", "depreciation", "nbv"))
         # bought 2 January 2021 at 4,000, 2.5% a year: 400 depreciated before 2025, 100 in 2025
         row = cost["rows"][0]
-        self.assertEqual((row["label"], row["opening"], row["additions"], row["closing"], row["ledger"], cost["state"]), ("Batiments", 4000, 0, 4000, 4000, "agrees"))
+        # rows by the register's account (owner, 2026-11-17), the category as information
+        self.assertTrue(far["byAccount"])
+        self.assertEqual((row["label"], row["opening"], row["additions"], row["closing"], row["ledger"], cost["state"]), ("231000", 4000, 0, 4000, 4000, "agrees"))
+        self.assertEqual(row["categories"], ["Batiments"])
         row = dep["rows"][0]
+        # the depreciation account worked out from the cost account: 231000 -> 2831
+        self.assertEqual(row["label"], "2831")
         self.assertEqual((row["opening"], row["charge"], row["closing"], row["ledger"], row["difference"], dep["state"]), (400, 100, 500, 400, 100, "difference"))
         self.assertEqual((dep["charge"]["computed"], dep["charge"]["register"], dep["charge"]["registerDifference"]), (100, 100, 0))
         self.assertEqual((nbv["total"]["closing"], nbv["total"]["ledger"], nbv["total"]["difference"], nbv["state"]), (3500, 3600, -100, "difference"))
@@ -411,6 +416,34 @@ class TestFixedAssetReconciliation(SubstantiveTwoCase):
         far = self.as_staff.ea_procedure_paper(proc.id)["far"]
         self.assertEqual((far["state"], far["missingColumns"]), ("no-dates", ["acquisitionDate", "depreciationRate"]))
 
+    def test_without_the_account_column_the_categories_stay(self):
+        self.significant("K", ["E", "V"])
+        proc = self.code_proc("K", "K-M1")
+        mapping = {key: value for key, value in FAR_MAPPING.items() if key != "account"}
+        self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_CSV), mapping=mapping)
+        far = self.as_staff.ea_procedure_paper(proc.id)["far"]
+        self.assertFalse(far["byAccount"])
+        self.assertEqual([row["label"] for row in far["sections"]["cost"]["rows"]], ["Batiments"])
+        self.assertEqual(far["sections"]["cost"]["total"]["ledger"], 4000)
+
+    def test_the_register_account_columns_and_its_own_amounts(self):
+        self.significant("K", ["E", "V"])
+        proc = self.code_proc("K", "K-M1")
+        mapping = dict(FAR_MAPPING, depAccount="Compte amort", chargeAccount="Compte dotation", disposalsCost="Cessions brutes")
+        self.as_staff.create_dataset("fixed_asset_register", "far.csv", to_bytes(FAR_ACCOUNTS), mapping=mapping)
+        far = self.as_staff.ea_procedure_paper(proc.id)["far"]
+        cost, dep = far["sections"]["cost"], far["sections"]["depreciation"]
+        # an addition of 250 on a building bought in 2021: the register's amount is used, and noticed
+        self.assertEqual((cost["rows"][0]["additions"], cost["rows"][0]["closing"], cost["rows"][0]["notices"]), (250, 4250, ["I1"]))
+        self.assertEqual((far["noticeCount"], far["notices"]), (1, ["I1"]))
+        self.assertEqual([(row["label"], row["ledger"]) for row in dep["rows"]], [("2831", 400)])
+        self.assertTrue(far["byExpenseAccount"])
+        self.assertEqual([(row["label"], row["computed"], row["ledger"]) for row in dep["charge"]["rows"]], [("6811", 100, 0)])
+
+
+FAR_ACCOUNTS = """Numero;Designation;Categorie;Date acquisition;Taux;Compte;Compte amort;Compte dotation;Cout;Amortissements;VNC;VNC ouverture;Acquisitions;Cessions;Cessions brutes;Dotation
+I1;Immeuble siege;Batiments;02/01/2021;2,5;231000;2831;6811;4000;500;3500;3600;250;0;;100
+"""
 
 FAR_MOVES = """Code;Designation;Categorie;Date acquisition;Taux;Compte;Cout;Date cession;Prix cession
 I1;Immeuble siege;Batiments;02/01/2021;2,5;231000;4000;;

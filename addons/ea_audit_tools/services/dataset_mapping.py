@@ -408,14 +408,34 @@ EXTRA_FIELDS = {
         {"key": "depreciationRate", "en": "Depreciation rate (% per year)", "fr": "Taux d'amortissement (% par an)",
          "required": True,
          "aliases": ["tauxamortissement", "tauxdamortissement", "depreciationrate", "taux", "rate"]},
-        {"key": "account", "en": "General ledger account (optional)", "fr": "Compte du grand livre (optionnel)",
-         "aliases": ["comptegeneral", "compte", "account", "glaccount"]},
+        # three account columns (owner, 2026-11-17): K-M1 compares the register with the ledger
+        # account by account. "not": a loose guess does not take a header holding these words, so
+        # "Compte d'amortissement" never lands on the cost account.
+        {"key": "account", "en": "Cost account (optional)", "fr": "Compte d'immobilisation (optionnel)",
+         "aliases": ["comptegeneral", "compte", "account", "glaccount", "compteimmobilisation",
+                     "comptedimmobilisation", "compteimmo", "costaccount"],
+         "not": ["amort", "dotation", "depreciation", "expense", "charge"]},
+        {"key": "depAccount", "en": "Accumulated depreciation account (optional)",
+         "fr": "Compte d'amortissement (optionnel)",
+         "aliases": ["compteamortissement", "comptedamortissement", "compteamortissements", "comptedamortissements",
+                     "compteamort", "cpteamort", "depaccount", "accumulateddepreciationaccount", "depreciationaccount"]},
+        {"key": "chargeAccount", "en": "Depreciation expense account (optional)", "fr": "Compte de dotation (optionnel)",
+         "aliases": ["comptedotation", "comptededotation", "comptedotations", "comptededotations", "cptedotation",
+                     "dotationaccount", "depreciationexpenseaccount", "expenseaccount", "chargeaccount"]},
         {"key": "openingNbv", "en": "Opening net book value (optional)", "fr": "Valeur nette d'ouverture (optionnel)",
          "aliases": ["vncouverture", "vncdebut", "openingnbv", "ouverture", "opening"]},
         {"key": "additions", "en": "Additions of the year (optional)", "fr": "Acquisitions de l'exercice (optionnel)",
          "aliases": ["acquisitions", "additions", "entrees", "augmentations"]},
-        {"key": "disposals", "en": "Disposals, net book value (optional)", "fr": "Cessions, valeur nette (optionnel)",
-         "aliases": ["cessions", "disposals", "sorties", "diminutions"]},
+        # two disposals columns, kept apart (owner, 2026-11-17): at net book value, and at cost
+        {"key": "disposals", "en": "Disposals at net book value (optional)",
+         "fr": "Cessions à la valeur nette comptable (optionnel)",
+         "aliases": ["cessions", "disposals", "sorties", "diminutions", "cessionsvnc", "cessionsavaleurnette",
+                     "cessionsalavaleurnettecomptable", "disposalsatnetbookvalue", "disposalsnbv"],
+         "not": ["brut", "cost", "origine"]},
+        {"key": "disposalsCost", "en": "Disposals at cost (optional)", "fr": "Cessions à la valeur brute (optionnel)",
+         "aliases": ["cessionsvaleurbrute", "cessionsalavaleurbrute", "cessionsauvaleurbrute", "cessionsbrut",
+                     "cessionsbrutes", "sortiesbrut", "sortiesbrutes", "disposalsatcost", "disposalscost",
+                     "cessionsvaleurdorigine"]},
         {"key": "charge", "en": "Depreciation of the year (optional)", "fr": "Dotation de l'exercice (optionnel)",
          "aliases": ["dotation", "dotations", "depreciationcharge", "charge"]},
         {"key": "disposalDate", "en": "Disposal date (optional)", "fr": "Date de cession (optionnel)",
@@ -468,13 +488,19 @@ def auto_map_extra(kind, headers, mapping):
                 continue
             for alias in field["aliases"]:
                 hit = next(
-                    (h for h, n in normalized if (n == alias if exact else alias in n) and h not in mapping.values()),
+                    (h for h, n in normalized if (n == alias if exact else alias in n and not _shunned(field, n))
+                     and h not in mapping.values()),
                     None,
                 )
                 if hit is not None:
                     mapping[field["key"]] = hit
                     break
     return mapping
+
+
+def _shunned(field, normalized):
+    """A loose guess leaves alone a header holding one of the field's "not" words."""
+    return any(word in normalized for word in field.get("not", ()))
 
 
 JE_KEY = "jeKey"
