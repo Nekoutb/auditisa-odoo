@@ -54,7 +54,7 @@
                             <field name="sample" force_save="1"/>
                             <field name="field_id" widget="selection" width="220px"/>
                             <field name="mandatory" decoration-danger="mandatory" width="100px" force_save="1"/>
-                            <field name="analysis_hint" decoration-info="analysis_hint" width="170px" force_save="1"/>
+                            <field name="analysis_hint" decoration-info="analysis_hint" width="170px" force_save="1" column_invisible="parent.kind != 'payroll_register'"/>
                             <field name="match_state" widget="badge" decoration-success="match_state == 'auto'" decoration-info="match_state == 'you'" decoration-muted="match_state == 'none'" width="190px"/>
                         </list>
                     </field>
