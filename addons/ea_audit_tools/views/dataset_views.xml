@@ -8,6 +8,7 @@
                 <header>
                     <button name="action_list_import_dataset" type="object" string="Import a dataset" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_template" type="object" string="Download the template" display="always"/>
+                    <button name="action_list_ipe" type="object" string="Data quality (IPE)" display="always"/>
                 </header>
                 <field name="create_date" string="Imported on" widget="datetime" options="{'show_seconds': false}" width="170px"/>
                 <field name="kind" width="110px"/>
@@ -66,6 +67,7 @@
                     <button name="action_reconcile" type="object" string="Reconcile to the control account" class="btn-primary" invisible="not has_recon or superseded_at" groups="ea_audit_core.group_writer"/>
                     <button name="action_export_aging" type="object" string="Export the aging" invisible="kind not in ('ar_open_items', 'ap_open_items')"/>
                     <button name="action_open_supplier_recon" type="object" string="Supplier statements against the ledger" invisible="kind != 'supplier_statements' or superseded_at" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_ipe" type="object" string="Data quality (IPE)" invisible="superseded_at"/>
                     <button name="action_delete" type="object" string="Delete this upload" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>

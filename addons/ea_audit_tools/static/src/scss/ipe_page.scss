@@ -1,0 +1,27 @@
+// Data quality (IPE) (owner-approved mock-up of 2026-11-17): the matrix of files, the box opened below.
+.o_ea_ws.o_ea_ipe {
+    .o_ea_ipe_matrix { margin-top: 14px; }
+    .o_ea_ipe_cell { cursor: pointer; white-space: nowrap; }
+    .o_ea_ipe_cell.is-selected { background: var(--eaws-pale); box-shadow: inset 0 0 0 2px var(--eaws-green); }
+    .o_ea_ipe_ref { display: block; margin-top: 2px; color: var(--eaws-muted); font-size: 11px; }
+    .o_ea_ipe_detail { margin-top: 16px; }
+    .o_ea_ipe_facts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; b { color: var(--eaws-muted); font-weight: 600; } }
+    .o_ea_ipe_source {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 12px;
+        label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--eaws-muted); }
+        label.is-wide { grid-column: 1 / -1; }
+    }
+    .o_ea_ipe_check { border: 1px solid var(--eaws-line); border-left-width: 4px; border-radius: 6px; margin-bottom: 6px; padding: 6px 10px; }
+    .o_ea_ipe_check.is-green { border-left-color: var(--eaws-green); }
+    .o_ea_ipe_check.is-amber { border-left-color: var(--eaws-amber); }
+    .o_ea_ipe_check.is-blue { border-left-color: #2a5a9c; }
+    .o_ea_ipe_check_head { display: flex; gap: 8px; align-items: baseline; cursor: pointer; }
+    .o_ea_ipe_title { flex: 1; }
+    .o_ea_ipe_toggle { width: 12px; color: var(--eaws-muted); }
+    .o_ea_ipe_check_body { margin-top: 6px; > * + * { margin-top: 6px; } }
+    .o_ea_ipe_lines tbody tr { cursor: default; }
+    .o_ea_ipe_explain .o_ea_ws_label { margin-top: 6px; text-transform: none; }
+    .o_ea_ipe_conclusion { display: flex; flex-direction: column; gap: 4px; }
+    .o_ea_ipe_sign { display: flex; flex-direction: column; gap: 6px; }
+    .o_ea_ipe_paper { display: block; padding: 5px 0; border-bottom: 1px solid var(--eaws-line); color: var(--eaws-ink); text-decoration: none; }
+}

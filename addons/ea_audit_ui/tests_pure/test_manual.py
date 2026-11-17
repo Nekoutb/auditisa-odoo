@@ -27,10 +27,11 @@ FORBIDDEN = re.compile(
 )
 
 # The owner's list of abbreviations to spell out (as in ea_audit_core/tests_pure/test_display_abbreviations.py).
+# IPE is kept (Data quality (IPE), owner 2026-11-17); a reference such as IPE-GL-PRE is a code, not an abbreviation.
 ABBREVIATIONS = re.compile(
-    r"(?<![\w/])(Prelim\.?|Rep\.|FS|vs\.?|SCOTs?|WCGWs?|FSCPs?|ITGCs?|ToCs?|ToDs?|JEs?|EQRs?|TCWG|NOCLAR|SAD|CRAs?|"
-    r"PBC|TB|GL|AP|RPs?|KAMs?|HR|IPE|CEO|CFO|PCA|AGO|AGE|AGM|EGM|AUSCGIE|TFT|DSF|CNPS|RCCM|Docs|Ref\.?|Pct|"
-    r"Recon|Min\.?|Q[0-9]{1,2})(?![\w/])|PP&E|N/A|n/a"
+    r"(?<![\w/-])(Prelim\.?|Rep\.|FS|vs\.?|SCOTs?|WCGWs?|FSCPs?|ITGCs?|ToCs?|ToDs?|JEs?|EQRs?|TCWG|NOCLAR|SAD|CRAs?|"
+    r"PBC|TB|GL|AP|RPs?|KAMs?|HR|CEO|CFO|PCA|AGO|AGE|AGM|EGM|AUSCGIE|TFT|DSF|CNPS|RCCM|Docs|Ref\.?|Pct|"
+    r"Recon|Min\.?|Q[0-9]{1,2})(?![\w/-])|PP&E|N/A|n/a"
 )
 
 # Bold words of French pages that are on a screen of Odoo itself (sign-in, Preferences), not of the add-ons.

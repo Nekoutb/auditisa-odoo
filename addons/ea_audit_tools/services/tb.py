@@ -9,7 +9,7 @@ import re
 import unicodedata
 from functools import cmp_to_key
 
-from ._js import JS_S, cell_str, js_round, js_str, js_trim, locale_compare, u16_slice
+from ._js import JS_S, cell_str, is_number, js_round, js_str, js_trim, locale_compare, u16_slice
 from .amount import amount_or, parse_amount
 from .errors import TbError
 from .lead_classes import LEAD_INDEXES, SUB_INDEX_BY_CODE, lead_index_for, sub_index_for, sub_index_label
@@ -167,6 +167,33 @@ def left_out_rows(table, mapping):
             row_no = source_row_of(raw)
             out.append({"row": row_no if row_no is not None else i + 1, "text": account})
     return out
+
+
+def tb_file_facts(table, mapping, cap=500):
+    """What the data quality checks read of the file itself: its lines, and the lines left out
+    (titles, totals, lines with no account), each with its amount cells by field."""
+    left = []
+    for i, raw in enumerate(table["rows"]):
+        account = js_trim(cell_str(raw.get(mapping.get("account"))))
+        if not _skip_tb_row(account, raw, mapping):
+            continue
+        if len(left) >= cap:
+            break
+        row_no = source_row_of(raw)
+        amounts = {}
+        for column in _AMOUNT_COLUMNS:
+            header = mapping.get(column)
+            value = raw.get(header) if header else None
+            if value is not None and js_trim(js_str(value)) != "":
+                amounts[column] = value if is_number(value) else js_str(value)
+        texts = " ".join(js_trim(cell_str(value)) for value in raw.values() if value is not None)
+        left.append({
+            "row": row_no if row_no is not None else i + 1,
+            "text": u16_slice(account or texts, 0, 60),
+            "total": bool(_TOTAL_ROW.match(account) or _TOTAL_ROW.match(js_trim(texts))),
+            "amounts": amounts,
+        })
+    return {"fileRows": len(table["rows"]), "leftOut": left}
 
 
 def extract_tb_rows(table, mapping):
