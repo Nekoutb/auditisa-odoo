@@ -49,6 +49,8 @@ DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.
     # the plan group (P1-P5), with P4.2's control environment in P4.1
     "P1.2", "P1.3", "P2.1", "P2.2", "P2.3", "P3.1", "P3.2", "P4.1", "P4.3", "P5.1", "P5.2",
 }
+# group strat: the controls, IT general controls, planning and strategy papers
+DEPARTS |= {"S2.1", "S2.2", "S2.3", "S2.4", "S2.5", "S4.1", "S4.3", "S4.4", "S5.1", "S5.2", "S5.3", "S5.6", "S6.1"}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")

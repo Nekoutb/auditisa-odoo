@@ -30,3 +30,4 @@ from . import test_finding_adjustment
 from . import test_sad_review
 from . import test_paper_layout
 from . import test_paper_hooks_plan
+from . import test_paper_hooks_strat

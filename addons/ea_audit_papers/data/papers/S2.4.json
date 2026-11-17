@@ -3,145 +3,241 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 330 ¶8–11 · ISA 315 (Revised 2019) ¶26(c)",
-  "ownsEn": "the design and execution of the tests of general IT controls",
-  "ownsFr": "la conception et l'exécution des tests des contrôles généraux informatiques",
+  "tools": [
+   {
+    "action": "action_tool_itgc",
+    "en": "IT applications and IT general controls",
+    "fr": "Applications et contrôles généraux informatiques",
+    "noteEn": "Applications relying on the IT processes",
+    "noteFr": "Applications qui s'appuient sur les processus informatiques"
+   },
+   {
+    "action": "action_tool_sampling",
+    "en": "Sampling",
+    "fr": "Échantillonnage",
+    "noteEn": "Sample sizes for tests of controls",
+    "noteFr": "Taille des échantillons des tests de contrôles"
+   },
+   {
+    "action": "action_tool_deficiencies",
+    "en": "Control deficiencies",
+    "fr": "Déficiences du contrôle interne",
+    "noteEn": "Deficiencies to evaluate in S2.5",
+    "noteFr": "Déficiences à évaluer en S2.5"
+   }
+  ],
   "reqEn": [
-   "Where the strategy relies on IT processes, we test the operating effectiveness of the general IT controls that address the identified risks, covering the whole period of intended reliance (ISA 330 ¶8–9). Every applicable risk needs at least one tested ITGC; an ITGC already judged badly designed is not tested — its risk is answered another way.",
+   "Where the strategy relies on IT processes, we test the operating effectiveness of the general IT controls that address the identified risks, covering the whole period of intended reliance (ISA 330 ¶8–9). Every applicable risk needs at least one tested IT general control; an IT general control already judged badly designed is not tested — its risk is answered another way.",
    "The nature of the tests combines inquiry with inspection, observation or reperformance — inquiry alone is never sufficient (ISA 330 ¶10, ISA 500). The extent follows the control's frequency using the same discipline as the sampling tool's tests-of-controls table; the timing must leave no untested stub of the reliance period, and interim testing carries an update obligation at the period end.",
    "Populations must be complete before anything is selected from them: a change list or access-grant list produced by the system is validated for completeness and accuracy before sampling from it — a list assembled by hand from memory is not a population (ISA 500 ¶9).",
    "Exceptions are investigated for nature and cause: systematic or random, error or intention — an exception that appears intentional escalates beyond the engagement team. Deficiencies found are carried to S2.5 for evaluation and to the deficiency communications (ISA 265)."
   ],
   "reqFr": [
-   "Lorsque la stratégie s'appuie sur les processus informatiques, nous testons l'efficacité du fonctionnement des contrôles généraux répondant aux risques identifiés, sur toute la période d'appui prévue (ISA 330 ¶8–9). Chaque risque applicable exige au moins un ITGC testé ; un ITGC déjà jugé mal conçu n'est pas testé — son risque est traité autrement.",
+   "Lorsque la stratégie s'appuie sur les processus informatiques, nous testons l'efficacité du fonctionnement des contrôles généraux répondant aux risques identifiés, sur toute la période d'appui prévue (ISA 330 ¶8–9). Chaque risque applicable exige au moins un contrôle général informatique testé ; un contrôle général informatique déjà jugé mal conçu n'est pas testé — son risque est traité autrement.",
    "La nature des tests combine l'entretien avec l'inspection, l'observation ou la réexécution — l'entretien seul ne suffit jamais (ISA 330 ¶10, ISA 500). L'étendue suit la fréquence du contrôle selon la même discipline que la table tests-de-contrôles de l'outil d'échantillonnage ; le calendrier ne doit laisser aucun tronçon non testé de la période d'appui, et un test intercalaire emporte une obligation d'actualisation à la clôture.",
    "Les populations sont complètes avant toute sélection : une liste de changements ou d'octrois d'accès produite par le système est validée en exhaustivité et exactitude avant d'y échantillonner — une liste reconstituée de mémoire n'est pas une population (ISA 500 ¶9).",
    "Les exceptions sont investiguées quant à leur nature et leur cause : systématique ou fortuite, erreur ou intention — une exception qui paraît intentionnelle est remontée au-delà de l'équipe. Les déficiences relevées passent en S2.5 pour évaluation et dans les communications sur les déficiences (ISA 265)."
   ],
-  "conclEn": [
-   "Every applicable risk arising from IT has a tested ITGC (or a recorded substantive response), the tests cover the reliance period, and every exception is investigated and evaluated."
-  ],
-  "conclFr": [
-   "Chaque risque applicable lié à l'informatique a un ITGC testé (ou une réponse substantive consignée), les tests couvrent la période d'appui, et chaque exception est investiguée et évaluée."
-  ],
-  "tools": [
-   "sampling"
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "select",
-      "en": "Select the ITGCs to test so that every applicable risk in each in-scope process is covered; skip any ITGC already evaluated as badly designed.",
-      "fr": "Sélectionner les ITGC à tester de sorte que chaque risque applicable de chaque processus retenu soit couvert ; écarter tout ITGC déjà jugé mal conçu.",
-      "srcEn": "S2.3 risk register",
-      "srcFr": "Registre des risques S2.3",
-      "tipEn": "Work risk by risk from the S2.3 register, not control by control: the question is never 'which controls shall we test' but 'is every risk answered'. A risk with no testable ITGC goes back to S2.3 for a substantive route or forward to S2.5 as a deficiency.",
-      "tipFr": "Travailler risque par risque depuis le registre S2.3, pas contrôle par contrôle : la question n'est jamais « quels contrôles tester » mais « chaque risque est-il couvert ». Un risque sans ITGC testable retourne en S2.3 pour une voie substantive ou passe en S2.5 comme déficience."
+      "en": "Select the IT general controls to test so that every applicable risk in each process in scope is covered; do not test a control already found to be poorly designed.",
+      "fr": "Sélectionner les contrôles généraux informatiques à tester de sorte que chaque risque applicable de chaque processus retenu soit couvert ; ne pas tester un contrôle déjà jugé mal conçu.",
+      "shortEn": "Controls to test",
+      "shortFr": "Contrôles à tester",
+      "isa": "ISA 330 ¶8",
+      "tipsEn": [
+       "Work risk by risk from S2.3: the question is whether every risk is answered."
+      ],
+      "tipsFr": [
+       "Travailler risque par risque à partir de S2.3 : la question est de savoir si chaque risque a une réponse."
+      ],
+      "stdEn": "Every applicable risk recorded in S2.3 has at least one IT general control selected for testing.",
+      "stdFr": "Chaque risque applicable consigné en S2.3 a au moins un contrôle général informatique retenu pour les tests.",
+      "sourceHint": "S2.3"
      },
      {
       "key": "design",
-      "en": "Design each test: nature (inquiry always combined with inspection, observation or reperformance), timing (cover the whole reliance period) and extent (per the control's frequency, sized by the sampling tool).",
-      "fr": "Concevoir chaque test : nature (entretien toujours combiné à l'inspection, l'observation ou la réexécution), calendrier (couvrir toute la période d'appui) et étendue (selon la fréquence du contrôle, dimensionnée par l'outil d'échantillonnage).",
-      "srcEn": "Sampling tool — tests of controls",
-      "srcFr": "Outil d'échantillonnage — tests de contrôles",
-      "tipEn": "A recurring ITGC (change approvals, access grants) samples like any manual control: use the tests-of-controls section of the sampling tool with the population of occurrences. A configuration (password settings, a lock on production) is inspected as it stands — and re-inspected during the period if nothing controls who can change it.",
-      "tipFr": "Un ITGC récurrent (approbations de changements, octrois d'accès) s'échantillonne comme tout contrôle manuel : utiliser la section tests de contrôles de l'outil d'échantillonnage avec la population d'occurrences. Une configuration (paramètres de mots de passe, verrouillage de la production) s'inspecte en l'état — et se réinspecte en cours de période si rien ne contrôle qui peut la modifier."
+      "en": "Design each test: nature (inquiry always combined with inspection, observation or reperformance), timing (the whole period of reliance) and extent (from the frequency of the control).",
+      "fr": "Concevoir chaque test : nature (l'entretien toujours combiné à l'inspection, l'observation ou la réexécution), calendrier (toute la période d'appui) et étendue (selon la fréquence du contrôle).",
+      "shortEn": "Test design",
+      "shortFr": "Conception des tests",
+      "isa": "ISA 330 ¶9–10",
+      "tipsEn": [
+       "Recurring controls such as change approvals are sampled like manual controls, in the Sampling tool."
+      ],
+      "tipsFr": [
+       "Les contrôles récurrents comme l'approbation des changements s'échantillonnent comme des contrôles manuels, dans l'outil d'échantillonnage."
+      ],
+      "stdEn": "Each test combines inquiry with inspection or reperformance, covers the whole period and is sized from the frequency of the control.",
+      "stdFr": "Chaque test combine l'entretien avec l'inspection ou la réexécution, couvre toute la période et est dimensionné selon la fréquence du contrôle.",
+      "sourceHint": "Sampling"
      },
      {
       "key": "population",
-      "en": "Validate every population before selecting from it: system-produced, complete and accurate — probe gaps in change logs and reconcile access lists to the system itself.",
-      "fr": "Valider chaque population avant d'y sélectionner : produite par le système, exhaustive et exacte — sonder les trous des journaux de changements et rapprocher les listes d'accès du système lui-même.",
-      "srcEn": "System-generated lists · log settings",
-      "srcFr": "Listes produites par le système · paramètres de journalisation",
-      "tipEn": "Ask how the list was produced and by whom; a list the IT manager typed is not evidence. For a change log, check the logging was on all period and covers the components that matter. For access, pull the list from the system screens, not from HR.",
-      "tipFr": "Demander comment la liste a été produite et par qui ; une liste saisie par le responsable informatique n'est pas une preuve. Pour un journal de changements, vérifier que la journalisation était active toute la période et couvre les composants utiles. Pour les accès, tirer la liste des écrans du système, pas des RH."
+      "en": "Validate each population before selecting from it: produced by the system, complete and accurate. Look for gaps in change logs, and agree access lists to the system itself.",
+      "fr": "Valider chaque population avant d'y sélectionner : produite par le système, exhaustive et exacte. Rechercher les trous dans les journaux de changements et rapprocher les listes d'accès du système lui-même.",
+      "shortEn": "Populations validated",
+      "shortFr": "Populations validées",
+      "isa": "ISA 500 ¶9",
+      "tipsEn": [
+       "A list typed by the IT manager is not evidence: ask how and by whom it was produced.",
+       "Check that logging was switched on for the whole period."
+      ],
+      "tipsFr": [
+       "Une liste saisie par le responsable informatique n'est pas une preuve : demander comment et par qui elle a été produite.",
+       "Vérifier que la journalisation était active sur toute la période."
+      ],
+      "stdEn": "Each population was produced by the system and checked for completeness and accuracy.",
+      "stdFr": "Chaque population a été produite par le système et vérifiée pour son exhaustivité et son exactitude."
      },
      {
       "key": "execute",
-      "en": "Execute the tests, and investigate every exception for nature and cause: systematic or random, error or intention; escalate any exception that appears intentional.",
-      "fr": "Exécuter les tests et investiguer chaque exception quant à sa nature et sa cause : systématique ou fortuite, erreur ou intention ; remonter toute exception paraissant intentionnelle.",
-      "srcEn": "Test evidence · inquiry",
-      "srcFr": "Éléments de test · entretiens",
-      "tipEn": "One unapproved change can be a Friday-evening emergency or a developer's habit — the response differs entirely. Chase the cause before counting the failure; a systematic cause fails the control for the period regardless of how few items show it.",
-      "tipFr": "Un changement non approuvé peut être une urgence du vendredi soir ou une habitude du développeur — la réponse diffère du tout au tout. Établir la cause avant de compter l'échec ; une cause systématique fait échouer le contrôle pour la période, quel que soit le nombre d'occurrences visibles."
+      "en": "Perform the tests, and investigate each exception for its nature and cause: systematic or random, error or intention. Escalate any exception that appears intentional.",
+      "fr": "Réaliser les tests et analyser chaque exception dans sa nature et sa cause : systématique ou aléatoire, erreur ou intention. Remonter toute exception qui paraît intentionnelle.",
+      "shortEn": "Tests and exceptions",
+      "shortFr": "Tests et exceptions",
+      "isa": "ISA 330 ¶16–17",
+      "tipsEn": [
+       "Find the cause before counting the failure: an emergency change differs from a habit."
+      ],
+      "tipsFr": [
+       "Trouver la cause avant de compter l'échec : un changement d'urgence n'est pas une habitude."
+      ],
+      "stdEn": "The tests were performed and showed no exception.",
+      "stdFr": "Les tests ont été réalisés et n'ont relevé aucune exception.",
+      "fieldKeys": [
+       "exceptions_register"
+      ]
      },
      {
       "key": "update",
-      "en": "Where tests ran at an interim date, update to the period end: inquire into changes, observe the settings again, and extend the tests over the stub period as needed.",
-      "fr": "Lorsque les tests ont été réalisés en intercalaire, actualiser à la clôture : s'enquérir des changements, réobserver les paramètres, et étendre les tests sur la période restante si nécessaire.",
-      "srcEn": "Post-interim change list · settings",
-      "srcFr": "Liste des changements post-intercalaires · paramètres",
-      "tipEn": "The longer the stub, the less inquiry alone can carry it — beyond six months, plan real re-testing, not a conversation. A process change mid-period may mean walking through both the before and the after states.",
-      "tipFr": "Plus le tronçon restant est long, moins l'entretien seul peut le porter — au-delà de six mois, prévoir de vrais tests, pas une conversation. Un changement de processus en cours de période peut imposer un cheminement de l'état avant et de l'état après."
+      "en": "Where tests were performed at an interim date, update them to the period end: inquire about changes, observe the settings again, and extend the tests over the remaining period as needed.",
+      "fr": "Lorsque les tests ont été réalisés à une date intermédiaire, les mettre à jour jusqu'à la clôture : s'informer des changements, observer à nouveau les paramètres et étendre les tests à la période restante si nécessaire.",
+      "shortEn": "Update to the period end",
+      "shortFr": "Mise à jour à la clôture",
+      "isa": "ISA 330 ¶12",
+      "tipsEn": [
+       "The longer the remaining period, the less inquiry alone can cover it."
+      ],
+      "tipsFr": [
+       "Plus la période restante est longue, moins l'entretien seul suffit à la couvrir."
+      ],
+      "stdEn": "The tests cover the whole period; no update after an interim date is needed.",
+      "stdFr": "Les tests couvrent toute la période ; aucune mise à jour après une date intermédiaire n'est nécessaire."
      },
      {
       "key": "deficiencies",
-      "en": "Record every deficiency found, and carry each to the S2.5 evaluation and to the deficiency communications.",
-      "fr": "Consigner chaque déficience relevée et la reporter dans l'évaluation S2.5 et dans les communications sur les déficiences.",
-      "srcEn": "S2.5 · C5.11 (ISA 265)",
-      "srcFr": "S2.5 · C5.11 (ISA 265)"
+      "en": "Record each deficiency found, and carry it to the evaluation in S2.5 and to the communication of deficiencies (C5.11).",
+      "fr": "Consigner chaque déficience relevée et la reporter dans l'évaluation de S2.5 et dans la communication des déficiences (C5.11).",
+      "shortEn": "Deficiencies carried",
+      "shortFr": "Déficiences reportées",
+      "isa": "ISA 265 ¶7",
+      "tipsEn": [
+       "Record each deficiency in the Control deficiencies tool, so that S2.5 and C5.11 read it."
+      ],
+      "tipsFr": [
+       "Consigner chaque déficience dans l'outil des déficiences, pour que S2.5 et C5.11 la reprennent."
+      ],
+      "stdEn": "No deficiency was found in the IT general controls tested.",
+      "stdFr": "Aucune déficience n'a été relevée dans les contrôles généraux informatiques testés.",
+      "sourceHint": "Control deficiencies"
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Registers",
-    "titleFr": "Partie B — Registres",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "tests_register",
       "kind": "input",
-      "labelEn": "Tests performed: ITGC, risk covered, nature, period covered, population and its validation, sample size, result",
-      "labelFr": "Tests réalisés : ITGC, risque couvert, nature, période couverte, population et sa validation, taille d'échantillon, résultat"
+      "labelEn": "Tests performed: IT general control, risk covered, nature, period covered, population and its validation, sample size, result",
+      "labelFr": "Tests réalisés : contrôle général informatique, risque couvert, nature, période couverte, population et sa validation, taille de l'échantillon, résultat"
      },
      {
       "key": "exceptions_register",
       "kind": "input",
       "labelEn": "Exceptions: description, cause, systematic or random, response, effect on the evaluation",
-      "labelFr": "Exceptions : description, cause, systématique ou fortuite, réponse, effet sur l'évaluation"
+      "labelFr": "Exceptions : description, cause, systématique ou fortuite, réponse, effet sur l'évaluation",
+      "optional": true
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part C — Evaluation",
-    "titleFr": "Partie C — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "coverage",
-      "en": "Every applicable risk in every in-scope process has at least one tested ITGC or a recorded substantive response (procedure 1).",
-      "fr": "Chaque risque applicable de chaque processus retenu a au moins un ITGC testé ou une réponse substantive consignée (procédure 1)."
+      "en": "Every applicable risk in every process in scope has at least one tested IT general control or a recorded substantive response.",
+      "fr": "Chaque risque applicable de chaque processus retenu a au moins un contrôle général informatique testé ou une réponse substantive consignée.",
+      "tasks": [
+       "select"
+      ]
      },
      {
       "key": "nature",
-      "en": "No test rests on inquiry alone (procedure 2).",
-      "fr": "Aucun test ne repose sur le seul entretien (procédure 2)."
+      "en": "No test rests on inquiry alone.",
+      "fr": "Aucun test ne repose sur le seul entretien.",
+      "tasks": [
+       "design"
+      ]
      },
      {
       "key": "populations",
-      "en": "Every population selected from was validated as system-produced, complete and accurate (procedure 3).",
-      "fr": "Chaque population utilisée a été validée comme produite par le système, exhaustive et exacte (procédure 3)."
+      "en": "Every population tested was validated as produced by the system, complete and accurate.",
+      "fr": "Chaque population testée a été validée comme produite par le système, exhaustive et exacte.",
+      "tasks": [
+       "population"
+      ]
      },
      {
       "key": "period",
-      "en": "The tests cover the whole reliance period, including the post-interim stub (procedures 2, 5).",
-      "fr": "Les tests couvrent toute la période d'appui, y compris le tronçon post-intercalaire (procédures 2, 5)."
+      "en": "The tests cover the whole period of reliance, including the period after the interim date.",
+      "fr": "Les tests couvrent toute la période d'appui, y compris la période après la date intermédiaire.",
+      "tasks": [
+       "design",
+       "update"
+      ]
      },
      {
       "key": "exceptions",
-      "en": "Every exception is investigated to a cause and reflected in S2.5 (procedures 4, 6).",
-      "fr": "Chaque exception est investiguée jusqu'à sa cause et reflétée en S2.5 (procédures 4, 6).",
-      "na": true
+      "en": "Every exception is investigated to its cause and reflected in S2.5.",
+      "fr": "Chaque exception est analysée jusqu'à sa cause et reprise en S2.5.",
+      "na": true,
+      "tasks": [
+       "execute",
+       "deficiencies"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Where the strategy relies on IT processes, obtain sufficient appropriate audit evidence about the operating effectiveness of the IT general controls that address the risks arising from IT, throughout the period of reliance.",
+  "objectiveFr": "Lorsque la stratégie s'appuie sur les processus informatiques, obtenir des éléments probants suffisants et appropriés sur l'efficacité du fonctionnement des contrôles généraux informatiques qui répondent aux risques liés à l'informatique, sur toute la période d'appui.",
+  "isa": [
+   {
+    "std": "ISA 330"
+   },
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "links": [
+   "S2.3",
+   "S2.5",
+   "E1.1",
+   "E2.1"
+  ],
+  "conclStdEn": "Every applicable risk arising from IT has a tested IT general control or a substantive response; the tests cover the period of reliance and every exception is investigated.",
+  "conclStdFr": "Chaque risque applicable lié à l'informatique a un contrôle général informatique testé ou une réponse substantive ; les tests couvrent la période d'appui et chaque exception est analysée."
  }
 }

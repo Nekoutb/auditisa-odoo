@@ -3,8 +3,22 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 300 ¶9 · ISA 510 · ISA 560 · ISA 570 (Revised) · ISA 250 (Revised) · ISA 550 · ISA 540 (Revised) · ISA 260 (Revised)",
-  "ownsEn": "the plan of the general procedures: what is done, when and by whom, on the matters every audit covers",
-  "ownsFr": "le plan des procédures générales : quoi, quand et par qui, sur les points que couvre tout audit",
+  "tools": [
+   {
+    "action": "action_tool_team",
+    "en": "Team",
+    "fr": "Équipe",
+    "noteEn": "Who performs each procedure, and when",
+    "noteFr": "Qui réalise chaque procédure, et quand"
+   },
+   {
+    "action": "action_tool_programs",
+    "en": "Audit programs",
+    "fr": "Programmes de travail",
+    "noteEn": "Steps planned on each paper",
+    "noteFr": "Étapes prévues sur chaque papier"
+   }
+  ],
   "reqEn": [
    "The audit plan includes a description of the nature, timing and extent of planned further audit procedures and of the other planned audit procedures required for the engagement to comply with the ISAs (ISA 300 ¶9(c)). Several of those procedures are required on every engagement whatever its assessed risks: opening balances, subsequent events, going concern, compliance with laws and regulations, related parties, accounting estimates and communication with those charged with governance."
   ],
@@ -14,87 +28,205 @@
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Planned general procedures",
-    "titleFr": "Partie A — Procédures générales prévues",
-    "introEn": "For each matter, record the procedures planned, their timing, the team member responsible and the working paper where they will be documented.",
-    "introFr": "Pour chaque point, consigner les procédures prévues, leur calendrier, le membre de l'équipe responsable et la feuille de travail où elles seront documentées.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "opening",
-      "en": "Opening balances: plan how the opening balances will be verified — review of the predecessor's working papers or procedures on the current period (ISA 510 ¶6).",
-      "fr": "Soldes d'ouverture : prévoir la vérification des soldes d'ouverture — revue des dossiers du prédécesseur ou procédures sur l'exercice en cours (ISA 510 ¶6).",
-      "srcEn": "Prior-year financial statements · predecessor's report",
-      "srcFr": "États financiers N-1 · rapport du prédécesseur"
+      "en": "Opening balances: plan how the opening balances will be verified, by reviewing the predecessor auditor's working papers or by procedures in the current period.",
+      "fr": "Soldes d'ouverture : prévoir comment les soldes d'ouverture seront vérifiés, par la revue des papiers de travail du prédécesseur ou par des procédures sur l'exercice en cours.",
+      "shortEn": "Opening balances",
+      "shortFr": "Soldes d'ouverture",
+      "isa": "ISA 510 ¶6",
+      "tipsEn": [
+       "On a first audit, ask the predecessor auditor early for access to the working papers."
+      ],
+      "tipsFr": [
+       "Pour un premier audit, demander tôt au prédécesseur l'accès à ses papiers de travail."
+      ],
+      "stdEn": "The opening balances are verified in E6.5 against the prior audited financial statements.",
+      "stdFr": "Les soldes d'ouverture sont vérifiés en E6.5 par rapport aux états financiers audités de l'exercice précédent.",
+      "sourceHint": "E6.5"
      },
      {
       "key": "subsequent",
-      "en": "Subsequent events: plan the procedures covering the period from the reporting date to the date of the report, and the inquiries of management at that date (ISA 560 ¶6–7).",
-      "fr": "Événements postérieurs : prévoir les procédures couvrant la période de la clôture à la date du rapport, et les demandes d'informations à la direction à cette date (ISA 560 ¶6–7).",
-      "srcEn": "Board minutes · post-closing ledger · management inquiry",
-      "srcFr": "Procès-verbaux · écritures postérieures · entretien avec la direction"
+      "en": "Subsequent events: plan the procedures covering the period from the reporting date to the date of the auditor's report, and the inquiries of management at that date.",
+      "fr": "Événements postérieurs : prévoir les procédures couvrant la période de la date de clôture à la date du rapport, et les entretiens avec la direction à cette date.",
+      "shortEn": "Subsequent events",
+      "shortFr": "Événements postérieurs",
+      "isa": "ISA 560 ¶6–7",
+      "tipsEn": [
+       "Ask for the next-year ledger and the minutes up to the report date."
+      ],
+      "tipsFr": [
+       "Demander le grand livre de l'exercice suivant et les procès-verbaux jusqu'à la date du rapport."
+      ],
+      "stdEn": "The subsequent events procedures are planned in E6.6 and C2.2.",
+      "stdFr": "Les procédures sur les événements postérieurs sont prévues en E6.6 et C2.2.",
+      "sourceHint": "E6.6"
      },
      {
       "key": "going_concern",
-      "en": "Going concern: plan the evaluation of management's assessment, covering at least twelve months from the reporting date (ISA 570 ¶10–13).",
-      "fr": "Continuité d'exploitation : prévoir l'évaluation de l'appréciation de la direction, couvrant au moins douze mois à compter de la clôture (ISA 570 ¶10–13).",
-      "srcEn": "Budgets · cash-flow forecasts · financing agreements",
-      "srcFr": "Budgets · prévisions de trésorerie · conventions de financement"
+      "en": "Going concern: plan the evaluation of management's assessment, covering at least twelve months from the reporting date.",
+      "fr": "Continuité d'exploitation : prévoir l'évaluation de l'appréciation de la direction, couvrant au moins douze mois à compter de la date de clôture.",
+      "shortEn": "Going concern",
+      "shortFr": "Continuité d'exploitation",
+      "isa": "ISA 570 ¶10–13",
+      "tipsEn": [
+       "Ask management early for the budget and the cash flow forecast."
+      ],
+      "tipsFr": [
+       "Demander tôt à la direction le budget et les prévisions de trésorerie."
+      ],
+      "stdEn": "The evaluation of management's assessment is planned in E6.3.",
+      "stdFr": "L'évaluation de l'appréciation de la direction est prévue en E6.3.",
+      "sourceHint": "E6.3"
      },
      {
       "key": "laws",
-      "en": "Laws and regulations: plan the procedures on the laws with a direct effect on the financial statements and the inquiries on non-compliance (ISA 250 ¶13–15).",
-      "fr": "Textes légaux et réglementaires : prévoir les procédures sur les textes ayant une incidence directe sur les états financiers et les demandes d'informations sur les manquements (ISA 250 ¶13–15).",
-      "srcEn": "Legal register · correspondence with regulators · tax filings",
-      "srcFr": "Registre juridique · correspondance avec les autorités · déclarations fiscales"
+      "en": "Laws and regulations: plan the procedures on the laws with a direct effect on the financial statements, and the inquiries about non-compliance.",
+      "fr": "Textes légaux et réglementaires : prévoir les procédures sur les textes ayant un effet direct sur les états financiers, et les entretiens sur les cas de non-conformité.",
+      "shortEn": "Laws and regulations",
+      "shortFr": "Textes légaux et réglementaires",
+      "isa": "ISA 250 ¶13–15",
+      "tipsEn": [
+       "List the tax, social security and sector rules that set amounts in the financial statements."
+      ],
+      "tipsFr": [
+       "Lister les règles fiscales, sociales et sectorielles qui déterminent des montants des états financiers."
+      ],
+      "stdEn": "The procedures on laws and regulations are planned in E6.1.",
+      "stdFr": "Les procédures sur les textes légaux et réglementaires sont prévues en E6.1.",
+      "sourceHint": "E6.1"
      },
      {
       "key": "related_parties",
-      "en": "Related parties: plan the procedures on the related-party register (S4.3) and on transactions outside the normal course of business (ISA 550 ¶11–24).",
-      "fr": "Parties liées : prévoir les procédures sur le registre des parties liées (S4.3) et sur les transactions hors du cours normal des affaires (ISA 550 ¶11–24).",
-      "srcEn": "S4.3 register · share register · minutes",
-      "srcFr": "Registre S4.3 · registre des titres · procès-verbaux"
+      "en": "Related parties: plan the procedures on the related party register (S4.3) and on transactions outside the normal course of business.",
+      "fr": "Parties liées : prévoir les procédures sur le registre des parties liées (S4.3) et sur les transactions hors du cours normal des affaires.",
+      "shortEn": "Related parties",
+      "shortFr": "Parties liées",
+      "isa": "ISA 550 ¶11–24",
+      "tipsEn": [
+       "Start from the register built in S4.3."
+      ],
+      "tipsFr": [
+       "Partir du registre établi en S4.3."
+      ],
+      "stdEn": "The related party procedures are planned in E6.2 from the register in S4.3.",
+      "stdFr": "Les procédures sur les parties liées sont prévues en E6.2 à partir du registre de S4.3.",
+      "sourceHint": "E6.2"
      },
      {
       "key": "estimates",
-      "en": "Accounting estimates: plan the procedures on the estimates inventoried on S4.4, including the review of prior-period outcomes (ISA 540 ¶14).",
-      "fr": "Estimations comptables : prévoir les procédures sur les estimations recensées en S4.4, y compris la revue du dénouement des estimations antérieures (ISA 540 ¶14).",
-      "srcEn": "S4.4 inventory · prior-year estimates",
-      "srcFr": "Inventaire S4.4 · estimations N-1"
+      "en": "Accounting estimates: plan the procedures on the estimates listed in S4.4, including the review of prior period outcomes.",
+      "fr": "Estimations comptables : prévoir les procédures sur les estimations listées en S4.4, y compris la revue du dénouement des estimations antérieures.",
+      "shortEn": "Accounting estimates",
+      "shortFr": "Estimations comptables",
+      "isa": "ISA 540 ¶14",
+      "tipsEn": [
+       "Start from the list and the approach set in S4.4."
+      ],
+      "tipsFr": [
+       "Partir de la liste et de l'approche arrêtées en S4.4."
+      ],
+      "stdEn": "The procedures on estimates are planned in E6.7 from the list in S4.4.",
+      "stdFr": "Les procédures sur les estimations sont prévues en E6.7 à partir de la liste de S4.4.",
+      "sourceHint": "E6.7"
      },
      {
       "key": "governance",
-      "en": "Communications: plan the communications with those charged with governance — the planned scope and timing, significant findings and independence (ISA 260 ¶14–17).",
-      "fr": "Communications : prévoir les communications avec les personnes constituant le gouvernement d'entreprise — étendue et calendrier prévus, constatations importantes et indépendance (ISA 260 ¶14–17).",
-      "srcEn": "Engagement letter · governance calendar",
-      "srcFr": "Lettre de mission · calendrier de gouvernance"
+      "en": "Communication with those charged with governance: plan the communications on the planned scope and timing, the significant findings and independence.",
+      "fr": "Communication avec les personnes constituant le gouvernement d'entreprise : prévoir les communications sur l'étendue et le calendrier prévus, les constatations importantes et l'indépendance.",
+      "shortEn": "Communication with governance",
+      "shortFr": "Communication avec la gouvernance",
+      "isa": "ISA 260 ¶14–17",
+      "tipsEn": [
+       "Book the dates of the planning and closing meetings now."
+      ],
+      "tipsFr": [
+       "Fixer dès maintenant les dates des réunions de planification et de clôture."
+      ],
+      "stdEn": "The communications are planned in the engagement letter (P1.4) and in C5.11.",
+      "stdFr": "Les communications sont prévues dans la lettre de mission (P1.4) et en C5.11.",
+      "sourceHint": "C5.11"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "assigned",
       "en": "Every general procedure has a responsible team member and a planned date.",
-      "fr": "Chaque procédure générale a un responsable dans l'équipe et une date prévue."
+      "fr": "Chaque procédure générale a un membre de l'équipe responsable et une date prévue.",
+      "tasks": [
+       "opening",
+       "subsequent",
+       "going_concern",
+       "laws",
+       "related_parties",
+       "estimates",
+       "governance"
+      ]
      },
      {
       "key": "linked",
       "en": "Each planned procedure is linked to the working paper where it will be documented.",
-      "fr": "Chaque procédure prévue est rattachée à la feuille de travail où elle sera documentée."
+      "fr": "Chaque procédure prévue est rattachée au papier de travail où elle sera documentée.",
+      "vs": false,
+      "tasks": [
+       "opening",
+       "subsequent",
+       "going_concern",
+       "laws",
+       "related_parties",
+       "estimates",
+       "governance"
+      ]
      }
     ]
    }
   ],
-  "conclEn": [
-   "The general audit procedures required on this engagement are planned, with their nature, timing and responsible team member."
+  "objectiveEn": "Plan the nature, timing and extent of the general audit procedures every audit requires: opening balances, subsequent events, going concern, laws and regulations, related parties, accounting estimates and communication with those charged with governance, and who performs each.",
+  "objectiveFr": "Planifier la nature, le calendrier et l'étendue des procédures générales exigées pour tout audit : soldes d'ouverture, événements postérieurs, continuité d'exploitation, textes légaux et réglementaires, parties liées, estimations comptables et communication avec les personnes constituant le gouvernement d'entreprise, et qui réalise chacune.",
+  "isa": [
+   {
+    "std": "ISA 300"
+   },
+   {
+    "std": "ISA 510"
+   },
+   {
+    "std": "ISA 560"
+   },
+   {
+    "std": "ISA 570"
+   },
+   {
+    "std": "ISA 250"
+   },
+   {
+    "std": "ISA 550"
+   },
+   {
+    "std": "ISA 540"
+   },
+   {
+    "std": "ISA 260"
+   }
   ],
-  "conclFr": [
-   "Les procédures générales d'audit requises sur cette mission sont planifiées, avec leur nature, leur calendrier et leur responsable."
-  ]
+  "links": [
+   "E6.5",
+   "E6.6",
+   "E6.3",
+   "E6.1",
+   "E6.2",
+   "E6.7",
+   "C5.11"
+  ],
+  "conclStdEn": "The general audit procedures required on this engagement are planned, with their nature, timing and the team member responsible.",
+  "conclStdFr": "Les procédures générales requises pour cette mission sont planifiées, avec leur nature, leur calendrier et le membre de l'équipe responsable."
  }
 }

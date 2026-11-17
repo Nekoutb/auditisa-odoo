@@ -3,110 +3,202 @@
  "source": "lib/papers/gam.ts",
  "definition": {
   "std": "ISA 330 ¶8–11 · ISA 530",
-  "ownsEn": "the design of each test of controls: attribute, population, timing and extent",
-  "ownsFr": "la conception de chaque test de contrôles : attribut, population, calendrier et étendue",
+  "tools": [
+   {
+    "action": "action_tool_scot",
+    "en": "Classes of transactions and controls",
+    "fr": "Flux de transactions et contrôles",
+    "noteEn": "Test design per control",
+    "noteFr": "Conception du test par contrôle"
+   },
+   {
+    "action": "action_tool_sampling",
+    "en": "Sampling",
+    "fr": "Échantillonnage",
+    "noteEn": "Sample sizes for tests of controls",
+    "noteFr": "Taille des échantillons des tests de contrôles"
+   },
+   {
+    "action": "action_tool_team",
+    "en": "Team",
+    "fr": "Équipe",
+    "noteEn": "Who performs each test",
+    "noteFr": "Qui réalise chaque test"
+   }
+  ],
   "reqEn": [
    "For each control selected in S2.1 we design the test: the attribute that shows the control operated (a signature, a system log, a matched document), the population of control occurrences, the period covered, and the sample size. Inquiry alone is never sufficient — the test combines inquiry with inspection, observation or reperformance (ISA 330 ¶10).",
-   "Extent follows frequency: a control operating many times daily is tested on a sample sized for its population; monthly, quarterly and annual controls are tested across the instances of the period; an automated control is tested once per configuration provided its ITGCs are effective. Timing decides how much of the period the test covers now and what the post-interim update (E2.1) must add.",
-   "Extent and nature rise with the weight the strategy puts on the control: the greater the reliance, or the thinner the substantive work on the same assertion, the more persuasive the evidence must be — larger samples, stronger procedures, more of the period covered (ISA 330 ¶9). Inquiry alone never suffices; combine it with inspection or reperformance in preference to observation, which only proves the control operated at the moment it was watched (ISA 330 ¶10(a)). Where the tested control depends on indirect controls — the ITGCs behind a system report, the review that maintains a master file — decide explicitly whether evidence on those indirect controls is needed as well (ISA 330 ¶10(b)).",
+   "Extent follows frequency: a control operating many times daily is tested on a sample sized for its population; monthly, quarterly and annual controls are tested across the instances of the period; an automated control is tested once per configuration provided its IT general controls are effective. Timing decides how much of the period the test covers now and what the post-interim update (E2.1) must add.",
+   "Extent and nature rise with the weight the strategy puts on the control: the greater the reliance, or the thinner the substantive work on the same assertion, the more persuasive the evidence must be — larger samples, stronger procedures, more of the period covered (ISA 330 ¶9). Inquiry alone never suffices; combine it with inspection or reperformance in preference to observation, which only proves the control operated at the moment it was watched (ISA 330 ¶10(a)). Where the tested control depends on indirect controls — the IT general controls behind a system report, the review that maintains a master file — decide explicitly whether evidence on those indirect controls is needed as well (ISA 330 ¶10(b)).",
    "The design also presumes the groundwork of ISA 315 (Revised 2019) ¶26 is already in the file: the control's design has been evaluated as capable of addressing the risk and its implementation confirmed by walkthrough — a test of operating effectiveness never substitutes for that evaluation. Timing then follows the reliance: the evidence must cover the whole period over which reliance is intended, so an interim test commits the plan to updating the remaining months, not to hoping about them (ISA 330 ¶11). And where substantive procedures alone cannot suffice (ISA 330 ¶8(b)), deviations found in the test force redesign or extension of the controls work — there is no substantive fallback to retreat to."
   ],
   "reqFr": [
    "Pour chaque contrôle retenu en S2.1, nous concevons le test : attribut probant (visa, journal système, rapprochement), population des occurrences, période couverte, taille d'échantillon. L'entretien seul ne suffit jamais (ISA 330 ¶10).",
-   "L'étendue suit la fréquence : contrôle pluriquotidien testé par sondage, contrôles mensuels/trimestriels/annuels testés sur les occurrences de la période, contrôle automatisé testé une fois par configuration si les ITGC sont efficaces. Le calendrier détermine la part de période couverte maintenant et ce que la mise à jour post-intérim (E2.1) devra ajouter.",
-   "L'étendue et la nature du test croissent avec le poids que la stratégie fait porter au contrôle : plus l'appui est grand, ou plus les travaux corroboratifs sur la même assertion sont minces, plus la preuve doit être convaincante — échantillons plus larges, procédures plus fortes, période couverte plus longue (ISA 330 ¶9). La demande d'information seule ne suffit jamais ; la combiner avec l'inspection ou la réexécution de préférence à l'observation, qui ne prouve le fonctionnement du contrôle qu'à l'instant où on le regarde (ISA 330 ¶10(a)). Quand le contrôle testé dépend de contrôles indirects — les ITGC derrière un état système, la revue qui entretient un fichier maître — décider explicitement si une preuve sur ces contrôles indirects est aussi nécessaire (ISA 330 ¶10(b)).",
+   "L'étendue suit la fréquence : contrôle pluriquotidien testé par sondage, contrôles mensuels/trimestriels/annuels testés sur les occurrences de la période, contrôle automatisé testé une fois par configuration si les contrôles généraux informatiques sont efficaces. Le calendrier détermine la part de période couverte maintenant et ce que la mise à jour post-intérim (E2.1) devra ajouter.",
+   "L'étendue et la nature du test croissent avec le poids que la stratégie fait porter au contrôle : plus l'appui est grand, ou plus les travaux corroboratifs sur la même assertion sont minces, plus la preuve doit être convaincante — échantillons plus larges, procédures plus fortes, période couverte plus longue (ISA 330 ¶9). La demande d'information seule ne suffit jamais ; la combiner avec l'inspection ou la réexécution de préférence à l'observation, qui ne prouve le fonctionnement du contrôle qu'à l'instant où on le regarde (ISA 330 ¶10(a)). Quand le contrôle testé dépend de contrôles indirects — les contrôles généraux informatiques derrière un état système, la revue qui entretient un fichier maître — décider explicitement si une preuve sur ces contrôles indirects est aussi nécessaire (ISA 330 ¶10(b)).",
    "La conception du test suppose aussi que le socle d'ISA 315 (révisée 2019) ¶26 est déjà au dossier : la conception du contrôle évaluée comme capable de répondre au risque et sa mise en œuvre confirmée par cheminement — un test d'efficacité ne remplace jamais cette évaluation. Le calendrier suit ensuite l'appui : la preuve doit couvrir toute la période sur laquelle l'appui est prévu, si bien qu'un test intérimaire engage le plan à mettre à jour les mois restants, pas à l'espérer (ISA 330 ¶11). Et là où les procédures de corroboration seules ne peuvent suffire (ISA 330 ¶8(b)), les déviations relevées imposent de reconcevoir ou d'étendre les travaux sur les contrôles — il n'existe pas de repli corroboratif."
-  ],
-  "conclEn": [
-   "Each selected control has a designed test whose nature, timing and extent can support the planned reliance."
-  ],
-  "conclFr": [
-   "Chaque contrôle retenu dispose d'un test conçu dont la nature, le calendrier et l'étendue peuvent soutenir l'appui prévu."
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "attribute",
-      "en": "Define, per control, the attribute evidencing operation and the documents or records where it lives.",
-      "fr": "Définir, par contrôle, l'attribut probant et les documents ou enregistrements où il se trouve.",
-      "srcEn": "S1.2 control descriptions",
-      "srcFr": "Descriptions S1.2",
-      "tipEn": "Ask the control performer to show you last month's evidence before writing the attribute: the signed rapprochement bancaire, the 'validated' status in Sage, the stamp on the bon de livraison. If nothing can be produced on the spot, the attribute you were about to test does not exist — redesign the test or drop the reliance now.",
-      "tipFr": "Demander à l'exécutant du contrôle de montrer la preuve du mois dernier avant d'écrire l'attribut : le rapprochement bancaire signé, le statut « validé » dans Sage, le cachet sur le bon de livraison. Si rien ne peut être produit séance tenante, l'attribut que vous alliez tester n'existe pas — reconcevoir le test ou renoncer à l'appui tout de suite."
+      "en": "For each control, define the attribute that shows the control operated, and where that evidence is kept.",
+      "fr": "Pour chaque contrôle, définir l'attribut qui prouve que le contrôle a fonctionné, et où cette preuve est conservée.",
+      "shortEn": "Attribute tested",
+      "shortFr": "Attribut testé",
+      "isa": "ISA 330 ¶10",
+      "toolDone": "toc.design",
+      "tipsEn": [
+       "Ask to see last month's evidence before writing the attribute: a signature, a system status, a stamp.",
+       "Inquiry alone is never enough: add inspection or reperformance."
+      ],
+      "tipsFr": [
+       "Demander la preuve du mois dernier avant d'écrire l'attribut : un visa, un statut dans le système, un cachet.",
+       "L'entretien seul ne suffit jamais : y ajouter l'inspection ou la réexécution."
+      ],
+      "stdEn": "A test and its attribute are designed in the tool for each control selected.",
+      "stdFr": "Un test et son attribut sont conçus dans l'outil pour chaque contrôle retenu.",
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "population",
-      "en": "Define the population of control occurrences for the period and how completeness of that population is established.",
-      "fr": "Définir la population des occurrences sur la période et la manière d'en établir l'exhaustivité.",
-      "srcEn": "System reports · control logs",
-      "srcFr": "États systèmes · journaux de contrôle",
-      "tipEn": "Draw the population from a source the client cannot rebuild after the fact: the numbered sequence of bons de livraison, the journal-validation log in the accounting software, the twelve monthly reconciliations. Then prove the count — tie the number of occurrences to the grand livre activity or to the calendar — so the sample comes from the whole period, not from the binder the client hands you.",
-      "tipFr": "Tirer la population d'une source que le client ne peut pas reconstituer après coup : la séquence numérotée des bons de livraison, le journal de validation du logiciel comptable, les douze rapprochements mensuels. Prouver ensuite le décompte — rapprocher le nombre d'occurrences de l'activité du grand livre ou du calendrier — pour que le sondage couvre toute la période et pas seulement le classeur remis par le client."
+      "en": "Define the population of occurrences of the control for the period, and how its completeness is established.",
+      "fr": "Définir la population des occurrences du contrôle sur la période, et la façon d'en établir l'exhaustivité.",
+      "shortEn": "Population",
+      "shortFr": "Population",
+      "isa": "ISA 530 ¶6, ISA 500 ¶9",
+      "tipsEn": [
+       "Take the population from a numbered sequence or a system log the entity cannot rebuild.",
+       "Agree the number of occurrences to the activity in the general ledger."
+      ],
+      "tipsFr": [
+       "Tirer la population d'une séquence numérotée ou d'un journal du système que l'entité ne peut pas reconstituer.",
+       "Rapprocher le nombre d'occurrences de l'activité du grand livre."
+      ],
+      "stdEn": "Each population is drawn from a numbered sequence or a system record, and its completeness was checked.",
+      "stdFr": "Chaque population est tirée d'une séquence numérotée ou d'un enregistrement du système, et son exhaustivité a été vérifiée.",
+      "sourceHint": "Sampling"
      },
      {
       "key": "extent",
-      "en": "Set the sample size from the control's frequency and the planned reliance; automated controls: one per configuration plus ITGC dependency.",
-      "fr": "Fixer la taille d'échantillon selon la fréquence et l'appui prévu ; contrôles automatisés : un par configuration plus dépendance ITGC.",
-      "srcEn": "Sampling tool",
-      "srcFr": "Outil d'échantillonnage",
-      "tipEn": "Read the frequency straight off the S1.2 description and take the size from the firm's sampling table — one instance for an annual control, a couple for a monthly one, a full sample for a many-times-daily control. For an automated control, test one occurrence per configuration and attach the E1.1 ITGC conclusion to it: reperforming the same calculation twenty times adds nothing.",
-      "tipFr": "Lire la fréquence directement dans la description S1.2 et prendre la taille dans la table de sondage du cabinet — une occurrence pour un contrôle annuel, deux pour un mensuel, un échantillon complet pour un contrôle pluriquotidien. Pour un contrôle automatisé, tester une occurrence par paramétrage et y joindre la conclusion ITGC d'E1.1 : refaire vingt fois le même calcul n'apporte rien."
+      "en": "Set the extent from the frequency of the control and the planned reliance; an automated control is tested once per configuration when its IT general controls are effective.",
+      "fr": "Fixer l'étendue selon la fréquence du contrôle et l'appui prévu ; un contrôle automatisé est testé une fois par configuration lorsque ses contrôles généraux informatiques sont efficaces.",
+      "shortEn": "Extent",
+      "shortFr": "Étendue",
+      "isa": "ISA 330 ¶9",
+      "toolDone": "toc.extent",
+      "tipsEn": [
+       "The tool proposes a minimum sample from the frequency; heavy reliance raises it."
+      ],
+      "tipsFr": [
+       "L'outil propose un échantillon minimum selon la fréquence ; un appui fort l'augmente."
+      ],
+      "stdEn": "Sample sizes follow the minimum the tool proposes from the frequency and the reliance.",
+      "stdFr": "Les tailles d'échantillon suivent le minimum proposé par l'outil selon la fréquence et l'appui.",
+      "sourceHint": "Sampling"
      },
      {
       "key": "timing",
-      "en": "Set the timing: period covered by the interim test and the roll-forward the post-interim update (E2.1) will need.",
-      "fr": "Fixer le calendrier : période couverte à l'intérim et complément attendu de la mise à jour post-intérim (E2.1).",
-      "srcEn": "Engagement timetable",
-      "srcFr": "Calendrier de la mission",
-      "tipEn": "Push the interim test as late as the timetable allows so the roll-forward window stays short. Write the E2.1 update into the plan today — which controls, what evidence covers the remaining months, who performs it — instead of leaving 'update at final' as a blank line the busy season will erase.",
-      "tipFr": "Placer le test intérimaire aussi tard que le calendrier le permet pour raccourcir la fenêtre de mise à jour. Inscrire la mise à jour E2.1 dans le plan dès aujourd'hui — quels contrôles, quelle preuve pour les mois restants, qui l'exécute — plutôt que de laisser une ligne vide « à compléter au final » que la période de pointe effacera."
+      "en": "Set the timing: the period covered by the interim test, and what the update after the interim date (E2.1) must add.",
+      "fr": "Fixer le calendrier : la période couverte par le test intermédiaire, et ce que la mise à jour après la date intermédiaire (E2.1) devra ajouter.",
+      "shortEn": "Timing",
+      "shortFr": "Calendrier",
+      "isa": "ISA 330 ¶11–12",
+      "tipsEn": [
+       "Test as late as the timetable allows, so the remaining period stays short.",
+       "Write the update into the plan now: which controls, what evidence, who."
+      ],
+      "tipsFr": [
+       "Tester aussi tard que le calendrier le permet, pour que la période restante soit courte.",
+       "Inscrire la mise à jour au plan dès maintenant : quels contrôles, quelle preuve, qui."
+      ],
+      "stdEn": "The tests cover the whole period, or the update after the interim date is planned in E2.1.",
+      "stdFr": "Les tests couvrent toute la période, ou la mise à jour après la date intermédiaire est prévue en E2.1.",
+      "sourceHint": "E2.1"
      },
      {
       "key": "assign",
-      "en": "Assign each designed test to a team member and link it to the execution program that will record the result.",
-      "fr": "Affecter chaque test conçu à un membre de l'équipe et le relier au programme d'exécution qui recevra le résultat.",
-      "srcEn": "Team plan (P2.2)",
-      "srcFr": "Plan d'équipe (P2.2)",
-      "tipEn": "Match difficulty to grade: reperforming a bank reconciliation suits an assistant, but walking the billing platform's configuration needs the senior or the IT specialist named in P2.2. Write the working-paper reference of the execution program next to each name so the result lands in the file, not in someone's inbox.",
-      "tipFr": "Ajuster la difficulté au grade : refaire un rapprochement bancaire convient à un assistant, mais parcourir le paramétrage de la plateforme de facturation exige le chef de mission ou le spécialiste informatique désigné en P2.2. Écrire la référence du programme d'exécution à côté de chaque nom pour que le résultat atterrisse dans le dossier et non dans une messagerie."
+      "en": "Assign each test to a team member, and link it to the paper where the result will be recorded (E1.2).",
+      "fr": "Attribuer chaque test à un membre de l'équipe et le rattacher au papier où le résultat sera consigné (E1.2).",
+      "shortEn": "Tests assigned",
+      "shortFr": "Tests attribués",
+      "isa": "ISA 300 ¶11",
+      "tipsEn": [
+       "Match the difficulty of each test to the experience of the person performing it."
+      ],
+      "tipsFr": [
+       "Adapter la difficulté de chaque test à l'expérience de la personne qui le réalise."
+      ],
+      "stdEn": "Each test is assigned to a team member and linked to E1.2.",
+      "stdFr": "Chaque test est attribué à un membre de l'équipe et rattaché à E1.2.",
+      "sourceHint": "Team"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Confirmations",
-    "titleFr": "Partie B — Confirmations",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "each_control",
       "en": "Every control selected in S2.1 has a designed test.",
-      "fr": "Chaque contrôle retenu en S2.1 dispose d'un test conçu."
+      "fr": "Chaque contrôle retenu en S2.1 a un test conçu.",
+      "tasks": [
+       "attribute"
+      ],
+      "autoCheck": "toc_designed"
      },
      {
       "key": "beyond_inquiry",
       "en": "No test relies on inquiry alone.",
-      "fr": "Aucun test ne repose sur le seul entretien."
+      "fr": "Aucun test ne repose sur le seul entretien.",
+      "tasks": [
+       "attribute"
+      ]
      },
      {
       "key": "extent_ok",
       "en": "Sample sizes follow the frequency of each control and the planned reliance.",
-      "fr": "Les tailles d'échantillon suivent la fréquence des contrôles et l'appui prévu."
+      "fr": "Les tailles d'échantillon suivent la fréquence de chaque contrôle et l'appui prévu.",
+      "tasks": [
+       "extent"
+      ],
+      "autoCheck": "toc_extent"
      },
      {
       "key": "rollforward",
-      "en": "Interim timing and the post-interim update are planned together (link to E2.1).",
-      "fr": "Le calendrier d'intérim et la mise à jour post-intérim sont planifiés ensemble (lien E2.1)."
+      "en": "The interim timing and the update after the interim date are planned together (E2.1).",
+      "fr": "Le calendrier intermédiaire et la mise à jour après la date intermédiaire sont prévus ensemble (E2.1).",
+      "vs": false,
+      "tasks": [
+       "timing"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Design the tests of operating effectiveness of each control selected, so that their nature, timing and extent provide sufficient appropriate audit evidence for the planned reliance.",
+  "objectiveFr": "Concevoir les tests d'efficacité du fonctionnement de chaque contrôle retenu, afin que leur nature, leur calendrier et leur étendue fournissent des éléments probants suffisants et appropriés pour l'appui prévu.",
+  "isa": [
+   {
+    "std": "ISA 330"
+   },
+   {
+    "std": "ISA 530"
+   }
+  ],
+  "links": [
+   "S2.1",
+   "E1.2",
+   "E2.1"
+  ],
+  "toolCard": "controls_tests",
+  "conclStdEn": "Each control selected has a designed test whose nature, timing and extent support the planned reliance.",
+  "conclStdFr": "Chaque contrôle retenu a un test conçu dont la nature, le calendrier et l'étendue soutiennent l'appui prévu."
  }
 }
