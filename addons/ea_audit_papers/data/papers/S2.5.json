@@ -3,169 +3,284 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 330 ¶16–17 · ISA 265 · ISA 315 (Revised 2019) ¶34",
-  "ownsEn": "the evaluation of the general IT controls and its effect on the controls-reliance strategy",
-  "ownsFr": "l'évaluation des contrôles généraux informatiques et son effet sur la stratégie d'appui sur les contrôles",
+  "tools": [
+   {
+    "action": "action_tool_itgc",
+    "en": "IT applications and IT general controls",
+    "fr": "Applications et contrôles généraux informatiques",
+    "noteEn": "The conclusion the combined risk assessment reads",
+    "noteFr": "La conclusion lue par l'évaluation combinée des risques"
+   },
+   {
+    "action": "action_tool_cra",
+    "en": "Combined risk assessment",
+    "fr": "Évaluation combinée des risques",
+    "noteEn": "Control risk per account and assertion",
+    "noteFr": "Risque lié au contrôle par compte et assertion"
+   },
+   {
+    "action": "action_tool_deficiencies",
+    "en": "Control deficiencies",
+    "fr": "Déficiences du contrôle interne",
+    "noteEn": "Severity and communication of each deficiency",
+    "noteFr": "Gravité et communication de chaque déficience"
+   }
+  ],
   "reqEn": [
-   "We evaluate each tested ITGC as effective or ineffective for the period: a control deficient for any part of the reliance period is ineffective for that period, whatever was later remediated (ISA 330 ¶16–17).",
-   "The ITGC evaluations roll up: per IT process per application the process is effective (its ITGCs operated), reliable (its risks were answered by substantive procedures on the process activity), or ineffective; and per application the processes aggregate to support or not support the automated functioning of the application controls and the reports. Where the aggregate does not support, an automated control cannot be relied on with a test of one, and reports lose their presumption of integrity.",
-   "An ineffective ITGC is answered down a ladder: a compensating ITGC covering the same risk; substantive procedures over the process activity; compensating controls inside the affected SCOTs — the orphaned risks becoming WCGWs in S1.2; direct testing of the automated controls through the period; and, last, no reliance — the control risk assessment flips to not-rely in the S3.1 matrix and the substantive procedures expand (ISA 315 ¶34).",
-   "Deficiencies in ITGCs are evaluated for severity and communicated: significant deficiencies in writing to those charged with governance (ISA 265 ¶9–10)."
+   "We evaluate each tested IT general control as effective or ineffective for the period: a control deficient for any part of the reliance period is ineffective for that period, whatever was later remediated (ISA 330 ¶16–17).",
+   "The evaluations of the IT general controls roll up: per IT process per application the process is effective (its IT general controls operated), reliable (its risks were answered by substantive procedures on the process activity), or ineffective; and per application the processes aggregate to support or not support the automated functioning of the application controls and the reports. Where the aggregate does not support, an automated control cannot be relied on with a test of one, and reports lose their presumption of integrity.",
+   "An ineffective IT general control is answered down a ladder: a compensating IT general control covering the same risk; substantive procedures over the process activity; compensating controls inside the significant classes of transactions affected — the orphaned risks becoming what can go wrong entries in S1.2; direct testing of the automated controls through the period; and, last, no reliance — the control risk assessment flips to not-rely in the S3.1 matrix and the substantive procedures expand (ISA 315 ¶34).",
+   "Deficiencies in IT general controls are evaluated for severity and communicated: significant deficiencies in writing to those charged with governance (ISA 265 ¶9–10)."
   ],
   "reqFr": [
-   "Nous évaluons chaque ITGC testé comme efficace ou inefficace pour la période : un contrôle déficient sur une partie quelconque de la période d'appui est inefficace pour cette période, quelles que soient les corrections ultérieures (ISA 330 ¶16–17).",
-   "Les évaluations se consolident : par processus et par application, le processus est efficace (ses ITGC ont fonctionné), fiable (ses risques ont été couverts par des procédures substantives sur l'activité du processus), ou inefficace ; et par application, les processus s'agrègent en soutient ou ne soutient pas le fonctionnement automatisé des contrôles applicatifs et des états. Sans soutien, un contrôle automatisé ne peut être testé par un test unique, et les états perdent leur présomption d'intégrité.",
-   "Un ITGC inefficace se traite par paliers : un ITGC compensatoire couvrant le même risque ; des procédures substantives sur l'activité du processus ; des contrôles compensatoires dans les SCOT concernés — les risques orphelins devenant des WCGW en S1.2 ; le test direct des contrôles automatisés sur la période ; et, en dernier lieu, l'absence d'appui — le risque lié au contrôle bascule à « sans appui » dans la matrice S3.1 et les procédures substantives s'étendent (ISA 315 ¶34).",
-   "Les déficiences des ITGC sont évaluées en gravité et communiquées : les déficiences significatives par écrit aux personnes constituant le gouvernement d'entreprise (ISA 265 ¶9–10)."
-  ],
-  "conclEn": [
-   "Every tested ITGC carries an evaluation, every ineffective one carries a response from the ladder, and the S3.1 control-risk assessments reflect the aggregate conclusion recorded below."
-  ],
-  "conclFr": [
-   "Chaque ITGC testé porte une évaluation, chaque ITGC inefficace porte une réponse par paliers, et les évaluations du risque lié au contrôle en S3.1 reflètent la conclusion d'ensemble consignée ci-dessous."
+   "Nous évaluons chaque contrôle général informatique testé comme efficace ou inefficace pour la période : un contrôle déficient sur une partie quelconque de la période d'appui est inefficace pour cette période, quelles que soient les corrections ultérieures (ISA 330 ¶16–17).",
+   "Les évaluations se consolident : par processus et par application, le processus est efficace (ses contrôles généraux informatiques ont fonctionné), fiable (ses risques ont été couverts par des procédures substantives sur l'activité du processus), ou inefficace ; et par application, les processus s'agrègent en soutient ou ne soutient pas le fonctionnement automatisé des contrôles applicatifs et des états. Sans soutien, un contrôle automatisé ne peut être testé par un test unique, et les états perdent leur présomption d'intégrité.",
+   "Un contrôle général informatique inefficace se traite par paliers : un contrôle général informatique compensatoire couvrant le même risque ; des procédures substantives sur l'activité du processus ; des contrôles compensatoires dans les flux significatifs concernés — les risques orphelins devenant des risques d'anomalies en S1.2 ; le test direct des contrôles automatisés sur la période ; et, en dernier lieu, l'absence d'appui — le risque lié au contrôle bascule à « sans appui » dans la matrice S3.1 et les procédures substantives s'étendent (ISA 315 ¶34).",
+   "Les déficiences des contrôles généraux informatiques sont évaluées en gravité et communiquées : les déficiences significatives par écrit aux personnes constituant le gouvernement d'entreprise (ISA 265 ¶9–10)."
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "controls",
-      "en": "Conclude on each tested ITGC: effective or ineffective for the period — deficient for part of the period means ineffective, later remediation notwithstanding.",
-      "fr": "Conclure sur chaque ITGC testé : efficace ou inefficace pour la période — déficient sur une partie de la période signifie inefficace, nonobstant toute correction ultérieure.",
-      "srcEn": "S2.4 tests and exceptions",
-      "srcFr": "Tests et exceptions S2.4",
-      "tipEn": "A design-ineffective, unimplemented or untested ITGC is ineffective by definition. A sound control that simply had no occasion to operate in the period can still be evaluated effective — say why.",
-      "tipFr": "Un ITGC mal conçu, non mis en œuvre ou non testé est inefficace par définition. Un contrôle sain qui n'a simplement pas eu l'occasion de fonctionner dans la période peut rester évalué efficace — dire pourquoi."
+      "en": "Conclude on each IT general control tested: effective or ineffective for the period. A control deficient for part of the period is ineffective, even if it was remediated later.",
+      "fr": "Conclure sur chaque contrôle général informatique testé : efficace ou inefficace pour la période. Un contrôle défaillant sur une partie de la période est inefficace, même s'il a été corrigé ensuite.",
+      "shortEn": "Each control concluded",
+      "shortFr": "Conclusion par contrôle",
+      "isa": "ISA 330 ¶16–17",
+      "tipsEn": [
+       "A control poorly designed, not implemented or not tested is ineffective by definition."
+      ],
+      "tipsFr": [
+       "Un contrôle mal conçu, non mis en place ou non testé est inefficace par définition."
+      ],
+      "stdEn": "Every IT general control tested operated effectively for the whole period.",
+      "stdFr": "Chaque contrôle général informatique testé a fonctionné efficacement sur toute la période.",
+      "sourceHint": "S2.4",
+      "fieldKeys": [
+       "evaluations_register"
+      ]
      },
      {
       "key": "process",
-      "en": "Roll up per IT process per application: effective, reliable (risks answered substantively), or ineffective; a judgment that a process survives a failed ITGC is recorded with its rationale.",
-      "fr": "Consolider par processus et par application : efficace, fiable (risques couverts par voie substantive), ou inefficace ; le jugement qu'un processus survit à un ITGC défaillant est consigné avec son fondement.",
-      "srcEn": "Procedure 1 conclusions",
-      "srcFr": "Conclusions de la procédure 1"
+      "en": "Roll up the conclusions by IT process and by application: effective, reliable (its risks answered by substantive procedures) or ineffective. Record the reason when a process is judged to survive a failed control.",
+      "fr": "Agréger les conclusions par processus informatique et par application : efficace, fiable (ses risques couverts par des procédures de substance) ou inefficace. Consigner le motif lorsqu'un processus est jugé tenir malgré un contrôle défaillant.",
+      "shortEn": "Conclusion by process",
+      "shortFr": "Conclusion par processus",
+      "isa": "ISA 330 ¶17",
+      "tipsEn": [
+       "One failed control does not always fail the process: say why the risk is still answered."
+      ],
+      "tipsFr": [
+       "Un contrôle défaillant ne fait pas toujours tomber le processus : dire pourquoi le risque reste couvert."
+      ],
+      "stdEn": "Every IT process of each application is effective.",
+      "stdFr": "Chaque processus informatique de chaque application est efficace."
      },
      {
       "key": "aggregate",
-      "en": "Aggregate per application: do the process conclusions support the automated functioning of the application controls and the reports? Record the conclusion in the field below — the S3.1 matrix reads it.",
-      "fr": "Agréger par application : les conclusions par processus soutiennent-elles le fonctionnement automatisé des contrôles applicatifs et des états ? Consigner la conclusion dans le champ ci-dessous — la matrice S3.1 la lit.",
-      "srcEn": "Procedure 2 conclusions · S3.1",
-      "srcFr": "Conclusions de la procédure 2 · S3.1",
-      "tipEn": "Support unlocks the test of one for automated controls and the light-touch validation of reports. Not-support means the automated controls are tested directly through the period or not relied on at all — and the reports are validated substantively each time they are used. One ineffective process does not always sink the aggregate: if the failure's cause cannot touch a given control, say so and keep it — in writing.",
-      "tipFr": "« Soutient » ouvre le test unique pour les contrôles automatisés et la validation allégée des états. « Ne soutient pas » signifie tester les contrôles automatisés directement sur la période ou y renoncer — et valider les états de façon substantive à chaque usage. Un processus inefficace ne coule pas toujours l'agrégat : si la cause de l'échec ne peut atteindre un contrôle donné, le dire et le conserver — par écrit."
+      "en": "Conclude for each application whether the IT processes support the automated controls and the system reports, and record the overall conclusion below: the S3.1 matrix reads it.",
+      "fr": "Conclure pour chaque application si les processus informatiques soutiennent les contrôles automatisés et les états du système, et consigner la conclusion d'ensemble ci-dessous : la matrice de S3.1 la lit.",
+      "shortEn": "Overall conclusion",
+      "shortFr": "Conclusion d'ensemble",
+      "isa": "ISA 315 ¶34, ISA 330 ¶8",
+      "toolDone": "itgc.state",
+      "tipsEn": [
+       "Support allows a test of one for automated controls; no support means testing them directly or not relying."
+      ],
+      "tipsFr": [
+       "Le soutien permet un test unique des contrôles automatisés ; sans soutien, il faut les tester directement ou renoncer à l'appui."
+      ],
+      "stdEn": "The IT processes support reliance on the automated controls and the system reports.",
+      "stdFr": "Les processus informatiques permettent de s'appuyer sur les contrôles automatisés et les états du système.",
+      "sourceHint": "IT applications and IT general controls"
      },
      {
       "key": "ladder",
-      "en": "For each ineffective ITGC, work the response ladder: compensating ITGC, substantive procedures on the process activity, compensating SCOT controls (write the orphaned risks into S1.2 as WCGWs), direct testing, or no reliance.",
-      "fr": "Pour chaque ITGC inefficace, dérouler les paliers de réponse : ITGC compensatoire, procédures substantives sur l'activité du processus, contrôles compensatoires dans les SCOT (inscrire les risques orphelins en S1.2 comme WCGW), test direct, ou absence d'appui.",
-      "srcEn": "S1.2 · S2.3 register",
-      "srcFr": "S1.2 · registre S2.3",
-      "tipEn": "Entities rarely have SCOT-level activities that verify processing accuracy or data security, so when ITGCs fail, expect the honest answer to be direct testing or no reliance more often than a convenient compensating control.",
-      "tipFr": "Les entités ont rarement des activités au niveau des SCOT vérifiant l'exactitude des traitements ou la sécurité des données ; quand les ITGC échouent, la réponse honnête est plus souvent le test direct ou l'absence d'appui qu'un contrôle compensatoire providentiel."
+      "en": "For each ineffective IT general control, choose the response: a compensating IT general control, substantive procedures on the process, compensating controls within the classes of transactions (record the uncovered risks in S1.2 as what can go wrong), direct testing, or no reliance.",
+      "fr": "Pour chaque contrôle général informatique inefficace, choisir la réponse : un contrôle général informatique compensatoire, des procédures de substance sur le processus, des contrôles compensatoires dans les flux de transactions (consigner les risques non couverts en S1.2 comme risques d'anomalies), un test direct, ou l'absence d'appui.",
+      "shortEn": "Responses to failures",
+      "shortFr": "Réponses aux défaillances",
+      "isa": "ISA 330 ¶17",
+      "tipsEn": [
+       "Small entities rarely have compensating controls over processing; expect direct testing or no reliance."
+      ],
+      "tipsFr": [
+       "Les petites entités ont rarement des contrôles compensatoires sur les traitements ; s'attendre au test direct ou à l'absence d'appui."
+      ],
+      "stdEn": "No IT general control was ineffective; no response is needed.",
+      "stdFr": "Aucun contrôle général informatique n'était inefficace ; aucune réponse n'est nécessaire.",
+      "fieldKeys": [
+       "responses_register"
+      ]
      },
      {
       "key": "cra",
-      "en": "Where the conclusion is not-support, revisit the control-risk assessments in the S3.1 matrix for the assertions the affected controls carried, and expand the substantive design in S5.5 accordingly.",
-      "fr": "Lorsque la conclusion est « ne soutient pas », revoir les évaluations du risque lié au contrôle dans la matrice S3.1 pour les assertions portées par les contrôles concernés, et étendre la conception substantive en S5.5 en conséquence.",
-      "srcEn": "S3.1 matrix · S5.5",
-      "srcFr": "Matrice S3.1 · S5.5"
+      "en": "Where the IT processes do not support reliance, revisit the control risk in the S3.1 matrix for the assertions concerned, and extend the substantive procedures in S5.5.",
+      "fr": "Lorsque les processus informatiques ne permettent pas l'appui, revoir le risque lié au contrôle dans la matrice de S3.1 pour les assertions concernées et étendre les procédures de substance en S5.5.",
+      "shortEn": "Control risk revisited",
+      "shortFr": "Risque lié au contrôle revu",
+      "isa": "ISA 315 ¶34, ISA 330 ¶7",
+      "tipsEn": [
+       "Every assertion relying on an automated control of the application concerned is affected."
+      ],
+      "tipsFr": [
+       "Chaque assertion qui s'appuie sur un contrôle automatisé de l'application concernée est touchée."
+      ],
+      "stdEn": "The conclusion supports reliance; the control risk in S3.1 needs no change.",
+      "stdFr": "La conclusion permet l'appui ; le risque lié au contrôle en S3.1 ne change pas.",
+      "sourceHint": "Combined risk assessment"
      },
      {
       "key": "communicate",
-      "en": "Evaluate each deficiency's severity and communicate: significant deficiencies in writing to those charged with governance, others to management.",
-      "fr": "Évaluer la gravité de chaque déficience et communiquer : les déficiences significatives par écrit au gouvernement d'entreprise, les autres à la direction.",
-      "srcEn": "ISA 265 · C5.11",
-      "srcFr": "ISA 265 · C5.11"
+      "en": "Evaluate the severity of each deficiency and communicate it: significant deficiencies in writing to those charged with governance, the others to management.",
+      "fr": "Évaluer la gravité de chaque déficience et la communiquer : les déficiences importantes par écrit aux personnes constituant le gouvernement d'entreprise, les autres à la direction.",
+      "shortEn": "Deficiencies communicated",
+      "shortFr": "Déficiences communiquées",
+      "isa": "ISA 265 ¶8–10",
+      "tipsEn": [
+       "Record each deficiency in the Control deficiencies tool; C5.11 carries the letter."
+      ],
+      "tipsFr": [
+       "Consigner chaque déficience dans l'outil des déficiences ; C5.11 porte le courrier."
+      ],
+      "stdEn": "No deficiency was found in the IT general controls.",
+      "stdFr": "Aucune déficience n'a été relevée dans les contrôles généraux informatiques.",
+      "sourceHint": "Control deficiencies",
+      "fieldKeys": [
+       "deficiencies"
+      ]
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Conclusion and registers",
-    "titleFr": "Partie B — Conclusion et registres",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "itgc_state",
       "kind": "select",
-      "labelEn": "Aggregate conclusion — do the IT processes support reliance on automated controls and reports? (read by the S3.1 matrix)",
-      "labelFr": "Conclusion d'ensemble — les processus informatiques soutiennent-ils l'appui sur les contrôles automatisés et les états ? (lue par la matrice S3.1)",
+      "labelEn": "Overall conclusion: do the IT processes support reliance on automated controls and system reports? (read by the S3.1 matrix)",
+      "labelFr": "Conclusion d'ensemble : les processus informatiques permettent-ils de s'appuyer sur les contrôles automatisés et les états du système ? (lue par la matrice de S3.1)",
       "options": [
        {
         "value": "support",
-        "en": "Support — processes effective or reliable",
-        "fr": "Soutiennent — processus efficaces ou fiables"
+        "en": "Support: processes effective or reliable",
+        "fr": "Soutiennent : processus efficaces ou fiables"
        },
        {
         "value": "mixed",
-        "en": "Mixed — support differs by application",
-        "fr": "Mitigé — le soutien diffère selon l'application"
+        "en": "Mixed: support differs by application",
+        "fr": "Mitigé : le soutien diffère selon l'application"
        },
        {
         "value": "not_support",
-        "en": "Do not support — reliance on automated controls unavailable",
-        "fr": "Ne soutiennent pas — appui sur les contrôles automatisés indisponible"
+        "en": "Do not support: no reliance on automated controls",
+        "fr": "Ne soutiennent pas : pas d'appui sur les contrôles automatisés"
        }
       ]
      },
      {
       "key": "evaluations_register",
       "kind": "input",
-      "labelEn": "Evaluations: each tested ITGC, its process roll-up per application, and the aggregate per application",
-      "labelFr": "Évaluations : chaque ITGC testé, la consolidation par processus et par application, et l'agrégat par application"
+      "labelEn": "Evaluations: each IT general control tested, the conclusion by process for each application, and the overall conclusion for each application",
+      "labelFr": "Évaluations : chaque contrôle général informatique testé, la conclusion par processus pour chaque application, et la conclusion d'ensemble par application",
+      "optional": true
      },
      {
       "key": "responses_register",
       "kind": "input",
-      "labelEn": "Responses to ineffective ITGCs: the rung chosen, the work done, the residual conclusion",
-      "labelFr": "Réponses aux ITGC inefficaces : le palier retenu, les travaux réalisés, la conclusion résiduelle"
+      "labelEn": "Responses to ineffective IT general controls: the response chosen, the work done, the remaining conclusion",
+      "labelFr": "Réponses aux contrôles généraux informatiques inefficaces : la réponse choisie, les travaux réalisés, la conclusion qui en résulte",
+      "optional": true
      },
      {
       "key": "deficiencies",
       "kind": "input",
       "labelEn": "Deficiencies: severity, and where each was communicated",
-      "labelFr": "Déficiences : gravité et destinataire de chaque communication"
+      "labelFr": "Déficiences : gravité et destinataire de chaque communication",
+      "optional": true
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part C — Evaluation",
-    "titleFr": "Partie C — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "evaluated",
-      "en": "Every tested ITGC carries an effective/ineffective evaluation for the whole period (procedure 1).",
-      "fr": "Chaque ITGC testé porte une évaluation efficace/inefficace pour toute la période (procédure 1)."
+      "en": "Every IT general control tested has an evaluation, effective or ineffective, for the whole period.",
+      "fr": "Chaque contrôle général informatique testé a une évaluation, efficace ou inefficace, pour toute la période.",
+      "tasks": [
+       "controls"
+      ]
      },
      {
       "key": "responded",
-      "en": "Every ineffective ITGC carries a response from the ladder, with rationale (procedure 4).",
-      "fr": "Chaque ITGC inefficace porte une réponse par paliers, avec fondement (procédure 4).",
-      "na": true
+      "en": "Every ineffective IT general control has a response, with its reason.",
+      "fr": "Chaque contrôle général informatique inefficace a une réponse motivée.",
+      "na": true,
+      "tasks": [
+       "ladder"
+      ]
      },
      {
       "key": "wcgw",
-      "en": "Risks orphaned by an ineffective process were written into the affected SCOTs as WCGWs (procedure 4).",
-      "fr": "Les risques rendus orphelins par un processus inefficace ont été inscrits dans les SCOT concernés comme WCGW (procédure 4).",
-      "na": true
+      "en": "Risks left uncovered by an ineffective process were recorded as what can go wrong in the classes of transactions affected.",
+      "fr": "Les risques laissés sans couverture par un processus inefficace ont été consignés comme risques d'anomalies dans les flux concernés.",
+      "na": true,
+      "vs": false,
+      "tasks": [
+       "ladder"
+      ]
      },
      {
       "key": "cra",
-      "en": "The S3.1 control-risk assessments reflect the aggregate conclusion (procedure 5).",
-      "fr": "Les évaluations du risque lié au contrôle en S3.1 reflètent la conclusion d'ensemble (procédure 5)."
+      "en": "The control risk assessed in S3.1 reflects the overall conclusion.",
+      "fr": "Le risque lié au contrôle évalué en S3.1 reflète la conclusion d'ensemble.",
+      "tasks": [
+       "cra"
+      ],
+      "autoCheck": "itgc_cra"
      },
      {
       "key": "communicated",
-      "en": "Deficiencies were evaluated for severity and communicated to the right level (procedure 6).",
-      "fr": "Les déficiences ont été évaluées en gravité et communiquées au bon niveau (procédure 6).",
-      "na": true
+      "en": "Deficiencies were evaluated for severity and communicated at the right level.",
+      "fr": "Les déficiences ont été évaluées en gravité et communiquées au bon niveau.",
+      "na": true,
+      "tasks": [
+       "communicate"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Evaluate whether the IT general controls tested operated effectively throughout the period, conclude whether the IT processes support reliance on automated controls and system reports, and respond to the deficiencies found.",
+  "objectiveFr": "Évaluer si les contrôles généraux informatiques testés ont fonctionné efficacement sur toute la période, conclure si les processus informatiques permettent de s'appuyer sur les contrôles automatisés et les états du système, et répondre aux déficiences relevées.",
+  "isa": [
+   {
+    "std": "ISA 330"
+   },
+   {
+    "std": "ISA 265"
+   },
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "links": [
+   "S2.4",
+   "S3.1",
+   "S1.2",
+   "C5.11"
+  ],
+  "toolCard": "itgc_conclusion",
+  "conclStdEn": "Every IT general control tested is evaluated, every ineffective one has a response, and the control risk in S3.1 reflects the overall conclusion.",
+  "conclStdFr": "Chaque contrôle général informatique testé est évalué, chaque contrôle inefficace a une réponse, et le risque lié au contrôle en S3.1 reflète la conclusion d'ensemble."
  }
 }

@@ -46,6 +46,8 @@ def _fixture(name):
 DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.14", "E4.15", "E6.4"} | {
     "S4.2", "P6.1", "P6.2", "S1.1", "S1.2", "S1.3", "S1.4", "S3.1",
 }
+# group strat: the controls, IT general controls, planning and strategy papers
+DEPARTS |= {"S2.1", "S2.2", "S2.3", "S2.4", "S2.5", "S4.1", "S4.3", "S4.4", "S5.1", "S5.2", "S5.3", "S5.6", "S6.1"}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")

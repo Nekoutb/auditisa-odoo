@@ -3,110 +3,214 @@
  "source": "lib/papers/gam.ts",
  "definition": {
   "std": "ISA 330 ¶8 · ISA 315 (Revised 2019) ¶33–34",
-  "ownsEn": "the controls-reliance decision: which controls will be tested for operating effectiveness, and why",
-  "ownsFr": "la décision d'appui sur les contrôles : lesquels seront testés en efficacité, et pourquoi",
+  "tools": [
+   {
+    "action": "action_tool_scot",
+    "en": "Classes of transactions and controls",
+    "fr": "Flux de transactions et contrôles",
+    "noteEn": "Strategy per class and the controls selected",
+    "noteFr": "Stratégie par flux et contrôles retenus"
+   },
+   {
+    "action": "action_tool_cra",
+    "en": "Combined risk assessment",
+    "fr": "Évaluation combinée des risques",
+    "noteEn": "Rely or not rely per account and assertion",
+    "noteFr": "Appui ou non par compte et assertion"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks where substantive procedures alone are not enough",
+    "noteFr": "Risques où les procédures de substance seules ne suffisent pas"
+   },
+   {
+    "action": "action_tool_itgc",
+    "en": "IT applications and IT general controls",
+    "fr": "Applications et contrôles généraux informatiques",
+    "noteEn": "Strategy per IT application",
+    "noteFr": "Stratégie par application"
+   }
+  ],
   "reqEn": [
    "For each relevant assertion of each significant account we decide the strategy: substantive procedures alone, or a combined approach relying on controls. Controls must be tested when we intend to rely on their operating effectiveness, and whenever substantive procedures alone cannot provide sufficient appropriate evidence — typically highly automated processing with little or no documentation outside the system (ISA 330 ¶8).",
-   "Where reliance is planned, we select the controls that address the what-could-go-wrongs of the assertion (from S1.2), preferring controls that cover more than one what-could-go-wrong and automated controls whose consistency ITGCs can carry. The selection names each control, the assertion it supports, and the deviation tolerance the strategy can bear.",
+   "Where reliance is planned, we select the controls that address the what-could-go-wrongs of the assertion (from S1.2), preferring controls that cover more than one what-could-go-wrong and automated controls whose consistency the IT general controls can carry. The selection names each control, the assertion it supports, and the deviation tolerance the strategy can bear.",
    "Reliance pays only when two conditions hold together: the risk assessment at assertion level includes an expectation that the controls operate effectively, and testing them costs less than the substantive assurance it replaces (ISA 330 ¶8(a)). The more the strategy leans on a control, the more persuasive the evidence of its operating effectiveness must be (ISA 330 ¶9). And reliance stops being a choice where substantive procedures alone cannot provide sufficient appropriate evidence at assertion level: where routine transactions are initiated, recorded, processed and reported only in automated form, those are risks for which controls must be identified and tested (ISA 330 ¶8(b); ISA 315 (Revised 2019) ¶33).",
    "No control enters the reliance plan on its description alone. For each control identified, ISA 315 (Revised 2019) ¶26 requires an evaluation of whether its design is capable of effectively preventing, or detecting and correcting, the misstatement it addresses, and a determination — by walkthrough or inspection of a live occurrence, never by inquiry alone — that it has been implemented. A control whose design evaluation failed, or whose implementation was not confirmed in S1.2, cannot be selected for testing here, whatever the strategy would prefer."
   ],
   "reqFr": [
    "Pour chaque assertion pertinente de chaque compte significatif, nous arrêtons la stratégie : substantive seule ou combinée avec appui sur les contrôles. Les contrôles doivent être testés lorsque nous prévoyons de nous appuyer sur leur efficacité, et lorsque les procédures substantives seules ne suffisent pas — traitement fortement automatisé sans documentation hors système (ISA 330 ¶8).",
-   "En cas d'appui prévu, nous sélectionnons les contrôles qui répondent aux WCGW de l'assertion (S1.2), en privilégiant les contrôles couvrant plusieurs WCGW et les contrôles automatisés dont les ITGC portent la constance.",
+   "En cas d'appui prévu, nous sélectionnons les contrôles qui répondent aux risques d'anomalies de l'assertion (S1.2), en privilégiant les contrôles couvrant plusieurs risques d'anomalies et les contrôles automatisés dont les contrôles généraux informatiques portent la constance.",
    "L'appui sur les contrôles n'est rentable que si deux conditions tiennent ensemble : l'évaluation des risques au niveau des assertions repose sur l'attente que les contrôles fonctionnent efficacement, et leur test coûte moins que l'assurance corroborative qu'il remplace (ISA 330 ¶8(a)). Plus la stratégie s'appuie sur un contrôle, plus la preuve de son efficacité doit être convaincante (ISA 330 ¶9). Et l'appui cesse d'être un choix lorsque les procédures de corroboration seules ne peuvent fournir des éléments suffisants et appropriés au niveau de l'assertion : quand des transactions courantes sont initiées, enregistrées, traitées et restituées uniquement sous forme automatisée, ce sont des risques pour lesquels des contrôles doivent être identifiés et testés (ISA 330 ¶8(b) ; ISA 315 (révisée 2019) ¶33).",
    "Aucun contrôle n'entre dans le plan d'appui sur sa seule description. Pour chaque contrôle identifié, ISA 315 (révisée 2019) ¶26 exige d'évaluer si sa conception est capable de prévenir, ou de détecter et corriger, l'anomalie qu'il vise, et de déterminer — par cheminement ou inspection d'une occurrence réelle, jamais par simple demande d'information — qu'il a été mis en œuvre. Un contrôle dont l'évaluation de conception a échoué, ou dont la mise en œuvre n'a pas été confirmée en S1.2, ne peut pas être retenu pour les tests ici, quelle que soit la préférence de la stratégie."
-  ],
-  "conclEn": [
-   "The audit strategy per assertion is decided, and the controls selected for testing address the associated what-could-go-wrongs."
-  ],
-  "conclFr": [
-   "La stratégie par assertion est arrêtée et les contrôles sélectionnés répondent aux WCGW associés."
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "strategy",
-      "en": "For each relevant assertion, record the strategy: substantive only, or combined with controls reliance, with the reason.",
-      "fr": "Pour chaque assertion pertinente, consigner la stratégie : substantive seule ou combinée, avec le motif.",
-      "srcEn": "P6.2 matrix · S1.2 flow papers",
-      "srcFr": "Matrice P6.2 · papiers de flux S1.2",
-      "tipEn": "Work down the P6.2 matrix assertion by assertion, not account by account: occurrence of revenue may justify reliance while cut-off stays substantive. Write the reason in one line a reviewer can challenge — 'volumes too high to vouch substantively' or 'control cheap to test and ran all year' — never 'combined approach' on its own.",
-      "tipFr": "Descendre la matrice P6.2 assertion par assertion, pas compte par compte : la réalité des ventes peut justifier l'appui sur les contrôles pendant que la séparation des exercices reste corroborative. Écrire la raison en une ligne qu'un réviseur peut discuter — « volumes trop importants pour tout pointer » ou « contrôle peu coûteux à tester et actif toute l'année » — jamais « approche mixte » seule."
+      "en": "For each relevant assertion, record the strategy: substantive procedures only, or a combined approach relying on controls, with the reason.",
+      "fr": "Pour chaque assertion pertinente, consigner la stratégie : procédures de substance seules ou approche combinée avec appui sur les contrôles, avec le motif.",
+      "shortEn": "Strategy per assertion",
+      "shortFr": "Stratégie par assertion",
+      "isa": "ISA 330 ¶8(a)",
+      "toolDone": "controls.strategy",
+      "tipsEn": [
+       "Decide assertion by assertion: occurrence may rely on controls while cut-off stays substantive.",
+       "Rely only where testing the control costs less than the substantive work it saves."
+      ],
+      "tipsFr": [
+       "Décider assertion par assertion : la réalité peut s'appuyer sur les contrôles et la séparation des exercices rester substantive.",
+       "Ne s'appuyer sur un contrôle que si son test coûte moins que les travaux de substance qu'il évite."
+      ],
+      "stdEn": "A strategy is recorded for each relevant assertion in the combined risk assessment.",
+      "stdFr": "Une stratégie est consignée pour chaque assertion pertinente dans l'évaluation combinée des risques.",
+      "sourceHint": "Combined risk assessment"
      },
      {
       "key": "forced",
-      "en": "Identify assertions where substantive procedures alone cannot suffice (automated processing, no external evidence) — controls testing is mandatory there.",
-      "fr": "Identifier les assertions où la substantive seule ne peut suffire (traitement automatisé, absence de preuve externe) — le test de contrôles y est obligatoire.",
-      "srcEn": "S1.1 application list · S1.2",
-      "srcFr": "Liste S1.1 · S1.2",
-      "tipEn": "Hunt for figures that exist only inside a system: interconnection revenue rated by a billing platform, fuel volumes from automated pumps, mobile money commissions computed on the operator's portal. If the only trail is a system report with no paper or third-party document behind it, flag the assertion as reliance-mandatory and route the application straight into the ITGC scope.",
-      "tipFr": "Chercher les chiffres qui n'existent que dans un système : revenus d'interconnexion tarifés par une plateforme de facturation, volumes de carburant issus de pompes automatisées, commissions mobile money calculées sur le portail de l'opérateur. Si la seule trace est un état système sans papier ni pièce externe derrière, classer l'assertion en appui obligatoire et faire entrer l'application directement dans le périmètre ITGC."
+      "en": "Identify the assertions where substantive procedures alone cannot provide sufficient appropriate audit evidence, such as highly automated processing with no documents outside the system. The controls over those assertions must be tested.",
+      "fr": "Identifier les assertions pour lesquelles les procédures de substance seules ne peuvent fournir des éléments probants suffisants et appropriés, par exemple un traitement très automatisé sans document hors du système. Les contrôles portant sur ces assertions doivent être testés.",
+      "shortEn": "Controls testing required",
+      "shortFr": "Tests de contrôles obligatoires",
+      "isa": "ISA 330 ¶8(b)",
+      "tipsEn": [
+       "Look for figures that exist only inside a system: billing platforms, automated pumps, mobile money commissions.",
+       "Flag each such risk in the Risk register, so the tool checks that a control is selected."
+      ],
+      "tipsFr": [
+       "Chercher les montants qui n'existent que dans un système : plateformes de facturation, pompes automatiques, commissions de mobile money.",
+       "Signaler chacun de ces risques dans le registre des risques, pour que l'outil vérifie qu'un contrôle est retenu."
+      ],
+      "stdEn": "No assertion was found where substantive procedures alone cannot provide sufficient appropriate audit evidence.",
+      "stdFr": "Aucune assertion n'a été relevée pour laquelle les procédures de substance seules ne suffisent pas.",
+      "sourceHint": "Risk register"
      },
      {
       "key": "select",
-      "en": "Where reliance is planned, select the controls to test, naming the what-could-go-wrongs each addresses.",
-      "fr": "En cas d'appui prévu, sélectionner les contrôles à tester en précisant les WCGW couverts.",
-      "srcEn": "S1.2 control inventory",
-      "srcFr": "Inventaire des contrôles S1.2",
-      "tipEn": "Prefer one control that kills several what-could-go-wrongs: a monthly bank reconciliation signed by the chef comptable covers existence and accuracy of cash in a single test. Pick the control closest to where the error would arise in the S1.2 flow and drop duplicative downstream reviews — testing two controls over the same what-could-go-wrong buys no extra assurance.",
-      "tipFr": "Préférer un contrôle qui couvre plusieurs risques à la fois : un rapprochement bancaire mensuel signé du chef comptable couvre l'existence et l'exactitude de la trésorerie en un seul test. Choisir dans le flux S1.2 le contrôle le plus proche de la naissance de l'erreur et écarter les revues aval redondantes — tester deux contrôles sur le même risque n'ajoute aucune assurance."
+      "en": "Where reliance is planned, select the controls to test, and link each one to the what can go wrong it addresses.",
+      "fr": "Lorsque l'appui est prévu, sélectionner les contrôles à tester et rattacher chacun au risque d'anomalie auquel il répond.",
+      "shortEn": "Controls selected",
+      "shortFr": "Contrôles retenus",
+      "isa": "ISA 330 ¶8",
+      "toolDone": "controls.select",
+      "tipsEn": [
+       "Prefer one control that covers several what can go wrong entries.",
+       "Choose the control closest to where the error would arise."
+      ],
+      "tipsFr": [
+       "Préférer un contrôle qui couvre plusieurs risques d'anomalies.",
+       "Choisir le contrôle le plus proche de l'endroit où l'erreur naîtrait."
+      ],
+      "stdEn": "The controls to test are selected in the tool, each linked to the what can go wrong it addresses.",
+      "stdFr": "Les contrôles à tester sont retenus dans l'outil, chacun rattaché au risque d'anomalie auquel il répond.",
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "itgc_dep",
-      "en": "For each automated or IT-dependent control selected, confirm its application is covered by the ITGC scope (E1.1).",
-      "fr": "Pour chaque contrôle automatisé ou dépendant IT sélectionné, vérifier la couverture ITGC de son application (E1.1).",
-      "srcEn": "E1.1 scope",
-      "srcFr": "Périmètre E1.1",
-      "tipEn": "List the application behind each automated control — the Sage/SAARI posting rules, the billing platform, the payroll package — and tick each one against the E1.1 scope table. An application missing from E1.1 means extending the ITGC work now or abandoning the reliance before the test is designed, not discovering the gap at final.",
-      "tipFr": "Lister l'application derrière chaque contrôle automatisé — paramétrage des écritures Sage/SAARI, plateforme de facturation, logiciel de paie — et pointer chacune dans le tableau de périmètre E1.1. Une application absente d'E1.1 impose d'étendre les travaux ITGC maintenant ou de renoncer à l'appui avant de concevoir le test, et non de découvrir la faille lors des travaux de fin d'exercice."
+      "en": "For each automated or IT-dependent control selected, confirm that its application is covered by the work on IT general controls (S2.3 to S2.5).",
+      "fr": "Pour chaque contrôle automatisé ou dépendant de l'informatique retenu, confirmer que son application est couverte par les travaux sur les contrôles généraux informatiques (S2.3 à S2.5).",
+      "shortEn": "IT general controls cover the application",
+      "shortFr": "Couverture par les contrôles généraux informatiques",
+      "isa": "ISA 315 ¶26(b)–(c)",
+      "toolDone": "controls.itgc",
+      "tipsEn": [
+       "An application left out means extending the IT work now, or dropping the reliance before the test is designed."
+      ],
+      "tipsFr": [
+       "Une application non couverte impose d'étendre les travaux informatiques maintenant, ou d'abandonner l'appui avant de concevoir le test."
+      ],
+      "stdEn": "The applications of the automated and IT-dependent controls selected rely on the IT processes in the IT applications tool.",
+      "stdFr": "Les applications des contrôles automatisés et dépendants de l'informatique retenus s'appuient sur les processus informatiques dans l'outil des applications.",
+      "sourceHint": "IT applications and IT general controls"
      },
      {
       "key": "substantive",
-      "en": "Confirm every assertion keeps a substantive component regardless of reliance (ISA 330 ¶18 for significant risks).",
-      "fr": "Vérifier que chaque assertion conserve une composante substantive quel que soit l'appui (ISA 330 ¶18 pour les risques importants).",
-      "srcEn": "Execution programs",
-      "srcFr": "Programmes d'exécution",
-      "tipEn": "Scan every execution program for the substantive line that survives the reliance decision — a tests-of-details sample, a confirmation, a substantive analytic — and add one where the program shows controls testing alone. Where the assertion carries a significant risk, check the substantive response answers that specific risk rather than repeating the standard programme step.",
-      "tipFr": "Balayer chaque programme d'exécution pour repérer la ligne corroborative qui survit à la décision d'appui — un sondage sur pièces, une confirmation, une procédure analytique de substance — et en ajouter une là où le programme ne montre que des tests de contrôles. Quand l'assertion porte un risque significatif, vérifier que la réponse corroborative traite ce risque précis au lieu de répéter l'étape standard du programme."
+      "en": "Confirm that every relevant assertion of each significant account keeps substantive procedures whatever the reliance, and that each significant risk has tests of details.",
+      "fr": "Confirmer que chaque assertion pertinente de chaque compte significatif conserve des procédures de substance quel que soit l'appui, et que chaque risque important a des tests de détail.",
+      "shortEn": "Substantive procedures kept",
+      "shortFr": "Procédures de substance maintenues",
+      "isa": "ISA 330 ¶18, ¶21",
+      "tipsEn": [
+       "Check that each program keeps a test of details, a confirmation or a substantive analytical procedure."
+      ],
+      "tipsFr": [
+       "Vérifier que chaque programme garde un test de détail, une confirmation ou une procédure analytique de substance."
+      ],
+      "stdEn": "Every relevant assertion keeps substantive procedures, and each significant risk has tests of details in Procedure design.",
+      "stdFr": "Chaque assertion pertinente conserve des procédures de substance, et chaque risque important a des tests de détail dans la conception des procédures.",
+      "sourceHint": "Procedure design"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Confirmations",
-    "titleFr": "Partie B — Confirmations",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "every_assertion",
       "en": "A strategy is recorded for every relevant assertion.",
-      "fr": "Une stratégie est consignée pour chaque assertion pertinente."
+      "fr": "Une stratégie est consignée pour chaque assertion pertinente.",
+      "tasks": [
+       "strategy"
+      ],
+      "autoCheck": "controls_strategy"
      },
      {
       "key": "forced_found",
-      "en": "Assertions where substantive alone cannot suffice are identified and controls selected there.",
-      "fr": "Les assertions où la substantive seule ne suffit pas sont identifiées et couvertes par des contrôles sélectionnés."
+      "en": "The assertions where substantive procedures alone are not enough are identified, and controls are selected for them.",
+      "fr": "Les assertions où les procédures de substance seules ne suffisent pas sont identifiées, et des contrôles y sont retenus.",
+      "tasks": [
+       "forced",
+       "select"
+      ],
+      "autoCheck": "controls_forced"
      },
      {
       "key": "wcgw_covered",
-      "en": "Each selected control is traced to the what-could-go-wrongs it addresses.",
-      "fr": "Chaque contrôle sélectionné est relié aux WCGW qu'il couvre."
+      "en": "Each control selected is linked to the what can go wrong it addresses.",
+      "fr": "Chaque contrôle retenu est rattaché au risque d'anomalie auquel il répond.",
+      "tasks": [
+       "select"
+      ],
+      "autoCheck": "controls_wcgw"
      },
      {
       "key": "itgc_ok",
-      "en": "ITGC coverage is confirmed for automated and IT-dependent controls.",
-      "fr": "La couverture ITGC est confirmée pour les contrôles automatisés et dépendants IT."
+      "en": "The IT general controls cover the applications of the automated and IT-dependent controls selected.",
+      "fr": "Les contrôles généraux informatiques couvrent les applications des contrôles automatisés et dépendants de l'informatique retenus.",
+      "na": true,
+      "tasks": [
+       "itgc_dep"
+      ],
+      "autoCheck": "controls_itgc"
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Decide, for each relevant assertion, whether the audit relies on controls, and select the controls to test where reliance is planned or where substantive procedures alone cannot provide sufficient appropriate audit evidence.",
+  "objectiveFr": "Décider, pour chaque assertion pertinente, si l'audit s'appuie sur les contrôles, et sélectionner les contrôles à tester lorsque cet appui est prévu ou lorsque les procédures de substance seules ne peuvent fournir des éléments probants suffisants et appropriés.",
+  "isa": [
+   {
+    "std": "ISA 330"
+   },
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "links": [
+   "S1.2",
+   "S3.1",
+   "S2.2",
+   "E1.2"
+  ],
+  "toolCard": "controls_selection",
+  "conclStdEn": "The strategy is set for every relevant assertion, and each control selected for testing addresses an identified what can go wrong.",
+  "conclStdFr": "La stratégie est arrêtée pour chaque assertion pertinente, et chaque contrôle retenu pour les tests répond à un risque d'anomalie identifié."
  }
 }

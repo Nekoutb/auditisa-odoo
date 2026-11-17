@@ -4,11 +4,28 @@
  "definition": {
   "std": "ISA 300 ¶7–9, ¶11 · ISA 320 ¶10 · ISA 220 (Revised) ¶29–35",
   "tools": [
-   "materiality",
-   "strategy"
+   {
+    "action": "action_tool_materiality",
+    "en": "Materiality",
+    "fr": "Matérialité",
+    "noteEn": "Overall and performance materiality",
+    "noteFr": "Seuil de signification et seuil de travail"
+   },
+   {
+    "action": "action_tool_team",
+    "en": "Team",
+    "fr": "Équipe",
+    "noteEn": "Members, roles and time budget",
+    "noteFr": "Membres, rôles et budget de temps"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Areas of higher assessed risk",
+    "noteFr": "Domaines à risque évalué plus élevé"
+   }
   ],
-  "ownsEn": "the engagement strategy and the scale of the work",
-  "ownsFr": "la stratégie de mission et le dimensionnement des travaux",
   "reqEn": [
    "The overall audit strategy sets the scope, timing and direction of the audit, and guides the development of the audit plan (ISA 300 ¶7). It records the characteristics that define the scope, the reporting objectives and the timing of communications, and the factors that in our professional judgement are significant in directing the team.",
    "The strategy also records the resources to deploy, including which team members are assigned to which areas and how much time is budgeted for the areas of higher assessed risk (ISA 300 ¶8).",
@@ -21,112 +38,122 @@
    "Le mémorandum est le lieu où l'étendue, le calendrier et la direction rencontrent les chiffres : il porte le seuil de signification pour les états financiers pris dans leur ensemble et le seuil applicable à la réalisation des travaux (ISA 320 ¶10-11), les risques significatifs auxquels le plan devra répondre, les zones où la stratégie s'appuie sur les contrôles et celles qui restent entièrement corroboratives, ainsi que la vue préliminaire de la nature, du calendrier et de l'étendue des ressources (ISA 300 ¶7-8). Il nomme aussi les tiers dont les travaux seront utilisés — expert désigné par l'auditeur, audit interne, auditeurs de composants, rapport d'une société de services — afin que leurs délais entrent dans le calendrier plutôt que dans les imprévus.",
    "La stratégie générale commande le plan de mission : celui-ci la traduit en nature, calendrier et étendue des procédures d'évaluation des risques et des procédures d'audit complémentaires au niveau des assertions, y compris le programme général de procédures de corroboration que les sections d'exécution dérouleront (ISA 300 ¶9). Aucun des deux documents n'est figé à la planification — mettre à jour l'un et l'autre quand une évaluation des risques révisée ou un résultat inattendu change l'approche, et consigner les modifications importantes avec leurs raisons (ISA 300 ¶10 et ¶12). La direction, la supervision et la revue qu'implique la stratégie se planifient à ses côtés, en partie E (ISA 300 ¶11)."
   ],
-  "conclEn": [
-   "The strategy recorded here reflects the scope, timing and direction of this engagement, and the resources assigned are consistent with the assessed risks."
-  ],
-  "conclFr": [
-   "La stratégie consignée reflète l'étendue, le calendrier et l'orientation de la mission, et les ressources affectées sont cohérentes avec les risques évalués."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "scope",
-      "en": "Establish the characteristics that define the scope: the financial reporting framework, the reporting entity, the locations and any component to be covered.",
-      "fr": "Établir les caractéristiques définissant l'étendue : référentiel comptable, entité présentant les comptes, implantations et composants à couvrir.",
-      "srcEn": "Engagement letter (P1.4) · statutes · prior file",
-      "srcFr": "Lettre de mission (P1.4) · statuts · dossier antérieur",
-      "tipEn": "Open the statuts, the RCCM extract and the P1.4 engagement letter side by side and fix the basics in writing: SYSCOHADA révisé as the framework, the legal entity, every agency or depot it operates, and any subsidiary that turns this into a group file. A scope surprise found in March costs the deadline; found now, it costs a paragraph.",
-      "tipFr": "Ouvrir côte à côte les statuts, l'extrait RCCM et la lettre de mission P1.4 et fixer les bases par écrit : le SYSCOHADA révisé comme référentiel, l'entité juridique, chaque agence ou dépôt exploité, et toute filiale qui transforme le dossier en dossier de groupe. Une surprise de périmètre découverte en mars coûte l'échéance ; découverte maintenant, elle coûte un paragraphe."
+      "en": "Establish the characteristics that define the scope: the financial reporting framework, the reporting entity, the locations and any component to cover.",
+      "fr": "Établir les caractéristiques qui définissent l'étendue : le référentiel comptable, l'entité présentant les comptes, les sites et toute composante à couvrir.",
+      "shortEn": "Scope",
+      "shortFr": "Étendue",
+      "isa": "ISA 300 ¶8(a)",
+      "tipsEn": [
+       "Read the articles, the trade register extract and the engagement letter (P1.4) together."
+      ],
+      "tipsFr": [
+       "Lire ensemble les statuts, l'extrait RCCM et la lettre de mission (P1.4)."
+      ],
+      "stdEn": "The framework, the reporting entity and the locations are those of the engagement letter; there is no component.",
+      "stdFr": "Le référentiel, l'entité et les sites sont ceux de la lettre de mission ; il n'y a pas de composante.",
+      "sourceHint": "P1.4"
      },
      {
       "key": "reporting",
-      "en": "Establish the reporting objectives and the deadlines, including the statutory report, the general meeting date and any regulator filing.",
-      "fr": "Établir les objectifs de reporting et les échéances, y compris le rapport statutaire, la date d'assemblée générale et tout dépôt réglementaire.",
-      "srcEn": "Statutes · OHADA Uniform Act · client timetable",
-      "srcFr": "Statuts · Acte uniforme OHADA · calendrier du client",
-      "tipEn": "Count backwards from the assemblée générale ordinaire — the Uniform Act requires it within six months of year-end — and from the DSF filing date with the tax administration. Fix three dates in the timetable: report signature, file closure, end of fieldwork; when one slips, the other two must move with it.",
-      "tipFr": "Compter à rebours depuis l'assemblée générale ordinaire — l'Acte uniforme l'exige dans les six mois de la clôture — et depuis la date de dépôt de la DSF auprès de l'administration fiscale. Fixer trois dates au calendrier : signature du rapport, clôture du dossier, fin des travaux sur place ; si l'une glisse, les deux autres bougent avec elle."
+      "en": "Establish the reporting objectives and deadlines, including the statutory report, the date of the general meeting and any filing with a regulator.",
+      "fr": "Établir les objectifs et échéances de restitution, y compris le rapport légal, la date de l'assemblée générale et tout dépôt auprès d'un régulateur.",
+      "shortEn": "Reporting deadlines",
+      "shortFr": "Échéances de restitution",
+      "isa": "ISA 300 ¶8(b)",
+      "tipsEn": [
+       "Count back from the ordinary general meeting, due within six months of the year end under OHADA.",
+       "Count back also from the filing date of the annual tax return."
+      ],
+      "tipsFr": [
+       "Compter à rebours depuis l'assemblée générale ordinaire, tenue dans les six mois de la clôture selon l'OHADA.",
+       "Compter aussi à rebours depuis la date de dépôt de la DSF."
+      ],
+      "stdEn": "The statutory report is due before the ordinary general meeting, within six months of the year end; there is no other filing.",
+      "stdFr": "Le rapport légal est dû avant l'assemblée générale ordinaire, dans les six mois de la clôture ; il n'y a pas d'autre dépôt."
      },
      {
       "key": "comms",
-      "en": "Agree the timing and form of communications with management and those charged with governance.",
-      "fr": "Convenir du calendrier et de la forme des communications avec la direction et les responsables de la gouvernance.",
-      "srcEn": "Engagement letter · discussion with the entity",
-      "srcFr": "Lettre de mission · échange avec l'entité",
-      "tipEn": "Book dates, not intentions: the planning meeting with the directeur général, the planning communication to those charged with governance, and the closing meeting where findings are tabled. Agree the form as well — a conseil d'administration expects a letter; a single gérant may only need a documented meeting note.",
-      "tipFr": "Fixer des dates, pas des intentions : la réunion de planification avec le directeur général, la communication de planification aux personnes constituant le gouvernement d'entreprise, et la réunion de clôture où les constats sont présentés. Convenir aussi de la forme — un conseil d'administration attend une lettre ; un gérant unique peut se contenter d'un compte rendu de réunion documenté."
+      "en": "Agree the timing and form of the communications with management and those charged with governance.",
+      "fr": "Convenir du calendrier et de la forme des communications avec la direction et les personnes constituant le gouvernement d'entreprise.",
+      "shortEn": "Communications",
+      "shortFr": "Communications",
+      "isa": "ISA 300 ¶8(b)",
+      "tipsEn": [
+       "Book dates, not intentions: planning meeting, planning communication, closing meeting."
+      ],
+      "tipsFr": [
+       "Fixer des dates, pas des intentions : réunion de planification, communication de planification, réunion de clôture."
+      ],
+      "stdEn": "The dates of the planning and closing meetings are agreed with management and those charged with governance.",
+      "stdFr": "Les dates des réunions de planification et de clôture sont convenues avec la direction et le gouvernement d'entreprise."
      },
      {
       "key": "factors",
-      "en": "Identify the factors that in our judgement are significant in directing the team's effort, including the preliminary materiality and the areas of expected higher risk.",
-      "fr": "Identifier les facteurs qui, selon notre jugement, orientent l'effort de l'équipe, dont le seuil préliminaire et les zones de risque attendu élevé.",
-      "srcEn": "Prior file · P6.1 · preliminary analytics (P3.2)",
-      "srcFr": "Dossier antérieur · P6.1 · analyse préliminaire (P3.2)",
-      "tipEn": "Run the P3.2 preliminary analytics against last year's balance and list what moved: a new bank loan, a margin that jumped, a stock figure that doubled. Add the entity-level facts — a change of chef comptable, a vérification fiscale in progress, a major customer lost — and let those, with preliminary materiality, name the areas the memorandum sends the team to first.",
-      "tipFr": "Passer les procédures analytiques préliminaires P3.2 sur la balance de l'exercice précédent et lister ce qui a bougé : un nouvel emprunt bancaire, une marge qui saute, un stock qui double. Ajouter les faits propres à l'entité — changement de chef comptable, vérification fiscale en cours, perte d'un client majeur — et laisser ces éléments, avec le seuil de signification préliminaire, désigner les zones où le mémorandum envoie l'équipe en premier."
+      "en": "Identify the factors that, in our judgement, are significant in directing the team's effort, including materiality and the areas of expected higher risk.",
+      "fr": "Identifier les facteurs qui, selon notre jugement, sont importants pour orienter les efforts de l'équipe, y compris le seuil de signification et les domaines où un risque plus élevé est attendu.",
+      "shortEn": "Significant factors",
+      "shortFr": "Facteurs importants",
+      "isa": "ISA 300 ¶8(c)",
+      "tipsEn": [
+       "List what moved against last year in the preliminary analytical procedures (P3.2)."
+      ],
+      "tipsFr": [
+       "Lister ce qui a bougé par rapport à l'an dernier dans les procédures analytiques préliminaires (P3.2)."
+      ],
+      "stdEn": "The significant factors are materiality and the significant risks in the risk register; nothing else directs the effort.",
+      "stdFr": "Les facteurs importants sont le seuil de signification et les risques importants du registre ; rien d'autre n'oriente les efforts.",
+      "sourceHint": "Risk register"
      },
      {
       "key": "resources",
-      "en": "Allocate the team to areas and set the time budget, weighting the areas of higher assessed risk.",
-      "fr": "Affecter l'équipe aux différentes zones et arrêter le budget-temps, en pondérant les zones de risque évalué élevé.",
-      "srcEn": "Team page · budget · P2.2",
-      "srcFr": "Page Équipe · budget · P2.2",
-      "tipEn": "Budget in hours per area, not days per person: give the risk-heavy sections — revenue, inventory, the accounts flagged in P6.1 — the senior's hours and push routine sections to assistants. Compare the total with last year's actual time before committing; a budget copied from a year that overran is planning to overrun again.",
-      "tipFr": "Budgéter en heures par section, pas en jours par personne : donner aux zones à risque — ventes, stocks, comptes signalés en P6.1 — les heures du chef de mission et confier les sections routinières aux assistants. Comparer le total au temps réel de l'exercice précédent avant de s'engager ; un budget copié d'un exercice dépassé programme un nouveau dépassement."
+      "en": "Allocate the team to areas and set the time budget, giving more time to the areas of higher assessed risk.",
+      "fr": "Affecter l'équipe aux domaines et fixer le budget de temps, en donnant plus de temps aux domaines à risque évalué plus élevé.",
+      "shortEn": "Resources and budget",
+      "shortFr": "Ressources et budget",
+      "isa": "ISA 300 ¶8(e)",
+      "tipsEn": [
+       "Budget hours per area, not days per person.",
+       "Give the senior's hours to the areas of higher risk."
+      ],
+      "tipsFr": [
+       "Budgéter des heures par domaine, pas des jours par personne.",
+       "Donner les heures du chef de mission aux domaines les plus risqués."
+      ],
+      "stdEn": "The team and the time budget are set on the Team page, weighted towards the areas of higher risk.",
+      "stdFr": "L'équipe et le budget de temps sont fixés dans la page Équipe, pondérés vers les domaines les plus risqués.",
+      "sourceHint": "Team"
      },
      {
       "key": "prior",
-      "en": "Read the prior period file for matters carried forward, including points forward, unadjusted misstatements and any modification to the report.",
-      "fr": "Examiner le dossier de l'exercice précédent : points reportés, anomalies non corrigées et toute modification du rapport.",
-      "srcEn": "Prior file · its points forward · prior auditor's report",
-      "srcFr": "Dossier antérieur · ses points reportés · rapport antérieur",
-      "tipEn": "Read three things in the prior file before drafting: the points forward recorded at its conclusion, the summary of unadjusted misstatements, and the prior auditor's report for any modification or emphasis. Whatever qualified last year's opinion is a scoped and budgeted area this year, not a discovery waiting to be repeated at final.",
-      "tipFr": "Lire trois choses dans le dossier de l'exercice précédent avant de rédiger : les points reportés consignés à sa conclusion, l'état des anomalies non corrigées et le rapport du commissaire aux comptes pour toute réserve ou observation. Ce qui a motivé une réserve l'an dernier est cette année une zone cadrée et budgétée, pas une découverte à refaire au final."
-     }
-    ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
-    "items": [
-     {
-      "key": "deadline",
-      "en": "The reporting deadline can be met with the resources assigned (procedures 2, 5).",
-      "fr": "L'échéance de reporting peut être tenue avec les ressources affectées (procédures 2, 5)."
-     },
-     {
-      "key": "risk_weight",
-      "en": "The time budget is weighted towards the areas of higher assessed risk (procedures 4, 5).",
-      "fr": "Le budget-temps est pondéré vers les zones de risque évalué élevé (procédures 4, 5)."
-     },
-     {
-      "key": "carried",
-      "en": "Every matter carried forward from the prior period has been reflected in the strategy (procedure 6).",
-      "fr": "Chaque point reporté de l'exercice précédent est pris en compte dans la stratégie (procédure 6)."
+      "en": "Read the prior period file for matters carried forward: points forward, uncorrected misstatements and any modification of the auditor's report.",
+      "fr": "Lire le dossier de l'exercice précédent pour les points reportés : points à suivre, anomalies non corrigées et toute modification de l'opinion.",
+      "shortEn": "Prior period matters",
+      "shortFr": "Points de l'exercice précédent",
+      "isa": "ISA 300 ¶8(d)",
+      "tipsEn": [
+       "Read three things: the points forward, the summary of uncorrected misstatements and the prior auditor's report."
+      ],
+      "tipsFr": [
+       "Lire trois choses : les points à suivre, le récapitulatif des anomalies non corrigées et le rapport de l'exercice précédent."
+      ],
+      "stdEn": "The prior period file carries no point forward, uncorrected misstatement or modification affecting this year.",
+      "stdFr": "Le dossier précédent ne comporte aucun point à suivre, anomalie non corrigée ou modification qui touche cet exercice."
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Strategy record",
-    "titleFr": "Partie C — Consignation de la stratégie",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
-     {
-      "key": "context",
-      "kind": "auto",
-      "source": "materiality",
-      "labelEn": "From the tools: approved materiality and the live risk register",
-      "labelFr": "Depuis les outils : seuil approuvé et registre des risques"
-     },
      {
       "key": "direction",
       "kind": "input",
@@ -137,7 +164,8 @@
       "key": "changes",
       "kind": "input",
       "labelEn": "Changes to the strategy during the engagement, and what prompted each",
-      "labelFr": "Modifications de la stratégie en cours de mission et leur motif"
+      "labelFr": "Modifications de la stratégie en cours de mission et leur motif",
+      "optional": true
      }
     ]
    },
@@ -239,6 +267,39 @@
     ]
    },
    {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "deadline",
+      "en": "The reporting deadline can be met with the resources assigned.",
+      "fr": "L'échéance de restitution peut être tenue avec les ressources affectées.",
+      "tasks": [
+       "reporting",
+       "resources"
+      ]
+     },
+     {
+      "key": "risk_weight",
+      "en": "The time budget is weighted towards the areas of higher assessed risk.",
+      "fr": "Le budget de temps est pondéré vers les domaines à risque évalué plus élevé.",
+      "tasks": [
+       "factors",
+       "resources"
+      ]
+     },
+     {
+      "key": "carried",
+      "en": "Every matter carried forward from the prior period is reflected in the strategy.",
+      "fr": "Chaque point reporté de l'exercice précédent est pris en compte dans la stratégie.",
+      "tasks": [
+       "prior"
+      ]
+     }
+    ]
+   },
+   {
     "kind": "fields",
     "titleEn": "Part E — Direction, supervision and review by the partner",
     "titleFr": "Partie E — Direction, supervision et revue par l'associé",
@@ -278,6 +339,29 @@
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Establish the overall audit strategy that sets the scope, timing and direction of the audit and guides the development of the audit plan, including the resources to deploy and the direction and supervision of the team.",
+  "objectiveFr": "Établir la stratégie générale d'audit qui définit l'étendue, le calendrier et l'orientation de l'audit et guide l'élaboration du plan de mission, y compris les ressources à mobiliser ainsi que la direction et la supervision de l'équipe.",
+  "isa": [
+   {
+    "std": "ISA 300"
+   },
+   {
+    "std": "ISA 320"
+   },
+   {
+    "std": "ISA 220"
+   }
+  ],
+  "links": [
+   "P1.4",
+   "P6.1",
+   "S3.1",
+   "P5.2",
+   "P2.2"
+  ],
+  "toolCard": "materiality",
+  "conclStdEn": "The strategy sets the scope, timing and direction of this engagement, and the resources assigned are consistent with the assessed risks.",
+  "conclStdFr": "La stratégie définit l'étendue, le calendrier et l'orientation de cette mission, et les ressources affectées sont cohérentes avec les risques évalués."
  }
 }

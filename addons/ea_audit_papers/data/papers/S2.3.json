@@ -3,8 +3,22 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶25–26(b)–(c), Appendix 5–6",
-  "ownsEn": "the understanding of the IT environment, the risks arising from IT and the general IT controls",
-  "ownsFr": "la compréhension de l'environnement informatique, des risques liés à l'informatique et des contrôles généraux informatiques",
+  "tools": [
+   {
+    "action": "action_tool_itgc",
+    "en": "IT applications and IT general controls",
+    "fr": "Applications et contrôles généraux informatiques",
+    "noteEn": "Applications, layers and strategy",
+    "noteFr": "Applications, couches et stratégie"
+   },
+   {
+    "action": "action_tool_scot",
+    "en": "Classes of transactions and controls",
+    "fr": "Flux de transactions et contrôles",
+    "noteEn": "Applications named for each class of transactions",
+    "noteFr": "Applications citées pour chaque flux"
+   }
+  ],
   "reqEn": [
    "We identify the IT applications and the other aspects of the IT environment that are subject to risks arising from the use of IT: those that support the significant classes of transactions, the automated or IT-dependent controls we may rely on, and the reports and other information the entity produces that our procedures use (ISA 315 (Revised 2019) ¶26(b), Appendix 5).",
    "For each relevant application we identify the risks arising from the use of IT and the general IT controls that address them (ISA 315 ¶26(c)). The risks divide into three families of IT-personnel activity: managing changes to programs, configurations and reports; managing access to applications, databases, operating systems and networks; and managing IT operations — job scheduling, backups and recovery (Appendix 6).",
@@ -17,154 +31,257 @@
    "La gestion des accès est fondatrice : l'authentification, les paramètres de sécurité et l'administration des droits conditionnent l'appui sur les processus de changement et d'exploitation — un développeur qui atteint la production ruine le processus de changement, quelle que soit l'approbation des changements.",
    "La profondeur des travaux suit la complexité de l'environnement : un progiciel unique aux changements gérés par l'éditeur exige bien moins que des systèmes chaînés déversant automatiquement au grand livre. Les couches sous l'application — base de données, système d'exploitation, réseau — n'entrent dans le périmètre que si un risque à cette couche peut conduire à une anomalie, les modifications directes de données par les administrateurs étant la raison habituelle."
   ],
-  "conclEn": [
-   "Every relevant application has an IT strategy recorded, and every applicable risk arising from IT is matched to an identified general IT control or routed to a substantive response."
-  ],
-  "conclFr": [
-   "Chaque application pertinente dispose d'une stratégie informatique consignée, et chaque risque applicable lié à l'informatique est rattaché à un contrôle général identifié ou orienté vers une réponse substantive."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "apps",
-      "en": "Identify the relevant IT applications: those supporting the SCOTs, the automated or IT-dependent controls, and the reports our procedures rely on.",
-      "fr": "Identifier les applications pertinentes : celles portant les SCOT, les contrôles automatisés ou dépendants de l'informatique, et les états sur lesquels nos procédures s'appuient.",
-      "srcEn": "S1.1 SCOT register · S1.2 controls · P4.3",
-      "srcFr": "Registre des SCOT S1.1 · contrôles S1.2 · P4.3",
-      "tipEn": "Walk the S1.1 register application column and the S1.2 controls: every application named there is a candidate. Add the payroll package and whatever produces the reports you test from (aged balances, inventory listings). For each, note what it does, who the vendor is, and whether it posts to the general ledger automatically.",
-      "tipFr": "Parcourir la colonne applications du registre S1.1 et les contrôles S1.2 : chaque application nommée est candidate. Ajouter le logiciel de paie et ce qui produit les états testés (balances âgées, états de stocks). Pour chacune, noter ce qu'elle fait, l'éditeur, et si elle déverse automatiquement au grand livre."
+      "en": "Identify the relevant IT applications: those supporting the significant classes of transactions, the automated or IT-dependent controls, and the reports our procedures rely on.",
+      "fr": "Identifier les applications informatiques pertinentes : celles qui supportent les flux de transactions significatifs, les contrôles automatisés ou dépendants de l'informatique, et les états sur lesquels nos procédures s'appuient.",
+      "shortEn": "Applications",
+      "shortFr": "Applications",
+      "isa": "ISA 315 ¶26(b)",
+      "toolDone": "itgc.apps",
+      "tipsEn": [
+       "Start from the applications named on each class of transactions.",
+       "Add the payroll package and the tools that produce reports you will use."
+      ],
+      "tipsFr": [
+       "Partir des applications citées pour chaque flux de transactions.",
+       "Ajouter le logiciel de paie et les outils qui produisent des états utilisés."
+      ],
+      "stdEn": "The relevant applications are listed in the tool from the classes of transactions.",
+      "stdFr": "Les applications pertinentes sont listées dans l'outil à partir des flux de transactions.",
+      "sourceHint": "IT applications and IT general controls"
      },
      {
       "key": "strategy",
-      "en": "Set the IT strategy per application: rely on the IT processes (test ITGCs or test the process activity substantively), test the automated controls directly, or stay fully substantive.",
-      "fr": "Arrêter la stratégie informatique par application : appui sur les processus (tester les ITGC ou tester l'activité de façon substantive), tester directement les contrôles automatisés, ou rester pleinement substantif.",
-      "srcEn": "S2.1 controls selection · SCOT strategies",
-      "srcFr": "Sélection des contrôles S2.1 · stratégies des SCOT",
-      "tipEn": "Reliance on IT processes is only worth planning where S2.1 selects automated or IT-dependent controls, or where reports are used heavily. With one packaged application and mostly manual controls — the common OHADA case — direct testing of the few automated controls plus substantive testing of the reports is usually cheaper than ITGC work. Record the choice and the reason per application.",
-      "tipFr": "L'appui sur les processus informatiques ne vaut d'être planifié que si S2.1 retient des contrôles automatisés ou dépendants de l'informatique, ou si les états sont fortement utilisés. Avec un progiciel unique et des contrôles surtout manuels — le cas OHADA courant — tester directement les quelques contrôles automatisés et valider les états de façon substantive coûte souvent moins que les travaux ITGC. Consigner le choix et le motif par application."
+      "en": "Set the IT strategy for each application: rely on the IT processes and test the IT general controls, test the automated controls directly, or stay fully substantive.",
+      "fr": "Arrêter la stratégie informatique pour chaque application : s'appuyer sur les processus informatiques et tester les contrôles généraux informatiques, tester directement les contrôles automatisés, ou rester entièrement substantif.",
+      "shortEn": "IT strategy",
+      "shortFr": "Stratégie informatique",
+      "isa": "ISA 315 ¶26(b)–(c)",
+      "toolDone": "itgc.strategy",
+      "tipsEn": [
+       "Relying on IT processes pays only where automated controls or system reports are used heavily."
+      ],
+      "tipsFr": [
+       "L'appui sur les processus informatiques n'est rentable que si les contrôles automatisés ou les états du système sont très utilisés."
+      ],
+      "stdEn": "A strategy is recorded in the tool for each application.",
+      "stdFr": "Une stratégie est consignée dans l'outil pour chaque application.",
+      "sourceHint": "IT applications and IT general controls",
+      "fieldKeys": [
+       "apps_register"
+      ]
      },
      {
       "key": "processes",
-      "en": "For each in-scope application, determine which IT processes are relevant — manage change, manage access, manage IT operations — and at which layers (application, database, operating system, network).",
-      "fr": "Pour chaque application retenue, déterminer les processus informatiques pertinents — gestion des changements, des accès, de l'exploitation — et à quelles couches (application, base de données, système d'exploitation, réseau).",
-      "srcEn": "IT organigram · inquiry of the IT manager",
-      "srcFr": "Organigramme informatique · entretien avec le responsable informatique",
-      "tipEn": "Access applies everywhere; change applies wherever programs, configurations or report logic can be altered; operations matters where jobs, interfaces or backups condition the accounts. Go below the application layer only where administrators can change data directly — ask who holds database access and what they can do with it.",
-      "tipFr": "Les accès s'appliquent partout ; les changements partout où programmes, configurations ou logique d'états peuvent être modifiés ; l'exploitation là où traitements, interfaces ou sauvegardes conditionnent les comptes. Ne descendre sous la couche applicative que si des administrateurs peuvent modifier les données directement — demander qui détient l'accès base de données et ce qu'il permet."
+      "en": "For each application in scope, determine the relevant IT processes (manage access, manage change, manage IT operations) and the layers concerned (application, database, operating system, network).",
+      "fr": "Pour chaque application retenue, déterminer les processus informatiques pertinents (gestion des accès, gestion des changements, exploitation) et les couches concernées (application, base de données, système d'exploitation, réseau).",
+      "shortEn": "IT processes and layers",
+      "shortFr": "Processus et couches",
+      "isa": "ISA 315 ¶26(c)",
+      "tipsEn": [
+       "Access applies everywhere; change applies where programs or settings can be altered; operations where jobs or interfaces run."
+      ],
+      "tipsFr": [
+       "Les accès s'appliquent partout ; les changements là où programmes ou paramètres peuvent être modifiés ; l'exploitation là où tournent des traitements ou des interfaces."
+      ],
+      "stdEn": "The access, change and operations processes and their layers are identified for each application in scope.",
+      "stdFr": "Les processus d'accès, de changement et d'exploitation et leurs couches sont identifiés pour chaque application retenue.",
+      "sourceHint": "IT applications and IT general controls"
      },
      {
       "key": "risks",
-      "en": "Identify the risks arising from IT that actually apply, in each family: untested or inappropriate changes, unsecured production, weak authentication, wrong or stale access rights, segregation conflicts, unresolved job failures, data loss.",
-      "fr": "Identifier les risques liés à l'informatique réellement applicables, par famille : changements non testés ou inappropriés, production non verrouillée, authentification faible, droits d'accès erronés ou périmés, conflits de séparation, incidents de traitement non résolus, perte de données.",
-      "srcEn": "Inquiry · system settings · prior-year file",
-      "srcFr": "Entretiens · paramètres système · dossier N-1",
-      "tipEn": "Not every catalogue risk applies: an entity that cannot modify its vendor package has no in-house development risk, but still has access and operations exposure. Write only the risks that are real here, one line each, so the ITGC identification that follows has an anchor.",
-      "tipFr": "Tout risque du catalogue ne s'applique pas : une entité qui ne peut modifier son progiciel n'a pas de risque de développement interne, mais garde l'exposition accès et exploitation. N'écrire que les risques réels ici, une ligne chacun, pour ancrer l'identification des ITGC qui suit."
+      "en": "Identify the risks arising from IT that apply in each process: untested changes, unsecured production, weak authentication, inappropriate access rights, segregation conflicts, unresolved job failures, data loss.",
+      "fr": "Identifier les risques découlant de l'informatique applicables à chaque processus : changements non testés, production non sécurisée, authentification faible, droits d'accès inappropriés, conflits de séparation des tâches, incidents de traitement non résolus, perte de données.",
+      "shortEn": "Risks arising from IT",
+      "shortFr": "Risques liés à l'informatique",
+      "isa": "ISA 315 ¶26(c)(i)",
+      "tipsEn": [
+       "A vendor package the entity cannot modify has no development risk, but still has access risk."
+      ],
+      "tipsFr": [
+       "Un progiciel que l'entité ne peut pas modifier n'a pas de risque de développement, mais garde un risque d'accès."
+      ],
+      "stdEn": "The risks arising from IT are identified for each process in scope, each with the control or the substantive response that answers it.",
+      "stdFr": "Les risques liés à l'informatique sont identifiés pour chaque processus retenu, chacun avec le contrôle ou la réponse substantive qui y répond.",
+      "fieldKeys": [
+       "risk_register"
+      ]
      },
      {
       "key": "ddc",
-      "en": "Assess the risk of direct data changes: who can edit data outside the application, how often it happens, and through what discipline.",
-      "fr": "Apprécier le risque de modifications directes des données : qui peut modifier les données hors application, à quelle fréquence, et selon quelle discipline.",
-      "srcEn": "Inquiry of the DBA · change log",
-      "srcFr": "Entretien avec l'administrateur · journal des modifications",
-      "tipEn": "Ask the administrator when data was last corrected in the database and why. Routine direct corrections are a red flag: they demand a request-approval-verification discipline and a log reviewed by someone who cannot make the changes.",
-      "tipFr": "Demander à l'administrateur quand des données ont été corrigées en base pour la dernière fois et pourquoi. Des corrections directes routinières sont un signal d'alerte : elles exigent une discipline demande-approbation-vérification et un journal revu par quelqu'un qui ne peut pas faire ces modifications."
+      "en": "Assess the risk of direct data changes: who can change data outside the application, how often it happens, and under what discipline.",
+      "fr": "Évaluer le risque de modifications directes des données : qui peut modifier les données hors de l'application, à quelle fréquence, et selon quelle discipline.",
+      "shortEn": "Direct data changes",
+      "shortFr": "Modifications directes des données",
+      "isa": "ISA 315 ¶26(c)",
+      "tipsEn": [
+       "Ask the administrator when data was last corrected directly in the database, and why.",
+       "Routine direct corrections need a request, approval and verification trail."
+      ],
+      "tipsFr": [
+       "Demander à l'administrateur quand des données ont été corrigées directement en base pour la dernière fois, et pourquoi.",
+       "Des corrections directes courantes exigent une trace de demande, d'approbation et de vérification."
+      ],
+      "stdEn": "Data is changed only through the application; no direct data change was made in the period.",
+      "stdFr": "Les données ne sont modifiées que par l'application ; aucune modification directe n'a eu lieu sur la période.",
+      "fieldKeys": [
+       "ddc_assessment"
+      ]
      },
      {
       "key": "itgcs",
-      "en": "Identify the general IT controls addressing each applicable risk, with the performer, the frequency and the layer covered, and evaluate their design and implementation.",
-      "fr": "Identifier les contrôles généraux répondant à chaque risque applicable, avec l'exécutant, la fréquence et la couche couverte, et évaluer leur conception et leur mise en œuvre.",
-      "srcEn": "Policies · system settings · walkthrough",
-      "srcFr": "Politiques · paramètres système · cheminement",
-      "tipEn": "Typical anchors: changes tested and approved by someone other than the developer before production; production and migration tools closed to developers; password settings and default accounts dealt with; access granted on approval, removed on departure, reviewed periodically; privileged accounts listed and monitored; backups running and job failures chased. ITGCs are performed by IT personnel — controls performed by business users belong in S1.2.",
-      "tipFr": "Ancrages types : changements testés et approuvés par un autre que le développeur avant la production ; production et outils de migration fermés aux développeurs ; paramètres de mots de passe et comptes par défaut traités ; accès accordés sur approbation, retirés au départ, revus périodiquement ; comptes privilégiés listés et surveillés ; sauvegardes opérantes et incidents de traitement suivis. Les ITGC sont exécutés par le personnel informatique — les contrôles des utilisateurs métier relèvent de S1.2."
+      "en": "Identify the IT general controls that address each applicable risk, with the performer, the frequency and the layer covered, and evaluate their design and implementation.",
+      "fr": "Identifier les contrôles généraux informatiques qui répondent à chaque risque applicable, avec l'exécutant, la fréquence et la couche couverte, et évaluer leur conception et leur mise en place.",
+      "shortEn": "IT general controls",
+      "shortFr": "Contrôles généraux informatiques",
+      "isa": "ISA 315 ¶26(c)(ii), ¶26(d)",
+      "tipsEn": [
+       "Typical controls: changes tested and approved before production; access granted on approval and reviewed periodically."
+      ],
+      "tipsFr": [
+       "Contrôles types : changements testés et approuvés avant la production ; accès accordés sur approbation et revus périodiquement."
+      ],
+      "stdEn": "An IT general control is identified for each applicable risk, appropriately designed and implemented.",
+      "stdFr": "Un contrôle général informatique est identifié pour chaque risque applicable, correctement conçu et mis en place."
      },
      {
       "key": "walkthrough",
-      "en": "Confirm the understanding by walkthrough: trace one change request and one access request end to end, and observe the segregation the process claims.",
-      "fr": "Confirmer la compréhension par cheminement : suivre une demande de changement et une demande d'accès de bout en bout, et observer la séparation des tâches annoncée.",
-      "srcEn": "Change ticket · access request · observation",
-      "srcFr": "Ticket de changement · demande d'accès · observation",
-      "tipEn": "Pick a real change from the period and follow it: request, test evidence, approval, move to production, and who did each step. Same for one access grant. Where one person did two incompatible steps, the risk is live — record it and expect the evaluation in S2.5 to feel it.",
-      "tipFr": "Prendre un changement réel de la période et le suivre : demande, preuve de test, approbation, passage en production, et qui a fait chaque étape. Idem pour un octroi d'accès. Si une personne a fait deux étapes incompatibles, le risque est réel — le consigner et s'attendre à ce que l'évaluation S2.5 s'en ressente."
+      "en": "Confirm the understanding by a walkthrough: trace one change request and one access request from start to end, and observe the segregation of duties the process claims.",
+      "fr": "Confirmer la compréhension par un test de cheminement : suivre une demande de changement et une demande d'accès de bout en bout, et observer la séparation des tâches annoncée.",
+      "shortEn": "Walkthrough",
+      "shortFr": "Test de cheminement",
+      "isa": "ISA 315 ¶26(d)",
+      "tipsEn": [
+       "Use a real change from the period: request, test evidence, approval, move to production, and who did each step."
+      ],
+      "tipsFr": [
+       "Prendre un changement réel de la période : demande, preuve de test, approbation, mise en production, et qui a fait chaque étape."
+      ],
+      "stdEn": "One change request and one access request were traced from start to end; the segregation of duties was observed as described.",
+      "stdFr": "Une demande de changement et une demande d'accès ont été suivies de bout en bout ; la séparation des tâches a été observée comme décrite."
      },
      {
       "key": "common",
-      "en": "Where several applications share one IT process, assess whether it is genuinely common — same people, same policies, same supervision, same technology — so its testing can be aggregated.",
-      "fr": "Lorsque plusieurs applications partagent un processus, apprécier s'il est réellement commun — mêmes personnes, mêmes politiques, même supervision, même technologie — pour agréger les tests.",
-      "srcEn": "IT organigram · policies",
-      "srcFr": "Organigramme informatique · politiques",
-      "tipEn": "One IT team running one access procedure across all applications is one population to test, not five. But confirm it the first year with a walkthrough per application; commonality asserted is not commonality demonstrated.",
-      "tipFr": "Une équipe informatique appliquant une même procédure d'accès à toutes les applications, c'est une population à tester, pas cinq. Mais le confirmer la première année par un cheminement par application ; une communauté affirmée n'est pas démontrée."
+      "en": "Where several applications share one IT process, assess whether it is truly common (same people, policies, supervision and technology), so that its testing can be combined.",
+      "fr": "Lorsque plusieurs applications partagent un processus informatique, apprécier s'il est réellement commun (mêmes personnes, politiques, supervision et technologie), afin d'en regrouper les tests.",
+      "shortEn": "Common processes",
+      "shortFr": "Processus communs",
+      "isa": "ISA 315 ¶26(c)",
+      "tipsEn": [
+       "Confirm commonality with a walkthrough for each application in the first year."
+      ],
+      "tipsFr": [
+       "Confirmer le caractère commun par un test de cheminement par application la première année."
+      ],
+      "stdEn": "Each application has its own IT processes; no testing is combined.",
+      "stdFr": "Chaque application a ses propres processus informatiques ; aucun test n'est regroupé."
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part B — Registers",
-    "titleFr": "Partie B — Registres",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "apps_register",
       "kind": "input",
-      "labelEn": "Relevant applications: name, role, vendor, GL posting, layers in scope, IT strategy chosen and why",
-      "labelFr": "Applications pertinentes : nom, rôle, éditeur, déversement GL, couches retenues, stratégie choisie et motif"
+      "labelEn": "Relevant applications: name, role, vendor, posting to the general ledger, layers in scope, IT strategy chosen and why",
+      "labelFr": "Applications pertinentes : nom, rôle, éditeur, comptabilisation au grand livre, couches retenues, stratégie informatique choisie et motif",
+      "optional": true
      },
      {
       "key": "risk_register",
       "kind": "input",
-      "labelEn": "Applicable risks arising from IT, by process family, with the ITGC (or substantive route) answering each",
-      "labelFr": "Risques applicables liés à l'informatique, par famille de processus, avec l'ITGC (ou la voie substantive) répondant à chacun"
+      "labelEn": "Applicable risks arising from IT, by process, with the IT general control (or the substantive response) answering each",
+      "labelFr": "Risques liés à l'informatique applicables, par processus, avec le contrôle général informatique (ou la réponse substantive) qui répond à chacun",
+      "optional": true
      },
      {
       "key": "ddc_assessment",
       "kind": "input",
-      "labelEn": "Direct-data-change assessment: who, how often, under what discipline",
-      "labelFr": "Appréciation des modifications directes : qui, à quelle fréquence, selon quelle discipline"
+      "labelEn": "Direct data changes: who can make them, how often, under what discipline",
+      "labelFr": "Modifications directes des données : qui peut les faire, à quelle fréquence, selon quelle discipline",
+      "optional": true
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part C — Evaluation",
-    "titleFr": "Partie C — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "apps",
-      "en": "Every application supporting a SCOT, a selected control or a report we rely on carries a recorded IT strategy (procedures 1, 2).",
-      "fr": "Chaque application portant un SCOT, un contrôle retenu ou un état utilisé porte une stratégie informatique consignée (procédures 1, 2)."
+      "en": "Every application supporting a significant class of transactions, a selected control or a report we rely on has a recorded IT strategy.",
+      "fr": "Chaque application supportant un flux significatif, un contrôle retenu ou un état utilisé a une stratégie informatique consignée.",
+      "tasks": [
+       "apps",
+       "strategy"
+      ],
+      "autoCheck": "itgc_strategy"
      },
      {
       "key": "risks",
-      "en": "Every applicable risk arising from IT is matched to an identified ITGC or routed to a substantive response (procedures 4, 6).",
-      "fr": "Chaque risque applicable lié à l'informatique est rattaché à un ITGC identifié ou orienté vers une réponse substantive (procédures 4, 6)."
+      "en": "Every applicable risk arising from IT is matched to an identified IT general control or to a substantive response.",
+      "fr": "Chaque risque applicable lié à l'informatique est rattaché à un contrôle général informatique identifié ou à une réponse substantive.",
+      "tasks": [
+       "risks",
+       "itgcs"
+      ]
      },
      {
       "key": "access",
-      "en": "The dependency of the change and operations processes on access management has been considered (procedure 3).",
-      "fr": "La dépendance des processus de changement et d'exploitation à la gestion des accès a été prise en compte (procédure 3)."
+      "en": "The dependence of the change and operations processes on access management has been considered.",
+      "fr": "La dépendance des processus de changement et d'exploitation envers la gestion des accès a été prise en compte.",
+      "vs": false,
+      "tasks": [
+       "processes"
+      ]
      },
      {
       "key": "walkthrough",
-      "en": "The understanding was confirmed by walkthrough, including the segregation of duties observed (procedure 7).",
-      "fr": "La compréhension a été confirmée par cheminement, y compris la séparation des tâches observée (procédure 7)."
+      "en": "The understanding was confirmed by a walkthrough, including the segregation of duties observed.",
+      "fr": "La compréhension a été confirmée par un test de cheminement, y compris la séparation des tâches observée.",
+      "tasks": [
+       "walkthrough"
+      ]
      },
      {
       "key": "common",
-      "en": "Commonality of shared processes was demonstrated, not assumed (procedure 8).",
-      "fr": "La communauté des processus partagés a été démontrée, non présumée (procédure 8).",
-      "na": true
+      "en": "The commonality of shared processes was demonstrated, not assumed.",
+      "fr": "Le caractère commun des processus partagés a été démontré, non présumé.",
+      "na": true,
+      "vs": false,
+      "tasks": [
+       "common"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Understand the IT environment relevant to the audit: identify the IT applications and other aspects of IT subject to risks arising from the use of IT, the risks that apply and the IT general controls that address them, and evaluate the design and implementation of those controls.",
+  "objectiveFr": "Comprendre l'environnement informatique pertinent pour l'audit : identifier les applications et autres aspects informatiques exposés aux risques découlant du recours à l'informatique, les risques applicables et les contrôles généraux informatiques qui y répondent, et évaluer la conception et la mise en place de ces contrôles.",
+  "isa": [
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "links": [
+   "P4.3",
+   "S1.1",
+   "S2.4",
+   "S2.5"
+  ],
+  "toolCard": "itgc_apps",
+  "conclStdEn": "Every relevant application has an IT strategy, and every applicable risk arising from IT is matched to an IT general control or to a substantive response.",
+  "conclStdFr": "Chaque application pertinente a une stratégie informatique, et chaque risque applicable lié à l'informatique est rattaché à un contrôle général informatique ou à une réponse substantive."
  }
 }

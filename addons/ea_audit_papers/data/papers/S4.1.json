@@ -3,8 +3,29 @@
  "source": "lib/papers/strategy.ts",
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶19 · ISA 501 ¶9–12 · IAS 37 / SYSCOHADA",
-  "ownsEn": "the identification of commitments and contingencies, and the strategy for them",
-  "ownsFr": "l'identification des engagements et passifs éventuels et la stratégie retenue",
+  "tools": [
+   {
+    "action": "action_tool_legal",
+    "en": "OHADA legal register",
+    "fr": "Registre juridique OHADA",
+    "noteEn": "Legal matters recorded on the file",
+    "noteFr": "Questions juridiques consignées au dossier"
+   },
+   {
+    "action": "action_tool_gl",
+    "en": "General ledger",
+    "fr": "Grand livre",
+    "noteEn": "Legal and professional fees, provisions",
+    "noteFr": "Honoraires juridiques, provisions"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Risks arising from disputes and commitments",
+    "noteFr": "Risques liés aux litiges et engagements"
+   }
+  ],
   "reqEn": [
    "We design and perform procedures to identify litigation and claims involving the entity that may give rise to a risk of material misstatement (ISA 501 ¶9). Identification at the planning stage sets the scope of the evidence to obtain in execution.",
    "Commitments and contingencies are frequently unrecorded. The risk is one of completeness, and the procedures are directed at sources outside the general ledger."
@@ -13,110 +34,187 @@
    "Nous concevons et mettons en œuvre des procédures pour identifier les litiges et réclamations pouvant engendrer un risque d'anomalie significative (ISA 501 ¶9).",
    "Les engagements et passifs éventuels sont souvent non comptabilisés. Le risque porte sur l'exhaustivité et les procédures visent des sources extérieures au grand livre."
   ],
-  "conclEn": [
-   "The commitments and contingencies affecting the entity have been identified for the purpose of planning, and the strategy for obtaining evidence on each is recorded below."
-  ],
-  "conclFr": [
-   "Les engagements et passifs éventuels affectant l'entité ont été identifiés aux fins de la planification, et la stratégie d'obtention des éléments probants est consignée ci-dessous."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "inquire",
-      "en": "Inquire of management and of those responsible for legal matters about litigation, claims and assessments, whether or not recorded.",
-      "fr": "S'enquérir auprès de la direction et des responsables juridiques des litiges, réclamations et redressements, comptabilisés ou non.",
-      "srcEn": "Inquiry of management · in-house counsel",
-      "srcFr": "Entretien avec la direction · service juridique",
-      "tipEn": "Put the question to the managing director and the finance director separately, then to whoever handles legal matters — often the finance director or an external avocat. Ask for disputes whether or not a provision was booked, and for anything served by or sent to a huissier during the year. Record each answer with the name and the date; a bare 'management confirmed none' is not evidence.",
-      "tipFr": "Poser la question au dirigeant et au directeur financier séparément, puis à la personne qui suit les affaires juridiques — souvent le directeur financier ou un avocat externe. Demander les litiges, qu'une provision ait été comptabilisée ou non, et tout acte signifié par ou adressé à un huissier pendant l'exercice. Consigner chaque réponse avec le nom et la date ; un simple 'la direction confirme néant' n'est pas un élément probant."
+      "en": "Inquire of management and of those in charge of legal matters about litigation, claims and assessments, whether recorded or not.",
+      "fr": "S'entretenir avec la direction et les responsables des questions juridiques sur les litiges, réclamations et redressements, comptabilisés ou non.",
+      "shortEn": "Inquiries",
+      "shortFr": "Entretiens",
+      "isa": "ISA 501 ¶9(a)",
+      "tipsEn": [
+       "Ask the managing director and the finance director separately, then whoever handles legal matters."
+      ],
+      "tipsFr": [
+       "Interroger séparément le directeur général et le directeur financier, puis la personne chargée des questions juridiques."
+      ],
+      "stdEn": "Management and the person in charge of legal matters report no litigation or claim beyond those recorded.",
+      "stdFr": "La direction et la personne chargée des questions juridiques ne signalent aucun litige ni réclamation au-delà de ceux comptabilisés.",
+      "sourceHint": "Inquiry of management"
      },
      {
       "key": "minutes",
       "en": "Read the minutes of the general meetings and of the board for commitments given, guarantees granted and disputes reported.",
-      "fr": "Examiner les procès-verbaux d'assemblée et du conseil : engagements donnés, garanties accordées et litiges signalés.",
-      "srcEn": "Minutes (E6.4) · resolutions",
-      "srcFr": "Procès-verbaux (E6.4) · résolutions",
-      "tipEn": "Read the minutes of the general meetings and the board for the whole period and the months up to your date, hunting for the words caution, aval, garantie, litige and engagement. Guarantees to third parties or affiliates are typically decided in a resolution and never touch the ledger. List each resolution with its date and subject so the reviewer can trace what was read.",
-      "tipFr": "Lire les procès-verbaux des assemblées et du conseil sur tout l'exercice et jusqu'à votre date d'intervention, en traquant les mots caution, aval, garantie, litige et engagement. Les garanties données à des tiers ou à des sociétés liées se décident généralement par résolution et ne passent jamais par le grand livre. Lister chaque résolution avec sa date et son objet pour que le réviseur retrouve ce qui a été lu."
+      "fr": "Lire les procès-verbaux des assemblées et du conseil pour y relever les engagements donnés, les garanties accordées et les litiges signalés.",
+      "shortEn": "Minutes",
+      "shortFr": "Procès-verbaux",
+      "isa": "ISA 501 ¶9(b)",
+      "tipsEn": [
+       "Read the minutes of the whole period and up to the date of the work: guarantees, sureties, disputes, claims."
+      ],
+      "tipsFr": [
+       "Lire les procès-verbaux de toute la période et jusqu'à la date des travaux : cautions, avals, garanties, litiges."
+      ],
+      "stdEn": "The minutes of the period and since show no commitment, guarantee or dispute beyond those recorded.",
+      "stdFr": "Les procès-verbaux de la période et postérieurs ne font apparaître aucun engagement, garantie ou litige au-delà de ceux consignés.",
+      "sourceHint": "E6.4"
      },
      {
       "key": "legal_fees",
       "en": "Review the legal and professional fees account for the period, and identify the matter behind each significant payment.",
-      "fr": "Examiner le compte d'honoraires juridiques de l'exercice et identifier l'affaire à l'origine de chaque paiement significatif.",
-      "srcEn": "General ledger · invoices from advisers",
-      "srcFr": "Grand livre · factures des conseils",
-      "tipEn": "Pull the professional fees accounts (632x, honoraires) from the general ledger and sort by supplier: each avocat, notaire or adviser is a thread to pull. For every significant invoice, read the narrative on the invoice itself — 'defence in case X' names the dispute for you. A lawyer paid regularly with no matter identified is exactly what this procedure exists to find.",
-      "tipFr": "Extraire les comptes d'honoraires (632x) du grand livre et trier par fournisseur : chaque avocat, notaire ou conseil est un fil à tirer. Pour chaque facture significative, lire le libellé sur la facture elle-même — 'défense dossier X' vous nomme le litige. Un avocat payé régulièrement sans dossier identifié est exactement ce que cette procédure sert à trouver."
+      "fr": "Examiner le compte d'honoraires juridiques et de conseil de la période et identifier l'affaire derrière chaque paiement significatif.",
+      "shortEn": "Legal fees",
+      "shortFr": "Honoraires juridiques",
+      "isa": "ISA 501 ¶9(c)",
+      "tipsEn": [
+       "Sort the fees account by supplier: each lawyer or notary is a matter to follow."
+      ],
+      "tipsFr": [
+       "Trier le compte d'honoraires par fournisseur : chaque avocat ou notaire est une affaire à suivre."
+      ],
+      "stdEn": "The legal fees of the period relate to routine matters; no undisclosed dispute appears.",
+      "stdFr": "Les honoraires juridiques de la période portent sur des affaires courantes ; aucun litige non déclaré n'apparaît.",
+      "sourceHint": "General ledger"
      },
      {
       "key": "contracts",
-      "en": "Read the significant contracts for guarantees, penalty clauses, capital commitments and take-or-pay obligations.",
-      "fr": "Examiner les contrats significatifs : garanties, clauses pénales, engagements d'investissement et obligations d'enlèvement.",
-      "srcEn": "Contract file · loan agreements · leases",
-      "srcFr": "Chrono des contrats · contrats de prêt · baux",
-      "tipEn": "Ask for the loan agreements, the leases and the largest customer and supplier contracts, and read the clauses at the back: penalties, guarantees given, firm purchase commitments, options. Copy the clause and record counterparty and amount in the schedule. Capital commitments signed but not yet delivered — equipment on order — belong here too; ask the technical or operations manager, not just the accountant.",
-      "tipFr": "Demander les contrats de prêt, les baux et les plus gros contrats clients et fournisseurs, et lire les clauses jusqu'à la dernière page : pénalités, garanties données, engagements d'achat ferme, options. Copier la clause et consigner la contrepartie et le montant dans le tableau. Les engagements d'investissement signés mais non encore livrés — matériel en commande — relèvent aussi de ce papier ; interroger le directeur technique ou d'exploitation, pas seulement le comptable."
+      "en": "Read the significant contracts for guarantees, penalty clauses, capital commitments and minimum purchase obligations.",
+      "fr": "Lire les contrats importants pour y relever les garanties, clauses de pénalité, engagements d'investissement et obligations d'achat minimum.",
+      "shortEn": "Contracts",
+      "shortFr": "Contrats",
+      "isa": "ISA 315 ¶19",
+      "tipsEn": [
+       "Read the clauses at the back: penalties, guarantees given, firm purchase commitments."
+      ],
+      "tipsFr": [
+       "Lire les clauses de fin de contrat : pénalités, garanties données, engagements fermes d'achat."
+      ],
+      "stdEn": "The significant contracts contain no guarantee, penalty or commitment requiring recognition or disclosure.",
+      "stdFr": "Les contrats importants ne contiennent aucune garantie, pénalité ou engagement à comptabiliser ou à mentionner en annexe."
      },
      {
       "key": "bank",
-      "en": "Identify from the bank documentation the guarantees, sureties and pledges given or received.",
-      "fr": "Identifier dans la documentation bancaire les garanties, cautions et nantissements donnés ou reçus.",
-      "srcEn": "Bank confirmations · loan agreements · pledge register",
-      "srcFr": "Confirmations bancaires · contrats de prêt · registre des nantissements",
-      "tipEn": "Read the bank confirmation replies past the balances: banks list avals, sureties, pledges and discounted bills not yet due in the lower half, and that is where the unrecorded items live. Compare every guarantee a bank names against the off-balance-sheet commitments note in the DSF. A pledge over stock or receivables also feeds the covenant picture in S4.2.",
-      "tipFr": "Lire les réponses de circularisation bancaire au-delà des soldes : les banques listent avals, cautions, nantissements et effets escomptés non échus dans la partie basse, et c'est là que se cachent les éléments non comptabilisés. Rapprocher chaque garantie citée par une banque de la note des engagements hors bilan de la DSF. Un nantissement sur stocks ou créances alimente aussi l'analyse des covenants en S4.2."
+      "en": "Identify from the bank documents the guarantees, sureties and pledges given or received.",
+      "fr": "Relever dans les documents bancaires les garanties, cautions et nantissements donnés ou reçus.",
+      "shortEn": "Bank guarantees",
+      "shortFr": "Garanties bancaires",
+      "isa": "ISA 505 ¶7",
+      "tipsEn": [
+       "Read past the balances in the bank replies: guarantees, pledges and discounted bills are listed lower down."
+      ],
+      "tipsFr": [
+       "Lire les réponses des banques au-delà des soldes : cautions, nantissements et effets escomptés non échus figurent plus bas."
+      ],
+      "stdEn": "The bank documents show no guarantee, surety or pledge beyond those recorded.",
+      "stdFr": "Les documents bancaires ne font apparaître aucune garantie, caution ou nantissement au-delà de ceux consignés.",
+      "sourceHint": "Bank confirmations"
      },
      {
       "key": "tax_social",
-      "en": "Inquire into open tax and social security assessments and inspections, and obtain the position on each.",
-      "fr": "S'enquérir des contrôles et redressements fiscaux et sociaux en cours et obtenir la position sur chacun.",
-      "srcEn": "Correspondence with the tax and social administrations",
-      "srcFr": "Correspondance avec les administrations fiscale et sociale",
-      "tipEn": "Ask for the correspondence file with the tax administration and the CNPS: notifications de redressement, avis de mise en recouvrement, and any inspection in progress. For each open assessment record the amounts notified, the stage reached (observations, contentieux, appeal) and management's position supported by its adviser's view. A verification notice received but not yet quantified is still a contingency to carry forward.",
-      "tipFr": "Demander le dossier de correspondance avec l'administration fiscale et la CNPS : notifications de redressement, avis de mise en recouvrement et tout contrôle en cours. Pour chaque redressement ouvert, consigner les montants notifiés, le stade atteint (observations, contentieux, recours) et la position de la direction appuyée de l'avis de son conseil. Un avis de vérification reçu mais non encore chiffré reste une éventualité à reporter."
+      "en": "Inquire about open tax and social security assessments and inspections, and obtain the position on each.",
+      "fr": "S'informer des redressements et contrôles fiscaux et sociaux en cours, et obtenir la position sur chacun.",
+      "shortEn": "Tax and social security",
+      "shortFr": "Fiscal et social",
+      "isa": "ISA 250 ¶14",
+      "tipsEn": [
+       "Ask for the correspondence with the tax administration and the social security fund: reassessment notices and inspections in progress."
+      ],
+      "tipsFr": [
+       "Demander la correspondance avec l'administration fiscale et la CNPS : notifications de redressement et contrôles en cours."
+      ],
+      "stdEn": "No tax or social security assessment or inspection is open.",
+      "stdFr": "Aucun redressement ni contrôle fiscal ou social n'est en cours."
      },
      {
       "key": "strategy",
-      "en": "For each item identified, record whether it is recognised, disclosed or neither, and set the evidence to be obtained in E4.15.",
-      "fr": "Pour chaque élément identifié, consigner s'il est comptabilisé, mentionné ou ni l'un ni l'autre, et arrêter les éléments à obtenir en E4.15.",
-      "srcEn": "IAS 37 / SYSCOHADA · E4.15",
-      "srcFr": "IAS 37 / SYSCOHADA · E4.15",
-      "tipEn": "Rule on each line: recognised as a provision, disclosed among the off-balance-sheet commitments of the DSF, or neither — with the reason in one sentence against the IAS 37/SYSCOHADA criteria. Then set the evidence E4.15 must obtain: the avocat's letter, the administration's latest notice, the bank confirmation. An item identified here with no execution step planned is the loose end a reviewer will find.",
-      "tipFr": "Trancher pour chaque ligne : provisionnée, mentionnée dans les engagements hors bilan de la DSF, ou ni l'un ni l'autre — avec la raison en une phrase au regard des critères IAS 37/SYSCOHADA. Fixer ensuite les éléments probants que E4.15 devra obtenir : la lettre de l'avocat, la dernière notification de l'administration, la confirmation bancaire. Un élément identifié ici sans étape d'exécution prévue est le fil que le réviseur tirera."
+      "en": "For each item identified, record whether it is recognised, disclosed or neither, and plan the evidence to obtain in E6.9.",
+      "fr": "Pour chaque élément identifié, indiquer s'il est comptabilisé, mentionné en annexe ou ni l'un ni l'autre, et prévoir les éléments probants à obtenir en E6.9.",
+      "shortEn": "Treatment and evidence",
+      "shortFr": "Traitement et éléments probants",
+      "isa": "ISA 501 ¶10",
+      "tipsEn": [
+       "Decide on each line: provision, disclosure among the commitments, or neither, with one sentence of reason.",
+       "Plan a letter to the entity's lawyers for each dispute."
+      ],
+      "tipsFr": [
+       "Trancher chaque ligne : provision, mention parmi les engagements hors bilan, ou rien, avec une phrase de motif.",
+       "Prévoir une lettre aux avocats de l'entité pour chaque litige."
+      ],
+      "stdEn": "No item needing recognition or disclosure was identified; E6.9 performs the usual procedures.",
+      "stdFr": "Aucun élément à comptabiliser ou à mentionner n'a été identifié ; E6.9 réalise les procédures habituelles.",
+      "sourceHint": "E6.9"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "sources",
-      "en": "The identification drew on sources outside the general ledger (procedures 2 to 6).",
-      "fr": "L'identification s'est appuyée sur des sources extérieures au grand livre (procédures 2 à 6)."
+      "en": "The identification drew on sources outside the general ledger.",
+      "fr": "L'identification s'est appuyée sur des sources extérieures au grand livre.",
+      "tasks": [
+       "minutes",
+       "contracts",
+       "bank",
+       "tax_social"
+      ]
      },
      {
       "key": "legal_letter",
-      "en": "Where litigation or claims were identified, a letter of inquiry to the entity's legal advisers is planned (procedures 1, 3; ISA 501 ¶10).",
-      "fr": "En cas de litiges identifiés, une lettre aux conseils juridiques de l'entité est prévue (procédures 1, 3 ; ISA 501 ¶10).",
-      "na": true
+      "en": "Where litigation or claims were identified, a letter of inquiry to the entity's legal advisers is planned.",
+      "fr": "Lorsque des litiges ou réclamations ont été identifiés, une lettre aux conseils juridiques de l'entité est prévue.",
+      "na": true,
+      "tasks": [
+       "inquire",
+       "legal_fees"
+      ]
      },
      {
       "key": "carried",
-      "en": "Each item identified has been carried into E4.15 with the evidence to be obtained (procedure 7).",
-      "fr": "Chaque élément identifié est repris en E4.15 avec les éléments probants à obtenir (procédure 7)."
+      "en": "Each item identified is carried into E6.9 with the evidence to obtain.",
+      "fr": "Chaque élément identifié est reporté en E6.9 avec les éléments probants à obtenir.",
+      "tasks": [
+       "strategy"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Identify the litigation, claims, commitments and contingencies that may give rise to a risk of material misstatement, and plan the audit evidence to obtain on each.",
+  "objectiveFr": "Identifier les litiges, réclamations, engagements et passifs éventuels susceptibles d'entraîner un risque d'anomalies significatives, et prévoir les éléments probants à obtenir sur chacun.",
+  "isa": [
+   {
+    "std": "ISA 501"
+   },
+   {
+    "std": "ISA 315"
+   }
+  ],
+  "links": [
+   "E6.9",
+   "E6.4",
+   "S3.1",
+   "C3.1"
+  ],
+  "conclStdEn": "The litigation, claims, commitments and contingencies are identified for planning, and the evidence to obtain on each is planned in E6.9.",
+  "conclStdFr": "Les litiges, réclamations, engagements et passifs éventuels sont identifiés pour la planification, et les éléments probants à obtenir sur chacun sont prévus en E6.9."
  }
 }

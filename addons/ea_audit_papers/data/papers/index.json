@@ -319,23 +319,23 @@
   },
   "S2.1": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "e272bc06863af777b8a8034f8ece96aba7e2edb6a8bc5f6ed11649f379e30fe1"
+   "definition_hash": "465284438b458f6e2f5e3687d8462c9533e94f959963873041f89e5e15e956f0"
   },
   "S2.2": {
    "source": "lib/papers/gam.ts",
-   "definition_hash": "6a2d2210ca7b5b40c7e86789b585179d61038d2263a0fc077c3910d3b0de9a0e"
+   "definition_hash": "b64a063f7baa3a348c791d0a976a064dd15b66accc471ef97f8a335e3f71d778"
   },
   "S2.3": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "732742e0236c2af229c75a440a142125d0c14ae3a266b920b7d3928f920b74da"
+   "definition_hash": "40165198b4132f5d1b20ae990476dc506a62c707902f2dfca311fc00a6b21b32"
   },
   "S2.4": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "3264434faf05ead3bd8b22e73b35a3b6e270b11daccfb8f3cd5cc53a6b084a72"
+   "definition_hash": "734418dbbd8f099935e63751a67051a9620ac59f1577ac0d0d11fb23ca2b8e67"
   },
   "S2.5": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "36503c2c4219fc299eef92a48ce4158b298a08fb2cd2cd439f1d6d896ec24eb8"
+   "definition_hash": "ddd3cea23a33467538accf558f8dc1124f13c18df24aa103f5dbf3f401937430"
   },
   "S3.1": {
    "source": "lib/papers/strategy.ts",
@@ -343,7 +343,7 @@
   },
   "S4.1": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "2f900097e04341a8742ff3af37c3f49a555b9b0bf8958c53ab663a5f9c5ada9b"
+   "definition_hash": "1e638c05b3932341fb7f25be35d0248eecdb02652983183db6c9a0fb8df3de5c"
   },
   "S4.2": {
    "source": "lib/papers/strategy.ts",
@@ -351,23 +351,23 @@
   },
   "S4.3": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "15d005b58ab479e1382645af3dddc2a545e9119e6a60466a6233d1050fa886cf"
+   "definition_hash": "34d630f072410f3e8b06005b54755d82eb935a817c7094de9c04f60abd836000"
   },
   "S4.4": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "8ff7dc57a388271ec37255c11739794d006226b958b7bf3fd054593576f972bf"
+   "definition_hash": "5dbbc9d04969d3dd9b0ab27aa3ac23ea3ca19934cf62bfe269d9edc69910fdb0"
   },
   "S5.1": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "8ae5d3b7b4af897047c0e7589af7974b428c113e36297cad100204dfc73e7be5"
+   "definition_hash": "e46db0551a891b9c57e81b162e586e5f208f2525c82aac61ea641a197efdbb42"
   },
   "S5.2": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "405ad12e72cdaf7891d1b976b974f1f70ae3134c9adc8e19ce5227a7ebfb9294"
+   "definition_hash": "1a58deb8a6bdae5275b6ae865ff7c85cd4559f82247f57942315a5e60b4acbd1"
   },
   "S5.3": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "db801c199e4e4e9d26d0d36e091de316d1b9242075f5f1e483213068eeee2af6"
+   "definition_hash": "0997d359fd760dbf1bd57065dc0af99f34072b429ada88e84f19da5ea1f58826"
   },
   "S5.4": {
    "source": "lib/papers/strategy.ts",
@@ -379,11 +379,11 @@
   },
   "S5.6": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "96e5d0e6b6f4104a782cc6e3b595aa206d2091dcb5c0d05e4dcda0b376481b8b"
+   "definition_hash": "2f4ebe34faa48b7a61ca72280d726935316252dd6f673f1c6c8027b5cccbe205"
   },
   "S6.1": {
    "source": "lib/papers/strategy.ts",
-   "definition_hash": "ed9e8f1edf32b8a3f6e942ccb295baa397d9106ee6669bf2cac203f0b8f50b12"
+   "definition_hash": "df0f1e8a5b79f55bfaa0be22b92c41abbc30c822956f3dc68b14f34d066826a0"
   },
   "S6.2": {
    "source": "lib/papers/strategy.ts",
