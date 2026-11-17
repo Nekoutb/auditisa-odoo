@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Screens",
     "summary": "The firm's top bar, home, engagement dashboard and task lists, on the core models",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
@@ -20,6 +20,7 @@
         "web.assets_backend": [
             "ea_audit_ui/static/src/scss/shell.scss",
             "ea_audit_ui/static/src/scss/grid.scss",
+            "ea_audit_ui/static/src/scss/help.scss",
             "ea_audit_ui/static/src/js/**/*",
             "ea_audit_ui/static/src/xml/**/*",
         ],

@@ -1651,3 +1651,103 @@ msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "non-statutory audit"
 msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/js/help.js:0
+#: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+#: model:ir.actions.client,name:ea_audit_ui.action_help
+msgid "User manual"
+msgstr "Manuel d'utilisation"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "How to use AuditISA, screen by screen."
+msgstr "Comment utiliser AuditISA, écran par écran."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Contents"
+msgstr "Sommaire"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Search the manual…"
+msgstr "Rechercher dans le manuel…"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Search the manual"
+msgstr "Rechercher dans le manuel"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "← Help on this page"
+msgstr "← Aide sur cette page"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Help on this page"
+msgstr "Aide sur cette page"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Help"
+msgstr "Aide"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Search results"
+msgstr "Résultats de la recherche"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "No page matches your search."
+msgstr "Aucune page ne correspond à votre recherche."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Previous"
+msgstr "Précédent"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Next"
+msgstr "Suivant"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "Previous and next page"
+msgstr "Page précédente et page suivante"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "There is no page for this screen yet. Here are the contents."
+msgstr "Il n'y a pas encore de page pour cet écran. Voici le sommaire."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "This page could not be loaded. Choose it again in the contents."
+msgstr "Cette page n'a pas pu être chargée. Choisissez-la de nouveau dans le sommaire."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/help.xml:0
+msgid "The manual could not be loaded. Reload the page and try again."
+msgstr "Le manuel n'a pas pu être chargé. Rechargez la page et réessayez."
