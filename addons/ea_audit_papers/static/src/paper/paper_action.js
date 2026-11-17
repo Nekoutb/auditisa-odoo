@@ -807,6 +807,11 @@ export class PaperAction extends Component {
         if (this.dirty && !(await this.save())) {
             return;
         }
+        // owner's ruling of 2026-11-17: a reviewer is warned, never stopped, by a file marked Not reliable
+        const warning = chip.role !== "preparer" && this.state.payload.data_relied?.warning;
+        if (warning && !(await this.confirmDataRelied(warning))) {
+            return;
+        }
         const signed = await this.guarded(() => this.callItem("action_sign", [chip.role]));
         if (signed.ok) {
             this.state.notice = false;
@@ -826,7 +831,24 @@ export class PaperAction extends Component {
         };
     }
 
+    confirmDataRelied(warning) {
+        return new Promise((resolve) => {
+            this.dialog.add(ConfirmationDialog, {
+                title: this.t("ipeWarningTitle"),
+                body: warning,
+                confirmLabel: this.t("ipeSignAnyway"),
+                confirm: () => resolve(true),
+                cancel: () => resolve(false),
+            }, { onClose: () => resolve(false) });
+        });
+    }
+
     // ---- the rail ------------------------------------------------------
+
+    openDataRelied() {
+        const action = this.state.payload.data_relied?.action;
+        return action ? this.action.doAction(action) : undefined;
+    }
 
     openLinked(task) {
         return this.action.doAction({

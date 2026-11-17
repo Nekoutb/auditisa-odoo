@@ -630,6 +630,11 @@ class Paper(models.Model):
             return links
         return out + [link for link in links if link.get("plain")]
 
+    def _ea_data_relied(self):
+        """The rail's "Data relied on" card: ea_audit_tools says which files the paper relies on
+        and how reliable they are (Data quality, IPE). False when there is none."""
+        return False
+
     def _ea_tool_links(self):
         """The header chips: label and, once the tool exists, the action it opens."""
         self.ensure_one()
@@ -928,6 +933,7 @@ class Paper(models.Model):
             "checks": hooks["checks"],
             "warnings": hooks["warnings"],
             "tools": self.with_env(env)._ea_rail_tools(definition),
+            "data_relied": self.with_env(env)._ea_data_relied(),
             "isa": isa_links(definition, load_isa_links()),
             "signing": self.with_env(env)._ea_signing_payload(definition.get("_depth") == "very_simple"),
             "tool_links": paper._ea_tool_links(),

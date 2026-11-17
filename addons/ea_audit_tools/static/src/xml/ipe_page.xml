@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.IpePage">
+        <div class="o_ea_ws o_ea_ipe" t-if="p" data-ea="ipe-page">
+            <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · ISA 500 paragraph 9</div>
+                        <h1>Data quality (IPE)</h1>
+                    </div>
+                </div>
+
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads the data quality records but does not change them.</t>
+                </div>
+
+                <div class="o_ea_ws_scroll o_ea_ipe_matrix" data-ea="ipe-matrix">
+                    <table class="o_ea_ws_grid">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th t-foreach="p.timings" t-as="timing" t-key="timing.key" t-esc="timing.label"/>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="p.rows" t-as="row" t-key="row.kind">
+                                <td class="o_ea_ws_ref" t-esc="row.label"/>
+                                <td t-foreach="row.cells" t-as="cell" t-key="cell.timing"
+                                    t-att-class="'o_ea_ipe_cell' + (isSelected(cell) ? ' is-selected' : '')"
+                                    t-att-data-ipe="cell.ref" t-att-title="cell.file" t-on-click="() => this.select(cell)">
+                                    <span t-att-class="'o_ea_ws_badge is-' + cell.tone" t-esc="cell.text"/>
+                                    <small class="o_ea_ipe_ref" t-esc="cell.ref"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="o_ea_ws_legend">Click a box to open its checks below.</p>
+
+                <div class="o_ea_ws_split o_ea_ipe_detail" t-if="d" data-ea="ipe-detail">
+                    <div>
+                        <div class="o_ea_ws_dtitle"><b t-esc="d.ref"/> · <t t-esc="d.kindLabel"/> · <t t-esc="d.timingLabel"/>
+                            <span t-if="d.hasFile" t-att-class="'o_ea_ws_badge is-' + d.chip.tone" t-esc="d.chip.text"/>
+                        </div>
+                        <p class="o_ea_ws_empty" t-if="!d.hasFile">No file of this kind and timing is uploaded.</p>
+                        <t t-else="">
+                            <div class="o_ea_ipe_facts">
+                                <span><b>File</b> <t t-esc="d.file"/></span>
+                                <span><b>Version date</b> <t t-esc="d.versionDate"/></span>
+                                <span><b>Lines</b> <t t-esc="d.lines"/></span>
+                                <span t-if="d.entries !== false"><b>Entries</b> <t t-esc="d.entries"/></span>
+                                <span><b>Uploaded by</b> <t t-esc="d.uploadedBy"/></span>
+                            </div>
+                            <div class="o_ea_ws_tools mt-2">
+                                <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="state.busy" t-on-click="rerun">Run the checks again</button>
+                                <button type="button" class="btn btn-secondary btn-sm" t-if="d.exportUrl" t-on-click="download">Download the exceptions (Excel)</button>
+                            </div>
+
+                            <label class="o_ea_ws_label">Where the data comes from</label>
+                            <div class="o_ea_ipe_source" data-ea="ipe-source">
+                                <label>Accounting system
+                                    <input type="text" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="d.source.system_name" t-on-change="(ev) => this.onSource('system_name', ev)"/>
+                                </label>
+                                <label>Report or query
+                                    <input type="text" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="d.source.report_name" t-on-change="(ev) => this.onSource('report_name', ev)"/>
+                                </label>
+                                <label>Extracted by
+                                    <input type="text" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="d.source.extracted_by" t-on-change="(ev) => this.onSource('extracted_by', ev)"/>
+                                </label>
+                                <label>Extraction date
+                                    <input type="date" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="d.source.extraction_date" t-on-change="(ev) => this.onSource('extraction_date', ev)"/>
+                                </label>
+                                <label>How obtained
+                                    <select class="o_ea_ws_input" t-att-disabled="p.readonly" t-on-change="(ev) => this.onSource('obtained', ev)">
+                                        <option value="" t-att-selected="!d.source.obtained">—</option>
+                                        <option t-foreach="d.obtainedChoices" t-as="choice" t-key="choice[0]" t-att-value="choice[0]"
+                                                t-att-selected="choice[0] === d.source.obtained" t-esc="choice[1]"/>
+                                    </select>
+                                </label>
+                                <label class="is-wide">Parameters used
+                                    <textarea class="o_ea_ws_text" t-att-readonly="p.readonly" t-att-value="d.source.parameters" t-on-change="(ev) => this.onSource('parameters', ev)"/>
+                                </label>
+                                <label class="is-wide">Purpose in the audit
+                                    <textarea class="o_ea_ws_text" t-att-readonly="p.readonly" t-att-value="d.source.purpose" t-on-change="(ev) => this.onSource('purpose', ev)"/>
+                                </label>
+                            </div>
+
+                            <label class="o_ea_ws_label">Checks</label>
+                            <div class="o_ea_ipe_checks" data-ea="ipe-checks">
+                                <div t-foreach="d.checks" t-as="check" t-key="check.code" t-att-class="'o_ea_ipe_check is-' + check.tone" t-att-data-check="check.code">
+                                    <div class="o_ea_ipe_check_head" t-on-click="() => this.toggle(check)">
+                                        <span class="o_ea_ipe_toggle" t-esc="state.open[check.code] ? '▾' : '▸'"/>
+                                        <b t-esc="check.code"/>
+                                        <span class="o_ea_ipe_title" t-esc="check.title"/>
+                                        <span t-att-class="'o_ea_ws_badge is-' + check.tone" t-esc="check.statusText"/>
+                                    </div>
+                                    <div class="o_ea_ipe_check_body" t-if="state.open[check.code]">
+                                        <p class="o_ea_ws_hint" t-if="check.note" t-esc="check.note"/>
+                                        <div class="o_ea_ws_scroll" t-if="check.lines.length">
+                                            <table class="o_ea_ws_grid o_ea_ipe_lines">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="o_num">File line</th><th>Reference</th><th>Column</th><th>Value</th>
+                                                        <th class="o_num">Amount</th><th class="o_num">Expected</th><th>What was found</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr t-foreach="check.lines" t-as="line" t-key="line_index">
+                                                        <td class="o_num" t-esc="line.row"/><td t-esc="line.ref"/><td t-esc="line.column"/><td t-esc="line.value"/>
+                                                        <td class="o_num" t-esc="line.amount"/><td class="o_num" t-esc="line.expected"/><td t-esc="line.text"/>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <p class="o_ea_ws_hint" t-if="check.more"><t t-esc="check.more"/> more lines: see the Excel download.</p>
+                                    </div>
+                                    <div class="o_ea_ipe_explain" t-if="check.needsExplanation">
+                                        <label class="o_ea_ws_label">Explanation <span class="o_ea_ws_hint">required before "Reliable"</span></label>
+                                        <textarea t-att-class="'o_ea_ws_text' + (check.explanation ? '' : ' is-waiting')" t-att-readonly="p.readonly"
+                                                  t-att-value="check.explanation" t-on-change="(ev) => this.onExplain(check, ev)"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label class="o_ea_ws_label">Conclusion</label>
+                            <div class="o_ea_ipe_conclusion" data-ea="ipe-conclusion">
+                                <label t-foreach="d.conclusionChoices" t-as="choice" t-key="choice[0]" class="o_ea_ws_check">
+                                    <input type="radio" name="ipe_conclusion" t-att-checked="choice[0] === d.conclusion" t-att-disabled="p.readonly"
+                                           t-on-change="() => this.conclude(choice[0])"/>
+                                    <t t-esc="choice[1]"/>
+                                </label>
+                            </div>
+
+                            <label class="o_ea_ws_label">Sign-off</label>
+                            <div class="o_ea_ipe_sign" data-ea="ipe-sign">
+                                <div>
+                                    <b>Preparer</b>:
+                                    <t t-if="d.signing.preparer"><t t-esc="d.signing.preparer.by"/>, <t t-esc="d.signing.preparer.date"/>
+                                        <button type="button" class="btn btn-link btn-sm" t-if="d.signing.mine.includes('preparer')" t-on-click="() => this.unsign('preparer')">Remove my signature</button>
+                                    </t>
+                                    <button type="button" class="btn btn-primary btn-sm" t-elif="d.signing.canPrepare" t-att-disabled="state.busy" t-on-click="() => this.sign('preparer')">Sign as preparer</button>
+                                    <span class="o_ea_ws_hint" t-else="">Not signed yet</span>
+                                </div>
+                                <div>
+                                    <b>Reviewer</b>:
+                                    <t t-if="d.signing.reviewer"><t t-esc="d.signing.reviewer.by"/>, <t t-esc="d.signing.reviewer.date"/>
+                                        <button type="button" class="btn btn-link btn-sm" t-if="d.signing.mine.includes('reviewer')" t-on-click="() => this.unsign('reviewer')">Remove my signature</button>
+                                    </t>
+                                    <button type="button" class="btn btn-primary btn-sm" t-elif="d.signing.canReview" t-att-disabled="state.busy" t-on-click="() => this.sign('reviewer')">Sign as reviewer</button>
+                                    <span class="o_ea_ws_hint" t-else="">Not signed yet</span>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <aside class="o_ea_ws_right" data-ea="ipe-used-in">
+                        <div class="o_ea_ws_dtitle">Used in these working papers</div>
+                        <p class="o_ea_ws_hint" t-if="!d.papers.length and !d.tools.length">No working paper relies on this kind of file.</p>
+                        <a href="#" class="o_ea_ipe_paper" t-foreach="d.papers" t-as="paper" t-key="paper.id" t-on-click.prevent="() => this.open('paper', paper.id)">
+                            <b t-esc="paper.code"/> <t t-esc="paper.title"/> ↗
+                        </a>
+                        <a href="#" class="o_ea_ipe_paper" t-foreach="d.tools" t-as="tool" t-key="tool.method" t-on-click.prevent="() => this.open('tool', tool.method)">
+                            <t t-esc="tool.label"/> ↗
+                        </a>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

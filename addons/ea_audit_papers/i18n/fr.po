@@ -2331,3 +2331,27 @@ msgstr "Repris des réponses aux tâches consignées avant la nouvelle présenta
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
 msgid "Read from the conclusion recorded before the new layout. Edit it, or leave it as it is."
 msgstr "Repris de la conclusion consignée avant la nouvelle présentation. Modifiez-la ou laissez-la telle quelle."
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Data relied on"
+msgstr "Données utilisées"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Open data quality (IPE)"
+msgstr "Ouvrir la qualité des données (IPE)"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "A file this paper relies on is not reliable"
+msgstr "Un fichier utilisé par cette feuille de travail n'est pas fiable"
+
+#. module: ea_audit_papers
+#. odoo-javascript
+#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+msgid "Sign anyway"
+msgstr "Signer quand même"

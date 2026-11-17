@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, combined risk assessment, findings, summary of audit differences and the tools hub",
-    "version": "19.0.1.24.1",  # release 2026-11-25: work allocation in place of the client overrides tile; questionnaire Q18
+    "version": "19.0.1.24.2",  # release 2026-11-25: work allocation in place of the client overrides tile; questionnaire Q18; Data quality (IPE) replaces substantive analytics
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
@@ -46,6 +46,7 @@
             "ea_audit_tools/static/src/scss/procedure_design.scss",
             "ea_audit_tools/static/src/scss/procedure_execution.scss",
             "ea_audit_tools/static/src/scss/work_allocation.scss",
+            "ea_audit_tools/static/src/scss/ipe_page.scss",
             "ea_audit_tools/static/src/js/**/*",
             "ea_audit_tools/static/src/xml/**/*",
         ],

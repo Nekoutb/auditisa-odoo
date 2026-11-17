@@ -1,5 +1,5 @@
 {
- "build": "c52fc331a53d",
+ "build": "b2ed50504c8f",
  "parts": [
   {
    "key": "1",
@@ -159,18 +159,6 @@
    "screens": [
     "ea_audit_core.action_firm_audit_log",
     "model:ea.audit.activity"
-   ]
-  },
-  {
-   "id": "analytics-thresholds",
-   "part": "2",
-   "title": {
-    "en": "Substantive analytics thresholds",
-    "fr": "Seuils des procédures analytiques de corroboration"
-   },
-   "screens": [
-    "ea_audit_tools.action_sap_thresholds",
-    "model:ea.audit.sap.threshold.wizard"
    ]
   },
   {
@@ -531,9 +519,18 @@
    },
    "screens": [
     "view:ea_audit_tools.view_engagement_lead_board",
-    "view:ea_audit_tools.view_engagement_sap_board",
-    "view:ea_audit_tools.view_engagement_gl_catalogue",
-    "model:ea.audit.sap.procedure"
+    "view:ea_audit_tools.view_engagement_gl_catalogue"
+   ]
+  },
+  {
+   "id": "data-quality",
+   "part": "5",
+   "title": {
+    "en": "Data quality (IPE)",
+    "fr": "Qualité des données (IPE)"
+   },
+   "screens": [
+    "tag:ea_audit_tools.ipe_page"
    ]
   },
   {

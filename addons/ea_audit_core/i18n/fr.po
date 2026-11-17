@@ -6231,5 +6231,23 @@ msgstr "%(count)s tâche(s) à approuver par l'associé confiée(s) à %(name)s 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(ref)s signatures voided: a new file was uploaded"
+msgstr "%(ref)s : signatures annulées, un nouveau fichier a été importé"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "%(count)s task(s) no longer need partner approval: %(codes)s"
 msgstr "%(count)s tâche(s) sans approbation de l'associé désormais : %(codes)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(ref)s signatures voided after a change"
+msgstr "%(ref)s : signatures annulées après une modification"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(code)s signed as %(role)s by %(name)s although %(ref)s is marked Not reliable in IPE: %(why)s"
+msgstr "%(code)s signée comme %(role)s par %(name)s alors que %(ref)s est marqué Non fiable dans l'IPE : %(why)s"

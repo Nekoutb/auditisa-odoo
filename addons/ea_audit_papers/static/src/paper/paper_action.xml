@@ -561,6 +561,15 @@
 </t>
 
 <t t-name="ea_audit_papers.PaperRail">
+    <div class="eap-card eap-side" t-if="p.data_relied" data-eap="data-relied">
+        <h3 t-esc="t('dataRelied')"/>
+        <p t-foreach="p.data_relied.rows" t-as="row" t-key="row.ref" class="eap-small" t-att-data-ipe="row.ref">
+            <code t-esc="row.ref"/> <span t-att-class="'eap-ipe is-' + row.tone" t-esc="row.text"/>
+            <span class="eap-muted" t-if="row.file"> · <t t-esc="row.file"/></span>
+        </p>
+        <p class="eap-small eap-ipe-warning" t-if="p.data_relied.warning" t-esc="p.data_relied.warning"/>
+        <button type="button" class="eap-btn" t-if="p.data_relied.action" t-on-click="() => this.openDataRelied()" t-esc="t('openIpe')"/>
+    </div>
     <div class="eap-card eap-side" t-if="p.tools.length" data-eap="tools">
         <h3 t-esc="t('tools')"/>
         <t t-foreach="p.tools" t-as="link" t-key="link_index">

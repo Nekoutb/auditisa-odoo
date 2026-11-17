@@ -1,0 +1,48 @@
+<article class="ea-help-page" data-id="data-quality" data-part="L'audit, phase par phase" data-part-order="5" data-order="5.15.1">
+  <h1>Qualité des données (IPE)</h1>
+  <p class="lead">Vérifier que chaque fichier remis par le client est complet et exact avant que les feuilles de travail ne s'appuient dessus.</p>
+  <p class="who"><b>Qui :</b> l'équipe de mission renseigne et conclut ; un senior ou plus fait la revue. Les rôles en lecture seule (par exemple le réviseur qualité de la mission) voient la page en lecture seule.</p>
+
+  <h2>Ce que montre la page</h2>
+  <p>Ouvrez les outils de la mission, puis <b>Qualité des données (IPE)</b>. La même tuile figure sur la page <b>Analyse de données</b>, et chaque écran d'import a un bouton <b>Qualité des données (IPE)</b>.</p>
+  <p>IPE désigne les informations produites par l'entité : la balance, le grand livre, les fichiers et listes que le client extrait de ses systèmes (ISA 500, paragraphe 9). En haut, un tableau croise chaque type de fichier avec chaque moment (exercice précédent, pré-audit, post-audit, période suivante). Chaque case porte sa référence, par exemple IPE-GL-PRE pour le grand livre du pré-audit, et son état :</p>
+  <ul>
+    <li><b>Fiable</b> · 13/13 : conclu fiable ; 13 des 13 contrôles applicables sont sans exception.</li>
+    <li><b>3 à expliquer</b> : trois contrôles ont relevé des exceptions que personne n'a encore expliquées.</li>
+    <li><b>À conclure</b> : chaque exception est expliquée, la conclusion reste à choisir.</li>
+    <li><b>Non fiable</b> : l'équipe a conclu que l'on ne peut pas s'appuyer sur le fichier.</li>
+    <li><b>Non importé</b> : aucun fichier de ce type et de ce moment.</li>
+  </ul>
+  <p>Cliquez sur une case pour l'ouvrir sous le tableau.</p>
+
+  <h2>Les contrôles</h2>
+  <p>Les contrôles s'exécutent d'eux-mêmes à l'import d'un fichier. <b>Relancer les contrôles</b> les exécute de nouveau sur le même fichier. Chaque contrôle indique <b>Réussi</b>, un nombre d'exceptions, <b>Sans objet</b> (le fichier n'a pas les colonnes nécessaires) ou <b>Information</b> (des chiffres à lire, rien à expliquer).</p>
+  <p>Chaque fichier reçoit les mêmes premiers contrôles : toutes les lignes lues, cellules obligatoires remplies, valeurs valides, dates dans la période du fichier, pas de lignes en double, totaux justes en colonne et en ligne, et un même code toujours avec le même nom. Puis chaque type a les siens :</p>
+  <table class="ref">
+    <tr><th>Fichier</th><th>Ses contrôles propres</th></tr>
+    <tr><td>Balance générale</td><td>Débits égaux aux crédits ; ouverture + débit − crédit = clôture pour chaque compte ; numéros de compte utilisés une seule fois et au format SYSCOHADA ; aucun solde sans libellé ; soldes d'ouverture égaux aux soldes de clôture de l'exercice précédent ; comptes d'attente (classe 47) présentant un solde, pour information.</td></tr>
+    <tr><td>Grand livre</td><td>Chaque écriture est équilibrée, et le grand livre entier ; les numéros d'écriture se suivent dans chaque journal (les trous et les numéros utilisés deux fois sont listés) ; aucune ligne à la fois au débit et au crédit, aucune ligne nulle ; aucune écriture après la date d'extraction ; préparateur et approbateur renseignés ; totaux par compte et par mois, pour information.</td></tr>
+    <tr><td>Immobilisations</td><td>Numéros d'immobilisation utilisés une seule fois ; valeur brute − amortissements cumulés = valeur nette ; le tableau de variation de la valeur nette ; amortissements inférieurs à la valeur brute ; dates de cession ; taux entre 0 et 100 % ; dotation de l'exercice recalculée : valeur brute × taux × temps.</td></tr>
+    <tr><td>Paie</td><td>Chaque salarié au plus une fois par mois ; brut au moins égal au net ; brut et net recalculés à partir de leurs éléments ; dates d'embauche et de sortie ; aucune paie nulle ou négative.</td></tr>
+    <tr><td>Créances et dettes fournisseurs</td><td>Numéros de facture utilisés une seule fois (par fournisseur pour les dettes) ; numéros des créances séquentiels ; éléments de plus de 12 mois ; avoirs négatifs et factures positives ; aucun élément nul ; totaux par client ou par fournisseur.</td></tr>
+    <tr><td>Relevés bancaires</td><td>Solde d'ouverture + mouvements = solde de clôture, ligne par ligne quand le relevé a une colonne de solde ; dates dans l'ordre.</td></tr>
+    <tr><td>Stocks</td><td>Codes article utilisés une seule fois par emplacement ; quantité × prix unitaire = montant ; aucune quantité ni aucun prix négatif ; articles à coût nul, pour information.</td></tr>
+    <tr><td>Relevés fournisseurs</td><td>Codes fournisseur utilisés une seule fois ; totaux recalculés.</td></tr>
+  </table>
+  <p>Cliquez sur un contrôle pour voir ses exceptions, avec la ligne du fichier d'où vient chacune. <b>Télécharger les exceptions (Excel)</b> les donne toutes.</p>
+
+  <h2>Documenter le fichier</h2>
+  <ol class="steps">
+    <li>Sous <b>D'où viennent les données</b>, renseignez <b>Système comptable</b>, <b>État ou requête</b>, <b>Extrait par</b>, <b>Date d'extraction</b>, <b>Paramètres utilisés</b>, <b>Mode d'obtention</b> (<b>Extraction observée par l'équipe</b>, <b>Reçu du client</b> ou <b>Téléchargé par l'équipe</b>) et <b>Utilisation dans l'audit</b>.</li>
+    <li>Pour chaque contrôle présentant des exceptions, rédigez l'<b>Explication</b> : pourquoi les exceptions ne nous empêchent pas de nous appuyer sur le fichier, ou ce qui a été fait.</li>
+    <li>Choisissez la <b>Conclusion</b> : <b>Fiable pour nos besoins</b>, <b>Fiable avec des limites</b> ou <b>Non fiable : demander au client une nouvelle extraction</b>. Les deux premières demandent une explication pour chaque contrôle présentant des exceptions.</li>
+    <li>Cliquez sur <b>Signer comme préparateur</b>. Un senior ou plus qui ne l'a pas préparé clique sur <b>Signer comme réviseur</b>.</li>
+  </ol>
+  <div class="note"><b>Bon à savoir</b> Un nouvel import du même type et du même moment relance les contrôles, efface les explications et la conclusion, et annule les signatures. Toute modification après signature les annule aussi.</div>
+
+  <h2>Les feuilles de travail qui s'appuient sur le fichier</h2>
+  <p>À droite, <b>Utilisé dans ces feuilles de travail</b> liste les feuilles qui utilisent le fichier : par exemple E3.1 et S5.4 pour le grand livre, P6.1, P6.2 et les feuilles de comptes pour la balance, E4.4 pour les immobilisations. Sur chacune de ces feuilles, la carte <b>Données utilisées</b> montre les références et leur état, avec <b>Ouvrir la qualité des données (IPE)</b>.</p>
+  <p>Un réviseur peut signer une feuille qui s'appuie sur un fichier marqué <b>Non fiable</b>, mais il lit d'abord un avertissement et clique sur <b>Signer quand même</b>. L'avertissement est enregistré dans le journal d'activité avec la signature.</p>
+
+  <p class="see">Voir aussi : <a href="#uploading-data">Importer les données du client</a> · <a href="#data-versions">Versions d'un import</a> · <a href="#data-tools">L'analytique et les outils de données</a> · <a href="#working-paper">La feuille de travail</a></p>
+</article>

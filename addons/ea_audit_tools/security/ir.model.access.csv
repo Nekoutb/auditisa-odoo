@@ -120,3 +120,6 @@ access_designed_procedure_writer,ea.audit.designed.procedure writer,model_ea_aud
 access_confirmation_member,ea.audit.confirmation member,model_ea_audit_confirmation,ea_audit_core.group_member,1,0,0,0
 access_finding_adjustment_member,ea.audit.finding.adjustment member,model_ea_audit_finding_adjustment,ea_audit_core.group_member,1,0,0,0
 access_finding_adjustment_writer,ea.audit.finding.adjustment writer,model_ea_audit_finding_adjustment,ea_audit_core.group_writer,1,1,1,1
+access_ipe_member,ea.audit.ipe member,model_ea_audit_ipe,ea_audit_core.group_member,1,0,0,0
+access_ipe_check_member,ea.audit.ipe.check member,model_ea_audit_ipe_check,ea_audit_core.group_member,1,0,0,0
+access_ipe_line_member,ea.audit.ipe.line member,model_ea_audit_ipe_line,ea_audit_core.group_member,1,0,0,0

@@ -111,6 +111,12 @@ _ENTRIES = (
      _lt("%(name)s removed from the team (%(role)s)")],
     [r"^Partner sign-off delegated$", _lt("Partner sign-off delegated")],
     [r"^Partner sign-off delegation cleared$", _lt("Partner sign-off delegation cleared")],
+    # Data quality (IPE), ea_audit_tools 2026-11-17
+    [r"^(?P<ref>\S+) signatures voided: a new file was uploaded$",
+     _lt("%(ref)s signatures voided: a new file was uploaded")],
+    [r"^(?P<ref>\S+) signatures voided after a change$", _lt("%(ref)s signatures voided after a change")],
+    [r"^(?P<code>\S+) signed as (?P<role>\w+) by (?P<name>.+) although (?P<ref>\S+) is marked not reliable in IPE: (?P<why>.*)$",
+     _lt("%(code)s signed as %(role)s by %(name)s although %(ref)s is marked Not reliable in IPE: %(why)s")],
     [r"^(?P<code>\S+) signed by (?P<name>.+) as (?P<role>\w+)$",
      _lt("%(code)s signed by %(name)s as %(role)s")],
     [r"^(?P<code>\S+) sign-off as (?P<role>\w+) removed by (?P<name>.+)$",
