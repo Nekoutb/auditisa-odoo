@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Screens",
     "summary": "The firm's top bar, home, engagement dashboard and task lists, on the core models",
-    "version": "19.0.1.0.8",  # the Data quality (IPE) help page
+    "version": "19.0.1.0.9",  # the Data quality (IPE) help page; manual: Journal entry testing
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

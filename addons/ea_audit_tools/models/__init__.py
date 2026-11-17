@@ -17,6 +17,7 @@ from . import control_test
 from . import sampling
 from . import je_selection
 from . import ws_pages
+from . import je_testing
 from . import analyzer
 from . import design
 from . import procedure_design
@@ -29,6 +30,7 @@ from . import paper_hooks_plan
 from . import paper_hooks_strat
 from . import paper_hooks_exec
 from . import paper_hooks_compl
+from . import paper_hooks_je
 from . import team
 from . import worksheet_pages
 from . import subsequent

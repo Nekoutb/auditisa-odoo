@@ -53,7 +53,7 @@ class JeStudio(models.TransientModel):
     def _compute_display_name(self):
         """A title for the breadcrumb, not the record's technical id."""
         for studio in self:
-            studio.display_name = self.env._("Journal entries")
+            studio.display_name = self.env._("Journal entry testing")
 
     @api.depends("engagement_id")
     @api.depends_context("lang")
@@ -169,7 +169,7 @@ class JeStudio(models.TransientModel):
         self.ensure_one()
         return {
             "type": "ir.actions.client", "tag": "ea_audit_tools.je_page", "target": "current",
-            "name": self.env._("Journal entries"),
+            "name": self.env._("Journal entry testing"),
             "params": {"engagement_id": self.engagement_id.id, "studio_id": self.id},
             "context": {"active_id": self.engagement_id.id, "ea_engagement_id": self.engagement_id.id},
         }

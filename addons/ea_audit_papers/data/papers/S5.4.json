@@ -4,10 +4,21 @@
  "definition": {
   "std": "ISA 240 ¶32–33 · ISA 240 ¶A41–A44 · ISA 315 (Revised 2019) ¶26",
   "tools": [
-   "je-selection"
+   {
+    "action": "action_tool_je",
+    "en": "Journal entry testing",
+    "fr": "Tests des écritures de journal",
+    "noteEn": "Criteria and the engagement settings",
+    "noteFr": "Critères et paramètres de la mission"
+   },
+   {
+    "action": "action_tool_risk",
+    "en": "Risk register",
+    "fr": "Registre des risques",
+    "noteEn": "Fraud risk factors the criteria answer",
+    "noteFr": "Facteurs de risque de fraude auxquels répondent les critères"
+   }
   ],
-  "ownsEn": "the design of the journal-entry test: the criteria, thresholds and rules that direct the selection",
-  "ownsFr": "la conception du test des écritures : critères, seuils et règles qui orientent la sélection",
   "reqEn": [
    "Irrespective of the assessed risks of management override, the auditor designs and performs procedures to test the appropriateness of journal entries recorded in the general ledger and other adjustments made in the preparation of the financial statements (ISA 240 ¶32(a)). The selection is directed by the characteristics of fraudulent entries — unusual accounts, unrelated or seldom-used accounts, individuals who do not normally make entries, period-end postings, round amounts, missing descriptions (ISA 240 ¶A43).",
    "The criteria are decided and recorded before the entries are tested, so the sample answers the risk rather than the other way round. Entries made at the end of the reporting period are tested in every case ({{ISA240.jePeriodEnd}}); testing throughout the period is a decision to record ({{ISA240.jeThroughout}})."
@@ -16,27 +27,61 @@
    "Indépendamment de l'évaluation des risques de contournement des contrôles par la direction, l'auditeur conçoit et met en œuvre des procédures pour tester le bien-fondé des écritures enregistrées dans le grand livre et des autres ajustements faits lors de la préparation des états financiers (ISA 240 ¶32(a)). La sélection est orientée par les caractéristiques des écritures frauduleuses — comptes inhabituels, comptes sans lien ou rarement mouvementés, auteurs qui ne passent pas d'écritures d'ordinaire, écritures de fin de période, montants ronds, libellés absents (ISA 240 ¶A43).",
    "Les critères sont arrêtés et consignés avant le test des écritures, de sorte que l'échantillon réponde au risque et non l'inverse. Les écritures de fin de période sont testées dans tous les cas ({{ISA240.jePeriodEnd}}) ; le test des écritures de la période est une décision à consigner ({{ISA240.jeThroughout}})."
   ],
-  "conclEn": [
-   "The selection criteria recorded above respond to the fraud risk factors identified on this engagement and were fixed before the entries were tested."
-  ],
-  "conclFr": [
-   "Les critères de sélection consignés ci-dessus répondent aux facteurs de risque de fraude identifiés sur la mission et ont été arrêtés avant le test des écritures."
-  ],
   "sections": [
    {
-    "kind": "fields",
-    "titleEn": "Part A — Selection design",
-    "titleFr": "Partie A — Conception de la sélection",
-    "introEn": "A design is recorded here when 'Record as the S5.4 design' is used in the journal-entry selection tool: the criteria with their thresholds, the rules, who recorded it and when. Earlier designs stay listed after it.",
-    "introFr": "Une conception est consignée ici lorsque « Enregistrer comme conception S5.4 » est utilisé dans l'outil de sélection des écritures : les critères et leurs seuils, les règles, l'auteur et la date. Les conceptions antérieures restent listées à la suite.",
-    "fields": [
+    "kind": "proc",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
+    "procs": [
      {
-      "key": "je_design",
-      "kind": "auto",
-      "source": "je-selection",
-      "labelEn": "From the tool: criteria, thresholds, rules and the size of the selection",
-      "labelFr": "Depuis l'outil : critères, seuils, règles et taille de la sélection"
+      "key": "criteria",
+      "en": "Choose, in the Journal entry testing screen, the criteria that direct the selection to entries with the characteristics of possible fraud: when they were posted, who posted them, what they say, and unusual account pairings. The criteria are fixed before any entry is tested.",
+      "fr": "Choisir, dans l'écran des tests des écritures de journal, les critères qui orientent la sélection vers les écritures présentant les caractéristiques d'une fraude possible : quand elles ont été passées, qui les a passées, ce qu'elles indiquent et les associations de comptes inhabituelles. Les critères sont arrêtés avant le test de toute écriture.",
+      "shortEn": "Selection criteria",
+      "shortFr": "Critères de sélection",
+      "isa": "{{ISA240.jeCriteria}}",
+      "tipsEn": [
+       "Tick the criteria in the Journal entry testing screen.",
+       "Tie each criterion to a fraud risk factor of this engagement.",
+       "Fix the criteria before any entry is tested."
+      ],
+      "tipsFr": [
+       "Cocher les critères dans l'écran des tests des écritures de journal.",
+       "Rattacher chaque critère à un facteur de risque de fraude de la mission.",
+       "Arrêter les critères avant de tester la moindre écriture."
+      ],
+      "stdEn": "Criteria chosen in the tool before the testing; no exceptions noted.",
+      "stdFr": "Critères choisis dans l'outil avant les tests ; aucune exception relevée.",
+      "sourceHint": "Criteria in the tool",
+      "toolDone": "je_criteria"
      },
+     {
+      "key": "thresholds",
+      "en": "Set once for the engagement the limits the criteria use: the round amount multiple, the approval limit and its band, the cash expense limit, the days around the year end, what counts as a person who rarely posts or a rarely used account, the public holidays of the year and the list of vague words.",
+      "fr": "Fixer une fois pour la mission les seuils utilisés par les critères : le multiple des montants ronds, le seuil d'approbation et sa marge, le seuil des charges payées en espèces, les jours autour de la clôture, ce qu'est une personne qui passe rarement des écritures ou un compte rarement utilisé, les jours fériés de l'année et la liste des mots vagues.",
+      "shortEn": "Engagement settings",
+      "shortFr": "Paramètres de la mission",
+      "isa": "{{ISA240.jeCriteria}}",
+      "tipsEn": [
+       "Start from the defaults and adjust them to the size of the entity.",
+       "Add the public holidays declared during the year."
+      ],
+      "tipsFr": [
+       "Partir des valeurs par défaut et les adapter à la taille de l'entité.",
+       "Ajouter les jours fériés décrétés en cours d'année."
+      ],
+      "stdEn": "Engagement settings confirmed in the tool; no exceptions noted.",
+      "stdFr": "Paramètres de la mission confirmés dans l'outil ; aucune exception relevée.",
+      "sourceHint": "Settings in the tool",
+      "toolDone": "je_settings"
+     }
+    ]
+   },
+   {
+    "kind": "fields",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
+    "fields": [
      {
       "key": "rationale",
       "kind": "input",
@@ -51,6 +96,22 @@
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Design the test of journal entries before it runs: choose the criteria that direct the selection to the characteristics of entries that may be fraudulent, and set the limits those criteria use, so that the selection answers the risk of management override of controls.",
+  "objectiveFr": "Concevoir le test des écritures avant sa mise en œuvre : choisir les critères qui orientent la sélection vers les caractéristiques des écritures pouvant être frauduleuses et fixer les seuils qu'ils utilisent, afin que la sélection réponde au risque de contournement des contrôles par la direction.",
+  "isa": [
+   {
+    "std": "ISA 240"
+   }
+  ],
+  "links": [
+   "E3.1",
+   "P5.1",
+   "S3.1"
+  ],
+  "toolCard": "je_testing",
+  "neverLight": true,
+  "conclStdEn": "The criteria and the settings recorded in the tool answer the fraud risk factors of this engagement and were fixed before the entries were tested.",
+  "conclStdFr": "Les critères et les paramètres consignés dans l'outil répondent aux facteurs de risque de fraude de la mission et ont été arrêtés avant le test des écritures."
  }
 }

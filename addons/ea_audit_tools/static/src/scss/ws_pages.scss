@@ -130,9 +130,9 @@
     .o_ea_ws_tag {
         display: inline-block; padding: 0 8px; border-radius: 9px; font-size: 12px; font-weight: 600; white-space: nowrap;
         background: var(--eaws-head); color: var(--eaws-muted);
-        &.is-cleared, &.is-agreed, &.is-passed, &.is-pass { background: var(--eaws-pale); color: var(--eaws-green); }
-        &.is-problem, &.is-error, &.is-failed, &.is-fail { background: var(--eaws-red-pale); color: var(--eaws-red); }
-        &.is-to_clear, &.is-to_test, &.is-warning { background: var(--eaws-amber-pale); color: #8a6100; }
+        &.is-cleared, &.is-agreed, &.is-passed, &.is-pass, &.is-no_exception, &.is-green { background: var(--eaws-pale); color: var(--eaws-green); }
+        &.is-problem, &.is-error, &.is-failed, &.is-fail, &.is-exception, &.is-red { background: var(--eaws-red-pale); color: var(--eaws-red); }
+        &.is-to_clear, &.is-to_test, &.is-warning, &.is-amber { background: var(--eaws-amber-pale); color: #8a6100; }
     }
 
     // the entry opened
@@ -180,4 +180,32 @@
         &.is-bad { background: var(--eaws-red-pale); color: var(--eaws-red); border: 1px solid #f3b8b3; }
         &.is-good { background: var(--eaws-pale); color: var(--eaws-green); }
     }
+}
+
+// Journal entry testing (owner's mock-up approved 18/11)
+.o_ea_jet {
+    .o_ea_jet_group { margin-bottom: 10px; }
+    .o_ea_jet_group_name { font-size: 12px; font-weight: 600; color: var(--eaws-muted); margin: 6px 0 2px; }
+    .o_ea_jet_criterion {
+        display: grid; grid-template-columns: 18px 30px 1fr auto; align-items: center; gap: 4px;
+        padding: 2px 0; font-size: 13px; cursor: pointer; margin: 0;
+    }
+    .o_ea_jet_no { color: var(--eaws-muted); font-size: 12px; }
+    .o_ea_jet_settings { font-size: 12px; margin-top: 8px; }
+    .o_ea_jet_settings_form {
+        display: flex; flex-direction: column; gap: 6px; font-size: 12px;
+        label { display: flex; flex-direction: column; gap: 2px; margin: 0; }
+    }
+    .o_ea_jet_holidays { padding-left: 16px; margin: 0; font-size: 12px; a { margin-left: 6px; } }
+    .o_ea_jet_test_row > td { background: var(--eaws-pale); }
+    .o_ea_jet_attributes {
+        width: 100%; margin: 6px 0;
+        td { padding: 3px 4px; vertical-align: middle; }
+    }
+    .o_ea_jet_answers { white-space: nowrap; text-align: right; .btn { margin-left: 4px; } }
+    .o_ea_jet_panels {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;
+        @media (max-width: 900px) { grid-template-columns: 1fr; }
+    }
+    .o_ea_jet_signoff { margin-top: 16px; }
 }

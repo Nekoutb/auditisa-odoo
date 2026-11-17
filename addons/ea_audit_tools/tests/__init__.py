@@ -36,3 +36,4 @@ from . import test_paper_layout_compl
 from . import test_controls_scope
 from . import test_work_allocation
 from . import test_ipe
+from . import test_je_testing

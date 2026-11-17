@@ -357,10 +357,10 @@ class TestPerCodeBehaviour(PaperCase):
         self.assertFalse(engagement._ea_predecessor_required())
 
     def test_auto_fields_are_never_saved(self):
-        # P6.1 shows its amounts in the tool's card since the layout of 2026-11-17; S5.4 keeps an auto field
-        definition = paper_for("S5.4")
+        # P6.1 and S5.4 show their figures in the tool's card since the layout of 2026-11-17; P1.3 keeps an auto field
+        definition = paper_for("P1.3")
         auto = [f["key"] for s in definition.get("sections", []) if s["kind"] == "fields" for f in s["fields"] if f["kind"] == "auto"]
         self.assertTrue(auto)
-        self.engagement.sudo()._ea_ensure_task("S5.4")
-        self.save(self.manager, "S5.4", {auto[0]: "typed over"})
-        self.assertNotIn(auto[0], self.stored("S5.4"))
+        self.engagement.sudo()._ea_ensure_task("P1.3")
+        self.save(self.manager, "P1.3", {auto[0]: "typed over"})
+        self.assertNotIn(auto[0], self.stored("P1.3"))

@@ -1,5 +1,5 @@
-"""The execution papers in the layout of 2026-11-17 (group "exec"): E1.1, E1.2, E2.1 and E6.1 to
-E6.10. Each is converted, its tips are short and in English on the English side, a task that can be
+"""The execution papers in the layout of 2026-11-17 (group "exec"): E1.1, E1.2, E2.1, E3.1 (journal
+entry testing, converted 2026-11-17 with its tool) and E6.1 to E6.10. Each is converted, its tips are short and in English on the English side, a task that can be
 closed by exception has its standard answer, every hook it names exists, its index hash follows it,
 and the answer keys of existing files are still there."""
 import hashlib
@@ -13,8 +13,8 @@ from services import all_paper_keys, is_converted, load_definition, load_index, 
 
 ADDON = pathlib.Path(__file__).resolve().parent.parent
 MODELS = ADDON.parent / "ea_audit_tools" / "models"
-HOOKS = "".join((MODELS / name).read_text(encoding="utf-8") for name in ("paper_hooks.py", "paper_hooks_exec.py"))
-EXEC = ("E1.1", "E1.2", "E2.1", "E6.1", "E6.2", "E6.3", "E6.4", "E6.5", "E6.6", "E6.7", "E6.8", "E6.9", "E6.10")
+HOOKS = "".join((MODELS / name).read_text(encoding="utf-8") for name in ("paper_hooks.py", "paper_hooks_exec.py", "paper_hooks_je.py"))
+EXEC = ("E1.1", "E1.2", "E2.1", "E3.1", "E6.1", "E6.2", "E6.3", "E6.4", "E6.5", "E6.6", "E6.7", "E6.8", "E6.9", "E6.10")
 # Local words that have an English name: the English tips use the English one.
 LOCAL_WORDS = re.compile(r"\b(?:CNPS|DSF|TAFIRE|AGE|RCCM|SOCD|SCOT|IPE|lettre|soutien|procès|commissaire)\b", re.IGNORECASE)
 FRENCH_LETTERS = re.compile(r"[àâçéèêëîïôûùœÀÂÇÉÈÊÔ«»]")
@@ -84,6 +84,12 @@ def test_exec_answer_keys_of_existing_files_stay():
         "E1.1": {"p_scope", "p_deficiency", "q_socd", "domain_changes", "it_process", "response"},
         "E1.2": {"p_selection", "p_exceptions", "q_grids", "q_rotation", "exceptions", "carried"},
         "E2.1": {"p_period", "p_conclude", "q_all_interim", "q_failures_fed"},
+        "E3.1": {"p_inquiry", "p_understanding", "p_controls", "p_population", "p_criteria", "p_period_end",
+                 "p_throughout", "p_unpredictability", "p_test_items", "p_estimates", "p_unusual", "p_approval",
+                 "q_population_established", "q_inquiries_made", "q_period_end_covered", "q_throughout_considered",
+                 "q_unpredictability_applied", "q_four_tests_done", "q_not_random", "q_partner_approved",
+                 "ctrl_sod", "ctrl_access", "ctrl_oversight", "ctrl_ia_testing", "unpred_amount_type", "unpred_timing",
+                 "unpred_location", "unpred_extent", "throughout_decision", "exceptions", "carried"},
         "E6.1": {"p_framework", "p_report", "q_none", "q_reporting"},
         "E6.2": {"p_register", "p_disclosure", "q_complete", "q_disclosed"},
         "E6.3": {"p_carry", "p_communicate", "q_no_uncertainty", "q_close_call", "exceptions", "carried"},
@@ -159,3 +165,18 @@ def _english(node, key=""):
 def test_exec_english_text_has_no_abbreviations(code):
     found = [m.group(0) for text in _english(load_definition(code)) for m in ABBREVIATIONS.finditer(text)]
     assert not found, (code, sorted(set(found)))
+
+
+def test_e3_1_is_closed_in_the_journal_entry_testing_tool():
+    definition = load_definition("E3.1")
+    assert definition["toolCard"] == "je_testing" and definition["neverLight"] is True
+    assert definition["tools"][0]["action"] == "action_tool_je"
+    done = {p["key"]: p.get("toolDone") for p in procs(definition) if p.get("toolDone")}
+    assert done == {"population": "je_population", "criteria": "je_criteria", "period_end": "je_period_end", "test_items": "je_tested"}
+    # never light: full documentation on every engagement, the tool closing its four tasks
+    tool = {key: {"done": True, "result": "done"} for key in done}
+    shaped = shape(resolved("E3.1"), "E3.1", "very_simple", {}, (), tool)
+    assert shaped["_depth"] == "complex"
+    modes = {p["key"]: p["_mode"] for p in procs(shaped)}
+    assert {key for key, mode in modes.items() if mode == "tool"} == set(done)
+    assert {"p_inquiry", "ctrl_sod", "throughout_decision"} <= set(required_keys(shaped))

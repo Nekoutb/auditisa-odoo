@@ -1,17 +1,46 @@
 <article class="ea-help-page" data-id="journal-entries" data-part="L'audit, phase par phase" data-part-order="5" data-order="5.14">
-  <h1>Écritures de journal</h1>
-  <p class="lead">Sélectionner des écritures de journal à l'aide de critères de risque, examiner chaque écriture retenue et conclure sur le test des écritures de journal (E3.1).</p>
+  <h1>Tests des écritures de journal</h1>
+  <p class="lead">Sélectionner les écritures de journal qui présentent des signes d'un possible contournement des contrôles par la direction, tester chacune sur le même écran et conclure sur le test des écritures de journal (E3.1).</p>
   <p class="who"><b>Qui :</b> l'équipe de mission. Les rôles en lecture seule (par exemple le réviseur qualité de la mission) voient la page en lecture seule.</p>
 
-  <h2>Écritures de journal (E3.1)</h2>
-  <p>La page <b>Écritures de journal</b> comporte quatre onglets :</p>
+  <h2>Un seul écran</h2>
+  <p>Ouvrez <b>Tableau de bord de la mission</b> › <b>Outils</b> › <b>Tests des écritures de journal</b>. Tout se trouve sur un seul écran, sans onglets. C'est le travail que la norme ISA 240 demande sur les écritures de journal.</p>
+  <p>Quatre cadres en haut donnent la synthèse :</p>
+  <table class="ref">
+    <tr><th>Cadre</th><th>Ce qu'il montre</th></tr>
+    <tr><td><b>Grand livre utilisé</b></td><td>Ses lignes, ses écritures et la date de son chargement.</td></tr>
+    <tr><td><b>Écritures sélectionnées</b></td><td>Les écritures retenues par au moins un critère.</td></tr>
+    <tr><td><b>Testées</b></td><td>Le nombre d'écritures testées sur la sélection, sans exception et avec exceptions.</td></tr>
+    <tr><td><b>Constats relevés</b></td><td>Les constats, et les ajustements portés au récapitulatif des écarts d'audit.</td></tr>
+  </table>
+
+  <h2>Critères</h2>
+  <p>À gauche, <b>Critères</b> présente chaque critère avec une case à cocher et le nombre d'écritures qu'il retient, en quatre groupes :</p>
+  <table class="ref">
+    <tr><th>Groupe</th><th>Critères</th></tr>
+    <tr><td><b>Quand elle a été passée</b></td><td><b>Passée un dimanche</b>, <b>Passée un samedi</b>, <b>Passée un jour férié</b>, 5 <b>derniers jours de l'exercice ou</b> 5 <b>premiers jours suivants</b> (5 par défaut).</td></tr>
+    <tr><td><b>Qui l'a passée</b></td><td><b>Même personne pour la préparation et l'approbation</b>, <b>Aucun approbateur enregistré</b>, <b>Passée par une personne qui passe rarement des écritures</b>.</td></tr>
+    <tr><td><b>Ce qu'elle indique</b></td><td><b>Montants ronds</b>, <b>Juste sous un seuil d'approbation</b>, <b>Libellé absent ou vague</b>, <b>Comptes rarement utilisés ou d'attente</b>.</td></tr>
+    <tr><td><b>Associations de comptes inhabituelles</b></td><td><b>Produits contre trésorerie</b>, <b>Charges payées en espèces au-delà d'un seuil</b>, <b>Immobilisations contre produits</b>, <b>Fournisseurs contre clients</b>, <b>Produits débités après la clôture</b>, <b>Capitaux propres contre produits ou charges</b>.</td></tr>
+  </table>
+  <p>La sélection regroupe toutes les écritures retenues par au moins un critère. Cochez des critères pour n'afficher que les écritures qu'ils retiennent ; si rien n'est coché, le tableau affiche toute la sélection. <b>Effacer les critères</b> retire les coches.</p>
+  <p>Sous les critères, une ligne donne les paramètres, fixés une fois pour la mission : le montant rond (1 000 000), le seuil d'approbation (5 000 000, avec une marge de 10 %), le seuil des charges payées en espèces (500 000), les jours autour de la clôture (5), la personne qui passe rarement des écritures (moins de 2 % des écritures), le compte rarement utilisé (moins de 3 écritures), les jours fériés de l'année (calendrier du Cameroun) et les mots vagues. Cliquez sur <b>Modifier les paramètres</b> pour les ajuster.</p>
+
+  <h2>Les écritures sélectionnées</h2>
+  <p>À droite, le tableau présente chaque écriture sélectionnée : <b>Écriture</b>, <b>Date</b> (avec le jour de la semaine), <b>Journal</b>, <b>Comptes</b> (débit → crédit), <b>Montant</b>, <b>Préparée / approuvée</b>, <b>Motifs de sélection</b> et <b>Test</b> (<b>À tester</b>, <b>Aucune exception</b> ou <b>Exception</b>). Cliquez sur <b>Exporter la sélection pour le client (Excel)</b> pour envoyer la liste au client.</p>
   <ol class="steps">
-    <li><b>1 Grand livre</b> : le grand livre testé et ses contrôles. Si aucun grand livre n'est prêt, cliquez sur <b>Les grands livres</b>.</li>
-    <li><b>2 Critères</b> : activez ou désactivez chaque critère ; les écritures qu'il retient sont comptées immédiatement. <b>Seuils et règles propres</b> fixe les montants et vos propres règles. Cliquez sur <b>Appliquer les critères</b>.</li>
-    <li><b>3 Écritures retenues</b> : ouvrez chaque écriture, examinez ses pièces justificatives, puis validez-la ou cliquez sur <b>Ouvrir un constat</b> (<b>Anomalie</b>, <b>Point d'attention</b> ou <b>Déficience de contrôle</b>).</li>
-    <li><b>4 Conclusion</b> : le nombre d'écritures validées et le nombre d'écritures présentant un problème. Cliquez sur <b>Enregistrer comme conception S5.4</b> pour conserver la sélection comme conception, et sur <b>Exporter le classeur E3.1</b> pour le dossier de la mission.</li>
+    <li>Cliquez sur une écriture : son test s'ouvre en dessous.</li>
+    <li>Répondez aux quatre questions, chacune par <b>Oui</b>, <b>Non</b> ou <b>Sans objet</b> : <b>Pièce justificative obtenue et rapprochée de l'écriture (montant, date, comptes)</b> ; <b>Écriture approuvée par une personne habilitée, autre que celle qui l'a préparée</b> ; <b>Justification économique comprise et cohérente avec notre connaissance de l'entité</b> ; <b>Enregistrée dans les bons comptes, sur la bonne période et pour le bon montant</b>.</li>
+    <li>Décrivez ce que vous avez fait dans <b>Travaux effectués et résultat</b>. Citez les pièces jointes sous la forme [A1], [A2].</li>
+    <li>En cas de problème, cliquez sur <b>Ouvrir un constat</b> (le constat va dans l'outil des constats, lié à l'écriture et à E3.1) ou sur <b>Ajouter un ajustement</b> (il va au récapitulatif des écarts d'audit et attend le réviseur).</li>
   </ol>
-  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/t-je.webp" alt="La page Écritures de journal sur l'onglet 2 Critères : les critères avec leurs interrupteurs et le nombre d'écritures retenues, le bouton Appliquer les critères et la barre d'avancement" loading="lazy"/><figcaption>Écritures de journal : activez des critères et voyez ce qu'ils retiennent.</figcaption></figure>
+  <p>La conclusion de l'écriture suit les réponses : <b>Exception</b> dès qu'une réponse est <b>Non</b> ; <b>Aucune exception</b> quand les quatre questions ont une réponse et qu'aucune n'est <b>Non</b>.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/t-je.webp" alt="L'écran Tests des écritures de journal : les quatre cadres de synthèse, les critères en quatre groupes avec leurs cases à cocher et leurs nombres à gauche, et le tableau des écritures sélectionnées à droite" loading="lazy"/><figcaption>Tests des écritures de journal : cochez des critères, puis testez chaque écriture sélectionnée.</figcaption></figure>
+
+  <h2>Constats, ajustements et signatures</h2>
+  <p>En bas, <b>Constats issus des tests des écritures de journal</b> présente les constats relevés (<b>Constat</b>, <b>Écriture</b>, <b>Nature</b>, <b>Étape</b>), et <b>Ajustements portés au récapitulatif des écarts d'audit</b> présente les ajustements (<b>Écriture</b>, <b>Rubrique</b>, <b>Ajustement proposé</b>, <b>Montant</b>, <b>Statut</b>).</p>
+  <p>Sous <b>Conclusion et signatures</b>, cliquez sur <b>Signer comme préparateur</b> ; le réviseur clique ensuite sur <b>Signer comme réviseur</b>. Cela signe la feuille de travail E3.1, selon les règles de signature habituelles.</p>
+  <div class="tip"><b>Astuce</b> Les écritures examinées avant cet écran gardent leur examen : « validée » se lit <b>Aucune exception</b>, « problème » se lit <b>Exception</b>, et la note devient <b>Travaux effectués et résultat</b>.</div>
 
   <p class="see">Voir aussi : <a href="#data-tools">L'analytique et les outils de données</a> · <a href="#findings">Les constats</a> · <a href="#execution">La phase Exécution et les tests des contrôles</a></p>
 </article>
