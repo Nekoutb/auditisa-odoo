@@ -43,7 +43,7 @@
       "fr": "Consigner les faits relevés au cours de la mission susceptibles de constituer une infraction et les éléments qui les établissent — à partir du registre des constats filtré sur la fraude et des communications relatives à la fraude consignées en P5.1 (procédures 9 à 12).",
       "shortEn": "Facts identified",
       "shortFr": "Faits relevés",
-      "isa": "OHADA art. 716 · ISA 250 ¶18 (à valider)",
+      "isa": "OHADA art. 716 (à valider) · ISA 250 ¶18",
       "tipsEn": [
        "Start from the findings register filtered on fraud and the P5.1 communications."
       ],
@@ -127,7 +127,7 @@
       "fr": "Consigner que le secret professionnel ne fait pas obstacle à la révélation imposée par la loi et que celle-ci s'est limitée à ce qu'exige l'obligation.",
       "shortEn": "Professional secrecy",
       "shortFr": "Secret professionnel",
-      "isa": "OHADA art. 716 · ISA 250 ¶29 (à valider)",
+      "isa": "OHADA art. 716 (à valider) · ISA 250 ¶29",
       "tipsEn": [
        "Secrecy is lifted for this disclosure and nothing else."
       ],

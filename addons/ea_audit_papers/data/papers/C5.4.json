@@ -58,7 +58,7 @@
       "fr": "Recenser les postes du bilan et des autres documents comptables auxquels des modifications paraissent devoir être apportées, chacun avec son renvoi à l'anomalie de C1.1, et les observations sur les méthodes d'évaluation utilisées pour leur établissement — les estimations de E6.7, les méthodes de P3.1, tout changement de méthode.",
       "shortEn": "Items to modify and valuation methods",
       "shortFr": "Postes à modifier et méthodes d'évaluation",
-      "isa": "OHADA art. 715 · ISA 450 ¶8 (à valider)",
+      "isa": "OHADA art. 715 (à valider) · ISA 450 ¶8",
       "tipsEn": [
        "Cross-refer each item to its line in the summary of C1.1."
       ],
@@ -109,7 +109,7 @@
       "fr": "Consigner tout changement de présentation ou de méthode comptable et son incidence.",
       "shortEn": "Changes of presentation or method",
       "shortFr": "Changements de présentation ou de méthode",
-      "isa": "OHADA art. 715 · ISA 710 (à valider)",
+      "isa": "OHADA art. 715 (à valider) · ISA 710",
       "tipsEn": [
        "Use the accounting policies of P3.1."
       ],

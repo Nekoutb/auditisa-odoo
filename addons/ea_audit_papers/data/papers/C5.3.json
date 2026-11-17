@@ -45,7 +45,7 @@
       "fr": "Recenser les personnes visées par le régime pour cette [[lf.form]] — les [[lf.officers]], les [[lf.holders]], leurs conjoints, ascendants et descendants, et les sociétés qu'ils dirigent ou détiennent — à partir de l'extrait RCCM, des statuts, du registre des titres et du registre des parties liées, puis recenser toute convention en vigueur ou conclue sur l'exercice avec l'un d'eux, à partir du grand livre, des contrats et des procès-verbaux.",
       "shortEn": "Persons and agreements caught",
       "shortFr": "Personnes et conventions visées",
-      "isa": "OHADA arts. 438 / 350 · ISA 550 ¶13 (à valider)",
+      "isa": "OHADA arts. 438 / 350 (à valider) · ISA 550 ¶13",
       "tipsEn": [
        "List the persons first, then the agreements: the counterparty decides.",
        "Use the trade register extract, the statutes and the register of securities."
