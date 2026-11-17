@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- auth_signup installs itself with public sign-up open (b2c). On a firm, accounts are by
+         invitation only: set again here, on every install and update, portal addon or not. -->
+    <function model="ir.config_parameter" name="set_param">
+        <value>auth_signup.invitation_scope</value>
+        <value>b2b</value>
+    </function>
+</odoo>

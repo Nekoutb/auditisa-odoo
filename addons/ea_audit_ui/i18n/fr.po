@@ -1651,3 +1651,29 @@ msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "non-statutory audit"
 msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.signup_welcome
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.reset_password_welcome
+msgid "Welcome to"
+msgstr "Bienvenue chez"
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.signup_welcome
+msgid "Choose your password to finish setting up your account."
+msgstr "Choisissez votre mot de passe pour terminer la création de votre compte."
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.reset_password_welcome
+msgid "Choose a new password for your account."
+msgstr "Choisissez un nouveau mot de passe pour votre compte."
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.signup_welcome
+msgid "Set my password"
+msgstr "Enregistrer mon mot de passe"
+
+#. module: ea_audit_ui
+#: model_terms:ir.ui.view,arch_db:ea_audit_ui.reset_password_welcome
+msgid "Save my new password"
+msgstr "Enregistrer mon nouveau mot de passe"
