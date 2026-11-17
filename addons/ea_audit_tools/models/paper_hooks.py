@@ -2,6 +2,7 @@
 auto fields, the header chips, and the board shown in a paper. The papers addon stays
 unaware of the tools; every reader here is the tools' own."""
 from odoo import models
+from odoo.exceptions import AccessError, UserError
 
 from ..services.lead_classes import INDEX_SECTION, LEAD_INDEXES, lead_index_label
 from ..services.scot_forms import FSCP_FIELDS
@@ -444,8 +445,14 @@ class PaperLayoutHooks(models.Model):
         return french if is_french(self.env) else english
 
     def _ea_open(self, method):
+        """The tool's action, or nothing for a reader the tool turns away: the card still reads."""
         engagement = self.sudo().engagement_id.with_env(self.env)
-        return getattr(engagement, method)() if hasattr(engagement, method) else False
+        if not hasattr(engagement, method):
+            return False
+        try:
+            return getattr(engagement, method)()
+        except (AccessError, UserError):
+            return False
 
     def _ea_more(self, total):
         rest = total - _ROWS_SHOWN
