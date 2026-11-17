@@ -95,7 +95,7 @@ class FileItem(models.Model):
         paper = self._ea_paper()
         definition, _hooks = paper.with_env(self.env)._ea_shaped()
         if not completeness_exempt(self.code, has_bespoke_paper(self.code), is_converted(definition)):
-            parts = missing_parts(definition, paper._ea_gauge_values())
+            parts = missing_parts(definition, paper._ea_gauge_values(definition))
             if parts:
                 raise incomplete_error(self.env, parts)
         gap = self._ea_tool_gap()

@@ -124,6 +124,7 @@
             <b t-esc="t('summary')"/>
             <t t-set="bkey" t-value="'summary'"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="t('summaryHint')"/>
             <t t-call="ea_audit_papers.PaperBox"/>
+            <p class="eap-muted eap-small" t-if="isLegacy('summary')" data-eap="legacy-summary" t-esc="t('legacySummary')"/>
         </div>
     </t>
     <t t-else="">
@@ -469,6 +470,7 @@
            data-eap="standard-conclusion" t-on-click.prevent="() => this.useStandardConclusion()" t-esc="t('useStandardConclusion')"/>
         <t t-set="bkey" t-value="'conclusion'"/><t t-set="amber" t-value="false"/><t t-set="hint" t-value="pick(def, 'conclStd') or t('conclusionHint')"/>
         <t t-call="ea_audit_papers.PaperBox"/>
+        <p class="eap-muted eap-small" t-if="isLegacy('conclusion')" data-eap="legacy-conclusion" t-esc="t('legacyConclusion')"/>
     </div>
     <div class="eap-box-card" t-if="!converted or val('key_findings').trim()">
         <b t-esc="t('keyFindings')"/>

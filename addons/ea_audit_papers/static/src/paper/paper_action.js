@@ -636,7 +636,17 @@ export class PaperAction extends Component {
     // ---- answers -------------------------------------------------------
 
     val(key) {
+        if (this.isLegacy(key)) {
+            return this.state.payload.legacy_values[key];
+        }
         return this.state.values[key] ?? "";
+    }
+
+    /** A paper concluded before its conversion: its empty new box shows the old answers until
+     *  the preparer writes there (read only on the server, nothing saved by showing it). */
+    isLegacy(key) {
+        const shown = (this.state.payload && this.state.payload.legacy_values) || {};
+        return !(key in this.state.values) && Boolean(shown[key]);
     }
 
     set(key, value) {

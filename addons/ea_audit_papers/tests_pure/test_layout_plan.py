@@ -128,7 +128,8 @@ def test_p41_holds_the_control_environment_of_p42():
         assert "q_%s" % key in p41
     # P4.1's own answers keep their keys
     assert {"p_risk_process", "p_deficiencies", "q_all_components", "q_communicated"} <= p41
-    assert "P4.2" not in json.dumps(load_definition("P4.1"), ensure_ascii=False)
+    # the reader never sees P4.2; only the merge mark (absorbedFrom) names it, for older files
+    assert "P4.2" not in json.dumps(load_definition("P4.1"), ensure_ascii=False).replace('"absorbedFrom": "P4.2"', "")
     # P4.2 stays readable for the files that hold it
     assert not is_converted(load_definition("P4.2"))
 

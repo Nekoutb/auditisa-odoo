@@ -36,7 +36,8 @@
       ],
       "stdEn": "Values communicated and applied; answers corroborated by observation.",
       "stdFr": "Valeurs communiquées et appliquées ; réponses corroborées par l'observation.",
-      "sourceHint": "Code of conduct"
+      "sourceHint": "Code of conduct",
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "oversight",
@@ -53,7 +54,8 @@
       ],
       "stdEn": "The board meets regularly and examines the accounts; minutes read.",
       "stdFr": "Le conseil se réunit régulièrement et examine les comptes ; procès-verbaux lus.",
-      "sourceHint": "Minutes of the year"
+      "sourceHint": "Minutes of the year",
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "structure",
@@ -64,7 +66,8 @@
       "isa": "ISA 315 ¶21(a)",
       "stdEn": "Authority assigned and incompatible duties segregated.",
       "stdFr": "Pouvoirs attribués et tâches incompatibles séparées.",
-      "sourceHint": "Organisation chart"
+      "sourceHint": "Organisation chart",
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "competence",
@@ -75,7 +78,8 @@
       "isa": "ISA 315 ¶21(a)",
       "stdEn": "Finance staff competent for the reporting required; no key departure.",
       "stdFr": "Personnel financier compétent pour l'information à produire ; aucun départ clé.",
-      "sourceHint": "Meeting with management"
+      "sourceHint": "Meeting with management",
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "pressure",
@@ -92,7 +96,8 @@
       ],
       "stdEn": "No incentive or pressure to misstate identified.",
       "stdFr": "Aucune incitation ni pression à fausser les comptes identifiée.",
-      "sourceHint": "Meeting with management"
+      "sourceHint": "Meeting with management",
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "risk_process",
@@ -249,7 +254,8 @@
       "fr": "La direction a instauré et maintenu une culture d'honnêteté et de comportement éthique.",
       "tasks": [
        "tone"
-      ]
+      ],
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "oversight",
@@ -258,7 +264,8 @@
       "tasks": [
        "oversight"
       ],
-      "vs": false
+      "vs": false,
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "segregation",
@@ -267,7 +274,8 @@
       "tasks": [
        "structure"
       ],
-      "vs": false
+      "vs": false,
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "competence",
@@ -276,7 +284,8 @@
       "tasks": [
        "competence"
       ],
-      "vs": false
+      "vs": false,
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "no_pressure",
@@ -284,7 +293,8 @@
       "fr": "Aucune incitation ou pression identifiée ne pousserait la direction à présenter des comptes inexacts.",
       "tasks": [
        "pressure"
-      ]
+      ],
+      "absorbedFrom": "P4.2"
      },
      {
       "key": "foundation",
@@ -295,7 +305,8 @@
        "oversight",
        "structure",
        "competence"
-      ]
+      ],
+      "absorbedFrom": "P4.2"
      }
     ]
    },
@@ -313,7 +324,8 @@
       "profiles": [
        "complex",
        "non_complex"
-      ]
+      ],
+      "absorbedFrom": "P4.2"
      }
     ]
    }

@@ -137,9 +137,10 @@ def required_keys(definition, values=None):
         if kind == "fields":
             out.extend(_section_fields(section, values))
         elif kind == "proc":
-            out.extend(proc_key(p["key"]) for p in section["procs"])
+            # ``_optional``: what a paper concluded before its conversion was never asked
+            out.extend(proc_key(p["key"]) for p in section["procs"] if not p.get("_optional"))
         elif kind == "yn":
-            out.extend(yn_key(i["key"]) for i in section["items"])
+            out.extend(yn_key(i["key"]) for i in section["items"] if not i.get("_optional"))
     out.extend(concl_key(i) for i in range(len(definition.get("conclEn") or [])))
     if is_converted(definition):
         if definition.get("_summary"):

@@ -15,6 +15,9 @@ from ..services import (
     exception_refusal,
     is_converted,
     isa_links,
+    legacy_entry,
+    legacy_paper,
+    legacy_values,
     load_isa_links,
     procs_of,
     shape,
@@ -29,6 +32,7 @@ from ..services import (
     load_definition,
     missing_parts,
     norm_text,
+    paper_complete,
     paper_missing,
     paper_progress,
     persons_on_save,
@@ -39,7 +43,13 @@ from ..services import (
 from ..services.completeness import EMBED_ONLY_PAPERS, EQR_DECISION, eqr_decided
 from ..services.layout import items_of
 from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
-from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
+from odoo.addons.ea_audit_core.services.file_scope import (
+    MERGED_2026_11_17,
+    MERGED_INTO,
+    RETIRED_CODES,
+    SCOPE_CURRENT,
+    trigger_target,
+)
 
 from .engagement import FACT_PAPERS
 from .errors import paper_error
@@ -365,11 +375,67 @@ class Paper(models.Model):
             return self._ea_direction_auto_values()
         return {}
 
-    def _ea_gauge_values(self):
+    def _ea_gauge_values(self, definition=None):
         """What completeness reads: the answers, and the auto values that fold a block (a team
-        of one on S6.1). Auto keys are never required, so they cannot fill a gap themselves."""
+        of one on S6.1). Auto keys are never required, so they cannot fill a gap themselves.
+        A paper concluded before its conversion reads its old conclusion in the empty new box
+        (_ea_legacy_state): read time only, nothing is written."""
         self.ensure_one()
-        return {**self._ea_values(), **self._ea_auto_values()}
+        _legacy, fallback = self._ea_legacy_state(definition)
+        return {**self._ea_values(), **self._ea_auto_values(), **fallback}
+
+    # ------------------------------------------------------------------
+    # Existing files (owner's condition of 2026-11-17: a paper complete before stays complete)
+    # ------------------------------------------------------------------
+
+    def _ea_legacy_file(self):
+        """A file still on the scope it was opened with (before 2026-11-17)."""
+        self.ensure_one()
+        return self.sudo().engagement_id._ea_scope_version() < SCOPE_CURRENT
+
+    def _ea_legacy_state(self, definition=None):
+        """(legacy, fallback): whether this paper was concluded on the text it had before its
+        conversion, and what its empty new boxes (conclusion, summary) show and count from the
+        old answers. The old statements are resolved for this file's edition and legal form."""
+        self.ensure_one()
+        entry = legacy_entry(self.code)
+        if not entry:
+            return False, {}
+        definition = definition if definition is not None else self._ea_resolved()
+        values = self._ea_values()
+        if not legacy_paper(definition, entry, values, self._ea_legacy_file()):
+            return False, {}
+        engagement = self.sudo().engagement_id
+        statements = resolve_definition(
+            {"conclEn": entry.get("conclEn") or [], "conclFr": entry.get("conclFr") or []},
+            engagement.standards_edition, engagement.client_id.legal_form,
+        )
+        lang = "fr" if (self.env.lang or "").startswith("fr") else "en"
+        return True, legacy_values(definition, statements, values, lang)
+
+    def _ea_hidden_sources(self):
+        """The merged tasks (P4.2, C4.3, C5.8) whose parts this file does not show in the paper
+        that took them over: the task is still on the file, so its own paper keeps the work, or
+        the file keeps the scope it was opened with. The other files show them (owner's table
+        of 2026-11-17)."""
+        self.ensure_one()
+        sources = {code for code, target in MERGED_INTO.items() if target == self.code and code in MERGED_2026_11_17}
+        if not sources:
+            return set()
+        if self._ea_legacy_file():
+            return sources
+        on_file = self.env["ea.audit.file.item"].sudo().search([
+            ("engagement_id", "=", self.sudo().engagement_id.id), ("code", "in", sorted(sources)),
+            ("conditional", "=", False),
+        ])
+        return set(on_file.mapped("code"))
+
+    def _ea_complete(self):
+        """Whether the paper is complete as this file documents it (depth, merged parts, a
+        paper concluded before its conversion): what the report gates read."""
+        self.ensure_one()
+        definition, _hooks = self._ea_shaped()
+        return paper_complete(definition, self._ea_gauge_values(definition))
 
     def _ea_direction_auto_values(self):
         """S6.1 Part E (owner's decision of 2026-11-16, S6.2 merged): whether the partner took
@@ -528,9 +594,13 @@ class Paper(models.Model):
         paper = self.sudo()
         definition = paper._ea_resolved()
         hooks = self._ea_hook_state(definition)
+        legacy, _fallback = paper._ea_legacy_state(definition)
+        entry = legacy_entry(paper.code) if legacy else None
         shaped = shape(
-            definition, paper.code, paper.engagement_id.complexity, paper._ea_gauge_values(),
+            definition, paper.code, paper.engagement_id.complexity, paper._ea_gauge_values(definition),
             hooks["warnings"], hooks["done"],
+            hidden_sources=paper._ea_hidden_sources(),
+            legacy_keys=entry["keys"] if entry else None,
         )
         return shaped, hooks
 
@@ -580,9 +650,17 @@ class Paper(models.Model):
             elif values[EQR_DECISION] == "none" and not engagement._ea_eqr_seated():
                 engagement._ea_set_task_active(EQR_PAPER, False)
         if self.code == "S6.1":
+            scope = engagement._ea_scope_version()
             for key, code in S61_TRIGGERS.items():
-                if key in values:
+                if key not in values:
+                    continue
+                target = trigger_target(code, scope)
+                if target == code:
                     engagement._ea_set_task_active(code, values[key] == "yes")
+                elif values[key] == "yes":
+                    # P4.2 merged into P4.1 (2026-11-17): Yes brings P4.1's control environment; No
+                    # never takes P4.1 off, it holds the rest of internal control
+                    engagement._ea_ensure_task(target)
         if self.code in FACT_PAPERS:
             engagement._ea_apply_scope_facts()
 
@@ -795,7 +873,8 @@ class Paper(models.Model):
         definition, hooks = paper.with_env(env)._ea_shaped()
         converted = is_converted(definition)
         values = paper._ea_values()
-        gauge = paper._ea_gauge_values()
+        gauge = paper._ea_gauge_values(definition)
+        _legacy, legacy_shown = paper._ea_legacy_state(definition)
         readonly_code = False
         if engagement._ea_is_archived():
             readonly_code = "archived"
@@ -833,6 +912,9 @@ class Paper(models.Model):
             "readonly_reason": rule_error(env, readonly_code).args[0] if readonly_code else False,
             "locked_keys": self.with_env(env)._ea_locked_keys(),
             "auto_values": paper._ea_auto_values(),
+            # a paper concluded before its conversion: what its empty new boxes show (read only
+            # until the preparer writes there; nothing is saved by showing it)
+            "legacy_values": legacy_shown,
             "embed_only": paper.code in EMBED_ONLY_PAPERS and not converted,
             "layout": {
                 "converted": converted,

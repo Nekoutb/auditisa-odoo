@@ -231,8 +231,8 @@
      {
       "key": "assess_control_env",
       "kind": "select",
-      "labelEn": "Detailed control-environment assessment (brings P4.2 onto the file)",
-      "labelFr": "Évaluation détaillée de l'environnement de contrôle (ajoute P4.2 au dossier)",
+      "labelEn": "Detailed control-environment assessment (done in P4.1; in P4.2 on older files)",
+      "labelFr": "Évaluation détaillée de l'environnement de contrôle (faite en P4.1 ; en P4.2 sur les dossiers plus anciens)",
       "options": [
        {
         "value": "yes",

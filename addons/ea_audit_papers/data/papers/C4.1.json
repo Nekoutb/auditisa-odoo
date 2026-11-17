@@ -73,7 +73,8 @@
       "sourceHint": "Review notes",
       "fieldKeys": [
        "points_list"
-      ]
+      ],
+      "absorbedFrom": "C4.3"
      },
      {
       "key": "points_clear",
@@ -90,7 +91,8 @@
       ],
       "stdEn": "Each point is cleared by evidence filed and cross-referred to its working paper.",
       "stdFr": "Chaque point est levé par un élément classé et renvoyé à sa feuille de travail.",
-      "sourceHint": "Working papers"
+      "sourceHint": "Working papers",
+      "absorbedFrom": "C4.3"
      },
      {
       "key": "outstanding",
@@ -263,7 +265,8 @@
       "profiles": [
        "complex",
        "non_complex"
-      ]
+      ],
+      "absorbedFrom": "C4.3"
      }
     ]
    }

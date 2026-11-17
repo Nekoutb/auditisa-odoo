@@ -105,3 +105,14 @@ def test_a_file_of_the_older_scope_keeps_its_rule():
     assert "C4.3" in scope("complex", version=file_scope.SCOPE_LEGACY)
     assert file_scope.retired_codes(file_scope.SCOPE_LEGACY) == file_scope.RETIRED_2026_11_16
     assert file_scope.retired_codes(None) == file_scope.RETIRED_2026_11_16
+
+
+def test_s61_control_environment_brings_p41_on_a_current_file():
+    """P4.2 merged into P4.1 (owner's table of 2026-11-17): S6.1's detailed control-environment
+    assessment brings P4.1's control environment on a file of the current scope, P4.2 on an older one."""
+    assert file_scope.trigger_target("P4.2", file_scope.SCOPE_CURRENT) == "P4.1"
+    assert file_scope.trigger_target("P4.2", file_scope.SCOPE_LEGACY) == "P4.2"
+    for code in ("P4.3", "S5.1", "S5.2", "S5.3"):
+        assert file_scope.trigger_target(code, file_scope.SCOPE_CURRENT) == code
+    assert file_scope.trigger_target("C5.8", file_scope.SCOPE_CURRENT) == "E6.3"
+    assert file_scope.trigger_target("C4.3", file_scope.SCOPE_CURRENT) == "C4.1"

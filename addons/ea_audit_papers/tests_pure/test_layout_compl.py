@@ -149,7 +149,8 @@ def test_c41_holds_the_open_points_of_c43():
     definition = paper_for("C4.1", "current", "SA")
     keys = [p["key"] for p in procs(definition)]
     assert keys.index("signoffs") < keys.index("points") < keys.index("points_clear") < keys.index("outstanding")
-    assert "C4.3" not in json.dumps(definition, ensure_ascii=False)
+    # the reader never sees C4.3; only the merge mark (absorbedFrom) names it, for older files
+    assert "C4.3" not in json.dumps(definition, ensure_ascii=False).replace('"absorbedFrom": "C4.3"', "")
     cleared = next(i for i in items(definition) if i["key"] == "cleared")
     assert cleared["autoCheck"] == "review_notes_cleared"
     # the open-points list is a box nobody has to fill, shown inside its task

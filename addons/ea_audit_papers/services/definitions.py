@@ -102,6 +102,17 @@ def group_siblings(code):
 
 
 @lru_cache(maxsize=1)
+def _legacy_table():
+    return _read(os.path.join(DATA_DIR, "papers_legacy_2026_11_17.json"))["papers"]
+
+
+def legacy_entry(code):
+    """What a paper converted to the layout of 2026-11-17 asked before: its conclusion statements
+    and its answer keys (services/layout.py legacy_*). None for any other paper."""
+    return _legacy_table().get(code)
+
+
+@lru_cache(maxsize=1)
 def load_isa_links():
     """data/isa_links.json: a standard's label and the IAASB page of its latest version."""
     return _read(os.path.join(os.path.dirname(_PAPERS_DIR), "isa_links.json"))["standards"]

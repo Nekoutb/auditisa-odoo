@@ -159,6 +159,8 @@ export const LABELS = {
     introVerySimple: _t("Tick each task; record the work in one summary. If a warning sign appears, the paper opens in full documentation."),
     summary: _t("Summary of work performed"),
     summaryHint: _t("What was done, with whom, the documents seen and the result"),
+    legacySummary: _t("Read from the task answers recorded before the new layout. Edit it, or leave it as it is."),
+    legacyConclusion: _t("Read from the conclusion recorded before the new layout. Edit it, or leave it as it is."),
     noTasks: _t("No task on this paper."),
     doneInTool: _t("Done in the tool"),
     checklistAnswered: _t("answered"),

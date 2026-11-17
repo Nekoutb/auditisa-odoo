@@ -12,7 +12,6 @@ from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.file_scope import FACT_CODES, SCOPE_CURRENT
 from odoo.addons.ea_audit_core.services.signoff_rules import at_least, can_partner_signoff
-from odoo.addons.ea_audit_papers.services.completeness import paper_complete
 from odoo.addons.ea_audit_tools.models.tool_record import french_date, is_french
 from odoo.addons.ea_audit_tools.services.materiality_model import uncorrected_misstatement_threshold
 from odoo.addons.ea_audit_tools.services.retention import RETENTION_MAX_YEARS, RETENTION_MIN_YEARS, due_for_destruction, retention_until_sql
@@ -735,7 +734,8 @@ class Engagement(models.Model):
 
     def _ea_paper_is_complete(self, code):
         paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", self.id), ("code", "=", code)], limit=1)
-        return bool(paper) and paper_complete(paper._ea_resolved(), paper._ea_values())
+        # as the file documents it: depth, merged parts, a paper concluded before its conversion
+        return bool(paper) and paper._ea_complete()
 
     def _ea_open_control_rows(self):
         """Selected controls not concluded on: design not evaluated, or operating test not recorded,

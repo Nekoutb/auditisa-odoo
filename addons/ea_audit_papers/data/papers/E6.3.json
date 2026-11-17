@@ -57,7 +57,8 @@
       "stdFr": "Les capitaux propres sont supérieurs à la moitié du capital social.",
       "sourceHint": "Pre-filled from the trial balance",
       "en": "Compare equity, the result of the year included, with half of the share capital, and establish whether the threshold was already crossed at the prior year end and what was decided then.",
-      "fr": "Comparer les capitaux propres, résultat de l'exercice compris, à la moitié du capital social, et établir si le seuil était déjà franchi à la clôture précédente et la décision alors prise."
+      "fr": "Comparer les capitaux propres, résultat de l'exercice compris, à la moitié du capital social, et établir si le seuil était déjà franchi à la clôture précédente et la décision alors prise.",
+      "absorbedFrom": "C5.8"
      },
      {
       "key": "capital_procedure",
@@ -78,7 +79,8 @@
       "stdFr": "Les capitaux propres ne sont pas inférieurs à la moitié du capital social : aucune procédure légale ne s'applique.",
       "sourceHint": "Pre-filled from the trial balance",
       "en": "Where equity is below half of the share capital, confirm the extraordinary [[lf.meeting]] was convened by the [[lf.board]] within the four months following the approval of the accounts showing the loss, obtain its decision — early dissolution or continuation — and confirm it was published and filed with the trade register; where continuation was decided, establish the regularisation deadline (the end of the second financial year after the loss) and the plan to meet it. Record the effect on our report and whether the alert procedure (C5.5) is engaged.",
-      "fr": "Lorsque les capitaux propres sont inférieurs à la moitié du capital social, vérifier la convocation de l'[[lf.meeting]] extraordinaire par l'[[lf.board]] dans les quatre mois suivant l'approbation des comptes ayant fait apparaître la perte, obtenir sa décision — dissolution anticipée ou poursuite de l'activité — et vérifier sa publication et son dépôt au RCCM ; si la poursuite a été décidée, établir l'échéance de régularisation (la clôture du deuxième exercice suivant la perte) et le plan pour la respecter. Consigner l'effet sur notre rapport et l'engagement éventuel de la procédure d'alerte (C5.5)."
+      "fr": "Lorsque les capitaux propres sont inférieurs à la moitié du capital social, vérifier la convocation de l'[[lf.meeting]] extraordinaire par l'[[lf.board]] dans les quatre mois suivant l'approbation des comptes ayant fait apparaître la perte, obtenir sa décision — dissolution anticipée ou poursuite de l'activité — et vérifier sa publication et son dépôt au RCCM ; si la poursuite a été décidée, établir l'échéance de régularisation (la clôture du deuxième exercice suivant la perte) et le plan pour la respecter. Consigner l'effet sur notre rapport et l'engagement éventuel de la procédure d'alerte (C5.5).",
+      "absorbedFrom": "C5.8"
      },
      {
       "key": "assessment",
@@ -331,7 +333,8 @@
        "capital"
       ],
       "vs": false,
-      "autoCheck": "going_concern_equity"
+      "autoCheck": "going_concern_equity",
+      "absorbedFrom": "C5.8"
      },
      {
       "key": "capital_procedure",
@@ -340,7 +343,8 @@
       "fr": "Lorsque les capitaux propres sont inférieurs à la moitié du capital social, la procédure légale a été respectée : assemblée tenue dans les délais, décision déposée et publiée, échéance de régularisation non dépassée.",
       "tasks": [
        "capital_procedure"
-      ]
+      ],
+      "absorbedFrom": "C5.8"
      }
     ]
    },

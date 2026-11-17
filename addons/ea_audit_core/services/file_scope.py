@@ -83,6 +83,15 @@ def retired_codes(scope=SCOPE_CURRENT):
     return RETIRED_CODES if (scope or SCOPE_LEGACY) >= SCOPE_CURRENT else RETIRED_2026_11_16
 
 
+def trigger_target(code, scope=SCOPE_CURRENT):
+    """The task a trigger brings onto a file of ``scope``. A task merged into another paper brings
+    that paper on the current scope (S6.1's detailed control-environment assessment: P4.1, where
+    the control environment is now assessed); an older file still gets the task itself."""
+    if code in retired_codes(scope):
+        return MERGED_INTO.get(code, code)
+    return code
+
+
 def task_applies_to_form(code, form, scope=SCOPE_LEGACY):
     if (scope or SCOPE_LEGACY) >= SCOPE_CURRENT and code in SA_ONLY:
         # an unknown form keeps the task: the partner marks it not applicable with a reason

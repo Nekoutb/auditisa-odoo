@@ -27,12 +27,22 @@ class Engagement(models.Model):
         paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", self.id), ("code", "=", code)], limit=1)
         return paper._ea_values() if paper else {}
 
+    def _ea_paper_gauge(self, code):
+        """The answers of a paper with what a paper concluded before its conversion reads in its
+        empty new boxes (paper._ea_legacy_state): a P1.1 complete before stays complete."""
+        self.ensure_one()
+        paper = self.env["ea.audit.paper"].sudo().search([("engagement_id", "=", self.id), ("code", "=", code)], limit=1)
+        if not paper:
+            return {}
+        _legacy, fallback = paper._ea_legacy_state()
+        return {**paper._ea_values(), **fallback}
+
     def _ea_p11_form_state(self):
         """acceptancePaperVerdict. Files on Odoo have no legacy P1.1 form; a migration that
         loads one extends this."""
         self.ensure_one()
         verdict = acceptance_verdict(
-            paper_for("P1.1"), paper_for("P1.2"), self._ea_paper_values("P1.1"), self._ea_paper_values("P1.2"),
+            paper_for("P1.1"), paper_for("P1.2"), self._ea_paper_gauge("P1.1"), self._ea_paper_gauge("P1.2"),
             predecessor_required=self._ea_predecessor_required(),
         )
         return {

@@ -32,6 +32,11 @@ fields[i] (a fields section):
 sections[i] of kind yn:
     task                           a procedure key: the block is that task's checklist, read inside
                                    the task in folding groups (E6.10), not in the conclusion
+procs[i], items[i], fields[i]:
+    absorbedFrom                   the code of a task merged into this paper on 2026-11-17 (P4.2 into
+                                   P4.1, C4.3 into C4.1, C5.8 into E6.3): the part is hidden on a
+                                   file that still carries that task, or keeps the scope it was
+                                   opened with, so the work stays where it was done
 items[i]:
     vs                             false: dropped on a very simple engagement (default true)
     autoCheck                      hook name: "checked by the tool"
@@ -42,6 +47,13 @@ Answer keys added for converted papers (existing keys never change):
     p_<k>_src   the source of a "No exceptions noted"
     summary     "Summary of work performed" (very simple)
     conclusion  the conclusion text
+
+Existing files (owner's condition of 2026-11-17: a paper complete before stays complete). A paper
+concluded before its conversion holds its conclusion under the old keys (c_0, c_1...), which the
+converted definition no longer asks. Read time only, no answer is rewritten: ``legacy_paper`` tells
+such a paper, ``legacy_values`` shows and counts the old conclusion as the conclusion (and the task
+answers as the summary of a very simple file) while the new box is empty, and ``shape`` with
+``legacy_keys`` does not require what the conversion added to the paper.
 """
 
 import copy
@@ -129,16 +141,70 @@ def in_profile(entry, complexity):
     return not profiles or wanted_depth(complexity) in profiles
 
 
-def shape(definition, code, complexity, values=None, warnings=(), tool_done=None):
+LIST_OF_KIND = {"proc": "procs", "yn": "items", "fields": "fields"}
+
+
+def hide_absorbed(definition, hidden_sources):
+    """Drops, in place, the parts a merged task brought into this paper (``absorbedFrom``) when
+    that task is in ``hidden_sources``, and the references of the statements to them."""
+    hidden_sources = set(hidden_sources or ())
+    if not hidden_sources:
+        return definition
+    keep = lambda entry: entry.get("absorbedFrom") not in hidden_sources  # noqa: E731
+    gone = set()
+    for section in definition.get("sections") or []:
+        kind = section["kind"]
+        if kind == "proc":
+            gone.update(proc["key"] for proc in section["procs"] if not keep(proc))
+        if kind in LIST_OF_KIND:
+            section[LIST_OF_KIND[kind]] = [entry for entry in section[LIST_OF_KIND[kind]] if keep(entry)]
+    if definition.get("fields"):
+        definition["fields"] = [field for field in definition["fields"] if keep(field)]
+    for item in items_of(definition):
+        if item.get("tasks"):
+            item["tasks"] = [key for key in item["tasks"] if key not in gone]
+    definition["sections"] = [
+        section for section in definition.get("sections") or []
+        if section["kind"] not in LIST_OF_KIND or section[LIST_OF_KIND[section["kind"]]]
+    ]
+    return definition
+
+
+def _legacy_optional(definition, legacy_keys):
+    """On a paper concluded before its conversion, what the conversion added is offered, not
+    required: the paper was complete on the text it was worked on."""
+    for section in definition.get("sections") or []:
+        if section["kind"] == "proc":
+            for proc in section["procs"]:
+                if "p_%s" % proc["key"] not in legacy_keys:
+                    proc["_optional"] = True
+        elif section["kind"] == "yn":
+            for item in section["items"]:
+                if "q_%s" % item["key"] not in legacy_keys:
+                    item["_optional"] = True
+        elif section["kind"] == "fields":
+            for field in section["fields"]:
+                if field.get("key") and field["key"] not in legacy_keys:
+                    field["optional"] = True
+
+
+def shape(definition, code, complexity, values=None, warnings=(), tool_done=None, hidden_sources=(), legacy_keys=None):
     """The resolved definition as this engagement documents it, annotated for completeness and
     the renderer. Returns a new object; ``definition`` is left as it is.
 
     ``tool_done`` maps a procedure key to {"done": bool, "result": text} from the tool hooks.
+    ``hidden_sources``: the merged tasks whose parts this file does not show (``hide_absorbed``).
+    ``legacy_keys``: the answer keys the paper had before its conversion, for a paper concluded
+    on that text (``legacy_paper``); what is not among them is not required.
+
     Annotations: ``_depth``, ``_depthReason``, ``_profile``, ``_summary`` on the paper;
-    ``_mode`` (full, exception, tick, tool) and ``_tool`` on each procedure."""
+    ``_mode`` (full, exception, tick, tool) and ``_tool`` on each procedure; ``_optional`` on a
+    procedure or statement a legacy paper does not require."""
     if not is_converted(definition):
         return definition
-    out = copy.deepcopy(definition)
+    out = hide_absorbed(copy.deepcopy(definition), hidden_sources)
+    if legacy_keys is not None:
+        _legacy_optional(out, set(legacy_keys))
     depth, reason = depth_of(out, code, complexity, values, warnings)
     tool_done = tool_done or {}
     out["_depth"] = depth
@@ -169,6 +235,70 @@ def shape(definition, code, complexity, values=None, warnings=(), tool_done=None
                 item for item in section["items"]
                 if in_profile(item, complexity) and not (depth == VERY_SIMPLE and item.get("vs") is False)
             ]
+    return out
+
+
+LEGACY_WORDS = {
+    "en": {"yes": "Yes", "no": "No", "na": "Not applicable"},
+    "fr": {"yes": "Oui", "no": "Non", "na": "Non applicable"},
+}
+
+
+def _legacy_answered(values, index):
+    return bool(_clean(values.get("c_%d" % index)) or _clean(values.get("c_%d_x" % index)))
+
+
+def legacy_paper(definition, entry, values, legacy_file=False):
+    """Whether a converted paper was concluded before its conversion: an old conclusion key the
+    definition no longer asks holds an answer. ``entry`` is the paper's line of
+    data/papers_legacy_2026_11_17.json. A paper that kept its statements (P1.1) is read so only
+    on a file still on the scope it was opened with (``legacy_file``), while its new conclusion
+    box is empty."""
+    if not entry or not is_converted(definition):
+        return False
+    values = values or {}
+    asked = len(definition.get("conclEn") or [])
+    count = max(len(entry.get("conclEn") or []), asked)
+    if any(_legacy_answered(values, index) for index in range(asked, count)):
+        return True
+    return bool(legacy_file and not _clean(values.get(CONCLUSION_KEY)) and any(
+        _legacy_answered(values, index) for index in range(asked)
+    ))
+
+
+def legacy_values(definition, entry, values, lang="en"):
+    """What a legacy paper shows and counts while its new boxes are empty: the conclusion it
+    recorded (each old statement and its answer) and, for the summary of a very simple file,
+    the task answers. ``entry`` carries the old statements, already resolved for the file."""
+    values = values or {}
+    words = LEGACY_WORDS.get(lang) or LEGACY_WORDS["en"]
+    suffix = "Fr" if lang == "fr" else "En"
+    out = {}
+    if not _clean(values.get(CONCLUSION_KEY)):
+        texts = entry.get("concl" + suffix) or entry.get("conclEn") or []
+        lines = []
+        for index, text in enumerate(texts):
+            if not _legacy_answered(values, index):
+                continue
+            answer = _clean(values.get("c_%d" % index))
+            why = _clean(values.get("c_%d_x" % index))
+            line = "%s %s" % (text, words.get(answer, answer)) if answer else text
+            lines.append("%s: %s" % (line, why) if why else line)
+        if lines:
+            out[CONCLUSION_KEY] = "\n".join(lines)
+    if not _clean(values.get(SUMMARY_KEY)):
+        lines = []
+        for proc in procs_of(definition):
+            key = proc["key"]
+            if _clean(values.get("p_%s_na" % key)) == "na":
+                text = "%s: %s" % (words["na"], _clean(values.get("p_%s_x" % key)))
+            else:
+                text = _clean(values.get("p_%s" % key))
+            if text:
+                title = proc.get("short" + suffix) or proc.get("shortEn") or proc.get(suffix.lower()) or proc.get("en") or key
+                lines.append("%s: %s" % (title, text))
+        if lines:
+            out[SUMMARY_KEY] = "\n".join(lines)
     return out
 
 
