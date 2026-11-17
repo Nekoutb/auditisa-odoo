@@ -812,8 +812,8 @@ msgstr "Enregistrez d'abord le serveur."
 #. module: ea_audit_timesheet
 #. odoo-javascript
 #: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
-msgid "Send it to this person yourself. They choose their own password: none is created or sent. The link expires after 6 days."
-msgstr "Transmettez-le vous-même à cette personne. Elle choisit son mot de passe : aucun n'est créé ni envoyé. Le lien expire après 6 jours."
+msgid "Send it to this person yourself. They choose their own password: none is created or sent. The link works once and expires after 72 hours."
+msgstr "Transmettez-le vous-même à cette personne. Elle choisit son mot de passe : aucun n'est créé ni envoyé. Le lien ne sert qu'une fois et expire après 72 heures."
 
 #. module: ea_audit_timesheet
 #. odoo-javascript
@@ -1481,3 +1481,52 @@ msgstr "Saisir du temps sur cette mission"
 #: code:addons/ea_audit_timesheet/models/sheet.py:0
 msgid "Your hours and the team's on the engagements where you are the quality reviewer"
 msgstr "Vos heures et celles de l'équipe sur les missions dont vous êtes le réviseur qualité"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Also add to engagement"
+msgstr "Ajouter aussi à la mission"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "No engagement"
+msgstr "Aucune mission"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Team role"
+msgstr "Rôle dans l'équipe"
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+msgid "Send it to this person yourself. They choose a new password: none is created or sent. The link works once and expires after 24 hours."
+msgstr "Transmettez-le vous-même à cette personne. Elle choisit un nouveau mot de passe : aucun n'est créé ni envoyé. Le lien ne sert qu'une fois et expire après 24 heures."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/js/users.js:0
+msgid "Also invited to %s. They accept it after their first sign-in."
+msgstr "Invité(e) aussi à %s. La personne accepte après sa première connexion."
+
+#. module: ea_audit_timesheet
+#. odoo-javascript
+#: code:addons/ea_audit_timesheet/static/src/xml/timesheet.xml:0
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_firm_log__kind__password_link_issued
+msgid "New password link"
+msgstr "Nouveau lien de mot de passe"
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/common.py:0
+msgid "Choose a role on the engagement team."
+msgstr "Choisissez un rôle dans l'équipe de la mission."
+
+#. module: ea_audit_timesheet
+#. odoo-python
+#: code:addons/ea_audit_timesheet/models/firm_admin.py:0
+msgid "%(role)s; invited to %(engagement)s"
+msgstr "%(role)s ; invité(e) à %(engagement)s"

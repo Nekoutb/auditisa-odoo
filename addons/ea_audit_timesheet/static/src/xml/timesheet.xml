@@ -246,13 +246,26 @@
                         <option t-foreach="state.data.roles" t-as="role" t-key="role.key" t-att-value="role.key" t-esc="role.label"/>
                     </select>
                 </label>
+                <label t-if="state.data.engagements.length"><small>Also add to engagement</small>
+                    <select t-model="state.invite.engagement">
+                        <option value="">No engagement</option>
+                        <option t-foreach="state.data.engagements" t-as="eng" t-key="eng.id" t-att-value="eng.id" t-esc="eng.name"/>
+                    </select>
+                </label>
+                <label t-if="state.invite.engagement"><small>Team role</small>
+                    <select t-model="state.invite.teamRole">
+                        <option t-foreach="state.data.team_roles" t-as="role" t-key="role.key" t-att-value="role.key" t-esc="role.label"/>
+                    </select>
+                </label>
                 <button type="button" class="ea-btn" t-on-click="invite">Invite</button>
             </div>
             <div class="ea-ts-alert ea-ts-alert-green ea-ts-link" t-if="state.link">
                 <div>
-                    <b>Invitation link</b>
+                    <b t-if="state.linkKind === 'password'">New password link</b>
+                    <b t-else="">Invitation link</b>
                     <span class="ea-muted"> <t t-esc="state.linkFor"/></span>
-                    <div class="ea-muted">Send it to this person yourself. They choose their own password: none is created or sent. The link expires after 6 days.</div>
+                    <div class="ea-muted" t-if="state.linkKind === 'password'">Send it to this person yourself. They choose a new password: none is created or sent. The link works once and expires after 24 hours.</div>
+                    <div class="ea-muted" t-else="">Send it to this person yourself. They choose their own password: none is created or sent. The link works once and expires after 72 hours.</div>
                     <code t-esc="state.link"/>
                 </div>
                 <button type="button" class="ea-ts-ghost" t-on-click="copyLink"><t t-if="state.copied">Copied</t><t t-else="">Copy</t></button>
@@ -276,6 +289,7 @@
                             <td class="ea-ts-acts">
                                 <t t-if="!row.technical and !row.is_me">
                                     <button type="button" class="ea-ts-ghost" t-if="row.active and !row.joined" t-on-click="() => this.newLink(row)">New link</button>
+                                    <button type="button" class="ea-ts-ghost" t-if="row.active and row.joined" t-on-click="() => this.passwordLink(row)">New password link</button>
                                     <button type="button" class="ea-ts-ghost" t-if="row.active" t-on-click="() => this.setActive(row, false)">Deactivate</button>
                                     <button type="button" class="ea-ts-ghost" t-else="" t-on-click="() => this.setActive(row, true)">Reactivate</button>
                                 </t>

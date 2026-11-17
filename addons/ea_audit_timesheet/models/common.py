@@ -35,6 +35,7 @@ MESSAGES = {
     "fa-holds-partner-seat": _lt("This person is the engagement partner of a file: transfer that role first."),
     "fa-already-joined": _lt("This person has already activated their account: no invitation link."),
     "fa-user-inactive": _lt("This account is deactivated."),
+    "fa-team-role-invalid": _lt("Choose a role on the engagement team."),
     "fa-project-name": _lt("Give the project a name."),
     "fm-host": _lt("Enter a valid server. Local or private addresses are refused."),
     "fm-port": _lt("Port refused: 25, 465, 587 or 2525."),

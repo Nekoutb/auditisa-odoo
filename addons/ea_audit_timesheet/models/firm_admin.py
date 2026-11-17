@@ -1,12 +1,13 @@
 import ipaddress
 import socket
+from urllib.parse import urlencode
 
 from odoo import SUPERUSER_ID, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import LazyTranslate
 
 from odoo.addons.ea_audit_core.services.email_domains import is_valid_email
-from odoo.addons.ea_audit_core.services.signoff_rules import may_hold_partner_seat
+from odoo.addons.ea_audit_core.services.signoff_rules import TEAM_LADDER, may_hold_partner_seat
 
 from ..services import deadlines
 from .common import refuse
@@ -25,6 +26,11 @@ ROLES = [
 _ROLE_XMLIDS = {key: xmlid for key, _label, xmlid in ROLES}
 _ROLE_LABELS = {key: label for key, label, _xmlid in ROLES}
 _PLUMBING = ("ea_audit_core.group_writer", "ea_audit_core.group_member")
+
+# How long a link lasts. Either works once: signing in changes the last login date the
+# token is signed with (owner, 2026-11-17).
+INVITE_LINK_HOURS = 72
+PASSWORD_LINK_HOURS = 24
 
 MAIL_PORTS = (25, 465, 587, 2525)
 MAIL_ENCRYPTIONS = ("none", "starttls", "ssl")
@@ -96,7 +102,24 @@ class FirmAdmin(models.AbstractModel):
             "roles": [{"key": key, "label": self.env._(label)} for key, label, _xmlid in ROLES],
             "domains": company.ea_allowed_email_domains or "",
             "log": self._ea_fa_log_rows(),
+            "engagements": self._ea_fa_my_engagements(),
+            "team_roles": self._ea_fa_team_roles(),
         }
+
+    @api.model
+    def _ea_fa_my_engagements(self):
+        """The open engagements the administrator may add someone to: those whose team they
+        are on, accepted, as for any team manager. Nobody else's file appears here."""
+        seats = self.env["ea.audit.team.member"].sudo().search([
+            ("user_id", "=", self.env.user.id), ("state", "=", "accepted"), ("team_role", "in", list(TEAM_LADDER)),
+        ])
+        engagements = seats.engagement_id.filtered(lambda e: not e._ea_is_archived())
+        return [{"id": e.id, "name": e.display_name} for e in engagements.sorted("display_name")]
+
+    @api.model
+    def _ea_fa_team_roles(self):
+        labels = dict(self.env["ea.audit.team.member"]._fields["team_role"]._description_selection(self.env))
+        return [{"key": key, "label": labels.get(key, key)} for key in TEAM_LADDER]
 
     @api.model
     def _ea_fa_log_rows(self, limit=15):
@@ -115,15 +138,24 @@ class FirmAdmin(models.AbstractModel):
         ]
 
     @api.model
-    def _ea_fa_link(self, user):
+    def _ea_fa_link(self, user, signup_type="signup"):
         """The way in: a signed, expiring link that sets a password chosen by the
-        person. Nobody else, and no e-mail, ever carries a password."""
-        partner = user.partner_id
-        partner.signup_prepare(signup_type="signup")
-        return partner._get_signup_url()
+        person. Nobody else, and no e-mail, ever carries a password. Odoo's own token
+        (auth_signup), with our validity: an invitation 72 hours, a new password 24."""
+        partner = user.partner_id.sudo()
+        partner.signup_prepare(signup_type=signup_type)
+        hours = PASSWORD_LINK_HOURS if signup_type == "reset" else INVITE_LINK_HOURS
+        token = partner._generate_signup_token(expiration=hours)
+        route = "reset_password" if signup_type == "reset" else "signup"
+        query = urlencode({"db": self.env.cr.dbname, "token": token})
+        return "%s/web/%s?%s" % (partner.get_base_url().rstrip("/"), route, query)
 
     @api.model
-    def ea_fa_invite(self, email, name=None, role="staff"):
+    def ea_fa_invite(self, email, name=None, role="staff", engagement_id=None, team_role=None):
+        """A new firm user and their invitation link. With an engagement, they are also
+        invited to its team by the engagement's own method: that invitation waits for them
+        to accept it and confirm their independence. The administrator must be on that
+        team, as any team manager."""
         self._ea_fa_require()
         email = (email or "").strip().lower()
         if role not in _ROLE_XMLIDS:
@@ -131,6 +163,15 @@ class FirmAdmin(models.AbstractModel):
         if not is_valid_email(email):
             raise refuse(self.env, "fa-email-invalid")
         self.env["ea.audit.engagement"]._ea_assert_member_domain(email)
+        engagement = self.env["ea.audit.engagement"]
+        if engagement_id:
+            team_role = team_role or "staff"
+            if team_role not in TEAM_LADDER:
+                raise refuse(self.env, "fa-team-role-invalid")
+            engagement = engagement.browse(int(engagement_id))
+            # the engagement's own checks, before any account exists
+            engagement._ea_require_team_manager(team_role)
+            engagement._ea_assert_mutable()
         Users = self.env["res.users"].sudo().with_context(active_test=False)
         if Users.search_count([("login", "=", email)]):
             raise refuse(self.env, "fa-user-exists")
@@ -141,8 +182,15 @@ class FirmAdmin(models.AbstractModel):
             "group_ids": [(6, 0, [self.env.ref(_ROLE_XMLIDS[role]).id])],
         })
         user._ea_ts_ensure_employee()
-        self.env["ea.audit.firm.log"]._ea_append("user_invited", user, self._ea_fa_role_label(role))
-        return {"user_id": user.id, "link": self._ea_fa_link(user)}
+        detail = self._ea_fa_role_label(role)
+        if engagement:
+            engagement.invite_team_member(email, team_role, display_name=user.name)
+            detail = self.env._("%(role)s; invited to %(engagement)s", role=detail, engagement=engagement.sudo().display_name)
+        self.env["ea.audit.firm.log"]._ea_append("user_invited", user, detail)
+        return {
+            "user_id": user.id, "link": self._ea_fa_link(user), "hours": INVITE_LINK_HOURS,
+            "engagement": engagement.sudo().display_name if engagement else "",
+        }
 
     @api.model
     def ea_fa_link(self, user_id):
@@ -153,7 +201,18 @@ class FirmAdmin(models.AbstractModel):
         if user.login_date:
             raise refuse(self.env, "fa-already-joined")
         self.env["ea.audit.firm.log"]._ea_append("link_issued", user)
-        return {"link": self._ea_fa_link(user)}
+        return {"link": self._ea_fa_link(user), "hours": INVITE_LINK_HOURS}
+
+    @api.model
+    def ea_fa_password_link(self, user_id):
+        """A new password link for any active firm user, at any time. Shown once to the
+        administrator, who hands it over; the person chooses the new password."""
+        self._ea_fa_require()
+        user = self._ea_fa_target(user_id)
+        if not user.active:
+            raise refuse(self.env, "fa-user-inactive")
+        self.env["ea.audit.firm.log"]._ea_append("password_link_issued", user)
+        return {"link": self._ea_fa_link(user, "reset"), "hours": PASSWORD_LINK_HOURS}
 
     @api.model
     def ea_fa_set_role(self, user_id, role):

@@ -7,6 +7,7 @@ KINDS = [
     ("support_login", "Technical account login"),
     ("user_invited", "Invitation"),
     ("link_issued", "New invitation link"),
+    ("password_link_issued", "New password link"),
     ("role_changed", "Role change"),
     ("user_deactivated", "Deactivation"),
     ("user_reactivated", "Reactivation"),
