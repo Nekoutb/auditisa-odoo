@@ -145,14 +145,18 @@ class TestEngagementProfile(EaAuditCase):
         statutory_only = {"C5.%d" % n for n in range(2, 11)}
         engagement, _action = self.open_new()
         self.conclude(engagement, q2_pie="bank")
-        # C5.2 left the file (owner's decision of 2026-11-16); C5.7 depends on the legal form
-        self.assertLessEqual(statutory_only - {"C5.2", "C5.7"}, self.active_codes(engagement))
-        self.assertNotIn("C5.2", self.active_codes(engagement))
+        # C5.2 left the file (owner's decision of 2026-11-16). Table of 2026-11-17: C5.4, C5.7 and C5.10
+        # follow the legal form (an SA here), C5.5, C5.6 and C5.9 wait for their fact, C5.8 is merged into E6.3
+        self.assertLessEqual({"C5.3", "C5.4", "C5.7", "C5.10"}, self.active_codes(engagement))
+        for code in ("C5.5", "C5.6", "C5.9"):
+            self.assertTrue(self.item(engagement, code).conditional, code)
+        self.assertFalse({"C5.2", "C5.8"} & set(engagement.sudo().file_item_ids.mapped("code")))
         self.Engagement.sudo().search([("name", "=", "Statutory audit 2026")]).write({"name": "done"})
         other, _action = self.open_new(nature="contractual_audit")
         self.conclude(other, q2_pie="bank")
         self.assertEqual(other.nature_kind, "non_statutory")
-        self.assertFalse(statutory_only & self.active_codes(other))
+        # not even waiting for a fact: the OHADA statutory tasks are not on a non-statutory file
+        self.assertFalse(statutory_only & set(other.sudo().file_item_ids.mapped("code")))
 
     def test_an_older_file_s_nature_reads_in_the_two_words_and_keeps_its_value(self):
         kinds = {}

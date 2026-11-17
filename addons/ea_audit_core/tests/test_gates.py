@@ -153,7 +153,9 @@ class TestPlanningGates(GateCase):
         ])
 
     def test_does_not_demand_a_paper_the_file_does_not_hold(self):
-        simple = self.make_engagement(2026, complexity="very_simple")
+        # P2.2 is on every new file since 2026-11-17: a very simple file of the older scope lacks it
+        self.assertTrue(self.item(self.make_engagement(2027, complexity="very_simple"), "P2.2"))
+        simple = self.make_engagement(2026, complexity="very_simple", scope_version=1)
         self.assertFalse(self.item(simple, "P2.2"))
         keys = self.keys(simple.with_user(self.partner).planning_close_gates())
         self.assertNotIn("p22_partner_signed", keys)
