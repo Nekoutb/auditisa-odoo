@@ -91,7 +91,7 @@
       "key": "screening",
       "en": "Screen the entity, its principal owners, directors and key management against sanctions lists, politically exposed person lists and adverse media. Record each search, with the database, date and terms used, and the disposition of every match.",
       "fr": "Cribler l'entité, ses propriétaires, dirigeants et cadres dirigeants au regard des listes de sanctions, des listes de personnes politiquement exposées et des médias défavorables. Consigner chaque recherche et le traitement de chaque correspondance.",
-      "shortEn": "Sanctions and PEP screening",
+      "shortEn": "Sanctions and politically exposed persons",
       "shortFr": "Filtrage sanctions et PPE",
       "isa": "IESBA §320",
       "tipsEn": [

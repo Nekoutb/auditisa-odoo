@@ -3,7 +3,7 @@ done in the tool and the statements it checks, read from the tools that truly ho
 
     P3.2  card plan_analytics      the Analytical procedures (trial balance against the prior year)
           done plan_analytics.compare, plan_analytics.ratios (Financial analysis)
-    P4.3  card plan_it_apps        the IT applications and ITGC tool
+    P4.3  card plan_it_apps        the IT applications and general controls tool
     P5.1  card plan_fraud          the fraud risks of the Risk register
           done plan_fraud.revenue, plan_fraud.override
           check plan_fraud_revenue, plan_fraud_override
@@ -118,17 +118,17 @@ class PaperPlanHooks(models.Model):
         engagement = self.sudo().engagement_id
         apps = engagement.it_application_ids.filtered(lambda app: not app.removed)
         card = {
-            "title": self._ea_pick("From the IT applications and ITGC tool", "Depuis l'outil applications et CGI"),
-            "open_label": self._ea_pick("Open the IT applications and ITGC", "Ouvrir les applications et CGI"),
+            "title": self._ea_pick("From the IT applications and general controls tool", "Depuis l'outil applications et CGI"),
+            "open_label": self._ea_pick("Open the IT applications and general controls", "Ouvrir les applications et CGI"),
             "action": self._ea_open("action_tool_itgc"),
             "note": self._ea_pick(
-                "The applications come from the SCOTs and the tool; this paper adds the spreadsheets, interfaces, risks and reports relied on.",
+                "The applications come from the classes of transactions and the tool; this paper adds the spreadsheets, interfaces, risks and reports relied on.",
                 "Les applications viennent des flux et de l'outil ; ce papier ajoute les tableurs, interfaces, risques et rapports utilisés.",
             ),
         }
         if not apps:
             card["empty"] = self._ea_pick(
-                "No application recorded yet: name them on the SCOTs or in the tool.",
+                "No application recorded yet: name them on the classes of transactions or in the tool.",
                 "Aucune application consignée : les nommer sur les flux ou dans l'outil.",
             )
             return card
@@ -137,13 +137,13 @@ class PaperPlanHooks(models.Model):
         card["facts"] = [
             {"label": self._ea_pick("Applications", "Applications"), "value": str(len(apps))},
             {
-                "label": self._ea_pick("ITGC conclusion (S2.5)", "Conclusion CGI (S2.5)"),
+                "label": self._ea_pick("IT general controls conclusion (S2.5)", "Conclusion CGI (S2.5)"),
                 "value": states.get(engagement.itgc_state) or self._ea_pick("not concluded yet", "pas encore conclue"),
             },
         ]
         card["head"] = [
             self._ea_pick("Application", "Application"), self._ea_pick("Layers", "Couches"),
-            self._ea_pick("SCOTs", "Flux"), self._ea_pick("Strategy", "Stratégie"),
+            self._ea_pick("Classes of transactions", "Flux"), self._ea_pick("Strategy", "Stratégie"),
         ]
         card["rows"] = [
             [app.name, app.layers or "—", app.scot_names or "—", strategies.get(app.strategy) or "—"]

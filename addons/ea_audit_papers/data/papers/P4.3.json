@@ -26,15 +26,15 @@
       "isa": "ISA 315 ¶26(b)",
       "tipsEn": [
        "Include spreadsheets relied on for a figure or a disclosure.",
-       "The ITGC tool lists the applications named on the SCOTs."
+       "The IT applications tool lists those named on the classes of transactions."
       ],
       "tipsFr": [
        "Inclure les tableurs utilisés pour un chiffre ou une note.",
        "L'outil CGI liste les applications citées sur les flux."
       ],
-      "stdEn": "Applications listed in the ITGC tool; no spreadsheet relied on.",
+      "stdEn": "Applications listed in the IT applications tool; no spreadsheet relied on.",
       "stdFr": "Applications listées dans l'outil CGI ; aucun tableur utilisé comme appui.",
-      "sourceHint": "IT applications and ITGC"
+      "sourceHint": "IT applications and general controls"
      },
      {
       "key": "architecture",
@@ -79,7 +79,7 @@
       ],
       "stdEn": "Risks arising from IT identified for each application in scope.",
       "stdFr": "Risques liés à l'informatique identifiés pour chaque application du périmètre.",
-      "sourceHint": "IT applications and ITGC"
+      "sourceHint": "IT applications and general controls"
      },
      {
       "key": "itgc",
@@ -90,7 +90,7 @@
       "isa": "ISA 315 ¶26(c)",
       "stdEn": "General IT controls identified for each risk.",
       "stdFr": "Contrôles généraux identifiés pour chaque risque.",
-      "sourceHint": "IT applications and ITGC"
+      "sourceHint": "IT applications and general controls"
      },
      {
       "key": "ipe",
@@ -161,7 +161,7 @@
      {
       "key": "p_it_specialist",
       "kind": "input",
-      "labelEn": "Basis for the IT-specialist decision: the complexity factors weighed, the scope of any involvement (ITGC testing, data extraction, application controls) and the specialist named, or the reasons none is needed",
+      "labelEn": "Basis for the IT-specialist decision: the complexity factors weighed, the scope of any involvement (testing of IT general controls, data extraction, application controls) and the specialist named, or the reasons none is needed",
       "labelFr": "Fondement de la décision sur le spécialiste informatique : facteurs de complexité pesés, périmètre de l'intervention éventuelle (tests des CGI, extraction de données, contrôles applicatifs) et spécialiste désigné, ou motifs de l'absence de besoin",
       "profiles": [
        "complex",
@@ -184,14 +184,14 @@
   "tools": [
    {
     "action": "action_tool_itgc",
-    "en": "IT applications and ITGC",
+    "en": "IT applications and general controls",
     "fr": "Applications et CGI",
-    "noteEn": "Applications, layers and the ITGC strategy",
+    "noteEn": "Applications, layers and the IT general controls strategy",
     "noteFr": "Applications, couches et stratégie CGI"
    },
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Classes of transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes of transactions, controls and walkthroughs",
     "noteFr": "Flux de transactions, contrôles et cheminements"

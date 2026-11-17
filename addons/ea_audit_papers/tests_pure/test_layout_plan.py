@@ -148,3 +148,28 @@ def test_p51_tasks_closed_by_the_risk_register():
     done = {p["key"]: p.get("toolDone") for p in procs(definition)}
     assert done["revenue"] == "plan_fraud.revenue" and done["override"] == "plan_fraud.override"
     assert load_definition("P3.2")["toolCard"] == "plan_analytics"
+
+
+# Owner's decision of 2026-11-17: no abbreviations in English text (French may keep its terms).
+ABBREVIATIONS = re.compile(
+    r"\b(SCOTs?|WCGWs?|ITGCs?|ToC|ToD|JEs?|EQR|TCWG|NOCLAR|SAD|CRA|TB|GL|FS|Prelim|vs|CEO|CFO|MD|HR|AGO|AGE|AGM|EGM|"
+    r"AUSCGIE|RCCM|PEP)\b|N/A|&"
+)
+
+
+def _english_strings(value, english=True):
+    if isinstance(value, str):
+        if english:
+            yield value
+    elif isinstance(value, list):
+        for entry in value:
+            yield from _english_strings(entry, english)
+    elif isinstance(value, dict):
+        for key, entry in value.items():
+            yield from _english_strings(entry, english and key != "fr" and not key.endswith("Fr"))
+
+
+@pytest.mark.parametrize("code", PLAN)
+def test_english_text_spells_terms_out(code):
+    for text in _english_strings(load_definition(code)):
+        assert not ABBREVIATIONS.search(text), (code, text)

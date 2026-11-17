@@ -154,7 +154,7 @@
       ],
       "stdEn": "Control activities identified, journal entry controls included.",
       "stdFr": "Activités de contrôle identifiées, contrôles sur les écritures compris.",
-      "sourceHint": "SCOTs and controls"
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "design",
@@ -165,7 +165,7 @@
       "isa": "ISA 315 ¶26(d)",
       "stdEn": "Each control identified is designed to address its risk.",
       "stdFr": "Chaque contrôle identifié est conçu pour répondre à son risque.",
-      "sourceHint": "SCOTs and controls"
+      "sourceHint": "Classes of transactions and controls"
      },
      {
       "key": "implemented",
@@ -331,7 +331,7 @@
   "tools": [
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Classes of transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes of transactions, controls and walkthroughs",
     "noteFr": "Flux de transactions, contrôles et cheminements"
@@ -345,9 +345,9 @@
    },
    {
     "action": "action_tool_itgc",
-    "en": "IT applications and ITGC",
+    "en": "IT applications and general controls",
     "fr": "Applications et CGI",
-    "noteEn": "Applications, layers and the ITGC strategy",
+    "noteEn": "Applications, layers and the IT general controls strategy",
     "noteFr": "Applications, couches et stratégie CGI"
    }
   ],
