@@ -1,10 +1,12 @@
 """The firm administrator: what they run without the technical account, and every way
 they might try to reach beyond it."""
 from unittest.mock import patch
+from urllib.parse import parse_qs, urlparse
 
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
+from ..models import firm_admin
 from .common import TimesheetCase
 
 MAIL = {"host": "smtp.example.com", "port": 587, "encryption": "starttls", "user": "firm@example.com", "password": "not-a-real-secret"}
@@ -84,6 +86,70 @@ class TestUsers(FirmAdminCase):
         self.env.flush_all()
         self.env.invalidate_all()
         self.assertCode("fa-already-joined", self.fa().ea_fa_link, user.id)
+
+    def test_invitation_links_last_72_hours_and_password_links_24(self):
+        result = self.fa().ea_fa_invite("trois@gov.example.com", "Trois", "staff")
+        self.assertEqual(result["hours"], 72)
+        user = self.env["res.users"].sudo().browse(result["user_id"])
+        hours = []
+        original = type(user.partner_id)._generate_signup_token
+
+        def spy(partner, expiration=None):
+            hours.append(expiration)
+            return original(partner, expiration=expiration)
+
+        with patch.object(type(user.partner_id), "_generate_signup_token", spy):
+            self.fa().ea_fa_link(user.id)
+            self.fa().ea_fa_password_link(user.id)
+        self.assertEqual(hours, [72, 24])
+        self.assertEqual((firm_admin.INVITE_LINK_HOURS, firm_admin.PASSWORD_LINK_HOURS), (72, 24))
+
+    def test_a_new_password_link_at_any_time_logged(self):
+        self.staff.with_user(self.staff)._update_last_login()
+        self.env.flush_all()
+        self.env.invalidate_all()
+        result = self.fa().ea_fa_password_link(self.staff.id)
+        self.assertIn("/web/reset_password", result["link"])
+        self.assertEqual(result["hours"], 24)
+        token = parse_qs(urlparse(result["link"]).query)["token"][0]
+        partner = self.staff.partner_id.sudo()
+        self.assertEqual(partner._get_partner_from_token(token), partner)
+        self.assertEqual(partner.signup_type, "reset")
+        self.assertTrue(self.Log.search_count([("kind", "=", "password_link_issued"), ("target_id", "=", self.staff.id)]))
+
+    def test_a_password_link_is_the_administrator_s_alone(self):
+        for user in (self.partner, self.manager, self.staff):
+            self.assertCode("fa-forbidden", self.fa(user).ea_fa_password_link, self.senior.id)
+        self.assertCode("fa-technical-target", self.fa().ea_fa_password_link, self.env.ref("base.user_admin").id)
+        self.fa().ea_fa_set_active(self.reader.id, False)
+        self.assertCode("fa-user-inactive", self.fa().ea_fa_password_link, self.reader.id)
+        self.assertFalse(self.Log.search_count([("kind", "=", "password_link_issued")]))
+
+    def test_invite_and_add_to_an_engagement(self):
+        self.seat(self.engagement, self.admin, "director")
+        data = self.fa().ea_fa_users()
+        self.assertIn(self.engagement.id, [e["id"] for e in data["engagements"]])
+        self.assertIn("senior", [r["key"] for r in data["team_roles"]])
+        result = self.fa().ea_fa_invite("equipe@gov.example.com", "Equipe", "senior", self.engagement.id, "senior")
+        self.assertIn("token=", result["link"])
+        self.assertTrue(result["engagement"])
+        member = self.Team.search([("engagement_id", "=", self.engagement.id), ("user_id", "=", result["user_id"])])
+        self.assertEqual((member.team_role, member.state), ("senior", "invited"))
+        log = self.Log.search([("kind", "=", "user_invited"), ("target_id", "=", result["user_id"])])
+        self.assertIn(self.engagement.sudo().display_name, log.detail)
+
+    def test_only_the_engagements_the_administrator_is_on(self):
+        self.assertNotIn(self.engagement.id, [e["id"] for e in self.fa().ea_fa_users()["engagements"]])
+        self.assertCode(
+            "not-on-this-engagement", self.fa().ea_fa_invite,
+            "dehors@gov.example.com", "Dehors", "staff", self.engagement.id, "staff",
+        )
+        self.assertFalse(self.env["res.users"].sudo().with_context(active_test=False).search_count([("login", "=", "dehors@gov.example.com")]))
+        self.seat(self.engagement, self.admin, "director")
+        self.assertCode(
+            "fa-team-role-invalid", self.fa().ea_fa_invite,
+            "role@gov.example.com", "Role", "staff", self.engagement.id, "eqr_reviewer",
+        )
 
     def test_the_screen_shows_no_secret(self):
         data = self.fa().ea_fa_users()

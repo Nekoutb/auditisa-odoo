@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Time and Firm Administration",
     "summary": "Feuille de temps on hr_timesheet with the firm's weekly deadline; the firm administrator's users and mail screens",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

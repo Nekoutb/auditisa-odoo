@@ -19,8 +19,8 @@ export class EaFirmUsers extends Component {
         shell.openSection = null;
         shell.screen = "users";
         this.state = useState({
-            data: null, error: null, notice: null, link: null, linkFor: "", copied: false,
-            invite: { email: "", name: "", role: "staff" },
+            data: null, error: null, notice: null, link: null, linkFor: "", linkKind: "invite", copied: false,
+            invite: { email: "", name: "", role: "staff", engagement: "", teamRole: "staff" },
             domains: "",
         });
         onWillStart(() => this.load());
@@ -35,8 +35,8 @@ export class EaFirmUsers extends Component {
         this.state.error = null;
         this.state.notice = null;
         try {
-            await work();
-            this.state.notice = notice;
+            const said = await work();
+            this.state.notice = typeof said === "string" ? said : notice;
         } catch (error) {
             this.state.error = refusal(error);
         }
@@ -46,21 +46,38 @@ export class EaFirmUsers extends Component {
     invite() {
         const form = this.state.invite;
         return this.run(async () => {
-            const result = await this.orm.call(MODEL, "ea_fa_invite", [form.email, form.name, form.role]);
-            this.state.link = result.link;
-            this.state.linkFor = form.email;
-            this.state.copied = false;
+            const engagementId = form.engagement ? parseInt(form.engagement) : false;
+            const result = await this.orm.call(MODEL, "ea_fa_invite", [
+                form.email, form.name, form.role, engagementId, engagementId ? form.teamRole : false,
+            ]);
+            this.showLink(result.link, form.email, "invite");
             form.email = "";
             form.name = "";
+            form.engagement = "";
+            if (result.engagement) {
+                return _t("Also invited to %s. They accept it after their first sign-in.", result.engagement);
+            }
         });
+    }
+
+    showLink(link, login, kind) {
+        this.state.link = link;
+        this.state.linkFor = login;
+        this.state.linkKind = kind;
+        this.state.copied = false;
     }
 
     newLink(row) {
         return this.run(async () => {
             const result = await this.orm.call(MODEL, "ea_fa_link", [row.id]);
-            this.state.link = result.link;
-            this.state.linkFor = row.login;
-            this.state.copied = false;
+            this.showLink(result.link, row.login, "invite");
+        });
+    }
+
+    passwordLink(row) {
+        return this.run(async () => {
+            const result = await this.orm.call(MODEL, "ea_fa_password_link", [row.id]);
+            this.showLink(result.link, row.login, "password");
         });
     }
 
