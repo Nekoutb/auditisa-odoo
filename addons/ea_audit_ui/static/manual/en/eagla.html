@@ -1,0 +1,46 @@
+<article class="ea-help-page" data-id="eagla" data-part="The audit, phase by phase" data-part-order="5" data-order="5.15.2" data-screens="model:ea.audit.gl.console, view:ea_audit_tools.view_engagement_gl_catalogue">
+  <h1>EAGLA</h1>
+  <p class="lead">Analyse the client's general ledger in one place: the ratios, the analytical procedures, thirty-two analyses of the entries and the significant classes of transactions (SCOT).</p>
+  <p class="who"><b>Who:</b> the engagement team. Roles that only read (for example the quality reviewer) see the page in read-only mode.</p>
+
+  <h2>Opening EAGLA</h2>
+  <p>EAGLA stands for Elite Advisors Augmented General Ledger Analysis. Open the engagement's tools, then the <b>EAGLA</b> tile. The page opens on the general ledger in use: upload one first in the <a href="#data-tools">Data bank</a>. A ledger's own page also has an <b>Open EAGLA</b> button. Without a ledger, the page still opens the financial analysis and the analytical procedures.</p>
+
+  <h2>The left pane</h2>
+  <table class="ref">
+    <tr><th>Group</th><th>What it opens</th></tr>
+    <tr><td><b>Financial analysis</b></td><td>The ratios worked out from the trial balance. See <a href="#financial-analysis">Financial analysis and analytical procedures</a>.</td></tr>
+    <tr><td><b>Analytical procedures</b></td><td>The expectation, the threshold, the difference and the conclusion, account by account.</td></tr>
+    <tr><td><b>EAGLA analyses</b></td><td>The thirty analyses of the ledger, numbered 1 to 30, then 31 two-way correlation and 32 three-way correlation. Pick one: its settings and its result show on the right. Click <b>Run</b> for 1 to 30, <b>Compute</b> for 31 and 32.</td></tr>
+    <tr><td><b>SCOT identification</b></td><td><b>Revenue</b>, <b>Purchases</b>, <b>Fixed assets</b> and <b>Treasury</b>: click one to read that class of transactions from the ledger.</td></tr>
+  </table>
+
+  <h2>31. Two-way correlation</h2>
+  <p>Type the accounts, or the start of their numbers, in <b>Numerator accounts</b> and <b>Denominator accounts</b>, for example 443 (VAT on sales) over 70 (sales), then click <b>Compute</b>. The table shows each month of the year audited, January to December, and the year: the numerator, the denominator and the numerator divided by the denominator, as a percentage with two decimals. A month in red stands more than 1.5 percentage points from the yearly average; change the <b>Tolerance (percentage points)</b> to widen or narrow it.</p>
+  <p>Under the table, two circles overlap: the denominator in yellow, the numerator in orange, each as large as its yearly total, with the yearly average in the middle. One line names the months that stand apart.</p>
+  <div class="tip"><b>Tip</b> Each account counts on its natural side: credits are positive for classes 1 and 7 and for the credit accounts of classes 4 and 8, debits for all others. Sales and the VAT they carry are both positive, so the percentage reads as the VAT rate.</div>
+
+  <h2>32. Three-way correlation</h2>
+  <p>Type three sets of accounts in <b>Accounts A</b>, <b>Accounts B</b> and <b>Accounts C</b>, for example sales (70), VAT on sales (443) and customers (411), then click <b>Compute</b>. The table shows A, B and C month by month, with B ÷ A, A ÷ C and B ÷ C. Three circles overlap (A yellow, B orange, C blue), and the three yearly percentages are listed under them.</p>
+
+  <h2>SCOT identification</h2>
+  <p>Each class gathers SYSCOHADA accounts into groups:</p>
+  <table class="ref">
+    <tr><th>Class</th><th>Groups</th></tr>
+    <tr><td><b>Revenue</b></td><td>Sales (70), VAT on sales (443), customers (411), bank and cash (52, 57).</td></tr>
+    <tr><td><b>Purchases</b></td><td>Purchases (60, 61, 62), VAT recoverable (445), suppliers (401), bank and cash.</td></tr>
+    <tr><td><b>Fixed assets</b></td><td>Fixed assets (class 2 without 28 and 29), fixed asset suppliers (404, 481), bank and cash.</td></tr>
+    <tr><td><b>Treasury</b></td><td>Everything through bank and cash (52, 57), grouped by the other account: customers, cash sales, loans, capital, suppliers, salaries, taxes, fixed asset suppliers and other accounts.</td></tr>
+  </table>
+  <p>For each class the page shows three parts:</p>
+  <ol class="steps">
+    <li><b>Flows between account groups</b>: a diagram whose bands are as wide as the amounts moved from the account credited to the account debited, each labelled with its amount and its number of entries. A flow off the usual path, for example sales straight to cash with no customer account, or purchases paid straight from cash with no supplier account, is drawn in red. For treasury, money in is on the left and money out on the right.</li>
+    <li><b>Timing, month by month</b>: bars of what enters and what leaves the middle account each month, for example invoiced to customers against received from customers. When entries can be paired by third party and reference, a line gives the average number of days between the invoice and its settlement. For treasury, a table lists each group with its entries, money in, money out and its busiest day of the month and weekday.</li>
+    <li><b>Journal entry patterns found</b>: each combination of a debited group, a credited group and a journal, with its number of entries and its amount. Unusual ones come first, in red. Click <b>Entries</b> on a line to list its journal entries.</li>
+  </ol>
+
+  <h2>The other tabs</h2>
+  <p>Under the analyses, <b>Entry analysis</b>, <b>Two accounts</b> and <b>Insights</b> work as before: pick accounts, see what the entries that touch them post to, compare two accounts in the entries they share, and read the volumes, weekdays and preparers of the ledger.</p>
+
+  <p class="see">See also: <a href="#data-tools">The Data bank</a> · <a href="#financial-analysis">Financial analysis and analytical procedures</a> · <a href="#journal-entries">Journal entries</a> · <a href="#transactions-controls">Transactions and controls</a></p>
+</article>

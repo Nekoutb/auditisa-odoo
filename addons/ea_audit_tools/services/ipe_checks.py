@@ -33,9 +33,11 @@ TOLERANCE = 0.005
 #: by month or by day, rounding) before the difference is listed.
 CHARGE_TOLERANCE = 0.02
 
+#: Bank statements (BK) and supplier statements (SS) are no longer uploaded (owner, 18/11/2026):
+#: their checks are gone; the codes stay below so a record kept from before reads the same.
 KINDS = [
     "trial_balance", "journal_entries", "fixed_asset_register", "payroll_register", "ar_open_items",
-    "ap_open_items", "bank_statement", "inventory_listing", "supplier_statements",
+    "ap_open_items", "inventory_listing",
 ]
 KIND_CODES = {
     "trial_balance": "TB", "journal_entries": "GL", "fixed_asset_register": "FA", "payroll_register": "PR",
@@ -54,14 +56,12 @@ PAPERS = {
     "payroll_register": ["E4.11", "E4.26"],
     "ar_open_items": ["E4.1"],
     "ap_open_items": ["E4.2"],
-    "supplier_statements": ["E4.2"],
-    "bank_statement": ["E4.7"],
     "inventory_listing": ["E4.3"],
 }
 #: The tools that read each kind of file: (engagement method, English, French).
 TOOLS = {
     "journal_entries": [
-        ("action_tool_gl", "General ledger console", "Console du grand livre"),
+        ("action_tool_eagla", "EAGLA", "EAGLA"),
         ("action_tool_je", "Journal entries", "Écritures de journal"),
         ("action_tool_sampling", "Sampling", "Échantillonnage"),
     ],
@@ -735,16 +735,6 @@ CATALOGUE = {
         ("zero", {"en": "No item with a zero amount", "fr": "Aucun élément à montant nul"}),
         ("byparty", {"en": "Total by supplier recomputed", "fr": "Total par fournisseur recalculé"}),
     ],
-    "bank_statement": [
-        ("rows", _COMMON["rows"]),
-        ("mandatory", _COMMON["mandatory"]),
-        ("values", _COMMON["values"]),
-        ("period", _COMMON["period"]),
-        ("duplicates", {"en": "No duplicated movement", "fr": "Aucun mouvement en double"}),
-        ("down", _COMMON["down"]),
-        ("running", {"en": "Opening + movements = closing, line by line", "fr": "Solde d'ouverture + mouvements = solde de clôture, ligne par ligne"}),
-        ("order", {"en": "Dates in order", "fr": "Dates dans l'ordre"}),
-    ],
     "inventory_listing": [
         ("rows", _COMMON["rows"]),
         ("mandatory", _COMMON["mandatory"]),
@@ -756,16 +746,6 @@ CATALOGUE = {
         ("extend", {"en": "Quantity × unit price = amount", "fr": "Quantité × prix unitaire = montant"}),
         ("negative", {"en": "No negative quantity or price", "fr": "Aucune quantité ni aucun prix négatif"}),
         ("zerocost", {"en": "Items at zero cost", "fr": "Articles à coût nul"}),
-    ],
-    "supplier_statements": [
-        ("rows", _COMMON["rows"]),
-        ("mandatory", _COMMON["mandatory"]),
-        ("values", _COMMON["values"]),
-        ("period", _COMMON["period"]),
-        ("duplicates", _COMMON["duplicates"]),
-        ("down", _COMMON["down"]),
-        ("names", _COMMON["names"]),
-        ("unique", {"en": "Supplier codes used once", "fr": "Codes fournisseur utilisés une seule fois"}),
     ],
 }
 
@@ -1324,73 +1304,7 @@ def run_open_items(kind, data, context):
 
 
 # ----------------------------------------------------------------------
-# Bank statements
-# ----------------------------------------------------------------------
-
-_BALANCE_HEADER = re.compile(r"^\s*(solde|balance|running balance|solde progressif)\s*$", re.I)  # i18n: input
-
-
-def balance_header(headers):
-    """A column of the statement that holds the running balance, found by its title."""
-    for header in headers:
-        if isinstance(header, str) and _BALANCE_HEADER.match(header):
-            return header
-    return None
-
-
-def run_bank(data, context):
-    """``context["balance_header"]``: the file's running balance column, if it has one."""
-    c = _codes("bank_statement")
-    start, end = context.get("period") or (None, None)
-    mark_total_lines(data, [], ["description"], ["amount"])
-    if data.has("date"):
-        # a dated line is a movement, whatever its description says
-        dates = data.date("date")
-        data.total_rows = {i for i in data.total_rows if not dates[i]}
-    results = [check_rows(c["rows"], data, context.get("rows_read"))]
-    results.append(check_mandatory(c["mandatory"], data, ["date", "description", "amount"]))
-    results.append(check_values(c["values"], data, amount_fields=("amount",), date_fields=("date",)))
-    results.append(check_dates_in_period(c["period"], data, "date", start, end, context.get("timing")))
-    results.append(check_duplicates(c["duplicates"], data))
-    results.append(check_totals_down(c["down"], data, ["amount"]))
-    header = context.get("balance_header")
-    if header and header in data.columns and data.has("amount"):
-        balances = [parse_amount(value) for value in data.columns[header]]
-        amounts = _num0(data, "amount")
-        kept = [i for i in data.kept() if balances[i] is not None]
-        check = Check(c["running"])
-        for previous, current in zip(kept, kept[1:]):
-            expected = balances[previous] + amounts[current]
-            if not _close(balances[current], expected, 0.5):
-                check.add(row=data.rows[current], column=header, amount=balances[current], expected=expected,
-                          en="Balance differs by %s" % amount_text(balances[current] - expected, "en"),
-                          fr="Le solde diffère de %s" % amount_text(balances[current] - expected, "fr"))
-        if kept:
-            opening = balances[kept[0]] - amounts[kept[0]]
-            moves = _total(amounts[i] for i in kept)
-            check.says(_d("Opening %s + movements %s = closing %s." % (amount_text(opening, "en"), amount_text(moves, "en"), amount_text(balances[kept[-1]], "en")),
-                       "Solde d'ouverture %s + mouvements %s = solde de clôture %s." % (amount_text(opening, "fr"), amount_text(moves, "fr"), amount_text(balances[kept[-1]], "fr"))))
-        results.append(check.result())
-    else:
-        results.append(not_applicable(c["running"], _d("The statement has no running balance column.", "Le relevé n'a pas de colonne de solde.")))
-    if data.has("date"):
-        dates = data.date("date")
-        dated = [i for i in data.kept() if dates[i]]
-        descending = len(dated) > 1 and dates[dated[0]] > dates[dated[-1]]
-        check = Check(c["order"])
-        for previous, current in zip(dated, dated[1:]):
-            wrong = dates[current] > dates[previous] if descending else dates[current] < dates[previous]
-            if wrong:
-                check.add(row=data.rows[current], column=data.header("date"), value=date_text(dates[current]),
-                          en="Out of order after %s" % date_text(dates[previous]), fr="Hors d'ordre après le %s" % date_text(dates[previous]))
-        results.append(check.says(_d("Dates read in file order.", "Dates lues dans l'ordre du fichier.")).result())
-    else:
-        results.append(not_applicable(c["order"], _d("The file has no date column.", "Le fichier n'a pas de colonne de date.")))
-    return _finish("bank_statement", results)
-
-
-# ----------------------------------------------------------------------
-# Inventory listing and supplier statements
+# Inventory listing
 # ----------------------------------------------------------------------
 
 def run_inventory(data, context):
@@ -1421,21 +1335,6 @@ def run_inventory(data, context):
     return _finish("inventory_listing", results)
 
 
-def run_supplier_statements(data, context):
-    c = _codes("supplier_statements")
-    start, end = context.get("period") or (None, None)
-    mark_total_lines(data, ["party"], ["partyName"], ["amount"])
-    results = [check_rows(c["rows"], data, context.get("rows_read"))]
-    results.append(check_mandatory(c["mandatory"], data, ["party", "amount"]))
-    results.append(check_values(c["values"], data, amount_fields=("amount",), date_fields=("date",)))
-    results.append(check_dates_in_period(c["period"], data, "date", start, end, context.get("timing")))
-    results.append(check_duplicates(c["duplicates"], data))
-    results.append(check_totals_down(c["down"], data, ["amount"]))
-    results.append(check_same_name(c["names"], data, [("party", "partyName")]))
-    results.append(check_unique(c["unique"], data, ["party"], _d("supplier code", "code fournisseur")))
-    return _finish("supplier_statements", results)
-
-
 def run(kind, data, context):
     """The checks of one file: [{code, key, en, fr, status, count, lines, note}]."""
     if kind == "trial_balance":
@@ -1448,12 +1347,8 @@ def run(kind, data, context):
         return run_payroll(data, context)
     if kind in ("ar_open_items", "ap_open_items"):
         return run_open_items(kind, data, context)
-    if kind == "bank_statement":
-        return run_bank(data, context)
     if kind == "inventory_listing":
         return run_inventory(data, context)
-    if kind == "supplier_statements":
-        return run_supplier_statements(data, context)
     raise ValueError(kind)
 
 

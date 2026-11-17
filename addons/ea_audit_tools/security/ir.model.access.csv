@@ -51,6 +51,7 @@ access_dataset_row_member,ea.audit.dataset.row member,model_ea_audit_dataset_row
 access_gl_line_member,ea.audit.gl.line member,model_ea_audit_gl_line,ea_audit_core.group_member,1,0,0,0
 access_gl_console,ea.audit.gl.console,model_ea_audit_gl_console,ea_audit_core.group_member,1,1,1,1
 access_gl_console_account,ea.audit.gl.console.account,model_ea_audit_gl_console_account,ea_audit_core.group_member,1,1,1,1
+access_gl_console_pattern,ea.audit.gl.console.pattern,model_ea_audit_gl_console_pattern,ea_audit_core.group_member,1,1,1,1
 access_scot_member,ea.audit.scot member,model_ea_audit_scot,ea_audit_core.group_member,1,0,0,0
 access_scot_index_member,ea.audit.scot.index member,model_ea_audit_scot_index,ea_audit_core.group_member,1,0,0,0
 access_wcgw_member,ea.audit.wcgw member,model_ea_audit_wcgw,ea_audit_core.group_member,1,0,0,0

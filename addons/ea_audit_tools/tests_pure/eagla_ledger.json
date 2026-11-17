@@ -1,0 +1,355 @@
+{
+ "_note": "A small SYSCOHADA ledger of 2025 for EAGLA: correlations and SCOT identification (test_eagla.py).",
+ "lines": [
+  {
+   "je": "VE1",
+   "date": "2025-01-10",
+   "journal": "VE",
+   "account": "411100",
+   "debit": 1180,
+   "credit": 0,
+   "party": "C1",
+   "reference": "F1"
+  },
+  {
+   "je": "VE1",
+   "date": "2025-01-10",
+   "journal": "VE",
+   "account": "701000",
+   "debit": 0,
+   "credit": 1000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "VE1",
+   "date": "2025-01-10",
+   "journal": "VE",
+   "account": "443100",
+   "debit": 0,
+   "credit": 180,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "VE2",
+   "date": "2025-02-12",
+   "journal": "VE",
+   "account": "411100",
+   "debit": 1180,
+   "credit": 0,
+   "party": "C2",
+   "reference": "F2"
+  },
+  {
+   "je": "VE2",
+   "date": "2025-02-12",
+   "journal": "VE",
+   "account": "701000",
+   "debit": 0,
+   "credit": 1000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "VE2",
+   "date": "2025-02-12",
+   "journal": "VE",
+   "account": "443100",
+   "debit": 0,
+   "credit": 180,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "BQ1",
+   "date": "2025-02-09",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 1180,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "BQ1",
+   "date": "2025-02-09",
+   "journal": "BQ",
+   "account": "411100",
+   "debit": 0,
+   "credit": 1180,
+   "party": "C1",
+   "reference": "F1"
+  },
+  {
+   "je": "CA1",
+   "date": "2025-03-05",
+   "journal": "CA",
+   "account": "571000",
+   "debit": 500,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "CA1",
+   "date": "2025-03-05",
+   "journal": "CA",
+   "account": "701000",
+   "debit": 0,
+   "credit": 500,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "AC1",
+   "date": "2025-01-20",
+   "journal": "AC",
+   "account": "601000",
+   "debit": 1000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "AC1",
+   "date": "2025-01-20",
+   "journal": "AC",
+   "account": "445200",
+   "debit": 180,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "AC1",
+   "date": "2025-01-20",
+   "journal": "AC",
+   "account": "401100",
+   "debit": 0,
+   "credit": 1180,
+   "party": "S1",
+   "reference": "A1"
+  },
+  {
+   "je": "BQ2",
+   "date": "2025-03-01",
+   "journal": "BQ",
+   "account": "401100",
+   "debit": 1180,
+   "credit": 0,
+   "party": "S1",
+   "reference": "A1"
+  },
+  {
+   "je": "BQ2",
+   "date": "2025-03-01",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 0,
+   "credit": 1180,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "CA2",
+   "date": "2025-03-15",
+   "journal": "CA",
+   "account": "605000",
+   "debit": 50,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "CA2",
+   "date": "2025-03-15",
+   "journal": "CA",
+   "account": "571000",
+   "debit": 0,
+   "credit": 50,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "IM1",
+   "date": "2025-04-01",
+   "journal": "OD",
+   "account": "244100",
+   "debit": 5000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "IM1",
+   "date": "2025-04-01",
+   "journal": "OD",
+   "account": "481000",
+   "debit": 0,
+   "credit": 5000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "BQ3",
+   "date": "2025-04-30",
+   "journal": "BQ",
+   "account": "481000",
+   "debit": 5000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "BQ3",
+   "date": "2025-04-30",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 0,
+   "credit": 5000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "DP1",
+   "date": "2025-12-31",
+   "journal": "OD",
+   "account": "681000",
+   "debit": 1000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "DP1",
+   "date": "2025-12-31",
+   "journal": "OD",
+   "account": "284400",
+   "debit": 0,
+   "credit": 1000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "EM1",
+   "date": "2025-05-02",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 10000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "EM1",
+   "date": "2025-05-02",
+   "journal": "BQ",
+   "account": "162000",
+   "debit": 0,
+   "credit": 10000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "RB1",
+   "date": "2025-06-02",
+   "journal": "BQ",
+   "account": "162000",
+   "debit": 1000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "RB1",
+   "date": "2025-06-02",
+   "journal": "BQ",
+   "account": "671000",
+   "debit": 100,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "RB1",
+   "date": "2025-06-02",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 0,
+   "credit": 1100,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "SA1",
+   "date": "2025-06-30",
+   "journal": "BQ",
+   "account": "422000",
+   "debit": 800,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "SA1",
+   "date": "2025-06-30",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 0,
+   "credit": 800,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "CP1",
+   "date": "2025-01-05",
+   "journal": "BQ",
+   "account": "521000",
+   "debit": 2000,
+   "credit": 0,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "CP1",
+   "date": "2025-01-05",
+   "journal": "BQ",
+   "account": "101000",
+   "debit": 0,
+   "credit": 2000,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "NX1",
+   "date": "2026-01-03",
+   "journal": "VE",
+   "account": "411100",
+   "debit": 590,
+   "credit": 0,
+   "party": "C3",
+   "reference": "F3"
+  },
+  {
+   "je": "NX1",
+   "date": "2026-01-03",
+   "journal": "VE",
+   "account": "701000",
+   "debit": 0,
+   "credit": 500,
+   "party": "",
+   "reference": ""
+  },
+  {
+   "je": "NX1",
+   "date": "2026-01-03",
+   "journal": "VE",
+   "account": "443100",
+   "debit": 0,
+   "credit": 90,
+   "party": "",
+   "reference": ""
+  }
+ ]
+}

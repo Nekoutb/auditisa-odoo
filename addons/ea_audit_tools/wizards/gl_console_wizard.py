@@ -1,5 +1,7 @@
-"""The GL console (GlConsole.tsx): one transient per visit, a tab per question, results rendered
-server side. Nothing here decides anything: the engagement's gl_* methods do, and refuse."""
+"""EAGLA, formerly the GL console (GlConsole.tsx): one transient per visit, a left pane of groups
+(financial analysis, analytical procedures, the EAGLA analyses 1 to 32, SCOT identification),
+results rendered server side. Nothing here decides anything: the engagement's gl_* and eagla_*
+methods do, and refuse."""
 import base64
 import re
 
@@ -9,6 +11,9 @@ from odoo import api, fields, models
 
 from ..models.tool_record import bracketed, is_french
 from ..rules import rule_error
+from ..services import eagla_correlation as eagla
+from ..services import eagla_svg as svg
+from ..services import scot_flows as scot
 from ..services.gl_analytics import ANALYTICS, column_kind, t
 from ..services.gl_correlation import amount_input, split_accounts
 from ..services.gl_insights import LAG_KEYS
@@ -16,6 +21,10 @@ from ..services.gl_insights import LAG_KEYS
 _MONTH_INPUT = re.compile(r"^(0[1-9]|1[0-2])/([0-9]{4})$")
 WEEKDAYS = [("1", "Monday"), ("2", "Tuesday"), ("3", "Wednesday"), ("4", "Thursday"), ("5", "Friday"), ("6", "Saturday"), ("7", "Sunday"), ("n/a", "No date")]
 DAY_NAMES = {"fr": ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"], "en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
+#: EAGLA analyses 31 and 32, after the thirty analytics of the catalogue (owner, 18/11/2026).
+TWO_WAY, THREE_WAY = "two-way-correlation", "three-way-correlation"
+CORRELATIONS = [(31, TWO_WAY, "Two-way correlation", "Corrélation à deux termes"), (32, THREE_WAY, "Three-way correlation", "Corrélation à trois termes")]
+SCOT_SELECTION = [("revenue", "Revenue"), ("purchases", "Purchases"), ("fixed_assets", "Fixed assets"), ("treasury", "Treasury")]
 
 
 def whole(value):
@@ -88,14 +97,42 @@ class GlConsoleAccount(models.TransientModel):
     signed = fields.Float(string="Net", digits=(18, 0), readonly=True)
 
 
+class GlConsolePattern(models.TransientModel):
+    """SCOT identification: one debit → credit combination of account groups in one journal."""
+
+    _name = "ea.audit.gl.console.pattern"
+    _description = "Journal entry pattern"
+    _order = "sequence, id"
+
+    console_id = fields.Many2one("ea.audit.gl.console", string="EAGLA", required=True, ondelete="cascade")
+    sequence = fields.Integer(readonly=True)
+    debit_group = fields.Char(string="Debit", readonly=True)
+    credit_group = fields.Char(string="Credit", readonly=True)
+    journal = fields.Char(readonly=True)
+    entries = fields.Integer(readonly=True)
+    amount = fields.Float(digits=(18, 0), readonly=True)
+    unusual = fields.Boolean(readonly=True)
+    je_numbers = fields.Json(string="Journal entries", readonly=True)
+
+    def action_open_entries(self):
+        """Clicking a pattern lists its journal entries."""
+        self.ensure_one()
+        console = self.console_id
+        return console.engagement_id.eagla_entries_action(
+            console.dataset_id.id, self.je_numbers or [], "%s → %s · %s" % (self.debit_group, self.credit_group, self.journal or "—"),
+        )
+
+
 class GlConsole(models.TransientModel):
     _name = "ea.audit.gl.console"
-    _description = "General ledger console"
+    _description = "EAGLA"
     _rec_name = "dataset_id"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True, ondelete="cascade")
+    # empty when no general ledger is in use: the page still opens financial analysis and
+    # analytical procedures
     dataset_id = fields.Many2one(
-        "ea.audit.dataset", string="Ledger", required=True, ondelete="cascade",
+        "ea.audit.dataset", string="Ledger", ondelete="cascade",
         domain="[('engagement_id', '=', engagement_id), ('kind', '=', 'journal_entries'), ('superseded_at', '=', False)]",
     )
     gl_built_at = fields.Datetime(related="dataset_id.gl_built_at")
@@ -151,7 +188,8 @@ class GlConsole(models.TransientModel):
 
     # the catalogue
     catalogue_html = fields.Html(compute="_compute_catalogue_html", sanitize=False)
-    analytic_key = fields.Selection(selection="_analytic_selection", string="Analytic", default="ledger-reconciliation", required=True)
+    pane = fields.Selection([("analyses", "EAGLA analyses"), ("scot", "SCOT identification")], string="Shown", default="analyses", required=True)
+    analytic_key = fields.Selection(selection="_analytic_selection", string="Analysis", default="ledger-reconciliation")
     percentile = fields.Float(default=0.99, digits=(6, 4), help="Between 0.5 and 0.9999.")
     sd_factor = fields.Float(string="Standard deviations", default=2, digits=(4, 1), help="Between 0.5 and 6.")
     round_min = fields.Float(string="Minimum amount", default=100000, digits=(18, 0))
@@ -170,10 +208,27 @@ class GlConsole(models.TransientModel):
     prefix_accounts = fields.Char(string="Account prefixes to compare", help="2 to 6 prefixes of 2 to 4 digits.")
     matrix_html = fields.Html(sanitize=False, readonly=True)
 
+    # 31. two-way and 32. three-way correlation
+    corr2_numerator = fields.Char(string="Numerator accounts", help="Accounts or account prefixes, separated by commas: for example 443.")
+    corr2_denominator = fields.Char(string="Denominator accounts", help="Accounts or account prefixes, separated by commas: for example 70.")
+    corr2_tolerance = fields.Float(string="Tolerance (percentage points)", default=eagla.DEFAULT_TOLERANCE, digits=(6, 2))
+    corr2_html = fields.Html(string="Two-way correlation", sanitize=False, readonly=True)
+    corr3_a = fields.Char(string="Accounts A", help="Accounts or account prefixes, separated by commas.")
+    corr3_b = fields.Char(string="Accounts B", help="Accounts or account prefixes, separated by commas.")
+    corr3_c = fields.Char(string="Accounts C", help="Accounts or account prefixes, separated by commas.")
+    corr3_html = fields.Html(string="Three-way correlation", sanitize=False, readonly=True)
+
+    # SCOT identification
+    scot_class = fields.Selection(SCOT_SELECTION, string="Class of transactions", readonly=True)
+    scot_html = fields.Html(string="Flows, timing and patterns", sanitize=False, readonly=True)
+    scot_pattern_ids = fields.One2many("ea.audit.gl.console.pattern", "console_id", string="Journal entry patterns found")
+
     @api.model
     def _analytic_selection(self):
         french = is_french(self.env)
-        return [(d["key"], "%d. %s" % (d["id"], d["titleFr"] if french else d["titleEn"])) for d in ANALYTICS]
+        return [(d["key"], "%d. %s" % (d["id"], d["titleFr"] if french else d["titleEn"])) for d in ANALYTICS] + [
+            (key, "%d. %s" % (number, fr if french else en)) for number, key, en, fr in CORRELATIONS
+        ]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -186,7 +241,7 @@ class GlConsole(models.TransientModel):
         return {
             "type": "ir.actions.act_window", "res_model": self._name, "res_id": self.id, "view_mode": "form",
             "views": [(self.env.ref("ea_audit_tools.view_gl_console_form").id, "form")],
-            "target": "current", "name": self.env._("General ledger console"),
+            "target": "current", "name": "EAGLA",
             "context": {"ea_engagement_id": self.engagement_id.id},
         }
 
@@ -200,13 +255,23 @@ class GlConsole(models.TransientModel):
             self.update({
                 "selected_accounts": False, "entry_html": False, "corr_html": False, "analytic_html": False,
                 "insights_html": False, "matrix_html": False, "account_ids": [(5, 0, 0)], "figure_set": False,
+                "corr2_html": False, "corr3_html": False, "scot_html": False, "scot_pattern_ids": [(5, 0, 0)],
             })
+
+    @api.onchange("analytic_key")
+    def _onchange_analytic_key(self):
+        """Picking an analysis in the left pane shows it."""
+        if self.analytic_key:
+            self.pane = "analyses"
 
     def write(self, vals):
         # The results are read-only on the form, so the onchange above only shows them cleared:
         # saving must clear them too, or the old ledger's tables come back on the new one.
         if vals.get("dataset_id") and self.filtered(lambda console: console.dataset_id.id != vals["dataset_id"]):
-            vals = dict(vals, entry_html=False, corr_html=False, analytic_html=False, insights_html=False, matrix_html=False)
+            vals = dict(
+                vals, entry_html=False, corr_html=False, analytic_html=False, insights_html=False, matrix_html=False,
+                corr2_html=False, corr3_html=False, scot_html=False, scot_pattern_ids=[(5, 0, 0)],
+            )
         return super().write(vals)
 
     # ------------------------------------------------------------------
@@ -394,6 +459,8 @@ class GlConsole(models.TransientModel):
 
     def action_run_analytic(self):
         self.ensure_one()
+        if not self.analytic_key or self.analytic_key in (TWO_WAY, THREE_WAY):
+            raise rule_error(self.env, "unknown-analytic")
         self.analytic_html = self._render_analytic(
             self.engagement_id.gl_run_analytic(self.dataset_id.id, self.analytic_key, self._params())
         )
@@ -608,3 +675,177 @@ class GlConsole(models.TransientModel):
     def action_build_projection(self):
         self.ensure_one()
         self.engagement_id.gl_build_projection(self.dataset_id.id)
+
+    # ------------------------------------------------------------------
+    # EAGLA: the left pane
+    # ------------------------------------------------------------------
+
+    def action_eagla_financial(self):
+        """Financial analysis: the ratios screen, as before."""
+        self.ensure_one()
+        return self.engagement_id.action_tool_financial()
+
+    def action_eagla_analytical(self):
+        """Analytical procedures: the expectation, threshold, difference and conclusion screen."""
+        self.ensure_one()
+        return self.engagement_id.action_tool_sap()
+
+    def _percent(self, value, locale, apart=False):
+        if value is None:
+            return "—"
+        text = "%s %%" % decimal(value, locale)
+        return Markup("<span class='text-danger fw-bold'>{}</span>").format(text) if apart else text
+
+    def _sign_line(self, locale):
+        return Markup("<p class='o_ea_legend'>{}</p>").format(eagla.SIGN_LINE[locale])
+
+    # ------------------------------------------------------------------
+    # 31. Two-way correlation
+    # ------------------------------------------------------------------
+
+    def action_run_two_way(self):
+        self.ensure_one()
+        result = self.engagement_id.eagla_two_way(
+            self.dataset_id.id, self.corr2_numerator, self.corr2_denominator, self.corr2_tolerance,
+        )
+        self.write({"pane": "analyses", "analytic_key": TWO_WAY, "corr2_html": self._render_two_way(result)})
+
+    def _render_two_way(self, result):
+        locale = self._locale()
+        months = eagla.month_labels(result["keys"], locale)
+        num, den = ", ".join(result["numeratorAccounts"]), ", ".join(result["denominatorAccounts"])
+        apart = set(result["apart"])
+        grid = table(
+            [""] + months + [self.env._("Year")],
+            [
+                [self.env._("Numerator (%(accounts)s)", accounts=num)] + [whole(v) for v in result["numerator"]] + [whole(result["numeratorYear"])],
+                [self.env._("Denominator (%(accounts)s)", accounts=den)] + [whole(v) for v in result["denominator"]] + [whole(result["denominatorYear"])],
+                [self.env._("Numerator ÷ denominator")]
+                + [self._percent(v, locale, index in apart) for index, v in enumerate(result["ratios"])]
+                + [self._percent(result["yearRatio"], locale)],
+            ],
+        )
+        middle = "—" if result["yearRatio"] is None else "%s %%" % decimal(result["yearRatio"], locale)
+        drawing = Markup(svg.two_way_svg(
+            result["denominatorYear"], result["numeratorYear"], middle,
+            [self.env._("Denominator: %(accounts)s", accounts=den), self.env._("Numerator: %(accounts)s", accounts=num)],
+            self.env._("Two-way correlation"),
+        ))
+        line = eagla.apart_line(result["apart"], months, result["yearRatio"], locale)
+        tolerance = self.env._(
+            "Months in red stand more than %(points)s percentage points from the yearly average.", points=decimal(result["tolerance"], locale),
+        )
+        return Markup("{}<p class='o_ea_legend'>{}</p><div class='o_ea_eagla_diagram'>{}</div><p>{}</p>{}").format(
+            grid, tolerance, drawing, line, self._sign_line(locale),
+        )
+
+    # ------------------------------------------------------------------
+    # 32. Three-way correlation
+    # ------------------------------------------------------------------
+
+    def action_run_three_way(self):
+        self.ensure_one()
+        result = self.engagement_id.eagla_three_way(self.dataset_id.id, self.corr3_a, self.corr3_b, self.corr3_c)
+        self.write({"pane": "analyses", "analytic_key": THREE_WAY, "corr3_html": self._render_three_way(result)})
+
+    def _render_three_way(self, result):
+        locale = self._locale()
+        months = eagla.month_labels(result["keys"], locale)
+        names = {key: ", ".join(result["accounts"][key]) for key in ("a", "b", "c")}
+        rows = [
+            ["%s (%s)" % (key.upper(), names[key])] + [whole(v) for v in result[key]] + [whole(result["years"][key])]
+            for key in ("a", "b", "c")
+        ]
+        labels = {"ba": "B ÷ A", "ac": "A ÷ C", "bc": "B ÷ C"}
+        rows += [
+            [labels[key]] + [self._percent(v, locale) for v in result["ratios"][key]] + [self._percent(result["yearRatios"][key], locale)]
+            for key in ("ba", "ac", "bc")
+        ]
+        grid = table([""] + months + [self.env._("Year")], rows)
+        drawing = Markup(svg.three_way_svg(
+            [result["years"]["a"], result["years"]["b"], result["years"]["c"]],
+            ["A: %s" % names["a"], "B: %s" % names["b"], "C: %s" % names["c"]],
+            self.env._("Three-way correlation"),
+        ))
+        listed = Markup("").join(
+            Markup("<li>{}: {}</li>").format(labels[key], self._percent(result["yearRatios"][key], locale)) for key in ("ba", "ac", "bc")
+        )
+        return Markup("{}<div class='o_ea_eagla_diagram'>{}</div><ul class='o_ea_eagla_ratios'>{}</ul>{}").format(
+            grid, drawing, listed, self._sign_line(locale),
+        )
+
+    # ------------------------------------------------------------------
+    # SCOT identification
+    # ------------------------------------------------------------------
+
+    def action_scot(self):
+        """A class of the left pane: its flows, timing and patterns, read from the ledger."""
+        self.ensure_one()
+        class_key = self.env.context.get("ea_scot_class")
+        if class_key not in scot.CLASSES:
+            raise rule_error(self.env, "invalid-value")
+        values = {"pane": "scot", "scot_class": class_key, "analytic_key": False, "scot_html": False, "scot_pattern_ids": [(5, 0, 0)]}
+        if self.dataset_id and self.gl_built_at:
+            result = self.engagement_id.eagla_scot(self.dataset_id.id, class_key)
+            locale = self._locale()
+            values["scot_html"] = self._render_scot(result, locale)
+            values["scot_pattern_ids"] += [(0, 0, {
+                "sequence": position, "debit_group": scot.group_label(pattern["debit"], locale),
+                "credit_group": scot.group_label(pattern["credit"], locale), "journal": pattern["journal"],
+                "entries": pattern["entries"], "amount": pattern["amount"], "unusual": pattern["unusual"], "je_numbers": pattern["jes"],
+            }) for position, pattern in enumerate(result["patterns"])]
+        self.write(values)
+
+    def _timing_words(self, class_key):
+        return {
+            "revenue": (self.env._("Invoiced to customers"), self.env._("Received from customers")),
+            "purchases": (self.env._("Invoiced by suppliers"), self.env._("Paid to suppliers")),
+            "fixed_assets": (self.env._("Invoiced by fixed asset suppliers"), self.env._("Paid to fixed asset suppliers")),
+            "treasury": (self.env._("Money in"), self.env._("Money out")),
+        }[class_key]
+
+    def _render_scot(self, result, locale):
+        class_key = result["class"]
+        months = eagla.month_labels(result["keys"], locale)
+        section = Markup("<div class='o_ea_card_label mt-3'>{}</div>")
+        head = Markup("<p>{}</p>").format(self.env._("%(count)s journal entries of the year touch this class.", count=whole(result["entries"])))
+        flows = Markup(svg.flow_svg(result, locale, (self.env._("entry"), self.env._("entries")), self.env._("Flows between account groups")))
+        flow_note = (
+            self.env._("Money in on the left, money out on the right. Bands are as wide as the amounts moved; unusual flows are in red.")
+            if class_key == "treasury" else
+            self.env._("Bands are as wide as the amounts moved, from the account credited to the account debited; unusual flows are in red.")
+        )
+        entering, leaving = self._timing_words(class_key)
+        timing = Markup(svg.timing_svg(
+            result["timing"]["entering"], result["timing"]["leaving"], months, [entering, leaving], self.env._("Timing, month by month"),
+        ))
+        days = ""
+        if result["averageDays"]:
+            days = Markup("<p>{}</p>").format(self.env._(
+                "On average %(days)s days between the invoice and its settlement (%(pairs)s matched by party and reference).",
+                days=decimal(result["averageDays"]["days"], locale), pairs=whole(result["averageDays"]["pairs"]),
+            ))
+        treasury = ""
+        if class_key == "treasury":
+            treasury = table(
+                [
+                    self.env._("Group"), self.env._("Entries"), self.env._("Money in"), self.env._("Money out"),
+                    self.env._("Busiest day of the month"), self.env._("Busiest weekday"),
+                ],
+                [
+                    [
+                        scot.group_label(row["group"], locale), whole(row["entries"]), whole(row["moneyIn"]), whole(row["moneyOut"]),
+                        "—" if row["busiestDay"] is None else row["busiestDay"],
+                        "—" if row["busiestWeekday"] is None else scot.WEEKDAYS[locale][row["busiestWeekday"]],
+                    ]
+                    for row in result["treasury"]
+                ],
+            )
+        return Markup(
+            "{head}{s1}<div class='o_ea_eagla_diagram'>{flows}</div><p class='o_ea_legend'>{note}</p>"
+            "{s2}<div class='o_ea_eagla_diagram'>{timing}</div>{days}{treasury}{s3}<p>{patterns}</p>"
+        ).format(
+            head=head, s1=section.format(self.env._("Flows between account groups")), flows=flows, note=flow_note,
+            s2=section.format(self.env._("Timing, month by month")), timing=timing, days=days, treasury=treasury,
+            s3=section.format(self.env._("Journal entry patterns found")), patterns=scot.patterns_line(result, locale),
+        )

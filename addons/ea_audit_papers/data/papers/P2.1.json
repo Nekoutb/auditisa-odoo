@@ -25,18 +25,18 @@
     "procs": [
      {
       "key": "declare",
-      "en": "Obtain, outside the system, the signed independence declaration of every person assigned to the engagement, including the engagement partner and any auditor's expert. File each signed declaration on this paper as an attachment and record the date it was obtained.",
-      "fr": "Obtenir, en dehors du système, la déclaration d'indépendance signée de toute personne affectée à la mission, y compris l'associé responsable et tout expert de l'auditeur. Classer chaque déclaration signée sur ce papier en pièce jointe et consigner la date d'obtention.",
-      "shortEn": "Team declarations",
-      "shortFr": "Déclarations de l'équipe",
-      "isa": "ISA 220 ¶16–17",
+      "en": "Before each person starts work, obtain a signed and dated independence declaration, on the firm's form, from every engagement team member, including the engagement partner and any auditor's internal expert, and from the engagement quality reviewer, covering the financial statement period and the engagement period. Attach each one, cite it as [A1], [A2]…, and check that everyone on the team list is covered.",
+      "fr": "Avant toute intervention, obtenir une déclaration d'indépendance signée et datée, établie sur le formulaire du cabinet, de chaque membre de l'équipe affectée à la mission, y compris l'associé responsable de la mission et tout expert interne de l'auditeur, ainsi que du responsable de la revue de la qualité de la mission, portant sur la période couverte par les états financiers et sur la période de la mission. Joindre chaque déclaration, la citer [A1], [A2]…, et vérifier que toutes les personnes de la liste de l'équipe sont couvertes.",
+      "shortEn": "Independence declarations",
+      "shortFr": "Déclarations d'indépendance",
+      "isa": "ISA 220 (Revised) ¶16–21; ISQM 1 ¶34",
       "tipsEn": [
-       "Include the engagement partner and any auditor's expert.",
-       "Attach each signed declaration and cite it as [A1]."
+       "This adds to the confirmation given on accepting the team invitation; it does not replace it. From an auditor's external expert, obtain instead a statement of interests and relationships, to assess objectivity (ISA 620 paragraph 9).",
+       "In a group audit, obtain each component auditor's confirmation of independence."
       ],
       "tipsFr": [
-       "Inclure l'associé et tout expert de l'auditeur.",
-       "Joindre chaque déclaration signée et la citer comme [A1]."
+       "Elle complète la confirmation donnée lors de l'acceptation de l'invitation dans l'équipe, sans la remplacer. De l'expert externe de l'auditeur, obtenir plutôt une déclaration de ses intérêts et relations, pour apprécier son objectivité (ISA 620 paragraphe 9).",
+       "Dans un audit de groupe, obtenir de chaque auditeur de composante sa confirmation d'indépendance."
       ],
       "fieldKeys": [
        "declarations_filed",

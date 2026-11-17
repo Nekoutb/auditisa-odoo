@@ -59,6 +59,10 @@ def test_the_paper_is_converted(code):
     assert "tipEn" not in text and "srcEn" not in text and "Part A" not in text
 
 
+# Tips the owner wrote in full, longer than the usual 120 characters (task 2.1, 18/11/2026).
+OWNER_LONG_TIPS = {("P2.1", "declare")}
+
+
 @pytest.mark.parametrize("code", PLAN)
 def test_tasks_are_short_with_english_tips_and_standard_answers(code):
     definition = resolved(code)
@@ -69,7 +73,7 @@ def test_tasks_are_short_with_english_tips_and_standard_answers(code):
         tips_en, tips_fr = proc.get("tipsEn") or [], proc.get("tipsFr") or []
         assert len(tips_en) <= 3 and len(tips_fr) == len(tips_en), where
         for tip in tips_en:
-            assert len(tip) <= 120 and not NOT_ENGLISH.search(tip), (where, tip)
+            assert (len(tip) <= 120 or where in OWNER_LONG_TIPS) and not NOT_ENGLISH.search(tip), (where, tip)
         if never_light or proc.get("neverLight") or proc.get("toolDone"):
             continue
         assert proc.get("stdEn") and proc.get("stdFr") and proc.get("sourceHint"), where
@@ -174,3 +178,13 @@ def _english_strings(value, english=True):
 def test_english_text_spells_terms_out(code):
     for text in _english_strings(load_definition(code)):
         assert not ABBREVIATIONS.search(text), (code, text)
+
+
+def test_task_2_1_asks_for_the_independence_declarations():
+    proc = procs(resolved("P2.1"))[0]
+    assert (proc["key"], proc["shortEn"], proc["shortFr"]) == ("declare", "Independence declarations", "Déclarations d'indépendance")
+    assert proc["isa"] == "ISA 220 (Revised) ¶16–21; ISQM 1 ¶34"
+    assert proc["en"].startswith("Before each person starts work, obtain a signed and dated independence declaration")
+    assert "engagement quality reviewer" in proc["en"] and "responsable de la revue de la qualité de la mission" in proc["fr"]
+    assert proc["fieldKeys"] == ["declarations_filed", "outstanding"]  # the answer keys are kept
+    assert len(proc["tipsEn"]) == len(proc["tipsFr"]) == 2 and "ISA 620 paragraph 9" in proc["tipsEn"][0]

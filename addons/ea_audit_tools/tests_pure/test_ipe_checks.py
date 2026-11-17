@@ -38,7 +38,9 @@ def test_references():
     assert ipe.reference("fixed_asset_register", "final") == "IPE-FA-FIN"
     assert ipe.reference("payroll_register", "subsequent") == "IPE-PR-SUB"
     assert ipe.reference("bank_statement", "post_audit") == "IPE-BK-POST"
-    assert {ipe.KIND_CODES[kind] for kind in ipe.KINDS} == {"TB", "GL", "FA", "PR", "AR", "AP", "BK", "IN", "SS"}
+    assert {ipe.KIND_CODES[kind] for kind in ipe.KINDS} == {"TB", "GL", "FA", "PR", "AR", "AP", "IN"}
+    # bank and supplier statements are no longer uploaded: no checks, no row of the matrix
+    assert "bank_statement" not in ipe.KINDS and "supplier_statements" not in ipe.KINDS
 
 
 def test_periods():
@@ -418,38 +420,8 @@ def test_bad_receivables():
 
 
 # ----------------------------------------------------------------------
-# Bank statements, inventory, supplier statements
+# Inventory
 # ----------------------------------------------------------------------
-
-def bank(lines_, balance=True):
-    headers = ["Date", "Libelle", "Montant", "Solde"]
-    data = table(headers, lines_, {"date": "Date", "description": "Libelle", "amount": "Montant"})
-    return ipe.run("bank_statement", data, {"period": PERIOD, "rows_read": len(lines_), "balance_header": "Solde" if balance else None})
-
-
-GOOD_BANK = [
-    ["02/01/2025", "Virement", "1000", "11000"],
-    ["03/01/2025", "Chèque 12", "-300", "10700"],
-    ["05/01/2025", "Frais", "-50", "10650"],
-]
-
-
-def test_a_good_statement_passes():
-    results = bank(GOOD_BANK)
-    assert [r["code"] for r in results if r["status"] == EXCEPTIONS] == []
-    assert "Opening 10 000 FCFA" in by_code(results)["BK-07"]["note"]["en"]
-    assert status(bank(GOOD_BANK, balance=False), "BK-07") == NA
-    assert ipe.balance_header(["Date", "Solde"]) == "Solde"
-
-
-def test_a_bad_statement():
-    bad = [list(line) for line in GOOD_BANK] + [["04/01/2025", "Frais", "-50", "10650"], ["05/01/2025", "Frais", "-50", "10650"], ["10/01/2026", "Remise", "100", "10700"]]
-    results = bank(bad)
-    assert by_code(results)["BK-04"]["count"] == 1
-    assert by_code(results)["BK-05"]["count"] == 1
-    assert by_code(results)["BK-07"]["count"] >= 1
-    assert by_code(results)["BK-08"]["count"] == 1
-
 
 def test_inventory():
     headers = ["Code", "Desc", "Lieu", "Qte", "PU", "Montant"]
@@ -465,21 +437,6 @@ def test_inventory():
     assert results["IN-09"]["count"] == 1
     assert results["IN-10"]["status"] == INFO
     assert "Qte 15;" in results["IN-05"]["note"]["en"]
-
-
-def test_supplier_statements():
-    headers = ["Code", "Nom", "Solde"]
-    mapping = {"party": "Code", "partyName": "Nom", "amount": "Solde"}
-    good = [["F1", "Sodeco", "1000"], ["F2", "Camtel", "250"]]
-    results = ipe.run("supplier_statements", table(headers, good, mapping), {"period": PERIOD, "rows_read": 2})
-    assert [r["code"] for r in results if r["status"] == EXCEPTIONS] == []
-    assert status(results, "SS-04") == NA
-    bad = good + [["F1", "Sodeco", "x"], ["", "", "1250"]]
-    results = by_code(ipe.run("supplier_statements", table(headers, bad, mapping), {"period": PERIOD, "rows_read": 4}))
-    assert results["SS-03"]["count"] == 1
-    assert results["SS-08"]["count"] == 1
-    # the blank-coded line with the sum is the file's total line, and it agrees
-    assert results["SS-06"]["status"] == PASSED
 
 
 def test_a_check_without_its_columns_is_not_applicable():

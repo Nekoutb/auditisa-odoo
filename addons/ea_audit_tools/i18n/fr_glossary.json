@@ -103,7 +103,7 @@
 "Amount at least": "Montant minimal",
 "Amount at most": "Montant maximal",
 "Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration.": "Montants en FCFA, signés : débits positifs, crédits négatifs. Les résultats sont des exceptions et des indicateurs de risque à examiner.",
-"An amount that lands on a round figure was decided rather than computed. Same two thresholds as analytic 12 of the General Ledger Correlation Console.": "Un montant qui tombe sur un chiffre rond a été décidé, non calculé. Mêmes seuils que l'analyse 12 de la console de corrélation.",
+"An amount that lands on a round figure was decided rather than computed. Same two thresholds as analysis 12 of EAGLA.": "Un montant qui tombe sur un chiffre rond a été décidé, non calculé. Mêmes seuils que l'analyse 12 d'EAGLA.",
 "An application key is used once on a file.": "Une clé d'application n'est utilisée qu'une fois par dossier.",
 "An engagement has one close process.": "Une mission a un seul processus de clôture.",
 "An entry that does not say what it is cannot be understood from the ledger alone, which is where a review of it starts.": "Une écriture qui ne dit pas ce qu'elle est ne peut être comprise à partir du seul grand livre, point de départ de toute revue.",

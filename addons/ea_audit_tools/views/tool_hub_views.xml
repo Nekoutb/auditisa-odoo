@@ -7,11 +7,16 @@
             <kanban class="o_ea_hub" create="0" delete="0" edit="0" can_open="0" action="action_open_tool" type="object">
                 <field name="enabled_method"/>
                 <field name="feeds"/>
+                <field name="upload_chip"/>
+                <field name="uploaded"/>
                 <templates>
                     <t t-name="card">
                         <div t-attf-class="o_ea_tile #{record.enabled_method.raw_value ? '' : 'o_ea_tile_off'}">
                             <span class="o_ea_tile_name"><field name="name"/></span>
                             <span class="o_ea_tile_desc"><field name="subtitle"/></span>
+                            <div t-if="record.upload_chip.raw_value" class="mt-2">
+                                <span t-attf-class="o_ea_chip #{record.uploaded.raw_value ? 'o_ea_chip_good' : 'o_ea_chip_warn'}" t-esc="record.upload_chip.raw_value"/>
+                            </div>
                             <div class="mt-2">
                                 <t t-foreach="(record.feeds.raw_value || '').split(',')" t-as="code" t-key="code">
                                     <span class="o_ea_tile_code" t-if="code" t-esc="code"/>

@@ -1,9 +1,10 @@
 import re
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 from ..exports import lead_schedule_workbook, sad_workbook, simple_workbook
 from ..rules import rule_error
+from ..services import data_bank
 from ..services.assertions import ASSERTIONS
 from ..services.errors import ServiceError
 from ..tabular import parse_table
@@ -27,6 +28,11 @@ class ToolTile(models.Model):
     available = fields.Boolean(compute="_compute_available")
     enabled_method = fields.Char(compute="_compute_available", help="The method, when an installed addon provides it.")
     subtitle = fields.Char(compute="_compute_available")
+    upload_chip = fields.Char(
+        string="Files uploaded", compute="_compute_upload_chip",
+        help="Data bank: the files uploaded on this engagement, their number and timings, or Not uploaded.",
+    )
+    uploaded = fields.Boolean(compute="_compute_upload_chip")
 
     _code_uniq = models.Constraint("UNIQUE(code)", "A tile code is unique.")
 
@@ -37,6 +43,29 @@ class ToolTile(models.Model):
             tile.available = on
             tile.enabled_method = tile.method if on else False
             tile.subtitle = tile.description if on else "%s %s" % (tile.description, self.env._("(coming)"))
+
+    @api.depends_context("ea_engagement_id", "lang")
+    def _compute_upload_chip(self):
+        """The chip of a Data bank tile, for the engagement of the page (none elsewhere)."""
+        self.upload_chip = False
+        self.uploaded = False
+        tiles = self.filtered(lambda tile: tile.code in data_bank.KIND_BY_TILE)
+        engagement = self.env["ea.audit.engagement"].browse(self.env.context.get("ea_engagement_id")).exists()
+        if not tiles or not engagement or not (self.env.su or engagement._ea_member(self.env.user)):
+            return
+        timings = {}
+        for dataset in self.env["ea.audit.dataset"].sudo().search([("engagement_id", "=", engagement.id)]):
+            timings.setdefault(dataset.kind, []).append(dataset.timing)
+        for version in self.env["ea.audit.tb.version"].sudo().search([
+            ("tb_id.engagement_id", "=", engagement.id), ("version_kind", "=", "initial"),
+        ]):
+            timings.setdefault("trial_balance", []).append(version.timing)
+        labels = dict(self.env["ea.audit.dataset"]._fields["timing"]._description_selection(self.env))
+        fr = is_french(self.env)
+        for tile in tiles:
+            found = timings.get(data_bank.KIND_BY_TILE[tile.code], [])
+            tile.upload_chip = data_bank.chip(found, labels, fr)
+            tile.uploaded = bool(found)
 
     def action_open_tool(self):
         self.ensure_one()

@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, combined risk assessment, findings, summary of audit differences and the tools hub",
-    "version": "19.0.1.24.3",  # release 2026-11-25: work allocation in place of the client overrides tile; questionnaire Q18; Data quality (IPE) replaces substantive analytics; Journal entry testing (ISA 240): one screen, four questions per entry, engagement settings
+    "version": "19.0.1.25.1",  # release 2026-11-25: work allocation in place of the client overrides tile; questionnaire Q18; Data quality (IPE) replaces substantive analytics; Journal entry testing (ISA 240): one screen, four questions per entry, engagement settings; the Data bank (uploads only) and EAGLA: correlations and SCOT identification
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

@@ -52,12 +52,6 @@ class DatasetAnalyzer(models.Model):
         self.ensure_one()
         return self.sudo().engagement_id.with_env(self.env)._ea_export_action("aging_%s" % self.kind)
 
-    def action_open_supplier_recon(self):
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window", "name": self.env._("Supplier statements against the ledger"), "res_model": "ea.audit.supplier.recon.wizard",
-            "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.sudo().engagement_id.id, "default_statement_id": self.id},
-        }
 
 
 class EngagementAnalyzer(models.Model):
@@ -213,34 +207,29 @@ class EngagementAnalyzer(models.Model):
         return action
 
     def action_tool_data_analytics(self):
-        """The analyzers, as a second page of tiles."""
+        """The Data bank (owner, 18/11/2026): the client's files, uploads only, as a second page of
+        tiles, each with the files uploaded."""
         self.ensure_one()
         self._ea_require_access()
         action = self.action_open_tools()
-        action["name"] = self.env._("Data analytics")
+        action["name"] = self.env._("Data bank")
         action["domain"] = [("section", "=", "analyzers")]
         return action
 
     def action_tool_ar(self):
-        return self._ea_analyzer("ar_open_items", self.env._("Accounts receivable"))
+        return self._ea_analyzer("ar_open_items", self.env._("Accounts receivable ledger"))
 
     def action_tool_ap(self):
-        return self._ea_analyzer("ap_open_items", self.env._("Accounts payable"))
+        return self._ea_analyzer("ap_open_items", self.env._("Accounts payable ledger"))
 
     def action_tool_inventory(self):
-        return self._ea_analyzer("inventory_listing", self.env._("Inventory"))
+        return self._ea_analyzer("inventory_listing", self.env._("Inventory ledger"))
 
     def action_tool_fixed_assets(self):
-        return self._ea_analyzer("fixed_asset_register", self.env._("Fixed assets"))
+        return self._ea_analyzer("fixed_asset_register", self.env._("Fixed assets register"))
 
     def action_tool_payroll(self):
-        return self._ea_analyzer("payroll_register", self.env._("Payroll"))
-
-    def action_tool_bank(self):
-        return self._ea_analyzer("bank_statement", self.env._("Bank statements"))
-
-    def action_tool_supplier(self):
-        return self._ea_analyzer("supplier_statements", self.env._("Supplier statements"))
+        return self._ea_analyzer("payroll_register", self.env._("Payroll sub-ledger"))
 
     def _ea_export_dynamic_method(self, kind):
         found = super()._ea_export_dynamic_method(kind)

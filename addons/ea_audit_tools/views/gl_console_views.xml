@@ -1,179 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- EAGLA, Elite Advisors Augmented General Ledger Analysis (owner's mock-ups of 18/11/2026):
+         the general ledger console renamed, a left pane of groups and the chosen one on the right. -->
     <record id="view_gl_console_form" model="ir.ui.view">
         <field name="name">ea.audit.gl.console.form</field>
         <field name="model">ea.audit.gl.console</field>
         <field name="arch" type="xml">
-            <form create="0" delete="0" duplicate="0">
+            <form create="0" delete="0" duplicate="0" class="o_ea_eagla">
                 <header>
-                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="gl_built_at" groups="ea_audit_core.group_writer"/>
+                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="not dataset_id or gl_built_at" groups="ea_audit_core.group_writer"/>
                     <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" invisible="not validation_status"/>
                 </header>
                 <sheet>
                     <field name="engagement_id" invisible="1"/>
                     <field name="gl_built_at" invisible="1"/>
                     <field name="figure_set" invisible="1"/>
-                    <div class="o_ea_title">General ledger console</div>
-                    <div class="o_ea_sub">Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration.</div>
-                    <div class="o_ea_banner" invisible="gl_built_at">This ledger has no projection yet: build it first.</div>
-                    <group>
-                        <group>
-                            <field name="dataset_id" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="gl_line_count"/>
-                        </group>
-                        <group>
-                            <field name="selected_accounts"/>
-                        </group>
-                    </group>
-                    <field name="head_html" nolabel="1" readonly="1"/>
-                    <div class="o_ea_panel" invisible="not figure_set">
-                        <field name="figure_html" nolabel="1" readonly="1"/>
-                        <button name="action_drill_figure" type="object" string="Lines behind the figure" class="btn-primary"/>
-                    </div>
-                    <notebook>
-                        <page string="Entry analysis" name="entry">
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">Pick accounts</div>
+                    <field name="pane" invisible="1"/>
+                    <field name="scot_class" invisible="1"/>
+                    <div class="o_ea_eagla_mark">EAGLA™</div>
+                    <div class="o_ea_title">EAGLA</div>
+                    <div class="o_ea_sub">Elite Advisors Augmented General Ledger Analysis</div>
+                    <div class="row">
+                        <div class="col-lg-3 o_ea_eagla_nav">
+                            <button name="action_eagla_financial" type="object" string="Financial analysis" class="btn btn-link o_ea_eagla_group"/>
+                            <button name="action_eagla_analytical" type="object" string="Analytical procedures" class="btn btn-link o_ea_eagla_group"/>
+                            <div class="o_ea_card_label mt-3">EAGLA analyses</div>
+                            <field name="analytic_key" widget="radio" nolabel="1" class="o_ea_eagla_list"/>
+                            <div class="o_ea_card_label mt-3">SCOT identification</div>
+                            <button name="action_scot" type="object" string="Revenue" context="{'ea_scot_class': 'revenue'}" class="btn btn-link o_ea_eagla_item"/>
+                            <button name="action_scot" type="object" string="Purchases" context="{'ea_scot_class': 'purchases'}" class="btn btn-link o_ea_eagla_item"/>
+                            <button name="action_scot" type="object" string="Fixed assets" context="{'ea_scot_class': 'fixed_assets'}" class="btn btn-link o_ea_eagla_item"/>
+                            <button name="action_scot" type="object" string="Treasury" context="{'ea_scot_class': 'treasury'}" class="btn btn-link o_ea_eagla_item"/>
+                        </div>
+                        <div class="col-lg-9">
+                            <group>
+                                <group>
+                                    <field name="dataset_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="gl_line_count" invisible="not dataset_id"/>
+                                </group>
+                            </group>
+                            <div class="o_ea_banner" invisible="dataset_id">No general ledger is in use on this file: upload one in the Data bank. Financial analysis and analytical procedures open without it.</div>
+                            <div class="o_ea_banner" invisible="not dataset_id or gl_built_at">This ledger has no projection yet: build it first.</div>
+                            <field name="head_html" nolabel="1" readonly="1" invisible="not dataset_id"/>
+                            <div class="o_ea_panel" invisible="not figure_set">
+                                <field name="figure_html" nolabel="1" readonly="1"/>
+                                <button name="action_drill_figure" type="object" string="Lines behind the figure" class="btn-primary"/>
+                            </div>
+
+                            <!-- 31. Two-way correlation -->
+                            <div invisible="not dataset_id or pane != 'analyses' or analytic_key != 'two-way-correlation'">
+                                <div class="o_ea_card_label">31. Two-way correlation</div>
                                 <group>
                                     <group>
-                                        <field name="account_search"/>
+                                        <field name="corr2_numerator" placeholder="443"/>
+                                        <field name="corr2_denominator" placeholder="70"/>
                                     </group>
                                     <group>
-                                        <field name="picker_note" nolabel="1" colspan="2"/>
+                                        <field name="corr2_tolerance"/>
                                     </group>
                                 </group>
-                                <button name="action_search_accounts" type="object" string="Find" class="me-2"/>
-                                <button name="action_add_picked" type="object" string="Add the ticked accounts" invisible="not account_ids"/>
-                                <field name="account_ids" nolabel="1" invisible="not account_ids">
-                                    <list editable="bottom" create="0" delete="0">
-                                        <field name="selected" widget="boolean_toggle"/>
-                                        <field name="account"/>
-                                        <field name="name"/>
-                                        <field name="lines"/>
+                                <button name="action_run_two_way" type="object" string="Compute" class="btn-primary" invisible="not gl_built_at"/>
+                                <field name="corr2_html" nolabel="1"/>
+                            </div>
+
+                            <!-- 32. Three-way correlation -->
+                            <div invisible="not dataset_id or pane != 'analyses' or analytic_key != 'three-way-correlation'">
+                                <div class="o_ea_card_label">32. Three-way correlation</div>
+                                <group>
+                                    <group>
+                                        <field name="corr3_a" placeholder="70"/>
+                                        <field name="corr3_b" placeholder="443"/>
+                                        <field name="corr3_c" placeholder="411"/>
+                                    </group>
+                                </group>
+                                <button name="action_run_three_way" type="object" string="Compute" class="btn-primary" invisible="not gl_built_at"/>
+                                <field name="corr3_html" nolabel="1"/>
+                            </div>
+
+                            <!-- 1 to 30: the analytics of the catalogue -->
+                            <div invisible="not dataset_id or pane != 'analyses' or not analytic_key or analytic_key in ('two-way-correlation', 'three-way-correlation')">
+                                <p class="o_ea_legend">Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration.</p>
+                                <group>
+                                    <group>
+                                        <field name="year_end_days" invisible="analytic_key != 'year-end-concentration'"/>
+                                        <field name="sd_factor" invisible="analytic_key != 'monthly-spikes'"/>
+                                        <field name="percentile" invisible="analytic_key != 'top-value'"/>
+                                        <field name="round_min" widget="ea_amount" invisible="analytic_key != 'round-numbers'"/>
+                                        <field name="round_step" widget="ea_amount" invisible="analytic_key != 'round-numbers'"/>
+                                        <field name="min_occurrences" invisible="analytic_key != 'repeated-amounts'"/>
+                                        <field name="rare_max" invisible="analytic_key != 'rare-accounts'"/>
+                                        <field name="prefixes" invisible="analytic_key != 'third-party-attribution'"/>
+                                        <field name="top_n" invisible="analytic_key not in ('preparer-volume', 'preparer-value', 'reviewer-workload')"/>
+                                    </group>
+                                </group>
+                                <button name="action_run_analytic" type="object" string="Run" class="btn-primary me-2"/>
+                                <button name="action_export_analytic" type="object" string="Extract to Excel"/>
+                                <field name="analytic_html" nolabel="1"/>
+                                <div class="o_ea_panel">
+                                    <div class="o_ea_card_label">Lines behind a row</div>
+                                    <group>
+                                        <group>
+                                            <field name="drill_month"/>
+                                        </group>
+                                    </group>
+                                    <button name="action_drill_month" type="object" string="Open the lines"/>
+                                </div>
+                                <div class="o_ea_panel">
+                                    <div class="o_ea_card_label">The thirty analytics, against this ledger</div>
+                                    <field name="catalogue_html" nolabel="1" readonly="1"/>
+                                </div>
+                            </div>
+
+                            <!-- The console's other tabs, kept as they were -->
+                            <notebook invisible="not dataset_id or pane != 'analyses'">
+                                <page string="Entry analysis" name="entry">
+                                    <group>
+                                        <group>
+                                            <field name="selected_accounts"/>
+                                        </group>
+                                    </group>
+                                    <div class="o_ea_panel">
+                                        <div class="o_ea_card_label">Pick accounts</div>
+                                        <group>
+                                            <group>
+                                                <field name="account_search"/>
+                                            </group>
+                                            <group>
+                                                <field name="picker_note" nolabel="1" colspan="2"/>
+                                            </group>
+                                        </group>
+                                        <button name="action_search_accounts" type="object" string="Find" class="me-2"/>
+                                        <button name="action_add_picked" type="object" string="Add the ticked accounts" invisible="not account_ids"/>
+                                        <field name="account_ids" nolabel="1" invisible="not account_ids">
+                                            <list editable="bottom" create="0" delete="0">
+                                                <field name="selected" widget="boolean_toggle"/>
+                                                <field name="account"/>
+                                                <field name="name"/>
+                                                <field name="lines"/>
+                                                <field name="entries"/>
+                                                <field name="debit" widget="ea_amount"/>
+                                                <field name="credit" widget="ea_amount"/>
+                                                <field name="signed" widget="ea_amount"/>
+                                            </list>
+                                        </field>
+                                    </div>
+                                    <group>
+                                        <group>
+                                            <field name="entry_mode" widget="radio" options="{'horizontal': true}"/>
+                                            <field name="entry_period" widget="radio" options="{'horizontal': true}"/>
+                                        </group>
+                                        <group>
+                                            <field name="entry_rank"/>
+                                            <field name="entry_limit"/>
+                                        </group>
+                                    </group>
+                                    <button name="action_run_entry" type="object" string="Analyse the entries" class="btn-primary"/>
+                                    <field name="entry_html" nolabel="1"/>
+                                    <div class="o_ea_panel">
+                                        <div class="o_ea_card_label">Lines behind a cell</div>
+                                        <group>
+                                            <group>
+                                                <field name="drill_account" string="Counterpart account"/>
+                                                <field name="drill_month" invisible="entry_period != 'month'"/>
+                                                <field name="drill_weekday" invisible="entry_period != 'weekday'"/>
+                                            </group>
+                                        </group>
+                                        <button name="action_drill_entry" type="object" string="Open the lines"/>
+                                    </div>
+                                    <div class="o_ea_panel">
+                                        <div class="o_ea_card_label">Filter lines: every condition must hold</div>
+                                        <group>
+                                            <group>
+                                                <field name="filter_accounts"/>
+                                                <field name="filter_date_from"/>
+                                                <field name="filter_date_to"/>
+                                                <field name="filter_min_abs"/>
+                                                <field name="filter_max_abs"/>
+                                                <field name="filter_journal"/>
+                                            </group>
+                                            <group>
+                                                <field name="filter_je"/>
+                                                <field name="filter_preparer"/>
+                                                <field name="filter_reviewer"/>
+                                                <field name="filter_approver"/>
+                                                <field name="filter_weekend"/>
+                                                <field name="filter_missing_reference"/>
+                                            </group>
+                                        </group>
+                                        <button name="action_drill_filter" type="object" string="Open the lines"/>
+                                    </div>
+                                </page>
+                                <page string="Two accounts" name="correlation">
+                                    <group>
+                                        <group>
+                                            <field name="corr_a" placeholder="First selected account"/>
+                                            <field name="corr_b" placeholder="Second selected account"/>
+                                        </group>
+                                    </group>
+                                    <button name="action_run_correlation" type="object" string="Correlate" class="btn-primary me-2"/>
+                                    <button name="action_swap" type="object" string="Swap"/>
+                                    <p class="o_ea_legend">Restricted to the entries containing both accounts. The ratio is account A over account B, its sign kept.</p>
+                                    <field name="corr_html" nolabel="1"/>
+                                    <div class="o_ea_panel">
+                                        <div class="o_ea_card_label">Lines behind a cell</div>
+                                        <group>
+                                            <group>
+                                                <field name="drill_account" string="Account"/>
+                                                <field name="drill_month"/>
+                                            </group>
+                                        </group>
+                                        <button name="action_drill_correlation" type="object" string="Open the lines"/>
+                                    </div>
+                                </page>
+                                <page string="Insights" name="insights">
+                                    <button name="action_load_insights" type="object" string="Compute the insights" class="btn-primary"/>
+                                    <field name="insights_html" nolabel="1"/>
+                                    <div class="o_ea_panel">
+                                        <div class="o_ea_card_label">Correlation between account prefixes</div>
+                                        <group>
+                                            <group>
+                                                <field name="prefix_accounts"/>
+                                            </group>
+                                        </group>
+                                        <button name="action_run_matrix" type="object" string="Compare"/>
+                                        <field name="matrix_html" nolabel="1"/>
+                                    </div>
+                                </page>
+                            </notebook>
+
+                            <!-- SCOT identification -->
+                            <div invisible="not dataset_id or pane != 'scot'">
+                                <div class="o_ea_card_label">SCOT identification</div>
+                                <p class="o_ea_legend">The significant classes of transactions (SCOT), read from the general ledger of the year on SYSCOHADA account prefixes.</p>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'revenue'">Revenue</div>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'purchases'">Purchases</div>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'fixed_assets'">Fixed assets</div>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'treasury'">Treasury</div>
+                                <field name="scot_html" nolabel="1"/>
+                                <field name="scot_pattern_ids" nolabel="1" readonly="1" invisible="not scot_pattern_ids">
+                                    <list create="0" delete="0" decoration-danger="unusual">
+                                        <field name="debit_group"/>
+                                        <field name="credit_group"/>
+                                        <field name="journal"/>
                                         <field name="entries"/>
-                                        <field name="debit" widget="ea_amount"/>
-                                        <field name="credit" widget="ea_amount"/>
-                                        <field name="signed" widget="ea_amount"/>
+                                        <field name="amount" widget="ea_amount"/>
+                                        <field name="unusual" widget="boolean"/>
+                                        <button name="action_open_entries" type="object" string="Entries" icon="fa-list"/>
                                     </list>
                                 </field>
                             </div>
-                            <group>
-                                <group>
-                                    <field name="entry_mode" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="entry_period" widget="radio" options="{'horizontal': true}"/>
-                                </group>
-                                <group>
-                                    <field name="entry_rank"/>
-                                    <field name="entry_limit"/>
-                                </group>
-                            </group>
-                            <button name="action_run_entry" type="object" string="Analyse the entries" class="btn-primary"/>
-                            <field name="entry_html" nolabel="1"/>
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">Lines behind a cell</div>
-                                <group>
-                                    <group>
-                                        <field name="drill_account" string="Counterpart account"/>
-                                        <field name="drill_month" invisible="entry_period != 'month'"/>
-                                        <field name="drill_weekday" invisible="entry_period != 'weekday'"/>
-                                    </group>
-                                </group>
-                                <button name="action_drill_entry" type="object" string="Open the lines"/>
-                            </div>
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">Filter lines: every condition must hold</div>
-                                <group>
-                                    <group>
-                                        <field name="filter_accounts"/>
-                                        <field name="filter_date_from"/>
-                                        <field name="filter_date_to"/>
-                                        <field name="filter_min_abs"/>
-                                        <field name="filter_max_abs"/>
-                                        <field name="filter_journal"/>
-                                    </group>
-                                    <group>
-                                        <field name="filter_je"/>
-                                        <field name="filter_preparer"/>
-                                        <field name="filter_reviewer"/>
-                                        <field name="filter_approver"/>
-                                        <field name="filter_weekend"/>
-                                        <field name="filter_missing_reference"/>
-                                    </group>
-                                </group>
-                                <button name="action_drill_filter" type="object" string="Open the lines"/>
-                            </div>
-                        </page>
-                        <page string="Two accounts" name="correlation">
-                            <group>
-                                <group>
-                                    <field name="corr_a" placeholder="First selected account"/>
-                                    <field name="corr_b" placeholder="Second selected account"/>
-                                </group>
-                            </group>
-                            <button name="action_run_correlation" type="object" string="Correlate" class="btn-primary me-2"/>
-                            <button name="action_swap" type="object" string="Swap"/>
-                            <p class="o_ea_legend">Restricted to the entries containing both accounts. The ratio is account A over account B, its sign kept.</p>
-                            <field name="corr_html" nolabel="1"/>
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">Lines behind a cell</div>
-                                <group>
-                                    <group>
-                                        <field name="drill_account" string="Account"/>
-                                        <field name="drill_month"/>
-                                    </group>
-                                </group>
-                                <button name="action_drill_correlation" type="object" string="Open the lines"/>
-                            </div>
-                        </page>
-                        <page string="Analytics" name="analytics">
-                            <group>
-                                <group>
-                                    <field name="analytic_key"/>
-                                </group>
-                                <group>
-                                    <field name="year_end_days" invisible="analytic_key != 'year-end-concentration'"/>
-                                    <field name="sd_factor" invisible="analytic_key != 'monthly-spikes'"/>
-                                    <field name="percentile" invisible="analytic_key != 'top-value'"/>
-                                    <field name="round_min" widget="ea_amount" invisible="analytic_key != 'round-numbers'"/>
-                                    <field name="round_step" widget="ea_amount" invisible="analytic_key != 'round-numbers'"/>
-                                    <field name="min_occurrences" invisible="analytic_key != 'repeated-amounts'"/>
-                                    <field name="rare_max" invisible="analytic_key != 'rare-accounts'"/>
-                                    <field name="prefixes" invisible="analytic_key != 'third-party-attribution'"/>
-                                    <field name="top_n" invisible="analytic_key not in ('preparer-volume', 'preparer-value', 'reviewer-workload')"/>
-                                </group>
-                            </group>
-                            <button name="action_run_analytic" type="object" string="Run" class="btn-primary me-2"/>
-                            <button name="action_export_analytic" type="object" string="Extract to Excel"/>
-                            <field name="analytic_html" nolabel="1"/>
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">Lines behind a row</div>
-                                <group>
-                                    <group>
-                                        <field name="drill_month"/>
-                                    </group>
-                                </group>
-                                <button name="action_drill_month" type="object" string="Open the lines"/>
-                            </div>
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">The thirty analytics, against this ledger</div>
-                                <field name="catalogue_html" nolabel="1" readonly="1"/>
-                            </div>
-                        </page>
-                        <page string="Insights" name="insights">
-                            <button name="action_load_insights" type="object" string="Compute the insights" class="btn-primary"/>
-                            <field name="insights_html" nolabel="1"/>
-                            <div class="o_ea_panel">
-                                <div class="o_ea_card_label">Correlation between account prefixes</div>
-                                <group>
-                                    <group>
-                                        <field name="prefix_accounts"/>
-                                    </group>
-                                </group>
-                                <button name="action_run_matrix" type="object" string="Compare"/>
-                                <field name="matrix_html" nolabel="1"/>
-                            </div>
-                        </page>
-                    </notebook>
+                        </div>
+                    </div>
                 </sheet>
             </form>
         </field>

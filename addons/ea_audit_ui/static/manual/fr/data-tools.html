@@ -1,24 +1,24 @@
 <article class="ea-help-page" data-id="data-tools" data-part="L'audit, phase par phase" data-part-order="5" data-order="5.15">
-  <h1>L'analytique et les outils de données</h1>
-  <p class="lead">Utiliser les analyseurs qui réalisent une partie des travaux à partir des fichiers du client, et vérifier que l'on peut s'appuyer sur ces fichiers.</p>
+  <h1>La Banque de données</h1>
+  <p class="lead">Réunir les fichiers du client en un seul endroit : la balance générale, les grands livres et les registres sur lesquels travaillent les outils.</p>
   <p class="who"><b>Qui :</b> l'équipe de mission. Les rôles en lecture seule (par exemple le réviseur qualité de la mission) voient les pages en lecture seule.</p>
+
+  <h2>Les tuiles</h2>
+  <p>La tuile <b>Banque de données</b> ouvre une tuile par type de fichier. Chaque tuile dit en une ligne ce que contient le fichier et montre les fichiers importés (combien, et pour quels moments : exercice précédent, préaudit, postaudit, période suivante), ou « Non importé ». Cliquez sur une tuile pour voir ses imports, avec <b>Importer un jeu de données</b> (<b>Importer une balance</b> pour la balance générale) et <b>Télécharger le modèle</b> :</p>
+  <table class="ref">
+    <tr><th>Tuile</th><th>Ce qu'elle contient</th></tr>
+    <tr><td><b>Balance générale</b></td><td>Soldes de tous les comptes, à l'ouverture et à la clôture.</td></tr>
+    <tr><td><b>Grand livre</b></td><td>Toutes les écritures de l'exercice.</td></tr>
+    <tr><td><b>Grand livre clients</b></td><td>Opérations non soldées par client.</td></tr>
+    <tr><td><b>Grand livre fournisseurs</b></td><td>Opérations non soldées par fournisseur.</td></tr>
+    <tr><td><b>Grand livre des stocks</b></td><td>Articles en stock, quantités et valeurs.</td></tr>
+    <tr><td><b>Registre des immobilisations</b></td><td>Chaque immobilisation, son coût et ses amortissements.</td></tr>
+    <tr><td><b>Livre de paie</b></td><td>Paie par salarié et par mois.</td></tr>
+  </table>
+  <p>La Banque de données ne contient que des imports. Les analyses du grand livre, l'analyse financière et les procédures analytiques se trouvent dans <a href="#eagla">EAGLA</a>.</p>
 
   <h2>Qualité des données (IPE)</h2>
   <p><b>Qualité des données (IPE)</b> contrôle chaque fichier remis par le client dès son import, consigne l'origine des données et porte la conclusion de l'équipe sur la possibilité, pour les feuilles de travail, de s'y appuyer. Voir <a href="#data-quality">Qualité des données (IPE)</a>.</p>
 
-  <h2>Les analyseurs</h2>
-  <p>La tuile <b>Analyse de données</b> ouvre les analyseurs. Chacun liste les imports de son type, avec <b>Importer un jeu de données</b> et <b>Télécharger le modèle</b> :</p>
-  <table class="ref">
-    <tr><th>Analyseur</th><th>Ce qu'il contient</th></tr>
-    <tr><td><b>Analyseur de balance générale</b></td><td>Importer la balance générale, la contrôler et rattacher ses comptes aux indices.</td></tr>
-    <tr><td><b>Analyseur du grand livre</b></td><td>La population des écritures de journal, ses contrôles et <b>Les trente analyses</b>.</td></tr>
-    <tr><td><b>Analyseur des créances clients</b> / <b>Analyseur des dettes fournisseurs</b></td><td>Postes ouverts et balance âgée, <b>Rapprocher au compte de contrôle</b>, <b>Exporter la balance âgée</b>.</td></tr>
-    <tr><td><b>Relevés fournisseurs</b></td><td>Relevés rapprochés du grand livre auxiliaire fournisseurs.</td></tr>
-    <tr><td><b>Analyseur bancaire</b></td><td>Relevés bancaires et suspens.</td></tr>
-    <tr><td><b>Analyseur des stocks</b></td><td>La liste d'inventaire, utilisée pour les comptages tests.</td></tr>
-    <tr><td><b>Analyseur des immobilisations</b></td><td>Le fichier des immobilisations, utilisé par K-M1 et K-M2.</td></tr>
-    <tr><td><b>Analyseur de la paie</b></td><td>Le livre de paie et son rapprochement avec le solde.</td></tr>
-  </table>
-
-  <p class="see">Voir aussi : <a href="#uploading-data">Importer les données du client</a> · <a href="#data-quality">Qualité des données (IPE)</a> · <a href="#substantive">Procédures de corroboration</a> · <a href="#journal-entries">Tests des écritures de journal</a></p>
+  <p class="see">Voir aussi : <a href="#uploading-data">Importer les données du client</a> · <a href="#eagla">EAGLA</a> · <a href="#data-quality">Qualité des données (IPE)</a> · <a href="#substantive">Procédures de corroboration</a> · <a href="#journal-entries">Tests des écritures de journal</a></p>
 </article>
