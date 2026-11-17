@@ -81,32 +81,6 @@
                             <field name="tb_current_label" class="o_ea_card_value"/>
                             <div class="o_ea_card_note"><field name="tb_status_label"/></div>
                         </div>
-                        <div class="o_ea_card">
-                            <div class="o_ea_card_label">Total net assets</div>
-                            <field name="bilan_total_assets" class="o_ea_card_value"/>
-                            <div class="o_ea_card_note"><field name="bilan_label"/></div>
-                        </div>
-                        <div class="o_ea_card">
-                            <div class="o_ea_card_label">Total equity and liabilities</div>
-                            <field name="bilan_total_equity_liabilities" class="o_ea_card_value"/>
-                            <div class="o_ea_card_note">Class 1 + current liabilities + result</div>
-                        </div>
-                    </div>
-                    <div class="o_ea_panel">
-                        <group string="Balance sheet (SYSCOHADA)">
-                            <group string="Assets">
-                                <field name="bilan_fixed_assets"/>
-                                <field name="bilan_inventory"/>
-                                <field name="bilan_receivables"/>
-                                <field name="bilan_cash_assets"/>
-                            </group>
-                            <group string="Equity and liabilities">
-                                <field name="bilan_class1"/>
-                                <field name="bilan_class4_credit"/>
-                                <field name="bilan_cash_liabilities"/>
-                                <field name="bilan_net_result"/>
-                            </group>
-                        </group>
                     </div>
                     <div class="o_ea_panel">
                         <div class="o_ea_card_label">Versions</div>
