@@ -291,3 +291,18 @@ def test_the_step_never_stops_a_firm_and_hands_over_to_its_hook():
     assert seen == ["run"]
     ctx = engine.Context(None, None, None, {}, {}, {}, None)
     step.do(ctx)  # an older caller without the hook: nothing to do
+
+
+def test_cloudflare_accepts_an_account_token():
+    """Cloudflare's newer screen makes account tokens: /user/tokens/verify refuses them, the zones answer."""
+    transport = FakeTransport([
+        ("GET", "/user/tokens/verify", HttpResponse(401, json.dumps({"success": False, "errors": [{"message": "Invalid API Token"}]}).encode())),
+        ("GET", "/zones?per_page=1", ok({"result": [{"id": "z1"}]})),
+    ])
+    assert pm.CloudflareZone(SECRET, transport=transport).check() is True
+    wrong = FakeTransport([
+        ("GET", "/user/tokens/verify", HttpResponse(401, b"{}")),
+        ("GET", "/zones?per_page=1", HttpResponse(401, b"{}")),
+    ])
+    with pytest.raises(ProviderError):
+        pm.CloudflareZone(SECRET, transport=wrong).check()

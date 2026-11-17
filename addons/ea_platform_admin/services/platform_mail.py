@@ -311,8 +311,16 @@ class CloudflareZone(_Client):
         self.zone_id = zone_id
 
     def check(self):
-        """Read-only: the token is valid and active."""
-        answer = self._call("GET", "/user/tokens/verify") or {}
+        """Read-only: the token is valid and active. A user token answers /user/tokens/verify; an account
+        token (what Cloudflare's newer token screen makes) is refused there, so it is checked by listing
+        the zones it can see instead."""
+        try:
+            answer = self._call("GET", "/user/tokens/verify") or {}
+        except ProviderError as error:
+            if error.retryable:
+                raise
+            self._call("GET", "/zones?per_page=1")  # refused too: the token is wrong after all
+            return True
         if ((answer.get("result") or {}).get("status")) != "active":
             raise ProviderError(_("Cloudflare: the token is not active."))
         return True
