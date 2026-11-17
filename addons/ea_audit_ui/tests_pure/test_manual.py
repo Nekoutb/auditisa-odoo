@@ -122,6 +122,9 @@ def test_wording(lang, name):
     # The glossary quotes the French screens (SCOT, EQR); "n/a" in bold is the working paper's own word.
     if lang == "en" and name != "glossary":
         found = sorted({m.group(0) for m in ABBREVIATIONS.finditer(manual_lib.plain(PAGES[lang, name].replace("<b>n/a</b>", "")))})
+        # SCOT is kept on a page that spells it out as on EAGLA's screen (owner, 18/11/2026)
+        if "significant classes of transactions (SCOT)" in text:
+            found = [hit for hit in found if hit != "SCOT"]
         assert not found, found
 
 

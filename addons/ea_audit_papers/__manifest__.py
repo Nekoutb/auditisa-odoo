@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Working Papers",
     "summary": "Paper definitions, answers and history, review notes, conclusions, evidence and the paper renderer",
-    "version": "19.0.1.9.0",  # release 2026-11-25: the "Data relied on" card (Data quality, IPE)
+    "version": "19.0.1.10.0",  # P2.1 task 2.1: independence declarations
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

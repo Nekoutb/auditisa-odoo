@@ -534,28 +534,6 @@ msgid "Accounts and assertions exposed"
 msgstr "Comptes et assertions exposés"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
-msgid "Accounts payable"
-msgstr "Dettes fournisseurs"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_ap
-msgid "Accounts payable analyzer"
-msgstr "Analyseur des dettes fournisseurs"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
-msgid "Accounts receivable"
-msgstr "Créances clients"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_ar
-msgid "Accounts receivable analyzer"
-msgstr "Analyseur des créances clients"
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__dsp_gap_label
 msgid "Accounts with nothing designed"
 msgstr "Comptes sans procédure conçue"
@@ -752,6 +730,7 @@ msgstr "Amortissements des immobilisations incorporelles"
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ipe_line__amount
 #: code:addons/ea_audit_tools/static/src/xml/ipe_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__amount
 msgid "Amount"
 msgstr "Montant"
 
@@ -771,11 +750,6 @@ msgid "Amount at most"
 msgstr "Montant maximal"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
-msgid "Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration."
-msgstr "Montants en FCFA, signés : débits positifs, crédits négatifs. Les résultats sont des exceptions et des indicateurs de risque à examiner."
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_ap_comment__account
 msgid "An account number, or 'total' for the schedule's row."
 msgstr "Un numéro de compte, ou « total » pour la ligne de la feuille."
@@ -788,8 +762,8 @@ msgstr "Un montant est requis pour une anomalie."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_je_studio__use_round_amount
-msgid "An amount that lands on a round figure was decided rather than computed. Same two thresholds as analytic 12 of the General Ledger Correlation Console."
-msgstr "Un montant qui tombe sur un chiffre rond a été décidé, non calculé. Mêmes seuils que l'analyse 12 de la console de corrélation."
+msgid "An amount that lands on a round figure was decided rather than computed. Same two thresholds as analysis 12 of EAGLA."
+msgstr "Un montant qui tombe sur un chiffre rond a été décidé, non calculé. Mêmes seuils que l'analyse 12 d'EAGLA."
 
 #. module: ea_audit_tools
 #: model:ir.model.constraint,message:ea_audit_tools.constraint_ea_audit_it_application_key_uniq
@@ -829,7 +803,6 @@ msgstr "Analyser les écritures"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
-#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_key
 #: code:addons/ea_audit_tools/models/dataset.py:0
 msgid "Analytic"
 msgstr "Analyse"
@@ -844,13 +817,9 @@ msgstr ""
 #: code:addons/ea_audit_tools/models/analysis.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_analytics
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_analytics_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "Analytical procedures"
 msgstr "Procédures analytiques"
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
-msgid "Analytics"
-msgstr "Analyses"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dsp_design__nature__sap_led
@@ -1209,7 +1178,6 @@ msgstr "Banques, crédits de trésorerie et d'escompte"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__bank_statement
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__bank_statement
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__bank_statement
@@ -2296,6 +2264,7 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__create_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__create_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
@@ -2395,6 +2364,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__create_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__create_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -2411,6 +2381,7 @@ msgstr "Créé le"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
 #: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__credit_group
 msgid "Credit"
 msgstr "Crédit"
 
@@ -2488,13 +2459,6 @@ msgid "Data Reliability"
 msgstr "Fiabilité des données"
 
 #. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_data_analytics
-msgid "Data analytics"
-msgstr "Analyse de données"
-
-#. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset_row__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__dataset_id
@@ -2527,6 +2491,7 @@ msgstr "Date testée"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
 #: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__debit_group
 msgid "Debit"
 msgstr "Débit"
 
@@ -2879,6 +2844,7 @@ msgstr "Écarté"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__display_name
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__display_name
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -3226,6 +3192,8 @@ msgstr "Saisissez des montants valides."
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ipe__entry_count
 #: code:addons/ea_audit_tools/static/src/xml/ipe_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__entries
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "Entries"
 msgstr "Écritures"
 
@@ -3675,6 +3643,7 @@ msgstr "Dettes de location acquisition"
 #: code:addons/ea_audit_tools/models/analysis.py:0
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_financial
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_analytics_board
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "Financial analysis"
 msgstr "Analyse financière"
 
@@ -3834,13 +3803,14 @@ msgstr "Exercice"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_fixed_assets
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__fixed_asset_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__fixed_asset_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__fixed_asset_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__fixed_asset_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__fixed_asset_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__scot_class__fixed_assets
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "Fixed assets"
 msgstr "Actif immobilisé"
 
@@ -3858,11 +3828,6 @@ msgstr "Immobilisations en contrepartie de la trésorerie"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__pair_fixed_assets_revenue
 msgid "Fixed assets against revenue"
 msgstr "Immobilisations en contrepartie d'un produit"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_fixed
-msgid "Fixed assets analyzer"
-msgstr "Analyseur des immobilisations"
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -3924,22 +3889,9 @@ msgstr "Procédures générales d'audit"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__journal_entries
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__journal_entries
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__journal_entries
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_gl
 msgid "General ledger"
 msgstr "Grand livre"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_gl
-msgid "General ledger analyzer"
-msgstr "Analyseur du grand livre"
-
-#. module: ea_audit_tools
-#. odoo-python
-#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_gl_console
-#: model:ir.model,name:ea_audit_tools.model_ea_audit_gl_console
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
-msgid "General ledger console"
-msgstr "Console du grand livre"
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_gl_line
@@ -4020,8 +3972,10 @@ msgid "Gross value"
 msgstr "Valeur brute"
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__group
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_fa_ratio_search
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Group"
 msgstr "Groupe"
 
@@ -4287,6 +4241,7 @@ msgstr "Comment la balance est établie à partir des livres, y compris les écr
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__id
 msgid "ID"
 msgstr "ID"
 
@@ -4668,7 +4623,6 @@ msgstr "Invalide"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__bilan_inventory
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__inventory_listing
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__inventory_listing
@@ -4687,16 +4641,6 @@ msgstr "Stocks (F)"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__pair_inventory_cash
 msgid "Inventory against cash"
 msgstr "Stocks en contrepartie de la trésorerie"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_inventory
-msgid "Inventory analyzer"
-msgstr "Analyseur des stocks"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_inventory
-msgid "Inventory listing and agreement to the balance."
-msgstr "État des stocks et rapprochement à la balance."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sap_procedure__investigation
@@ -4753,6 +4697,7 @@ msgstr "N° d'écriture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__journal_code
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_search
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__journal
 msgid "Journal"
 msgstr "Journal"
 
@@ -4779,6 +4724,7 @@ msgstr "Date de journal"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fscp__wcgw_je
 #: code:addons/ea_audit_tools/wizards/je_studio.py:0
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__je_numbers
 msgid "Journal entries"
 msgstr "Écritures de journal"
 
@@ -4788,11 +4734,6 @@ msgstr "Écritures de journal"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_je_studio_form
 msgid "Journal entries: risk-directed selection"
 msgstr "Écritures : sélection orientée par le risque"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_gl
-msgid "Journal-entry population and its checks."
-msgstr "Population des écritures et ses contrôles."
 
 #. module: ea_audit_tools
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_je_design
@@ -5031,6 +4972,7 @@ msgstr "Écritures les plus volumineuses près de la clôture"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__write_uid
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__write_uid
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__write_uid
 msgid "Last Updated by"
 msgstr "Dernière modification par"
 
@@ -5130,6 +5072,7 @@ msgstr "Dernière modification par"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__write_date
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance_wizard__write_date
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__write_date
 msgid "Last Updated on"
 msgstr "Dernière modification le"
 
@@ -6239,21 +6182,6 @@ msgid "Open findings"
 msgstr "Constats ouverts"
 
 #. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_ar
-msgid "Open items, aging, agreement to the balance."
-msgstr "Éléments ouverts, balance âgée, rapprochement à la balance."
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_ap
-msgid "Open items, aging, supplier statements."
-msgstr "Éléments ouverts, balance âgée, relevés fournisseurs."
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
-msgid "Open the console"
-msgstr "Ouvrir la console"
-
-#. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_line_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_lead_schedule_form
 msgid "Open the general-ledger entries"
@@ -6551,7 +6479,6 @@ msgstr "Grand livre fournisseurs"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_dataset__kind__payroll_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_field__kind__payroll_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__payroll_register
@@ -6559,16 +6486,6 @@ msgstr "Grand livre fournisseurs"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__payroll_register
 msgid "Payroll"
 msgstr "Paie"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_payroll
-msgid "Payroll analyzer"
-msgstr "Analyseur de la paie"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_payroll
-msgid "Payroll register and agreement to the balance."
-msgstr "Livre de paie et rapprochement à la balance."
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -7396,11 +7313,6 @@ msgid "Register Only"
 msgstr ""
 
 #. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_fixed
-msgid "Register and agreement to the balance."
-msgstr "Registre et rapprochement à la balance."
-
-#. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_15
 msgid "Regulated provisions"
 msgstr "Provisions réglementées"
@@ -7609,6 +7521,8 @@ msgstr "Report à nouveau"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__revenue
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__revenue
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__revenue
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__scot_class__revenue
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 msgid "Revenue"
 msgstr "Chiffre d'affaires"
 
@@ -7847,6 +7761,7 @@ msgstr "Analytiques + tests de détail"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_task_attachment__scot_id
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_scot_form
 #: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__scot_class
 msgid "Class of transactions"
 msgstr "SCOT"
 
@@ -8083,6 +7998,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_template__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ipe_check__sequence
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ipe_line__sequence
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__sequence
 msgid "Sequence"
 msgstr "Séquence"
 
@@ -8515,9 +8431,7 @@ msgstr "Relevés fournisseurs"
 
 #. module: ea_audit_tools
 #. odoo-python
-#: code:addons/ea_audit_tools/models/analyzer.py:0
 #: model:ir.model,name:ea_audit_tools.model_ea_audit_supplier_recon_wizard
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
 msgid "Supplier statements against the ledger"
 msgstr "Relevés fournisseurs face au grand livre"
 
@@ -8978,11 +8892,6 @@ msgid "Third-party name"
 msgstr "Nom du tiers"
 
 #. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_gl_console
-msgid "Thirty analytics and correlations between accounts."
-msgstr "Trente analyses et corrélations entre comptes."
-
-#. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "This action does not apply to the request in its present state."
@@ -9277,13 +9186,9 @@ msgstr "Trésorerie-passif"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_lead_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_tb_board
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__trial_balance
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_tb
 msgid "Trial balance"
 msgstr "Balance générale"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_tb
-msgid "Trial balance analyzer"
-msgstr "Analyseur de balance générale"
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_materiality_board
@@ -9310,11 +9215,6 @@ msgstr "Version de balance"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_version_ids
 msgid "Trial balance versions"
 msgstr "Versions de balance"
-
-#. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_data_analytics
-msgid "Trial balance, general ledger, receivables, payables, inventory."
-msgstr "Balance, grand livre, clients, fournisseurs, stocks."
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__drill_weekday__2
@@ -9400,12 +9300,8 @@ msgid "Upload"
 msgstr "Pièce jointe"
 
 #. module: ea_audit_tools
-#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_tb
-msgid "Upload, check and map the trial balance."
-msgstr "Importer, contrôler et mapper la balance."
-
-#. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_pbc_item__status__uploaded
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__uploaded
 msgid "Uploaded"
 msgstr "Reçu"
 
@@ -16729,6 +16625,7 @@ msgstr "Information"
 
 #. module: ea_audit_tools
 #. odoo-python
+#. odoo-javascript
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_ipe
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_ipe
 #: code:addons/ea_audit_tools/models/ipe.py:0
@@ -16919,3 +16816,420 @@ msgstr "Utilisé dans ces feuilles de travail"
 #: code:addons/ea_audit_tools/static/src/xml/ipe_page.xml:0
 msgid "No working paper relies on this kind of file."
 msgstr "Aucune feuille de travail ne s'appuie sur ce type de fichier."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_data_analytics
+#: code:addons/ea_audit_tools/models/analyzer.py:0
+msgid "Data bank"
+msgstr "Banque de données"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_data_analytics
+msgid "The client's files: the trial balance, the ledgers and the registers."
+msgstr "Les fichiers du client : la balance générale, les grands livres et les registres."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_tb
+msgid "Balances of every account, opening and closing."
+msgstr "Soldes de tous les comptes, à l'ouverture et à la clôture."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_gl
+msgid "Every journal entry of the year."
+msgstr "Toutes les écritures de l'exercice."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_ar
+#: code:addons/ea_audit_tools/models/analyzer.py:0
+msgid "Accounts receivable ledger"
+msgstr "Grand livre clients"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_ar
+msgid "Open items by customer."
+msgstr "Opérations non soldées par client."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_ap
+#: code:addons/ea_audit_tools/models/analyzer.py:0
+msgid "Accounts payable ledger"
+msgstr "Grand livre fournisseurs"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_ap
+msgid "Open items by supplier."
+msgstr "Opérations non soldées par fournisseur."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_inventory
+#: code:addons/ea_audit_tools/models/analyzer.py:0
+msgid "Inventory ledger"
+msgstr "Grand livre des stocks"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_inventory
+msgid "Items in stock, quantities and values."
+msgstr "Articles en stock, quantités et valeurs."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_fixed
+#: code:addons/ea_audit_tools/models/analyzer.py:0
+msgid "Fixed assets register"
+msgstr "Registre des immobilisations"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_fixed
+msgid "Each asset, its cost and depreciation."
+msgstr "Chaque immobilisation, son coût et ses amortissements."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_payroll
+#: code:addons/ea_audit_tools/models/analyzer.py:0
+msgid "Payroll sub-ledger"
+msgstr "Livre de paie"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_an_payroll
+msgid "Pay by employee and month."
+msgstr "Paie par salarié et par mois."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_tile__upload_chip
+msgid "Files uploaded"
+msgstr "Fichiers importés"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_tool_tile__upload_chip
+msgid "Data bank: the files uploaded on this engagement, their number and timings, or Not uploaded."
+msgstr "Banque de données : les fichiers importés sur cette mission, leur nombre et leurs moments, ou Non importé."
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_gl_console
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_gl_console
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__console_id
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "EAGLA"
+msgstr "EAGLA"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_gl_console
+msgid "Elite Advisors Augmented General Ledger Analysis."
+msgstr "Analyse augmentée du grand livre Elite Advisors."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "EAGLA™"
+msgstr "EAGLA™"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Elite Advisors Augmented General Ledger Analysis"
+msgstr "Analyse augmentée du grand livre Elite Advisors"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
+msgid "Open EAGLA"
+msgstr "Ouvrir EAGLA"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__pane__analyses
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "EAGLA analyses"
+msgstr "Analyses EAGLA"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__pane__scot
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "SCOT identification"
+msgstr "Identification des SCOT"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__pane
+msgid "Shown"
+msgstr "Affiché"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_key
+msgid "Analysis"
+msgstr "Analyse"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__scot_class__purchases
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Purchases"
+msgstr "Achats"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__scot_class__treasury
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Treasury"
+msgstr "Trésorerie"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__scot_html
+msgid "Flows, timing and patterns"
+msgstr "Flux, calendrier et schémas"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__scot_pattern_ids
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Journal entry patterns found"
+msgstr "Schémas d'écritures relevés"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "No general ledger is in use on this file: upload one in the Data bank. Financial analysis and analytical procedures open without it."
+msgstr "Aucun grand livre n'est utilisé sur ce dossier : importez-en un dans la Banque de données. L'analyse financière et les procédures analytiques s'ouvrent sans lui."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "The significant classes of transactions (SCOT), read from the general ledger of the year on SYSCOHADA account prefixes."
+msgstr "Les catégories significatives d'opérations (SCOT), lues dans le grand livre de l'exercice selon les préfixes de comptes SYSCOHADA."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Compute"
+msgstr "Calculer"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "31. Two-way correlation"
+msgstr "31. Corrélation à deux termes"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "32. Three-way correlation"
+msgstr "32. Corrélation à trois termes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr2_numerator
+msgid "Numerator accounts"
+msgstr "Comptes du numérateur"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr2_denominator
+msgid "Denominator accounts"
+msgstr "Comptes du dénominateur"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_console__corr2_numerator
+msgid "Accounts or account prefixes, separated by commas: for example 443."
+msgstr "Comptes ou préfixes de comptes, séparés par des virgules : par exemple 443."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_console__corr2_denominator
+msgid "Accounts or account prefixes, separated by commas: for example 70."
+msgstr "Comptes ou préfixes de comptes, séparés par des virgules : par exemple 70."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr2_tolerance
+msgid "Tolerance (percentage points)"
+msgstr "Tolérance (points de pourcentage)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr2_html
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Two-way correlation"
+msgstr "Corrélation à deux termes"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr3_html
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Three-way correlation"
+msgstr "Corrélation à trois termes"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr3_a
+msgid "Accounts A"
+msgstr "Comptes A"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_console__corr3_a
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_console__corr3_b
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_console__corr3_c
+msgid "Accounts or account prefixes, separated by commas."
+msgstr "Comptes ou préfixes de comptes, séparés par des virgules."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr3_b
+msgid "Accounts B"
+msgstr "Comptes B"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__corr3_c
+msgid "Accounts C"
+msgstr "Comptes C"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_gl_console_pattern
+msgid "Journal entry pattern"
+msgstr "Schéma d'écriture"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__unusual
+msgid "Unusual"
+msgstr "Inhabituel"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Year"
+msgstr "Année"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Numerator (%(accounts)s)"
+msgstr "Numérateur (%(accounts)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Denominator (%(accounts)s)"
+msgstr "Dénominateur (%(accounts)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Numerator ÷ denominator"
+msgstr "Numérateur ÷ dénominateur"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Denominator: %(accounts)s"
+msgstr "Dénominateur : %(accounts)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Numerator: %(accounts)s"
+msgstr "Numérateur : %(accounts)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Months in red stand more than %(points)s percentage points from the yearly average."
+msgstr "Les mois en rouge s'écartent de plus de %(points)s points de pourcentage de la moyenne annuelle."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Invoiced to customers"
+msgstr "Facturé aux clients"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Received from customers"
+msgstr "Encaissé des clients"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Invoiced by suppliers"
+msgstr "Facturé par les fournisseurs"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Paid to suppliers"
+msgstr "Payé aux fournisseurs"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Invoiced by fixed asset suppliers"
+msgstr "Facturé par les fournisseurs d'immobilisations"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Paid to fixed asset suppliers"
+msgstr "Payé aux fournisseurs d'immobilisations"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Money in"
+msgstr "Entrées de trésorerie"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Money out"
+msgstr "Sorties de trésorerie"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "%(count)s journal entries of the year touch this class."
+msgstr "%(count)s écritures de l'exercice touchent cette catégorie."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "entries"
+msgstr "écritures"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Flows between account groups"
+msgstr "Flux entre groupes de comptes"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Money in on the left, money out on the right. Bands are as wide as the amounts moved; unusual flows are in red."
+msgstr "Entrées à gauche, sorties à droite. Les bandes sont aussi larges que les montants ; les flux inhabituels sont en rouge."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Bands are as wide as the amounts moved, from the account credited to the account debited; unusual flows are in red."
+msgstr "Les bandes sont aussi larges que les montants, du compte crédité vers le compte débité ; les flux inhabituels sont en rouge."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Timing, month by month"
+msgstr "Calendrier, mois par mois"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "On average %(days)s days between the invoice and its settlement (%(pairs)s matched by party and reference)."
+msgstr "En moyenne %(days)s jours entre la facture et son règlement (%(pairs)s rapprochées par tiers et référence)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Busiest day of the month"
+msgstr "Jour du mois le plus chargé"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Busiest weekday"
+msgstr "Jour de la semaine le plus chargé"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration."
+msgstr "Montants en FCFA, signés : débits positifs, crédits négatifs. Les résultats sont des exceptions et des indicateurs de risque à examiner."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "entry"
+msgstr "écriture"

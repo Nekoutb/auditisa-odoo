@@ -1,4 +1,5 @@
-"""The import of a file, in three steps and for the nine kinds: upload, match the columns, check.
+"""The import of a file, in three steps and for the seven kinds of the Data bank: upload, match the
+columns, check.
 Nothing is kept before Import is pressed on the last step. The deletion of an upload is confirmed
 here too."""
 import base64
@@ -11,12 +12,15 @@ from ..models.dataset import DATASET_TIMING_SELECTION
 from ..models.import_matching import IMPORT_KIND_SELECTION
 from ..models.tool_record import grouped, is_french, upload_stamp
 from ..rules import rule_error
+from ..services.data_bank import RETIRED_KINDS
 from ..services.dataset_mapping import JE_KEY, JE_KEY_MAX, encode_je_key, je_key_columns
 from ..services.import_matching import (
     JE_KEY_LABEL, TB_KIND, analysis_keys, fields_of, groups_of, mandatory_marks, missing_fields, required_keys,
 )
 
 _RELOAD = {"type": "ir.actions.client", "tag": "soft_reload"}
+#: The upload choices: bank and supplier statements are no longer offered (owner, 18/11/2026).
+UPLOAD_KIND_SELECTION = [(kind, label) for kind, label in IMPORT_KIND_SELECTION if kind not in RETIRED_KINDS]
 _SEPARATOR = {";": ";", ",": ",", "tab": "\t", "|": "|"}
 _SHOWN_ROWS = 8
 _EFFECT_CSS = {"left_out": "o_ea_chip", "warning": "o_ea_chip o_ea_chip_warn", "blocking": "o_ea_chip o_ea_chip_bad"}
@@ -29,7 +33,7 @@ class ImportWizard(models.TransientModel):
     _description = "Import data"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
-    kind = fields.Selection(IMPORT_KIND_SELECTION, string="Kind of data", required=True, default=TB_KIND)
+    kind = fields.Selection(UPLOAD_KIND_SELECTION, string="Kind of data", required=True, default=TB_KIND)
     timing = fields.Selection(DATASET_TIMING_SELECTION, default="pre_audit", required=True)
     file = fields.Binary(string="File (.csv, .xlsx)", required=True)
     filename = fields.Char()

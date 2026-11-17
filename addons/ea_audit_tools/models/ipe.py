@@ -216,6 +216,8 @@ class EngagementIpe(models.Model):
         checked again keeps its explanations; a new file starts afresh and voids the signatures.
         A failure of the checks never takes the upload down with it."""
         self.ensure_one()
+        if kind not in ipe.KINDS:
+            return self.env["ea.audit.ipe"]  # bank and supplier statements: no checks any more
         root = self.sudo()
         record = root._ea_ipe_record(kind, timing, create=True)
         current = root._ea_ipe_current_file(kind, timing)
@@ -275,13 +277,6 @@ class EngagementIpe(models.Model):
         if mapping.get("jeKey"):
             headers += je_key_columns(mapping)
         extra = {"rows_read": dataset.row_count}
-        if dataset.kind == "bank_statement":
-            cr.execute("SELECT data FROM ea_audit_dataset_row WHERE dataset_id = %s ORDER BY row_no LIMIT 1", [dataset.id])
-            first = cr.fetchone()
-            balance = ipe.balance_header(list((first and first[0] or {}).keys()))
-            if balance:
-                headers.append(balance)
-                extra["balance_header"] = balance
         headers = list(dict.fromkeys(headers))
         columns = {header: [] for header in headers}
         rows = []

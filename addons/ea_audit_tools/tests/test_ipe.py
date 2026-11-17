@@ -39,7 +39,8 @@ class TestIpe(GlCase):
         hub = Tile.search([("section", "=", "hub")]).mapped("code")
         self.assertNotIn("sap", hub)
         self.assertIn("ipe", hub)
-        self.assertIn("an-ipe", Tile.search([("section", "=", "analyzers")]).mapped("code"))
+        # the Data bank holds uploads only (owner, 18/11/2026): Data quality (IPE) stays on the hub
+        self.assertNotIn("an-ipe", Tile.search([("section", "=", "analyzers")]).mapped("code"))
         tile = self.env.ref("ea_audit_tools.tile_ipe").with_user(self.staff)
         action = tile.with_context(ea_engagement_id=self.engagement.id).action_open_tool()
         self.assertEqual(action["tag"], "ea_audit_tools.ipe_page")
@@ -176,4 +177,6 @@ class TestIpe(GlCase):
         self.assertEqual(self.record("ap_open_items", "post_audit").reference, "IPE-AP-POST")
         page = self.as_staff.ea_ipe_page("ap_open_items", "post_audit")
         self.assertIn("E4.2", [paper["code"] for paper in page["detail"]["papers"]])
-        self.assertCode("ipe-no-file", self.as_staff.ea_ipe_rerun, "bank_statement", "pre_audit")
+        self.assertCode("ipe-no-file", self.as_staff.ea_ipe_rerun, "inventory_listing", "pre_audit")
+        # bank statements are no longer checked (owner, 18/11/2026)
+        self.assertCode("invalid-value", self.as_staff.ea_ipe_rerun, "bank_statement", "pre_audit")

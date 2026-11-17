@@ -1,0 +1,46 @@
+<article class="ea-help-page" data-id="eagla" data-part="L'audit, phase par phase" data-part-order="5" data-order="5.15.2">
+  <h1>EAGLA</h1>
+  <p class="lead">Analyser le grand livre du client en un seul endroit : les ratios, les procédures analytiques, trente-deux analyses des écritures et les catégories significatives d'opérations (SCOT).</p>
+  <p class="who"><b>Qui :</b> l'équipe de mission. Les rôles en lecture seule (par exemple le réviseur qualité de la mission) voient la page en lecture seule.</p>
+
+  <h2>Ouvrir EAGLA</h2>
+  <p>EAGLA signifie Elite Advisors Augmented General Ledger Analysis (analyse augmentée du grand livre Elite Advisors). Ouvrez les outils de la mission, puis la tuile <b>EAGLA</b>. La page s'ouvre sur le grand livre utilisé : importez-le d'abord dans la <a href="#data-tools">Banque de données</a>. La page d'un grand livre a aussi un bouton <b>Ouvrir EAGLA</b>. Sans grand livre, la page ouvre tout de même l'analyse financière et les procédures analytiques.</p>
+
+  <h2>Le volet de gauche</h2>
+  <table class="ref">
+    <tr><th>Groupe</th><th>Ce qu'il ouvre</th></tr>
+    <tr><td><b>Analyse financière</b></td><td>Les ratios calculés à partir de la balance générale. Voir <a href="#financial-analysis">Analyse financière et procédures analytiques</a>.</td></tr>
+    <tr><td><b>Procédures analytiques</b></td><td>L'attente, le seuil, l'écart et la conclusion, compte par compte.</td></tr>
+    <tr><td><b>Analyses EAGLA</b></td><td>Les trente analyses du grand livre, numérotées de 1 à 30, puis 31 corrélation à deux termes et 32 corrélation à trois termes. Choisissez-en une : ses paramètres et son résultat s'affichent à droite. Cliquez sur <b>Exécuter</b> pour 1 à 30, sur <b>Calculer</b> pour 31 et 32.</td></tr>
+    <tr><td><b>Identification des SCOT</b></td><td><b>Chiffre d'affaires</b>, <b>Achats</b>, <b>Immobilisations</b> et <b>Trésorerie</b> : cliquez sur l'une pour lire cette catégorie d'opérations dans le grand livre.</td></tr>
+  </table>
+
+  <h2>31. Corrélation à deux termes</h2>
+  <p>Saisissez les comptes, ou le début de leurs numéros, dans <b>Comptes du numérateur</b> et <b>Comptes du dénominateur</b>, par exemple 443 (TVA facturée) sur 70 (ventes), puis cliquez sur <b>Calculer</b>. Le tableau montre chaque mois de l'exercice audité, de janvier à décembre, et l'année : le numérateur, le dénominateur et le numérateur divisé par le dénominateur, en pourcentage à deux décimales. Un mois en rouge s'écarte de plus de 1,5 point de pourcentage de la moyenne annuelle ; modifiez la <b>Tolérance (points de pourcentage)</b> pour élargir ou resserrer cet écart.</p>
+  <p>Sous le tableau, deux cercles se chevauchent : le dénominateur en jaune, le numérateur en orange, chacun aussi grand que son total annuel, avec la moyenne annuelle au milieu. Une ligne nomme les mois qui s'écartent.</p>
+  <div class="tip"><b>Astuce</b> Chaque compte est pris de son côté naturel : les crédits sont positifs pour les classes 1 et 7 et pour les comptes créditeurs des classes 4 et 8, les débits pour tous les autres. Les ventes et la TVA qu'elles portent sont toutes deux positives : le pourcentage se lit comme le taux de TVA.</div>
+
+  <h2>32. Corrélation à trois termes</h2>
+  <p>Saisissez trois ensembles de comptes dans <b>Comptes A</b>, <b>Comptes B</b> et <b>Comptes C</b>, par exemple les ventes (70), la TVA facturée (443) et les clients (411), puis cliquez sur <b>Calculer</b>. Le tableau montre A, B et C mois par mois, avec B ÷ A, A ÷ C et B ÷ C. Trois cercles se chevauchent (A jaune, B orange, C bleu), et les trois pourcentages annuels sont listés dessous.</p>
+
+  <h2>Identification des SCOT</h2>
+  <p>Chaque catégorie réunit des comptes SYSCOHADA en groupes :</p>
+  <table class="ref">
+    <tr><th>Catégorie</th><th>Groupes</th></tr>
+    <tr><td><b>Chiffre d'affaires</b></td><td>Ventes (70), TVA facturée (443), clients (411), banque et caisse (52, 57).</td></tr>
+    <tr><td><b>Achats</b></td><td>Achats (60, 61, 62), TVA récupérable (445), fournisseurs (401), banque et caisse.</td></tr>
+    <tr><td><b>Immobilisations</b></td><td>Immobilisations (classe 2 hors 28 et 29), fournisseurs d'immobilisations (404, 481), banque et caisse.</td></tr>
+    <tr><td><b>Trésorerie</b></td><td>Tout ce qui passe par la banque et la caisse (52, 57), regroupé selon l'autre compte : clients, ventes au comptant, emprunts, capital, fournisseurs, salaires, impôts et taxes, fournisseurs d'immobilisations et autres comptes.</td></tr>
+  </table>
+  <p>Pour chaque catégorie, la page montre trois parties :</p>
+  <ol class="steps">
+    <li><b>Flux entre groupes de comptes</b> : un diagramme dont les bandes sont aussi larges que les montants passés du compte crédité au compte débité, chacune avec son montant et son nombre d'écritures. Un flux hors du chemin habituel, par exemple des ventes portées directement en caisse sans compte client, ou des achats payés directement en caisse sans compte fournisseur, est tracé en rouge. Pour la trésorerie, les entrées sont à gauche et les sorties à droite.</li>
+    <li><b>Calendrier, mois par mois</b> : des barres de ce qui entre dans le compte du milieu et de ce qui en sort chaque mois, par exemple le facturé aux clients face à l'encaissé des clients. Quand les écritures peuvent être rapprochées par tiers et référence, une ligne donne le nombre moyen de jours entre la facture et son règlement. Pour la trésorerie, un tableau liste chaque groupe avec ses écritures, ses entrées, ses sorties, son jour du mois et son jour de la semaine les plus chargés.</li>
+    <li><b>Schémas d'écritures relevés</b> : chaque combinaison d'un groupe débité, d'un groupe crédité et d'un journal, avec son nombre d'écritures et son montant. Les inhabituelles viennent en premier, en rouge. Cliquez sur <b>Écritures</b> sur une ligne pour lister ses écritures de journal.</li>
+  </ol>
+
+  <h2>Les autres onglets</h2>
+  <p>Sous les analyses, <b>Analyse des écritures</b>, <b>Deux comptes</b> et <b>Indicateurs</b> fonctionnent comme avant : choisir des comptes, voir où les écritures qui les touchent sont passées, comparer deux comptes dans les écritures qu'ils partagent, et lire les volumes, les jours de la semaine et les préparateurs du grand livre.</p>
+
+  <p class="see">Voir aussi : <a href="#data-tools">La Banque de données</a> · <a href="#financial-analysis">Analyse financière et procédures analytiques</a> · <a href="#journal-entries">Écritures de journal</a> · <a href="#transactions-controls">Catégories d'opérations et contrôles</a></p>
+</article>

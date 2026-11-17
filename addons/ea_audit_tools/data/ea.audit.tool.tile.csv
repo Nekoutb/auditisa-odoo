@@ -1,6 +1,6 @@
 id,code,name,description,feeds,method,sequence,section
-tile_data_analytics,data-analytics,Data analytics,"Trial balance, general ledger, receivables, payables, inventory.","P6.1,P6.2",action_tool_data_analytics,10,hub
-tile_gl_console,gl-console,General ledger console,Thirty analytics and correlations between accounts.,"P6.2,E3.1",action_tool_gl,20,hub
+tile_data_analytics,data-analytics,Data bank,"The client's files: the trial balance, the ledgers and the registers.","P6.1,P6.2",action_tool_data_analytics,10,hub
+tile_gl_console,gl-console,EAGLA,Elite Advisors Augmented General Ledger Analysis.,"P6.2,E3.1",action_tool_eagla,20,hub
 tile_lead_schedule,lead-schedule,Lead schedules,"By index, with checks and an Excel extract.","S4.1,C2.1",action_tool_lead,30,hub
 tile_review_notes,review-notes,Review notes,"Section, owner, state and turnaround.","C4.1,C4.3",action_tool_review_notes,40,hub
 tile_forms,forms,Forms,"Every paper by phase, and who it is assigned to.","P1.1,C4.1",action_tool_forms,50,hub
@@ -21,18 +21,18 @@ tile_deficiencies,deficiencies,ISA 265 deficiencies,Evaluation and written commu
 tile_scot,scot,Transactions and controls,"Classes of transactions, what can go wrong, controls, walkthroughs.","S1.1,S1.2,S1.3,S2.1",action_tool_scot,105,hub
 tile_itgc,itgc,IT applications and IT controls,"The register, the strategy per application and the S2.5 conclusion.","S2.3,S2.5",action_tool_itgc,106,hub
 tile_fscp,fscp,Close process,"The financial statement close process.","S1.4",action_tool_fscp,107,hub
-tile_an_ipe,an-ipe,Data quality (IPE),"The checks of every file the client gives us, where the data comes from and whether we can rely on it.","E3.1,E4.x",action_tool_ipe,195,analyzers
-tile_an_tb,an-tb,Trial balance analyzer,"Upload, check and map the trial balance.","P6.1,P6.2,S4.1",action_tool_tb,200,analyzers
-tile_an_gl,an-gl,General ledger analyzer,"Journal-entry population and its checks.","E3.1,S1.4",action_tool_gl,210,analyzers
-tile_an_ar,an-ar,Accounts receivable analyzer,"Open items, aging, agreement to the balance.","E4.1",action_tool_ar,220,analyzers
-tile_an_ap,an-ap,Accounts payable analyzer,"Open items, aging, supplier statements.","E4.2",action_tool_ap,230,analyzers
-tile_an_inventory,an-inventory,Inventory analyzer,"Inventory listing and agreement to the balance.","E4.3",action_tool_inventory,240,analyzers
-tile_an_fixed,an-fixed,Fixed assets analyzer,"Register and agreement to the balance.","E4.4",action_tool_fixed_assets,250,analyzers
-tile_an_payroll,an-payroll,Payroll analyzer,"Payroll register and agreement to the balance.","E4.11",action_tool_payroll,260,analyzers
-tile_an_bank,an-bank,Bank analyzer,"Bank statements, outstanding items.","E4.7",action_tool_bank,270,analyzers
-tile_an_supplier,an-supplier,Supplier statements,"Statements against the payables ledger.","E4.2",action_tool_supplier,280,analyzers
-tile_an_financial,an-financial,Financial analysis,"Current, quick and cash ratios, turnover and margins.","P3.2,S4.2",action_tool_financial,290,analyzers
-tile_an_analytics,an-analytics,Analytical procedures,"Current against prior, by lead schedule.","P3.2,C2.1",action_tool_analytics,300,analyzers
+tile_an_ipe,an-ipe,Data quality (IPE),"The checks of every file the client gives us, where the data comes from and whether we can rely on it.","E3.1,E4.x",action_tool_ipe,195,retired
+tile_an_tb,an-tb,Trial balance,"Balances of every account, opening and closing.","P6.1,P6.2,S4.1",action_tool_tb,200,analyzers
+tile_an_gl,an-gl,General ledger,Every journal entry of the year.,"E3.1,S1.4",action_tool_gl,210,analyzers
+tile_an_ar,an-ar,Accounts receivable ledger,Open items by customer.,E4.1,action_tool_ar,220,analyzers
+tile_an_ap,an-ap,Accounts payable ledger,Open items by supplier.,E4.2,action_tool_ap,230,analyzers
+tile_an_inventory,an-inventory,Inventory ledger,"Items in stock, quantities and values.",E4.3,action_tool_inventory,240,analyzers
+tile_an_fixed,an-fixed,Fixed assets register,"Each asset, its cost and depreciation.",E4.4,action_tool_fixed_assets,250,analyzers
+tile_an_payroll,an-payroll,Payroll sub-ledger,Pay by employee and month.,E4.11,action_tool_payroll,260,analyzers
+tile_an_bank,an-bank,Bank analyzer,"Bank statements, outstanding items.",E4.7,action_tool_bank,270,retired
+tile_an_supplier,an-supplier,Supplier statements,Statements against the payables ledger.,E4.2,action_tool_supplier,280,retired
+tile_an_financial,an-financial,Financial analysis,"Current, quick and cash ratios, turnover and margins.","P3.2,S4.2",action_tool_financial,290,retired
+tile_an_analytics,an-analytics,Analytical procedures,"Current against prior, by lead schedule.","P3.2,C2.1",action_tool_analytics,300,retired
 tile_dsp,dsp,Procedure design,"Tests of controls and tests of details: the mandatory and alternative procedures, per account.","S5.5,E4.x",action_tool_dsp,108,hub
 tile_programs,programs,Audit programs,"Generated from the library and the risks of the section.","E4.x,E3.1,E6.x",action_tool_programs,109,hub
 tile_overrides,overrides,Client overrides,"Which index or section an account of this client feeds.","P6.2,S4.1",action_tool_overrides,170,hub

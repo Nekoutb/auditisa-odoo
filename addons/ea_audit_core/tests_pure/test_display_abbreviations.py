@@ -4,7 +4,8 @@ Read without Odoo: the English source of every screen text (the msgids of each a
 cover the Python, JavaScript and XML strings and the data records), the task templates and other
 data files, and the English keys of the working-paper definitions. French text is not checked.
 Kept on purpose: ISA, ISQM, IESBA, IAASB, IFRS, IAS, OHADA, SYSCOHADA, IT, VAT, MSP/ASP, and IPE (information
-produced by the entity, the name of the Data quality (IPE) tool, owner 2026-11-17).
+produced by the entity, the name of the Data quality (IPE) tool, owner 2026-11-17), and on EAGLA the
+SCOT, spelled out once as "significant classes of transactions (SCOT)" (owner, 18/11/2026).
 """
 import csv
 import glob
@@ -32,6 +33,8 @@ def allowed(text, hit):
     """Not an abbreviation: a token the user types, or a code of the SYSCOHADA model statements."""
     if hit == "n/a" and "for lines with no date" in text:
         return True  # the value typed in the general ledger console for an undated line
+    if hit == "SCOT" and (text == "SCOT identification" or "significant classes of transactions (SCOT)" in text):
+        return True  # EAGLA's left pane, and the line that spells it out (owner, 18/11/2026)
     if text.startswith(("C.2 —", "C.6 —")) and hit in ("AP", "TB", "RP"):
         return True  # line codes of the SYSCOHADA balance sheet and income statement (E6.10)
     return False
@@ -111,6 +114,12 @@ def test_the_scan_reads_every_source():
 ])
 def test_the_pattern_catches_the_listed_abbreviations(sample):
     assert LISTED.search(sample)
+
+
+def test_scot_is_kept_only_where_eagla_spells_it_out():
+    assert allowed("SCOT identification", "SCOT")
+    assert allowed("The significant classes of transactions (SCOT), read from the ledger.", "SCOT")
+    assert not allowed("Assign a SCOT", "SCOT")
 
 
 @pytest.mark.parametrize("sample", ["ISA 315", "IT general controls", "SYSCOHADA", "VAT", "IFRS 16", "OHADA Uniform Act", "MSP", "Data quality (IPE)"])

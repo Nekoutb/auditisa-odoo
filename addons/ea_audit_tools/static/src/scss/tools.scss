@@ -232,3 +232,14 @@ a.o_ea_chip_warn { color: $ea-amber !important; }
 .o_ea_subsequent_line { background: #fff; border: 1px solid #e3e7ea; border-radius: 10px; padding: 8px 14px; margin: 8px 16px; color: #1f2a33; font-size: 13px; }
 .o_ea_subsequent_line.is-short { border-color: #e8d6ae; }
 .o_ea_subsequent_warning { color: $ea-amber; margin-top: 4px; }
+
+// EAGLA (owner's mock-ups of 18/11/2026): the mark at the top right, the left pane of groups
+.o_ea_eagla .o_form_sheet { position: relative; }
+.o_ea_eagla_mark { position: absolute; top: 12px; right: 16px; font-size: 0.75rem; font-weight: 700; color: #5b6470; letter-spacing: 0.04em; }
+.o_ea_eagla_nav { border-right: 1px solid #e3e6ea; padding-right: 12px; margin-bottom: 12px; }
+.o_ea_eagla_nav .o_ea_eagla_group { display: block; padding: 0; margin-bottom: 8px; text-align: start; font-weight: 600; }
+.o_ea_eagla_nav .o_ea_eagla_item { display: block; padding: 0 0 0 4px; text-align: start; }
+.o_ea_eagla_list .o_radio_item { margin-bottom: 2px; }
+.o_ea_eagla_diagram { overflow-x: auto; margin: 8px 0; }
+.o_ea_eagla_svg { height: auto; }
+.o_ea_eagla_ratios { margin: 4px 0 8px; padding-left: 18px; }

@@ -1,5 +1,5 @@
 {
- "build": "b563f1170d06",
+ "build": "9befbdcf546c",
  "parts": [
   {
    "key": "1",
@@ -504,12 +504,11 @@
    "id": "data-tools",
    "part": "5",
    "title": {
-    "en": "Analytics and the data tools",
-    "fr": "L'analytique et les outils de données"
+    "en": "The Data bank",
+    "fr": "La Banque de données"
    },
    "screens": [
-    "view:ea_audit_tools.view_engagement_lead_board",
-    "view:ea_audit_tools.view_engagement_gl_catalogue"
+    "view:ea_audit_tools.view_engagement_lead_board"
    ]
   },
   {
@@ -521,6 +520,18 @@
    },
    "screens": [
     "tag:ea_audit_tools.ipe_page"
+   ]
+  },
+  {
+   "id": "eagla",
+   "part": "5",
+   "title": {
+    "en": "EAGLA",
+    "fr": "EAGLA"
+   },
+   "screens": [
+    "model:ea.audit.gl.console",
+    "view:ea_audit_tools.view_engagement_gl_catalogue"
    ]
   },
   {

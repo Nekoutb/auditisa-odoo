@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, combined risk assessment, findings, summary of audit differences and the tools hub",
-    "version": "19.0.1.24.0",  # release 2026-11-25: Data quality (IPE) replaces substantive analytics
+    "version": "19.0.1.25.0",  # the Data bank (uploads only) and EAGLA: correlations and SCOT identification
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

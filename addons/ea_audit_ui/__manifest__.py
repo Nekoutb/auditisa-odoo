@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Screens",
     "summary": "The firm's top bar, home, engagement dashboard and task lists, on the core models",
-    "version": "19.0.1.0.5",  # the Data quality (IPE) help page
+    "version": "19.0.1.0.6",  # the Data bank and EAGLA help pages
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
