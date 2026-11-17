@@ -17,6 +17,7 @@ from odoo.addons.ea_audit_core.services.signoff_rules import at_least
 from odoo.addons.ea_audit_papers.models.errors import paper_error
 
 from ..rules import rule_error
+from ..services.finding_adjustment import CAPTION_HEADING, effect_table, heading_label
 from ..services.sad_view import effective_income_after_tax, fs_caption_amounts
 from ..services.worksheet_pages import (
     after_tax,
@@ -38,7 +39,10 @@ DOCUMENT_HOSTS = {"b5": ("C1.1", "C5.11"), "c1": ("C5.11", "C1.1"), "b4": ("C5.1
 FINDINGS_LINKS = (
     "action_open_finding_wizard", "action_export_findings", "action_tool_sad", "action_tool_deficiencies",
 )
-SAD_LINKS = ("action_export_sad", "action_tool_findings", "action_open_sad_conclusion")
+SAD_LINKS = ("action_export_sad", "action_export_sad_client", "action_tool_findings", "action_open_sad_conclusion")
+#: What a reviewer does to a line of the summary (owner's mock-up of 2026-11-17).
+SAD_REVIEW_OPS = {"post": "ea_review_post", "unpost": "ea_review_unpost", "note": "ea_review_note", "clear": "ea_review_clear_note"}
+PROC_MODEL = "ea.audit.designed.procedure"
 META_FIELDS = (
     "concl_text", "tax_rate", "turnaround_factual", "turnaround_judgmental", "income_after_tax",
 ) + tuple("tq_%d" % i for i in range(1, 6)) + tuple("tq_%dc" % i for i in range(1, 6))
@@ -214,9 +218,30 @@ class EngagementWorksheetPages(models.Model):
         return "—" if not value or abs(value) < 0.5 else grouped(value, lang)
 
     def _ea_sad_numbers(self):
-        """AD-01, AD-02... in the order the differences were entered."""
+        """AD-01, AD-02... in the order the differences were entered: one number per
+        adjustment, so the lines of an entry of several headings share theirs."""
         entries = self.env["ea.audit.sad.entry"].sudo().search([("engagement_id", "=", self.id)], order="id")
-        return {entry.id: "AD-%02d" % number for number, entry in enumerate(entries, 1)}
+        numbers, groups = {}, {}
+        for entry in entries:
+            key = ("m", entry.misstatement_id.id) if entry.misstatement_id else ("e", entry.id)
+            if key not in groups:
+                groups[key] = "AD-%02d" % (len(groups) + 1)
+            numbers[entry.id] = groups[key]
+        return numbers
+
+    def _ea_finding_procedure(self, finding):
+        """The procedure a finding was raised from: itself, or the one its source record feeds."""
+        root = finding.sudo()
+        if not root.source_model or root.source_model not in self.env or not root.source_id:
+            return None
+        record = self.env[root.source_model].sudo().browse(root.source_id).exists()
+        if not record:
+            return None
+        if record._name == PROC_MODEL:
+            return record
+        if "designed_procedure_id" in record._fields and record.designed_procedure_id:
+            return record.designed_procedure_id
+        return None
 
     def _ea_page_finding(self, finding_id):
         finding = self.env["ea.audit.finding"].sudo().browse(int(finding_id or 0)).exists()
@@ -315,6 +340,7 @@ class EngagementWorksheetPages(models.Model):
                 "closedBy": finding.cleared_by_id.name or "", "closedOn": french_date(finding.cleared_at),
                 "raisedBy": finding.created_by_id.name or "", "raisedOn": french_date(finding.create_date),
                 "source": finding.source_label or "",
+                "sourceProc": (self._ea_finding_procedure(finding) or self.env[PROC_MODEL]).code or "",
                 "sad": sad_no, "subtitle": " · ".join(subtitle),
                 "misstatement": {
                     "type": mtypes.get(misstatement.mtype, ""), "corrected": misstatement.corrected,
@@ -393,15 +419,9 @@ class EngagementWorksheetPages(models.Model):
         return self.ea_findings_page()
 
     def ea_findings_page_adjust(self, finding_id, lines=None, nature=None):
-        """The Adjustment section's draft: its lines and nature, until it is booked."""
+        """Save the Adjustment section: it goes to the summary of audit differences by itself."""
         self.ensure_one()
         self._ea_page_finding(finding_id).ea_save_adjustment(lines=lines, nature=nature)
-        return self.ea_findings_page()
-
-    def ea_findings_page_book(self, finding_id):
-        """Book to the summary of audit differences."""
-        self.ensure_one()
-        self._ea_page_finding(finding_id).ea_book_adjustment()
         return self.ea_findings_page()
 
     def ea_findings_page_clear(self, finding_id, response):
@@ -439,6 +459,13 @@ class EngagementWorksheetPages(models.Model):
         self.ensure_one()
         if method == "action_open_evaluation":
             return self._ea_page_finding(finding_id).action_open_evaluation()
+        if method == "source":
+            # back to the working paper and procedure the finding was raised from
+            self._ea_require_access()
+            proc = self._ea_finding_procedure(self._ea_page_finding(finding_id))
+            if not proc:
+                raise rule_error(self.env, "not-found")
+            return self._ea_paper_action(proc)
         if method not in FINDINGS_LINKS:
             raise rule_error(self.env, "forbidden")
         return getattr(self, method)()
@@ -490,7 +517,9 @@ class EngagementWorksheetPages(models.Model):
             buckets[bucket].append({
                 "id": entry.id, "no": numbers[entry.id], "description": entry.finding or "",
                 "type": entry.mtype, "typeLabel": types.get(entry.mtype, ""),
-                "drAccount": entry.dr_account or "", "crAccount": entry.cr_account or "",
+                # since 2026-11-17 a line names a heading, not an account
+                "drAccount": entry.dr_account or heading_label(CAPTION_HEADING.get(entry.dr_caption_effective), lang[:2]),
+                "crAccount": entry.cr_account or heading_label(CAPTION_HEADING.get(entry.cr_caption_effective), lang[:2]),
                 "drAmount": figure(entry.dr_amount), "crAmount": figure(entry.cr_amount),
                 **{key: figure(value) for key, value in effect.items()},
                 "source": entry.source_label or "", "sourceRef": finding.reference if finding else "",
@@ -501,6 +530,7 @@ class EngagementWorksheetPages(models.Model):
                 "registerOnly": entry.register_only,
             })
         totals = sad_totals(effects)
+        review = root.with_env(self.env)._ea_sad_review(lang, figure, numbers, finding_of)
         profit_after_tax = after_tax(totals["profit"], rate)
         fs = fs_caption_amounts(root._ea_tb_balances())
         income = effective_income_after_tax(meta.income_after_tax if meta else 0, fs["netResultAfterTax"] if fs else None)
@@ -539,6 +569,7 @@ class EngagementWorksheetPages(models.Model):
                 "overall": grouped(materiality["overall"], lang) if materiality else "",
             },
             "rows": buckets,
+            "review": review,
             "totals": {key: figure(value) for key, value in totals.items()},
             "afterTax": figure(profit_after_tax),
             "afterTaxLabel": _("After tax at %(rate)s%%", rate=grouped(rate, lang) if rate == int(rate) else rate),
@@ -583,11 +614,123 @@ class EngagementWorksheetPages(models.Model):
         entry = self.env["ea.audit.sad.entry"].sudo().browse(int(entry_id or 0)).exists()
         if not entry or entry.engagement_id != self.sudo():
             raise rule_error(self.env, "not-found")
-        entry = entry.with_env(self.env)
-        entry.write(dict(patch or {}))
-        if entry.sudo().posted:
-            entry.action_post()
+        # every line of the same adjustment moves together
+        for line in entry._ea_group():
+            line = line.with_env(self.env)
+            line.write(dict(patch or {}))
+            if line.sudo().posted:
+                line.action_post()
         return self.ea_sad_page()
+
+    def ea_sad_page_review(self, entry_id, op, text=None):
+        """The reviewer's buttons on a line: post, unpost, a review note, clear the note."""
+        self.ensure_one()
+        if op not in SAD_REVIEW_OPS:
+            raise rule_error(self.env, "forbidden")
+        entry = self.env["ea.audit.sad.entry"].sudo().browse(int(entry_id or 0)).exists()
+        if not entry or entry.engagement_id != self.sudo():
+            raise rule_error(self.env, "not-found")
+        method = getattr(entry.with_env(self.env), SAD_REVIEW_OPS[op])
+        if op in ("note", "clear"):
+            method(text or "")
+        else:
+            method()
+        return self.ea_sad_page()
+
+    def _ea_sad_lines(self, group, finding, locale):
+        """An adjustment's heading lines as the summary shows them: the saved adjustment's, else
+        the summary lines' own debit and credit (a misstatement raised and not yet adjusted, or
+        a line entered before 2026-11-17)."""
+        if finding and finding.sudo().adjustment_ids:
+            return [{
+                "heading": line.heading or "", "account": line.account or "", "label": line.label or "",
+                "debit": line.debit, "credit": line.credit,
+            } for line in finding.sudo().adjustment_ids]
+        lines = []
+        for entry in group:
+            for side in ("dr", "cr"):
+                amount = entry["%s_amount" % side]
+                if not amount:
+                    continue
+                caption = entry["%s_caption_effective" % side]
+                lines.append({
+                    "heading": CAPTION_HEADING.get(caption, ""), "account": entry["%s_account" % side] or "",
+                    "label": "", "debit": amount if side == "dr" else 0.0, "credit": amount if side == "cr" else 0.0,
+                })
+        return lines
+
+    def _ea_sad_review(self, lang, figure, numbers, finding_of):
+        """The review list of the summary (owner's mock-up of 2026-11-17): one row per
+        adjustment, its heading lines, its status (To review, Review note, Posted) and what the
+        current user may do; the effect on the statements of all lines and of the posted ones."""
+        self.ensure_one()
+        _ = self.env._
+        locale = "fr" if lang == "fr_FR" else "en"
+        reason = self._ea_cra_read_only()
+        groups, order = {}, []
+        for entry in self.env["ea.audit.sad.entry"].sudo().search([("engagement_id", "=", self.id)], order="id"):
+            key = ("m", entry.misstatement_id.id) if entry.misstatement_id else ("e", entry.id)
+            if key not in groups:
+                groups[key] = entry
+                order.append(key)
+            else:
+                groups[key] |= entry
+        rows, effect_groups = [], []
+        counts = {"all": 0, "to_review": 0, "note": 0, "posted": 0}
+        words = {"to_review": _("To review"), "note": _("Review note open, back with the preparer"), "posted": _("Posted")}
+        for key in order:
+            group = groups[key]
+            head = group[0]
+            finding = finding_of.get(head.misstatement_id.id) if head.misstatement_id else None
+            status = head._ea_review_status()
+            counts["all"] += 1
+            counts[status] += 1
+            lines = self._ea_sad_lines(group, finding, locale)
+            effect_groups.append((lines, status == "posted"))
+            refusal = head.with_env(self.env)._ea_review_refusal() if not reason else "read-only"
+            note = head.review_note_id
+            proc = head.source_procedure_id
+            hint = ""
+            if status == "note":
+                hint = _("Post is available once the note is cleared")
+            elif status == "to_review" and refusal == "sad-self-review":
+                hint = _("You prepared it: another reviewer posts it")
+            rows.append({
+                "id": head.id, "no": numbers[head.id], "description": head.finding or "",
+                "paper": proc.code if proc else (head.file_item_id.code or ""),
+                "source": head.source_label or "", "canOpen": bool(proc or head.source_finding_id),
+                "byHand": head.entered_by_hand,
+                "lines": [{
+                    "heading": heading_label(line["heading"], locale) or _("To classify"),
+                    "classified": bool(line["heading"]), "account": line["account"], "label": line["label"],
+                    "debit": figure(line["debit"]) if line["debit"] else "",
+                    "credit": figure(line["credit"]) if line["credit"] else "",
+                } for line in lines],
+                "status": status, "statusLabel": words[status],
+                "postedText": _(
+                    "Posted by %(name)s, %(date)s", name=head.reviewed_by_id.name or "", date=french_date(head.reviewed_at),
+                ) if status == "posted" else "",
+                "note": {
+                    "body": note.body, "author": note.author_id.name or "", "response": note.response or "",
+                } if status == "note" and note else False,
+                "corrected": head.corrected,
+                "canPost": status == "to_review" and not refusal,
+                "canNote": status == "to_review" and not refusal,
+                "canUnpost": status == "posted" and not refusal,
+                "canClear": status == "note" and not reason and bool(note) and (
+                    note.author_id == self.env.user or at_least(self.env.user._ea_firm_role(), "manager")
+                ),
+                "hint": hint,
+            })
+        table = effect_table(effect_groups)
+        return {
+            "rows": rows, "counts": counts,
+            "effect": [{
+                "heading": heading_label(row["heading"], locale) if row["heading"] != "equity" else _("Equity (profit for the year)"),
+                "all": figure(row["all"]), "posted": figure(row["posted"]),
+            } for row in table],
+            "postedCount": counts["posted"],
+        }
 
     def ea_sad_post_all(self):
         """Post to the C1.1 schedule: every difference not posted yet, or changed since."""

@@ -5,6 +5,7 @@ import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
 import { amount } from "@ea_audit_tools/js/figures";
 import { EaCrumbs, EaDocsPane } from "./page_kit";
+import { EaAdjustment } from "./adjustment_editor";
 
 const ENGAGEMENT = "ea.audit.engagement";
 
@@ -100,7 +101,7 @@ export class SubstantivePage extends Component {
 export class ProcedurePaper extends Component {
     static template = "ea_audit_tools.ProcedurePaper";
     static props = ["*"];
-    static components = { EaCrumbs, EaDocsPane };
+    static components = { EaCrumbs, EaDocsPane, EaAdjustment };
 
     setup() {
         this.orm = useService("orm");
@@ -627,7 +628,7 @@ export class ProcedurePaper extends Component {
     // ---- findings ------------------------------------------------------------------
 
     blankFinding() {
-        return { description: "", amount: "", type: "misstatement", trivial: false, itemKey: null, dr: "", cr: "", mtype: "factual" };
+        return { description: "", how: "", amount: "", type: "misstatement", trivial: false, itemKey: null, dr: "", cr: "", mtype: "factual" };
     }
 
     startFinding() {
@@ -639,8 +640,8 @@ export class ProcedurePaper extends Component {
         if (!f || !f.description.trim()) {
             return false;
         }
-        // a misstatement reaches the summary with its accounts: one of the two at least
-        return f.type !== "misstatement" || Boolean(f.amount && (f.dr.trim() || f.cr.trim()));
+        // a misstatement needs its amount; its entry is written below, under "2. Adjustment to book"
+        return f.type !== "misstatement" || Boolean(f.amount);
     }
 
     get findingBelowTrivial() {
@@ -657,9 +658,23 @@ export class ProcedurePaper extends Component {
         const misstatement = f.type === "misstatement";
         await this.call("ea_proc_finding", [
             f.description, misstatement ? f.amount : null, f.type, Boolean(f.trivial), f.itemKey, null,
-            misstatement ? f.dr.trim() : null, misstatement ? f.cr.trim() : null, misstatement ? f.mtype : "factual",
+            misstatement ? (f.dr || "").trim() : null, misstatement ? (f.cr || "").trim() : null, misstatement ? f.mtype : "factual",
+            (f.how || "").trim() || null,
         ]);
         this.state.finding = null;
+    }
+
+    /** 1. Finding: how and where it happened. */
+    saveDetail(finding, ev) {
+        if (this.p.readonly || ev.target.value === finding.detail) {
+            return;
+        }
+        return this.call("ea_proc_finding_detail", [finding.id, ev.target.value]);
+    }
+
+    /** 2. Adjustment to book: saving sends it to the summary of audit differences, "To review". */
+    saveAdjustment(finding, lines, nature) {
+        return this.call("ea_proc_adjust", [finding.id, lines, nature]);
     }
 
     // ---- leaving -------------------------------------------------------------------

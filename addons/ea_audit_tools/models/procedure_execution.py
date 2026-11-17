@@ -427,6 +427,9 @@ class EngagementProcedureExecution(models.Model):
                 "amount": f.amount if f.route == "b5" else None, "status": f.status,
                 "accounts": f.misstatement_id.accounts or "" if f.route == "b5" else "",
                 "mtypeLabel": mtypes.get(f.misstatement_id.mtype, "") if f.route == "b5" else "",
+                # the bottom of the paper (owner's mock-up of 2026-11-17): 1. Finding, 2. Adjustment to book
+                "detail": f.sudo().detail or "",
+                "adjustment": f.sudo()._ea_adjustment_view(lang, self._ea_figure) if f.route == "b5" and f.sudo().misstatement_id else False,
             } for f in findings],
             "mtypes": [{"value": key, "label": mtypes[key]} for key in PAPER_MTYPES],
         }
@@ -1248,7 +1251,7 @@ class EngagementProcedureExecution(models.Model):
 
     def ea_proc_finding(
         self, proc_id, description, amount=None, finding_type="misstatement", trivial_confirmed=False, item_key=None,
-        confirmation_id=None, dr_account=None, cr_account=None, mtype="factual",
+        confirmation_id=None, dr_account=None, cr_account=None, mtype="factual", detail=None,
     ):
         """A finding raised from the working paper: the one path, ea_raise_finding, with the
         procedure as its source. From a selected entry or a confirmation, it is noted on them.
@@ -1266,9 +1269,12 @@ class EngagementProcedureExecution(models.Model):
                 raise rule_error(self.env, "invalid-type")
             number = clean_explanation({"amount": amount})
             number = number["amount"] if number else None
+        how = (detail or "").strip()
+        if len(text) > 200:
+            how = "\n\n".join(part for part in (text, how) if part)
         finding = self.ea_raise_finding(
             PROC_MODEL, proc.id, text[:200], amount=number, finding_type=finding_type,
-            detail=text if len(text) > 200 else None, trivial_confirmed=bool(trivial_confirmed),
+            detail=how or None, trivial_confirmed=bool(trivial_confirmed),
             mtype=mtype or "factual", dr_account=dr_account, cr_account=cr_account,
         )
         if item_key and str(item_key).startswith("vouch:"):
@@ -1291,6 +1297,27 @@ class EngagementProcedureExecution(models.Model):
             if request:
                 request.write({"finding_id": finding.id})
         self._ea_exec_started(proc)
+        return self.ea_procedure_paper(proc.id)
+
+    def _ea_exec_finding(self, proc_id, finding_id):
+        """A finding raised from this procedure, for the bottom of its paper."""
+        proc = self._ea_exec_proc(proc_id)
+        finding = self.env["ea.audit.finding"].sudo().browse(int(finding_id or 0)).exists()
+        if not finding or finding.engagement_id != self.sudo() or finding.source_model != PROC_MODEL or finding.source_id != proc.id:
+            raise rule_error(self.env, "not-found")
+        return proc, finding.with_env(self.env)
+
+    def ea_proc_finding_detail(self, proc_id, finding_id, detail):
+        """1. Finding: how and where it happened, written on the paper."""
+        proc, finding = self._ea_exec_finding(proc_id, finding_id)
+        finding.write({"detail": (detail or "").strip() or False})
+        return self.ea_procedure_paper(proc.id)
+
+    def ea_proc_adjust(self, proc_id, finding_id, lines=None, nature=None):
+        """2. Adjustment to book: saved, it goes to the summary of audit differences by itself,
+        "To review". Read-only once a reviewer has posted it."""
+        proc, finding = self._ea_exec_finding(proc_id, finding_id)
+        finding.ea_save_adjustment(lines=lines, nature=nature)
         return self.ea_procedure_paper(proc.id)
 
     def _ea_exec_count_finding(self, proc, item_key, finding):

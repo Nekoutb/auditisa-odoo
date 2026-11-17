@@ -23,7 +23,7 @@ export class SadPage extends Component {
         this.action = useService("action");
         const { params = {}, context = {} } = this.props.action || {};
         this.engagementId = Number(params.engagement_id || context.active_id || context.ea_engagement_id);
-        this.state = useState({ p: null, tab: "uncorrected", busy: false });
+        this.state = useState({ p: null, tab: "review", filter: "all", noting: null, noteText: "", busy: false });
         this.queue = Promise.resolve();
         useSetupAction({ beforeLeave: () => this.queue.then(() => true) });
         onWillStart(() => this.load());
@@ -40,6 +40,10 @@ export class SadPage extends Component {
     get tabs() {
         const p = this.p;
         return [
+            {
+                key: "review", label: _t("Adjustments to review"), count: p.review.counts.to_review,
+                tone: p.review.counts.to_review ? "amber" : "",
+            },
             { key: "uncorrected", label: _t("1 Uncorrected"), count: p.rows.uncorrected.length, tone: p.rows.uncorrected.length ? "amber" : "" },
             { key: "corrected", label: _t("2 Corrected"), count: p.rows.corrected.length, tone: "green" },
             { key: "disclosures", label: _t("3 Disclosures"), count: p.discRows.length, tone: "" },
@@ -63,6 +67,54 @@ export class SadPage extends Component {
 
     setTab(key) {
         this.state.tab = key;
+    }
+
+    // ---- the review of the adjustments (owner's mock-up of 2026-11-17) ---------------
+
+    get filters() {
+        const c = this.p.review.counts;
+        return [
+            { key: "all", label: _t("All"), count: c.all },
+            { key: "to_review", label: _t("To review"), count: c.to_review },
+            { key: "note", label: _t("Review note"), count: c.note },
+            { key: "posted", label: _t("Posted"), count: c.posted },
+        ];
+    }
+
+    get reviewRows() {
+        const rows = this.p.review.rows;
+        return this.state.filter === "all" ? rows : rows.filter((row) => row.status === this.state.filter);
+    }
+
+    setFilter(key) {
+        this.state.filter = key;
+    }
+
+    statusTone(row) {
+        return { posted: "green", note: "amber", to_review: "blue" }[row.status] || "grey";
+    }
+
+    review(row, op, text = null) {
+        return this.run("ea_sad_page_review", [row.id, op, text]);
+    }
+
+    startNote(row) {
+        this.state.noting = row.id;
+        this.state.noteText = "";
+    }
+
+    async sendNote(row) {
+        const text = this.state.noteText.trim();
+        if (!text) {
+            return;
+        }
+        await this.review(row, "note", text);
+        this.state.noting = null;
+        this.state.noteText = "";
+    }
+
+    toggleCorrectedRow(row, ev) {
+        return this.run("ea_sad_page_entry_save", [row.id, { corrected: ev.target.checked }]);
     }
 
     stop(ev) {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.EaAdjustment">
+        <div class="o_ea_ws_adj" data-ea="finding-adjustment">
+            <div class="o_ea_ws_adjnote" t-if="props.adj.note" data-ea="adjustment-note">
+                <b>Review note</b> (<t t-esc="props.adj.note.author"/>): <t t-esc="props.adj.note.body"/>
+            </div>
+            <table class="o_ea_ws_grid o_ea_ws_adjgrid">
+                <thead>
+                    <tr><th>Heading</th><th>Label</th><th class="o_num">Debit</th><th class="o_num">Credit</th><th t-if="editable"/></tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="state.rows" t-as="row" t-key="row_index">
+                        <t t-if="editable">
+                            <td>
+                                <select class="o_ea_ws_input" t-on-change="(ev) => this.edit(row, 'heading', ev)">
+                                    <option value="" t-att-selected="!row.heading">To classify</option>
+                                    <option t-foreach="props.adj.headings" t-as="h" t-key="h.value" t-att-value="h.value"
+                                            t-att-selected="row.heading === h.value"><t t-esc="h.label"/></option>
+                                </select>
+                                <div class="o_ea_ws_hint" t-if="row.account">Account before 2026-11-17: <t t-esc="row.account"/></div>
+                            </td>
+                            <td><input type="text" class="o_ea_ws_input" t-att-value="row.label" t-on-change="(ev) => this.edit(row, 'label', ev)"/></td>
+                            <td class="o_num"><input type="text" inputmode="decimal" class="o_ea_ws_input o_num" t-att-value="row.debit"
+                                       t-on-change="(ev) => this.edit(row, 'debit', ev)"/></td>
+                            <td class="o_num"><input type="text" inputmode="decimal" class="o_ea_ws_input o_num" t-att-value="row.credit"
+                                       t-on-change="(ev) => this.edit(row, 'credit', ev)"/></td>
+                            <td><button type="button" class="btn btn-link btn-sm" title="Remove the line" t-on-click="() => this.removeLine(row_index)">×</button></td>
+                        </t>
+                        <t t-elif="!isBlank(row)">
+                            <td>
+                                <span t-att-class="row.heading ? '' : 'o_ea_ws_badge is-amber'" t-esc="headingLabel(row.heading)"/>
+                                <div class="o_ea_ws_hint" t-if="row.account">Account before 2026-11-17: <t t-esc="row.account"/></div>
+                            </td>
+                            <td t-esc="row.label"/>
+                            <td class="o_num" t-esc="row.debit ? fmt(number(row.debit)) : ''"/>
+                            <td class="o_num" t-esc="row.credit ? fmt(number(row.credit)) : ''"/>
+                        </t>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="is-total">
+                        <td colspan="2">
+                            <span class="o_ea_ws_badge is-green" t-if="totals.balanced">Balanced ✓</span>
+                            <span class="o_ea_ws_badge is-amber" t-else="">Not balanced</span>
+                        </td>
+                        <td class="o_num" t-esc="fmt(totals.debit)"/><td class="o_num" t-esc="fmt(totals.credit)"/><td t-if="editable"/>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="o_ea_ws_evrow">
+                <span>Nature</span>
+                <span class="o_ea_ws_seg">
+                    <button type="button" t-foreach="natures" t-as="n" t-key="n.key" t-att-disabled="!editable"
+                            t-att-class="{'is-on': state.nature === n.key}" t-on-click="() => this.setNature(n.key)"><t t-esc="n.label"/></button>
+                </span>
+            </div>
+            <div class="o_ea_ws_evrow" data-ea="adjustment-effect">
+                <span>Effect</span>
+                <span t-esc="props.adj.effectText"/>
+                <span class="o_ea_ws_hint" t-if="state.dirty">(as last saved)</span>
+            </div>
+            <div class="o_ea_ws_evrow" t-if="editable">
+                <button type="button" class="btn btn-link btn-sm text-nowrap" t-on-click="addLine">+ Add a line</button>
+                <button type="button" class="btn btn-primary btn-sm text-nowrap" data-ea="adjustment-save" t-att-disabled="!ready or state.busy" t-on-click="save">Save</button>
+                <span class="o_ea_ws_hint" t-if="!ready">Pick a heading for each line and balance the debits and credits to save.</span>
+            </div>
+            <div class="o_ea_ws_evrow" t-if="props.adj.statusText">
+                <span t-att-class="'o_ea_ws_badge is-' + ({posted: 'green', note: 'amber'}[props.adj.status] or 'grey')" t-esc="props.adj.statusText"/>
+                <button type="button" class="btn btn-link btn-sm text-nowrap" t-if="props.onOpenSad" t-on-click="() => this.props.onOpenSad()">Open the summary</button>
+            </div>
+            <p class="o_ea_ws_hint">Saving sends the adjustment to the summary of audit differences, where a reviewer posts it. Equity includes the effect on profit.</p>
+        </div>
+    </t>
+</templates>

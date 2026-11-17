@@ -56,7 +56,7 @@
                         <table class="o_ea_ws_grid" t-else="">
                             <thead>
                                 <tr>
-                                    <th>Ref.</th><th>Finding</th><th>Paper</th><th>Severity</th>
+                                    <th>Ref.</th><th>Finding</th><th>Paper</th><th>Source</th><th>Severity</th>
                                     <th class="o_num">Amount (FCFA)</th><th>Stage</th><th class="o_num">Docs</th>
                                 </tr>
                             </thead>
@@ -66,6 +66,10 @@
                                     <td class="o_ea_ws_ref"><t t-esc="f.ref"/></td>
                                     <td><t t-esc="f.title"/></td>
                                     <td t-att-title="f.paperTitle"><t t-esc="f.paper"/></td>
+                                    <td data-ea="finding-source">
+                                        <a href="#" t-if="f.sourceProc" title="Open the working paper it was raised from"
+                                           t-on-click.prevent.stop="() => this.open('source', f.id)" t-esc="f.sourceProc"/>
+                                    </td>
                                     <td><span t-att-class="'o_ea_ws_badge is-' + f.tone" t-esc="f.severityLabel"/></td>
                                     <td class="o_num"><t t-esc="f.amount"/></td>
                                     <td><span t-att-class="'o_ea_ws_badge is-' + f.stageTone" t-esc="f.stageLabel"/></td>
@@ -80,6 +84,7 @@
                         <t t-set="f" t-value="current"/>
                         <div class="o_ea_ws_dtitle"><b t-esc="f.ref"/> · <t t-esc="f.title"/></div>
                         <div class="o_ea_ws_dsub" t-esc="f.subtitle"/>
+                        <button type="button" class="btn btn-link btn-sm p-0 text-nowrap" t-if="f.sourceProc" t-on-click="() => this.open('source', f.id)">Open its working paper <t t-esc="f.sourceProc"/></button>
                         <div class="o_ea_ws_steps">
                             <span t-foreach="f.steps" t-as="step" t-key="step.key" t-att-class="'is-' + step.state">
                                 <t t-esc="step.label"/><t t-if="step.state === 'done'"> ✓</t>
@@ -141,63 +146,10 @@
                             </div>
                         </t>
                         <t t-if="f.adjustment">
-                            <t t-set="adj" t-value="f.adjustment"/>
-                            <t t-set="rows" t-value="adjRows(f)"/>
-                            <t t-set="editable" t-value="!p.readonly and !adj.booked"/>
-                            <label class="o_ea_ws_label">Adjustment <span class="o_ea_ws_hint">appears on the summary of audit differences as soon as it is booked</span></label>
-                            <div class="o_ea_ws_adj" data-ea="finding-adjustment">
-                                <table class="o_ea_ws_grid o_ea_ws_adjgrid">
-                                    <thead>
-                                        <tr><th>Account</th><th>Label</th><th class="o_num">Debit</th><th class="o_num">Credit</th><th t-if="editable"/></tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr t-foreach="rows" t-as="row" t-key="row_index">
-                                            <t t-if="editable">
-                                                <td><input type="text" class="o_ea_ws_input" t-att-value="row.account" placeholder="e.g. 6033"
-                                                           t-on-change="(ev) => this.editLine(f, rows, row_index, 'account', ev)"/></td>
-                                                <td><input type="text" class="o_ea_ws_input" t-att-value="row.label"
-                                                           t-on-change="(ev) => this.editLine(f, rows, row_index, 'label', ev)"/></td>
-                                                <td class="o_num"><input type="text" inputmode="numeric" class="o_ea_ws_input o_num" t-att-value="row.debit"
-                                                           t-on-change="(ev) => this.editLine(f, rows, row_index, 'debit', ev)"/></td>
-                                                <td class="o_num"><input type="text" inputmode="numeric" class="o_ea_ws_input o_num" t-att-value="row.credit"
-                                                           t-on-change="(ev) => this.editLine(f, rows, row_index, 'credit', ev)"/></td>
-                                                <td><button type="button" class="btn btn-link btn-sm" title="Remove the line" t-on-click="() => this.removeLine(f, rows, row_index)">×</button></td>
-                                            </t>
-                                            <t t-else="">
-                                                <td t-esc="row.account"/><td t-esc="row.label"/>
-                                                <td class="o_num" t-esc="row.debit"/><td class="o_num" t-esc="row.credit"/>
-                                            </t>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr class="is-total">
-                                            <td colspan="2">Total <span class="o_ea_ws_badge is-amber" t-if="!adj.balanced">Not balanced</span></td>
-                                            <td class="o_num" t-esc="adj.totalDebit"/><td class="o_num" t-esc="adj.totalCredit"/><td t-if="editable"/>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                                <button type="button" class="btn btn-link btn-sm" t-if="editable" t-on-click="() => this.addLine(f)">+ Add a line</button>
-                                <div class="o_ea_ws_evrow">
-                                    <span>Nature</span>
-                                    <span class="o_ea_ws_seg">
-                                        <button type="button" t-foreach="natures" t-as="n" t-key="n.key" t-att-disabled="!editable"
-                                                t-att-class="{'is-on': adj.nature === n.key}" t-on-click="() => this.setNature(f, n.key)"><t t-esc="n.label"/></button>
-                                    </span>
-                                </div>
-                                <div class="o_ea_ws_evrow" data-ea="adjustment-effect">
-                                    <span>Effect</span>
-                                    <span t-esc="adj.effectText"/>
-                                </div>
-                                <div class="o_ea_ws_evrow" t-if="!adj.booked and !p.readonly">
-                                    <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!adj.canBook or state.busy" t-on-click="() => this.book(f)">Book to the summary of audit differences</button>
-                                    <span class="o_ea_ws_hint" t-if="!adj.canBook">Enter balanced lines, each with its account, to book it.</span>
-                                </div>
-                                <div class="o_ea_ws_evrow" t-if="adj.booked">
-                                    <span class="o_ea_ws_badge is-green" t-esc="adj.bookedText"/>
-                                    <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_sad')">Open the summary</button>
-                                </div>
-                                <p class="o_ea_ws_hint" t-esc="adj.hint"/>
-                            </div>
+                            <label class="o_ea_ws_label">Adjustment to book <span class="o_ea_ws_hint">goes to the summary of audit differences by itself when you save</span></label>
+                            <EaAdjustment adj="f.adjustment" readonly="p.readonly"
+                                          onSave="(lines, nature) => this.saveAdjustment(f, lines, nature)"
+                                          onOpenSad="() => this.open('action_tool_sad')"/>
                         </t>
                         <t t-if="f.misstatement">
                             <label class="o_ea_ws_label">On the summary of audit differences</label>

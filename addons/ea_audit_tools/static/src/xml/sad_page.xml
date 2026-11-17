@@ -10,11 +10,13 @@
                         <h1>Summary of audit differences</h1>
                     </div>
                     <div class="o_ea_ws_tools">
-                        <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="!p.toPost" t-on-click="postAll">
+                        <button type="button" class="btn btn-secondary btn-sm text-nowrap" t-if="!p.readonly and p.toPost" t-on-click="postAll">
                             Post to the C1.1 schedule<t t-if="p.toPost"> (<t t-esc="p.toPost"/>)</t>
                         </button>
                         <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_tool_findings')">Findings</button>
                         <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.open('action_export_sad')">Export to Excel</button>
+                        <button type="button" class="btn btn-secondary btn-sm text-nowrap" data-ea="sad-client-copy" t-att-disabled="!p.review.postedCount"
+                                t-on-click="() => this.open('action_export_sad_client')">Download the client copy (posted only)</button>
                     </div>
                 </div>
 
@@ -45,6 +47,88 @@
                         <t t-esc="tab.label"/> <span t-if="tab.count !== false" t-att-class="'o_ea_ws_count ' + (tab.tone ? 'is-' + tab.tone : '')" t-esc="tab.count"/>
                     </button>
                 </div>
+
+                <t t-if="state.tab === 'review'">
+                    <div class="o_ea_ws_filters" data-ea="sad-filters">
+                        <span class="o_ea_ws_seg">
+                            <button type="button" t-foreach="filters" t-as="flt" t-key="flt.key" t-att-class="{'is-on': state.filter === flt.key}"
+                                    t-on-click="() => this.setFilter(flt.key)"><t t-esc="flt.label"/> (<t t-esc="flt.count"/>)</button>
+                        </span>
+                    </div>
+                    <p class="o_ea_ws_empty" t-if="!reviewRows.length">No adjustment here.</p>
+                    <div class="o_ea_ws_scroll" t-else="">
+                        <table class="o_ea_ws_grid is-figures o_ea_ws_review" data-ea="sad-review">
+                            <thead>
+                                <tr>
+                                    <th>Ref.</th><th>Adjustment (from the working paper)</th><th>Heading</th>
+                                    <th class="o_num">Debit</th><th class="o_num">Credit</th><th>Status</th><th>Reviewer</th><th>Corrected</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="reviewRows" t-as="r" t-key="r.id">
+                                    <tr t-foreach="r.lines.length ? r.lines : [false]" t-as="line" t-key="line_index" t-att-class="{'is-first': line_index === 0}">
+                                        <t t-if="line_index === 0">
+                                            <td class="o_ea_ws_ref" t-att-rowspan="r.lines.length or 1"><t t-esc="r.no"/></td>
+                                            <td t-att-rowspan="r.lines.length or 1">
+                                                <a href="#" t-if="r.canOpen" class="o_ea_ws_badge is-grey" t-att-title="r.source"
+                                                   t-on-click.prevent="(ev) => this.openSource(r, ev)" t-esc="r.paper or r.source"/>
+                                                <span class="o_ea_ws_badge is-amber" t-elif="r.byHand" t-esc="r.source"/>
+                                                <t t-esc="' ' + r.description"/>
+                                                <div class="o_ea_ws_adjnote mt-1" t-if="r.note">
+                                                    <b>Review note</b> (<t t-esc="r.note.author"/>): <t t-esc="r.note.body"/>
+                                                    <div class="o_ea_ws_hint" t-if="r.note.response" t-esc="r.note.response"/>
+                                                </div>
+                                            </td>
+                                        </t>
+                                        <td>
+                                            <t t-if="line">
+                                                <span t-att-class="line.classified ? '' : 'o_ea_ws_badge is-amber'" t-esc="line.heading"/>
+                                                <div class="o_ea_ws_hint" t-if="line.label or line.account"><t t-esc="line.label"/><t t-if="line.account"> · <t t-esc="line.account"/></t></div>
+                                            </t>
+                                        </td>
+                                        <td class="o_num"><t t-if="line" t-esc="line.debit"/></td>
+                                        <td class="o_num"><t t-if="line" t-esc="line.credit"/></td>
+                                        <t t-if="line_index === 0">
+                                            <td t-att-rowspan="r.lines.length or 1">
+                                                <span t-att-class="'o_ea_ws_badge is-' + statusTone(r)" t-esc="r.statusLabel"/>
+                                                <div class="o_ea_ws_hint" t-if="r.postedText" t-esc="r.postedText"/>
+                                            </td>
+                                            <td t-att-rowspan="r.lines.length or 1">
+                                                <div class="o_ea_ws_actions">
+                                                    <button type="button" class="btn btn-primary btn-sm" t-if="r.canPost" t-att-disabled="state.busy" t-on-click="() => this.review(r, 'post')">Post</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm" t-if="r.canNote and state.noting !== r.id" t-on-click="() => this.startNote(r)">Review note</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm" t-if="r.canUnpost" t-att-disabled="state.busy" t-on-click="() => this.review(r, 'unpost')">Unpost</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm text-nowrap" t-if="r.canClear" t-att-disabled="state.busy" t-on-click="() => this.review(r, 'clear')">Clear the note</button>
+                                                </div>
+                                                <div class="o_ea_ws_hint" t-if="r.hint" t-esc="r.hint"/>
+                                                <div class="o_ea_ws_notebox" t-if="state.noting === r.id">
+                                                    <input type="text" class="o_ea_ws_input" t-model="state.noteText" placeholder="What the preparer should look at"/>
+                                                    <button type="button" class="btn btn-primary btn-sm" t-att-disabled="!state.noteText.trim() or state.busy" t-on-click="() => this.sendNote(r)">Send</button>
+                                                    <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.state.noting = null">Cancel</button>
+                                                </div>
+                                            </td>
+                                            <td class="text-center" t-att-rowspan="r.lines.length or 1">
+                                                <input type="checkbox" t-att-checked="r.corrected" t-att-disabled="p.readonly" title="Corrected by management"
+                                                       t-on-change="(ev) => this.toggleCorrectedRow(r, ev)"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <table class="o_ea_ws_grid is-figures o_ea_ws_effect" data-ea="sad-effect">
+                        <thead>
+                            <tr><th>Effect on the financial statements</th><th class="o_num">All adjustments</th><th class="o_num">Posted (client copy)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="p.review.effect" t-as="row" t-key="row_index">
+                                <td t-esc="row.heading"/><td class="o_num" t-esc="row.all"/><td class="o_num" t-esc="row.posted"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="o_ea_ws_legend">The person who prepared an adjustment cannot post it. Changing an adjustment after it is posted means unposting it first (logged). Lines can still be marked “corrected by management” once posted. The uncorrected total and the materiality bar above count every adjustment, posted or not.</p>
+                </t>
 
                 <t t-if="isGrid">
                     <p class="o_ea_ws_empty" t-if="!gridRows.length">No difference here.</p>

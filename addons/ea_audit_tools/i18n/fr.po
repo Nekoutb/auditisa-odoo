@@ -706,6 +706,7 @@ msgstr "Alertes"
 #. odoo-javascript
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__entry_limit__all
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/js/sad_page.js:0
 msgid "All"
 msgstr "Tous"
 
@@ -2081,6 +2082,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_disc_row__corrected
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__corrected
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
 msgid "Corrected"
 msgstr "Corrigée"
 
@@ -2395,6 +2397,8 @@ msgstr "Créé le"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__credit
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
 msgid "Credit"
 msgstr "Crédit"
 
@@ -2507,6 +2511,8 @@ msgstr "Date testée"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__debit
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_list
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sad_entry_form
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
 msgid "Debit"
 msgstr "Débit"
 
@@ -3290,6 +3296,7 @@ msgstr "Matériel, mobilier et actifs biologiques"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__equity
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__equity
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__equity
 msgid "Equity"
 msgstr "Capitaux propres"
 
@@ -3537,6 +3544,7 @@ msgstr "Réf. états financiers"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__factual
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__factual
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__factual
+#: code:addons/ea_audit_tools/static/src/js/adjustment_editor.js:0
 msgid "Factual"
 msgstr "Avérée"
 
@@ -4864,6 +4872,7 @@ msgstr "Nature"
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_fa_ratio__label
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_grouping_rule__label
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 msgid "Label"
 msgstr "Libellé"
 
@@ -6711,9 +6720,15 @@ msgid "Post-audit"
 msgstr "Post-audit"
 
 #. module: ea_audit_tools
+#. odoo-javascript
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__posted
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+#: code:addons/ea_audit_tools/static/src/js/sad_page.js:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__review_state__posted
 msgid "Posted"
-msgstr "Reportée"
+msgstr "Validée"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__use_public_holiday
@@ -6778,6 +6793,7 @@ msgstr "Stratégie préliminaire pour la clôture"
 #. module: ea_audit_tools
 #. odoo-python
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__prepared_by_id
 msgid "Prepared by"
 msgstr "Préparé par"
 
@@ -6980,6 +6996,7 @@ msgstr "Étapes du programme"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_wizard__mtype__projected
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_misstatement__mtype__projected
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__mtype__projected
+#: code:addons/ea_audit_tools/static/src/js/adjustment_editor.js:0
 msgid "Projected"
 msgstr "Extrapolée"
 
@@ -7322,6 +7339,7 @@ msgstr "Écritures récurrentes et non récurrentes (corrections, reclassements,
 #. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding__reference
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
 msgid "Ref."
 msgstr "N°"
 
@@ -7556,6 +7574,7 @@ msgstr "Report à nouveau"
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality__benchmark__revenue
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_materiality_wizard__benchmark__revenue
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__revenue
 msgid "Revenue"
 msgstr "Chiffre d'affaires"
 
@@ -7582,9 +7601,11 @@ msgid "Review notes"
 msgstr "Notes de revue"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_reviewer
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__reviewer
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__reviewer
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
 msgid "Reviewer"
 msgstr "Réviseur"
 
@@ -7892,6 +7913,7 @@ msgid "Saturday"
 msgstr "Samedi"
 
 #. module: ea_audit_tools
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_control_link_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_deficiency_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_itgc_wizard
@@ -7899,6 +7921,7 @@ msgstr "Samedi"
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_sap_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_step_wizard
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_significance_wizard
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -8274,6 +8297,7 @@ msgstr "Relevés face au grand livre fournisseurs."
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_tb_version_list
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__status
 #: code:addons/ea_audit_tools/static/src/xml/procedure_design.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
 msgid "Status"
 msgstr "État"
 
@@ -13481,11 +13505,13 @@ msgstr "Écriture revue"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__reviewed_by_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__reviewed_by_id
 msgid "Reviewed by"
 msgstr "Revue par"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__reviewed_at
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__reviewed_at
 msgid "Reviewed on"
 msgstr "Revue le"
 
@@ -15648,6 +15674,7 @@ msgstr "Sur le sommaire, une ligne reportée peut être marquée « corrigée pa
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/js/findings_page.js:0
+#: code:addons/ea_audit_tools/static/src/js/adjustment_editor.js:0
 msgid "Judgemental"
 msgstr "De jugement"
 
@@ -15673,18 +15700,21 @@ msgstr "ex. 6033"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 msgid "Remove the line"
 msgstr "Supprimer la ligne"
 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 msgid "Not balanced"
 msgstr "Non équilibré"
 
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 msgid "+ Add a line"
 msgstr "+ Ajouter une ligne"
 
@@ -15703,6 +15733,7 @@ msgstr "Saisissez des lignes équilibrées, chacune avec son compte, pour le rep
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
 msgid "Open the summary"
 msgstr "Ouvrir le sommaire"
 
@@ -16006,3 +16037,328 @@ msgstr "Prix de cession %(proceeds)s · valeur nette à la cession %(nbv)s · pl
 #: code:addons/ea_audit_tools/static/src/js/substantive_page.js:0
 msgid "%(side)s %(item)s: not satisfied: %(checks)s"
 msgstr "%(side)s %(item)s : non satisfait : %(checks)s"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+#: code:addons/ea_audit_tools/static/src/js/sad_page.js:0
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_sad_entry__review_state__to_review
+msgid "To review"
+msgstr "À revoir"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "Review note open"
+msgstr "Note de revue ouverte"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "%(number)s posted by %(name)s on %(date)s: unpost it on the summary to change it"
+msgstr "%(number)s validée par %(name)s le %(date)s : annulez la validation au sommaire pour la modifier"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/finding_adjustment.py:0
+msgid "On the summary of audit differences as %(number)s · %(status)s"
+msgstr "Au sommaire des écarts d'audit sous %(number)s · %(status)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Review note open, back with the preparer"
+msgstr "Note de revue ouverte, renvoyée au préparateur"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Post is available once the note is cleared"
+msgstr "La validation sera possible une fois la note levée"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "You prepared it: another reviewer posts it"
+msgstr "Vous l'avez préparé : un autre réviseur le valide"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+#: code:addons/ea_audit_tools/static/src/js/adjustment_editor.js:0
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+msgid "To classify"
+msgstr "À classer"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Posted by %(name)s, %(date)s"
+msgstr "Validée par %(name)s, %(date)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/worksheet_pages.py:0
+msgid "Equity (profit for the year)"
+msgstr "Capitaux propres (résultat de l'exercice)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Each adjustment line needs a heading and one amount, either in debit or in credit."
+msgstr "Chaque ligne d'ajustement doit avoir une rubrique et un seul montant, au débit ou au crédit."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A reviewer has posted this adjustment on the summary of audit differences: it must be unposted there before it can change."
+msgstr "Un réviseur a validé cet ajustement au sommaire des écarts d'audit : sa validation doit y être annulée avant toute modification."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "You prepared this adjustment: another member of the team must review and post it."
+msgstr "Vous avez préparé cet ajustement : un autre membre de l'équipe doit le revoir et le valider."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "A review note is open on this adjustment: it goes back to the preparer and can be posted once the note is cleared."
+msgstr "Une note de revue est ouverte sur cet ajustement : il retourne au préparateur et pourra être validé une fois la note levée."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This adjustment is already posted."
+msgstr "Cet ajustement est déjà validé."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "This adjustment is not posted."
+msgstr "Cet ajustement n'est pas validé."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sad_page.js:0
+msgid "Adjustments to review"
+msgstr "Ajustements à revoir"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/sad_page.js:0
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__review_note_id
+msgid "Review note"
+msgstr "Note de revue"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_finding_adjustment__heading
+msgid "Heading"
+msgstr "Rubrique"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+msgid "Account before 2026-11-17:"
+msgstr "Compte avant le 17/11/2026 :"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+msgid "Balanced ✓"
+msgstr "Équilibré ✓"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+msgid "(as last saved)"
+msgstr "(au dernier enregistrement)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+msgid "Pick a heading for each line and balance the debits and credits to save."
+msgstr "Choisissez une rubrique pour chaque ligne et équilibrez débits et crédits pour enregistrer."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/adjustment_editor.xml:0
+msgid "Saving sends the adjustment to the summary of audit differences, where a reviewer posts it. Equity includes the effect on profit."
+msgstr "L'enregistrement envoie l'ajustement au sommaire des écarts d'audit, où un réviseur le valide. Les capitaux propres incluent l'effet sur le résultat."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Download the client copy (posted only)"
+msgstr "Télécharger la copie client (validés uniquement)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "No adjustment here."
+msgstr "Aucun ajustement ici."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Adjustment (from the working paper)"
+msgstr "Ajustement (issu de la feuille de travail)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Post"
+msgstr "Valider"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Unpost"
+msgstr "Annuler la validation"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Clear the note"
+msgstr "Lever la note"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "What the preparer should look at"
+msgstr "Ce que le préparateur doit revoir"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Send"
+msgstr "Envoyer"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Corrected by management"
+msgstr "Corrigé par la direction"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Effect on the financial statements"
+msgstr "Incidence sur les états financiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "All adjustments"
+msgstr "Tous les ajustements"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "Posted (client copy)"
+msgstr "Validés (copie client)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/sad_page.xml:0
+msgid "The person who prepared an adjustment cannot post it. Changing an adjustment after it is posted means unposting it first (logged). Lines can still be marked “corrected by management” once posted. The uncorrected total and the materiality bar above count every adjustment, posted or not."
+msgstr "La personne qui a préparé un ajustement ne peut pas le valider. Modifier un ajustement validé demande d'abord d'annuler sa validation (tracé au journal). Les lignes peuvent encore être marquées « corrigé par la direction » une fois validées. Le total non corrigé et la barre de seuil ci-dessus comptent tous les ajustements, validés ou non."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "1. Finding"
+msgstr "1. Constat"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "The issue"
+msgstr "Le problème"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "How and where it happened"
+msgstr "Comment et où cela s'est produit"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "What the test found, where, and what the client said"
+msgstr "Ce que le test a relevé, où, et ce que le client a répondu"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "2. Adjustment to book"
+msgstr "2. Ajustement à comptabiliser"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "goes to the summary of audit differences by itself when you save"
+msgstr "va au sommaire des écarts d'audit dès l'enregistrement"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+msgid "A finding added here goes straight to the Findings page. A misstatement also goes to the Summary of audit differences, with this procedure as its source: write its entry under \"2. Adjustment to book\" at the bottom of this paper."
+msgstr "Un constat ajouté ici va directement à la page des constats. Une anomalie va aussi au sommaire des écarts d'audit, avec cette procédure comme source : saisissez son écriture sous « 2. Ajustement à comptabiliser » en bas de cette feuille."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Open the working paper it was raised from"
+msgstr "Ouvrir la feuille de travail d'où il vient"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Open its working paper"
+msgstr "Ouvrir sa feuille de travail"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
+msgid "Adjustment to book"
+msgstr "Ajustement à comptabiliser"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_sad_entry__review_state
+msgid "Review"
+msgstr "Revue"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__non_current_assets
+msgid "Non-current assets"
+msgstr "Actifs non courants"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__current_assets
+msgid "Current assets"
+msgstr "Actifs courants"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__non_current_liabilities
+msgid "Non-current liabilities"
+msgstr "Passifs non courants"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__current_liabilities
+msgid "Current liabilities"
+msgstr "Passifs courants"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_finding_adjustment__heading__expenditure
+msgid "Expenditure"
+msgstr "Charges"

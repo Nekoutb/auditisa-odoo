@@ -1,11 +1,17 @@
+import re
+
 from odoo import api, fields, models
+
+from odoo.addons.ea_audit_core.services.signoff_rules import below_minimum_code, can_review, team_rank
 
 from ..rules import rule_error
 from ..services.lead_classes import LEAD_INDEX_BY_CODE, lead_index_label
 from ..services.sad_model import SAD_CAPTION_LABELS, SAD_CAPTIONS, suggest_caption
 from ..services.sad_view import effective_income_after_tax, fs_caption_amounts
 from .finding import MTYPE_SELECTION
-from .tool_record import fcfa, is_french
+from ..exports import simple_workbook
+from ..services.finding_adjustment import effect_table, heading_label
+from .tool_record import fcfa, french_date, is_french
 
 CAPTION_SELECTION = [(code, SAD_CAPTION_LABELS[code]["en"]) for code in SAD_CAPTIONS]
 ANSWER_SELECTION = [("yes", "Yes"), ("no", "No"), ("na", "N/A")]
@@ -14,6 +20,9 @@ ANSWER_SELECTION = [("yes", "Yes"), ("no", "No"), ("na", "N/A")]
 #: itself (description, accounts, amounts, type) is the working paper's, never typed here.
 REVIEW_FIELDS = {"corrected", "rationale", "dr_caption", "cr_caption"}
 PROC_MODEL = "ea.audit.designed.procedure"
+#: The reviewer's word on a line (owner's mock-up of 2026-11-17, "wp-finding-sad"). Empty reads
+#: "To review"; "Review note" is read from the line's open review note, not stored.
+REVIEW_STATE_SELECTION = [("to_review", "To review"), ("posted", "Posted")]
 
 
 class SadEntry(models.Model):
@@ -55,6 +64,12 @@ class SadEntry(models.Model):
     source_procedure_id = fields.Many2one(PROC_MODEL, string="Procedure", compute="_compute_source", compute_sudo=True)
     source_label = fields.Char(string="Source", compute="_compute_source", compute_sudo=True)
     entered_by_hand = fields.Boolean(string="Entered before 2026-11-17", compute="_compute_source", compute_sudo=True)
+    # the review of a line (owner's mock-up of 2026-11-17): every line of one adjustment moves together
+    review_state = fields.Selection(REVIEW_STATE_SELECTION, string="Review", readonly=True)
+    reviewed_by_id = fields.Many2one("res.users", string="Reviewed by", ondelete="restrict", readonly=True)
+    reviewed_at = fields.Datetime(string="Reviewed on", readonly=True)
+    review_note_id = fields.Many2one("ea.audit.review.note", string="Review note", ondelete="set null", readonly=True)
+    prepared_by_id = fields.Many2one("res.users", string="Prepared by", ondelete="restrict", readonly=True)
 
     @api.depends("misstatement_id", "file_item_id")
     @api.depends_context("lang")
@@ -200,6 +215,125 @@ class SadEntry(models.Model):
                 "created_by_id": self.env.user.id,
                 **values,
             }).id, "posted": True})
+        return True
+
+    # ---- the review: post, unpost, review note (owner's mock-up of 2026-11-17) ----------
+
+    def _ea_group(self):
+        """Every line of the same adjustment (one misstatement): they are reviewed together."""
+        self.ensure_one()
+        root = self.sudo()
+        if not root.misstatement_id:
+            return root
+        return root.search([("misstatement_id", "=", root.misstatement_id.id)], order="id")
+
+    def _ea_review_status(self):
+        """posted, note (a review note still open: back with the preparer) or to_review."""
+        self.ensure_one()
+        root = self.sudo()
+        if root.review_state == "posted":
+            return "posted"
+        if root.review_note_id and root.review_note_id.state == "open":
+            return "note"
+        return "to_review"
+
+    def _ea_preparers(self):
+        """Who prepared the adjustment: whoever raised the misstatement and whoever saved it."""
+        self.ensure_one()
+        root = self.sudo()
+        users = root._ea_group().prepared_by_id | root.misstatement_id.created_by_id
+        return users | root.source_finding_id.created_by_id
+
+    def _ea_review_refusal(self):
+        """Why the current user may not review this line, as a rule code; None when they may.
+        The firm's sign-off rules for C1.1 decide who reviews (a senior or above, at the
+        policy's minimum reviewer role), never the EQR, and never who prepared it (no self-review)."""
+        self.ensure_one()
+        root = self.sudo()
+        engagement = root.engagement_id
+        user = self.env.user
+        if engagement._ea_acts_as_eqr(user):
+            return "eqr-read-only"
+        if not can_review(user._ea_firm_role()):
+            return "requires-senior"
+        member = engagement._ea_member(user)
+        if not member or member.state != "accepted":
+            return "not-on-this-engagement"
+        rule = self.env["ea.audit.signoff.policy"].sudo()._ea_effective_rule("C1.1")
+        if team_rank(member.team_role) < team_rank(rule["min_reviewer"]):
+            return below_minimum_code(rule["min_reviewer"])
+        if user in root._ea_preparers():
+            return "sad-self-review"
+        return None
+
+    def _ea_review_check(self):
+        self.ensure_one()
+        self._ea_guard()
+        refusal = self._ea_review_refusal()
+        if refusal:
+            raise rule_error(self.env, refusal)
+        return self.sudo()
+
+    def _ea_review_name(self):
+        root = self.sudo()
+        number = root.engagement_id._ea_sad_numbers().get(root._ea_group()[:1].id, "")
+        return " ".join(part for part in (number, root.finding or "") if part)
+
+    def ea_review_post(self):
+        """Post: the reviewer accepts the line. Not while a review note is open on it."""
+        root = self._ea_review_check()
+        status = root._ea_review_status()
+        if status == "note":
+            raise rule_error(self.env, "sad-note-open")
+        if status == "posted":
+            raise rule_error(self.env, "sad-posted")
+        root._ea_group().write({
+            "review_state": "posted", "reviewed_by_id": self.env.user.id, "reviewed_at": fields.Datetime.now(),
+        })
+        root.engagement_id.with_env(self.env)._ea_log("sad_line_posted", "Audit difference %s posted" % root._ea_review_name())
+        return True
+
+    def ea_review_unpost(self):
+        """Unpost: needed before a posted line can change. Logged."""
+        root = self._ea_review_check()
+        if root._ea_review_status() != "posted":
+            raise rule_error(self.env, "sad-not-posted")
+        root._ea_group().write({"review_state": False, "reviewed_by_id": False, "reviewed_at": False})
+        root.engagement_id.with_env(self.env)._ea_log("sad_line_unposted", "Audit difference %s unposted" % root._ea_review_name())
+        return True
+
+    def ea_review_note(self, body):
+        """A review note on the line, through the papers' review notes: raised on the line's
+        working paper (C1.1 when it has none), addressed to its preparer, cleared there or
+        here. Until it is cleared the line reads "Review note" and cannot be posted."""
+        root = self._ea_review_check()
+        status = root._ea_review_status()
+        if status == "posted":
+            raise rule_error(self.env, "sad-posted")
+        if status == "note":
+            raise rule_error(self.env, "sad-note-open")
+        item = root.file_item_id or self.env["ea.audit.file.item"].sudo().search(
+            [("engagement_id", "=", root.engagement_id.id), ("code", "=", "C1.1")], limit=1,
+        )
+        if not item:
+            raise rule_error(self.env, "not-found")
+        text = (body or "").strip()
+        note_id = item.with_env(self.env).add_review_note("%s: %s" % (root._ea_review_name(), text) if text else "")
+        root._ea_group().write({"review_note_id": note_id})
+        root.engagement_id.with_env(self.env)._ea_log(
+            "sad_review_note", "Review note raised on audit difference %s" % root._ea_review_name(),
+        )
+        return True
+
+    def ea_review_clear_note(self, response=""):
+        """Clear the line's review note, under the review notes' own rules (its author, or a
+        manager who did not prepare the paper)."""
+        self.ensure_one()
+        self._ea_guard()
+        note = self.sudo().review_note_id
+        if not note or note.state != "open":
+            raise rule_error(self.env, "not-found")
+        note.with_env(self.env).clear(response)
         return True
 
     def action_post(self):
@@ -407,4 +541,46 @@ class EngagementSad(models.Model):
 
     def action_export_sad(self):
         return self._ea_export_action("sad")
+
+    def action_export_sad_client(self):
+        """The client copy: the posted adjustments only (owner's mock-up of 2026-11-17)."""
+        return self._ea_export_action("sad_client")
+
+    def _ea_export_sad_client(self, fr):
+        """One row per heading line of each posted adjustment, then the effect on the statements."""
+        as_root = self.sudo()
+        locale = "fr" if fr else "en"
+        numbers = as_root._ea_sad_numbers()
+        finding_of = {f.misstatement_id.id: f for f in as_root.finding_ids if f.misstatement_id}
+        rows, posted_groups, seen = [], [], set()
+        for entry in self.env["ea.audit.sad.entry"].sudo().search([("engagement_id", "=", self.id)], order="id"):
+            group = entry._ea_group()
+            if group[:1].id in seen or entry._ea_review_status() != "posted":
+                continue
+            seen.add(group[:1].id)
+            finding = finding_of.get(entry.misstatement_id.id) if entry.misstatement_id else None
+            lines = as_root._ea_sad_lines(group, finding, locale)
+            posted_groups.append((lines, True))
+            for line in lines:
+                rows.append([
+                    numbers[entry.id], entry.finding or "", heading_label(line["heading"], locale) or line["account"],
+                    line["label"], line["debit"] or None, line["credit"] or None,
+                    ("Oui" if fr else "Yes") if entry.corrected else ("Non" if fr else "No"),
+                    entry.reviewed_by_id.name or "", french_date(entry.reviewed_at),
+                ])
+        rows.append([])
+        rows.append(["", "Incidence sur les états financiers" if fr else "Effect on the financial statements"])
+        for row in effect_table(posted_groups):
+            label = heading_label(row["heading"], locale)
+            if row["heading"] == "equity":
+                label = "Capitaux propres (résultat de l'exercice inclus)" if fr else "Equity (profit for the year included)"
+            rows.append(["", label, "", "", row["posted"]])
+        head = (
+            ["Réf.", "Ajustement", "Rubrique", "Libellé", "Débit", "Crédit", "Corrigé par la direction", "Comptabilisé par", "Comptabilisé le"]
+            if fr else
+            ["Ref.", "Adjustment", "Heading", "Label", "Debit", "Credit", "Corrected by management", "Posted by", "Posted on"]
+        )
+        title = "%s · %s" % ("Ajustements d'audit comptabilisés" if fr else "Posted audit adjustments", as_root.client_id.name or "")
+        name = re.sub(r"[^\w-]+", "_", as_root.client_id.name or "client")[:60]
+        return "SAD-client-%s-%s.xlsx" % (name, as_root.period_end or ""), simple_workbook("SAD", head, rows, title=title)
 

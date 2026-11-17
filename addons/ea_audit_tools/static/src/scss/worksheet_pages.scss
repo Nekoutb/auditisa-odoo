@@ -167,3 +167,15 @@
         .o_num { text-align: right; font-variant-numeric: tabular-nums; }
     }
 }
+
+// The adjustment at the bottom of a working paper, and the SAD review (owner's mock-up of 2026-11-17, "wp-finding-sad").
+.o_ea_ws.o_ea_ws_embed { height: auto; overflow: visible; padding: 0; background: transparent; }
+.o_ea_ws {
+    .o_ea_ws_adjnote { padding: 6px 10px; border-radius: 6px; background: var(--eaws-amber-bg); }
+    .o_ea_ws_filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 8px; }
+    .o_ea_ws_review td { vertical-align: top; }
+    .o_ea_ws_review tr.is-first td { border-top: 2px solid var(--eaws-line); }
+    .o_ea_ws_review .o_ea_ws_actions { display: flex; flex-wrap: wrap; gap: 4px; white-space: nowrap; }
+    .o_ea_ws_review .o_ea_ws_notebox { display: flex; gap: 6px; margin-top: 4px; .o_ea_ws_input { flex: 1; min-width: 160px; } }
+    .o_ea_ws_effect { max-width: 620px; margin-top: 14px; }
+}

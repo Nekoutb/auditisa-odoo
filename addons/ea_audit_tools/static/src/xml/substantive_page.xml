@@ -566,6 +566,28 @@
                             <button type="button" class="btn btn-link btn-sm" t-if="!p.readonly" t-on-click="reopen">Reopen</button>
                         </div>
                     </section>
+                    <!-- The bottom of the paper (owner's mock-up of 2026-11-17): each finding, then its adjustment -->
+                    <section class="o_ea_px_card" t-foreach="p.findings" t-as="f" t-key="f.id" data-ea="paper-finding">
+                        <h3>1. Finding <span class="o_ea_px_muted"><t t-esc="f.ref"/> · <t t-esc="f.routeLabel"/></span></h3>
+                        <div class="o_ea_px_row">
+                            <span>The issue</span>
+                            <span><a href="#" t-on-click.prevent="() => this.open('finding', f.id)" t-esc="f.title"/></span>
+                        </div>
+                        <div class="o_ea_px_row">
+                            <span>How and where it happened</span>
+                            <textarea class="o_ea_px_input" rows="3" t-att-disabled="p.readonly" t-att-value="f.detail"
+                                      placeholder="What the test found, where, and what the client said"
+                                      t-on-change="(ev) => this.saveDetail(f, ev)"/>
+                        </div>
+                        <t t-if="f.adjustment">
+                            <h3 class="mt-3">2. Adjustment to book <span class="o_ea_px_muted">goes to the summary of audit differences by itself when you save</span></h3>
+                            <div class="o_ea_ws o_ea_ws_embed">
+                                <EaAdjustment adj="f.adjustment" readonly="p.readonly"
+                                              onSave="(lines, nature) => this.saveAdjustment(f, lines, nature)"
+                                              onOpenSad="() => this.open('action_tool_sad')"/>
+                            </div>
+                        </t>
+                    </section>
             </div>
             <div class="o_ea_px_side">
                 <EaDocsPane engagementId="engagementId" docs="p.evidence" title.translate="Evidence"
@@ -589,7 +611,8 @@
                         </table>
                         <p class="o_ea_px_muted" t-else="">None yet.</p>
                         <div class="o_ea_px_form" t-if="state.finding">
-                            <label>Description <textarea class="o_ea_px_input" rows="2" t-model="state.finding.description"/></label>
+                            <label>The issue <textarea class="o_ea_px_input" rows="2" t-model="state.finding.description"/></label>
+                            <label>How and where it happened <textarea class="o_ea_px_input" rows="2" t-model="state.finding.how"/></label>
                             <div class="o_ea_px_row">
                                 <span>Type</span>
                                 <span class="o_ea_px_seg" role="group">
@@ -600,8 +623,6 @@
                             </div>
                             <t t-if="state.finding.type === 'misstatement'">
                                 <label>Amount (FCFA) <input type="text" class="o_ea_px_input" t-model="state.finding.amount"/></label>
-                                <label>Debit account <input type="text" class="o_ea_px_input" placeholder="659100" t-model="state.finding.dr"/></label>
-                                <label>Credit account <input type="text" class="o_ea_px_input" placeholder="491000" t-model="state.finding.cr"/></label>
                                 <div class="o_ea_px_row">
                                     <span>Kind</span>
                                     <span class="o_ea_px_seg" role="group" data-ea="mtype">
@@ -619,7 +640,7 @@
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary btn-sm" t-elif="editable" t-on-click="startFinding">Add a finding</button>
-                        <div class="o_ea_px_info">A finding added here goes straight to the Findings page. A misstatement also goes to the Summary of audit differences, with this procedure as its source: it is the only way a line gets there.</div>
+                        <div class="o_ea_px_info">A finding added here goes straight to the Findings page. A misstatement also goes to the Summary of audit differences, with this procedure as its source: write its entry under "2. Adjustment to book" at the bottom of this paper.</div>
                     </section>
             </div>
             </div>
