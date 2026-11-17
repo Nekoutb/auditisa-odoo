@@ -131,3 +131,46 @@ class TestControlsScope(ToolsCase):
         self.assertEqual(self.active(), set(CONTROLS_CODES))
         self.assertFalse(self.item("S2.1").not_applicable)
         self.assertFalse(self.trail("tasks_off_by_reliance"))
+
+    # ---- question 18 of the engagement questionnaire (owner's ruling of 2026-11-18)
+
+    def test_controls_reliance_in_the_questionnaire_brings_the_controls_tasks(self):
+        self.answer_profile(q19_approach="controls")
+        self.assertTrue(self.engagement.sudo()._ea_relies_on_controls())
+        self.assertEqual(self.active(), set(CONTROLS_CODES))
+
+    def test_substantive_only_brings_none_until_the_strategy_relies(self):
+        self.answer_profile()
+        self.assertFalse(self.engagement.sudo()._ea_relies_on_controls())
+        self.assertEqual(self.active(), set())
+        # the combined risk assessment can still rely on controls later
+        self.scot()
+        self.assertEqual(self.active(), set(CONTROLS_CODES))
+
+    def test_a_draft_questionnaire_relies_on_nothing(self):
+        self.as_manager.action_open_profile()
+        self.engagement.sudo()._ea_profile().with_user(self.manager).write({"q19_approach": "controls"})
+        self.assertFalse(self.engagement.sudo()._ea_relies_on_controls())
+
+    def test_changing_to_substantive_only_takes_the_controls_tasks_off(self):
+        self.answer_profile(q19_approach="controls")
+        self.sign_off("S2.1")
+        self.answer_profile(q19_approach="substantive")
+        self.assertEqual(self.active(), {"S2.1"})
+        item = self.item("S2.1")
+        self.assertTrue(item.not_applicable)
+        self.assertTrue(item.controls_na)
+        # back to Controls reliance: the tasks return, the work as it was
+        self.answer_profile(q19_approach="controls")
+        self.assertEqual(self.active(), set(CONTROLS_CODES))
+        self.assertFalse(self.item("S2.1").not_applicable)
+
+    def test_substantive_only_keeps_the_tasks_while_a_scot_relies(self):
+        self.answer_profile(q19_approach="controls")
+        self.scot()
+        self.answer_profile(q19_approach="substantive")
+        self.assertEqual(self.active(), set(CONTROLS_CODES))
+
+    def test_an_old_something_else_answer_with_the_controls_tick_relies(self):
+        self.answer_profile(q19_approach="other", q19_controls=True)
+        self.assertEqual(self.active(), set(CONTROLS_CODES))

@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Core",
     "summary": "Firm roles, engagements, teams, file index, sign-off governance and gates",
-    "version": "19.0.1.6.3",
+    "version": "19.0.1.6.4",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

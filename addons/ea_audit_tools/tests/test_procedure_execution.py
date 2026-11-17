@@ -82,6 +82,43 @@ class TestOverview(ExecutionCase):
 
 
 @tagged("post_install", "-at_install")
+class TestControlsFirst(ExecutionCase):
+    """Owner's ruling of 2026-11-18: under Controls reliance the controls are tested before the
+    substantive procedures; the page warns while they are not concluded, and never blocks."""
+
+    WARNING = "This engagement relies on controls: test the controls first. Substantive procedures depend on their result."
+
+    def test_no_warning_under_substantive_only(self):
+        self.answer_profile()
+        self.assertFalse(self.as_staff.ea_substantive_page()["controlsFirst"])
+
+    def test_no_warning_without_a_questionnaire(self):
+        self.assertFalse(self.as_staff.ea_substantive_page()["controlsFirst"])
+
+    def test_a_warning_until_the_tests_of_controls_are_concluded(self):
+        self.answer_profile(q19_approach="controls")
+        page = self.as_staff.ea_substantive_page()
+        self.assertEqual(page["controlsFirst"], self.WARNING)
+        # a warning only: the procedures are listed as before
+        self.assertTrue(self.chips(page))
+        items = self.env["ea.audit.file.item"].sudo().search([
+            ("engagement_id", "=", self.engagement.id), ("code", "in", ["E1.1", "E1.2"]),
+        ])
+        self.assertEqual(len(items), 2)
+        items[:1].state = "prepared"
+        self.assertTrue(self.as_staff.ea_substantive_page()["controlsFirst"])
+        items.write({"state": "prepared"})
+        self.assertFalse(self.as_staff.ea_substantive_page()["controlsFirst"])
+
+    def test_the_warning_reads_in_french(self):
+        self.answer_profile(q19_approach="controls")
+        self.env["res.lang"]._activate_lang("fr_FR")
+        self.staff.lang = "fr_FR"
+        page = self.engagement.with_user(self.staff).with_context(lang="fr_FR").ea_substantive_page()
+        self.assertTrue(page["controlsFirst"].startswith("Cette mission s'appuie sur les contrôles"))
+
+
+@tagged("post_install", "-at_install")
 class TestWorkingPaper(ExecutionCase):
     def test_started_then_done_then_reopened(self):
         proc = self.proc("E-M4")

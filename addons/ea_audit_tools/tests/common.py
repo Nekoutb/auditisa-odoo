@@ -34,6 +34,18 @@ def to_bytes(text):
     return text.encode("utf-8")
 
 
+# The engagement questionnaire answered on the Very simple side (ea_audit_core's tests use the same).
+PROFILE_PLAIN = {
+    "q1_listed": "no", "q2_pie": "none", "q3_controls_law": "no", "q4_group": "standalone",
+    "q5_activities": "one", "q6_sites": "one", "q7_major_change": "no",
+    **{"q8_%d" % n: "low" for n in range(1, 9)},
+    "q9_specialists": "none", "q10_regulator": "no", "q11_fraud": "no",
+    "q12_owners_known": "yes", "q13_automated": "no", "q14_keeper": "entity",
+    "q16_risks": "no", "q17_going_concern": "no",
+    "q18_related_parties": "no", "q19_approach": "substantive", "q20_first_year": "no",
+}
+
+
 class ToolsCase(EaAuditCase):
     """One engagement, a full team, a read-only member, and an outsider with a firm role."""
 
@@ -56,6 +68,15 @@ class ToolsCase(EaAuditCase):
         self.as_reader = self.engagement.with_user(self.reader)
         self.as_outsider = self.engagement.with_user(self.outsider)
         self.as_eqr = self.engagement.with_user(self.eqr)
+
+    def answer_profile(self, **changes):
+        """The manager answers the engagement questionnaire and concludes it; a later call changes answers."""
+        self.as_manager.action_open_profile()
+        profile = self.engagement.sudo()._ea_profile().with_user(self.manager)
+        profile.write({**PROFILE_PLAIN, **changes})
+        if profile.state != "concluded":
+            profile.action_conclude()
+        return profile
 
     def import_tb(self, content=BALANCED_CSV, filename="balance.csv", timing="pre_audit", actor=None):
         return (actor or self.as_staff).import_trial_balance(filename, to_bytes(content), timing=timing)

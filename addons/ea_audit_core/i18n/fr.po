@@ -4697,13 +4697,37 @@ msgstr "Q18 Approche prévue"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Question 18: not tested by balances only at year end"
-msgstr "Q18 pas uniquement des tests de soldes à la clôture"
+msgid "Question 18: the approach relies on controls"
+msgstr "Q18 l'approche s'appuie sur les contrôles"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Question 18: some work at an interim date"
+msgstr "Q18 des travaux à une date intermédiaire"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "Question 18: use of internal audit's work"
+msgstr "Q18 utilisation des travaux de l'audit interne"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "All the evidence comes from substantive procedures: tests of details and analytical procedures."
+msgstr "Tous les éléments probants proviennent des procédures de corroboration : tests de détail et procédures analytiques."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/models/engagement_profile.py:0
+msgid "The team tests the controls first and relies on them; substantive procedures follow and are reduced accordingly."
+msgstr "L'équipe teste d'abord les contrôles et s'appuie sur eux ; les procédures de corroboration suivent et sont réduites en conséquence."
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Question 18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"
-msgstr "Q18. Approche prévue : tester les soldes seulement, tout à la clôture ? Ou s'appuyer sur les contrôles, tester à une date intermédiaire, ou utiliser les travaux de l'audit interne ?"
+msgid "Question 18. Planned approach: substantive only, or controls reliance (the team tests the controls before performing the substantive procedures)?"
+msgstr "Q18. Approche prévue : procédures de corroboration uniquement, ou appui sur les contrôles (l'équipe teste les contrôles avant de réaliser les procédures de corroboration) ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q2_pie
@@ -4919,8 +4943,8 @@ msgstr "Logiciels personnalisés, intégrés ou développés en interne"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q19_approach__other
-msgid "Something else (tick below)"
-msgstr "Autre chose (cochez ci-dessous)"
+msgid "Something else (earlier answer)"
+msgstr "Autre chose (réponse antérieure)"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -4964,13 +4988,18 @@ msgstr "Fiscalité seulement"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q19_interim
-msgid "Test at an interim date"
-msgstr "Tester à une date intermédiaire"
+msgid "Some work at an interim date"
+msgstr "Des travaux à une date intermédiaire"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q19_approach__substantive
-msgid "Test balances only, all at year end"
-msgstr "Tester les soldes seulement, tout à la clôture"
+msgid "Substantive only"
+msgstr "Procédures de corroboration uniquement"
+
+#. module: ea_audit_core
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q19_approach__controls
+msgid "Controls reliance"
+msgstr "Appui sur les contrôles"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -5018,8 +5047,8 @@ msgstr "Le niveau découle des réponses et ne peut pas être changé à la main
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q19_internal_audit
-msgid "Use internal audit's work"
-msgstr "Utiliser les travaux de l'audit interne"
+msgid "Use of internal audit's work"
+msgstr "Utilisation des travaux de l'audit interne"
 
 #. module: ea_audit_core
 #. odoo-python
@@ -5358,8 +5387,8 @@ msgstr "Q18. Approche prévue"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Balances only at year end, or tick what else you will do: rely on controls, test at an interim date, use internal audit's work."
-msgstr "Les soldes seulement, à la clôture, ou cochez ce que vous ferez d'autre : vous appuyer sur les contrôles, tester à une date intermédiaire, utiliser les travaux de l'audit interne."
+msgid "Substantive only, or Controls reliance: the team tests the controls before performing the substantive procedures. Then tick, if they apply, some work at an interim date and the use of internal audit's work."
+msgstr "Procédures de corroboration uniquement, ou Appui sur les contrôles : l'équipe teste les contrôles avant de réaliser les procédures de corroboration. Cochez ensuite, s'il y a lieu, des travaux à une date intermédiaire et l'utilisation des travaux de l'audit interne."
 
 #. module: ea_audit_core
 #. odoo-python

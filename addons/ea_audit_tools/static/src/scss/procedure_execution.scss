@@ -40,6 +40,7 @@
     .o_ea_px_muted { color: var(--eapx-muted); margin-top: 6px; }
     .o_ea_px_readonly { margin: 10px 0; padding: 6px 10px; border-radius: 6px; background: var(--eapx-head); color: var(--eapx-muted); }
     .o_ea_px_note { color: var(--eapx-muted); margin-top: 4px; }
+    .o_ea_px_warn { margin: 10px 0; padding: 8px 12px; border-radius: 6px; background: var(--eapx-amber); color: var(--eapx-amber-ink); font-weight: 600; }
 
     // the overview
     .o_ea_px_grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 14px; }

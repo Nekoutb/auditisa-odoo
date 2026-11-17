@@ -58,6 +58,7 @@
     .eapr-qt { font-weight: 600; }
     .eapr-tick { color: var(--eapr-green); }
     .eapr-help { margin: 2px 0 8px; color: var(--eapr-muted); font-size: 12.5px; }
+    .eapr-optionhelp { margin: 6px 0 0; padding-left: 18px; color: var(--eapr-muted); font-size: 12.5px; b { color: var(--eapr-ink); font-weight: 600; } }
     .eapr-label { display: block; font-size: 13px; &.is-sub { margin: 10px 0 6px 18px; } }
 
     .eapr-choices { display: flex; flex-wrap: wrap; gap: 8px; &.is-sub { margin-left: 18px; margin-top: 8px; } }

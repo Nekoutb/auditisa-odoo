@@ -41,9 +41,12 @@ KEEPER_SELECTION = [
     ("payroll", "A payroll bureau"),
     ("hosting", "A hosting or IT provider"),
 ]
+# Q18 (owner's ruling of 2026-11-18): two options. "other" stays a valid stored value so a file
+# answered before the ruling still reads; the screen offers it only to a file that holds it.
 APPROACH_SELECTION = [
-    ("substantive", "Test balances only, all at year end"),
-    ("other", "Something else (tick below)"),
+    ("substantive", "Substantive only"),
+    ("controls", "Controls reliance"),
+    ("other", "Something else (earlier answer)"),
 ]
 STATE_SELECTION = [("draft", "Not finished"), ("concluded", "Concluded")]
 
@@ -82,7 +85,9 @@ _REASONS = {
     "q17": _lt("Question 16: doubt about going concern"),
     "q18": _lt("Question 17: significant related-party or unusual transactions"),
     "q9:other": _lt("Question 9: specialists other than tax"),
-    "q19": _lt("Question 18: not tested by balances only at year end"),
+    "q19": _lt("Question 18: the approach relies on controls"),
+    "q19:interim": _lt("Question 18: some work at an interim date"),
+    "q19:internal_audit": _lt("Question 18: use of internal audit's work"),
 }
 _TITLES = {
     tree.COMPLEX: _lt("Complex because:"),
@@ -112,8 +117,23 @@ def _outside_keeper(a):
     return bool(a.get("q14_keeper")) and a.get("q14_keeper") != "entity"
 
 
-def _other_approach(a):
-    return a.get("q19_approach") == "other"
+def _former_approach(a):
+    """The old "rely on controls" tick: shown only on a file answered "something else" before 2026-11-18."""
+    return a.get("q19_approach") == tree.FORMER_APPROACH
+
+
+def _approach_chosen(a):
+    return bool(a.get("q19_approach"))
+
+
+# What each option of Q18 means, shown under the choices.
+_APPROACH_HELP = {
+    "substantive": _lt("All the evidence comes from substantive procedures: tests of details and analytical procedures."),
+    "controls": _lt("The team tests the controls first and relies on them; substantive procedures follow and are reduced accordingly."),
+}
+_OPTION_HELP = {"q19_approach": _APPROACH_HELP}
+# A stored value the screen no longer offers for a new answer (shown only where it is the answer).
+_FORMER_VALUES = {"q19_approach": {tree.FORMER_APPROACH}}
 
 
 _IT_POINT_WORDS = (
@@ -197,11 +217,11 @@ SCREEN = (
     )),
     (_lt("Approach and history"), (
         ("Q18", _lt("Question 18. Planned approach"),
-         _lt("Balances only at year end, or tick what else you will do: rely on controls, test at an interim date, use internal audit's work."),
+         _lt("Substantive only, or Controls reliance: the team tests the controls before performing the substantive procedures. Then tick, if they apply, some work at an interim date and the use of internal audit's work."),
          (("q19_approach", None, "choice", None),
-          ("q19_controls", None, "toggle", _other_approach),
-          ("q19_interim", None, "toggle", _other_approach),
-          ("q19_internal_audit", None, "toggle", _other_approach))),
+          ("q19_controls", None, "toggle", _former_approach),
+          ("q19_interim", None, "toggle", _approach_chosen),
+          ("q19_internal_audit", None, "toggle", _approach_chosen))),
         ("Q19", _lt("Question 19. Is this a first-year audit?"),
          _lt("Yes adds P1.2, contact with the predecessor auditor."),
          (("q20_first_year", None, "choice", None),)),
@@ -302,9 +322,10 @@ class EngagementProfile(models.Model):
     q18_related_parties = fields.Selection(YES_NO, string="Question 17: Significant related-party or unusual transactions")
     # Approach and history
     q19_approach = fields.Selection(APPROACH_SELECTION, string="Question 18: Planned approach")
+    # read only on a file answered "something else" before 2026-11-18: Controls reliance replaces it
     q19_controls = fields.Boolean(string="Rely on controls")
-    q19_interim = fields.Boolean(string="Test at an interim date")
-    q19_internal_audit = fields.Boolean(string="Use internal audit's work")
+    q19_interim = fields.Boolean(string="Some work at an interim date")
+    q19_internal_audit = fields.Boolean(string="Use of internal audit's work")
     q20_first_year = fields.Selection(YES_NO, string="Question 19: First-year audit")
 
     # What the screen shows
@@ -512,6 +533,8 @@ class EngagementProfile(models.Model):
         shown = []
         for field_name, label, kind, when in parts:
             field = self._fields[field_name]
+            helps = _OPTION_HELP.get(field_name, {})
+            former = _FORMER_VALUES.get(field_name, ())
             if label:
                 words = label._translate(lang)
             elif kind == "toggle":
@@ -524,7 +547,9 @@ class EngagementProfile(models.Model):
                 "kind": kind,
                 "visible": when is None or bool(when(answers)),
                 "options": [] if kind == "toggle" else [
-                    {"value": value, "label": text} for value, text in field._description_selection(env)
+                    {"value": value, "label": text, "help": helps[value]._translate(lang) if value in helps else False}
+                    for value, text in field._description_selection(env)
+                    if value not in former or answers.get(field_name) == value
                 ],
             })
         return shown

@@ -53,6 +53,10 @@
                                                     t-on-click="() => this.answer(part.field, o.value)" t-esc="o.label"/>
                                         </t>
                                     </div>
+                                    <t t-set="helps" t-value="optionHelps(part)"/>
+                                    <ul class="eapr-optionhelp" t-if="helps.length">
+                                        <li t-foreach="helps" t-as="o" t-key="o.value"><b t-esc="o.label"/>: <t t-esc="o.help"/></li>
+                                    </ul>
                                 </t>
                             </t>
                         </div>
