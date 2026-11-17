@@ -1,0 +1,215 @@
+{
+ "_comment": "Standard -> the IAASB page of its latest version, opened in a new tab from a paper's Objective. Pages checked 2026-11-17; a standard without a page of its own opens the IAASB handbook (2025 edition).",
+ "standards": {
+  "ISA 200": {
+   "label": "ISA 200",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 210": {
+   "label": "ISA 210",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 220": {
+   "label": "ISA 220 (Revised)",
+   "url": "https://www.iaasb.org/publications/international-standard-auditing-220-revised-quality-management-audit-financial-statements",
+   "checked": "2026-11-17"
+  },
+  "ISA 230": {
+   "label": "ISA 230",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 240": {
+   "label": "ISA 240 (Revised)",
+   "url": "https://www.iaasb.org/publications/isa-240-revised-auditor-s-responsibilities-relating-fraud-audit-financial-statements",
+   "checked": "2026-11-17"
+  },
+  "ISA 250": {
+   "label": "ISA 250 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 260": {
+   "label": "ISA 260 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 265": {
+   "label": "ISA 265",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 300": {
+   "label": "ISA 300",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 315": {
+   "label": "ISA 315 (Revised 2019)",
+   "url": "https://www.iaasb.org/publications/isa-315-revised-2019-identifying-and-assessing-risks-material-misstatement",
+   "checked": "2026-11-17"
+  },
+  "ISA 320": {
+   "label": "ISA 320",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 330": {
+   "label": "ISA 330",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 402": {
+   "label": "ISA 402",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 450": {
+   "label": "ISA 450",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 500": {
+   "label": "ISA 500",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 501": {
+   "label": "ISA 501",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 505": {
+   "label": "ISA 505",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 510": {
+   "label": "ISA 510",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 520": {
+   "label": "ISA 520",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 530": {
+   "label": "ISA 530",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 540": {
+   "label": "ISA 540 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 550": {
+   "label": "ISA 550",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 560": {
+   "label": "ISA 560",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 570": {
+   "label": "ISA 570 (Revised 2024)",
+   "url": "https://www.iaasb.org/publications/isa-570-revised-2024-going-concern",
+   "checked": "2026-11-17"
+  },
+  "ISA 580": {
+   "label": "ISA 580",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 600": {
+   "label": "ISA 600 (Revised)",
+   "url": "https://iaasb.org/publications/international-standard-auditing-600-revised-special-considerations-audits-group-financial-statements",
+   "checked": "2026-11-17"
+  },
+  "ISA 610": {
+   "label": "ISA 610 (Revised 2013)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 620": {
+   "label": "ISA 620",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 700": {
+   "label": "ISA 700 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 701": {
+   "label": "ISA 701",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 705": {
+   "label": "ISA 705 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 706": {
+   "label": "ISA 706 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 710": {
+   "label": "ISA 710",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISA 720": {
+   "label": "ISA 720 (Revised)",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  },
+  "ISQM 1": {
+   "label": "ISQM 1",
+   "url": "https://www.iaasb.org/publications/international-standard-quality-management-isqm-1-quality-management-firms-perform-audits-or-reviews",
+   "checked": "2026-11-17"
+  },
+  "ISQM 2": {
+   "label": "ISQM 2",
+   "url": "https://www.iaasb.org/publications/2025-handbook-international-quality-management-auditing-review-other-assurance-and-related-services",
+   "checked": "2026-11-17",
+   "handbook": true
+  }
+ }
+}

@@ -14,7 +14,11 @@ Storage keys (kept stable so that migrated answers keep working):
     other      an input or select field   key_findings  on every paper, never required
 """
 
+from .layout import CONCLUSION_KEY, SUMMARY_KEY, is_converted, missing_sources, new_keys, proc_answered, source_key
+
 NA = "na"
+SUMMARY_TITLE_EN = "Summary of work performed"
+SUMMARY_TITLE_FR = "Synthèse des travaux réalisés"
 
 # ECMAScript String.prototype.trim. Not str.strip(), which also removes U+001C-U+001F
 # and U+0085 and keeps U+FEFF: an "answer" of U+FEFF would count here and not there.
@@ -85,7 +89,7 @@ def paper_keys(definition):
                 keys.update((yn_key(item["key"]), yn_why_key(item["key"])))
     for index in range(len(definition.get("conclEn") or [])):
         keys.update((concl_key(index), concl_why_key(index)))
-    return keys
+    return keys | new_keys(definition)
 
 
 # Roll forward (owner 2026-11-16): papers that only conclude, attest or close the year (the
@@ -103,7 +107,7 @@ def carried_answer_keys(definition):
                 keys -= {proc_key(proc["key"]), proc_na_key(proc["key"]), proc_why_key(proc["key"])}
     for index in range(len(definition.get("conclEn") or [])):
         keys -= {concl_key(index), concl_why_key(index)}
-    return keys
+    return keys - new_keys(definition)
 
 
 def section_collapsed(section, values):
@@ -120,7 +124,8 @@ def _section_fields(section, values):
     """The typed fields of a fields section that still ask for an answer."""
     if section_collapsed(section, values):
         return [f["key"] for f in section["fields"] if _typed(f) and f["key"] == section["collapse"]["key"]]
-    return [f["key"] for f in section["fields"] if _typed(f)]
+    # a converted paper may offer a box nobody has to fill (services/layout.py, ``optional``)
+    return [f["key"] for f in section["fields"] if _typed(f) and not f.get("optional")]
 
 
 def required_keys(definition, values=None):
@@ -136,6 +141,10 @@ def required_keys(definition, values=None):
         elif kind == "yn":
             out.extend(yn_key(i["key"]) for i in section["items"])
     out.extend(concl_key(i) for i in range(len(definition.get("conclEn") or [])))
+    if is_converted(definition):
+        if definition.get("_summary"):
+            out.append(SUMMARY_KEY)
+        out.append(CONCLUSION_KEY)
     return out
 
 
@@ -144,11 +153,17 @@ def _value(values, key):
     return js_trim(value) if value is not None else ""
 
 
-def _is_proc_key(definition, key):
+def _proc_of(definition, key):
     for section in _sections(definition):
-        if section["kind"] == "proc" and any(proc_key(p["key"]) == key for p in section["procs"]):
-            return True
-    return False
+        if section["kind"] == "proc":
+            for proc in section["procs"]:
+                if proc_key(proc["key"]) == key:
+                    return proc
+    return None
+
+
+def _is_proc_key(definition, key):
+    return _proc_of(definition, key) is not None
 
 
 def _field_when(definition, key):
@@ -175,7 +190,11 @@ def key_answered(definition, key, values):
         if answer == NA:
             return len(_value(values, "%s_x" % key)) > 0
         return len(answer) > 0
-    if key.startswith("p_") and _is_proc_key(definition, key):
+    proc = _proc_of(definition, key) if key.startswith("p_") else None
+    if proc is not None and definition.get("_depth"):
+        # a converted paper, shaped for the engagement's depth (services/layout.py)
+        return proc_answered(proc, values, bool(definition.get("_warnings")))
+    if proc is not None:
         if _value(values, "%s_na" % key) == NA:
             return len(_value(values, "%s_x" % key)) > 0
         return len(_value(values, key)) > 0
@@ -210,12 +229,16 @@ def paper_missing(definition, values):
     for index in range(len(definition.get("conclEn") or [])):
         if _value(values, concl_key(index)) == "no" and not _value(values, concl_why_key(index)):
             missing.append(concl_why_key(index))
+    missing.extend(missing_sources(definition, values))
     return missing
 
 
-def completeness_exempt(code, has_bespoke):
+def completeness_exempt(code, has_bespoke, converted=False):
     """Tasks whose screen is not the questionnaire, so a signature does not read
-    paper_missing (documents.ts completenessExempt)."""
+    paper_missing (documents.ts completenessExempt). A converted paper of a board (S1.2, S1.3:
+    the tool's card, then its own tasks) is read like any other paper."""
+    if converted and code in EMBED_ONLY_PAPERS:
+        return False
     return code.startswith("E4.") or code == "P7.2" or code in EMBED_ONLY_PAPERS or not has_bespoke
 
 
@@ -236,12 +259,15 @@ def missing_parts(definition, values):
         if kind == "fields":
             keys = [f["key"] for f in section["fields"] if _typed(f)]
         elif kind == "proc":
-            keys = [proc_key(p["key"]) for p in section["procs"]]
+            keys = [k for p in section["procs"] for k in (proc_key(p["key"]), source_key(p["key"]))]
         else:
             keys = [k for i in section["items"] for k in (yn_key(i["key"]), yn_why_key(i["key"]))]
         part(section["titleEn"], section["titleFr"], keys)
+    if is_converted(definition):
+        part(SUMMARY_TITLE_EN, SUMMARY_TITLE_FR, [SUMMARY_KEY])
     count = len(definition.get("conclEn") or [])
-    part("Conclusion", "Conclusion", [k for i in range(count) for k in (concl_key(i), concl_why_key(i))])
+    extra = [CONCLUSION_KEY] if is_converted(definition) else []
+    part("Conclusion", "Conclusion", [k for i in range(count) for k in (concl_key(i), concl_why_key(i))] + extra)
     return parts
 
 

@@ -14,6 +14,20 @@ from .completeness import (
     required_keys,
     unanswered_keys,
 )
+from .layout import (
+    CONCLUSION_KEY,
+    NEVER_LIGHT_CODES,
+    SUMMARY_KEY,
+    by_exception_count,
+    depth_of,
+    exception_refusal,
+    is_converted,
+    isa_links,
+    mark_key,
+    procs_of,
+    shape,
+    source_key,
+)
 from .definitions import (
     all_paper_keys,
     bespoke_codes,
@@ -23,6 +37,7 @@ from .definitions import (
     has_bespoke_paper,
     load_definition,
     load_index,
+    load_isa_links,
     load_shadowed,
     paper_for,
     resolve_definition,

@@ -99,3 +99,9 @@ def group_siblings(code):
     members = _group_defaults()["members"]
     group = members.get(code)
     return [other for other, of_group in members.items() if of_group == group and other != code] if group else []
+
+
+@lru_cache(maxsize=1)
+def load_isa_links():
+    """data/isa_links.json: a standard's label and the IAASB page of its latest version."""
+    return _read(os.path.join(os.path.dirname(_PAPERS_DIR), "isa_links.json"))["standards"]
