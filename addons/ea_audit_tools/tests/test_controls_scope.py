@@ -107,7 +107,8 @@ class TestControlsScope(ToolsCase):
         ])
         cell.write({"cr": "rely", "cr_basis": "IT dependent control tested in E1.2"})
         self.assertEqual(self.active(), set(CONTROLS_CODES))
-        cell.write({"cr": "not_rely"})
+        # materiality is approved: a revision carries its reason
+        cell.write({"cr": "not_rely", "reason": "The controls will not be tested this year"})
         self.assertEqual(self.active(), set())
 
     def test_a_reviewers_own_not_applicable_is_kept(self):
