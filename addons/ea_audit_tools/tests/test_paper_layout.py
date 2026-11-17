@@ -86,12 +86,11 @@ class TestPaperLayout(ToolsCase):
         self.save(self.senior, "S4.2", {"p_indicators_src": "A2"})
         self.assertNotIn("p_indicators_src", self.payload("S4.2")["missing"])
 
-    def test_a_statement_the_tool_contradicts_refuses_yes(self):
+    def test_a_statement_the_tool_does_not_support_is_flagged_not_refused(self):
         Paper = type(self.env["ea.audit.paper"])
         self.patch(Paper, "_ea_hook_check_significance_screen", lambda _self: {"ok": False, "note": "E"})
-        self.assertCode("autocheck-contradicts", self.save, self.senior, "P6.2", {"q_above_pm": "yes"})
-        self.save(self.senior, "P6.2", {"q_above_pm": "no", "q_above_pm_x": "E excluded: see note."})
-        self.assertEqual(self.paper("P6.2")._ea_values()["q_above_pm"], "no")
+        self.save(self.senior, "P6.2", {"q_above_pm": "yes"})
+        self.assertEqual(self.payload("P6.2")["checks"]["above_pm"], {"ok": False, "note": "E"})
 
     def test_review_notes_on_a_task_and_attachment_references(self):
         item = self.item(self.engagement, "S4.2")

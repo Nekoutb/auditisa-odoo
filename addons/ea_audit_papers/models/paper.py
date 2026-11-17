@@ -329,22 +329,17 @@ class Paper(models.Model):
         self._ea_refuse_against_tools(values)
 
     def _ea_refuse_against_tools(self, values):
-        """Converted papers: "No exceptions noted" is closed while a tool reports a warning, and a
-        "Yes" is refused on a statement the tool shows to be untrue."""
+        """Converted papers: "No exceptions noted" is closed while a tool reports a warning. A
+        statement the tool does not support is flagged on the page, never refused: the "Yes"
+        stays the preparer's judgement and the reviewer sees the flag."""
+        if not any(key.endswith("_m") and values[key] == "nx" for key in values):
+            return
         definition = self.sudo()._ea_resolved()
         if not is_converted(definition):
             return
-        marks = any(key.endswith("_m") for key in values)
-        checked = [item for item in items_of(definition) if item.get("autoCheck") and values.get("q_%s" % item["key"]) == "yes"]
-        if not marks and not checked:
-            return
-        hooks = self._ea_hook_state(definition)
-        refusal = exception_refusal(definition, values, hooks["warnings"])
+        refusal = exception_refusal(definition, values, self._ea_hook_state(definition)["warnings"])
         if refusal:
             raise paper_error(self.env, refusal)
-        for item in checked:
-            if (hooks["checks"].get(item["key"]) or {}).get("ok") is False:
-                raise paper_error(self.env, "autocheck-contradicts")
 
     # Extension points of ea_audit_tools. No tool yet, so no figures to contradict.
     def _ea_tieout_failed(self):

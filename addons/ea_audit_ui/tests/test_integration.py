@@ -5,7 +5,7 @@ from datetime import date
 from odoo.tests import tagged
 
 from odoo.addons.ea_audit_core.tests.common import EaAuditCase
-from odoo.addons.ea_audit_papers.services import paper_for, required_keys
+from odoo.addons.ea_audit_papers.services import required_keys
 from odoo.addons.ea_audit_papers.services.planning_ras import SECTION_A, SECTION_B
 from odoo.addons.ea_audit_tools.services.lead_classes import INDEX_SECTION
 from odoo.addons.ea_audit_tools.tests.common import BALANCED_CSV, to_bytes
@@ -29,7 +29,8 @@ class TestIntegration(EaAuditCase):
         return self.item(self.engagement, code)._ea_paper()
 
     def fill(self, user, code, overrides=None):
-        definition = paper_for(code, "current", self.client.legal_form)
+        # the paper as this engagement documents it: a very simple file adds the summary of work
+        definition = self.paper(code)._ea_shaped()[0]
         values = {key: "yes" if key[:2] in ("q_", "c_") else "Fait." for key in required_keys(definition)}
         values.update(overrides or {})
         self.paper(code).with_user(user).save_answers(values)

@@ -2314,8 +2314,3 @@ msgstr "Documentation complète : une affirmation est répondue « Non »."
 msgid "\"No exceptions noted\" is not available on this paper: a tool has raised a warning. Describe the work and its result in the box instead."
 msgstr "« Aucune exception relevée » n'est pas disponible sur ce papier : un outil a signalé une alerte. Décrivez plutôt les travaux et leur résultat dans la zone prévue."
 
-#. module: ea_audit_papers
-#. odoo-python
-#: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The tool's figures do not support a \"Yes\" to this statement. Check the tool, or answer No and explain."
-msgstr "Les chiffres de l'outil ne permettent pas de répondre « Oui » à cette affirmation. Vérifiez l'outil, ou répondez Non et expliquez."

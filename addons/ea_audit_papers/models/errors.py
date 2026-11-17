@@ -36,7 +36,6 @@ MESSAGES = {
     "ras-invalid-key": _lt("This line is not on the summary."),
     "ras-section-floor": _lt("This section is answered at a higher rank."),
     "exception-blocked": _lt("\"No exceptions noted\" is not available on this paper: a tool has raised a warning. Describe the work and its result in the box instead."),
-    "autocheck-contradicts": _lt("The tool's figures do not support a \"Yes\" to this statement. Check the tool, or answer No and explain."),
     "eqr-must-be-the-quality-reviewer": _lt("Section C belongs to the engagement quality reviewer appointed on this file."),
 }
 

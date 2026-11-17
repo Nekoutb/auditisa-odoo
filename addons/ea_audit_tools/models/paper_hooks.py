@@ -999,7 +999,10 @@ class PaperLayoutHooks(models.Model):
         ) % (len(relied), len(scots) - len(relied)))
 
     def _ea_hook_check_cra_assertions(self):
-        risks = self.env["ea.audit.risk"].sudo().search([("engagement_id", "=", self.sudo().engagement_id.id), ("rebutted", "=", False)])
+        # risks at financial statement level (management override) name no account by nature
+        risks = self.env["ea.audit.risk"].sudo().search([
+            ("engagement_id", "=", self.sudo().engagement_id.id), ("rebutted", "=", False), ("level", "=", "assertion"),
+        ])
         if not risks:
             return {"ok": None, "note": ""}
         unlinked = risks.filtered(lambda risk: not risk.index_link_ids)
