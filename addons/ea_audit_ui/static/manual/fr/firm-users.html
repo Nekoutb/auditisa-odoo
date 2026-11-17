@@ -1,0 +1,47 @@
+<article class="ea-help-page" data-id="firm-users" data-part="Pour l'administrateur du cabinet" data-part-order="2" data-order="2.1">
+  <h1>Les utilisateurs du cabinet</h1>
+  <p class="lead">Faites entrer vos collègues dans AuditISA, donnez à chacun le bon rôle et coupez l'accès d'une personne si nécessaire.</p>
+  <p class="who"><b>Qui :</b> l'administrateur du cabinet. Les associés voient aussi une partie des paramètres du cabinet (voir le tableau ci-dessous).</p>
+
+  <h2>Où se trouvent les paramètres du cabinet</h2>
+  <p>Cliquez sur la roue dentée (<b>Paramètres</b>) dans la barre du haut. Ce que vous voyez dépend de votre rôle :</p>
+  <table class="ref">
+    <tr><th>Élément sous la roue dentée</th><th>À quoi il sert</th><th>Qui le voit</th></tr>
+    <tr><td><b>Politique de signature</b></td><td>Les règles de signature valables pour tout le cabinet</td><td>Les associés et l'administrateur du cabinet</td></tr>
+    <tr><td><b>Matrice de signature</b></td><td>Qui prépare, revoit et signe chaque tâche</td><td>Les associés et l'administrateur du cabinet</td></tr>
+    <tr><td><b>Index du dossier</b></td><td>La liste de toutes les tâches qu'un dossier de la mission peut contenir</td><td>Les associés et l'administrateur du cabinet</td></tr>
+    <tr><td><b>Journal d'audit</b></td><td>Toutes les modifications faites dans les dossiers de mission du cabinet</td><td>L'administrateur du cabinet seulement</td></tr>
+    <tr><td><b>Utilisateurs</b></td><td>Inviter des personnes, fixer les rôles, désactiver</td><td>L'administrateur du cabinet seulement</td></tr>
+    <tr><td><b>Paramètres</b></td><td>L'état de l'envoi des e-mails et les projets internes</td><td>L'administrateur du cabinet seulement</td></tr>
+  </table>
+  <p><b>Utilisateurs</b> et <b>Paramètres</b> se trouvent aussi dans la grille <b>Applications</b> (neuf points).</p>
+
+  <h2>Ajouter un membre au cabinet</h2>
+  <ol class="steps">
+    <li>Ouvrez <b>Utilisateurs</b>.</li>
+    <li>Dans le cadre du haut, tapez l'<b>E-mail</b> et le <b>Nom</b> de la personne, et choisissez son <b>Rôle</b> (voir le tableau ci-dessous).</li>
+    <li>Cliquez sur <b>Inviter</b>. Un cadre vert apparaît avec le <b>Lien d'invitation</b>.</li>
+    <li>Cliquez sur <b>Copier</b> et envoyez vous-même le lien à la personne, par e-mail ou par message privé. Elle choisit son propre mot de passe : aucun n'est créé ni envoyé. Le lien expire au bout de 6 jours.</li>
+  </ol>
+  <p>La personne apparaît dans la liste comme <b>Invité</b>, puis <b>Actif</b> une fois qu'elle s'est connectée, avec sa <b>Dernière connexion</b>. Si son lien a expiré ou a été perdu, cliquez sur <b>Nouveau lien</b> sur sa ligne (possible seulement tant qu'elle ne s'est jamais connectée). Pour changer un rôle, choisissez-en un autre sur sa ligne. Pour couper l'accès d'une personne, cliquez sur <b>Désactiver</b> ; <b>Réactiver</b> annule cette action. Rien de ce qu'elle a fait n'est supprimé.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/users.webp" alt="L'écran Utilisateurs : le cadre E-mail, Nom, Rôle et Inviter, le cadre vert du lien d'invitation avec Copier, et la liste des personnes avec leur rôle, leur statut et leur dernière connexion" loading="lazy"/><figcaption>Utilisateurs : invitez un collègue et copiez son lien</figcaption></figure>
+  <table class="ref">
+    <tr><th>Rôle</th><th>Ce que la personne peut faire</th></tr>
+    <tr><td><b>Administrateur du cabinet</b></td><td>Tout ce que peut faire un associé, plus les utilisateurs, les paramètres du cabinet, le journal d'audit et les seuils des procédures analytiques.</td></tr>
+    <tr><td><b>Associé</b></td><td>Peut être l'associé signataire d'une mission et donner les signatures d'associé ; fixe les règles de signature ; voit les rapports de temps de tout le cabinet.</td></tr>
+    <tr><td><b>Manager</b></td><td>Dirige des missions, revoit les travaux, fixe les budgets de temps ; voit les rapports de temps de tout le cabinet.</td></tr>
+    <tr><td><b>Senior</b></td><td>Prépare des travaux et peut revoir ceux des autres, selon la politique de signature de votre cabinet.</td></tr>
+    <tr><td><b>Assistant audit</b></td><td>Prépare des feuilles de travail.</td></tr>
+    <tr><td><b>Réviseur qualité (EQR)</b></td><td>Revoit les missions qu'on lui demande de revoir et signe la revue qualité ; ne modifie pas le dossier de la mission.</td></tr>
+    <tr><td><b>Lecture seule</b></td><td>Consulte les dossiers de mission de ses équipes ; ne modifie rien.</td></tr>
+  </table>
+  <div class="note"><b>Bon à savoir</b> Un rôle ne donne accès à aucune mission : seule l'équipe de la mission y donne accès. Après avoir invité quelqu'un dans le cabinet, l'associé signataire ou le manager doit encore l'ajouter à chaque équipe de mission.</div>
+  <div class="warn"><b>Attention</b> Certaines modifications sont refusées, pour protéger le cabinet : vous ne pouvez pas modifier votre propre accès ; le cabinet doit garder au moins un administrateur actif ; et une personne qui est l'associé signataire d'une mission ne peut être ni désactivée ni descendue sous le rôle d'associé tant que ce rôle n'a pas été transféré.</div>
+  <p>Plus bas sur l'écran <b>Utilisateurs</b> :</p>
+  <ul>
+    <li><b>Domaines e-mail autorisés</b> : un par ligne (par exemple le domaine de votre cabinet). Seules les adresses de ces domaines peuvent être invitées. Vide signifie aucune restriction. Cliquez sur <b>Enregistrer</b>.</li>
+    <li><b>Journal d'administration</b> : qui a invité qui, les changements de rôle, les nouveaux liens, les désactivations. Une ligne marquée <b>Support technique</b> indique que le support d'AuditISA est entré dans le cabinet.</li>
+  </ul>
+
+  <p class="see">Voir aussi : <a href="#first-sign-in">Première connexion</a>, <a href="#firm-settings">Paramètres du cabinet et e-mails</a>, <a href="#signoff-policy">Politique de signature</a>, <a href="#engagement-team">Votre équipe de mission</a></p>
+</article>

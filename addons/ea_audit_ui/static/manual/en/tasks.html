@@ -1,0 +1,33 @@
+<article class="ea-help-page" data-id="tasks" data-part="Day to day" data-part-order="4" data-order="4.2" data-screens="tag:ea_audit_ui.all_tasks, model:ea.audit.file.item">
+  <h1>The Tasks screen and deadlines</h1>
+  <p class="lead">The Tasks screen lists every task of the engagement, with who prepares, reviews and signs it, its due date and its status.</p>
+  <p class="who"><b>Who:</b> every member of the engagement team. A senior or above can set a task's deadline.</p>
+
+  <h2>The Tasks screen</h2>
+  <p>Click <b>Tasks</b> in the top bar to see every task of the engagement in one table. Use the filters <b>Mine</b>, <b>All</b> and <b>Open</b>; each shows its count.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/tasks.webp" alt="The Tasks screen with the Mine, All and Open filters and the table of tasks with preparer, reviewer, partner, due date and status, one row overdue in red" loading="lazy"/><figcaption>All the tasks of an engagement</figcaption></figure>
+  <p>The <b>PREPARER</b>, <b>REVIEWER</b> and <b>PARTNER</b> columns carry a small letter (P, R, A). It is grey until that person has signed.</p>
+  <table class="ref">
+    <tr><th>Status</th><th>Meaning</th></tr>
+    <tr><td><b>NOT STARTED</b></td><td>Nobody has worked on the working paper yet.</td></tr>
+    <tr><td><b>IN PROGRESS</b></td><td>The preparer has started.</td></tr>
+    <tr><td><b>IN REVIEW</b></td><td>The preparer has signed; the reviewer's turn.</td></tr>
+    <tr><td><b>TO SIGN</b></td><td>The reviewer has signed; waiting for the partner's sign-off.</td></tr>
+    <tr><td><b>COMPLETE</b></td><td>Every required signature is given.</td></tr>
+    <tr><td><b>NOT APPLICABLE</b></td><td>Marked not applicable, with a reason.</td></tr>
+  </table>
+
+  <h2>Deadlines and late flags</h2>
+  <p>Each task has one due date. A senior or above can set it in the <b>Assignment</b> panel of the working paper (<b>Deadline</b>). Without one, the deadline of its phase applies:</p>
+  <table class="ref">
+    <tr><th>Phase</th><th>Deadline</th></tr>
+    <tr><td>Acceptance</td><td>90 days before the period end</td></tr>
+    <tr><td>Planning</td><td>45 days before the period end</td></tr>
+    <tr><td>Execution</td><td>90 days after the period end</td></tr>
+    <tr><td>Conclusion</td><td>150 days after the period end</td></tr>
+    <tr><td>Report</td><td>Due 6 months after the period end</td></tr>
+  </table>
+  <p>An open task past its date shows <b>Overdue by</b> and the number of days, in red. Late flags stop once an engagement is archived.</p>
+
+  <p class="see">See also: <a href="#engagement-dashboard">The engagement dashboard</a> · <a href="#working-paper">Working on a working paper</a></p>
+</article>

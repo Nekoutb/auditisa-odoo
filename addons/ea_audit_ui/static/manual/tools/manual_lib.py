@@ -171,38 +171,79 @@ def ui_pairs(addons=ADDONS):
                 for key, value in row.items():
                     if key and key.endswith("_fr") and value and row.get(key[:-3]):
                         pairs.append((row[key[:-3]], value))
+    for path in sorted(glob.glob(os.path.join(addons, "*", "**", "*.py"), recursive=True)):
+        if not re.search(r"[\\/](tests|tests_pure|static)[\\/]", path):
+            _python_pairs(path, pairs)
     return pairs
 
 
-_PLACEHOLDER = re.compile(r"%\([^)]*\)[sd]|%[sd]|\{[^}]*\}|<[^>]+>|\n")
+_PLACEHOLDER = re.compile(r"%\([^)]*\)[sd]|%[sd]|\{[^}]*\}|<[^>]+>|\n|…")
+# A sentence, a quoted word, a part between " · " or before a colon: each is a label of its own on a screen.
+_PIECE = re.compile(r"(?<=[.!?])\s+|[\u00ab\u00bb\"“”]|\s·\s|;\s|\s?:\s")
 
 
 def normalize(text):
     text = html.unescape(text).replace(" ", " ").replace(" ", " ")
     text = re.sub(r"\s+", " ", text).strip()
-    return text.strip(" :.…→←&#;").strip().casefold()
+    return text.strip(" :.…→←&#;()·,").strip().casefold()
 
 
 def known_texts(strings):
-    """Every screen text, and each piece of it between placeholders, normalized."""
+    """Every screen text, and each piece of it (between placeholders, sentences, quotes), normalized."""
     known = set()
     for text in strings:
         known.add(normalize(text))
         for piece in _PLACEHOLDER.split(text):
-            if piece.strip():
-                known.add(normalize(piece))
+            for part in [piece] + _PIECE.split(piece):
+                if part.strip():
+                    known.add(normalize(part))
+                    # a column header's first words, before its explanation in brackets
+                    if " (" in part:
+                        known.add(normalize(part.split(" (")[0]))
     known.discard("")
     return known
 
 
+_PAIR_CALLS = {"_d": 0, "pick": 0, "_ea_pick": 0, "_words": 1}  # position of the English
+
+
+def _python_pairs(path, out):
+    """{"en": ..., "fr": ...} and _d("English", "French") in the add-ons' Python: words shown on screens."""
+    import ast
+
+    try:
+        with open(path, encoding="utf-8") as handle:
+            tree = ast.parse(handle.read())
+    except (SyntaxError, UnicodeDecodeError):
+        return
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Dict):
+            values = {k.value: v.value for k, v in zip(node.keys, node.values)
+                      if isinstance(k, ast.Constant) and isinstance(v, ast.Constant) and isinstance(v.value, str)}
+            if "en" in values and "fr" in values:
+                out.append((values["en"], values["fr"]))
+        elif isinstance(node, ast.Call):
+            name = getattr(node.func, "id", None) or getattr(node.func, "attr", None)
+            if name not in _PAIR_CALLS:
+                continue
+            args = [a.value for a in node.args[:2] if isinstance(a, ast.Constant) and isinstance(a.value, str)]
+            if len(args) == 2:
+                en = _PAIR_CALLS[name]
+                out.append((args[en], args[1 - en]))
+
+
 # Task and paper codes (P6.1, S4.2, C1.1, E3.1), figures and keys are not labels.
-NOT_A_LABEL = re.compile(r"^([PSEC]\d+(\.\d+)*( to [PSEC]?\d+(\.\d+)*)?|\d+([.,]\d+)?\s?%?|[A-Z]|Esc|Enter)$")
+NOT_A_LABEL = re.compile(r"^([PSEC]\d+(\.\d+)*( to [PSEC]?\d+(\.\d+)*)?|\d+([.,]\d+)?\s?%?|[A-Z]|EN|FR|Esc|Enter)$")
 # The same in French: "P1 à P7", and the keys as a French keyboard names them.
 NOT_A_LABEL_FR = re.compile(r"^([PSEC]\d+(\.\d+)* à [PSEC]?\d+(\.\d+)*|Échap|Entrée)$")
 
 
 def label_known(label, known):
-    label = label.strip()
+    whole = label
+    label = re.sub(r"^([PSEC]\d+(\.\d+)*|\d+)\s+(?=\D)", "", label.strip())  # "2 Tasks required", "S4.2 Going concern": the number or code is drawn apart
     if NOT_A_LABEL.match(label) or NOT_A_LABEL_FR.match(label):
         return True
-    return normalize(label) in known
+    if "…" in label:  # "Deadline: …, Douala time": the screen fills in the gap
+        pieces = [piece for piece in label.split("…") if normalize(piece)]
+        return bool(pieces) and all(normalize(piece) in known for piece in pieces)
+    return normalize(label) in known or normalize(whole) in known

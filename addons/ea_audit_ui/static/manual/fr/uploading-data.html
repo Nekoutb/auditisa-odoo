@@ -1,0 +1,74 @@
+<article class="ea-help-page" data-id="uploading-data" data-part="Au quotidien" data-part-order="4" data-order="4.5">
+  <h1>Importer les données du client</h1>
+  <p class="lead">Importez les chiffres du client (balance générale, grand livre, paie et autres) pour que les outils puissent les exploiter.</p>
+  <p class="who"><b>Qui :</b> tout membre de l'équipe, sauf un utilisateur en lecture seule, peut importer. Tous les membres de l'équipe peuvent consulter les imports.</p>
+
+  <h2>Où importer</h2>
+  <ol class="steps">
+    <li>Ouvrez la mission et cliquez sur l'icône des outils (<b>Outils de la mission</b>) dans la barre du haut.</li>
+    <li>Cliquez sur la tuile <b>Analyse de données</b>. Une deuxième page de tuiles s'ouvre, une par type de données.</li>
+    <li>Cliquez sur la tuile voulue, par exemple <b>Analyseur de balance générale</b> ou <b>Analyseur de la paie</b>.</li>
+    <li>Cliquez sur <b>Importer une balance</b> (balance générale) ou sur <b>Importer un jeu de données</b> (tous les autres).</li>
+  </ol>
+  <div class="tip"><b>Astuce</b> Chaque tuile propose <b>Télécharger le modèle</b> : un fichier Excel avec les colonnes attendues. Envoyez-le au client pour gagner du temps lors de la correspondance des colonnes.</div>
+
+  <h2>Ce que vous pouvez importer</h2>
+  <p>Les fichiers sont acceptés au format .csv ou .xlsx. Les colonnes obligatoires sont nécessaires à l'import ; les autres sont facultatives et enrichissent l'analyse.</p>
+  <table class="ref">
+    <tr><th>Type de données</th><th>Colonnes obligatoires</th><th>Quelques colonnes facultatives</th></tr>
+    <tr><td>Balance générale</td><td>Compte ; puis soit les mouvements au débit et au crédit, soit les soldes de clôture débiteur et créditeur, soit une seule colonne de solde de clôture signé</td><td>Libellé, soldes d'ouverture</td></tr>
+    <tr><td>Grand livre</td><td>Numéro de compte, numéro d'écriture, libellé de l'opération, montant (ou débit et crédit), date de l'écriture</td><td>Intitulé du compte, code journal, référence, tiers, centre de coûts, saisi / préparé / approuvé par</td></tr>
+    <tr><td>Créances</td><td>Numéro et nom du client, référence de la facture, date de la facture, montant de l'opération</td><td>Type d'opération, localisation du client, conditions de paiement</td></tr>
+    <tr><td>Fournisseurs</td><td>Numéro et nom du fournisseur, référence de l'opération, date de l'opération, montant de l'opération</td><td>Type d'opération, localisation du fournisseur, conditions de paiement</td></tr>
+    <tr><td>Actif immobilisé</td><td>Numéro de l'immobilisation, libellé, coût, catégorie, date d'acquisition, taux d'amortissement</td><td>Amortissements cumulés, valeur nette comptable, comptes, mouvements de l'exercice, cessions</td></tr>
+    <tr><td>Stocks</td><td>Numéro d'article, libellé de l'article, quantité, prix unitaire, montant</td><td>Emplacement</td></tr>
+    <tr><td>Paie</td><td>Matricule, nom du salarié, salaire brut</td><td>Salaire net</td></tr>
+    <tr><td>Relevés bancaires</td><td>Date, libellé, montant</td><td></td></tr>
+    <tr><td>Relevés fournisseurs</td><td>Numéro du fournisseur, montant</td><td>Nom du fournisseur</td></tr>
+  </table>
+  <h3>Colonnes facultatives de la paie</h3>
+  <p>L'import de la paie accepte 13 colonnes supplémentaires. Aucune n'est obligatoire, et chacune est marquée <b>Améliore l'analyse</b> sur l'écran de correspondance, où une ligne indique combien ont été reconnues (par exemple « 5 sur 13 ont leur colonne »). Plus vous en fournissez, plus la revue analytique de la paie peut comparer avec l'exercice précédent : masse salariale brute, effectif, composantes de la rémunération, entrées et sorties, salaire moyen et charges sur salaires. Dans le modèle téléchargeable, les titres de ces colonnes sont grisés.</p>
+  <table class="ref">
+    <tr><th>Colonne facultative</th><th>Ce qu'elle apporte à l'analyse</th></tr>
+    <tr><td>Catégorie ou grade ; Département ou service</td><td>Rémunération et effectif par groupe</td></tr>
+    <tr><td>Date d'embauche ; Date de sortie</td><td>Entrées et sorties de l'exercice</td></tr>
+    <tr><td>Salaire de base ; Indemnités et primes ; Avantages en nature ; Heures supplémentaires</td><td>Les composantes de la rémunération</td></tr>
+    <tr><td>IRPP retenu ; CNPS, part salariale ; CNPS, part patronale ; Autres charges patronales</td><td>Impôts et charges sur salaires, à rapprocher des déclarations</td></tr>
+    <tr><td>Mois ou période</td><td>Évolution mensuelle de la paie</td></tr>
+  </table>
+
+  <h2>Importer un fichier, étape par étape</h2>
+  <p>L'import comporte trois étapes. Rien n'est enregistré tant que vous n'avez pas cliqué sur <b>Importer</b> à la fin.</p>
+  <h3>1 Fichier</h3>
+  <ol class="steps">
+    <li>Vérifiez le <b>Type de données</b>.</li>
+    <li>Choisissez le <b>Moment</b> (voir le tableau ci-dessous).</li>
+    <li>Choisissez le fichier dans <b>Fichier (.csv, .xlsx)</b>. Laissez <b>La première ligne contient les titres des colonnes</b> coché si c'est le cas.</li>
+    <li>Cliquez sur <b>Lire le fichier</b>.</li>
+  </ol>
+  <h3>2 Correspondance des colonnes</h3>
+  <p>Chaque ligne correspond à une colonne du fichier du client : <b>Colonne de votre fichier</b>, ses <b>Trois premières valeurs</b>, et le <b>Champ AuditISA</b> qu'elle alimente. <b>Origine de la correspondance</b> indique <b>Reconnue automatiquement</b>, <b>Choisie par vous</b> ou <b>Non reconnue</b>.</p>
+  <ol class="steps">
+    <li>Vérifiez chaque correspondance automatique. Pour en changer une, ouvrez la liste dans <b>Champ AuditISA</b> et choisissez un autre champ, ou <b>Ne pas importer</b>.</li>
+    <li>Assurez-vous que chaque champ marqué <b>obligatoire</b> a une colonne. Le message en haut indique ce qui manque encore.</li>
+    <li>Si les dates ou les montants semblent faux, réglez le <b>Séparateur décimal</b>, le <b>Format des dates</b>, le <b>Séparateur de colonnes</b> ou la <b>Feuille</b>.</li>
+    <li>Pour un grand livre sans numéro d'écriture unique, utilisez <b>Écriture identifiée par plusieurs colonnes</b>.</li>
+    <li>Cliquez sur <b>Contrôler le fichier</b>.</li>
+  </ol>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/m-payroll-match.webp" alt="Étape 2 de l'import d'un fichier de paie : la liste des colonnes avec les badges reconnue automatiquement, une ligne non reconnue grisée, et le message vert indiquant que tous les champs obligatoires ont leur colonne" loading="lazy"/><figcaption>Faire correspondre les colonnes du fichier</figcaption></figure>
+  <div class="tip"><b>Astuce</b> Laissez <b>Retenir cette correspondance pour le prochain fichier de ce type de ce client</b> coché. L'année suivante, la même présentation est reconnue pour vous.</div>
+  <h3>3 Contrôle</h3>
+  <p>L'outil lit chaque ligne et affiche le nombre de lignes lues, les totaux et, pour un grand livre, si les débits égalent les crédits. Chaque point relevé est marqué <b>Écartée</b>, <b>Importé avec un avertissement</b> ou <b>Bloque l'import</b>. Si vous voyez <b>Le fichier peut être importé.</b>, cliquez sur <b>Importer</b>. Sinon, corrigez le fichier ou cliquez sur <b>Retour à la correspondance</b>.</p>
+  <div class="warn"><b>Attention</b> Un grand livre dont les débits et les crédits ne s'équilibrent pas est refusé. Demandez au client un extrait complet plutôt que de le modifier vous-même.</div>
+
+  <h2>Moment et imports pour l'exercice suivant</h2>
+  <table class="ref">
+    <tr><th>Moment</th><th>À utiliser pour</th></tr>
+    <tr><td><b>Pré-audit</b></td><td>Les chiffres du client avant vos ajustements. Une balance générale pré-audit alimente le dossier de la mission (feuilles maîtresses, seuil de signification, comptes significatifs).</td></tr>
+    <tr><td><b>Post-audit</b></td><td>Les chiffres après les ajustements convenus.</td></tr>
+    <tr><td><b>Exercice N-1</b></td><td>Les chiffres de l'exercice précédent, pour les comparaisons.</td></tr>
+    <tr><td><b>Période suivante (exercice suivant)</b></td><td>Les données de l'exercice qui suit l'exercice audité, pour les procédures de séparation des exercices et la recherche de passifs non comptabilisés. Elles ne remplacent jamais l'exercice audité. Un grand livre de l'exercice suivant couvrant moins de 30 jours après la clôture est trop court pour les travaux de séparation des exercices.</td></tr>
+  </table>
+
+  <p class="see">Voir aussi : <a href="#data-versions">Les versions d'un import</a> · <a href="#data-tools">L'analytique et les outils de données</a></p>
+</article>

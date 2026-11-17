@@ -1,0 +1,48 @@
+<article class="ea-help-page" data-id="findings" data-part="Review and completion" data-part-order="6" data-order="6.3" data-screens="tag:ea_audit_tools.findings_page, model:ea.audit.finding, model:ea.audit.finding.wizard">
+  <h1>Findings</h1>
+  <p class="lead">The Findings tool holds every finding of the engagement, from the moment it is raised until it is closed.</p>
+  <p class="who"><b>Who:</b> preparers raise findings and write adjustments. The quality reviewer reads but does not change them.</p>
+
+  <h2>One register for the whole engagement</h2>
+  <p>Every finding, whatever working paper it was raised on, builds up in one place: the <b>Findings</b> tool. Open it from the <b>Tools</b> box of a working paper that lists it (S4.2, C1.1, C2.2 or C5.1, for example). A finding is one of three kinds:</p>
+  <table class="ref">
+    <tr><th>Kind</th><th>Used for</th></tr>
+    <tr><td>Matter for attention</td><td>A point the partner or the next year should know about.</td></tr>
+    <tr><td>Control deficiency</td><td>A weakness in internal control, assessed under ISA 265 (likelihood and magnitude).</td></tr>
+    <tr><td>Misstatement</td><td>An error in the figures. It carries an adjustment and goes to the summary of audit differences.</td></tr>
+  </table>
+
+  <h2>Raising a finding</h2>
+  <ul>
+    <li><b>From the Findings tool</b>: click <b>New finding</b>, choose the kind, give it a title and, if you like, the working paper it belongs to.</li>
+    <li><b>From a working paper</b>: on a substantive procedure, a line with an exception or a difference shows <b>Raise a finding</b>. The finding is linked to that working paper and appears under <b>Findings on this working paper</b>.</li>
+  </ul>
+  <p>In the Findings tool, click a row to open it on the right. Red marks a significant deficiency, amber a deficiency, and grey another matter or a misstatement. <b>Open its working paper</b> takes you back to where the finding was raised.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/t-findings.webp" alt="The Findings tool: stage filters across the top, the list of findings, and one finding open on the right" loading="lazy"/><figcaption>The Findings tool</figcaption></figure>
+
+  <h2>Following a finding to its close</h2>
+  <p>A finding moves forward on its own as you fill it in. The filters across the top count the findings at each stage:</p>
+  <table class="ref">
+    <tr><th>Stage</th><th>What you record</th></tr>
+    <tr><td><b>1 Raised</b></td><td><b>What we found</b>, <b>Why it matters</b>, <b>What we recommend</b>.</td></tr>
+    <tr><td><b>2 Assessed (ISA 265)</b></td><td>For a control deficiency: <b>Likelihood</b>, <b>Magnitude</b> and the <b>Severity</b> that follows.</td></tr>
+    <tr><td><b>3 Discussed with management</b></td><td><b>Management's answer</b>.</td></tr>
+    <tr><td><b>4 Reported</b></td><td><b>Reported in writing to</b> (for example, the finance director) and the date of the letter.</td></tr>
+    <tr><td><b>5 Closed</b></td><td>Under <b>Close the finding</b>, write how it was resolved, then <b>Mark as closed</b>. A closed finding can be opened again with <b>Reopen the finding</b> and a reason.</td></tr>
+  </table>
+  <p><b>Export to Excel</b> gives you the whole register, for a management letter for example.</p>
+
+  <h2>The adjustment of a misstatement</h2>
+  <p>A misstatement finding has a section called <b>Adjustment to book</b>. Each line uses one of seven headings of the financial statements, not a trial balance account:</p>
+  <table class="ref">
+    <tr><th>Statement of financial position</th><th>Income statement</th></tr>
+    <tr><td>Non-current assets, Current assets, Non-current liabilities, Current liabilities, Equity</td><td>Revenue, Expenditure</td></tr>
+  </table>
+  <ol class="steps">
+    <li>For each line, pick the <b>Heading</b>, write a <b>Label</b> and enter the <b>Debit</b> or <b>Credit</b>. Use <b>+ Add a line</b> for more.</li>
+    <li>Choose the <b>Nature</b>: <b>Factual</b>, <b>Judgemental</b> or <b>Projected</b>.</li>
+    <li>When the debits equal the credits, the editor shows <b>Balanced ✓</b>. Click <b>Save</b>.</li>
+  </ol>
+  <p>Saving sends the adjustment to the summary of audit differences by itself. Equity includes the effect on profit. <b>Open the summary</b> takes you there.</p>
+  <p class="see">See also: <a href="#audit-differences">The summary of audit differences</a>, <a href="#working-paper">Working on a working paper</a></p>
+</article>

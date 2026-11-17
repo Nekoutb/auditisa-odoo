@@ -1,0 +1,33 @@
+<article class="ea-help-page" data-id="tasks" data-part="Au quotidien" data-part-order="4" data-order="4.2">
+  <h1>L'écran Tâches et les échéances</h1>
+  <p class="lead">L'écran Tâches liste toutes les tâches de la mission, avec qui les prépare, les revoit et les signe, leur échéance et leur statut.</p>
+  <p class="who"><b>Qui :</b> tous les membres de l'équipe de mission. Un senior ou plus peut fixer l'échéance d'une tâche.</p>
+
+  <h2>L'écran Tâches</h2>
+  <p>Cliquez sur <b>Tâches</b> dans la barre du haut pour voir toutes les tâches de la mission dans un seul tableau. Utilisez les filtres <b>À moi</b>, <b>Toutes</b> et <b>Ouvertes</b> ; chacun affiche son nombre.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/tasks.webp" alt="L'écran Tâches avec les filtres À moi, Toutes et Ouvertes et le tableau des tâches avec préparateur, réviseur, associé, échéance et statut, une ligne en retard en rouge" loading="lazy"/><figcaption>Toutes les tâches d'une mission</figcaption></figure>
+  <p>Les colonnes <b>PRÉPARATEUR</b>, <b>RÉVISEUR</b> et <b>ASSOCIÉ</b> portent une petite lettre (P, R, A). Elle reste grise tant que la personne n'a pas signé.</p>
+  <table class="ref">
+    <tr><th>Statut</th><th>Signification</th></tr>
+    <tr><td><b>NON COMMENCÉE</b></td><td>Personne n'a encore travaillé sur la feuille de travail.</td></tr>
+    <tr><td><b>EN COURS</b></td><td>Le préparateur a commencé.</td></tr>
+    <tr><td><b>EN RÉVISION</b></td><td>Le préparateur a signé ; c'est au tour du réviseur.</td></tr>
+    <tr><td><b>À SIGNER</b></td><td>Le réviseur a signé ; la signature de l'associé est attendue.</td></tr>
+    <tr><td><b>TERMINÉE</b></td><td>Toutes les signatures requises sont données.</td></tr>
+    <tr><td><b>SANS OBJET</b></td><td>Marquée sans objet, avec un motif.</td></tr>
+  </table>
+
+  <h2>Échéances et signalement des retards</h2>
+  <p>Chaque tâche a une seule échéance. Un senior ou plus peut la fixer dans le panneau <b>Affectation</b> de la feuille de travail (<b>Échéance</b>). À défaut, l'échéance de sa phase s'applique :</p>
+  <table class="ref">
+    <tr><th>Phase</th><th>Échéance</th></tr>
+    <tr><td>Acceptation</td><td>90 jours avant la clôture de la période</td></tr>
+    <tr><td>Planification</td><td>45 jours avant la clôture de la période</td></tr>
+    <tr><td>Exécution</td><td>90 jours après la clôture de la période</td></tr>
+    <tr><td>Conclusion</td><td>150 jours après la clôture de la période</td></tr>
+    <tr><td>Rapport</td><td>Dû 6 mois après la clôture de la période</td></tr>
+  </table>
+  <p>Une tâche ouverte dont la date est dépassée affiche <b>En retard de</b> suivi du nombre de jours, en rouge. Les signalements de retard s'arrêtent dès que la mission est archivée.</p>
+
+  <p class="see">Voir aussi : <a href="#engagement-dashboard">Le tableau de bord de la mission</a> · <a href="#working-paper">Travailler sur une feuille de travail</a></p>
+</article>

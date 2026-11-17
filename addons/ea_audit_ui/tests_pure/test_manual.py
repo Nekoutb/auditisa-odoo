@@ -35,6 +35,12 @@ ABBREVIATIONS = re.compile(
 
 # Bold words of French pages that are on a screen of Odoo itself (sign-in, Preferences), not of the add-ons.
 FRENCH_LABEL_EXCEPTIONS = {
+    "Actions", "Désarchiver",  # Odoo's own list menu (client list)
+    "Changer le mot de passe", "Mettre à jour les préférences",  # Odoo's Preferences window
+    "Formation", "Congés", "Administration",  # the firm's internal timesheet projects (ea_audit_timesheet/hooks.py)
+    "MSP", "ASP",  # kept names, the same in both languages
+    "n/a",  # written as is on the working paper, in both languages
+    "ISA 570 révisée 2024",  # a standard's edition (ea_audit_papers/data/standards_refs.json)
 }
 
 
@@ -111,8 +117,9 @@ def test_wording(lang, name):
     text = manual_lib.plain(PAGES[lang, name])
     assert not re.search(r"\bQ\d{1,2}\b", text), "write question 11, not Q11"
     assert "only two people" not in text.lower()
-    if lang == "en":
-        found = sorted({m.group(0) for m in ABBREVIATIONS.finditer(text)})
+    # The glossary quotes the French screens (SCOT, EQR); "n/a" in bold is the working paper's own word.
+    if lang == "en" and name != "glossary":
+        found = sorted({m.group(0) for m in ABBREVIATIONS.finditer(manual_lib.plain(PAGES[lang, name].replace("<b>n/a</b>", "")))})
         assert not found, found
 
 
@@ -153,3 +160,9 @@ def test_the_manual_screen_has_its_french():
     french = dict(manual_lib.po_entries(os.path.join(addon, "i18n", "fr.po")))
     missing = sorted(term for term in terms if not french.get(term))
     assert not missing, missing
+
+
+def test_every_picture_shipped_is_shown():
+    used = {src.rsplit("/", 1)[-1] for text in PAGES.values() for src in manual_lib.images(text)}
+    shipped = set(os.listdir(os.path.join(manual_lib.MANUAL, "img")))
+    assert not shipped - used, sorted(shipped - used)

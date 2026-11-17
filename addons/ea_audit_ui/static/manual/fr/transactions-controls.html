@@ -1,0 +1,20 @@
+<article class="ea-help-page" data-id="transactions-controls" data-part="L'audit, phase par phase" data-part-order="5" data-order="5.7">
+  <h1>Catégories d'opérations et contrôles</h1>
+  <p class="lead">Consigner chaque catégorie d'opérations avec ses indices, ses risques d'anomalie, ses contrôles et son test de cheminement.</p>
+  <p class="who"><b>Qui :</b> l'équipe de mission ; chaque catégorie d'opérations peut être affectée à un membre de l'équipe.</p>
+
+  <h2>Catégories d'opérations, risques d'anomalie et contrôles</h2>
+  <p>Ouvrez <b>SCOT et contrôles</b> (S1.1 à S2.2). La page présente une carte par catégorie d'opérations (ventes, achats, paie, etc.) : verte lorsqu'elle est complète, orange lorsqu'elle reste à terminer, rouge lorsqu'elle n'est pas commencée. Un avertissement liste tout compte significatif qui n'est encore couvert par aucune catégorie.</p>
+  <ol class="steps">
+    <li>Cliquez sur <b>Nouveau SCOT</b>. Indiquez son nom, son type (<b>Courant</b>, <b>Non courant</b> ou <b>Estimation</b>), les <b>Applications informatiques</b> qu'il utilise (séparées par des virgules) et sa <b>Stratégie</b> : <b>Contrôles</b> ou <b>Substantif</b>.</li>
+    <li>Cliquez sur <b>Affecter le SCOT</b> pour le confier à un membre de l'équipe.</li>
+    <li>Onglet <b>1 Indices</b> : cliquez sur <b>Lier un indice</b> et cochez les assertions.</li>
+    <li>Onglet <b>2 Risques d'anomalie</b> : cliquez sur <b>Ajouter un risque d'anomalie</b> pour chaque risque du flux, avec ses assertions.</li>
+    <li>Onglet <b>3 Contrôles</b> : cliquez sur <b>Ajouter un contrôle</b>. Indiquez son responsable, son type (<b>Manuel</b>, <b>Manuel dépendant de l'informatique</b>, <b>Automatisé</b>), sa fréquence, la <b>Confiance</b> (<b>Normale</b> ou <b>Forte / risque important</b>), sa conception et s'il est mis en œuvre. Cochez <b>À tester</b> pour chaque contrôle que vous testerez. La grille <b>Quel contrôle répond à quel risque</b> relie les contrôles aux risques : cliquez sur une cellule pour créer ou supprimer un lien.</li>
+    <li>Onglet <b>4 Test de cheminement</b> : décrivez le flux (<b>Initiation</b>, <b>Enregistrement</b>, <b>Traitement</b>, <b>Restitution</b>, personnes, documents, systèmes), puis le test de cheminement lui-même, de la <b>Transaction sélectionnée</b> jusqu'à la conclusion.</li>
+  </ol>
+  <p>Le panneau situé à côté des onglets contient les documents de la catégorie d'opérations (logigrammes, manuels de procédures).</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/t-scot.webp" alt="Une catégorie d'opérations ouverte sur l'onglet 3 Contrôles : la liste des contrôles (code, contrôle, type, fréquence, conception, À tester, échantillon, résultat) et la grille reliant les risques d'anomalie aux contrôles, avec le panneau des documents sur le côté" loading="lazy"/><figcaption>Une catégorie d'opérations : indices, risques, contrôles et test de cheminement en quatre onglets.</figcaption></figure>
+
+  <p class="see">Voir aussi : <a href="#strategy">La phase Stratégie et risques</a> · <a href="#it-close">Applications informatiques et processus de clôture</a> · <a href="#procedure-design">Conception des procédures</a></p>
+</article>

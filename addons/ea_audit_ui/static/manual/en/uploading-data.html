@@ -1,0 +1,74 @@
+<article class="ea-help-page" data-id="uploading-data" data-part="Day to day" data-part-order="4" data-order="4.5" data-screens="model:ea.audit.import.wizard, view:ea_audit_tools.view_engagement_tb_board">
+  <h1>Uploading the client's data</h1>
+  <p class="lead">Upload the client's own figures (trial balance, ledger, payroll and others) so that the tools can work on them.</p>
+  <p class="who"><b>Who:</b> any team member except a read-only user can upload. Everyone on the team can read the uploads.</p>
+
+  <h2>Where to upload</h2>
+  <ol class="steps">
+    <li>Open the engagement and click the tools icon (<b>Engagement tools</b>) in the top bar.</li>
+    <li>Click the <b>Data analytics</b> tile. A second page of tiles opens, one per kind of data.</li>
+    <li>Click the tile you need, for example <b>Trial balance analyzer</b> or <b>Payroll analyzer</b>.</li>
+    <li>Click <b>Import a trial balance</b> (trial balance) or <b>Import a dataset</b> (all others).</li>
+  </ol>
+  <div class="tip"><b>Tip</b> Each tile offers <b>Download the template</b>: an Excel file with the expected columns. Send it to the client to save time at matching.</div>
+
+  <h2>What you can upload</h2>
+  <p>Files are accepted as .csv or .xlsx. Mandatory columns are needed for the import; the others are optional and make the analysis richer.</p>
+  <table class="ref">
+    <tr><th>Kind of data</th><th>Mandatory columns</th><th>Some optional columns</th></tr>
+    <tr><td>Trial balance</td><td>Account; then either debit and credit movements, or closing debit and credit, or one signed closing column</td><td>Description, opening balances</td></tr>
+    <tr><td>General ledger</td><td>Account number, journal entry number, transaction description, amount (or debit and credit), journal date</td><td>Account name, journal code, reference, third party, cost centre, recorded / prepared / approved by</td></tr>
+    <tr><td>Receivables</td><td>Customer number and name, invoice reference, invoice date, transaction amount</td><td>Transaction type, customer location, payment terms</td></tr>
+    <tr><td>Payables</td><td>Supplier number and name, transaction reference, transaction date, transaction amount</td><td>Transaction type, supplier location, payment terms</td></tr>
+    <tr><td>Fixed assets</td><td>Asset number, description, cost, category, acquisition date, depreciation rate</td><td>Accumulated depreciation, net book value, accounts, movements of the year, disposals</td></tr>
+    <tr><td>Inventory</td><td>Item number, item description, quantity, unit price, amount</td><td>Location</td></tr>
+    <tr><td>Payroll</td><td>Employee number, employee name, gross pay</td><td>Net pay</td></tr>
+    <tr><td>Bank statements</td><td>Date, description, amount</td><td></td></tr>
+    <tr><td>Supplier statements</td><td>Supplier number, amount</td><td>Supplier name</td></tr>
+  </table>
+  <h3>Optional payroll columns</h3>
+  <p>The payroll upload accepts 13 more columns. None is required, and each is marked <b>Improves the analysis</b> on the matching screen, where a line shows how many were matched (for example <b>5 of 13 matched</b>). The more you provide, the more the payroll analytical review can compare with the prior year: gross pay, headcount, components of pay, joiners and leavers, average pay and taxes on pay. In the downloadable template these column titles are shaded.</p>
+  <table class="ref">
+    <tr><th>Optional column</th><th>What it gives the analysis</th></tr>
+    <tr><td>Employee category or grade; Department</td><td>Pay and headcount by group</td></tr>
+    <tr><td>Hire date; Leaving date</td><td>Joiners and leavers of the year</td></tr>
+    <tr><td>Base salary; Allowances and bonuses; Benefits in kind; Overtime</td><td>The components of pay</td></tr>
+    <tr><td>Income tax withheld; Social security, employee share; Social security, employer share; Other employer charges</td><td>Taxes and charges on pay, to agree with the returns</td></tr>
+    <tr><td>Month or period</td><td>Monthly trend of the payroll</td></tr>
+  </table>
+
+  <h2>Importing a file, step by step</h2>
+  <p>The import has three steps. Nothing is saved until you click <b>Import</b> at the end.</p>
+  <h3>1 Upload</h3>
+  <ol class="steps">
+    <li>Check the <b>Kind of data</b>.</li>
+    <li>Choose the <b>Timing</b> (see the table below).</li>
+    <li>Choose the file in <b>File (.csv, .xlsx)</b>. Leave <b>The first line holds the column titles</b> ticked if it does.</li>
+    <li>Click <b>Read the file</b>.</li>
+  </ol>
+  <h3>2 Match the columns</h3>
+  <p>Each line is one column of the client's file: <b>Column in your file</b>, its <b>First three values</b>, and the <b>AuditISA field</b> it feeds. <b>How it was matched</b> reads <b>Matched automatically</b>, <b>Chosen by you</b> or <b>Not recognised</b>.</p>
+  <ol class="steps">
+    <li>Check each automatic match. To change one, open the list in <b>AuditISA field</b> and choose another field, or <b>Do not import</b>.</li>
+    <li>Make sure every field marked <b>mandatory</b> has a column. The message at the top tells you what is still missing.</li>
+    <li>If dates or amounts look wrong, set the <b>Decimal separator</b>, <b>Date format</b>, <b>Column separator</b> or <b>Sheet</b>.</li>
+    <li>For a general ledger without a single entry number, use <b>Entry identified by several columns</b>.</li>
+    <li>Click <b>Check the file</b>.</li>
+  </ol>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/m-payroll-match.webp" alt="Step 2 of the import of a payroll file: the column list with Matched automatically badges, one Not recognised line greyed out, and the green message that all mandatory fields are matched" loading="lazy"/><figcaption>Matching the file's columns</figcaption></figure>
+  <div class="tip"><b>Tip</b> Leave <b>Remember this matching for this client's next file of this kind</b> ticked. Next year the same layout is matched for you.</div>
+  <h3>3 Check</h3>
+  <p>The tool reads every row and shows the rows read, the totals and, for a ledger, whether debits equal credits. Each point found is marked <b>Left out</b>, <b>Imported with a warning</b> or <b>Blocks the import</b>. If you see <b>The file can be imported.</b>, click <b>Import</b>. If not, correct the file or click <b>Back to matching</b>.</p>
+  <div class="warn"><b>Careful</b> A general ledger whose debits and credits do not balance is refused. Ask the client for a complete extract rather than editing it yourself.</div>
+
+  <h2>Timing and uploads for next year</h2>
+  <table class="ref">
+    <tr><th>Timing</th><th>Use it for</th></tr>
+    <tr><td><b>Pre-audit</b></td><td>The client's figures before your adjustments. A pre-audit trial balance drives the engagement file (lead schedules, materiality, significant accounts).</td></tr>
+    <tr><td><b>Post-audit</b></td><td>The figures after the adjustments agreed.</td></tr>
+    <tr><td><b>Prior year</b></td><td>Last year's figures, for comparisons.</td></tr>
+    <tr><td><b>Subsequent period (next year)</b></td><td>Data of the year after the one audited, for the cut-off procedures and the search for unrecorded liabilities. It never stands in for the year audited. A next-year ledger covering fewer than 30 days after the year end is too short for cut-off work.</td></tr>
+  </table>
+
+  <p class="see">See also: <a href="#data-versions">Versions of an upload</a> · <a href="#data-tools">Analytics and the data tools</a></p>
+</article>

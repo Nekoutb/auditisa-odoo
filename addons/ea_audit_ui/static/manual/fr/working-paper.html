@@ -1,0 +1,81 @@
+<article class="ea-help-page" data-id="working-paper" data-part="L'audit, phase par phase" data-part-order="5" data-order="5.16">
+  <h1>Travailler sur une feuille de travail</h1>
+  <p class="lead">Toutes les feuilles de travail standard d'AuditISA sont présentées de la même façon : quand vous en connaissez une, vous les connaissez toutes.</p>
+  <p class="who"><b>Qui :</b> tous les membres de l'équipe de mission. Le réviseur qualité de la mission peut consulter la feuille de travail et émettre des notes, mais ne modifie pas les travaux.</p>
+
+  <h2>Ouvrir la feuille de travail</h2>
+  <p>Cette page prend un exemple, <b>S4.2 Continuité — préliminaire (ISA 570)</b>. Cliquez sur <b>Stratégie &amp; risques</b> dans la barre du haut, puis sur <b>S4.2</b> dans la liste des tâches. Vous la trouvez aussi sous <b>Tâches</b>. La feuille de travail s'ouvre sur une seule page déroulante, en trois colonnes : la liste des étapes à gauche, les travaux au centre, et les outils, les pièces jointes et l'affectation à droite.</p>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/p-c22-non_complex.webp" alt="Une feuille de travail (ici C2.2) dans une mission non complexe : en-tête, liste des étapes, objectif, carte préremplie et première tâche" loading="lazy"/><figcaption>La présentation d'une feuille de travail (ici C2.2)</figcaption></figure>
+
+  <h2>L'en-tête</h2>
+  <ul>
+    <li>Titre et niveau de documentation : le code et le nom, puis un libellé tel que <b>Non complexe · documentation par exception</b>. En dessous figurent le client, l'exercice, la norme, l'édition (<b>Édition : ISA en vigueur</b>) et l'échéance. L'échéance passe au rouge une fois dépassée.</li>
+    <li><b>Avancement</b> : par exemple « 0 sur 7 travaux faits · non signé ». Il compte aussi les tâches faites dans un outil, les tâches closes par exception et les notes de revue ouvertes.</li>
+    <li><b>Préparer</b> / <b>Revoir</b> : deux façons de lire la même feuille de travail. <b>Préparer</b> affiche les conseils et les exigences complètes. <b>Revoir</b> les masque pour que le réviseur ne voie que les travaux. Voir <a href="#review-notes">Les notes de revue</a>.</li>
+    <li><b>Enregistrer le papier</b> : rien n'est enregistré tant que vous n'avez pas cliqué sur ce bouton. Le libellé à côté indique <b>Modifications non enregistrées</b>, puis <b>Enregistré à</b> suivi de l'heure. Si vous tentez de quitter la page avec des modifications non enregistrées, AuditISA vous propose de <b>Rester</b> ou de <b>Quitter sans enregistrer</b>.</li>
+  </ul>
+
+  <h2>La liste des étapes</h2>
+  <p>La colonne de gauche liste <b>1 Objectif</b>, chaque tâche sous <b>2 Travaux requis</b> (2.1 Indicateurs financiers, 2.2 Indicateurs opérationnels, etc.) et <b>3 Conclusion et signatures</b>. Cliquez sur une ligne pour y accéder. Une pastille de couleur indique l'état de chaque tâche, et une pastille rouge avec un nombre signale les notes de revue ouvertes. Sous <b>Afficher seulement :</b>, cliquez sur <b>Non faits</b> ou <b>Notes ouvertes</b> pour filtrer la liste.</p>
+
+  <h2>1 Objectif</h2>
+  <p>Cette partie énonce en quelques lignes ce que la feuille de travail doit permettre d'atteindre. Le lien vers la norme (pour S4.2, <b>ISA 570 révisée 2024</b> ↗) ouvre le texte officiel dans un nouvel onglet. Cliquez sur <b>Exigences complètes</b> pour déplier le détail de ce que demandent les normes, y compris la règle OHADA relative aux capitaux propres devenus inférieurs à la moitié du capital social.</p>
+
+  <h2>2 Travaux requis</h2>
+  <p>Sur S4.2, une carte intitulée <b>Prérempli à partir des données</b> apparaît en premier. Elle présente des chiffres qu'AuditISA a lus dans la balance générale, ici les capitaux propres, la moitié du capital social et le résultat de leur comparaison. Cliquez sur <b>Ouvrir l'analyse financière</b> pour en voir le détail.</p>
+  <p>Chaque tâche présente ensuite son texte, sa référence normative à droite (par exemple ISA 570 A3) et un encadré <b>Conseil</b> que vous pouvez replier. Pour compléter une tâche :</p>
+  <ol class="steps">
+    <li>Réalisez les travaux décrits.</li>
+    <li>Cliquez sur <b>Fait</b> et décrivez dans la zone ce que vous avez fait et constaté, avec la référence de la feuille de travail.</li>
+    <li>Si la tâche ne s'applique pas, cliquez sur <b>Non applicable</b>. Une zone grisée s'ouvre : le motif est obligatoire.</li>
+    <li>Cliquez sur <b>Enregistrer le papier</b>.</li>
+  </ol>
+  <p>Une tâche terminée se replie sur une ligne. Cliquez dessus pour la rouvrir. Une tâche marquée <b>Fait dans l'outil</b> a été réalisée dans un outil lié et ne demande rien de plus sur la feuille de travail.</p>
+
+  <h2>Le volume de documentation dépend du profil</h2>
+  <p>Le profil de la mission, issu du questionnaire de profil, fixe le volume de documentation que demande chaque feuille de travail.</p>
+  <table class="ref">
+    <tr><th>Profil</th><th>Présentation des tâches</th></tr>
+    <tr><td><b>Complexe · documentation complète</b></td><td>Une zone de texte par tâche. Vous décrivez en détail les travaux et leur résultat.</td></tr>
+    <tr><td><b>Non complexe · documentation par exception</b></td><td>Trois boutons par tâche : <b>Aucune exception relevée</b>, <b>Exceptions relevées</b> et <b>Non applicable</b>. Avec <b>Aucune exception relevée</b>, une réponse type est remplie pour vous et vous devez indiquer une <b>Source</b> : un outil, une tâche liée ou une pièce jointe telle que A1. Avec <b>Exceptions relevées</b>, une zone s'ouvre pour décrire les exceptions, leur incidence et ce qui a été fait.</td></tr>
+    <tr><td><b>Très simple · liste à cocher et synthèse</b></td><td>Une case à cocher (ou <b>n/a</b>) par tâche, puis une zone unique, <b>Synthèse des travaux réalisés</b> : ce qui a été fait, avec qui, les documents consultés et le résultat.</td></tr>
+  </table>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/p-c22-very_simple.webp" alt="Une feuille de travail dans une mission très simple : la liste à cocher et la zone Synthèse des travaux réalisés" loading="lazy"/><figcaption>La présentation très simple</figcaption></figure>
+
+  <h2>Quand la feuille de travail repasse en documentation complète</h2>
+  <p>Une présentation allégée n'est jamais appliquée lorsqu'elle serait risquée. La feuille de travail s'ouvre en documentation complète, quel que soit le profil, lorsque :</p>
+  <ul>
+    <li>un outil a émis un avertissement sur cette feuille de travail (par exemple, les capitaux propres sont inférieurs à la moitié du capital social) ;</li>
+    <li>une affirmation de la conclusion reçoit la réponse <b>Non</b> ;</li>
+    <li>la feuille de travail fait partie de celles qui ne sont jamais allégées (C1.1, C3.1, C5.5, C5.6 et C5.11).</li>
+  </ul>
+  <p>Une ligne sous l'objectif vous en indique la raison. Si une tâche a été close avec <b>Aucune exception relevée</b> avant l'apparition de l'avertissement, AuditISA vous demande de rédiger le résultat.</p>
+
+  <h2>Constats et ajustements</h2>
+  <p>Sur S4.2, consignez un point pour le dossier de la mission avec l'outil <b>Constats</b> de la colonne de droite. Tous les constats ouverts depuis n'importe quelle feuille de travail sont regroupés dans ce seul outil. Sur les feuilles de travail des procédures de corroboration (dans <b>Exécution</b>), chaque constat apparaît aussi en bas de la feuille de travail, en deux parties : <b>1. Constat</b> (le problème, et comment et où il s'est produit) et <b>2. Ajustement à comptabiliser</b>. Lorsque vous enregistrez l'ajustement, il est porté directement au récapitulatif des anomalies. Voir <a href="#findings">Les constats</a>.</p>
+
+  <h2>La colonne de droite</h2>
+  <ul>
+    <li><b>Outils</b> : liens vers les outils utilisés par cette feuille de travail. Pour S4.2, il s'agit de <b>Analyse financière</b>, <b>Comptes significatifs</b> et <b>Constats</b>.</li>
+    <li><b>Tâches liées</b> : feuilles de travail connexes (S4.1, E6.3, C2.2 et d'autres). Cliquez sur l'une d'elles pour l'ouvrir. Son lien <b>Retour</b> vous ramène ici.</li>
+    <li><b>Affectation</b> : le <b>Préparateur</b>, le <b>Réviseur</b> et l'<b>Échéance</b>. Une modification s'applique immédiatement et peut être annulée avec <b>Annuler</b>. Sans date propre, la tâche prend l'échéance de sa phase.</li>
+    <li><b>Tâche non applicable</b> : indiquez un motif, puis cliquez sur <b>Marquer non applicable</b>. <b>Rétablir la tâche</b> annule l'opération. Un senior ou un rôle supérieur peut le faire ; le réviseur qualité de la mission ne le peut pas.</li>
+    <li><b>Pièces jointes</b> : cliquez sur <b>Joindre un fichier</b>, ou sur <b>Choisir dans cette mission</b> pour réutiliser un document déjà présent dans le dossier de la mission. Chaque fichier reçoit une référence (A1, A2…). Citez-la dans votre texte sous la forme [A2] ou comme <b>Source</b>. Importer un fichier portant le même nom crée une nouvelle version. Un fichier supprimé peut être restauré pendant 30 jours.</li>
+  </ul>
+  <div class="warn"><b>Attention</b> Joindre ou supprimer un fichier après la signature annule les signatures, car les éléments probants ont changé.</div>
+
+  <h2>Les notes de revue dans une tâche</h2>
+  <p>Sous chaque tâche, <b>+ Note de revue sur ce travail</b> ouvre une petite zone. Saisissez le point et cliquez sur <b>Ajouter la note</b>. La note reste dans la tâche, à côté des travaux qu'elle concerne. Voir <a href="#review-notes">Les notes de revue</a>.</p>
+
+  <h2>3 Conclusion et signatures</h2>
+  <ol class="steps">
+    <li>Répondez <b>Oui</b> ou <b>Non</b> à chaque affirmation. Un <b>Non</b> doit être expliqué. Certaines affirmations sont vérifiées par un outil. Si l'outil n'est pas d'accord avec votre réponse, il affiche <b>l'outil indique le contraire</b>.</li>
+    <li>Sur S4.2, renseignez <b>Travaux requis à l'achèvement (E6.3)</b> si nécessaire.</li>
+    <li>Rédigez la <b>Conclusion</b>, ou cliquez sur <b>Reprendre la formulation type</b> et adaptez-la.</li>
+    <li>Cliquez sur <b>Enregistrer le papier</b>, puis sur <b>Signer comme préparateur</b>. S'il manque quelque chose, <b>Reste à compléter :</b> le liste.</li>
+  </ol>
+  <figure class="shot"><img src="/ea_audit_ui/static/manual/img/p-s42-complex.webp" alt="Les affirmations de conclusion, la zone de conclusion et la ligne de signature avec Signer comme préparateur" loading="lazy"/><figcaption>Conclure la feuille de travail</figcaption></figure>
+  <div class="note"><b>Bon à savoir</b> Si un collègue modifie la même zone pendant que vous saisissez, votre texte est conservé et le sien s'affiche en dessous. Vous pouvez choisir <b>Reprendre sa version</b>, ou enregistrer pour la remplacer.</div>
+
+  <p class="see">Voir aussi : <a href="#review-notes">Les notes de revue</a> · <a href="#signing">Signer une feuille de travail</a> · <a href="#findings">Les constats</a> · <a href="#engagement-questionnaire">Le questionnaire de la mission</a></p>
+</article>
