@@ -18,7 +18,7 @@ TOD_SELECTION = [
     ("minimal", "Minimal"), ("low", "Low"), ("low_sr", "Low +SR"),
     ("moderate", "Moderate"), ("high", "High"), ("high_sr", "High +SR"),
 ]
-CELL_SELECTION = LEVEL_SELECTION + [("to_assess", "To assess"), ("na", "N/A")]
+CELL_SELECTION = LEVEL_SELECTION + [("to_assess", "To assess"), ("na", "Not applicable")]
 
 
 class CraAssessment(models.Model):
@@ -39,14 +39,14 @@ class CraAssessment(models.Model):
     relevant = fields.Boolean(default=True)
     relevant_defaulted = fields.Boolean(readonly=True)
     ir = fields.Selection(IR_SELECTION, string="Inherent risk")
-    ir_basis = fields.Char(string="IR basis")
+    ir_basis = fields.Char(string="Inherent risk basis")
     cr = fields.Selection(CR_SELECTION, string="Control risk")
-    cr_basis = fields.Char(string="CR basis")
+    cr_basis = fields.Char(string="Control risk basis")
     reason = fields.Char(string="Revision reason", compute="_compute_reason", inverse="_inverse_noop")
     level = fields.Selection(LEVEL_SELECTION + [("to_assess", "To assess")], compute="_compute_derived", compute_sudo=True)
     tod_level = fields.Selection(TOD_SELECTION, string="Sampling level", compute="_compute_derived", compute_sudo=True)
-    suggested_ir = fields.Selection(IR_SELECTION, string="Suggested IR", compute="_compute_derived", compute_sudo=True)
-    suggested_cr = fields.Selection(CR_SELECTION, string="Suggested CR", compute="_compute_derived", compute_sudo=True)
+    suggested_ir = fields.Selection(IR_SELECTION, string="Suggested inherent risk", compute="_compute_derived", compute_sudo=True)
+    suggested_cr = fields.Selection(CR_SELECTION, string="Suggested control risk", compute="_compute_derived", compute_sudo=True)
     risk_count = fields.Integer(string="Risks", compute="_compute_derived", compute_sudo=True)
     significant = fields.Boolean(string="Significant risk", compute="_compute_derived", compute_sudo=True)
     fraud = fields.Boolean(compute="_compute_derived", compute_sudo=True)
@@ -162,9 +162,9 @@ class CraHistory(models.Model):
     index_code = fields.Char(string="Lead index", required=True)
     assertion = fields.Char(required=True)
     ir = fields.Selection(IR_SELECTION, string="Inherent risk")
-    ir_basis = fields.Char(string="IR basis")
+    ir_basis = fields.Char(string="Inherent risk basis")
     cr = fields.Selection(CR_SELECTION, string="Control risk")
-    cr_basis = fields.Char(string="CR basis")
+    cr_basis = fields.Char(string="Control risk basis")
     new_ir = fields.Selection(IR_SELECTION, string="New inherent risk")
     new_cr = fields.Selection(CR_SELECTION, string="New control risk")
     reason = fields.Char()

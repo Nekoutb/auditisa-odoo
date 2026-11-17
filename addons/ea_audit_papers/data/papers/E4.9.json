@@ -36,9 +36,9 @@
      },
      {
       "key": "capital",
-      "en": "Agree the share capital to the statutes and to the RCCM filing, and test any change in the period to the extraordinary general meeting resolution.",
+      "en": "Agree the share capital to the statutes and to the trade register filing, and test any change in the period to the extraordinary general meeting resolution.",
       "fr": "Rapprocher le capital social des statuts et du dépôt RCCM, et tester toute variation de l'exercice au regard de la résolution d'assemblée générale extraordinaire.",
-      "srcEn": "Statutes · RCCM extract · AGE minutes",
+      "srcEn": "Statutes · trade register extract · extraordinary general meeting minutes",
       "srcFr": "Statuts · extrait RCCM · procès-verbal d'AGE"
      },
      {
@@ -52,7 +52,7 @@
       "key": "appropriation",
       "en": "Test the appropriation of the prior period result to the ordinary general meeting resolution, including the transfer to the legal reserve.",
       "fr": "Tester l'affectation du résultat de l'exercice précédent au regard de la résolution d'assemblée générale ordinaire, y compris la dotation à la réserve légale.",
-      "srcEn": "AGO minutes · statutes · Uniform Act",
+      "srcEn": "Ordinary general meeting minutes · statutes · Uniform Act",
       "srcFr": "Procès-verbal d'AGO · statuts · Acte uniforme"
      },
      {
@@ -66,7 +66,7 @@
       "key": "dividends",
       "en": "Test the dividends declared and paid to the resolution and to the bank, and confirm the withholding tax applied.",
       "fr": "Tester les dividendes décidés et versés au regard de la résolution et de la banque, et vérifier la retenue à la source appliquée.",
-      "srcEn": "AGO minutes · bank statements · tax returns",
+      "srcEn": "Ordinary general meeting minutes · bank statements · tax returns",
       "srcFr": "Procès-verbal d'AGO · relevés bancaires · déclarations fiscales"
      },
      {
@@ -92,7 +92,7 @@
      },
      {
       "key": "register",
-      "en": "The share capital agrees to the statutes, the RCCM filing and the share register (procedures 2, 3).",
+      "en": "The share capital agrees to the statutes, the trade register filing and the share register (procedures 2, 3).",
       "fr": "Le capital social concorde avec les statuts, le dépôt RCCM et le registre des titres (procédures 2, 3)."
      },
      {

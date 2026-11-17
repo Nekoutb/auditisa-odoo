@@ -15,7 +15,7 @@ export const LABELS = {
     keyFindingsHint: _t("Significant findings from the work performed, routed to C1.2/C1.1 where applicable"),
     work: _t("Work"),
     done: _t("Done"),
-    na: _t("N/A"),
+    na: _t("Not applicable"),
     yes: _t("Yes"),
     no: _t("No"),
     notConcluded: _t("Not yet concluded"),
@@ -46,7 +46,7 @@ export const LABELS = {
     preparer: _t("Preparer"),
     reviewer: _t("Reviewer"),
     partner: _t("Partner"),
-    eqr: _t("EQR"),
+    eqr: _t("Engagement quality reviewer"),
     notSigned: _t("not signed"),
     nonAssignee: _t("signed by non-assignee"),
     toSign_preparer: _t("To prepare"),
@@ -56,7 +56,7 @@ export const LABELS = {
     sign_preparer: _t("Sign as preparer"),
     sign_reviewer: _t("Sign as reviewer"),
     sign_partner: _t("Sign as partner"),
-    sign_eqr: _t("Sign as EQR"),
+    sign_eqr: _t("Sign as quality reviewer"),
     unsignTitle_preparer: _t("Remove your sign-off as preparer?"),
     unsignTitle_reviewer: _t("Remove your sign-off as reviewer?"),
     unsignTitle_partner: _t("Remove your sign-off as approver?"),
@@ -211,4 +211,4 @@ export const AUTO_SOURCES = {
     "team discussion": _t("the team discussion (P5.2), not answered yet"),
 };
 
-export const CHIP_LETTER = { preparer: "P", reviewer: "R", partner: "A", eqr: "EQR" };
+export const CHIP_LETTER = { preparer: "P", reviewer: "R", partner: "A", eqr: "Q" };

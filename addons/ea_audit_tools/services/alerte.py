@@ -19,7 +19,7 @@ _FR_TO_EN = {
     "Art. 151 — le CAC informe la juridiction compétente": "Art. 151 — the statutory auditor informs the competent court",
     "Art. 152 — communication aux associés sous 8 jours (ou à la prochaine AG)": "Art. 152 — communication to the members within 8 days (or at the next general meeting)",
     "Résultats communiqués à la juridiction si mesures insuffisantes": "Results communicated to the court if the measures are insufficient",
-    "Art. 153 — réponse du PCA/PDG ou de l'administrateur général dans le mois (à valider ; lecture 1997 : 15 jours)": "Art. 153 — reply of the chairman, the chairman and CEO or the general administrator within one month (to validate; 1997 reading: 15 days)",
+    "Art. 153 — réponse du PCA/PDG ou de l'administrateur général dans le mois (à valider ; lecture 1997 : 15 jours)": "Art. 153 — reply of the chairman, the chairman and managing director or the general administrator within one month (to validate; 1997 reading: 15 days)",
     "Art. 154 — invitation du président à faire délibérer le conseil sous 15 jours de la réponse": "Art. 154 — chairman invited to have the board deliberate within 15 days of the reply",
     "Art. 154 — le président convoque le conseil sous 15 jours": "Art. 154 — the chairman convenes the board within 15 days",
     "Art. 154 — extrait du PV au CAC et à la juridiction sous 1 mois": "Art. 154 — extract of the minutes to the statutory auditor and the court within 1 month",

@@ -57,9 +57,9 @@
      },
      {
       "key": "filing",
-      "en": "Confirm the prior period accounts were filed with the RCCM within the deadline, and obtain the filing receipt.",
+      "en": "Confirm the prior period accounts were filed with the trade register within the deadline, and obtain the filing receipt.",
       "fr": "Vérifier le dépôt des comptes de l'exercice précédent au RCCM dans le délai et obtenir le récépissé.",
-      "srcEn": "RCCM filing receipt · prior period accounts",
+      "srcEn": "Trade register filing receipt · prior period accounts",
       "srcFr": "Récépissé de dépôt RCCM · comptes antérieurs"
      },
      {
@@ -90,7 +90,7 @@
      },
      {
       "key": "filed",
-      "en": "The prior period accounts were filed with the RCCM within the deadline (procedure 5).",
+      "en": "The prior period accounts were filed with the trade register within the deadline (procedure 5).",
       "fr": "Les comptes de l'exercice précédent ont été déposés au RCCM dans le délai (procédure 5)."
      }
     ]

@@ -251,16 +251,16 @@ class TestSad(ToolsCase):
         self.assertTrue(filename.startswith("SAD-Governance_SA-2025-12-31"))
         book = load_workbook(io.BytesIO(content))
         self.assertEqual(book.sheetnames, [
-            "SAD uncorrected", "SAD corrected", "SAD conclusion", "Reclassification missts", "Cash flow missts", "Missts in disclosures",
+            "Uncorrected audit differences", "Corrected audit differences", "Conclusion on audit differences", "Reclassification missts", "Cash flow missts", "Missts in disclosures",
         ])
-        uncorrected = book["SAD uncorrected"]
+        uncorrected = book["Uncorrected audit differences"]
         values = [[cell.value for cell in row] for row in uncorrected.iter_rows()]
         total = next(row for row in values if row[0] == "Total")
         self.assertEqual(total[3], 100)  # Dr 411 current asset
         self.assertEqual(total[8], -100)  # Cr 701 income statement
         self.assertTrue(any(row[0] and "Clearly trivial" in str(row[0]) for row in values))
         self.assertTrue(any(row[0] == "Less: tax effect of misstatements (33%)" and row[3] == 33 for row in values))
-        conclusion = [[cell.value for cell in row] for row in book["SAD conclusion"].iter_rows()]
+        conclusion = [[cell.value for cell in row] for row in book["Conclusion on audit differences"].iter_rows()]
         verdict = next(row for row in conclusion if row[0] and "exceed" in str(row[0]))
         self.assertEqual(verdict[1], "Yes")  # |-100| above UMT 28
         self.assertTrue(any(row[0] == "Team conclusion" and row[1] == "Below UMT." for row in conclusion))

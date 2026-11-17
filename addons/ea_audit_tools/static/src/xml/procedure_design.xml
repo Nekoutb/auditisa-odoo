@@ -40,13 +40,13 @@
 
                 <!-- Section 1: tests of controls -->
                 <t t-if="state.tab === 'toc'">
-                    <p class="o_ea_pd_empty" t-if="!p.controls.length">No control is ticked "To test" on the SCOT pages yet.
-                        <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_scot')">Open the SCOTs</button>
+                    <p class="o_ea_pd_empty" t-if="!p.controls.length">No control is ticked "To test" on the pages of the classes of transactions yet.
+                        <button type="button" class="btn btn-link btn-sm" t-on-click="() => this.open('action_tool_scot')">Open the classes of transactions</button>
                     </p>
                     <table class="o_ea_pd_grid" t-else="" data-ea="toc-design">
                         <thead>
                             <tr>
-                                <th>Control</th><th>SCOT</th><th>Type</th><th>Frequency</th><th>Reliance</th>
+                                <th>Control</th><th>Class of transactions</th><th>Type</th><th>Frequency</th><th>Reliance</th>
                                 <th class="o_num">Suggested size</th><th class="o_num">Planned size</th>
                                 <th>Assertions it supports</th><th>Status</th><th>Sample</th>
                             </tr>
@@ -75,7 +75,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p class="o_ea_pd_note">A control appears here when it is ticked "To test" on its SCOT. Suggested size comes from the frequency and reliance (same table as on the SCOT page); a smaller planned size asks for a reason. If a tested control turns out not effective, the combined risk of the assertions it supports moves to "Not rely" and section 2 suggests more tests of details.</p>
+                    <p class="o_ea_pd_note">A control appears here when it is ticked "To test" on its class of transactions. Suggested size comes from the frequency and reliance (same table as on the page of the class of transactions); a smaller planned size asks for a reason. If a tested control turns out not effective, the combined risk of the assertions it supports moves to "Not rely" and section 2 suggests more tests of details.</p>
                 </t>
 
                 <!-- Section 2: tests of details -->

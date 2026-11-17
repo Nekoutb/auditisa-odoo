@@ -29,7 +29,7 @@ class RollforwardWizard(models.TransientModel):
                                  help="Carried to re-confirm: the questionnaire is not concluded in the new file.")
     carry_materiality = fields.Boolean(string="Materiality basis and percentages (no amounts)", default=True,
                                        help="The basis and the percentages, to re-confirm. The amounts are worked out again from this year's figures.")
-    carry_scots = fields.Boolean(string="SCOTs, controls and walkthrough notes", default=True,
+    carry_scots = fields.Boolean(string="Classes of transactions, controls and walkthrough notes", default=True,
                                  help="As drafts, to update: every test result, conclusion and sign-off starts again.")
     carry_risks = fields.Boolean(string="Risk register and lead-index links", default=True,
                                  help="As drafts: each risk assessment is to re-confirm.")

@@ -25,7 +25,7 @@ def _codes(tags):
 
 class ScotWizard(models.TransientModel):
     _name = "ea.audit.scot.wizard"
-    _description = "New SCOT"
+    _description = "New class of transactions"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
     name = fields.Char(required=True)
@@ -118,7 +118,7 @@ class ControlWizard(models.TransientModel):
 
 class ScotAssignWizard(models.TransientModel):
     _name = "ea.audit.scot.assign.wizard"
-    _description = "Assign a SCOT"
+    _description = "Assign a class of transactions"
 
     scot_id = fields.Many2one("ea.audit.scot", required=True)
     user_id = fields.Many2one("res.users", string="Assigned to")
@@ -229,7 +229,7 @@ class ItgcWizard(models.TransientModel):
     _description = "S2.5 conclusion"
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
-    state = fields.Selection(ITGC_STATE_SELECTION, string="ITGC conclusion")
+    state = fields.Selection(ITGC_STATE_SELECTION, string="IT general controls conclusion")
 
     def action_save(self):
         self.ensure_one()

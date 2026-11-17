@@ -46,7 +46,7 @@
                     </button>
                 </div>
 
-                <p class="o_ea_ws_empty" t-if="!cards.length and state.tab === 'toc'">No control is selected for testing yet. Select the controls to test in the SCOTs (S2.1), then draw each sample here.</p>
+                <p class="o_ea_ws_empty" t-if="!cards.length and state.tab === 'toc'">No control is selected for testing yet. Select the controls to test in the classes of transactions (S2.1), then draw each sample here.</p>
                 <p class="o_ea_ws_empty" t-if="!cards.length and state.tab === 'tod'">No test of details yet. Draw a sample from a dataset, or record a result by lead index.</p>
 
                 <div class="o_ea_ws_cards" t-if="cards.length">

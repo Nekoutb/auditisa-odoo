@@ -88,9 +88,9 @@ def asset_basis_label(locale, tb_version, imported_on=None):
     """The label beside every total-assets figure (F013). ``imported_on`` names the trial
     balance by the date and time of its upload, as the screens do, instead of a number."""
     if imported_on:
-        suffix = (", balance du %s" if locale == "fr" else ", TB of %s") % imported_on
+        suffix = (", balance du %s" if locale == "fr" else ", trial balance of %s") % imported_on
     elif tb_version is None:
         suffix = ""
     else:
-        suffix = ", %s v%s" % ("balance" if locale == "fr" else "TB", tb_version)
+        suffix = ", %s v%s" % ("balance" if locale == "fr" else "trial balance", tb_version)
     return ("Total actif net (SYSCOHADA)%s" if locale == "fr" else "Total net assets (SYSCOHADA)%s") % suffix

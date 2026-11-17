@@ -49,7 +49,7 @@
         <field name="arch" type="xml">
             <list create="0" delete="0" edit="0">
                 <header>
-                    <button name="action_list_new_scot" type="object" string="New SCOT" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
+                    <button name="action_list_new_scot" type="object" string="New class of transactions" display="always" class="btn-primary" groups="ea_audit_core.group_writer"/>
                     <button name="action_list_export_scots" type="object" string="Export to Excel" display="always"/>
                 </header>
                 <field name="name"/>
@@ -71,11 +71,11 @@
         <field name="arch" type="xml">
             <form create="0" class="o_ea_scot_form">
                 <header>
-                    <button name="action_open_assign" type="object" string="Assign the SCOT" groups="ea_audit_core.group_writer"/>
+                    <button name="action_open_assign" type="object" string="Assign the class" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_index_wizard" type="object" string="Link a lead index" groups="ea_audit_core.group_writer"/>
                 </header>
                 <sheet>
-                    <div class="o_ea_card_label">SCOT</div>
+                    <div class="o_ea_card_label">Class of transactions</div>
                     <div class="o_ea_title"><field name="name"/></div>
                     <group>
                         <group>
@@ -330,7 +330,7 @@
                     <button name="action_export_itgc" type="object" string="Export to Excel"/>
                 </header>
                 <sheet>
-                    <div class="o_ea_title">IT applications and ITGC</div>
+                    <div class="o_ea_title">IT applications and IT controls</div>
                     <div class="o_ea_sub"><field name="display_name" readonly="1"/></div>
                     <div class="o_ea_cards">
                         <div class="o_ea_card">

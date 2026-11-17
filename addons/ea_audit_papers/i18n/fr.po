@@ -53,7 +53,7 @@ msgstr ""
 
 #. module: ea_audit_papers
 #: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_signoff__content_scheme
-msgid "1: a migrated hash Odoo cannot recompute, reported rather than voided (Q3). 2: Odoo's own."
+msgid "1: a migrated hash Odoo cannot recompute, reported rather than voided. 2: Odoo's own."
 msgstr ""
 
 #. module: ea_audit_papers
@@ -411,7 +411,7 @@ msgstr "Brouillon"
 #. module: ea_audit_papers
 #. odoo-javascript
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
-msgid "EQR"
+msgid "Engagement quality reviewer"
 msgstr "EQR"
 
 #. module: ea_audit_papers
@@ -440,7 +440,7 @@ msgstr "Mission"
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Every SCOT needs at least one what-can-go-wrong on S1.2 before the paper is signed."
+msgid "Every class of transactions needs at least one risk of what can go wrong on S1.2 before the paper is signed."
 msgstr "Chaque SCOT doit comporter au moins un WCGW (ce qui peut mal tourner) en S1.2 avant la signature de la feuille."
 
 #. module: ea_audit_papers
@@ -679,13 +679,6 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: ea_audit_papers
-#. odoo-javascript
-#: code:addons/ea_audit_papers/static/src/paper/labels.js:0
-#: code:addons/ea_audit_papers/static/src/paper/ras_board.xml:0
-msgid "N/A"
-msgstr "S.O."
-
-#. module: ea_audit_papers
 #: model:ir.model.fields,field_description:ea_audit_papers.field_ea_audit_task_attachment__name
 msgid "Name"
 msgstr "Nom"
@@ -806,7 +799,7 @@ msgstr "Objectifs atteints"
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "Objectives cannot be marked as achieved while program steps are still open: complete them or mark them N/A first."
+msgid "Objectives cannot be marked as achieved while program steps are still open: complete them or mark them not applicable first."
 msgstr "Les objectifs ne peuvent être déclarés atteints tant que des diligences restent ouvertes : terminez-les ou marquez-les S.O. d'abord."
 
 #. module: ea_audit_papers
@@ -1127,7 +1120,7 @@ msgstr "Senior manager"
 #. module: ea_audit_papers
 #. odoo-javascript
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
-msgid "Sign as EQR"
+msgid "Sign as quality reviewer"
 msgstr "Signer comme EQR"
 
 #. module: ea_audit_papers
@@ -1282,7 +1275,7 @@ msgstr "Le contenu de ce fichier ne correspond pas à son extension."
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The control selection is incomplete: every control selected for testing must answer a WCGW, and every SCOT on a controls strategy needs a control selected, before S2.1 is signed."
+msgid "The control selection is incomplete: every control selected for testing must answer a risk of what can go wrong, and every class of transactions on a controls strategy needs a control selected, before S2.1 is signed."
 msgstr "La sélection des contrôles est incomplète : chaque contrôle retenu pour test doit répondre à un WCGW, et chaque SCOT en stratégie de contrôles doit avoir un contrôle retenu, avant la signature de S2.1."
 
 #. module: ea_audit_papers
@@ -1299,7 +1292,7 @@ msgstr "Le fichier dépasse la limite de 25 Mo."
 
 #. module: ea_audit_papers
 #: model:ir.model.fields,help:ea_audit_papers.field_ea_audit_signoff__definition_hash
-msgid "The paper text this signature was given over (Q1)."
+msgid "The paper text this signature was given over."
 msgstr "Le texte de la feuille sur lequel cette signature a été donnée (Q1)."
 
 #. module: ea_audit_papers
@@ -1328,7 +1321,7 @@ msgstr "Le pointage présente des écarts : expliquez-les dans la procédure de 
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/errors.py:0
-msgid "The walkthroughs are incomplete: every SCOT needs all its walkthrough answers on S1.3 before the paper is signed."
+msgid "The walkthroughs are incomplete: every class of transactions needs all its walkthrough answers on S1.3 before the paper is signed."
 msgstr "Les cheminements sont incomplets : chaque SCOT doit porter toutes les réponses de son cheminement en S1.3 avant la signature de la feuille."
 
 #. module: ea_audit_papers
@@ -1827,7 +1820,7 @@ msgstr "Pas encore notée"
 #. module: ea_audit_papers
 #. odoo-python
 #: code:addons/ea_audit_papers/models/paper.py:0
-msgid "The entity is listed, or a law or regulator applies (Q1, Q3). ISQM 1 ¶34(f) expects an engagement quality review in these cases. The decision stays with the firm: give the reason."
+msgid "The entity is listed, or a law or regulator applies (profile questions 1 and 3). ISQM 1 ¶34(f) expects an engagement quality review in these cases. The decision stays with the firm: give the reason."
 msgstr "L'entité est cotée, ou une loi ou un régulateur s'applique (Q1, Q3). ISQM 1 ¶34(f) prévoit une revue de qualité dans ces cas. La décision reste celle du cabinet : en donner le motif."
 
 #. module: ea_audit_papers
@@ -2137,6 +2130,7 @@ msgstr "Exceptions relevées"
 #. module: ea_audit_papers
 #. odoo-javascript
 #: code:addons/ea_audit_papers/static/src/paper/labels.js:0
+#: code:addons/ea_audit_papers/static/src/paper/ras_board.xml:0
 msgid "Not applicable"
 msgstr "Non applicable"
 

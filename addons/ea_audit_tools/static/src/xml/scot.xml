@@ -10,20 +10,20 @@
     <t t-name="ea_audit_tools.ScotTotalsBar">
         <div class="o_ea_scot_bar" t-if="state.totals">
             <div class="o_ea_scot_bar_buttons">
-                <button t-if="state.totals.canWrite" type="button" class="btn btn-primary" t-on-click="newScot">New SCOT</button>
+                <button t-if="state.totals.canWrite" type="button" class="btn btn-primary" t-on-click="newScot">New class of transactions</button>
                 <button type="button" class="btn btn-secondary" t-on-click="exportExcel">Export to Excel</button>
             </div>
             <div class="o_ea_scot_totals">
-                <span><b t-esc="state.totals.scots"/><small>SCOTs</small></span>
+                <span><b t-esc="state.totals.scots"/><small>Classes of transactions</small></span>
                 <span><b t-esc="state.totals.controls"/><small>controls</small></span>
                 <span><b t-esc="state.totals.toTest"/><small>to test</small></span>
                 <span t-att-title="state.totals.uncoveredLabel">
                     <b t-att-class="state.totals.uncovered ? 'o_ea_bad' : ''" t-esc="state.totals.uncovered"/>
-                    <small>significant accounts without a SCOT</small>
+                    <small>significant accounts without a class of transactions</small>
                 </span>
             </div>
         </div>
-        <div class="o_ea_scot_legend" t-if="state.totals">Green = complete, amber = to finish, red = not started. Click a card to open the SCOT.</div>
+        <div class="o_ea_scot_legend" t-if="state.totals">Green = complete, amber = to finish, red = not started. Click a card to open the class of transactions.</div>
     </t>
 
     <!-- the counts on the five tabs: kept off-screen, written onto the tabs -->

@@ -3796,7 +3796,7 @@ msgstr "Propriétaire"
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/addon_texts.py:0
-msgid "PBC request list and uploads for client contacts, invited by a one-time link"
+msgid "List of documents requested from the client, and their uploads by client contacts invited by a one-time link"
 msgstr "Liste des demandes de documents et dépôts pour les contacts du client, invités par un lien à usage unique"
 
 #. module: ea_platform_admin
@@ -6161,13 +6161,13 @@ msgstr "Suivi"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__registration_number
-msgid "Trade register no. (RCCM)"
+msgid "Trade register number"
 msgstr "RCCM"
 
 #. module: ea_platform_admin
 #. odoo-python
 #: code:addons/ea_platform_admin/services/addon_texts.py:0
-msgid "Trial balance, lead schedules, materiality, risks, CRA, findings, SAD and the tools hub"
+msgid "Trial balance, lead schedules, materiality, risks, combined risk assessment, findings, summary of audit differences and the tools hub"
 msgstr "Balance, feuilles maîtresses, seuil de signification, risques, CRA, constats, SAD et le portail des outils"
 
 #. module: ea_platform_admin

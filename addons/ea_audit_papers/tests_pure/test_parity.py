@@ -56,6 +56,9 @@ DEPARTS = {"C4.2", "P1.1", "P1.4", "P1.5", "S6.1", "C4.3", "C5.1", "C5.10", "E4.
 DEPARTS |= {"S2.1", "S2.2", "S2.3", "S2.4", "S2.5", "S4.1", "S4.3", "S4.4", "S5.1", "S5.2", "S5.3", "S5.6", "S6.1"}
 # The execution papers converted by group "exec".
 DEPARTS |= {"E1.1", "E1.2", "E2.1", "E6.1", "E6.2", "E6.3", "E6.5", "E6.6", "E6.7", "E6.8", "E6.9", "E6.10"}
+# The abbreviation sweep of 2026-11-17 (owner-approved): English wording only, in papers the layout
+# did not convert (the Uniform Act, the trade register, the general meetings, the classes of transactions).
+DEPARTS |= {"C5.2", "C5.8", "E3.1", "E4.26", "E4.4", "E4.9", "P4.2", "S5.5"}
 RESOLVED = _fixture("resolved.json")
 COMPLETENESS = _fixture("completeness.json")
 CASES = _fixture("cases.json")

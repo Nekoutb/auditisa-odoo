@@ -95,8 +95,8 @@ class LeadSchedule(models.Model):
     prior = fields.Float(string="Prior year", digits=(18, 0))
     movement = fields.Float(digits=(18, 0))
     variance_pct = fields.Float(string="Variance %", digits=(16, 1))
-    has_variance_pct = fields.Boolean()
-    prior_source = fields.Selection([("prior_year_tb", "Prior-year TB"), ("prior_file", "Prior-year file"), ("opening", "Opening balances")], string="Comparative")
+    has_variance_pct = fields.Boolean(string="Has Variance Percentage")
+    prior_source = fields.Selection([("prior_year_tb", "Prior-year trial balance"), ("prior_file", "Prior-year file"), ("opening", "Opening balances")], string="Comparative")
     account_type = fields.Char()
     account_class = fields.Char()
     account_type_label = fields.Char(string="Account type", compute="_compute_labels")
@@ -156,7 +156,7 @@ class LeadLine(models.Model):
     prior = fields.Float(string="Prior year", digits=(18, 0))
     movement = fields.Float(digits=(18, 0))
     variance_pct = fields.Float(string="Variance %", digits=(16, 1))
-    has_variance_pct = fields.Boolean()
+    has_variance_pct = fields.Boolean(string="Has Variance Percentage")
 
     def _ea_comment_key(self):
         return self.index_code, self.account_code

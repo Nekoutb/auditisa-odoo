@@ -182,7 +182,7 @@ FORMULAS = {
     "roce": ("(Profit after tax + finance costs) / (equity + borrowings)", "(Résultat net après impôt + charges financières) / (capitaux propres + emprunts et dettes financières)"),
 }
 
-GL_NOTE = "No general ledger for this year: upload it in the GL Analyzer to work out this ratio."  # i18n: term
+GL_NOTE = "No general ledger for this year: upload it in the General Ledger Analyzer to work out this ratio."  # i18n: term
 GL_NOTE_FR = "Pas de grand livre pour cet exercice : l'importer dans l'analyseur de grand livre pour calculer ce ratio."
 PRIOR_NOTE = "Prior year: no prior-year general ledger uploaded."  # i18n: term
 PRIOR_NOTE_FR = "Exercice précédent : aucun grand livre N-1 importé."

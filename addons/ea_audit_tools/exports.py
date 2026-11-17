@@ -277,7 +277,7 @@ def sad_workbook(view, fr):
         for cell in row[3:]:
             cell.number_format = MONEY
         row = add(sheet, [
-            "Effet des anomalies (% des états financiers)" if fr else "Effect of misstatements as a % of FS amounts", "", "",
+            "Effet des anomalies (% des états financiers)" if fr else "Effect of misstatements as a % of financial statement amounts", "", "",
             *[(total / captions[index] if captions and captions[index] else None) for index, total in enumerate(totals)],
         ])
         for cell in row:
@@ -287,7 +287,7 @@ def sad_workbook(view, fr):
         return totals
 
     # 1. Uncorrected
-    sheet = book.create_sheet("SAD non corrigées" if fr else "SAD uncorrected")
+    sheet = book.create_sheet("SAD non corrigées" if fr else "Uncorrected audit differences")
     band(sheet, "Récapitulatif des anomalies non corrigées" if fr else "Summary of uncorrected misstatements")
     grid_head(sheet, False)
     nominal = mat["trivial"] if mat else None
@@ -337,13 +337,13 @@ def sad_workbook(view, fr):
                 cell.font = font(bold=True)
 
     # 2. Corrected
-    sheet = book.create_sheet("SAD corrigées" if fr else "SAD corrected")
+    sheet = book.create_sheet("SAD corrigées" if fr else "Corrected audit differences")
     band(sheet, "Récapitulatif des anomalies corrigées" if fr else "Summary of corrected misstatements")
     grid_head(sheet, True)
     entry_rows(sheet, [e for e in entries if e["corrected"] and e["mtype"] in MAIN_TYPES and not is_trivial(e, nominal)], True, True)
 
     # 3. Conclusion
-    sheet = book.create_sheet("Conclusion SAD" if fr else "SAD conclusion")
+    sheet = book.create_sheet("Conclusion SAD" if fr else "Conclusion on audit differences")
     band(sheet, "Conclusion du récapitulatif des anomalies" if fr else "Summary of audit differences conclusion")
     widths(sheet, [58, 18, 18, 18, 18])
     first = add(sheet, ["", "Avant impôt" if fr else "Before tax", "", "Après impôt" if fr else "After tax", ""])
@@ -415,7 +415,7 @@ def sad_workbook(view, fr):
             "5. Material effect of prior-period uncorrected misstatements",
         ]
     )
-    answers = {"yes": yes, "no": no, "na": "N/A"}
+    answers = {"yes": yes, "no": no, "na": "Not applicable"}
     for position, text in enumerate(questions, start=1):
         row = add(sheet, [text, answers.get(meta.get("tq_%d" % position), ""), meta.get("tq_%dc" % position) or ""])
         for index, cell in enumerate(row):

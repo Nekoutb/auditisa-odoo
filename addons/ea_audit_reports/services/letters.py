@@ -97,7 +97,7 @@ def build_letter(kind, f, fr):
         if f.get("address"):
             identity.append(t("address_f_address", f_address=f["address"]))
         if f.get("registration_number"):
-            identity.append(("RCCM : %s" if fr else "RCCM: %s") % f["registration_number"])
+            identity.append(("RCCM : %s" if fr else "Trade register: %s") % f["registration_number"])
         if f.get("niu"):
             identity.append(("NIU : %s" if fr else "NIU: %s") % f["niu"])
         if identity:

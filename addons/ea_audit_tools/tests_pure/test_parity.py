@@ -25,6 +25,92 @@ _SOURCE_NOTES = {
 }
 
 
+# The abbreviation sweep of 2026-11-17 (owner-approved) changed English wording only. The recorded
+# cases keep the platform's words: what the port now says is read back to them before comparing.
+_SWEEP_2026_11_17 = [
+    ("The journal entry number and the journal code are mapped to the same column. Re-import with the entry-number column (JE N°, N° écriture, N° pièce) as the unique JE identifier.", "The JE number and the journal code are mapped to the same column. Re-import with the entry-number column (JE N°, N° écriture, N° pièce) as the unique JE identifier."),
+    ("The understanding of the close is confirmed; matters carried to controls selection (S2.1), the combined risk assessment (S3.1) or journal-entry testing ", "The understanding of the close is confirmed; matters carried to controls selection (S2.1), the CRA (S3.1) or journal-entry testing "),
+    ("Art. 153 — reply of the chairman, the chairman and managing director or the general administrator within one month (to validate; 1997 reading: 15 days)", "Art. 153 — reply of the chairman, the chairman and CEO or the general administrator within one month (to validate; 1997 reading: 15 days)"),
+    ("An amount that lands on a round figure was decided rather than computed. Same two thresholds as analytic 12 of the General Ledger Correlation Console.", "An amount that lands on a round figure was decided rather than computed. Same two thresholds as analytic 12 of the GL Correlation Console."),
+    ("Revenue fraud response: disaggregated analytics compared with expectation; test manual revenue journals; inquire into side agreements; confirm terms.", "Revenue fraud response: disaggregated analytics vs expectation; test manual revenue journals; inquire into side agreements; confirm terms."),
+    ("Required whatever the strategy: the controls over initiating, authorising and recording journal entries answer the risks of what can go wrong above.", "Required whatever the strategy: the controls over initiating, authorising and recording journal entries answer the WCGWs above."),
+    ("Net realisable value: post-period selling prices compared with carrying cost on the sample; slow-moving/obsolete analysis and write-down adequacy.", "Net realisable value: post-period selling prices vs carrying cost on the sample; slow-moving/obsolete analysis and write-down adequacy."),
+    ("Movement schedule: opening to prior-year closing; additions, disposals, transfers to support; closing to general ledger; depreciation mirrored.", "Movement schedule: opening to prior-year closing; additions, disposals, transfers to support; closing to GL; depreciation mirrored."),
+    ("Repairs and maintenance scan for items that should be capitalised; capital-commitments and pledged-asset disclosure completeness.", "Repairs & maintenance scan for items that should be capitalised; capital-commitments and pledged-asset disclosure completeness."),
+    ("Overall conclusion, and any risk of what can go wrong or control to revisit on S1.2 following what was observed.", "Overall conclusion, and any WCGW or control to revisit on S1.2 following what was observed."),
+    ("Agree revenue per the trial balance to the lead schedule and prior year; investigate significant variances.", "Agree revenue per the TB to the lead schedule and prior year; investigate significant variances."),
+    ("Tie the cash flow statement to the underlying balance movements; control ZH = trésorerie actif − passif.", "Tie the TFT to the underlying balance movements; control ZH = trésorerie actif − passif."),
+    ("No general ledger for this year: upload it in the General Ledger Analyzer to work out this ratio.", "No general ledger for this year: upload it in the GL Analyzer to work out this ratio."),
+    ("Update the commitments and contingencies assessment received from S4.1; obtain legal letters.", "Update the commitments & contingencies assessment received from S4.1; obtain legal letters."),
+    ("No two lines share account, journal entry number, date, reference, amount and description.", "No two lines share account, JE number, date, reference, amount and description."),
+    ("Monitor equity compared with half of share capital (statutory workflow if below — C5.8).", "Monitor equity vs half of share capital (statutory workflow if below — C5.8)."),
+    ("Account, journal entry number, description, journal date and amount are all mapped.", "Account, JE number, description, journal date and amount are all mapped."),
+    ("Reconcile the accounts payable sub-ledger to the 40-accounts in the trial balance.", "Reconcile the AP sub-ledger to the 40-accounts in the TB."),
+    ("Test provisions for risks and charges: basis, movements, reversals (class 19/499).", "Test provisions for risks & charges: basis, movements, reversals (class 19/499)."),
+    ("Conclusion — the controls over this class of transactions are effectively DESIGNED", "Conclusion — the controls over this SCOT are effectively DESIGNED"),
+    ("Test HAO classification (classes 8/48): AO compared with HAO nature of items.", "Test HAO classification (classes 8/48): AO vs HAO nature of items."),
+    ("Automated/application control — test of one (IT general controls effective)", "Automated/application control — test of one (ITGCs effective)"),
+    ("preventing or detecting the misstatements they answer (what can go wrong).", "preventing or detecting the WCGWs they answer."),
+    ("Reconcile the final inventory listing to class 3 in the trial balance.", "Reconcile the final inventory listing to class 3 in the TB."),
+    (" were skipped for a missing account or journal entry number.", " were skipped for a missing account or JE number."),
+    ("Non-Stored Purchases, Transport and External Services", "Non-Stored Purchases, Transport & External Services"),
+    ("Buildings, technical installations and fittings", "Buildings, technical installations & fittings"),
+    ("Journal entry number populated on every line", "JE number populated on every line"),
+    ("Journal entry number distinguishes entries", "JE number distinguishes entries"),
+    (" distinct journal entry identifiers over ", " distinct JE identifiers over "),
+    ("Provision Reversals and Expense Transfers", "Provision Reversals & Expense Transfers"),
+    ("Provision reversals and expense transfers", "Provision reversals & expense transfers"),
+    ("Assets under construction and advances", "Assets under construction & advances"),
+    (" lines carry no journal entry number.", " lines carry no JE number."),
+    ("Trade payables and related accounts", "Trade payables & related accounts"),
+    ("Group and Associates — Short Term", "Group & Associates — Short Term"),
+    ("Group and associates — short term", "Group & associates — short term"),
+    ("Provisions for Risks and Charges", "Provisions for Risks & Charges"),
+    ("Provisions for risks and charges", "Provisions for risks & charges"),
+    ("Social and Payroll Liabilities", "Social & Payroll Liabilities"),
+    ("Social and payroll liabilities", "Social & payroll liabilities"),
+    (" compared with trial balance ", " vs TB "),
+    ("Property, Plant and Equipment", "Property, Plant & Equipment"),
+    ("Income Tax and Profit-Sharing", "Income Tax & Profit-Sharing"),
+    ("Income tax and profit-sharing", "Income tax & profit-sharing"),
+    ("Journal entry date (entered)", "JE date (entered)"),
+    ("Suspense and Deferred Income", "Suspense & Deferred Income"),
+    ("Depreciation and Provisions", "Depreciation & Provisions"),
+    ("Amortisation and impairment", "Amortisation & impairment"),
+    ("Depreciation and impairment", "Depreciation & impairment"),
+    ("Share Capital and Reserves", "Share Capital & Reserves"),
+    ("Share capital and reserves", "Share capital & reserves"),
+    ("Cash and Cash Equivalents", "Cash & Cash Equivalents"),
+    (" (tests of details run ", " (ToD run "),
+    ("No journal entry number", "No JE number"),
+    (" compared with credits ", " vs credits "),
+    ("Journal entry number", "JE number"),
+    ("Group and Associates", "Group & Associates"),
+    ("Group and associates", "Group & associates"),
+    (", trial balance of ", ", TB of "),
+    (", trial balance v", ", TB v"),
+    ("Taxes and Duties", "Taxes & Duties"),
+    ("Taxes and duties", "Taxes & duties"),
+    (" compared with ", " vs "),
+    ("Cash and banks", "Cash & banks"),
+]
+
+
+def _unswept(value):
+    """The port's output with the wording of the recorded platform (_SWEEP_2026_11_17)."""
+    if isinstance(value, str):
+        for new, old in _SWEEP_2026_11_17:
+            value = value.replace(new, old)
+        return value
+    if isinstance(value, list):
+        return [_unswept(v) for v in value]
+    if isinstance(value, tuple):
+        return tuple(_unswept(v) for v in value)
+    if isinstance(value, dict):
+        return {k: _unswept(v) for k, v in value.items()}
+    return value
+
+
 def _financial_analysis_as_source(rows, end, prior, overrides, mapping, gl):
     """What the source returns: the formula, the reason for a blank (F064) and the wording of the
     notes (owner's ruling of 2026-11-15: say when the audit period and the data do not match) are this port's."""
@@ -421,7 +507,7 @@ def test_parity(module, case):
             adapter(*args)
         assert str(caught.value) == case["throws"]
     else:
-        same(adapter(*args), dec(case["out"]))
+        same(_unswept(adapter(*args)), dec(case["out"]))
 
 
 def test_every_adapter_is_exercised():

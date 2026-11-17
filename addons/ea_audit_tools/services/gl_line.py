@@ -167,7 +167,7 @@ def population_checks(aggregate):
     push(
         "mandatory-mapped", "Mandatory fields mapped", "Champs obligatoires mappés",
         "passed" if not missing else "failed",
-        "Account, JE number, description, journal date and amount are all mapped." if not missing else "Not mapped: %s." % ", ".join(missing),
+        "Account, journal entry number, description, journal date and amount are all mapped." if not missing else "Not mapped: %s." % ", ".join(missing),
         "Compte, numéro d'écriture, libellé, date du journal et montant sont tous mappés." if not missing else "Non mappés : %s." % ", ".join(missing),
     )
     no_account = a["no_account"]
@@ -179,9 +179,9 @@ def population_checks(aggregate):
     )
     no_je = a["no_je"]
     push(
-        "je-populated", "JE number populated on every line", "Numéro d'écriture renseigné sur chaque ligne",
+        "je-populated", "Journal entry number populated on every line", "Numéro d'écriture renseigné sur chaque ligne",
         "passed" if not no_je else "failed",
-        "All lines belong to one of %s journal entries." % nf(entries) if not no_je else "%s lines carry no JE number." % nf(no_je),
+        "All lines belong to one of %s journal entries." % nf(entries) if not no_je else "%s lines carry no journal entry number." % nf(no_je),
         "Toutes les lignes appartiennent à l'une des %s écritures." % nf_fr(entries) if not no_je else "%s lignes sans numéro d'écriture." % nf_fr(no_je),
     )
     key_cols = je_key_columns(mapping)
@@ -190,15 +190,15 @@ def population_checks(aggregate):
     code_like = same_header or je_number_looks_like_journal_code(lines, entries)
     per_entry = js_round(lines / entries) if entries > 0 else 0
     if code_like and same_header:
-        detail_en = "The JE number and the journal code are mapped to the same column. Re-import with the entry-number column (JE N°, N° écriture, N° pièce) as the unique JE identifier."  # i18n: term
+        detail_en = "The journal entry number and the journal code are mapped to the same column. Re-import with the entry-number column (JE N°, N° écriture, N° pièce) as the unique JE identifier."  # i18n: term
         detail_fr = "Le numéro d'écriture et le code journal sont mappés sur la même colonne. Réimporter avec la colonne du numéro d'écriture (JE N°, N° écriture, N° pièce) comme identifiant unique d'écriture."  # i18n: term
     elif code_like:
-        detail_en = '%s distinct JE identifiers over %s lines — about %s lines per "entry". That is a journal code, not an entry number: re-import and map the unique JE identifier (one column, or several that together identify an entry, e.g. journal + voucher number).' % (nf(entries), nf(lines), nf(per_entry))
+        detail_en = '%s distinct journal entry identifiers over %s lines — about %s lines per "entry". That is a journal code, not an entry number: re-import and map the unique JE identifier (one column, or several that together identify an entry, e.g. journal + voucher number).' % (nf(entries), nf(lines), nf(per_entry))
         detail_fr = "%s identifiants d'écriture distincts pour %s lignes — environ %s lignes par « écriture ». C'est un code journal, pas un numéro d'écriture : réimporter en mappant l'identifiant unique d'écriture (une colonne, ou plusieurs qui ensemble identifient une écriture, p. ex. journal + numéro de pièce)." % (nf_fr(entries), nf_fr(lines), nf_fr(per_entry))
     else:
         detail_en = "%s entries, about %s lines each." % (nf(entries), nf(per_entry))
         detail_fr = "%s écritures, environ %s lignes chacune." % (nf_fr(entries), nf_fr(per_entry))
-    push("je-distinguishes", "JE number distinguishes entries", "Le numéro d'écriture distingue les écritures", "failed" if code_like else "passed", detail_en, detail_fr)
+    push("je-distinguishes", "Journal entry number distinguishes entries", "Le numéro d'écriture distingue les écritures", "failed" if code_like else "passed", detail_en, detail_fr)
     no_date = a["no_date"]
     push(
         "dates-parsed", "Journal dates readable", "Dates du journal lisibles",
@@ -218,7 +218,7 @@ def population_checks(aggregate):
     push(
         "debit-credit-reconcile", "Total debits equal total credits", "Total des débits égal au total des crédits",
         "passed" if abs(diff) <= TOLERANCE else "failed",
-        "Debits %s vs credits %s; difference %s." % (nf(debit), nf(credit), nf(diff)),
+        "Debits %s compared with credits %s; difference %s." % (nf(debit), nf(credit), nf(diff)),
         "Débits %s contre crédits %s ; différence %s." % (nf_fr(debit), nf_fr(credit), nf_fr(diff)),
     )
     unbalanced = a["unbalanced"]
@@ -249,7 +249,7 @@ def population_checks(aggregate):
     push(
         "duplicate-rows", "No identical source rows", "Aucune ligne source identique",
         "passed" if not groups else "warning",
-        "No two lines share account, JE number, date, reference, amount and description." if not groups else "%s lines repeat one of %s identical combinations — an exception requiring audit consideration." % (nf(extra), nf(groups)),
+        "No two lines share account, journal entry number, date, reference, amount and description." if not groups else "%s lines repeat one of %s identical combinations — an exception requiring audit consideration." % (nf(extra), nf(groups)),
         "Aucune ligne ne partage compte, numéro d'écriture, date, référence, montant et libellé." if not groups else "%s lignes répètent l'une des %s combinaisons identiques — exception à examiner." % (nf_fr(extra), nf_fr(groups)),
     )
     source = a["source_rows"]
@@ -257,7 +257,7 @@ def population_checks(aggregate):
     push(
         "row-count", "Imported line count complete", "Nombre de lignes importées complet",
         "passed" if not gap else "warning",
-        "%s of %s source rows projected." % (nf(lines), nf(source)) if not gap else "%s of %s source rows projected; %s were skipped for a missing account or JE number." % (nf(lines), nf(source), nf(gap)),
+        "%s of %s source rows projected." % (nf(lines), nf(source)) if not gap else "%s of %s source rows projected; %s were skipped for a missing account or journal entry number." % (nf(lines), nf(source), nf(gap)),
         "%s lignes source sur %s projetées." % (nf_fr(lines), nf_fr(source)) if not gap else "%s lignes source sur %s projetées ; %s écartées faute de compte ou de numéro d'écriture." % (nf_fr(lines), nf_fr(source), nf_fr(gap)),
     )
     failed = len([check for check in checks if check["status"] == "failed"])

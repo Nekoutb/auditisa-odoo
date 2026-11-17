@@ -60,7 +60,7 @@
                         <table class="o_ea_ws_grid is-figures o_ea_ws_review" data-ea="sad-review">
                             <thead>
                                 <tr>
-                                    <th>Ref.</th><th>Adjustment (from the working paper)</th><th>Heading</th>
+                                    <th>Reference</th><th>Adjustment (from the working paper)</th><th>Heading</th>
                                     <th class="o_num">Debit</th><th class="o_num">Credit</th><th>Status</th><th>Reviewer</th><th>Corrected</th>
                                 </tr>
                             </thead>

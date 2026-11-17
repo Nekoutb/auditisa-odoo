@@ -50,7 +50,7 @@
                         <h4>Completion gates (C4.1)</h4>
                         <field name="completion_gates_html" readonly="1" nolabel="1"/>
                         <button name="run_final_analytics" type="object" string="Run the final analytical review" class="btn btn-secondary me-2" invisible="archived_at"/>
-                        <button name="run_fs_tieout" type="object" string="Run the FS tie-out" class="btn btn-secondary me-2" invisible="archived_at"/>
+                        <button name="run_fs_tieout" type="object" string="Run the statements tie-out" class="btn btn-secondary me-2" invisible="archived_at"/>
                         <button name="action_open_completion_wizard" type="object" string="Disclosure checklist" class="btn btn-secondary me-2" context="{'completion_key': 'disclosure_checklist'}" invisible="archived_at"/>
                         <button name="action_open_completion_wizard" type="object" string="Subsequent events" class="btn btn-secondary me-2" context="{'completion_key': 'subsequent_events'}" invisible="archived_at"/>
                         <button name="action_open_completion_wizard" type="object" string="Partner conclusion" class="btn btn-secondary me-2" context="{'completion_key': 'partner_conclusion'}" invisible="archived_at" groups="ea_audit_core.group_partner"/>

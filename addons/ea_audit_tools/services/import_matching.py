@@ -43,7 +43,7 @@ GROUPS = {
         },
     ],
     "journal_entries": [
-        {"key": "entry", "en": "JE number", "fr": "Numéro d'écriture", "alternatives": [["jeNumber"], [JE_KEY]]},
+        {"key": "entry", "en": "Journal entry number", "fr": "Numéro d'écriture", "alternatives": [["jeNumber"], [JE_KEY]]},
         {"key": "amount", "en": "Amount", "fr": "Montant", "alternatives": [["amount"], ["debit", "credit"]]},
     ],
 }

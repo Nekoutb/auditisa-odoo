@@ -50,7 +50,7 @@ class ProgramStep(models.Model):
     assertion_ids = fields.Many2many("ea.audit.assertion", string="Assertions")
     source = fields.Char(default="manual")
     status = fields.Selection(STEP_STATUS_SELECTION, default="open", required=True, index=True)
-    na_rationale = fields.Text(string="N/A rationale")
+    na_rationale = fields.Text(string="Reason not applicable")
     conclusion = fields.Text()
     completed_by_id = fields.Many2one("res.users", string="Completed by", ondelete="set null")
     completed_at = fields.Datetime(string="Completed on")

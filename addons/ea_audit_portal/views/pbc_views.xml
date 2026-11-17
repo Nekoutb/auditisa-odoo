@@ -122,8 +122,8 @@
         <field name="inherit_id" ref="ea_audit_core.view_engagement_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header/field[@name='phase']" position="before">
-                <button name="action_view_pbc" type="object" string="Client documents (PBC)"/>
-                <button name="action_open_pbc_request" type="object" string="New PBC request" invisible="archived_at"/>
+                <button name="action_view_pbc" type="object" string="Client documents"/>
+                <button name="action_open_pbc_request" type="object" string="New document request" invisible="archived_at"/>
             </xpath>
         </field>
     </record>

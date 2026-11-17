@@ -28,7 +28,7 @@
                             <option value="" t-att-selected="!item.answer">—</option>
                             <option value="yes" t-att-selected="item.answer === 'yes'" t-esc="fr ? 'Oui' : 'Yes'"/>
                             <option value="no" t-att-selected="item.answer === 'no'" t-esc="fr ? 'Non' : 'No'"/>
-                            <option value="na" t-att-selected="item.answer === 'na'">N/A</option>
+                            <option value="na" t-att-selected="item.answer === 'na'">Not applicable</option>
                         </select>
                         <input t-if="item.answer === 'no'" class="form-control form-control-sm" t-att-disabled="!section.editable"
                                t-att-placeholder="fr ? 'Expliquez' : 'Explain'" t-att-value="item.why"

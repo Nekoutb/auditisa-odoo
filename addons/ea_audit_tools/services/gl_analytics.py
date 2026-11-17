@@ -827,7 +827,7 @@ def _missing_mandatory(results, locale, _knobs):
     return {
         "columns": [
             _col("lines", t(locale, "Lines", "Lignes")), _col("noAccount", t(locale, "No account", "Sans compte")),
-            _col("noJe", t(locale, "No JE number", "Sans numéro d'écriture")), _col("noDesc", t(locale, "No description", "Sans libellé")),
+            _col("noJe", t(locale, "No journal entry number", "Sans numéro d'écriture")), _col("noDesc", t(locale, "No description", "Sans libellé")),
             _col("noDate", t(locale, "No readable date", "Date illisible")), _col("noAmount", t(locale, "No amount", "Sans montant")),
             _col("exceptions", t(locale, "Field gaps", "Champs manquants")),
         ],

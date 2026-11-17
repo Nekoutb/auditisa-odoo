@@ -411,7 +411,7 @@ class EngagementSampling(models.Model):
         item = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", self.id), ("code", "=", result["section"])], limit=1)
         total = result["projected"] + (key_misstatement or 0)
         run.write({
-            "title": "ToD results %s" % result["indexCode"], "file_item_id": item.id or False, "index_code": result["indexCode"],
+            "title": "Tests of details results %s" % result["indexCode"], "file_item_id": item.id or False, "index_code": result["indexCode"],
             "params": {"method": "tod-mus", "indexCode": result["indexCode"]},
             "summary": {**result["summary"], "misstatementFound": sample_misstatement or 0, "projected": result["projected"], "raisedToB5": result["raisedToB5"]},
             "sheet_header": ["measure", "amount"],

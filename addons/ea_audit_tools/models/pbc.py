@@ -19,7 +19,7 @@ STATUS_SELECTION = [("requested", "Requested"), ("uploaded", "Uploaded"), ("acce
 class PbcItem(models.Model):
     _name = "ea.audit.pbc.item"
     _inherit = ["ea.audit.tool.record"]
-    _description = "PBC request"
+    _description = "Document request"
     _order = "create_date, id"
     _rec_name = "title"
 
@@ -103,7 +103,7 @@ class PbcItem(models.Model):
         if not file_item or file_item.sudo().engagement_id != as_root.engagement_id:
             raise rule_error(self.env, "not-found")
         return self.env["ir.attachment"].sudo().create({
-            "name": "PBC — %s — %s" % (as_root.title, name), "res_model": "ea.audit.file.item", "res_id": file_item.id,
+            "name": "Document request — %s — %s" % (as_root.title, name), "res_model": "ea.audit.file.item", "res_id": file_item.id,
             "datas": base64.b64encode(content), "mimetype": mime,
         })
 
@@ -222,7 +222,7 @@ class EngagementPbc(models.Model):
 
     def action_tool_pbc(self):
         return self._ea_list(
-            "ea.audit.pbc.item", self.env._("PBC requests"), [("ea_audit_tools.view_pbc_list", "list")],
+            "ea.audit.pbc.item", self.env._("Document requests"), [("ea_audit_tools.view_pbc_list", "list")],
             {"context": {"ea_engagement_id": self.id, "create": False}},
         )
 

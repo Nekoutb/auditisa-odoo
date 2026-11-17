@@ -18,7 +18,7 @@ msgstr ""
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid "A person holds one firm role: read-only or EQR reviewer cannot be combined with another role."
+msgid "A person holds one firm role: read-only or engagement quality reviewer cannot be combined with another role."
 msgstr "Une personne n'a qu'un seul rôle au cabinet : lecture seule ou réviseur qualité ne peuvent pas être cumulés avec un autre rôle."
 
 #. module: ea_audit_core
@@ -53,7 +53,7 @@ msgstr "Acceptation"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_task_template__section__d
-msgid "Acceptance & planning"
+msgid "Acceptance and planning"
 msgstr "Acceptation et planification"
 
 #. module: ea_audit_core
@@ -283,7 +283,7 @@ msgstr "Annuler"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_7
-msgid "Cash & Cash Equivalents (C)"
+msgid "Cash and Cash Equivalents (C)"
 msgstr "Trésorerie (C)"
 
 #. module: ea_audit_core
@@ -293,7 +293,8 @@ msgstr "Trésorerie (C)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_36
-msgid "Cash Flow (TFT) Tie-out"
+#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_36
+msgid "Cash Flow Statement Tie-out"
 msgstr "Concordance du TFT"
 
 #. module: ea_audit_core
@@ -367,7 +368,7 @@ msgstr "Évaluation combinée des risques"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_1
 #: model:ea.audit.task.template,title:ea_audit_core.task_S4_1
-msgid "Commitments & Contingencies"
+msgid "Commitments and Contingencies"
 msgstr "Engagements et passifs éventuels"
 
 #. module: ea_audit_core
@@ -571,27 +572,23 @@ msgstr "Refusée"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_29
-msgid "Depreciation & Provisions (VD2)"
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_29
+msgid "Depreciation and Provisions (VD2)"
 msgstr "Dotations et provisions (VD2)"
 
 #. module: ea_audit_core
-#: model:ea.audit.task.template,title:ea_audit_core.task_E4_29
-msgid "Depreciation & Provisions (VD2)"
-msgstr "Dotations amortissements et provisions (VD2)"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_4
-msgid "Design & Execute ITGC Tests"
+msgid "Test IT General Controls"
 msgstr "Tests des ITGC"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_4
-msgid "Design & Execute Tests of ITGCs"
+msgid "Design and Execute Tests of IT General Controls"
 msgstr "Concevoir et exécuter les tests des ITGC"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S5_4
-msgid "Design JE & Fraud Tests"
+msgid "Journal Entry and Fraud Tests"
 msgstr "Tests écritures & fraude"
 
 #. module: ea_audit_core
@@ -677,7 +674,7 @@ msgstr "Nom affiché"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C6_2
-msgid "Documentation & Archive"
+msgid "Documentation and Archive"
 msgstr "Documentation & archivage"
 
 #. module: ea_audit_core
@@ -693,17 +690,17 @@ msgstr "Durée (mois)"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_signoff__role__eqr
-msgid "EQR"
+msgid "Quality reviewer"
 msgstr "EQR"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P1_5
-msgid "EQR Determination"
+msgid "Quality Review Decision"
 msgstr "Détermination revue qualité"
 
 #. module: ea_audit_core
 #: model:res.groups,name:ea_audit_core.group_eqr_reviewer
-msgid "EQR reviewer"
+msgid "Engagement quality reviewers"
 msgstr "Réviseur qualité (EQR)"
 
 #. module: ea_audit_core
@@ -835,12 +832,12 @@ msgstr "Capital et réserves (T)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_8
-msgid "Equity vs Half-Capital"
+msgid "Equity Compared with Half-Capital"
 msgstr "Capitaux propres / demi-capital"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C5_8
-msgid "Equity vs Half-of-Share-Capital Monitoring"
+msgid "Equity Compared with Half of Share Capital"
 msgstr "Suivi capitaux propres / moitié du capital social"
 
 #. module: ea_audit_core
@@ -851,7 +848,7 @@ msgstr "Estimations — planification (ISA 540)"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_5
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_5
-msgid "Evaluate ITGCs"
+msgid "Evaluate IT General Controls"
 msgstr "Évaluer les ITGC"
 
 #. module: ea_audit_core
@@ -929,7 +926,7 @@ msgstr "Étendu"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_4
-msgid "FSCP Evaluation"
+msgid "Close Process Evaluation"
 msgstr "Processus d'arrêté (FSCP)"
 
 #. module: ea_audit_core
@@ -940,7 +937,7 @@ msgstr "Index du dossier"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_1
-msgid "Final FS Review (ISA 520)"
+msgid "Final Overall Review (ISA 520)"
 msgstr "Revue finale des EF (ISA 520)"
 
 #. module: ea_audit_core
@@ -1048,7 +1045,7 @@ msgstr "Exercice"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_2
-msgid "Flows, WCGWs & Controls"
+msgid "Flows, Risks and Controls"
 msgstr "Flux, WCGW & contrôles"
 
 #. module: ea_audit_core
@@ -1069,7 +1066,7 @@ msgstr "Référentiel"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P5_1
-msgid "Fraud Risks & Responses (ISA 240)"
+msgid "Fraud Risks and Responses (ISA 240)"
 msgstr "Risques de fraude & réponses (ISA 240)"
 
 #. module: ea_audit_core
@@ -1104,7 +1101,7 @@ msgstr "Continuité d'exploitation (ISA 570)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S4_2
-msgid "Going Concern — Prelim (ISA 570)"
+msgid "Going Concern, Preliminary (ISA 570)"
 msgstr "Continuité — préliminaire (ISA 570)"
 
 #. module: ea_audit_core
@@ -1115,12 +1112,12 @@ msgstr "Continuité d'exploitation — préliminaire (ISA 570)"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_17
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_17
-msgid "Group & Associates (I2)"
+msgid "Group and Associates (I2)"
 msgstr "Groupe et associés (I2)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_16
-msgid "Group & Associates — Short Term (I1)"
+msgid "Group and Associates — Short Term (I1)"
 msgstr "Groupe et associés — court terme (I1)"
 
 #. module: ea_audit_core
@@ -1170,18 +1167,14 @@ msgstr "ISA révisées (exercices ouverts à compter du 15 décembre 2026)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P4_3
-msgid "IT Environment & IT Involvement"
+msgid "IT Environment and IT Involvement"
 msgstr "Environnement & implication IT"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_1
-msgid "ITGC Testing"
-msgstr "Contrôles généraux informatiques"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E1_1
-msgid "ITGC Testing"
-msgstr "Tests des contrôles généraux informatiques"
+msgid "IT General Controls Testing"
+msgstr "Contrôles généraux informatiques"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_P5_1
@@ -1227,7 +1220,7 @@ msgstr "Impôt sur le résultat (O4)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P2_1
-msgid "Independence & Ethics"
+msgid "Independence and Ethics"
 msgstr "Indépendance & éthique"
 
 #. module: ea_audit_core
@@ -1321,7 +1314,7 @@ msgstr "Co-commissariat aux comptes"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E3_1
-msgid "Journal Entries & Fraud (ISA 240)"
+msgid "Journal Entries and Fraud (ISA 240)"
 msgstr "Écritures & fraude (ISA 240)"
 
 #. module: ea_audit_core
@@ -1376,12 +1369,12 @@ msgstr "Dernière mise à jour le"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_1
-msgid "Laws & NOCLAR (ISA 250)"
+msgid "Laws and Regulations (ISA 250)"
 msgstr "Textes légaux / NOCLAR (ISA 250)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_1
-msgid "Laws & Regulations / NOCLAR (ISA 250)"
+msgid "Non-Compliance with Laws and Regulations (ISA 250)"
 msgstr "Textes légaux et réglementaires / NOCLAR (ISA 250)"
 
 #. module: ea_audit_core
@@ -1414,7 +1407,7 @@ msgstr "Cotée"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_9
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_9
-msgid "Litigation & Claims (ISA 501)"
+msgid "Litigation and Claims (ISA 501)"
 msgstr "Litiges et réclamations (ISA 501)"
 
 #. module: ea_audit_core
@@ -1424,7 +1417,7 @@ msgstr "Établir l'évaluation combinée des risques (registre des risques)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C3_1
-msgid "Management Rep. Letters (ISA 580)"
+msgid "Representation Letters (ISA 580)"
 msgstr "Lettres d'affirmation (ISA 580)"
 
 #. module: ea_audit_core
@@ -1482,7 +1475,7 @@ msgstr "Messages"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_signoff_policy__min_reviewer_role
-msgid "Min Reviewer Role"
+msgid "Minimum Reviewer Role"
 msgstr "Rôle minimum du réviseur"
 
 #. module: ea_audit_core
@@ -1500,7 +1493,7 @@ msgstr "Réviseur minimum"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E6_4
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_4
-msgid "Minutes & Statutory Records"
+msgid "Minutes and Statutory Records"
 msgstr "Procès-verbaux et registres légaux"
 
 #. module: ea_audit_core
@@ -1574,7 +1567,7 @@ msgstr "Non"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_28
-msgid "Non-Stored Purchases, Transport & External Services (VD1)"
+msgid "Non-Stored Purchases, Transport and External Services (VD1)"
 msgstr "Achats non stockés, transports & services extérieurs (VD1)"
 
 #. module: ea_audit_core
@@ -1717,7 +1710,7 @@ msgstr "Ouvrir le dossier de l'exercice suivant pour ce client ?"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E6_5
-msgid "Opening Balances & Comparatives (ISA 510/710)"
+msgid "Opening Balances and Comparatives (ISA 510/710)"
 msgstr "Soldes d'ouverture et chiffres comparatifs (ISA 510/710)"
 
 #. module: ea_audit_core
@@ -1733,7 +1726,7 @@ msgstr "Charges opérationnelles"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C5_1
-msgid "Opinion & report (ISA 700–706)"
+msgid "Opinion and report (ISA 700–706)"
 msgstr "Opinion & rapport (ISA 700 à 706)"
 
 #. module: ea_audit_core
@@ -1794,12 +1787,13 @@ msgstr "Liste P1.1 complète et conclusion « accepter »"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid "P7.2 is approved on the Planning Review & Approval Summary: the engagement partner signs there once every confirmation and deliverable is in place. Review sign-off on the row follows that approval."
+msgid "P7.2 is approved on the Planning Review and Approval Summary: the engagement partner signs there once every confirmation and deliverable is in place. Review sign-off on the row follows that approval."
 msgstr "P7.2 s'approuve sur le récapitulatif de revue et d'approbation de la planification : l'associé responsable y signe une fois chaque confirmation et chaque livrable en place. La signature de revue sur la ligne suit cette approbation."
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_4
-msgid "PP&E (K)"
+#: model:ea.audit.task.template,title:ea_audit_core.task_E4_4
+msgid "Property, Plant and Equipment (K)"
 msgstr "Immobilisations corporelles (K)"
 
 #. module: ea_audit_core
@@ -1918,7 +1912,7 @@ msgstr "Planification"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P7_2
-msgid "Planning Review & Approval"
+msgid "Planning Review and Approval"
 msgstr "Revue & approbation planification"
 
 #. module: ea_audit_core
@@ -1980,11 +1974,6 @@ msgid "Preparer"
 msgstr "Préparateur"
 
 #. module: ea_audit_core
-#: model:ea.audit.task.template,title:ea_audit_core.task_E4_4
-msgid "Property, Plant & Equipment (K)"
-msgstr "Immobilisations corporelles (K)"
-
-#. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_30
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_30
 msgid "Provision Reversals (VD3)"
@@ -1997,7 +1986,7 @@ msgstr "Provisions (P1)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_10
-msgid "Provisions for Risks & Charges (P1)"
+msgid "Provisions for Risks and Charges (P1)"
 msgstr "Provisions pour risques et charges (P1)"
 
 #. module: ea_audit_core
@@ -2018,7 +2007,7 @@ msgstr "Achats (VA1)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_28
-msgid "Purchases, Transport & Ext. Services (VD1)"
+msgid "Purchases and External Services (VD1)"
 msgstr "Achats, transports & serv. ext. (VD1)"
 
 #. module: ea_audit_core
@@ -2080,7 +2069,7 @@ msgstr "Conventions réglementées"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_C5_3
-msgid "Regulated Agreements Register & Special Report"
+msgid "Regulated Agreements Register and Special Report"
 msgstr "Registre des conventions réglementées et rapport spécial"
 
 #. module: ea_audit_core
@@ -2135,7 +2124,7 @@ msgstr "Chiffre d'affaires (UA)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C4_1
-msgid "Review & Approval Summary"
+msgid "Review and Approval"
 msgstr "Récapitulatif revue & approbation"
 
 #. module: ea_audit_core
@@ -2199,12 +2188,12 @@ msgstr "SAS"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S1_1
-msgid "SCOTs & Related Applications"
+msgid "Classes of Transactions"
 msgstr "SCOT & applications associées"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P2_3
-msgid "Scope & Components"
+msgid "Scope and Components"
 msgstr "Périmètre & composants"
 
 #. module: ea_audit_core
@@ -2269,7 +2258,7 @@ msgstr "Services"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_9
-msgid "Share Capital & Reserves (T)"
+msgid "Share Capital and Reserves (T)"
 msgstr "Capital et réserves (T)"
 
 #. module: ea_audit_core
@@ -2280,7 +2269,7 @@ msgstr "Titre court"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_file_item_form
-msgid "Sign as EQR"
+msgid "Sign as quality reviewer"
 msgstr "Signer comme EQR"
 
 #. module: ea_audit_core
@@ -2333,7 +2322,7 @@ msgstr "Signée par"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P6_2
-msgid "Significant Accounts & Assertions"
+msgid "Significant Accounts and Assertions"
 msgstr "Comptes significatifs & assertions"
 
 #. module: ea_audit_core
@@ -2343,7 +2332,7 @@ msgstr "Unique"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_11
-msgid "Social & Payroll Liabilities (P2)"
+msgid "Social and Payroll Liabilities (P2)"
 msgstr "Dettes sociales (P2)"
 
 #. module: ea_audit_core
@@ -2427,23 +2416,18 @@ msgstr "Récapitulatif des écarts d'audit"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_12
-msgid "Suspense & Deferred (P3)"
+msgid "Suspense and Deferred (P3)"
 msgstr "Comptes d'attente (P3)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_12
-msgid "Suspense & Deferred Income (P3)"
+msgid "Suspense and Deferred Income (P3)"
 msgstr "Comptes d'attente et PCA (P3)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P7_1
-msgid "TCWG Planning Report"
+msgid "Planning Report to Governance"
 msgstr "Rapport TCWG planification"
-
-#. module: ea_audit_core
-#: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_36
-msgid "TFT Tie-out"
-msgstr "Concordance du TFT"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_planning_snapshot__taken_at
@@ -2479,7 +2463,7 @@ msgstr "Créances fiscales (O1)"
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E4_27
 #: model:ea.audit.task.template,title:ea_audit_core.task_E4_27
-msgid "Taxes & Duties (VO)"
+msgid "Taxes and Duties (VO)"
 msgstr "Impôts et taxes (VO)"
 
 #. module: ea_audit_core
@@ -2491,7 +2475,7 @@ msgstr "Équipe"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_P2_2
-msgid "Team & Specialised Skills"
+msgid "Team and Specialised Skills"
 msgstr "Équipe & compétences spécialisées"
 
 #. module: ea_audit_core
@@ -2507,7 +2491,7 @@ msgstr "Télécommunications"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E1_2
-msgid "Test Controls over SCOTs"
+msgid "Test Controls over Transactions"
 msgstr "Tests des contrôles (SCOT)"
 
 #. module: ea_audit_core
@@ -2517,7 +2501,7 @@ msgstr "Tests des contrôles sur les flux significatifs (SCOT)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E3_1
-msgid "Tests of Journal Entries & Mandatory Fraud Procedures (ISA 240)"
+msgid "Tests of Journal Entries and Mandatory Fraud Procedures (ISA 240)"
 msgstr "Tests des écritures comptables et procédures obligatoires de fraude (ISA 240)"
 
 #. module: ea_audit_core
@@ -2529,7 +2513,7 @@ msgstr "Cette personne n'est pas membre du cabinet."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid "The EQR reviewer must be independent of the engagement team."
+msgid "The engagement quality reviewer must be independent of the engagement team."
 msgstr "Le réviseur qualité (EQR) doit être indépendant de l'équipe de mission."
 
 #. module: ea_audit_core
@@ -2576,7 +2560,7 @@ msgstr "Le réviseur qualité de la mission (EQR) ne peut pas se voir confier le
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/errors.py:0
-msgid "The engagement quality reviewer must be a partner of the firm or hold the firm role of EQR reviewer."
+msgid "The engagement quality reviewer must be a partner of the firm or hold the firm role of engagement quality reviewer."
 msgstr "Le réviseur qualité de la mission doit être associé du cabinet ou avoir le rôle de réviseur qualité (EQR) au cabinet."
 
 #. module: ea_audit_core
@@ -2838,22 +2822,22 @@ msgstr "Vrai tant que le déclencheur est sans réponse : la tâche n'est pas ac
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S1_2
-msgid "Understand Flows of Transactions, WCGWs and Controls"
+msgid "Understand Flows of Transactions, What Can Go Wrong and Controls"
 msgstr "Comprendre les flux de transactions, les WCGW et les contrôles"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_S2_3
-msgid "Understand ITGCs"
+msgid "Understand IT Controls"
 msgstr "Comprendre les ITGC"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S2_3
-msgid "Understand ITGCs (IT General Controls)"
+msgid "Understand IT General Controls"
 msgstr "Comprendre les contrôles généraux informatiques (ITGC)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_S1_4
-msgid "Understand and Evaluate the FSCP"
+msgid "Understand and Evaluate the Financial Statement Close Process"
 msgstr "Comprendre et évaluer le processus d'arrêté des comptes (FSCP)"
 
 #. module: ea_audit_core
@@ -2873,12 +2857,12 @@ msgstr "Comprendre l'environnement informatique et déterminer l'implication IT"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,title:ea_audit_core.task_E2_1
-msgid "Update Tests of Controls and ITGCs (post-interim)"
+msgid "Update Tests of Controls and IT General Controls (post-interim)"
 msgstr "Mettre à jour les tests de contrôles et des ITGC (post-intérim)"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_E2_1
-msgid "Update ToC & ITGCs (post-interim)"
+msgid "Update Control Tests (post-interim)"
 msgstr "MAJ tests de contrôles & ITGC"
 
 #. module: ea_audit_core
@@ -3420,43 +3404,43 @@ msgstr "Récapitulatif P7.2 : %(role)s, %(status)s par %(name)s"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC accepted: %(title)s → %(code)s"
+msgid "Requested document accepted: %(title)s → %(code)s"
 msgstr "Document accepté : %(title)s → %(code)s"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC chased: %(title)s"
+msgid "Requested document chased: %(title)s"
 msgstr "Document relancé : %(title)s"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC filed: %(title)s → %(code)s"
+msgid "Requested document filed: %(title)s → %(code)s"
 msgstr "Document classé : %(title)s → %(code)s"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC requested: %(title)s"
+msgid "Document requested from the client: %(title)s"
 msgstr "Document demandé : %(title)s"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC requested: %(title)s (%(count)s contact(s))"
+msgid "Document requested from the client: %(title)s (%(count)s contact(s))"
 msgstr "Document demandé : %(title)s (%(count)s contact(s))"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC uploaded by the client: %(title)s (%(file)s) sha256 %(hash)s"
+msgid "Requested document uploaded by the client: %(title)s (%(file)s) sha256 %(hash)s"
 msgstr "Document déposé par le client : %(title)s (%(file)s) sha256 %(hash)s"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "PBC uploaded: %(title)s (%(file)s, sha256 %(hash)s)"
+msgid "Requested document uploaded: %(title)s (%(file)s, sha256 %(hash)s)"
 msgstr "Document déposé : %(title)s (%(file)s, sha256 %(hash)s)"
 
 #. module: ea_audit_core
@@ -3545,7 +3529,7 @@ msgstr "Rôles"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "S2.5 ITGC conclusion: %(status)s"
+msgid "S2.5 IT general controls conclusion: %(status)s"
 msgstr "S2.5 conclusion sur les contrôles généraux informatiques : %(status)s"
 
 #. module: ea_audit_core
@@ -3599,7 +3583,7 @@ msgstr "S6.1 : recours à une société de services = Oui"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "SCOT assigned to %(name)s: %(title)s"
+msgid "Class of transactions assigned to %(name)s: %(title)s"
 msgstr "Cycle affecté à %(name)s : %(title)s"
 
 #. module: ea_audit_core
@@ -3646,7 +3630,7 @@ msgstr "Édition des normes modifiée de %(status)s à %(word)s : %(why)s"
 
 #. module: ea_audit_core
 #: model:ea.audit.task.template,short_title:ea_audit_core.task_C2_2
-msgid "Subsequent Events & Going Concern"
+msgid "Subsequent Events and Going Concern"
 msgstr "Événements postérieurs et continuité d'exploitation"
 
 #. module: ea_audit_core
@@ -3729,12 +3713,12 @@ msgstr "BEAC"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__ca_dg
-msgid "Board with a chair and a CEO (PCA + DG)"
+msgid "Board with a chairman of the board and a separate managing director"
 msgstr "Conseil d'administration avec PCA et DG"
 
 #. module: ea_audit_core
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_client__governance_mode__ca_pdg
-msgid "Board with chair and CEO (PDG)"
+msgid "Board with a chairman and managing director in one person"
 msgstr "Conseil d'administration avec PDG"
 
 #. module: ea_audit_core
@@ -4532,115 +4516,115 @@ msgstr "Questionnaire de profil"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q1_listed
-msgid "Q1 Listed or offered to the public"
+msgid "Question 1: Listed or offered to the public"
 msgstr "Q1 Cotée ou faisant appel public à l'épargne"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q1 listed or offered to the public"
+msgid "Question 1: listed or offered to the public"
 msgstr "Q1 cotée ou faisant appel public à l'épargne"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"
+msgid "Question 1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"
 msgstr "Q1. Ses actions ou obligations sont-elles cotées (BVMAC ou autre bourse) ou offertes au public, ou le seront-elles dans les deux ans environ ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q10_regulator
-msgid "Q10 Regulator sets the reporting rules"
+msgid "Question 10: Regulator sets the reporting rules"
 msgstr "Q10 Un régulateur fixe les règles de reporting"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q10 a regulator sets the reporting rules or receives the accounts"
+msgid "Question 10: a regulator sets the reporting rules or receives the accounts"
 msgstr "Q10 un régulateur fixe les règles de reporting ou reçoit les comptes"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q10. Does a regulator set the entity's reporting rules or receive its accounts?"
+msgid "Question 10. Does a regulator set the entity's reporting rules or receive its accounts?"
 msgstr "Q10. Un régulateur fixe-t-il les règles de reporting de l'entité ou reçoit-il ses comptes ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q11_fraud
-msgid "Q11 Fraud, non-compliance or whistle-blowing"
+msgid "Question 11: Fraud, non-compliance or whistle-blowing"
 msgstr "Q11 Fraude, non-conformité ou signalements"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q11 known or suspected fraud, non-compliance or whistle-blowing reports"
+msgid "Question 11: known or suspected fraud, non-compliance or whistle-blowing reports"
 msgstr "Q11 fraude avérée ou suspectée, non-conformité ou signalements"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"
+msgid "Question 11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"
 msgstr "Q11. Existe-t-il une fraude avérée ou suspectée, un non-respect des textes légaux et réglementaires, ou des signalements de lanceurs d'alerte ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q12_owners_known
-msgid "Q12 All owners known"
+msgid "Question 12: All owners known"
 msgstr "Q12 Tous les propriétaires connus"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q12 not all owners are known"
+msgid "Question 12: not all owners are known"
 msgstr "Q12 tous les propriétaires ne sont pas connus"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q12. Are all owners, including those who really own and control it, known?"
+msgid "Question 12. Are all owners, including those who really own and control it, known?"
 msgstr "Q12. Tous les propriétaires, y compris ceux qui la possèdent et la contrôlent réellement, sont-ils connus ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q13_automated
-msgid "Q13 Process too automated for balance testing alone"
+msgid "Question 13: Process too automated for balance testing alone"
 msgstr "Q13 Processus trop automatisé pour le seul test des soldes"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q13 a process too automated for testing balances alone"
+msgid "Question 13: a process too automated for testing balances alone"
 msgstr "Q13 un processus trop automatisé pour le seul test des soldes"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"
+msgid "Question 13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"
 msgstr "Q13. Un processus est-il si automatisé que tester les soldes et les opérations seuls ne peut pas donner assez d'éléments probants ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q14_rely_report
-msgid "Q14 Rely on the provider's auditor report"
+msgid "Question 14: Rely on the provider's auditor report"
 msgstr "Q14 Confiance dans le rapport de l'auditeur du prestataire"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q14_keeper
-msgid "Q14 Who keeps the books"
+msgid "Question 14: Who keeps the books"
 msgstr "Q14 Qui tient la comptabilité"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q14 we rely on a service provider's own auditor report"
+msgid "Question 14: we rely on a service provider's own auditor report"
 msgstr "Q14 nous nous appuyons sur le rapport de l'auditeur d'un prestataire"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q14. Who keeps the books or processes key data?"
+msgid "Question 14. Who keeps the books or processes key data?"
 msgstr "Q14. Qui tient la comptabilité ou traite les données clés ?"
 
 #. module: ea_audit_core
@@ -4655,233 +4639,233 @@ msgstr "Ancienne question : sous surveillance rapprochée"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q16_risks
-msgid "Q15 Significant risks or complex estimates"
+msgid "Question 15: Significant risks or complex estimates"
 msgstr "Q15 Risques importants ou estimations complexes"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q15 significant risks or complex estimates expected"
+msgid "Question 15: significant risks or complex estimates expected"
 msgstr "Q15 risques importants ou estimations complexes attendus"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q15. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"
+msgid "Question 15. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"
 msgstr "Q15. Attendez-vous des risques importants au-delà de ceux présumés dans tout audit, ou des estimations très incertaines ou à méthodes complexes (dépréciations, provisions, justes valeurs) ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q17_going_concern
-msgid "Q16 Doubt about going concern"
+msgid "Question 16: Doubt about going concern"
 msgstr "Q16 Doute sur la continuité d'exploitation"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q16 doubt about going concern"
+msgid "Question 16: doubt about going concern"
 msgstr "Q16 doute sur la continuité d'exploitation"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q16. Any doubt about going concern?"
+msgid "Question 16. Any doubt about going concern?"
 msgstr "Q16. Un doute sur la continuité d'exploitation ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q18_related_parties
-msgid "Q17 Significant related-party or unusual transactions"
+msgid "Question 17: Significant related-party or unusual transactions"
 msgstr "Q17 Transactions importantes avec des parties liées ou inhabituelles"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q17 significant related-party or unusual transactions"
+msgid "Question 17: significant related-party or unusual transactions"
 msgstr "Q17 transactions importantes avec des parties liées ou inhabituelles"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q17. Significant related-party or unusual transactions outside the normal business?"
+msgid "Question 17. Significant related-party or unusual transactions outside the normal business?"
 msgstr "Q17. Des transactions importantes avec des parties liées ou inhabituelles, hors de l'activité normale ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q19_approach
-msgid "Q18 Planned approach"
+msgid "Question 18: Planned approach"
 msgstr "Q18 Approche prévue"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q18 not tested by balances only at year end"
+msgid "Question 18: not tested by balances only at year end"
 msgstr "Q18 pas uniquement des tests de soldes à la clôture"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"
+msgid "Question 18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"
 msgstr "Q18. Approche prévue : tester les soldes seulement, tout à la clôture ? Ou s'appuyer sur les contrôles, tester à une date intermédiaire, ou utiliser les travaux de l'audit interne ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q2_pie
-msgid "Q2 Public-interest entity"
+msgid "Question 2: Public-interest entity"
 msgstr "Q2 Entité d'intérêt public"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q2 public-interest entity: %s"
+msgid "Question 2 (public-interest entity): %s"
 msgstr "Q2 entité d'intérêt public : %s"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q2. Is it a public-interest entity: bank, microfinance institution, insurer, pension fund, or so designated by law or by the firm?"
+msgid "Question 2. Is it a public-interest entity: bank, microfinance institution, insurer, pension fund, or so designated by law or by the firm?"
 msgstr "Q2. Est-ce une entité d'intérêt public : banque, établissement de microfinance, assureur, caisse de retraite, ou désignée comme telle par la loi ou par le cabinet ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q20_first_year
-msgid "Q19 First-year audit"
+msgid "Question 19: First-year audit"
 msgstr "Q19 Premier exercice audité"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q19. Is this a first-year audit?"
+msgid "Question 19. Is this a first-year audit?"
 msgstr "Q19. S'agit-il d'un premier exercice audité ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q3_controls_law
-msgid "Q3 Controls testing required by law"
+msgid "Question 3: Controls testing required by law"
 msgstr "Q3 Tests des contrôles exigés par la loi"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q3 controls testing required by law or a regulator"
+msgid "Question 3: controls testing required by law or a regulator"
 msgstr "Q3 tests des contrôles exigés par la loi ou un régulateur"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q3. Does a law or regulator require the auditor to test internal controls?"
+msgid "Question 3. Does a law or regulator require the auditor to test internal controls?"
 msgstr "Q3. Une loi ou un régulateur exige-t-il que l'auditeur teste le contrôle interne ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q4_other_auditors
-msgid "Q4 Components audited by other auditors"
+msgid "Question 4: Components audited by other auditors"
 msgstr "Q4 Composantes auditées par d'autres auditeurs"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q4_group
-msgid "Q4 Part of a group"
+msgid "Question 4: Part of a group"
 msgstr "Q4 Appartenance à un groupe"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q4_consolidates
-msgid "Q4 Prepares consolidated accounts"
+msgid "Question 4: Prepares consolidated accounts"
 msgstr "Q4 Établit des comptes consolidés"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q4 parent whose components are audited by other auditors"
+msgid "Question 4: parent whose components are audited by other auditors"
 msgstr "Q4 société mère dont des composantes sont auditées par d'autres auditeurs"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q4 the entity prepares consolidated accounts"
+msgid "Question 4: the entity prepares consolidated accounts"
 msgstr "Q4 l'entité établit des comptes consolidés"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q4. Is the entity part of a group, as parent or subsidiary? (A branch keeping its own ledger and management also counts.)"
+msgid "Question 4. Is the entity part of a group, as parent or subsidiary? (A branch keeping its own ledger and management also counts.)"
 msgstr "Q4. L'entité fait-elle partie d'un groupe, comme mère ou filiale ? (Une succursale avec sa propre comptabilité et sa propre direction compte aussi.)"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q5_activities
-msgid "Q5 Activities"
+msgid "Question 5: Activities"
 msgstr "Q5 Activités"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q5 more than 3 activities"
+msgid "Question 5: more than 3 activities"
 msgstr "Q5 plus de 3 activités"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q5. How many distinct activities or revenue streams?"
+msgid "Question 5. How many distinct activities or revenue streams?"
 msgstr "Q5. Combien d'activités ou de sources de revenus distinctes ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q6_sites
-msgid "Q6 Sites"
+msgid "Question 6: Sites"
 msgstr "Q6 Sites"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q6 more than 3 sites"
+msgid "Question 6: more than 3 sites"
 msgstr "Q6 plus de 3 sites"
 
 #. module: ea_audit_core
 #. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q6. How many sites keep accounting records or hold significant inventory?"
+msgid "Question 6. How many sites keep accounting records or hold significant inventory?"
 msgstr "Q6. Combien de sites tiennent une comptabilité ou détiennent des stocks importants ?"
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q7_major_change
-msgid "Q7 Major change this year"
+msgid "Question 7: Major change this year"
 msgstr "Q7 Changement majeur cette année"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q7 major change this year"
+msgid "Question 7: major change this year"
 msgstr "Q7 changement majeur cette année"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q7. Major change this year: new activity, acquisition, restructuring, new management?"
+msgid "Question 7. Major change this year: new activity, acquisition, restructuring, new management?"
 msgstr "Q7. Changement majeur cette année : nouvelle activité, acquisition, restructuration, nouvelle direction ?"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q8 IT point %s high"
+msgid "Question 8: IT point %s high"
 msgstr "Q8 point informatique %s élevé"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q8. Rate the IT on 8 points, each low or high. A single \"high\" makes the engagement Complex."
+msgid "Question 8. Rate the IT on 8 points, each low or high. A single \"high\" makes the engagement Complex."
 msgstr "Q8. Notez l'informatique sur 8 points, chacun faible ou élevé. Un seul « élevé » rend la mission Complexe."
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_profile__q9_specialists
-msgid "Q9 Specialists"
+msgid "Question 9: Specialists"
 msgstr "Q9 Spécialistes"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q9 specialists needed on the core of the business"
+msgid "Question 9: specialists needed on the core of the business"
 msgstr "Q9 spécialistes nécessaires sur le cœur de l'activité"
 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q9 specialists other than tax"
+msgid "Question 9: specialists other than tax"
 msgstr "Q9 spécialistes autres que fiscaux"
 
 #. module: ea_audit_core
 #: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_profile_form
-msgid "Q9. Will specialists be needed (actuary, valuer, engineer, IT, tax), and on what?"
+msgid "Question 9. Will specialists be needed (actuary, valuer, engineer, IT, tax), and on what?"
 msgstr "Q9. Faudra-t-il des spécialistes (actuaire, évaluateur, ingénieur, informatique, fiscalité), et sur quoi ?"
 
 #. module: ea_audit_core
@@ -5238,7 +5222,7 @@ msgstr "Une cotation ou une offre au public rend toujours l'audit Complexe."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q2. Is it a public-interest entity?"
+msgid "Question 2. Is it a public-interest entity?"
 msgstr "Q2. Est-ce une entité d'intérêt public ?"
 
 #. module: ea_audit_core
@@ -5256,7 +5240,7 @@ msgstr "Répondez Oui seulement lorsque tester les contrôles est une obligation
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q4. Is the entity part of a group?"
+msgid "Question 4. Is the entity part of a group?"
 msgstr "Q4. L'entité fait-elle partie d'un groupe ?"
 
 #. module: ea_audit_core
@@ -5280,7 +5264,7 @@ msgstr "Comptez les bureaux, usines, magasins ou entrepôts qui ont leur propre 
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q7. Major change this year?"
+msgid "Question 7. Major change this year?"
 msgstr "Q7. Changement majeur cette année ?"
 
 #. module: ea_audit_core
@@ -5292,7 +5276,7 @@ msgstr "Nouvelle activité, acquisition, restructuration ou nouvelle direction."
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q8. Rate each IT point."
+msgid "Question 8. Rate each IT point."
 msgstr "Q8. Notez chaque point informatique."
 
 #. module: ea_audit_core
@@ -5304,7 +5288,7 @@ msgstr "Un seul point noté Élevé rend l'audit Complexe. Faible : simple, stan
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q9. Will specialists be needed, and on what?"
+msgid "Question 9. Will specialists be needed, and on what?"
 msgstr "Q9. Faudra-t-il des spécialistes, et sur quoi ?"
 
 #. module: ea_audit_core
@@ -5346,7 +5330,7 @@ msgstr "Toute personne autre que l'entité elle-même ajoute S5.2, organisations
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q15. Significant risks beyond the presumed ones, or complex estimates?"
+msgid "Question 15. Significant risks beyond the presumed ones, or complex estimates?"
 msgstr "Q15. Des risques importants au-delà de ceux présumés, ou des estimations complexes ?"
 
 #. module: ea_audit_core
@@ -5370,7 +5354,7 @@ msgstr "Opérations avec les propriétaires, les dirigeants ou leurs sociétés,
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/models/engagement_profile.py:0
-msgid "Q18. Planned approach"
+msgid "Question 18. Planned approach"
 msgstr "Q18. Approche prévue"
 
 #. module: ea_audit_core
@@ -5670,7 +5654,7 @@ msgstr "Addendum ajouté après l'archivage : %(why)s"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
-msgid "SCOTs and controls"
+msgid "Transactions and controls"
 msgstr "SCOT et contrôles"
 
 #. module: ea_audit_core
@@ -5784,7 +5768,7 @@ msgstr "La base et les pourcentages, à reconfirmer. Les montants sont recalcul�
 
 #. module: ea_audit_core
 #: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_rollforward_wizard__carry_scots
-msgid "SCOTs, controls and walkthrough notes"
+msgid "Classes of transactions, controls and walkthrough notes"
 msgstr "SCOT, contrôles et notes de cheminement"
 
 #. module: ea_audit_core
@@ -5980,7 +5964,7 @@ msgstr "Note de revue émise sur l'écart d'audit %(name)s"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/conditional_triggers.py:0
-msgid "Profile Q4: a parent that consolidates, or whose components other auditors audit"
+msgid "Profile question 4: a parent that consolidates, or whose components other auditors audit"
 msgstr "Profil Q4 : société mère qui consolide, ou dont des composantes sont auditées par d'autres auditeurs"
 
 #. module: ea_audit_core
@@ -6016,7 +6000,7 @@ msgstr "Y a-t-il des co-commissaires aux comptes ? = Oui"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/conditional_triggers.py:0
-msgid "The strategy relies on controls (a SCOT tested through its controls, a CRA cell set to rely, or an IT application whose controls are relied on)"
+msgid "The strategy relies on controls (a class of transactions tested through its controls, a combined risk assessment cell set to rely, or an IT application whose controls are relied on)"
 msgstr "La stratégie s'appuie sur les contrôles (un flux testé par ses contrôles, une cellule de l'évaluation combinée en appui, ou une application informatique dont les contrôles sont utilisés)"
 
 #. module: ea_audit_core

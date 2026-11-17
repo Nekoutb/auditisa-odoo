@@ -50,14 +50,14 @@
       "key": "predictive",
       "en": "Build an expectation of the total payroll charge from the opening headcount, the pay awards, the joiners and the leavers, and compare it with the recorded charge. Investigate the difference.",
       "fr": "Construire une attente de la charge totale à partir de l'effectif d'ouverture, des augmentations, des entrées et sorties, et la comparer à la charge comptabilisée. Investiguer l'écart.",
-      "srcEn": "Payroll reports · HR records · prior period charge",
+      "srcEn": "Payroll reports · human resources records · prior period charge",
       "srcFr": "États de paie · données RH · charge de l'exercice précédent"
      },
      {
       "key": "recalculate",
       "en": "Recalculate the gross-to-net for the sample selected, including the statutory deductions and the employer contributions.",
       "fr": "Recalculer le brut au net pour l'échantillon retenu, y compris les retenues légales et les cotisations patronales.",
-      "srcEn": "Payslips · CNPS and tax rate tables · contracts",
+      "srcEn": "Payslips · social security fund and tax rate tables · contracts",
       "srcFr": "Bulletins de paie · barèmes CNPS et fiscaux · contrats"
      },
      {
@@ -71,7 +71,7 @@
       "key": "liabilities",
       "en": "Agree the social and tax liabilities at the year end to the declarations filed, and confirm the payment made after the year end.",
       "fr": "Rapprocher les dettes sociales et fiscales de clôture des déclarations déposées et vérifier le paiement postérieur.",
-      "srcEn": "CNPS and tax declarations · post year-end payments",
+      "srcEn": "Social security fund and tax declarations · post year-end payments",
       "srcFr": "Déclarations CNPS et fiscales · paiements postérieurs"
      },
      {

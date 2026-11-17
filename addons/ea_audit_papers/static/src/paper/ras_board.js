@@ -10,7 +10,7 @@ const STATE_WORDS = {
     prepared: _t("Prepared"),
     reviewed: _t("Reviewed"),
     signed: _t("Signed"),
-    not_applicable: "N/A",
+    not_applicable: "Not applicable",
     absent: _t("Absent"),
 };
 

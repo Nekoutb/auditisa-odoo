@@ -55,19 +55,19 @@
 
                     <h2 class="mt-4">The entity</h2>
                     <div class="mb-3">
-                        <label for="q1_listed" class="fw-bold d-block" string="Q1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"/>
+                        <label for="q1_listed" class="fw-bold d-block" string="Question 1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"/>
                         <field name="q1_listed" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q2_pie" class="fw-bold d-block" string="Q2. Is it a public-interest entity: bank, microfinance institution, insurer, pension fund, or so designated by law or by the firm?"/>
+                        <label for="q2_pie" class="fw-bold d-block" string="Question 2. Is it a public-interest entity: bank, microfinance institution, insurer, pension fund, or so designated by law or by the firm?"/>
                         <field name="q2_pie" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q3_controls_law" class="fw-bold d-block" string="Q3. Does a law or regulator require the auditor to test internal controls?"/>
+                        <label for="q3_controls_law" class="fw-bold d-block" string="Question 3. Does a law or regulator require the auditor to test internal controls?"/>
                         <field name="q3_controls_law" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q4_group" class="fw-bold d-block" string="Q4. Is the entity part of a group, as parent or subsidiary? (A branch keeping its own ledger and management also counts.)"/>
+                        <label for="q4_group" class="fw-bold d-block" string="Question 4. Is the entity part of a group, as parent or subsidiary? (A branch keeping its own ledger and management also counts.)"/>
                         <field name="q4_group" widget="radio" options="{'horizontal': true}"/>
                         <div class="ms-4 mt-2" invisible="q4_group != 'parent'">
                             <label for="q4_consolidates" class="d-block" string="Does it prepare consolidated accounts?"/>
@@ -79,21 +79,21 @@
 
                     <h2 class="mt-4">The business</h2>
                     <div class="mb-3">
-                        <label for="q5_activities" class="fw-bold d-block" string="Q5. How many distinct activities or revenue streams?"/>
+                        <label for="q5_activities" class="fw-bold d-block" string="Question 5. How many distinct activities or revenue streams?"/>
                         <field name="q5_activities" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q6_sites" class="fw-bold d-block" string="Q6. How many sites keep accounting records or hold significant inventory?"/>
+                        <label for="q6_sites" class="fw-bold d-block" string="Question 6. How many sites keep accounting records or hold significant inventory?"/>
                         <field name="q6_sites" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q7_major_change" class="fw-bold d-block" string="Q7. Major change this year: new activity, acquisition, restructuring, new management?"/>
+                        <label for="q7_major_change" class="fw-bold d-block" string="Question 7. Major change this year: new activity, acquisition, restructuring, new management?"/>
                         <field name="q7_major_change" widget="radio" options="{'horizontal': true}"/>
                     </div>
 
                     <h2 class="mt-4">IT</h2>
                     <div class="mb-3">
-                        <div class="fw-bold">Q8. Rate the IT on 8 points, each low or high. A single "high" makes the engagement Complex.</div>
+                        <div class="fw-bold">Question 8. Rate the IT on 8 points, each low or high. A single "high" makes the engagement Complex.</div>
                         <group class="mt-1">
                             <field name="q8_1" string="1. How much is automated" widget="radio" options="{'horizontal': true}"/>
                             <field name="q8_2" string="2. Software customised, integrated or built in-house" widget="radio" options="{'horizontal': true}"/>
@@ -108,29 +108,29 @@
 
                     <h2 class="mt-4">Specialists, people and ownership</h2>
                     <div class="mb-3">
-                        <label for="q9_specialists" class="fw-bold d-block" string="Q9. Will specialists be needed (actuary, valuer, engineer, IT, tax), and on what?"/>
+                        <label for="q9_specialists" class="fw-bold d-block" string="Question 9. Will specialists be needed (actuary, valuer, engineer, IT, tax), and on what?"/>
                         <field name="q9_specialists" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q10_regulator" class="fw-bold d-block" string="Q10. Does a regulator set the entity's reporting rules or receive its accounts?"/>
+                        <label for="q10_regulator" class="fw-bold d-block" string="Question 10. Does a regulator set the entity's reporting rules or receive its accounts?"/>
                         <field name="q10_regulator" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q11_fraud" class="fw-bold d-block" string="Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"/>
+                        <label for="q11_fraud" class="fw-bold d-block" string="Question 11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"/>
                         <field name="q11_fraud" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q12_owners_known" class="fw-bold d-block" string="Q12. Are all owners, including those who really own and control it, known?"/>
+                        <label for="q12_owners_known" class="fw-bold d-block" string="Question 12. Are all owners, including those who really own and control it, known?"/>
                         <field name="q12_owners_known" widget="radio" options="{'horizontal': true}"/>
                     </div>
 
                     <h2 class="mt-4">How the evidence will be obtained</h2>
                     <div class="mb-3">
-                        <label for="q13_automated" class="fw-bold d-block" string="Q13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"/>
+                        <label for="q13_automated" class="fw-bold d-block" string="Question 13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"/>
                         <field name="q13_automated" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q14_keeper" class="fw-bold d-block" string="Q14. Who keeps the books or processes key data?"/>
+                        <label for="q14_keeper" class="fw-bold d-block" string="Question 14. Who keeps the books or processes key data?"/>
                         <field name="q14_keeper" widget="radio" options="{'horizontal': true}"/>
                         <div class="ms-4 mt-2" invisible="not q14_keeper or q14_keeper == 'entity'">
                             <label for="q14_rely_report" class="d-block" string="Will we rely on that provider's own auditor's report?"/>
@@ -140,21 +140,21 @@
 
                     <h2 class="mt-4">Risk</h2>
                     <div class="mb-3">
-                        <label for="q16_risks" class="fw-bold d-block" string="Q15. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"/>
+                        <label for="q16_risks" class="fw-bold d-block" string="Question 15. Do you expect significant risks beyond those every audit presumes, or estimates with high uncertainty or complex methods (impairment, provisions, fair values)?"/>
                         <field name="q16_risks" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q17_going_concern" class="fw-bold d-block" string="Q16. Any doubt about going concern?"/>
+                        <label for="q17_going_concern" class="fw-bold d-block" string="Question 16. Any doubt about going concern?"/>
                         <field name="q17_going_concern" widget="radio" options="{'horizontal': true}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="q18_related_parties" class="fw-bold d-block" string="Q17. Significant related-party or unusual transactions outside the normal business?"/>
+                        <label for="q18_related_parties" class="fw-bold d-block" string="Question 17. Significant related-party or unusual transactions outside the normal business?"/>
                         <field name="q18_related_parties" widget="radio" options="{'horizontal': true}"/>
                     </div>
 
                     <h2 class="mt-4">Approach and history</h2>
                     <div class="mb-3">
-                        <label for="q19_approach" class="fw-bold d-block" string="Q18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"/>
+                        <label for="q19_approach" class="fw-bold d-block" string="Question 18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"/>
                         <field name="q19_approach" widget="radio" options="{'horizontal': true}"/>
                         <div class="ms-4 mt-2" invisible="q19_approach != 'other'">
                             <div><field name="q19_controls"/> <label for="q19_controls"/></div>
@@ -163,7 +163,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="q20_first_year" class="fw-bold d-block" string="Q19. Is this a first-year audit?"/>
+                        <label for="q20_first_year" class="fw-bold d-block" string="Question 19. Is this a first-year audit?"/>
                         <field name="q20_first_year" widget="radio" options="{'horizontal': true}"/>
                     </div>
                 </sheet>

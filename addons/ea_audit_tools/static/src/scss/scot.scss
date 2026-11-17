@@ -18,7 +18,7 @@ $scot-red: #b42318;
     justify-content: space-between;
     gap: 12px;
     padding: 12px 16px 4px;
-    .o_ea_scot_bar_buttons { display: flex; gap: 8px; }
+    .o_ea_scot_bar_buttons { display: flex; gap: 8px; .btn { white-space: nowrap; } }
 }
 .o_ea_scot_totals {
     display: flex;

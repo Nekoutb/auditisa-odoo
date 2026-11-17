@@ -119,7 +119,7 @@ def toc_suggested(control_type, frequency, population, sole, fr, reliance="norma
     if control_type == "automated":
         return {
             "size": 1,
-            "rule": "Contrôle automatisé — test unique (ITGC efficaces)" if fr else "Automated/application control — test of one (ITGCs effective)",
+            "rule": "Contrôle automatisé — test unique (ITGC efficaces)" if fr else "Automated/application control — test of one (IT general controls effective)",
         }
     heavy = reliance == "heavy"
     f = effective_frequency(frequency, frequency)

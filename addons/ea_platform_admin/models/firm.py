@@ -59,7 +59,7 @@ class PlatformFirm(models.Model):
     slug = fields.Char("Slug", required=True, readonly=True, copy=False, index=True)
     legal_name = fields.Char("Legal name")
     legal_form = fields.Char("Legal form")
-    registration_number = fields.Char("Trade register no. (RCCM)")
+    registration_number = fields.Char("Trade register number")
     tax_number = fields.Char("Tax number (NIU)")
     contact_name = fields.Char("Contact", required=True)
     contact_email = fields.Char("Contact email", required=True)

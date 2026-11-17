@@ -60,29 +60,29 @@ IT_POINT_LABELS = (
 
 # The reason keys of the tree, in plain words. "%s" receives the kind of entity or the IT point.
 _REASONS = {
-    "q1": _lt("Q1 listed or offered to the public"),
-    "q2": _lt("Q2 public-interest entity: %s"),
-    "q3": _lt("Q3 controls testing required by law or a regulator"),
-    "q4": _lt("Q4 parent whose components are audited by other auditors"),
-    "q5": _lt("Q5 more than 3 activities"),
-    "q6": _lt("Q6 more than 3 sites"),
-    "q7": _lt("Q7 major change this year"),
-    "q8": _lt("Q8 IT point %s high"),
-    "q9": _lt("Q9 specialists needed on the core of the business"),
-    "q10": _lt("Q10 a regulator sets the reporting rules or receives the accounts"),
-    "q11": _lt("Q11 known or suspected fraud, non-compliance or whistle-blowing reports"),
-    "q12": _lt("Q12 not all owners are known"),
-    "q4:consolidates": _lt("Q4 the entity prepares consolidated accounts"),
-    "q13": _lt("Q13 a process too automated for testing balances alone"),
-    "q14": _lt("Q14 we rely on a service provider's own auditor report"),
+    "q1": _lt("Question 1: listed or offered to the public"),
+    "q2": _lt("Question 2 (public-interest entity): %s"),
+    "q3": _lt("Question 3: controls testing required by law or a regulator"),
+    "q4": _lt("Question 4: parent whose components are audited by other auditors"),
+    "q5": _lt("Question 5: more than 3 activities"),
+    "q6": _lt("Question 6: more than 3 sites"),
+    "q7": _lt("Question 7: major change this year"),
+    "q8": _lt("Question 8: IT point %s high"),
+    "q9": _lt("Question 9: specialists needed on the core of the business"),
+    "q10": _lt("Question 10: a regulator sets the reporting rules or receives the accounts"),
+    "q11": _lt("Question 11: known or suspected fraud, non-compliance or whistle-blowing reports"),
+    "q12": _lt("Question 12: not all owners are known"),
+    "q4:consolidates": _lt("Question 4: the entity prepares consolidated accounts"),
+    "q13": _lt("Question 13: a process too automated for testing balances alone"),
+    "q14": _lt("Question 14: we rely on a service provider's own auditor report"),
     # the removed Q15 (ruling of 2026-11-16), named only on a profile concluded before it went
     "q15:monitoring": _lt("Under the firm's close monitoring (question since removed)"),
     "q15:eqr": _lt("An engagement quality review was required (question since removed)"),
-    "q16": _lt("Q15 significant risks or complex estimates expected"),
-    "q17": _lt("Q16 doubt about going concern"),
-    "q18": _lt("Q17 significant related-party or unusual transactions"),
-    "q9:other": _lt("Q9 specialists other than tax"),
-    "q19": _lt("Q18 not tested by balances only at year end"),
+    "q16": _lt("Question 15: significant risks or complex estimates expected"),
+    "q17": _lt("Question 16: doubt about going concern"),
+    "q18": _lt("Question 17: significant related-party or unusual transactions"),
+    "q9:other": _lt("Question 9: specialists other than tax"),
+    "q19": _lt("Question 18: not tested by balances only at year end"),
 }
 _TITLES = {
     tree.COMPLEX: _lt("Complex because:"),
@@ -129,80 +129,80 @@ _IT_POINT_WORDS = (
 
 SCREEN = (
     (_lt("The entity"), (
-        ("Q1", _lt("Q1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"),
+        ("Q1", _lt("Question 1. Are its shares or bonds listed (BVMAC or another exchange) or offered to the public, or will they be within about two years?"),
          _lt("A listing or a public offering always makes the audit Complex."),
          (("q1_listed", None, "choice", None),)),
-        ("Q2", _lt("Q2. Is it a public-interest entity?"),
+        ("Q2", _lt("Question 2. Is it a public-interest entity?"),
          _lt("Bank, microfinance institution, insurer, pension fund, or named as such by law or by the firm."),
          (("q2_pie", None, "choice", None),)),
-        ("Q3", _lt("Q3. Does a law or regulator require the auditor to test internal controls?"),
+        ("Q3", _lt("Question 3. Does a law or regulator require the auditor to test internal controls?"),
          _lt("Answer Yes only when testing the controls is an obligation, not a choice."),
          (("q3_controls_law", None, "choice", None),)),
-        ("Q4", _lt("Q4. Is the entity part of a group?"),
+        ("Q4", _lt("Question 4. Is the entity part of a group?"),
          _lt("A branch keeping its own ledger and management also counts. Being in a group alone does not make it Complex."),
          (("q4_group", None, "choice", None),
           ("q4_consolidates", _lt("Does it prepare consolidated accounts?"), "choice", _parent),
           ("q4_other_auditors", _lt("Are some components audited by other auditors?"), "choice", _parent))),
     )),
     (_lt("The business"), (
-        ("Q5", _lt("Q5. How many distinct activities or revenue streams?"),
+        ("Q5", _lt("Question 5. How many distinct activities or revenue streams?"),
          _lt("Count what management follows and reports separately."),
          (("q5_activities", None, "choice", None),)),
-        ("Q6", _lt("Q6. How many sites keep accounting records or hold significant inventory?"),
+        ("Q6", _lt("Question 6. How many sites keep accounting records or hold significant inventory?"),
          _lt("Count offices, plants, shops or warehouses with their own records or large stocks."),
          (("q6_sites", None, "choice", None),)),
-        ("Q7", _lt("Q7. Major change this year?"),
+        ("Q7", _lt("Question 7. Major change this year?"),
          _lt("New activity, acquisition, restructuring or new management."),
          (("q7_major_change", None, "choice", None),)),
     )),
     (_lt("IT"), (
-        ("Q8", _lt("Q8. Rate each IT point."),
+        ("Q8", _lt("Question 8. Rate each IT point."),
          _lt("One point rated High makes the audit Complex. Low means simple, off-the-shelf and stable; "
              "High means custom-built, many interfaces or heavy reliance on reports from the system."),
          tuple(("q8_%d" % n, _IT_POINT_WORDS[n - 1], "choice", None) for n in range(1, 9))),
     )),
     (_lt("Specialists, people and ownership"), (
-        ("Q9", _lt("Q9. Will specialists be needed, and on what?"),
+        ("Q9", _lt("Question 9. Will specialists be needed, and on what?"),
          _lt("Actuary, valuer, engineer, IT or tax. Tax alone keeps Very simple possible."),
          (("q9_specialists", None, "choice", None),)),
-        ("Q10", _lt("Q10. Does a regulator set the entity's reporting rules or receive its accounts?"),
+        ("Q10", _lt("Question 10. Does a regulator set the entity's reporting rules or receive its accounts?"),
          _lt("For example a sector regulator that fixes the form of the accounts or must receive them."),
          (("q10_regulator", None, "choice", None),)),
-        ("Q11", _lt("Q11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"),
+        ("Q11", _lt("Question 11. Is there known or suspected fraud, non-compliance with laws and regulations, or whistle-blowing reports?"),
          _lt("Yes adds the fraud and laws work: P5.1, E3.1 and E6.1."),
          (("q11_fraud", None, "choice", None),)),
-        ("Q12", _lt("Q12. Are all owners, including those who really own and control it, known?"),
+        ("Q12", _lt("Question 12. Are all owners, including those who really own and control it, known?"),
          _lt("Think of the people who really own or control it, even through others."),
          (("q12_owners_known", None, "choice", None),)),
     )),
     (_lt("How the evidence will be obtained"), (
-        ("Q13", _lt("Q13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"),
+        ("Q13", _lt("Question 13. Is any process so automated that testing balances and transactions alone cannot give enough evidence?"),
          _lt("For example sales recorded only by the system, with no document to check."),
          (("q13_automated", None, "choice", None),)),
-        ("Q14", _lt("Q14. Who keeps the books or processes key data?"),
+        ("Q14", _lt("Question 14. Who keeps the books or processes key data?"),
          _lt("Anyone other than the entity itself adds S5.2, service organisations."),
          (("q14_keeper", None, "choice", None),
           ("q14_rely_report", _lt("Will we rely on that provider's own auditor's report?"), "choice", _outside_keeper))),
     )),
     (_lt("Risk"), (
-        ("Q15", _lt("Q15. Significant risks beyond the presumed ones, or complex estimates?"),
+        ("Q15", _lt("Question 15. Significant risks beyond the presumed ones, or complex estimates?"),
          _lt("For example impairment, provisions or fair values with high uncertainty."),
          (("q16_risks", None, "choice", None),)),
-        ("Q16", _lt("Q16. Any doubt about going concern?"),
+        ("Q16", _lt("Question 16. Any doubt about going concern?"),
          _lt("Losses, debts falling due, or the loss of a key customer or lender."),
          (("q17_going_concern", None, "choice", None),)),
-        ("Q17", _lt("Q17. Significant related-party or unusual transactions outside the normal business?"),
+        ("Q17", _lt("Question 17. Significant related-party or unusual transactions outside the normal business?"),
          _lt("Dealings with owners, managers or their companies, or one-off operations outside the normal business."),
          (("q18_related_parties", None, "choice", None),)),
     )),
     (_lt("Approach and history"), (
-        ("Q18", _lt("Q18. Planned approach"),
+        ("Q18", _lt("Question 18. Planned approach"),
          _lt("Balances only at year end, or tick what else you will do: rely on controls, test at an interim date, use internal audit's work."),
          (("q19_approach", None, "choice", None),
           ("q19_controls", None, "toggle", _other_approach),
           ("q19_interim", None, "toggle", _other_approach),
           ("q19_internal_audit", None, "toggle", _other_approach))),
-        ("Q19", _lt("Q19. Is this a first-year audit?"),
+        ("Q19", _lt("Question 19. Is this a first-year audit?"),
          _lt("Yes adds P1.2, contact with the predecessor auditor."),
          (("q20_first_year", None, "choice", None),)),
     )),
@@ -264,16 +264,16 @@ class EngagementProfile(models.Model):
     concluded_by_id = fields.Many2one("res.users", string="Concluded by", readonly=True)
 
     # The entity
-    q1_listed = fields.Selection(YES_NO, string="Q1 Listed or offered to the public")
-    q2_pie = fields.Selection(PIE_SELECTION, string="Q2 Public-interest entity")
-    q3_controls_law = fields.Selection(YES_NO, string="Q3 Controls testing required by law")
-    q4_group = fields.Selection(GROUP_SELECTION, string="Q4 Part of a group")
-    q4_consolidates = fields.Selection(YES_NO, string="Q4 Prepares consolidated accounts")
-    q4_other_auditors = fields.Selection(YES_NO, string="Q4 Components audited by other auditors")
+    q1_listed = fields.Selection(YES_NO, string="Question 1: Listed or offered to the public")
+    q2_pie = fields.Selection(PIE_SELECTION, string="Question 2: Public-interest entity")
+    q3_controls_law = fields.Selection(YES_NO, string="Question 3: Controls testing required by law")
+    q4_group = fields.Selection(GROUP_SELECTION, string="Question 4: Part of a group")
+    q4_consolidates = fields.Selection(YES_NO, string="Question 4: Prepares consolidated accounts")
+    q4_other_auditors = fields.Selection(YES_NO, string="Question 4: Components audited by other auditors")
     # The business
-    q5_activities = fields.Selection(ONE_FEW_MORE, string="Q5 Activities")
-    q6_sites = fields.Selection(ONE_FEW_MORE, string="Q6 Sites")
-    q7_major_change = fields.Selection(YES_NO, string="Q7 Major change this year")
+    q5_activities = fields.Selection(ONE_FEW_MORE, string="Question 5: Activities")
+    q6_sites = fields.Selection(ONE_FEW_MORE, string="Question 6: Sites")
+    q7_major_change = fields.Selection(YES_NO, string="Question 7: Major change this year")
     # IT
     q8_1 = fields.Selection(LOW_HIGH, string=IT_POINT_LABELS[0])
     q8_2 = fields.Selection(LOW_HIGH, string=IT_POINT_LABELS[1])
@@ -284,27 +284,27 @@ class EngagementProfile(models.Model):
     q8_7 = fields.Selection(LOW_HIGH, string=IT_POINT_LABELS[6])
     q8_8 = fields.Selection(LOW_HIGH, string=IT_POINT_LABELS[7])
     # Specialists, people and ownership
-    q9_specialists = fields.Selection(SPECIALIST_SELECTION, string="Q9 Specialists")
-    q10_regulator = fields.Selection(YES_NO, string="Q10 Regulator sets the reporting rules")
-    q11_fraud = fields.Selection(YES_NO, string="Q11 Fraud, non-compliance or whistle-blowing")
-    q12_owners_known = fields.Selection(YES_NO, string="Q12 All owners known")
+    q9_specialists = fields.Selection(SPECIALIST_SELECTION, string="Question 9: Specialists")
+    q10_regulator = fields.Selection(YES_NO, string="Question 10: Regulator sets the reporting rules")
+    q11_fraud = fields.Selection(YES_NO, string="Question 11: Fraud, non-compliance or whistle-blowing")
+    q12_owners_known = fields.Selection(YES_NO, string="Question 12: All owners known")
     # How the evidence will be obtained
-    q13_automated = fields.Selection(YES_NO, string="Q13 Process too automated for balance testing alone")
-    q14_keeper = fields.Selection(KEEPER_SELECTION, string="Q14 Who keeps the books")
-    q14_rely_report = fields.Selection(YES_NO, string="Q14 Rely on the provider's auditor report")
+    q13_automated = fields.Selection(YES_NO, string="Question 13: Process too automated for balance testing alone")
+    q14_keeper = fields.Selection(KEEPER_SELECTION, string="Question 14: Who keeps the books")
+    q14_rely_report = fields.Selection(YES_NO, string="Question 14: Rely on the provider's auditor report")
     # Risk
     # The former Q15, removed on 2026-11-16: old answers stay stored, nothing reads or writes them.
     q15_monitoring = fields.Selection(YES_NO, string="Former question: under close monitoring")
     q15_eqr = fields.Selection(YES_NO, string="Former question: engagement quality review required")
-    q16_risks = fields.Selection(YES_NO, string="Q15 Significant risks or complex estimates")
-    q17_going_concern = fields.Selection(YES_NO, string="Q16 Doubt about going concern")
-    q18_related_parties = fields.Selection(YES_NO, string="Q17 Significant related-party or unusual transactions")
+    q16_risks = fields.Selection(YES_NO, string="Question 15: Significant risks or complex estimates")
+    q17_going_concern = fields.Selection(YES_NO, string="Question 16: Doubt about going concern")
+    q18_related_parties = fields.Selection(YES_NO, string="Question 17: Significant related-party or unusual transactions")
     # Approach and history
-    q19_approach = fields.Selection(APPROACH_SELECTION, string="Q18 Planned approach")
+    q19_approach = fields.Selection(APPROACH_SELECTION, string="Question 18: Planned approach")
     q19_controls = fields.Boolean(string="Rely on controls")
     q19_interim = fields.Boolean(string="Test at an interim date")
     q19_internal_audit = fields.Boolean(string="Use internal audit's work")
-    q20_first_year = fields.Selection(YES_NO, string="Q19 First-year audit")
+    q20_first_year = fields.Selection(YES_NO, string="Question 19: First-year audit")
 
     # What the screen shows
     missing_text = fields.Char(string="Still to answer", compute="_compute_texts")

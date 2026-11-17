@@ -120,7 +120,7 @@ msgstr "À propos du client →"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Acceptance & continuance"
+msgid "Acceptance and continuance"
 msgstr "Acceptation & maintien"
 
 #. module: ea_audit_ui
@@ -299,7 +299,7 @@ msgstr "Évaluation combinée des risques"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Communications & legal procedures"
+msgid "Communications and legal procedures"
 msgstr "Communications & procédures légales"
 
 #. module: ea_audit_ui
@@ -319,7 +319,7 @@ msgstr "Conclusion"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Conclusion & Reporting"
+msgid "Conclusion and Reporting"
 msgstr "Conclusion & rapports"
 
 #. module: ea_audit_ui
@@ -337,7 +337,7 @@ msgstr "Mises à jour des contrôles"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Controls & IT"
+msgid "Controls and IT"
 msgstr "Contrôles & informatique"
 
 #. module: ea_audit_ui
@@ -387,7 +387,7 @@ msgstr "Nom affiché"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Documentation & archiving"
+msgid "Documentation and archiving"
 msgstr "Documentation & archivage"
 
 #. module: ea_audit_ui
@@ -461,7 +461,7 @@ msgstr "Missions"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Entity-level controls & IT"
+msgid "Entity-level controls and IT"
 msgstr "Contrôles de l'entité & informatique"
 
 #. module: ea_audit_ui
@@ -528,7 +528,7 @@ msgstr "Pour"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Fraud risks & team discussion"
+msgid "Fraud risks and team discussion"
 msgstr "Risques de fraude & discussion d'équipe"
 
 #. module: ea_audit_ui
@@ -573,7 +573,7 @@ msgstr "En revue"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Independence & team"
+msgid "Independence and team"
 msgstr "Indépendance & équipe"
 
 #. module: ea_audit_ui
@@ -629,7 +629,7 @@ msgstr "Manager"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Materiality & significant accounts"
+msgid "Materiality and significant accounts"
 msgstr "Seuil de signification & comptes significatifs"
 
 #. module: ea_audit_ui
@@ -860,13 +860,13 @@ msgstr "Planification"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Planning & Risk Identification"
+msgid "Planning and Risk Identification"
 msgstr "Planification & identification des risques"
 
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Planning review & approval"
+msgid "Planning review and approval"
 msgstr "Revue & approbation de la planification"
 
 #. module: ea_audit_ui
@@ -919,7 +919,7 @@ msgstr "Registres, soldes d'ouverture"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Registers, opening balances & revaluation"
+msgid "Registers, opening balances and revaluation"
 msgstr "Registres, soldes d'ouverture & réévaluation"
 
 #. module: ea_audit_ui
@@ -937,7 +937,7 @@ msgstr "Déclarations"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Review & approval"
+msgid "Review and approval"
 msgstr "Revue & approbation"
 
 #. module: ea_audit_ui
@@ -949,7 +949,7 @@ msgstr "Note de revue : %(label)s"
 #. module: ea_audit_ui
 #. odoo-javascript
 #: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
-msgid "Review notes & findings"
+msgid "Review notes and findings"
 msgstr "Notes de revue & constats"
 
 #. module: ea_audit_ui
@@ -997,7 +997,7 @@ msgstr ""
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "SCOTs, flows & walkthroughs"
+msgid "Transactions, flows and walkthroughs"
 msgstr "SCOT, flux & cheminements"
 
 #. module: ea_audit_ui
@@ -1098,7 +1098,7 @@ msgstr "Assistant audit"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Strategy & Risk Assessment"
+msgid "Strategy and Risk Assessment"
 msgstr "Stratégie & évaluation des risques"
 
 #. module: ea_audit_ui
@@ -1106,7 +1106,7 @@ msgstr "Stratégie & évaluation des risques"
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
 #: code:addons/ea_audit_ui/static/src/js/top_bar.js:0
-msgid "Strategy & risks"
+msgid "Strategy and risks"
 msgstr "Stratégie & risques"
 
 #. module: ea_audit_ui

@@ -24,7 +24,7 @@ class MaterialityWizard(models.TransientModel):
     performance_pct = fields.Float(string="Performance %", digits=(5, 2), default=75)
     performance_justification = fields.Text()
     trivial_pct = fields.Float(string="Clearly trivial %", digits=(5, 2), default=5)
-    override_justification = fields.Text(string="Why it departs from the range or the TB base")
+    override_justification = fields.Text(string="Why it departs from the range or the trial balance base")
     carried_label = fields.Char(related="engagement_id.mat_carried_label", string="Last year's basis")
 
     def _ea_carried(self, engagement):
@@ -218,7 +218,7 @@ class ToolImportWizard(models.TransientModel):
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True)
     kind = fields.Selection(
-        [("cra", "Combined risk assessment"), ("significance", "Significant accounts"), ("risks", "Risks"), ("dsp", "Procedure design"), ("pbc", "PBC requests")], required=True,
+        [("cra", "Combined risk assessment"), ("significance", "Significant accounts"), ("risks", "Risks"), ("dsp", "Procedure design"), ("pbc", "Document requests")], required=True,
     )
     file = fields.Binary(string="File (.csv, .xlsx)", required=True)
     filename = fields.Char()

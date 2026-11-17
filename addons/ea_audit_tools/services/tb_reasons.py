@@ -126,7 +126,10 @@ def explain_tb_summary(summary, locale):
         exceptions = ties["exceptions"]
         result_label = "résultat reporté 12x/13x (classes 6-8 et 12/13 N-1)" if fr else "result carried forward 12x/13x (prior classes 6-8 and 12/13)"
         ex = ", ".join(
-            "%s (%s vs %s)" % (result_label if e["account"] == "12x/13x" else e["account"], nf(e["opening"]), nf(e["priorClosing"]))
+            "%s (%s %s %s)" % (
+                result_label if e["account"] == "12x/13x" else e["account"], nf(e["opening"]), "vs" if fr else "compared with",
+                nf(e["priorClosing"]),
+            )
             for e in exceptions[:5]
         )
         more = " …" if len(exceptions) > 5 else ""

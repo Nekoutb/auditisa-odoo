@@ -37,7 +37,7 @@
       "compact": true,
       "labelEn": "Listed or offered to the public",
       "labelFr": "Cotée ou faisant appel public à l'épargne",
-      "tagEn": "Q1",
+      "tagEn": "Question 1",
       "tagFr": "Q1",
       "source": "engagement profile"
      },
@@ -47,7 +47,7 @@
       "compact": true,
       "labelEn": "Public-interest entity",
       "labelFr": "Entité d'intérêt public",
-      "tagEn": "Q2",
+      "tagEn": "Question 2",
       "tagFr": "Q2",
       "source": "engagement profile"
      },
@@ -57,7 +57,7 @@
       "compact": true,
       "labelEn": "Law or regulator requires control testing",
       "labelFr": "Tests des contrôles exigés par la loi ou le régulateur",
-      "tagEn": "Q3",
+      "tagEn": "Question 3",
       "tagFr": "Q3",
       "source": "engagement profile"
      },
@@ -67,7 +67,7 @@
       "compact": true,
       "labelEn": "Significant risks or complex estimates",
       "labelFr": "Risques importants ou estimations complexes",
-      "tagEn": "Q15",
+      "tagEn": "Question 15",
       "tagFr": "Q15",
       "source": "engagement profile"
      },
@@ -77,7 +77,7 @@
       "compact": true,
       "labelEn": "Doubt about going concern",
       "labelFr": "Doute sur la continuité d'exploitation",
-      "tagEn": "Q16",
+      "tagEn": "Question 16",
       "tagFr": "Q16",
       "source": "engagement profile"
      },
@@ -87,7 +87,7 @@
       "compact": true,
       "labelEn": "First-year audit",
       "labelFr": "Premier exercice audité",
-      "tagEn": "Q19",
+      "tagEn": "Question 19",
       "tagFr": "Q19",
       "source": "engagement profile"
      },

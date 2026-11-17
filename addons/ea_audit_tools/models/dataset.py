@@ -210,7 +210,7 @@ class GlLine(models.Model):
     line_no = fields.Integer(required=True)
     account = fields.Char(required=True, index=True)
     account_name = fields.Char()
-    je_number = fields.Char(string="JE number", required=True, index=True)
+    je_number = fields.Char(string="Journal entry number", required=True, index=True)
     journal_code = fields.Char(string="Journal")
     je_description = fields.Char(string="Entry description")
     line_description = fields.Char(string="Line description")

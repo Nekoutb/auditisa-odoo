@@ -43,7 +43,7 @@ class SignoffPolicy(models.Model):
     _description = "Firm sign-off policy"
 
     singleton = fields.Boolean(default=True, required=True, readonly=True)
-    min_reviewer_role = fields.Selection(LADDER_SELECTION, required=True, default=DEFAULT_MIN_REVIEWER)
+    min_reviewer_role = fields.Selection(LADDER_SELECTION, string="Minimum Reviewer Role", required=True, default=DEFAULT_MIN_REVIEWER)
     require_partner_on_ids = fields.Many2many(
         "ea.audit.task.template",
         string="Partner sign-off required on",

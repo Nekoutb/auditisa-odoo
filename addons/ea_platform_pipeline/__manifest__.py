@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Pipeline",
     "summary": "Development, staging, production for the Odoo tool: promotion, rollback, anonymised staging rebuild. Control plane only.",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.3.1",
     "category": "Administration",
     "license": "LGPL-3",
     "author": "AuditISA",

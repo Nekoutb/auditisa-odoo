@@ -38,7 +38,7 @@ def status_label(env, status):
 def phase_labels(env):
     labels = {
         "acceptance": env._("Planning"),
-        "strategy": env._("Strategy & risks"),
+        "strategy": env._("Strategy and risks"),
         "execution": env._("Execution"),
         "conclusion": env._("Conclusion"),
     }

@@ -24,14 +24,14 @@ _TEXT = {
     "S5.2": _lt("S6.1: service organisation used = Yes"),
     "S5.3": _lt("S6.1: internal audit function = Yes"),
     # the facts of the scope of 2026-11-17 (file_scope.FACT_CODES)
-    "P2.3": _lt("Profile Q4: a parent that consolidates, or whose components other auditors audit"),
+    "P2.3": _lt("Profile question 4: a parent that consolidates, or whose components other auditors audit"),
     "C1.3": _lt("Was a consultation needed? = Yes"),
     "C4.2": _lt("P1.5: the firm decided to appoint an engagement quality reviewer"),
     "C5.5": _lt("Facts that may threaten continuity (S4.2, E6.3 or C2.2), or an alert procedure started"),
     "C5.6": _lt("Non-compliance found (E6.1), or criminal facts recorded in the legal file"),
     "C5.9": _lt("Are there joint auditors? = Yes"),
 }
-_CONTROLS_TEXT = _lt("The strategy relies on controls (a SCOT tested through its controls, a CRA cell set to rely, or an IT application whose controls are relied on)")
+_CONTROLS_TEXT = _lt("The strategy relies on controls (a class of transactions tested through its controls, a combined risk assessment cell set to rely, or an IT application whose controls are relied on)")
 _RETIRED_P_AND_L = re.compile(r"^E5\.[1-5]$")
 _RETIRED_TEXT = _lt("Income statement accounts are covered by the E4 indexes")
 # Merged into another paper (owner's decision of 2026-11-16, file_scope.RETIRED_CODES).

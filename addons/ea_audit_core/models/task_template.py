@@ -9,7 +9,7 @@ SECTION_SELECTION = [
     ("A", "Financial statements"),
     ("B", "Completion"),
     ("C", "Communication"),
-    ("D", "Acceptance & planning"),
+    ("D", "Acceptance and planning"),
     ("E", "Execution"),
     ("F", "OHADA statutory"),
 ]

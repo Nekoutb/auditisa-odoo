@@ -710,7 +710,7 @@ msgstr "Semaine précédente"
 #. module: ea_audit_timesheet
 #. odoo-python
 #: code:addons/ea_audit_timesheet/models/common.py:0
-msgid "Quality reviewer (EQR)"
+msgid "Engagement quality reviewer"
 msgstr "Réviseur qualité (EQR)"
 
 #. module: ea_audit_timesheet
@@ -880,7 +880,10 @@ msgstr "Statut"
 #. module: ea_audit_timesheet
 #. odoo-python
 #: code:addons/ea_audit_timesheet/models/common.py:0
-msgid "Strategy & risks"
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__strategy
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__strategy
+#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__strategy
+msgid "Strategy and risks"
 msgstr "Stratégie & risques"
 
 #. module: ea_audit_timesheet
@@ -1250,11 +1253,6 @@ msgid "Planning"
 msgstr "Planification"
 
 #. module: ea_audit_timesheet
-#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__strategy
-msgid "Strategy & risks"
-msgstr "Stratégie & risques"
-
-#. module: ea_audit_timesheet
 #: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__account_analytic_line__ea_phase__execution
 msgid "Execution"
 msgstr "Exécution"
@@ -1270,11 +1268,6 @@ msgid "Planning"
 msgstr "Planification"
 
 #. module: ea_audit_timesheet
-#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__strategy
-msgid "Strategy & risks"
-msgstr "Stratégie & risques"
-
-#. module: ea_audit_timesheet
 #: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__project_task__ea_phase__execution
 msgid "Execution"
 msgstr "Exécution"
@@ -1288,11 +1281,6 @@ msgstr "Conclusion"
 #: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__acceptance
 msgid "Planning"
 msgstr "Planification"
-
-#. module: ea_audit_timesheet
-#: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__strategy
-msgid "Strategy & risks"
-msgstr "Stratégie & risques"
 
 #. module: ea_audit_timesheet
 #: model:ir.model.fields.selection,name:ea_audit_timesheet.selection__ea_audit_team_budget__phase__execution

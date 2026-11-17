@@ -41,7 +41,7 @@ DOC_TYPE_SELECTION = [
 class TaskAttachmentScot(models.Model):
     _inherit = "ea.audit.task.attachment"
 
-    scot_id = fields.Many2one("ea.audit.scot", string="SCOT", index=True, ondelete="set null")
+    scot_id = fields.Many2one("ea.audit.scot", string="Class of transactions", index=True, ondelete="set null")
     control_id = fields.Many2one("ea.audit.scot.control", string="Control", index=True, ondelete="set null")
     doc_type = fields.Selection(DOC_TYPE_SELECTION, string="Document type")
 
@@ -49,7 +49,7 @@ class TaskAttachmentScot(models.Model):
 class ScotOverview(models.Model):
     _inherit = "ea.audit.scot"
 
-    document_ids = fields.One2many("ea.audit.task.attachment", "scot_id", string="SCOT documents")
+    document_ids = fields.One2many("ea.audit.task.attachment", "scot_id", string="Documents of the class of transactions")
     index_count = fields.Integer(string="Number of lead indexes", compute="_compute_overview", compute_sudo=True)
     document_count = fields.Integer(string="Number of documents", compute="_compute_overview", compute_sudo=True)
     answered_count = fields.Integer(string="Risks answered", compute="_compute_overview", compute_sudo=True)
@@ -83,7 +83,7 @@ class ScotOverview(models.Model):
                     "none" if not controls else "done" if wcgws and answered == len(wcgws) else "todo")},
                 {"key": "walkthrough", "label": _("Walkthrough"), "count": None, "state": (
                     "done" if not scot.walkthrough_open else "todo" if filled else "none")},
-                {"key": "documents", "label": _("Docs"), "count": len(set(documents.mapped("name"))), "state": "done" if documents else "none"},
+                {"key": "documents", "label": _("Documents"), "count": len(set(documents.mapped("name"))), "state": "done" if documents else "none"},
             ]
             if all(step["state"] == "done" for step in steps):
                 completeness = "complete"

@@ -104,7 +104,7 @@
                                 <thead>
                                     <tr>
                                         <th>Entry</th><th>Date</th><th>Journal</th><th>Description</th><th>Posted by</th>
-                                        <th class="text-end">Amount (FCFA)</th><th>Why selected</th><th>Result</th><th class="text-end">Docs</th>
+                                        <th class="text-end">Amount (FCFA)</th><th>Why selected</th><th>Result</th><th class="text-end">Documents</th>
                                     </tr>
                                 </thead>
                                 <tbody>

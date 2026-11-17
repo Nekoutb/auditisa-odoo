@@ -1995,7 +1995,7 @@ msgstr "Protégé"
 #: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_environment_account__role__eqr_reviewer
 #: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_environment_account_wizard__role__eqr_reviewer
 #: model:ir.model.fields.selection,name:ea_platform_pipeline.selection__platform_environment_request__role__eqr_reviewer
-msgid "Quality reviewer (EQR)"
+msgid "Engagement quality reviewer"
 msgstr "Revue qualité (EQR)"
 
 #. module: ea_platform_pipeline

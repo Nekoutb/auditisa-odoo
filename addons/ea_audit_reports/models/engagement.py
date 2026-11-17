@@ -84,7 +84,7 @@ class Engagement(models.Model):
     archive_manifest_id = fields.Many2one("ea.audit.archive.manifest", compute="_compute_conclusion_cards", compute_sudo=True)
     held = fields.Boolean(compute="_compute_conclusion_cards", compute_sudo=True)
     completion_gates_html = fields.Html(compute="_compute_conclusion_cards", sanitize=False)
-    fs_tieout_html = fields.Html(string="FS tie-out", compute="_compute_conclusion_cards", sanitize=False)
+    fs_tieout_html = fields.Html(string="Financial statements tie-out", compute="_compute_conclusion_cards", sanitize=False)
     archive_checklist_html = fields.Html(compute="_compute_conclusion_cards", sanitize=False)
     gates_blocking_count = fields.Integer(compute="_compute_conclusion_cards")
     points_from_prior = fields.Text(compute="_compute_conclusion_cards", compute_sudo=True)
@@ -1343,7 +1343,7 @@ class FileItem(models.Model):
             {"label": _("Net result (income statement)"), "value": "%s FCFA" % grouped(result["crResult"])},
             {"label": _("Tie-out"), "value": _("Passed") if result["pass"] else _("Differences")},
         ]
-        board["head"] = [_("Ref"), _("Caption"), _("Amount")]
+        board["head"] = [_("Reference"), _("Caption"), _("Amount")]
         board["rows"] = [
             [line["ref"], _(line["label"]), grouped(line["amount"])]
             for line in result["cr"] if line["ref"].startswith("X")

@@ -28,7 +28,7 @@ class DatasetAnalyzer(models.Model):
 
     aging_html = fields.Html(string="Aging", compute="_compute_analyzer", sanitize=False, compute_sudo=True)
     recon_html = fields.Html(string="Agreement to the trial balance", compute="_compute_analyzer", sanitize=False, compute_sudo=True)
-    has_recon = fields.Boolean(compute="_compute_analyzer", compute_sudo=True)
+    has_recon = fields.Boolean(string="Has Reconciliation", compute="_compute_analyzer", compute_sudo=True)
     run_ids = fields.One2many("ea.audit.automation.run", "dataset_id", string="Runs")
 
     @api.depends_context("lang")

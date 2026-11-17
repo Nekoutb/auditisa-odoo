@@ -127,6 +127,6 @@ def test_m12_french_checks_group_as_french():
         "period_end": "2025-12-31", "unbalanced": 0, "dup_groups": 0, "dup_extra": 0,
     })["checks"]
     balance = next(check for check in checks if "471" in check["detailEn"])
-    assert balance["detailEn"].startswith("Debits 471,936,000 vs credits 471,936,000")
+    assert balance["detailEn"].startswith("Debits 471,936,000 compared with credits 471,936,000")
     assert "471,936,000" not in balance["detailFr"]
     assert balance["detailFr"].replace(" ", " ").startswith("Débits 471 936 000 contre crédits 471 936 000")

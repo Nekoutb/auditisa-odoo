@@ -144,7 +144,7 @@ class GroupingRule(models.Model):
 
     account_prefix = fields.Char(required=True, index=True)
     label = fields.Char(required=True, translate=True)
-    fs_ref = fields.Char(string="FS reference")
+    fs_ref = fields.Char(string="Financial statements reference")
     section_code = fields.Char(string="Section")
     priority = fields.Integer(default=0)
     source = fields.Char()

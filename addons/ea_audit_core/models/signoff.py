@@ -21,7 +21,7 @@ class Signoff(models.Model):
     code = fields.Char(related="file_item_id.code", store=True, index=True)
     kind = fields.Selection([("workpaper", "Working paper"), ("letter", "Letter")], required=True, default="workpaper")
     role = fields.Selection(
-        [("preparer", "Preparer"), ("reviewer", "Reviewer"), ("partner", "Partner"), ("eqr", "EQR")], required=True,
+        [("preparer", "Preparer"), ("reviewer", "Reviewer"), ("partner", "Partner"), ("eqr", "Quality reviewer")], required=True,
     )
     user_id = fields.Many2one("res.users", string="Signed by", required=True, ondelete="restrict")
     version_no = fields.Integer(string="Version", default=0)

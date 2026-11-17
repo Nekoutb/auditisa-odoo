@@ -25,8 +25,8 @@ SECTOR_SELECTION = [
 
 
 GOVERNANCE_SELECTION = [
-    ("ca_pdg", "Board with chair and CEO (PDG)"),
-    ("ca_dg", "Board with a chair and a CEO (PCA + DG)"),
+    ("ca_pdg", "Board with a chairman and managing director in one person"),
+    ("ca_dg", "Board with a chairman of the board and a separate managing director"),
     ("administrateur_general", "Sole director (administrateur général)"),
     ("gerance", "Management by gérant(s)"),
 ]

@@ -92,7 +92,7 @@ E4_LINKS = ["S3.1", "C1.1", "E6.9"]
 TOOL_LABELS = {
     "P6.1": ("Materiality tool", "Outil de matérialité"),
     "P6.2": ("Materiality tool", "Outil de matérialité"),
-    "C1.1": ("SAD tool", "Outil SAD"),
+    "C1.1": ("Audit differences tool", "Outil SAD"),
     "S3.1": ("Risk register", "Registre des risques"),
     "P3.2": ("Analytical procedures", "Procédures analytiques"),
     "C5.2": ("Legal tool, statutory calendar", "Outil juridique, calendrier légal"),
@@ -487,7 +487,7 @@ class Paper(models.Model):
         values["p11_rating"] = {"low": _("Low"), "moderate": _("Moderate"), "high": _("High")}.get(rating) or _("Not rated yet")
         if profile and "yes" in (profile.q1_listed, profile.q3_controls_law):
             values["decision_note"] = _(
-                "The entity is listed, or a law or regulator applies (Q1, Q3). ISQM 1 ¶34(f) expects an "
+                "The entity is listed, or a law or regulator applies (profile questions 1 and 3). ISQM 1 ¶34(f) expects an "
                 "engagement quality review in these cases. The decision stays with the firm: give the reason."
             )
         conclusion = paper._ea_eqr_conclusion()

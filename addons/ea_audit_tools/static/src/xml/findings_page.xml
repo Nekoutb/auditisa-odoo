@@ -56,8 +56,8 @@
                         <table class="o_ea_ws_grid" t-else="">
                             <thead>
                                 <tr>
-                                    <th>Ref.</th><th>Finding</th><th>Paper</th><th>Source</th><th>Severity</th>
-                                    <th class="o_num">Amount (FCFA)</th><th>Stage</th><th class="o_num">Docs</th>
+                                    <th>Reference</th><th>Finding</th><th>Paper</th><th>Source</th><th>Severity</th>
+                                    <th class="o_num">Amount (FCFA)</th><th>Stage</th><th class="o_num">Documents</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,7 +130,7 @@
                                 <div class="o_ea_ws_evrow">
                                     <span>Reported in writing to</span>
                                     <input type="text" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="f.evaluation.recipient"
-                                           placeholder="e.g. the CFO" t-on-change="(ev) => this.onCommunicated(f, 'recipient', ev)"/>
+                                           placeholder="e.g. the finance director" t-on-change="(ev) => this.onCommunicated(f, 'recipient', ev)"/>
                                     <span>date of the letter</span>
                                     <input type="date" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="f.evaluation.communicatedOn"
                                            t-on-change="(ev) => this.onCommunicated(f, 'communicated_on', ev)"/>

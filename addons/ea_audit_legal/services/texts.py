@@ -34,7 +34,7 @@ STAGE_LETTERS = {
     "request_sent": {
         "titleEn": "Request for explanations (alert procedure) (to validate)",
         "titleFr": "Demande d'explications (procédure d'alerte)",
-        "bodyEn": "By registered letter with acknowledgement of receipt, we ask you for explanations of the facts likely to compromise the continuity of operations identified in the course of our engagement. Your reply is expected within one month of receipt of this letter (AUSCGIE, arts. 150 / 153).",
+        "bodyEn": "By registered letter with acknowledgement of receipt, we ask you for explanations of the facts likely to compromise the continuity of operations identified in the course of our engagement. Your reply is expected within one month of receipt of this letter (OHADA Uniform Act on commercial companies, arts. 150 / 153).",
         "bodyFr": "Par lettre recommandée avec demande d'avis de réception, nous vous demandons des explications sur les faits de nature à compromettre la continuité de l'exploitation relevés dans le cadre de notre mission. Votre réponse est attendue dans le mois qui suit la réception de la présente (AUSCGIE, arts. 150 / 153).",
     },
     "court_informed": {
@@ -127,7 +127,7 @@ def deadline_rows(period_end, agm_date, report_date, board_date, mandate_type, m
         "basisFr": "Art. 269 — dépôt des états financiers au greffe (RCCM) ≤ 1 mois après leur approbation" + (
             "" if agm_date else " (provisoire : date de l'AGO non renseignée)"  # i18n: input
         ),
-        "basisEn": "Art. 269 — financial statements filed at the registry (RCCM) within 1 month of approval" + (
+        "basisEn": "Art. 269 — financial statements filed at the trade register within 1 month of approval" + (
             "" if agm_date else " (provisional: general meeting date not entered)"
         ),
     })

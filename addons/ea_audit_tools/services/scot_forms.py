@@ -56,10 +56,10 @@ WALKTHROUGH_FIELDS = [{'key': 'flow_initiation',
   'guideEn': 'Any difference between the process as described by management and what the walkthrough showed.',
   'guideFr': 'Tout écart entre le processus décrit par la direction et ce que le cheminement a montré.'},
  {'key': 'wt_design',
-  'en': 'Conclusion — the controls over this SCOT are effectively DESIGNED',
+  'en': 'Conclusion — the controls over this class of transactions are effectively DESIGNED',
   'fr': 'Conclusion — les contrôles de ce SCOT sont efficacement CONÇUS',
   'guideEn': 'ISA 315 ¶26(a): the walkthrough corroborates the flow as described and shows the identified controls, as designed, capable of '
-             'preventing or detecting the WCGWs they answer.',
+             'preventing or detecting the misstatements they answer (what can go wrong).',
   'guideFr': 'ISA 315 ¶26(a) : le cheminement corrobore le flux décrit et montre que les contrôles identifiés, tels que conçus, peuvent prévenir ou '
              "détecter les WCGW qu'ils couvrent.",
   'kind': 'yn'},
@@ -72,7 +72,7 @@ WALKTHROUGH_FIELDS = [{'key': 'flow_initiation',
  {'key': 'wt_conclusion',
   'en': 'Conclusion of the walkthrough',
   'fr': 'Conclusion du cheminement',
-  'guideEn': 'Overall conclusion, and any WCGW or control to revisit on S1.2 following what was observed.',
+  'guideEn': 'Overall conclusion, and any risk of what can go wrong or control to revisit on S1.2 following what was observed.',
   'guideFr': 'Conclusion globale, et tout WCGW ou contrôle à revoir sur S1.2 suite aux observations.'}]
 
 FSCP_FIELDS = [{'key': 'tb_preparation',
@@ -168,7 +168,7 @@ FSCP_FIELDS = [{'key': 'tb_preparation',
  {'key': 'je_controls_design',
   'en': 'Controls over journal entries are appropriately designed',
   'fr': 'Les contrôles sur les écritures sont conçus de façon appropriée',
-  'guideEn': 'Required whatever the strategy: the controls over initiating, authorising and recording journal entries answer the WCGWs above.',
+  'guideEn': 'Required whatever the strategy: the controls over initiating, authorising and recording journal entries answer the risks of what can go wrong above.',
   'guideFr': "Exigé quelle que soit la stratégie : les contrôles sur l'initiation, l'autorisation et l'enregistrement des écritures répondent aux "
              'WCGW ci-dessus.',
   'kind': 'yn'},
@@ -188,7 +188,7 @@ FSCP_FIELDS = [{'key': 'tb_preparation',
  {'key': 'fscp_conclusion',
   'en': 'Conclusion',
   'fr': 'Conclusion',
-  'guideEn': 'The understanding of the close is confirmed; matters carried to controls selection (S2.1), the CRA (S3.1) or journal-entry testing '
+  'guideEn': 'The understanding of the close is confirmed; matters carried to controls selection (S2.1), the combined risk assessment (S3.1) or journal-entry testing '
              '(E3.1).',
   'guideFr': "La compréhension de la clôture est confirmée ; éléments reportés vers la sélection des contrôles (S2.1), l'ECR (S3.1) ou les tests "
              "d'écritures (E3.1)."}]

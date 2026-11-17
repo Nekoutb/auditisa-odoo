@@ -32,7 +32,7 @@ ROLES = [
     ("staff", "Staff"),
     ("senior", "Senior"),
     ("manager", "Manager"),
-    ("eqr_reviewer", "Quality reviewer (EQR)"),
+    ("eqr_reviewer", "Engagement quality reviewer"),
     ("partner", "Partner"),
     ("firm_admin", "Firm administrator"),
 ]

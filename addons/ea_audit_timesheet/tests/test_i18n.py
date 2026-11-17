@@ -85,7 +85,7 @@ class TestLanguages(TimesheetCase):
         self.assertEqual(french["deadline_label"], "mardi 10/11/2026, 23:59")
         tasks_en = next(p for p in english["projects"] if p["id"] == self.project.id)["tasks"]
         tasks_fr = next(p for p in french["projects"] if p["id"] == self.project.id)["tasks"]
-        self.assertIn("Strategy & risks", [t["name"] for t in tasks_en])
+        self.assertIn("Strategy and risks", [t["name"] for t in tasks_en])
         self.assertIn("Stratégie & risques", [t["name"] for t in tasks_fr])
 
     def test_the_switcher_in_both_languages(self):

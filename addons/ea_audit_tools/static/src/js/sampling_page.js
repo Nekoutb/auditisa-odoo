@@ -116,7 +116,7 @@ export class SamplingPage extends Component {
     }
 
     attributeLabel(value) {
-        return { pass: _t("Pass"), fail: _t("Fail"), na: _t("N/A") }[value] || value || "—";
+        return { pass: _t("Pass"), fail: _t("Fail"), na: _t("Not applicable") }[value] || value || "—";
     }
 
     fmt(value) {

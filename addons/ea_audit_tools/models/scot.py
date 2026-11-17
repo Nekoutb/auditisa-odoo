@@ -32,7 +32,7 @@ OBJECTIVE_SELECTION = [("prevent", "Prevent"), ("detect", "Detect")]
 YES_NO = [("yes", "Yes"), ("no", "No")]
 ITGC_STATE_SELECTION = [("support", "Support reliance"), ("not_support", "Do not support reliance"), ("mixed", "Mixed")]
 IT_STRATEGY_SELECTION = [
-    ("rely_itgc", "Rely on the IT processes: test the ITGCs"),
+    ("rely_itgc", "Rely on the IT processes: test the IT general controls"),
     ("test_direct", "Test the automated controls directly, each period"),
     ("substantive_only", "Fully substantive: no reliance on the IT controls"),
 ]
@@ -69,7 +69,7 @@ class Scot(models.Model):
     wcgw_ids = fields.One2many("ea.audit.wcgw", "scot_id", string="What can go wrong")
     control_ids = fields.One2many("ea.audit.scot.control", "scot_id", string="Controls")
     index_summary = fields.Char(string="Indexes", compute="_compute_summary", compute_sudo=True)
-    wcgw_count = fields.Integer(string="WCGW", compute="_compute_summary", compute_sudo=True)
+    wcgw_count = fields.Integer(string="What can go wrong", compute="_compute_summary", compute_sudo=True)
     control_count = fields.Integer(string="Controls", compute="_compute_summary", compute_sudo=True)
     selected_count = fields.Integer(string="Selected", compute="_compute_summary", compute_sudo=True)
     walkthrough_open = fields.Integer(string="Walkthrough answers missing", compute="_compute_summary", compute_sudo=True)
@@ -78,7 +78,7 @@ class Scot(models.Model):
         locals()[_definition["key"]] = _form_field(_definition)
     del _definition
 
-    _engagement_name_uniq = models.Constraint("UNIQUE(engagement_id, name)", "A SCOT name is used once on a file.")
+    _engagement_name_uniq = models.Constraint("UNIQUE(engagement_id, name)", "The name of a class of transactions is used once on a file.")
 
     @api.depends("index_ids.index_code", "wcgw_ids", "control_ids.selected_for_testing", *WALKTHROUGH_KEYS)
     def _compute_summary(self):
@@ -237,7 +237,7 @@ class Scot(models.Model):
         return _wizard(self, "ea.audit.wcgw.wizard", self.env._("Add what can go wrong"), {"default_scot_id": self.id})
 
     def action_open_assign(self):
-        return _wizard(self, "ea.audit.scot.assign.wizard", self.env._("Assign the SCOT"), {"default_scot_id": self.id, "default_user_id": self.sudo().assignee_id.id})
+        return _wizard(self, "ea.audit.scot.assign.wizard", self.env._("Assign the class"), {"default_scot_id": self.id, "default_user_id": self.sudo().assignee_id.id})
 
     def action_open_index_wizard(self):
         return _wizard(self, "ea.audit.scot.index.wizard", self.env._("Link a lead index"), {"default_scot_id": self.id})
@@ -262,7 +262,7 @@ def _wizard(record, model, name, context):
 class ScotIndex(models.Model):
     _name = "ea.audit.scot.index"
     _inherit = ["ea.audit.tool.record"]
-    _description = "Lead index of a SCOT"
+    _description = "Lead index of a class of transactions"
     _order = "index_code"
     _rec_name = "index_code"
 
@@ -270,7 +270,7 @@ class ScotIndex(models.Model):
     index_code = fields.Char(string="Lead index", required=True, index=True)
     assertion_ids = fields.Many2many("ea.audit.assertion", string="Assertions")
 
-    _uniq = models.Constraint("UNIQUE(scot_id, index_code)", "A SCOT links an index once.")
+    _uniq = models.Constraint("UNIQUE(scot_id, index_code)", "A class of transactions links an index once.")
 
     def action_unlink_index(self):
         for line in self:
@@ -340,7 +340,7 @@ class ScotControl(models.Model):
     _description = "Control"
     _order = "create_date, id"
 
-    scot_id = fields.Many2one("ea.audit.scot", string="SCOT", required=True, ondelete="cascade", index=True)
+    scot_id = fields.Many2one("ea.audit.scot", string="Class of transactions", required=True, ondelete="cascade", index=True)
     name = fields.Char(required=True)
     owner = fields.Char()
     control_type = fields.Selection(CONTROL_TYPE_SELECTION, default="manual", required=True)
@@ -762,8 +762,8 @@ class ItApplication(models.Model):
     name = fields.Char(required=True)
     layers = fields.Char(string="Layers (application, database, operating system)")
     strategy = fields.Selection(IT_STRATEGY_SELECTION)
-    itgc_note = fields.Text(string="ITGC note")
-    scot_names = fields.Char(string="SCOTs", readonly=True)
+    itgc_note = fields.Text(string="IT general controls note")
+    scot_names = fields.Char(string="Classes of transactions", readonly=True)
     removed = fields.Boolean(readonly=True)
 
     _key_uniq = models.Constraint("UNIQUE(engagement_id, key)", "An application key is used once on a file.")
@@ -793,12 +793,12 @@ class ItApplication(models.Model):
 class EngagementScot(models.Model):
     _inherit = "ea.audit.engagement"
 
-    itgc_state = fields.Selection(ITGC_STATE_SELECTION, string="ITGC conclusion (S2.5)", copy=False)
-    scot_ids = fields.One2many("ea.audit.scot", "engagement_id", string="SCOTs")
+    itgc_state = fields.Selection(ITGC_STATE_SELECTION, string="IT general controls conclusion (S2.5)", copy=False)
+    scot_ids = fields.One2many("ea.audit.scot", "engagement_id", string="Classes of transactions")
     it_application_ids = fields.One2many("ea.audit.it.application", "engagement_id", string="IT applications")
     scot_coverage_text = fields.Text(string="Coverage", compute="_compute_scot_coverage", compute_sudo=True)
-    scot_uncovered_label = fields.Char(string="Significant accounts without a SCOT", compute="_compute_scot_coverage", compute_sudo=True)
-    scot_unanswered_count = fields.Integer(string="WCGWs without a control", compute="_compute_scot_coverage", compute_sudo=True)
+    scot_uncovered_label = fields.Char(string="Significant accounts without a class of transactions", compute="_compute_scot_coverage", compute_sudo=True)
+    scot_unanswered_count = fields.Integer(string="Risks without a control", compute="_compute_scot_coverage", compute_sudo=True)
     scot_para33_count = fields.Integer(string="ISA 315 ¶33 warnings", compute="_compute_scot_coverage", compute_sudo=True)
 
     def _compute_scot_coverage(self):
@@ -976,7 +976,7 @@ class EngagementScot(models.Model):
 
     def action_tool_scot(self):
         return self._ea_list(
-            "ea.audit.scot", self.env._("SCOTs and controls"),
+            "ea.audit.scot", self.env._("Transactions and controls"),
             [("ea_audit_tools.view_scot_kanban", "kanban"), ("ea_audit_tools.view_scot_list", "list"), ("ea_audit_tools.view_scot_form", "form")],
             {"context": {"ea_engagement_id": self.id, "create": False}},
         )
@@ -985,7 +985,7 @@ class EngagementScot(models.Model):
         self.ensure_one()
         self._ea_require_access()
         return {
-            "type": "ir.actions.act_window", "name": self.env._("New SCOT"), "res_model": "ea.audit.scot.wizard",
+            "type": "ir.actions.act_window", "name": self.env._("New class of transactions"), "res_model": "ea.audit.scot.wizard",
             "view_mode": "form", "views": [(False, "form")], "target": "new", "context": {"default_engagement_id": self.id},
         }
 
@@ -993,7 +993,7 @@ class EngagementScot(models.Model):
         self.ensure_one()
         self._ea_require_access()
         self._ea_sync_it_applications()
-        return self._ea_board("ea_audit_tools.view_engagement_itgc_board", self.env._("IT applications and ITGC"))
+        return self._ea_board("ea_audit_tools.view_engagement_itgc_board", self.env._("IT applications and IT controls"))
 
     def action_tool_fscp(self):
         self.ensure_one()
@@ -1023,7 +1023,7 @@ class EngagementScot(models.Model):
         apps = self.env["ea.audit.it.application"].sudo().search([("engagement_id", "=", self.id), ("removed", "=", False)])
         labels = dict(self.env["ea.audit.it.application"]._fields["strategy"]._description_selection(self.env))
         rows = [[app.name, app.layers or "", app.scot_names or "", labels.get(app.strategy, ""), app.itgc_note or ""] for app in apps]
-        head = ["Application", "Couches", "SCOT", "Stratégie", "Note ITGC"] if fr else ["Application", "Layers", "SCOTs", "Strategy", "ITGC note"]
+        head = ["Application", "Couches", "SCOT", "Stratégie", "Note ITGC"] if fr else ["Application", "Layers", "Classes of transactions", "Strategy", "IT general controls note"]
         return "itgc-%s.xlsx" % self._ea_export_slug(), simple_workbook("S2.3", head, rows)
 
     def _ea_export_scots(self, fr):
@@ -1041,7 +1041,7 @@ class EngagementScot(models.Model):
         head = (
             ["SCOT", "Type", "Stratégie", "Indices", "Contrôle", "Nature", "Fréquence", "Objectif", "Sélectionné", "Assertions", "Échantillon", "Occurrences", "Conclusion"]
             if fr else
-            ["SCOT", "Type", "Strategy", "Indexes", "Control", "Nature", "Frequency", "Objective", "Selected", "Assertions", "Sample", "Occurrences", "Conclusion"]
+            ["Class of transactions", "Type", "Strategy", "Indexes", "Control", "Nature", "Frequency", "Objective", "Selected", "Assertions", "Sample", "Occurrences", "Conclusion"]
         )
         return "scots-%s.xlsx" % self._ea_export_slug(), simple_workbook("S1.1", head, rows, title=french_date(self.sudo().period_end))
 

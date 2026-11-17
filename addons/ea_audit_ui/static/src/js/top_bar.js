@@ -8,7 +8,7 @@ import { shellSession } from "./context_service";
 
 const PHASES = [
     { key: "acceptance", label: _t("Planning") },
-    { key: "strategy", label: _t("Strategy & risks") },
+    { key: "strategy", label: _t("Strategy and risks") },
     { key: "execution", label: _t("Execution") },
     { key: "conclusion", label: _t("Conclusion") },
 ];

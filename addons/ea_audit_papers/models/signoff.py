@@ -9,9 +9,9 @@ class Signoff(models.Model):
 
     content_scheme = fields.Integer(
         default=2,
-        help="1: a migrated hash Odoo cannot recompute, reported rather than voided (Q3). 2: Odoo's own.",
+        help="1: a migrated hash Odoo cannot recompute, reported rather than voided. 2: Odoo's own.",
     )
-    definition_hash = fields.Char(help="The paper text this signature was given over (Q1).")
+    definition_hash = fields.Char(help="The paper text this signature was given over.")
     invalidated_reason = fields.Char()
 
     @api.model_create_multi

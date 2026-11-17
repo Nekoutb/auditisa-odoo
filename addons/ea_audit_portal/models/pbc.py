@@ -230,7 +230,7 @@ class PbcItem(models.Model):
         engagement = row.engagement_id
         engagement._ea_log("pbc_uploaded", "PBC uploaded by the client: %s (%s) sha256 %s" % (row.title, name, hashlib.sha256(content).hexdigest()))
         members = self.env["ea.audit.team.member"].sudo().search([("engagement_id", "=", engagement.id)]).user_id
-        engagement._ea_notify(members, "pbc-uploaded", lambda env: env._("PBC received: %(name)s", name=name))
+        engagement._ea_notify(members, "pbc-uploaded", lambda env: env._("Requested document received: %(name)s", name=name))
         return True
 
     # -- firm side ---------------------------------------------------------------------
@@ -273,7 +273,7 @@ class PbcItem(models.Model):
         except UnsafeFile as error:
             raise rule_error(self.env, error.code) from None
         Document = self.env["ea.audit.document"].sudo()
-        title = "PBC — %s" % row.title
+        title = "Document request — %s" % row.title
         document = Document.search([("file_item_id", "=", item.id), ("kind", "=", "workpaper"), ("title", "=", title)], limit=1)
         if not document:
             document = Document.create({

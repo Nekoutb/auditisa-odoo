@@ -105,7 +105,7 @@ def tod_workbook(view, fr):
     head = (
         ["Réf.", "Compte", "Libellé", "Date", "Montant", "Testé par", "Résultat", "Écart", "Commentaire"]
         if fr else
-        ["Ref.", "Account", "Description", "Date", "Amount", "Tested by", "Result", "Difference", "Comment"]
+        ["Reference", "Account", "Description", "Date", "Amount", "Tested by", "Result", "Difference", "Comment"]
     )
     for sheet in view["sheets"]:
         plan = sheet["plan"]
@@ -153,7 +153,7 @@ def toc_sample_workbook(view, fr):
     kv(cover, "Clôture" if fr else "Period end", view["periodEnd"])
     kv(cover, "Préparé par" if fr else "Prepared by", view["preparer"])
     cover.append([])
-    row_of(cover, ["Contrôle" if fr else "Control", "SCOT", "Fréquence" if fr else "Frequency", "Population", "Taille" if fr else "Size"], bold=True, background=HDR)
+    row_of(cover, ["Contrôle" if fr else "Control", "SCOT" if fr else "Class of transactions", "Fréquence" if fr else "Frequency", "Population", "Taille" if fr else "Size"], bold=True, background=HDR)
     used = set()
     for control in view["controls"]:
         row_of(cover, [control["controlName"], control["scotName"], freq_label(control["frequency"], fr), control["population"], control["sampleSize"]])
@@ -167,7 +167,7 @@ def toc_sample_workbook(view, fr):
         widths(ws, [26, 18, 40, 14, 14, 34])
         ws.append([control["controlName"]])
         ws["A1"].font = Font(bold=True, size=12)
-        kv(ws, "SCOT", control["scotName"])
+        kv(ws, "SCOT" if fr else "Class of transactions", control["scotName"])
         kv(ws, "Nature", type_short(control["controlType"], fr))
         kv(ws, "Fréquence" if fr else "Frequency", freq_label(control["frequency"], fr))
         kv(ws, "Assertions", ", ".join(control["assertions"]))
@@ -304,7 +304,7 @@ def substantive_workbook(code, title, fr):
     band("1. Population")
     for label in (
         ("Source de la population (IPE)", "Exhaustivité et exactitude vérifiées", "Valeur totale", "Nombre d'éléments") if fr else
-        ("Source of the population (IPE)", "Completeness and accuracy checked", "Total value", "Number of items")
+        ("Source of the population (information produced by the entity)", "Completeness and accuracy checked", "Total value", "Number of items")
     ):
         entry(label)
     ws.append([])

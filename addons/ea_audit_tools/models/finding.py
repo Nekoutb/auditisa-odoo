@@ -33,7 +33,7 @@ class Finding(models.Model):
     _rec_name = "title"
 
     number = fields.Integer(string="No.", required=True, readonly=True)
-    reference = fields.Char(string="Ref.", compute="_compute_reference")
+    reference = fields.Char(string="Reference", compute="_compute_reference")
     route = fields.Selection(ROUTE_SELECTION, string="Route", required=True, readonly=True)
     title = fields.Char(string="Finding", required=True, readonly=True)
     detail = fields.Text()

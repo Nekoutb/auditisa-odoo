@@ -14,7 +14,7 @@
                         <div><strong t-esc="p.stats.done"/><span>done</span></div>
                         <div><strong t-esc="p.stats.started"/><span>in progress</span></div>
                         <div><strong t-att-class="p.stats.findings ? 'o_ea_px_bad' : ''" t-esc="p.stats.findings"/><span>findings</span></div>
-                        <div><strong t-esc="p.stats.sad"/><span>misstatements to SAD</span></div>
+                        <div><strong t-esc="p.stats.sad"/><span>misstatements to audit differences</span></div>
                         <a class="btn btn-secondary btn-sm align-self-center" t-att-href="exportUrl()">Export to Excel</a>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
 
                 <!-- K-M1: the register's movements worked out by date, in three parts against the ledger -->
                 <section class="o_ea_px_card" t-if="p.far" data-ea="far">
-                    <h3>Fixed asset register vs general ledger, prepared by the tool from your uploads</h3>
+                    <h3>Fixed asset register compared with the general ledger, prepared by the tool from your uploads</h3>
                     <p class="o_ea_px_muted" t-if="p.far.yearStart" t-esc="farYearText"/>
                     <div class="o_ea_px_banner is-warn" t-if="p.far.state === 'no-register'">Data missing: the fixed asset register of the year is not uploaded yet. Upload it with its categories, acquisition dates and depreciation rates.</div>
                     <div class="o_ea_px_banner is-warn" t-if="p.far.state === 'no-dates'">The register in use was uploaded without its acquisition dates or depreciation rates. Upload it again with these columns: they are now required.</div>
@@ -251,7 +251,7 @@
                                                 <option value="" t-att-selected="!item.answers[check.key]">—</option>
                                                 <option value="yes" t-att-selected="item.answers[check.key] === 'yes'">Yes</option>
                                                 <option value="no" t-att-selected="item.answers[check.key] === 'no'">No</option>
-                                                <option value="na" t-att-selected="item.answers[check.key] === 'na'">N/A</option>
+                                                <option value="na" t-att-selected="item.answers[check.key] === 'na'">Not applicable</option>
                                             </select>
                                             <span t-esc="check.label"/>
                                         </div>
@@ -629,7 +629,7 @@
                                     <td><span class="o_ea_px_tag is-warn" t-esc="f.routeLabel"/><t t-if="f.mtypeLabel"> · <t t-esc="f.mtypeLabel"/></t></td>
                                     <td t-esc="f.accounts"/>
                                     <td class="o_num" t-esc="f.amount === null ? '' : fmt(f.amount)"/>
-                                    <td>Findings<t t-if="f.route === 'b5'"> · SAD</t></td>
+                                    <td>Findings<t t-if="f.route === 'b5'"> · Audit differences</t></td>
                                 </tr>
                             </tbody>
                         </table>

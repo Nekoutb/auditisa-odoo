@@ -14,11 +14,11 @@ tile_sap,sap,Substantive analytics,"Expectation, threshold by risk, difference, 
 tile_sampling,sampling,Sampling,"MUS and attributes, with every draw kept and its reason.","E4.1,E1.2",action_tool_sampling,110,hub
 tile_je_selection,je-selection,Journal entries,"Risk-directed selection, the reason for each choice.",E3.1,action_tool_je,120,hub
 tile_sample_papers,sample-papers,Paper templates,One Excel workbook per index.,E4.x,action_tool_templates,130,hub
-tile_pbc,pbc,PBC requests,Documents requested and reminders.,"P2.2,E1.1",action_tool_pbc,140,retired
+tile_pbc,pbc,Document requests,Documents requested and reminders.,"P2.2,E1.1",action_tool_pbc,140,retired
 tile_legal,legal,OHADA legal register,"Agreements, alert, equity, securities.","C5.3,C5.5",action_tool_legal,150,hub
 tile_deficiencies,deficiencies,ISA 265 deficiencies,Evaluation and written communication.,C5.11,action_tool_deficiencies,160,retired
-tile_scot,scot,SCOTs and controls,"Classes of transactions, what can go wrong, controls, walkthroughs.","S1.1,S1.2,S1.3,S2.1",action_tool_scot,105,hub
-tile_itgc,itgc,IT applications and ITGC,"The register, the strategy per application and the S2.5 conclusion.","S2.3,S2.5",action_tool_itgc,106,hub
+tile_scot,scot,Transactions and controls,"Classes of transactions, what can go wrong, controls, walkthroughs.","S1.1,S1.2,S1.3,S2.1",action_tool_scot,105,hub
+tile_itgc,itgc,IT applications and IT controls,"The register, the strategy per application and the S2.5 conclusion.","S2.3,S2.5",action_tool_itgc,106,hub
 tile_fscp,fscp,Close process,"The financial statement close process.","S1.4",action_tool_fscp,107,hub
 tile_an_tb,an-tb,Trial balance analyzer,"Upload, check and map the trial balance.","P6.1,P6.2,S4.1",action_tool_tb,200,analyzers
 tile_an_gl,an-gl,General ledger analyzer,"Journal-entry population and its checks.","E3.1,S1.4",action_tool_gl,210,analyzers

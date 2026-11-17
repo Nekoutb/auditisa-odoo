@@ -4,7 +4,7 @@
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶25–26 · ¶A144–A150",
   "reqEn": [
-   "For each SCOT we document the flow of transactions from initiation through recording and processing to reporting, including how the flow is corrected and how it reaches the general ledger (ISA 315 ¶25(a)). The documentation names the people, the documents and the systems at each step.",
+   "For each class of transactions we document the flow of transactions from initiation through recording and processing to reporting, including how the flow is corrected and how it reaches the general ledger (ISA 315 ¶25(a)). The documentation names the people, the documents and the systems at each step.",
    "At each step we ask what could go wrong: the specific points where a misstatement could arise in a relevant assertion. For each what-could-go-wrong we identify whether a control exists that addresses it, who performs the control, how often, and whether it is manual, IT-dependent manual, or automated. Automated and IT-dependent controls inherit the reliability of the applications behind them, which is why each is tagged to its application from S1.1.",
    "We evaluate the design of each identified control and determine whether it has been implemented — walkthroughs (S1.3) provide that evidence. Whether the control will be tested for operating effectiveness is a separate decision, made in S2.1."
   ],
@@ -21,7 +21,7 @@
     "procs": [
      {
       "key": "flow",
-      "en": "For each SCOT, document the flow initiation → recording → processing → reporting, naming people, documents and systems at each step.",
+      "en": "For each class of transactions, document the flow initiation → recording → processing → reporting, naming people, documents and systems at each step.",
       "fr": "Pour chaque SCOT, documenter le flux initiation → enregistrement → traitement → restitution, en nommant acteurs, documents et systèmes.",
       "shortEn": "Flows",
       "shortFr": "Flux",
@@ -129,7 +129,7 @@
   "tools": [
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes, flows, controls and walkthroughs",
     "noteFr": "Flux, risques, contrôles et tests de cheminement"

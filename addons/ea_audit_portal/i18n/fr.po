@@ -75,7 +75,7 @@ msgstr "Client"
 
 #. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_engagement_form_pbc_button
-msgid "Client documents (PBC)"
+msgid "Client documents"
 msgstr "Documents du client (PBC)"
 
 #. module: ea_audit_portal
@@ -261,7 +261,7 @@ msgstr "Nom"
 
 #. module: ea_audit_portal
 #: model_terms:ir.ui.view,arch_db:ea_audit_portal.view_engagement_form_pbc_button
-msgid "New PBC request"
+msgid "New document request"
 msgstr "Nouvelle demande PBC"
 
 #. module: ea_audit_portal
@@ -301,12 +301,12 @@ msgstr "Demandes ouvertes"
 #. module: ea_audit_portal
 #. odoo-python
 #: code:addons/ea_audit_portal/models/pbc.py:0
-msgid "PBC received: %(name)s"
+msgid "Requested document received: %(name)s"
 msgstr "PBC reçu : %(name)s"
 
 #. module: ea_audit_portal
 #: model:ir.model,name:ea_audit_portal.model_ea_audit_pbc_item
-msgid "PBC request"
+msgid "Document request"
 msgstr "Demande au client"
 
 #. module: ea_audit_portal

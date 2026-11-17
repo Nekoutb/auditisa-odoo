@@ -57,7 +57,7 @@ CR_LABELS = {
 BILAN_LABELS = {
     "AZ~": _lt("Net fixed assets (2x incl. 28/29)"),
     "BB": _lt("Net inventories and work in progress (3x)"),
-    "B~": _lt("Net third-party balances (4x — sign-split at FS presentation)"),
+    "B~": _lt("Net third-party balances (4x — split by sign in the financial statements)"),
     "BT~": _lt("Net cash (5x)"),
     "BU": _lt("Translation difference — assets (478)"),
     "CP": _lt("Equity (10–15, excluding the result)"),

@@ -95,7 +95,7 @@ class FileItem(models.Model):
             ]
         if code == "C1.1":
             return [
-                (_words(self.env, "Ouvrir la SAD", "Open the SAD"), "action_tool_sad"),
+                (_words(self.env, "Ouvrir la SAD", "Open the audit differences"), "action_tool_sad"),
                 (_words(self.env, "Constats", "Findings"), "action_tool_findings"),
             ]
         return [
@@ -655,7 +655,7 @@ class PaperLayoutHooks(models.Model):
     def _ea_scot_card(self, title_en, title_fr):
         return {
             "title": self._ea_pick(title_en, title_fr),
-            "open_label": self._ea_pick("Open the SCOTs and controls tool", "Ouvrir l'outil des flux et contrôles"),
+            "open_label": self._ea_pick("Open the Transactions and controls tool", "Ouvrir l'outil des flux et contrôles"),
             "action": self._ea_open("action_tool_scot"),
             "note": self._ea_pick(
                 "The work is recorded in the tool; this paper shows it and records the judgements.",
@@ -666,7 +666,7 @@ class PaperLayoutHooks(models.Model):
 
     def _ea_hook_card_scot(self):
         scots = self._ea_scots()
-        card = self._ea_scot_card("From the SCOTs and controls tool", title_fr="Depuis l'outil des flux et contrôles")
+        card = self._ea_scot_card("From the Transactions and controls tool", title_fr="Depuis l'outil des flux et contrôles")
         if not scots:
             return card
         engagement = self.sudo().engagement_id
@@ -740,7 +740,7 @@ class PaperLayoutHooks(models.Model):
 
     def _ea_hook_card_scot_flows(self):
         scots = self._ea_scots()
-        card = self._ea_scot_card("From the SCOTs and controls tool", title_fr="Depuis l'outil des flux et contrôles")
+        card = self._ea_scot_card("From the Transactions and controls tool", title_fr="Depuis l'outil des flux et contrôles")
         if not scots:
             return card
         wcgws = scots.wcgw_ids
@@ -816,7 +816,7 @@ class PaperLayoutHooks(models.Model):
 
     def _ea_hook_card_walkthroughs(self):
         scots = self._ea_scots()
-        card = self._ea_scot_card("From the SCOTs and controls tool · walkthroughs", title_fr="Depuis l'outil des flux et contrôles · tests de cheminement")
+        card = self._ea_scot_card("From the Transactions and controls tool · walkthroughs", title_fr="Depuis l'outil des flux et contrôles · tests de cheminement")
         card["open_label"] = self._ea_pick("Open the walkthroughs", "Ouvrir les tests de cheminement")
         if not scots:
             return card

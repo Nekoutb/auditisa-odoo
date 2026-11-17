@@ -29,7 +29,7 @@
                     <button name="action_sign_preparer" type="object" string="Sign as preparer"/>
                     <button name="action_sign_reviewer" type="object" string="Sign as reviewer"/>
                     <button name="action_sign_partner" type="object" string="Sign as partner"/>
-                    <button name="action_sign_eqr" type="object" string="Sign as EQR" invisible="code != 'C4.2'"/>
+                    <button name="action_sign_eqr" type="object" string="Sign as quality reviewer" invisible="code != 'C4.2'"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>

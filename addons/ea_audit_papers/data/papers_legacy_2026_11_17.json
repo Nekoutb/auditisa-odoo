@@ -890,9 +890,9 @@
   },
   "E1.1": {
    "conclEn": [
-    "The IT processes supporting the audit-relevant applications are appropriate to address the two generic IT risks — the data is not processed correctly by the IT application, and the data is not the right data — and the ITGCs tested operated effectively throughout the period.",
+    "The IT processes supporting the audit-relevant applications are appropriate to address the two generic IT risks — the data is not processed correctly by the IT application, and the data is not the right data — and the IT general controls tested operated effectively throughout the period.",
     "The IT process supports, or does not support, reliance on the automated application controls, the IT-dependent manual controls and the IPEs listed, and the audit strategy is accordingly to rely, or not to rely, on those controls.",
-    "The ITGC deficiencies identified are compensated or not compensated; the residual risk has been answered by the compensating controls or substantive procedures cross-referenced, and each deficiency is reported in the SOCD and communicated to the entity."
+    "The IT general control deficiencies identified are compensated or not compensated; the residual risk has been answered by the compensating controls or substantive procedures cross-referenced, and each deficiency is reported in the summary of control deficiencies and communicated to the entity."
    ],
    "conclFr": [
     "Les processus informatiques des applications pertinentes pour l'audit sont adéquats au regard des deux risques informatiques génériques — les données ne sont pas correctement traitées par l'application, et les données ne sont pas les bonnes données — et les ITGC testés ont fonctionné efficacement sur toute la période.",
@@ -2792,7 +2792,7 @@
   },
   "S2.4": {
    "conclEn": [
-    "Every applicable risk arising from IT has a tested ITGC (or a recorded substantive response), the tests cover the reliance period, and every exception is investigated and evaluated."
+    "Every applicable risk arising from IT has a tested IT general control (or a recorded substantive response), the tests cover the reliance period, and every exception is investigated and evaluated."
    ],
    "conclFr": [
     "Chaque risque applicable lié à l'informatique a un ITGC testé (ou une réponse substantive consignée), les tests couvrent la période d'appui, et chaque exception est investiguée et évaluée."
@@ -2835,7 +2835,7 @@
   },
   "S2.5": {
    "conclEn": [
-    "Every tested ITGC carries an evaluation, every ineffective one carries a response from the ladder, and the S3.1 control-risk assessments reflect the aggregate conclusion recorded below."
+    "Every tested IT general control carries an evaluation, every ineffective one carries a response from the ladder, and the S3.1 control-risk assessments reflect the aggregate conclusion recorded below."
    ],
    "conclFr": [
     "Chaque ITGC testé porte une évaluation, chaque ITGC inefficace porte une réponse par paliers, et les évaluations du risque lié au contrôle en S3.1 reflètent la conclusion d'ensemble consignée ci-dessous."

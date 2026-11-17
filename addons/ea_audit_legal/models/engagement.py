@@ -484,7 +484,7 @@ class Engagement(models.Model):
         blocks = [
             _title(self._ea_pick("Report of irregularities and inaccuracies %s (to validate)", "Signalement d'irrégularités et d'inexactitudes %s") % audience),
             _b(self._ea_pick("%s — Fiscal year %s", "%s — Exercice %s") % (row.client_id.name, row.fiscal_year)),
-            _p(self._ea_pick("In accordance with article 716 of the AUSCGIE, we report the irregularities and inaccuracies identified in the course of our engagement:", "Conformément à l'article 716 de l'AUSCGIE, nous signalons les irrégularités et inexactitudes relevées au cours de l'accomplissement de notre mission :")),
+            _p(self._ea_pick("In accordance with article 716 of the OHADA Uniform Act on commercial companies, we report the irregularities and inaccuracies identified in the course of our engagement:", "Conformément à l'article 716 de l'AUSCGIE, nous signalons les irrégularités et inexactitudes relevées au cours de l'accomplissement de notre mission :")),
             _p(points),
             _b(self._ea_pick("The statutory auditor.", "Le commissaire aux comptes.")),
         ]

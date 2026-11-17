@@ -74,7 +74,7 @@ class GlConsoleAccount(models.TransientModel):
     """A line of the account picker (GlAccountPicker)."""
 
     _name = "ea.audit.gl.console.account"
-    _description = "GL console account"
+    _description = "General ledger console account"
     _order = "account"
 
     console_id = fields.Many2one("ea.audit.gl.console", required=True, ondelete="cascade")
@@ -226,7 +226,7 @@ class GlConsole(models.TransientModel):
             console.figure_html = Markup(
                 "<b>{title}</b> {opening_label} {opening} + {movements_label} {movements} = <b>{computed}</b> · {closing_label} {closing} · {gap_chip}"
             ).format(
-                title=self.env._("Lead-schedule figure:"), opening_label=self.env._("Opening balance (TB)"), opening=whole(figure["opening"]),
+                title=self.env._("Lead-schedule figure:"), opening_label=self.env._("Opening balance (trial balance)"), opening=whole(figure["opening"]),
                 movements_label=self.env._("movements (%(count)s lines)", count=figure["lines"]), movements=whole(figure["movements"]),
                 computed=whole(figure["computed"]), closing_label=self.env._("balance clicked"), closing=whole(figure["closing"]),
                 gap_chip=chip("%s %s" % (self.env._("gap"), whole(figure["gap"])), "good" if figure["gap"] == 0 else "bad"),

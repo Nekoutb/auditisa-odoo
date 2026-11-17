@@ -32,7 +32,7 @@ MESSAGES = {
     "paper-incomplete": _lt("The working paper is incomplete — answer every procedure, evaluation and conclusion (explaining each \"No\") before signing it off."),
     "significance-unjustified": _lt("Every significance decision that departs from the default needs its justification before P6.2 is signed off."),
     "itapp-strategy-missing": _lt("Every relevant IT application needs an IT strategy before S2.3 is signed off — decide the strategy of each application still at \"— decide\"."),
-    "ras-not-approved": _lt("P7.2 is approved on the Planning Review & Approval Summary: the engagement partner signs there once every confirmation and deliverable is in place. Review sign-off on the row follows that approval."),
+    "ras-not-approved": _lt("P7.2 is approved on the Planning Review and Approval Summary: the engagement partner signs there once every confirmation and deliverable is in place. Review sign-off on the row follows that approval."),
     "not-signed": _lt("There is no sign-off in that role on this working paper."),
     "not-your-signoff": _lt("Only the person who signed can remove this sign-off."),
     "later-signoff-first": _lt("Someone has signed after you: their sign-off must be removed first."),
@@ -48,8 +48,8 @@ MESSAGES = {
     "one-engagement-partner": _lt("This engagement already has its engagement partner. Use the transfer form to hand the role over."),
     "last-partner": _lt("The engagement partner cannot be removed or re-roled: transfer the role to another partner first."),
     "partner-role-requires-partner-rank": _lt("Only a partner or firm administrator of the firm can hold the engagement partner role."),
-    "eqr-rank": _lt("The engagement quality reviewer must be a partner of the firm or hold the firm role of EQR reviewer."),
-    "eqr-on-team": _lt("The EQR reviewer must be independent of the engagement team."),
+    "eqr-rank": _lt("The engagement quality reviewer must be a partner of the firm or hold the firm role of engagement quality reviewer."),
+    "eqr-on-team": _lt("The engagement quality reviewer must be independent of the engagement team."),
     "eqr-cooling-off": _lt("This person was the engagement partner of the same client within the two years before this period end: the cooling-off period applies (ISQM 2 ¶20)."),
     "eqr-declaration-required": _lt("Tick the objectivity declaration to appoint the engagement quality reviewer."),
     "preparer-equals-approver": _lt("The same person cannot be both preparer and reviewer of a task (firm sign-off policy)."),
@@ -84,7 +84,7 @@ MESSAGES = {
     "invalid-standards-edition": _lt("Choose a valid standards edition."),
     "engagement-archived": _lt("This file is archived and immutable."),
     "gates-failed": _lt("The gates of this phase are not all met: %(gates)s."),
-    "firm-role-conflict": _lt("A person holds one firm role: read-only or EQR reviewer cannot be combined with another role."),
+    "firm-role-conflict": _lt("A person holds one firm role: read-only or engagement quality reviewer cannot be combined with another role."),
 }
 
 GATE_LABELS = {

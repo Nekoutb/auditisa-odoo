@@ -27,7 +27,7 @@ FIELDS = {
         },
         {
             "key": "jeNumber",
-            "en": "JE number",
+            "en": "Journal entry number",
             "fr": "Numéro d'écriture",
             "required": True,
             "aliases": [
@@ -71,7 +71,7 @@ FIELDS = {
         },
         {
             "key": "jeDate",
-            "en": "JE date (entered)",
+            "en": "Journal entry date (entered)",
             "fr": "Date de saisie",
             "aliases": ["datesaisie", "dateecriture", "jedate", "entrydate"],
         },

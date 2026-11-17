@@ -236,7 +236,7 @@ def record_tod_result(tod, trivial, run_id=""):
             "title": (
                 "Anomalie avérée sur les éléments clés — %s (test de détail %s)" % (index_code, short)
                 if fr else
-                "Factual misstatement in key items — %s (ToD run %s)" % (index_code, short)
+                "Factual misstatement in key items — %s (tests of details run %s)" % (index_code, short)
             ),
             "amount": js_round(tod["keyMisstatement"]),
             "mtype": "factual",
@@ -300,7 +300,7 @@ def run_reconciliation(kind, rows, tb_total, trivial, stale_days=None, period_en
         finding = {
             "route": "b4",
             "title": "Unreconciled difference (%s): %s" % (kind, js_str(js_round(difference))),
-            "detail": "Dataset %s vs TB %s — investigate." % (js_str(js_round(total)), js_str(js_round(book))),
+            "detail": "Dataset %s compared with trial balance %s — investigate." % (js_str(js_round(total)), js_str(js_round(book))),
         }
     return {
         "engine": engine,

@@ -14,7 +14,7 @@ from ..services.finding_adjustment import effect_table, heading_label
 from .tool_record import fcfa, french_date, is_french
 
 CAPTION_SELECTION = [(code, SAD_CAPTION_LABELS[code]["en"]) for code in SAD_CAPTIONS]
-ANSWER_SELECTION = [("yes", "Yes"), ("no", "No"), ("na", "N/A")]
+ANSWER_SELECTION = [("yes", "Yes"), ("no", "No"), ("na", "Not applicable")]
 #: What the summary still changes on a line (owner's ruling of 2026-11-16): whether management
 #: corrected it, the team's rationale, and the caption a line is shown under. The difference
 #: itself (description, accounts, amounts, type) is the working paper's, never typed here.
@@ -374,7 +374,7 @@ class SadMeta(models.Model):
     cf_row_ids = fields.One2many("ea.audit.sad.cf.row", "meta_id", string="Cash-flow misstatements")
     disc_row_ids = fields.One2many("ea.audit.sad.disc.row", "meta_id", string="Disclosure misstatements")
 
-    _uniq = models.Constraint("UNIQUE(engagement_id)", "An engagement has one SAD conclusion.")
+    _uniq = models.Constraint("UNIQUE(engagement_id)", "An engagement has one conclusion on its summary of audit differences.")
 
     def _compute_income_after_tax_tb(self):
         for meta in self:
@@ -406,7 +406,7 @@ class SadMeta(models.Model):
 class SadCfRow(models.Model):
     _name = "ea.audit.sad.cf.row"
     _inherit = ["ea.audit.tool.record"]
-    _description = "SAD cash-flow misstatement"
+    _description = "Audit difference in the cash flow statement"
     _order = "id"
 
     meta_id = fields.Many2one("ea.audit.sad.meta", required=True, ondelete="cascade", index=True)
@@ -422,7 +422,7 @@ class SadCfRow(models.Model):
 class SadDiscRow(models.Model):
     _name = "ea.audit.sad.disc.row"
     _inherit = ["ea.audit.tool.record"]
-    _description = "SAD disclosure misstatement"
+    _description = "Audit difference in the disclosures"
     _order = "id"
 
     meta_id = fields.Many2one("ea.audit.sad.meta", required=True, ondelete="cascade", index=True)
@@ -438,7 +438,7 @@ class EngagementSad(models.Model):
     _inherit = "ea.audit.engagement"
 
     sad_entry_ids = fields.One2many("ea.audit.sad.entry", "engagement_id", string="Audit differences")
-    sad_meta_id = fields.Many2one("ea.audit.sad.meta", string="SAD conclusion", compute="_compute_sad_meta", compute_sudo=True)
+    sad_meta_id = fields.Many2one("ea.audit.sad.meta", string="Conclusion on audit differences", compute="_compute_sad_meta", compute_sudo=True)
     sad_concl_text = fields.Text(string="Team conclusion", related="sad_meta_id.concl_text")
     sad_income_label = fields.Char(string="Income after tax", compute="_compute_sad_income", compute_sudo=True)
     sad_income_note = fields.Char(compute="_compute_sad_income", compute_sudo=True)
@@ -530,7 +530,7 @@ class EngagementSad(models.Model):
         meta = self.sudo()._ea_sad_meta()
         return {
             "type": "ir.actions.act_window",
-            "name": self.env._("SAD conclusion"),
+            "name": self.env._("Conclusion on audit differences"),
             "res_model": "ea.audit.sad.meta",
             "res_id": meta.id,
             "view_mode": "form",
@@ -578,7 +578,7 @@ class EngagementSad(models.Model):
         head = (
             ["Réf.", "Ajustement", "Rubrique", "Libellé", "Débit", "Crédit", "Corrigé par la direction", "Comptabilisé par", "Comptabilisé le"]
             if fr else
-            ["Ref.", "Adjustment", "Heading", "Label", "Debit", "Credit", "Corrected by management", "Posted by", "Posted on"]
+            ["Reference", "Adjustment", "Heading", "Label", "Debit", "Credit", "Corrected by management", "Posted by", "Posted on"]
         )
         title = "%s · %s" % ("Ajustements d'audit comptabilisés" if fr else "Posted audit adjustments", as_root.client_id.name or "")
         name = re.sub(r"[^\w-]+", "_", as_root.client_id.name or "client")[:60]

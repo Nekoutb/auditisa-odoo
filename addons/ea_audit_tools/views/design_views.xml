@@ -75,7 +75,7 @@
                 <field name="completed_by_id" optional="hide"/>
                 <field name="risk_ids" widget="many2many_tags" optional="hide"/>
                 <button name="action_open_complete" type="object" string="Complete" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
-                <button name="action_open_na" type="object" string="N/A" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
+                <button name="action_open_na" type="object" string="Not applicable" invisible="status != 'open'" groups="ea_audit_core.group_writer"/>
                 <button name="action_uncomplete" type="object" string="Reopen" invisible="status != 'done'" groups="ea_audit_core.group_writer"/>
             </list>
         </field>
@@ -189,7 +189,7 @@
                         <div class="o_ea_card">
                             <div class="o_ea_card_label">Firm thresholds: low, moderate, high</div>
                             <field name="sap_threshold_label" class="o_ea_card_value"/>
-                            <div class="o_ea_card_note">Share of performance materiality. No CRA recorded reads as high.</div>
+                            <div class="o_ea_card_note">Share of performance materiality. No combined risk assessment recorded reads as high.</div>
                         </div>
                     </div>
                     <div class="o_ea_panel">

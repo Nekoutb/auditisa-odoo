@@ -19,7 +19,7 @@
     "procs": [
      {
       "key": "select",
-      "en": "Select one representative transaction per SCOT (and one non-routine instance where the flow differs at period end).",
+      "en": "Select one representative transaction per class of transactions (and one non-routine instance where the flow differs at period end).",
       "fr": "Sélectionner une transaction représentative par SCOT (et un cas non routinier lorsque le flux diffère en clôture).",
       "shortEn": "Transaction selected",
       "shortFr": "Transaction choisie",
@@ -136,7 +136,7 @@
   "tools": [
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes, flows, controls and walkthroughs",
     "noteFr": "Flux, risques, contrôles et tests de cheminement"

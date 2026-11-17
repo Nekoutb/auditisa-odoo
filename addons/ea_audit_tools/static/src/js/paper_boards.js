@@ -27,8 +27,8 @@ const entry = (label) => ({ Component: ToolBoard, label });
 
 boards.add("P6.1", entry(_t("Materiality tool")));
 boards.add("P6.2", entry(_t("Significant accounts")));
-boards.add("S3.1", entry(_t("Risks and CRA")));
-boards.add("C1.1", entry(_t("Differences (SAD)")));
+boards.add("S3.1", entry(_t("Risks and combined risk assessment")));
+boards.add("C1.1", entry(_t("Summary of differences")));
 for (let index = 1; index <= 34; index++) {
     boards.add(`E4.${index}`, entry(_t("Lead schedule")));
 }

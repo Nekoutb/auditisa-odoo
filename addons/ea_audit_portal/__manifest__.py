@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Client Portal",
-    "summary": "PBC request list and uploads for client contacts, invited by a one-time link",
-    "version": "19.0.1.0.0",
+    "summary": "List of documents requested from the client, and their uploads by client contacts invited by a one-time link",
+    "version": "19.0.1.0.1",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

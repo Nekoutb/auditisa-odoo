@@ -78,7 +78,7 @@
       "shortFr": "Lien avec les flux de transactions",
       "isa": "ISA 315 ¶25",
       "tipsEn": [
-       "The SCOTs tool shows any account not yet linked."
+       "The Transactions and controls tool shows any account not yet linked."
       ],
       "tipsFr": [
        "L'outil des flux montre tout compte non encore rattaché."
@@ -175,7 +175,7 @@
    },
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes, flows, controls and walkthroughs",
     "noteFr": "Flux, risques, contrôles et tests de cheminement"

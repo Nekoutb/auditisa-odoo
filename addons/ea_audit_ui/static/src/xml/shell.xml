@@ -266,7 +266,7 @@
                         <div class="ea-note-line" data-ea="my-tasks-e4">Substantive procedures: <t t-esc="d.my_tasks.e4.text"/> (S5.5)</div>
                     </div>
                     <div class="ea-card ea-tile">
-                        <h4>Review notes &amp; findings</h4>
+                        <h4>Review notes and findings</h4>
                         <a class="ea-tl" href="#" role="button" data-tile="notes-for-me" t-on-click.prevent="openNotes"><span>Notes for me</span><b t-esc="d.notes.for_me"/></a>
                         <div class="ea-tl" data-tile="notes-by-me"><span>Notes by me</span><b t-esc="d.notes.by_me"/></div>
                         <a class="ea-tl" href="#" role="button" data-tile="deficiencies" t-on-click.prevent="() => this.openTool('action_tool_deficiencies')"><span>Deficiencies</span><b t-esc="d.notes.deficiencies"/></a>

@@ -496,7 +496,7 @@ msgstr "RÉSULTAT FINANCIER"
 
 #. module: ea_audit_reports
 #: model:ir.model.fields,field_description:ea_audit_reports.field_ea_audit_engagement__fs_tieout_html
-msgid "FS tie-out"
+msgid "Financial statements tie-out"
 msgstr "Rapprochement des états financiers"
 
 #. module: ea_audit_reports
@@ -882,7 +882,7 @@ msgstr "Résultat net de l'exercice (du CR)"
 #. module: ea_audit_reports
 #. odoo-python
 #: code:addons/ea_audit_reports/services/fs_tieout.py:0
-msgid "Net third-party balances (4x — sign-split at FS presentation)"
+msgid "Net third-party balances (4x — split by sign in the financial statements)"
 msgstr "Tiers nets (4x — ventilés par signe à la présentation des états)"
 
 #. module: ea_audit_reports
@@ -1106,7 +1106,7 @@ msgstr "Motif"
 #. module: ea_audit_reports
 #. odoo-python
 #: code:addons/ea_audit_reports/models/engagement.py:0
-msgid "Ref"
+msgid "Reference"
 msgstr "Réf."
 
 #. module: ea_audit_reports
@@ -1197,7 +1197,7 @@ msgstr "Reconduire"
 
 #. module: ea_audit_reports
 #: model_terms:ir.ui.view,arch_db:ea_audit_reports.view_engagement_conclusion_form
-msgid "Run the FS tie-out"
+msgid "Run the statements tie-out"
 msgstr "Lancer le rapprochement des états financiers"
 
 #. module: ea_audit_reports

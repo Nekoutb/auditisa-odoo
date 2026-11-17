@@ -29,7 +29,7 @@ class SapProcedure(models.Model):
     inputs = fields.Text()
     expected_value = fields.Float(digits=(18, 2), required=True)
     data_reliability = fields.Text()
-    cra_level = fields.Char(string="CRA level", readonly=True)
+    cra_level = fields.Char(string="Combined risk level", readonly=True)
     threshold_pct = fields.Integer(string="Threshold %", readonly=True)
     threshold_override_pct = fields.Integer(string="Override %")
     has_override = fields.Boolean(readonly=True)
@@ -233,7 +233,7 @@ class EngagementSap(models.Model):
         head = (
             ["Indice", "Assertion", "Modèle d'attente", "Données", "Valeur attendue", "Fiabilité des données", "Niveau ECR", "Seuil %", "Motif de la dérogation", "Seuil", "Montant comptabilisé", "Source", "Écart", "Évaluation", "Investigation", "Corroboration", "Conclusion"]
             if fr else
-            ["Index", "Assertion", "Expectation model", "Inputs", "Expected value", "Data reliability", "CRA level", "Threshold %", "Override reason", "Threshold", "Recorded amount", "Source", "Difference", "Evaluation", "Investigation", "Corroboration", "Conclusion"]
+            ["Index", "Assertion", "Expectation model", "Inputs", "Expected value", "Data reliability", "Combined risk level", "Threshold %", "Override reason", "Threshold", "Recorded amount", "Source", "Difference", "Evaluation", "Investigation", "Corroboration", "Conclusion"]
         )
         return "sap-%s.xlsx" % self._ea_export_slug(), simple_workbook("SAP", head, rows)
 

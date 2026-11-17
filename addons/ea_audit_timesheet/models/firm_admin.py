@@ -19,7 +19,7 @@ ROLES = [
     ("manager", _lt("Manager"), "ea_audit_core.group_manager"),
     ("senior", _lt("Senior"), "ea_audit_core.group_senior"),
     ("staff", _lt("Staff"), "ea_audit_core.group_staff"),
-    ("eqr_reviewer", _lt("Quality reviewer (EQR)"), "ea_audit_core.group_eqr_reviewer"),
+    ("eqr_reviewer", _lt("Engagement quality reviewer"), "ea_audit_core.group_eqr_reviewer"),
     ("read_only", _lt("Read only"), "ea_audit_core.group_read_only"),
 ]
 _ROLE_XMLIDS = {key: xmlid for key, _label, xmlid in ROLES}

@@ -4,8 +4,8 @@
  "definition": {
   "std": "ISA 315 (Revised 2019) ¶25(a) · ¶A136–A143",
   "reqEn": [
-   "We identify the significant classes of transactions (SCOTs): the transaction streams that feed the significant accounts identified in P6.2. Each is classified as routine (high volume, recurring), non-routine (unusual, period-end) or estimation (judgement-driven), because the classification drives where misstatements are likely to arise and what the audit response looks like.",
-   "For each SCOT we identify the IT applications and other technology through which the transactions are initiated, recorded, processed and reported (ISA 315 ¶25(a), ¶26(b)). This list is the bridge to the IT work: the applications named here define the scope of ITGC testing (E1.1) and application-control work (E1.2), and connect to the IT environment understanding in P4.3."
+   "We identify the significant classes of transactions: the transaction streams that feed the significant accounts identified in P6.2. Each is classified as routine (high volume, recurring), non-routine (unusual, period-end) or estimation (judgement-driven), because the classification drives where misstatements are likely to arise and what the audit response looks like.",
+   "For each class of transactions we identify the IT applications and other technology through which the transactions are initiated, recorded, processed and reported (ISA 315 ¶25(a), ¶26(b)). This list is the bridge to the IT work: the applications named here define the scope of IT general controls testing (E1.1) and application-control work (E1.2), and connect to the IT environment understanding in P4.3."
   ],
   "reqFr": [
    "Nous identifions les catégories significatives de transactions (SCOT) : les flux qui alimentent les comptes significatifs de P6.2. Chacune est classée routinière, non routinière ou estimation, car cette classification détermine où les anomalies peuvent naître et la réponse d'audit.",
@@ -19,7 +19,7 @@
     "procs": [
      {
       "key": "streams",
-      "en": "From the significant accounts in P6.2, identify every transaction stream that feeds them, and name each SCOT.",
+      "en": "From the significant accounts in P6.2, identify every transaction stream that feeds them, and name each class of transactions.",
       "fr": "À partir des comptes significatifs de P6.2, identifier chaque flux de transactions qui les alimente et nommer chaque SCOT.",
       "shortEn": "Classes identified",
       "shortFr": "Flux identifiés",
@@ -28,7 +28,7 @@
      },
      {
       "key": "classify",
-      "en": "Classify each SCOT as routine, non-routine or estimation, and record the volume and frequency.",
+      "en": "Classify each significant class of transactions as routine, non-routine or estimation, and record the volume and frequency.",
       "fr": "Classer chaque SCOT (routinière, non routinière, estimation) et consigner volume et fréquence.",
       "shortEn": "Type and volume",
       "shortFr": "Nature et volume",
@@ -37,7 +37,7 @@
      },
      {
       "key": "apps",
-      "en": "For each SCOT, identify the applications and interfaces through which transactions are initiated, recorded, processed and reported.",
+      "en": "For each class of transactions, identify the applications and interfaces through which transactions are initiated, recorded, processed and reported.",
       "fr": "Pour chaque SCOT, identifier les applications et interfaces d'initiation, d'enregistrement, de traitement et de restitution.",
       "shortEn": "Applications",
       "shortFr": "Applications",
@@ -46,7 +46,7 @@
      },
      {
       "key": "accounts",
-      "en": "Map each SCOT to the significant accounts it affects, and verify every significant account is reached by at least one SCOT or scoped as a non-transactional balance.",
+      "en": "Map each class of transactions to the significant accounts it affects, and verify every significant account is reached by at least one class of transactions or scoped as a non-transactional balance.",
       "fr": "Relier chaque SCOT aux comptes significatifs concernés et vérifier que chaque compte significatif est couvert.",
       "shortEn": "Accounts reached",
       "shortFr": "Comptes couverts",
@@ -57,7 +57,7 @@
       "key": "itscope",
       "en": "Confirm the applications listed are inside the IT general controls scope, or record why not.",
       "fr": "Confirmer que les applications recensées entrent dans le périmètre des contrôles généraux informatiques, ou noter pourquoi.",
-      "shortEn": "ITGC scope",
+      "shortEn": "IT general controls scope",
       "shortFr": "Périmètre CGI",
       "isa": "ISA 315 ¶26(b)",
       "tipsEn": [
@@ -68,7 +68,7 @@
        "Comparer avec l'environnement informatique de P4.3.",
        "Les tableurs utilisés pour la production des comptes sont aussi dans le périmètre."
       ],
-      "stdEn": "All applications are in the ITGC scope.",
+      "stdEn": "All applications are in the IT general controls scope.",
       "stdFr": "Toutes les applications sont dans le périmètre des CGI.",
       "sourceHint": "P4.3 IT environment"
      }
@@ -127,7 +127,7 @@
   "tools": [
    {
     "action": "action_tool_scot",
-    "en": "SCOTs and controls",
+    "en": "Transactions and controls",
     "fr": "Flux et contrôles",
     "noteEn": "Classes, flows, controls and walkthroughs",
     "noteFr": "Flux, risques, contrôles et tests de cheminement"
