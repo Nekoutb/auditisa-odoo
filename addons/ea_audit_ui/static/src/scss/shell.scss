@@ -83,11 +83,17 @@ body.ea-shell {
 
   // Owner, 2026-11-16: page buttons (Export to Excel, Import from Excel, ...) sit on ONE line,
   // side by side, the same height, lined up with the page title, on every page.
-  .o_control_panel_breadcrumbs { min-width: 0; }
   .o_control_panel_main_buttons { flex-shrink: 0; align-items: center; }
   .o_control_panel_main_buttons .btn,
   .o_statusbar_buttons .btn { white-space: nowrap; }
   .o_control_panel_breadcrumbs .breadcrumb { flex-wrap: nowrap; min-width: 0; }
+  // Layout sweep (owner, 2026-11-17): the buttons and the trail back keep their full width; the
+  // search takes the room left, never less than a usable box, and drops to its own line (with the
+  // pager) when the line is too short, instead of sliding over the buttons and the trail.
+  .o_control_panel_main { flex-wrap: wrap !important; }
+  .o_control_panel_breadcrumbs { flex: 1 0 auto; max-width: 100%; min-width: 0; height: auto !important; }
+  .o_control_panel_actions:not(:empty) { flex: 1 1 380px; min-width: MIN(380px, 100%); }
+  .o_control_panel_navigation { flex: 1 0 auto; }
 }
 
 body.ea-shell .ea-top,
@@ -118,15 +124,21 @@ body.ea-shell .ea-top {
   white-space: nowrap;
   position: relative;
   z-index: 1040;
+  // Layout sweep (owner, 2026-11-17): on a short line the firm's name, the engagement switcher,
+  // the search and the user's name narrow first (cut with "..."); only then does the bar take a
+  // second line. "Sign out" is never pushed past the bar's edge.
+  flex-wrap: wrap;
+  row-gap: 8px;
 
-  .ea-brand { display: flex; align-items: center; gap: 14px; margin-right: 8px; }
+  .ea-brand { display: flex; align-items: center; gap: 14px; margin-right: 8px; flex: 1 1 56px; max-width: max-content; min-width: 0; }
   .ea-logo {
-    width: 28px; height: 28px; border-radius: 7px; background: var(--ea-green); color: #fff;
+    flex: 0 0 auto; width: 28px; height: 28px; border-radius: 7px; background: var(--ea-green); color: #fff;
     display: grid; place-items: center; font-weight: 700;
   }
-  .ea-firm { font-weight: 700; color: var(--ea-green); }
+  .ea-firm { font-weight: 700; color: var(--ea-green); min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .ea-nav {
     display: flex;
+    flex: 0 0 auto;
     gap: 0;
     a {
       display: inline-block; padding: 6px 8px; border-radius: 7px; color: var(--ea-soft); font-size: 13.5px;
@@ -137,8 +149,8 @@ body.ea-shell .ea-top {
   .ea-sp { flex: 1; }
   .ea-anchor { position: relative; flex: 0 0 auto; }
   // Inside a mission the four phases need the room: these two give first.
-  .ea-sel-wrap { flex: 0 1 230px; min-width: 96px; }
-  .ea-search-wrap { flex: 0 1 170px; min-width: 64px; }
+  .ea-sel-wrap { flex: 1 1 96px; max-width: 230px; min-width: 96px; }
+  .ea-search-wrap { flex: 1 1 64px; max-width: 170px; min-width: 64px; }
 
   .ea-sel {
     display: block; width: 100%; padding: 3px 10px; line-height: 1.2; text-align: left;
@@ -172,15 +184,17 @@ body.ea-shell .ea-top {
     }
   }
   .ea-who {
-    flex: 0 0 auto; text-align: right; line-height: 1.15; font-size: 13px;
-    small { display: block; color: var(--ea-muted); font-size: 11px; }
+    flex: 1 1 36px; max-width: max-content; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+    text-align: right; line-height: 1.15; font-size: 13px;
+    small { display: block; color: var(--ea-muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; }
   }
   .ea-av {
     flex: 0 0 32px; width: 32px; height: 32px; border-radius: 8px; background: var(--ea-green); color: #fff;
     display: grid; place-items: center; font-weight: 700; font-size: 12px;
   }
   .ea-out {
-    flex: 0 0 auto; border: 1px solid var(--ea-line); border-radius: 8px; padding: 6px 10px; font-size: 13px;
+    // on a second line (a very short bar) it keeps to the right edge
+    flex: 0 0 auto; margin-left: auto; border: 1px solid var(--ea-line); border-radius: 8px; padding: 6px 10px; font-size: 13px;
     &:hover { background: var(--ea-canvas); }
   }
   .ea-out-icon { display: none; }
@@ -415,6 +429,11 @@ body.ea-shell .ea-page {
 // Smaller screens
 // ----------------------------------------------------------------------
 
+// A laptop screen: tighter spacing in the bar, so everything stays on one line.
+@media (max-width: 1500px) {
+  body.ea-shell .ea-top { gap: 10px; }
+}
+
 @media (max-width: 1240px) {
   body.ea-shell { --ea-gutter: 16px; }
   body.ea-shell .ea-top { flex-wrap: wrap; margin-top: 12px; }
@@ -425,7 +444,7 @@ body.ea-shell .ea-page {
   body.ea-shell .ea-top {
     gap: 8px;
     // the brand leads the first line, the buttons follow it
-    .ea-brand { order: 0; flex: 1 1 auto; min-width: 0; gap: 8px; margin: 0; }
+    .ea-brand { order: 0; flex: 1 1 auto; max-width: none; min-width: 0; gap: 8px; margin: 0; }
     .ea-firm { overflow: hidden; text-overflow: ellipsis; }
     .ea-anchor[data-ea-panel="bell"] { order: 2; }
     .ea-anchor[data-ea-panel="gear"] { order: 3; }
@@ -435,9 +454,9 @@ body.ea-shell .ea-page {
     .ea-out-text { display: none; }
     .ea-out-icon { display: inline-block; }
     .ea-sp { display: none; }
-    .ea-sel-wrap { order: 6; flex: 1 1 100%; }
+    .ea-sel-wrap { order: 6; flex: 1 1 100%; max-width: none; }
     .ea-sel { width: 100%; }
-    .ea-search-wrap { order: 7; flex: 1 1 100%; }
+    .ea-search-wrap { order: 7; flex: 1 1 100%; max-width: none; }
     .ea-search { width: 100%; }
     .ea-nav { order: 8; flex: 1 1 100%; min-width: 0; overflow-x: auto; scrollbar-width: none; }
   }
