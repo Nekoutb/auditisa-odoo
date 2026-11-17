@@ -165,6 +165,17 @@
                     <button t-if="shell.can_write" type="button" class="ea-btn" t-on-click="newMission">+ New engagement</button>
                 </div>
 
+                <div t-foreach="state.invitations" t-as="invitation" t-key="invitation.id" class="ea-card ea-invite">
+                    <div class="ea-invite-text">
+                        <b t-esc="invitation.title"/>
+                        <div class="ea-m">Accepting means you confirm that you are independent of this client for this year.</div>
+                    </div>
+                    <div class="ea-invite-actions">
+                        <button type="button" class="ea-btn" t-on-click="() => this.acceptInvitation(invitation)">Accept</button>
+                        <button type="button" class="ea-btn ea-btn-ghost" t-on-click="() => this.declineInvitation(invitation)">Decline</button>
+                    </div>
+                </div>
+
                 <div class="ea-card ea-todo" t-if="state.todo.length">
                     <div class="ea-cardh">To do <span class="ea-count" t-esc="state.todo.length"/></div>
                     <a t-foreach="state.todo" t-as="row" t-key="row_index" class="ea-row" href="#" role="button" t-on-click.prevent="() => this.openTodo(row)">

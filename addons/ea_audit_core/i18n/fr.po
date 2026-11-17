@@ -6127,3 +6127,25 @@ msgstr "La stratégie ne s'appuie plus sur les contrôles. Retirées du dossier,
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "The strategy relies on controls again. Applicable again, work kept: %(codes)s"
 msgstr "La stratégie s'appuie de nouveau sur les contrôles. De nouveau applicables, travaux conservés : %(codes)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/errors.py:0
+msgid "This person is not in the firm yet. Ask your firm administrator to add them first (Users screen); they can add them to this engagement at the same time."
+msgstr "Cette personne ne fait pas encore partie du cabinet. Demandez à l'administrateur du cabinet de l'ajouter d'abord (écran Utilisateurs) ; il peut l'ajouter à cette mission en même temps."
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/wizards/engagement_wizards.py:0
+msgid "You will not be on this engagement's team. To open it later, ask %(partner)s to add you."
+msgstr "Vous ne serez pas dans l'équipe de cette mission. Pour l'ouvrir plus tard, demandez à %(partner)s de vous ajouter."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement_create_wizard__partner_warning
+msgid "Team warning"
+msgstr "Avertissement sur l'équipe"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_team_invite_wizard
+msgid "Only people already in the firm can be invited. Someone new is added first by the firm administrator, on the Users screen."
+msgstr "Seules les personnes déjà dans le cabinet peuvent être invitées. Une nouvelle personne est d'abord ajoutée par l'administrateur du cabinet, sur l'écran Utilisateurs."

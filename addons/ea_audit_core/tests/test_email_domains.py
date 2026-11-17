@@ -10,6 +10,8 @@ from odoo.addons.ea_audit_core.services.email_domains import (
     parse_domain_list,
 )
 
+from odoo.addons.ea_audit_core.services.errors import AuditRuleError
+
 from .common import EaAuditCase
 
 
@@ -48,7 +50,15 @@ class TestInvitations(EaAuditCase):
         self.assertEqual(self.Company._ea_allowed_domains(), [])
         self.assertCode("invalid-email-domain", self._domains, "not a domain!")
 
+    def _colleague(self, email, group="group_staff"):
+        """The firm administrator adds people to the firm first (Users screen)."""
+        return self.env["res.users"].with_context(no_reset_password=True).create({
+            "name": "Colleague", "login": email, "email": email,
+            "group_ids": [(6, 0, [self.env.ref("ea_audit_core.%s" % group).id])],
+        })
+
     def test_an_empty_list_lets_any_domain_be_invited(self):
+        self._colleague("free@any-domain.org")
         member = self.as_partner.invite_team_member("free@any-domain.org", "staff")
         self.assertEqual(member.sudo().state, "invited")
 
@@ -71,17 +81,30 @@ class TestInvitations(EaAuditCase):
         self.as_partner.assign_team_member(self.staff.id, "senior")
         self.assertEqual(self.engagement.sudo()._ea_member(self.staff).team_role, "senior")
 
-    def test_an_unknown_address_on_an_allowed_domain_gets_an_account_and_an_invitation(self):
+    def test_an_unknown_address_is_refused_and_no_account_is_made(self):
+        # owner, 2026-11-17: only the firm administrator adds people to the firm
         self._domains("eca.com")
-        member = self.as_partner.invite_team_member("New.Person@ECA.com", "staff", "New Person").sudo()
-        self.assertEqual(member.state, "invited")
-        self.assertEqual(member.user_id.login, "new.person@eca.com")
-        self.assertEqual(member.user_id.name, "New Person")
-        self.assertEqual(member.user_id._ea_firm_role(), "staff")
+        self.assertCode("not-in-firm-yet", self.as_partner.invite_team_member, "New.Person@ECA.com", "staff", "New Person")
+        self.assertCode("not-in-firm-yet", self.as_partner.invite_team_member, "np@eca.com", "partner")
+        self.assertFalse(self.env["res.users"].with_context(active_test=False).search(
+            [("login", "in", ["new.person@eca.com", "np@eca.com"])]))
 
-    def test_the_partner_seat_is_not_provisioned(self):
-        self.assertCode("partner-role-requires-partner-rank", self.as_partner.invite_team_member, "np@eca.com", "partner")
-        self.assertFalse(self.env["res.users"].search([("login", "=", "np@eca.com")]))
+    def test_the_refusal_tells_who_adds_people(self):
+        with self.assertRaises(AuditRuleError) as caught:
+            self.as_partner.invite_team_member("nobody@eca.com", "staff")
+        self.assertIn("Ask your firm administrator to add them first", str(caught.exception))
+
+    def test_an_existing_colleague_is_still_invited(self):
+        self._domains("eca.com")
+        colleague = self._colleague("New.Person@eca.com")
+        member = self.as_partner.invite_team_member("new.person@ECA.com", "staff").sudo()
+        self.assertEqual(member.state, "invited")
+        self.assertEqual(member.user_id, colleague)
+
+    def test_an_archived_colleague_is_not_invited(self):
+        colleague = self._colleague("gone@eca.com")
+        colleague.active = False
+        self.assertCode("not-in-firm-yet", self.as_partner.invite_team_member, "gone@eca.com", "staff")
 
     def test_invalid_address_and_already_on_team(self):
         self.assertCode("invalid-email", self.as_partner.invite_team_member, "not-an-email", "staff")
@@ -92,7 +115,7 @@ class TestInvitations(EaAuditCase):
             "name": "Stranger", "login": "stranger@x.example.com", "email": "stranger@x.example.com",
             "group_ids": [(6, 0, [self.env.ref("base.group_user").id])],
         })
-        self.assertCode("email-taken", self.as_partner.invite_team_member, "stranger@x.example.com", "staff")
+        self.assertCode("not-in-firm-yet", self.as_partner.invite_team_member, "stranger@x.example.com", "staff")
 
     def test_the_policy_form_field_is_the_firm_administrators(self):
         policy = self.Policy.with_user(self.admin).create({"allowed_email_domains": "ECA.com"})

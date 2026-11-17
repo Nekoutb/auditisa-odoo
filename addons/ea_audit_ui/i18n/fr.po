@@ -583,12 +583,6 @@ msgstr "Invitation"
 
 #. module: ea_audit_ui
 #. odoo-python
-#: code:addons/ea_audit_ui/models/ui_data.py:0
-msgid "Invitation to answer"
-msgstr "Invitation à répondre"
-
-#. module: ea_audit_ui
-#. odoo-python
 #: code:addons/ea_audit_ui/models/engagement.py:0
 msgid "Invitation: %(client)s"
 msgstr "Invitation : %(client)s"
@@ -1651,3 +1645,27 @@ msgstr "Profil non terminé : terminez-le pour obtenir vos tâches."
 #: code:addons/ea_audit_ui/services/presentation.py:0
 msgid "non-statutory audit"
 msgstr "audit contractuel"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/models/ui_data.py:0
+msgid "You are invited to %(mission)s as %(role)s"
+msgstr "Vous êtes invité(e) sur %(mission)s en tant que %(role)s"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Accepting means you confirm that you are independent of this client for this year."
+msgstr "En acceptant, vous confirmez être indépendant de ce client pour cet exercice."
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Accept"
+msgstr "Accepter"
+
+#. module: ea_audit_ui
+#. odoo-javascript
+#: code:addons/ea_audit_ui/static/src/xml/shell.xml:0
+msgid "Decline"
+msgstr "Refuser"

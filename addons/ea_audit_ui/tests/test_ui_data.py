@@ -176,7 +176,20 @@ class TestUiData(EaAuditCase):
         self.engagement.with_user(self.partner)._ea_invite_user(self.outsider, "staff")
         home = self.ui(self.outsider).ea_ui_home()
         self.assertEqual(home["missions"], [])
-        self.assertEqual([t["title"] for t in home["todo"]], ["Invitation to answer"])
+        self.assertEqual(home["todo"], [])
+        # the large card at the top of the home page (owner, 2026-11-17)
+        self.assertEqual(len(home["invitations"]), 1)
+        card = home["invitations"][0]
+        self.assertEqual(card["role"], "Staff")
+        self.assertIn(str(self.engagement.fiscal_year), card["mission"])
+        self.assertIn(self.engagement.client_id.name, card["mission"])
+        self.assertEqual(card["title"], "You are invited to %s as Staff" % card["mission"])
+
+    def test_home_invitation_card_goes_once_answered(self):
+        member = self.engagement.with_user(self.partner)._ea_invite_user(self.outsider, "staff")
+        member.with_user(self.outsider).action_accept()
+        self.assertEqual(self.ui(self.outsider).ea_ui_home()["invitations"], [])
+        self.assertEqual(self.ui(self.partner).ea_ui_home()["invitations"], [])
 
     # ------------------------------------------------------------------
     # the task list
