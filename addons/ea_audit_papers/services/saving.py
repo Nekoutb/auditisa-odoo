@@ -10,9 +10,12 @@ import re
 
 from .completeness import concl_key, js_trim, paper_missing, yn_key
 
-EQR_C42_KEYS = frozenset(
-    {"p_review", "p_completion", "q_complete", "q_complete_x", "q_resolved", "q_resolved_x", "c_0", "c_0_x"}
-)
+# Since the layout of 2026-11-17 C4.2 closes on the paper's conclusion box ("conclusion") in place of
+# its former statement c_0; the reviewer's two tasks keep their marks with them.
+EQR_C42_KEYS = frozenset({
+    "p_review", "p_review_m", "p_review_src", "p_completion", "p_completion_m", "p_completion_src",
+    "q_complete", "q_complete_x", "q_resolved", "q_resolved_x", "conclusion",
+})
 ART_525_HEADCOUNT_THRESHOLD = 200
 _HEADCOUNT = re.compile("\\d[\\d\\s  .]*")
 

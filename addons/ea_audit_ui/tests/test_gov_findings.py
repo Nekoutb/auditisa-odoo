@@ -275,10 +275,11 @@ class TestGovFindings(ToolsCase):
 
     def test_f005_c42_is_the_quality_review_alone(self):
         definition = load_definition("C4.2")
-        self.assertEqual(len(definition["conclEn"]), 1)
+        # the layout of 2026-11-17: one standard conclusion in place of the conclusion statement
+        self.assertNotIn("conclEn", definition)
         self.assertIn("C5.11", definition["ownsEn"])
         self.assertIn("C5.11", definition["ownsFr"])
-        text = " ".join(definition["reqEn"] + definition["conclEn"]).lower()
+        text = " ".join(definition["reqEn"] + [definition["conclStdEn"], definition["objectiveEn"]]).lower()
         self.assertNotIn("governance", text)
         for section in definition["sections"]:
             for entry in section.get("procs", []) + section.get("items", []):

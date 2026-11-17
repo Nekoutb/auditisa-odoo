@@ -17,134 +17,255 @@
    "Une déficience du contrôle interne existe lorsqu'un contrôle est conçu, mis en place ou appliqué de telle sorte qu'il ne peut prévenir, ou détecter et corriger, une anomalie en temps utile, ou lorsqu'un contrôle nécessaire fait défaut (ISA 265 ¶6(a)). Chaque déficience est appréciée selon la probabilité d'une anomalie et son ampleur potentielle (A5–A6), avec les déficiences connexes (A7), pour déterminer s'il s'agit d'une déficience significative — qui mérite l'attention de la gouvernance (¶6(b), ¶8).",
    "Les déficiences significatives sont communiquées par écrit à la gouvernance en temps utile (ISA 265 ¶9), chacune décrite avec ses effets potentiels et le contexte de la communication (¶11). Les autres déficiences qui méritent l'attention de la direction lui sont communiquées au niveau approprié, et les déficiences significatives aussi, sauf si cela est inapproprié (¶10). La communication écrite intervient de préférence avant la date du rapport et en tout cas dans le délai d'assemblage du dossier ; son calendrier ne dépend pas de l'avis du destinataire sur la déficience (A14–A15)."
   ],
-  "conclEn": [
-   "The communications with those charged with governance required by ISA 260 have been made on a timely basis and are documented on the file.",
-   "The deficiencies in internal control have been evaluated, the significant deficiencies communicated in writing to those charged with governance and the others to management (ISA 265)."
-  ],
-  "conclFr": [
-   "Les communications avec la gouvernance requises par l'ISA 260 ont été faites en temps utile et sont documentées au dossier.",
-   "Les déficiences du contrôle interne ont été appréciées, les déficiences significatives communiquées par écrit à la gouvernance et les autres à la direction (ISA 265)."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "tcwg",
       "en": "Identify those charged with governance and the person(s) within that structure with whom we communicate — the board, the audit committee where one exists, or the owner-manager — and record where governance and management are the same persons.",
       "fr": "Identifier les responsables de la gouvernance et la ou les personnes de cette structure avec lesquelles nous communiquons — conseil, comité d'audit s'il existe, ou propriétaire-dirigeant — et consigner le cas où gouvernance et direction se confondent.",
-      "srcEn": "Statutes · minutes · P3.1 · ISA 260 ¶11–13",
-      "srcFr": "Statuts · procès-verbaux · P3.1 · ISA 260 ¶11–13"
+      "shortEn": "Those charged with governance",
+      "shortFr": "Responsables de la gouvernance",
+      "isa": "ISA 260 ¶11–13",
+      "tipsEn": [
+       "Record where governance and management are the same persons."
+      ],
+      "tipsFr": [
+       "Consigner les cas où gouvernance et direction sont les mêmes personnes."
+      ]
      },
      {
       "key": "planning",
       "en": "Confirm the planning communication was made: our responsibilities, the planned scope and timing, the significant risks, materiality and the team — the P7.1 report, generated and filed here — and record its date and recipients.",
       "fr": "Vérifier que la communication de planification a été faite : nos responsabilités, l'étendue et le calendrier prévus, les risques importants, le seuil et l'équipe — le rapport P7.1, généré et classé ici — et consigner sa date et ses destinataires.",
-      "srcEn": "P7.1 · planning communication letter · ISA 260 ¶14–15",
-      "srcFr": "P7.1 · lettre de communication de planification · ISA 260 ¶14–15"
+      "shortEn": "Planning communication",
+      "shortFr": "Communication de planification",
+      "isa": "ISA 260 ¶15",
+      "tipsEn": [
+       "The P7.1 report, generated and filed here with its date and recipients."
+      ],
+      "tipsFr": [
+       "Le rapport de P7.1, généré et classé ici avec sa date et ses destinataires."
+      ]
      },
      {
       "key": "findings",
       "en": "Communicate the significant findings from the audit: the qualitative aspects of the accounting practices, the significant difficulties, the matters discussed with management, the representations requested, the uncorrected misstatements and the circumstances affecting the report — from C1.2, C1.1 and C3.1 — and record the date and form.",
       "fr": "Communiquer les constats significatifs : aspects qualitatifs des pratiques comptables, difficultés importantes, questions discutées avec la direction, déclarations demandées, anomalies non corrigées et circonstances affectant le rapport — à partir de C1.2, C1.1 et C3.1 — et consigner la date et la forme.",
-      "srcEn": "C1.2 · C1.1 · C3.1 · completion report to governance · ISA 260 ¶16",
-      "srcFr": "C1.2 · C1.1 · C3.1 · rapport à la gouvernance (achèvement) · ISA 260 ¶16"
+      "shortEn": "Significant findings",
+      "shortFr": "Constatations importantes",
+      "isa": "ISA 260 ¶16",
+      "tipsEn": [
+       "Draw from C1.2, C1.1 and C3.1."
+      ],
+      "tipsFr": [
+       "S'appuyer sur C1.2, C1.1 et C3.1."
+      ]
      },
      {
       "key": "independence",
       "en": "Where the entity is listed, or the firm's policy so requires, include the statement of independence: compliance with the ethical requirements, the relationships and other matters that may bear on independence, and the safeguards applied — referring to the declarations filed on P2.1.",
       "fr": "Lorsque l'entité est cotée, ou si la politique du cabinet l'exige, inclure la déclaration d'indépendance : respect des règles d'éthique, relations et autres éléments pouvant affecter l'indépendance, sauvegardes appliquées — en renvoyant aux déclarations classées en P2.1.",
-      "srcEn": "P2.1 · ISA 260 ¶17",
-      "srcFr": "P2.1 · ISA 260 ¶17"
+      "shortEn": "Independence statement",
+      "shortFr": "Déclaration d'indépendance",
+      "isa": "ISA 260 ¶17",
+      "tipsEn": [
+       "Refer to the declarations filed on P2.1."
+      ],
+      "tipsFr": [
+       "Renvoyer aux déclarations classées en P2.1."
+      ]
      },
      {
       "key": "evaluate",
-      "en": "Evaluate each deficiency in internal control on the grid below: likelihood of misstatement, potential magnitude, accounts and assertions affected, management's awareness, the ISA 265 A6–A7 indicators and the related deficiencies — and record the final grade, which is written back to the findings register.",
-      "fr": "Apprécier chaque déficience du contrôle interne dans la grille ci-dessous : probabilité d'anomalie, ampleur potentielle, comptes et assertions concernés, connaissance par la direction, indicateurs A6–A7 de l'ISA 265 et déficiences connexes — et consigner la gradation finale, reportée au registre des constats.",
-      "srcEn": "Findings register (route C5.11) · E1.2 · S2.5 · ISA 265 ¶8, A5–A7",
-      "srcFr": "Registre des constats (route C5.11) · E1.2 · S2.5 · ISA 265 ¶8, A5–A7"
+      "en": "Evaluate each deficiency in internal control on the evaluation grid of the deficiencies tool: likelihood of misstatement, potential magnitude, accounts and assertions affected, management's awareness, the ISA 265 A6–A7 indicators and the related deficiencies — and record the final grade, which is written back to the findings register.",
+      "fr": "Apprécier chaque déficience du contrôle interne dans la grille d'évaluation de l'outil des déficiences : probabilité d'anomalie, ampleur potentielle, comptes et assertions concernés, connaissance par la direction, indicateurs A6–A7 de l'ISA 265 et déficiences connexes — et consigner la gradation finale, reportée au registre des constats.",
+      "shortEn": "Deficiencies graded",
+      "shortFr": "Déficiences graduées",
+      "isa": "ISA 265 ¶7–8",
+      "tipsEn": [
+       "Grade related deficiencies together."
+      ],
+      "tipsFr": [
+       "Graduer ensemble les déficiences liées."
+      ]
      },
      {
       "key": "sig_written",
       "en": "Communicate every significant deficiency in writing to those charged with governance: describe each, explain its potential effects, state that the audit was not designed to identify every deficiency, and record the date sent and the recipient on the grid.",
       "fr": "Communiquer par écrit chaque déficience significative à la gouvernance : décrire chacune, expliquer ses effets potentiels, préciser que l'audit n'avait pas pour objet de relever toutes les déficiences, et consigner la date d'envoi et le destinataire dans la grille.",
-      "srcEn": "Management letter / completion report · ISA 265 ¶9, ¶11",
-      "srcFr": "Lettre de recommandations / rapport d'achèvement · ISA 265 ¶9, ¶11"
+      "shortEn": "Significant deficiencies in writing",
+      "shortFr": "Déficiences significatives par écrit",
+      "isa": "ISA 265 ¶9, ¶11",
+      "tipsEn": [
+       "The file cannot be archived while one is not communicated."
+      ],
+      "tipsFr": [
+       "Le dossier ne peut être archivé tant qu'une seule n'est pas communiquée."
+      ]
      },
      {
       "key": "mgmt",
       "en": "Communicate to management, at the appropriate level, the significant deficiencies (unless inappropriate) and the other deficiencies that merit its attention, and record management's responses.",
       "fr": "Communiquer à la direction, au niveau approprié, les déficiences significatives (sauf si inapproprié) et les autres déficiences qui méritent son attention, et consigner ses réponses.",
-      "srcEn": "Management letter · ISA 265 ¶10",
-      "srcFr": "Lettre de recommandations · ISA 265 ¶10"
+      "shortEn": "Communicated to management",
+      "shortFr": "Communication à la direction",
+      "isa": "ISA 265 ¶10",
+      "tipsEn": [
+       "Record management's responses."
+      ],
+      "tipsFr": [
+       "Consigner les réponses de la direction."
+      ]
      },
      {
       "key": "timing",
       "en": "Confirm the timing: the planning communication before fieldwork, the significant findings before the report is dated where they bear on it, and the written communication of significant deficiencies before the report date or within the assembly period.",
       "fr": "Vérifier le calendrier : communication de planification avant les travaux, constats significatifs avant la date du rapport lorsqu'ils l'affectent, communication écrite des déficiences significatives avant la date du rapport ou dans le délai d'assemblage.",
-      "srcEn": "Dates recorded above · ISA 260 ¶21 · ISA 265 A14",
-      "srcFr": "Dates consignées ci-dessus · ISA 260 ¶21 · ISA 265 A14"
+      "shortEn": "Timing",
+      "shortFr": "Calendrier",
+      "isa": "ISA 260 ¶21 · ISA 265 ¶9",
+      "tipsEn": [
+       "Planning before fieldwork; findings before the report is dated."
+      ],
+      "tipsFr": [
+       "La planification avant les travaux ; les constatations avant la date du rapport."
+      ]
      },
      {
       "key": "two_way",
       "en": "Evaluate whether the two-way communication has been adequate for the purpose of the audit; where it has not, evaluate the effect on the risk assessment and on the evidence, and take appropriate action.",
       "fr": "Apprécier si la communication réciproque a été adéquate aux fins de l'audit ; sinon, en évaluer l'effet sur l'évaluation des risques et sur les éléments probants, et agir en conséquence.",
-      "srcEn": "ISA 260 ¶22",
-      "srcFr": "ISA 260 ¶22"
+      "shortEn": "Two-way communication",
+      "shortFr": "Communication réciproque",
+      "isa": "ISA 260 ¶22",
+      "tipsEn": [
+       "Where it was not adequate, consider the effect on the risk assessment."
+      ],
+      "tipsFr": [
+       "Lorsqu'elle n'a pas été adéquate, en apprécier l'effet sur l'évaluation des risques."
+      ]
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "planning",
-      "en": "The planning communication to those charged with governance was made and is filed with its date (procedure 2).",
-      "fr": "La communication de planification à la gouvernance a été faite et est classée avec sa date (procédure 2)."
+      "en": "The planning communication to those charged with governance was made and is filed with its date.",
+      "fr": "La communication de planification aux responsables de la gouvernance a été faite et est classée avec sa date.",
+      "tasks": [
+       "planning"
+      ]
      },
      {
       "key": "findings",
-      "en": "The significant findings from the audit have been communicated, in writing where ISA 260 ¶19–20 so require (procedure 3).",
-      "fr": "Les constats significatifs ont été communiqués, par écrit lorsque les ¶19–20 de l'ISA 260 l'exigent (procédure 3)."
+      "en": "The significant findings from the audit have been communicated, in writing where ISA 260 requires.",
+      "fr": "Les constatations importantes de l'audit ont été communiquées, par écrit lorsque l'ISA 260 l'exige.",
+      "tasks": [
+       "findings"
+      ]
      },
      {
       "key": "independence",
-      "en": "The independence statement was made where required (procedure 4).",
-      "fr": "La déclaration d'indépendance a été faite lorsqu'elle était requise (procédure 4).",
-      "na": true
+      "en": "The independence statement was made where required.",
+      "fr": "La déclaration d'indépendance a été faite lorsqu'elle était requise.",
+      "na": true,
+      "tasks": [
+       "independence"
+      ]
      },
      {
       "key": "graded",
-      "en": "Every deficiency on the findings register carries a final grade reached on the grid, with its related deficiencies considered together (procedure 5).",
-      "fr": "Chaque déficience du registre des constats porte une gradation finale établie dans la grille, les déficiences connexes étant considérées ensemble (procédure 5)."
+      "en": "Every deficiency on the findings register carries a final grade reached on the grid, with its related deficiencies considered together.",
+      "fr": "Chaque déficience du registre des constats porte une gradation finale établie sur la grille, les déficiences liées étant appréciées ensemble.",
+      "tasks": [
+       "evaluate"
+      ],
+      "autoCheck": "deficiencies_graded"
      },
      {
       "key": "sig_written",
-      "en": "Every significant deficiency has been communicated in writing to those charged with governance, with the date and recipient recorded (procedure 6). The file cannot be archived while one has not.",
-      "fr": "Chaque déficience significative a été communiquée par écrit à la gouvernance, avec la date et le destinataire consignés (procédure 6). Le dossier ne peut être archivé tant qu'une ne l'a pas été.",
-      "na": true
+      "en": "Every significant deficiency has been communicated in writing to those charged with governance, with the date and recipient recorded. The file cannot be archived while one has not.",
+      "fr": "Chaque déficience significative a été communiquée par écrit aux responsables de la gouvernance, avec la date et le destinataire consignés. Le dossier ne peut être archivé tant qu'une seule ne l'a pas été.",
+      "na": true,
+      "tasks": [
+       "sig_written"
+      ],
+      "autoCheck": "deficiencies_communicated"
      },
      {
       "key": "mgmt",
-      "en": "The other deficiencies have been communicated to management and its responses recorded (procedure 7).",
-      "fr": "Les autres déficiences ont été communiquées à la direction et ses réponses consignées (procédure 7).",
-      "na": true
+      "en": "The other deficiencies have been communicated to management and its responses recorded.",
+      "fr": "Les autres déficiences ont été communiquées à la direction et ses réponses consignées.",
+      "na": true,
+      "tasks": [
+       "mgmt"
+      ]
      },
      {
       "key": "timely",
-      "en": "Each communication was made within the timing ISA 260 ¶21 and ISA 265 ¶9 require (procedure 8).",
-      "fr": "Chaque communication a été faite dans le calendrier exigé par l'ISA 260 ¶21 et l'ISA 265 ¶9 (procédure 8)."
+      "en": "Each communication was made within the timing ISA 260 and ISA 265 require.",
+      "fr": "Chaque communication a été faite dans les délais requis par l'ISA 260 et l'ISA 265.",
+      "tasks": [
+       "timing",
+       "two_way"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Communicate clearly and on a timely basis with those charged with governance the matters ISA 260 requires, evaluate whether the two-way communication has been adequate, and communicate in writing to those charged with governance and to management the deficiencies in internal control identified during the audit, as ISA 265 requires.",
+  "objectiveFr": "Communiquer clairement et en temps utile avec les responsables de la gouvernance sur les points requis par l'ISA 260, apprécier si la communication réciproque a été adéquate, et communiquer par écrit aux responsables de la gouvernance et à la direction les déficiences du contrôle interne relevées au cours de l'audit, comme l'exige l'ISA 265.",
+  "isa": [
+   {
+    "std": "ISA 260"
+   },
+   {
+    "std": "ISA 265"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_deficiencies",
+    "en": "ISA 265 deficiencies",
+    "fr": "Déficiences ISA 265",
+    "noteEn": "Evaluation grid, grades and communication dates",
+    "noteFr": "Grille d'évaluation, gradations et dates de communication"
+   },
+   {
+    "action": "action_tool_findings",
+    "en": "Findings",
+    "fr": "Constats",
+    "noteEn": "Raise a matter for the file",
+    "noteFr": "Signaler un point au dossier"
+   },
+   {
+    "action": "action_tool_sad",
+    "en": "Summary of audit differences",
+    "fr": "Récapitulatif des anomalies",
+    "noteEn": "Adjustments from the working papers, posted by the reviewer",
+    "noteFr": "Ajustements issus des feuilles de travail, validés par le réviseur"
+   }
+  ],
+  "links": [
+   "P7.1",
+   "C1.1",
+   "C1.2",
+   "C3.1",
+   "C4.2",
+   "C5.1",
+   "P2.1"
+  ],
+  "toolCard": "deficiencies",
+  "neverLight": true,
+  "conclStdEn": "The communications with those charged with governance required by ISA 260 have been made on a timely basis and are documented; the deficiencies in internal control have been evaluated, the significant ones communicated in writing to those charged with governance and the others to management (ISA 265).",
+  "conclStdFr": "Les communications avec la gouvernance requises par l'ISA 260 ont été faites en temps utile et sont documentées ; les déficiences du contrôle interne ont été appréciées, les déficiences significatives communiquées par écrit à la gouvernance et les autres à la direction (ISA 265)."
  }
 }

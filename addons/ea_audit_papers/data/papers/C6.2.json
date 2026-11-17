@@ -13,91 +13,175 @@
    "Le dossier définitif est assemblé dans un délai maximal de 60 jours après la date du rapport (ISA 230 ¶14, A21). L'assemblage est administratif : ensuite, rien n'est supprimé avant la fin de la durée de conservation, et toute modification consigne quoi, quand, qui et pourquoi (ISA 230 ¶15–16).",
    "La durée de conservation suit ISQM 1 ¶31(f) et le droit local ; dans la pratique OHADA, dix ans à compter de la date du rapport. Le verrouillage du dossier dans l'outil vaut archivage : signatures figées, papiers en lecture seule, modifications ultérieures uniquement par la voie documentée."
   ],
-  "conclEn": [
-   "The final file is complete, assembled within the assembly period, and archived under the firm's retention policy."
-  ],
-  "conclFr": [
-   "Le dossier définitif est complet, assemblé dans le délai imparti et archivé selon la politique de conservation du cabinet."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "complete",
-      "en": "Confirm every task in the file carries its working paper, evidence and preparer/reviewer sign-offs; clear the points outstanding (C4.3).",
-      "fr": "Vérifier que chaque tâche du dossier porte son papier de travail, ses preuves et ses signatures ; solder les points en suspens (C4.3).",
-      "srcEn": "Dashboard completion counts · C4.3",
-      "srcFr": "Compteurs du tableau de bord · C4.3"
+      "en": "Confirm every task in the file carries its working paper, evidence and preparer/reviewer sign-offs; clear the points outstanding (C4.1).",
+      "fr": "Vérifier que chaque tâche du dossier porte son papier de travail, ses preuves et ses signatures ; solder les points en suspens (C4.1).",
+      "shortEn": "File complete",
+      "shortFr": "Dossier complet",
+      "isa": "ISA 230 ¶14",
+      "tipsEn": [
+       "The file index shows the tasks unsigned or without a paper."
+      ],
+      "tipsFr": [
+       "L'index du dossier montre les tâches non signées ou sans papier."
+      ],
+      "stdEn": "Every task carries its paper, evidence and sign-offs; no point is outstanding.",
+      "stdFr": "Chaque tâche porte son papier, ses éléments probants et ses signatures ; aucun point n'est en suspens.",
+      "sourceHint": "File index"
      },
      {
       "key": "deadline",
       "en": "Record the report date and the assembly deadline (report date + 60 days); plan the assembly before it.",
       "fr": "Consigner la date du rapport et l'échéance d'assemblage (rapport + 60 jours) ; planifier l'assemblage avant.",
-      "srcEn": "Auditor's report · engagement record",
-      "srcFr": "Rapport · fiche mission"
+      "shortEn": "Assembly deadline",
+      "shortFr": "Échéance de constitution",
+      "isa": "ISA 230 ¶14 · ¶A21",
+      "tipsEn": [
+       "Report date plus sixty days."
+      ],
+      "tipsFr": [
+       "Date du rapport plus soixante jours."
+      ],
+      "stdEn": "Report date and assembly deadline recorded.",
+      "stdFr": "Date du rapport et échéance de constitution consignées.",
+      "sourceHint": "C5.1 report date"
      },
      {
       "key": "assemble",
       "en": "Assemble: file final versions, delete superseded drafts (before lock only), complete cross-references.",
       "fr": "Assembler : classer les versions finales, supprimer les brouillons remplacés (avant verrouillage uniquement), compléter les renvois.",
-      "srcEn": "Engagement file",
-      "srcFr": "Dossier de mission"
+      "shortEn": "Assembly",
+      "shortFr": "Constitution",
+      "isa": "ISA 230 ¶A22",
+      "tipsEn": [
+       "Superseded drafts may be removed only before the file is locked."
+      ],
+      "tipsFr": [
+       "Les projets remplacés ne peuvent être retirés qu'avant le verrouillage du dossier."
+      ],
+      "stdEn": "Final versions filed, superseded drafts removed and cross-references complete.",
+      "stdFr": "Versions définitives classées, projets remplacés retirés et renvois complétés.",
+      "sourceHint": "File index"
      },
      {
       "key": "lock",
       "en": "Lock the file and record the archive date and the retention end date under the firm's policy.",
       "fr": "Verrouiller le dossier et consigner la date d'archivage et la fin de conservation selon la politique du cabinet.",
-      "srcEn": "This paper",
-      "srcFr": "Ce papier"
+      "shortEn": "Lock and retention",
+      "shortFr": "Verrouillage et conservation",
+      "isa": "ISA 230 ¶15 · ISQM 1 ¶31(f)",
+      "tipsEn": [
+       "The archive date and the retention end date come from the firm's policy."
+      ],
+      "tipsFr": [
+       "La date d'archivage et la fin de conservation découlent de la politique du cabinet."
+      ],
+      "stdEn": "File locked; archive date and retention end date recorded.",
+      "stdFr": "Dossier verrouillé ; date d'archivage et fin de conservation consignées.",
+      "sourceHint": "Archive page"
      },
      {
       "key": "later",
       "en": "Route any post-assembly modification through the documented-modification record: what, when, who, why.",
       "fr": "Faire passer toute modification post-assemblage par la fiche de modification documentée : quoi, quand, qui, pourquoi.",
-      "srcEn": "Modification log",
-      "srcFr": "Journal des modifications"
+      "shortEn": "Later modifications",
+      "shortFr": "Modifications ultérieures",
+      "isa": "ISA 230 ¶16",
+      "tipsEn": [
+       "Record what, when, who and why for each change after assembly."
+      ],
+      "tipsFr": [
+       "Consigner quoi, quand, qui et pourquoi pour chaque changement après constitution."
+      ],
+      "stdEn": "No modification was made after assembly.",
+      "stdFr": "Aucune modification n'a été apportée après la constitution.",
+      "sourceHint": "Modification record"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Confirmations",
-    "titleFr": "Partie B — Confirmations",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non » dans la zone prévue.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "within_60",
-      "en": "The file was (or will be) assembled within 60 days of the report date.",
-      "fr": "Le dossier a été (ou sera) assemblé dans les 60 jours du rapport."
+      "en": "The file was, or will be, assembled within sixty days of the report date.",
+      "fr": "Le dossier a été, ou sera, constitué dans les soixante jours suivant la date du rapport.",
+      "tasks": [
+       "deadline",
+       "assemble"
+      ]
      },
      {
       "key": "signoffs",
       "en": "Every task carries its preparer and reviewer sign-offs.",
-      "fr": "Chaque tâche porte ses signatures préparateur et réviseur."
+      "fr": "Chaque tâche porte les signatures du préparateur et du réviseur.",
+      "tasks": [
+       "complete"
+      ]
      },
      {
       "key": "nothing_open",
       "en": "No review note or point outstanding remains open.",
-      "fr": "Aucune note de revue ni point en suspens ne reste ouvert."
+      "fr": "Aucune note de revue ni aucun point en suspens ne reste ouvert.",
+      "tasks": [
+       "complete"
+      ],
+      "autoCheck": "review_notes_cleared"
      },
      {
       "key": "retention",
-      "en": "The archive date and retention end date are recorded.",
-      "fr": "La date d'archivage et la fin de conservation sont consignées."
+      "en": "The archive date and the retention end date are recorded.",
+      "fr": "La date d'archivage et la fin de la durée de conservation sont consignées.",
+      "tasks": [
+       "lock"
+      ]
      },
      {
       "key": "mods_logged",
-      "en": "Any post-assembly modification is documented (what, when, who, why).",
-      "fr": "Toute modification post-assemblage est documentée (quoi, quand, qui, pourquoi)."
+      "en": "Any modification after assembly is documented: what, when, who and why.",
+      "fr": "Toute modification postérieure à la constitution est documentée : quoi, quand, qui et pourquoi.",
+      "tasks": [
+       "later"
+      ],
+      "vs": false
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Assemble the audit documentation in the final engagement file on a timely basis after the date of the auditor's report, and after assembly neither delete nor discard any documentation before the end of its retention period; document any later modification.",
+  "objectiveFr": "Constituer le dossier d'audit définitif en temps utile après la date du rapport de l'auditeur, puis ne supprimer ni n'écarter aucun document avant la fin de la durée de conservation ; documenter toute modification ultérieure.",
+  "isa": [
+   {
+    "std": "ISA 230"
+   },
+   {
+    "std": "ISQM 1"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_review_notes",
+    "en": "Review notes",
+    "fr": "Notes de revue",
+    "noteEn": "Open notes across the file",
+    "noteFr": "Notes ouvertes sur l'ensemble du dossier"
+   }
+  ],
+  "links": [
+   "C4.1",
+   "C6.1",
+   "C5.1"
+  ],
+  "conclStdEn": "The final file is complete, assembled within the assembly period, and archived under the firm's retention policy.",
+  "conclStdFr": "Le dossier définitif est complet, constitué dans le délai prévu et archivé selon la politique de conservation du cabinet."
  }
 }

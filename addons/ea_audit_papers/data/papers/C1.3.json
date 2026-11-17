@@ -13,93 +13,191 @@
    "Le cabinet impose la consultation sur les questions difficiles ou controversées. L'associé responsable veille à ce qu'elle ait lieu et à ce que les conclusions convenues soient mises en œuvre (ISA 220 révisée ¶35).",
    "La documentation consigne la question, la personne consultée, les informations fournies et la conclusion retenue."
   ],
-  "conclEn": [
-   "Consultation has been undertaken on every matter that required it, and the conclusions agreed have been implemented."
-  ],
-  "conclFr": [
-   "Une consultation a été menée sur chaque question l'exigeant, et les conclusions convenues ont été mises en œuvre."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "identify",
       "en": "Identify the matters requiring consultation under the firm's policy, including those anticipated in S6.2.",
       "fr": "Identifier les questions appelant une consultation selon la politique du cabinet, y compris celles anticipées en S6.2.",
-      "srcEn": "Firm consultation policy · S6.2 · C1.2",
-      "srcFr": "Politique de consultation · S6.2 · C1.2"
+      "shortEn": "Matters to consult on",
+      "shortFr": "Points à soumettre",
+      "isa": "ISA 220 ¶35 · ISQM 1 ¶31(d)",
+      "tipsEn": [
+       "Check the matters anticipated at planning in S6.2."
+      ],
+      "tipsFr": [
+       "Reprendre les points anticipés à la planification en S6.2."
+      ],
+      "stdEn": "The matters requiring consultation under the firm's policy are those listed in this paper.",
+      "stdFr": "Les points devant être soumis à consultation selon la politique du cabinet sont ceux listés dans ce papier.",
+      "sourceHint": "Firm consultation policy"
      },
      {
       "key": "consult",
       "en": "Consult a person with the appropriate knowledge and experience, and record their name, their role and the date.",
       "fr": "Consulter une personne disposant des connaissances et de l'expérience appropriées et consigner son nom, sa fonction et la date.",
-      "srcEn": "Consultation note · firm technical function",
-      "srcFr": "Note de consultation · service technique du cabinet"
+      "shortEn": "Person consulted",
+      "shortFr": "Personne consultée",
+      "isa": "ISA 220 ¶35(a)",
+      "tipsEn": [
+       "Record the name, the role and the date."
+      ],
+      "tipsFr": [
+       "Consigner le nom, la fonction et la date."
+      ],
+      "stdEn": "The person consulted, their role and the date are recorded in the consultation note.",
+      "stdFr": "La personne consultée, sa fonction et la date figurent dans la note de consultation.",
+      "sourceHint": "Consultation note"
      },
      {
       "key": "information",
       "en": "Record the information provided to the person consulted, and confirm it was complete and accurate.",
       "fr": "Consigner les informations fournies à la personne consultée et vérifier leur exhaustivité et leur exactitude.",
-      "srcEn": "Consultation note · supporting working papers",
-      "srcFr": "Note de consultation · feuilles de travail justificatives"
+      "shortEn": "Information provided",
+      "shortFr": "Informations fournies",
+      "isa": "ISA 230 ¶8",
+      "tipsEn": [
+       "Give the facts and the papers, not a summary of the team's view."
+      ],
+      "tipsFr": [
+       "Fournir les faits et les papiers, pas un résumé de la position de l'équipe."
+      ],
+      "stdEn": "Complete and accurate information was provided to the person consulted.",
+      "stdFr": "Des informations complètes et exactes ont été fournies à la personne consultée.",
+      "sourceHint": "Consultation note"
      },
      {
       "key": "conclusion",
       "en": "Record the conclusion reached and agree it with the person consulted.",
       "fr": "Consigner la conclusion retenue et la faire valider par la personne consultée.",
-      "srcEn": "Consultation note countersigned",
-      "srcFr": "Note de consultation contresignée"
+      "shortEn": "Conclusion agreed",
+      "shortFr": "Conclusion convenue",
+      "isa": "ISA 220 ¶35(c)",
+      "tipsEn": [
+       "Have the note countersigned by the person consulted."
+      ],
+      "tipsFr": [
+       "Faire contresigner la note par la personne consultée."
+      ],
+      "neverLight": true
      },
      {
       "key": "implement",
       "en": "Confirm that the conclusion agreed has been implemented in the file and in the financial statements.",
       "fr": "Vérifier que la conclusion convenue a été mise en œuvre dans le dossier et dans les états financiers.",
-      "srcEn": "Working papers · draft financial statements",
-      "srcFr": "Feuilles de travail · projet d'états financiers"
+      "shortEn": "Conclusion implemented",
+      "shortFr": "Conclusion mise en œuvre",
+      "isa": "ISA 220 ¶35(d)",
+      "tipsEn": [
+       "Trace the conclusion to the paper and to the financial statements it changes."
+      ],
+      "tipsFr": [
+       "Suivre la conclusion jusqu'au papier et aux états financiers qu'elle modifie."
+      ],
+      "stdEn": "The conclusion agreed is implemented in the file and in the financial statements.",
+      "stdFr": "La conclusion convenue est mise en œuvre dans le dossier et dans les états financiers.",
+      "sourceHint": "Working papers"
      },
      {
       "key": "external",
       "en": "Where the matter was referred outside the firm, record the terms on which the external advice was obtained.",
       "fr": "Lorsque la question a été soumise hors du cabinet, consigner les conditions d'obtention de l'avis externe.",
-      "srcEn": "External adviser's terms and opinion",
-      "srcFr": "Termes et avis du conseil externe"
+      "shortEn": "Advice from outside the firm",
+      "shortFr": "Avis extérieur au cabinet",
+      "isa": "ISQM 1 ¶31(d)",
+      "tipsEn": [
+       "Record the terms of the engagement and the adviser's competence."
+      ],
+      "tipsFr": [
+       "Consigner les conditions de l'intervention et la compétence du conseil."
+      ],
+      "stdEn": "No matter was referred outside the firm.",
+      "stdFr": "Aucun point n'a été soumis à l'extérieur du cabinet.",
+      "sourceHint": "Firm records"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "undertaken",
-      "en": "Consultation was undertaken on every matter the firm's policy requires (procedure 1).",
-      "fr": "Une consultation a été menée sur chaque question requise par la politique du cabinet (procédure 1)."
+      "en": "Consultation was undertaken on every matter the firm's policy requires.",
+      "fr": "La consultation a eu lieu sur chaque point exigé par la politique du cabinet.",
+      "tasks": [
+       "identify",
+       "consult"
+      ]
      },
      {
       "key": "complete_info",
-      "en": "The person consulted was given complete and accurate information (procedure 3).",
-      "fr": "La personne consultée a reçu des informations complètes et exactes (procédure 3)."
+      "en": "The person consulted was given complete and accurate information.",
+      "fr": "La personne consultée a reçu des informations complètes et exactes.",
+      "tasks": [
+       "information"
+      ],
+      "vs": false
      },
      {
       "key": "agreed",
-      "en": "The conclusion is agreed with the person consulted (procedure 4).",
-      "fr": "La conclusion est validée par la personne consultée (procédure 4)."
+      "en": "The conclusion is agreed with the person consulted.",
+      "fr": "La conclusion est convenue avec la personne consultée.",
+      "tasks": [
+       "conclusion"
+      ]
      },
      {
       "key": "implemented",
-      "en": "Every conclusion agreed has been implemented (procedure 5).",
-      "fr": "Chaque conclusion convenue a été mise en œuvre (procédure 5)."
+      "en": "Every conclusion agreed is implemented.",
+      "fr": "Chaque conclusion convenue est mise en œuvre.",
+      "tasks": [
+       "implement"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Where a difficult or contentious matter arises, consult within or outside the firm with persons having the appropriate knowledge, agree the conclusion with them and implement it, and document the nature and scope of the consultation.",
+  "objectiveFr": "Lorsqu'une question difficile ou controversée se pose, consulter, au sein du cabinet ou à l'extérieur, des personnes ayant les compétences appropriées, convenir avec elles de la conclusion et la mettre en œuvre, et documenter la nature et l'étendue de la consultation.",
+  "isa": [
+   {
+    "std": "ISA 220"
+   },
+   {
+    "std": "ISQM 1"
+   },
+   {
+    "std": "ISA 230"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_team",
+    "en": "Team",
+    "fr": "Équipe",
+    "noteEn": "Who has the knowledge and the role",
+    "noteFr": "Qui a les compétences et le rôle"
+   },
+   {
+    "action": "action_tool_review_notes",
+    "en": "Review notes",
+    "fr": "Notes de revue",
+    "noteEn": "Open notes across the file",
+    "noteFr": "Notes ouvertes sur l'ensemble du dossier"
+   }
+  ],
+  "links": [
+   "C1.2",
+   "S6.2",
+   "C4.1"
+  ],
+  "conclStdEn": "Consultation has been undertaken on every matter that required it, and the conclusions agreed have been implemented.",
+  "conclStdFr": "La consultation a eu lieu sur chaque point qui l'exigeait, et les conclusions convenues ont été mises en œuvre."
  }
 }

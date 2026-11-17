@@ -11,79 +11,139 @@
   "reqFr": [
    "Le responsable de la revue de qualité procède à une évaluation objective des jugements importants et des conclusions retenues. Le rapport n'est pas daté avant l'achèvement de la revue (ISQM 2 ¶25–26)."
   ],
-  "conclEn": [
-   "Where required, the engagement quality review is complete and no matter remains unresolved."
-  ],
-  "conclFr": [
-   "Lorsqu'elle est requise, la revue de qualité est achevée et aucun point ne reste non résolu."
-  ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "required",
       "en": "Confirm from P1.5 whether an engagement quality review is required, and the identity of the reviewer appointed.",
       "fr": "Confirmer à partir de P1.5 si une revue de qualité est requise et l'identité du responsable désigné.",
-      "srcEn": "P1.5 · firm records",
-      "srcFr": "P1.5 · dossiers du cabinet",
-      "tipEn": "[Draft] Re-read the P1.5 determination against the facts at completion — a listed entity, a public-interest entity, a high-risk file, a firm policy trigger — because a file that became high-risk during the audit needs a reviewer appointed now, not at planning. Confirm the appointed reviewer is still eligible: not a team member, not the previous year's engagement partner within the cooling-off period, and with the objectivity declaration on file.",
-      "tipFr": "[Projet] Relire la détermination de P1.5 au regard des faits à l'achèvement — entité cotée, entité d'intérêt public, dossier à risque élevé, critère de la politique du cabinet — car un dossier devenu à risque élevé en cours d'audit appelle la désignation d'un responsable maintenant, pas à la planification. Vérifier que le responsable désigné est toujours éligible : pas membre de l'équipe, pas l'associé de la mission de l'exercice précédent pendant le délai de viduité, et avec sa déclaration d'objectivité au dossier."
+      "shortEn": "Review required",
+      "shortFr": "Revue requise",
+      "isa": "ISQM 2 ¶18 · ISA 220 ¶36",
+      "tipsEn": [
+       "Read P1.5 again against the facts at completion."
+      ],
+      "tipsFr": [
+       "Relire P1.5 au regard des faits à l'achèvement."
+      ],
+      "stdEn": "The review is required under P1.5 and the reviewer is appointed on the team.",
+      "stdFr": "La revue est requise selon P1.5 et le responsable de la revue est désigné dans l'équipe.",
+      "sourceHint": "P1.5"
      },
      {
       "key": "scope",
       "en": "Provide the reviewer with the significant judgements, the significant risks and the conclusions reached, and record what was provided.",
       "fr": "Mettre à disposition du responsable les jugements importants, les risques importants et les conclusions retenues, et consigner ce qui a été fourni.",
-      "srcEn": "C1.2 · S3.1 · working papers",
-      "srcFr": "C1.2 · S3.1 · feuilles de travail",
-      "tipEn": "[Draft] Prepare a short pack for the reviewer: the C1.2 significant matters, the S3.1 risk register, the materiality and its revisions, the SAD, the draft report and the papers behind each significant judgement (going concern, estimates, fraud). Give access to the whole file, but say in writing which papers carry the judgements. The pack and the date it was handed over are the record of procedure 2.",
-      "tipFr": "[Projet] Préparer un dossier succinct pour le responsable : les points significatifs de C1.2, le registre des risques S3.1, le seuil de signification et ses révisions, le SAD, le projet de rapport et les feuilles qui portent chaque jugement important (continuité, estimations, fraude). Donner accès au dossier entier, mais indiquer par écrit quelles feuilles portent les jugements. Ce dossier et la date de sa remise constituent la trace de la procédure 2."
+      "shortEn": "Information given to the reviewer",
+      "shortFr": "Informations remises au responsable",
+      "isa": "ISQM 2 ¶25(a)–(b)",
+      "tipsEn": [
+       "A short pack: C1.2, the significant risks, the summary of audit differences, the draft report."
+      ],
+      "tipsFr": [
+       "Un dossier court : C1.2, les risques importants, le récapitulatif des anomalies, le projet de rapport."
+      ],
+      "stdEn": "The significant judgements, risks and conclusions were provided to the reviewer.",
+      "stdFr": "Les jugements importants, les risques et les conclusions ont été remis au responsable de la revue.",
+      "sourceHint": "C1.2 · S3.1"
      },
      {
       "key": "review",
       "en": "Record the reviewer's evaluation, the matters raised, the responses given, and confirm each has been resolved.",
       "fr": "Consigner l'évaluation du responsable, les points soulevés, les réponses apportées et vérifier leur résolution.",
-      "srcEn": "Reviewer's notes · our responses",
-      "srcFr": "Notes du responsable · nos réponses",
-      "tipEn": "[Draft] Keep the reviewer's points as a numbered list with, for each, the team's response, the paper changed and the date the reviewer accepted the answer. A point closed by a conversation nobody wrote down is still open. Where the reviewer and the engagement partner disagree, the firm's differences-of-opinion procedure applies and the report is not dated until it concludes.",
-      "tipFr": "[Projet] Tenir les points du responsable en liste numérotée avec, pour chacun, la réponse de l'équipe, la feuille modifiée et la date à laquelle le responsable a accepté la réponse. Un point clos par une conversation que personne n'a écrite reste ouvert. En cas de désaccord entre le responsable et l'associé de la mission, la procédure du cabinet sur les divergences d'opinion s'applique et le rapport n'est pas daté avant sa conclusion."
+      "shortEn": "Reviewer's evaluation",
+      "shortFr": "Évaluation du responsable",
+      "isa": "ISQM 2 ¶25",
+      "tipsEn": [
+       "Keep the points as a numbered list with the team's response and the date each was accepted."
+      ],
+      "tipsFr": [
+       "Tenir les points en liste numérotée avec la réponse de l'équipe et la date d'acceptation de chacun."
+      ],
+      "neverLight": true
      },
      {
       "key": "completion",
       "en": "Confirm the review is complete and record its date, which must not be later than the date of the auditor's report.",
       "fr": "Confirmer l'achèvement de la revue et consigner sa date, qui ne peut être postérieure à celle du rapport.",
-      "srcEn": "ISQM 2 ¶25 · reviewer's confirmation",
-      "srcFr": "ISQM 2 ¶25 · confirmation du responsable",
-      "tipEn": "[Draft] Obtain the reviewer's own sign-off on this paper with the date of completion, and compare it with the report date before the report is released. The review is complete when every point is resolved and the reviewer has read the final draft of the report and the financial statements; a review completed on a draft that changed afterwards is not complete.",
-      "tipFr": "[Projet] Obtenir la signature du responsable lui-même sur cette feuille avec la date d'achèvement, et la comparer à la date du rapport avant sa diffusion. La revue est achevée lorsque chaque point est résolu et que le responsable a lu la version définitive du rapport et des états financiers ; une revue achevée sur un projet modifié ensuite n'est pas achevée."
+      "shortEn": "Review complete",
+      "shortFr": "Revue achevée",
+      "isa": "ISQM 2 ¶26 · ISA 220 ¶36(c)",
+      "tipsEn": [
+       "Compare the completion date with the report date before the report is released."
+      ],
+      "tipsFr": [
+       "Comparer la date d'achèvement à la date du rapport avant sa remise."
+      ],
+      "neverLight": true
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "complete",
-      "en": "Where required, the engagement quality review is complete and dated no later than the auditor's report (procedures 3, 4).",
-      "fr": "Lorsqu'elle est requise, la revue de qualité est achevée et datée au plus tard à la date du rapport (procédures 3, 4).",
-      "na": true
+      "en": "Where required, the engagement quality review is complete and dated no later than the auditor's report.",
+      "fr": "Lorsqu'elle est requise, la revue de qualité est achevée et datée au plus tard du jour du rapport de l'auditeur.",
+      "na": true,
+      "tasks": [
+       "review",
+       "completion"
+      ]
      },
      {
       "key": "resolved",
-      "en": "Every matter raised by the reviewer has been resolved (procedure 3).",
-      "fr": "Chaque point soulevé par le responsable de la revue a été résolu (procédure 3).",
-      "na": true
+      "en": "Every matter raised by the reviewer is resolved.",
+      "fr": "Chaque point soulevé par le responsable de la revue est résolu.",
+      "na": true,
+      "tasks": [
+       "review"
+      ]
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Where an engagement quality review is required, the engagement quality reviewer objectively evaluates the significant judgements made by the engagement team and the conclusions reached on them, and the review is complete before the auditor's report is dated.",
+  "objectiveFr": "Lorsqu'une revue de qualité de la mission est requise, le responsable de la revue évalue objectivement les jugements importants de l'équipe et les conclusions retenues, et la revue est achevée avant que le rapport de l'auditeur ne soit daté.",
+  "isa": [
+   {
+    "std": "ISQM 2"
+   },
+   {
+    "std": "ISA 220"
+   }
+  ],
+  "tools": [
+   {
+    "action": "action_tool_review_notes",
+    "en": "Review notes",
+    "fr": "Notes de revue",
+    "noteEn": "Open notes across the file",
+    "noteFr": "Notes ouvertes sur l'ensemble du dossier"
+   },
+   {
+    "action": "action_tool_team",
+    "en": "Team",
+    "fr": "Équipe",
+    "noteEn": "Who has the knowledge and the role",
+    "noteFr": "Qui a les compétences et le rôle"
+   }
+  ],
+  "links": [
+   "P1.5",
+   "C1.2",
+   "S3.1",
+   "C5.11",
+   "C5.1"
+  ],
+  "conclStdEn": "The engagement quality review is complete, no matter raised remains unresolved, and the review was completed before the report was dated.",
+  "conclStdFr": "La revue de qualité de la mission est achevée, aucun point soulevé ne reste non résolu, et la revue a été achevée avant que le rapport ne soit daté."
  }
 }

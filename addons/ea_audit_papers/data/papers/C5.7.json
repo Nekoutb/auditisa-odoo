@@ -2,7 +2,7 @@
  "code": "C5.7",
  "source": "lib/papers/conclusion.ts",
  "definition": {
-  "std": "AUSCGIE arts. 746-1 and 746-2 (à valider) · arts. 764 et s. (titres nominatifs)",
+  "std": "OHADA arts. 746-1 and 746-2 (à valider) · arts. 764 et s. (titres nominatifs)",
   "ownsEn": "the attestation on the register of registered securities",
   "ownsFr": "l'attestation sur le registre des titres nominatifs",
   "reqEn": [
@@ -13,130 +13,240 @@
    "Les titres nominatifs sont représentés par une inscription en compte tenu par la société émettrice ou par un intermédiaire financier agréé (art. 746-1 — à valider) ; le commissaire aux comptes vérifie les registres et atteste de leur existence et de leur tenue (art. 746-2 — à valider). Le registre établit la propriété de la société. Une inscription omise, ou effectuée sans l'ordre de mouvement correspondant, fragilise l'information sur l'actionnariat et l'identification des parties liées. Une SARL ou un GIE n'émet pas de titres nominatifs : cette feuille n'existe que pour les formes qui en émettent.",
    "Lorsque les titres sont inscrits en compte chez un intermédiaire agréé plutôt que dans le registre propre de la société, la preuve change : le relevé des comptes de l'intermédiaire à la date de clôture est obtenu et rapproché du capital social, et l'attestation le mentionne. L'attestation est générée depuis l'outil juridique (/legal, C5.7) une fois cette feuille conclue sur la tenue et la concordance du registre."
   ],
-  "conclEn": [
-   "The register of registered securities is kept as the Uniform Act requires and agrees with the share capital shown in the financial statements."
-  ],
-  "conclFr": [
-   "Le registre des titres nominatifs est tenu conformément à l'Acte uniforme et concorde avec le capital figurant dans les états financiers."
-  ],
   "tools": [
-   "legal"
+   {
+    "action": "action_tool_legal",
+    "en": "Legal tool",
+    "fr": "Outil juridique",
+    "noteEn": "Holding mode and the attestation",
+    "noteFr": "Mode de détention et attestation"
+   }
   ],
   "sections": [
    {
     "kind": "proc",
-    "titleEn": "Part A — Procedures and expected sources",
-    "titleFr": "Partie A — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, stating what was obtained, from whom or from which source, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat : ce qui a été obtenu, auprès de qui ou de quelle source, et la référence du dossier.",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
     "procs": [
      {
       "key": "exists",
       "en": "Inspect the register and confirm it is kept in the form the Uniform Act requires — the issuing company keeping the accounts of its registered securities, or an authorised intermediary doing so — and that its pages or its account records are numbered, chronological and unbroken.",
       "fr": "Examiner le registre et vérifier sa tenue dans la forme requise par l'Acte uniforme — comptes des titres nominatifs tenus par la société émettrice, ou par un intermédiaire agréé — avec une pagination ou des inscriptions en compte continues et chronologiques.",
-      "srcEn": "Register of registered securities · AUSCGIE arts. 746-1, 746-2 (à valider)",
-      "srcFr": "Registre des titres nominatifs · AUSCGIE arts. 746-1, 746-2 (à valider)"
+      "shortEn": "Register kept in due form",
+      "shortFr": "Registre tenu en due forme",
+      "isa": "OHADA arts. 746-1, 764 (à valider)",
+      "tipsEn": [
+       "Pages or records numbered, chronological, without gaps."
+      ],
+      "tipsFr": [
+       "Pages ou enregistrements numérotés, chronologiques, sans lacune."
+      ],
+      "stdEn": "The register is kept in the form the Act requires; no gaps noted.",
+      "stdFr": "Le registre est tenu dans la forme requise par l'Acte ; aucune lacune relevée.",
+      "sourceHint": "Register inspected"
      },
      {
       "key": "holding_mode",
       "en": "Establish how the securities are held: in the company's own register, or in accounts kept by an authorised financial intermediary (bank, custodian, central depository). Record the mode in the legal tool before the attestation is generated, because the attestation's wording follows it.",
       "fr": "Établir le mode de détention des titres : registre propre de la société, ou comptes tenus par un intermédiaire financier agréé (banque, teneur de comptes, dépositaire central). Consigner le mode dans l'outil juridique avant de générer l'attestation, dont la rédaction en dépend.",
-      "srcEn": "Statutes · custody agreement · AUSCGIE art. 746-1 (à valider)",
-      "srcFr": "Statuts · convention de tenue de comptes · AUSCGIE art. 746-1 (à valider)"
+      "shortEn": "How the securities are held",
+      "shortFr": "Mode de détention des titres",
+      "isa": "OHADA art. 746-2 (à valider)",
+      "tipsEn": [
+       "Record the mode in the legal tool first: the attestation's wording follows it."
+      ],
+      "tipsFr": [
+       "Consigner d'abord le mode dans l'outil juridique : la rédaction de l'attestation en dépend."
+      ],
+      "stdEn": "The securities are held in the company's own register; mode recorded in the legal tool.",
+      "stdFr": "Les titres sont inscrits au registre de la société ; mode consigné dans l'outil juridique.",
+      "sourceHint": "Legal tool"
      },
      {
       "key": "intermediary",
       "en": "Where the securities are held in accounts by an authorised intermediary, obtain the intermediary's statement of the securities accounts at the closing date directly from the intermediary, reconcile the total securities and the holders to the share capital and to the company's own records, and explain any difference.",
       "fr": "Lorsque les titres sont inscrits en compte chez un intermédiaire agréé, obtenir directement de l'intermédiaire le relevé des comptes-titres à la date de clôture, rapprocher le total des titres et les titulaires du capital social et des propres enregistrements de la société, et expliquer tout écart.",
-      "srcEn": "Intermediary's statement (direct confirmation) · E4.9 · AUSCGIE art. 746-1 (à valider)",
-      "srcFr": "Relevé de l'intermédiaire (confirmation directe) · E4.9 · AUSCGIE art. 746-1 (à valider)"
+      "shortEn": "Intermediary's statement",
+      "shortFr": "Relevé de l'intermédiaire",
+      "isa": "ISA 505 ¶7",
+      "tipsEn": [
+       "Obtain the statement directly from the intermediary."
+      ],
+      "tipsFr": [
+       "Obtenir le relevé directement auprès de l'intermédiaire."
+      ],
+      "stdEn": "The securities are not held by an intermediary.",
+      "stdFr": "Les titres ne sont pas tenus par un intermédiaire.",
+      "sourceHint": "Legal tool"
      },
      {
       "key": "agree",
       "en": "Agree the total number of securities recorded to the share capital in the financial statements and to the statutes.",
       "fr": "Rapprocher le nombre total de titres inscrits du capital figurant dans les états financiers et des statuts.",
-      "srcEn": "Register · statutes · E4.9",
-      "srcFr": "Registre · statuts · E4.9"
+      "shortEn": "Agrees to the share capital",
+      "shortFr": "Concordance avec le capital",
+      "isa": "OHADA art. 746-2 (à valider)",
+      "tipsEn": [
+       "Number of securities times nominal value equals the share capital."
+      ],
+      "tipsFr": [
+       "Nombre de titres multiplié par la valeur nominale égale le capital social."
+      ],
+      "stdEn": "The total securities agree to the share capital and the statutes.",
+      "stdFr": "Le total des titres concorde avec le capital social et les statuts.",
+      "sourceHint": "Statutes · financial statements"
      },
      {
       "key": "movements",
       "en": "Test the transfers recorded in the period to the transfer documents and to the approval of the [[lf.board]] where the statutes require it.",
       "fr": "Tester les mouvements de l'exercice au regard des ordres de mouvement et de l'agrément de l'[[lf.board]] lorsque les statuts l'exigent.",
-      "srcEn": "Transfer orders · minutes of the [[lf.board]]",
-      "srcFr": "Ordres de mouvement · procès-verbaux de l'[[lf.board]]"
+      "shortEn": "Transfers in the period",
+      "shortFr": "Mouvements de l'exercice",
+      "isa": "OHADA art. 764 (à valider)",
+      "tipsEn": [
+       "Check the approval where the statutes require one."
+      ],
+      "tipsFr": [
+       "Vérifier l'agrément lorsque les statuts l'exigent."
+      ],
+      "stdEn": "No transfer was recorded in the period.",
+      "stdFr": "Aucun mouvement n'a été enregistré au cours de l'exercice.",
+      "sourceHint": "Transfer documents"
      },
      {
       "key": "holders",
       "en": "Agree the holders recorded to the list used to convene the general meeting, and to the related party register.",
       "fr": "Rapprocher les titulaires inscrits de la liste ayant servi à convoquer l'assemblée et du registre des parties liées.",
-      "srcEn": "Convening list · S4.3 · E6.2",
-      "srcFr": "Liste de convocation · S4.3 · E6.2"
+      "shortEn": "Holders",
+      "shortFr": "Titulaires",
+      "isa": "OHADA art. 746-2 (à valider)",
+      "tipsEn": [
+       "Compare with the attendance list of the general meeting."
+      ],
+      "tipsFr": [
+       "Comparer avec la feuille de présence de l'assemblée générale."
+      ],
+      "stdEn": "The holders agree to the meeting list and the related-party register.",
+      "stdFr": "Les titulaires concordent avec la liste de l'assemblée et le registre des parties liées.",
+      "sourceHint": "Attendance list"
      },
      {
       "key": "pledges",
       "en": "Identify any pledge or restriction recorded against the securities, and confirm it is disclosed.",
       "fr": "Identifier tout nantissement ou restriction inscrit sur les titres et vérifier sa mention.",
-      "srcEn": "Register · loan agreements · E4.8",
-      "srcFr": "Registre · contrats de prêt · E4.8"
+      "shortEn": "Pledges and restrictions",
+      "shortFr": "Nantissements et restrictions",
+      "isa": "ISA 500 ¶6",
+      "tipsEn": [
+       "Read the bank confirmations for pledged securities."
+      ],
+      "tipsFr": [
+       "Lire les confirmations bancaires pour les titres nantis."
+      ],
+      "stdEn": "No pledge or restriction is recorded against the securities.",
+      "stdFr": "Aucun nantissement ni aucune restriction n'est inscrit sur les titres.",
+      "sourceHint": "Bank confirmations"
      },
      {
       "key": "attest",
       "en": "Generate the attestation from the legal tool (/legal, C5.7) — its wording follows the holding mode recorded there — and record its date and the person to whom it was given.",
       "fr": "Générer l'attestation depuis l'outil juridique (/legal, C5.7) — sa rédaction suit le mode de détention consigné — et consigner sa date et son destinataire.",
-      "srcEn": "Our attestation (legal tool) · AUSCGIE art. 746-2 (à valider)",
-      "srcFr": "Notre attestation (outil juridique) · AUSCGIE art. 746-2 (à valider)"
+      "shortEn": "Attestation issued",
+      "shortFr": "Attestation délivrée",
+      "isa": "OHADA art. 746-2 (à valider)",
+      "tipsEn": [
+       "Generate it from the legal tool and record to whom it was given."
+      ],
+      "tipsFr": [
+       "La générer depuis l'outil juridique et consigner à qui elle a été remise."
+      ],
+      "stdEn": "Attestation generated from the legal tool, dated and handed over.",
+      "stdFr": "Attestation générée depuis l'outil juridique, datée et remise.",
+      "sourceHint": "Legal tool"
      }
     ]
    },
    {
     "kind": "yn",
-    "titleEn": "Part B — Evaluation",
-    "titleFr": "Partie B — Évaluation",
-    "introEn": "Evaluate the results of the Part A procedures against each statement. Explain each “No” in the box beneath it, including what remains to be done before the report is dated.",
-    "introFr": "Évaluer les résultats de la partie A au regard de chaque affirmation. Expliquer chaque « Non », y compris ce qui reste à faire avant la date du rapport.",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
     "items": [
      {
       "key": "kept",
-      "en": "The register is kept in the form the Uniform Act requires (procedure 1).",
-      "fr": "Le registre est tenu dans la forme requise par l'Acte uniforme (procédure 1)."
+      "en": "The register is kept in the form the Uniform Act requires.",
+      "fr": "Le registre est tenu dans la forme exigée par l'Acte uniforme.",
+      "tasks": [
+       "exists",
+       "holding_mode"
+      ]
      },
      {
       "key": "intermediary_reconciled",
-      "en": "Where the securities are held by an authorised intermediary, its statement at the closing date was obtained directly and reconciles to the share capital (procedure 3).",
-      "fr": "Lorsque les titres sont détenus par un intermédiaire agréé, son relevé à la date de clôture a été obtenu directement et se rapproche du capital social (procédure 3).",
-      "na": true
+      "en": "Where the securities are held by an authorised intermediary, its statement at the closing date was obtained directly and agrees with the share capital.",
+      "fr": "Lorsque les titres sont tenus par un intermédiaire habilité, son relevé à la clôture a été obtenu directement et concorde avec le capital social.",
+      "na": true,
+      "tasks": [
+       "intermediary"
+      ]
      },
      {
       "key": "agrees",
-      "en": "The register agrees to the share capital in the financial statements and to the statutes (procedure 4).",
-      "fr": "Le registre concorde avec le capital des états financiers et avec les statuts (procédure 4)."
+      "en": "The register agrees to the share capital in the financial statements and to the statutes.",
+      "fr": "Le registre concorde avec le capital social des états financiers et avec les statuts.",
+      "tasks": [
+       "agree",
+       "holders"
+      ]
      },
      {
       "key": "supported",
-      "en": "Every transfer recorded is supported by a transfer document and, where required, by the approval of the [[lf.board]] (procedure 5).",
-      "fr": "Chaque mouvement inscrit est justifié par un ordre de mouvement et, si requis, par l'agrément de l'[[lf.board]] (procédure 5)."
+      "en": "Every transfer recorded is supported by a transfer document and, where required, by the approval of the [[lf.board]].",
+      "fr": "Chaque mouvement enregistré est justifié par un ordre de mouvement et, le cas échéant, par l'agrément du [[lf.board]].",
+      "tasks": [
+       "movements"
+      ],
+      "vs": false
      }
     ]
    },
    {
     "kind": "fields",
-    "titleEn": "Part C — Outcome",
-    "titleFr": "Partie C — Résultat",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "matters",
       "kind": "input",
       "labelEn": "Matters arising, and where each is carried: C1.2 significant matters, C1.1 misstatements, or the points forward on the Conclusion screen",
-      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion"
+      "labelFr": "Points relevés et leur report : C1.2 points significatifs, C1.1 anomalies, ou points reportés sur l'écran Conclusion",
+      "optional": true
      },
      {
       "key": "effect",
       "kind": "input",
       "labelEn": "Effect on the auditor's report, if any",
-      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur"
+      "labelFr": "Incidence éventuelle sur le rapport de l'auditeur",
+      "optional": true
      }
     ]
    }
-  ]
+  ],
+  "objectiveEn": "Attest that the register of registered securities, or the securities accounts kept for the company, is kept as the OHADA Uniform Act on commercial companies requires and agrees with the share capital shown in the financial statements and the statutes.",
+  "objectiveFr": "Attester que le registre des titres nominatifs, ou les comptes de titres tenus pour la société, est tenu comme l'exige l'Acte uniforme et concorde avec le capital social figurant dans les états financiers et les statuts.",
+  "isa": [
+   {
+    "std": "ISA 500"
+   },
+   {
+    "std": "ISA 505"
+   }
+  ],
+  "links": [
+   "C5.3",
+   "S4.3",
+   "C5.1"
+  ],
+  "conclStdEn": "The register of registered securities is kept as the Uniform Act requires and agrees with the share capital shown in the financial statements.",
+  "conclStdFr": "Le registre des titres nominatifs est tenu comme l'exige l'Acte uniforme et concorde avec le capital social figurant dans les états financiers."
  }
 }

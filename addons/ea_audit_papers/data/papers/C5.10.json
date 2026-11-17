@@ -2,7 +2,7 @@
  "code": "C5.10",
  "source": "lib/papers/statutory-525.ts",
  "definition": {
-  "std": "AUSCGIE art. 525 (à valider) · Règlement n°01/2017/CM/OHADA (normes professionnelles) et ISAE 3000 par analogie",
+  "std": "OHADA art. 525 (à valider) · Règlement n°01/2017/CM/OHADA (normes professionnelles) et ISAE 3000 par analogie",
   "ownsEn": "the statutory auditor's certification of the total remuneration paid to the highest-paid persons, and the work that supports it",
   "ownsFr": "l'attestation du commissaire aux comptes sur le montant global des rémunérations versées aux personnes les mieux rémunérées, et les travaux qui la fondent",
   "reqEn": [
@@ -17,11 +17,227 @@
   ],
   "sections": [
    {
+    "kind": "proc",
+    "titleEn": "Tasks required",
+    "titleFr": "Travaux requis",
+    "procs": [
+     {
+      "key": "headcount",
+      "en": "Establish the headcount at the closing date from the payroll register and the social declarations, and determine from it whether the article calls for the ten (more than 200 employees) or the five (200 or fewer) highest-paid persons — threshold to validate; record the figure in the box below, which selects the number.",
+      "fr": "Établir l'effectif à la date de clôture à partir du registre du personnel et des déclarations sociales, en déduire si l'article vise les dix (plus de 200 salariés) ou les cinq (200 ou moins) personnes les mieux rémunérées — seuil à valider ; consigner le chiffre dans la zone ci-dessous, qui sélectionne le nombre.",
+      "shortEn": "Headcount and number of persons",
+      "shortFr": "Effectif et nombre de personnes",
+      "isa": "OHADA art. 525 (à valider)",
+      "tipsEn": [
+       "Establish the count before asking for the list.",
+       "Use the payroll register and the social security returns."
+      ],
+      "tipsFr": [
+       "Établir l'effectif avant de demander la liste.",
+       "Utiliser le registre du personnel et les déclarations sociales."
+      ],
+      "stdEn": "Headcount at closing established from the payroll register; the number of persons follows from it.",
+      "stdFr": "Effectif à la clôture établi à partir du registre du personnel ; le nombre de personnes en découle.",
+      "sourceHint": "Payroll tool",
+      "fieldKeys": [
+       "headcount",
+       "persons"
+      ]
+     },
+     {
+      "key": "statement",
+      "en": "Obtain from management its statement of the total remuneration paid to those persons for the year, with the underlying list and amounts per person, signed as established under its responsibility.",
+      "fr": "Obtenir de la direction sa déclaration du montant global des rémunérations versées à ces personnes au titre de l'exercice, avec la liste et les montants par personne, signée comme établie sous sa responsabilité.",
+      "shortEn": "Management's statement",
+      "shortFr": "Relevé de la direction",
+      "isa": "OHADA art. 525 (à valider) · ISA 580",
+      "tipsEn": [
+       "The statement lists each person and amount and is signed by management."
+      ],
+      "tipsFr": [
+       "Le relevé liste chaque personne et montant et est signé par la direction."
+      ],
+      "stdEn": "Management's signed statement obtained, with the list and the amount per person.",
+      "stdFr": "Relevé signé de la direction obtenu, avec la liste et le montant par personne.",
+      "sourceHint": "Management's statement"
+     },
+     {
+      "key": "scope",
+      "en": "Confirm the scope of remuneration retained is complete — fixed and variable pay, bonuses, benefits in kind, allowances, amounts paid to corporate officers and to persons who are not employees but serve the entity exclusively — and that the persons retained are indeed the highest paid on that basis.",
+      "fr": "Vérifier que le périmètre des rémunérations retenu est complet — fixe, variable, primes, avantages en nature, indemnités, sommes versées aux dirigeants sociaux et aux personnes non salariées au service exclusif de l'entité — et que les personnes retenues sont bien les mieux rémunérées sur cette base.",
+      "shortEn": "Scope of remuneration",
+      "shortFr": "Périmètre des rémunérations",
+      "isa": "OHADA art. 525 (à valider)",
+      "tipsEn": [
+       "Corporate officers are often the highest paid and often missing from a payroll list.",
+       "Include bonuses and benefits in kind."
+      ],
+      "tipsFr": [
+       "Les mandataires sociaux sont souvent les mieux payés et souvent absents d'une liste de paie.",
+       "Inclure les primes et les avantages en nature."
+      ],
+      "stdEn": "The scope is complete and the persons retained are the highest paid on that basis.",
+      "stdFr": "Le périmètre est complet et les personnes retenues sont les mieux rémunérées sur cette base.",
+      "sourceHint": "Payroll tool",
+      "fieldKeys": [
+       "scope"
+      ]
+     },
+     {
+      "key": "reconcile",
+      "en": "Reconcile the total to the accounting from which the financial statements were prepared — the payroll ledger, the personnel-cost accounts and the social declarations — and explain any difference.",
+      "fr": "Rapprocher le montant global de la comptabilité ayant servi de base aux états financiers — livre de paie, comptes de charges de personnel, déclarations sociales — et expliquer tout écart.",
+      "shortEn": "Agreed to the accounting",
+      "shortFr": "Rapprochement avec la comptabilité",
+      "isa": "ISA 500 ¶7",
+      "tipsEn": [
+       "Agree to the payroll ledger, the personnel-cost accounts and the social security returns."
+      ],
+      "tipsFr": [
+       "Rapprocher du journal de paie, des comptes de charges de personnel et des déclarations sociales."
+      ],
+      "stdEn": "The total agrees with the payroll ledger and the personnel-cost accounts without difference.",
+      "stdFr": "Le total concorde avec le journal de paie et les comptes de charges de personnel, sans écart.",
+      "sourceHint": "Payroll tool",
+      "fieldKeys": [
+       "amount"
+      ]
+     },
+     {
+      "key": "consistency",
+      "en": "Check the amount is consistent with the personnel-cost disclosures in the notes and with the audited financial statements, and that nothing in the audit file contradicts the list or the total.",
+      "fr": "Vérifier la cohérence du montant avec les informations sur les charges de personnel dans les notes annexes et avec les états financiers audités, et qu'aucun élément du dossier ne contredit la liste ou le montant.",
+      "shortEn": "Consistent with the statements",
+      "shortFr": "Cohérence avec les états financiers",
+      "isa": "ISA 500 ¶11",
+      "tipsEn": [
+       "Compare with the personnel-cost note."
+      ],
+      "tipsFr": [
+       "Comparer avec la note sur les charges de personnel."
+      ],
+      "stdEn": "The amount is consistent with the notes and with the audited financial statements.",
+      "stdFr": "Le montant est cohérent avec les notes et avec les états financiers audités.",
+      "sourceHint": "Notes to the financial statements"
+     },
+     {
+      "key": "draft",
+      "en": "Draft the attestation in the form the article and the professional standards call for: addressed to the shareholders; citing article 525; management's responsibility and the auditor's; the audit of the accounts as a whole giving no opinion on these amounts in isolation; the diligences performed and that they are neither an audit nor a limited review; the conclusion that the amount is exact and agrees to the accounting; the sentence that it stands as the certification the article requires; the restriction of use; date, signature, and the amount in an annex.",
+      "fr": "Rédiger l'attestation dans la forme requise par l'article et les normes professionnelles : adressée aux actionnaires ; visant l'article 525 ; responsabilité de la direction et du commissaire aux comptes ; l'audit des comptes dans leur ensemble n'exprimant aucune opinion sur ces montants isolément ; les diligences mises en œuvre et le fait qu'elles ne constituent ni un audit ni un examen limité ; la conclusion que le montant est exact et concorde avec la comptabilité ; la mention qu'elle tient lieu de la certification requise ; la restriction d'usage ; date, signature et montant en annexe.",
+      "shortEn": "Attestation drafted",
+      "shortFr": "Attestation rédigée",
+      "isa": "OHADA art. 525 (à valider)",
+      "tipsEn": [
+       "Generate it from the legal tool; it states the limits of the work and the restriction of use."
+      ],
+      "tipsFr": [
+       "La générer depuis l'outil juridique ; elle indique les limites des travaux et la restriction d'usage."
+      ],
+      "stdEn": "Attestation generated from the legal tool in the required form.",
+      "stdFr": "Attestation générée depuis l'outil juridique dans la forme requise.",
+      "sourceHint": "Legal tool"
+     },
+     {
+      "key": "review",
+      "en": "Have the attestation and the reconciliation reviewed by the engagement partner before signature, and file the signed attestation on this task.",
+      "fr": "Faire revoir l'attestation et le rapprochement par l'associé avant signature, et joindre l'attestation signée à cette tâche.",
+      "shortEn": "Partner's review",
+      "shortFr": "Revue de l'associé",
+      "isa": "ISA 220 ¶31",
+      "tipsEn": [
+       "File the signed attestation on this task."
+      ],
+      "tipsFr": [
+       "Classer l'attestation signée sur cette tâche."
+      ],
+      "stdEn": "Attestation and reconciliation reviewed by the engagement partner before signature.",
+      "stdFr": "Attestation et rapprochement revus par l'associé avant signature.",
+      "sourceHint": "Partner review"
+     },
+     {
+      "key": "provide",
+      "en": "Make the attestation available to the shareholders with the other documents article 525 lists, within the period before the general meeting, and record the date and manner on this paper.",
+      "fr": "Mettre l'attestation à la disposition des actionnaires avec les autres documents visés à l'article 525, dans le délai précédant l'assemblée, et consigner la date et la modalité sur cette feuille.",
+      "shortEn": "Made available to shareholders",
+      "shortFr": "Mise à disposition des actionnaires",
+      "isa": "OHADA art. 525 (à valider)",
+      "tipsEn": [
+       "Record the date and the manner."
+      ],
+      "tipsFr": [
+       "Consigner la date et les modalités."
+      ],
+      "stdEn": "Attestation made available to the shareholders before the general meeting.",
+      "stdFr": "Attestation mise à la disposition des actionnaires avant l'assemblée générale.",
+      "sourceHint": "Meeting documents",
+      "fieldKeys": [
+       "provided"
+      ]
+     }
+    ]
+   },
+   {
+    "kind": "yn",
+    "titleEn": "Conclusion: statements",
+    "titleFr": "Conclusion : affirmations",
+    "items": [
+     {
+      "key": "count_right",
+      "en": "The headcount at closing is established from source records, and the number of persons retained — ten above 200 employees, five at or below (à valider) — follows from it under the article.",
+      "fr": "L'effectif à la clôture est établi à partir des documents sources, et le nombre de personnes retenues — dix au-delà de 200 salariés, cinq au plus en deçà (à valider) — en découle selon l'article.",
+      "tasks": [
+       "headcount"
+      ]
+     },
+     {
+      "key": "scope_complete",
+      "en": "The scope of remuneration is complete, including corporate officers and benefits in kind, and the persons retained are the highest paid on that basis.",
+      "fr": "Le périmètre des rémunérations est complet, mandataires sociaux et avantages en nature compris, et les personnes retenues sont les mieux rémunérées sur cette base.",
+      "tasks": [
+       "statement",
+       "scope"
+      ]
+     },
+     {
+      "key": "reconciled",
+      "en": "The total agrees with the accounting from which the financial statements were prepared, without unexplained difference.",
+      "fr": "Le total concorde avec la comptabilité ayant servi à établir les états financiers, sans écart inexpliqué.",
+      "tasks": [
+       "reconcile"
+      ]
+     },
+     {
+      "key": "consistent",
+      "en": "The amount is consistent with the notes on personnel costs and with the audited financial statements.",
+      "fr": "Le montant est cohérent avec les notes sur les charges de personnel et avec les états financiers audités.",
+      "tasks": [
+       "consistency"
+      ],
+      "vs": false
+     },
+     {
+      "key": "form_right",
+      "en": "The attestation carries every element the article and the professional standards call for, including the limits of the work and the restriction of use.",
+      "fr": "L'attestation comporte chaque élément exigé par l'article et les normes professionnelles, y compris les limites des travaux et la restriction d'usage.",
+      "tasks": [
+       "draft",
+       "review"
+      ]
+     },
+     {
+      "key": "provided",
+      "en": "The signed attestation was made available to the shareholders before the general meeting, and the date is recorded on this paper.",
+      "fr": "L'attestation signée a été mise à la disposition des actionnaires avant l'assemblée générale, et la date est consignée sur ce papier.",
+      "tasks": [
+       "provide"
+      ]
+     }
+    ]
+   },
+   {
     "kind": "fields",
-    "titleEn": "Part A — The facts the article turns on",
-    "titleFr": "Partie A — Les faits dont dépend l'article",
-    "introEn": "Record the headcount and the reading of the article applied, so the reviewer can see why five or ten persons were retained: ten where the headcount exceeds 200 employees, five at or below (threshold to validate). Saving the headcount selects the number; the selection can be overridden with the reason in the outcome.",
-    "introFr": "Consigner l'effectif et la lecture de l'article retenue, afin que le réviseur voie pourquoi cinq ou dix personnes ont été retenues : dix lorsque l'effectif excède 200 salariés, cinq au plus en deçà (seuil à valider). L'enregistrement de l'effectif sélectionne le nombre ; la sélection peut être corrigée en motivant dans le résultat.",
+    "titleEn": "Conclusion: other boxes",
+    "titleFr": "Conclusion : autres zones",
     "fields": [
      {
       "key": "headcount",
@@ -66,125 +282,40 @@
       "labelFr": "Date de mise à disposition de l'attestation aux actionnaires, et modalité"
      }
     ]
-   },
-   {
-    "kind": "proc",
-    "titleEn": "Part B — Procedures and expected sources",
-    "titleFr": "Partie B — Procédures et sources attendues",
-    "introEn": "Perform each procedure and record the result, what was obtained and from whom, and the reference of the evidence filed.",
-    "introFr": "Mettre en œuvre chaque procédure et consigner le résultat, ce qui a été obtenu et de qui, et la référence du dossier.",
-    "procs": [
-     {
-      "key": "headcount",
-      "en": "Establish the headcount at the closing date from the payroll register and the social declarations, and determine from it whether the article calls for the ten (more than 200 employees) or the five (200 or fewer) highest-paid persons — threshold to validate; record the figure in Part A, which selects the number.",
-      "fr": "Établir l'effectif à la date de clôture à partir du registre du personnel et des déclarations sociales, en déduire si l'article vise les dix (plus de 200 salariés) ou les cinq (200 ou moins) personnes les mieux rémunérées — seuil à valider ; consigner le chiffre en partie A, qui sélectionne le nombre.",
-      "srcEn": "Payroll register · social declarations · AUSCGIE art. 525",
-      "srcFr": "Registre du personnel · déclarations sociales · AUSCGIE art. 525",
-      "tipEn": "The number of persons follows the headcount, not the size of the payroll. Establish the count before asking for the list, so the list is not shaped by what management would prefer to disclose.",
-      "tipFr": "Le nombre de personnes découle de l'effectif, non de la masse salariale. Établir l'effectif avant de demander la liste, afin que celle-ci ne soit pas façonnée par ce que la direction préférerait communiquer."
-     },
-     {
-      "key": "statement",
-      "en": "Obtain from management its statement of the total remuneration paid to those persons for the year, with the underlying list and amounts per person, signed as established under its responsibility.",
-      "fr": "Obtenir de la direction sa déclaration du montant global des rémunérations versées à ces personnes au titre de l'exercice, avec la liste et les montants par personne, signée comme établie sous sa responsabilité.",
-      "srcEn": "Management's signed statement · list of persons and amounts",
-      "srcFr": "Déclaration signée de la direction · liste des personnes et des montants"
-     },
-     {
-      "key": "scope",
-      "en": "Confirm the scope of remuneration retained is complete — fixed and variable pay, bonuses, benefits in kind, allowances, amounts paid to corporate officers and to persons who are not employees but serve the entity exclusively — and that the persons retained are indeed the highest paid on that basis.",
-      "fr": "Vérifier que le périmètre des rémunérations retenu est complet — fixe, variable, primes, avantages en nature, indemnités, sommes versées aux dirigeants sociaux et aux personnes non salariées au service exclusif de l'entité — et que les personnes retenues sont bien les mieux rémunérées sur cette base.",
-      "srcEn": "Payroll ledger · board and general meeting minutes on officers' remuneration · C5.3 regulated agreements",
-      "srcFr": "Livre de paie · procès-verbaux du conseil et de l'assemblée sur la rémunération des dirigeants · C5.3 conventions réglementées",
-      "tipEn": "Corporate officers are commonly among the highest paid and are commonly missing from a payroll-only list. Cross-check the officers' remuneration approved in the minutes and any regulated agreement on C5.3.",
-      "tipFr": "Les dirigeants sociaux figurent souvent parmi les mieux rémunérés et manquent souvent d'une liste tirée de la seule paie. Recouper la rémunération des dirigeants approuvée dans les procès-verbaux et toute convention réglementée en C5.3."
-     },
-     {
-      "key": "reconcile",
-      "en": "Reconcile the total to the accounting from which the financial statements were prepared — the payroll ledger, the personnel-cost accounts and the social declarations — and explain any difference.",
-      "fr": "Rapprocher le montant global de la comptabilité ayant servi de base aux états financiers — livre de paie, comptes de charges de personnel, déclarations sociales — et expliquer tout écart.",
-      "srcEn": "Payroll ledger · general ledger (personnel costs) · social declarations · reconciliation schedule",
-      "srcFr": "Livre de paie · grand livre (charges de personnel) · déclarations sociales · tableau de rapprochement"
-     },
-     {
-      "key": "consistency",
-      "en": "Check the amount is consistent with the personnel-cost disclosures in the notes and with the audited financial statements, and that nothing in the audit file contradicts the list or the total.",
-      "fr": "Vérifier la cohérence du montant avec les informations sur les charges de personnel dans les notes annexes et avec les états financiers audités, et qu'aucun élément du dossier ne contredit la liste ou le montant.",
-      "srcEn": "Notes on personnel costs (E6.10 checklist) · E4 personnel-cost paper · this file",
-      "srcFr": "Notes sur les charges de personnel (contrôle E6.10) · papier E4 charges de personnel · le présent dossier"
-     },
-     {
-      "key": "draft",
-      "en": "Draft the attestation in the form the article and the professional standards call for: addressed to the shareholders; citing article 525; management's responsibility and the auditor's; the audit of the accounts as a whole giving no opinion on these amounts in isolation; the diligences performed and that they are neither an audit nor a limited review; the conclusion that the amount is exact and agrees to the accounting; the sentence that it stands as the certification the article requires; the restriction of use; date, signature, and the amount in an annex.",
-      "fr": "Rédiger l'attestation dans la forme requise par l'article et les normes professionnelles : adressée aux actionnaires ; visant l'article 525 ; responsabilité de la direction et du commissaire aux comptes ; l'audit des comptes dans leur ensemble n'exprimant aucune opinion sur ces montants isolément ; les diligences mises en œuvre et le fait qu'elles ne constituent ni un audit ni un examen limité ; la conclusion que le montant est exact et concorde avec la comptabilité ; la mention qu'elle tient lieu de la certification requise ; la restriction d'usage ; date, signature et montant en annexe.",
-      "srcEn": "Firm's attestation model · Règlement n°01/2017/CM/OHADA · ISAE 3000 by analogy · AUSCGIE art. 525",
-      "srcFr": "Modèle d'attestation du cabinet · Règlement n°01/2017/CM/OHADA · ISAE 3000 par analogie · AUSCGIE art. 525"
-     },
-     {
-      "key": "review",
-      "en": "Have the attestation and the reconciliation reviewed by the engagement partner before signature, and file the signed attestation on this task.",
-      "fr": "Faire revoir l'attestation et le rapprochement par l'associé avant signature, et joindre l'attestation signée à cette tâche.",
-      "srcEn": "Partner review · signed attestation",
-      "srcFr": "Revue de l'associé · attestation signée"
-     },
-     {
-      "key": "provide",
-      "en": "Make the attestation available to the shareholders with the other documents article 525 lists, within the period before the general meeting, and record the date and manner on this paper.",
-      "fr": "Mettre l'attestation à la disposition des actionnaires avec les autres documents visés à l'article 525, dans le délai précédant l'assemblée, et consigner la date et la modalité sur cette feuille.",
-      "srcEn": "Legal tool, statutory calendar · convening documents · AUSCGIE art. 525",
-      "srcFr": "Outil juridique, calendrier légal · documents de convocation · AUSCGIE art. 525"
-     }
-    ]
-   },
-   {
-    "kind": "yn",
-    "titleEn": "Part C — Evaluation",
-    "titleFr": "Partie C — Évaluation",
-    "introEn": "Answer each statement from the work above. Explain each 'No' in the box beneath it.",
-    "introFr": "Répondre à chaque affirmation à partir des travaux ci-dessus. Expliquer chaque « Non ».",
-    "items": [
-     {
-      "key": "count_right",
-      "en": "The headcount at closing is established from source records, and the number of persons retained — ten above 200 employees, five at or below (à valider) — follows from it under the article.",
-      "fr": "L'effectif à la clôture est établi à partir de pièces sources, et le nombre de personnes retenu — dix au-delà de 200 salariés, cinq au plus en deçà (à valider) — en découle conformément à l'article."
-     },
-     {
-      "key": "scope_complete",
-      "en": "The scope of remuneration is complete, including corporate officers and benefits in kind, and the persons retained are the highest paid on that basis.",
-      "fr": "Le périmètre des rémunérations est complet, dirigeants sociaux et avantages en nature compris, et les personnes retenues sont les mieux rémunérées sur cette base."
-     },
-     {
-      "key": "reconciled",
-      "en": "The total reconciles to the accounting from which the financial statements were prepared, without unexplained difference.",
-      "fr": "Le montant global se rapproche de la comptabilité ayant servi de base aux états financiers, sans écart inexpliqué."
-     },
-     {
-      "key": "consistent",
-      "en": "The amount is consistent with the notes on personnel costs and with the audited financial statements.",
-      "fr": "Le montant est cohérent avec les notes sur les charges de personnel et avec les états financiers audités."
-     },
-     {
-      "key": "form_right",
-      "en": "The attestation carries every element the article and the professional standards call for, including the limits of the diligences and the restriction of use.",
-      "fr": "L'attestation comporte chaque élément requis par l'article et les normes professionnelles, y compris les limites des diligences et la restriction d'usage."
-     },
-     {
-      "key": "provided",
-      "en": "The signed attestation was made available to the shareholders before the general meeting, and the date is recorded on this paper.",
-      "fr": "L'attestation signée a été mise à la disposition des actionnaires avant l'assemblée, et la date est consignée sur cette feuille."
-     }
-    ]
    }
   ],
-  "conclEn": [
-   "The total remuneration paid to the highest-paid persons, as retained under article 525, is exact and agrees to the accounting from which the financial statements were prepared.",
-   "The attestation is in the form the article and the professional standards require and stands as the certification article 525 calls for.",
-   "The attestation was made available to the shareholders within the period the article requires."
+  "objectiveEn": "Certify the total remuneration paid to the highest-paid persons, as article 525 of the OHADA Uniform Act on commercial companies requires, after verifying that it is exact and agrees with the accounting from which the financial statements were prepared, and make the attestation available to the shareholders in time.",
+  "objectiveFr": "Certifier le montant global des rémunérations versées aux personnes les mieux rémunérées, comme l'exige l'article 525 de l'Acte uniforme, après avoir vérifié qu'il est exact et concorde avec la comptabilité ayant servi à établir les états financiers, et mettre l'attestation à la disposition des actionnaires dans les délais.",
+  "isa": [
+   {
+    "std": "ISA 500"
+   },
+   {
+    "std": "ISA 230"
+   }
   ],
-  "conclFr": [
-   "Le montant global des rémunérations versées aux personnes les mieux rémunérées, tel que retenu au sens de l'article 525, est exact et concorde avec la comptabilité ayant servi de base aux états financiers.",
-   "L'attestation est établie dans la forme requise par l'article et les normes professionnelles et tient lieu de la certification prévue à l'article 525.",
-   "L'attestation a été mise à la disposition des actionnaires dans le délai prévu par l'article."
-  ]
+  "tools": [
+   {
+    "action": "action_tool_payroll",
+    "en": "Payroll",
+    "fr": "Paie",
+    "noteEn": "Payroll register: headcount and the highest pay",
+    "noteFr": "Registre de paie : effectif et rémunérations les plus élevées"
+   },
+   {
+    "action": "action_tool_legal",
+    "en": "Legal tool",
+    "fr": "Outil juridique",
+    "noteEn": "Article 525 attestation",
+    "noteFr": "Attestation de l'article 525"
+   }
+  ],
+  "links": [
+   "C5.3",
+   "C5.1",
+   "C3.1"
+  ],
+  "conclStdEn": "The total remuneration paid to the highest-paid persons, as retained under article 525, is exact and agrees with the accounting from which the financial statements were prepared; the attestation is in the required form and was made available to the shareholders in time.",
+  "conclStdFr": "Le montant global des rémunérations versées aux personnes les mieux rémunérées, retenu au titre de l'article 525, est exact et concorde avec la comptabilité ayant servi à établir les états financiers ; l'attestation est dans la forme requise et a été mise à la disposition des actionnaires dans les délais."
  }
 }
