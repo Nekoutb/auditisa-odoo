@@ -38,12 +38,12 @@ class TestPaperIncomplete(PaperCase):
     def test_a_gap_on_the_board_refuses_the_signature(self):
         gaps = {"S1.2": "wcgw-missing", "S1.3": "walkthrough-incomplete"}
         self.patch(type(self.env["ea.audit.file.item"]), "_ea_tool_gap", lambda _self: gaps.get(_self.code))
+        # S1.2 and S1.3 are papers of their own since the layout of 2026-11-17: tasks answered first
+        self.assertCode("paper-incomplete", self.sign, self.senior, self.engagement, "S1.2", "preparer")
         for code, refusal in gaps.items():
+            self.complete(self.senior, code)
             self.assertCode(refusal, self.sign, self.senior, self.engagement, code, "preparer")
         self.patch(type(self.env["ea.audit.file.item"]), "_ea_tool_gap", lambda _self: None)
-        # S1.2 is a paper of its own since the layout of 2026-11-17: its tasks are answered first
-        self.assertCode("paper-incomplete", self.sign, self.senior, self.engagement, "S1.2", "preparer")
-        self.complete(self.senior, "S1.2")
         self.assertEqual(self.sign(self.senior, self.engagement, "S1.2", "preparer"), "preparer")
 
 
