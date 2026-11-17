@@ -84,7 +84,7 @@ class IrMailServer(models.Model):
         return super().send_email(message, *args, **kwargs)
 
     @api.model
-    def build_email(self, email_from, email_to, subject, body, *args, **kwargs):
+    def _build_email__(self, email_from, email_to, subject, body, *args, **kwargs):  # noqa: PLW3201
         """With the console's platform address, replies go to the firm's contact email (owner, 2026-11-18),
         unless the email already names another reply address."""
         reply_to = self.env["ir.config_parameter"].sudo().get_param(PARAM_MAIL_REPLY_TO)
@@ -96,7 +96,7 @@ class IrMailServer(models.Model):
                     args[2] = reply_to
                 else:
                     kwargs["reply_to"] = reply_to
-        return super().build_email(email_from, email_to, subject, body, *args, **kwargs)
+        return super()._build_email__(email_from, email_to, subject, body, *args, **kwargs)
 
     def test_smtp_connection(self, autodetect_max_email_size=False):
         result = super(IrMailServer, self.with_context(ea_mail_gate_testing=True)).test_smtp_connection(

@@ -8297,3 +8297,25 @@ msgstr "une adresse par ligne"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_settings_form_platform_mail
 msgid "Empty (the default): practice spaces send no email at all. Filled: a practice space sends only to these addresses; every other recipient is dropped and logged. The test site test.auditisa.com never sends, whatever this list says."
 msgstr "Vide (par défaut) : les espaces d'entraînement n'envoient aucun e-mail. Remplie : un espace d'entraînement n'écrit qu'à ces adresses ; tout autre destinataire est écarté et journalisé. Le site de test test.auditisa.com n'envoie jamais rien, quoi que dise cette liste."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "AuditISA: test email"
+msgstr "AuditISA : e-mail de test"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid " (practice space)"
+msgstr " (espace d'entraînement)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid ""
+"This is a test email from AuditISA for %(name)s. It proves that this address"
+" can send. No reply is needed."
+msgstr ""
+"Ceci est un e-mail de test d'AuditISA pour %(name)s. Il prouve que cette "
+"adresse peut envoyer. Aucune réponse n'est nécessaire."

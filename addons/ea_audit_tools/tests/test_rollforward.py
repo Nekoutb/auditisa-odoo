@@ -123,6 +123,8 @@ class TestRollforward(ToolsCase):
         self.assertTrue(emails[self.senior.login].invite)
         emails[self.eqr.login].invite = False
         emails[self.reader.login].invite = False
+        # Since 18/11 only people already in the firm can join a team: the newcomer is added to the firm first.
+        self._user("newcomer", "group_staff")
         wizard.member_ids = [(0, 0, {"invite": True, "email": "newcomer@gov.example.com", "name": "Newcomer", "team_role": "staff"})]
         action = wizard.action_create()
         self.assertEqual(action["params"]["next"]["res_model"], "ea.audit.team.member")

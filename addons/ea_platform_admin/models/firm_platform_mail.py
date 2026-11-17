@@ -408,13 +408,10 @@ class PlatformFirm(models.Model):
             raise UserError(t(self.env, _("This firm's platform address is not verified yet: nothing was sent.")))
         services = self.env["platform.services"]
         # The firm's name and nothing else: no client data ever goes into an email from here.
-        subject = "AuditISA: test email" + (" (practice space)" if practice else "")
-        text = (
-            "This is a test email from AuditISA for %(name)s. It proves that this address can send. "
-            "No reply is needed.\n\n"
-            "Ceci est un e-mail de test d'AuditISA pour %(name)s. Il prouve que cette adresse peut envoyer. "
-            "Aucune r\u00e9ponse n'est n\u00e9cessaire.\n"
-        ) % {"name": firm.name}
+        subject = t(self.env, _("AuditISA: test email")) + (t(self.env, _(" (practice space)")) if practice else "")
+        text = t(self.env, _(
+            "This is a test email from AuditISA for %(name)s. It proves that this address can send. No reply is needed."
+        )) % {"name": firm.name}
         try:
             mailersend, zone = services._mail_outside()
             mailersend.send_test(firm.pmail_sender, firm.name, address, firm.pmail_reply_to or "", subject, text)

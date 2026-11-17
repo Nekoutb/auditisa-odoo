@@ -14,7 +14,7 @@ class TestRecipientGate(TransactionCase):
         self.servers = self.env["ir.mail_server"].sudo()
 
     def _message(self, *to):
-        return self.servers.build_email("support@cab.cm-ea.com", list(to), "Subject", "Body")
+        return self.servers._build_email__("support@cab.cm-ea.com", list(to), "Subject", "Body")
 
     def test_a_firms_server_has_no_gate(self):
         message = self._message("anyone@exemple.cm")
@@ -44,7 +44,7 @@ class TestRecipientGate(TransactionCase):
         self.assertEqual(self._message("a@exemple.cm")["Reply-To"], "support@cab.cm-ea.com")
         self.params.set_param(PARAM_MAIL_REPLY_TO, "awa@exemple.cm")
         self.assertEqual(self._message("a@exemple.cm")["Reply-To"], "awa@exemple.cm")
-        other = self.servers.build_email("support@cab.cm-ea.com", ["a@exemple.cm"], "S", "B", reply_to="z@exemple.cm")
+        other = self.servers._build_email__("support@cab.cm-ea.com", ["a@exemple.cm"], "S", "B", reply_to="z@exemple.cm")
         self.assertEqual(other["Reply-To"], "z@exemple.cm")
 
     def test_the_agent_keeps_the_reply_address_from_the_answer(self):
