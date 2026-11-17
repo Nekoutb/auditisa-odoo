@@ -39,6 +39,17 @@ class TestWorkAllocationPage(ToolsCase):
         self.assertNotIn(self.eqr.id, members)
         self.assertLessEqual({"planning", "strategy", "conclusion"}, {row["phase"] for row in page["rows"]})
 
+    def test_an_empty_field_still_shows_the_partner(self):
+        """A file opened before the field existed: no row was rewritten by the upgrade, and the page
+        names the engagement partner from the policy until the allocation is saved."""
+        p11 = self.item(self.engagement, "P1.1")
+        p11.sudo().write({"partner_approver_id": False})
+        page = self.page()
+        self.assertTrue(self.row(page, "P1.1")["partnerRequired"])
+        self.assertEqual(page["partner"]["id"], self.partner.id)
+        self.as_manager.ea_work_allocation_save([])
+        self.assertEqual(p11.partner_approver_id, self.partner)
+
     def test_others_read_only(self):
         self.assertTrue(self.page(self.as_staff)["readonly"])
         self.assertTrue(self.page(self.as_eqr)["readonly"])
