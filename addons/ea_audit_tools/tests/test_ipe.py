@@ -71,6 +71,15 @@ class TestIpe(GlCase):
         self.assertTrue(page["detail"]["exportUrl"])
         self.assertIn("E3.1", [paper["code"] for paper in page["detail"]["papers"]])
 
+    def test_a_file_uploaded_before_ipe_is_checked_when_the_page_opens(self):
+        self.import_ledger()
+        self.record().sudo().unlink()  # as if the file had been uploaded before IPE existed
+        page = self.as_staff.ea_ipe_page()
+        cell = next(c for row in page["rows"] for c in row["cells"]
+                    if c["kind"] == "journal_entries" and c["timing"] == "pre_audit")
+        self.assertNotEqual(cell["state"], "not_uploaded")
+        self.assertTrue(self.record().checked_at)
+
     def test_an_extraction_date_checks_the_ledger_again(self):
         self.import_ledger()
         self.as_staff.ea_ipe_save("journal_entries", "pre_audit", {"extraction_date": "2025-12-15", "system_name": "Sage 100"})

@@ -419,7 +419,16 @@ class EngagementIpe(models.Model):
         self._ea_require_access()
         root = self.sudo()
         kinds, timings, _obtained, _conclusions = self._ea_ipe_labels()
-        records = {(r.kind, r.timing): r for r in self.env["ea.audit.ipe"].sudo().search([("engagement_id", "=", self.id)])}
+        Ipe = self.env["ea.audit.ipe"].sudo()
+        if not root._ea_is_archived():
+            # Files uploaded before IPE existed (or whose check never ran) are checked once, here, so that
+            # every file in use shows its status (owner, 18/11: "checks appear for every data set uploaded").
+            seen = {(r.kind, r.timing) for r in Ipe.search([("engagement_id", "=", self.id)])}
+            for kind_key in self._ea_ipe_kinds():
+                for timing_key in self._ea_ipe_timings():
+                    if (kind_key, timing_key) not in seen and root._ea_ipe_current_file(kind_key, timing_key):
+                        root._ea_ipe_run(kind_key, timing_key)
+        records = {(r.kind, r.timing): r for r in Ipe.search([("engagement_id", "=", self.id)])}
         rows = []
         for kind_key in self._ea_ipe_kinds():
             cells = []
