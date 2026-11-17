@@ -1,6 +1,7 @@
 from odoo import api, fields, models
 
-from ..services.conditional_triggers import trigger_text
+from ..services.conditional_triggers import merged_text, trigger_text
+from ..services.file_scope import retired_codes
 from ..services.errors import rule_error
 from ..services.phases import phase_still_open
 from ..services.signoff_rules import (
@@ -67,6 +68,10 @@ class FileItem(models.Model):
         help="Who a task can go to: the accepted members of the team, the quality reviewer apart.",
     )
     conditional_trigger = fields.Char(string="Comes onto the file when", compute="_compute_conditional_trigger")
+    merged_note = fields.Char(
+        string="Merged into", compute="_compute_merged_note",
+        help="A task merged into another one: its work stays readable here, new work is done in the task named.",
+    )
 
     _engagement_template_uniq = models.Constraint(
         "UNIQUE(engagement_id, template_id)", "This task is already on the file.",
@@ -85,10 +90,19 @@ class FileItem(models.Model):
             ).user_id
 
     @api.depends_context("lang")
-    @api.depends("code", "conditional")
+    @api.depends("code", "conditional", "engagement_id.scope_version")
     def _compute_conditional_trigger(self):
         for item in self:
-            item.conditional_trigger = trigger_text(item.code, self.env.lang) if item.conditional else False
+            item.conditional_trigger = trigger_text(
+                item.code, self.env.lang, item.sudo().engagement_id.scope_version,
+            ) if item.conditional else False
+
+    @api.depends_context("lang")
+    @api.depends("code", "engagement_id.scope_version")
+    def _compute_merged_note(self):
+        for item in self:
+            scope = item.sudo().engagement_id.scope_version
+            item.merged_note = merged_text(item.code, self.env.lang) if item.code in retired_codes(scope) else False
 
     # ------------------------------------------------------------------
     # Extension points of the later addons. Until they are installed, the

@@ -58,6 +58,12 @@ WORDS = {
     "permanent": _lt("permanent file documents"),
     "answers": _lt("working paper answers"),
     "evidence": _lt("all evidence"),
+    # The questions of the task scope of 2026-11-17 (engagement._FACT_FIELDS) and their answers
+    "consultation_needed": _lt("Was a consultation needed?"),
+    "joint_auditors": _lt("Are there joint auditors?"),
+    "yes": _lt("Yes"),
+    "no": _lt("No"),
+    "blank": _lt("not answered"),
 }
 
 # The line, in order, as lists: the translation export reads a string in a tuple after a _lt as a term.
@@ -77,6 +83,18 @@ _ENTRIES = (
      _lt("%(code)s: prior-year document reviewed, %(file)s")],
     [r"^Engagement partner transferred from (?P<old>.+) to (?P<new>.+) \((?P<who>.+) now (?P<role>\w+)\)$",
      _lt("Engagement partner transferred from %(old)s to %(new)s (%(who)s now %(role)s)")],
+    # The task scope of 2026-11-17: facts decide whether a task applies
+    [r"^Tasks brought onto the file by their facts: (?P<codes>.+)$",
+     _lt("Tasks brought onto the file by their facts: %(codes)s")],
+    [r"^(?P<code>\S+) brought onto the file: a document was filed under it$",
+     _lt("%(code)s brought onto the file: a document was filed under it")],
+    [r"^Scope question (?P<word>\w+) answered (?P<status>\w+)$",
+     _lt("%(word)s answered: %(status)s")],
+    [r"^Current task scope applied by (?P<name>.+), no task yet: the profile decides$",
+     _lt("Current task scope applied by %(name)s, no task yet: the profile decides")],
+    [r"^Current task scope applied by (?P<name>.+) \(scope (?P<old>\S+) to (?P<new>\S+)\)\. Added: (?P<added>.*)\. "
+     r"Taken off, holding no work: (?P<hidden>.*)\. Kept, holding work: (?P<kept>.*)$",
+     _lt("Current task scope applied by %(name)s (scope %(old)s to %(new)s). Added: %(added)s. Taken off, holding no work: %(hidden)s. Kept, holding work: %(kept)s")],
     [r"^Acceptance gates passed: engagement moved to planning$",
      _lt("Acceptance gates passed: engagement moved to planning")],
     [r"^Planning closed: snapshot taken, engagement moved to execution$",

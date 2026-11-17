@@ -41,6 +41,7 @@ from ..services.layout import items_of
 from odoo.addons.ea_audit_core.services.conditional_triggers import S61_TRIGGERS
 from odoo.addons.ea_audit_core.services.file_scope import RETIRED_CODES
 
+from .engagement import FACT_PAPERS
 from .errors import paper_error
 from .paper_answer import ANSWER_DOOR
 
@@ -66,7 +67,7 @@ CROSS_LINKS = {
     "P1.5": ["P2.1", "C4.2"], "P6.1": ["C1.1", "S3.1"], "S4.1": ["E6.9"],
     "P5.1": ["E3.1", "E4.1"], "S4.2": ["E6.3", "C2.2"], "S4.3": ["E6.2"], "S4.4": ["E6.7"],
     "S3.1": ["P5.1", "E1.1"], "C1.1": ["P6.1", "C1.2"], "C2.2": ["E6.6", "E6.3", "C5.1"],
-    "E6.3": ["S4.2", "C2.2", "C5.1", "C5.11"],
+    "E6.3": ["S4.2", "C2.2", "C5.1", "C5.11", "C5.5"],
     "S1.1": ["P6.2", "S1.2"], "S1.2": ["S1.3", "E1.1"], "S1.3": ["S1.2", "E1.1"], "S1.4": ["E3.1", "C2.1"],
     "S2.1": ["S2.2", "E1.1"], "S2.2": ["E1.1", "S3.1"], "S5.1": ["P2.2"], "S5.2": ["P4.3"], "S5.3": ["E1.1"],
     "S6.1": ["P7.2", "P6.1", "S3.1", "P5.2"], "S6.2": ["P7.2", "S6.1"], "P1.4": ["C5.11"],
@@ -582,6 +583,8 @@ class Paper(models.Model):
             for key, code in S61_TRIGGERS.items():
                 if key in values:
                     engagement._ea_set_task_active(code, values[key] == "yes")
+        if self.code in FACT_PAPERS:
+            engagement._ea_apply_scope_facts()
 
     def save_answers(self, values, base_version=None, base_digests=None):
         """The port of savePaper; see DESIGN section 2 for the order. Returns what was

@@ -80,7 +80,9 @@ class ReportsCase(ToolsCase):
         as_partner = engagement.with_user(self.partner)
         as_partner.generate_letter("rep_affirmation", "fr")
         as_partner.generate_letter("rep_complementary", "fr")
-        self.answer("C4.3", "q_none_open", "yes", engagement=engagement)
+        code, key = engagement.sudo()._ea_open_points_answer()
+        self.answer(code, key, "yes", engagement=engagement)
+        engagement.sudo().write({"consultation_needed": "no"})
         if eqr and engagement.sudo()._ea_eqr_required():
             self.eqr_review(engagement)
 

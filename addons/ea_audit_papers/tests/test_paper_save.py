@@ -223,15 +223,19 @@ class TestAnswerHistory(PaperCase):
 @tagged("post_install", "-at_install")
 class TestPerCodeBehaviour(PaperCase):
     def test_c58_cannot_contradict_the_equity_monitor(self):
-        # uat3 firm.stat.c5-8
+        # uat3 firm.stat.c5-8. C5.8 is merged into E6.3 on a new file (2026-11-17): an older file keeps it.
+        older = self.make_engagement(scope_version=1)
+        self.seat(older, self.manager, "manager")
+        self.set_phase(older, "execution")
         cls = type(self.env["ea.audit.paper"])
         self.patch(cls, "_ea_equity_breach", lambda _self: True)
-        self.assertCode("c58-equity-contradicts", self.save, self.manager, "C5.8", {"q_above": "yes"})
-        self.assertNotIn("q_above", self.stored("C5.8"))
-        self.save(self.manager, "C5.8", {"q_above": "no"})
+        self.assertCode("c58-equity-contradicts", self.save, self.manager, "C5.8", {"q_above": "yes"}, engagement=older)
+        self.assertNotIn("q_above", self.stored("C5.8", older))
+        self.save(self.manager, "C5.8", {"q_above": "no"}, engagement=older)
         self.patch(cls, "_ea_equity_breach", lambda _self: False)
-        self.save(self.manager, "C5.8", {"q_above": "yes"})
-        self.assertEqual(self.stored("C5.8")["q_above"], "yes")
+        self.save(self.manager, "C5.8", {"q_above": "yes"}, engagement=older)
+        self.assertEqual(self.stored("C5.8", older)["q_above"], "yes")
+        self.assertFalse(self.item(self.engagement, "C5.8"))
 
     def test_e610_refuses_yes_over_unexplained_differences(self):
         self.patch(type(self.env["ea.audit.paper"]), "_ea_tieout_failed", lambda _self: True)

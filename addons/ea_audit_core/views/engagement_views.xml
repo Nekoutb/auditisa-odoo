@@ -31,6 +31,7 @@
                     <button name="action_open_profile" type="object" string="Profile questionnaire"/>
                     <button name="action_rollforward_next_year" type="object" string="Roll forward"
                             groups="ea_audit_core.group_manager"/>
+                    <button name="action_rescope" type="object" string="Apply the current task scope" groups="ea_audit_core.group_partner" invisible="scope_version &gt;= 2 or phase == 'archived'" confirm="Tasks the current scope adds come onto the file; tasks that hold no work and no longer apply are hidden; tasks holding work stay. Apply it?"/>
                     <field name="phase" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -59,6 +60,13 @@
                             <field name="standards_edition" readonly="1"/>
                             <field name="engagement_partner_id" readonly="1"/>
                             <field name="partner_delegate_id"/>
+                            <field name="scope_version" invisible="1"/>
+                        </group>
+                    </group>
+                    <group name="scope_facts" string="Facts that bring tasks onto the file">
+                        <group>
+                            <field name="consultation_needed" widget="radio" options="{'horizontal': true}"/>
+                            <field name="joint_auditors" widget="radio" options="{'horizontal': true}"/>
                         </group>
                     </group>
                     <group name="dates" string="Report and file dates">

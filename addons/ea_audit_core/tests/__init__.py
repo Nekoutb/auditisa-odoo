@@ -11,3 +11,4 @@ from . import test_client_findings
 from . import test_task_labels
 from . import test_owner_settings
 from . import test_engagement_profile
+from . import test_task_scope

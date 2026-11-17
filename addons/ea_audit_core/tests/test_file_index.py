@@ -3,7 +3,7 @@ import json
 from odoo.tests import tagged
 from odoo.tools.misc import file_open
 
-from odoo.addons.ea_audit_core.services.file_scope import code_in_scope
+from odoo.addons.ea_audit_core.services.file_scope import SCOPE_LEGACY, code_in_scope
 
 from .common import EaAuditCase
 
@@ -19,10 +19,10 @@ class TestFileIndex(EaAuditCase):
         with file_open("ea_audit_core/tests/data/file_index_scopes.json") as handle:
             cls.golden = json.load(handle)
 
-    def _scope(self, complexity, form=None, nature=None):
+    def _scope(self, complexity, form=None, nature=None, scope=SCOPE_LEGACY):
         return [
             t.code for t in self.templates
-            if code_in_scope(t.code, t.tier, t.conditional, complexity, form, nature)
+            if code_in_scope(t.code, t.tier, t.conditional, complexity, form, nature, scope)
         ]
 
     def test_the_118_codes_with_their_gaps(self):
@@ -45,7 +45,9 @@ class TestFileIndex(EaAuditCase):
 
     def test_instantiation_follows_complexity_and_legal_form(self):
         engagement = self.make_engagement(complexity="very_simple")
-        self.assertEqual(len(engagement.sudo().file_item_ids), self.golden["counts"]["very_simple"])
+        self.assertEqual(len(engagement.sudo().file_item_ids), self.golden["current"]["counts"]["SA"]["very_simple"]["onFile"])
+        legacy = self.make_engagement(complexity="very_simple", scope_version=SCOPE_LEGACY)
+        self.assertEqual(len(legacy.sudo().file_item_ids), self.golden["counts"]["very_simple"])
         sarl = self.env["ea.audit.client"].create({"name": "Petite SARL", "legal_form": "SARL"})
         file_sarl = self.make_engagement(client=sarl)
         self.assertFalse(self.item(file_sarl, "C5.7"))
@@ -59,10 +61,11 @@ class TestFileIndex(EaAuditCase):
         deferred.with_user(self.partner).apply_complexity("very_simple")
         count = len(deferred.sudo().file_item_ids)
         deferred.with_user(self.partner).apply_complexity("non_complex")
-        self.assertEqual(len(deferred.sudo().file_item_ids), self.golden["counts"]["non_complex"])
+        non_complex = self.golden["current"]["counts"]["SA"]["non_complex"]["onFile"]
+        self.assertEqual(len(deferred.sudo().file_item_ids), non_complex)
         self.assertGreater(len(deferred.sudo().file_item_ids), count)
         deferred.with_user(self.partner).apply_complexity("very_simple")
-        self.assertEqual(len(deferred.sudo().file_item_ids), self.golden["counts"]["non_complex"])
+        self.assertEqual(len(deferred.sudo().file_item_ids), non_complex)
 
     def test_standards_edition_follows_the_period_start(self):
         # a period beginning 1 Jan 2026 stays current; one beginning 1 Jan 2027 is revised

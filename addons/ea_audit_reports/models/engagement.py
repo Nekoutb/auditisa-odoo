@@ -10,6 +10,7 @@ from markupsafe import Markup
 
 from odoo import api, fields, models
 
+from odoo.addons.ea_audit_core.services.file_scope import FACT_CODES, SCOPE_CURRENT
 from odoo.addons.ea_audit_core.services.signoff_rules import at_least, can_partner_signoff
 from odoo.addons.ea_audit_papers.services.completeness import paper_complete
 from odoo.addons.ea_audit_tools.models.tool_record import french_date, is_french
@@ -202,6 +203,10 @@ class Engagement(models.Model):
             item = Item.search([("engagement_id", "=", self.id), ("code", "=", code)], limit=1)
             if not item:
                 raise rule_error(self.env, "task-not-in-scope")
+        if item.conditional and code in FACT_CODES and as_root._ea_scope_version() >= SCOPE_CURRENT:
+            # a document filed under a task that waits for its fact is that fact (owner's table of 2026-11-17)
+            if as_root._ea_ensure_task(code):
+                self._ea_log("tasks_from_facts", "%s brought onto the file: a document was filed under it" % code)
         Document = self.env["ea.audit.document"].sudo()
         document = Document.search([("file_item_id", "=", item.id), ("kind", "=", kind), ("title", "=", title)], limit=1)
         if not document:
@@ -450,7 +455,10 @@ class Engagement(models.Model):
             ("engagement_id", "=", self.id), ("code", "=", "C3.1"), ("kind", "=", "letter"),
         ]).mapped("title"))
         eqr_ok = not self._ea_eqr_required() or self._ea_eqr_signed()
-        c43_ok = (self._ea_paper_values("C4.3").get("q_none_open") or "").strip() == "yes" and self._ea_open_note_count() == 0
+        # C4.3 merged into C4.1 (owner's table of 2026-11-17): a file without an active C4.3 clears its
+        # open points in C4.1
+        points_code, points_key = self._ea_open_points_answer()
+        c43_ok = (self._ea_paper_values(points_code).get(points_key) or "").strip() == "yes" and self._ea_open_note_count() == 0
         results = [
             {"key": "sections_concluded", "ok": not unconcluded and not open_steps},
             {"key": "risks_concluded", "ok": open_risks == 0 and unapproved == 0},
@@ -465,7 +473,16 @@ class Engagement(models.Model):
             {"key": "c43_cleared", "ok": c43_ok},
             {"key": "partner_conclusion", "ok": self._ea_record_exists("partner_conclusion")},
         ]
+        if self._ea_scope_version() >= SCOPE_CURRENT:
+            # the compulsory question of the current scope: it decides whether C1.3 applies
+            results.append({"key": "consultation_answered", "ok": bool(self.consultation_needed)})
         return [gate for gate in results if gate_applies_to_nature(gate["key"], self.nature)]
+
+    def _ea_open_points_answer(self):
+        """Where "no point remains open at the report date" is answered: C4.3 while it is active on the
+        file, C4.1 otherwise."""
+        self.ensure_one()
+        return ("C4.3", "q_none_open") if self._ea_task_active("C4.3") else ("C4.1", "q_cleared")
 
     def completion_gates(self):
         self.ensure_one()
@@ -810,7 +827,10 @@ class Engagement(models.Model):
             "review_approval": [code_item("C4.1", "récapitulatif de revue et d'approbation", "review and approval summary")],
             "eqr_complete": [code_item("C4.2", "revue de qualité de la mission", "engagement quality review")],
             "deficiencies_communicated": [code_item("C5.11", "évaluation des déficiences (ISA 265)", "deficiency evaluation (ISA 265)")],
-            "c43_cleared": [code_item("C4.3", "points en suspens", "points outstanding")] + note_items,
+            "c43_cleared": [
+                code_item("C4.3", "points en suspens", "points outstanding") if self._ea_task_active("C4.3")
+                else code_item("C4.1", "points en suspens levés", "open points cleared")
+            ] + note_items,
             "c62_checklist": [code_item("C6.2", "documentation et archivage", "documentation and archive")],
             "checklist_signed": [code_item("C6.1", "liste d'achèvement", "completion checklist")],
             "assembly_confirmed": [code_item("C6.2", "confirmations avant l'archivage", "confirmations before archiving")],

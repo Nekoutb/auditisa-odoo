@@ -251,6 +251,8 @@ class Engagement(models.Model):
                 ok, pending, codes = gates[key]["ok"], 0 if gates[key]["ok"] else 1, []
             pair = _CHECK_LABELS.get(key)
             kind, value = _CHECK_OPEN.get(key, ("method", "action_open_conclusion"))
+            if key == "c43_cleared":
+                value = self._ea_open_points_answer()[0]
             checks.append({
                 "key": key, "ok": bool(ok), "pending": pending, "codes": codes[:8],
                 "label": (pair[1] if fr else pair[0]) if pair else gate_label(key, fr),

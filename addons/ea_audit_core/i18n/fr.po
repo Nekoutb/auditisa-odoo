@@ -1566,6 +1566,9 @@ msgstr "Nouvel associé responsable"
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__no
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q7_major_change__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__consultation_needed__no
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__joint_auditors__no
+#: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "No"
 msgstr "Non"
 
@@ -2947,6 +2950,9 @@ msgstr "Feuille de travail"
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_consolidates__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q4_other_auditors__yes
 #: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement_profile__q7_major_change__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__consultation_needed__yes
+#: model:ir.model.fields.selection,name:ea_audit_core.selection__ea_audit_engagement__joint_auditors__yes
+#: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Yes"
 msgstr "Oui"
 
@@ -5970,3 +5976,158 @@ msgstr "Écart d'audit %(name)s validé"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Review note raised on audit difference %(name)s"
 msgstr "Note de revue émise sur l'écart d'audit %(name)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Profile Q4: a parent that consolidates, or whose components other auditors audit"
+msgstr "Profil Q4 : société mère qui consolide, ou dont des composantes sont auditées par d'autres auditeurs"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Was a consultation needed? = Yes"
+msgstr "Une consultation était-elle nécessaire ? = Oui"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "P1.5: the firm decided to appoint an engagement quality reviewer"
+msgstr "P1.5 : le cabinet a décidé de désigner un réviseur qualité de la mission"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Facts that may threaten continuity (S4.2, E6.3 or C2.2), or an alert procedure started"
+msgstr "Faits de nature à compromettre la continuité de l'exploitation (S4.2, E6.3 ou C2.2), ou procédure d'alerte engagée"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Non-compliance found (E6.1), or criminal facts recorded in the legal file"
+msgstr "Non-conformité relevée (E6.1), ou faits délictueux consignés dans le dossier juridique"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Are there joint auditors? = Yes"
+msgstr "Y a-t-il des co-commissaires aux comptes ? = Oui"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "The strategy relies on controls (a SCOT tested through its controls, a CRA cell set to rely, or an IT application whose controls are relied on)"
+msgstr "La stratégie s'appuie sur les contrôles (un flux testé par ses contrôles, une cellule de l'évaluation combinée en appui, ou une application informatique dont les contrôles sont utilisés)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Merged into P4.1 (internal control at the entity level, the control environment included)"
+msgstr "Fusionnée dans P4.1 (contrôle interne au niveau de l'entité, environnement de contrôle compris)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Merged into E6.3 (the check of equity against half of the share capital)"
+msgstr "Fusionnée dans E6.3 (comparaison des capitaux propres à la moitié du capital social)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/conditional_triggers.py:0
+msgid "Merged into C4.1 (the open points are cleared there before the report date)"
+msgstr "Fusionnée dans C4.1 (les points en suspens y sont levés avant la date du rapport)"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__scope_version
+msgid "Task scope"
+msgstr "Périmètre des tâches"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__scope_version
+msgid "1 (or empty): the tasks chosen when the file was opened, before 2026-11-17. 2: the current scope, where facts decide whether a task applies and the complexity how deep it goes."
+msgstr "1 (ou vide) : les tâches retenues à l'ouverture du dossier, avant le 17/11/2026. 2 : le périmètre actuel, où les faits décident si une tâche s'applique et la complexité de sa profondeur."
+
+#. module: ea_audit_core
+#. odoo-python
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__consultation_needed
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Was a consultation needed?"
+msgstr "Une consultation était-elle nécessaire ?"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__consultation_needed
+msgid "Compulsory before the report. Yes brings C1.3 (consultation record) onto the file."
+msgstr "Obligatoire avant le rapport. Oui fait entrer C1.3 (dossier de consultation) au dossier."
+
+#. module: ea_audit_core
+#. odoo-python
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_engagement__joint_auditors
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Are there joint auditors?"
+msgstr "Y a-t-il des co-commissaires aux comptes ?"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_engagement__joint_auditors
+msgid "Yes brings C5.9 (joint auditor coordination file) onto the file."
+msgstr "Oui fait entrer C5.9 (dossier de coordination avec le co-commissaire) au dossier."
+
+#. module: ea_audit_core
+#: model:ir.model.fields,field_description:ea_audit_core.field_ea_audit_file_item__merged_note
+msgid "Merged into"
+msgstr "Fusionnée dans"
+
+#. module: ea_audit_core
+#: model:ir.model.fields,help:ea_audit_core.field_ea_audit_file_item__merged_note
+msgid "A task merged into another one: its work stays readable here, new work is done in the task named."
+msgstr "Tâche fusionnée dans une autre : ses travaux restent lisibles ici, les nouveaux travaux se font dans la tâche indiquée."
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Apply the current task scope"
+msgstr "Appliquer le périmètre actuel des tâches"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Tasks the current scope adds come onto the file; tasks that hold no work and no longer apply are hidden; tasks holding work stay. Apply it?"
+msgstr "Les tâches que le périmètre actuel ajoute entrent au dossier ; celles sans travaux qui ne s'appliquent plus sont masquées ; celles qui portent des travaux restent. L'appliquer ?"
+
+#. module: ea_audit_core
+#: model_terms:ir.ui.view,arch_db:ea_audit_core.view_engagement_form
+msgid "Facts that bring tasks onto the file"
+msgstr "Faits qui font entrer des tâches au dossier"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "not answered"
+msgstr "sans réponse"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Tasks brought onto the file by their facts: %(codes)s"
+msgstr "Tâches entrées au dossier du fait de leurs faits déclencheurs : %(codes)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(code)s brought onto the file: a document was filed under it"
+msgstr "%(code)s entrée au dossier : un document y a été classé"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(word)s answered: %(status)s"
+msgstr "%(word)s, réponse : %(status)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Current task scope applied by %(name)s, no task yet: the profile decides"
+msgstr "Périmètre actuel des tâches appliqué par %(name)s, aucune tâche encore : le profil décide"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Current task scope applied by %(name)s (scope %(old)s to %(new)s). Added: %(added)s. Taken off, holding no work: %(hidden)s. Kept, holding work: %(kept)s"
+msgstr "Périmètre actuel des tâches appliqué par %(name)s (périmètre %(old)s vers %(new)s). Ajoutées : %(added)s. Retirées, sans travaux : %(hidden)s. Conservées, avec travaux : %(kept)s"

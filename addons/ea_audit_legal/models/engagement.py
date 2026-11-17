@@ -634,7 +634,22 @@ class Engagement(models.Model):
         self.ensure_one()
         if key not in _JOINT_KEYS:
             raise rule_error(self.env, "invalid-key")
-        return self.record_completion("f8_%s" % key, {"text": text or "", "confirmed": bool(confirmed)}, expected_version)
+        result = self.record_completion("f8_%s" % key, {"text": text or "", "confirmed": bool(confirmed)}, expected_version)
+        self.sudo()._ea_apply_scope_facts()
+        return result
+
+    def _ea_fact_codes(self):
+        """The facts the legal file records (owner's table of 2026-11-17): an alert procedure started
+        (C5.5), criminal facts recorded (C5.6), a joint auditor file kept (C5.9)."""
+        facts = super()._ea_fact_codes()
+        root = self.sudo()
+        if self.env["ea.audit.alerte"].sudo().search_count([("engagement_id", "=", root.id)]):
+            facts.setdefault("C5.5", "alert procedure started")
+        if self.env["ea.audit.criminal.disclosure"].sudo().search_count([("engagement_id", "=", root.id)]):
+            facts.setdefault("C5.6", "criminal facts recorded")
+        if any(root._ea_completion_record("f8_%s" % key) for key in _JOINT_KEYS):
+            facts.setdefault("C5.9", "joint auditor file kept")
+        return facts
 
     # ------------------------------------------------------------------
     # C5.10 article 525 certification

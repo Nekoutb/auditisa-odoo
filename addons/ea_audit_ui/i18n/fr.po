@@ -299,8 +299,14 @@ msgstr "Évaluation combinée des risques"
 #. module: ea_audit_ui
 #. odoo-python
 #: code:addons/ea_audit_ui/services/task_groups.py:0
-msgid "Communications & statutory reports"
-msgstr "Communications & rapports légaux"
+msgid "Communications & legal procedures"
+msgstr "Communications & procédures légales"
+
+#. module: ea_audit_ui
+#. odoo-python
+#: code:addons/ea_audit_ui/services/task_groups.py:0
+msgid "Statutory reports"
+msgstr "Rapports légaux"
 
 #. module: ea_audit_ui
 #. odoo-javascript
