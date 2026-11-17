@@ -6,7 +6,7 @@ from datetime import date
 from odoo.tests import tagged
 
 from .common import EaAuditCase
-from odoo.addons.ea_audit_core.services.file_scope import ALL_SIZES, RETIRED_CODES, SA_ONLY
+from odoo.addons.ea_audit_core.services.file_scope import ALL_SIZES, CONTROLS_CODES, RETIRED_CODES, SA_ONLY
 
 PLAIN = {
     "q1_listed": "no", "q2_pie": "none", "q3_controls_law": "no", "q4_group": "standalone",
@@ -396,15 +396,23 @@ class TestEngagementProfile(EaAuditCase):
                 p["visible"] for s in screen["sections"] for q in s["questions"] for p in q["parts"] if p["field"] == field
             )
 
+        screen = profile.ea_profile_screen()
+        self.assertFalse(visible(screen, "q19_interim"))
+        self.assertFalse(visible(screen, "q19_internal_audit"))
         screen = profile.ea_profile_save({"q4_group": "standalone", "q14_keeper": "entity", "q19_approach": "substantive"})
         self.assertFalse(visible(screen, "q4_consolidates"))
         self.assertFalse(visible(screen, "q14_rely_report"))
         self.assertFalse(visible(screen, "q19_controls"))
-        screen = profile.ea_profile_save({"q4_group": "parent", "q14_keeper": "payroll", "q19_approach": "other"})
+        self.assertTrue(visible(screen, "q19_interim"))
+        self.assertTrue(visible(screen, "q19_internal_audit"))
+        screen = profile.ea_profile_save({"q4_group": "parent", "q14_keeper": "payroll", "q19_approach": "controls"})
         self.assertTrue(visible(screen, "q4_consolidates"))
         self.assertTrue(visible(screen, "q4_other_auditors"))
         self.assertTrue(visible(screen, "q14_rely_report"))
-        self.assertTrue(visible(screen, "q19_controls"))
+        # the old "rely on controls" tick is gone: Controls reliance replaces it
+        self.assertFalse(visible(screen, "q19_controls"))
+        self.assertTrue(visible(screen, "q19_interim"))
+        self.assertTrue(visible(screen, "q19_internal_audit"))
 
     def test_a_concluded_profile_holds_a_change_until_its_sub_question_is_answered(self):
         engagement, _action = self.open_new()
@@ -417,6 +425,74 @@ class TestEngagementProfile(EaAuditCase):
         self.assertFalse(screen["held"])
         self.assertEqual((profile.q4_group, profile.level), ("parent", "non_complex"))
         self.assertIn("P2.3", self.active_codes(engagement))
+
+    # ---------------------------------------------------------------- Q18, the planned approach (ruling of 2026-11-18)
+
+    def approach_part(self, screen):
+        return next(p for s in screen["sections"] for q in s["questions"] for p in q["parts"] if p["field"] == "q19_approach")
+
+    def test_question_18_offers_substantive_only_and_controls_reliance(self):
+        engagement, _action = self.open_new()
+        part = self.approach_part(self.screen(engagement))
+        self.assertEqual([o["value"] for o in part["options"]], ["substantive", "controls"])
+        self.assertEqual([o["label"] for o in part["options"]], ["Substantive only", "Controls reliance"])
+        self.assertTrue(all(o["help"] for o in part["options"]))
+        self.assertIn("tests the controls first", part["options"][1]["help"])
+
+    def test_question_18_reads_in_french(self):
+        self.env["res.lang"]._activate_lang("fr_FR")
+        self.env["ir.module.module"].search([("name", "=", "ea_audit_core")])._update_translations(["fr_FR"], overwrite=True)
+        engagement, _action = self.open_new()
+        part = self.approach_part(self.profile(engagement).with_context(lang="fr_FR").ea_profile_screen())
+        self.assertEqual(
+            [o["label"] for o in part["options"]], ["Procédures de corroboration uniquement", "Appui sur les contrôles"],
+        )
+        self.assertTrue(part["options"][1]["help"].startswith("L'équipe teste d'abord les contrôles"))
+
+    def test_substantive_only_keeps_the_controls_tasks_off(self):
+        engagement, _action = self.open_new()
+        profile = self.conclude(engagement)
+        self.assertEqual(profile.level, "very_simple")
+        self.assertFalse(set(CONTROLS_CODES) & self.active_codes(engagement))
+        self.assertFalse(engagement.sudo()._ea_approach_relies_on_controls())
+
+    def test_controls_reliance_is_not_very_simple_and_brings_the_controls_tasks(self):
+        engagement, _action = self.open_new()
+        profile = self.conclude(engagement, q19_approach="controls")
+        self.assertEqual((profile.level, engagement.complexity), ("non_complex", "non_complex"))
+        self.assertIn("Question 18: the approach relies on controls", profile.reasons_text)
+        self.assertLessEqual(set(CONTROLS_CODES), self.active_codes(engagement))
+        self.assertTrue(engagement.sudo()._ea_approach_relies_on_controls())
+        screen = self.screen(engagement)
+        self.assertLessEqual(set(CONTROLS_CODES), {t["code"] for t in screen["panel"]["tasks"]})
+
+    def test_interim_work_and_internal_audit_are_ticks_under_either_option(self):
+        engagement, _action = self.open_new()
+        profile = self.conclude(engagement, q19_interim=True, q19_internal_audit=True)
+        self.assertEqual(profile.level, "non_complex")
+        self.assertIn("Question 18: some work at an interim date", profile.reasons_text)
+        self.assertIn("Question 18: use of internal audit's work", profile.reasons_text)
+        codes = self.active_codes(engagement)
+        self.assertIn("S5.3", codes)
+        self.assertFalse(set(CONTROLS_CODES) & codes)
+
+    def test_a_file_answered_something_else_still_reads(self):
+        """A file answered before 2026-11-18: its old answer is shown, its old controls tick is Controls reliance."""
+        engagement, _action = self.open_new()
+        profile = self.conclude(engagement, q19_approach="other", q19_controls=True, q19_interim=True)
+        self.assertEqual(profile.level, "non_complex")
+        self.assertIn("Question 18: the approach relies on controls", profile.reasons_text)
+        self.assertLessEqual(set(CONTROLS_CODES), self.active_codes(engagement))
+        screen = self.screen(engagement)
+        part = self.approach_part(screen)
+        self.assertEqual([o["value"] for o in part["options"]], ["substantive", "controls", "other"])
+        self.assertEqual(screen["answers"]["q19_approach"], "other")
+        toggle = next(p for s in screen["sections"] for q in s["questions"] for p in q["parts"] if p["field"] == "q19_controls")
+        self.assertTrue(toggle["visible"])
+        # once moved to an option of the ruling, "something else" is no longer offered
+        screen = self.profile(engagement).ea_profile_save({"q19_approach": "controls"})
+        self.assertEqual(profile.q19_approach, "controls")
+        self.assertEqual([o["value"] for o in self.approach_part(screen)["options"]], ["substantive", "controls"])
 
     def test_the_screen_saves_answers_only(self):
         engagement, _action = self.open_new()

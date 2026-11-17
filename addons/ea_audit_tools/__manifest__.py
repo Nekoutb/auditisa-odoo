@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, combined risk assessment, findings, summary of audit differences and the tools hub",
-    "version": "19.0.1.23.1",  # release 2026-11-23: plan, strat, exec, compl paper hooks
+    "version": "19.0.1.23.2",  # release 2026-11-23: plan, strat, exec, compl paper hooks
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

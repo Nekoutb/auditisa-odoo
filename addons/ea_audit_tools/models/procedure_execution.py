@@ -62,6 +62,13 @@ PAPER_METHODS = SELECTION_METHODS + (COUNT_METHOD, VOUCH_METHOD)
 #: the kinds of misstatement a working paper's conclusion records (ISA 450 A6)
 PAPER_MTYPES = ("factual", "judgmental", "projected")
 PROC_MODEL = "ea.audit.designed.procedure"
+#: the tests of controls that come before the substantive procedures under Controls reliance
+CONTROLS_TEST_CODES = ("E1.1", "E1.2")
+CONTROLS_FIRST_WARNING = (
+    "This engagement relies on controls: test the controls first. Substantive procedures depend on their result.",
+    "Cette mission s'appuie sur les contrôles : testez d'abord les contrôles. Les procédures de corroboration "
+    "dépendent de leur résultat.",
+)
 
 
 class DesignedProcedureWork(models.Model):
@@ -317,6 +324,7 @@ class EngagementProcedureExecution(models.Model):
         overall = progress(all_states)
         return {
             "engagement": root.display_name, "engagementId": root.id, "readonly": bool(reason), "archived": reason == "archived",
+            "controlsFirst": root._ea_controls_first_warning(fr),
             "stats": {
                 "designed": overall["total"], "done": overall["done"], "started": overall["started"],
                 "findings": finding_count, "sad": grouped(sad_total, lang),
@@ -324,6 +332,24 @@ class EngagementProcedureExecution(models.Model):
             "accounts": cards,
             "missing": False if cards else (root._ea_cra_missing() if not root.cra_row_ids else "design"),
         }
+
+    def _ea_controls_tests_concluded(self):
+        """The tests of controls (E1.1 IT general controls, E1.2 controls over the classes of
+        transactions) are on the file and each is prepared, reviewed or signed."""
+        self.ensure_one()
+        items = self.env["ea.audit.file.item"].sudo().search([
+            ("engagement_id", "=", self.id), ("code", "in", list(CONTROLS_TEST_CODES)),
+            ("conditional", "=", False), ("not_applicable", "=", False),
+        ])
+        return bool(items) and all(item.state in ("prepared", "reviewed", "signed") for item in items)
+
+    def _ea_controls_first_warning(self, fr):
+        """Owner's ruling of 2026-11-18: under Controls reliance the controls are tested before the
+        substantive procedures. A warning while the tests of controls are not concluded, never a block."""
+        self.ensure_one()
+        if not self._ea_approach_relies_on_controls() or self._ea_controls_tests_concluded():
+            return False
+        return CONTROLS_FIRST_WARNING[1] if fr else CONTROLS_FIRST_WARNING[0]
 
     def _ea_exec_task(self, index_code):
         code = INDEX_SECTION.get(index_code)

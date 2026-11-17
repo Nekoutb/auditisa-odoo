@@ -15,6 +15,14 @@ Appointing a quality reviewer is decided only on P1.5. The two stored answers st
 are ignored; the questions after it are shown one number lower (Q16 is now Q15 ... Q20 is now Q19).
 The fields and the reason keys keep their old names (q16_risks, "q16", ...): only the labels moved.
 
+Owner's ruling of 2026-11-18: Q18, the planned approach, offers two options only. "Substantive only"
+(stored "substantive"): all the evidence comes from substantive procedures. "Controls reliance"
+(stored "controls"): the team tests the controls first, relies on them, and the substantive procedures
+follow. Interim work and the use of internal audit's work are not approaches: two optional ticks under
+Q18, whatever the option. A file answered before the ruling may still hold "other" ("something else,
+tick below"): it stays readable, its old "rely on controls" tick reads as Controls reliance, and its
+other ticks keep their effect.
+
 Pure: standard library only, so the tree is tested without Odoo. The texts shown to people live in
 the model, which turns the reason keys returned here into words in the reader's language.
 """
@@ -25,6 +33,15 @@ VERY_SIMPLE = "very_simple"
 
 IT_POINTS = tuple("q8_%d" % n for n in range(1, 9))
 Q19_OPTIONS = ("q19_controls", "q19_interim", "q19_internal_audit")
+
+# Q18's options (ruling of 2026-11-18). "other" is only read, on files answered before the ruling.
+SUBSTANTIVE_ONLY = "substantive"
+CONTROLS_RELIANCE = "controls"
+FORMER_APPROACH = "other"
+
+# The tasks that rely on controls, as services/file_scope.CONTROLS_CODES (this file is loaded on its
+# own by the pure tests, so it keeps its own copy; a pure test checks the two agree).
+CONTROLS_CODES = ("S2.1", "S2.2", "S2.3", "S2.4", "S2.5", "E1.1", "E1.2", "E2.1")
 
 # The questions a person must answer, in the order they are asked. Each entry is
 # (question number, field, when it is asked). A sub-answer is asked only in its case.
@@ -72,6 +89,25 @@ def _relies_on_provider_report(answers):
     return bool(keeper) and keeper != "entity" and _yes(answers, "q14_rely_report")
 
 
+def relies_on_controls(answers):
+    """Q18 answered Controls reliance, or, on a file answered before 2026-11-18, "something else"
+    with the old "rely on controls" tick."""
+    approach = answers.get("q19_approach")
+    return approach == CONTROLS_RELIANCE or (approach == FORMER_APPROACH and bool(answers.get("q19_controls")))
+
+
+def _approach_chosen(answers):
+    return bool(answers.get("q19_approach"))
+
+
+def interim_work(answers):
+    return _approach_chosen(answers) and bool(answers.get("q19_interim"))
+
+
+def uses_internal_audit(answers):
+    return _approach_chosen(answers) and bool(answers.get("q19_internal_audit"))
+
+
 def missing(answers):
     """The question numbers still to answer, in order, each once. Empty when complete."""
     open_questions = []
@@ -80,8 +116,8 @@ def missing(answers):
             continue
         if not answers.get(field):
             open_questions.append(number)
-    # "Something other than year-end substantive" must say which.
-    if answers.get("q19_approach") == "other" and not any(answers.get(f) for f in Q19_OPTIONS):
+    # An old "something else" answer must say which (files answered before 2026-11-18).
+    if answers.get("q19_approach") == FORMER_APPROACH and not any(answers.get(f) for f in Q19_OPTIONS):
         open_questions.append("Q18")
     return list(dict.fromkeys(open_questions))
 
@@ -139,8 +175,12 @@ def not_very_simple_reasons(answers):
         reasons.append("q18")
     if answers.get("q9_specialists") not in (None, False, "", "none", "tax"):
         reasons.append("q9:other")
-    if answers.get("q19_approach") not in (None, False, "", "substantive"):
+    if relies_on_controls(answers):
         reasons.append("q19")
+    if interim_work(answers):
+        reasons.append("q19:interim")
+    if uses_internal_audit(answers):
+        reasons.append("q19:internal_audit")
     return reasons
 
 
@@ -200,11 +240,12 @@ def is_first_year(answers):
 
 # What the answers switch on, whatever the level. The eleven conditional templates of the catalogue:
 #   P1.2 predecessor auditor .... Q19 first-year audit (as the old "first-year audit" box did)
-#   P4.2 control environment .... Q3 controls testing by law, Q13 automated process, Q18 reliance on controls
+#   P4.2 control environment .... Q3 controls testing by law, Q13 automated process, Q18 Controls reliance
 #   P4.3 IT environment ......... Q8 any IT point high, Q13 automated process
 #   S5.1 experts (ISA 620) ...... Q9 any specialist, tax included
 #   S5.2 service organisations .. Q14 books or key data kept by someone outside the entity
-#   S5.3 internal audit ......... Q18 internal audit's work used
+#   S5.3 internal audit ......... Q18 internal audit's work used (the tick, whatever the option)
+#   S2.1-S2.5, E1.1, E1.2, E2.1 .. Q18 Controls reliance: the controls tasks (ruling of 2026-11-18)
 #   E5.1-E5.5 .................... retired (income statement covered by the E4 indexes): never
 # A task of the "extended" tier, which a Non-complex file does not have otherwise:
 #   P2.3 scope and components ....  Q4 a parent that consolidates or whose components others audit
@@ -215,10 +256,10 @@ def task_codes(answers):
     codes = set()
     if is_first_year(answers):
         codes.add("P1.2")
-    if _yes(answers, "q3_controls_law") or _yes(answers, "q13_automated") or (
-        answers.get("q19_approach") == "other" and answers.get("q19_controls")
-    ):
+    if _yes(answers, "q3_controls_law") or _yes(answers, "q13_automated") or relies_on_controls(answers):
         codes.add("P4.2")
+    if relies_on_controls(answers):
+        codes.update(CONTROLS_CODES)
     if any(answers.get(point) == "high" for point in IT_POINTS) or _yes(answers, "q13_automated"):
         codes.add("P4.3")
     if answers.get("q9_specialists") in ("tax", "other", "core"):
@@ -226,7 +267,7 @@ def task_codes(answers):
     keeper = answers.get("q14_keeper")
     if keeper and keeper != "entity":
         codes.add("S5.2")
-    if answers.get("q19_approach") == "other" and answers.get("q19_internal_audit"):
+    if uses_internal_audit(answers):
         codes.add("S5.3")
     if _parent(answers) and (_yes(answers, "q4_consolidates") or _yes(answers, "q4_other_auditors")):
         codes.add("P2.3")

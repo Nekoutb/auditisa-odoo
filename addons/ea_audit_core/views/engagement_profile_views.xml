@@ -154,10 +154,10 @@
 
                     <h2 class="mt-4">Approach and history</h2>
                     <div class="mb-3">
-                        <label for="q19_approach" class="fw-bold d-block" string="Question 18. Planned approach: test balances only, all at year end? Or rely on controls, test at an interim date, or use internal audit's work?"/>
+                        <label for="q19_approach" class="fw-bold d-block" string="Question 18. Planned approach: substantive only, or controls reliance (the team tests the controls before performing the substantive procedures)?"/>
                         <field name="q19_approach" widget="radio" options="{'horizontal': true}"/>
-                        <div class="ms-4 mt-2" invisible="q19_approach != 'other'">
-                            <div><field name="q19_controls"/> <label for="q19_controls"/></div>
+                        <div class="ms-4 mt-2" invisible="not q19_approach">
+                            <div invisible="q19_approach != 'other'"><field name="q19_controls"/> <label for="q19_controls"/></div>
                             <div><field name="q19_interim"/> <label for="q19_interim"/></div>
                             <div><field name="q19_internal_audit"/> <label for="q19_internal_audit"/></div>
                         </div>

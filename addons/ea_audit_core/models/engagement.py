@@ -21,6 +21,7 @@ from ..services.signoff_rules import (
     can_write,
     may_hold_partner_seat,
 )
+from ..services.engagement_profile import relies_on_controls as profile_relies_on_controls
 from ..services.engagement_profile import task_codes as profile_task_codes
 from ..services.rollforward_plan import ROLLFORWARD_KEYS, invitations, uses_last_year_tasks
 from ..services.standards_edition import STANDARDS_EDITIONS, default_standards_edition, edition_for_period
@@ -577,6 +578,12 @@ class Engagement(models.Model):
         """The tasks a concluded profile switched on: a later "no" elsewhere does not switch them off."""
         profile = self._ea_profile()
         return profile_task_codes(profile._ea_answers()) if profile.state == "concluded" else set()
+
+    def _ea_approach_relies_on_controls(self):
+        """Question 18 answered Controls reliance (owner's ruling of 2026-11-18), or, on a file answered
+        before it, "something else" with the old "rely on controls" tick."""
+        profile = self._ea_profile()
+        return bool(profile) and profile_relies_on_controls(profile._ea_answers())
 
     def action_open_profile(self):
         """The questionnaire. An older file gets an empty one, which holds nothing up."""

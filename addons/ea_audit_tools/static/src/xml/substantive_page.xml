@@ -18,6 +18,7 @@
                         <a class="btn btn-secondary btn-sm align-self-center" t-att-href="exportUrl()">Export to Excel</a>
                     </div>
                 </div>
+                <div class="o_ea_px_warn" role="status" data-ea="controls-first" t-if="p.controlsFirst" t-esc="p.controlsFirst"/>
                 <div class="o_ea_px_readonly" t-if="p.readonly">
                     <t t-if="p.archived">Read only: this engagement is archived.</t>
                     <t t-else="">Read only: your role reads the procedures but does not perform them.</t>

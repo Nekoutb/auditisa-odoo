@@ -1,4 +1,6 @@
 """The decision tree of the engagement profile, one condition at a time."""
+import importlib.util
+import os
 from datetime import date
 
 import pytest
@@ -6,6 +8,7 @@ import pytest
 from engagement_profile import (
     ANSWER_FIELDS,
     COMPLEX,
+    CONTROLS_CODES,
     NON_COMPLEX,
     VERY_SIMPLE,
     answered_count,
@@ -14,6 +17,7 @@ from engagement_profile import (
     lce_available,
     missing,
     provisional,
+    relies_on_controls,
     retired_reasons,
     task_codes,
 )
@@ -102,9 +106,14 @@ def test_group_sub_answers_left_from_an_earlier_choice_are_ignored():
     ({"q17_going_concern": "yes"}, "q17"),
     ({"q18_related_parties": "yes"}, "q18"),
     ({"q9_specialists": "other"}, "q9:other"),
+    ({"q19_approach": "controls"}, "q19"),
+    ({"q19_interim": True}, "q19:interim"),
+    ({"q19_internal_audit": True}, "q19:internal_audit"),
+    ({"q19_approach": "controls", "q19_interim": False}, "q19"),
+    # a file answered "something else" before 2026-11-18 keeps its effect
     ({"q19_approach": "other", "q19_controls": True}, "q19"),
-    ({"q19_approach": "other", "q19_interim": True}, "q19"),
-    ({"q19_approach": "other", "q19_internal_audit": True}, "q19"),
+    ({"q19_approach": "other", "q19_interim": True}, "q19:interim"),
+    ({"q19_approach": "other", "q19_internal_audit": True}, "q19:internal_audit"),
 ])
 def test_each_unmet_very_simple_condition_alone_makes_it_non_complex(changes, reason):
     assert conclude(answers(**changes)) == (NON_COMPLEX, [reason])
@@ -173,6 +182,7 @@ def test_a_plain_company_switches_nothing_on():
     ({"q11_fraud": "yes"}, "E6.1"),
     ({"q3_controls_law": "yes"}, "P4.2"),
     ({"q13_automated": "yes"}, "P4.2"),
+    ({"q19_approach": "controls"}, "P4.2"),
     ({"q19_approach": "other", "q19_controls": True}, "P4.2"),
     ({"q8_4": "high"}, "P4.3"),
     ({"q13_automated": "yes"}, "P4.3"),
@@ -180,6 +190,8 @@ def test_a_plain_company_switches_nothing_on():
     ({"q9_specialists": "other"}, "S5.1"),
     ({"q9_specialists": "core"}, "S5.1"),
     ({"q14_keeper": "hosting", "q14_rely_report": "no"}, "S5.2"),
+    ({"q19_internal_audit": True}, "S5.3"),
+    ({"q19_approach": "controls", "q19_internal_audit": True}, "S5.3"),
     ({"q19_approach": "other", "q19_internal_audit": True}, "S5.3"),
     ({"q4_group": "parent", "q4_consolidates": "yes", "q4_other_auditors": "no"}, "P2.3"),
     ({"q4_group": "parent", "q4_consolidates": "no", "q4_other_auditors": "yes"}, "P2.3"),
@@ -188,8 +200,60 @@ def test_an_answer_switches_its_task_on(changes, code):
     assert code in task_codes(answers(**changes))
 
 
-def test_options_ticked_before_choosing_year_end_substantive_switch_nothing_on():
-    assert task_codes(answers(q19_approach="substantive", q19_controls=True, q19_internal_audit=True)) == set()
+def test_an_old_rely_on_controls_tick_left_under_substantive_only_switches_nothing_on():
+    assert task_codes(answers(q19_approach="substantive", q19_controls=True)) == set()
+    assert conclude(answers(q19_approach="substantive", q19_controls=True)) == (VERY_SIMPLE, [])
+
+
+# ---------------------------------------------------------------- Q18, the planned approach (ruling of 2026-11-18)
+
+def test_substantive_only_keeps_very_simple_and_brings_no_controls_task():
+    assert conclude(PLAIN) == (VERY_SIMPLE, [])
+    assert not relies_on_controls(PLAIN)
+    assert not set(CONTROLS_CODES) & task_codes(PLAIN)
+
+
+def test_controls_reliance_is_not_very_simple_and_brings_the_controls_tasks():
+    chosen = answers(q19_approach="controls")
+    assert relies_on_controls(chosen)
+    assert conclude(chosen) == (NON_COMPLEX, ["q19"])
+    assert task_codes(chosen) == {"P4.2"} | set(CONTROLS_CODES)
+
+
+@pytest.mark.parametrize("approach", ["substantive", "controls"])
+def test_interim_and_internal_audit_are_ticks_under_either_option(approach):
+    level, reasons = conclude(answers(q19_approach=approach, q19_interim=True, q19_internal_audit=True))
+    assert level == NON_COMPLEX
+    assert {"q19:interim", "q19:internal_audit"} <= set(reasons)
+    assert "S5.3" in task_codes(answers(q19_approach=approach, q19_internal_audit=True))
+
+
+def test_ticks_without_an_approach_count_for_nothing():
+    partial = {k: v for k, v in PLAIN.items() if k != "q19_approach"}
+    partial.update(q19_interim=True, q19_internal_audit=True)
+    assert missing(partial) == ["Q18"]
+    assert provisional(partial) == (None, [])
+    assert "S5.3" not in task_codes(partial)
+
+
+def test_a_file_answered_something_else_still_reads():
+    old = answers(q19_approach="other", q19_controls=True, q19_interim=True)
+    assert relies_on_controls(old)
+    assert conclude(old) == (NON_COMPLEX, ["q19", "q19:interim"])
+    assert set(CONTROLS_CODES) <= task_codes(old)
+    without_controls = answers(q19_approach="other", q19_internal_audit=True)
+    assert not relies_on_controls(without_controls)
+    assert not set(CONTROLS_CODES) & task_codes(without_controls)
+    # "something else" with no tick still asks which
+    assert missing(answers(q19_approach="other")) == ["Q18"]
+
+
+def test_the_controls_tasks_are_those_of_the_file_scope():
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "services", "file_scope.py")
+    spec = importlib.util.spec_from_file_location("file_scope_for_profile", path)
+    file_scope = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(file_scope)
+    assert tuple(CONTROLS_CODES) == tuple(file_scope.CONTROLS_CODES)
 
 
 def test_retired_income_statement_tasks_are_never_switched_on():

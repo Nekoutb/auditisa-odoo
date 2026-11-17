@@ -59,6 +59,10 @@ export class ProfileAction extends Component {
         return question.parts.filter((part) => part.visible && part.kind === "toggle");
     }
 
+    optionHelps(part) {
+        return part.options.filter((option) => option.help);
+    }
+
     sectionLabel() {
         return this.p.words.section.replace("{n}", String(this.state.section + 1));
     }

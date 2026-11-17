@@ -1,7 +1,8 @@
 """Reliance on controls, the fact behind the controls tasks (owner's table of 2026-11-17): S2.1 to
 S2.5, E1.1, E1.2 and E2.1 are on a file of the current scope only while its strategy relies on
 controls. The strategy is read where it is decided: a SCOT tested through its controls, a CRA cell
-set to rely, or an IT application whose controls are relied on.
+set to rely, an IT application whose controls are relied on, or, from the start, a concluded profile
+questionnaire whose question 18 is Controls reliance (owner's ruling of 2026-11-18).
 
 The tasks follow the reliance both ways (owner's ruling of 2026-11-17 evening: "remove if not
 relying on controls, maintain if relying on controls"). When the strategy stops relying, a controls
@@ -29,12 +30,18 @@ class Engagement(models.Model):
         self.ensure_one()
         env = self.env
         return bool(
-            env["ea.audit.scot"].sudo().search_count([("engagement_id", "=", self.id), ("strategy", "=", "controls")])
+            self._ea_profile_relies_on_controls()
+            or env["ea.audit.scot"].sudo().search_count([("engagement_id", "=", self.id), ("strategy", "=", "controls")])
             or env["ea.audit.cra.assessment"].sudo().search_count([("engagement_id", "=", self.id), ("cr", "=", "rely")])
             or env["ea.audit.it.application"].sudo().search_count([
                 ("engagement_id", "=", self.id), ("strategy", "in", RELYING_IT_STRATEGIES), ("removed", "=", False),
             ])
         )
+
+    def _ea_profile_relies_on_controls(self):
+        """The concluded questionnaire answers Controls reliance (question 18)."""
+        self.ensure_one()
+        return self._ea_profile().state == "concluded" and self._ea_approach_relies_on_controls()
 
     def _ea_fact_codes(self):
         facts = super()._ea_fact_codes()
@@ -198,3 +205,19 @@ class ItApplication(models.Model):
     _ea_reliance_field = "strategy"
     _ea_reliance_values = RELYING_IT_STRATEGIES
     _ea_reliance_other_fields = ("removed",)
+
+
+class EngagementProfile(models.Model):
+    """Question 18 of the questionnaire (owner's ruling of 2026-11-18): Controls reliance is the
+    strategy relying on controls, decided at the start. Concluding brings the controls tasks onto the
+    file (their fact is the profile's answer, see _ea_fact_codes of ea_audit_core) and makes the ones
+    marked not applicable when an earlier reliance stopped applicable again; changing the answer to
+    Substantive only takes them off as the strategy tools do, unless a SCOT, a CRA cell or an IT
+    application still relies on controls."""
+
+    _inherit = "ea.audit.engagement.profile"
+
+    def _ea_apply(self):
+        level = super()._ea_apply()
+        self.sudo().engagement_id._ea_follow_controls_reliance()
+        return level
