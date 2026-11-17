@@ -81,43 +81,6 @@
         </field>
     </record>
 
-    <record id="view_engagement_overrides_board" model="ir.ui.view">
-        <field name="name">ea.audit.engagement.overrides.board</field>
-        <field name="model">ea.audit.engagement</field>
-        <field name="priority">90</field>
-        <field name="arch" type="xml">
-            <form create="0" delete="0" edit="0">
-                <header>
-                    <button name="action_open_override_wizard" type="object" string="Add an override" class="btn-primary" groups="ea_audit_core.group_writer"/>
-                </header>
-                <sheet>
-                    <div class="o_ea_title">Client overrides</div>
-                    <div class="o_ea_sub">They apply to every file of this client, and move the lead schedules at once.</div>
-                    <div class="o_ea_panel">
-                        <div class="o_ea_card_label">Lead index</div>
-                        <field name="lead_override_ids" nolabel="1" readonly="1">
-                            <list>
-                                <field name="account_prefix"/>
-                                <field name="index_code"/>
-                            </list>
-                        </field>
-                    </div>
-                    <div class="o_ea_panel">
-                        <div class="o_ea_card_label">Section</div>
-                        <field name="grouping_override_ids" nolabel="1" readonly="1">
-                            <list>
-                                <field name="match_type"/>
-                                <field name="account_prefix"/>
-                                <field name="section_code"/>
-                                <field name="rationale"/>
-                            </list>
-                        </field>
-                    </div>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
     <record id="view_wp_template_list" model="ir.ui.view">
         <field name="name">ea.audit.wp.template.list</field>
         <field name="model">ea.audit.wp.template</field>
@@ -189,27 +152,6 @@
                 </group>
                 <footer>
                     <button name="action_file" type="object" string="File" class="btn-primary"/>
-                    <button special="cancel" string="Cancel"/>
-                </footer>
-            </form>
-        </field>
-    </record>
-    <record id="view_override_wizard" model="ir.ui.view">
-        <field name="name">ea.audit.override.wizard.form</field>
-        <field name="model">ea.audit.override.wizard</field>
-        <field name="arch" type="xml">
-            <form>
-                <field name="engagement_id" invisible="1"/>
-                <group>
-                    <field name="kind"/>
-                    <field name="account_prefix"/>
-                    <field name="index_code" invisible="kind != 'index'" required="kind == 'index'"/>
-                    <field name="match_type" invisible="kind != 'section'"/>
-                    <field name="section_code" invisible="kind != 'section'" required="kind == 'section'"/>
-                    <field name="rationale" invisible="kind != 'section'" required="kind == 'section'"/>
-                </group>
-                <footer>
-                    <button name="action_add" type="object" string="Add" class="btn-primary"/>
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>

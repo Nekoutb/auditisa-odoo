@@ -306,16 +306,9 @@ class EngagementAnalysis(models.Model):
         return self._ea_board("ea_audit_tools.view_engagement_analytics_board", self.env._("Analytical procedures"))
 
     # ------------------------------------------------------------------
-    # The client's overrides and the potential risks
+    # The potential risks. The client's overrides have no screen of their own any more (work
+    # allocation took their tile, owner's ruling of 2026-11-18); the saved overrides still apply.
     # ------------------------------------------------------------------
-
-    def action_tool_overrides(self):
-        self.ensure_one()
-        self._ea_require_access()
-        return self._ea_board("ea_audit_tools.view_engagement_overrides_board", self.env._("Client overrides"))
-
-    def action_open_override_wizard(self):
-        return self._ea_action_wizard("ea.audit.override.wizard", self.env._("Add an override"))
 
     def action_open_potential_wizard(self):
         return self._ea_action_wizard("ea.audit.potential.wizard", self.env._("Raise a potential risk"))

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ea_audit_tools.WorkAllocationPage">
+        <div class="o_ea_ws o_ea_wa" t-if="p" data-ea="work-allocation">
+            <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/></div>
+                        <h1>Work allocation</h1>
+                        <p class="o_ea_ws_sub">Choose who prepares and who reviews each task. Tasks that need the partner's approval go to the engagement partner automatically.</p>
+                    </div>
+                    <div class="o_ea_ws_tools">
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-on-click="() => this.suggest()">Suggest by role</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.exportExcel()">Export to Excel</button>
+                        <button type="button" class="btn btn-primary btn-sm" t-if="!p.readonly"
+                                t-att-disabled="blocked or state.busy" t-on-click="() => this.save()">Save</button>
+                    </div>
+                </div>
+
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: the engagement partner and the managers on the team change the allocation.</t>
+                </div>
+
+                <div class="o_ea_ws_tabs" role="tablist">
+                    <button type="button" t-foreach="filters" t-as="f" t-key="f.key" role="tab"
+                            t-att-class="{'is-active': state.filter === f.key and !state.person}" t-on-click="() => this.setFilter(f.key)">
+                        <t t-esc="f.label"/> <span class="o_ea_ws_count" t-if="f.count !== null" t-esc="f.count"/>
+                    </button>
+                </div>
+
+                <div class="o_ea_wa_bulk" t-if="!p.readonly and selectedIds.length" data-ea="bulk-bar">
+                    <b t-esc="selectedText"/>
+                    <label>Preparer
+                        <select class="o_ea_ws_input" t-model="state.bulkPreparer">
+                            <option value=""/>
+                            <option t-foreach="p.members" t-as="m" t-key="m.id" t-att-value="m.id"><t t-esc="m.name"/> (<t t-esc="m.roleLabel"/>)</option>
+                        </select>
+                    </label>
+                    <label>Reviewer
+                        <select class="o_ea_ws_input" t-model="state.bulkReviewer">
+                            <option value=""/>
+                            <option t-foreach="p.members" t-as="m" t-key="m.id" t-att-value="m.id"><t t-esc="m.name"/> (<t t-esc="m.roleLabel"/>)</option>
+                        </select>
+                    </label>
+                    <button type="button" class="btn btn-primary btn-sm" t-on-click="() => this.applyBulk()">Apply to the selection</button>
+                </div>
+
+                <div class="o_ea_ws_split o_ea_wa_split">
+                    <div class="o_ea_ws_left o_ea_ws_scroll">
+                        <p class="o_ea_ws_empty" t-if="!groups.length">No task matches this filter.</p>
+                        <table class="o_ea_ws_grid o_ea_wa_grid" t-else="">
+                            <thead>
+                                <tr>
+                                    <th t-if="!p.readonly"/>
+                                    <th>Task</th><th>Rule from the sign-off policy</th><th>Preparer</th><th>Reviewer</th>
+                                    <th>Partner approval</th><th>Deadline</th><th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody t-foreach="groups" t-as="group" t-key="group.key">
+                                <tr class="o_ea_wa_phase">
+                                    <td t-att-colspan="p.readonly ? 7 : 8">
+                                        <b t-esc="group.label"/> <span class="o_ea_ws_sub" t-esc="group.summary"/>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="group.rows" t-as="row" t-key="row.id" t-att-data-code="row.code">
+                                    <td t-if="!p.readonly">
+                                        <input type="checkbox" t-att-checked="state.selected[row.id]" t-on-change="(ev) => this.toggle(row, ev)"/>
+                                    </td>
+                                    <td><span class="o_ea_ws_ref" t-esc="row.code"/> <t t-esc="row.title"/></td>
+                                    <td class="o_ea_ws_sub" t-esc="row.rule"/>
+                                    <td>
+                                        <select class="o_ea_ws_input o_ea_wa_select" t-att-disabled="p.readonly"
+                                                t-on-change="(ev) => this.onSelect(row, 'preparer', ev)">
+                                            <option value="" t-att-selected="!value(row, 'preparer')">Not allocated</option>
+                                            <option t-foreach="p.members" t-as="m" t-key="m.id" t-att-value="m.id" t-att-selected="value(row, 'preparer') === m.id"><t t-esc="m.name"/> (<t t-esc="m.roleLabel"/>)</option>
+                                        </select>
+                                        <div class="o_ea_wa_problem" t-foreach="problems(row, 'preparer')" t-as="problem" t-key="problem_index" t-esc="problem.text"/>
+                                    </td>
+                                    <td>
+                                        <select class="o_ea_ws_input o_ea_wa_select" t-att-disabled="p.readonly"
+                                                t-on-change="(ev) => this.onSelect(row, 'reviewer', ev)">
+                                            <option value="" t-att-selected="!value(row, 'reviewer')">Not allocated</option>
+                                            <option t-foreach="p.members" t-as="m" t-key="m.id" t-att-value="m.id" t-att-selected="value(row, 'reviewer') === m.id"><t t-esc="m.name"/> (<t t-esc="m.roleLabel"/>)</option>
+                                        </select>
+                                        <div class="o_ea_wa_problem" t-foreach="problems(row, 'reviewer')" t-as="problem" t-key="problem_index" t-esc="problem.text"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="row.partnerRequired">
+                                            <t t-if="p.partner"><t t-esc="p.partner.name"/> <span class="o_ea_ws_badge is-green">automatic</span></t>
+                                            <t t-else="">—</t>
+                                        </t>
+                                        <span class="o_ea_ws_sub" t-else="">Not needed</span>
+                                    </td>
+                                    <td class="o_num" t-esc="row.deadline"/>
+                                    <td><span t-att-class="'o_ea_ws_badge is-' + row.tone" t-esc="row.status"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="o_ea_ws_right" data-ea="workload">
+                        <div class="o_ea_ws_dtitle"><b>Workload</b></div>
+                        <button type="button" t-foreach="workload" t-as="line" t-key="line.id"
+                                t-att-class="'o_ea_wa_person' + (state.person === line.id ? ' is-active' : '')"
+                                t-on-click="() => this.pickPerson(line)">
+                            <span class="o_ea_wa_name"><b t-esc="line.name"/> <span class="o_ea_ws_sub" t-esc="line.roleLabel"/></span>
+                            <span class="o_ea_ws_sub" t-esc="line.text"/>
+                            <span class="o_ea_ws_sub" t-if="line.partnerText" t-esc="line.partnerText"/>
+                            <span class="o_ea_wa_bar"><i t-att-style="line.bar"/></span>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="o_ea_ws_legend">The lists show only the engagement team. Changing an allocation never removes signatures already given; the new person signs from now on. Every change is recorded in the activity trail.</p>
+            </div>
+        </div>
+    </t>
+</templates>

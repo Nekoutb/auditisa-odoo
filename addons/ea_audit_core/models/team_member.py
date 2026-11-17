@@ -69,10 +69,18 @@ class TeamMember(models.Model):
             if others:
                 raise rule_error(self.env, "one-engagement-partner")
 
+    def _ea_partner_seat_moved(self, before=None):
+        """Partner approval follows the partner seat (work allocation, 2026-11-18): a seat taken,
+        handed over (Transfer the partner role), accepted or declined moves it."""
+        seats = self.filtered(lambda m: m.team_role == "partner") | (before or self.browse())
+        seats.engagement_id._ea_sync_partner_approval()
+
     @api.model_create_multi
     def create(self, vals_list):
         if self.env.su:
-            return super().create(vals_list)
+            members = super().create(vals_list)
+            members._ea_partner_seat_moved()
+            return members
         # Adding a row from the team list is an invitation: nobody is made an
         # accepted member by writing state on a row.
         members = self.browse()
@@ -86,7 +94,11 @@ class TeamMember(models.Model):
 
     def write(self, vals):
         if self.env.su:
-            return super().write(vals)
+            before = self.filtered(lambda m: m.team_role == "partner")
+            result = super().write(vals)
+            if {"team_role", "state", "user_id"} & set(vals):
+                self._ea_partner_seat_moved(before)
+            return result
         if set(vals) - {"team_role", "eqr_declaration"}:
             raise rule_error(self.env, "forbidden")
         for member in self.sudo():
@@ -100,7 +112,10 @@ class TeamMember(models.Model):
 
     def unlink(self):
         if self.env.su:
-            return super().unlink()
+            engagements = self.filtered(lambda m: m.team_role == "partner").engagement_id
+            result = super().unlink()
+            engagements.exists()._ea_sync_partner_approval()
+            return result
         for member in self.sudo():
             member.engagement_id.with_env(self.env).remove_team_member(member.user_id.id)
         return True

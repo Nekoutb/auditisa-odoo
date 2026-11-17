@@ -157,16 +157,23 @@ class TestAnalytics(ToolsCase):
 
 @tagged("post_install", "-at_install")
 class TestOverridesAndPotential(ToolsCase):
-    def test_overrides_screen(self):
+    def test_the_overrides_screen_is_gone_and_the_overrides_still_apply(self):
+        """Owner's ruling of 2026-11-18: work allocation took the tile of the client's overrides.
+        Nothing saved is lost: the overrides keep moving the lead schedules and the sections."""
         self.as_staff.save_lead_index_override("411", "C")
         self.as_staff.add_grouping_override("prefix", "99", "E4.1", "Compte propre au client")
-        board = self.engagement.with_user(self.staff)
-        self.assertEqual(board.lead_override_ids.mapped("index_code"), ["C"])
-        self.assertEqual(board.grouping_override_ids.mapped("section_code"), ["E4.1"])
-        self.assertTrue(board.action_tool_overrides())
-        outsider = self.engagement.with_user(self.outsider)
-        with self.assertRaisesRegex(Exception, "not-on-this-engagement"):
-            outsider.action_tool_overrides()
+        self.assertFalse(self.env.ref("ea_audit_tools.tile_overrides", raise_if_not_found=False))
+        self.assertFalse(self.env["ea.audit.tool.tile"].sudo().search([("code", "=", "overrides")]))
+        self.assertFalse(hasattr(self.Engagement, "action_tool_overrides"))
+        self.assertFalse(hasattr(self.Engagement, "action_open_override_wizard"))
+        self.assertFalse(self.env.ref("ea_audit_tools.view_engagement_overrides_board", raise_if_not_found=False))
+        self.assertEqual(
+            self.env.ref("ea_audit_tools.tile_work_allocation").sequence, 170,
+        )
+        engagement = self.engagement.sudo()
+        self.assertEqual(engagement.lead_override_ids.mapped("index_code"), ["C"])
+        self.assertEqual(engagement.grouping_override_ids.mapped("section_code"), ["E4.1"])
+        self.assertEqual(engagement._ea_sum_by_index([("411000", 100.0)]).get("C"), 100.0)
 
     def test_wizard_routes_to_the_guarded_methods(self):
         wizard = self.env["ea.audit.override.wizard"].with_user(self.staff).create({
