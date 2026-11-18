@@ -36,7 +36,6 @@
                         <div class="col-lg-9">
                             <div class="o_ea_banner" invisible="dataset_id">No general ledger is in use on this file: upload one in the Data bank. Financial analysis and analytical procedures open without it.</div>
                             <div class="o_ea_banner" invisible="not dataset_id or gl_built_at">This ledger has no projection yet: build it first.</div>
-                            <field name="head_html" nolabel="1" readonly="1" invisible="not dataset_id"/>
                             <div class="o_ea_panel" invisible="not figure_set">
                                 <field name="figure_html" nolabel="1" readonly="1"/>
                                 <button name="action_drill_figure" type="object" string="Lines behind the figure" class="btn-primary"/>
