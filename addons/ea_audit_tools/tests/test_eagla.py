@@ -79,7 +79,7 @@ class TestDataBankAndEagla(ConsoleCase):
         console.write({"corr2_numerator": "701", "corr2_denominator": "411"})
         console.action_run_two_way()
         self.assertIn("<circle", str(console.corr2_html))
-        self.assertIn("1 000", str(console.corr2_html))
+        self.assertIn("1 000", str(console.corr2_html).replace(" ", " "))  # figures keep their thousands together
         three = self.as_staff.eagla_three_way(self.dataset_id, "701", "411", "521")
         self.assertAlmostEqual(three["ratios"]["ba"][0], 100.0)
         console.write({"corr3_a": "701", "corr3_b": "411", "corr3_c": "521"})

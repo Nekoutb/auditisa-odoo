@@ -163,5 +163,5 @@ class TestProjection(GlCase):
         self.assertEqual(self.as_staff.gl_validate_population(dataset_id)["lines"], 4)
 
     def test_the_tile_opens_the_ledgers(self):
-        action = self.env.ref("ea_audit_tools.tile_gl_console").with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
+        action = self.env.ref("ea_audit_tools.tile_an_gl").with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
         self.assertEqual(action["res_model"], "ea.audit.dataset")
