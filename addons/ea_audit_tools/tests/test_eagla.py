@@ -66,9 +66,17 @@ class TestDataBankAndEagla(ConsoleCase):
         self.assertEqual(len(keys), 32)
         self.assertEqual(keys[-2:], ["two-way-correlation", "three-way-correlation"])
         view = self.env["ea.audit.gl.console"].with_user(self.staff).get_view(self.env.ref("ea_audit_tools.view_gl_console_form").id)
-        for name in ("action_eagla_financial", "action_eagla_analytical", "action_scot", "action_run_two_way", "action_run_three_way"):
+        for name in ("action_run_two_way", "action_run_three_way"):
             self.assertIn(name, view["arch"])
         self.assertIn("EAGLA™", view["arch"])
+        # four lines that roll down and up, drawn in the browser from what the server gives
+        self.assertIn('widget="ea_eagla_nav"', view["arch"])
+        nav = console.eagla_nav
+        self.assertEqual([key for key, _label in nav["analysisList"]], keys)
+        self.assertEqual([key for key, _label in nav["scotList"]], ["revenue", "purchases", "fixed_assets", "treasury"])
+        self.assertEqual((nav["financial"], nav["analytical"], nav["analyses"], nav["scot"]), (
+            "Financial analysis", "Analytical procedures", "EAGLA analyses", "SCOT identification",
+        ))
 
     def test_two_way_and_three_way(self):
         result = self.as_staff.eagla_two_way(self.dataset_id, "701", "411")

@@ -422,7 +422,6 @@ class TestConsoleScreen(ConsoleCase):
         console.action_swap()
         self.assertEqual(console.corr_a, "701000")
         console.analytic_key = "weekend-postings"
-        console.action_run_analytic()
         self.assertIn("Sat", str(console.analytic_html))
         self.assertIn("exceptions requiring audit consideration", str(console.analytic_html))
         console.action_load_insights()
@@ -435,24 +434,23 @@ class TestConsoleScreen(ConsoleCase):
         self.env["res.lang"]._activate_lang("fr_FR")
         console = self.console().with_context(lang="fr_FR")
         console.analytic_key = "weekend-postings"
-        console.action_run_analytic()
         self.assertIn("Sam", str(console.analytic_html))
         self.assertIn("02/2025", str(console.analytic_html))
-        self.assertIn("Profil des jours", str(console.analytic_html))
+        self.assertIn("Profil des jours", console.analytic_title)
+        self.assertIn("Chiffres du grand livre", str(console.head_html))
 
     def test_the_wording_rule(self):
         console = self.console()
         for definition in ANALYTICS:
             console.analytic_key = definition["key"]
-            console.action_run_analytic()
-            text = str(console.analytic_html).lower()
+            text = (str(console.analytic_html) + str(console.analytic_items)).lower()
             self.assertNotIn("fraud", text, definition["key"])
 
     def test_an_unavailable_analytic_says_so(self):
         console = self.console()
         console.analytic_key = "sequence-gaps"
-        console.action_run_analytic()
         self.assertIn("o_ea_banner", str(console.analytic_html))
+        self.assertFalse(console.analytic_items)
 
     def test_the_picker_feeds_the_selection(self):
         console = self.console()
@@ -495,6 +493,66 @@ class TestConsoleScreen(ConsoleCase):
         rows = [row for row in sheet.iter_rows(values_only=True)]
         self.assertIn("2025-03", [row[0] for row in rows])
         self.assertIn("gl-exact-duplicates", console.export_filename)
+        # an analysis that lists lines gives them all on a second sheet: "Extract all to Excel"
+        lines = [row for row in book.worksheets[1].iter_rows(values_only=True) if row and row[0] == "DU001"]
+        self.assertEqual([(row[3], row[6]) for row in lines], [("601000", 70), ("601000", 70)])
+
+    def test_an_analysis_runs_as_soon_as_it_is_picked(self):
+        console = self.console()
+        with Form(console) as form:
+            form.analytic_key = "round-numbers"
+            self.assertEqual(form.analytic_title, "12. Round-amount postings")
+            self.assertIn("exceptions requiring audit consideration", str(form.analytic_html))
+            self.assertEqual(len(form.analytic_items["rows"]), 2)
+            # a setting changed runs it again by itself
+            form.round_min = 300000
+            self.assertFalse(form.analytic_items)
+            self.assertFalse(form.analytic_listed)
+        # the ledger figures are one small line now, under the results
+        self.assertIn("Ledger figures:", str(console.head_html))
+        self.assertNotIn("o_ea_card", str(console.head_html))
+        view = self.env["ea.audit.gl.console"].with_user(self.staff).get_view(self.env.ref("ea_audit_tools.view_gl_console_form").id)
+        self.assertNotIn('string="Run"', view["arch"])
+        self.assertIn("Extract all to Excel", view["arch"])
+        # a summary table has nothing to tick
+        console.analytic_key = "benford"
+        self.assertTrue(console.analytic_html)
+        self.assertFalse(console.analytic_items)
+
+    def test_tick_entries_for_testing_and_extract_the_selection(self):
+        from openpyxl import load_workbook
+
+        console = self.console()
+        console.analytic_key = "self-review"
+        items = console.analytic_items
+        self.assertEqual(items["kind"], "entry")
+        self.assertEqual([row["key"] for row in items["rows"]], ["BQ001"])
+        self.assertEqual(items["labels"]["counter"], "%(ticked)s of %(total)s ticked for testing")
+        self.assertEqual(len(console.eagla_entry_lines("BQ001")), 2)
+        with self.assertRaisesRegex(Exception, "nothing-ticked"):
+            console.action_export_selection()
+        # ticks are kept by analysis while the screen is open
+        console.analytic_ticked = {"self-review": ["BQ001"], "round-numbers": []}
+        action = console.action_export_selection()
+        self.assertIn("field=export_file", action["url"])
+        self.assertIn("selection", console.export_filename)
+        book = load_workbook(io.BytesIO(base64.b64decode(console.export_file)))
+        rows = [row for row in book.worksheets[0].iter_rows(values_only=True) if row and row[0] == "BQ001"]
+        self.assertEqual(sorted(row[4] for row in rows), ["411000", "521000"])
+
+    def test_tick_lines_and_extract_only_those(self):
+        from openpyxl import load_workbook
+
+        console = self.console()
+        console.analytic_key = "exact-duplicates"
+        items = console.analytic_items
+        self.assertEqual(items["kind"], "line")
+        self.assertEqual(len(items["rows"]), 2)
+        console.analytic_ticked = {"exact-duplicates": [items["rows"][0]["key"], "999999999"]}
+        console.action_export_selection()
+        book = load_workbook(io.BytesIO(base64.b64decode(console.export_file)))
+        rows = [row for row in book.worksheets[0].iter_rows(values_only=True) if row and row[0] == "DU001"]
+        self.assertEqual(len(rows), 1)
 
     def test_export_without_a_request_is_refused(self):
         with self.assertRaisesRegex(Exception, "unknown-analytic"):
@@ -523,7 +581,8 @@ class TestConsoleScreen(ConsoleCase):
         Console = self.env["ea.audit.gl.console"].with_user(self.reader)
         view = Console.get_view(self.env.ref("ea_audit_tools.view_gl_console_form").id)
         self.assertNotIn('name="action_build_projection"', view["arch"])
-        self.assertIn("action_run_analytic", view["arch"])
+        self.assertNotIn("action_run_analytic", view["arch"])
+        self.assertIn("ea_eagla_items", view["arch"])
 
 
 @tagged("post_install", "-at_install")
@@ -613,8 +672,10 @@ class TestWhoReads(ConsoleCase):
             for call in self.calls(actor):
                 call()
         console = self.console(self.eqr)
-        console.action_run_analytic()
         self.assertTrue(console.analytic_html)
+        console.analytic_key = "self-review"
+        console.analytic_ticked = {"self-review": ["BQ001"]}
+        self.assertIn("download=true", console.action_export_selection()["url"])
         console = self.console(self.reader)
         console.action_load_insights()
         self.assertTrue(console.insights_html)
@@ -625,7 +686,6 @@ class TestWhoReads(ConsoleCase):
         for call in self.calls(self.as_staff):
             call()
         console = self.console()
-        console.action_run_analytic()
         self.assertTrue(console.analytic_html)
 
     def test_another_files_ledger_is_not_this_files(self):

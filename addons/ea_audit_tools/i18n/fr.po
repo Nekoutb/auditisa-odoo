@@ -419,6 +419,7 @@ msgstr "Accepté par"
 
 #. module: ea_audit_tools
 #. odoo-javascript
+#. odoo-python
 #: code:addons/ea_audit_tools/static/src/xml/findings_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ap_comment__account
@@ -430,6 +431,7 @@ msgstr "Accepté par"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__account
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_search
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Account"
 msgstr "Compte"
 
@@ -814,6 +816,7 @@ msgstr ""
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_analytics
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_analytics_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Analytical procedures"
 msgstr "Procédures analytiques"
 
@@ -3204,9 +3207,11 @@ msgstr "Écritures touchant"
 
 #. module: ea_audit_tools
 #. odoo-javascript
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_search
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__je_number
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Entry"
 msgstr "Écriture"
 
@@ -3633,6 +3638,7 @@ msgstr "Dettes de location acquisition"
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_financial
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_engagement_analytics_board
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Financial analysis"
 msgstr "Analyse financière"
 
@@ -4682,11 +4688,13 @@ msgstr "N° d'écriture"
 
 #. module: ea_audit_tools
 #. odoo-javascript
+#. odoo-python
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__filter_journal
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__journal_code
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_line_search
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console_pattern__journal
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Journal"
 msgstr "Journal"
 
@@ -12300,9 +12308,11 @@ msgstr "Aucune écriture n'est retenue : activez un critère."
 
 #. module: ea_audit_tools
 #. odoo-javascript
+#. odoo-python
 #: code:addons/ea_audit_tools/static/src/xml/je_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/sampling_page.xml:0
 #: code:addons/ea_audit_tools/static/src/xml/substantive_page.xml:0
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "Date"
 msgstr "Date"
 
@@ -17468,14 +17478,18 @@ msgid "Open EAGLA"
 msgstr "Ouvrir EAGLA"
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__pane__analyses
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "EAGLA analyses"
 msgstr "Analyses EAGLA"
 
 #. module: ea_audit_tools
+#. odoo-python
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__pane__scot
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "SCOT identification"
 msgstr "Identification des SCOT"
 
@@ -17704,3 +17718,88 @@ msgstr "Sorties de trésorerie"
 #: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
 msgid "%(count)s journal entries of the year touch this class."
 msgstr "%(count)s écritures de l'exercice touchent cette catégorie."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Ledger figures: %(lines)s lines · %(entries)s entries · Debit %(debit)s · Credit %(credit)s · Difference %(difference)s FCFA"
+msgstr "Chiffres du grand livre : %(lines)s lignes · %(entries)s écritures · Débit %(debit)s · Crédit %(credit)s · Écart %(difference)s FCFA"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "The first %(shown)s of %(total)s are listed: Extract all to Excel gives them all."
+msgstr "Les %(shown)s premières sur %(total)s sont listées : Tout extraire vers Excel les donne toutes."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Tick all"
+msgstr "Tout cocher"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Untick all"
+msgstr "Tout décocher"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "%(ticked)s of %(total)s ticked for testing"
+msgstr "%(ticked)s sur %(total)s cochées pour test"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "Extract the selection (%(count)s)"
+msgstr "Extraire la sélection (%(count)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Extract all to Excel"
+msgstr "Tout extraire vers Excel"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/gl_console_wizard.py:0
+msgid "No line found for this entry."
+msgstr "Aucune ligne trouvée pour cette écriture."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/rules.py:0
+msgid "Tick at least one entry or line for testing first."
+msgstr "Cochez d'abord au moins une écriture ou une ligne pour test."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+msgid "Lines behind a month"
+msgstr "Lignes derrière un mois"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_title
+msgid "Analysis shown"
+msgstr "Analyse affichée"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_items
+msgid "Entries or lines to tick"
+msgstr "Écritures ou lignes à cocher"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_listed
+msgid "Listed entries or lines"
+msgstr "Écritures ou lignes listées"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__analytic_ticked
+msgid "Ticked for testing"
+msgstr "Cochées pour test"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__eagla_nav
+msgid "Left pane"
+msgstr "Volet de gauche"
