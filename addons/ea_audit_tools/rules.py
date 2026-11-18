@@ -155,6 +155,8 @@ MESSAGES = {
     "ipe-preparer-first": _lt("The preparer signs first, then the reviewer."),
     "ipe-self-review": _lt("You signed as preparer: another member of the team must review."),
     "ipe-no-file": _lt("No file of this kind and timing is uploaded."),
+    # EAGLA, results first (owner's mock-up of 18/11/2026)
+    "nothing-ticked": _lt("Tick at least one entry or line for testing first."),
 }
 
 

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- EAGLA, Elite Advisors Augmented General Ledger Analysis (owner's mock-ups of 18/11/2026):
-         the general ledger console renamed, a left pane of groups and the chosen one on the right. -->
+         the general ledger console renamed, a left pane of groups and the chosen one on the right.
+         "eagla-results-first" (18/11/2026): four lines that roll down and up on the left, an analysis
+         runs as soon as it is picked, its result first, the ledger figures one small line under it. -->
     <record id="view_gl_console_form" model="ir.ui.view">
         <field name="name">ea.audit.gl.console.form</field>
         <field name="model">ea.audit.gl.console</field>
@@ -17,31 +19,23 @@
                     <field name="figure_set" invisible="1"/>
                     <field name="pane" invisible="1"/>
                     <field name="scot_class" invisible="1"/>
+                    <!-- the analysis picked in the left pane: kept out of sight, not invisible, so it stays writable -->
+                    <div class="d-none"><field name="analytic_key"/></div>
+                    <field name="analytic_listed" invisible="1"/>
+                    <field name="analytic_ticked" invisible="1"/>
                     <div class="o_ea_eagla_mark">EAGLA™</div>
                     <div class="o_ea_title">EAGLA</div>
                     <div class="o_ea_sub">Elite Advisors Augmented General Ledger Analysis</div>
                     <div class="row">
+                        <!-- Financial analysis, Analytical procedures, EAGLA analyses (1 to 32), SCOT identification
+                             (Revenue, Purchases, Fixed assets, Treasury): action_eagla_financial,
+                             action_eagla_analytical, the analysis picked (analytic_key) and action_scot. -->
                         <div class="col-lg-3 o_ea_eagla_nav">
-                            <button name="action_eagla_financial" type="object" string="Financial analysis" class="btn btn-link o_ea_eagla_group"/>
-                            <button name="action_eagla_analytical" type="object" string="Analytical procedures" class="btn btn-link o_ea_eagla_group"/>
-                            <div class="o_ea_card_label mt-3">EAGLA analyses</div>
-                            <field name="analytic_key" widget="radio" nolabel="1" class="o_ea_eagla_list"/>
-                            <div class="o_ea_card_label mt-3">SCOT identification</div>
-                            <button name="action_scot" type="object" string="Revenue" context="{'ea_scot_class': 'revenue'}" class="btn btn-link o_ea_eagla_item"/>
-                            <button name="action_scot" type="object" string="Purchases" context="{'ea_scot_class': 'purchases'}" class="btn btn-link o_ea_eagla_item"/>
-                            <button name="action_scot" type="object" string="Fixed assets" context="{'ea_scot_class': 'fixed_assets'}" class="btn btn-link o_ea_eagla_item"/>
-                            <button name="action_scot" type="object" string="Treasury" context="{'ea_scot_class': 'treasury'}" class="btn btn-link o_ea_eagla_item"/>
+                            <field name="eagla_nav" widget="ea_eagla_nav" nolabel="1"/>
                         </div>
                         <div class="col-lg-9">
-                            <group>
-                                <group>
-                                    <field name="dataset_id" options="{'no_create': True, 'no_open': True}"/>
-                                    <field name="gl_line_count" invisible="not dataset_id"/>
-                                </group>
-                            </group>
                             <div class="o_ea_banner" invisible="dataset_id">No general ledger is in use on this file: upload one in the Data bank. Financial analysis and analytical procedures open without it.</div>
                             <div class="o_ea_banner" invisible="not dataset_id or gl_built_at">This ledger has no projection yet: build it first.</div>
-                            <field name="head_html" nolabel="1" readonly="1" invisible="not dataset_id"/>
                             <div class="o_ea_panel" invisible="not figure_set">
                                 <field name="figure_html" nolabel="1" readonly="1"/>
                                 <button name="action_drill_figure" type="object" string="Lines behind the figure" class="btn-primary"/>
@@ -77,10 +71,10 @@
                                 <field name="corr3_html" nolabel="1"/>
                             </div>
 
-                            <!-- 1 to 30: the analytics of the catalogue -->
+                            <!-- 1 to 30: the analytics of the catalogue, run as soon as one is picked -->
                             <div invisible="not dataset_id or pane != 'analyses' or not analytic_key or analytic_key in ('two-way-correlation', 'three-way-correlation')">
-                                <p class="o_ea_legend">Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration.</p>
-                                <group>
+                                <div class="o_ea_eagla_h"><field name="analytic_title" nolabel="1"/></div>
+                                <group invisible="analytic_key not in ('year-end-concentration', 'monthly-spikes', 'top-value', 'round-numbers', 'repeated-amounts', 'rare-accounts', 'third-party-attribution', 'preparer-volume', 'preparer-value', 'reviewer-workload')">
                                     <group>
                                         <field name="year_end_days" invisible="analytic_key != 'year-end-concentration'"/>
                                         <field name="sd_factor" invisible="analytic_key != 'monthly-spikes'"/>
@@ -93,22 +87,58 @@
                                         <field name="top_n" invisible="analytic_key not in ('preparer-volume', 'preparer-value', 'reviewer-workload')"/>
                                     </group>
                                 </group>
-                                <button name="action_run_analytic" type="object" string="Run" class="btn-primary me-2"/>
-                                <button name="action_export_analytic" type="object" string="Extract to Excel"/>
+                                <field name="analytic_items" widget="ea_eagla_items" nolabel="1" invisible="not analytic_listed"/>
+                                <button name="action_export_analytic" type="object" string="Extract all to Excel" invisible="analytic_listed"/>
                                 <field name="analytic_html" nolabel="1"/>
-                                <div class="o_ea_panel">
-                                    <div class="o_ea_card_label">Lines behind a row</div>
+                                <p class="o_ea_legend">Amounts in FCFA, signed: debits positive, credits negative. Results are exceptions and risk indicators requiring audit consideration.</p>
+                            </div>
+
+                            <!-- SCOT identification -->
+                            <div invisible="not dataset_id or pane != 'scot'">
+                                <div class="o_ea_card_label">SCOT identification</div>
+                                <p class="o_ea_legend">The significant classes of transactions (SCOT), read from the general ledger of the year on SYSCOHADA account prefixes.</p>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'revenue'">Revenue</div>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'purchases'">Purchases</div>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'fixed_assets'">Fixed assets</div>
+                                <div class="o_ea_title fs-5" invisible="scot_class != 'treasury'">Treasury</div>
+                                <field name="scot_html" nolabel="1"/>
+                                <field name="scot_pattern_ids" nolabel="1" readonly="1" invisible="not scot_pattern_ids">
+                                    <list create="0" delete="0" decoration-danger="unusual">
+                                        <field name="debit_group"/>
+                                        <field name="credit_group"/>
+                                        <field name="journal"/>
+                                        <field name="entries"/>
+                                        <field name="amount" widget="ea_amount"/>
+                                        <field name="unusual" widget="boolean"/>
+                                        <button name="action_open_entries" type="object" string="Entries" icon="fa-list"/>
+                                    </list>
+                                </field>
+                            </div>
+
+                            <!-- The ledger: its figures in one small line, under the results -->
+                            <field name="head_html" nolabel="1" readonly="1" invisible="not dataset_id"/>
+                            <group class="o_ea_eagla_ledger">
+                                <group>
+                                    <field name="dataset_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="gl_line_count" invisible="not dataset_id"/>
+                                </group>
+                            </group>
+
+                            <!-- Below the result, two panels that roll down and up, closed at first -->
+                            <div invisible="not dataset_id or pane != 'analyses' or not analytic_key or analytic_key in ('two-way-correlation', 'three-way-correlation')">
+                                <details class="o_ea_eagla_fold">
+                                    <summary>Lines behind a month</summary>
                                     <group>
                                         <group>
                                             <field name="drill_month"/>
                                         </group>
                                     </group>
                                     <button name="action_drill_month" type="object" string="Open the lines"/>
-                                </div>
-                                <div class="o_ea_panel">
-                                    <div class="o_ea_card_label">The thirty analytics, against this ledger</div>
+                                </details>
+                                <details class="o_ea_eagla_fold">
+                                    <summary>The thirty analytics, against this ledger</summary>
                                     <field name="catalogue_html" nolabel="1" readonly="1"/>
-                                </div>
+                                </details>
                             </div>
 
                             <!-- The console's other tabs, kept as they were -->
@@ -228,27 +258,6 @@
                                 </page>
                             </notebook>
 
-                            <!-- SCOT identification -->
-                            <div invisible="not dataset_id or pane != 'scot'">
-                                <div class="o_ea_card_label">SCOT identification</div>
-                                <p class="o_ea_legend">The significant classes of transactions (SCOT), read from the general ledger of the year on SYSCOHADA account prefixes.</p>
-                                <div class="o_ea_title fs-5" invisible="scot_class != 'revenue'">Revenue</div>
-                                <div class="o_ea_title fs-5" invisible="scot_class != 'purchases'">Purchases</div>
-                                <div class="o_ea_title fs-5" invisible="scot_class != 'fixed_assets'">Fixed assets</div>
-                                <div class="o_ea_title fs-5" invisible="scot_class != 'treasury'">Treasury</div>
-                                <field name="scot_html" nolabel="1"/>
-                                <field name="scot_pattern_ids" nolabel="1" readonly="1" invisible="not scot_pattern_ids">
-                                    <list create="0" delete="0" decoration-danger="unusual">
-                                        <field name="debit_group"/>
-                                        <field name="credit_group"/>
-                                        <field name="journal"/>
-                                        <field name="entries"/>
-                                        <field name="amount" widget="ea_amount"/>
-                                        <field name="unusual" widget="boolean"/>
-                                        <button name="action_open_entries" type="object" string="Entries" icon="fa-list"/>
-                                    </list>
-                                </field>
-                            </div>
                         </div>
                     </div>
                 </sheet>

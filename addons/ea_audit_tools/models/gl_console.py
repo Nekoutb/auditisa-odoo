@@ -265,6 +265,74 @@ SQL_BY_KEY = {
 }
 assert set(SQL_BY_KEY) == set(analytics.BODIES)
 
+#: How many entries or lines an analytic lists to tick (the extract of the selection reads the same).
+ITEM_CAP = 500
+#: "Extract all to Excel": every entry or line, within what a workbook reads comfortably.
+EXPORT_CAP = 20000
+
+
+def _lines(where, join=""):
+    return f"SELECT l.id FROM {TABLE} l {join} WHERE l.dataset_id = %(dataset)s AND l.engagement_id = %(engagement)s AND ({where})"
+
+
+#: The analytics whose exceptions are entries or lines: the query of their entry numbers or line ids,
+#: each the exception condition of its query in SQL_BY_KEY. The other analytics are summary tables.
+ITEM_SQL = {
+    "unbalanced-entries": ("entry", f"""
+        SELECT je_number FROM {TABLE} WHERE {SCOPE}
+         GROUP BY je_number HAVING abs(coalesce(sum(signed), 0)) > %(tolerance)s::numeric"""),
+    "entry-date-lag": ("entry", f"""
+        SELECT je_number FROM {TABLE}
+         WHERE {SCOPE} AND journal_date IS NOT NULL AND entry_date IS NOT NULL
+         GROUP BY je_number
+        HAVING min(entry_date) - min(journal_date) > 3 OR min(entry_date) - min(journal_date) < 0"""),
+    "unusual-account-combinations": ("entry", SQL_BY_KEY["unusual-account-combinations"]["rows"].rsplit(
+        "SELECT coalesce(to_char(jd", 1)[0] + "SELECT je_number FROM scored WHERE rare > 0"),
+    "self-review": ("entry", f"""
+        SELECT je_number FROM {TABLE}
+         WHERE {SCOPE} AND coalesce(trim(preparer), '') <> '' AND coalesce(trim(approver), '') <> ''
+           AND lower(trim(preparer)) = lower(trim(approver))
+         GROUP BY je_number"""),
+    "exact-duplicates": ("line", _lines("TRUE", f"""
+        JOIN (SELECT account, je_number, journal_date, coalesce(reference, '') AS ref, signed,
+                     coalesce(je_description, '') AS des
+                FROM {TABLE} WHERE {SCOPE}
+               GROUP BY 1, 2, 3, 4, 5, 6 HAVING count(*) > 1) d
+          ON d.account = l.account AND d.je_number = l.je_number
+         AND d.journal_date IS NOT DISTINCT FROM l.journal_date AND d.ref = coalesce(l.reference, '')
+         AND d.signed IS NOT DISTINCT FROM l.signed AND d.des = coalesce(l.je_description, '')""")),
+    "zero-value": ("line", _lines("l.debit = 0 AND l.credit = 0")),
+    "invalid-debit-credit": ("line", _lines(
+        "(l.debit <> 0 AND l.credit <> 0) OR l.debit < 0 OR l.credit < 0 OR (l.debit = 0 AND l.credit = 0)")),
+    "year-end-concentration": ("line", _lines(
+        "l.journal_date IS NOT NULL AND l.journal_date > p.pe - (%(days)s::int) AND l.journal_date <= p.pe",
+        "CROSS JOIN (SELECT period_end AS pe FROM ea_audit_engagement WHERE id = %(engagement)s) p")),
+    "top-value": ("line", _lines("abs(l.signed)::float8 >= thr.p", f"""
+        CROSS JOIN (SELECT coalesce(percentile_cont(%(percentile)s::float8) WITHIN GROUP (ORDER BY abs(signed)::float8), 0)::float8 AS p
+                      FROM {TABLE} WHERE {SCOPE}) thr""")),
+    "round-numbers": ("line", _lines("abs(l.signed) >= %(min)s::numeric AND mod(abs(l.signed), %(step)s::numeric) = 0")),
+    "repeated-amounts": ("line", _lines("TRUE", f"""
+        JOIN (SELECT abs(signed) AS a FROM {TABLE} WHERE {SCOPE} AND signed <> 0
+               GROUP BY 1 HAVING count(*) >= %(minOcc)s::int) rep ON rep.a = abs(l.signed)""")),
+    "rare-accounts": ("line", _lines("TRUE", f"""
+        JOIN (SELECT account FROM {TABLE} WHERE {SCOPE}
+               GROUP BY account HAVING count(*) <= %(rareMax)s::int) rare ON rare.account = l.account""")),
+    "normal-side-exceptions": ("line", _lines("""
+        (CASE WHEN left(l.account, 2) IN ('28','29','39','49','59') THEN -1
+              WHEN left(l.account, 1) IN ('2','3','6') THEN 1
+              WHEN left(l.account, 1) IN ('1','7') THEN -1
+              ELSE 0 END) * sign(l.signed) = -1""")),
+    "missing-mandatory-fields": ("line", _lines(
+        "coalesce(trim(l.account), '') = '' OR coalesce(trim(l.je_number), '') = '' OR coalesce(trim(l.je_description), '') = ''"
+        " OR l.journal_date IS NULL OR (l.debit = 0 AND l.credit = 0)")),
+    "missing-references": ("line", _lines("coalesce(trim(l.reference), '') = ''")),
+    "third-party-attribution": ("line", _lines(
+        "EXISTS (SELECT 1 FROM unnest(%(prefixes)s::text[]) p WHERE l.account LIKE p || '%%')"
+        " AND coalesce(trim(l.third_party_code), '') = ''")),
+}
+assert set(ITEM_SQL) <= set(SQL_BY_KEY)
+assert ITEM_SQL["unusual-account-combinations"][1].count("scored AS") == 1
+
 ENTRY_CTE = f"""
     WITH sel AS (
       SELECT je_number, count(DISTINCT account) FILTER (WHERE account = ANY(%(selected)s::text[])) AS matched
@@ -366,16 +434,86 @@ class EngagementGlConsole(models.Model):
         reason = analytics.status_of(definition, dataset.mapping, locale)
         if reason:
             return analytics.unavailable_result(definition, locale, reason)
-        self.env["ea.audit.engagement"].flush_model(["period_end"])
         knobs = analytics.clamped(analytics.read_params(params))
-        args = dict(
+        args = self._ea_gl_analytic_args(dataset, knobs)
+        results = {name: self._ea_gl_rows(query, args) for name, query in SQL_BY_KEY[key].items()}
+        return analytics.build_result(definition, results, locale, knobs)
+
+    def _ea_gl_analytic_args(self, dataset, knobs):
+        self.env["ea.audit.engagement"].flush_model(["period_end"])
+        return dict(
             dataset=dataset.id, engagement=self.id, tolerance=TOLERANCE,
             days=knobs["days"], percentile=knobs["percentile"], min=knobs["min"], step=knobs["step"],
             minOcc=knobs["minOcc"], rareMax=knobs["rareMax"], pairMax=knobs["pairMax"],
             prefixes=knobs["prefixes"], topN=knobs["topN"],
         )
-        results = {name: self._ea_gl_rows(query, args) for name, query in SQL_BY_KEY[key].items()}
-        return analytics.build_result(definition, results, locale, knobs)
+
+    def gl_analytic_items(self, dataset_id, key, params=None, picked=None, cap=ITEM_CAP):
+        """The entries or lines behind an analytic's exceptions, to tick for testing (owner's mock-up
+        "eagla-results-first", 18/11/2026). None for an analytic whose result is a summary table, or
+        one that cannot run on this ledger. ``picked`` keeps only those entries (numbers) or lines (ids)."""
+        self.ensure_one()
+        self._ea_require_access()
+        definition = analytics.ANALYTIC_BY_KEY.get(key)
+        if not definition or key not in ITEM_SQL:
+            return None
+        dataset = self._ea_gl_dataset(dataset_id)
+        if analytics.status_of(definition, dataset.mapping, self._ea_locale()):
+            return None
+        kind, ids = ITEM_SQL[key]
+        args = self._ea_gl_analytic_args(dataset, analytics.clamped(analytics.read_params(params)))
+        scope = "l.dataset_id = %(dataset)s AND l.engagement_id = %(engagement)s"
+        if kind == "entry":
+            where = f"{scope} AND l.je_number IN ({ids})"
+            if picked is not None:
+                where += " AND l.je_number = ANY(%(picked)s::text[])"
+                args["picked"] = [str(value) for value in picked]
+            total = self._ea_gl_rows(f"SELECT count(DISTINCT l.je_number)::int AS n FROM {TABLE} l WHERE {where}", args)[0]["n"]
+            rows = self._ea_gl_rows(
+                f"""SELECT l.je_number AS key, l.je_number,
+                           to_char(min(l.journal_date), 'YYYY-MM-DD') AS journal_date,
+                           min(l.journal_code) AS journal,
+                           min(coalesce(l.je_description, l.line_description)) AS description,
+                           count(*)::int AS lines,
+                           coalesce(sum(l.debit), 0)::float8 AS debit, coalesce(sum(l.credit), 0)::float8 AS credit,
+                           coalesce(sum(l.signed), 0)::float8 AS difference
+                      FROM {TABLE} l WHERE {where}
+                     GROUP BY l.je_number ORDER BY min(l.journal_date) NULLS LAST, l.je_number LIMIT {int(cap)}""",
+                args,
+            )
+        else:
+            where = f"{scope} AND l.id IN ({ids})"
+            if picked is not None:
+                where += " AND l.id = ANY(%(picked)s::int[])"
+                args["picked"] = [int(value) for value in picked if str(value).isdigit()]
+            total = self._ea_gl_rows(f"SELECT count(*)::int AS n FROM {TABLE} l WHERE {where}", args)[0]["n"]
+            rows = self._ea_gl_rows(
+                f"""SELECT l.id AS key, l.je_number, to_char(l.journal_date, 'YYYY-MM-DD') AS journal_date,
+                           l.journal_code AS journal, l.account, l.account_name,
+                           coalesce(l.line_description, l.je_description) AS description,
+                           l.debit::float8 AS debit, l.credit::float8 AS credit
+                      FROM {TABLE} l WHERE {where}
+                     ORDER BY l.journal_date NULLS LAST, l.je_number, l.line_no, l.id LIMIT {int(cap)}""",
+                args,
+            )
+        return {"kind": kind, "rows": rows, "total": total, "cap": int(cap)}
+
+    def gl_entry_lines(self, dataset_id, je_numbers, cap=ITEM_CAP):
+        """The lines of some journal entries, in their order: "Lines" under an entry to tick."""
+        dataset = self._ea_gl_read(dataset_id)
+        numbers = [str(number) for number in (je_numbers or [])][:int(cap)]
+        rows = self._ea_gl_rows(
+            f"""SELECT je_number, line_no, account, account_name,
+                       coalesce(line_description, je_description) AS description,
+                       debit::float8 AS debit, credit::float8 AS credit
+                  FROM {TABLE} WHERE {SCOPE} AND je_number = ANY(%(numbers)s::text[])
+                 ORDER BY je_number, line_no, id LIMIT {int(cap) * 20}""",
+            {"dataset": dataset.id, "engagement": self.id, "numbers": numbers},
+        )
+        found = {}
+        for row in rows:
+            found.setdefault(row["je_number"], []).append(row)
+        return found
 
     # ------------------------------------------------------------------
     # Correlation (lib/gl-correlation.ts)
@@ -680,9 +818,53 @@ class EngagementGlConsole(models.Model):
         console = self.env["ea.audit.gl.console"].create(vals)
         return console._ea_reopen()
 
-    def _ea_export_gl_analytic(self, fr):
-        """An analytic's rows. The console says which, and with which knobs."""
+    def _ea_gl_item_sheet(self, dataset_id, items, fr):
+        """The entries (with all their lines) or the lines an analytic listed, as one register."""
+        def day(iso):
+            return "%s/%s/%s" % (iso[8:10], iso[5:7], iso[:4]) if iso else ""
+
+        if items["kind"] == "entry":
+            head = (
+                ["N° écriture", "Date", "Journal", "Libellé de l'écriture", "Compte", "Intitulé du compte", "Libellé de la ligne", "Débit", "Crédit"]
+                if fr else ["Entry", "Date", "Journal", "Entry description", "Account", "Account name", "Line description", "Debit", "Credit"]
+            )
+            lines = self.gl_entry_lines(dataset_id, [row["key"] for row in items["rows"]], cap=max(len(items["rows"]), 1))
+            rows = [
+                [entry["je_number"], day(entry["journal_date"]), entry["journal"], entry["description"],
+                 line["account"], line["account_name"], line["description"], line["debit"], line["credit"]]
+                for entry in items["rows"] for line in lines.get(entry["je_number"], [])
+            ]
+        else:
+            head = (
+                ["N° écriture", "Date", "Journal", "Compte", "Intitulé du compte", "Libellé", "Débit", "Crédit"]
+                if fr else ["Entry", "Date", "Journal", "Account", "Account name", "Description", "Debit", "Credit"]
+            )
+            rows = [
+                [line["je_number"], day(line["journal_date"]), line["journal"], line["account"], line["account_name"],
+                 line["description"], line["debit"], line["credit"]]
+                for line in items["rows"]
+            ]
+        return head, rows
+
+    def _ea_export_gl_selection(self, fr):
+        """"Extract the selection": only the entries or lines ticked for testing, entries with their lines."""
         from ..exports import simple_workbook
+
+        request_ = self.env.context.get("ea_gl_selection") or {}
+        dataset, key = request_.get("dataset"), request_.get("key")
+        items = self.gl_analytic_items(dataset, key, request_.get("params"), picked=request_.get("picked") or [])
+        if items is None:
+            raise rule_error(self.env, "unknown-analytic")
+        result_title = analytics.ANALYTIC_BY_KEY[key]["titleFr" if fr else "titleEn"]
+        head, rows = self._ea_gl_item_sheet(dataset, items, fr)
+        title = "%s — %s" % (result_title, "sélection pour test" if fr else "selected for testing")
+        content = simple_workbook(key[:28], head, rows, title=title)
+        return "gl-%s-selection-%s.xlsx" % (key, self._ea_export_slug()), content
+
+    def _ea_export_gl_analytic(self, fr):
+        """An analytic's rows. The console says which, and with which knobs. An analytic that lists
+        entries or lines gives them all on a second sheet ("Extract all to Excel")."""
+        from ..exports import registers_workbook
 
         request_ = self.env.context.get("ea_gl_analytic") or {}
         result = self.gl_run_analytic(request_.get("dataset"), request_.get("key"), request_.get("params"))
@@ -698,8 +880,15 @@ class EngagementGlConsole(models.Model):
             rows.append(["%s : %s / %s" % ("Exceptions à examiner" if fr else "Exceptions to consider", result["exceptions"], result["population"])])
             if result.get("note"):
                 rows.append([result["note"]])
-        content = simple_workbook(result["key"][:28], head, rows, title="%s — %s" % (result["title"], result["objective"]))
-        return "gl-%s-%s.xlsx" % (result["key"], self._ea_export_slug()), content
+        sheets = [(result["key"][:28], head, rows, "%s — %s" % (result["title"], result["objective"]))]
+        items = None if result.get("unavailable") else self.gl_analytic_items(
+            request_.get("dataset"), result["key"], request_.get("params"), cap=EXPORT_CAP,
+        )
+        if items is not None:
+            item_head, item_rows = self._ea_gl_item_sheet(request_.get("dataset"), items, fr)
+            sheet_name = ("Écritures" if fr else "Entries") if items["kind"] == "entry" else ("Lignes" if fr else "Lines")
+            sheets.append((sheet_name, item_head, item_rows, result["title"]))
+        return "gl-%s-%s.xlsx" % (result["key"], self._ea_export_slug()), registers_workbook(sheets)
 
 
 class LeadFigure(models.AbstractModel):

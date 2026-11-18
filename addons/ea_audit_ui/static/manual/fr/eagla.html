@@ -7,13 +7,33 @@
   <p>EAGLA signifie Elite Advisors Augmented General Ledger Analysis (analyse augmentée du grand livre Elite Advisors). Ouvrez les outils de la mission, puis la tuile <b>EAGLA</b>. La page s'ouvre sur le grand livre utilisé : importez-le d'abord dans la <a href="#data-tools">Banque de données</a>. La page d'un grand livre a aussi un bouton <b>Ouvrir EAGLA</b>. Sans grand livre, la page ouvre tout de même l'analyse financière et les procédures analytiques.</p>
 
   <h2>Le volet de gauche</h2>
+  <p>Le volet de gauche compte quatre lignes. Cliquez sur une ligne pour la dérouler, et cliquez de nouveau pour l'enrouler. La ligne déroulée s'affiche en vert.</p>
   <table class="ref">
-    <tr><th>Groupe</th><th>Ce qu'il ouvre</th></tr>
+    <tr><th>Ligne</th><th>Ce qu'elle ouvre</th></tr>
     <tr><td><b>Analyse financière</b></td><td>Les ratios calculés à partir de la balance générale. Voir <a href="#financial-analysis">Analyse financière et procédures analytiques</a>.</td></tr>
     <tr><td><b>Procédures analytiques</b></td><td>L'attente, le seuil, l'écart et la conclusion, compte par compte.</td></tr>
-    <tr><td><b>Analyses EAGLA</b></td><td>Les trente analyses du grand livre, numérotées de 1 à 30, puis 31 corrélation à deux termes et 32 corrélation à trois termes. Choisissez-en une : ses paramètres et son résultat s'affichent à droite. Cliquez sur <b>Exécuter</b> pour 1 à 30, sur <b>Calculer</b> pour 31 et 32.</td></tr>
-    <tr><td><b>Identification des SCOT</b></td><td><b>Chiffre d'affaires</b>, <b>Achats</b>, <b>Immobilisations</b> et <b>Trésorerie</b> : cliquez sur l'une pour lire cette catégorie d'opérations dans le grand livre.</td></tr>
+    <tr><td><b>Analyses EAGLA</b></td><td>Déroulée, la liste des trente analyses du grand livre, numérotées de 1 à 30, puis 31 corrélation à deux termes et 32 corrélation à trois termes. La liste défile quand elle est plus longue que le volet. Cliquez sur une analyse : elle s'exécute aussitôt et son résultat s'affiche à droite. Pour 31 et 32, saisissez d'abord les comptes, puis cliquez sur <b>Calculer</b>.</td></tr>
+    <tr><td><b>Identification des SCOT</b></td><td>Déroulée, <b>Chiffre d'affaires</b>, <b>Achats</b>, <b>Immobilisations</b> et <b>Trésorerie</b> : cliquez sur l'une pour lire cette catégorie d'opérations dans le grand livre.</td></tr>
   </table>
+
+  <h2>Lire une analyse</h2>
+  <ol>
+    <li>Cliquez sur <b>Analyses EAGLA</b> pour dérouler la liste, puis cliquez sur une analyse, par exemple 2. Écritures déséquilibrées.</li>
+    <li>L'analyse s'exécute d'elle-même : il n'y a pas de bouton à cliquer. Son titre et son résultat viennent en premier, à droite.</li>
+    <li>Certaines analyses ont un paramètre, par exemple la fenêtre de clôture en jours ou le montant minimum. Modifiez-le et l'analyse s'exécute de nouveau d'elle-même.</li>
+    <li>Sous le résultat, une petite ligne donne les chiffres du grand livre : lignes, écritures, débit, crédit et écart, en FCFA. Le grand livre utilisé se choisit juste sous cette ligne.</li>
+    <li><b>Lignes derrière un mois</b> et <b>Les trente analyses, pour ce grand livre</b> sont fermés au départ. Cliquez sur l'un pour le dérouler, et de nouveau pour l'enrouler.</li>
+  </ol>
+
+  <h2>Cocher des écritures ou des lignes pour test</h2>
+  <p>Quand le résultat d'une analyse est une liste d'écritures ou de lignes du grand livre, par exemple les écritures déséquilibrées, les doublons exacts, les lignes de plus forte valeur ou les montants ronds, chaque ligne du tableau a une case à cocher. Une analyse dont le résultat est un tableau de synthèse, par exemple le profil des jours ou le profil du premier chiffre, n'a pas de cases à cocher.</p>
+  <ol>
+    <li>Examinez chaque ligne. Sur une écriture, cliquez sur <b>Lignes</b> pour afficher ses lignes sur place, et cliquez de nouveau pour les masquer.</li>
+    <li>Cochez les lignes à tester, ou cliquez sur <b>Tout cocher</b>. <b>Tout décocher</b> enlève toutes les coches. Le compteur au-dessus du tableau indique combien de lignes sont cochées pour test.</li>
+    <li>Cliquez sur <b>Extraire la sélection</b> : le fichier Excel ne contient que les lignes cochées, et toutes les lignes de chaque écriture cochée.</li>
+    <li>Cliquez sur <b>Tout extraire vers Excel</b> pour le résultat entier : le tableau mois par mois et toutes les écritures ou lignes trouvées.</li>
+  </ol>
+  <div class="tip"><b>Astuce</b> Vos coches restent tant que la page est ouverte, analyse par analyse. Elles ne sont pas gardées une fois EAGLA quitté : extrayez la sélection avant de partir.</div>
 
   <h2>31. Corrélation à deux termes</h2>
   <p>Saisissez les comptes, ou le début de leurs numéros, dans <b>Comptes du numérateur</b> et <b>Comptes du dénominateur</b>, par exemple 443 (TVA facturée) sur 70 (ventes), puis cliquez sur <b>Calculer</b>. Le tableau montre chaque mois de l'exercice audité, de janvier à décembre, et l'année : le numérateur, le dénominateur et le numérateur divisé par le dénominateur, en pourcentage à deux décimales. Un mois en rouge s'écarte de plus de 1,5 point de pourcentage de la moyenne annuelle ; modifiez la <b>Tolérance (points de pourcentage)</b> pour élargir ou resserrer cet écart.</p>

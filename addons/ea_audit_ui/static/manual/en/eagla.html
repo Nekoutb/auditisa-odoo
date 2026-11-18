@@ -7,13 +7,33 @@
   <p>EAGLA stands for Elite Advisors Augmented General Ledger Analysis. Open the engagement's tools, then the <b>EAGLA</b> tile. The page opens on the general ledger in use: upload one first in the <a href="#data-tools">Data bank</a>. A ledger's own page also has an <b>Open EAGLA</b> button. Without a ledger, the page still opens the financial analysis and the analytical procedures.</p>
 
   <h2>The left pane</h2>
+  <p>The left pane has four lines. Click a line to roll it down, and click it again to roll it up. The line that is rolled down is shown in green.</p>
   <table class="ref">
-    <tr><th>Group</th><th>What it opens</th></tr>
+    <tr><th>Line</th><th>What it opens</th></tr>
     <tr><td><b>Financial analysis</b></td><td>The ratios worked out from the trial balance. See <a href="#financial-analysis">Financial analysis and analytical procedures</a>.</td></tr>
     <tr><td><b>Analytical procedures</b></td><td>The expectation, the threshold, the difference and the conclusion, account by account.</td></tr>
-    <tr><td><b>EAGLA analyses</b></td><td>The thirty analyses of the ledger, numbered 1 to 30, then 31 two-way correlation and 32 three-way correlation. Pick one: its settings and its result show on the right. Click <b>Run</b> for 1 to 30, <b>Compute</b> for 31 and 32.</td></tr>
-    <tr><td><b>SCOT identification</b></td><td><b>Revenue</b>, <b>Purchases</b>, <b>Fixed assets</b> and <b>Treasury</b>: click one to read that class of transactions from the ledger.</td></tr>
+    <tr><td><b>EAGLA analyses</b></td><td>Rolled down, the list of the thirty analyses of the ledger, numbered 1 to 30, then 31 two-way correlation and 32 three-way correlation. The list scrolls when it is longer than the pane. Click an analysis: it runs straight away and its result shows on the right. For 31 and 32, type the accounts first, then click <b>Compute</b>.</td></tr>
+    <tr><td><b>SCOT identification</b></td><td>Rolled down, <b>Revenue</b>, <b>Purchases</b>, <b>Fixed assets</b> and <b>Treasury</b>: click one to read that class of transactions from the ledger.</td></tr>
   </table>
+
+  <h2>Reading an analysis</h2>
+  <ol>
+    <li>Click <b>EAGLA analyses</b> to roll the list down, then click an analysis, for example 2. Unbalanced journal entries.</li>
+    <li>The analysis runs by itself: there is no button to press. Its title and its result come first on the right.</li>
+    <li>Some analyses have a setting, for example the closing window in days or the minimum amount. Change it and the analysis runs again by itself.</li>
+    <li>Under the result, one small line gives the ledger figures: lines, entries, debit, credit and difference, in FCFA. The ledger in use is chosen just under that line.</li>
+    <li><b>Lines behind a month</b> and <b>The thirty analytics, against this ledger</b> are closed at first. Click one to roll it down, and again to roll it up.</li>
+  </ol>
+
+  <h2>Ticking entries or lines for testing</h2>
+  <p>When the result of an analysis is a list of journal entries or of ledger lines, for example unbalanced journal entries, exact duplicate lines, highest-value lines or round-amount postings, each row has a tick box. An analysis whose result is a summary table, for example the weekday profile or the first-digit profile, has no tick boxes.</p>
+  <ol>
+    <li>Look at each row. On a journal entry, click <b>Lines</b> to show its lines in place, and click it again to hide them.</li>
+    <li>Tick the rows you want to test, or click <b>Tick all</b>. <b>Untick all</b> clears every tick. The counter above the table says how many rows are ticked for testing.</li>
+    <li>Click <b>Extract the selection</b>: the Excel file holds only the ticked rows, and every line of each ticked journal entry.</li>
+    <li>Click <b>Extract all to Excel</b> for the whole result: the month-by-month table and every entry or line found.</li>
+  </ol>
+  <div class="tip"><b>Tip</b> Your ticks stay while the page is open, analysis by analysis. They are not kept after you leave EAGLA, so extract the selection before you leave.</div>
 
   <h2>31. Two-way correlation</h2>
   <p>Type the accounts, or the start of their numbers, in <b>Numerator accounts</b> and <b>Denominator accounts</b>, for example 443 (VAT on sales) over 70 (sales), then click <b>Compute</b>. The table shows each month of the year audited, January to December, and the year: the numerator, the denominator and the numerator divided by the denominator, as a percentage with two decimals. A month in red stands more than 1.5 percentage points from the yearly average; change the <b>Tolerance (percentage points)</b> to widen or narrow it.</p>
