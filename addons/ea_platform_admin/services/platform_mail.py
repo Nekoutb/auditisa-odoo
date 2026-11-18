@@ -51,10 +51,12 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]{1,64}@(?=.{1,253}$)[A-Za-z0-9](?:[A-Za
                       r"(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$")
 MAX_ALLOWLIST = 50
 
-REPLY_TO_POLICIES = [
-    ("contact", "The firm's contact email (from the New firm form)"),
-    ("none", "No separate reply address"),
+# Per firm (owner, 2026-11-18): the address is for sending only, so "No reply" is the default.
+REPLIES = [
+    ("none", "No reply"),
+    ("contact", "Go to the firm contact"),
 ]
+NO_REPLY_PREFIX = "(No reply) "
 
 STATES = [
     ("none", "No platform address"),
@@ -113,6 +115,14 @@ def reply_to(policy, contact_email):
     """The reply address the firm's emails carry, or "" for none."""
     email = (contact_email or "").strip()
     return email if policy != "none" and EMAIL_RE.match(email) else ""
+
+
+def no_reply_subject(subject):
+    """The subject of an email from an address that takes no replies: "(No reply) " before it, once."""
+    subject = subject or ""
+    if subject.lstrip().lower().startswith(NO_REPLY_PREFIX.strip().lower()):
+        return subject
+    return NO_REPLY_PREFIX + subject
 
 
 def parse_allowlist(text):
@@ -467,6 +477,7 @@ class DryRunMailerSend(_Faults):
         if not any(value["name"] == domain and value["verified"] for value in self.state["domains"].values()):
             raise ProviderError(_("MailerSend refused the sender address: the firm's domain is not verified yet."))
         self.state["sent"] += 1
+        self.state["last_test"] = {"subject": subject, "reply_to": reply_to_email}
         return True
 
 

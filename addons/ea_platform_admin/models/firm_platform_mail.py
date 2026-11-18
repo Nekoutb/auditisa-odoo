@@ -50,7 +50,12 @@ class PlatformFirm(models.Model):
     pmail_problem = fields.Text("Last problem", compute="_compute_pmail_text")
     pmail_domain = fields.Char("Sending domain", readonly=True, copy=False)
     pmail_sender = fields.Char("Sending address", readonly=True, copy=False)
-    pmail_reply_to = fields.Char("Replies go to", readonly=True, copy=False)
+    # The address is for sending only (owner, 2026-11-18): "No reply" by default, for new and existing firms.
+    pmail_replies = fields.Selection(platform_mail.REPLIES, "Replies", default="none", required=True, copy=False,
+                                     help="No reply: the emails carry no reply address, and \"(No reply)\" before "
+                                          "the subject. Go to the firm contact: replies go to the firm's contact email.")
+    pmail_reply_to = fields.Char("Reply address", compute="_compute_pmail_reply_to")
+    pmail_replies_text = fields.Char("Replies go to", compute="_compute_pmail_reply_to")
     pmail_verified = fields.Boolean("Domain verified by MailerSend", readonly=True, copy=False)
     pmail_domain_ref = fields.Char("MailerSend domain reference", readonly=True, copy=False)
     pmail_user_ref = fields.Char("MailerSend SMTP user reference", readonly=True, copy=False)
@@ -66,6 +71,22 @@ class PlatformFirm(models.Model):
     pmail_test_raw = fields.Text("Last test email (source)", readonly=True, copy=False)
     pmail_test = fields.Text("Last test email", compute="_compute_pmail_text")
     pmail_test_at = fields.Datetime("Last test email on", readonly=True, copy=False)
+
+    @api.depends("pmail_replies", "contact_email")
+    @api.depends_context("lang")
+    def _compute_pmail_reply_to(self):
+        for firm in self:
+            if firm.pmail_replies == "contact":
+                firm.pmail_reply_to = platform_mail.reply_to("contact", firm.contact_email)
+                firm.pmail_replies_text = firm.pmail_reply_to or t(self.env, _("none (the contact email is not valid)"))
+            else:
+                firm.pmail_reply_to = ""
+                firm.pmail_replies_text = t(self.env, _("none (no reply)"))
+
+    def _pmail_in_use(self):
+        """Does the firm's server send through the platform address now?"""
+        self.ensure_one()
+        return self.mail_choice == "platform" and self.pmail_state in ("sending", "on")
 
     @api.depends("pmail_state", "pmail_sender", "pmail_problem_raw", "pmail_test_raw", "mail_choice")
     @api.depends_context("lang")
@@ -149,7 +170,6 @@ class PlatformFirm(models.Model):
             "pmail_state": "setting_up",
             "pmail_domain": domain,
             "pmail_sender": platform_mail.sender(config["local_part"], domain),
-            "pmail_reply_to": platform_mail.reply_to(config["reply_to_policy"], firm.contact_email) or False,
             "pmail_problem_raw": False,
             "pmail_tries": 0,
             "pmail_renewals": 0,
@@ -282,11 +302,14 @@ class PlatformFirm(models.Model):
             firm._pmail_problem(mail_settings.MESSAGES[state])
 
     def _heartbeat_answer(self):
-        """The address replies go to, at every heartbeat (empty: none). A firm's older agent ignores it."""
+        """The address replies go to (empty: none), and whether the emails say "(No reply)", at every heartbeat.
+        A firm's older agent ignores what it does not know."""
         answer = super()._heartbeat_answer()
         firm = self.sudo()
         if firm.state == "active":
-            answer["mail_reply_to"] = (firm.pmail_reply_to or "") if firm.pmail_state in ("sending", "on") else ""
+            in_use = firm._pmail_in_use()
+            answer["mail_reply_to"] = (firm.pmail_reply_to or "") if in_use else ""
+            answer["mail_no_reply"] = in_use and firm.pmail_replies == "none"
         return answer
 
     # ------------------------------------------------------------------ the watch
@@ -354,7 +377,7 @@ class PlatformFirm(models.Model):
             firm.write({"pmail_state": "problem", "pmail_problem_raw": dumps_list(leftovers)})
             return leftovers
         firm.write({
-            "pmail_state": "none", "pmail_domain": False, "pmail_sender": False, "pmail_reply_to": False,
+            "pmail_state": "none", "pmail_domain": False, "pmail_sender": False,
             "pmail_verified": False, "pmail_domain_ref": False, "pmail_user_ref": False, "pmail_login": False,
             "pmail_dns_raw": False, "pmail_renew": False, "pmail_tries": 0, "pmail_next_check_at": False,
             "pmail_request_ref": False, "pmail_problem_raw": False,
@@ -409,6 +432,8 @@ class PlatformFirm(models.Model):
         services = self.env["platform.services"]
         # The firm's name and nothing else: no client data ever goes into an email from here.
         subject = t(self.env, _("AuditISA: test email")) + (t(self.env, _(" (practice space)")) if practice else "")
+        if firm.pmail_replies == "none":
+            subject = platform_mail.no_reply_subject(subject)
         text = t(self.env, _(
             "This is a test email from AuditISA for %(name)s. It proves that this address can send. No reply is needed."
         )) % {"name": firm.name}

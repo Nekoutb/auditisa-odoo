@@ -2,7 +2,7 @@
 
 from odoo.tests import TransactionCase, tagged
 
-from ..models.firm_agent import PARAM_MAIL_REPLY_TO
+from ..models.firm_agent import PARAM_MAIL_NO_REPLY, PARAM_MAIL_REPLY_TO
 from ..models.ir_mail_server import PARAM_RECIPIENT_ALLOWLIST, PARAM_RECIPIENT_GATE
 
 
@@ -55,3 +55,30 @@ class TestRecipientGate(TransactionCase):
         self.assertEqual(self.params.get_param(PARAM_MAIL_REPLY_TO), "awa@exemple.cm", "an older console says nothing")
         agent._apply_reply_to("")
         self.assertFalse(self.params.get_param(PARAM_MAIL_REPLY_TO))
+
+    def test_no_reply_removes_the_reply_address_and_marks_the_subject_once(self):
+        self.params.set_param(PARAM_MAIL_REPLY_TO, "awa@exemple.cm")
+        self.params.set_param(PARAM_MAIL_NO_REPLY, "1")
+        message = self._message("a@exemple.cm")
+        self.assertIsNone(message["Reply-To"])
+        self.assertEqual(message["Subject"], "(No reply) Subject")
+        other = self.servers._build_email__("support@cab.cm-ea.com", ["a@exemple.cm"], "(No reply) Invitation", "B",
+                                            reply_to="z@exemple.cm")
+        self.assertIsNone(other["Reply-To"])
+        self.assertEqual(other["Subject"], "(No reply) Invitation")
+
+    def test_go_to_the_firm_contact_is_unchanged(self):
+        self.params.set_param(PARAM_MAIL_REPLY_TO, "awa@exemple.cm")
+        self.params.set_param(PARAM_MAIL_NO_REPLY, False)
+        message = self._message("a@exemple.cm")
+        self.assertEqual(message["Reply-To"], "awa@exemple.cm")
+        self.assertEqual(message["Subject"], "Subject")
+
+    def test_the_agent_keeps_the_no_reply_setting_from_the_answer(self):
+        agent = self.env["ea.firm.agent"]
+        agent._apply_no_reply(True)
+        self.assertEqual(self.params.get_param(PARAM_MAIL_NO_REPLY), "1")
+        agent._apply_no_reply(None)
+        self.assertEqual(self.params.get_param(PARAM_MAIL_NO_REPLY), "1", "an older console says nothing")
+        agent._apply_no_reply(False)
+        self.assertFalse(self.params.get_param(PARAM_MAIL_NO_REPLY))

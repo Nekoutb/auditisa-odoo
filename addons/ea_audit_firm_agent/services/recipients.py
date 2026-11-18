@@ -58,3 +58,14 @@ def filter_message(message, allowlist):
 def valid_reply_to(value):
     """The console's reply address for this firm's emails: "" (none) or one address."""
     return isinstance(value, str) and (value == "" or (len(value) <= _REPLY_TO_MAX and bool(_EMAIL.match(value))))
+
+
+NO_REPLY_PREFIX = "(No reply) "
+
+
+def no_reply_subject(subject):
+    """The subject of an email from an address that takes no replies: "(No reply) " before it, once."""
+    subject = subject or ""
+    if subject.lstrip().lower().startswith(NO_REPLY_PREFIX.strip().lower()):
+        return subject
+    return NO_REPLY_PREFIX + subject

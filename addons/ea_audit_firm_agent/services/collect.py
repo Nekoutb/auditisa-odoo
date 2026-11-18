@@ -262,4 +262,8 @@ def parse_desired(body):
     reply_to = data.get("mail_reply_to")
     if valid_reply_to(reply_to):
         desired["mail_reply_to"] = reply_to
+    # True: the platform address is for sending only, no reply address and "(No reply) " before the subject.
+    no_reply = data.get("mail_no_reply")
+    if isinstance(no_reply, bool):
+        desired["mail_no_reply"] = no_reply
     return desired
