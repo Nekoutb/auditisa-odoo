@@ -237,9 +237,38 @@ a.o_ea_chip_warn { color: $ea-amber !important; }
 .o_ea_eagla .o_form_sheet { position: relative; }
 .o_ea_eagla_mark { position: absolute; top: 12px; right: 16px; font-size: 0.75rem; font-weight: 700; color: #5b6470; letter-spacing: 0.04em; }
 .o_ea_eagla_nav { border-right: 1px solid #e3e6ea; padding-right: 12px; margin-bottom: 12px; }
-.o_ea_eagla_nav .o_ea_eagla_group { display: block; padding: 0; margin-bottom: 8px; text-align: start; font-weight: 600; }
-.o_ea_eagla_nav .o_ea_eagla_item { display: block; padding: 0 0 0 4px; text-align: start; }
-.o_ea_eagla_list .o_radio_item { margin-bottom: 2px; }
+// The left pane: four lines that roll down and up (mock-up "eagla-results-first", 18/11/2026)
+.o_ea_eagla_row {
+    display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; margin-bottom: 8px;
+    border: 1px solid #d8dde3; border-radius: 8px; background: #fff; font-weight: 600; text-align: start; color: inherit;
+    &:hover { border-color: #b9dccb; }
+    &.is-open { background: $ea-green-soft; border-color: #b9dccb; color: $ea-green; }
+}
+.o_ea_eagla_ar { width: 14px; font-size: .75rem; color: $ea-green; }
+.o_ea_eagla_ct { margin-left: auto; font-size: .72rem; font-weight: 500; color: #5b6470; }
+.o_ea_eagla_list {
+    margin: -4px 0 10px 16px; padding-left: 8px; border-left: 2px solid $ea-green-soft;
+    &.is-long { max-height: 340px; overflow-y: auto; }
+    a { display: block; padding: 3px 6px; border-radius: 5px; font-size: .82rem; color: inherit; text-decoration: none; }
+    a:hover { background: #f1f4f6; }
+    a.is-on { background: $ea-green; color: #fff; font-weight: 600; }
+}
+// The result first: its title, then the entries or lines to tick
+.o_ea_eagla_h { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+.o_ea_eagla_bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.o_ea_eagla_sel { font-size: .82rem; font-weight: 600; color: $ea-green; }
+.o_ea_eagla_ticks {
+    .o_ea_eagla_tick { width: 32px; }
+    tr.o_ea_eagla_ticked > td { background: #f2f8f5; }
+    tr.o_ea_eagla_det > td { background: #fafbfb; font-size: .8rem; color: #5b6470; }
+}
+.o_ea_eagla_view { font-size: .8rem; font-weight: 600; color: $ea-green; }
+// The ledger figures, one small line under the results
+.o_ea_eagla_strip { margin-top: 14px; padding: 8px 12px; border: 1px dashed #d8dde3; border-radius: 8px; font-size: .82rem; color: #5b6470; b { color: #1f2328; } }
+.o_ea_eagla_fold {
+    margin-top: 8px; padding: 8px 12px; border: 1px solid #d8dde3; border-radius: 8px;
+    > summary { font-weight: 600; color: #5b6470; cursor: pointer; }
+}
 .o_ea_eagla_diagram { overflow-x: auto; margin: 8px 0; }
 .o_ea_eagla_svg { height: auto; }
 .o_ea_eagla_ratios { margin: 4px 0 8px; padding-left: 18px; }

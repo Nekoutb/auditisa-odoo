@@ -5,7 +5,7 @@ methods do, and refuse."""
 import base64
 import re
 
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 from odoo import api, fields, models
 
@@ -199,7 +199,15 @@ class GlConsole(models.TransientModel):
     prefixes = fields.Char(string="Account prefixes", default="40, 41")
     top_n = fields.Integer(string="People shown", default=10)
     year_end_days = fields.Integer(string="Closing window (days)", default=15)
-    analytic_html = fields.Html(sanitize=False, readonly=True)
+    # An analysis runs as soon as it is picked, and again when one of its settings changes (owner's
+    # mock-up "eagla-results-first", 18/11/2026): no Run button.
+    analytic_title = fields.Char(string="Analysis shown", compute="_compute_analytic")
+    analytic_html = fields.Html(compute="_compute_analytic", sanitize=False)
+    analytic_items = fields.Json(string="Entries or lines to tick", compute="_compute_analytic")
+    analytic_listed = fields.Boolean(string="Listed entries or lines", compute="_compute_analytic")
+    # what is ticked for testing, by analysis: entry numbers or line ids. Kept while the screen is open.
+    analytic_ticked = fields.Json(string="Ticked for testing")
+    eagla_nav = fields.Json(string="Left pane", compute="_compute_eagla_nav")
     export_file = fields.Binary(attachment=False, readonly=True)
     export_filename = fields.Char(readonly=True)
 
@@ -253,7 +261,7 @@ class GlConsole(models.TransientModel):
         """Another ledger: the selection and every result go, as in the source."""
         if self._origin.dataset_id and self.dataset_id != self._origin.dataset_id:
             self.update({
-                "selected_accounts": False, "entry_html": False, "corr_html": False, "analytic_html": False,
+                "selected_accounts": False, "entry_html": False, "corr_html": False, "analytic_ticked": False,
                 "insights_html": False, "matrix_html": False, "account_ids": [(5, 0, 0)], "figure_set": False,
                 "corr2_html": False, "corr3_html": False, "scot_html": False, "scot_pattern_ids": [(5, 0, 0)],
             })
@@ -269,7 +277,7 @@ class GlConsole(models.TransientModel):
         # saving must clear them too, or the old ledger's tables come back on the new one.
         if vals.get("dataset_id") and self.filtered(lambda console: console.dataset_id.id != vals["dataset_id"]):
             vals = dict(
-                vals, entry_html=False, corr_html=False, analytic_html=False, insights_html=False, matrix_html=False,
+                vals, entry_html=False, corr_html=False, analytic_ticked=False, insights_html=False, matrix_html=False,
                 corr2_html=False, corr3_html=False, scot_html=False, scot_pattern_ids=[(5, 0, 0)],
             )
         return super().write(vals)
@@ -309,16 +317,16 @@ class GlConsole(models.TransientModel):
             lines, debit, credit, difference = engagement.gl_run_analytic(dataset, "ledger-reconciliation").get("totals") or [0, 0, 0, 0]
             entries = engagement.gl_run_analytic(dataset, "unbalanced-entries")
             accounts = engagement.gl_accounts_for(dataset)["total"]
-            console.head_html = Markup("<div class='o_ea_cards'>{}</div>").format(Markup("").join(
-                Markup("<div class='o_ea_card'><div class='o_ea_card_label'>{}</div><span class='o_ea_card_value'>{}</span><div class='o_ea_card_note'>{}</div></div>").format(label, value, note)
-                for label, value, note in [
-                    (self.env._("Lines"), whole(lines), self.env._("%(count)s accounts", count=whole(accounts))),
-                    (self.env._("Entries"), whole(entries["population"]), self.env._("%(count)s unbalanced", count=whole(entries["exceptions"]))),
-                    (self.env._("Debit"), whole(debit), "FCFA"),
-                    (self.env._("Credit"), whole(credit), "FCFA"),
-                    (self.env._("Difference"), whole(difference), "FCFA"),
-                ]
-            ))
+            # one small line under the results, no longer cards above them (owner, 18/11/2026)
+            text = self.env._("Ledger figures: %(lines)s lines · %(entries)s entries · Debit %(debit)s · Credit %(credit)s · Difference %(difference)s FCFA")
+            bold = {
+                "lines": whole(lines), "entries": whole(entries["population"]),
+                "debit": whole(debit), "credit": whole(credit), "difference": whole(difference),
+            }
+            console.head_html = Markup("<div class='o_ea_eagla_strip' title='{}'>{}</div>").format(
+                self.env._("%(count)s accounts", count=whole(accounts)),
+                Markup(escape(text)) % {name: Markup("<b>{}</b>").format(value) for name, value in bold.items()},
+            )
 
     @api.depends("dataset_id")
     @api.depends_context("lang")
@@ -457,17 +465,120 @@ class GlConsole(models.TransientModel):
             "prefixes": split_accounts(self.prefixes),
         }
 
-    def action_run_analytic(self):
+    @api.depends(
+        "dataset_id", "gl_built_at", "pane", "analytic_key", "percentile", "sd_factor", "round_min", "round_step",
+        "min_occurrences", "rare_max", "prefixes", "top_n", "year_end_days",
+    )
+    @api.depends_context("lang")
+    def _compute_analytic(self):
+        """The analysis picked in the left pane, run straight away: its title, its result and, when its
+        exceptions are entries or lines, those to tick for testing."""
+        titles = dict(self._analytic_selection())
+        for console in self:
+            key = console.analytic_key
+            console.update({"analytic_title": False, "analytic_html": False, "analytic_items": False, "analytic_listed": False})
+            if console.pane != "analyses" or not key or key in (TWO_WAY, THREE_WAY):
+                continue
+            console.analytic_title = titles.get(key)
+            if not console.dataset_id or not console.gl_built_at:
+                continue
+            engagement, dataset, params = console.engagement_id, console.dataset_id.id, console._params()
+            result = engagement.gl_run_analytic(dataset, key, params)
+            console.analytic_html = console._render_analytic(result)
+            items = None if result.get("unavailable") else engagement.gl_analytic_items(dataset, key, params)
+            if items and items["rows"]:
+                console.analytic_items = console._shape_items(key, items)
+                console.analytic_listed = True
+
+    def _shape_items(self, key, items):
+        """What the tick list shows, every figure already written: the widget only displays it."""
+        entry = items["kind"] == "entry"
+        if entry:
+            columns = [("Entry", False), ("Date", False), ("Journal", False), ("Description", False), ("Debit", True), ("Credit", True), ("Difference", True)]
+            rows = [{
+                "key": row["key"], "je": row["je_number"],
+                "cells": [row["je_number"], date_label(row["journal_date"]), row["journal"] or "", row["description"] or "",
+                          whole(row["debit"]), whole(row["credit"]), whole(row["difference"])],
+            } for row in items["rows"]]
+        else:
+            columns = [("Entry", False), ("Date", False), ("Journal", False), ("Account", False), ("Description", False), ("Debit", True), ("Credit", True)]
+            rows = [{
+                "key": str(row["key"]), "je": row["je_number"],
+                "cells": [row["je_number"], date_label(row["journal_date"]), row["journal"] or "",
+                          " ".join(part for part in (row["account"], row["account_name"]) if part), row["description"] or "",
+                          whole(row["debit"]), whole(row["credit"])],
+            } for row in items["rows"]]
+        labels = {
+            "Entry": self.env._("Entry"), "Date": self.env._("Date"), "Journal": self.env._("Journal"),
+            "Description": self.env._("Description"), "Account": self.env._("Account"),
+            "Debit": self.env._("Debit"), "Credit": self.env._("Credit"), "Difference": self.env._("Difference"),
+        }
+        return {
+            "analysis": key, "kind": items["kind"], "rows": rows, "total": items["total"],
+            "columns": [{"label": labels[name], "num": numeric} for name, numeric in columns],
+            "lineColumns": [labels["Account"], labels["Description"], labels["Debit"], labels["Credit"]],
+            "more": self.env._(
+                "The first %(shown)s of %(total)s are listed: Extract all to Excel gives them all.",
+                shown=whole(len(rows)), total=whole(items["total"]),
+            ) if items["total"] > len(rows) else "",
+            "labels": {
+                "tickAll": self.env._("Tick all"), "untickAll": self.env._("Untick all"),
+                "counter": self.env._("%(ticked)s of %(total)s ticked for testing"),
+                "extractSelection": self.env._("Extract the selection (%(count)s)"),
+                "extractAll": self.env._("Extract all to Excel"), "lines": self.env._("Lines"),
+                "noLines": self.env._("No line found for this entry."),
+            },
+        }
+
+    @api.depends("pane")
+    @api.depends_context("lang")
+    def _compute_eagla_nav(self):
+        """The four lines of the left pane, rolled down or up in the browser."""
+        scot_labels = dict(self._fields["scot_class"]._description_selection(self.env))
+        nav = {
+            "financial": self.env._("Financial analysis"), "analytical": self.env._("Analytical procedures"),
+            "analyses": self.env._("EAGLA analyses"), "scot": self.env._("SCOT identification"),
+            "analysisList": [[key, label] for key, label in self._analytic_selection()],
+            "scotList": [[key, scot_labels[key]] for key, _label in SCOT_SELECTION],
+        }
+        for console in self:
+            console.eagla_nav = nav
+
+    def _ticked(self):
+        return [str(value) for value in ((self.analytic_ticked or {}).get(self.analytic_key) or [])]
+
+    def action_export_selection(self):
+        """"Extract the selection": the ticked entries, each with its lines, or the ticked lines."""
         self.ensure_one()
-        if not self.analytic_key or self.analytic_key in (TWO_WAY, THREE_WAY):
-            raise rule_error(self.env, "unknown-analytic")
-        self.analytic_html = self._render_analytic(
-            self.engagement_id.gl_run_analytic(self.dataset_id.id, self.analytic_key, self._params())
-        )
+        picked = self._ticked()
+        if not picked:
+            raise rule_error(self.env, "nothing-ticked")
+        filename, content = self.engagement_id.with_context(ea_gl_selection={
+            "dataset": self.dataset_id.id, "key": self.analytic_key, "params": self._params(), "picked": picked,
+        }).ea_export_xlsx("gl_selection")
+        return self._ea_download(filename, content)
+
+    def eagla_entry_lines(self, je_number):
+        """"Lines" on an entry to tick: its lines, shown in place."""
+        self.ensure_one()
+        lines = self.engagement_id.gl_entry_lines(self.dataset_id.id, [je_number]).get(str(je_number), [])
+        return [{
+            "account": " ".join(part for part in (line["account"], line["account_name"]) if part),
+            "description": line["description"] or "",
+            "debit": whole(line["debit"]) if line["debit"] else "",
+            "credit": whole(line["credit"]) if line["credit"] else "",
+        } for line in lines]
+
+    def _ea_download(self, filename, content):
+        self.write({"export_file": base64.b64encode(content), "export_filename": filename})
+        return {
+            "type": "ir.actions.act_url", "target": "self",
+            "url": "/web/content?model=%s&id=%d&field=export_file&filename_field=export_filename&download=true" % (self._name, self.id),
+        }
 
     def _render_analytic(self, result):
         locale = self._locale()
-        head = Markup("<p><b>{}</b> — {}</p>").format(result["title"], result["objective"])
+        head = Markup("<p class='o_ea_legend'>{}</p>").format(result["objective"])
         if result.get("unavailable"):
             return Markup("{}<div class='o_ea_banner'>{}</div>").format(head, result["unavailable"])
 
@@ -499,11 +610,7 @@ class GlConsole(models.TransientModel):
         filename, content = self.engagement_id.with_context(ea_gl_analytic={
             "dataset": self.dataset_id.id, "key": self.analytic_key, "params": self._params(),
         }).ea_export_xlsx("gl_analytic")
-        self.write({"export_file": base64.b64encode(content), "export_filename": filename})
-        return {
-            "type": "ir.actions.act_url", "target": "self",
-            "url": "/web/content?model=%s&id=%d&field=export_file&filename_field=export_filename&download=true" % (self._name, self.id),
-        }
+        return self._ea_download(filename, content)
 
     # ------------------------------------------------------------------
     # Insights
