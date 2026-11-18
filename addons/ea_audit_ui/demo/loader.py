@@ -23,6 +23,7 @@ from odoo import api, fields, models
 
 from odoo.addons.ea_audit_core.services.signoff_rules import team_rank
 from odoo.addons.ea_audit_papers.services import required_keys
+from odoo.addons.ea_audit_papers.services.layout import SUMMARY_KEY, is_converted
 from odoo.addons.ea_audit_papers.services.planning_ras import SECTION_A, SECTION_B
 from odoo.addons.ea_audit_tools.services.lead_classes import INDEX_SECTION
 from odoo.addons.ea_audit_tools.services.scot_forms import WALKTHROUGH_FIELDS
@@ -257,6 +258,9 @@ class _Demo:
                 out[key] = "yes"
             else:
                 out[key] = _d(*_DONE_TEXT)
+        if is_converted(definition):
+            # papers in the layout of 17/11 also ask for the summary of work performed before sign-off
+            out.setdefault(SUMMARY_KEY, _d(*_DONE_TEXT))
         return out
 
     def fill(self, item, user):
@@ -379,6 +383,19 @@ class _Demo:
         as_partner.generate_letter("rep_affirmation", "fr")
         as_partner.generate_letter("rep_complementary", "fr")
         as_partner.record_completion("partner_conclusion", {"conclusion": _d("The work supports an unmodified opinion.", "Les travaux soutiennent une opinion sans réserve.")})
+        # Closing now asks two things more: every control selected for testing concluded on, and the
+        # consultation question answered (here: no consultation was needed).
+        for control in self.env["ea.audit.scot.control"].sudo().search([
+            ("engagement_id", "=", engagement.id), ("selected_for_testing", "=", True),
+        ]).filtered(lambda control: control._ea_is_open()):
+            if not control.design_eval:
+                control.design_eval = "effective"
+            if not (control.test_ids or control.rows_tested):
+                control.with_user(self.ndongo).record_test(
+                    _d("Sample of 25 operations tested; no deviation.", "Échantillon de 25 opérations testé ; aucun écart."), "effective",
+                )
+        if not engagement.consultation_needed:
+            engagement.sudo().consultation_needed = "no"
         scoped_out = engagement._ea_e4_out_of_scope()
         open_items = engagement.file_item_ids.filtered(
             lambda i: not i.conditional and i.state != "signed" and not i.not_applicable and i not in scoped_out
@@ -486,7 +503,8 @@ class _Demo:
 
         # conclusion: staffed in part, the rest in the "no preparer" band
         for code in ("C1.1", "C1.2", "C1.3", "C2.1", "C2.2", "C3.1", "C4.1"):
-            self.assign_by_rule(active[code])
+            if code in active:  # C1.3 is on the file only when a consultation was needed
+                self.assign_by_rule(active[code])
         self.assign(active["C5.11"], assignee=self.mbarga)
 
         self.findings(engagement, active)
