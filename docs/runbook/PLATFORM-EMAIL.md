@@ -77,7 +77,7 @@ Les e-mails qu'envoie un cabinet ne portent qu'un nom, un nombre et un lien (par
 ### What each firm gets
 
 - A sending address: `support@<slug>.cm-ea.com` (for example `support@cabinet-ngono.cm-ea.com`).
-- Replies go to the **contact email** typed in the New firm form (owner's decision, 18 November 2026).
+- **Replies**, chosen per firm on its page, part "The address" (owner's decision, 18 November 2026): **No reply** (the default, for new and existing firms: the address is for sending only, mostly invitations to join an engagement) or **Go to the firm contact** (the contact email typed in the New firm form). With No reply, the emails carry no Reply-To header at all (an answer, if someone sends one, reaches the sending address itself, which nobody reads) and the subject starts with "(No reply) ", once. The setting reaches the firm's server at its next heartbeat (`mail_no_reply`, next to `mail_reply_to`); a firm on older code ignores it. The console's test email follows the same setting.
 - A sending domain at MailerSend, `<slug>.cm-ea.com`, verified (SPF, DKIM, return path), and an SMTP user of its own (server `smtp.mailersend.net`, port 587, STARTTLS).
 - Nothing else changes for the firm: its server tests the settings without sending a message, and opens sending only if the test passes, as with "Email for this firm".
 
@@ -96,7 +96,7 @@ Les e-mails qu'envoie un cabinet ne portent qu'un nom, un nombre et un lien (par
 
 Each command asks for the token (paste it, it is not shown), saves it (`/etc/auditisa-platform/mailersend.token` and `cloudflare-mail.token`, mode 600) and restarts the console (a few seconds). The token is never shown, never written to a log, never in the database, never in an export.
 
-**4. Platform > Settings, part "Sending service for firms".** "MailerSend token received" and "Cloudflare token received" must be ticked. Check the parent domain (`cm-ea.com`), the Cloudflare zone (`cm-ea.com`), the sender name (`support`) and "Replies go to" (the firm's contact email). Click **Apply these settings**, then **Test the connection**: two read-only calls, whose result shows in plain words ("MailerSend: connected...", "Cloudflare: connected. The zone cm-ea.com was found."). The zone's id is looked up and kept then.
+**4. Platform > Settings, part "Sending service for firms".** "MailerSend token received" and "Cloudflare token received" must be ticked. Check the parent domain (`cm-ea.com`), the Cloudflare zone (`cm-ea.com`), and the sender name (`support`). Where replies go is set per firm, not here. Click **Apply these settings**, then **Test the connection**: two read-only calls, whose result shows in plain words ("MailerSend: connected...", "Cloudflare: connected. The zone cm-ea.com was found."). The zone's id is looked up and kept then.
 
 From then on, the New firm form offers "AuditISA sends for this firm" in advance.
 
@@ -138,7 +138,7 @@ The emails a firm sends carry only a name, a count and a link (for example "3 re
 
 ### For the developer
 
-- Code: `addons/ea_platform_admin/services/platform_mail.py` (pure: the rules, both APIs, the simulation, one pass), `models/firm_platform_mail.py` (the firm's states, the watch, the heartbeat), `wizard/settings_mail.py`, `wizard/platform_mail.py`. Firm side: `addons/ea_audit_firm_agent/services/recipients.py` and `models/ir_mail_server.py` (reply address, practice recipient gate). Practice computer: `deploy/practice/practice-apply-desired.sh`, `practice-guard.sh`.
+- Code: `addons/ea_platform_admin/services/platform_mail.py` (pure: the rules, both APIs, the simulation, one pass), `models/firm_platform_mail.py` (the firm's states, the watch, the heartbeat), `wizard/settings_mail.py`, `wizard/platform_mail.py`. Firm side: `addons/ea_audit_firm_agent/services/recipients.py` and `models/ir_mail_server.py` (reply address, "(No reply)", practice recipient gate). Practice computer: `deploy/practice/practice-apply-desired.sh`, `practice-guard.sh`.
 - API calls: MailerSend `GET/POST /v1/domains`, `GET /v1/domains/{id}`, `GET /v1/domains/{id}/dns-records`, `GET /v1/domains/{id}/verify`, `GET/POST /v1/domains/{id}/smtp-users`, `DELETE /v1/domains/{id}/smtp-users/{user}`, `DELETE /v1/domains/{id}`, `POST /v1/email`; Cloudflare `GET /user/tokens/verify`, `GET /zones?name=`, `GET/POST/PATCH/DELETE /zones/{zone}/dns_records`.
 - SIMULATION: both services are faked (no network, no token); tests never reach the network.
 - To check before the first real firm: that MailerSend's DNS hostnames are full names (as its documentation shows), and that the verify answer reads as the code expects (`message` "The domain is verified.", or `data.spf` and `data.dkim` true).

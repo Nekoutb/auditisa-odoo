@@ -4,7 +4,7 @@ from odoo import api, models
 from odoo.addons.base.models.ir_mail_server import MailDeliveryException
 
 from ..services import recipients
-from .firm_agent import PARAM_MAIL_REPLY_TO, PARAM_MAIL_TESTED
+from .firm_agent import PARAM_MAIL_NO_REPLY, PARAM_MAIL_REPLY_TO, PARAM_MAIL_TESTED
 
 _logger = logging.getLogger(__name__)
 
@@ -86,8 +86,16 @@ class IrMailServer(models.Model):
     @api.model
     def _build_email__(self, email_from, email_to, subject, body, *args, **kwargs):  # noqa: PLW3201
         """With the console's platform address, replies go to the firm's contact email (owner, 2026-11-18),
-        unless the email already names another reply address."""
-        reply_to = self.env["ir.config_parameter"].sudo().get_param(PARAM_MAIL_REPLY_TO)
+        unless the email already names another reply address. With "No reply" (owner, 2026-11-18): no Reply-To
+        header at all (replies, if any, reach the sending address itself) and "(No reply) " before the subject."""
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if get_param(PARAM_MAIL_NO_REPLY) == "1":
+            message = super()._build_email__(
+                email_from, email_to, recipients.no_reply_subject(subject), body, *args, **kwargs,
+            )
+            del message["Reply-To"]
+            return message
+        reply_to = get_param(PARAM_MAIL_REPLY_TO)
         if reply_to:
             args = list(args)
             current = args[2] if len(args) > 2 else kwargs.get("reply_to")

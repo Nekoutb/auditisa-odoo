@@ -3,7 +3,7 @@
 from email.message import EmailMessage
 
 from ..collect import parse_desired
-from ..recipients import filter_message, mask, parse_allowlist, valid_reply_to
+from ..recipients import filter_message, mask, no_reply_subject, parse_allowlist, valid_reply_to
 
 
 def message(**headers):
@@ -47,3 +47,17 @@ def test_the_reply_address_from_the_console_is_checked():
     assert parse_desired(b'{"mail_reply_to": ""}')["mail_reply_to"] == ""
     assert "mail_reply_to" not in parse_desired(b'{"mail_reply_to": "x y"}')
     assert "mail_reply_to" not in parse_desired(b'{}')
+
+
+def test_the_no_reply_setting_from_the_console_is_checked():
+    assert parse_desired(b'{"mail_no_reply": true}')["mail_no_reply"] is True
+    assert parse_desired(b'{"mail_no_reply": false}')["mail_no_reply"] is False
+    assert "mail_no_reply" not in parse_desired(b'{"mail_no_reply": "yes"}')
+    assert "mail_no_reply" not in parse_desired(b'{}')
+
+
+def test_the_no_reply_prefix_comes_once():
+    assert no_reply_subject("Invitation to join an engagement") == "(No reply) Invitation to join an engagement"
+    assert no_reply_subject("(No reply) Invitation") == "(No reply) Invitation"
+    assert no_reply_subject("(no reply) Invitation") == "(no reply) Invitation"
+    assert no_reply_subject(None) == "(No reply) "

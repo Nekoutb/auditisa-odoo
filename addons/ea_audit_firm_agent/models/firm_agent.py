@@ -27,6 +27,8 @@ PARAM_SLUG = "ea_firm_agent.slug"
 PARAM_MAIL_TESTED = "ea_firm_agent.mail_tested"
 # Where replies to this firm's emails go, when the console's platform address sends for it.
 PARAM_MAIL_REPLY_TO = "ea_firm_agent.mail_reply_to"
+# "1": the platform address is for sending only (owner, 2026-11-18): no Reply-To, "(No reply) " before the subject.
+PARAM_MAIL_NO_REPLY = "ea_firm_agent.mail_no_reply"
 # The console's last "Add / Replace the firm administrator" request: its reference and result, kept so that
 # each request is acted on once; and the one-time invitation link, kept only until a heartbeat delivers it.
 PARAM_ADMIN_REF = "ea_firm_agent.admin_request_ref"
@@ -171,6 +173,7 @@ class EaFirmAgent(models.AbstractModel):
         desired = collect.parse_desired(response.content)
         if desired is not None:
             self._apply_reply_to(desired.pop("mail_reply_to", None))
+            self._apply_no_reply(desired.pop("mail_no_reply", None))
             admin = desired.pop("admin_request", None)
             if admin is not None:
                 self._apply_admin_request(admin)
@@ -185,6 +188,16 @@ class EaFirmAgent(models.AbstractModel):
         params = self.env["ir.config_parameter"].sudo()
         if (params.get_param(PARAM_MAIL_REPLY_TO) or "") != reply_to:
             params.set_param(PARAM_MAIL_REPLY_TO, reply_to or False)
+
+    @api.model
+    def _apply_no_reply(self, no_reply):
+        """None: the console said nothing (an older console), the setting stays. Checked by collect.py."""
+        if no_reply is None:
+            return
+        params = self.env["ir.config_parameter"].sudo()
+        wanted = "1" if no_reply else ""
+        if (params.get_param(PARAM_MAIL_NO_REPLY) or "") != wanted:
+            params.set_param(PARAM_MAIL_NO_REPLY, wanted or False)
 
     @api.model
     def _write_spool(self, desired):

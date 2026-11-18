@@ -69,6 +69,11 @@ def test_parent_domain_and_sender_name_are_checked():
     assert pm.local_part_errors("sup port") and pm.local_part_errors("x@y")
 
 
+def test_no_reply_marks_the_subject_once():
+    assert pm.no_reply_subject("AuditISA: test email") == "(No reply) AuditISA: test email"
+    assert pm.no_reply_subject("(No reply) AuditISA: test email") == "(No reply) AuditISA: test email"
+
+
 def test_reply_to_follows_the_policy():
     assert pm.reply_to("contact", " awa@exemple.cm ") == "awa@exemple.cm"
     assert pm.reply_to("none", "awa@exemple.cm") == ""

@@ -7956,10 +7956,46 @@ msgid "Sending address"
 msgstr "Adresse d'envoi"
 
 #. module: ea_platform_admin
-#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_reply_to
-#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mail_reply_to_policy
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_replies_text
 msgid "Replies go to"
 msgstr "Les réponses vont à"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_replies
+msgid "Replies"
+msgstr "Réponses"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_reply_to
+msgid "Reply address"
+msgstr "Adresse de réponse"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,help:ea_platform_admin.field_platform_firm__pmail_replies
+msgid "No reply: the emails carry no reply address, and \"(No reply)\" before the subject. Go to the firm contact: replies go to the firm's contact email."
+msgstr "Pas de réponse : les e-mails ne portent aucune adresse de réponse, et « (No reply) » précède l'objet. Au contact du cabinet : les réponses vont à l'e-mail de contact du cabinet."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_replies__none
+msgid "No reply"
+msgstr "Pas de réponse"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__pmail_replies__contact
+msgid "Go to the firm contact"
+msgstr "Au contact du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "none (no reply)"
+msgstr "personne (pas de réponse)"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_platform_mail.py:0
+msgid "none (the contact email is not valid)"
+msgstr "personne (l'e-mail de contact n'est pas valide)"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_verified
@@ -8128,21 +8164,6 @@ msgid "What comes before the @ in every firm's address. Usually support."
 msgstr "Ce qui précède le @ dans l'adresse de chaque cabinet. En général support."
 
 #. module: ea_platform_admin
-#: model:ir.model.fields,help:ea_platform_admin.field_platform_settings__mail_reply_to_policy
-msgid "Where an answer to a firm's email goes. Recommended: the firm's contact email."
-msgstr "Où va une réponse à un e-mail du cabinet. Recommandé : l'e-mail de contact du cabinet."
-
-#. module: ea_platform_admin
-#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__mail_reply_to_policy__contact
-msgid "The firm's contact email (from the New firm form)"
-msgstr "L'e-mail de contact du cabinet (du formulaire Nouveau cabinet)"
-
-#. module: ea_platform_admin
-#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_settings__mail_reply_to_policy__none
-msgid "No separate reply address"
-msgstr "Pas d'adresse de réponse distincte"
-
-#. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_settings__mailersend_received
 msgid "MailerSend token received"
 msgstr "Jeton MailerSend reçu"
@@ -8282,8 +8303,8 @@ msgstr "L'adresse, son utilisateur SMTP chez MailerSend et ses enregistrements D
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_platform_mail
-msgid "Recommended: the console makes this address during provisioning, so the firm can send email as soon as it is live. Replies go to the firm's contact email."
-msgstr "Recommandé : la console crée cette adresse pendant l'installation, et le cabinet peut envoyer des e-mails dès sa mise en service. Les réponses vont à l'e-mail de contact du cabinet."
+msgid "Recommended: the console makes this address during provisioning, so the firm can send email as soon as it is live. It is for sending only: no reply address, and \"(No reply)\" before each subject. This can be changed on the firm's page."
+msgstr "Recommandé : la console crée cette adresse pendant l'installation, et le cabinet peut envoyer des e-mails dès sa mise en service. Elle sert uniquement à envoyer : aucune adresse de réponse, et « (No reply) » devant chaque objet. Cela se modifie sur la page du cabinet."
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form_platform_mail

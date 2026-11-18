@@ -52,7 +52,8 @@ class TestHeartbeatEndpoint(PlatformMixin, HttpCase):
         self.assertEqual(answer.headers[heartbeat.HEADER_RESPONSE_SIGNATURE], expected)
         self.assertLessEqual(
             set(json.loads(answer.content)),
-            {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256", "mail_reply_to"},
+            {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256", "mail_reply_to",
+             "mail_no_reply"},
         )
 
     def test_a_firm_administrator_request_rides_in_the_answer_with_nothing_else(self):
@@ -62,7 +63,7 @@ class TestHeartbeatEndpoint(PlatformMixin, HttpCase):
         self.assertLessEqual(
             set(answer),
             {"ok", "export_requested", "ssh_allowlist", "desired_release", "desired_bundle_sha256", "mail_reply_to",
-             "admin_request"},
+             "mail_no_reply", "admin_request"},
         )
         self.assertEqual(set(answer["admin_request"]), {"ref", "action", "name", "email"})
 

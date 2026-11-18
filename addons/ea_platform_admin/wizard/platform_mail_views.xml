@@ -50,7 +50,8 @@
                     </group>
                     <group string="The address" invisible="pmail_state == 'none'">
                         <field name="pmail_sender"/>
-                        <field name="pmail_reply_to"/>
+                        <field name="pmail_replies" widget="radio" groups="ea_platform_admin.group_platform_operator"/>
+                        <field name="pmail_replies_text"/>
                         <field name="pmail_domain"/>
                         <field name="pmail_verified"/>
                         <field name="pmail_checked_at"/>
@@ -87,7 +88,7 @@
                     <field name="mail_choice" widget="radio"/>
                 </group>
                 <div class="alert alert-info py-1" role="status" invisible="mail_choice != 'platform'">
-                    <p>Recommended: the console makes this address during provisioning, so the firm can send email as soon as it is live. Replies go to the firm's contact email.</p>
+                    <p>Recommended: the console makes this address during provisioning, so the firm can send email as soon as it is live. It is for sending only: no reply address, and "(No reply)" before each subject. This can be changed on the firm's page.</p>
                     <group>
                         <field name="preview_platform_address" class="fw-bold"/>
                     </group>
@@ -119,7 +120,6 @@
                     <field name="mail_zone_name" placeholder="cm-ea.com"/>
                     <field name="mail_zone_ref"/>
                     <field name="mail_local_part" placeholder="support"/>
-                    <field name="mail_reply_to_policy" widget="radio"/>
                     <field name="mail_check_result" invisible="not mail_check_result"/>
                 </group>
                 <group string="Practice spaces">

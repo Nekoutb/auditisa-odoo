@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Firm Agent",
     "summary": "Heartbeat of a firm's server, its first administrator's one-time link, mail gate",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.3.1",
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",

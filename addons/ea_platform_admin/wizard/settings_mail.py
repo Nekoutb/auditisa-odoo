@@ -16,7 +16,6 @@ from ..models.platform_services import (
     CREDENTIAL_MAILERSEND,
     PARAM_MAIL_LOCAL,
     PARAM_MAIL_PARENT,
-    PARAM_MAIL_REPLY,
     PARAM_MAIL_ZONE,
     PARAM_MAIL_ZONE_ID,
     PARAM_PRACTICE_ALLOWLIST,
@@ -44,10 +43,6 @@ class PlatformSettings(models.TransientModel):
     mail_local_part = fields.Char(
         "Sender name", default=lambda self: self._param(PARAM_MAIL_LOCAL, platform_mail.DEFAULT_LOCAL_PART),
         help="What comes before the @ in every firm's address. Usually support.",
-    )
-    mail_reply_to_policy = fields.Selection(
-        platform_mail.REPLY_TO_POLICIES, "Replies go to", default=lambda self: self._param(PARAM_MAIL_REPLY, "contact"),
-        help="Where an answer to a firm's email goes. Recommended: the firm's contact email.",
     )
     mailersend_received = fields.Boolean("MailerSend token received", compute="_compute_mail_received")
     cloudflare_mail_received = fields.Boolean("Cloudflare token received", compute="_compute_mail_received")
@@ -93,7 +88,6 @@ class PlatformSettings(models.TransientModel):
         params.set_param(PARAM_MAIL_PARENT, platform_mail.clean_parent(self.mail_parent_domain))
         params.set_param(PARAM_MAIL_ZONE, zone)
         params.set_param(PARAM_MAIL_LOCAL, (self.mail_local_part or "").strip().lower())
-        params.set_param(PARAM_MAIL_REPLY, self.mail_reply_to_policy or "contact")
         params.set_param(PARAM_PRACTICE_ALLOWLIST, "\n".join(addresses) or False)
         if addresses != before:
             self.env["platform.log"]._record(

@@ -34,7 +34,7 @@ class TestPlatformMail(PlatformCase):
 
     def _apply_settings(self, **changes):
         values = {"provider": "dry_run", "base_domain": "auditisa.com", "mail_parent_domain": "cm-ea.com",
-                  "mail_zone_name": "cm-ea.com", "mail_local_part": "support", "mail_reply_to_policy": "contact",
+                  "mail_zone_name": "cm-ea.com", "mail_local_part": "support",
                   **changes}
         settings = self.env["platform.settings"].with_user(self.owner).create(values)
         settings.action_save()
@@ -92,7 +92,9 @@ class TestPlatformMail(PlatformCase):
         self.assertEqual(step.state, "done")
         self.assertEqual(firm.mail_choice, "platform")
         self.assertEqual(firm.pmail_sender, "support@cabinet-a.cm-ea.com")
-        self.assertEqual(firm.pmail_reply_to, "awa@exemple.cm")
+        self.assertEqual(firm.pmail_replies, "none", "the address is for sending only by default")
+        self.assertEqual(firm.pmail_reply_to, "")
+        self.assertEqual(firm.pmail_replies_text, "none (no reply)")
         self.assertTrue(firm.pmail_verified)
         self.assertEqual(firm.pmail_state, "sending")
         self.assertEqual(firm.mail_request_host, "smtp.mailersend.net")
@@ -104,7 +106,9 @@ class TestPlatformMail(PlatformCase):
         self.assertEqual(firm.mail_request_state, "on")
         self.assertEqual(firm.pmail_state, "on")
         self.assertIn("Sending is on, from support@cabinet-a.cm-ea.com", firm.pmail_status)
-        self.assertEqual(firm.sudo()._heartbeat_answer()["mail_reply_to"], "awa@exemple.cm")
+        answer = firm.sudo()._heartbeat_answer()
+        self.assertEqual(answer["mail_reply_to"], "")
+        self.assertIs(answer["mail_no_reply"], True)
         records = self._dry()["zone"]["records"].values()
         self.assertEqual(len(records), 4)
         self.assertTrue(all(r["name"].endswith("cabinet-a.cm-ea.com") for r in records))
@@ -206,6 +210,31 @@ class TestPlatformMail(PlatformCase):
         self.assertEqual(firm.mail_choice, "none")
         self.assertEqual(firm.mail_request_action, "off")
         self.assertEqual(firm.sudo()._heartbeat_answer()["mail_reply_to"], "")
+        self.assertIs(firm.sudo()._heartbeat_answer()["mail_no_reply"], False)
+
+    def test_replies_can_go_to_the_firm_contact_instead(self):
+        firm, _job = self._platform_firm("cabinet-r")
+        firm._simulate_heartbeat()
+        firm._simulate_heartbeat()
+        self.assertEqual(firm.pmail_state, "on")
+        firm.with_user(self.operator).write({"pmail_replies": "contact"})
+        self.assertEqual(firm.pmail_replies_text, "awa@exemple.cm")
+        answer = firm.sudo()._heartbeat_answer()
+        self.assertEqual(answer["mail_reply_to"], "awa@exemple.cm")
+        self.assertIs(answer["mail_no_reply"], False)
+        firm.with_user(self.operator).write({"pmail_replies": "none"})
+        answer = firm.sudo()._heartbeat_answer()
+        self.assertEqual(answer["mail_reply_to"], "")
+        self.assertIs(answer["mail_no_reply"], True)
+
+    def test_the_firms_own_mailbox_never_says_no_reply(self):
+        firm, _job = self._platform_firm("cabinet-s")
+        firm._simulate_heartbeat()
+        firm._simulate_heartbeat()
+        firm.sudo().mail_choice = "own"
+        answer = firm.sudo()._heartbeat_answer()
+        self.assertEqual(answer["mail_reply_to"], "")
+        self.assertIs(answer["mail_no_reply"], False)
 
     def test_the_undo_used_by_a_rollback_and_by_destroy_removes_the_domain(self):
         firm, _job = self._platform_firm("cabinet-l")
@@ -232,6 +261,12 @@ class TestPlatformMail(PlatformCase):
         wizard.action_send()
         self.assertIn("MailerSend accepted", wizard.result)
         self.assertEqual(self._dry()["mailersend"]["sent"], 1)
+        self.assertEqual(self._dry()["mailersend"]["last_test"],
+                         {"subject": "(No reply) AuditISA: test email", "reply_to": ""})
+        firm.with_user(self.operator).write({"pmail_replies": "contact"})
+        wizard.action_send()
+        self.assertEqual(self._dry()["mailersend"]["last_test"],
+                         {"subject": "AuditISA: test email", "reply_to": "awa@exemple.cm"})
         practice = self.env["platform.mail.test.wizard"].with_user(self.operator).create(
             {"firm_id": firm.id, "address": "owner@exemple.cm", "practice": True})
         with self.assertRaisesRegex(UserError, "not on the list"):

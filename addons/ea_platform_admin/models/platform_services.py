@@ -40,7 +40,6 @@ PARAM_MAIL_PARENT = "ea_platform.mail_parent_domain"
 PARAM_MAIL_ZONE = "ea_platform.mail_zone_name"
 PARAM_MAIL_ZONE_ID = "ea_platform.mail_zone_id"
 PARAM_MAIL_LOCAL = "ea_platform.mail_local_part"
-PARAM_MAIL_REPLY = "ea_platform.mail_reply_to_policy"
 PARAM_PRACTICE_ALLOWLIST = "ea_platform.practice_mail_allowlist"
 
 
@@ -107,7 +106,6 @@ class PlatformServices(models.AbstractModel):
             "zone": platform_mail.clean_parent(get_param(PARAM_MAIL_ZONE) or parent),
             "zone_id": get_param(PARAM_MAIL_ZONE_ID) or "",
             "local_part": get_param(PARAM_MAIL_LOCAL) or platform_mail.DEFAULT_LOCAL_PART,
-            "reply_to_policy": get_param(PARAM_MAIL_REPLY) or "contact",
         }
 
     @api.model
