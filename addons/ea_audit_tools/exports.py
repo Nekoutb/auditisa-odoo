@@ -57,8 +57,21 @@ def simple_workbook(sheet_name, headers, rows, title=None, notes=None):
     """A flat register: header row, one line per record, frozen, filterable. ``notes`` maps a
     column's position (from 0) to a note on its title: the title stays as it is, so a template
     is read back as before, and the column is shaded."""
-    style = _styles()
     book = _book()
+    _register_sheet(book, _styles(), sheet_name, headers, rows, title, notes)
+    return _bytes(book)
+
+
+def registers_workbook(sheets):
+    """Several flat registers in one workbook: (sheet name, headers, rows, title) each."""
+    book = _book()
+    style = _styles()
+    for sheet_name, headers, rows, title in sheets:
+        _register_sheet(book, style, sheet_name, headers, rows, title)
+    return _bytes(book)
+
+
+def _register_sheet(book, style, sheet_name, headers, rows, title=None, notes=None):
     sheet = book.create_sheet(_tab_name(sheet_name))
     if title:
         sheet.append([title])
@@ -83,7 +96,6 @@ def simple_workbook(sheet_name, headers, rows, title=None, notes=None):
         sheet.column_dimensions[sheet.cell(head_row, index).column_letter].width = max(12, min(44, len(str(header)) + 6))
     sheet.freeze_panes = sheet.cell(head_row + 1, 1)
     sheet.auto_filter.ref = "A%d:%s%d" % (head_row, sheet.cell(head_row, len(headers)).column_letter, sheet.max_row)
-    return _bytes(book)
 
 
 def lead_schedule_workbook(schedules, comments, identity, fr):
