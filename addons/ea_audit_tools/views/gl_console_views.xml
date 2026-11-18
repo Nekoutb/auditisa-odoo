@@ -19,7 +19,8 @@
                     <field name="figure_set" invisible="1"/>
                     <field name="pane" invisible="1"/>
                     <field name="scot_class" invisible="1"/>
-                    <field name="analytic_key" invisible="1"/>
+                    <!-- the analysis picked in the left pane: kept out of sight, not invisible, so it stays writable -->
+                    <div class="d-none"><field name="analytic_key"/></div>
                     <field name="analytic_listed" invisible="1"/>
                     <field name="analytic_ticked" invisible="1"/>
                     <div class="o_ea_eagla_mark">EAGLA™</div>
