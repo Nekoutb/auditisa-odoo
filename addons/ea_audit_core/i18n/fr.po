@@ -5477,6 +5477,12 @@ msgstr "Justificatif %(file)s classé sur l'écriture %(entry)s"
 #. module: ea_audit_core
 #. odoo-python
 #: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "%(file)s: journal types given for %(count)s of %(total)s codes"
+msgstr "%(file)s : types de journaux indiqués pour %(count)s codes sur %(total)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Support %(file)s filed on sample S-%(sample)s"
 msgstr "Justificatif %(file)s classé sur l'échantillon S-%(sample)s"
 

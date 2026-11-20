@@ -58,6 +58,9 @@ class GlLineEaglr(models.Model):
         if not page.exists():
             return Domain.FALSE
         page.check_access("read")
+        # a transient page grants read to more than its owner: the flagged lines are the visitor's own
+        if not self.env.su and page.create_uid != self.env.user:
+            raise rule_error(self.env, "not-found")
         ids = [int(line_id) for line_id in (page.sudo().flagged or {}).get(key) or []]
 
         def to_sql(_model, alias, _query):

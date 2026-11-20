@@ -236,6 +236,9 @@ _ENTRIES = (
      _lt("Sample S-%(sample)s concluded: errors found %(errors)s, projected %(amount)s")],
     [r"^Support (?P<file>.+) filed on journal entry (?P<entry>.+)$",
      _lt("Support %(file)s filed on journal entry %(entry)s")],
+    # The journal types given at a general ledger upload (Elite Advisors GL Review, 2026-11-20).
+    [r"^(?P<file>.+): journal types given for (?P<count>\d+) of (?P<total>\d+) codes$",
+     _lt("%(file)s: journal types given for %(count)s of %(total)s codes")],
     [r"^Support (?P<file>.+) filed on sample S-(?P<sample>\S+)$",
      _lt("Support %(file)s filed on sample S-%(sample)s")],
     [r"^Support (?P<file>.+) filed on control (?P<control>.+)$",

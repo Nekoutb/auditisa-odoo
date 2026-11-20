@@ -229,10 +229,38 @@ class TestLargeLedger(GlCase):
         uploaded = time.monotonic() - started
         dataset = self.env["ea.audit.dataset"].sudo().browse(dataset_id)
         self.assertEqual(dataset.gl_line_count, 20000)
-        started = time.monotonic()
-        page = self.env["ea.audit.eaglr"].with_user(self.staff).browse(self.as_staff.action_tool_eaglr()["res_id"])
-        reviewed = time.monotonic() - started
+        # temporary: which queries are slow, before and after the statistics are refreshed
+        from unittest.mock import patch
+        cursor_class = type(self.env.cr)
+        plain = cursor_class.execute
+        slow = []
+
+        def timed(cr, query, params=None, log_exceptions=True):
+            at = time.monotonic()
+            try:
+                return plain(cr, query, params, log_exceptions)
+            finally:
+                spent = time.monotonic() - at
+                if spent > 0.5:
+                    slow.append("%.1f s %s" % (spent, " ".join(str(getattr(query, "code", query)).split())[:300]))
+
+        import cProfile
+        import pstats
+        profile = cProfile.Profile()
+        with patch.object(cursor_class, "execute", timed):
+            started = time.monotonic()
+            profile.enable()
+            page = self.env["ea.audit.eaglr"].with_user(self.staff).browse(self.as_staff.action_tool_eaglr()["res_id"])
+            profile.disable()
+            reviewed = time.monotonic() - started
+            self.env.cr.execute("ANALYZE ea_audit_gl_line")
+            started = time.monotonic()
+            self.env["ea.audit.eaglr"].with_user(self.staff).browse(self.as_staff.action_tool_eaglr()["res_id"])
+            analysed = time.monotonic() - started
+        out = io.StringIO()
+        pstats.Stats(profile, stream=out).sort_stats("cumulative").print_stats(30)
+        _logger.warning("EAGLR PROFILE\n%s\nSLOW QUERIES\n%s", out.getvalue()[-6000:], "\n".join(slow))
         self.assertEqual(page.report["source"]["lines"], 20000)
         _logger.info("EAGLR timing: upload and projection of 100 000 lines %.1f s, EAGLR on every line %.1f s", uploaded, reviewed)
         # the firm servers give a request 1 200 s (limit_time_real): far inside it
-        self.fail("TIMING upload %.1f s, EAGLR %.1f s" % (uploaded, reviewed))  # temporary: read the figures in CI
+        self.fail("TIMING upload %.1f s, EAGLR %.1f s, after ANALYZE %.1f s" % (uploaded, reviewed, analysed))  # temporary
