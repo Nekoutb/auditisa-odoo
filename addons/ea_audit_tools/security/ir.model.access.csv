@@ -52,6 +52,9 @@ access_gl_line_member,ea.audit.gl.line member,model_ea_audit_gl_line,ea_audit_co
 access_gl_console,ea.audit.gl.console,model_ea_audit_gl_console,ea_audit_core.group_member,1,1,1,1
 access_gl_console_account,ea.audit.gl.console.account,model_ea_audit_gl_console_account,ea_audit_core.group_member,1,1,1,1
 access_gl_console_pattern,ea.audit.gl.console.pattern,model_ea_audit_gl_console_pattern,ea_audit_core.group_member,1,1,1,1
+access_eaglr,ea.audit.eaglr,model_ea_audit_eaglr,ea_audit_core.group_member,1,1,1,1
+access_journal_type_wizard_writer,ea.audit.journal.type.wizard writer,model_ea_audit_journal_type_wizard,ea_audit_core.group_writer,1,1,1,1
+access_journal_type_wizard_line_writer,ea.audit.journal.type.wizard.line writer,model_ea_audit_journal_type_wizard_line,ea_audit_core.group_writer,1,1,1,1
 access_scot_member,ea.audit.scot member,model_ea_audit_scot,ea_audit_core.group_member,1,0,0,0
 access_scot_index_member,ea.audit.scot.index member,model_ea_audit_scot_index,ea_audit_core.group_member,1,0,0,0
 access_wcgw_member,ea.audit.wcgw member,model_ea_audit_wcgw,ea_audit_core.group_member,1,0,0,0

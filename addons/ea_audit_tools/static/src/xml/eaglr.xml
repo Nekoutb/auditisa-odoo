@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- EAGLR's page (mock-up "eaglr", 20/11/2026). Every word comes from the server, already translated. -->
+    <t t-name="ea_audit_tools.EaEaglrReport">
+        <div class="o_ea_eaglr_report" data-ea="eaglr">
+            <div class="o_ea_eaglr_src" t-if="view.strip.length">
+                <t t-foreach="view.strip" t-as="part" t-key="part_index"><span t-esc="part"/></t>
+                <span class="o_ea_eaglr_auto" t-esc="view.ranItself"/>
+            </div>
+            <div class="o_ea_eaglr_score">
+                <div>
+                    <div class="o_ea_eaglr_sl" t-esc="view.overallLabel"/>
+                    <div class="o_ea_eaglr_sv" data-ea="eaglr-overall" t-esc="view.overall"/>
+                    <div class="o_ea_eaglr_sm" t-esc="view.passMark"/>
+                </div>
+                <span t-att-class="'o_ea_eaglr_tag is-' + view.verdictTone + ' is-big'" t-esc="view.verdict"/>
+                <div class="o_ea_eaglr_secs">
+                    <t t-foreach="view.scores" t-as="score" t-key="score_index">
+                        <div><b t-esc="score.label"/><span t-esc="score.value"/></div>
+                    </t>
+                </div>
+            </div>
+            <t t-foreach="view.sections" t-as="section" t-key="section.key">
+                <h2 class="o_ea_eaglr_h"><t t-esc="section.title"/> <small t-if="section.note" t-esc="section.note"/></h2>
+                <div class="table-responsive">
+                    <table class="table table-sm o_ea_table o_ea_eaglr_table" t-att-data-section="section.key">
+                        <thead>
+                            <tr>
+                                <th class="o_ea_eaglr_check" t-esc="view.head[0]"/>
+                                <th t-esc="view.head[1]"/>
+                                <th class="text-end" t-esc="view.head[2]"/>
+                                <th class="text-end" t-esc="view.head[3]"/>
+                                <th t-esc="view.head[4]"/>
+                                <th/>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="section.rows" t-as="row" t-key="row.key" t-att-data-key="row.key">
+                                <td t-esc="row.label"/>
+                                <td><span t-att-class="row.source === 'linked' ? 'o_ea_eaglr_tag is-linked' : 'o_ea_eaglr_tag is-new'" t-esc="row.sourceLabel"/></td>
+                                <td class="text-end">
+                                    <div t-esc="row.result"/>
+                                    <div class="o_ea_eaglr_detail" t-if="row.detail" t-esc="row.detail"/>
+                                </td>
+                                <td class="text-end" t-esc="row.value"/>
+                                <td><span t-att-class="'o_ea_eaglr_tag is-' + row.tone" t-esc="row.status"/></td>
+                                <td><a href="#" class="o_ea_eaglr_go" t-if="row.link" t-on-click.prevent="() => this.open(row)" t-esc="row.link"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

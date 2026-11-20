@@ -374,3 +374,184 @@ def score_summary(rows):
 
 def count_status(count):
     return EXCEPTIONS if count else PASSED
+
+
+# ---------------------------------------------------------------------------
+# The rows of the page, in the order of the approved mock-up: timing, descriptions, manual
+# entries, sub-ledgers, then the information rows (section "i", never in the score)
+# ---------------------------------------------------------------------------
+
+#: (key, section, source, reference shown with a linked row). source: linked, new or info.
+ROWS = [
+    ("4.1", "4", "linked", "EAGLA 8"),
+    ("4.2", "4", "linked", "EAGLA 7 + JE"),
+    ("2.1", "2", "linked", "EAGLA 18"),
+    ("2.2", "2", "new", ""),
+    ("2.3", "2", "new", ""),
+    ("2.4", "2", "linked", "EAGLA 20"),
+    ("2.5", "2", "linked", "EAGLA 19"),
+    ("2.6", "2", "new", ""),
+    ("2.8", "2", "new", ""),
+    ("2.14", "2", "new", ""),
+    ("2.16", "2", "new", ""),
+    ("2.18", "2", "new", ""),
+    ("2.19", "2", "new", ""),
+    ("3.1", "3", "new", ""),
+    ("3.2", "3", "new", ""),
+    ("3.3", "3", "new", ""),
+    ("3.4", "3", "new", ""),
+    ("3.5", "3", "new", ""),
+    ("3.7", "3", "new", ""),
+    ("3.8", "3", "new", ""),
+    ("1.1", "1", "linked", "AR"),
+    ("1.2", "1", "linked", "AP"),
+    ("1.3", "1", "linked", "INV"),
+    ("1.4", "1", "linked", "FA"),
+    ("1.5", "1", "new", ""),
+    ("i.currency", "i", "info", ""),
+    ("i.languages", "i", "info", ""),
+    ("i.party", "i", "info", ""),
+    ("i.tax", "i", "info", ""),
+    ("i.profit", "i", "info", ""),
+]
+SECTION_ORDER = ("4", "2", "3", "1", "i")
+
+LABELS = {
+    "4.1": {"en": "4.1 Recorded more than 30 days after the entry date",
+            "fr": "4.1 Saisie plus de 30 jours après la date de l'écriture"},
+    "4.2": {"en": "4.2 Recorded on a weekend or public holiday",
+            "fr": "4.2 Saisie un week-end ou un jour férié"},
+    "2.1": {"en": "2.1 Missing description", "fr": "2.1 Libellé manquant"},
+    "2.2": {"en": "2.2 System placeholder as description (\"Import\", \"Saisie\", \"/\"…)",
+            "fr": "2.2 Libellé passe-partout du système (« Import », « Saisie », « / »…)"},
+    "2.3": {"en": "2.3 Description under 10 characters or figures only",
+            "fr": "2.3 Libellé de moins de 10 caractères ou fait de chiffres"},
+    "2.4": {"en": "2.4 No customer or supplier on accounts 40/41",
+            "fr": "2.4 Aucun client ou fournisseur sur les comptes 40/41"},
+    "2.5": {"en": "2.5 No supporting document reference", "fr": "2.5 Aucune référence de pièce justificative"},
+    "2.6": {"en": "2.6 Wrong year in the description", "fr": "2.6 Mauvaise année dans le libellé"},
+    "2.8": {"en": "2.8 Vague description (\"divers\", \"régularisation\"…)",  # i18n: input (the client's own words, quoted)
+            "fr": "2.8 Libellé vague (« divers », « régularisation »…)"},
+    "2.14": {"en": "2.14 Garbled characters (\"???\", \"Ã©\"…)", "fr": "2.14 Caractères illisibles (« ??? », « Ã© »…)"},
+    "2.16": {"en": "2.16 Reversal that does not name the entry it reverses",
+             "fr": "2.16 Extourne qui ne cite pas l'écriture extournée"},
+    "2.18": {"en": "2.18 Wrong month in the description", "fr": "2.18 Mauvais mois dans le libellé"},
+    "2.19": {"en": "2.19 \"Provisional\" or \"to be confirmed\" on a posted entry",
+             "fr": "2.19 « Provisoire » ou « à confirmer » sur une écriture comptabilisée"},
+    "3.1": {"en": "3.1 Transit accounts (58) back to zero at year end",
+            "fr": "3.1 Comptes de virements internes (58) soldés à la clôture"},
+    "3.2": {"en": "3.2 Manual entries on cash and bank (5, except 58)",
+            "fr": "3.2 Écritures manuelles sur la trésorerie (5, sauf 58)"},
+    "3.3": {"en": "3.3 Manual entries on fixed assets (20 to 24, 28, 68)",
+            "fr": "3.3 Écritures manuelles sur les immobilisations (20 à 24, 28, 68)"},
+    "3.4": {"en": "3.4 Manual entries on inventory (3, except 39)",
+            "fr": "3.4 Écritures manuelles sur les stocks (3, sauf 39)"},
+    "3.5": {"en": "3.5 Manual entries on receivables and payables (40, 41)",
+            "fr": "3.5 Écritures manuelles sur les clients et fournisseurs (40, 41)"},
+    "3.7": {"en": "3.7 Interest charged on the loans (16 against 67)",
+            "fr": "3.7 Intérêts comptabilisés sur les emprunts (16 contre 67)"},
+    "3.8": {"en": "3.8 Provisions without their expense or reversal entry",
+            "fr": "3.8 Provisions sans leur dotation ou leur reprise"},
+    "1.1": {"en": "1.1 Receivables (41)", "fr": "1.1 Clients (41)"},
+    "1.2": {"en": "1.2 Payables (40)", "fr": "1.2 Fournisseurs (40)"},
+    "1.3": {"en": "1.3 Inventory (31 to 38)", "fr": "1.3 Stocks (31 à 38)"},
+    "1.4": {"en": "1.4 Fixed assets", "fr": "1.4 Immobilisations"},
+    "1.5": {"en": "1.5 Fixed assets, net book value", "fr": "1.5 Immobilisations, valeur nette comptable"},
+    "i.currency": {"en": "Foreign currency named in the description (EUR, USD…)",
+                   "fr": "Devise étrangère citée dans le libellé (EUR, USD…)"},
+    "i.languages": {"en": "French and English mixed in one description",
+                    "fr": "Français et anglais mêlés dans un même libellé"},
+    "i.party": {"en": "Same customer or supplier described in many ways",
+                "fr": "Un même client ou fournisseur décrit de multiples façons"},
+    "i.tax": {"en": "Tax account (44) without a tax period in the description",
+              "fr": "Compte de taxes (44) sans période fiscale dans le libellé"},
+    "i.profit": {"en": "Profit allocation entry (11, 12, 13) within 6 months of the prior year end",
+                 "fr": "Affectation du résultat (11, 12, 13) dans les 6 mois suivant la clôture précédente"},
+}
+#: Where a linked row of section 1 comes from: the sub-ledger kind.
+SUB_LEDGER_OF = {"1.1": "ar_open_items", "1.2": "ap_open_items", "1.3": "inventory_listing", "1.4": "fixed_asset_register"}
+#: The analysis of EAGLA a linked row opens on.
+EAGLA_OF = {"4.1": "entry-date-lag", "4.2": "weekend-postings", "2.1": "missing-mandatory-fields",
+            "2.4": "third-party-attribution", "2.5": "missing-references"}
+#: More descriptions than this for one party, on 40/41, is worth a look.
+PARTY_VARIANTS = 3
+#: Recorded more than this many days after the entry date (4.1).
+LAG_DAYS = 30
+
+
+def label(key, locale):
+    return LABELS[key]["fr" if locale == "fr" else "en"]
+
+
+#: The words of the page that are not a check's name, each in both languages.
+WORDS = {
+    "passed": {"en": "Passed", "fr": "Réussi"},
+    "exceptions": {"en": "Exceptions", "fr": "Exceptions"},
+    "not_run": {"en": "Not run", "fr": "Non exécuté"},
+    "information": {"en": "Information", "fr": "Information"},
+    "not_applicable": {"en": "Not applicable", "fr": "Sans objet"},
+    "linked": {"en": "Linked", "fr": "Lié"},
+    "new": {"en": "New", "fr": "Nouveau"},
+    "lines": {"en": "lines", "fr": "lignes"},
+    "entries": {"en": "entries", "fr": "écritures"},
+    "check": {"en": "Check", "fr": "Contrôle"},
+    "source": {"en": "Source", "fr": "Source"},
+    "result": {"en": "Result", "fr": "Résultat"},
+    "value": {"en": "Value", "fr": "Valeur"},
+    "status": {"en": "Status", "fr": "Statut"},
+    "open_eagla": {"en": "Open in EAGLA →", "fr": "Ouvrir dans EAGLA →"},
+    "open": {"en": "Open →", "fr": "Ouvrir →"},
+    "see_lines": {"en": "See the lines ▸", "fr": "Voir les lignes ▸"},
+    "map_types": {"en": "Map the journal types in the Data bank", "fr": "Donner les types de journaux dans la Banque de données"},
+    "section_4": {"en": "4 · Journal entry timing", "fr": "4 · Date de saisie des écritures"},
+    "section_2": {"en": "2 · Description quality", "fr": "2 · Qualité des libellés"},
+    "section_3": {"en": "3 · Manual entry review", "fr": "3 · Revue des écritures manuelles"},
+    "section_1": {"en": "1 · Sub-ledgers against the trial balance", "fr": "1 · Livres auxiliaires et balance générale"},
+    "section_i": {"en": "Information only", "fr": "Pour information"},
+    "section_i_note": {"en": "(shown, not in the score)", "fr": "(affiché, hors score)"},
+    "short_1": {"en": "Sub-ledgers vs TB", "fr": "Auxiliaires et balance"},
+    "short_2": {"en": "Descriptions", "fr": "Libellés"},
+    "short_3": {"en": "Manual entries", "fr": "Écritures manuelles"},
+    "short_4": {"en": "Timing", "fr": "Dates de saisie"},
+    "overall": {"en": "Overall GL quality", "fr": "Qualité globale du grand livre"},
+    "pass_mark": {"en": "Pass mark 96% · average of the sections that could run",
+                  "fr": "Seuil de réussite 96 % · moyenne des sections qui ont pu être exécutées"},
+    "above": {"en": "At or above the pass mark", "fr": "Au niveau du seuil ou au-dessus"},
+    "below": {"en": "Below the pass mark", "fr": "Sous le seuil de réussite"},
+    "no_score": {"en": "No check could run: no score", "fr": "Aucun contrôle n'a pu être exécuté : pas de score"},
+    "data": {"en": "Data:", "fr": "Données :"},
+    "uploaded": {"en": "uploaded", "fr": "importé le"},
+    "all_read": {"en": "all read (no line limit)", "fr": "toutes lues (sans limite de lignes)"},
+    "types_mapped": {"en": "Journal types mapped:", "fr": "Types de journaux donnés :"},
+    "of": {"en": "of", "fr": "sur"},
+    "ran_itself": {"en": "✓ Ran by itself on upload: no button to press", "fr": "✓ Exécuté tout seul à l'import : aucun bouton à presser"},
+    "accuracy": {"en": "accuracy", "fr": "exactitude"},
+    "difference": {"en": "difference", "fr": "écart"},
+    "balance": {"en": "balance", "fr": "solde"},
+    "loans": {"en": "loans", "fr": "emprunts"},
+    "interest": {"en": "interest", "fr": "intérêts"},
+    "rate": {"en": "implied rate", "fr": "taux apparent"},
+    "register": {"en": "register", "fr": "registre"},
+    "tb": {"en": "trial balance", "fr": "balance"},
+    "parties": {"en": "parties", "fr": "tiers"},
+    "none_found": {"en": "none found", "fr": "aucune trouvée"},
+    "no_description": {"en": "No description column was matched at upload.", "fr": "Aucune colonne de libellé n'a été associée à l'import."},
+    "no_types": {"en": "No journal type is given for this ledger.", "fr": "Aucun type de journal n'est donné pour ce grand livre."},
+    "no_sub_ledger": {"en": "The sub-ledger is not uploaded.", "fr": "Le livre auxiliaire n'est pas importé."},
+    "no_tb": {"en": "No trial balance is uploaded.", "fr": "Aucune balance générale n'est importée."},
+    "no_nbv": {"en": "Match the register's net book value or accumulated depreciation column.",
+               "fr": "Associez la colonne de valeur nette comptable ou d'amortissements cumulés du registre."},
+    "no_party": {"en": "No third-party column was matched at upload.", "fr": "Aucune colonne de tiers n'a été associée à l'import."},
+    "no_loans": {"en": "No loan balance on 16.", "fr": "Aucun solde d'emprunt en 16."},
+    "eagla_and_holidays": {"en": "weekend lines (EAGLA 7) and %s on a public holiday (JE testing calendar)",
+                           "fr": "lignes du week-end (EAGLA 7) et %s un jour férié (calendrier des tests d'écritures)"},
+    "ref_AR": {"en": "Receivables ledger", "fr": "Grand livre clients"},
+    "ref_AP": {"en": "Payables ledger", "fr": "Grand livre fournisseurs"},
+    "ref_INV": {"en": "Inventory ledger", "fr": "Grand livre des stocks"},
+    "ref_FA": {"en": "Fixed assets register", "fr": "Registre des immobilisations"},
+    "ref_EAGLA 7 + JE": {"en": "EAGLA 7 + JE testing", "fr": "EAGLA 7 + tests d'écritures"},
+}
+
+
+def word(key, locale):
+    return WORDS[key]["fr" if locale == "fr" else "en"]

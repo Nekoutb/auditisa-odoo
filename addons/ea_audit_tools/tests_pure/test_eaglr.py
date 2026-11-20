@@ -159,3 +159,24 @@ def test_not_run_and_information_never_count():
 def test_no_score_when_nothing_ran():
     summary = e.score_summary([row("2", "not_run"), row("i", "information")])
     assert summary["overall"] is None and summary["passed"] is None
+
+
+def test_every_row_has_both_languages_and_a_place():
+    keys = [row[0] for row in e.ROWS]
+    assert len(keys) == len(set(keys)) == len(e.LABELS)
+    for key, section, source, _ref in e.ROWS:
+        assert section in e.SECTION_ORDER and source in ("linked", "new", "info")
+        assert e.label(key, "en") and e.label(key, "fr") and e.label(key, "en") != e.label(key, "fr")
+    # removed by the owner: description against account, abbreviations
+    assert "2.9" not in keys and "2.13" not in keys
+    assert set(e.SUB_LEDGER_OF) | set(e.EAGLA_OF) <= set(keys)
+
+
+def test_the_page_words_are_in_both_languages():
+    for key, both in e.WORDS.items():
+        assert both["en"] and both["fr"], key
+    for _key, _section, _source, reference in e.ROWS:
+        if reference and not reference.startswith("EAGLA "):
+            assert "ref_" + reference in e.WORDS
+    for status in (e.PASSED, e.EXCEPTIONS, e.NOT_RUN, e.INFORMATION, e.NOT_APPLICABLE):
+        assert e.word(status, "fr")

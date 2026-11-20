@@ -11,6 +11,7 @@ from odoo.addons.ea_audit_core.services.errors import AuditRuleError
 from ..rules import rule_error
 from ..services.amount import parse_amount
 from ..services.dataset_mapping import guess_map
+from ..services.eaglr import clean_journal_types
 from ..services.errors import ServiceError
 from ..services._js import format_fr
 from ..services.gl_line import BATCH, TOLERANCE, mapped_fields, nf, population_checks, projector
@@ -78,6 +79,9 @@ class Dataset(models.Model):
         [("passed", "Passed"), ("warning", "Warning"), ("failed", "Failed")], string="Population",
     )
     population_html = fields.Html(string="Population checks", compute="_compute_population_html", sanitize=False, compute_sudo=True)
+    # what each journal code of a general ledger is used for, {code: type} (services/eaglr.JOURNAL_TYPES):
+    # optional, given at upload or later from the Data bank (owner's mock-up "gl-journal-types", 20/11/2026)
+    journal_types = fields.Json(string="Journal types")
 
     @api.depends("superseded_at")
     def _compute_is_current(self):
@@ -148,10 +152,10 @@ class Dataset(models.Model):
             )
             dataset.population_html = rows and Markup("<table class='table table-sm o_ea_table'><tbody>{}</tbody></table>").format(rows)
 
-    def action_build_projection(self):
+    def action_journal_types(self):
+        """Journal types, later from the Data bank: the same screen as at upload."""
         self.ensure_one()
-        self.sudo().engagement_id.with_env(self.env).gl_build_projection(self.id)
-        return {"type": "ir.actions.client", "tag": "soft_reload"}
+        return self.env["ea.audit.journal.type.wizard"]._ea_open(self.sudo().engagement_id.with_env(self.env), self)
 
     def action_open_lines(self):
         self.ensure_one()
@@ -471,6 +475,9 @@ class EngagementDataset(models.Model):
             )
         dataset.write({"total_amount": total or 0, "has_total": total is not None})
         self._ea_log("dataset_imported", "%s imported (%s, %s, %d rows)" % (filename, kind, timing, len(rows)))
+        if kind == "journal_entries":
+            # the checks run by themselves on upload (owner's ruling of 2026-11-20): no button to press
+            self._ea_gl_project(dataset)
         if remember:
             self._ea_remember_matching(kind, table["headers"], mapping)
         if kind == "journal_entries":
@@ -501,7 +508,7 @@ class EngagementDataset(models.Model):
         """Whoever may import may delete (owner's ruling of 2026-11-15), as for a trial balance.
         A sampling run or a selection design drawn from the upload stays, without its link to it.
         When the upload in use goes, the one before it is in use again, and a ledger gets its
-        projection back if the deleted one had its own. The trail keeps what was deleted."""
+        projection back. The trail keeps what was deleted."""
         self.ensure_one()
         self._ea_tool_guard()
         dataset = self.env["ea.audit.dataset"].sudo().search([
@@ -511,7 +518,6 @@ class EngagementDataset(models.Model):
             raise rule_error(self.env, "no-dataset")
         self._ea_lock()
         successor = self._ea_dataset_successor(dataset)
-        had_projection = bool(dataset.gl_built_at)
         facts = (
             dataset.source_filename, dataset.kind, dataset.timing, upload_stamp(self, dataset.create_date),
             dataset.row_count, grouped(dataset.display_total, "en"),
@@ -520,12 +526,8 @@ class EngagementDataset(models.Model):
         self._ea_log("dataset_deleted", "%s deleted (%s, %s, imported on %s, %d rows, total %s)" % facts)
         if successor:
             successor.superseded_at = False
-            if successor.kind == "journal_entries" and had_projection:
-                try:
-                    self.gl_build_projection(successor.id)
-                except AuditRuleError:
-                    # an upload from before the matching was mandatory: it waits for a person to build it
-                    pass
+            if successor.kind == "journal_entries":
+                self._ea_gl_ready(successor)
         if facts[1] == "journal_entries":
             self._ea_refresh_significance_activity()
         return {"successorId": successor.id or False}
@@ -546,12 +548,35 @@ class EngagementDataset(models.Model):
 
     def gl_build_projection(self, dataset_id):
         """op build: project the imported rows, then validate. Idempotent: a built projection is
-        reused (re-import the dataset to rebuild). Memory bounded by the batch size."""
+        reused (re-import the dataset to rebuild). Nobody needs to call it any more: an upload
+        builds its own, and a page opening on a ledger that has none builds it (_ea_gl_ready)."""
         self.ensure_one()
         self._ea_tool_guard()
         dataset = self._ea_gl_dataset(dataset_id)
         if dataset.superseded_at:
             raise rule_error(self.env, "dataset-superseded")
+        return self._ea_gl_project(dataset)
+
+    def _ea_gl_ready(self, dataset):
+        """A page opens on a ledger with no projection (one uploaded before 2026-11-20): it is built
+        there and then, whoever opens it, as the upload would have. Not on an archived file, which
+        refuses any new row, nor on a superseded upload, nor on one whose matching cannot project."""
+        self.ensure_one()
+        if not dataset or dataset.kind != "journal_entries" or dataset.gl_built_at or dataset.superseded_at:
+            return dataset
+        root = self.sudo()
+        if root._ea_is_archived():
+            return dataset
+        try:
+            with self.env.cr.savepoint():
+                root._ea_gl_project(dataset.sudo())
+        except AuditRuleError:
+            pass
+        return dataset
+
+    def _ea_gl_project(self, dataset):
+        """The projection itself, for the callers that have checked who asks. Memory bounded by
+        the batch size; one pass over the rows, one insert per batch."""
         cr = self.env.cr
         cr.execute("SELECT count(*) FROM ea_audit_gl_line WHERE dataset_id = %s", [dataset.id])
         already = cr.fetchone()[0]
@@ -605,6 +630,20 @@ class EngagementDataset(models.Model):
         })
         self._ea_log("gl_projected", "%s: %d lines projected, %d rejected" % (dataset.source_filename, lines, rejected))
         return {"build": {"lines": lines, "rejected": rejected, "reused": False}, "validation": validation}
+
+    def gl_set_journal_types(self, dataset_id, journal_types):
+        """What each journal code of a ledger is used for (owner's mock-up "gl-journal-types",
+        20/11/2026): {code: type}, the codes of the ledger only. An empty map is no map."""
+        self.ensure_one()
+        self._ea_tool_guard()
+        dataset = self._ea_gl_dataset(dataset_id)
+        if dataset.superseded_at:
+            raise rule_error(self.env, "dataset-superseded")
+        known = {row["code"] for row in self._ea_gl_journal_codes(self._ea_gl_ready(dataset))}
+        types = {code: kind for code, kind in clean_journal_types(journal_types).items() if code in known}
+        dataset.write({"journal_types": types or False})
+        self._ea_log("journal_types_set", "%s: journal types given for %d of %d codes" % (dataset.source_filename, len(types), len(known)))
+        return types
 
     def gl_validate_population(self, dataset_id):
         """op validate: read-only, so an archived file answers it."""

@@ -10,7 +10,6 @@
         <field name="arch" type="xml">
             <form create="0" delete="0" duplicate="0" class="o_ea_eagla">
                 <header>
-                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="not dataset_id or gl_built_at" groups="ea_audit_core.group_writer"/>
                     <field name="validation_status" widget="badge" decoration-success="validation_status == 'passed'" decoration-warning="validation_status == 'warning'" decoration-danger="validation_status == 'failed'" invisible="not validation_status"/>
                 </header>
                 <sheet>
@@ -35,7 +34,6 @@
                         </div>
                         <div class="col-lg-9">
                             <div class="o_ea_banner" invisible="dataset_id">No general ledger is in use on this file: upload one in the Data bank. Financial analysis and analytical procedures open without it.</div>
-                            <div class="o_ea_banner" invisible="not dataset_id or gl_built_at">This ledger has no projection yet: build it first.</div>
                             <div class="o_ea_panel" invisible="not figure_set">
                                 <field name="figure_html" nolabel="1" readonly="1"/>
                                 <button name="action_drill_figure" type="object" string="Lines behind the figure" class="btn-primary"/>

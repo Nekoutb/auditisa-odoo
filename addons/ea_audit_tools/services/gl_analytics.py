@@ -1007,6 +1007,38 @@ def _account_frequency(results, locale, _knobs):
     }
 
 
+def _manual_vs_automated(results, locale, _knobs):
+    """27, once the journal types of the ledger are given (owner, 20/11/2026): entries by month,
+    split by the type of their journal. Opening balances are neither manual nor automatic."""
+    rows = [
+        _row(r, [
+            r["entries"], r["manual"], r["automatic"], r["opening"], r["entries"] - r["manual"] - r["automatic"] - r["opening"],
+            pct(r["manual"], r["entries"]),
+        ])
+        for r in results["rows"]
+    ]
+    return {
+        "columns": [
+            _col("entries", t(locale, "Entries", "Écritures")), _col("manual", t(locale, "Manual", "Manuelles")),
+            _col("automatic", t(locale, "Automatic", "Automatiques")), _col("opening", t(locale, "Opening balances", "À-nouveaux")),
+            _col("untyped", t(locale, "Journal with no type", "Journal sans type")), _col("sharePct", t(locale, "% manual", "% manuelles")),
+        ],
+        "rows": rows,
+        "totals": [cell_sum(rows, index) for index in range(5)] + [pct(cell_sum(rows, 1), cell_sum(rows, 0))],
+        "exceptions": cell_sum(rows, 1),
+        "population": cell_sum(rows, 0),
+        "note": t(
+            locale,
+            "An entry is manual when its journal is of the type Manual (miscellaneous) in the journal types given for this ledger; Sales, Purchases, Cash, Bank, Fixed assets and Payroll journals are automatic. The types can be changed from the Data bank.",
+            "Une écriture est manuelle lorsque son journal est du type Manuel (opérations diverses) dans les types de journaux donnés pour ce grand livre ; les journaux Ventes, Achats, Caisse, Banque, Immobilisations et Paie sont automatiques. Les types se modifient depuis la Banque de données.",
+        ),
+    }
+
+
+#: The analytics that run only once a person has given the ledger's journal types.
+JOURNAL_BODIES = {"manual-vs-automated": _manual_vs_automated}
+
+
 BODIES = {
     "ledger-reconciliation": _ledger_reconciliation,
     "unbalanced-entries": _unbalanced_entries,
@@ -1048,18 +1080,21 @@ def missing_fields(definition, fields):
     ]
 
 
-def status_of(definition, mapping, locale):
-    """None when it can run on this mapping, else its honest reason: the mapping first."""
+def status_of(definition, mapping, locale, journal_types=None):
+    """None when it can run on this mapping, else its honest reason: the mapping first. 27 runs
+    once the ledger's journal codes have a type (a journal column mapped and at least one type)."""
     missing = missing_fields(definition, mapped_fields(mapping))
     if missing:
         return "%s: %s" % (t(locale, UNAVAILABLE_EN, UNAVAILABLE_FR), ", ".join(missing))
+    if definition["key"] in JOURNAL_BODIES and journal_types and "journalCode" in mapped_fields(mapping):
+        return None
     if definition["key"] not in BODIES:
         return t(locale, definition.get("unavailableEn", NOT_BUILT_EN), definition.get("unavailableFr", definition.get("unavailableEn", NOT_BUILT_FR)))
     return None
 
 
-def catalogue(mapping, locale):
-    """All thirty analytics with their status against one dataset's mapping."""
+def catalogue(mapping, locale, journal_types=None):
+    """All thirty analytics with their status against one dataset's mapping (and journal types)."""
     return [
         {
             "id": definition["id"], "key": definition["key"],
@@ -1068,7 +1103,7 @@ def catalogue(mapping, locale):
             "objective": t(locale, definition["objectiveEn"], definition["objectiveFr"]),
             "assertions": definition["assertions"], "requiredFields": definition["requiredFields"],
             "exception": t(locale, definition["exceptionEn"], definition["exceptionFr"]),
-            "unavailable": status_of(definition, mapping, locale),
+            "unavailable": status_of(definition, mapping, locale, journal_types),
         }
         for definition in ANALYTICS
     ]
@@ -1088,7 +1123,8 @@ def unavailable_result(definition, locale, reason):
 
 
 def build_result(definition, results, locale, knobs):
-    return {**result_shell(definition, locale), **BODIES[definition["key"]](results, locale, knobs)}
+    body = BODIES.get(definition["key"]) or JOURNAL_BODIES[definition["key"]]
+    return {**result_shell(definition, locale), **body(results, locale, knobs)}
 
 
 #: How a column's figures read. Keys the source shares across analytics mean the same thing.

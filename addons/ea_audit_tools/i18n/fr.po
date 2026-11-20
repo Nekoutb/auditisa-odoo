@@ -1262,12 +1262,6 @@ msgid "Borrowings and similar debts"
 msgstr "Emprunts et dettes assimilées"
 
 #. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
-msgid "Build the projection"
-msgstr "Construire la projection"
-
-#. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_23
 msgid "Buildings, technical installations"
 msgstr "Bâtiments, installations techniques et agencements"
@@ -1375,6 +1369,7 @@ msgstr "Reporté en C1.1"
 
 #. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_57
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__cash
 msgid "Cash"
 msgstr "Caisse"
 
@@ -3113,6 +3108,8 @@ msgstr "Méthode active"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_tool_record__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wcgw__engagement_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_wp_assign_wizard__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__engagement_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard__engagement_id
 msgid "Engagement"
 msgstr "Mission"
 
@@ -3426,11 +3423,13 @@ msgstr "Transferts de charges"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__export_file
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__export_file
 msgid "Export File"
 msgstr ""
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__export_filename
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__export_filename
 msgid "Export Filename"
 msgstr ""
 
@@ -3806,6 +3805,7 @@ msgstr "Exercice"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__fixed_asset_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__scot_class__fixed_assets
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__fixed_assets
 msgid "Fixed assets"
 msgstr "Actif immobilisé"
 
@@ -3885,6 +3885,7 @@ msgstr "Procédures générales d'audit"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__journal_entries
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__journal_entries
 #: model:ea.audit.tool.tile,name:ea_audit_tools.tile_an_gl
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard__dataset_id
 msgid "General ledger"
 msgstr "Grand livre"
 
@@ -4705,6 +4706,7 @@ msgstr "Date de journal"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_je_studio_rule__field__journalcode
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_journal_type_wizard_line
 msgid "Journal code"
 msgstr "Code journal"
 
@@ -5196,6 +5198,7 @@ msgstr "Montant de la feuille maîtresse :"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_studio__dataset_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_review__dataset_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__dataset_id
 msgid "Ledger"
 msgstr "Grand livre"
 
@@ -5283,6 +5286,7 @@ msgstr "Numéro de ligne"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ipe__line_count
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_ipe_check__line_ids
 #: code:addons/ea_audit_tools/static/src/xml/ipe_page.xml:0
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard_line__lines
 msgid "Lines"
 msgstr "Lignes"
 
@@ -6218,6 +6222,7 @@ msgstr "Solde d'ouverture (balance)"
 #: code:addons/ea_audit_tools/wizards/import_wizard.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_engagement__tb_openings_warning
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_lead_schedule__prior_source__opening
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__opening
 msgid "Opening balances"
 msgstr "Soldes d'ouverture"
 
@@ -6481,6 +6486,7 @@ msgstr "Grand livre fournisseurs"
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_matching__kind__payroll_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_import_wizard__kind__payroll_register
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_ipe__kind__payroll_register
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__payroll
 msgid "Payroll"
 msgstr "Paie"
 
@@ -7786,6 +7792,7 @@ msgstr "Règle de regroupement SYSCOHADA"
 
 #. module: ea_audit_tools
 #: model:ea.audit.grouping.rule,label:ea_audit_tools.rule_70
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__sales
 msgid "Sales"
 msgstr "Ventes"
 
@@ -8372,6 +8379,7 @@ msgstr "Gravité suggérée"
 #: code:addons/ea_audit_tools/models/risk.py:0
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_automation_run__summary
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_je_design__summary
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard__summary
 msgid "Summary"
 msgstr "Résumé"
 
@@ -8926,11 +8934,6 @@ msgstr "Ce jour férié est déjà au calendrier."
 #: code:addons/ea_audit_tools/rules.py:0
 msgid "This kind of dataset has no control account to agree to."
 msgstr "Ce type de jeu de données n'a pas de compte de contrôle auquel se rapprocher."
-
-#. module: ea_audit_tools
-#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
-msgid "This ledger has no projection yet: build it first."
-msgstr "Ce grand livre n'a pas encore de projection : construisez-la d'abord."
 
 #. module: ea_audit_tools
 #. odoo-python
@@ -9579,6 +9582,7 @@ msgstr "Dans le seuil"
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_column__wizard_id
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_wizard_sheet__wizard_id
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard_line__wizard_id
 msgid "Wizard"
 msgstr ""
 
@@ -10759,6 +10763,7 @@ msgstr "Feuille d'un fichier Excel importé"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_import_field__skip
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_journal_type_wizard_form
 msgid "Skip"
 msgstr ""
 
@@ -11357,6 +11362,7 @@ msgstr "Nouveau compte"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_significance__flagged
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__flagged
 msgid "Flagged"
 msgstr "Signalé"
 
@@ -17506,6 +17512,7 @@ msgstr "Analyse"
 #. module: ea_audit_tools
 #: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_gl_console__scot_class__purchases
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_gl_console_form
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__purchases
 msgid "Purchases"
 msgstr "Achats"
 
@@ -17803,3 +17810,133 @@ msgstr "Cochées pour test"
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_console__eagla_nav
 msgid "Left pane"
 msgstr "Volet de gauche"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_eaglr
+msgid "EAGLR — Elite Advisors GL Review"
+msgstr "EAGLR — Revue du grand livre Elite Advisors"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_eaglr
+msgid "Can we trust the client's bookkeeping? The general-ledger quality checks on one page."
+msgstr "Peut-on se fier à la comptabilité du client ? Les contrôles de qualité du grand livre sur une seule page."
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_eaglr
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_eaglr_form
+msgid "EAGLR"
+msgstr "EAGLR"
+
+#. module: ea_audit_tools
+#: model:ir.model,name:ea_audit_tools.model_ea_audit_journal_type_wizard
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_dataset__journal_types
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_dataset_form
+msgid "Journal types"
+msgstr "Types de journaux"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__report
+msgid "GL review"
+msgstr "Revue du grand livre"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_gl_line__eaglr_flag
+msgid "Eaglr Flag"
+msgstr "Repère EAGLR"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,help:ea_audit_tools.field_ea_audit_gl_line__eaglr_flag
+msgid "Search-only: the lines an EAGLR check flagged, as \"page id:check\"."
+msgstr "Recherche seule : les lignes qu'un contrôle EAGLR a signalées, sous la forme « id de la page:contrôle »."
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard__line_ids
+msgid "Journal codes"
+msgstr "Codes journaux"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard__then_eaglr
+msgid "Then Eaglr"
+msgstr "Puis EAGLR"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard_line__code
+msgid "Journal code in the file"
+msgstr "Code journal dans le fichier"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard_line__example
+msgid "Example description"
+msgstr "Exemple de libellé"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_journal_type_wizard_line__journal_type
+msgid "Journal type"
+msgstr "Type de journal"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__bank
+msgid "Bank"
+msgstr "Banque"
+
+#. module: ea_audit_tools
+#: model:ir.model.fields.selection,name:ea_audit_tools.selection__ea_audit_journal_type_wizard_line__journal_type__manual
+msgid "Manual (miscellaneous)"
+msgstr "Manuel (opérations diverses)"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_eaglr_form
+msgid "Extract the flagged lines to Excel"
+msgstr "Extraire les lignes signalées vers Excel"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_eaglr_form
+msgid "Elite Advisors GL Review: can we trust the client's bookkeeping?"
+msgstr "Revue du grand livre Elite Advisors : peut-on se fier à la comptabilité du client ?"
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_eaglr_form
+msgid "EAGLR brings the general-ledger quality checks together on one page. Checks that already exist elsewhere in the tool are Linked: their result is shown here and Open takes you to them. Only the New checks are worked out by EAGLR."
+msgstr "EAGLR réunit sur une seule page les contrôles de qualité du grand livre. Les contrôles qui existent déjà ailleurs dans l'outil sont Liés : leur résultat est repris ici et Ouvrir vous y conduit. Seuls les contrôles Nouveaux sont calculés par EAGLR."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_eaglr_form
+msgid "No general ledger is in use on this file: upload one in the Data bank. The sub-ledger checks are shown without it."
+msgstr "Aucun grand livre n'est utilisé sur ce dossier : importez-en un dans la Banque de données. Les contrôles des livres auxiliaires s'affichent sans lui."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_eaglr_form
+msgid "Every line of the ledger is checked (no line limit). Descriptions are read from the client's description column as matched at upload: the line description, else the entry description. Checks that could not run are shown in red and left out of the score, never counted as passed; \"Information\" rows are not in the score. No sign-off: the team consults this page at any time."
+msgstr "Chaque ligne du grand livre est contrôlée (sans limite de lignes). Les libellés sont lus dans la colonne de libellé du client associée à l'import : le libellé de la ligne, à défaut celui de l'écriture. Les contrôles qui n'ont pas pu être exécutés apparaissent en rouge et sont exclus du score, jamais comptés comme réussis ; les lignes « Information » ne comptent pas dans le score. Pas de signature : l'équipe consulte cette page à tout moment."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_journal_type_wizard_form
+msgid "Optional, but recommended."
+msgstr "Facultatif, mais recommandé."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_journal_type_wizard_form
+msgid "Tell us what each journal is used for. With journal types mapped, the GL review (EAGLR) can check manual entries on cash, fixed assets, inventory, receivables and payables, and EAGLA can separate manual from automatic entries. You can skip this step and come back to it later from the Data bank."
+msgstr "Indiquez à quoi sert chaque journal. Avec les types de journaux, la revue du grand livre (EAGLR) peut contrôler les écritures manuelles sur la trésorerie, les immobilisations, les stocks, les clients et les fournisseurs, et EAGLA peut séparer les écritures manuelles des écritures automatiques. Vous pouvez passer cette étape et y revenir plus tard depuis la Banque de données."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_journal_type_wizard_form
+msgid "Every journal code found in the file is listed, its type suggested from the code: change any of them. Sales, Purchases, Cash, Bank, Fixed assets and Payroll are automatic; Manual (miscellaneous) is manual; Opening balances are neither. The checks run straight after either button."
+msgstr "Chaque code journal trouvé dans le fichier est listé, son type suggéré d'après le code : modifiez-les à votre guise. Ventes, Achats, Caisse, Banque, Immobilisations et Paie sont automatiques ; Manuel (opérations diverses) est manuel ; les À-nouveaux ne sont ni l'un ni l'autre. Les contrôles s'exécutent aussitôt après l'un ou l'autre bouton."
+
+#. module: ea_audit_tools
+#: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_journal_type_wizard_form
+msgid "Save the journal types"
+msgstr "Enregistrer les types de journaux"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/journal_type_wizard.py:0
+msgid "%(file)s · %(lines)s lines · %(codes)s journal codes"
+msgstr "%(file)s · %(lines)s lignes · %(codes)s codes journaux"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/wizards/journal_type_wizard.py:0
+msgid "Journal types (optional)"
+msgstr "Types de journaux (facultatif)"

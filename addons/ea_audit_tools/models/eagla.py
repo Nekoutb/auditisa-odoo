@@ -29,7 +29,7 @@ class EngagementEagla(models.Model):
         analysis and analytical procedures need none)."""
         self.ensure_one()
         self._ea_require_access()
-        dataset = self._ea_current_dataset("journal_entries")
+        dataset = self._ea_gl_ready(self._ea_current_dataset("journal_entries"))
         console = self.env["ea.audit.gl.console"].create({"engagement_id": self.id, "dataset_id": dataset.id or False})
         return console._ea_reopen()
 

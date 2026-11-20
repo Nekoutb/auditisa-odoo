@@ -1,7 +1,7 @@
 {
     "name": "AuditISA Tools",
     "summary": "Trial balance, lead schedules, materiality, risks, combined risk assessment, findings, summary of audit differences and the tools hub",
-    "version": "19.0.1.25.2",  # release 2026-11-25: EAGLA results first (analyses run when picked, tick for testing, four lines on the left); work allocation in place of the client overrides tile; questionnaire Q18; Data quality (IPE) replaces substantive analytics; Journal entry testing (ISA 240): one screen, four questions per entry, engagement settings; the Data bank (uploads only) and EAGLA: correlations and SCOT identification
+    "version": "19.0.1.26.0",  # EAGLR (GL review), journal types at GL upload, the ledger analysed on upload; release 2026-11-25: EAGLA results first (analyses run when picked, tick for testing, four lines on the left); work allocation in place of the client overrides tile; questionnaire Q18; Data quality (IPE) replaces substantive analytics; Journal entry testing (ISA 240): one screen, four questions per entry, engagement settings; the Data bank (uploads only) and EAGLA: correlations and SCOT identification
     "category": "Accounting/Audit",
     "license": "LGPL-3",
     "author": "AuditISA",
@@ -27,6 +27,7 @@
         "views/sad_views.xml",
         "views/dataset_views.xml",
         "views/gl_console_views.xml",
+        "views/eaglr_views.xml",
         "views/scot_views.xml",
         "views/je_views.xml",
         "views/design_views.xml",
@@ -47,6 +48,7 @@
             "ea_audit_tools/static/src/scss/procedure_execution.scss",
             "ea_audit_tools/static/src/scss/work_allocation.scss",
             "ea_audit_tools/static/src/scss/ipe_page.scss",
+            "ea_audit_tools/static/src/scss/eaglr.scss",
             "ea_audit_tools/static/src/js/**/*",
             "ea_audit_tools/static/src/xml/**/*",
         ],

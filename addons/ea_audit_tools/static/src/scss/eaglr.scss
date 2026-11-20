@@ -1,0 +1,37 @@
+// EAGLR (owner's mock-up "eaglr", 20/11/2026): the app's emerald, its chips and its grid (o_ea_table).
+$eaglr-green: #0b6b4f;
+$eaglr-muted: #5b6470;
+
+.o_ea_eaglr_intro { background: #f4f8f6; border: 1px solid #d5e6de; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: .88rem; }
+.o_ea_eaglr_src {
+    display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .82rem; color: $eaglr-muted; margin-bottom: 12px;
+    .o_ea_eaglr_auto { color: $eaglr-green; font-weight: 600; }
+}
+.o_ea_eaglr_score {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; background: #fff; border: 1px solid #d8dde3;
+    border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;
+    .o_ea_eaglr_sl { font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: $eaglr-muted; }
+    .o_ea_eaglr_sv { font-size: 1.9rem; font-weight: 700; }
+    .o_ea_eaglr_sm { font-size: .8rem; color: $eaglr-muted; }
+}
+.o_ea_eaglr_secs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto;
+    > div { border: 1px solid #e3e7eb; border-radius: 6px; padding: 6px 10px; font-size: .8rem; display: flex; flex-direction: column; }
+    span { font-size: 1.05rem; font-weight: 700; }
+}
+.o_ea_eaglr_h { font-size: 1.05rem; font-weight: 700; margin: 18px 0 6px; small { font-weight: 400; color: $eaglr-muted; font-size: .78rem; } }
+.o_ea_eaglr_table .o_ea_eaglr_check { width: 34%; }
+.o_ea_eaglr_detail { font-size: .76rem; color: $eaglr-muted; }
+.o_ea_eaglr_go { white-space: nowrap; font-weight: 600; color: $eaglr-green; }
+.o_ea_eaglr_tag {
+    display: inline-block; border-radius: 6px; padding: 1px 8px; font-size: .76rem; font-weight: 600; white-space: nowrap;
+    background: #eef0f3; color: #1f2328;
+    &.is-linked { background: #e6eefb; color: #1d4f91; }
+    &.is-new { background: #efe8fb; color: #5a2d91; }
+    &.is-info { background: #eef0f3; color: #3b4250; }
+    &.is-good { background: #e3f2ec; color: $eaglr-green; }
+    &.is-warn { background: #f7ecd7; color: #8a5a10; }
+    &.is-bad { background: #f8e1e8; color: #a11d44; }
+    &.is-muted { color: $eaglr-muted; }
+    &.is-big { font-size: .9rem; padding: 4px 12px; }
+}

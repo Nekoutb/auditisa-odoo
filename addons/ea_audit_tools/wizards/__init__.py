@@ -6,3 +6,4 @@ from . import je_studio
 from . import analyzer_wizards
 from . import design_wizards
 from . import analysis_wizards
+from . import journal_type_wizard

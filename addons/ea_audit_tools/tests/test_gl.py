@@ -88,8 +88,11 @@ class TestDataset(GlCase):
 class TestProjection(GlCase):
     def test_build_types_the_lines_and_rejects_those_without_identity(self):
         dataset_id = self.import_ledger()["datasetId"]
+        # the upload builds it (owner's ruling of 2026-11-20): asking again reuses it
+        dataset = self.env["ea.audit.dataset"].sudo().browse(dataset_id)
+        self.assertEqual((dataset.gl_line_count, dataset.gl_rejected), (4, 1))
         result = self.as_staff.gl_build_projection(dataset_id)
-        self.assertEqual(result["build"], {"lines": 4, "rejected": 1, "reused": False})
+        self.assertEqual(result["build"], {"lines": 4, "rejected": 0, "reused": True})
         lines = self.env["ea.audit.gl.line"].sudo().search([("dataset_id", "=", dataset_id)])
         self.assertEqual(lines[0].account, "411000")
         self.assertEqual(lines[0].signed, 1000)

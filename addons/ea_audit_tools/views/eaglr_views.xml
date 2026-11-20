@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- EAGLR, Elite Advisors GL Review (owner's mock-up "eaglr", 20/11/2026): one page per engagement,
+         every check of the general ledger in use, Linked rows read from their tool, New rows worked out
+         on every line. The rows come from the server already translated (report); the widget lays them out. -->
+    <record id="view_eaglr_form" model="ir.ui.view">
+        <field name="name">ea.audit.eaglr.form</field>
+        <field name="model">ea.audit.eaglr</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" duplicate="0" class="o_ea_eaglr">
+                <header>
+                    <button name="action_export" type="object" string="Extract the flagged lines to Excel" invisible="not dataset_id"/>
+                </header>
+                <sheet>
+                    <field name="engagement_id" invisible="1"/>
+                    <field name="dataset_id" invisible="1"/>
+                    <div class="o_ea_title">EAGLR</div>
+                    <div class="o_ea_sub">Elite Advisors GL Review: can we trust the client's bookkeeping?</div>
+                    <div class="o_ea_eaglr_intro">EAGLR brings the general-ledger quality checks together on one page. Checks that already exist elsewhere in the tool are Linked: their result is shown here and Open takes you to them. Only the New checks are worked out by EAGLR.</div>
+                    <div class="o_ea_banner" invisible="dataset_id">No general ledger is in use on this file: upload one in the Data bank. The sub-ledger checks are shown without it.</div>
+                    <field name="report" widget="ea_eaglr_report" nolabel="1"/>
+                    <p class="o_ea_legend">Every line of the ledger is checked (no line limit). Descriptions are read from the client's description column as matched at upload: the line description, else the entry description. Checks that could not run are shown in red and left out of the score, never counted as passed; "Information" rows are not in the score. No sign-off: the team consults this page at any time.</p>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Journal types (optional), owner's mock-up "gl-journal-types" (20/11/2026) -->
+    <record id="view_journal_type_wizard_form" model="ir.ui.view">
+        <field name="name">ea.audit.journal.type.wizard.form</field>
+        <field name="model">ea.audit.journal.type.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="engagement_id" invisible="1"/>
+                <field name="dataset_id" invisible="1"/>
+                <div class="o_ea_sub"><field name="summary" nolabel="1"/></div>
+                <div class="o_ea_banner"><div class="fw-bold">Optional, but recommended.</div><div>Tell us what each journal is used for. With journal types mapped, the GL review (EAGLR) can check manual entries on cash, fixed assets, inventory, receivables and payables, and EAGLA can separate manual from automatic entries. You can skip this step and come back to it later from the Data bank.</div></div>
+                <field name="line_ids" nolabel="1">
+                    <list editable="bottom" create="0" delete="0">
+                        <field name="code"/>
+                        <field name="lines"/>
+                        <field name="example"/>
+                        <field name="journal_type"/>
+                    </list>
+                </field>
+                <p class="o_ea_legend">Every journal code found in the file is listed, its type suggested from the code: change any of them. Sales, Purchases, Cash, Bank, Fixed assets and Payroll are automatic; Manual (miscellaneous) is manual; Opening balances are neither. The checks run straight after either button.</p>
+                <footer>
+                    <button name="action_save" type="object" string="Save the journal types" class="btn-primary"/>
+                    <button name="action_skip" type="object" string="Skip"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

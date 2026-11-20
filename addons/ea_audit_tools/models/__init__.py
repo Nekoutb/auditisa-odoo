@@ -41,3 +41,4 @@ from . import scope_facts
 from . import work_allocation
 from . import ipe
 from . import eagla
+from . import eaglr

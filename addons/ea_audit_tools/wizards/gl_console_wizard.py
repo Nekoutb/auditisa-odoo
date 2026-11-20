@@ -779,10 +779,6 @@ class GlConsole(models.TransientModel):
         self.ensure_one()
         return self._drill({"accounts": (self.figure_accounts or "").split(",")}, self.env._("Lines behind the figure"))
 
-    def action_build_projection(self):
-        self.ensure_one()
-        self.engagement_id.gl_build_projection(self.dataset_id.id)
-
     # ------------------------------------------------------------------
     # EAGLA: the left pane
     # ------------------------------------------------------------------

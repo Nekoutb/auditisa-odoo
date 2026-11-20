@@ -348,6 +348,7 @@ class EngagementJe(models.Model):
         criteria and their settings are the engagement's (models/je_testing.py), not a studio's."""
         self.ensure_one()
         self._ea_require_access()
+        self._ea_gl_ready(self._ea_jet_ledger())
         return {
             "type": "ir.actions.client", "tag": "ea_audit_tools.je_page", "target": "current",
             "name": self.env._("Journal entry testing"),

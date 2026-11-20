@@ -422,10 +422,16 @@ class ImportWizard(models.TransientModel):
         self.ensure_one()
         self._ea_refuse_unmatched()
         engagement = self.engagement_id
-        engagement.ea_import_file(
-            self.kind, self.filename, self._content(), self._mapping(), timing=self.timing, header_row=self.header_row,
+        mapping = self._mapping()
+        result = engagement.ea_import_file(
+            self.kind, self.filename, self._content(), mapping, timing=self.timing, header_row=self.header_row,
             options=self._options(), remember=self.remember,
         )
+        if self.kind == "journal_entries" and mapping.get("journalCode"):
+            # the optional step of the journal types (owner's mock-up "gl-journal-types", 20/11/2026)
+            dataset = self.env["ea.audit.dataset"].sudo().browse(result["datasetId"])
+            if engagement.sudo()._ea_gl_journal_codes(dataset):
+                return self.env["ea.audit.journal.type.wizard"]._ea_open(engagement, dataset)
         if self.kind == TB_KIND:
             # F016: nothing stands behind the prior-year column, and the reader should know
             warning = engagement.sudo().with_context(lang=self.env.lang)._ea_tb_openings_warning()

@@ -38,3 +38,4 @@ from . import test_work_allocation
 from . import test_ipe
 from . import test_je_testing
 from . import test_eagla
+from . import test_eaglr

@@ -13,6 +13,7 @@ from odoo.fields import Domain
 from odoo.tools import SQL
 
 from ..rules import rule_error
+from ..services import eaglr
 from ..services import gl_analytics as analytics
 from ..services import gl_correlation as correlation
 from ..services import gl_insights as insights
@@ -264,6 +265,19 @@ SQL_BY_KEY = {
           FROM {TABLE} WHERE {SCOPE} GROUP BY 1 ORDER BY 1"""},
 }
 assert set(SQL_BY_KEY) == set(analytics.BODIES)
+#: 27, once the journal types are given: entries by month, by the class of their journal's type.
+JOURNAL_SQL_BY_KEY = {
+    "manual-vs-automated": {"rows": f"""
+        WITH je AS (
+          SELECT je_number, min(journal_date) AS jd, coalesce(min(trim(journal_code)), '') AS jc
+            FROM {TABLE} WHERE {SCOPE} GROUP BY je_number)
+        SELECT coalesce(to_char(jd, 'YYYY-MM'), 'n/a') AS m, count(*)::int AS entries,
+               count(*) FILTER (WHERE jc = ANY(%(manualCodes)s::text[]))::int AS manual,
+               count(*) FILTER (WHERE jc = ANY(%(automaticCodes)s::text[]))::int AS automatic,
+               count(*) FILTER (WHERE jc = ANY(%(openingCodes)s::text[]))::int AS opening
+          FROM je GROUP BY 1 ORDER BY 1"""},
+}
+assert set(JOURNAL_SQL_BY_KEY) == set(analytics.JOURNAL_BODIES)
 
 #: How many entries or lines an analytic lists to tick (the extract of the selection reads the same).
 ITEM_CAP = 500
@@ -275,17 +289,26 @@ def _lines(where, join=""):
     return f"SELECT l.id FROM {TABLE} l {join} WHERE l.dataset_id = %(dataset)s AND l.engagement_id = %(engagement)s AND ({where})"
 
 
+#: Analytic 8's measure of an entry: its earliest entry date less its earliest journal date, in days.
+LAG = "min(entry_date) - min(journal_date)"
+
+
+def lag_entries_sql(condition):
+    """The entries whose lag meets ``condition`` (a constant of this module or of EAGLR's, never input)."""
+    return f"""
+        SELECT je_number FROM {TABLE}
+         WHERE {SCOPE} AND journal_date IS NOT NULL AND entry_date IS NOT NULL
+         GROUP BY je_number
+        HAVING {condition}"""
+
+
 #: The analytics whose exceptions are entries or lines: the query of their entry numbers or line ids,
 #: each the exception condition of its query in SQL_BY_KEY. The other analytics are summary tables.
 ITEM_SQL = {
     "unbalanced-entries": ("entry", f"""
         SELECT je_number FROM {TABLE} WHERE {SCOPE}
          GROUP BY je_number HAVING abs(coalesce(sum(signed), 0)) > %(tolerance)s::numeric"""),
-    "entry-date-lag": ("entry", f"""
-        SELECT je_number FROM {TABLE}
-         WHERE {SCOPE} AND journal_date IS NOT NULL AND entry_date IS NOT NULL
-         GROUP BY je_number
-        HAVING min(entry_date) - min(journal_date) > 3 OR min(entry_date) - min(journal_date) < 0"""),
+    "entry-date-lag": ("entry", lag_entries_sql(f"{LAG} > 3 OR {LAG} < 0")),
     "unusual-account-combinations": ("entry", SQL_BY_KEY["unusual-account-combinations"]["rows"].rsplit(
         "SELECT coalesce(to_char(jd", 1)[0] + "SELECT je_number FROM scored WHERE rare > 0"),
     "self-review": ("entry", f"""
@@ -420,7 +443,7 @@ class EngagementGlConsole(models.Model):
     def gl_catalogue(self, dataset_id):
         """All thirty analytics, with their status against this ledger's mapping."""
         dataset = self._ea_gl_read(dataset_id)
-        return analytics.catalogue(dataset.mapping, self._ea_locale())
+        return analytics.catalogue(dataset.mapping, self._ea_locale(), dataset.journal_types)
 
     def gl_run_analytic(self, dataset_id, key, params=None):
         """runAnalytic: an honest `unavailable`, never a partial table."""
@@ -431,12 +454,13 @@ class EngagementGlConsole(models.Model):
             raise rule_error(self.env, "unknown-analytic")
         dataset = self._ea_gl_dataset(dataset_id)
         locale = self._ea_locale()
-        reason = analytics.status_of(definition, dataset.mapping, locale)
+        reason = analytics.status_of(definition, dataset.mapping, locale, dataset.journal_types)
         if reason:
             return analytics.unavailable_result(definition, locale, reason)
         knobs = analytics.clamped(analytics.read_params(params))
         args = self._ea_gl_analytic_args(dataset, knobs)
-        results = {name: self._ea_gl_rows(query, args) for name, query in SQL_BY_KEY[key].items()}
+        queries = SQL_BY_KEY.get(key) or JOURNAL_SQL_BY_KEY[key]
+        results = {name: self._ea_gl_rows(query, args) for name, query in queries.items()}
         return analytics.build_result(definition, results, locale, knobs)
 
     def _ea_gl_analytic_args(self, dataset, knobs):
@@ -446,6 +470,9 @@ class EngagementGlConsole(models.Model):
             days=knobs["days"], percentile=knobs["percentile"], min=knobs["min"], step=knobs["step"],
             minOcc=knobs["minOcc"], rareMax=knobs["rareMax"], pairMax=knobs["pairMax"],
             prefixes=knobs["prefixes"], topN=knobs["topN"],
+            manualCodes=eaglr.codes_of(dataset.journal_types, "manual"),
+            automaticCodes=eaglr.codes_of(dataset.journal_types, "automatic"),
+            openingCodes=eaglr.codes_of(dataset.journal_types, "opening"),
         )
 
     def gl_analytic_items(self, dataset_id, key, params=None, picked=None, cap=ITEM_CAP):
@@ -808,6 +835,7 @@ class EngagementGlConsole(models.Model):
         if not dataset:
             dataset = self._ea_current_dataset("journal_entries")
         self._ea_gl_dataset(dataset.id)
+        self._ea_gl_ready(dataset)
         wanted = correlation.arrival_accounts(accounts or [])
         vals = {"engagement_id": self.id, "dataset_id": dataset.id, "selected_accounts": ", ".join(wanted)}
         if wanted and opening is not None and closing is not None:

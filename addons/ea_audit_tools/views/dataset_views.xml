@@ -61,8 +61,8 @@
         <field name="arch" type="xml">
             <form create="0" delete="0" edit="0">
                 <header>
-                    <button name="action_build_projection" type="object" string="Build the projection" class="btn-primary" invisible="kind != 'journal_entries' or gl_built_at or superseded_at" groups="ea_audit_core.group_writer"/>
-                    <button name="action_open_console" type="object" string="Open EAGLA" class="btn-primary" invisible="kind != 'journal_entries' or not gl_built_at"/>
+                    <button name="action_open_console" type="object" string="Open EAGLA" class="btn-primary" invisible="kind != 'journal_entries' or superseded_at"/>
+                    <button name="action_journal_types" type="object" string="Journal types" invisible="kind != 'journal_entries' or superseded_at" groups="ea_audit_core.group_writer"/>
                     <button name="action_open_lines" type="object" string="Ledger lines" invisible="not gl_built_at"/>
                     <button name="action_reconcile" type="object" string="Reconcile to the control account" class="btn-primary" invisible="not has_recon or superseded_at" groups="ea_audit_core.group_writer"/>
                     <button name="action_export_aging" type="object" string="Export the aging" invisible="kind not in ('ar_open_items', 'ap_open_items')"/>
