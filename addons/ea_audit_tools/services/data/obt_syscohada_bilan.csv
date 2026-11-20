@@ -1,0 +1,58 @@
+ref;side;kind;label_fr;label_en;gross_accounts;depreciation_accounts;balance_rule
+AD;asset;subtotal;IMMOBILISATIONS INCORPORELLES;Intangible assets;AE+AF+AG+AH;;
+AE;asset;line;Frais de développement et de prospection;Development and prospecting costs;211, 2181, 2191;2811, 2818p, 2911, 2918p, 2919p;
+AF;asset;line;Brevets, licences, logiciels et droits similaires;Patents, licences, software and similar rights;212, 213, 214, 2193;2812, 2813, 2814, 2912, 2913, 2914, 2919p;
+AG;asset;line;Fonds commercial et droit au bail;Goodwill and leasehold rights;215, 216;2815, 2816, 2915, 2916;
+AH;asset;line;Autres immobilisations incorporelles;Other intangible assets;217, 218 (sauf 2181), 2198;2817, 2818p, 2917, 2918p, 2919p;
+AI;asset;subtotal;IMMOBILISATIONS CORPORELLES;Property, plant and equipment;AJ+AK+AL+AM+AN;;
+AJ;asset;line;Terrains;Land;22;282, 292;
+AK;asset;line;Bâtiments;Buildings;231, 232, 233, 237, 2391;2831, 2832, 2833, 2837, 2931, 2932, 2933, 2937, 2939p;
+AL;asset;line;Aménagements, agencements et installations;Fittings, fixtures and installations;234, 235, 238, 2392, 2393;2834, 2835, 2838, 2934, 2935, 2938, 2939p;
+AM;asset;line;Matériel, mobilier et actifs biologiques;Equipment, furniture and biological assets;24 (sauf 245 et 2495);284 (sauf 2845), 294 (sauf 2945, 2949), 2949p;
+AN;asset;line;Matériel de transport;Transport equipment;245, 2495;2845, 2945, 2949p;
+AP;asset;line;Avances et acomptes versés sur immobilisations;Advances paid on non-current assets;251, 252;2951, 2952;
+AQ;asset;subtotal;IMMOBILISATIONS FINANCIERES;Financial assets;AR+AS;;
+AR;asset;line;Titres de participation;Equity investments;26;296;
+AS;asset;line;Autres immobilisations financières;Other financial assets;27;297;
+AZ;asset;total;TOTAL ACTIF IMMOBILISE;Total non-current assets;AD+AI+AP+AQ;;
+BA;asset;line;Actif circulant HAO;Non-operating current assets (HAO);485, 488;498;
+BB;asset;line;Stocks et encours;Inventories and work in progress;31, 32, 33, 34, 35, 36, 37, 38;39;
+BG;asset;subtotal;CREANCES ET EMPLOIS ASSIMILES;Receivables;BH+BI+BJ;;
+BH;asset;line;Fournisseurs avances versées;Advances paid to suppliers;409;490;
+BI;asset;line;Clients;Customers;41 (sauf 419);491;
+BJ;asset;line;Autres créances;Other receivables;185, 42, 43, 44, 45, 46, 47 (sauf 478);492, 493, 494, 495, 496, 497;debit balances
+BK;asset;total;TOTAL ACTIF CIRCULANT;Total current assets;BA+BB+BG;;
+BQ;asset;line;Titres de placement;Short-term investments;50;590;
+BR;asset;line;Valeurs à encaisser;Items for collection;51;591;
+BS;asset;line;Banques, chèques postaux, caisse et assimilés;Bank, postal cheques, cash and similar;52, 53, 54, 55, 57, 581, 582;592, 593, 594;debit balances
+BT;asset;total;TOTAL TRESORERIE ACTIF;Total cash assets;BQ+BR+BS;;
+BU;asset;line;Ecart de conversion-Actif;Translation difference (asset);478;;
+BZ;asset;total;TOTAL GENERAL;Total assets;AZ+BK+BT+BU;;
+CA;liability;line;Capital;Share capital;101, 102, 103, 104;;
+CB;liability;line;Apporteurs capital non appelé (-);Uncalled capital (-);109;;
+CD;liability;line;Primes liées au capital social;Share premiums;105;;
+CE;liability;line;Ecarts de réévaluation;Revaluation differences;106;;
+CF;liability;line;Réserves indisponibles;Non-distributable reserves;111, 112, 113;;
+CG;liability;line;Réserves libres;Free reserves;118;;
+CH;liability;line;Report à nouveau (+ ou -);Retained earnings (+ or -);12 (121 ou 129);;
+CJ;liability;line;Résultat net de l'exercice (bénéfice + ou perte -);Net result for the year (profit + or loss -);13 (131 ou 139);;
+CL;liability;line;Subventions d'investissement;Investment grants;14;;
+CM;liability;line;Provisions réglementées;Regulated provisions;15;;
+CP;liability;total;TOTAL CAPITAUX PROPRES ET RESSOURCES ASSIMILEES;Total equity and similar resources;CA+CB+CD+CE+CF+CG+CH+CJ+CL+CM;;
+DA;liability;line;Emprunts et dettes financières diverses;Borrowings and sundry financial debts;16, 181, 182, 183, 184;;
+DB;liability;line;Dettes de location acquisition;Lease liabilities;17;;
+DC;liability;line;Provisions pour risques et charges;Provisions for risks and charges;19;;
+DD;liability;total;TOTAL DETTES FINANCIERES ET RESSOURCES ASSIMILEES;Total financial debts and similar resources;DA+DB+DC;;
+DF;liability;total;TOTAL RESSOURCES STABLES;Total long-term resources;CP+DD;;
+DH;liability;line;Dettes circulantes HAO;Non-operating current liabilities (HAO);481, 482, 484, 4998;;
+DI;liability;line;Clients, avances reçues;Customer advances received;419;;
+DJ;liability;line;Fournisseurs d'exploitation;Trade suppliers;40 (sauf 409);;
+DK;liability;line;Dettes fiscales et sociales;Tax and social liabilities;42, 43, 44;;credit balances
+DM;liability;line;Autres dettes;Other liabilities;185, 45, 46, 47 (sauf 479);;credit balances
+DN;liability;line;Provisions pour risques à court terme;Short-term provisions for risks;499 (sauf 4998), 599;;
+DP;liability;total;TOTAL PASSIF CIRCULANT;Total current liabilities;DH+DI+DJ+DK+DM+DN;;
+DQ;liability;line;Banques, crédits d'escompte;Banks, discount credits;564, 565;;
+DR;liability;line;Banques, établissements financiers et crédits de trésorerie;Banks, financial institutions and short-term credit;52, 53, 561, 566;;credit balances
+DT;liability;total;TOTAL TRESORERIE PASSIF;Total cash liabilities;DQ+DR;;
+DV;liability;line;Ecart de conversion-Passif;Translation difference (liability);479;;
+DZ;liability;total;TOTAL GENERAL;Total liabilities and equity;DF+DP+DT+DV;;
