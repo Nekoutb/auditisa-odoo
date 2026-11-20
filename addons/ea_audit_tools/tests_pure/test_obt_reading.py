@@ -5,9 +5,9 @@ from types import SimpleNamespace
 
 import pytest
 
-from services import obt, obt_reader
-
-FORM = obt.load_form()
+import obt_reading as obt_reader
+from services import obt
+from test_obt import FORM
 
 
 class FakeMessages:

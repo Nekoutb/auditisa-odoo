@@ -18,11 +18,12 @@ How an account finds its line:
 Amounts: an asset line is the sum of its accounts' balances (debit positive); a liability line is
 the opposite of that sum, so that both sides read as positive figures, as the statements print them.
 """
-import csv
-import pathlib
 import re
 
-FORM_FILE = pathlib.Path(__file__).resolve().parent / "data" / "obt_syscohada_bilan.csv"
+from ._js import js_round, js_sum
+
+#: The owner's table, beside this module (read by the caller: this module opens no file).
+FORM_FILE_NAME = "data/obt_syscohada_bilan.csv"
 #: The owner's tolerance (20/11/2026): above 1 FCFA a line is a difference.
 TOLERANCE = 1.0
 DEBIT_ONLY = "debit balances"
@@ -32,24 +33,35 @@ UNITS = {"units": 1, "thousands": 1000, "millions": 1000000}
 _NUMBER = re.compile(r"\d+")
 
 
-def load_form(path=FORM_FILE):
-    """The form's 57 references in their printed order: {ref, side, kind, label_fr, label_en,
-    gross, depreciation, balance, parts}. ``parts`` is the formula of a sub-total or total."""
+def _r2(value):
+    """To the cent, as Math.round does it."""
+    return js_round(value * 100) / 100
+
+
+def _csv_rows(text):
+    """The rows of the table: ";" between cells, no quoted cell, the first line names the columns."""
+    lines = [line.rstrip("\r") for line in (text or "").split("\n") if line.strip()]
+    heads = [cell.strip() for cell in lines[0].lstrip("\ufeff").split(";")]
+    return [dict(zip(heads, line.split(";"))) for line in lines[1:]]
+
+
+def load_form(text):
+    """The form's 57 references in their printed order, from the table's text: {ref, side, kind,
+    label_fr, label_en, gross, depreciation, balance, parts}. ``parts`` is the formula of a sub-total."""
     rows = []
-    with open(path, encoding="utf-8", newline="") as handle:
-        for raw in csv.DictReader(handle, delimiter=";"):
-            kind = raw["kind"].strip()
-            row = {
-                "ref": raw["ref"].strip(), "side": raw["side"].strip(), "kind": kind,
-                "label_fr": raw["label_fr"].strip(), "label_en": raw["label_en"].strip(),
-                "balance": raw["balance_rule"].strip(), "gross": [], "depreciation": [], "parts": [],
-            }
-            if kind == "line":
-                row["gross"] = parse_accounts(raw["gross_accounts"])
-                row["depreciation"] = parse_accounts(raw["depreciation_accounts"])
-            else:
-                row["parts"] = [part.strip() for part in raw["gross_accounts"].split("+") if part.strip()]
-            rows.append(row)
+    for raw in _csv_rows(text):
+        kind = raw["kind"].strip()
+        row = {
+            "ref": raw["ref"].strip(), "side": raw["side"].strip(), "kind": kind,
+            "label_fr": raw["label_fr"].strip(), "label_en": raw["label_en"].strip(),
+            "balance": raw["balance_rule"].strip(), "gross": [], "depreciation": [], "parts": [],
+        }
+        if kind == "line":
+            row["gross"] = parse_accounts(raw["gross_accounts"])
+            row["depreciation"] = parse_accounts(raw["depreciation_accounts"])
+        else:
+            row["parts"] = [part.strip() for part in raw["gross_accounts"].split("+") if part.strip()]
+        rows.append(row)
     return rows
 
 
@@ -161,7 +173,7 @@ def with_totals(values, form):
             out[row["ref"]] = float(values.get(row["ref"]) or 0)
     for row in form:
         if row["kind"] != "line":
-            out[row["ref"]] = sum(out.get(part, 0.0) for part in row["parts"])
+            out[row["ref"]] = js_sum([out.get(part, 0.0) for part in row["parts"]])
     return out
 
 
@@ -175,7 +187,7 @@ def compare(statements, opening, form, tolerance=TOLERANCE):
     for row in form:
         ref = row["ref"]
         a, b = left[ref], right[ref]
-        difference = round(b - a, 2)
+        difference = _r2(b - a)
         rows.append({
             "ref": ref, "side": row["side"], "kind": row["kind"],
             "statements": a, "opening": b, "difference": difference,
@@ -215,7 +227,7 @@ def arithmetic_checks(read, form, tolerance=TOLERANCE):
     for row in form:
         if row["kind"] == "line" or row["ref"] not in read:
             continue
-        expected = sum(read[part] if part in read else computed.get(part, 0.0) for part in row["parts"])
+        expected = js_sum([read[part] if part in read else computed.get(part, 0.0) for part in row["parts"]])
         checks.append({"key": "subtotal", "ok": abs(expected - read[row["ref"]]) <= tolerance,
                        "refs": [row["ref"]], "expected": expected, "found": read[row["ref"]]})
     return checks
@@ -291,7 +303,7 @@ def parse_reading(data, form):
         if ref not in known or not isinstance(amount, (int, float)) or isinstance(amount, bool):
             continue
         page = item.get("page") if isinstance(item.get("page"), int) and not isinstance(item.get("page"), bool) else None
-        lines[ref] = {"amount": round(float(amount) * multiplier, 2), "page": page}
+        lines[ref] = {"amount": _r2(float(amount) * multiplier), "page": page}
     net = data.get("net_result_income_statement")
     year_end = str(data.get("year_end") or "").strip()
     return {
@@ -299,5 +311,5 @@ def parse_reading(data, form):
         "year_end": year_end if re.fullmatch(r"\d{4}-\d{2}-\d{2}", year_end) else "",
         "signed": data.get("signed") is True,
         "column": str(data.get("column") or "")[:120],
-        "net_result": round(float(net) * multiplier, 2) if isinstance(net, (int, float)) and not isinstance(net, bool) else None,
+        "net_result": _r2(float(net) * multiplier) if isinstance(net, (int, float)) and not isinstance(net, bool) else None,
     }

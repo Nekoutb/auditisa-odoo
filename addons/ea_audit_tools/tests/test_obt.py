@@ -6,7 +6,7 @@ from unittest.mock import patch
 from odoo.tests import tagged
 
 from odoo.addons.ea_audit_tools.models import obt as obt_model
-from odoo.addons.ea_audit_tools.services import obt_reader
+from odoo.addons.ea_audit_tools import obt_reading as obt_reader
 
 from .common import ToolsCase
 

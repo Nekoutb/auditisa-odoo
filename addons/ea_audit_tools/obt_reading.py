@@ -1,4 +1,5 @@
-"""Reading uploaded financial statements for Opening Balance Testing. No Odoo.
+"""Reading uploaded financial statements for Opening Balance Testing. No Odoo; not in services/, whose
+modules are pure figures (tests_pure/test_purity.py): this one talks to a service over the network.
 
 The pages go to the document-reading service with the firm's own key (set by the platform owner on the
 console, per firm: owner's ruling of 20/11/2026), and come back as the JSON of obt.reading_schema(). The

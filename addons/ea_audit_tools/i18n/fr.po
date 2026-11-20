@@ -18098,11 +18098,6 @@ msgstr "Masquer les postes sans montant"
 msgid "Show every line of the form"
 msgstr "Afficher tous les postes du modèle"
 
-#. module: ea_audit_tools
-#. odoo-javascript
-#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
-msgid "Ref"
-msgstr "Réf"
 
 #. module: ea_audit_tools
 #. odoo-javascript
@@ -18221,7 +18216,7 @@ msgstr "États financiers N-1"
 #. module: ea_audit_tools
 #. odoo-javascript
 #: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
-msgid "Opening balances (TB)"
+msgid "Opening balances (trial balance)"
 msgstr "Soldes d'ouverture (balance)"
 
 #. module: ea_audit_tools

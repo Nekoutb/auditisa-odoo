@@ -1,9 +1,12 @@
 """Opening Balance Testing's grouping and comparison (owner's mock-ups "obt" and SYSCOHADA table, 20/11/2026)."""
+import os
+
 import pytest
 
 from services import obt
 
-FORM = obt.load_form()
+with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "services", obt.FORM_FILE_NAME), encoding="utf-8") as _handle:
+    FORM = obt.load_form(_handle.read())
 
 # ELIMELEC SARL's opening balances on staging (balance-generale-2025.csv), debit minus credit.
 ELIMELEC = [

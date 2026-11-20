@@ -79,7 +79,7 @@
                     </div>
                     <div class="o_ea_ws_scroll">
                         <table class="o_ea_ws_grid o_ea_obt_table" data-ea="obt-check-table">
-                            <thead><tr><th>Ref</th><th>Statement line</th><th class="text-end">Amount</th><th>Page</th><th/></tr></thead>
+                            <thead><tr><th>Reference</th><th>Statement line</th><th class="text-end">Amount</th><th>Page</th><th/></tr></thead>
                             <tbody>
                                 <tr t-foreach="checkRows" t-as="row" t-key="row.ref" t-att-data-ref="row.ref" t-att-class="row.kind !== 'line' ? 'is-total' : ''">
                                     <td class="o_ea_ws_ref" t-esc="row.ref"/>
@@ -165,7 +165,7 @@
                         <t t-if="r.differences.length">
                             <h2>Differences for appreciation</h2>
                             <table class="o_ea_ws_grid o_ea_obt_table" data-ea="obt-differences">
-                                <thead><tr><th>Ref</th><th>Statement line</th><th class="text-end">Prior-year statements</th><th class="text-end">Opening balances (TB)</th><th class="text-end">Difference</th><th class="o_ea_obt_appr">Appreciation <small>(click, type, saved)</small></th></tr></thead>
+                                <thead><tr><th>Reference</th><th>Statement line</th><th class="text-end">Prior-year statements</th><th class="text-end">Opening balances (trial balance)</th><th class="text-end">Difference</th><th class="o_ea_obt_appr">Appreciation <small>(click, type, saved)</small></th></tr></thead>
                                 <tbody>
                                     <tr t-foreach="r.differences" t-as="row" t-key="row.ref" class="is-diff" t-att-data-ref="row.ref">
                                         <td class="o_ea_ws_ref" t-esc="row.ref"/>
@@ -203,7 +203,7 @@
     <t t-name="ea_audit_tools.ObtSide">
         <div class="o_ea_ws_scroll">
                                 <table class="o_ea_ws_grid o_ea_obt_table" t-att-data-ea="'obt-' + side">
-                                    <thead><tr><th>Ref</th><th>Statement line</th><th class="text-end">Prior-year statements</th><th class="text-end">Opening balances (TB)</th><th class="text-end">Difference</th><th>Status</th><th/></tr></thead>
+                                    <thead><tr><th>Reference</th><th>Statement line</th><th class="text-end">Prior-year statements</th><th class="text-end">Opening balances (trial balance)</th><th class="text-end">Difference</th><th>Status</th><th/></tr></thead>
                                     <tbody>
                                         <tr t-foreach="rows" t-as="row" t-key="row.ref" t-att-data-ref="row.ref"
                                             t-att-class="(row.total ? 'is-total' : '') + (row.agrees ? '' : ' is-diff')">

@@ -24,8 +24,8 @@ from odoo import api, fields, models
 from odoo.tools import config
 
 from ..rules import rule_error
+from .. import obt_reading as obt_reader
 from ..services import obt
-from ..services import obt_reader
 from .tool_record import grouped, is_french, upload_stamp
 
 _logger = logging.getLogger(__name__)
@@ -45,7 +45,9 @@ def form():
     """The SYSCOHADA balance-sheet table, read once per process."""
     global _FORM
     if _FORM is None:
-        _FORM = obt.load_form()
+        path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "services", obt.FORM_FILE_NAME)
+        with open(path, encoding="utf-8") as handle:
+            _FORM = obt.load_form(handle.read())
     return _FORM
 
 
@@ -687,7 +689,7 @@ class EngagementObt(models.Model):
         rows, _summary, _grouping = compared
         appreciation = {line.ref: line.appreciation or "" for line in record.line_ids}
         head = (["Réf", "Poste", "États financiers N-1", "Soldes d'ouverture (balance)", "Écart", "Statut", "Appréciation"]
-                if fr else ["Ref", "Statement line", "Prior-year statements", "Opening balances (TB)", "Difference", "Status", "Appreciation"])
+                if fr else ["Reference", "Statement line", "Prior-year statements", "Opening balances (trial balance)", "Difference", "Status", "Appreciation"])
         out = []
         for row in rows:
             if row["empty"] or (only_differences and (row["kind"] != "line" or row["agrees"])):
