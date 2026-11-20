@@ -523,11 +523,11 @@ class EngagementDataset(models.Model):
             dataset.row_count, grouped(dataset.display_total, "en"),
         )
         dataset.unlink()
-        self._ea_log("dataset_deleted", "%s deleted (%s, %s, imported on %s, %d rows, total %s)" % facts)
         if successor:
             successor.superseded_at = False
             if successor.kind == "journal_entries":
                 self._ea_gl_ready(successor)
+        self._ea_log("dataset_deleted", "%s deleted (%s, %s, imported on %s, %d rows, total %s)" % facts)
         if facts[1] == "journal_entries":
             self._ea_refresh_significance_activity()
         return {"successorId": successor.id or False}

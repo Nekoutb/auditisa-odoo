@@ -146,7 +146,9 @@ class TestProjection(GlCase):
             self.import_ledger(mapping={"account": "Compte"})
         self.assertFalse(self.env["ea.audit.dataset"].sudo().search_count([("engagement_id", "=", self.engagement.id)]))
         dataset_id = self.import_ledger()["datasetId"]
-        self.env["ea.audit.dataset"].sudo().browse(dataset_id).mapping = {"account": "Compte"}
+        # an old upload: no projection yet, and a matching from before it was mandatory
+        self.env.cr.execute("DELETE FROM ea_audit_gl_line WHERE dataset_id = %s", [dataset_id])
+        self.env["ea.audit.dataset"].sudo().browse(dataset_id).write({"mapping": {"account": "Compte"}, "gl_built_at": False})
         with self.assertRaisesRegex(Exception, "mapping-incomplete"):
             self.as_staff.gl_build_projection(dataset_id)
 
