@@ -5,7 +5,8 @@ cover the Python, JavaScript and XML strings and the data records), the task tem
 data files, and the English keys of the working-paper definitions. French text is not checked.
 Kept on purpose: ISA, ISQM, IESBA, IAASB, IFRS, IAS, OHADA, SYSCOHADA, IT, VAT, MSP/ASP, and IPE (information
 produced by the entity, the name of the Data quality (IPE) tool, owner 2026-11-17), and on EAGLA the
-SCOT, spelled out once as "significant classes of transactions (SCOT)" (owner, 18/11/2026).
+SCOT, spelled out once as "significant classes of transactions (SCOT)" (owner, 18/11/2026), and the
+GL of EAGLR's name, "Elite Advisors GL Review" (owner, 20/11/2026).
 """
 import csv
 import glob
@@ -35,6 +36,8 @@ def allowed(text, hit):
         return True  # the value typed in the general ledger console for an undated line
     if hit == "SCOT" and (text == "SCOT identification" or "significant classes of transactions (SCOT)" in text):
         return True  # EAGLA's left pane, and the line that spells it out (owner, 18/11/2026)
+    if hit == "GL" and "Elite Advisors GL Review" in text:
+        return True  # EAGLR's own name, as the owner gave it (build brief of 20/11/2026)
     if text.startswith(("C.2 —", "C.6 —")) and hit in ("AP", "TB", "RP"):
         return True  # line codes of the SYSCOHADA balance sheet and income statement (E6.10)
     return False

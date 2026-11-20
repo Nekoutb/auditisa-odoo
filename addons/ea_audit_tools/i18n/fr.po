@@ -17836,7 +17836,7 @@ msgstr "Types de journaux"
 
 #. module: ea_audit_tools
 #: model:ir.model.fields,field_description:ea_audit_tools.field_ea_audit_eaglr__report
-msgid "GL review"
+msgid "General ledger review"
 msgstr "Revue du grand livre"
 
 #. module: ea_audit_tools
@@ -17916,7 +17916,7 @@ msgstr "Facultatif, mais recommandé."
 
 #. module: ea_audit_tools
 #: model_terms:ir.ui.view,arch_db:ea_audit_tools.view_journal_type_wizard_form
-msgid "Tell us what each journal is used for. With journal types mapped, the GL review (EAGLR) can check manual entries on cash, fixed assets, inventory, receivables and payables, and EAGLA can separate manual from automatic entries. You can skip this step and come back to it later from the Data bank."
+msgid "Tell us what each journal is used for. With journal types mapped, the general ledger review (EAGLR) can check manual entries on cash, fixed assets, inventory, receivables and payables, and EAGLA can separate manual from automatic entries. You can skip this step and come back to it later from the Data bank."
 msgstr "Indiquez à quoi sert chaque journal. Avec les types de journaux, la revue du grand livre (EAGLR) peut contrôler les écritures manuelles sur la trésorerie, les immobilisations, les stocks, les clients et les fournisseurs, et EAGLA peut séparer les écritures manuelles des écritures automatiques. Vous pouvez passer cette étape et y revenir plus tard depuis la Banque de données."
 
 #. module: ea_audit_tools

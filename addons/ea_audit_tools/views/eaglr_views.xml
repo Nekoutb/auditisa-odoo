@@ -34,7 +34,7 @@
                 <field name="engagement_id" invisible="1"/>
                 <field name="dataset_id" invisible="1"/>
                 <div class="o_ea_sub"><field name="summary" nolabel="1"/></div>
-                <div class="o_ea_banner"><div class="fw-bold">Optional, but recommended.</div><div>Tell us what each journal is used for. With journal types mapped, the GL review (EAGLR) can check manual entries on cash, fixed assets, inventory, receivables and payables, and EAGLA can separate manual from automatic entries. You can skip this step and come back to it later from the Data bank.</div></div>
+                <div class="o_ea_banner"><div class="fw-bold">Optional, but recommended.</div><div>Tell us what each journal is used for. With journal types mapped, the general ledger review (EAGLR) can check manual entries on cash, fixed assets, inventory, receivables and payables, and EAGLA can separate manual from automatic entries. You can skip this step and come back to it later from the Data bank.</div></div>
                 <field name="line_ids" nolabel="1">
                     <list editable="bottom" create="0" delete="0">
                         <field name="code"/>

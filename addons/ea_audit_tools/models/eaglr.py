@@ -75,7 +75,7 @@ class Eaglr(models.TransientModel):
 
     engagement_id = fields.Many2one("ea.audit.engagement", required=True, ondelete="cascade")
     dataset_id = fields.Many2one("ea.audit.dataset", string="Ledger", ondelete="cascade")
-    report = fields.Json(string="GL review", readonly=True)
+    report = fields.Json(string="General ledger review", readonly=True)
     # {row key: [line ids]}: what "See the lines" and the extract read
     flagged = fields.Json(readonly=True)
     export_file = fields.Binary(attachment=False, readonly=True)
