@@ -176,8 +176,9 @@ class TestOpeningBalanceTesting(ToolsCase):
         self.engagement.sudo()._ea_ensure_task("E6.5")
         item = self.env["ea.audit.file.item"].sudo().search([("engagement_id", "=", self.engagement.id), ("code", "=", "E6.5")], limit=1)
         item._ea_ensure_papers()
-        paper = item._ea_paper().with_user(self.staff)
-        link = next(link for link in paper._ea_tool_links() if link["en"] == "Opening Balance Testing")
+        # what the paper's screen receives: its Tools card
+        payload = item.with_user(self.staff).get_paper_payload()
+        link = next(link for link in payload["tools"] if link["en"] == "Opening Balance Testing")
         self.assertIn("2", link["note_en"])
         self.assertIn("écart", link["note_fr"])
         self.assertEqual(link["action"]["tag"], "ea_audit_tools.obt_page")

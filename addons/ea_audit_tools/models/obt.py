@@ -713,18 +713,20 @@ class EngagementObt(models.Model):
 class PaperObt(models.Model):
     _inherit = "ea.audit.paper"
 
-    def _ea_tool_links(self):
-        """E6.5: Opening Balance Testing, with its warning while differences wait for an appreciation.
-        The paper switches language on its own, so the warning goes in both."""
-        links = super()._ea_tool_links()
+    def _ea_rail_tools(self, definition):
+        """E6.5's Tools card: Opening Balance Testing, with its warning while differences wait for an
+        appreciation. The paper switches language on its own, so the warning goes in both."""
+        tools = super()._ea_rail_tools(definition)
         paper = self.sudo()
-        if paper.code != "E6.5":
-            return links
+        if paper.code != "E6.5" or any(tool.get("en") == "Opening Balance Testing" for tool in tools):
+            return tools
         engagement = paper.engagement_id
-        links.append({
+        tools.append({
             "en": "Opening Balance Testing", "fr": "Contrôle des soldes d'ouverture",
-            "note_en": engagement.with_context(lang="en_US")._ea_obt_warning(),
-            "note_fr": engagement.with_context(lang="fr_FR")._ea_obt_warning(),
+            "note_en": engagement.with_context(lang="en_US")._ea_obt_warning()
+                       or "Opening balances against the prior-year statements",
+            "note_fr": engagement.with_context(lang="fr_FR")._ea_obt_warning()
+                       or "Soldes d'ouverture rapprochés des états financiers N-1",
             "action": engagement.with_env(self.env).action_tool_obt(),
         })
-        return links
+        return tools
