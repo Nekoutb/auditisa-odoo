@@ -17940,3 +17940,519 @@ msgstr "%(file)s · %(lines)s lignes · %(codes)s codes journaux"
 #: code:addons/ea_audit_tools/wizards/journal_type_wizard.py:0
 msgid "Journal types (optional)"
 msgstr "Types de journaux (facultatif)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "· ISA 510 · E6.5"
+msgstr "· ISA 510 · E6.5"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: model:ea.audit.tool.tile,name:ea_audit_tools.tile_obt
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Opening Balance Testing"
+msgstr "Contrôle des soldes d'ouverture"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Do the opening balances in the trial balance agree with last year's signed financial statements?"
+msgstr "Les soldes d'ouverture de la balance concordent-ils avec les états financiers signés de l'exercice précédent ?"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "1 · The prior-year statements"
+msgstr "1 · Les états financiers N-1"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "2 · Check the figures"
+msgstr "2 · Vérifier les montants"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "3 · The comparison"
+msgstr "3 · La comparaison"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Read only: your role reads this page but does not change it."
+msgstr "Lecture seule : votre rôle consulte cette page mais ne la modifie pas."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "No trial balance is in use on this file: import it first, the opening balances come from it."
+msgstr "Aucune balance n'est en usage sur ce dossier : importez-la d'abord, les soldes d'ouverture en proviennent."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Upload the prior-year financial statements as signed: the balance sheet (assets, liabilities and equity) and the income statement. AuditISA reads them and puts every line of the SYSCOHADA form in a table. You check that table against the document, then it is compared with the opening balances of the trial balance, grouped the same way."
+msgstr "Chargez les états financiers de l'exercice précédent tels que signés : le bilan (actif, passif et capitaux propres) et le compte de résultat. AuditISA les lit et place chaque poste du modèle SYSCOHADA dans un tableau. Vous vérifiez ce tableau par rapport au document, puis il est comparé aux soldes d'ouverture de la balance, regroupés de la même façon."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Year ended"
+msgstr "Exercice clos le"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Signed / approved statements"
+msgstr "États financiers signés / approuvés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "(ISA 510: agree to the signed statements, not a draft)"
+msgstr "(ISA 510 : rapprocher des états signés, pas d'un projet)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Amounts in"
+msgstr "Montants en"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "FCFA (units)"
+msgstr "FCFA (unités)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Thousands of FCFA"
+msgstr "Milliers de FCFA"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Millions of FCFA"
+msgstr "Millions de FCFA"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "How the statements are read: the pages you upload here are sent over an encrypted connection to AuditISA's document-reading service, read, and not kept there. Nothing else from the file leaves the firm's server."
+msgstr "Comment les états sont lus : les pages chargées ici sont envoyées par une connexion chiffrée au service de lecture de documents d'AuditISA, lues, et n'y sont pas conservées. Rien d'autre du dossier ne quitte le serveur du cabinet."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Reading…"
+msgstr "Lecture en cours…"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Read the statements ▸"
+msgstr "Lire les états financiers ▸"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Type the figures by hand"
+msgstr "Saisir les montants à la main"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Nothing read by AuditISA is used until a person confirms it. Compare each figure with the document; any figure can be corrected: a corrected figure is marked and the change is kept in the activity log."
+msgstr "Rien de ce qu'AuditISA a lu n'est utilisé tant qu'une personne ne l'a pas confirmé. Comparez chaque montant au document ; tout montant peut être corrigé : un montant corrigé est signalé et la modification est conservée dans le journal d'activité."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Type each figure of the prior-year statements as printed, in FCFA. Sub-totals and totals are optional: when typed, they are checked against their lines."
+msgstr "Saisissez chaque montant des états financiers N-1 tel qu'imprimé, en FCFA. Les sous-totaux et totaux sont facultatifs : s'ils sont saisis, ils sont contrôlés par rapport à leurs postes."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Confirm the figures and compare ▸"
+msgstr "Confirmer les montants et comparer ▸"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Back to the statements"
+msgstr "Revenir aux états financiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Hide the lines with no amount"
+msgstr "Masquer les postes sans montant"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Show every line of the form"
+msgstr "Afficher tous les postes du modèle"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Ref"
+msgstr "Réf"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Statement line"
+msgstr "Poste"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Page"
+msgstr "Page"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "No trial balance is in use on this file: import it to compare."
+msgstr "Aucune balance n'est en usage sur ce dossier : importez-la pour comparer."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Tolerance 1 FCFA"
+msgstr "Tolérance 1 FCFA"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Extract the differences only"
+msgstr "Extraire les écarts seulement"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Change the figures"
+msgstr "Modifier les montants"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Change the statements"
+msgstr "Changer les états financiers"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "They are listed together under \"Differences for appreciation\" below. The same warning shows on the Opening Balance Testing tile and on working paper E6.5 until every difference has an appreciation."
+msgstr "Ils sont regroupés ci-dessous sous « Écarts à apprécier ». Le même avertissement figure sur la tuile Contrôle des soldes d'ouverture et sur le papier de travail E6.5 tant que chaque écart n'a pas son appréciation."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Opening balances agree with the prior-year statements"
+msgstr "Concordance des soldes d'ouverture avec les états N-1"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Liabilities and equity"
+msgstr "Passif et capitaux propres"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Accounts not mapped"
+msgstr "Comptes non rattachés"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Accounts to place"
+msgstr "Comptes à rattacher"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "These accounts are shared by several lines of the form (\"p\") and their number does not say which asset they depreciate: choose their line once for this client."
+msgstr "Ces comptes sont partagés entre plusieurs postes du modèle (« p ») et leur numéro n'indique pas l'immobilisation qu'ils amortissent : choisissez leur poste une fois pour ce client."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Opening balance"
+msgstr "Solde d'ouverture"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Line"
+msgstr "Poste"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Choose…"
+msgstr "Choisir…"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Accounts no balance-sheet line takes"
+msgstr "Comptes qu'aucun poste du bilan ne reprend"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Differences for appreciation"
+msgstr "Écarts à apprécier"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Prior-year statements"
+msgstr "États financiers N-1"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Opening balances (TB)"
+msgstr "Soldes d'ouverture (balance)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Appreciation"
+msgstr "Appréciation"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "(click, type, saved)"
+msgstr "(cliquer, saisir, enregistré)"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Type the appreciation…"
+msgstr "Saisissez l'appréciation…"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Extract the differences to Excel"
+msgstr "Extraire les écarts vers Excel"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Related"
+msgstr "Liens"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Working paper E6.5, \"Agree the opening balances to the prior period financial statements\""
+msgstr "Papier de travail E6.5, « Rapprocher les soldes d'ouverture des états financiers antérieurs »"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "Open E6.5 →"
+msgstr "Ouvrir E6.5 →"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/xml/obt_page.xml:0
+msgid "No sign-off on this page. Assets are compared on their net amount (the depreciation and impairment accounts of the table are deducted in the asset line). Accounts 185 and 42 to 47 go to BJ in debit and to DK or DM in credit; 52 and 53 go to BS in debit and to DR in credit. Each account is placed on its own balance, never netted with others. Lines with no amount on either side are not shown."
+msgstr "Pas de signature sur cette page. L'actif est comparé en montant net (les comptes d'amortissement et de dépréciation du tableau sont déduits du poste d'actif). Les comptes 185 et 42 à 47 vont en BJ s'ils sont débiteurs, en DK ou DM s'ils sont créditeurs ; 52 et 53 vont en BS s'ils sont débiteurs, en DR s'ils sont créditeurs. Chaque compte est classé selon son propre solde, sans compensation avec d'autres. Les postes sans montant d'un côté comme de l'autre ne sont pas affichés."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/obt_page.js:0
+msgid "Prior-year financial statements"
+msgstr "États financiers de l'exercice précédent"
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/obt_page.js:0
+msgid "PDF, or photos / scans (JPG, PNG), one or several pages."
+msgstr "PDF, ou photos / numérisations (JPG, PNG), une ou plusieurs pages."
+
+#. module: ea_audit_tools
+#. odoo-javascript
+#: code:addons/ea_audit_tools/static/src/js/obt_page.js:0
+msgid "No statement uploaded yet."
+msgstr "Aucun état financier chargé pour l'instant."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "⚠ %(count)s difference(s) to appreciate"
+msgstr "⚠ %(count)s écart(s) à apprécier"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The reading failed: try again, or type the figures by hand."
+msgstr "La lecture a échoué : réessayez, ou saisissez les montants à la main."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Read on %(when)s by %(who)s"
+msgstr "Lu le %(when)s par %(who)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Statements confirmed by %(who)s on %(when)s"
+msgstr "États financiers confirmés par %(who)s le %(when)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Trial balance %(file)s, opening balances, grouped with the SYSCOHADA balance-sheet table"
+msgstr "Balance %(file)s, soldes d'ouverture, regroupés selon le tableau du bilan SYSCOHADA"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The opening balances do not agree with the prior-year statements on %(count)s line(s) (tolerance 1 FCFA)."
+msgstr "Les soldes d'ouverture ne concordent pas avec les états financiers N-1 sur %(count)s poste(s) (tolérance 1 FCFA)."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Reading by AuditISA is not available on this server yet: type the figures by hand."
+msgstr "La lecture par AuditISA n'est pas encore disponible sur ce serveur : saisissez les montants à la main."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Reading by AuditISA is not set up for this firm: type the figures by hand, or ask the platform to set it up."
+msgstr "La lecture par AuditISA n'est pas activée pour ce cabinet : saisissez les montants à la main, ou demandez à la plateforme de l'activer."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Total assets = total liabilities and equity (%(a)s / %(b)s)"
+msgstr "Total actif = total passif (%(a)s / %(b)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "%(ref)s adds up (%(found)s, its lines give %(expected)s)"
+msgstr "%(ref)s est juste (%(found)s, ses postes donnent %(expected)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Net result: income statement = balance sheet"
+msgstr "Résultat net : compte de résultat = bilan"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "%(agree)s of %(lines)s lines"
+msgstr "%(agree)s postes sur %(lines)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Total assets differ by %(assets)s · total liabilities and equity by %(liabilities)s"
+msgstr "Écart sur le total actif : %(assets)s · sur le total passif : %(liabilities)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Agrees with the prior-year statements"
+msgstr "Concorde avec les états financiers N-1"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The reading service refused this firm's key: ask the platform to check it. You can type the figures by hand."
+msgstr "Le service de lecture a refusé la clé de ce cabinet : demandez à la plateforme de la vérifier. Vous pouvez saisir les montants à la main."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The reading service could not be reached: try again in a moment, or type the figures by hand."
+msgstr "Le service de lecture est injoignable : réessayez dans un instant, ou saisissez les montants à la main."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The reading service is busy: try again in a moment."
+msgstr "Le service de lecture est occupé : réessayez dans un instant."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The files are too large to be read together (22 MB at most): upload the balance sheet and income statement pages only."
+msgstr "Les fichiers sont trop volumineux pour être lus ensemble (22 Mo au plus) : chargez seulement les pages du bilan et du compte de résultat."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Only PDF files and photos (PNG, JPG) can be read."
+msgstr "Seuls les fichiers PDF et les photos (PNG, JPG) peuvent être lus."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "The reading service declined these pages: type the figures by hand."
+msgstr "Le service de lecture a refusé ces pages : saisissez les montants à la main."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "These pages could not be read into a table: check that they are the financial statements, or type the figures by hand."
+msgstr "Ces pages n'ont pas pu être lues en tableau : vérifiez qu'il s'agit bien des états financiers, ou saisissez les montants à la main."
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Net result in the balance sheet = income statement (%(a)s / %(b)s)"
+msgstr "Résultat net au bilan = compte de résultat (%(a)s / %(b)s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "by %(who)s"
+msgstr "par %(who)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "Not printed on the statements read"
+msgstr "Absent des états financiers lus"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "%(count)s difference(s)"
+msgstr "%(count)s écart(s)"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "corrected by %(who)s"
+msgstr "corrigé par %(who)s"
+
+#. module: ea_audit_tools
+#. odoo-python
+#: code:addons/ea_audit_tools/models/obt.py:0
+msgid "%(count)s account(s) ▸"
+msgstr "%(count)s compte(s) ▸"
+
+#. module: ea_audit_tools
+#: model:ea.audit.tool.tile,description:ea_audit_tools.tile_obt
+msgid "Do the opening balances agree with last year's signed financial statements?"
+msgstr "Les soldes d'ouverture concordent-ils avec les états financiers signés de l'exercice précédent ?"

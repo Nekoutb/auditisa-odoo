@@ -343,3 +343,21 @@ audit_line() {
   mkdir -p "$PRACTICE_LOGS"
   printf '%s %s %s\n' "$(now_utc)" "${SCRIPT_NAME:-practice}" "$*" >> "$PRACTICE_LOGS/actions.log"
 }
+
+# The Python packages the addons need beyond Odoo's own: the release's requirements.txt, pinned, held to
+# the versions Odoo pins (2026-11-20). Never fails an install or an update (see deploy/firm/firm-lib.sh).
+install_python_extras() {
+  local release=$1 req constraints
+  req=$release/requirements.txt
+  if [ ! -f "$req" ] || ! grep -qE '^[A-Za-z]' "$req"; then return 0; fi
+  if [ ! -x /usr/local/bin/uv ]; then pl_warn "uv is missing: the extra Python packages are not installed"; return 0; fi
+  constraints=$(mktemp /tmp/odoo-constraints.XXXXXX)
+  sed -E 's/^psycopg2\b/psycopg2-binary/' /opt/odoo19/src/requirements.txt > "$constraints" 2>/dev/null || :
+  if timeout 600 /usr/local/bin/uv pip install -q --python "$ODOO_PY" -r "$req" -c "$constraints" 7>&-; then
+    chmod -R a+rX /opt/odoo19/venv 2>/dev/null || :
+    pl_log "extra Python packages installed ($req)"
+  else
+    pl_warn "the extra Python packages could not be installed: the features that need them say so"
+  fi
+  rm -f "$constraints"
+}

@@ -1,0 +1,40 @@
+// Opening Balance Testing (owner's mock-ups "obt" v4, 20/11/2026): the page kit's worksheet look, plus its own score box.
+.o_ea_ws.o_ea_obt {
+    .o_ea_obt_lead { color: var(--eaws-muted); }
+    .o_ea_obt_steps { grid-template-columns: repeat(3, 1fr); margin-top: 8px; }
+    .o_ea_obt_intro { background: var(--eaws-pale); border-radius: 8px; padding: 9px 12px; margin: 10px 0; }
+    .o_ea_obt_meta { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: end; margin: 12px 0;
+        label { display: grid; gap: 3px; font-weight: 600; color: var(--eaws-muted); }
+        .o_ea_obt_signed { display: flex; align-items: center; gap: 6px; font-weight: 400; color: inherit; }
+        small { color: var(--eaws-muted); }
+    }
+    .o_ea_obt_note { background: var(--eaws-amber-bg); border-radius: 8px; padding: 9px 12px; margin: 10px 0;
+        &.is-muted { background: var(--eaws-head); color: var(--eaws-muted); }
+    }
+    .o_ea_obt_facts { display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--eaws-muted); margin: 8px 0; }
+    .o_ea_obt_checks { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px;
+        .o_ea_ws_badge { white-space: normal; padding: 4px 10px; }
+    }
+    .o_ea_obt_table {
+        td, th { vertical-align: top; }
+        tr.is-total td { font-weight: 700; background: #fafbfc; }
+        tr.is-diff td { background: var(--eaws-red-bg); }
+    }
+    .o_ea_obt_amount { width: 150px; text-align: right; font-variant-numeric: tabular-nums;
+        &.is-corrected { border-bottom: 2px solid #6941c6; }
+    }
+    .o_ea_obt_warning { margin: 10px 0; padding: 9px 12px; border-radius: 8px; border: 1px solid #f3b8b2;
+        background: var(--eaws-red-bg); color: var(--eaws-red); }
+    .o_ea_obt_score { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; border: 1px solid var(--eaws-line);
+        border-radius: 10px; padding: 14px 18px; margin: 10px 0 14px; }
+    .o_ea_obt_sl { font-size: 12px; color: var(--eaws-muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+    .o_ea_obt_sv { font-size: 28px; font-weight: 700; line-height: 1.1; }
+    .o_ea_obt_sm { color: var(--eaws-muted); font-size: 12px; }
+    .o_ea_obt_secs { display: flex; gap: 10px; flex-wrap: wrap; margin-left: auto;
+        div { border: 1px solid var(--eaws-line); border-radius: 8px; padding: 6px 12px; display: grid; font-size: 12px; }
+        span { font-size: 17px; font-weight: 700; }
+    }
+    .o_ea_obt_appr { width: 36%; }
+    .o_ea_obt_text { width: 100%; min-height: 44px; }
+    h2 { font-size: 15px; margin: 18px 0 6px; }
+}

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Opening Balance Testing (owner's mock-ups "obt" v4, 20/11/2026). -->
+    <t t-name="ea_audit_tools.ObtPage">
+        <div class="o_ea_ws o_ea_obt" t-if="p" data-ea="obt-page">
+            <div class="o_ea_ws_card">
+                <EaCrumbs engagementId="engagementId"/>
+                <div class="o_ea_ws_head">
+                    <div>
+                        <div class="o_ea_ws_sub"><t t-esc="p.engagement"/> · ISA 510 · E6.5</div>
+                        <h1>Opening Balance Testing</h1>
+                        <div class="o_ea_obt_lead">Do the opening balances in the trial balance agree with last year's signed financial statements?</div>
+                    </div>
+                </div>
+                <div class="o_ea_ws_steps o_ea_obt_steps">
+                    <span t-att-class="p.step === 'upload' ? 'is-current' : 'is-done'">1 · The prior-year statements</span>
+                    <span t-att-class="p.step === 'check' ? 'is-current' : p.step === 'result' ? 'is-done' : ''">2 · Check the figures</span>
+                    <span t-att-class="p.step === 'result' ? 'is-current' : ''">3 · The comparison</span>
+                </div>
+                <div class="o_ea_ws_readonly" t-if="p.readonly">
+                    <t t-if="p.archived">Read only: this engagement is archived.</t>
+                    <t t-else="">Read only: your role reads this page but does not change it.</t>
+                </div>
+                <div class="o_ea_ws_alert" t-if="!p.tb" data-ea="obt-no-tb">No trial balance is in use on this file: import it first, the opening balances come from it.
+                    <a href="#" t-on-click.prevent="() => this.open('tb')">Open the trial balance</a></div>
+
+                <!-- 1 · upload -->
+                <t t-if="p.step === 'upload'">
+                    <p class="o_ea_obt_intro">Upload the prior-year financial statements as signed: the balance sheet (assets, liabilities and equity) and the income statement. AuditISA reads them and puts every line of the SYSCOHADA form in a table. You check that table against the document, then it is compared with the opening balances of the trial balance, grouped the same way.</p>
+                    <EaDocsPane engagementId="engagementId" docs="docs" title="paneTitle" hint="paneHint" emptyText="paneEmpty"
+                                canUpload="!p.readonly" canRemove="!p.readonly"
+                                onUpload.bind="upload" onRemove.bind="remove"/>
+                    <div class="o_ea_obt_meta" data-ea="obt-meta">
+                        <label>Year ended
+                            <input type="date" class="o_ea_ws_input" t-att-readonly="p.readonly" t-att-value="p.meta.yearEnd" t-on-change="(ev) => this.onMeta('year_end', ev)"/>
+                        </label>
+                        <label class="o_ea_obt_signed">
+                            <input type="checkbox" t-att-disabled="p.readonly" t-att-checked="p.meta.signed" t-on-change="(ev) => this.onMeta('signed', ev)"/>
+                            Signed / approved statements <small>(ISA 510: agree to the signed statements, not a draft)</small>
+                        </label>
+                        <label>Amounts in
+                            <select class="o_ea_ws_input" t-att-disabled="p.readonly" t-on-change="(ev) => this.onMeta('unit', ev)">
+                                <option value="units" t-att-selected="p.meta.unit === 'units'">FCFA (units)</option>
+                                <option value="thousands" t-att-selected="p.meta.unit === 'thousands'">Thousands of FCFA</option>
+                                <option value="millions" t-att-selected="p.meta.unit === 'millions'">Millions of FCFA</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="o_ea_ws_alert" t-if="p.meta.error" data-ea="obt-error" t-esc="p.meta.error"/>
+                    <div class="o_ea_obt_note" t-if="p.reading.available">How the statements are read: the pages you upload here are sent over an encrypted connection to AuditISA's document-reading service, read, and not kept there. Nothing else from the file leaves the firm's server.</div>
+                    <div class="o_ea_obt_note is-muted" t-else="" t-esc="p.reading.why"/>
+                    <div class="o_ea_ws_tools mt-2" t-if="!p.readonly">
+                        <button type="button" class="btn btn-primary btn-sm" data-ea="obt-read"
+                                t-if="p.reading.available" t-att-disabled="state.busy or !p.files.length" t-on-click="read">
+                            <t t-if="state.busy">Reading…</t><t t-else="">Read the statements ▸</t>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-ea="obt-by-hand" t-att-disabled="state.busy" t-on-click="byHand">Type the figures by hand</button>
+                    </div>
+                </t>
+
+                <!-- 2 · check -->
+                <t t-if="p.step === 'check' and p.check">
+                    <p class="o_ea_obt_intro">
+                        <t t-if="p.meta.source === 'reader'">Nothing read by AuditISA is used until a person confirms it. Compare each figure with the document; any figure can be corrected: a corrected figure is marked and the change is kept in the activity log.</t>
+                        <t t-else="">Type each figure of the prior-year statements as printed, in FCFA. Sub-totals and totals are optional: when typed, they are checked against their lines.</t>
+                    </p>
+                    <div class="o_ea_obt_facts" t-if="p.meta.readLine" t-esc="p.meta.readLine"/>
+                    <div class="o_ea_obt_checks" data-ea="obt-checks">
+                        <span t-foreach="p.check.checks" t-as="check" t-key="check_index" t-att-class="'o_ea_ws_badge ' + (check.ok ? 'is-green' : 'is-red')">
+                            <t t-if="check.ok">✓ </t><t t-else="">✗ </t><t t-esc="check.text"/>
+                        </span>
+                    </div>
+                    <div class="o_ea_ws_tools">
+                        <button type="button" class="btn btn-primary btn-sm" data-ea="obt-confirm" t-if="!p.readonly" t-att-disabled="state.busy" t-on-click="confirm">Confirm the figures and compare ▸</button>
+                        <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="state.busy" t-on-click="change">Back to the statements</button>
+                        <button type="button" class="btn btn-link btn-sm" t-on-click="toggleEmpty">
+                            <t t-if="state.showEmpty">Hide the lines with no amount</t><t t-else="">Show every line of the form</t>
+                        </button>
+                    </div>
+                    <div class="o_ea_ws_scroll">
+                        <table class="o_ea_ws_grid o_ea_obt_table" data-ea="obt-check-table">
+                            <thead><tr><th>Ref</th><th>Statement line</th><th class="text-end">Amount</th><th>Page</th><th/></tr></thead>
+                            <tbody>
+                                <tr t-foreach="checkRows" t-as="row" t-key="row.ref" t-att-data-ref="row.ref" t-att-class="row.kind !== 'line' ? 'is-total' : ''">
+                                    <td class="o_ea_ws_ref" t-esc="row.ref"/>
+                                    <td t-esc="row.label"/>
+                                    <td class="text-end">
+                                        <input type="text" t-att-class="'o_ea_ws_input o_ea_obt_amount' + (row.corrected ? ' is-corrected' : '')"
+                                               t-att-readonly="p.readonly" t-att-value="row.text" t-on-change="(ev) => this.onAmount(row, ev)"/>
+                                    </td>
+                                    <td t-esc="row.page ? 'p. ' + row.page : ''"/>
+                                    <td><span class="o_ea_ws_badge is-blue" t-if="row.corrected" t-esc="row.correctedBy"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+
+                <!-- 3 · result -->
+                <t t-if="p.step === 'result' and p.result">
+                    <t t-set="r" t-value="p.result"/>
+                    <div class="o_ea_ws_alert" t-if="r.noTb">No trial balance is in use on this file: import it to compare.</div>
+                    <t t-else="">
+                        <div class="o_ea_obt_facts">
+                            <span t-esc="p.meta.confirmedLine"/>
+                            <span t-esc="p.meta.tbLine"/>
+                            <span>Tolerance 1 FCFA</span>
+                        </div>
+                        <div class="o_ea_ws_tools">
+                            <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.download(r.exportUrl)">Extract to Excel</button>
+                            <button type="button" class="btn btn-secondary btn-sm" t-if="r.exportDifferencesUrl" t-on-click="() => this.download(r.exportDifferencesUrl)">Extract the differences only</button>
+                            <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="state.busy" t-on-click="backToCheck">Change the figures</button>
+                            <button type="button" class="btn btn-secondary btn-sm" t-if="!p.readonly" t-att-disabled="state.busy" t-on-click="change">Change the statements</button>
+                        </div>
+                        <div class="o_ea_obt_warning" t-if="r.warning" data-ea="obt-warning">
+                            <b t-esc="'⚠ ' + r.warning"/> They are listed together under "Differences for appreciation" below. The same warning shows on the Opening Balance Testing tile and on working paper E6.5 until every difference has an appreciation.
+                        </div>
+                        <div class="o_ea_obt_score" data-ea="obt-score">
+                            <div>
+                                <div class="o_ea_obt_sl">Opening balances agree with the prior-year statements</div>
+                                <div class="o_ea_obt_sv" t-esc="r.score.headline"/>
+                                <div class="o_ea_obt_sm" t-esc="r.score.totals"/>
+                            </div>
+                            <span t-att-class="'o_ea_ws_badge ' + (r.score.differences ? 'is-red' : 'is-green')" t-esc="r.score.badge"/>
+                            <div class="o_ea_obt_secs">
+                                <div><b>Assets</b><span t-esc="r.score.assets"/></div>
+                                <div><b>Liabilities and equity</b><span t-esc="r.score.liabilities"/></div>
+                                <div><b>Accounts not mapped</b><span t-esc="r.score.notMapped"/></div>
+                            </div>
+                        </div>
+
+                        <div class="o_ea_obt_place" t-if="r.choose.length" data-ea="obt-choose">
+                            <h2>Accounts to place</h2>
+                            <p class="o_ea_ws_legend">These accounts are shared by several lines of the form ("p") and their number does not say which asset they depreciate: choose their line once for this client.</p>
+                            <table class="o_ea_ws_grid">
+                                <thead><tr><th>Account</th><th>Name</th><th class="text-end">Opening balance</th><th>Line</th></tr></thead>
+                                <tbody>
+                                    <tr t-foreach="r.choose" t-as="item" t-key="item.account">
+                                        <td t-esc="item.account"/><td t-esc="item.name"/><td class="text-end" t-esc="item.opening"/>
+                                        <td><select class="o_ea_ws_input" t-att-disabled="p.readonly" t-on-change="(ev) => this.place(item, ev)">
+                                            <option value="">Choose…</option>
+                                            <option t-foreach="item.choices" t-as="choice" t-key="choice.ref" t-att-value="choice.ref" t-esc="choice.label"/>
+                                        </select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="o_ea_obt_place" t-if="r.unmapped.length" data-ea="obt-unmapped">
+                            <h2>Accounts no balance-sheet line takes</h2>
+                            <table class="o_ea_ws_grid">
+                                <thead><tr><th>Account</th><th>Name</th><th class="text-end">Opening balance</th></tr></thead>
+                                <tbody>
+                                    <tr t-foreach="r.unmapped" t-as="item" t-key="item.account">
+                                        <td t-esc="item.account"/><td t-esc="item.name"/><td class="text-end" t-esc="item.opening"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h2>Assets</h2>
+                        <t t-call="ea_audit_tools.ObtSide"><t t-set="rows" t-value="r.assets"/><t t-set="side" t-value="'asset'"/></t>
+                        <h2>Liabilities and equity</h2>
+                        <t t-call="ea_audit_tools.ObtSide"><t t-set="rows" t-value="r.liabilities"/><t t-set="side" t-value="'liability'"/></t>
+
+                        <t t-if="r.differences.length">
+                            <h2>Differences for appreciation</h2>
+                            <table class="o_ea_ws_grid o_ea_obt_table" data-ea="obt-differences">
+                                <thead><tr><th>Ref</th><th>Statement line</th><th class="text-end">Prior-year statements</th><th class="text-end">Opening balances (TB)</th><th class="text-end">Difference</th><th class="o_ea_obt_appr">Appreciation <small>(click, type, saved)</small></th></tr></thead>
+                                <tbody>
+                                    <tr t-foreach="r.differences" t-as="row" t-key="row.ref" class="is-diff" t-att-data-ref="row.ref">
+                                        <td class="o_ea_ws_ref" t-esc="row.ref"/>
+                                        <td t-esc="row.label"/>
+                                        <td class="text-end" t-esc="row.statements"/>
+                                        <td class="text-end" t-esc="row.opening"/>
+                                        <td class="text-end"><b t-esc="row.difference"/></td>
+                                        <td>
+                                            <textarea class="o_ea_ws_input o_ea_obt_text" rows="2" placeholder="Type the appreciation…"
+                                                      t-att-readonly="p.readonly" t-att-value="row.appreciation" t-on-change="(ev) => this.onAppreciation(row, ev)"/>
+                                            <small class="o_ea_ws_legend" t-if="row.by" t-esc="row.by"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="o_ea_ws_tools mt-2">
+                                <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.download(r.exportDifferencesUrl)">Extract the differences to Excel</button>
+                            </div>
+                        </t>
+
+                        <h2>Related</h2>
+                        <table class="o_ea_ws_grid">
+                            <tbody>
+                                <tr t-foreach="r.related" t-as="item" t-key="item.key"><td t-esc="item.label"/><td t-esc="item.result"/></tr>
+                                <tr><td>Working paper E6.5, "Agree the opening balances to the prior period financial statements"</td>
+                                    <td><a href="#" t-on-click.prevent="() => this.open('e65')">Open E6.5 →</a></td></tr>
+                            </tbody>
+                        </table>
+                        <p class="o_ea_ws_legend">No sign-off on this page. Assets are compared on their net amount (the depreciation and impairment accounts of the table are deducted in the asset line). Accounts 185 and 42 to 47 go to BJ in debit and to DK or DM in credit; 52 and 53 go to BS in debit and to DR in credit. Each account is placed on its own balance, never netted with others. Lines with no amount on either side are not shown.</p>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </t>
+    <t t-name="ea_audit_tools.ObtSide">
+        <div class="o_ea_ws_scroll">
+                                <table class="o_ea_ws_grid o_ea_obt_table" t-att-data-ea="'obt-' + side">
+                                    <thead><tr><th>Ref</th><th>Statement line</th><th class="text-end">Prior-year statements</th><th class="text-end">Opening balances (TB)</th><th class="text-end">Difference</th><th>Status</th><th/></tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="rows" t-as="row" t-key="row.ref" t-att-data-ref="row.ref"
+                                            t-att-class="(row.total ? 'is-total' : '') + (row.agrees ? '' : ' is-diff')">
+                                            <td class="o_ea_ws_ref" t-esc="row.ref"/>
+                                            <td t-esc="row.label"/>
+                                            <td class="text-end" t-esc="row.statements"/>
+                                            <td class="text-end" t-esc="row.opening"/>
+                                            <td class="text-end" t-esc="row.difference"/>
+                                            <td><span t-att-class="'o_ea_ws_badge ' + (row.agrees ? 'is-green' : 'is-red')"><t t-if="row.agrees">Agrees</t><t t-else="">Difference</t></span></td>
+                                            <td><a href="#" t-if="row.accounts" t-on-click.prevent="() => this.open('accounts', row.ref)" t-esc="row.accountsText"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+    </t>
+</templates>

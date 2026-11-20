@@ -199,6 +199,7 @@ for slug in ${SPACES[@]+"${SPACES[@]}"}; do
 done
 PHASE=switched
 switch_to "$TARGET"
+install_python_extras "$TARGET"
 P_INDEX=0
 for slug in ${SNAPPED[@]+"${SNAPPED[@]}"}; do
   P_INDEX=$((P_INDEX + 1))

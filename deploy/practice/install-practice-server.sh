@@ -257,6 +257,7 @@ install_odoo() {
   else
     sed -E 's/^psycopg2\b/psycopg2-binary/' /opt/odoo19/src/requirements.txt > /tmp/odoo-requirements.txt
     /usr/local/bin/uv pip install -q --python /opt/odoo19/venv/bin/python -r /tmp/odoo-requirements.txt
+    install_python_extras "$HERE/../.."
     chmod -R a+rX /opt/odoo19
   fi
   run curl -fsSL -o /tmp/wkhtmltox.deb "$WKHTMLTOX_URL"

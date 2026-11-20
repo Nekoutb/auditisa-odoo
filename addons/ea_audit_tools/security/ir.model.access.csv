@@ -127,3 +127,7 @@ access_finding_adjustment_writer,ea.audit.finding.adjustment writer,model_ea_aud
 access_ipe_member,ea.audit.ipe member,model_ea_audit_ipe,ea_audit_core.group_member,1,0,0,0
 access_ipe_check_member,ea.audit.ipe.check member,model_ea_audit_ipe_check,ea_audit_core.group_member,1,0,0,0
 access_ipe_line_member,ea.audit.ipe.line member,model_ea_audit_ipe_line,ea_audit_core.group_member,1,0,0,0
+access_obt_member,ea.audit.obt member,model_ea_audit_obt,ea_audit_core.group_member,1,0,0,0
+access_obt_file_member,ea.audit.obt.file member,model_ea_audit_obt_file,ea_audit_core.group_member,1,0,0,0
+access_obt_line_member,ea.audit.obt.line member,model_ea_audit_obt_line,ea_audit_core.group_member,1,0,0,0
+access_obt_placement_member,ea.audit.obt.placement member,model_ea_audit_obt_placement,ea_audit_core.group_member,1,0,0,0

@@ -1,3 +1,6 @@
 # Python packages the addons need beyond Odoo's own requirements.txt, pinned.
 # deploy-staging.sh installs them on the server; CI makes them available to the pure tests.
-# None yet: openpyxl, which the spec uses for Excel, already comes with Odoo 19 (3.1.2 on Python 3.12).
+# openpyxl, which the spec uses for Excel, already comes with Odoo 19 (3.1.2 on Python 3.12).
+# Opening Balance Testing's document reading (services/obt_reader.py, imported only when a document is read).
+# Checked on staging 2026-11-21: installs alongside Odoo 19's pins without changing any of them.
+anthropic==2.10.0

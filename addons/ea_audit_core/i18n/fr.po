@@ -6293,3 +6293,57 @@ msgstr "Constat %(ref)s soulevé depuis l'écriture %(entry)s"
 #: code:addons/ea_audit_core/services/activity_summary.py:0
 msgid "Adjustment started on journal entry %(entry)s (%(ref)s)"
 msgstr "Ajustement commencé sur l'écriture %(entry)s (%(ref)s)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: %(file)s uploaded"
+msgstr "Contrôle des soldes d'ouverture : %(file)s chargé"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: %(file)s removed"
+msgstr "Contrôle des soldes d'ouverture : %(file)s retiré"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: %(count)s lines read from %(files)s file(s)"
+msgstr "Contrôle des soldes d'ouverture : %(count)s lignes lues dans %(files)s fichier(s)"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: figures typed by hand"
+msgstr "Contrôle des soldes d'ouverture : montants saisis à la main"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: %(ref)s corrected from %(before)s to %(after)s"
+msgstr "Contrôle des soldes d'ouverture : %(ref)s corrigé de %(before)s à %(after)s"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: figures confirmed, %(agree)s of %(lines)s lines agree"
+msgstr "Contrôle des soldes d'ouverture : montants confirmés, %(agree)s lignes sur %(lines)s concordent"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: statements reopened"
+msgstr "Contrôle des soldes d'ouverture : états financiers rouverts"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: appreciation of %(ref)s saved"
+msgstr "Contrôle des soldes d'ouverture : appréciation de %(ref)s enregistrée"
+
+#. module: ea_audit_core
+#. odoo-python
+#: code:addons/ea_audit_core/services/activity_summary.py:0
+msgid "Opening Balance Testing: account %(account)s placed on %(ref)s"
+msgstr "Contrôle des soldes d'ouverture : compte %(account)s rattaché à %(ref)s"

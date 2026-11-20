@@ -275,4 +275,24 @@
         <field name="model_id" ref="model_ea_audit_ipe_line"/>
         <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
     </record>
+    <record id="rule_obt_team_only" model="ir.rule">
+        <field name="name">ea.audit.obt: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_obt"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_obt_file_team_only" model="ir.rule">
+        <field name="name">ea.audit.obt.file: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_obt_file"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_obt_line_team_only" model="ir.rule">
+        <field name="name">ea.audit.obt.line: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_obt_line"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
+    <record id="rule_obt_placement_team_only" model="ir.rule">
+        <field name="name">ea.audit.obt.placement: accepted team members only</field>
+        <field name="model_id" ref="model_ea_audit_obt_placement"/>
+        <field name="domain_force">[('engagement_id.team_member_ids', 'any', [('user_id', '=', user.id), ('state', '=', 'accepted')])]</field>
+    </record>
 </odoo>

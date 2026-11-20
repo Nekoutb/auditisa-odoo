@@ -230,6 +230,7 @@ psql_q "CREATE DATABASE \"$SNAPSHOT\" TEMPLATE \"$FIRM_DB\" OWNER \"$ODOO_USER\"
 PHASE=snapshotted
 PHASE=switched
 switch_to "$TARGET"
+install_python_extras "$TARGET"
 update_modules
 systemctl start "$SERVICE"
 healthy
