@@ -142,6 +142,12 @@ MAIL_RESULTS = ("on", "off", "login", "connect", "tls", "sender", "staging", "re
 # account, its one-time invitation link. Same rules as services/admin_change.py.
 _ADMIN_REF = re.compile(r"^[0-9a-f]{16}$")
 ADMIN_RESULTS = ("done", "email", "domain", "account", "unavailable", "failed")
+# Document reading: on (the key works), refused (the service refuses it), unreachable, removed, unavailable
+# (the firm's server cannot read documents yet) or failed. Same list as ea_audit_firm_agent/services/collect.py.
+_DOC_READING_REF = re.compile(r"^[0-9a-f]{16}$")
+_DOC_READING_LAST4 = re.compile(r"^[A-Za-z0-9_-]{4}$")
+_DOC_READING_MONTH = re.compile(r"^\d{4}-\d{2}$")
+DOC_READING_RESULTS = ("on", "refused", "unreachable", "removed", "unavailable", "failed")
 _ADMIN_LINK = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/web/signup\?[A-Za-z0-9._~%&=+-]{1,1000}$")
 
 # The complete list of what a firm may tell the control plane.
@@ -186,6 +192,14 @@ FIGURES = {
     "admin_request_ref": _optional(_pattern(_ADMIN_REF, 16)),
     "admin_request_result": _optional(_choice(*ADMIN_RESULTS)),
     "admin_request_link": _optional(_pattern(_ADMIN_LINK, 1300)),
+    # The answer to the console's "Document reading" tab (Opening Balance Testing, 2026-11-20): the request's
+    # reference and one word, the key's last four characters, and this month's use. Absent until a first request.
+    "doc_reading_ref": _optional(_pattern(_DOC_READING_REF, 16)),
+    "doc_reading_result": _optional(_choice(*DOC_READING_RESULTS)),
+    "doc_reading_last4": _optional(_pattern(_DOC_READING_LAST4, 4)),
+    "doc_reading_month": _optional(_pattern(_DOC_READING_MONTH, 7)),
+    "doc_reading_documents": _optional(_integer(0, 10000000)),
+    "doc_reading_pages": _optional(_integer(0, 100000000)),
 }
 
 REQUIRED = frozenset({

@@ -976,6 +976,7 @@ msgstr "Demandez à votre technicien une nouvelle clé pour ce cabinet."
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_support_visit__requested_by
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_by
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_by
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_by
 msgid "Asked by"
 msgstr "Demandée par"
 
@@ -991,6 +992,8 @@ msgstr "Demandé coupé, le cabinet dit allumé"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_started_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__current_at
 msgid "Asked on"
 msgstr "Demandé le"
 
@@ -1356,6 +1359,7 @@ msgstr "Cabinet témoin"
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_mail_wizard_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_change_form
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2132,6 +2136,7 @@ msgstr "Pare-feu chez le fournisseur"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_mail_test_wizard__firm_id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_change_wizard__firm_id
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_admin_link__firm_id
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__firm_id
 msgid "Firm"
 msgstr "Cabinet"
 
@@ -3467,6 +3472,7 @@ msgstr "Rien : l'étape réessaie seule toutes les 2 minutes."
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_support
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_mail_wizard__current_state
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__current_state
 msgid "Now"
 msgstr "Maintenant"
 
@@ -6012,6 +6018,7 @@ msgstr "Ce cabinet n'est pas en sortie."
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_onboarding_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_docr
 msgid "This firm's key"
 msgstr "La clé de ce cabinet"
 
@@ -7237,6 +7244,7 @@ msgstr "Messagerie"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_action
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_action
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_action
 msgid "Last request"
 msgstr "Dernière demande"
 
@@ -7244,6 +7252,7 @@ msgstr "Dernière demande"
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_ref
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__pmail_request_ref
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_ref
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_ref
 msgid "Request reference"
 msgstr "Référence de la demande"
 
@@ -7323,12 +7332,15 @@ msgstr "Adresse d'expéditeur"
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_delivered_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_delivered_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_delivered_at
 msgid "Collected by the firm's server on"
 msgstr "Récupéré par le serveur du cabinet le"
 
 #. module: ea_platform_admin
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__mail_request_answered_at
 #: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__admin_change_answered_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_answered_at
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__current_answered_at
 msgid "Answer received on"
 msgstr "Réponse reçue le"
 
@@ -7341,6 +7353,8 @@ msgstr "Pas réglée depuis la console"
 #. module: ea_platform_admin
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__mail_request_state__waiting
 #: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_mail_wizard__current_state__waiting
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__waiting
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__waiting
 msgid "Waiting for the firm's server"
 msgstr "En attente du serveur du cabinet"
 
@@ -7587,6 +7601,7 @@ msgstr "La messagerie du cabinet"
 
 #. module: ea_platform_admin
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_mail
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_docr
 msgid "Last request from the console"
 msgstr "Dernière demande de la console"
 
@@ -8681,3 +8696,205 @@ msgstr "Le lien ne s'affiche <strong>qu'une seule fois</strong>, puis il est eff
 #: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_admin_link_form
 msgid "Copy this link now and pass it to the person. It works once and expires on the date shown. They choose their own password there."
 msgstr "Copiez ce lien maintenant et transmettez-le à la personne. Il fonctionne une fois et expire à la date indiquée. Elle y choisit elle-même son mot de passe."
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__none
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__none
+msgid "Not set"
+msgstr "Non définie"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__on
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__on
+msgid "Works"
+msgstr "Fonctionne"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__refused
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__refused
+msgid "Key refused by the reading service"
+msgstr "Clé refusée par le service de lecture"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__unreachable
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__unreachable
+msgid "The firm's server could not reach the reading service"
+msgstr "Le serveur du cabinet n'a pas pu joindre le service de lecture"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__removed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__removed
+msgid "Removed"
+msgstr "Retirée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__unavailable
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__unavailable
+msgid "The firm's server cannot read documents yet (its next update brings it)"
+msgstr "Le serveur du cabinet ne peut pas encore lire de documents (sa prochaine mise à jour l'apporte)"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__failed
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__failed
+msgid "Failed on the firm's server"
+msgstr "Échec sur le serveur du cabinet"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__expired
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__expired
+msgid "Not collected in time: send it again"
+msgstr "Pas récupérée à temps : renvoyez-la"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_state__no_answer
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm_docr_wizard__current_state__no_answer
+msgid "Collected, no answer yet"
+msgstr "Récupérée, pas encore de réponse"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_action__set
+msgid "Key sent"
+msgstr "Clé envoyée"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_action__test
+msgid "Test asked"
+msgstr "Test demandé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields.selection,name:ea_platform_admin.selection__platform_firm__docr_action__remove
+msgid "Removal asked"
+msgstr "Retrait demandé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_state
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_docr
+msgid "Document reading"
+msgstr "Lecture de documents"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_last4
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__current_last4
+msgid "Key ending"
+msgstr "Fin de la clé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_month
+msgid "Month"
+msgstr "Mois"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_documents
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__current_documents
+msgid "Documents read this month"
+msgstr "Documents lus ce mois-ci"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm__docr_pages
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__current_pages
+msgid "Pages read this month"
+msgstr "Pages lues ce mois-ci"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__docr_key
+msgid "Key"
+msgstr "Clé"
+
+#. module: ea_platform_admin
+#: model:ir.model.fields,field_description:ea_platform_admin.field_platform_firm_docr_wizard__docr_key_kept
+msgid "A key is kept for this form"
+msgstr "Une clé est conservée pour ce formulaire"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "The document-reading key goes only to a live firm."
+msgstr "La clé de lecture de documents ne va qu'à un cabinet en service."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "This does not look like a key: paste the whole key, without spaces."
+msgstr "Cela ne ressemble pas à une clé : collez la clé entière, sans espace."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "Document reading key sent to the firm's server"
+msgstr "Clé de lecture de documents envoyée au serveur du cabinet"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "No key has been sent to this firm yet."
+msgstr "Aucune clé n'a encore été envoyée à ce cabinet."
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "Document reading: test asked"
+msgstr "Lecture de documents : test demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "Document reading: removal asked"
+msgstr "Lecture de documents : retrait demandé"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/models/firm_doc_reading.py:0
+msgid "Document reading: the firm's server answered"
+msgstr "Lecture de documents : le serveur du cabinet a répondu"
+
+#. module: ea_platform_admin
+#. odoo-python
+#: code:addons/ea_platform_admin/wizard/firm_doc_reading.py:0
+msgid "Paste the key first."
+msgstr "Collez d'abord la clé."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "The key that lets this firm's server read the financial statements its users upload (Opening Balance Testing). Each firm has its own key, and its own use. The key goes straight to the firm's server, the way \"Email for this firm\" sends a password: the console does not keep it, only its last four characters."
+msgstr "La clé qui permet au serveur de ce cabinet de lire les états financiers chargés par ses utilisateurs (Contrôle des soldes d'ouverture). Chaque cabinet a sa propre clé et sa propre consommation. La clé va directement au serveur du cabinet, comme « Messagerie de ce cabinet » envoie un mot de passe : la console ne la garde pas, seulement ses quatre derniers caractères."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "New key"
+msgstr "Nouvelle clé"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "Pasted here, hidden while typed. It goes to the firm's server once; the firm's server tests it and answers."
+msgstr "Collée ici, masquée à la saisie. Elle part une fois au serveur du cabinet, qui la teste et répond."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "A key is kept for this form: leave the field empty to use it, or paste it again."
+msgstr "Une clé est conservée pour ce formulaire : laissez le champ vide pour l'utiliser, ou collez-la de nouveau."
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "Save and send to the firm's server"
+msgstr "Enregistrer et envoyer au serveur du cabinet"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "Test the key"
+msgstr "Tester la clé"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "Remove the key"
+msgstr "Retirer la clé"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_docr_wizard_form
+msgid "The firm's server will forget its key: its users will type the figures by hand. Remove the key?"
+msgstr "Le serveur du cabinet oubliera sa clé : ses utilisateurs saisiront les montants à la main. Retirer la clé ?"
+
+#. module: ea_platform_admin
+#: model_terms:ir.ui.view,arch_db:ea_platform_admin.view_firm_form_docr
+msgid "The console never keeps the key, only its last four characters. Opening Balance Testing reads the uploaded statements with it; without a key, the firm's users type the figures by hand."
+msgstr "La console ne garde jamais la clé, seulement ses quatre derniers caractères. Le Contrôle des soldes d'ouverture lit avec elle les états chargés ; sans clé, les utilisateurs du cabinet saisissent les montants à la main."

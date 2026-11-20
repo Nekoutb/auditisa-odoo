@@ -35,6 +35,9 @@ SHOWN_ONCE_FIELDS = {"platform.environment.account.wizard.password"}
 _MAIL_FORMS = ("platform.mail.form", "platform.firm.mail.wizard", "platform.onboarding.wizard")
 NEVER_STORED_FIELDS = {f"{model}.mail_password" for model in _MAIL_FORMS}
 FLAG_FIELDS = {f"{model}.mail_password_kept" for model in _MAIL_FORMS}
+# A firm's document-reading key (owner, 2026-11-20, Opening Balance Testing): the same, on its own form.
+NEVER_STORED_FIELDS |= {"platform.firm.docr.wizard.docr_key"}
+FLAG_FIELDS |= {"platform.firm.docr.wizard.docr_key_kept"}
 
 FORBIDDEN_IMPORTS = {"paramiko", "fabric", "xmlrpc", "odoorpc", "asyncssh", "subprocess", "socket", "ftplib", "smtplib", "telnetlib"}
 FORBIDDEN_CALLS = re.compile(r"psycopg2\.connect|db_connect|sql_db\.|os\.system|os\.popen")
@@ -102,6 +105,7 @@ class TestNoFirmData(PlatformCase):
                 if SECRET_WORDS.search(name) and name not in ("ssh_public_key", "own_key", "confirm_real",
                                                               "release_signing_public_key", "previous_hash")
                 and name not in PRACTICE_SECRET_FIELDS.get(model, ())
+                and f"{model}.{name}" not in NEVER_STORED_FIELDS | FLAG_FIELDS
             ]
             self.assertEqual(wrong, [], model)
 

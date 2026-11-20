@@ -23,8 +23,9 @@ class Answer:
         self.headers = {signing.HEADER_RESPONSE_SIGNATURE: signature} if signature else {}
 
 
-@tagged("post_install", "-at_install")
-class TestHeartbeat(TransactionCase):
+class HeartbeatCase(TransactionCase):
+    """A firm's server with its token, status folder and spool in a temporary folder."""
+
     def setUp(self):
         super().setUp()
         self.folder = tempfile.mkdtemp(prefix="ea-agent-test-")
@@ -57,6 +58,24 @@ class TestHeartbeat(TransactionCase):
 
         return sent, patch.object(firm_agent.requests, "post", post)
 
+    def _signed_answer(self, answer):
+        import hashlib
+        import hmac
+
+        body = json.dumps(answer).encode()
+        message = b"\n".join([
+            b"ea-heartbeat-response-v1", SLUG.encode(), b"1800000000", hashlib.sha256(body).hexdigest().encode(),
+        ])
+        signature = hmac.new(TOKEN.encode(), message, hashlib.sha256).hexdigest()
+        with patch.object(firm_agent.time, "time", return_value=1800000000), \
+                patch.object(firm_agent.requests, "post", return_value=Answer(content=body, signature=signature)):
+            self.assertTrue(self.agent._cron_send_heartbeat())
+        with open(self.spool, encoding="ascii") as handle:
+            return json.load(handle)
+
+
+@tagged("post_install", "-at_install")
+class TestHeartbeat(HeartbeatCase):
     def test_figures_are_counts_and_never_records(self):
         figures = self.agent._build_figures()
         self.assertEqual(figures["release"], "abcdef123456")
@@ -136,21 +155,6 @@ class TestHeartbeat(TransactionCase):
             self.assertTrue(self.agent._cron_send_heartbeat())
         with open(self.spool, encoding="ascii") as handle:
             self.assertEqual(json.load(handle), {"export_requested": True})
-
-    def _signed_answer(self, answer):
-        import hashlib
-        import hmac
-
-        body = json.dumps(answer).encode()
-        message = b"\n".join([
-            b"ea-heartbeat-response-v1", SLUG.encode(), b"1800000000", hashlib.sha256(body).hexdigest().encode(),
-        ])
-        signature = hmac.new(TOKEN.encode(), message, hashlib.sha256).hexdigest()
-        with patch.object(firm_agent.time, "time", return_value=1800000000), \
-                patch.object(firm_agent.requests, "post", return_value=Answer(content=body, signature=signature)):
-            self.assertTrue(self.agent._cron_send_heartbeat())
-        with open(self.spool, encoding="ascii") as handle:
-            return json.load(handle)
 
     def test_the_email_request_gets_a_file_of_its_own_readable_by_this_user_only(self):
         mail_spool = os.path.join(self.folder, "mail.json")
@@ -234,3 +238,89 @@ class TestHeartbeat(TransactionCase):
         with patcher:
             self.assertFalse(self.agent._cron_send_heartbeat())
         self.assertFalse(os.path.exists(self.spool))
+
+
+@tagged("post_install", "-at_install")
+class TestDocumentReading(HeartbeatCase):
+    """The console's Document reading tab (owner, 2026-11-20): the firm's key for Opening Balance Testing."""
+
+    KEY = "sk-ant-api03-Cabinet-Key-For-Reading-7f3aQx9Z"
+
+    def setUp(self):
+        super().setUp()
+        self.key_path = os.path.join(self.folder, "data", "auditisa", "document-reading.key")
+        patcher = patch.object(type(self.agent), "_docr_key_path", lambda _self: self.key_path)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_the_key_is_kept_in_a_file_of_its_own_and_answered_once(self):
+        tested = []
+
+        def test_key(_self, key):
+            tested.append(key)
+            return "on"
+
+        request = {"ref": "0123456789abcdef", "action": "set", "key": self.KEY}
+        with patch.object(type(self.agent), "_docr_test_key", test_key):
+            spool = self._signed_answer({"doc_reading_request": request, "export_requested": False})
+            self.assertNotIn("doc_reading_request", spool)
+            self.assertNotIn(self.KEY, json.dumps(spool))
+            with open(self.key_path, encoding="ascii") as handle:
+                self.assertEqual(handle.read(), self.KEY)
+            if os.name == "posix":
+                self.assertEqual(os.stat(self.key_path).st_mode & 0o777, 0o600)
+                self.assertEqual(os.stat(os.path.dirname(self.key_path)).st_mode & 0o777, 0o700)
+            # the console sends the request again until it hears the answer: nothing is done twice
+            self._signed_answer({"doc_reading_request": request})
+        self.assertEqual(tested, [self.KEY])
+        figures = self.agent._build_figures()
+        self.assertEqual((figures["doc_reading_ref"], figures["doc_reading_result"], figures["doc_reading_last4"]),
+                         ("0123456789abcdef", "on", "Qx9Z"))
+        params = self.env["ir.config_parameter"].sudo()
+        self.assertFalse([p for p in params.search([]).mapped("value") if self.KEY in (p or "")])
+
+    def test_this_month_s_use_is_reported_once_a_key_was_asked_for(self):
+        params = self.env["ir.config_parameter"].sudo()
+        params.set_param(firm_agent.PARAM_DOCR_USAGE, json.dumps({"month": "2026-11", "documents": 4, "pages": 19}))
+        self.assertNotIn("doc_reading_month", self.agent._build_figures())
+        with patch.object(type(self.agent), "_docr_test_key", lambda _self, key: "refused"):
+            self._signed_answer({"doc_reading_request": {"ref": "1111111111111111", "action": "set", "key": self.KEY}})
+        figures = self.agent._build_figures()
+        self.assertEqual(figures["doc_reading_result"], "refused")
+        self.assertEqual((figures["doc_reading_month"], figures["doc_reading_documents"], figures["doc_reading_pages"]),
+                         ("2026-11", 4, 19))
+
+    def test_remove_forgets_the_key_and_test_reads_it(self):
+        with patch.object(type(self.agent), "_docr_test_key", lambda _self, key: "on" if key == self.KEY else "removed"):
+            self._signed_answer({"doc_reading_request": {"ref": "2222222222222222", "action": "set", "key": self.KEY}})
+            self._signed_answer({"doc_reading_request": {"ref": "3333333333333333", "action": "test"}})
+            self.assertEqual(self.agent._build_figures()["doc_reading_result"], "on")
+            self._signed_answer({"doc_reading_request": {"ref": "4444444444444444", "action": "remove"}})
+        self.assertFalse(os.path.exists(self.key_path))
+        figures = self.agent._build_figures()
+        self.assertEqual(figures["doc_reading_result"], "removed")
+        self.assertNotIn("doc_reading_last4", figures)
+
+    def test_a_malformed_request_is_ignored(self):
+        for request in (
+            {"ref": "0123456789abcdef", "action": "set", "key": "short"},
+            {"ref": "0123456789abcdef", "action": "set", "key": self.KEY, "extra": 1},
+            {"ref": "nothex", "action": "test"},
+            {"ref": "0123456789abcdef", "action": "steal"},
+        ):
+            self._signed_answer({"doc_reading_request": request})
+        self.assertFalse(os.path.exists(self.key_path))
+        self.assertNotIn("doc_reading_ref", self.agent._build_figures())
+
+    def test_without_the_package_the_key_test_says_unavailable(self):
+        import sys
+        saved = sys.modules.get("anthropic")
+        sys.modules["anthropic"] = None
+        try:
+            self.assertEqual(self.agent._docr_test_key(self.KEY), "unavailable")
+        finally:
+            if saved is None:
+                sys.modules.pop("anthropic", None)
+            else:
+                sys.modules["anthropic"] = saved
+        self.assertEqual(self.agent._docr_test_key(""), "removed")

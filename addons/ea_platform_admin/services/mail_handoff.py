@@ -21,11 +21,17 @@ FOLDER_PARAM = "ea_platform.firm_mail_dir"
 # (ProtectSystem=strict, ReadWritePaths=/var/lib/odoo). Not part of the console's backup.
 FOLDER_DEFAULT = "/var/lib/odoo/firm-mail"
 
-_NAME = re.compile(r"^(firm-[a-z][a-z0-9-]{1,30}[a-z0-9]|form-[a-z][a-z-]{1,60}-[0-9]{1,12})$")
+# firm-<slug>: its mail password; reading-<slug>: its document-reading key (Opening Balance Testing, 2026-11-20).
+_NAME = re.compile(r"^((firm|reading)-[a-z][a-z0-9-]{1,30}[a-z0-9]|form-[a-z][a-z-]{1,60}-[0-9]{1,12})$")
 
 
 def firm_name(slug):
     return f"firm-{slug}"
+
+
+def reading_name(slug):
+    """The file where a firm's document-reading key waits for its next heartbeat."""
+    return f"reading-{slug}"
 
 
 def form_name(table, record_id):

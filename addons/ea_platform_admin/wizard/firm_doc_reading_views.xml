@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Document reading (owner's ruling of 2026-11-20): the firm's own key, for Opening Balance Testing. -->
+    <record id="view_firm_docr_wizard_form" model="ir.ui.view">
+        <field name="name">platform.firm.docr.wizard.form</field>
+        <field name="model">platform.firm.docr.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Document reading">
+                <p>The key that lets this firm's server read the financial statements its users upload (Opening Balance Testing). Each firm has its own key, and its own use. The key goes straight to the firm's server, the way "Email for this firm" sends a password: the console does not keep it, only its last four characters.</p>
+                <group>
+                    <field name="firm_id"/>
+                    <field name="current_state" widget="badge"/>
+                    <field name="current_last4" invisible="not current_last4"/>
+                    <field name="current_documents"/>
+                    <field name="current_pages"/>
+                </group>
+                <group string="New key">
+                    <field name="docr_key" password="True"/>
+                    <div colspan="2" class="text-muted small">Pasted here, hidden while typed. It goes to the firm's server once; the firm's server tests it and answers.</div>
+                    <field name="docr_key_kept" invisible="1"/>
+                    <div colspan="2" class="alert alert-info py-1" role="status" invisible="not docr_key_kept">A key is kept for this form: leave the field empty to use it, or paste it again.</div>
+                </group>
+                <footer>
+                    <button name="action_send" type="object" string="Save and send to the firm's server" class="btn-primary"/>
+                    <button name="action_test" type="object" string="Test the key" invisible="not current_last4 or current_state == 'removed'"/>
+                    <button name="action_remove" type="object" string="Remove the key" invisible="not current_last4 or current_state == 'removed'"
+                            confirm="The firm's server will forget its key: its users will type the figures by hand. Remove the key?"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_firm_form_docr" model="ir.ui.view">
+        <field name="name">platform.firm.form.docr</field>
+        <field name="model">platform.firm</field>
+        <field name="inherit_id" ref="view_firm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <button name="action_open_firm_wizard" type="object" string="Document reading"
+                        context="{'firm_wizard': 'platform.firm.docr.wizard'}"
+                        invisible="state != 'active'"
+                        groups="ea_platform_admin.group_platform_operator"/>
+            </xpath>
+            <xpath expr="//page[@name='security']" position="before">
+                <page string="Document reading" name="document_reading">
+                    <group>
+                        <group string="This firm's key">
+                            <field name="docr_state" widget="badge"
+                                   decoration-success="docr_state == 'on'"
+                                   decoration-info="docr_state == 'waiting'"
+                                   decoration-warning="docr_state in ('refused', 'unreachable', 'unavailable', 'failed', 'expired', 'no_answer')"/>
+                            <field name="docr_last4"/>
+                            <field name="docr_month"/>
+                            <field name="docr_documents"/>
+                            <field name="docr_pages"/>
+                        </group>
+                        <group string="Last request from the console" invisible="not docr_at">
+                            <field name="docr_action"/>
+                            <field name="docr_at"/>
+                            <field name="docr_by"/>
+                            <field name="docr_delivered_at"/>
+                            <field name="docr_answered_at"/>
+                        </group>
+                    </group>
+                    <p class="text-muted">The console never keeps the key, only its last four characters. Opening Balance Testing reads the uploaded statements with it; without a key, the firm's users type the figures by hand.</p>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -37,6 +37,13 @@ ADMIN_ACTIONS = ("add", "replace")
 ADMIN_RESULTS = ("done", "email", "domain", "account", "unavailable", "failed")
 ADMIN_LINK = re.compile(r"^https://[a-z0-9.-]{3,253}(:[0-9]{2,5})?/web/signup\?[A-Za-z0-9._~%&=+-]{1,1000}$")
 _ADMIN_MAX_NAME = 128
+# The console's "Document reading" tab (Opening Balance Testing, owner 2026-11-20): this firm's key for reading
+# uploaded statements, set, tested or removed. Same rules as ea_platform_admin's heartbeat and firm_doc_reading.
+_DOC_REF = re.compile(r"^[0-9a-f]{16}$")
+_DOC_KEY = re.compile(r"^[A-Za-z0-9_-]{20,300}$")
+_DOC_MONTH = re.compile(r"^\d{4}-\d{2}$")
+DOC_ACTIONS = ("set", "test", "remove")
+DOC_RESULTS = ("on", "refused", "unreachable", "removed", "unavailable", "failed")
 _ADMIN_MAX_EMAIL = 254
 
 
@@ -131,7 +138,7 @@ def disk_figures(path="/"):
 
 
 def build_figures(status, memory, disk, users_active, engagements_active, mail_enabled, addons_on=(),
-                  errors=None, support_visit=None, admin_answer=None):
+                  errors=None, support_visit=None, admin_answer=None, doc_reading=None):
     """The whole body. `release` is left out if unknown, which the receiver rejects, on purpose.
 
     `addons_on` holds technical names and nothing else. Past the cap they are not sent at all, since
@@ -155,6 +162,7 @@ def build_figures(status, memory, disk, users_active, engagements_active, mail_e
     if support_visit is not None:
         figures["support_visit"] = support_visit
     figures.update(admin_figures(admin_answer))
+    figures.update(doc_reading_figures(doc_reading))
     return figures
 
 
@@ -199,6 +207,39 @@ def mail_request(data):
         if not isinstance(value, str) or len(value) > limit or any(ord(c) < 32 for c in value):
             return None
     return dict(data)
+
+
+def doc_reading_request(data):
+    """The console's document-reading request, or None. A key travels this way, once, and only here."""
+    if not isinstance(data, dict) or not isinstance(data.get("ref"), str) or not _DOC_REF.match(data["ref"]):
+        return None
+    action = data.get("action")
+    if action in ("test", "remove"):
+        return {"ref": data["ref"], "action": action} if set(data) == {"ref", "action"} else None
+    if action != "set" or set(data) != {"ref", "action", "key"}:
+        return None
+    if not isinstance(data["key"], str) or not _DOC_KEY.match(data["key"]):
+        return None
+    return dict(data)
+
+
+def doc_reading_figures(answer):
+    """The answer to the console's document-reading request and this month's use, or nothing. Absent until a
+    first request, so an older console, which refuses a figure it does not know, keeps working."""
+    if not isinstance(answer, dict):
+        return {}
+    ref, result = answer.get("ref"), answer.get("result")
+    if not (isinstance(ref, str) and _DOC_REF.match(ref) and result in DOC_RESULTS):
+        return {}
+    figures = {"doc_reading_ref": ref, "doc_reading_result": result}
+    last4 = answer.get("last4")
+    if isinstance(last4, str) and re.fullmatch(r"[A-Za-z0-9_-]{4}", last4):
+        figures["doc_reading_last4"] = last4
+    month = answer.get("month")
+    documents, pages = answer.get("documents"), answer.get("pages")
+    if isinstance(month, str) and _DOC_MONTH.match(month) and type(documents) is int and type(pages) is int             and 0 <= documents <= 10000000 and 0 <= pages <= 100000000:
+        figures.update({"doc_reading_month": month, "doc_reading_documents": documents, "doc_reading_pages": pages})
+    return figures
 
 
 def parse_desired(body):
@@ -257,6 +298,10 @@ def parse_desired(body):
     admin = admin_request(data.get("admin_request"))
     if admin is not None:
         desired["admin_request"] = admin
+    # Handled by the agent itself, in Odoo: a key never reaches root's spool.
+    reading = doc_reading_request(data.get("doc_reading_request"))
+    if reading is not None:
+        desired["doc_reading_request"] = reading
     # The platform email address's reply address (the firm's contact email), or "" for none. The agent
     # keeps it as a setting of its own; it never reaches root's spool.
     reply_to = data.get("mail_reply_to")

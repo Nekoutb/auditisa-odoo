@@ -40,3 +40,4 @@ access_firm_mail_wizard_operator,platform.firm.mail.wizard operator,model_platfo
 access_mail_test_wizard_operator,platform.mail.test.wizard operator,model_platform_mail_test_wizard,group_platform_operator,1,1,1,1
 access_admin_change_wizard_operator,platform.firm.admin.change.wizard operator,model_platform_firm_admin_change_wizard,group_platform_operator,1,1,1,1
 access_admin_link_operator,platform.firm.admin.link operator,model_platform_firm_admin_link,group_platform_operator,1,1,1,1
+access_firm_docr_wizard_operator,platform.firm.docr.wizard operator,model_platform_firm_docr_wizard,group_platform_operator,1,1,1,1

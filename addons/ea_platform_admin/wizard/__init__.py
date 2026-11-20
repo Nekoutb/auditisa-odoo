@@ -7,3 +7,4 @@ from . import firm_mail
 from . import settings_mail
 from . import platform_mail
 from . import firm_admin_change
+from . import firm_doc_reading

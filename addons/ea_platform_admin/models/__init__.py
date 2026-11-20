@@ -13,3 +13,4 @@ from . import howto
 from . import firm_mail
 from . import firm_platform_mail
 from . import firm_admin_change
+from . import firm_doc_reading

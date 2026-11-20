@@ -7,6 +7,7 @@ import time
 import requests
 
 from odoo import api, models
+from odoo.tools import config
 
 from ..services import collect, errors, signing
 
@@ -34,6 +35,16 @@ PARAM_MAIL_NO_REPLY = "ea_firm_agent.mail_no_reply"
 PARAM_ADMIN_REF = "ea_firm_agent.admin_request_ref"
 PARAM_ADMIN_RESULT = "ea_firm_agent.admin_request_result"
 PARAM_ADMIN_LINK = "ea_firm_agent.admin_request_link"
+# The console's last "Document reading" request (Opening Balance Testing, owner 2026-11-20): its reference, its
+# result and the key's last four characters. The key itself is a file of Odoo's data folder, readable by Odoo's
+# own user only, never in the database; ea_audit_tools reads it from the same place (models/obt.py KEY_FILE).
+PARAM_DOCR_REF = "ea_firm_agent.doc_reading_ref"
+PARAM_DOCR_RESULT = "ea_firm_agent.doc_reading_result"
+PARAM_DOCR_LAST4 = "ea_firm_agent.doc_reading_last4"
+DOCR_KEY_FILE = ("auditisa", "document-reading.key")
+# This month's use, counted by ea_audit_tools when it reads a document.
+PARAM_DOCR_USAGE = "ea_audit_tools.document_reading_usage"
+DOCR_TEST_TIMEOUT = 20
 
 
 class EaFirmAgent(models.AbstractModel):
@@ -86,6 +97,7 @@ class EaFirmAgent(models.AbstractModel):
             self._error_figures(),
             self.env["ea.firm.support.visit"]._current_figure(),
             self._admin_answer(),
+            self._doc_reading_answer(),
         )
 
     @api.model
@@ -95,6 +107,99 @@ class EaFirmAgent(models.AbstractModel):
         if not ref:
             return None
         return {"ref": ref, "result": get_param(PARAM_ADMIN_RESULT), "link": get_param(PARAM_ADMIN_LINK)}
+
+    # ------------------------------------------------------------------ document reading
+
+    @api.model
+    def _docr_key_path(self):
+        return os.path.join(config["data_dir"], *DOCR_KEY_FILE)
+
+    @api.model
+    def _doc_reading_answer(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        ref = get_param(PARAM_DOCR_REF)
+        if not ref:
+            return None
+        answer = {"ref": ref, "result": get_param(PARAM_DOCR_RESULT), "last4": get_param(PARAM_DOCR_LAST4)}
+        try:
+            usage = json.loads(get_param(PARAM_DOCR_USAGE) or "{}")
+        except ValueError:
+            usage = {}
+        if isinstance(usage, dict) and usage.get("month"):
+            answer.update(month=usage["month"], documents=usage.get("documents"), pages=usage.get("pages"))
+        return answer
+
+    @api.model
+    def _docr_write_key(self, key):
+        """The key, in a file only Odoo's own user reads (its folder 700, the file 600). Replaced in one step."""
+        path = self._docr_key_path()
+        folder = os.path.dirname(path)
+        os.makedirs(folder, mode=0o700, exist_ok=True)
+        os.chmod(folder, 0o700)
+        handle, tmp = tempfile.mkstemp(dir=folder, prefix=".key-")
+        try:
+            with os.fdopen(handle, "w", encoding="ascii") as out:
+                out.write(key)
+            os.replace(tmp, path)
+        except OSError:
+            if os.path.exists(tmp):
+                os.unlink(tmp)
+            raise
+
+    @api.model
+    def _docr_read_key(self):
+        try:
+            with open(self._docr_key_path(), encoding="ascii") as handle:
+                return handle.read(512).strip()
+        except (OSError, UnicodeDecodeError):
+            return ""
+
+    @api.model
+    def _docr_test_key(self, key):
+        """One word: whether the reading service accepts the key. Lists the models, which reads nothing and costs nothing."""
+        if not key:
+            return "removed"
+        try:
+            import anthropic  # noqa: PLC0415  installed with the release's requirements; absent until then
+        except ImportError:
+            return "unavailable"
+        try:
+            anthropic.Anthropic(api_key=key, timeout=DOCR_TEST_TIMEOUT, max_retries=1).models.list(limit=1)
+        except (anthropic.AuthenticationError, anthropic.PermissionDeniedError):
+            return "refused"
+        except anthropic.APIConnectionError:
+            return "unreachable"
+        except anthropic.APIError as error:
+            _logger.warning("Document reading key test failed: %s", type(error).__name__)
+            return "failed"
+        return "on"
+
+    @api.model
+    def _apply_doc_reading(self, request):
+        """The console's Document reading request, once per reference. Only the error's class is logged; the key never."""
+        params = self.env["ir.config_parameter"].sudo()
+        if params.get_param(PARAM_DOCR_REF) == request["ref"]:
+            return
+        last4 = params.get_param(PARAM_DOCR_LAST4) or False
+        try:
+            if request["action"] == "remove":
+                try:
+                    os.unlink(self._docr_key_path())
+                except FileNotFoundError:
+                    pass
+                result, last4 = "removed", False
+            elif request["action"] == "set":
+                self._docr_write_key(request["key"])
+                last4 = request["key"][-4:]
+                result = self._docr_test_key(request["key"])
+            else:
+                result = self._docr_test_key(self._docr_read_key())
+        except OSError as error:
+            _logger.warning("Document reading request not applied: %s", type(error).__name__)
+            result = "failed"
+        params.set_param(PARAM_DOCR_REF, request["ref"])
+        params.set_param(PARAM_DOCR_RESULT, result)
+        params.set_param(PARAM_DOCR_LAST4, last4)
 
     @api.model
     def _apply_admin_request(self, request):
@@ -177,6 +282,9 @@ class EaFirmAgent(models.AbstractModel):
             admin = desired.pop("admin_request", None)
             if admin is not None:
                 self._apply_admin_request(admin)
+            reading = desired.pop("doc_reading_request", None)
+            if reading is not None:
+                self._apply_doc_reading(reading)
             self._write_spool(desired)
         return True
 

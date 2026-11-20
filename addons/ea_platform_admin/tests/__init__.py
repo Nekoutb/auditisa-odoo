@@ -16,3 +16,4 @@ from . import test_firm_keys
 from . import test_firm_mail
 from . import test_platform_mail
 from . import test_firm_admin_change
+from . import test_firm_doc_reading
