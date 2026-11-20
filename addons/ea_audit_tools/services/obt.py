@@ -270,19 +270,19 @@ def reading_instructions(form):
     """What the reader is asked: the form's references and how to read them."""
     lines = ["%s %s" % (row["ref"], row["label_fr"]) for row in form]
     return (
-        "These pages are a company's financial statements in the SYSCOHADA format (bilan actif, bilan passif "
-        "and compte de résultat). Read the balance sheet into the references below.\n"
-        "- For every reference printed on the balance sheet, give the amount of the year's own column: on the "
-        "asset side the NET column of the year (Net N / Exercice N), never the gross or depreciation columns, "
-        "never the comparative year; on the liability side the year's column.\n"
-        "- Give sub-totals and totals (AD, AI, AQ, AZ, BG, BK, BT, BZ, CP, DD, DF, DP, DT, DZ) as printed.\n"
-        "- Amounts as printed, without converting: a negative amount (in brackets or with a minus sign) is negative. "
-        "Leave out a reference that has no amount or is not printed.\n"
-        "- unit: units, thousands or millions, as the document states (\"en milliers\" is thousands).\n"
-        "- page: the page of the uploaded file, counting from 1, where the amount is printed.\n"
-        "- net_result_income_statement: the net result of the year on the income statement, or null if absent.\n"
-        "- signed: whether the document shows signatures, an approval stamp or an approval date.\n\n"
-        "References:\n" + "\n".join(lines)
+        "These pages are a company's financial statements in the SYSCOHADA format (bilan actif, bilan passif "  # i18n: input
+        "and compte de résultat). Read the balance sheet into the references below.\n"  # i18n: input
+        "- For every reference printed on the balance sheet, give the amount of the year's own column: on the "  # i18n: input
+        "asset side the NET column of the year (Net N / Exercice N), never the gross or depreciation columns, "  # i18n: input
+        "never the comparative year; on the liability side the year's column.\n"  # i18n: input
+        "- Give sub-totals and totals (AD, AI, AQ, AZ, BG, BK, BT, BZ, CP, DD, DF, DP, DT, DZ) as printed.\n"  # i18n: input
+        "- Amounts as printed, without converting: a negative amount (in brackets or with a minus sign) is negative. "  # i18n: input
+        "Leave out a reference that has no amount or is not printed.\n"  # i18n: input
+        "- unit: units, thousands or millions, as the document states (\"en milliers\" is thousands).\n"  # i18n: input
+        "- page: the page of the uploaded file, counting from 1, where the amount is printed.\n"  # i18n: input
+        "- net_result_income_statement: the net result of the year on the income statement, or null if absent.\n"  # i18n: input
+        "- signed: whether the document shows signatures, an approval stamp or an approval date.\n\n"  # i18n: input
+        "References:\n" + "\n".join(lines)  # i18n: input
     )
 
 

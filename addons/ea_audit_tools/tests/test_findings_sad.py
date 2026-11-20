@@ -318,9 +318,9 @@ class TestHubAndGates(ToolsCase):
             action = tile.with_user(self.staff).with_context(ea_engagement_id=self.engagement.id).action_open_tool()
             # the CRA, the findings, the SAD, the journal entries and sampling open their one page
             # (2026-11-16), as do procedure design and substantive procedures, data quality (IPE) and
-            # work allocation (2026-11-18); every other tool a window
+            # work allocation (2026-11-18), Opening Balance Testing (2026-11-20); every other tool a window
             pages = ("action_tool_cra", "action_tool_findings", "action_tool_sad", "action_tool_je", "action_tool_sampling", "action_tool_dsp", "action_tool_substantive",
-                     "action_tool_ipe", "action_tool_work_allocation")
+                     "action_tool_ipe", "action_tool_work_allocation", "action_tool_obt")
             expected = "ir.actions.client" if tile.method in pages else "ir.actions.act_window"
             self.assertEqual(action["type"], expected, tile.code)
 
