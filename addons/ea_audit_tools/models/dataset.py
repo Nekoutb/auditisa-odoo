@@ -623,6 +623,11 @@ class EngagementDataset(models.Model):
                 lines += len(arrays_out["line_no"])
             if len(batch) < BATCH:
                 break
+        if lines:
+            # The analyses run straight after the upload (owner's ruling, 2026-11-20): without fresh
+            # statistics PostgreSQL plans them as if the table were empty, 100 s instead of 0.6 s
+            # on 20 000 lines. ANALYZE reads a sample, a second or so on any ledger.
+            cr.execute("ANALYZE ea_audit_gl_line")
         validation = self.gl_validate_population(dataset.id)
         dataset.write({
             "gl_line_count": lines, "gl_rejected": rejected, "gl_built_at": fields.Datetime.now(),

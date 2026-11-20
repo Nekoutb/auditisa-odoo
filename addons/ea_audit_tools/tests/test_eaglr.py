@@ -215,7 +215,7 @@ class TestLargeLedger(GlCase):
         projection itself. Timed on 100 000 lines, with EAGLR opened afterwards on every line."""
         head = "Compte;Intitulé;N° écriture;Libellé;Date;Débit;Crédit;Référence;Journal\n"
         body = []
-        for number in range(10000):
+        for number in range(50000):
             day = "%02d/%02d/2025" % (number % 28 + 1, number % 12 + 1)
             body.append("411000;Clients;E%d;Facture FV-%d;%s;%d,00;;R%d;VE\n" % (number, number, day, number % 900 + 100, number))
             body.append("701000;Ventes;E%d;Facture FV-%d;%s;;%d,00;R%d;VE\n" % (number, number, day, number % 900 + 100, number))
@@ -228,39 +228,12 @@ class TestLargeLedger(GlCase):
         dataset_id = self.as_staff.create_dataset("journal_entries", "big.csv", content, mapping=mapping)["datasetId"]
         uploaded = time.monotonic() - started
         dataset = self.env["ea.audit.dataset"].sudo().browse(dataset_id)
-        self.assertEqual(dataset.gl_line_count, 20000)
-        # temporary: which queries are slow, before and after the statistics are refreshed
-        from unittest.mock import patch
-        cursor_class = type(self.env.cr)
-        plain = cursor_class.execute
-        slow = []
-
-        def timed(cr, query, params=None, log_exceptions=True):
-            at = time.monotonic()
-            try:
-                return plain(cr, query, params, log_exceptions)
-            finally:
-                spent = time.monotonic() - at
-                if spent > 0.5:
-                    slow.append("%.1f s %s" % (spent, " ".join(str(getattr(query, "code", query)).split())[:300]))
-
-        import cProfile
-        import pstats
-        profile = cProfile.Profile()
-        with patch.object(cursor_class, "execute", timed):
-            started = time.monotonic()
-            profile.enable()
-            page = self.env["ea.audit.eaglr"].with_user(self.staff).browse(self.as_staff.action_tool_eaglr()["res_id"])
-            profile.disable()
-            reviewed = time.monotonic() - started
-            self.env.cr.execute("ANALYZE ea_audit_gl_line")
-            started = time.monotonic()
-            self.env["ea.audit.eaglr"].with_user(self.staff).browse(self.as_staff.action_tool_eaglr()["res_id"])
-            analysed = time.monotonic() - started
-        out = io.StringIO()
-        pstats.Stats(profile, stream=out).sort_stats("cumulative").print_stats(30)
-        _logger.warning("EAGLR PROFILE\n%s\nSLOW QUERIES\n%s", out.getvalue()[-6000:], "\n".join(slow))
-        self.assertEqual(page.report["source"]["lines"], 20000)
+        self.assertEqual(dataset.gl_line_count, 100000)
+        started = time.monotonic()
+        page = self.env["ea.audit.eaglr"].with_user(self.staff).browse(self.as_staff.action_tool_eaglr()["res_id"])
+        reviewed = time.monotonic() - started
+        self.assertEqual(page.report["source"]["lines"], 100000)
         _logger.info("EAGLR timing: upload and projection of 100 000 lines %.1f s, EAGLR on every line %.1f s", uploaded, reviewed)
         # the firm servers give a request 1 200 s (limit_time_real): far inside it
-        self.fail("TIMING upload %.1f s, EAGLR %.1f s, after ANALYZE %.1f s" % (uploaded, reviewed, analysed))  # temporary
+        self.assertLess(uploaded, 600)
+        self.assertLess(reviewed, 300)
